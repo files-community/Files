@@ -438,30 +438,47 @@ namespace Files
 
         protected async void List_DragOver(object sender, DragEventArgs e)
         {
+            var deferral = e.GetDeferral();
+
             ClearSelection();
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
+                e.Handled = true;
                 IReadOnlyList<IStorageItem> draggedItems = await e.DataView.GetStorageItemsAsync();
+                e.DragUIOverride.IsCaptionVisible = true;
+
+                var folderName = Path.GetFileName(App.CurrentInstance.FilesystemViewModel.WorkingDirectory);
                 // As long as one file doesn't already belong to this folder
-                if (draggedItems.Any(draggedItem => !Directory.GetParent(draggedItem.Path).FullName.Equals(App.CurrentInstance.FilesystemViewModel.WorkingDirectory, StringComparison.OrdinalIgnoreCase)))
-                {
-                    e.AcceptedOperation = DataPackageOperation.Copy;
-                    e.Handled = true;
-                }
-                else
+                if (draggedItems.AreItemsAlreadyInFolder(App.CurrentInstance.FilesystemViewModel.WorkingDirectory))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
+                else if (draggedItems.AreItemsInSameDrive(App.CurrentInstance.FilesystemViewModel.WorkingDirectory))
+                {
+                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), folderName);
+                    e.AcceptedOperation = DataPackageOperation.Move;
+                }
+                else
+                {
+                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("CopyToFolderCaptionText"), folderName);
+                    e.AcceptedOperation = DataPackageOperation.Copy;
+                }
             }
+
+            deferral.Complete();
         }
 
         protected async void List_Drop(object sender, DragEventArgs e)
         {
+            var deferral = e.GetDeferral();
+
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 await AssociatedInteractions.PasteItems(e.DataView, App.CurrentInstance.FilesystemViewModel.WorkingDirectory, e.AcceptedOperation);
                 e.Handled = true;
             }
+
+            deferral.Complete();
         }
 
         protected async void Item_DragStarting(object sender, DragStartingEventArgs e)
@@ -487,34 +504,45 @@ namespace Files
 
         protected async void Item_DragOver(object sender, DragEventArgs e)
         {
+            var deferral = e.GetDeferral();
+
             ListedItem item = GetItemFromElement(sender);
             SetSelectedItemOnUi(item);
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                IReadOnlyList<IStorageItem> draggedItems = await e.DataView.GetStorageItemsAsync();
                 e.Handled = true;
-                // Items from the same parent folder as this folder are dragged into this folder, so we move the items instead of copy
-                if (draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
+                IReadOnlyList<IStorageItem> draggedItems = await e.DataView.GetStorageItemsAsync();
+
+                if (draggedItems.AreItemsAlreadyInFolder(item.ItemPath) || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
-                else if (draggedItems.Any(draggedItem => Directory.GetParent(draggedItem.Path).FullName == Directory.GetParent(item.ItemPath).FullName))
+                // Items from the same drive as this folder are dragged into this folder, so we move the items instead of copy
+                else if (draggedItems.AreItemsInSameDrive(item.ItemPath))
                 {
+                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), item.ItemName);
                     e.AcceptedOperation = DataPackageOperation.Move;
                 }
                 else
                 {
+                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("CopyToFolderCaptionText"), item.ItemName);
                     e.AcceptedOperation = DataPackageOperation.Copy;
                 }
             }
+
+            deferral.Complete();
         }
 
         protected async void Item_Drop(object sender, DragEventArgs e)
         {
+            var deferral = e.GetDeferral();
+
             e.Handled = true;
             ListedItem rowItem = GetItemFromElement(sender);
             await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, rowItem.ItemPath, e.AcceptedOperation);
+
+            deferral.Complete();
         }
 
         protected void InitializeDrag(UIElement element)

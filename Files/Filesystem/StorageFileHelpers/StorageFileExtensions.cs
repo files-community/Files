@@ -18,81 +18,67 @@ namespace Files.Filesystem
     {
         private static SettingsViewModel _AppSettings => App.AppSettings;
 
-        public static List<PathBoxItem> GetDirectoryPathComponents(string value)
+        private static PathBoxItem GetPathItem(string component, string path)
         {
-            List<string> pathComponents = new List<string>();
-            List<PathBoxItem> pathBoxItems = new List<PathBoxItem>();
-
-            // If path is a library, simplify it
-            // If path is found to not be a library
-            if (value.StartsWith("\\\\?\\"))
+            if (component.StartsWith(App.AppSettings.RecycleBinPath))
             {
-                pathComponents = value.Replace("\\\\?\\", "").Split("\\", StringSplitOptions.RemoveEmptyEntries).ToList();
+                // Handle the recycle bin: use the localized folder name
+                return new PathBoxItem()
+                {
+                    Title = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
+                    Path = path,
+                };
+            }
+            else if (component.Contains(":"))
+            {
+                return new PathBoxItem()
+                {
+                    Title = MainPage.sideBarItems
+                        .FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive &&
+                            x.Path.Contains(component, StringComparison.OrdinalIgnoreCase)) != null ?
+                            MainPage.sideBarItems
+                                .FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive &&
+                                    x.Path.Contains(component, StringComparison.OrdinalIgnoreCase)).Text :
+                            @"Drive (" + component + @"\)",
+                    Path = path,
+                };
             }
             else
             {
-                pathComponents = value.Split("\\", StringSplitOptions.RemoveEmptyEntries).ToList();
+                return new PathBoxItem
+                {
+                    Title = component,
+                    Path = path
+                };
             }
+        }
 
-            int index = 0;
-            foreach (string s in pathComponents)
+        public static List<PathBoxItem> GetDirectoryPathComponents(string value)
+        {
+            List<PathBoxItem> pathBoxItems = new List<PathBoxItem>();
+
+            if (!value.EndsWith("\\")) value += "\\";
+
+            int lastIndex = 0;
+
+            for (var i = 0; i < value.Length; i++)
             {
-                string componentLabel = null;
-                string tag = "";
-                if (s.StartsWith(App.AppSettings.RecycleBinPath))
+                if (value[i] == '\\' || value[i] == '?')
                 {
-                    // Handle the recycle bin: use the localized folder name
-                    PathBoxItem item = new PathBoxItem()
+                    if (lastIndex == i)
                     {
-                        Title = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
-                        Path = tag,
-                    };
-                    App.CurrentInstance.NavigationToolbar.PathComponents.Add(item);
-                }
-                else if (s.Contains(":"))
-                {
-                    if (MainPage.sideBarItems.FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive && x.Path.Contains(s, StringComparison.OrdinalIgnoreCase)) != null)
-                    {
-                        componentLabel = MainPage.sideBarItems.FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive && x.Path.Contains(s, StringComparison.OrdinalIgnoreCase)).Text;
-                    }
-                    else
-                    {
-                        componentLabel = @"Drive (" + s + @"\)";
-                    }
-                    tag = s + @"\";
-
-                    PathBoxItem item = new PathBoxItem()
-                    {
-                        Title = componentLabel,
-                        Path = tag,
-                    };
-                    pathBoxItems.Add(item);
-                }
-                else
-                {
-                    componentLabel = s;
-                    foreach (string part in pathComponents.GetRange(0, index + 1))
-                    {
-                        tag = tag + part + @"\";
-                    }
-                    if (value.StartsWith("\\\\?\\"))
-                    {
-                        tag = "\\\\?\\" + tag;
-                    }
-                    else if (index == 0)
-                    {
-                        tag = "\\\\" + tag;
+                        lastIndex = i + 1;
+                        continue;
                     }
 
-                    PathBoxItem item = new PathBoxItem()
-                    {
-                        Title = componentLabel,
-                        Path = tag,
-                    };
-                    pathBoxItems.Add(item);
+                    var component = value.Substring(lastIndex, i - lastIndex);
+                    var path = value.Substring(0, i + 1);
+                    pathBoxItems.Add(GetPathItem(component, path));
+
+                    lastIndex = i + 1;
                 }
-                index++;
             }
+
             return pathBoxItems;
         }
 
@@ -221,19 +207,48 @@ namespace Files.Filesystem
 
         public static string GetPathWithoutEnvironmentVariable(string path)
         {
-            if (path.Contains("%temp%")) path = path.Replace("%temp%", _AppSettings.TempPath);
-            if (path.Contains("%tmp%")) path = path.Replace("%tmp%", _AppSettings.TempPath);
-            if (path.Contains("%localappdata%")) path = path.Replace("%localappdata%", _AppSettings.LocalAppDataPath);
-            if (path.Contains("%homepath%")) path = path.Replace("%homepath%", _AppSettings.HomePath);
+            if (path.Contains("%temp%", StringComparison.OrdinalIgnoreCase)) 
+                path = path.Replace("%temp%", _AppSettings.TempPath, StringComparison.OrdinalIgnoreCase);
+
+            if (path.Contains("%tmp%", StringComparison.OrdinalIgnoreCase)) 
+                path = path.Replace("%tmp%", _AppSettings.TempPath, StringComparison.OrdinalIgnoreCase);
+
+            if (path.Contains("%localappdata%", StringComparison.OrdinalIgnoreCase)) 
+                path = path.Replace("%localappdata%", _AppSettings.LocalAppDataPath, StringComparison.OrdinalIgnoreCase);
+
+            if (path.Contains("%homepath%", StringComparison.OrdinalIgnoreCase)) 
+                path = path.Replace("%homepath%", _AppSettings.HomePath, StringComparison.OrdinalIgnoreCase);
+
             return Environment.ExpandEnvironmentVariables(path);
         }
 
         public static bool AreItemsInSameDrive(this IReadOnlyList<IStorageItem> storageItems, string destinationPath)
         {
-            return storageItems.Any(storageItem => 
-            Path.GetPathRoot(storageItem.Path).Equals(
-                Path.GetPathRoot(destinationPath),
-                StringComparison.OrdinalIgnoreCase));
+            try
+            {
+                return storageItems.Any(storageItem =>
+               Path.GetPathRoot(storageItem.Path).Equals(
+                   Path.GetPathRoot(destinationPath),
+                   StringComparison.OrdinalIgnoreCase));
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool AreItemsAlreadyInFolder(this IReadOnlyList<IStorageItem> storageItems, string destinationPath)
+        {
+            try
+            {
+                return storageItems.Any(storageItem =>
+                Directory.GetParent(storageItem.Path).FullName.Equals(
+                    destinationPath, StringComparison.OrdinalIgnoreCase));
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
