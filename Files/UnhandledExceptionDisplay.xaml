@@ -27,7 +27,7 @@
                 <TextBlock x:Uid="ExceptionPageWhatNowHeader" FontSize="24" Text="What now?" FontWeight="SemiBold"/>
                 <StackPanel Spacing="24" Orientation="Horizontal">
                     <Button x:Uid="ExceptionPageRestartButton" Width="200" HorizontalAlignment="Left" Click="Restart_Click">Restart app and try again</Button>
-                    <Button x:Uid="ExceptionPageAccessLogButton" Width="200">Open log location</Button>
+                    <Button x:Uid="ExceptionPageAccessLogButton" Width="200" Click="OpenLogLocation_Click">Open log location</Button>
                     <Button x:Uid="ExceptionPageReportButton" Width="200" Click="Report_Click">Report issue to developer</Button>
                 </StackPanel>
             </StackPanel>
