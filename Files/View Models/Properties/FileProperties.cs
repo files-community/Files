@@ -46,7 +46,13 @@ namespace Files.View_Models.Properties
                 if (Item.IsShortcutItem)
                 {
                     var shortcutItem = (ShortcutItem)Item;
-                    ViewModel.ShortcutItemType = Item.IsLinkItem ? "Web link" : "File";
+
+                    var isApplication = Item.FileExtension.Equals(".exe", StringComparison.OrdinalIgnoreCase)
+                            || Item.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase)
+                            || Item.FileExtension.Equals(".bat", StringComparison.OrdinalIgnoreCase);
+
+                    ViewModel.ShortcutItemType = isApplication ? ResourceController.GetTranslation("PropertiesShortcutTypeApplication") :
+                        Item.IsLinkItem ? ResourceController.GetTranslation("PropertiesShortcutTypeLink") : ResourceController.GetTranslation("PropertiesShortcutTypeFile");
                     ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
                     ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
                     ViewModel.ShortcutItemWorkingDirVisibility = Item.IsLinkItem ? Visibility.Collapsed : Visibility.Visible;

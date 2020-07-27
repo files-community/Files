@@ -48,6 +48,7 @@
             <!-- Tabs -->
             <muxc:NavigationView.MenuItems>
                 <muxc:NavigationViewItem x:Name="TabGeneral"
+                                         x:Uid="PropertiesDialogTabGeneral"
                                          Content="General"
                                          Tag="General">
                     <muxc:NavigationViewItem.Icon>
@@ -56,6 +57,7 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem x:Name="TabShorcut"
+                                         x:Uid="PropertiesDialogTabShortcut"
                                          Content="Shortcut"
                                          Tag="Shortcut"
                                          Visibility="Collapsed">

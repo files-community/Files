@@ -43,7 +43,7 @@ namespace Files.View_Models.Properties
                 if (Item.IsShortcutItem)
                 {
                     var shortcutItem = (ShortcutItem)Item;
-                    ViewModel.ShortcutItemType = "Folder";
+                    ViewModel.ShortcutItemType = ResourceController.GetTranslation("PropertiesShortcutTypeFolder");
                     ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
                     ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
                     ViewModel.ShortcutItemWorkingDirVisibility = Visibility.Collapsed;
