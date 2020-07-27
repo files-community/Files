@@ -12,6 +12,7 @@
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     d:DesignHeight="700"
     d:DesignWidth="400"
+    KeyDown="Page_KeyDown"
     Loaded="Properties_Loaded"
     RequestedTheme="{x:Bind local1:ThemeHelper.RootTheme}"
     Unloaded="Properties_Unloaded"

@@ -1,18 +1,25 @@
-﻿using Files.Filesystem;
+﻿using Files.Common;
+using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
+using Files.Views;
 using Files.Views.Pages;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Windows.Foundation.Collections;
-using Windows.Storage;
 using Windows.System;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Files.UserControls
@@ -100,6 +107,11 @@ namespace Files.UserControls
                 {
                     ManualEntryBoxLoaded = true;
                     ClickablePathLoaded = false;
+                    VisiblePath.Focus(FocusState.Programmatic);
+                    VisiblePath.Text = string.IsNullOrEmpty(App.CurrentInstance.FilesystemViewModel.WorkingDirectory)
+                        ? AppSettings.HomePath
+                        : App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
+                    Interaction.FindChild<TextBox>(VisiblePath)?.SelectAll();
                 }
                 else
                 {
@@ -107,6 +119,15 @@ namespace Files.UserControls
                     ClickablePathLoaded = true;
                 }
             }
+        }
+
+        public ObservableCollection<ListedItem> NavigationBarSuggestions = new ObservableCollection<ListedItem>();
+
+        private void VisiblePath_Loaded(object sender, RoutedEventArgs e)
+        {
+            // AutoSuggestBox won't receive focus unless it's fully loaded
+            VisiblePath.Focus(FocusState.Programmatic);
+            Interaction.FindChild<TextBox>(VisiblePath)?.SelectAll();
         }
 
         bool INavigationToolbar.CanRefresh
@@ -181,107 +202,108 @@ namespace Files.UserControls
 
         ObservableCollection<PathBoxItem> INavigationToolbar.PathComponents => pathComponents;
 
+        public UserControl MultiTaskingControl => verticalTabs;
+
         private void ManualPathEntryItem_Click(object sender, RoutedEventArgs e)
         {
             (this as INavigationToolbar).IsEditModeEnabled = true;
-            VisiblePath.Focus(FocusState.Programmatic);
-            VisiblePath.SelectAll();
         }
 
-        private void VisiblePath_TextChanged(object sender, KeyRoutedEventArgs e)
+        private void VisiblePath_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == VirtualKey.Enter)
-            {
-                var PathBox = (sender as TextBox);
-                CheckPathInput(App.CurrentInstance.FilesystemViewModel, PathBox.Text);
-                App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
-            }
-            else if (e.Key == VirtualKey.Escape)
+            if (e.Key == VirtualKey.Escape)
             {
                 App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
             }
         }
 
-        public async void CheckPathInput(ItemViewModel instance, string CurrentInput)
+        public async void CheckPathInput(ItemViewModel instance, string currentInput, string currentSelectedPath)
         {
-            if (CurrentInput != instance.WorkingDirectory || App.CurrentInstance.ContentFrame.CurrentSourcePageType == typeof(YourHome))
+            if (currentSelectedPath == currentInput) return;
+
+            if (currentInput != instance.WorkingDirectory || App.CurrentInstance.ContentFrame.CurrentSourcePageType == typeof(YourHome))
             {
                 //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
                 //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
 
-                if (CurrentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || CurrentInput.Equals(ResourceController.GetTranslation("NewTab"), StringComparison.OrdinalIgnoreCase))
+                if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || currentInput.Equals(ResourceController.GetTranslation("NewTab"), StringComparison.OrdinalIgnoreCase))
                 {
                     await App.CurrentInstance.FilesystemViewModel.SetWorkingDirectory(ResourceController.GetTranslation("NewTab"));
                     App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), ResourceController.GetTranslation("NewTab"), new SuppressNavigationTransitionInfo());
                 }
                 else
                 {
-                    switch (CurrentInput.ToLower())
-                    {
-                        case "%temp%":
-                            CurrentInput = AppSettings.TempPath;
-                            break;
+                    var workingDir = string.IsNullOrEmpty(App.CurrentInstance.FilesystemViewModel.WorkingDirectory)
+                        ? AppSettings.HomePath
+                        : App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
 
-                        case "%appdata":
-                            CurrentInput = AppSettings.AppDataPath;
-                            break;
-
-                        case "%homepath%":
-                            CurrentInput = AppSettings.HomePath;
-                            break;
-
-                        case "%windir%":
-                            CurrentInput = AppSettings.WinDirPath;
-                            break;
-                    }
+                    currentInput = StorageFileExtensions.GetPathWithoutEnvironmentVariable(currentInput);
+                    if (currentSelectedPath == currentInput) return;
+                    var item = await DrivesManager.GetRootFromPath(currentInput);
 
                     try
                     {
-                        var item = await DrivesManager.GetRootFromPath(CurrentInput);
-                        await StorageFileExtensions.GetFolderFromPathAsync(CurrentInput, item);
-
-                        App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), CurrentInput); // navigate to folder
+                        var pathToNavigate = (await StorageFileExtensions.GetFolderWithPathFromPathAsync(currentInput, item)).Path;
+                        App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), pathToNavigate); // navigate to folder
                     }
                     catch (Exception) // Not a folder or inaccessible
                     {
                         try
                         {
-                            var item = await DrivesManager.GetRootFromPath(CurrentInput);
-                            await StorageFileExtensions.GetFileFromPathAsync(CurrentInput, item);
-                            await Interaction.InvokeWin32Component(CurrentInput);
+                            var pathToInvoke = (await StorageFileExtensions.GetFileWithPathFromPathAsync(currentInput, item)).Path;
+                            await Interaction.InvokeWin32Component(pathToInvoke);
                         }
                         catch (Exception ex) // Not a file or not accessible
                         {
                             // Launch terminal application if possible
-                            foreach (var item in AppSettings.TerminalController.Model.Terminals)
+                            foreach (var terminal in AppSettings.TerminalController.Model.Terminals)
                             {
-                                if (item.Path.Equals(CurrentInput, StringComparison.OrdinalIgnoreCase) || item.Path.Equals(CurrentInput + ".exe", StringComparison.OrdinalIgnoreCase))
+                                if (terminal.Path.Equals(currentInput, StringComparison.OrdinalIgnoreCase) || terminal.Path.Equals(currentInput + ".exe", StringComparison.OrdinalIgnoreCase))
                                 {
                                     if (App.Connection != null)
                                     {
-                                        var value = new ValueSet();
-                                        value.Add("Application", item.Path);
-                                        value.Add("Arguments", String.Format(item.Arguments, App.CurrentInstance.FilesystemViewModel.WorkingDirectory));
+                                        var value = new ValueSet
+                                        {
+                                            { "WorkingDirectory", workingDir },
+                                            { "Application", terminal.Path },
+                                            { "Arguments", string.Format(terminal.Arguments,
+                                            Helpers.PathNormalization.NormalizePath(App.CurrentInstance.FilesystemViewModel.WorkingDirectory)) }
+                                        };
                                         await App.Connection.SendMessageAsync(value);
                                     }
                                     return;
                                 }
                             }
 
-                            var dialog = new ContentDialog()
+                            try
                             {
-                                Title = "Invalid item",
-                                Content = "The item referenced is either invalid or inaccessible.\nMessage:\n\n" + ex.Message,
-                                CloseButtonText = "OK"
-                            };
-
-                            await dialog.ShowAsync();
+                                if (!await Launcher.LaunchUriAsync(new Uri(currentInput)))
+                                {
+                                    throw new Exception();
+                                }
+                            }
+                            catch
+                            {
+                                ShowInvalidAccessDialog(ex.Message);
+                            }
                         }
                     }
                 }
 
                 App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
             }
+        }
+
+        private async void ShowInvalidAccessDialog(string message)
+        {
+            var dialog = new ContentDialog()
+            {
+                Title = "Invalid item",
+                Content = "The item referenced is either invalid or inaccessible.\nMessage:\n\n" + message,
+                CloseButtonText = "OK"
+            };
+
+            await dialog.ShowAsync();
         }
 
         private void VisiblePath_LostFocus(object sender, RoutedEventArgs e)
@@ -304,13 +326,299 @@ namespace Files.UserControls
             }
         }
 
-        private void PathViewInteract_ItemClick(object sender, ItemClickEventArgs e)
+        private async void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            var itemTappedPath = (e.ClickedItem as PathBoxItem).Path.ToString();
-            if (itemTappedPath == "Home" || itemTappedPath == ResourceController.GetTranslation("NewTab"))
-                return;
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                e.Handled = true;
+                cancelFlyoutOpen = false;
+                await Task.Delay(1000);
+                if (!cancelFlyoutOpen)
+                {
+                    (sender as Button).Flyout.ShowAt(sender as Button);
+                    cancelFlyoutOpen = false;
+                }
+                else
+                {
+                    cancelFlyoutOpen = false;
+                }
+            }
+        }
+
+        private bool cancelFlyoutOpen = false;
+
+        private void VerticalTabStripInvokeButton_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                e.Handled = true;
+                if (!(sender as Button).Flyout.IsOpen)
+                {
+                    cancelFlyoutOpen = true;
+                }
+            }
+        }
+
+        private void Button_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            e.Handled = true;
+            (sender as Button).Flyout.ShowAt(sender as Button);
+        }
+
+        private void Flyout_Opened(object sender, object e)
+        {
+            VisualStateManager.GoToState(VerticalTabStripInvokeButton, "PointerOver", false);
+        }
+
+        private void Flyout_Closed(object sender, object e)
+        {
+            VisualStateManager.GoToState(VerticalTabStripInvokeButton, "Normal", false);
+        }
+
+        private void VerticalTabStripInvokeButton_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+            (sender as Button).Flyout.ShowAt(sender as Button);
+        }
+
+        private bool cancelFlyoutAutoClose = false;
+
+        private async void verticalTabs_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                e.Handled = true;
+                cancelFlyoutAutoClose = false;
+                verticalTabs.PointerEntered += verticalTabs_PointerEntered;
+                await Task.Delay(1000);
+                verticalTabs.PointerEntered -= verticalTabs_PointerEntered;
+                if (!cancelFlyoutAutoClose)
+                {
+                    VerticalTabViewFlyout.Hide();
+                }
+                cancelFlyoutAutoClose = false;
+            }
+        }
+
+        private void verticalTabs_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                e.Handled = true;
+                cancelFlyoutAutoClose = true;
+            }
+        }
+
+        private async void PathBoxItem_DragOver(object sender, DragEventArgs e)
+        {
+            if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
+                pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab")) return;
+
+            e.Handled = true;
+            var deferral = e.GetDeferral();
+
+            var storageItems = await e.DataView.GetStorageItemsAsync();
+            if (!storageItems.Any(storageItem =>
+            storageItem.Path.Replace(pathBoxItem.Path, string.Empty).
+            Trim(Path.DirectorySeparatorChar).
+            Contains(Path.DirectorySeparatorChar)))
+            {
+                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.None;
+            }
+            else
+            {
+                e.DragUIOverride.IsCaptionVisible = true;
+                e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), pathBoxItem.Title);
+                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+            }
+
+            deferral.Complete();
+        }
+
+        private async void PathBoxItem_Drop(object sender, DragEventArgs e)
+        {
+            if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
+                pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab")) return;
+
+            var deferral = e.GetDeferral();
+            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, pathBoxItem.Path, e.AcceptedOperation);
+            deferral.Complete();
+        }
+
+        private void VisiblePath_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                SetAddressBarSuggestions(sender);
+            }
+        }
+
+        private async void SetAddressBarSuggestions(AutoSuggestBox sender, int maxSuggestions = 7)
+        {
+            try
+            {
+                IList<ListedItem> suggestions = null;
+                var expandedPath = StorageFileExtensions.GetPathWithoutEnvironmentVariable(sender.Text);
+                var folderPath = Path.GetDirectoryName(expandedPath) ?? expandedPath;
+                var folder = await ItemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+                var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
+                if (currPath.Count() >= maxSuggestions)
+                {
+                    suggestions = currPath.Select(x => new ListedItem(null) { ItemPath = x.Path, ItemName = x.Folder.Name }).ToList();
+                }
+                else if (currPath.Any())
+                {
+                    var subPath = await currPath.First().GetFoldersWithPathAsync((uint)(maxSuggestions - currPath.Count()));
+                    suggestions = currPath.Select(x => new ListedItem(null) { ItemPath = x.Path, ItemName = x.Folder.Name }).Concat(
+                        subPath.Select(x => new ListedItem(null) { ItemPath = x.Path, ItemName = Path.Combine(currPath.First().Folder.Name, x.Folder.Name) })).ToList();
+                }
+                else
+                {
+                    suggestions = new List<ListedItem>() { new ListedItem(null) {
+                        ItemPath = App.CurrentInstance.FilesystemViewModel.WorkingDirectory,
+                        ItemName = ResourceController.GetTranslation("NavigationToolbarVisiblePathNoResults") } };
+                }
+
+                // NavigationBarSuggestions becoming empty causes flickering of the suggestion box
+                // Here we check whether at least an element is in common between old and new list
+                if (!NavigationBarSuggestions.IntersectBy(suggestions, x => x.ItemName).Any())
+                {
+                    // No elemets in common, update the list in-place
+                    for (int si = 0; si < suggestions.Count; si++)
+                    {
+                        if (si < NavigationBarSuggestions.Count)
+                        {
+                            NavigationBarSuggestions[si].ItemName = suggestions[si].ItemName;
+                            NavigationBarSuggestions[si].ItemPath = suggestions[si].ItemPath;
+                        }
+                        else
+                        {
+                            NavigationBarSuggestions.Add(suggestions[si]);
+                        }
+                    }
+                    while (NavigationBarSuggestions.Count > suggestions.Count)
+                    {
+                        NavigationBarSuggestions.RemoveAt(NavigationBarSuggestions.Count - 1);
+                    }
+                }
+                else
+                {
+                    // At least an element in common, show animation
+                    foreach (var s in NavigationBarSuggestions.ExceptBy(suggestions, x => x.ItemName).ToList())
+                    {
+                        NavigationBarSuggestions.Remove(s);
+                    }
+                    foreach (var s in suggestions.ExceptBy(NavigationBarSuggestions, x => x.ItemName).ToList())
+                    {
+                        NavigationBarSuggestions.Insert(suggestions.IndexOf(s), s);
+                    }
+                }
+            }
+            catch
+            {
+                NavigationBarSuggestions.Clear();
+                NavigationBarSuggestions.Add(new ListedItem(null)
+                {
+                    ItemPath = App.CurrentInstance.FilesystemViewModel.WorkingDirectory,
+                    ItemName = ResourceController.GetTranslation("NavigationToolbarVisiblePathNoResults")
+                });
+            }
+        }
+
+        private void VisiblePath_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            CheckPathInput(App.CurrentInstance.FilesystemViewModel, args.QueryText,
+                App.CurrentInstance.NavigationToolbar.PathComponents[App.CurrentInstance.NavigationToolbar.PathComponents.Count - 1].Path);
+            App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
+        }
+
+        private void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            var itemTappedPath = ((sender as TextBlock).DataContext as PathBoxItem).Path;
 
             App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), itemTappedPath); // navigate to folder
+        }
+
+        private async void PathItemSeparator_Loaded(object sender, RoutedEventArgs e)
+        {
+            var pathSeparatorIcon = sender as FontIcon;
+            await SetPathBoxDropDownFlyout(pathSeparatorIcon.ContextFlyout as MenuFlyout, pathSeparatorIcon.DataContext as PathBoxItem);
+
+            pathSeparatorIcon.Tapped += (s, e) => pathSeparatorIcon.ContextFlyout.ShowAt(pathSeparatorIcon);
+            pathSeparatorIcon.ContextFlyout.Opened += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A5"; };
+            pathSeparatorIcon.ContextFlyout.Closed += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A8"; };
+        }
+
+        private async void PathboxItemFlyout_Opened(object sender, object e)
+        {
+            var flyout = sender as MenuFlyout;
+            await SetPathBoxDropDownFlyout(flyout, (flyout.Target as FontIcon).DataContext as PathBoxItem);
+        }
+
+        private async Task SetPathBoxDropDownFlyout(MenuFlyout flyout, PathBoxItem pathItem)
+        {
+            var nextPathItemTitle = App.CurrentInstance.NavigationToolbar.PathComponents
+                [App.CurrentInstance.NavigationToolbar.PathComponents.IndexOf(pathItem) + 1].Title;
+            IList<StorageFolderWithPath> childFolders = new List<StorageFolderWithPath>();
+
+            try
+            {
+                var folder = await ItemViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
+                childFolders = await folder.GetFoldersWithPathAsync(string.Empty);
+            }
+            catch
+            {
+                // Do nothing.
+            }
+            finally
+            {
+                flyout.Items?.Clear();
+            }
+
+            if (childFolders.Count == 0)
+            {
+                var flyoutItem = new MenuFlyoutItem
+                {
+                    Icon = new FontIcon { FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily, Glyph = "\uEC17" },
+                    Text = ResourceController.GetTranslation("SubDirectoryAccessDenied"),
+                    //Foreground = (SolidColorBrush)Application.Current.Resources["SystemControlErrorTextForegroundBrush"],
+                    FontSize = 12
+                };
+                flyout.Items.Add(flyoutItem);
+                return;
+            }
+
+            var boldFontWeight = new FontWeight { Weight = 800 };
+            var normalFontWeight = new FontWeight { Weight = 400 };
+            var customGlyphFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily;
+
+            var workingPath = App.CurrentInstance.NavigationToolbar.PathComponents
+                    [App.CurrentInstance.NavigationToolbar.PathComponents.Count - 1].
+                    Path.TrimEnd(Path.DirectorySeparatorChar);
+            foreach (var childFolder in childFolders)
+            {
+                var isPathItemFocused = childFolder.Item.Name == nextPathItemTitle;
+
+                var flyoutItem = new MenuFlyoutItem
+                {
+                    Icon = new FontIcon
+                    {
+                        FontFamily = customGlyphFamily,
+                        Glyph = "\uEA5A",
+                        FontWeight = isPathItemFocused ? boldFontWeight : normalFontWeight
+                    },
+                    Text = childFolder.Item.Name,
+                    FontSize = 12,
+                    FontWeight = isPathItemFocused ? boldFontWeight : normalFontWeight
+                };
+
+                if (workingPath != childFolder.Path)
+                {
+                    flyoutItem.Click += (sender, args) => App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), childFolder.Path);
+                }
+
+                flyout.Items.Add(flyoutItem);
+            }
         }
     }
 }

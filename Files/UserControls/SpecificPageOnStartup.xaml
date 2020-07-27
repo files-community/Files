@@ -1,0 +1,54 @@
+﻿<UserControl
+    x:Class="Files.UserControls.SpecificPageOnStartup"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files.UserControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Height="40"
+    d:DesignWidth="340"
+    mc:Ignorable="d">
+
+    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+        <TextBox
+            x:Name="PagePath"
+            Width="308"
+            Height="34"
+            HorizontalAlignment="Left"
+            HorizontalContentAlignment="Center"
+            BorderThickness="1,1,0,1"
+            CornerRadius="2,0,0,2"
+            IsEnabled="False"
+            PlaceholderText="New Tab"
+            Text="" />
+        <Button
+            x:Name="btnMenu"
+            Height="34"
+            Content="&#xE712;"
+            CornerRadius="0,2,2,0"
+            FontFamily="Segoe MDL2 Assets"
+            Style="{ThemeResource AccentButtonStyle}"
+            ToolTipService.ToolTip="More options">
+            <Button.Flyout>
+                <MenuFlyout Placement="BottomEdgeAlignedRight">
+                    <MenuFlyoutItem
+                        x:Uid="SettingsOnStartupOpenSpecificPagesUserControlChangePage"
+                        Click="ChangePage_Click"
+                        Text="Change Page Location">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA39;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        x:Uid="SettingsOnStartupOpenSpecificPagesUserControlRemovePage"
+                        Click="RemovePage_Click"
+                        Text="Remove Page">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9ED;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                </MenuFlyout>
+            </Button.Flyout>
+        </Button>
+    </StackPanel>
+</UserControl>

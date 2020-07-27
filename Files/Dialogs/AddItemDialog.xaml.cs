@@ -28,7 +28,7 @@ namespace Files.Dialogs
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            App.AddItemDialogDisplay.Hide();
+            this.Hide();
             switch ((e.ClickedItem as AddListItem).Header)
             {
                 case "Folder":

@@ -352,7 +352,7 @@
     <value>Open a new tab</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Open a specific page</value>
+    <value>Open a specific page or pages</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>On Startup</value>
@@ -837,9 +837,13 @@
   <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
     <value>Restart required</value>
   </data>
+  <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
+    <value>Move tab here</value>
+  </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Status</value>
   </data>
+
   <data name="ExceptionPageRestartButton.Content" xml:space="preserve">
     <value>Restart app and try again</value>
   </data>
@@ -861,7 +865,49 @@
    <data name="ExceptionPageTechnicalInfoHeader.Text" xml:space="preserve">
     <value>Technical Information:</value>
   </data>
-   <data name="ExceptionPageWhatNowHeader.Text" xml:space="preserve">
+  <data name="ExceptionPageWhatNowHeader.Text" xml:space="preserve">
     <value>What now?</value>
+  </data>
+  <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
+    <value>Add a new page</value>
+  </data>
+  <data name="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" xml:space="preserve">
+    <value>Change Page Location</value>
+  </data>
+  <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
+    <value>Remove Page</value>
+  </data>
+  <data name="SettingsOnStartupPages.Text" xml:space="preserve">
+    <value>Pages:</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
+    <value>Always open a new instance</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
+    <value>Open folder in a new tab</value>
+  </data>
+  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
+    <value>When launching a pinned folder</value>
+  </data>
+  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
+    <value>Windows default</value>
+  </data>
+  <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
+    <value>No results</value>
+  </data>
+  <data name="SubDirectoryAccessDenied" xml:space="preserve">
+    <value>Can't access any items to display</value>
+  </data>
+  <data name="MoveToFolderCaptionText" xml:space="preserve">
+    <value>Move to {0}</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
+    <value>The source and destination file names are the same.</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
+    <value>The destination folder is the same as the source folder.</value>
+  </data>
+  <data name="CopyToFolderCaptionText" xml:space="preserve">
+    <value>Copy to {0}</value>
   </data>
 </root>

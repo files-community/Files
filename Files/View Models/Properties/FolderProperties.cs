@@ -12,7 +12,7 @@ using Windows.UI.Xaml;
 
 namespace Files.View_Models.Properties
 {
-    class FolderProperties : BaseProperties
+    internal class FolderProperties : BaseProperties
     {
         public ListedItem Item { get; }
 

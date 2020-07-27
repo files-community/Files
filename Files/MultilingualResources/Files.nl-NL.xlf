@@ -149,7 +149,7 @@
           <target state="translated">Open een nieuw tabblad</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
-          <source>Open a specific page</source>
+          <source>Open a specific page or pages</source>
           <target state="needs-review-translation">Open specifieke pagina(s)</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
@@ -972,6 +972,66 @@
         <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
           <source>Status</source>
           <target state="new">Status</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenAddPageButton.Content" translate="yes" xml:space="preserve">
+          <source>Add a new page</source>
+          <target state="new">Add a new page</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" translate="yes" xml:space="preserve">
+          <source>Change Page Location</source>
+          <target state="new">Change Page Location</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupPages.Text" translate="yes" xml:space="preserve">
+          <source>Pages:</source>
+          <target state="new">Pages:</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" translate="yes" xml:space="preserve">
+          <source>Remove Page</source>
+          <target state="new">Remove Page</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
+          <source>When launching a pinned folder</source>
+          <target state="new">When launching a pinned folder</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
+          <source>Always open a new instance</source>
+          <target state="new">Always open a new instance</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupLaunchNewTab.Content" translate="yes" xml:space="preserve">
+          <source>Open folder in a new tab</source>
+          <target state="new">Open folder in a new tab</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
+          <source>Windows default</source>
+          <target state="new">Windows default</target>
+        </trans-unit>
+        <trans-unit id="TabStripDragAndDropUIOverrideCaption" translate="yes" xml:space="preserve">
+          <source>Move tab here</source>
+          <target state="new">Move tab here</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarVisiblePathNoResults" translate="yes" xml:space="preserve">
+          <source>No results</source>
+          <target state="new">No results</target>
+        </trans-unit>
+        <trans-unit id="SubDirectoryAccessDenied" translate="yes" xml:space="preserve">
+          <source>Can't access any items to display</source>
+          <target state="new">Can't access any items to display</target>
+        </trans-unit>
+        <trans-unit id="MoveToFolderCaptionText" translate="yes" xml:space="preserve">
+          <source>Move to {0}</source>
+          <target state="new">Move to {0}</target>
+        </trans-unit>
+        <trans-unit id="ErrorDialogSameSourceDestinationFile" translate="yes" xml:space="preserve">
+          <source>The source and destination file names are the same.</source>
+          <target state="new">The source and destination file names are the same.</target>
+        </trans-unit>
+        <trans-unit id="ErrorDialogSameSourceDestinationFolder" translate="yes" xml:space="preserve">
+          <source>The destination folder is the same as the source folder.</source>
+          <target state="new">The destination folder is the same as the source folder.</target>
+        </trans-unit>
+        <trans-unit id="CopyToFolderCaptionText" translate="yes" xml:space="preserve">
+          <source>Copy to {0}</source>
+          <target state="new">Copy to {0}</target>
         </trans-unit>
       </group>
     </body>

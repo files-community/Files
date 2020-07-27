@@ -13,22 +13,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PropertiesCreated.Text" xml:space="preserve">
-    <value>新建：</value>
+    <value>新建:</value>
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>文件名</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>位置：</value>
+    <value>位置:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
-    <value>大小：</value>
+    <value>大小:</value>
   </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>文件类型：</value>
+    <value>文件类型:</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
-    <value>修改时间：</value>
+    <value>修改时间:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>清空所有文件</value>
@@ -46,13 +46,13 @@
     <value>最近使用的文件</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>文件管理器UWP</value>
+    <value>通用文件管理</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>许可证：</value>
+    <value>许可证:</value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
-    <value>特别感谢：</value>
+    <value>特别感谢:</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>提交反馈</value>
@@ -67,7 +67,7 @@
     <value>关于</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>网站：</value>
+    <value>网站:</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
     <value>透明效果</value>
@@ -325,7 +325,7 @@
     <value>大小</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>欢迎使用文件管理器UWP</value>
+    <value>欢迎使用通用文件管理</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>授权</value>
@@ -379,19 +379,19 @@
     <value>该文件夹为空。</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>返回（Alt+向左键）</value>
+    <value>返回 (Alt+向左键)</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>前进（Alt+向右键）</value>
+    <value>向前 (Alt+向右键)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>上移（Alt+向上键）</value>
+    <value>上移  (Alt+向上键)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>刷新（F5）</value>
+    <value>刷新 (F5)</value>
   </data>
   <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>新建（Ctrl + Shift + N）</value>
+    <value>新建 (Ctrl + Shift + N)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>搜索</value>
@@ -436,7 +436,7 @@
     <value>属性</value>
   </data>
   <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>属性：</value>
+    <value>属性:</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>属性</value>
@@ -451,7 +451,7 @@
     <value>实验性</value>
   </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
-    <value>注意：这些是实验性的功能！</value>
+    <value>注意: 这些是实验性的功能！</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>实验性</value>
@@ -478,13 +478,13 @@
     <value>设为锁屏</value>
   </data>
   <data name="StatusBarControlGridViewLarge.Text" xml:space="preserve">
-    <value>缩略图（大）</value>
+    <value>缩略图 (大)</value>
   </data>
   <data name="StatusBarControlGridViewMedium.Text" xml:space="preserve">
-    <value>缩略图（中）</value>
+    <value>缩略图 (中)</value>
   </data>
   <data name="StatusBarControlGridViewSmall.Text" xml:space="preserve">
-    <value>缩略图（小）</value>
+    <value>缩略图 (小)</value>
   </data>
   <data name="StatusBarControlTilesView.Text" xml:space="preserve">
     <value>磁贴视图</value>
@@ -598,7 +598,7 @@
     <value>打开日志目录</value>
   </data>
   <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
-    <value>新标签页（Ctrl+T）</value>
+    <value>新标签页 (Ctrl+T)</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>已选</value>
@@ -616,10 +616,10 @@
     <value>固定到侧边栏</value>
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
-    <value>访问：</value>
+    <value>访问:</value>
   </data>
   <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>所有者：</value>
+    <value>所有者:</value>
   </data>
   <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
     <value>在属性中显示所有者</value>
@@ -640,22 +640,34 @@
     <value>字节</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
-    <value>千字节（KB）</value>
+    <value>千字节 (KB)</value>
   </data>
   <data name="MegaByteSymbol" xml:space="preserve">
-    <value>兆字节（MB）</value>
+    <value>兆字节 (MB)</value>
   </data>
   <data name="GigaByteSymbol" xml:space="preserve">
-    <value>吉字节（GB）</value>
+    <value>吉字节 (GB)</value>
   </data>
   <data name="TeraByteSymbol" xml:space="preserve">
-    <value>太字节（TB）</value>
+    <value>太字节 (TB)</value>
   </data>
   <data name="PetaByteSymbol" xml:space="preserve">
-    <value>派字节（PB）</value>
+    <value>拍字节 (PB)</value>
   </data>
   <data name="ByteSymbol" xml:space="preserve">
-    <value>字节（B）</value>
+    <value>B</value>
+  </data>
+  <data name="DeleteInProgress.Title" xml:space="preserve">
+    <value>删除文件</value>
+  </data>
+  <data name="ExtractInProgress.Title" xml:space="preserve">
+    <value>提取文件</value>
+  </data>
+  <data name="PasteInProgress.Title" xml:space="preserve">
+    <value>粘贴文件</value>
+  </data>
+  <data name="RecycleInProgress.Title" xml:space="preserve">
+    <value>将文件移动到回收站</value>
   </data>
   <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>了解日期格式相关信息</value>
@@ -679,7 +691,7 @@
     <value>BitLocker 错误</value>
   </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
-    <value>包含：</value>
+    <value>包含:</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} 个文件, {1:#,##0} 个文件夹</value>
@@ -700,15 +712,57 @@
     <value>全部中 {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
-    <value>已用空间：</value>
+    <value>已用空间:</value>
   </data>
   <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
-    <value>可用空间：</value>
+    <value>可用空间:</value>
   </data>
   <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
-    <value>权限：</value>
+    <value>权限:</value>
   </data>
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
-    <value>文件系统：</value>
+    <value>文件系统:</value>
+  </data>
+  <data name="JumpListRecentGroupHeader" xml:space="preserve">
+    <value>最近</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
+    <value>语言 (国家或地区)</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
+    <value>需要重启应用</value>
+  </data>
+  <data name="syncStatusColumn.Header" xml:space="preserve">
+    <value>等级</value>
+  </data>
+  <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
+    <value>新建页面</value>
+  </data>
+  <data name="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" xml:space="preserve">
+    <value>更改页面位置</value>
+  </data>
+  <data name="SettingsOnStartupPages.Text" xml:space="preserve">
+    <value>页数:</value>
+  </data>
+  <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
+    <value>删除页</value>
+  </data>
+  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
+    <value>启动固定文件夹时</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
+    <value>始终打开新实例</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
+    <value>在新标签页打开文件夹</value>
+  </data>
+  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
+    <value>Windows 默认</value>
+  </data>
+  <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
+    <value>在此处移动标签页</value>
+  </data>
+  <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
+    <value>无结果</value>
   </data>
 </root>
