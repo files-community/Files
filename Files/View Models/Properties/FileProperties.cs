@@ -47,9 +47,10 @@ namespace Files.View_Models.Properties
                 {
                     var shortcutItem = (ShortcutItem)Item;
 
-                    var isApplication = Item.FileExtension.Equals(".exe", StringComparison.OrdinalIgnoreCase)
-                            || Item.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase)
-                            || Item.FileExtension.Equals(".bat", StringComparison.OrdinalIgnoreCase);
+                    var isApplication = !string.IsNullOrWhiteSpace(shortcutItem.TargetPath) && 
+                        (shortcutItem.TargetPath.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)
+                            || shortcutItem.TargetPath.EndsWith(".msi", StringComparison.OrdinalIgnoreCase)
+                            || shortcutItem.TargetPath.EndsWith(".bat", StringComparison.OrdinalIgnoreCase));
 
                     ViewModel.ShortcutItemType = isApplication ? ResourceController.GetTranslation("PropertiesShortcutTypeApplication") :
                         Item.IsLinkItem ? ResourceController.GetTranslation("PropertiesShortcutTypeLink") : ResourceController.GetTranslation("PropertiesShortcutTypeFile");

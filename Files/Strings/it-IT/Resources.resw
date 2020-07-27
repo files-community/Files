@@ -816,4 +816,10 @@
   <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
     <value>Collegamento</value>
   </data>
+  <data name="ShortcutFileType" xml:space="preserve">
+    <value>Collegamento</value>
+  </data>
+  <data name="ShortcutWebLinkFileType" xml:space="preserve">
+    <value>Collegamento internet</value>
+  </data>
 </root>

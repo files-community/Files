@@ -1312,7 +1312,7 @@ namespace Files.Filesystem
                             LoadFolderGlyph = (bool)response.Message["IsFolder"],
                             ItemName = itemName,
                             ItemDateModifiedReal = itemDate,
-                            ItemType = itemType,
+                            ItemType = ResourceController.GetTranslation(isUrl ? "ShortcutWebLinkFileType" : "ShortcutFileType"),
                             ItemPath = itemPath,
                             FileSize = itemSize,
                             FileSizeBytes = itemSizeBytes,

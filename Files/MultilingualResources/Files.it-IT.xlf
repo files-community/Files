@@ -1079,6 +1079,14 @@
           <source>Shortcut</source>
           <target state="translated">Collegamento</target>
         </trans-unit>
+        <trans-unit id="ShortcutFileType" translate="yes" xml:space="preserve">
+          <source>Shortcut</source>
+          <target state="translated">Collegamento</target>
+        </trans-unit>
+        <trans-unit id="ShortcutWebLinkFileType" translate="yes" xml:space="preserve">
+          <source>Internet shortcut</source>
+          <target state="translated">Collegamento internet</target>
+        </trans-unit>
       </group>
     </body>
   </file>

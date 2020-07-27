@@ -921,4 +921,10 @@
   <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
     <value>Shortcut</value>
   </data>
+  <data name="ShortcutFileType" xml:space="preserve">
+    <value>Shortcut</value>
+  </data>
+  <data name="ShortcutWebLinkFileType" xml:space="preserve">
+    <value>Internet shortcut</value>
+  </data>
 </root>
