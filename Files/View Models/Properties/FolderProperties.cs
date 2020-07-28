@@ -65,17 +65,17 @@ namespace Files.View_Models.Properties
         {
             if (Item.IsShortcutItem)
             {
-                if (string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
-                {
-                    // Can't show any other property
-                    return;
-                }
+                ViewModel.ItemSizeVisibility = Visibility.Visible;
+                ViewModel.ItemSize = ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()
+                    + " (" + ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
+                // Can't show any other property
+                return;
             }
 
             StorageFolder storageFolder;
             if (App.CurrentInstance.ContentPage.IsItemSelected)
             {
-                storageFolder = await ItemViewModel.GetFolderFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+                storageFolder = await ItemViewModel.GetFolderFromPathAsync(Item.ItemPath);
                 ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(storageFolder.DateCreated);
                 GetOtherProperties(storageFolder.Properties);
                 GetFolderSize(storageFolder, TokenSource.Token);

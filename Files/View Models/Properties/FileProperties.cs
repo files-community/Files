@@ -81,6 +81,10 @@ namespace Files.View_Models.Properties
 
         public override async void GetSpecialProperties()
         {
+            ViewModel.ItemSizeVisibility = Visibility.Visible;
+            ViewModel.ItemSize = ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()
+                + " (" + ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
+
             if (Item.IsShortcutItem)
             {
                 if (Item.IsLinkItem)
@@ -97,13 +101,6 @@ namespace Files.View_Models.Properties
             }
 
             var file = await ItemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
-            ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(file.DateCreated);
-
-            GetOtherProperties(file.Properties);
-
-            ViewModel.ItemSizeVisibility = Visibility.Visible;
-            ViewModel.ItemSize = ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()
-                + " (" + ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
 
             using (var Thumbnail = await file.GetThumbnailAsync(ThumbnailMode.SingleItem, 80, ThumbnailOptions.UseCurrentScale))
             {
@@ -116,6 +113,15 @@ namespace Files.View_Models.Properties
                     ViewModel.LoadFileIcon = true;
                 }
             }
+
+            if (Item.IsShortcutItem)
+            {
+                // Can't show any other property
+                return;
+            }
+
+            ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(file.DateCreated);
+            GetOtherProperties(file.Properties);
 
             // Get file MD5 hash
             var hashAlgTypeName = HashAlgorithmNames.Md5;

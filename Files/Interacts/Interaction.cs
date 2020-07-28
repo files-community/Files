@@ -560,9 +560,9 @@ namespace Files.Interacts
                 appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
                 frame.Navigate(typeof(Properties), item, new SuppressNavigationTransitionInfo());
 
-                WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 500));
+                WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 550));
 
-                appWindow.RequestSize(new Size(400, 475));
+                appWindow.RequestSize(new Size(400, 550));
                 appWindow.Title = ResourceController.GetTranslation("PropertiesTitle");
 
                 ElementCompositionPreview.SetAppWindowContent(appWindow, frame);

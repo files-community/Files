@@ -349,7 +349,8 @@
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CreateShortcutFromItem_Click}"
                 Text="Create shortcut">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEAAA;" />
+                    <FontIcon FontFamily="{StaticResource CustomGlyph}"
+                              Glyph="&#xF10A;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem

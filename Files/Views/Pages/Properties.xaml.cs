@@ -42,6 +42,7 @@ namespace Files
 
         private void Properties_Loaded(object sender, RoutedEventArgs e)
         {
+            AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 propWindow = Interaction.AppWindows[UIContext]; // Collect AppWindow-specific info
@@ -51,7 +52,6 @@ namespace Files
                 TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
                 AppSettings.UpdateThemeElements.Execute(null);
             }
-            AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
         }
 
         private void Properties_Unloaded(object sender, RoutedEventArgs e)
