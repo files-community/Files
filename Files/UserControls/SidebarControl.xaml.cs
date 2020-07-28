@@ -199,6 +199,16 @@ namespace Files.Controls
             await Interaction.OpenPathInNewWindow(App.rightClickedItem.Path.ToString());
         }
 
+        private void NavigationViewItem_DragEnter(object sender, DragEventArgs e)
+        {
+            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragEnter", false);
+        }
+
+        private void NavigationViewItem_DragLeave(object sender, DragEventArgs e)
+        {
+            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragLeave", false);
+        }
+
         private async void NavigationViewLocationItem_DragOver(object sender, DragEventArgs e)
         {
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem)) return;
@@ -233,6 +243,8 @@ namespace Files.Controls
         private async void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
         {
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem)) return;
+
+            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
             var deferral = e.GetDeferral();
             await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, locationItem.Path, e.AcceptedOperation);
@@ -271,6 +283,8 @@ namespace Files.Controls
         private async void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
         {
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem)) return;
+
+            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
             var deferral = e.GetDeferral();
             await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, driveItem.Path, e.AcceptedOperation);
