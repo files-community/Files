@@ -746,6 +746,7 @@
   </data>
   <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
     <value>Remover Página</value>
+  </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
     <value>Sempre abra uma nova instância</value>
   </data>
