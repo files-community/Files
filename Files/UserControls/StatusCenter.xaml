@@ -120,7 +120,7 @@
             <TextBlock
                 Margin="10,8"
                 FontSize="14"
-                FontWeight="Bold"
+                FontWeight="SemiBold"
                 Text="Ongoing Tasks" />
         </Grid>
 
@@ -147,7 +147,7 @@
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
-                                <RowDefinition/>
+                                <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Grid>
                                 <muxc:ProgressRing
@@ -189,7 +189,7 @@
                                     <FontIcon FontSize="11" Glyph="&#xE711;" />
                                 </Button.Content>
                             </Button>
-                            <Grid x:Load="{x:Bind SolutionButtonsVisible}" Grid.ColumnSpan="3" Grid.Row="1">
+                            <Grid x:Name="solutionButtons" x:Load="{x:Bind SolutionButtonsVisible}" Grid.ColumnSpan="3" Grid.Row="1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>

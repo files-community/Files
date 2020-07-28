@@ -755,14 +755,11 @@ namespace Files.Interacts
             catch (IOException)
             {
                 if (StatusCenter.StatusBannersSource.Contains(banner))  StatusCenter.StatusBannersSource.Remove(banner);
-                if (await DialogDisplayHelper.ShowDialog(
+                App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostActionBanner(
                     ResourceController.GetTranslation("FileInUseDeleteDialog/Title"),
                     ResourceController.GetTranslation("FileInUseDeleteDialog/Text"),
                     ResourceController.GetTranslation("FileInUseDeleteDialog/PrimaryButtonText"),
-                    ResourceController.GetTranslation("FileInUseDeleteDialog/SecondaryButtonText")))
-                {
-                    DeleteItem(deleteOption);
-                }
+                    ResourceController.GetTranslation("FileInUseDeleteDialog/SecondaryButtonText"), () => { DeleteItem(deleteOption); });
             }
             App.CurrentInstance.StatusBarControl.OngoingTasksControl.RemoveBanner(banner);
         }

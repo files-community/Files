@@ -42,16 +42,35 @@ namespace Files.UserControls
             return item;
         }
 
+        /// <summary>
+        /// Posts a new banner with expanded height to the Status Center control. This is typically
+        /// used to represent a failure during a prior operation which must be acted upon.
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="message"></param>
+        /// <param name="primaryButtonText"></param>
+        /// <param name="cancelButtonText"></param>
+        /// <param name="primaryAction"></param>
+        /// <returns>A StatusBanner object which may be used to automatically remove the banner from UI.</returns>
+        public StatusBanner PostActionBanner(string title, string message, string primaryButtonText, string cancelButtonText, Action primaryAction)
+        {
+            var item = new StatusBanner(message, title, primaryButtonText, cancelButtonText, primaryAction);
+            StatusBannersSource.Add(item);
+            return item;
+        }
+
         // Dismiss banner button event handler
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var itemToDismiss = (sender as Button).DataContext as StatusBanner;
             StatusBannersSource.Remove(itemToDismiss);
         }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        // Primary action button click
+        private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
-
+            var itemToDismiss = (sender as Button).DataContext as StatusBanner;
+            await Task.Run(itemToDismiss.PrimaryButtonClick);
+            StatusBannersSource.Remove(itemToDismiss);
         }
     }
 
