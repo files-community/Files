@@ -17,6 +17,7 @@
                             <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
                             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="White" />
                             <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
+                            <SolidColorBrush x:Key="GrayTextColor" Color="#99000000" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
@@ -24,6 +25,7 @@
                             <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
                             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#191919" />
                             <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
+                            <SolidColorBrush x:Key="GrayTextColor" Color="#99FFFFFF" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
@@ -31,6 +33,7 @@
                             <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
                             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#191919" />
                             <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
+                            <SolidColorBrush x:Key="GrayTextColor" Color="#99FFFFFF" />
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>

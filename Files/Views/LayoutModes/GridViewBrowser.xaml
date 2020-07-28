@@ -637,13 +637,15 @@
                             Text="{x:Bind ItemType}"
                             TextAlignment="Left"
                             TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap" />
+                            TextWrapping="NoWrap" 
+                            Foreground="{ThemeResource GrayTextColor}" />
                         <TextBlock
                             HorizontalAlignment="Left"
                             Text="{x:Bind FileSize}"
                             TextAlignment="Left"
                             TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap" />
+                            TextWrapping="NoWrap"
+                            Foreground="{ThemeResource GrayTextColor}" />
                     </StackPanel>
                 </Grid>
             </Grid>

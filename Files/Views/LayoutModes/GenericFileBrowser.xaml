@@ -670,10 +670,15 @@
                     Width="Auto"
                     Binding="{Binding ItemDateModified}"
                     DisplayIndex="3"
-                    FontSize="12"
+                    FontSize="14"
                     Header="Date modified"
                     IsReadOnly="True"
                     Tag="Date">
+                    <controls:DataGridTextColumn.CellStyle>
+                        <Style TargetType="controls:DataGridCell">
+                            <Setter Property="Foreground" Value="{ThemeResource GrayTextColor}" />
+                        </Style>
+                    </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
                         <ToolTip Content="{Binding FolderTooltipText}" />
                     </ToolTipService.ToolTip>
@@ -684,10 +689,15 @@
                     Width="150"
                     Binding="{Binding ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     DisplayIndex="4"
-                    FontSize="12"
+                    FontSize="14"
                     Header="Type"
                     IsReadOnly="True"
                     Tag="Type">
+                    <controls:DataGridTextColumn.CellStyle>
+                        <Style TargetType="controls:DataGridCell">
+                            <Setter Property="Foreground" Value="{ThemeResource GrayTextColor}" />
+                        </Style>
+                    </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
                         <ToolTip Content="{Binding FolderTooltipText}" />
                     </ToolTipService.ToolTip>
@@ -699,10 +709,15 @@
                     MinWidth="100"
                     Binding="{Binding FileSize}"
                     DisplayIndex="5"
-                    FontSize="12"
+                    FontSize="14"
                     Header="Size"
                     IsReadOnly="True"
                     Tag="Size">
+                    <controls:DataGridTextColumn.CellStyle>
+                        <Style TargetType="controls:DataGridCell">
+                            <Setter Property="Foreground" Value="{ThemeResource GrayTextColor}" />
+                        </Style>
+                    </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
                         <ToolTip Content="{Binding FolderTooltipText}" />
                     </ToolTipService.ToolTip>
