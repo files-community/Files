@@ -68,6 +68,8 @@ namespace Files.View_Models.Properties
                 ViewModel.ItemSizeVisibility = Visibility.Visible;
                 ViewModel.ItemSize = ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()
                     + " (" + ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
+                ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
+                ViewModel.ItemAccessedTimestamp = Item.ItemDateAccessed;
                 // Can't show any other property
                 return;
             }

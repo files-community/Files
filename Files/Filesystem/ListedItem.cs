@@ -65,7 +65,6 @@ namespace Files.Filesystem
             set => Set(ref _ItemName, value);
         }
 
-        public string ItemDateModified { get; private set; }
         private string _ItemType;
 
         public string ItemType
@@ -84,6 +83,10 @@ namespace Files.Filesystem
         public string FileSize { get; set; }
         public long FileSizeBytes { get; set; }
 
+        public string ItemDateModified { get; private set; }
+        public string ItemDateCreated { get; private set; }
+        public string ItemDateAccessed { get; private set; }
+
         public DateTimeOffset ItemDateModifiedReal
         {
             get => _itemDateModifiedReal;
@@ -95,6 +98,30 @@ namespace Files.Filesystem
         }
 
         private DateTimeOffset _itemDateModifiedReal;
+
+        public DateTimeOffset ItemDateCreatedReal
+        {
+            get => _itemDateCreatedReal;
+            set
+            {
+                ItemDateCreated = GetFriendlyDate(value);
+                _itemDateCreatedReal = value;
+            }
+        }
+
+        private DateTimeOffset _itemDateCreatedReal;
+
+        public DateTimeOffset ItemDateAccessedReal
+        {
+            get => _itemDateAccessedReal;
+            set
+            {
+                ItemDateAccessed = GetFriendlyDate(value);
+                _itemDateAccessedReal = value;
+            }
+        }
+
+        private DateTimeOffset _itemDateAccessedReal;
 
         public ListedItem(string folderRelativeId)
         {

@@ -1249,16 +1249,24 @@ namespace Files.Filesystem
             else
                 itemName = Path.GetFileNameWithoutExtension(itemPath);
 
-            FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemTimeOutput);
-            var itemDate = new DateTime(
-                systemTimeOutput.Year,
-                systemTimeOutput.Month,
-                systemTimeOutput.Day,
-                systemTimeOutput.Hour,
-                systemTimeOutput.Minute,
-                systemTimeOutput.Second,
-                systemTimeOutput.Milliseconds,
+            FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemModifiedDateOutput);
+            var itemModifiedDate = new DateTime(
+                systemModifiedDateOutput.Year, systemModifiedDateOutput.Month, systemModifiedDateOutput.Day,
+                systemModifiedDateOutput.Hour, systemModifiedDateOutput.Minute, systemModifiedDateOutput.Second, systemModifiedDateOutput.Milliseconds,
                 DateTimeKind.Utc);
+
+            FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedDateOutput);
+            var itemCreatedDate = new DateTime(
+                systemCreatedDateOutput.Year, systemCreatedDateOutput.Month, systemCreatedDateOutput.Day,
+                systemCreatedDateOutput.Hour, systemCreatedDateOutput.Minute, systemCreatedDateOutput.Second, systemCreatedDateOutput.Milliseconds,
+                DateTimeKind.Utc);
+
+            FileTimeToSystemTime(ref findData.ftLastAccessTime, out SYSTEMTIME systemLastAccessOutput);
+            var itemLastAccessDate = new DateTime(
+                systemLastAccessOutput.Year, systemLastAccessOutput.Month, systemLastAccessOutput.Day,
+                systemLastAccessOutput.Hour, systemLastAccessOutput.Minute, systemLastAccessOutput.Second, systemLastAccessOutput.Milliseconds,
+                DateTimeKind.Utc);
+
             long itemSizeBytes = findData.GetSize();
             var itemSize = ByteSize.FromBytes(itemSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
             string itemType = ResourceController.GetTranslation("ItemTypeFile");
@@ -1311,7 +1319,9 @@ namespace Files.Filesystem
                             LoadUnknownTypeGlyph = !(bool)response.Message["IsFolder"] && !isUrl && itemEmptyImgVis,
                             LoadFolderGlyph = (bool)response.Message["IsFolder"],
                             ItemName = itemName,
-                            ItemDateModifiedReal = itemDate,
+                            ItemDateModifiedReal = itemModifiedDate,
+                            ItemDateAccessedReal = itemLastAccessDate,
+                            ItemDateCreatedReal = itemCreatedDate,
                             ItemType = ResourceController.GetTranslation(isUrl ? "ShortcutWebLinkFileType" : "ShortcutFileType"),
                             ItemPath = itemPath,
                             FileSize = itemSize,
@@ -1336,7 +1346,9 @@ namespace Files.Filesystem
                     LoadFileIcon = itemThumbnailImgVis,
                     LoadFolderGlyph = itemFolderImgVis,
                     ItemName = itemName,
-                    ItemDateModifiedReal = itemDate,
+                    ItemDateModifiedReal = itemModifiedDate,
+                    ItemDateAccessedReal = itemLastAccessDate,
+                    ItemDateCreatedReal = itemCreatedDate,
                     ItemType = itemType,
                     ItemPath = itemPath,
                     FileSize = itemSize,

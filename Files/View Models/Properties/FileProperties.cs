@@ -87,13 +87,10 @@ namespace Files.View_Models.Properties
 
             if (Item.IsShortcutItem)
             {
-                if (Item.IsLinkItem)
-                {
-                    ViewModel.LoadLinkIcon = true;
-                    // Can't show any other property
-                    return;
-                }
-                if (string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
+                ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
+                ViewModel.ItemAccessedTimestamp = Item.ItemDateAccessed;
+                ViewModel.LoadLinkIcon = Item.IsLinkItem;
+                if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
                 {
                     // Can't show any other property
                     return;
