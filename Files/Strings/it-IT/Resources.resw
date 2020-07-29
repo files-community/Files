@@ -822,4 +822,7 @@
   <data name="ShortcutWebLinkFileType" xml:space="preserve">
     <value>Collegamento internet</value>
   </data>
+  <data name="ShortcutCreateNewSuffix" xml:space="preserve">
+    <value>{0} - collegamento</value>
+  </data>
 </root>

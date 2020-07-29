@@ -734,8 +734,8 @@ namespace Files.Filesystem
                         {
                             // File
                             string itemName;
-                            if (AppSettings.ShowFileExtensions)
-                                itemName = item.FileName;
+                            if (AppSettings.ShowFileExtensions && !item.FileName.EndsWith(".lnk") && !item.FileName.EndsWith(".url"))
+                                itemName = item.FileName; // never show extension for shortcuts
                             else
                                 itemName = Path.GetFileNameWithoutExtension(item.FileName);
 
@@ -1244,8 +1244,8 @@ namespace Files.Filesystem
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
             string itemName;
-            if (AppSettings.ShowFileExtensions)
-                itemName = findData.cFileName;
+            if (AppSettings.ShowFileExtensions && !findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
+                itemName = findData.cFileName; // never show extension for shortcuts
             else
                 itemName = Path.GetFileNameWithoutExtension(itemPath);
 

@@ -658,7 +658,11 @@ namespace Files.Interacts
                         { "arguments", "" },
                         { "workingdir", "" },
                         { "runasadmin", false },
-                        { "filepath", Path.Combine(CurrentInstance.FilesystemViewModel.WorkingDirectory, selectedItem.ItemName + " - shortcut" + ".lnk") }
+                        {
+                            "filepath",
+                            Path.Combine(CurrentInstance.FilesystemViewModel.WorkingDirectory,
+                                string.Format(ResourceController.GetTranslation("ShortcutCreateNewSuffix"), selectedItem.ItemName) + ".lnk")
+                        }
                     };
                     await App.Connection.SendMessageAsync(value);
                 }

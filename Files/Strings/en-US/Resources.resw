@@ -927,4 +927,7 @@
   <data name="ShortcutWebLinkFileType" xml:space="preserve">
     <value>Internet shortcut</value>
   </data>
+  <data name="ShortcutCreateNewSuffix" xml:space="preserve">
+    <value>{0} - shortcut</value>
+  </data>
 </root>

@@ -1086,6 +1086,10 @@
           <source>Internet shortcut</source>
           <target state="new">Internet shortcut</target>
         </trans-unit>
+        <trans-unit id="ShortcutCreateNewSuffix" translate="yes" xml:space="preserve">
+          <source>{0} - shortcut</source>
+          <target state="new">{0} - shortcut</target>
+        </trans-unit>
       </group>
     </body>
   </file>
