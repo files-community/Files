@@ -198,6 +198,101 @@ namespace Files.Controls
         {
             await Interaction.OpenPathInNewWindow(App.rightClickedItem.Path.ToString());
         }
+
+        private void NavigationViewItem_DragEnter(object sender, DragEventArgs e)
+        {
+            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragEnter", false);
+        }
+
+        private void NavigationViewItem_DragLeave(object sender, DragEventArgs e)
+        {
+            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragLeave", false);
+        }
+
+        private async void NavigationViewLocationItem_DragOver(object sender, DragEventArgs e)
+        {
+            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem)) return;
+
+            var deferral = e.GetDeferral();
+            e.Handled = true;
+            var storageItems = await e.DataView.GetStorageItemsAsync();
+
+            if (storageItems.Count == 0 ||
+                locationItem.IsDefaultLocation ||
+                locationItem.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
+                storageItems.AreItemsAlreadyInFolder(locationItem.Path))
+            {
+                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.None;
+            }
+            else
+            {
+                e.DragUIOverride.IsCaptionVisible = true;
+                if (storageItems.AreItemsInSameDrive(locationItem.Path))
+                {
+                    e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), locationItem.Text);
+                }
+                else
+                {
+                    e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy;
+                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("CopyToFolderCaptionText"), locationItem.Text);
+                }
+            }
+            deferral.Complete();
+        }
+
+        private async void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
+        {
+            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem)) return;
+
+            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
+
+            var deferral = e.GetDeferral();
+            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, locationItem.Path, e.AcceptedOperation);
+            deferral.Complete();
+        }
+
+        private async void NavigationViewDriveItem_DragOver(object sender, DragEventArgs e)
+        {
+            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem)) return;
+
+            var deferral = e.GetDeferral();
+            e.Handled = true;
+            var storageItems = await e.DataView.GetStorageItemsAsync();
+
+            if (storageItems.Count == 0 ||
+                "Unknown".Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
+                storageItems.AreItemsAlreadyInFolder(driveItem.Path))
+            {
+                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.None;
+            }
+            else
+            {
+                e.DragUIOverride.IsCaptionVisible = true;
+                if (storageItems.AreItemsInSameDrive(driveItem.Path))
+                {
+                    e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), driveItem.Text);
+                }
+                else
+                {
+                    e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy;
+                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("CopyToFolderCaptionText"), driveItem.Text);
+                }
+            }
+            deferral.Complete();
+        }
+
+        private async void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
+        {
+            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem)) return;
+
+            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
+
+            var deferral = e.GetDeferral();
+            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, driveItem.Path, e.AcceptedOperation);
+            deferral.Complete();
+        }
     }
 
     public class NavItemDataTemplateSelector : DataTemplateSelector
