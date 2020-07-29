@@ -219,7 +219,8 @@ namespace Files.Controls
 
             if (storageItems.Count == 0 ||
                 locationItem.IsDefaultLocation ||
-                locationItem.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+                locationItem.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
+                storageItems.AreItemsAlreadyInFolder(locationItem.Path))
             {
                 e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.None;
             }
@@ -259,7 +260,9 @@ namespace Files.Controls
             e.Handled = true;
             var storageItems = await e.DataView.GetStorageItemsAsync();
 
-            if (storageItems.Count == 0 || "Unknown".Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase))
+            if (storageItems.Count == 0 ||
+                "Unknown".Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
+                storageItems.AreItemsAlreadyInFolder(driveItem.Path))
             {
                 e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.None;
             }
