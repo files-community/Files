@@ -2,6 +2,7 @@
 using GalaSoft.MvvmLight;
 using System;
 using Windows.Storage;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem
@@ -13,7 +14,29 @@ namespace Files.Filesystem
         public string FolderTooltipText { get; set; }
         public string FolderRelativeId { get; set; }
         public bool LoadFolderGlyph { get; set; }
+        public bool ContainsFilesOrFolders { get; set; }
         private bool _LoadFileIcon;
+
+        public Uri FolderIconSource
+        {
+            get
+            {
+                if (ContainsFilesOrFolders)
+                    return new Uri("ms-appx:///Assets/FolderIcon2.svg");
+                else return new Uri("ms-appx:///Assets/FolderIcon.svg");
+            }
+        }
+
+
+        public Uri FolderIconSourceLarge
+        {
+            get
+            {
+                if (ContainsFilesOrFolders)
+                    return new Uri("ms-appx:///Assets/FolderIcon2Large.svg");
+                else return new Uri("ms-appx:///Assets/FolderIconLarge.svg");
+            }
+        }
 
         public bool LoadFileIcon
         {

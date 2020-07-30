@@ -709,7 +709,7 @@ namespace Files.Filesystem
                                 ItemOriginalPath = item.FilePath,
                                 LoadUnknownTypeGlyph = false,
                                 FileSize = null,
-                                FileSizeBytes = 0
+                                FileSizeBytes = 0,
                                 //FolderTooltipText = tooltipString,
                             });
                         }
@@ -1189,6 +1189,7 @@ namespace Files.Filesystem
 
         private void AddFolder(WIN32_FIND_DATA findData, string pathRoot)
         {
+
             if (_addFilesCTS.IsCancellationRequested)
             {
                 IsLoadingItems = false;
@@ -1207,6 +1208,12 @@ namespace Files.Filesystem
                 DateTimeKind.Utc);
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
+            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+
+            IntPtr hFile = FindFirstFileExFromApp(itemPath + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findChildData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
+            FindNextFile(hFile, out findChildData);
+
             _filesAndFolders.Add(new ListedItem(null)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
@@ -1219,7 +1226,8 @@ namespace Files.Filesystem
                 ItemPath = itemPath,
                 LoadUnknownTypeGlyph = false,
                 FileSize = null,
-                FileSizeBytes = 0
+                FileSizeBytes = 0,
+                ContainsFilesOrFolders = FindNextFile(hFile, out findChildData)
                 //FolderTooltipText = tooltipString,
             });
 
@@ -1306,6 +1314,7 @@ namespace Files.Filesystem
 
         public async Task AddFolder(StorageFolder folder)
         {
+
             var basicProperties = await folder.GetBasicPropertiesAsync();
 
             if ((App.CurrentInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser)) || (App.CurrentInstance.ContentFrame.SourcePageType == typeof(GridViewBrowser)))
@@ -1329,6 +1338,7 @@ namespace Files.Filesystem
                     LoadUnknownTypeGlyph = false,
                     FileSize = null,
                     FileSizeBytes = 0,
+                    
                     //FolderTooltipText = tooltipString,
                 });
 

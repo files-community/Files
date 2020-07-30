@@ -237,9 +237,9 @@
       <DependentUpon>StatusCenter.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\TabItem.cs" />
-	<Compile Include="UserControls\VerticalTabView.xaml.cs">
-	  <DependentUpon>VerticalTabView.xaml</DependentUpon>
-	</Compile>
+    <Compile Include="UserControls\VerticalTabView.xaml.cs">
+      <DependentUpon>VerticalTabView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Widgets\LibraryCards.xaml.cs">
       <DependentUpon>LibraryCards.xaml</DependentUpon>
     </Compile>
@@ -314,8 +314,10 @@
     <Content Include="Assets\Files UWP Beta Icon.png" />
     <Content Include="Assets\Files UWP Icon.png" />
     <Content Include="Assets\FilesHome.png" />
+    <Content Include="Assets\FolderIcon2.svg" />
     <Content Include="Assets\FolderIcon.png" />
     <Content Include="Assets\FolderIcon.svg" />
+    <Content Include="Assets\FolderIcon2Large.svg" />
     <Content Include="Assets\FolderIconLarge.svg" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
@@ -467,10 +469,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-	<Page Include="UserControls\VerticalTabView.xaml">
-	  <SubType>Designer</SubType>
-	  <Generator>MSBuild:Compile</Generator>
-	</Page>
+    <Page Include="UserControls\VerticalTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\Widgets\LibraryCards.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
