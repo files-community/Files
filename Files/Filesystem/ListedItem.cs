@@ -52,6 +52,7 @@ namespace Files.Filesystem
         }
 
         private string _ItemPath;
+
         public string ItemPath
         {
             get => _ItemPath;
@@ -59,6 +60,7 @@ namespace Files.Filesystem
         }
 
         private string _ItemName;
+
         public string ItemName
         {
             get => _ItemName;
@@ -176,7 +178,9 @@ namespace Files.Filesystem
 
     public class RecycleBinItem : ListedItem
     {
-        public RecycleBinItem(string folderRelativeId) : base(folderRelativeId) { }
+        public RecycleBinItem(string folderRelativeId) : base(folderRelativeId)
+        {
+        }
 
         // For recycle bin elements (path + name)
         public string ItemOriginalPath { get; set; }
@@ -184,10 +188,13 @@ namespace Files.Filesystem
 
     public class ShortcutItem : ListedItem
     {
-        public ShortcutItem(string folderRelativeId) : base(folderRelativeId) { }
+        public ShortcutItem(string folderRelativeId) : base(folderRelativeId)
+        {
+        }
 
         // For shortcut elements (.lnk and .url)
         public string TargetPath { get; set; }
+
         public string Arguments { get; set; }
         public string WorkingDirectory { get; set; }
         public bool RunAsAdmin { get; set; }

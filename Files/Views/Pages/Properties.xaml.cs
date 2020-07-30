@@ -121,6 +121,7 @@ namespace Files
                 case "General":
                     contentFrame.Navigate(typeof(PropertiesGeneral), navParam, args.RecommendedNavigationTransitionInfo);
                     break;
+
                 case "Shortcut":
                     contentFrame.Navigate(typeof(PropertiesShortcut), navParam, args.RecommendedNavigationTransitionInfo);
                     break;

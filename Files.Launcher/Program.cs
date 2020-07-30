@@ -296,6 +296,7 @@ namespace FilesFullTrust
                         return true;
                     });
                     break;
+
                 case "MoveToBin":
                     var fileToDeletePath = (string)args.Request.Message["filepath"];
                     using (var op = new ShellFileOperations())
@@ -307,6 +308,7 @@ namespace FilesFullTrust
                     }
                     //ShellFileOperations.Delete(fileToDeletePath, ShellFileOperations.OperationFlags.AllowUndo | ShellFileOperations.OperationFlags.NoUI);
                     break;
+
                 case "ParseLink":
                     var linkPath = (string)args.Request.Message["filepath"];
                     if (linkPath.EndsWith(".lnk"))
@@ -338,6 +340,7 @@ namespace FilesFullTrust
                         });
                     }
                     break;
+
                 case "CreateLink":
                 case "UpdateLink":
                     var linkSavePath = (string)args.Request.Message["filepath"];

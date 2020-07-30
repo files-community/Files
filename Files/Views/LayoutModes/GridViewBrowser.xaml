@@ -345,8 +345,7 @@
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CreateShortcutFromItem_Click}"
                 Text="Create shortcut">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource CustomGlyph}"
-                              Glyph="&#xF10A;" />
+                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -460,9 +459,11 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Tag="ItemImage"
-                      Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
-                      Height="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}">
+                <Grid
+                    Grid.Row="0"
+                    Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
+                    Height="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
+                    Tag="ItemImage">
                     <Grid
                         x:Name="Picture"
                         Padding="12"
@@ -501,20 +502,22 @@
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
                         <Viewbox MaxWidth="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}" MaxHeight="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}">
-                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}"
-                                      FontSize="28"
-                                      Glyph="&#xEAAB;" />
+                            <FontIcon
+                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                FontSize="28"
+                                Glyph="&#xEAAB;" />
                         </Viewbox>
                     </Grid>
-                    <Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                            BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
-                            BorderThickness="1"
-                            x:Name="ShortcutGlyphElement"
-                            x:Load="{x:Bind IsShortcutItem}"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Bottom"
-                            Margin="8,0,0,8"
-                            Padding="2">
+                    <Border
+                        x:Name="ShortcutGlyphElement"
+                        Margin="8,0,0,8"
+                        Padding="2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        x:Load="{x:Bind IsShortcutItem}"
+                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                        BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
+                        BorderThickness="1">
                         <FontIcon
                             FontFamily="{StaticResource CustomGlyph}"
                             FontSize="18"
@@ -646,20 +649,22 @@
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
                         <Viewbox MaxWidth="74">
-                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}"
-                                      FontSize="28"
-                                      Glyph="&#xEAAB;" />
+                            <FontIcon
+                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                FontSize="28"
+                                Glyph="&#xEAAB;" />
                         </Viewbox>
                     </Grid>
-                    <Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                            BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
-                            BorderThickness="1"
-                            x:Name="ShortcutGlyphElement"
-                            x:Load="{x:Bind IsShortcutItem}"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Bottom"
-                            Margin="8,0,0,8"
-                            Padding="2">
+                    <Border
+                        x:Name="ShortcutGlyphElement"
+                        Margin="8,0,0,8"
+                        Padding="2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        x:Load="{x:Bind IsShortcutItem}"
+                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                        BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
+                        BorderThickness="1">
                         <FontIcon
                             FontFamily="{StaticResource CustomGlyph}"
                             FontSize="15"
