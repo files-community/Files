@@ -1,26 +1,28 @@
-﻿<Page x:Class="Files.Properties"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="using:Files"
-      xmlns:local1="using:Files.Helpers"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-      d:DesignHeight="700"
-      d:DesignWidth="400"
-      KeyDown="Page_KeyDown"
-      Loaded="Properties_Loaded"
-      RequestedTheme="{x:Bind local1:ThemeHelper.RootTheme}"
-      Unloaded="Properties_Unloaded"
-      mc:Ignorable="d">
+﻿<Page
+    x:Class="Files.Properties"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files"
+    xmlns:local1="using:Files.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    d:DesignHeight="700"
+    d:DesignWidth="400"
+    KeyDown="Page_KeyDown"
+    Loaded="Properties_Loaded"
+    RequestedTheme="{x:Bind local1:ThemeHelper.RootTheme}"
+    Unloaded="Properties_Unloaded"
+    mc:Ignorable="d">
     <Page.Background>
-        <AcrylicBrush Windows10version1903:TintLuminosityOpacity="0.9"
-                      AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
-                      BackgroundSource="HostBackdrop"
-                      FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
-                      TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
-                      TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
+        <AcrylicBrush
+            Windows10version1903:TintLuminosityOpacity="0.9"
+            AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
+            BackgroundSource="HostBackdrop"
+            FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
+            TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
+            TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
     </Page.Background>
 
     <Grid>
@@ -30,60 +32,61 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock x:Uid="PropertiesTitleSecondary"
-                   Margin="14,0,0,0"
-                   VerticalAlignment="Center"
-                   Text="Properties" />
+        <TextBlock
+            x:Uid="PropertiesTitleSecondary"
+            Margin="14,0,0,0"
+            VerticalAlignment="Center"
+            Text="Properties" />
 
-        <muxc:NavigationView x:Name="NavigationView"
-                             Grid.Row="1"
-                             AllowDrop="False"
-                             PaneDisplayMode="Top"
-                             IsPaneToggleButtonVisible="False"
-                             IsSettingsVisible="False"
-                             IsBackButtonVisible="Collapsed"
-                             SelectionFollowsFocus="Enabled"
-                             SelectionChanged="NavigationView_SelectionChanged">
+        <muxc:NavigationView
+            x:Name="NavigationView"
+            Grid.Row="1"
+            AllowDrop="False"
+            IsBackButtonVisible="Collapsed"
+            IsPaneToggleButtonVisible="False"
+            IsSettingsVisible="False"
+            PaneDisplayMode="Top"
+            SelectionChanged="NavigationView_SelectionChanged"
+            SelectionFollowsFocus="Enabled">
 
-            <!-- Tabs -->
+            <!--  Tabs  -->
             <muxc:NavigationView.MenuItems>
-                <muxc:NavigationViewItem x:Name="TabGeneral"
-                                         x:Uid="PropertiesDialogTabGeneral"
-                                         Content="General"
-                                         Tag="General">
+                <muxc:NavigationViewItem
+                    x:Name="TabGeneral"
+                    x:Uid="PropertiesDialogTabGeneral"
+                    Content="General"
+                    Tag="General">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}"
-                                  Glyph="&#xea00;" />
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea00;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem x:Name="TabShorcut"
-                                         x:Uid="PropertiesDialogTabShortcut"
-                                         Content="Shortcut"
-                                         Tag="Shortcut"
-                                         Visibility="Collapsed">
+                <muxc:NavigationViewItem
+                    x:Name="TabShorcut"
+                    x:Uid="PropertiesDialogTabShortcut"
+                    Content="Shortcut"
+                    Tag="Shortcut"
+                    Visibility="Collapsed">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource CustomGlyph}"
-                                  Glyph="&#xF10A;" />
+                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.MenuItems>
-            <Frame x:Name="contentFrame"
-                   IsNavigationStackEnabled="False" />
+            <Frame x:Name="contentFrame" IsNavigationStackEnabled="False" />
         </muxc:NavigationView>
-        <Grid Grid.Row="2"
-              Padding="8">
+        <Grid Grid.Row="2" Padding="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Button x:Name="OKButton"
-                    x:Uid="PropertiesDialogOKButton"
-                    Grid.Column="1"
-                    MinWidth="100"
-                    HorizontalAlignment="Right"
-                    Click="Button_Click"
-                    Content="OK"
-                    Style="{ThemeResource ButtonRevealStyle}" />
+            <Button
+                x:Name="OKButton"
+                x:Uid="PropertiesDialogOKButton"
+                Grid.Column="1"
+                MinWidth="100"
+                HorizontalAlignment="Right"
+                Click="Button_Click"
+                Content="OK"
+                Style="{ThemeResource ButtonRevealStyle}" />
         </Grid>
     </Grid>
 </Page>

@@ -47,7 +47,7 @@ namespace Files.View_Models.Properties
                 {
                     var shortcutItem = (ShortcutItem)Item;
 
-                    var isApplication = !string.IsNullOrWhiteSpace(shortcutItem.TargetPath) && 
+                    var isApplication = !string.IsNullOrWhiteSpace(shortcutItem.TargetPath) &&
                         (shortcutItem.TargetPath.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)
                             || shortcutItem.TargetPath.EndsWith(".msi", StringComparison.OrdinalIgnoreCase)
                             || shortcutItem.TargetPath.EndsWith(".bat", StringComparison.OrdinalIgnoreCase));
