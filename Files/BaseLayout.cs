@@ -421,7 +421,6 @@ namespace Files
                 else
                 {
                     (this.FindName("SidebarPinItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                    //this.FindName("SidebarPinItem");
                     UnloadMenuFlyoutItemByName("CreateShortcut");
                 }
 
