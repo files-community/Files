@@ -35,8 +35,8 @@
           <target state="translated">Borrar todo</target>
         </trans-unit>
         <trans-unit id="RecentItemDescription.Text" translate="yes" xml:space="preserve">
-          <source>Files and folders you've previously accessed will show up here</source>
-          <target state="translated">Los archivos y carpetas a los que hayas accedido anteriormente aparecerán aquí</target>
+          <source>Files you've previously accessed will show up here</source>
+          <target state="translated">Los archivos a los que hayas accedido anteriormente aparecerán aquí</target>
         </trans-unit>
         <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
