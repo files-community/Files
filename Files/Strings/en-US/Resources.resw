@@ -253,7 +253,7 @@
     <value>Search</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Files and folders you've previously accessed will show up here</value>
+    <value>Files you've previously accessed will show up here</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
     <value>Open file location</value>
