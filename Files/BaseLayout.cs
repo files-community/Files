@@ -441,8 +441,8 @@ namespace Files
                 }
             }
 
-            //check if the selected file is an image
-            App.CurrentInstance.ContentPage.SelectedItemsPropertiesViewModel.CheckForImage();
+            //check the file extension of the selected item
+            App.CurrentInstance.ContentPage.SelectedItemsPropertiesViewModel.CheckFileExtension();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
