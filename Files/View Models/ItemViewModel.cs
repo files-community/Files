@@ -1337,8 +1337,7 @@ namespace Files.Filesystem
                     ItemPath = string.IsNullOrEmpty(folder.Path) ? Path.Combine(_currentStorageFolder.Path, folder.Name) : folder.Path,
                     LoadUnknownTypeGlyph = false,
                     FileSize = null,
-                    FileSizeBytes = 0,
-                    
+                    FileSizeBytes = 0
                     //FolderTooltipText = tooltipString,
                 });
 

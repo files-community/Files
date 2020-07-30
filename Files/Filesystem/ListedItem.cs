@@ -27,7 +27,6 @@ namespace Files.Filesystem
             }
         }
 
-
         public Uri FolderIconSourceLarge
         {
             get
