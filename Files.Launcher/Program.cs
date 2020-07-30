@@ -1,5 +1,6 @@
 using Files.Common;
 using Newtonsoft.Json;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,13 +11,13 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Vanara.PInvoke;
-using NLog;
 
 namespace FilesFullTrust
 {
@@ -245,6 +246,10 @@ namespace FilesFullTrust
                     }
                     break;
 
+                case "FileOperation":
+                    await parseFileOperation(args);
+                    break;
+
                 default:
                     if (args.Request.Message.ContainsKey("Application"))
                     {
@@ -255,6 +260,106 @@ namespace FilesFullTrust
                     {
                         var applicationList = JsonConvert.DeserializeObject<IEnumerable<string>>((string)args.Request.Message["ApplicationList"]);
                         HandleApplicationsLaunch(applicationList, args);
+                    }
+                    break;
+            }
+        }
+
+        private static async Task parseFileOperation(AppServiceRequestReceivedEventArgs args)
+        {
+            var fileOp = (string)args.Request.Message["fileop"];
+
+            switch (fileOp)
+            {
+                case "Clipboard":
+                    await Win32API.StartSTATask(() =>
+                    {
+                        System.Windows.Forms.Clipboard.Clear();
+                        var fileToCopy = (string)args.Request.Message["filepath"];
+                        var operation = (DataPackageOperation)(int)args.Request.Message["operation"];
+                        var fileList = new System.Collections.Specialized.StringCollection();
+                        fileList.AddRange(fileToCopy.Split('|'));
+                        if (operation == DataPackageOperation.Copy)
+                        {
+                            System.Windows.Forms.Clipboard.SetFileDropList(fileList);
+                        }
+                        else if (operation == DataPackageOperation.Move)
+                        {
+                            byte[] moveEffect = new byte[] { 2, 0, 0, 0 };
+                            MemoryStream dropEffect = new MemoryStream();
+                            dropEffect.Write(moveEffect, 0, moveEffect.Length);
+                            var data = new System.Windows.Forms.DataObject();
+                            data.SetFileDropList(fileList);
+                            data.SetData("Preferred DropEffect", dropEffect);
+                            System.Windows.Forms.Clipboard.SetDataObject(data, true);
+                        }
+                        return true;
+                    });
+                    break;
+                case "MoveToBin":
+                    var fileToDeletePath = (string)args.Request.Message["filepath"];
+                    using (var op = new ShellFileOperations())
+                    {
+                        op.Options = ShellFileOperations.OperationFlags.AllowUndo | ShellFileOperations.OperationFlags.NoUI;
+                        using var shi = new ShellItem(fileToDeletePath);
+                        op.QueueDeleteOperation(shi);
+                        op.PerformOperations();
+                    }
+                    //ShellFileOperations.Delete(fileToDeletePath, ShellFileOperations.OperationFlags.AllowUndo | ShellFileOperations.OperationFlags.NoUI);
+                    break;
+                case "ParseLink":
+                    var linkPath = (string)args.Request.Message["filepath"];
+                    if (linkPath.EndsWith(".lnk"))
+                    {
+                        using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
+                        await args.Request.SendResponseAsync(new ValueSet() {
+                            { "TargetPath", link.TargetPath },
+                            { "Arguments", link.Arguments },
+                            { "WorkingDirectory", link.WorkingDirectory },
+                            { "RunAsAdmin", link.RunAsAdministrator },
+                            { "IsFolder", !string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder },
+                        });
+                    }
+                    else if (linkPath.EndsWith(".url"))
+                    {
+                        var linkUrl = await Win32API.StartSTATask(() =>
+                        {
+                            var ipf = new Url.IUniformResourceLocator();
+                            (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Load(linkPath, 0);
+                            ipf.GetUrl(out var retVal);
+                            return retVal;
+                        });
+                        await args.Request.SendResponseAsync(new ValueSet() {
+                            { "TargetPath", linkUrl },
+                            { "Arguments", null },
+                            { "WorkingDirectory", null },
+                            { "RunAsAdmin", false },
+                            { "IsFolder", false }
+                        });
+                    }
+                    break;
+                case "CreateLink":
+                case "UpdateLink":
+                    var linkSavePath = (string)args.Request.Message["filepath"];
+                    var targetPath = (string)args.Request.Message["targetpath"];
+                    if (linkSavePath.EndsWith(".lnk"))
+                    {
+                        var arguments = (string)args.Request.Message["arguments"];
+                        var workingDirectory = (string)args.Request.Message["workingdir"];
+                        var runAsAdmin = (bool)args.Request.Message["runasadmin"];
+                        using var newLink = new ShellLink(targetPath, arguments, workingDirectory);
+                        newLink.RunAsAdministrator = runAsAdmin;
+                        newLink.SaveAs(linkSavePath); // Overwrite if exists
+                    }
+                    else if (linkSavePath.EndsWith(".url"))
+                    {
+                        await Win32API.StartSTATask(() =>
+                        {
+                            var ipf = new Url.IUniformResourceLocator();
+                            ipf.SetUrl(targetPath, Url.IURL_SETURL_FLAGS.IURL_SETURL_FL_GUESS_PROTOCOL);
+                            (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Save(linkSavePath, false); // Overwrite if exists
+                            return true;
+                        });
                     }
                     break;
             }
@@ -395,7 +500,7 @@ namespace FilesFullTrust
                     {
                         await Win32API.StartSTATask(() =>
                         {
-                            var split = application.Split(';').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => GetMtpPath(x));
+                            var split = application.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => GetMtpPath(x));
                             if (split.Count() == 1)
                             {
                                 Process.Start(split.First());

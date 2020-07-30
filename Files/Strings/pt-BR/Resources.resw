@@ -283,7 +283,7 @@
     <value>Página Inicial</value>
   </data>
   <data name="SidebarMusic" xml:space="preserve">
-    <value>Música</value>
+    <value>Músicas</value>
   </data>
   <data name="SidebarPictures" xml:space="preserve">
     <value>Imagens</value>
@@ -746,5 +746,35 @@
   </data>
   <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
     <value>Remover Página</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
+    <value>Sempre abra uma nova instância</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
+    <value>Abrir pasta em uma nova guia</value>
+  </data>
+  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
+    <value>Ao iniciar uma pasta fixada</value>
+  </data>
+  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
+    <value>Padrão do Windows</value>
+  </data>
+  <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
+    <value>Sem resultados</value>
+  </data>
+  <data name="SubDirectoryAccessDenied" xml:space="preserve">
+    <value>Não é possível acessar nenhum item para exibir</value>
+  </data>
+  <data name="MoveToFolderCaptionText" xml:space="preserve">
+    <value>Mover para {0}</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
+    <value>Os nomes dos arquivos de origem e de destino são iguais.</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
+    <value>A pasta de destino é igual à pasta de origem.</value>
+  </data>
+  <data name="CopyToFolderCaptionText" xml:space="preserve">
+    <value>Copiar para {0}</value>
   </data>
 </root>
