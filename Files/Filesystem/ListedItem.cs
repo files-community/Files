@@ -74,6 +74,7 @@ namespace Files.Filesystem
         }
 
         private string _ItemPath;
+
         public string ItemPath
         {
             get => _ItemPath;
@@ -81,13 +82,13 @@ namespace Files.Filesystem
         }
 
         private string _ItemName;
+
         public string ItemName
         {
             get => _ItemName;
             set => Set(ref _ItemName, value);
         }
 
-        public string ItemDateModified { get; private set; }
         private string _ItemType;
 
         public string ItemType
@@ -106,8 +107,9 @@ namespace Files.Filesystem
         public string FileSize { get; set; }
         public long FileSizeBytes { get; set; }
 
-        // For recycle bin elements (path + name)
-        public string ItemOriginalPath { get; set; }
+        public string ItemDateModified { get; private set; }
+        public string ItemDateCreated { get; private set; }
+        public string ItemDateAccessed { get; private set; }
 
         public DateTimeOffset ItemDateModifiedReal
         {
@@ -120,6 +122,30 @@ namespace Files.Filesystem
         }
 
         private DateTimeOffset _itemDateModifiedReal;
+
+        public DateTimeOffset ItemDateCreatedReal
+        {
+            get => _itemDateCreatedReal;
+            set
+            {
+                ItemDateCreated = GetFriendlyDate(value);
+                _itemDateCreatedReal = value;
+            }
+        }
+
+        private DateTimeOffset _itemDateCreatedReal;
+
+        public DateTimeOffset ItemDateAccessedReal
+        {
+            get => _itemDateAccessedReal;
+            set
+            {
+                ItemDateAccessed = GetFriendlyDate(value);
+                _itemDateAccessedReal = value;
+            }
+        }
+
+        private DateTimeOffset _itemDateAccessedReal;
 
         public ListedItem(string folderRelativeId)
         {
@@ -166,5 +192,34 @@ namespace Files.Filesystem
                 return string.Format(ResourceController.GetTranslation("SecondsAgo"), elapsed.Seconds);
             }
         }
+
+        public bool IsRecycleBinItem => this is RecycleBinItem;
+        public bool IsShortcutItem => this is ShortcutItem;
+        public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
+    }
+
+    public class RecycleBinItem : ListedItem
+    {
+        public RecycleBinItem(string folderRelativeId) : base(folderRelativeId)
+        {
+        }
+
+        // For recycle bin elements (path + name)
+        public string ItemOriginalPath { get; set; }
+    }
+
+    public class ShortcutItem : ListedItem
+    {
+        public ShortcutItem(string folderRelativeId) : base(folderRelativeId)
+        {
+        }
+
+        // For shortcut elements (.lnk and .url)
+        public string TargetPath { get; set; }
+
+        public string Arguments { get; set; }
+        public string WorkingDirectory { get; set; }
+        public bool RunAsAdmin { get; set; }
+        public bool IsUrl { get; set; }
     }
 }

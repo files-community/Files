@@ -339,12 +339,22 @@ namespace Files
 
                     if (!string.IsNullOrEmpty(selectedDataItem.FileExtension))
                     {
-                        if (SelectedItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                        if (SelectedItem.IsShortcutItem)
+                        {
+                            (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
+                            UnloadMenuFlyoutItemByName("UnzipItem");
+                            UnloadMenuFlyoutItemByName("RunAsAdmin");
+                            UnloadMenuFlyoutItemByName("RunAsAnotherUser");
+                            UnloadMenuFlyoutItemByName("CreateShortcut");
+                        }
+                        else if (SelectedItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                         {
                             UnloadMenuFlyoutItemByName("OpenItem");
                             UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
+                            (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             (this.FindName("UnzipItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                         }
                         else if (SelectedItem.FileExtension.Equals(".exe", StringComparison.OrdinalIgnoreCase)
@@ -358,6 +368,7 @@ namespace Files
                             UnloadMenuFlyoutItemByName("UnzipItem");
                             (this.FindName("RunAsAdmin") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             (this.FindName("RunAsAnotherUser") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                         }
                         else if (SelectedItem.FileExtension.Equals(".appx", StringComparison.OrdinalIgnoreCase)
                             || SelectedItem.FileExtension.Equals(".msix", StringComparison.OrdinalIgnoreCase)
@@ -368,6 +379,7 @@ namespace Files
                             UnloadMenuFlyoutItemByName("UnzipItem");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
+                            (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                         }
                         else
                         {
@@ -378,6 +390,7 @@ namespace Files
                             UnloadMenuFlyoutItemByName("UnzipItem");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
+                            (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                         }
                     }
                 }
@@ -386,16 +399,33 @@ namespace Files
                     UnloadMenuFlyoutItemByName("OpenItem");
                     UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
                     UnloadMenuFlyoutItemByName("UnzipItem");
+                    UnloadMenuFlyoutItemByName("CreateShortcut");
                 }
             }
-            else     // All are Folders
+            else  // All are folders or shortcuts to folders
             {
                 UnloadMenuFlyoutItemByName("OpenItem");
                 UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
 
-                if (selectedFileSystemItems.Count <= 5 && selectedFileSystemItems.Count > 0)
+                if (selectedFileSystemItems.Any(x => x.IsShortcutItem))
+                {
+                    UnloadMenuFlyoutItemByName("SidebarPinItem");
+                    UnloadMenuFlyoutItemByName("CreateShortcut");
+                }
+                else if (selectedFileSystemItems.Count == 1)
                 {
                     (this.FindName("SidebarPinItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                    //this.FindName("SidebarPinItem");
+                    (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    (this.FindName("SidebarPinItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                    UnloadMenuFlyoutItemByName("CreateShortcut");
+                }
+
+                if (selectedFileSystemItems.Count <= 5 && selectedFileSystemItems.Count > 0)
+                {
                     (this.FindName("OpenInNewTab") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                     (this.FindName("OpenInNewWindowItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                     //this.FindName("SidebarPinItem");
@@ -405,8 +435,6 @@ namespace Files
                 }
                 else if (selectedFileSystemItems.Count > 5)
                 {
-                    (this.FindName("SidebarPinItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                    //this.FindName("SidebarPinItem");
                     UnloadMenuFlyoutItemByName("OpenInNewTab");
                     UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
                     UnloadMenuFlyoutItemByName("UnzipItem");
@@ -438,41 +466,68 @@ namespace Files
 
         protected async void List_DragOver(object sender, DragEventArgs e)
         {
+            var deferral = e.GetDeferral();
+
             ClearSelection();
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
+                e.Handled = true;
                 IReadOnlyList<IStorageItem> draggedItems = await e.DataView.GetStorageItemsAsync();
+                e.DragUIOverride.IsCaptionVisible = true;
+
+                var folderName = Path.GetFileName(App.CurrentInstance.FilesystemViewModel.WorkingDirectory);
                 // As long as one file doesn't already belong to this folder
-                if (draggedItems.Any(draggedItem => !Directory.GetParent(draggedItem.Path).FullName.Equals(App.CurrentInstance.FilesystemViewModel.WorkingDirectory, StringComparison.OrdinalIgnoreCase)))
-                {
-                    e.AcceptedOperation = DataPackageOperation.Copy;
-                    e.Handled = true;
-                }
-                else
+                if (draggedItems.AreItemsAlreadyInFolder(App.CurrentInstance.FilesystemViewModel.WorkingDirectory))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
+                else if (draggedItems.AreItemsInSameDrive(App.CurrentInstance.FilesystemViewModel.WorkingDirectory))
+                {
+                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), folderName);
+                    e.AcceptedOperation = DataPackageOperation.Move;
+                }
+                else
+                {
+                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("CopyToFolderCaptionText"), folderName);
+                    e.AcceptedOperation = DataPackageOperation.Copy;
+                }
             }
+
+            deferral.Complete();
         }
 
         protected async void List_Drop(object sender, DragEventArgs e)
         {
+            var deferral = e.GetDeferral();
+
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 await AssociatedInteractions.PasteItems(e.DataView, App.CurrentInstance.FilesystemViewModel.WorkingDirectory, e.AcceptedOperation);
                 e.Handled = true;
             }
+
+            deferral.Complete();
         }
 
         protected async void Item_DragStarting(object sender, DragStartingEventArgs e)
         {
             List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
+
             foreach (ListedItem item in App.CurrentInstance.ContentPage.SelectedItems)
             {
-                if (item.PrimaryItemAttribute == StorageItemTypes.File)
+                if (item is ShortcutItem)
+                {
+                    // Can't drag shortcut items
+                    continue;
+                }
+                else if (item.PrimaryItemAttribute == StorageItemTypes.File)
+                {
                     selectedStorageItems.Add(await ItemViewModel.GetFileFromPathAsync(item.ItemPath));
+                }
                 else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
                     selectedStorageItems.Add(await ItemViewModel.GetFolderFromPathAsync(item.ItemPath));
+                }
             }
 
             if (selectedStorageItems.Count == 0)
@@ -487,34 +542,44 @@ namespace Files
 
         protected async void Item_DragOver(object sender, DragEventArgs e)
         {
+            var deferral = e.GetDeferral();
+
             ListedItem item = GetItemFromElement(sender);
             SetSelectedItemOnUi(item);
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                IReadOnlyList<IStorageItem> draggedItems = await e.DataView.GetStorageItemsAsync();
                 e.Handled = true;
-                // Items from the same parent folder as this folder are dragged into this folder, so we move the items instead of copy
-                if (draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
+                IReadOnlyList<IStorageItem> draggedItems = await e.DataView.GetStorageItemsAsync();
+
+                if (draggedItems.AreItemsAlreadyInFolder(item.ItemPath) || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
-                else if (draggedItems.Any(draggedItem => Directory.GetParent(draggedItem.Path).FullName == Directory.GetParent(item.ItemPath).FullName))
+                // Items from the same drive as this folder are dragged into this folder, so we move the items instead of copy
+                else if (draggedItems.AreItemsInSameDrive(item.ItemPath))
                 {
+                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), item.ItemName);
                     e.AcceptedOperation = DataPackageOperation.Move;
                 }
                 else
                 {
+                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("CopyToFolderCaptionText"), item.ItemName);
                     e.AcceptedOperation = DataPackageOperation.Copy;
                 }
             }
+
+            deferral.Complete();
         }
 
         protected async void Item_Drop(object sender, DragEventArgs e)
         {
+            var deferral = e.GetDeferral();
+
             e.Handled = true;
             ListedItem rowItem = GetItemFromElement(sender);
-            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, rowItem.ItemPath, e.AcceptedOperation);
+            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, e.AcceptedOperation);
+            deferral.Complete();
         }
 
         protected void InitializeDrag(UIElement element)
