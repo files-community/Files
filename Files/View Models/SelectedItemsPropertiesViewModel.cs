@@ -525,7 +525,7 @@ namespace Files.View_Models
                     IsSelectedItemImage = true;
                     return;
                 }
-                else if (App.CurrentInstance.ContentPage.SelectedItem.IsShortcutItem)
+                else if (ItemExtension.Equals(".lnk", StringComparison.OrdinalIgnoreCase))
                 {
                     // The selected item is a shortcut, so set the IsSelectedItemShortcut property to true
                     IsSelectedItemShortcut = true;

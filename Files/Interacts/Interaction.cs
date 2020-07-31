@@ -315,20 +315,11 @@ namespace Files.Interacts
             OpenSelectedItems(true);
         }
 
-        public async void OpenFileLocation_Click(object sender, RoutedEventArgs e)
+        public void OpenFileLocation_Click(object sender, RoutedEventArgs e)
         {
             var item = CurrentInstance.ContentPage.SelectedItem as ShortcutItem;
-            if (item.IsLinkItem)
-            {
-                // if the item is a link, just open it because you cant open the link location
-                await InvokeWin32Component(item.TargetPath, item.Arguments, item.RunAsAdmin, Path.GetDirectoryName(item.ItemPath));
-            }
-            else
-            {
-                // otherwise open the file location
-                var folderPath = Path.GetDirectoryName(item.TargetPath);
-                App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), folderPath);
-            }
+            var folderPath = Path.GetDirectoryName(item.TargetPath);
+            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), folderPath);
         }
 
         private async void OpenSelectedItems(bool displayApplicationPicker)
