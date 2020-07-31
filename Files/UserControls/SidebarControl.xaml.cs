@@ -5,6 +5,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -211,7 +212,8 @@ namespace Files.Controls
 
         private async void NavigationViewLocationItem_DragOver(object sender, DragEventArgs e)
         {
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem)) return;
+            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem) ||
+                !e.DataView.Contains(StandardDataFormats.StorageItems)) return;
 
             var deferral = e.GetDeferral();
             e.Handled = true;
@@ -254,7 +256,8 @@ namespace Files.Controls
 
         private async void NavigationViewDriveItem_DragOver(object sender, DragEventArgs e)
         {
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem)) return;
+            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem) ||
+                !e.DataView.Contains(StandardDataFormats.StorageItems)) return;
 
             var deferral = e.GetDeferral();
             e.Handled = true;
