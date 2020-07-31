@@ -39,6 +39,7 @@ namespace Files.View_Models.Properties
                 ViewModel.LoadFolderGlyph = Item.LoadFolderGlyph;
                 ViewModel.LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
                 ViewModel.LoadFileIcon = Item.LoadFileIcon;
+                ViewModel.ContainsFilesOrFolders = Item.ContainsFilesOrFolders;
 
                 if (Item.IsShortcutItem)
                 {
