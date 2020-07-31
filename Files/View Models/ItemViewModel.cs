@@ -1317,6 +1317,18 @@ namespace Files.Filesystem
                     if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
                     {
                         var isUrl = findData.cFileName.EndsWith(".url");
+                        string target = (string)response.Message["TargetPath"];
+                        bool containsFilesOrFolders = false;
+
+                        if ((bool)response.Message["IsFolder"])
+                        {
+                            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+                            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+
+                            IntPtr hFile = FindFirstFileExFromApp(target + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findChildData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
+                            FindNextFile(hFile, out findChildData);
+                            containsFilesOrFolders = FindNextFile(hFile, out findChildData);
+                        }
 
                         _filesAndFolders.Add(new ShortcutItem(null)
                         {
@@ -1334,12 +1346,13 @@ namespace Files.Filesystem
                             ItemPath = itemPath,
                             FileSize = itemSize,
                             FileSizeBytes = itemSizeBytes,
-                            TargetPath = (string)response.Message["TargetPath"],
+                            TargetPath = target,
                             Arguments = (string)response.Message["Arguments"],
                             WorkingDirectory = (string)response.Message["WorkingDirectory"],
                             RunAsAdmin = (bool)response.Message["RunAsAdmin"],
-                            IsUrl = isUrl
-                        });
+                            IsUrl = isUrl,
+                            ContainsFilesOrFolders = containsFilesOrFolders
+                        }) ;
                     }
                 }
             }
