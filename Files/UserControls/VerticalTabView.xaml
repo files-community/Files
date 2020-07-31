@@ -4,8 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:contract4Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,4)"
     xmlns:contract6Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
     xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)"
+    xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.UserControls"
     xmlns:local1="using:Files"
@@ -114,9 +114,7 @@
                                     FontWeight="{TemplateBinding FontWeight}"
                                     HighContrastAdjustment="None"
                                     OpticalMarginAlignment="TrimSideBearings">
-                                    <TextBlock 
-                                        Text="{TemplateBinding Header}" 
-                                        TextTrimming="CharacterEllipsis"/>
+                                    <TextBlock Text="{TemplateBinding Header}" TextTrimming="CharacterEllipsis" />
                                 </ContentPresenter>
 
                                 <Button
@@ -441,10 +439,11 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ScrollViewer">
-                        <Border x:Name="Root"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
+                        <Border
+                            x:Name="Root"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -453,44 +452,47 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <RepeatButton x:Name="ScrollDecreaseButton"
-                                              AutomationProperties.AccessibilityView="Raw"
-                                              VerticalAlignment="Center"
-                                              Width="{ThemeResource TabViewItemScrollButtonWidth}"
-                                              Height="{ThemeResource TabViewItemScrollButtonHeight}"
-                                              Padding="{ThemeResource TabViewItemScrollButtonPadding}"
-                                              Background="{ThemeResource TabViewScrollButtonBackground}"
-                                              BorderThickness="1"
-                                              Delay="50"
-                                              FontFamily="Segoe MDL2 Assets"
-                                              Interval="100"
-                                              Style="{StaticResource RepeatButtonRevealStyle}"
-                                              Visibility="Collapsed"
-                                              HighContrastAdjustment="None"
-                                              Content="&#xE76B;"/>
+                                <RepeatButton
+                                    x:Name="ScrollDecreaseButton"
+                                    Width="{ThemeResource TabViewItemScrollButtonWidth}"
+                                    Height="{ThemeResource TabViewItemScrollButtonHeight}"
+                                    Padding="{ThemeResource TabViewItemScrollButtonPadding}"
+                                    VerticalAlignment="Center"
+                                    AutomationProperties.AccessibilityView="Raw"
+                                    Background="{ThemeResource TabViewScrollButtonBackground}"
+                                    BorderThickness="1"
+                                    Content="&#xE76B;"
+                                    Delay="50"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    HighContrastAdjustment="None"
+                                    Interval="100"
+                                    Style="{StaticResource RepeatButtonRevealStyle}"
+                                    Visibility="Collapsed" />
 
-                                <ScrollContentPresenter x:Name="ScrollContentPresenter"
-                                                        Grid.Column="1"
-                                                        Padding="1,0,0,0"
-                                                        contract4Present:TabFocusNavigation="Once" />
+                                <ScrollContentPresenter
+                                    x:Name="ScrollContentPresenter"
+                                    Grid.Column="1"
+                                    Padding="1,0,0,0"
+                                    contract4Present:TabFocusNavigation="Once" />
 
-                                <RepeatButton x:Name="ScrollIncreaseButton"
-                                              AutomationProperties.AccessibilityView="Raw"
-                                              Grid.Column="2"
-                                              VerticalAlignment="Center"
-                                              HorizontalAlignment="Center"
-                                              Width="{ThemeResource TabViewItemScrollButtonWidth}"
-                                              Height="{ThemeResource TabViewItemScrollButtonHeight}"
-                                              Padding="{ThemeResource TabViewItemScrollButtonPadding}"
-                                              Background="{ThemeResource TabViewScrollButtonBackground}"
-                                              BorderThickness="1"
-                                              Delay="50"
-                                              FontFamily="Segoe MDL2 Assets"
-                                              Interval="100"
-                                              Style="{StaticResource RepeatButtonRevealStyle}"
-                                              HighContrastAdjustment="None"
-                                              Visibility="Collapsed"
-                                              Content="&#xE76C;"/>
+                                <RepeatButton
+                                    x:Name="ScrollIncreaseButton"
+                                    Grid.Column="2"
+                                    Width="{ThemeResource TabViewItemScrollButtonWidth}"
+                                    Height="{ThemeResource TabViewItemScrollButtonHeight}"
+                                    Padding="{ThemeResource TabViewItemScrollButtonPadding}"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    AutomationProperties.AccessibilityView="Raw"
+                                    Background="{ThemeResource TabViewScrollButtonBackground}"
+                                    BorderThickness="1"
+                                    Content="&#xE76C;"
+                                    Delay="50"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    HighContrastAdjustment="None"
+                                    Interval="100"
+                                    Style="{StaticResource RepeatButtonRevealStyle}"
+                                    Visibility="Collapsed" />
                             </Grid>
                         </Border>
                     </ControlTemplate>
@@ -622,10 +624,10 @@
             VerticalAlignment="Stretch"
             x:FieldModifier="public"
             AddTabButtonClick="verticalTabView_AddTabButtonClick"
-            CanReorderTabs="True"
             AllowDropTabs="True"
             Background="Transparent"
             CanDragTabs="True"
+            CanReorderTabs="True"
             IsAddTabButtonVisible="True"
             SelectedIndex="{x:Bind local1:App.InteractionViewModel.TabStripSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             SelectionChanged="TabStrip_SelectionChanged"

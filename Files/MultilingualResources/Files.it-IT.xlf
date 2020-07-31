@@ -1013,19 +1013,83 @@
         </trans-unit>
         <trans-unit id="SubDirectoryAccessDenied" translate="yes" xml:space="preserve">
           <source>Can't access any items to display</source>
-          <target state="new">Can't access any items to display</target>
+          <target state="translated">Impossibile accedere ad alcun elemento</target>
         </trans-unit>
         <trans-unit id="MoveToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Move to {0}</source>
-          <target state="new">Move to {0}</target>
+          <target state="translated">Sposta in {0}</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFile" translate="yes" xml:space="preserve">
           <source>The source and destination file names are the same.</source>
-          <target state="new">The source and destination file names are the same.</target>
+          <target state="translated">In nomi di origine e di destinazione coincidono.</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFolder" translate="yes" xml:space="preserve">
-          <source>The detination folder is the same as the source folder.</source>
-          <target state="new">The detination folder is the same as the source folder.</target>
+          <source>The destination folder is the same as the source folder.</source>
+          <target state="translated">La cartella di destinazione è una sottocartella della cartella di origine.</target>
+        </trans-unit>
+        <trans-unit id="CopyToFolderCaptionText" translate="yes" xml:space="preserve">
+          <source>Copy to {0}</source>
+          <target state="translated">Copia in {0}</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutShortcut.Text" translate="yes" xml:space="preserve">
+          <source>Create shortcut</source>
+          <target state="translated">Crea collegamento</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
+          <source>Open file location</source>
+          <target state="translated">Apri percorso file</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutItemArgs.Text" translate="yes" xml:space="preserve">
+          <source>Arguments:</source>
+          <target state="translated">Argomenti:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutItemPath.Text" translate="yes" xml:space="preserve">
+          <source>Destination:</source>
+          <target state="translated">Destinazione:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutItemType.Text" translate="yes" xml:space="preserve">
+          <source>Shortcut type:</source>
+          <target state="translated">Tipo di collegamento:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutItemWorkingDir.Text" translate="yes" xml:space="preserve">
+          <source>Working directory:</source>
+          <target state="translated">Cartella di lavoro:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutTypeApplication" translate="yes" xml:space="preserve">
+          <source>Application</source>
+          <target state="translated">Applicazione</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutTypeFile" translate="yes" xml:space="preserve">
+          <source>File</source>
+          <target state="translated">File</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutTypeFolder" translate="yes" xml:space="preserve">
+          <source>Folder</source>
+          <target state="translated">Cartella di file</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutTypeLink" translate="yes" xml:space="preserve">
+          <source>Web link</source>
+          <target state="translated">Documento web</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogTabGeneral.Content" translate="yes" xml:space="preserve">
+          <source>General</source>
+          <target state="translated">Generale</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogTabShortcut.Content" translate="yes" xml:space="preserve">
+          <source>Shortcut</source>
+          <target state="translated">Collegamento</target>
+        </trans-unit>
+        <trans-unit id="ShortcutFileType" translate="yes" xml:space="preserve">
+          <source>Shortcut</source>
+          <target state="translated">Collegamento</target>
+        </trans-unit>
+        <trans-unit id="ShortcutWebLinkFileType" translate="yes" xml:space="preserve">
+          <source>Internet shortcut</source>
+          <target state="translated">Collegamento internet</target>
+        </trans-unit>
+        <trans-unit id="ShortcutCreateNewSuffix" translate="yes" xml:space="preserve">
+          <source>{0} - shortcut</source>
+          <target state="translated">{0} - collegamento</target>
         </trans-unit>
       </group>
     </body>

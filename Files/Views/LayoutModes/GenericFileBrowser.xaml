@@ -344,6 +344,15 @@
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
+                x:Name="CreateShortcut"
+                x:Uid="BaseLayoutItemContextFlyoutShortcut"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CreateShortcutFromItem_Click}"
+                Text="Create shortcut">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
                 x:Name="DeleteItem"
                 x:Uid="BaseLayoutItemContextFlyoutDelete"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.DeleteItem_Click}"
@@ -618,6 +627,11 @@
                                     x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     Glyph="&#xEA00;" />
+                                <FontIcon
+                                    x:Name="WebShortcutGlyph"
+                                    x:Load="{x:Bind IsLinkItem, Mode=OneWay}"
+                                    FontFamily="{StaticResource FluentUIGlyphs}"
+                                    Glyph="&#xEAAB;" />
                                 <Image
                                     x:Name="FileImageElement"
                                     Width="20"
@@ -625,6 +639,21 @@
                                     x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                                     Source="{x:Bind FileImage, Mode=OneWay}"
                                     Stretch="UniformToFill" />
+                                <Border
+                                    x:Name="ShortcutGlyphElement"
+                                    Margin="2,18,18,2"
+                                    Padding="1"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    x:Load="{x:Bind IsShortcutItem}"
+                                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                    BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
+                                    BorderThickness="1">
+                                    <FontIcon
+                                        FontFamily="{StaticResource CustomGlyph}"
+                                        FontSize="10"
+                                        Glyph="&#xF10A;" />
+                                </Border>
                             </Grid>
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>
