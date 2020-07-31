@@ -127,7 +127,7 @@ namespace Files.Interacts
             {
                 if (i != null)
                 {
-                    animations.Add(view.PrepareToAnimate($"NewTabConnectedAnimation-{animations.Count}", i));
+                    animations.Add(view.PrepareToAnimate($"ListNewTabConnectedAnimation-{animations.Count}", i));
                 }
             }
 
@@ -139,7 +139,8 @@ namespace Files.Interacts
                 });
             }
 
-            if (CurrentInstance.NavigationToolbar.CurrentInstance is ModernNavigationToolbar toolbar)
+            if (CurrentInstance.NavigationToolbar.CurrentInstance is ModernNavigationToolbar toolbar
+                && toolbar.VerticalTabButton != null)
             {
                 foreach (var i in animations)
                 {
@@ -148,9 +149,20 @@ namespace Files.Interacts
             }
         }
 
-        public async void OpenPathInNewTab(string path)
+        public async void OpenPathInNewTab(string path, UIElement source)
         {
             await MainPage.AddNewTab(typeof(ModernShellPage), path);
+
+            if (source != null)
+            {
+                var view = ConnectedAnimationService.GetForCurrentView();
+                var animation = view.PrepareToAnimate($"SidebarNewTabConnectedAnimation", source);
+                if (CurrentInstance.NavigationToolbar.CurrentInstance is ModernNavigationToolbar toolbar
+                    && toolbar.VerticalTabButton != null)
+                {
+                    await animation.TryExecuteAsync(toolbar.VerticalTabButton);
+                }
+            }
         }
 
         public static async Task<bool> OpenPathInNewWindow(string path)

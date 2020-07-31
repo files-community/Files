@@ -15,6 +15,7 @@ namespace Files.Controls
     public sealed partial class SidebarControl : UserControl, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+        private Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem;
 
         public SidebarControl()
         {
@@ -143,7 +144,7 @@ namespace Files.Controls
 
         private void NavigationViewLocationItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
+            sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as LocationItem;
 
             if (item.IsDefaultLocation)
@@ -171,7 +172,7 @@ namespace Files.Controls
 
         private void NavigationViewDriveItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
+            sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
 
             ShowUnpinItem = false;
             ShowEmptyRecycleBin = false;
@@ -191,7 +192,8 @@ namespace Files.Controls
 
         private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
-            App.CurrentInstance.InteractionOperations.OpenPathInNewTab(App.rightClickedItem.Path.ToString());
+            App.CurrentInstance.InteractionOperations.OpenPathInNewTab(App.rightClickedItem.Path.ToString(), 
+                SidebarNavView.ContainerFromMenuItem(sidebarItem) as UIElement);
         }
 
         private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
