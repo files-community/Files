@@ -21,9 +21,7 @@ namespace Files.Filesystem
         {
             get
             {
-                if (ContainsFilesOrFolders)
-                    return new Uri("ms-appx:///Assets/FolderIcon2.svg");
-                else return new Uri("ms-appx:///Assets/FolderIcon.svg");
+                return ContainsFilesOrFolders ? new Uri("ms-appx:///Assets/FolderIcon2.svg") : new Uri("ms-appx:///Assets/FolderIcon.svg");
             }
         }
 
@@ -31,9 +29,7 @@ namespace Files.Filesystem
         {
             get
             {
-                if (ContainsFilesOrFolders)
-                    return new Uri("ms-appx:///Assets/FolderIcon2Large.svg");
-                else return new Uri("ms-appx:///Assets/FolderIconLarge.svg");
+                return ContainsFilesOrFolders ? new Uri("ms-appx:///Assets/FolderIcon2Large.svg") : new Uri("ms-appx:///Assets/FolderIconLarge.svg");
             }
         }
 

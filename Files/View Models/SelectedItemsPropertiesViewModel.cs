@@ -609,9 +609,7 @@ namespace Files.View_Models
         {
             get
             {
-                if (ContainsFilesOrFolders)
-                    return new Uri("ms-appx:///Assets/FolderIcon2.svg");
-                else return new Uri("ms-appx:///Assets/FolderIcon.svg");
+                return ContainsFilesOrFolders ? new Uri("ms-appx:///Assets/FolderIcon2.svg") : new Uri("ms-appx:///Assets/FolderIcon.svg");
             }
         }
     }
