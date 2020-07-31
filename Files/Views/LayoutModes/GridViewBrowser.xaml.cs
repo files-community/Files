@@ -371,6 +371,17 @@ namespace Files
 
         private uint _iconSize = UpdateThumbnailSize();
 
+        public override IEnumerable<UIElement> SelectedItemElements
+        {
+            get
+            {
+                foreach (var i in FileList.SelectedItems)
+                {
+                    yield return FileList.ContainerFromItem(i) as UIElement;
+                }
+            }
+        }
+
         private static uint UpdateThumbnailSize()
         {
             if (App.AppSettings.LayoutMode == 1 || App.AppSettings.GridViewSize < 200)

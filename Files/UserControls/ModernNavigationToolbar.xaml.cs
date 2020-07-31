@@ -204,6 +204,10 @@ namespace Files.UserControls
 
         public UserControl MultiTaskingControl => verticalTabs;
 
+        public UIElement CurrentInstance => this;
+
+        public UIElement VerticalTabButton => VerticalTabStripInvokeButton;
+
         private void ManualPathEntryItem_Click(object sender, RoutedEventArgs e)
         {
             (this as INavigationToolbar).IsEditModeEnabled = true;

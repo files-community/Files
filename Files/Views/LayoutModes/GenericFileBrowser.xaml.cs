@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Windows.System;
@@ -24,6 +25,8 @@ namespace Files
         private string oldItemName;
         private DataGridColumn _sortedColumn;
         private static readonly MethodInfo SelectAllMethod = typeof(DataGrid).GetMethod("SelectAll", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance);
+        private static readonly PropertyInfo IsSelectedProperty = typeof(DataGridRow).GetProperty("IsSelected", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance);
+        private List<DataGridRow> rows = new List<DataGridRow>();
 
         public DataGridColumn SortedColumn
         {
@@ -55,9 +58,35 @@ namespace Files
             }
         }
 
+        public override IEnumerable<UIElement> SelectedItemElements
+        {
+            get
+            {
+                foreach (var i in rows)
+                {
+                    if ((IsSelectedProperty?.GetValue(i) is bool isSelected) && isSelected)
+                    {
+                        yield return i;
+                    }
+                }
+                yield break;
+            }
+        }
+
         public GenericFileBrowser()
         {
             InitializeComponent();
+
+            AllView.LoadingRow += (sender, e) =>
+            {
+                rows.Add(e.Row);
+            };
+
+            AllView.UnloadingRow += (sender, e) =>
+            {
+                rows.Remove(e.Row);
+            };
+
             base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
             switch (AppSettings.DirectorySortOption)
             {

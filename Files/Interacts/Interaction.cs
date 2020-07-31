@@ -121,12 +121,30 @@ namespace Files.Interacts
 
         public async void OpenDirectoryInNewTab_Click(object sender, RoutedEventArgs e)
         {
+            var view = ConnectedAnimationService.GetForCurrentView();
+            var animations = new List<ConnectedAnimation>();
+            foreach (var i in CurrentInstance.ContentPage.SelectedItemElements)
+            {
+                if (i != null)
+                {
+                    animations.Add(view.PrepareToAnimate($"NewTabConnectedAnimation-{animations.Count}", i));
+                }
+            }
+
             foreach (ListedItem listedItem in CurrentInstance.ContentPage.SelectedItems)
             {
                 await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
                 {
                     await MainPage.AddNewTab(typeof(ModernShellPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
                 });
+            }
+
+            if (CurrentInstance.NavigationToolbar.CurrentInstance is ModernNavigationToolbar toolbar)
+            {
+                foreach (var i in animations)
+                {
+                    await i.TryExecuteAsync(toolbar.VerticalTabButton);
+                }
             }
         }
 

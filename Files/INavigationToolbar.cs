@@ -1,6 +1,6 @@
 ﻿using Files.Views.Pages;
 using System.Collections.ObjectModel;
-using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml;
 
 namespace Files.UserControls
 {
@@ -14,5 +14,6 @@ namespace Files.UserControls
         public bool CanGoForward { get; set; }
         public string PathControlDisplayText { get; set; }
         public ObservableCollection<PathBoxItem> PathComponents { get; }
+        public UIElement CurrentInstance { get; }
     }
 }

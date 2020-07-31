@@ -114,6 +114,8 @@ namespace Files
 
         public ListedItem SelectedItem { get; private set; }
 
+        public abstract IEnumerable<UIElement> SelectedItemElements { get; }
+
         public BaseLayout()
         {
             this.Loaded += Page_Loaded;
