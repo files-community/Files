@@ -1221,12 +1221,6 @@ namespace Files.Filesystem
                 DateTimeKind.Utc);
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
-            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-
-            IntPtr hFile = FindFirstFileExFromApp(itemPath + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findChildData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
-            FindNextFile(hFile, out findChildData);
-
             _filesAndFolders.Add(new ListedItem(null)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
@@ -1240,7 +1234,7 @@ namespace Files.Filesystem
                 LoadUnknownTypeGlyph = false,
                 FileSize = null,
                 FileSizeBytes = 0,
-                ContainsFilesOrFolders = FindNextFile(hFile, out findChildData)
+                ContainsFilesOrFolders = CheckForFilesFolders(itemPath)
                 //FolderTooltipText = tooltipString,
             });
 
@@ -1322,12 +1316,7 @@ namespace Files.Filesystem
 
                         if ((bool)response.Message["IsFolder"])
                         {
-                            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-                            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-
-                            IntPtr hFile = FindFirstFileExFromApp(target + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findChildData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
-                            FindNextFile(hFile, out findChildData);
-                            containsFilesOrFolders = FindNextFile(hFile, out findChildData);
+                            containsFilesOrFolders = CheckForFilesFolders(target);
                         }
 
                         _filesAndFolders.Add(new ShortcutItem(null)
@@ -1537,6 +1526,21 @@ namespace Files.Filesystem
             _addFilesCTS?.Dispose();
             _semaphoreCTS?.Dispose();
             CloseWatcher();
+        }
+
+        /// <summary>
+        /// This function is used to determine whether or not a folder has any contents.
+        /// </summary>
+        /// <param name="targetPath">The path to the target folder</param>
+        /// 
+        public bool CheckForFilesFolders(string targetPath)
+        {
+            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+
+            IntPtr hFile = FindFirstFileExFromApp(targetPath + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findChildData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
+            FindNextFile(hFile, out findChildData);
+            return FindNextFile(hFile, out findChildData);
         }
     }
 }
