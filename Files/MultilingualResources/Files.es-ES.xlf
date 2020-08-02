@@ -1092,7 +1092,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
-          <target state="new">Open file location</target>
+          <target state="translated">Abrir ubicación de archivo</target>
         </trans-unit>
       </group>
     </body>

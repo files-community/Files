@@ -804,4 +804,7 @@
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - Acceso directo</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
+    <value>Abrir ubicación de archivo</value>
+  </data>
 </root>
