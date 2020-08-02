@@ -492,7 +492,7 @@
                             <SvgImageSource
                                 RasterizePixelHeight="638"
                                 RasterizePixelWidth="900"
-                                UriSource="/Assets/FolderIconLarge.svg" />
+                                UriSource="{x:Bind FolderIconSourceLarge}" />
                         </Image.Source>
                     </Image>
                     <Grid
@@ -636,7 +636,7 @@
                             <SvgImageSource
                                 RasterizePixelHeight="128"
                                 RasterizePixelWidth="128"
-                                UriSource="/Assets/FolderIcon.svg" />
+                                UriSource="{x:Bind FolderIconSource}" />
                         </Image.Source>
                     </Image>
                     <Grid

@@ -1033,63 +1033,63 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutShortcut.Text" translate="yes" xml:space="preserve">
           <source>Create shortcut</source>
-          <target state="new">Create shortcut</target>
+          <target state="translated">Criar atalho</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
           <source>Open file location</source>
-          <target state="new">Open file location</target>
+          <target state="translated">Abrir local do arquivo</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutItemArgs.Text" translate="yes" xml:space="preserve">
           <source>Arguments:</source>
-          <target state="new">Arguments:</target>
+          <target state="translated">Argumentos:</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutItemPath.Text" translate="yes" xml:space="preserve">
           <source>Destination:</source>
-          <target state="new">Destination:</target>
+          <target state="translated">Destino:</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutItemType.Text" translate="yes" xml:space="preserve">
           <source>Shortcut type:</source>
-          <target state="new">Shortcut type:</target>
+          <target state="translated">Tipo de atalho:</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutItemWorkingDir.Text" translate="yes" xml:space="preserve">
           <source>Working directory:</source>
-          <target state="new">Working directory:</target>
+          <target state="translated">Diretório de trabalho:</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutTypeApplication" translate="yes" xml:space="preserve">
           <source>Application</source>
-          <target state="new">Application</target>
+          <target state="translated">Aplicativo</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutTypeFile" translate="yes" xml:space="preserve">
           <source>File</source>
-          <target state="new">File</target>
+          <target state="translated">Arquivo</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutTypeFolder" translate="yes" xml:space="preserve">
           <source>Folder</source>
-          <target state="new">Folder</target>
+          <target state="translated">Pasta</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutTypeLink" translate="yes" xml:space="preserve">
           <source>Web link</source>
-          <target state="new">Web link</target>
+          <target state="translated">Link da Web</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogTabGeneral.Content" translate="yes" xml:space="preserve">
           <source>General</source>
-          <target state="new">General</target>
+          <target state="translated">Geral</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogTabShortcut.Content" translate="yes" xml:space="preserve">
           <source>Shortcut</source>
-          <target state="new">Shortcut</target>
+          <target state="translated">Atalho</target>
         </trans-unit>
         <trans-unit id="ShortcutFileType" translate="yes" xml:space="preserve">
           <source>Shortcut</source>
-          <target state="new">Shortcut</target>
+          <target state="translated">Atalho</target>
         </trans-unit>
         <trans-unit id="ShortcutWebLinkFileType" translate="yes" xml:space="preserve">
           <source>Internet shortcut</source>
-          <target state="new">Internet shortcut</target>
+          <target state="translated">Atalho da internet</target>
         </trans-unit>
         <trans-unit id="ShortcutCreateNewSuffix" translate="yes" xml:space="preserve">
           <source>{0} - shortcut</source>
-          <target state="new">{0} - shortcut</target>
+          <target state="translated">{0} - atalho</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>

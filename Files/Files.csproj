@@ -320,8 +320,10 @@
     <Content Include="Assets\Files UWP Beta Icon.png" />
     <Content Include="Assets\Files UWP Icon.png" />
     <Content Include="Assets\FilesHome.png" />
+    <Content Include="Assets\FolderIcon2.svg" />
     <Content Include="Assets\FolderIcon.png" />
     <Content Include="Assets\FolderIcon.svg" />
+    <Content Include="Assets\FolderIcon2Large.svg" />
     <Content Include="Assets\FolderIconLarge.svg" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
@@ -609,10 +611,10 @@
       <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.7.2</Version>
+      <Version>4.7.3</Version>
     </PackageReference>
     <PackageReference Include="NLog.Schema">
-      <Version>4.7.2</Version>
+      <Version>4.7.3</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
