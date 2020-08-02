@@ -187,8 +187,9 @@
           <target state="translated">Pesquisar</target>
         </trans-unit>
         <trans-unit id="RecentItemDescription.Text" translate="yes" xml:space="preserve">
-          <source>Files and folders you've previously accessed will show up here</source>
-          <target state="translated">Os arquivos e pastas que você acessou anteriormente aparecerão aqui</target>
+          <source>Files you've previously accessed will show up here</source>
+          <target state="needs-review-translation">Os arquivos e pastas que você acessou anteriormente aparecerão aqui</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
@@ -1089,6 +1090,10 @@
         <trans-unit id="ShortcutCreateNewSuffix" translate="yes" xml:space="preserve">
           <source>{0} - shortcut</source>
           <target state="new">{0} - shortcut</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation.Text" translate="yes" xml:space="preserve">
+          <source>Open file location</source>
+          <target state="new">Open file location</target>
         </trans-unit>
       </group>
     </body>
