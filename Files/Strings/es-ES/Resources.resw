@@ -34,7 +34,7 @@
     <value>Borrar todo</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Los archivos a los que hayas accedido anteriormente aparecerán aquí</value>
+    <value>Los archivos y carpetas a los que hayas accedido anteriormente aparecerán aquí</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
     <value>Abrir ubicación del archivo</value>
