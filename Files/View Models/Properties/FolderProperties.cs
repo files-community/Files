@@ -35,7 +35,7 @@ namespace Files.View_Models.Properties
                 ViewModel.ItemType = Item.ItemType;
                 ViewModel.ItemPath = Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath;
                 ViewModel.ItemModifiedTimestamp = Item.ItemDateModified;
-                ViewModel.FileIconSource = Item.FileImage;
+                //ViewModel.FileIconSource = Item.FileImage;
                 ViewModel.LoadFolderGlyph = Item.LoadFolderGlyph;
                 ViewModel.LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
                 ViewModel.LoadFileIcon = Item.LoadFileIcon;
@@ -75,8 +75,12 @@ namespace Files.View_Models.Properties
                 return;
             }
 
+            var tcs = new TaskCompletionSource<bool>();
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { tcs.SetResult(App.CurrentInstance.ContentPage.IsItemSelected); });
+            var isItemSelected = await tcs.Task;
+
             StorageFolder storageFolder;
-            if (App.CurrentInstance.ContentPage.IsItemSelected)
+            if (isItemSelected)
             {
                 storageFolder = await ItemViewModel.GetFolderFromPathAsync(Item.ItemPath);
                 ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(storageFolder.DateCreated);

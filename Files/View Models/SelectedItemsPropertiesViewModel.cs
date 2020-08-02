@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -509,10 +511,12 @@ namespace Files.View_Models
             set => Set(ref _IsSelectedItemShortcut, value);
         }
 
-        public void CheckFileExtension()
+        public async void CheckFileExtension()
         {
             //check if the selected item is an image file
-            string ItemExtension = App.CurrentInstance.ContentPage.SelectedItem.FileExtension;
+            var tcs = new TaskCompletionSource<string>();
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { tcs.SetResult(App.CurrentInstance.ContentPage.SelectedItem.FileExtension); });
+            string ItemExtension = await tcs.Task;
 
             if (!string.IsNullOrEmpty(ItemExtension) && SelectedItemsCount == "1 " + ResourceController.GetTranslation("ItemSelected/Text"))
             {

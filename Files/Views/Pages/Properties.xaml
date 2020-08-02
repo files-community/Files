@@ -5,25 +5,14 @@
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
-    xmlns:local1="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="700"
     d:DesignWidth="400"
     KeyDown="Page_KeyDown"
     Loaded="Properties_Loaded"
-    RequestedTheme="{x:Bind local1:ThemeHelper.RootTheme}"
     Unloaded="Properties_Unloaded"
     mc:Ignorable="d">
-    <Page.Background>
-        <AcrylicBrush
-            Windows10version1903:TintLuminosityOpacity="0.9"
-            AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
-            BackgroundSource="HostBackdrop"
-            FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
-            TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
-            TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
-    </Page.Background>
 
     <Grid>
         <Grid.RowDefinitions>

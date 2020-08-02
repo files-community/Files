@@ -53,7 +53,7 @@ namespace Files
                 var listedItem = np.navParameter as ListedItem;
                 if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
                 {
-                    BaseProperties = new FileProperties(ViewModel, np.tokenSource, ItemMD5HashProgress, listedItem);
+                    BaseProperties = new FileProperties(ViewModel, np.tokenSource, Dispatcher, ItemMD5HashProgress, listedItem);
                 }
                 else if (listedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
