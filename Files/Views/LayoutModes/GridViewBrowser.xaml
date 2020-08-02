@@ -248,6 +248,16 @@
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
+                x:Name="OpenFileLocation"
+                x:Uid="BaseLayoutItemContextFlyoutOpenFileLocation"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenFileLocation_Click}"
+                Text="Open file location"
+                Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemShortcut, Mode=OneWay}">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA5A;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
                 x:Name="OpenInNewTab"
                 x:Uid="BaseLayoutItemContextFlyoutOpenInNewTab"
                 x:Load="False"

@@ -315,6 +315,13 @@ namespace Files.Interacts
             OpenSelectedItems(true);
         }
 
+        public void OpenFileLocation_Click(object sender, RoutedEventArgs e)
+        {
+            var item = CurrentInstance.ContentPage.SelectedItem as ShortcutItem;
+            var folderPath = Path.GetDirectoryName(item.TargetPath);
+            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), folderPath);
+        }
+
         private async void OpenSelectedItems(bool displayApplicationPicker)
         {
             if (CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))

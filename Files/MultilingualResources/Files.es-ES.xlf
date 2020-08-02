@@ -1090,6 +1090,10 @@
           <source>{0} - shortcut</source>
           <target state="translated">{0} - Acceso directo</target>
         </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation.Text" translate="yes" xml:space="preserve">
+          <source>Open file location</source>
+          <target state="new">Open file location</target>
+        </trans-unit>
       </group>
     </body>
   </file>

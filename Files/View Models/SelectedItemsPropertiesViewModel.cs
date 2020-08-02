@@ -501,7 +501,15 @@ namespace Files.View_Models
             set => Set(ref _IsSelectedItemImage, value);
         }
 
-        public void CheckForImage()
+        private bool _IsSelectedItemShortcut = false;
+
+        public bool IsSelectedItemShortcut
+        {
+            get => _IsSelectedItemShortcut;
+            set => Set(ref _IsSelectedItemShortcut, value);
+        }
+
+        public void CheckFileExtension()
         {
             //check if the selected item is an image file
             string ItemExtension = App.CurrentInstance.ContentPage.SelectedItem.FileExtension;
@@ -517,10 +525,17 @@ namespace Files.View_Models
                     IsSelectedItemImage = true;
                     return;
                 }
+                else if (ItemExtension.Equals(".lnk", StringComparison.OrdinalIgnoreCase))
+                {
+                    // The selected item is a shortcut, so set the IsSelectedItemShortcut property to true
+                    IsSelectedItemShortcut = true;
+                    return;
+                }
             }
 
-            // Since item is not an image, folder or file without extension, set the IsSelectedItemImage property to false
+            // Since item is not an image, shortcut, folder or file without extension, set the properties to false
             IsSelectedItemImage = false;
+            IsSelectedItemShortcut = false;
         }
 
         private string _ShortcutItemType;
