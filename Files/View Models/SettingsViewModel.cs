@@ -239,6 +239,7 @@ namespace Files.View_Models
 
         private async void DetectOneDrivePreference()
         {
+            if (OneDrivePath is null) OneDrivePath = "";
             if (localSettings.Values["PinOneDrive"] == null) { localSettings.Values["PinOneDrive"] = true; }
 
             if ((bool)localSettings.Values["PinOneDrive"] == true)
