@@ -930,4 +930,7 @@
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - shortcut</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
+    <value>Open file location</value>
+  </data>
 </root>
