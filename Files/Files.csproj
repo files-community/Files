@@ -320,8 +320,10 @@
     <Content Include="Assets\Files UWP Beta Icon.png" />
     <Content Include="Assets\Files UWP Icon.png" />
     <Content Include="Assets\FilesHome.png" />
+    <Content Include="Assets\FolderIcon2.svg" />
     <Content Include="Assets\FolderIcon.png" />
     <Content Include="Assets\FolderIcon.svg" />
+    <Content Include="Assets\FolderIcon2Large.svg" />
     <Content Include="Assets\FolderIconLarge.svg" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />

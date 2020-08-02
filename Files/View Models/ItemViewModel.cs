@@ -726,7 +726,7 @@ namespace Files.Filesystem
                                 ItemOriginalPath = item.FilePath,
                                 LoadUnknownTypeGlyph = false,
                                 FileSize = null,
-                                FileSizeBytes = 0
+                                FileSizeBytes = 0,
                                 //FolderTooltipText = tooltipString,
                             });
                         }
@@ -1202,6 +1202,7 @@ namespace Files.Filesystem
 
         private void AddFolder(WIN32_FIND_DATA findData, string pathRoot)
         {
+
             if (_addFilesCTS.IsCancellationRequested)
             {
                 IsLoadingItems = false;
@@ -1232,7 +1233,8 @@ namespace Files.Filesystem
                 ItemPath = itemPath,
                 LoadUnknownTypeGlyph = false,
                 FileSize = null,
-                FileSizeBytes = 0
+                FileSizeBytes = 0,
+                ContainsFilesOrFolders = CheckForFilesFolders(itemPath)
                 //FolderTooltipText = tooltipString,
             });
 
@@ -1309,6 +1311,13 @@ namespace Files.Filesystem
                     if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
                     {
                         var isUrl = findData.cFileName.EndsWith(".url");
+                        string target = (string)response.Message["TargetPath"];
+                        bool containsFilesOrFolders = false;
+
+                        if ((bool)response.Message["IsFolder"])
+                        {
+                            containsFilesOrFolders = CheckForFilesFolders(target);
+                        }
 
                         _filesAndFolders.Add(new ShortcutItem(null)
                         {
@@ -1326,12 +1335,13 @@ namespace Files.Filesystem
                             ItemPath = itemPath,
                             FileSize = itemSize,
                             FileSizeBytes = itemSizeBytes,
-                            TargetPath = (string)response.Message["TargetPath"],
+                            TargetPath = target,
                             Arguments = (string)response.Message["Arguments"],
                             WorkingDirectory = (string)response.Message["WorkingDirectory"],
                             RunAsAdmin = (bool)response.Message["RunAsAdmin"],
-                            IsUrl = isUrl
-                        });
+                            IsUrl = isUrl,
+                            ContainsFilesOrFolders = containsFilesOrFolders
+                        }) ;
                     }
                 }
             }
@@ -1366,6 +1376,7 @@ namespace Files.Filesystem
 
         public async Task AddFolder(StorageFolder folder)
         {
+
             var basicProperties = await folder.GetBasicPropertiesAsync();
 
             if ((App.CurrentInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser)) || (App.CurrentInstance.ContentFrame.SourcePageType == typeof(GridViewBrowser)))
@@ -1388,7 +1399,7 @@ namespace Files.Filesystem
                     ItemPath = string.IsNullOrEmpty(folder.Path) ? Path.Combine(_currentStorageFolder.Path, folder.Name) : folder.Path,
                     LoadUnknownTypeGlyph = false,
                     FileSize = null,
-                    FileSizeBytes = 0,
+                    FileSizeBytes = 0
                     //FolderTooltipText = tooltipString,
                 });
 
@@ -1515,6 +1526,21 @@ namespace Files.Filesystem
             _addFilesCTS?.Dispose();
             _semaphoreCTS?.Dispose();
             CloseWatcher();
+        }
+
+        /// <summary>
+        /// This function is used to determine whether or not a folder has any contents.
+        /// </summary>
+        /// <param name="targetPath">The path to the target folder</param>
+        /// 
+        public bool CheckForFilesFolders(string targetPath)
+        {
+            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+
+            IntPtr hFile = FindFirstFileExFromApp(targetPath + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findChildData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
+            FindNextFile(hFile, out findChildData);
+            return FindNextFile(hFile, out findChildData);
         }
     }
 }

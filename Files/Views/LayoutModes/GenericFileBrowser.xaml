@@ -619,7 +619,7 @@
                                         <SvgImageSource
                                             RasterizePixelHeight="128"
                                             RasterizePixelWidth="128"
-                                            UriSource="/Assets/FolderIcon.svg" />
+                                            UriSource="{x:Bind FolderIconSource}" />
                                     </Image.Source>
                                 </Image>
                                 <FontIcon

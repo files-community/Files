@@ -602,5 +602,15 @@ namespace Files.View_Models
                 Set(ref _ShortcutItemOpenLinkCommand, value);
             }
         }
+
+        public bool ContainsFilesOrFolders { get; set; }
+
+        public Uri FolderIconSource
+        {
+            get
+            {
+                return ContainsFilesOrFolders ? new Uri("ms-appx:///Assets/FolderIcon2.svg") : new Uri("ms-appx:///Assets/FolderIcon.svg");
+            }
+        }
     }
 }
