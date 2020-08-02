@@ -36,8 +36,7 @@
         </trans-unit>
         <trans-unit id="RecentItemDescription.Text" translate="yes" xml:space="preserve">
           <source>Files you've previously accessed will show up here</source>
-          <target state="needs-review-translation">Los archivos y carpetas a los que hayas accedido anteriormente aparecerán aquí</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Los archivos a los que hayas accedido anteriormente aparecerán aquí</target>
         </trans-unit>
         <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
