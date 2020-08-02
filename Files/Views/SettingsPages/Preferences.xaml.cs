@@ -1,8 +1,6 @@
 ﻿using Files.DataModels;
 using Files.View_Models;
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -17,14 +15,22 @@ namespace Files.SettingsPages
 
         public Preferences()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
-            StorageFolder.GetFolderFromPathAsync(AppSettings.OneDrivePath).AsTask()
-                    .ContinueWith((t) =>
-                {
-                    AppSettings.PinOneDriveToSideBar = false;
-                    OneDrivePin.IsEnabled = false;
-                }, CancellationToken.None, TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.FromCurrentSynchronizationContext());
+            TryGetOneDriveFolder();
+        }
+
+        private async void TryGetOneDriveFolder()
+        {
+            try
+            {
+                await StorageFolder.GetFolderFromPathAsync(AppSettings.OneDrivePath);
+            }
+            catch
+            {
+                AppSettings.PinOneDriveToSideBar = false;
+                OneDrivePin.IsEnabled = false;
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
