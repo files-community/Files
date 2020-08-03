@@ -3,7 +3,7 @@ name: Feature request
 about: This project thrives from differentiation from competing apps. Suggest an idea
   for Files UWP
 title: ''
-labels: enhancement
+labels: feature_request
 assignees: ''
 
 ---
