@@ -53,7 +53,7 @@ namespace Files.Controllers
             catch (JsonParsingNullException)
             {
                 var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri(defaultTerminalPath));
-                
+
                 JsonFile = await Folder.CreateFileAsync(JsonFileName, CreationCollisionOption.ReplaceExisting);
                 await FileIO.WriteBufferAsync(JsonFile, await FileIO.ReadBufferAsync(await defaultFile));
                 var defaultContent = await FileIO.ReadTextAsync(JsonFile);
@@ -115,6 +115,8 @@ namespace Files.Controllers
 
     public class JsonParsingNullException : Exception
     {
-        public JsonParsingNullException(string jsonFileName) : base($"{jsonFileName} is empty, regenerating...") { }
+        public JsonParsingNullException(string jsonFileName) : base($"{jsonFileName} is empty, regenerating...")
+        {
+        }
     }
 }

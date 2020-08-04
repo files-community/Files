@@ -54,8 +54,6 @@ namespace Files.Views
         public static ObservableCollection<TabItem> AppInstances = new ObservableCollection<TabItem>();
         public static ObservableCollection<INavigationControlItem> sideBarItems = new ObservableCollection<INavigationControlItem>();
 
-        public static event EventHandler<bool> OnTabItemDraggedOver;
-
         public MainPage()
         {
             this.InitializeComponent();

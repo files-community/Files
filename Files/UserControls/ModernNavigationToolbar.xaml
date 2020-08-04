@@ -492,19 +492,19 @@
                     <DataTemplate x:Name="ParentItems">
                         <Grid
                             x:Name="ListViewItemContentGrid"
-                            Background="Transparent"
-                            Tag="{Binding Path}"
                             AllowDrop="True"
+                            Background="Transparent"
                             DragOver="PathBoxItem_DragOver"
-                            Drop="PathBoxItem_Drop">
+                            Drop="PathBoxItem_Drop"
+                            Tag="{Binding Path}">
 
                             <StackPanel Orientation="Horizontal" Spacing="5">
                                 <TextBlock
                                     Margin="0,0,0,4"
                                     FontSize="16"
                                     FontWeight="Normal"
-                                    Text="{Binding Title}"
-                                    Tapped="PathBoxItem_Tapped">
+                                    Tapped="PathBoxItem_Tapped"
+                                    Text="{Binding Title}">
                                     <Interactivity:Interaction.Behaviors>
                                         <Core:EventTriggerBehavior EventName="PointerEntered">
                                             <Core:ChangePropertyAction PropertyName="Opacity">
@@ -513,7 +513,7 @@
                                                 </Core:ChangePropertyAction.Value>
                                             </Core:ChangePropertyAction>
                                         </Core:EventTriggerBehavior>
-                                        
+
                                         <Core:EventTriggerBehavior EventName="PointerExited">
                                             <Core:ChangePropertyAction PropertyName="Opacity">
                                                 <Core:ChangePropertyAction.Value>
@@ -547,13 +547,13 @@
                                             </Core:ChangePropertyAction>
                                         </Core:EventTriggerBehavior>
                                     </Interactivity:Interaction.Behaviors>
-                                    
+
                                     <FontIcon.ContextFlyout>
                                         <MenuFlyout
+                                            Opened="PathboxItemFlyout_Opened"
                                             Placement="BottomEdgeAlignedLeft"
-                                            ScrollViewer.VerticalScrollMode="Auto"
-                                            ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                                            Opened="PathboxItemFlyout_Opened">
+                                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                            ScrollViewer.VerticalScrollMode="Auto">
                                             <MenuFlyout.MenuFlyoutPresenterStyle>
                                                 <Style TargetType="MenuFlyoutPresenter">
                                                     <Setter Property="MaxHeight" Value="400" />
@@ -569,11 +569,11 @@
                     <DataTemplate x:Name="CurrentItem">
                         <Grid
                             x:Name="ListViewItemContentGrid"
-                            Background="Transparent"
-                            Tag="{Binding Path}"
                             AllowDrop="True"
+                            Background="Transparent"
                             DragOver="PathBoxItem_DragOver"
-                            Drop="PathBoxItem_Drop">
+                            Drop="PathBoxItem_Drop"
+                            Tag="{Binding Path}">
                             <Interactivity:Interaction.Behaviors>
                                 <Core:EventTriggerBehavior EventName="PointerEntered">
                                     <Core:ChangePropertyAction PropertyName="Opacity">
@@ -747,25 +747,25 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 x:Load="{x:Bind ManualEntryBoxLoaded, Mode=OneWay}"
-                Loaded="VisiblePath_Loaded"
                 Background="Transparent"
                 BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
                 BorderThickness="0"
+                DisplayMemberPath="ItemName"
                 FocusDisengaged="VisiblePath_LostFocus"
                 FontFamily="Segoe UI"
                 FontSize="16"
                 FontWeight="SemiBold"
-                TextChanged="VisiblePath_TextChanged"
+                ItemsSource="{x:Bind NavigationBarSuggestions}"
+                Loaded="VisiblePath_Loaded"
                 LostFocus="VisiblePath_LostFocus"
+                PlaceholderText="Enter a path"
                 PreviewKeyDown="VisiblePath_KeyDown"
                 QuerySubmitted="VisiblePath_QuerySubmitted"
-                PlaceholderText="Enter a path"
-                ItemsSource="{x:Bind NavigationBarSuggestions}"
-                DisplayMemberPath="ItemName"
-                TextMemberPath="ItemPath"
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                Text="{x:Bind PathText, Mode=OneWay}" />
+                Text="{x:Bind PathText, Mode=OneWay}"
+                TextChanged="VisiblePath_TextChanged"
+                TextMemberPath="ItemPath" />
 
             <Grid
                 x:Name="ClickablePath"

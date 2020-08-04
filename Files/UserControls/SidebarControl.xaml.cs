@@ -3,7 +3,9 @@ using Files.Interacts;
 using Files.View_Models;
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -83,7 +85,8 @@ namespace Files.Controls
 
         private void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            string NavigationPath; // path to navigate
+            string navigationPath; // path to navigate
+            Type sourcePageType = null; // type of page to navigate
 
             if (args.InvokedItem == null)
             {
@@ -98,35 +101,43 @@ namespace Files.Controls
 
                         if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
                         {
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), ResourceController.GetTranslation("NewTab"), new SuppressNavigationTransitionInfo());
+                            if (ItemPath.Equals(SelectedSidebarItem.Path, StringComparison.OrdinalIgnoreCase)) return; // return if already selected
 
-                            return; // cancel so it doesn't try to Navigate to a path
+                            navigationPath = ResourceController.GetTranslation("NewTab");
+                            sourcePageType = typeof(YourHome);
                         }
                         else // Any other item
                         {
-                            NavigationPath = args.InvokedItemContainer.Tag.ToString();
+                            navigationPath = args.InvokedItemContainer.Tag.ToString();
                         }
 
                         break;
                     }
                 case NavigationControlItemType.OneDrive:
                     {
-                        NavigationPath = App.AppSettings.OneDrivePath;
+                        navigationPath = App.AppSettings.OneDrivePath;
                         break;
                     }
                 default:
                     {
-                        var clickedItem = args.InvokedItemContainer;
-
-                        NavigationPath = clickedItem.Tag.ToString();
-
-                        App.CurrentInstance.NavigationToolbar.PathControlDisplayText = clickedItem.Tag.ToString();
-
+                        navigationPath = args.InvokedItemContainer.Tag.ToString();
                         break;
                     }
             }
 
-            App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), NavigationPath, new SuppressNavigationTransitionInfo());
+            if (string.IsNullOrEmpty(navigationPath) ||
+                (!string.IsNullOrEmpty(App.CurrentInstance.FilesystemViewModel.WorkingDirectory) &&
+                navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
+                    App.CurrentInstance.FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
+                    StringComparison.OrdinalIgnoreCase))) // return if already selected
+            {
+                return;
+            }
+
+            App.CurrentInstance.ContentFrame.Navigate(
+                sourcePageType == null ? App.AppSettings.GetLayoutType() : sourcePageType,
+                navigationPath,
+                new SuppressNavigationTransitionInfo());
 
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
         }
@@ -187,6 +198,103 @@ namespace Files.Controls
         private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
         {
             await Interaction.OpenPathInNewWindow(App.rightClickedItem.Path.ToString());
+        }
+
+        private void NavigationViewItem_DragEnter(object sender, DragEventArgs e)
+        {
+            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragEnter", false);
+        }
+
+        private void NavigationViewItem_DragLeave(object sender, DragEventArgs e)
+        {
+            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragLeave", false);
+        }
+
+        private async void NavigationViewLocationItem_DragOver(object sender, DragEventArgs e)
+        {
+            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem) ||
+                !e.DataView.Contains(StandardDataFormats.StorageItems)) return;
+
+            var deferral = e.GetDeferral();
+            e.Handled = true;
+            var storageItems = await e.DataView.GetStorageItemsAsync();
+
+            if (storageItems.Count == 0 ||
+                locationItem.IsDefaultLocation ||
+                locationItem.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
+                storageItems.AreItemsAlreadyInFolder(locationItem.Path))
+            {
+                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.None;
+            }
+            else
+            {
+                e.DragUIOverride.IsCaptionVisible = true;
+                if (storageItems.AreItemsInSameDrive(locationItem.Path))
+                {
+                    e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), locationItem.Text);
+                }
+                else
+                {
+                    e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy;
+                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("CopyToFolderCaptionText"), locationItem.Text);
+                }
+            }
+            deferral.Complete();
+        }
+
+        private async void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
+        {
+            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem)) return;
+
+            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
+
+            var deferral = e.GetDeferral();
+            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, locationItem.Path, e.AcceptedOperation);
+            deferral.Complete();
+        }
+
+        private async void NavigationViewDriveItem_DragOver(object sender, DragEventArgs e)
+        {
+            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem) ||
+                !e.DataView.Contains(StandardDataFormats.StorageItems)) return;
+
+            var deferral = e.GetDeferral();
+            e.Handled = true;
+            var storageItems = await e.DataView.GetStorageItemsAsync();
+
+            if (storageItems.Count == 0 ||
+                "Unknown".Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
+                storageItems.AreItemsAlreadyInFolder(driveItem.Path))
+            {
+                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.None;
+            }
+            else
+            {
+                e.DragUIOverride.IsCaptionVisible = true;
+                if (storageItems.AreItemsInSameDrive(driveItem.Path))
+                {
+                    e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), driveItem.Text);
+                }
+                else
+                {
+                    e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy;
+                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("CopyToFolderCaptionText"), driveItem.Text);
+                }
+            }
+            deferral.Complete();
+        }
+
+        private async void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
+        {
+            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem)) return;
+
+            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
+
+            var deferral = e.GetDeferral();
+            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, driveItem.Path, e.AcceptedOperation);
+            deferral.Complete();
         }
     }
 
