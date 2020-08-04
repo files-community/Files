@@ -1,23 +1,19 @@
-﻿using Files.Dialogs;
-using Files.Filesystem;
+﻿using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
-using Microsoft.UI.Xaml.Media;
 using System;
-using System.Reflection;
 using System.Threading;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
-using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
@@ -41,12 +37,14 @@ namespace Files
         {
             this.navParameter = e.Parameter;
             this.TabShorcut.Visibility = e.Parameter is ShortcutItem ? Visibility.Visible : Visibility.Collapsed;
+            this.SetBackground();
             base.OnNavigatedTo(e);
         }
 
         private async void Properties_Loaded(object sender, RoutedEventArgs e)
         {
             AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
+            AppSettings.PropertyChanged += AppSettings_PropertyChanged;
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 // Set window size in the loaded event to prevent flickering
@@ -60,12 +58,64 @@ namespace Files
                     AppSettings.UpdateThemeElements.Execute(null);
                 });
             }
+            else
+            {
+                var propertiesDialog = Interaction.FindParent<ContentDialog>(this);
+                propertiesDialog.Closed += PropertiesDialog_Closed;
+            }
+        }
+
+        private void AppSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "AcrylicEnabled":
+                case "FallbackColor":
+                case "TintColor":
+                case "TintOpacity":
+                    SetBackground();
+                    break;
+            }
+        }
+
+        private async void SetBackground()
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                var backgroundBrush = new AcrylicBrush()
+                {
+                    AlwaysUseFallback = AppSettings.AcrylicEnabled,
+                    BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
+                    FallbackColor = AppSettings.AcrylicTheme.FallbackColor,
+                    TintColor = AppSettings.AcrylicTheme.TintColor,
+                    TintOpacity = AppSettings.AcrylicTheme.TintOpacity,
+                };
+                if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+                {
+                    backgroundBrush.TintLuminosityOpacity = 0.9;
+                }
+                Background = backgroundBrush;
+            });
         }
 
         private void Properties_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
         {
             AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
+            AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
             ApplicationView.GetForCurrentView().Consolidated -= Properties_Consolidated;
+            if (tokenSource != null && !tokenSource.IsCancellationRequested)
+            {
+                tokenSource.Cancel();
+                tokenSource.Dispose();
+                tokenSource = null;
+            }
+        }
+
+        private void PropertiesDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
+        {
+            AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
+            AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
+            sender.Closed -= PropertiesDialog_Closed;
             if (tokenSource != null && !tokenSource.IsCancellationRequested)
             {
                 tokenSource.Cancel();
@@ -81,20 +131,12 @@ namespace Files
 
         private async void AppSettings_ThemeModeChanged(object sender, EventArgs e)
         {
+            var selectedTheme = ThemeHelper.RootTheme;
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                RequestedTheme = ThemeHelper.RootTheme;
-                Background = new AcrylicBrush()
-                {
-                    AlwaysUseFallback = AppSettings.AcrylicEnabled,
-                    BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
-                    FallbackColor = AppSettings.AcrylicTheme.FallbackColor,
-                    TintColor = AppSettings.AcrylicTheme.TintColor,
-                    TintOpacity = AppSettings.AcrylicTheme.TintOpacity,
-                };
+                RequestedTheme = selectedTheme;
                 if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
                 {
-                    (Background as AcrylicBrush).TintLuminosityOpacity = 0.9;
                     switch (RequestedTheme)
                     {
                         case ElementTheme.Default:
