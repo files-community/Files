@@ -190,6 +190,9 @@
     <Compile Include="Helpers\RegistryReader.cs" />
     <Compile Include="ResourceController.cs" />
     <Compile Include="INavigationToolbar.cs" />
+    <Compile Include="UserControls\HorizontalMultitaskingControl.xaml.cs">
+      <DependentUpon>HorizontalMultitaskingControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ModernNavigationToolbar.xaml.cs">
       <DependentUpon>ModernNavigationToolbar.xaml</DependentUpon>
     </Compile>
@@ -434,6 +437,14 @@
     <Page Include="Dialogs\ConfirmDeleteDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResourceDictionaries\TabView_themeresources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\HorizontalMultitaskingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\ModernNavigationToolbar.xaml">
       <SubType>Designer</SubType>

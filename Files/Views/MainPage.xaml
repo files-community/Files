@@ -6,7 +6,7 @@
     xmlns:local="using:Files.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:usercontrols="using:Files.UserControls"
+    xmlns:usercontrols="using:Files.UserControls" xmlns:local1="using:Files"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
     NavigationCacheMode="Required"
@@ -59,15 +59,13 @@
     </Page.KeyboardAccelerators>
 
     <Grid>
-        <Grid
-            x:Name="DragArea"
-            Grid.Column="1"
-            Height="32"
-            Margin="200,0,0,0"
-            VerticalAlignment="Top"
-            Background="Transparent"
-            Canvas.ZIndex="4"
-            Loaded="DragArea_Loaded" />
-        <ContentPresenter Content="{x:Bind ((usercontrols:TabItem)SelectedTabItem).Content, Mode=OneWay}" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <usercontrols:HorizontalMultitaskingControl x:Name="horizontalMultitaskingControl" x:Load="{x:Bind AppSettings.IsHorizontalTabStripVisible, Mode=OneWay}"/>
+
+        <ContentPresenter Grid.Row="1" Content="{x:Bind ((usercontrols:TabItem)SelectedTabItem).Content, Mode=OneWay}" />
     </Grid>
 </Page>
