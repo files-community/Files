@@ -153,6 +153,7 @@ namespace Files
                             break;
                     }
                 }
+                SetBackground();
             });
         }
 
