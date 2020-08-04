@@ -156,7 +156,7 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Grid Height="24" x:Name="SmallWindowTitlebar" Loaded="SmallWindowTitlebar_Loaded" x:Load="{x:Bind local1:App.InteractionViewModel.IsAppWindowSmall, Mode=OneWay}"/>
+                    <Grid Height="24" x:Name="SmallWindowTitlebar" Loaded="SmallWindowTitlebar_Loaded" x:Load="{x:Bind AppSettings.IsHorizontalTabStripVisible, Mode=OneWay}"/>
 
                     <Grid Grid.Row="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                         <controls1:ModernNavigationToolbar

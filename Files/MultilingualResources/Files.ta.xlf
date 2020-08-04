@@ -1101,6 +1101,10 @@
           <source>Open file location</source>
           <target state="new">Open file location</target>
         </trans-unit>
+        <trans-unit id="SettingsPreferencesShowHorizontalTabStrip.Text" translate="yes" xml:space="preserve">
+          <source>Show a horizontal tab strip on the title bar</source>
+          <target state="new">Show a horizontal tab strip on the title bar</target>
+        </trans-unit>
       </group>
     </body>
   </file>

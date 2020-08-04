@@ -265,7 +265,7 @@ namespace Files.View_Models
             get => Get(false);
             set => Set(value);
         }
-
+                
         private bool _PinOneDriveToSideBar = true;
 
         public bool PinOneDriveToSideBar
@@ -424,6 +424,12 @@ namespace Files.View_Models
         }
 
         public bool IsMultitaskingControlVisible
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        public bool IsHorizontalTabStripVisible
         {
             get => Get(true);
             set => Set(value);

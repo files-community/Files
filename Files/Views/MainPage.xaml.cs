@@ -35,6 +35,8 @@ namespace Files.Views
     /// </summary>
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
+        public SettingsViewModel AppSettings => App.AppSettings;
+
         private TabItem _SelectedTabItem;
 
         public TabItem SelectedTabItem
@@ -50,7 +52,6 @@ namespace Files.Views
             }
         }
 
-        public SettingsViewModel AppSettings => App.AppSettings;
         public static ObservableCollection<TabItem> AppInstances = new ObservableCollection<TabItem>();
         public static ObservableCollection<INavigationControlItem> sideBarItems = new ObservableCollection<INavigationControlItem>();
 
@@ -67,22 +68,8 @@ namespace Files.Views
             {
                 FlowDirection = FlowDirection.RightToLeft;
             }
-            Window.Current.SizeChanged += Current_SizeChanged;
+
             AllowDrop = true;
-            DragOver += MainPage_DragOver;
-        }
-
-        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
-        {
-            App.InteractionViewModel.IsAppWindowSmall = e.Size.Width < 800;
-        }
-
-        private void MainPage_DragOver(object sender, DragEventArgs e)
-        {
-            if (e.DataView.Properties.ContainsKey(VerticalTabView.TabPathIdentifier))
-            {
-                OnTabItemDraggedOver?.Invoke(sender, true);
-            }
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)

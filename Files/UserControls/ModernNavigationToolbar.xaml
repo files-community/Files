@@ -939,7 +939,7 @@
                 Style="{StaticResource ToolBarButtonStyle}"
                 Tapped="Button_Tapped"
                 ToolTipService.ToolTip="Open tabs"
-                Visibility="{x:Bind local1:App.InteractionViewModel.IsAppWindowSmall, Mode=OneWay}">
+                Visibility="Visible">
                 <Button.Flyout>
                     <Flyout
                         x:Name="VerticalTabViewFlyout"
