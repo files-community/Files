@@ -86,7 +86,6 @@ namespace Files
                 RequestedTheme = ThemeHelper.RootTheme;
                 Background = new AcrylicBrush()
                 {
-                    TintLuminosityOpacity = 0.9,
                     AlwaysUseFallback = AppSettings.AcrylicEnabled,
                     BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
                     FallbackColor = AppSettings.AcrylicTheme.FallbackColor,
@@ -95,6 +94,7 @@ namespace Files
                 };
                 if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
                 {
+                    (Background as AcrylicBrush).TintLuminosityOpacity = 0.9;
                     switch (RequestedTheme)
                     {
                         case ElementTheme.Default:
@@ -124,16 +124,24 @@ namespace Files
             }
             else
             {
-                var propertiesDialog = new PropertiesDialog();
+                var propertiesDialog = Interaction.FindParent<ContentDialog>(this);
                 propertiesDialog.Hide();
             }
         }
 
         private async void Page_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key.Equals(VirtualKey.Escape) && ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            if (e.Key.Equals(VirtualKey.Escape))
             {
-                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+                {
+                    await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                }
+                else
+                {
+                    var propertiesDialog = Interaction.FindParent<ContentDialog>(this);
+                    propertiesDialog.Hide();
+                }
             }
         }
 

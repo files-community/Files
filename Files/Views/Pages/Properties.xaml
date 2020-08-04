@@ -31,6 +31,7 @@
             x:Name="NavigationView"
             Grid.Row="1"
             AllowDrop="False"
+            IsPaneOpen="False"
             IsBackButtonVisible="Collapsed"
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
