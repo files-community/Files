@@ -187,8 +187,8 @@
           <target state="translated" state-qualifier="tm-suggestion">חיפוש</target>
         </trans-unit>
         <trans-unit id="RecentItemDescription.Text" translate="yes" xml:space="preserve">
-          <source>Files and folders you've previously accessed will show up here</source>
-          <target state="new">Files and folders you've previously accessed will show up here</target>
+          <source>Files you've previously accessed will show up here</source>
+          <target state="new">Files you've previously accessed will show up here</target>
         </trans-unit>
         <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
@@ -1089,6 +1089,14 @@
         <trans-unit id="ShortcutCreateNewSuffix" translate="yes" xml:space="preserve">
           <source>{0} - shortcut</source>
           <target state="new">{0} - shortcut</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation.Text" translate="yes" xml:space="preserve">
+          <source>Open file location</source>
+          <target state="new">Open file location</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesShowHorizontalTabStrip.Text" translate="yes" xml:space="preserve">
+          <source>Show a horizontal tab strip on the title bar</source>
+          <target state="new">Show a horizontal tab strip on the title bar</target>
         </trans-unit>
       </group>
     </body>

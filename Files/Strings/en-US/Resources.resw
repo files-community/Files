@@ -930,4 +930,10 @@
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - shortcut</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
+    <value>Open file location</value>
+  </data>
+  <data name="SettingsPreferencesShowHorizontalTabStrip.Text" xml:space="preserve">
+    <value>Show a horizontal tab strip on the title bar</value>
+  </data>
 </root>

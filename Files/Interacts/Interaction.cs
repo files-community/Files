@@ -315,6 +315,13 @@ namespace Files.Interacts
             OpenSelectedItems(true);
         }
 
+        public void OpenFileLocation_Click(object sender, RoutedEventArgs e)
+        {
+            var item = CurrentInstance.ContentPage.SelectedItem as ShortcutItem;
+            var folderPath = Path.GetDirectoryName(item.TargetPath);
+            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), folderPath);
+        }
+
         private async void OpenSelectedItems(bool displayApplicationPicker)
         {
             if (CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
@@ -676,11 +683,19 @@ namespace Files.Interacts
 
         public async void DeleteItem(StorageDeleteOption deleteOption)
         {
-            var deleteFromRecycleBin = CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath);
+            var deleteFromRecycleBin = App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath);
             if (deleteFromRecycleBin)
             {
                 // Permanently delete if deleting from recycle bin
                 deleteOption = StorageDeleteOption.PermanentDelete;
+            }
+
+            // Get selected items before showing the prompt to prevent deleting items selected after the prompt
+            var CurrentInstance = App.CurrentInstance;
+            List<ListedItem> selectedItems = new List<ListedItem>();
+            foreach (ListedItem selectedItem in CurrentInstance.ContentPage.SelectedItems)
+            {
+                selectedItems.Add(selectedItem);
             }
 
             if (AppSettings.ShowConfirmDeleteDialog == true) //check if the setting to show a confirmation dialog is on
@@ -697,12 +712,6 @@ namespace Files.Interacts
             StatusBanner banner = null;
             try
             {
-                var CurrentInstance = App.CurrentInstance;
-                List<ListedItem> selectedItems = new List<ListedItem>();
-                foreach (ListedItem selectedItem in CurrentInstance.ContentPage.SelectedItems)
-                {
-                    selectedItems.Add(selectedItem);
-                }
                 int itemsDeleted = 0;
                 if (selectedItems.Count > 3)
                 {

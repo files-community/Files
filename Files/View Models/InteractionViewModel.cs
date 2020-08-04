@@ -34,7 +34,7 @@ namespace Files.Controls
             }
         }
 
-        private Thickness _TabsLeftMargin = new Thickness(200, 0, 0, 0);
+        private Thickness _TabsLeftMargin = new Thickness(0, 0, 0, 0);
 
         public Thickness TabsLeftMargin
         {
