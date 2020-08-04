@@ -1,10 +1,12 @@
 ﻿using ByteSizeLib;
 using Files.Filesystem;
 using Files.Helpers;
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Core;
@@ -75,11 +77,8 @@ namespace Files.View_Models.Properties
                 return;
             }
 
-            var tcs = new TaskCompletionSource<bool>();
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { tcs.SetResult(App.CurrentInstance.ContentPage.IsItemSelected); });
-            var isItemSelected = await tcs.Task;
-
             StorageFolder storageFolder;
+            var isItemSelected = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => App.CurrentInstance.ContentPage.IsItemSelected);
             if (isItemSelected)
             {
                 storageFolder = await ItemViewModel.GetFolderFromPathAsync(Item.ItemPath);

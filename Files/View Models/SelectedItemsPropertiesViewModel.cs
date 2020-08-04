@@ -3,11 +3,13 @@ using Files.Filesystem;
 using Files.Helpers;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -514,10 +516,7 @@ namespace Files.View_Models
         public async void CheckFileExtension()
         {
             //check if the selected item is an image file
-            var tcs = new TaskCompletionSource<string>();
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { tcs.SetResult(App.CurrentInstance.ContentPage.SelectedItem.FileExtension); });
-            string ItemExtension = await tcs.Task;
-
+            string ItemExtension = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => App.CurrentInstance.ContentPage.SelectedItem.FileExtension);
             if (!string.IsNullOrEmpty(ItemExtension) && SelectedItemsCount == "1 " + ResourceController.GetTranslation("ItemSelected/Text"))
             {
                 if (ItemExtension.Equals(".png", StringComparison.OrdinalIgnoreCase)

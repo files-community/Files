@@ -2,6 +2,7 @@
 using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading;
 using Windows.ApplicationModel.Core;
@@ -53,10 +54,7 @@ namespace Files
                 TitleBar = ApplicationView.GetForCurrentView().TitleBar;
                 TitleBar.ButtonBackgroundColor = Colors.Transparent;
                 TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    AppSettings.UpdateThemeElements.Execute(null);
-                });
+                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppSettings.UpdateThemeElements.Execute(null));
             }
             else
             {
