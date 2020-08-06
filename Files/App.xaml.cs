@@ -27,6 +27,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Windows.UI.Notifications;
 
 namespace Files
 {
@@ -54,6 +56,7 @@ namespace Files
         public static JumpListManager JumpList { get; } = new JumpListManager();
         public static SidebarPinnedController SidebarPinnedController { get; set; }
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static bool ShowErrorNotification = false;
 
         public App()
         {
@@ -219,6 +222,7 @@ namespace Files
                 Window.Current.CoreWindow.Activated += CoreWindow_Activated;
                 var currentView = SystemNavigationManager.GetForCurrentView();
                 currentView.BackRequested += Window_BackRequested;
+                ShowErrorNotification = true;
             }
         }
 
@@ -392,6 +396,7 @@ namespace Files
         private static void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
             Logger.Error(e.Exception, e.Message);
+            UnhandledExceptionNotification();
         }
 
         // Occurs when an exception is not handled on a background thread.
@@ -399,6 +404,40 @@ namespace Files
         private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e)
         {
             Logger.Error(e.Exception, e.Exception.Message);
+            UnhandledExceptionNotification();
+        }
+
+        private static void UnhandledExceptionNotification()
+        {
+            if (ShowErrorNotification)
+            {
+                var toastContent = new ToastContent()
+                {
+                    Visual = new ToastVisual()
+                    {
+                        BindingGeneric = new ToastBindingGeneric()
+                        {
+                            Children =
+            {
+                new AdaptiveText()
+                {
+                    Text = "Something went wrong!"
+                },
+                new AdaptiveText()
+                {
+                    Text = "Files ran into a problem that the developers didn't prepare for yet. Please restart the app and try what you were doing again."
+                }
+            }
+                        }
+                    }
+                };
+
+                // Create the toast notification
+                var toastNotif = new ToastNotification(toastContent.GetXml());
+
+                // And send the notification
+                ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+            }
         }
 
         public static async void CloseApp()
