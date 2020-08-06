@@ -69,7 +69,7 @@ namespace Files.View_Models
             }
         }
 
-        public DefaultLanguageModel CurrentLanguage = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);
+        public DefaultLanguageModel CurrentLanguage { get; set; } = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);
 
         public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; }
 
@@ -235,7 +235,7 @@ namespace Files.View_Models
             set => Set(ref _FormFactor, value);
         }
 
-        public string OneDrivePath = Environment.GetEnvironmentVariable("OneDrive");
+        public string OneDrivePath { get; set; } = Environment.GetEnvironmentVariable("OneDrive");
 
         private async void DetectOneDrivePreference()
         {
@@ -265,7 +265,7 @@ namespace Files.View_Models
             get => Get(false);
             set => Set(value);
         }
-
+                
         private bool _PinOneDriveToSideBar = true;
 
         public bool PinOneDriveToSideBar
@@ -304,7 +304,7 @@ namespace Files.View_Models
 
         // Any distinguishable path here is fine
         // Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
-        public string RecycleBinPath = @"Shell:RecycleBinFolder";
+        public string RecycleBinPath { get; set; } = @"Shell:RecycleBinFolder";
 
         private void DetectRecycleBinPreference()
         {
@@ -360,17 +360,12 @@ namespace Files.View_Models
             }
         }
 
-        public string DesktopPath = UserDataPaths.GetDefault().Desktop;
-
-        public string DocumentsPath = UserDataPaths.GetDefault().Documents;
-
-        public string DownloadsPath = UserDataPaths.GetDefault().Downloads;
-
-        public string PicturesPath = UserDataPaths.GetDefault().Pictures;
-
-        public string MusicPath = UserDataPaths.GetDefault().Music;
-
-        public string VideosPath = UserDataPaths.GetDefault().Videos;
+        public string DesktopPath { get; set; } = UserDataPaths.GetDefault().Desktop;
+        public string DocumentsPath { get; set; } = UserDataPaths.GetDefault().Documents;
+        public string DownloadsPath { get; set; } = UserDataPaths.GetDefault().Downloads;
+        public string PicturesPath { get; set; } = UserDataPaths.GetDefault().Pictures;
+        public string MusicPath { get; set; } = UserDataPaths.GetDefault().Music;
+        public string VideosPath { get; set; } = UserDataPaths.GetDefault().Videos;
 
         private string _TempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
 
@@ -429,6 +424,12 @@ namespace Files.View_Models
         }
 
         public bool IsMultitaskingControlVisible
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        public bool IsHorizontalTabStripVisible
         {
             get => Get(true);
             set => Set(value);
