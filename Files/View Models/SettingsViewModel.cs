@@ -568,7 +568,7 @@ namespace Files.View_Models
             if (Path.IsPathRooted(path) && Path.GetPathRoot(path) == path)
             {
                 // For some reason, Windows doesn't like storing root paths in ApplicationDataContainer so handle it manually
-                if (dataContainer.Values.ContainsKey($"Root{path[0]}")
+                if (dataContainer.Values.ContainsKey($"Root{path[0]}"))
                 {
                     LayoutMode = (LayoutMode)(byte)dataContainer.Values[$"Root{path[0]}"];
                 }
