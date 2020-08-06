@@ -192,7 +192,6 @@ namespace Files.Controls
                     RecycleBinHasItems = false;
                 }
 
-
                 ShowEmptyRecycleBin = true;
                 ShowUnpinItem = true;
             }
