@@ -79,6 +79,7 @@ namespace Files
         {
             // Need to reinitialize AppService when app is resuming
             InitializeAppServiceConnection();
+            ShowErrorNotification = true;
         }
 
         public static AppServiceConnection Connection;
@@ -355,6 +356,7 @@ namespace Files
             Window.Current.Activate();
             Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
             Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+            ShowErrorNotification = true;
         }
 
         private void TryEnablePrelaunch()
@@ -389,6 +391,7 @@ namespace Files
                 Connection = null;
             }
             AppSettings?.Dispose();
+            ShowErrorNotification = false;
             deferral.Complete();
         }
 
