@@ -79,7 +79,6 @@ namespace Files
         {
             // Need to reinitialize AppService when app is resuming
             InitializeAppServiceConnection();
-            ShowErrorNotification = true;
         }
 
         public static AppServiceConnection Connection;
@@ -391,7 +390,6 @@ namespace Files
                 Connection = null;
             }
             AppSettings?.Dispose();
-            ShowErrorNotification = false;
             deferral.Complete();
         }
 
