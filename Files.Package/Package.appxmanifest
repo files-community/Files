@@ -55,7 +55,6 @@
 					<uap5:AppExecutionAlias>
 						<uap5:ExecutionAlias Alias="files.exe"/>
 					</uap5:AppExecutionAlias>
-				</uap5:Extension>
 			</Extensions>
 		</Application>
 	</Applications>

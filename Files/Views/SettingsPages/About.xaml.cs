@@ -1,7 +1,4 @@
-﻿using System;
-using Windows.ApplicationModel;
-using Windows.Storage;
-using Windows.System;
+﻿using Windows.ApplicationModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -16,14 +13,8 @@ namespace Files.SettingsPages
             VersionNumber.Text = string.Format($"Version: {version.Major}.{version.Minor}.{version.Build}.{version.Revision}");
         }
 
-        private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/files-uwp/issues/new/choose"));
-        }
+        private void ListView_ItemClick(object sender, ItemClickEventArgs e) => View_Models.SettingsViewModel.ReportIssueOnGitHub();
 
-        private async void OpenLogLocationButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
-        }
+        private void OpenLogLocationButton_Click(object sender, RoutedEventArgs e) => View_Models.SettingsViewModel.OpenLogLocation();
     }
 }

@@ -347,6 +347,27 @@ namespace Files
                         }
                     }
                     break;
+
+                case ActivationKind.ToastNotification:
+                    var eventArgsForNotification = args as ToastNotificationActivatedEventArgs;
+                    if (eventArgsForNotification.Argument == "accessLogFile")
+                    {
+                        // Open log location and activate this instance
+                        SettingsViewModel.OpenLogLocation();
+                    }
+                    else
+                    {
+                        rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+                        // Ensure the current window is active.
+                        Window.Current.Activate();
+                        Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                        Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+                        currentView.BackRequested += Window_BackRequested;
+                        // Launch the URI now
+                        SettingsViewModel.ReportIssueOnGitHub();
+                        return;
+                    }
+                    break;
             }
 
             rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
@@ -426,10 +447,28 @@ namespace Files
                 },
                 new AdaptiveText()
                 {
-                    Text = "Files ran into a problem that the developers didn't prepare for yet. Please restart the app and try what you were doing again."
+                    Text = "Files ran into a problem that the developers didn't prepare for yet."
                 }
-            }
+            },
+                            AppLogoOverride = new ToastGenericAppLogo()
+                            {
+                                Source = "ms-appx:///Assets/error.png"
+                            }
                         }
+                    },
+                    Actions = new ToastActionsCustom()
+                    {
+                        Buttons =
+        {
+            new ToastButton("Report this issue", "report")
+            {
+                ActivationType = ToastActivationType.Foreground
+            },
+            new ToastButton("Open log location", "accessLogFile")
+            {
+                ActivationType = ToastActivationType.Foreground
+            }
+        }
                     }
                 };
 
