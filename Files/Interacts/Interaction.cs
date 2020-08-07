@@ -34,8 +34,7 @@ using Windows.System.UserProfile;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Popups;
-using Windows.UI.WindowManagement;
-using Windows.UI.WindowManagement.Preview;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
@@ -527,9 +526,6 @@ namespace Files.Interacts
             DataTransferManager.ShowShareUI();
         }
 
-        public static Dictionary<UIContext, AppWindow> AppWindows { get; set; }
-            = new Dictionary<UIContext, AppWindow>();
-
         private async void ShowProperties()
         {
             if (App.CurrentInstance.ContentPage.IsItemSelected)
@@ -562,27 +558,28 @@ namespace Files.Interacts
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                AppWindow appWindow = await AppWindow.TryCreateAsync();
-                Frame frame = new Frame();
-                appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-                frame.Navigate(typeof(Properties), item, new SuppressNavigationTransitionInfo());
+                CoreApplicationView newWindow = CoreApplication.CreateNewView();
+                ApplicationView newView = null;
 
-                WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 550));
-
-                appWindow.RequestSize(new Size(400, 550));
-                appWindow.Title = ResourceController.GetTranslation("PropertiesTitle");
-
-                ElementCompositionPreview.SetAppWindowContent(appWindow, frame);
-                AppWindows.Add(frame.UIContext, appWindow);
-
-                appWindow.Closed += delegate
+                await newWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    AppWindows.Remove(frame.UIContext);
-                    frame.Content = null;
-                    appWindow = null;
-                };
+                    Frame frame = new Frame();
+                    frame.Navigate(typeof(Properties), item, new SuppressNavigationTransitionInfo());
+                    Window.Current.Content = frame;
+                    Window.Current.Activate();
 
-                await appWindow.TryShowAsync();
+                    newView = ApplicationView.GetForCurrentView();
+                    newWindow.TitleBar.ExtendViewIntoTitleBar = true;
+                    newView.Title = ResourceController.GetTranslation("PropertiesTitle");
+                    newView.SetPreferredMinSize(new Size(400, 550));
+                    newView.Consolidated += delegate
+                    {
+                        Window.Current.Close();
+                    };
+                });
+                bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newView.Id);
+                // Set window size again here as sometimes it's not resized in the page Loaded event
+                newView.TryResizeView(new Size(400, 550));
             }
             else
             {

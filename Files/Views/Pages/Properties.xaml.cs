@@ -1,30 +1,31 @@
-﻿using Files.Dialogs;
-using Files.Filesystem;
+﻿using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI;
-using Windows.UI.WindowManagement;
+using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
 {
     public sealed partial class Properties : Page
     {
-        private static AppWindowTitleBar TitleBar;
+        private static ApplicationViewTitleBar TitleBar;
 
         private CancellationTokenSource tokenSource = new CancellationTokenSource();
 
         private object navParameter;
-
-        public AppWindow propWindow;
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -37,78 +38,151 @@ namespace Files
         {
             this.navParameter = e.Parameter;
             this.TabShorcut.Visibility = e.Parameter is ShortcutItem ? Visibility.Visible : Visibility.Collapsed;
+            this.SetBackground();
             base.OnNavigatedTo(e);
         }
 
-        private void Properties_Loaded(object sender, RoutedEventArgs e)
+        private async void Properties_Loaded(object sender, RoutedEventArgs e)
         {
             AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
+            AppSettings.PropertyChanged += AppSettings_PropertyChanged;
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                propWindow = Interaction.AppWindows[UIContext]; // Collect AppWindow-specific info
-
-                TitleBar = propWindow.TitleBar; // Set properties window titleBar style
+                // Set window size in the loaded event to prevent flickering
+                ApplicationView.GetForCurrentView().TryResizeView(new Windows.Foundation.Size(400, 550));
+                ApplicationView.GetForCurrentView().Consolidated += Properties_Consolidated;
+                TitleBar = ApplicationView.GetForCurrentView().TitleBar;
                 TitleBar.ButtonBackgroundColor = Colors.Transparent;
                 TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                AppSettings.UpdateThemeElements.Execute(null);
+                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppSettings.UpdateThemeElements.Execute(null));
+            }
+            else
+            {
+                var propertiesDialog = Interaction.FindParent<ContentDialog>(this);
+                propertiesDialog.Closed += PropertiesDialog_Closed;
             }
         }
 
-        private void Properties_Unloaded(object sender, RoutedEventArgs e)
+        private void AppSettings_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            switch (e.PropertyName)
+            {
+                case "AcrylicEnabled":
+                case "FallbackColor":
+                case "TintColor":
+                case "TintOpacity":
+                    SetBackground();
+                    break;
+            }
+        }
+
+        private async void SetBackground()
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                var backgroundBrush = new AcrylicBrush()
+                {
+                    AlwaysUseFallback = AppSettings.AcrylicEnabled,
+                    BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
+                    FallbackColor = AppSettings.AcrylicTheme.FallbackColor,
+                    TintColor = AppSettings.AcrylicTheme.TintColor,
+                    TintOpacity = AppSettings.AcrylicTheme.TintOpacity,
+                };
+                if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+                {
+                    backgroundBrush.TintLuminosityOpacity = 0.9;
+                }
+                Background = backgroundBrush;
+            });
+        }
+
+        private void Properties_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
+        {
+            AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
+            AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
+            ApplicationView.GetForCurrentView().Consolidated -= Properties_Consolidated;
             if (tokenSource != null && !tokenSource.IsCancellationRequested)
             {
                 tokenSource.Cancel();
                 tokenSource.Dispose();
                 tokenSource = null;
             }
-            AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
         }
 
-        private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
+        private void PropertiesDialog_Closed(ContentDialog sender, ContentDialogClosedEventArgs args)
         {
-            RequestedTheme = ThemeHelper.RootTheme;
-            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
+            AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
+            sender.Closed -= PropertiesDialog_Closed;
+            if (tokenSource != null && !tokenSource.IsCancellationRequested)
             {
-                switch (ThemeHelper.RootTheme)
-                {
-                    case ElementTheme.Default:
-                        TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
-                        TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
-                        break;
-
-                    case ElementTheme.Light:
-                        TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
-                        TitleBar.ButtonForegroundColor = Colors.Black;
-                        break;
-
-                    case ElementTheme.Dark:
-                        TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
-                        TitleBar.ButtonForegroundColor = Colors.White;
-                        break;
-                }
+                tokenSource.Cancel();
+                tokenSource.Dispose();
+                tokenSource = null;
             }
+        }
+
+        private void Properties_Unloaded(object sender, RoutedEventArgs e)
+        {
+            // Why is this not called? Are we cleaning up properly?
+        }
+
+        private async void AppSettings_ThemeModeChanged(object sender, EventArgs e)
+        {
+            var selectedTheme = ThemeHelper.RootTheme;
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                RequestedTheme = selectedTheme;
+                if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+                {
+                    switch (RequestedTheme)
+                    {
+                        case ElementTheme.Default:
+                            TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
+                            TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
+                            break;
+
+                        case ElementTheme.Light:
+                            TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
+                            TitleBar.ButtonForegroundColor = Colors.Black;
+                            break;
+
+                        case ElementTheme.Dark:
+                            TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
+                            TitleBar.ButtonForegroundColor = Colors.White;
+                            break;
+                    }
+                }
+                SetBackground();
+            });
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                await propWindow.CloseAsync();
+                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
             }
             else
             {
-                var propertiesDialog = new PropertiesDialog();
+                var propertiesDialog = Interaction.FindParent<ContentDialog>(this);
                 propertiesDialog.Hide();
             }
         }
 
         private async void Page_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key.Equals(VirtualKey.Escape) && ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            if (e.Key.Equals(VirtualKey.Escape))
             {
-                await propWindow.CloseAsync();
+                if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+                {
+                    await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                }
+                else
+                {
+                    var propertiesDialog = Interaction.FindParent<ContentDialog>(this);
+                    propertiesDialog.Hide();
+                }
             }
         }
 

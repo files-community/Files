@@ -417,6 +417,7 @@ namespace Files
                     (this.FindName("SidebarPinItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                     //this.FindName("SidebarPinItem");
                     (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                    (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                 }
                 else
                 {

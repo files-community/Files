@@ -8,6 +8,7 @@ using System.Threading;
 using Windows.Foundation.Collections;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage.FileProperties;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -19,11 +20,12 @@ namespace Files.View_Models.Properties
 
         public ListedItem Item { get; }
 
-        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, ProgressBar progressBar, ListedItem item)
+        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ProgressBar progressBar, ListedItem item)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;
             ProgressBar = progressBar;
+            Dispatcher = coreDispatcher;
             Item = item;
 
             GetBaseProperties();
@@ -38,7 +40,7 @@ namespace Files.View_Models.Properties
                 ViewModel.ItemType = Item.ItemType;
                 ViewModel.ItemPath = Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath;
                 ViewModel.ItemModifiedTimestamp = Item.ItemDateModified;
-                ViewModel.FileIconSource = Item.FileImage;
+                //ViewModel.FileIconSource = Item.FileImage;
                 ViewModel.LoadFolderGlyph = Item.LoadFolderGlyph;
                 ViewModel.LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
                 ViewModel.LoadFileIcon = Item.LoadFileIcon;
@@ -59,6 +61,7 @@ namespace Files.View_Models.Properties
                     ViewModel.ShortcutItemWorkingDirVisibility = Item.IsLinkItem ? Visibility.Collapsed : Visibility.Visible;
                     ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
                     ViewModel.ShortcutItemArgumentsVisibility = Item.IsLinkItem ? Visibility.Collapsed : Visibility.Visible;
+                    ViewModel.IsSelectedItemShortcut = Item.FileExtension.Equals(".lnk", StringComparison.OrdinalIgnoreCase);
                     ViewModel.ShortcutItemOpenLinkCommand = new GalaSoft.MvvmLight.Command.RelayCommand(async () =>
                     {
                         if (Item.IsLinkItem)
