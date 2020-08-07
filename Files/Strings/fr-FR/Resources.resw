@@ -202,7 +202,7 @@
     <value>Date de modification</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
-    <value>Taper</value>
+    <value>Type</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
     <value>Taille</value>
