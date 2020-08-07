@@ -936,4 +936,19 @@
   <data name="SettingsPreferencesShowHorizontalTabStrip.Text" xml:space="preserve">
     <value>Show a horizontal tab strip on the title bar</value>
   </data>
+  <data name="DriveCapacityUnknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
+    <value>Open log location</value>
+  </data>
+  <data name="ExceptionNotificationBody" xml:space="preserve">
+    <value>Files ran into a problem that the developers didn't prepare for yet.</value>
+  </data>
+  <data name="ExceptionNotificationHeader" xml:space="preserve">
+    <value>Something went wrong!</value>
+  </data>
+  <data name="ExceptionNotificationReportButton" xml:space="preserve">
+    <value>Report this issue</value>
+  </data>
 </root>

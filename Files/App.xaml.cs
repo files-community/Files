@@ -56,7 +56,6 @@ namespace Files
         public static JumpListManager JumpList { get; } = new JumpListManager();
         public static SidebarPinnedController SidebarPinnedController { get; set; }
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private static bool ShowErrorNotification = false;
 
         public App()
         {
@@ -422,54 +421,51 @@ namespace Files
         private static void AppUnhandledException(Exception ex, bool isBackgroundTask = false)
         {
             Logger.Error(ex, ex.Message);
-            if (ShowErrorNotification)
+
+            var toastContent = new ToastContent()
             {
-                
-                var toastContent = new ToastContent()
+                Visual = new ToastVisual()
                 {
-                    Visual = new ToastVisual()
+                    BindingGeneric = new ToastBindingGeneric()
                     {
-                        BindingGeneric = new ToastBindingGeneric()
-                        {
-                            Children =
+                        Children =
             {
                 new AdaptiveText()
                 {
-                    Text = "Something went wrong!"
+                    Text = ResourceController.GetTranslation("ExceptionNotificationHeader")
                 },
                 new AdaptiveText()
                 {
-                    Text = "Files ran into a problem that the developers didn't prepare for yet."
+                    Text = ResourceController.GetTranslation("ExceptionNotificationBody")
                 }
             },
-                            AppLogoOverride = new ToastGenericAppLogo()
-                            {
-                                Source = "ms-appx:///Assets/error.png"
-                            }
+                        AppLogoOverride = new ToastGenericAppLogo()
+                        {
+                            Source = "ms-appx:///Assets/error.png"
                         }
-                    },
-                    Actions = new ToastActionsCustom()
-                    {
-                        Buttons =
+                    }
+                },
+                Actions = new ToastActionsCustom()
+                {
+                    Buttons =
         {
-            new ToastButton("Report this issue", "report")
+            new ToastButton(ResourceController.GetTranslation("ExceptionNotificationReportButton"), "report")
             {
                 ActivationType = ToastActivationType.Foreground
             },
-            new ToastButton("Open log location", "accessLogFile")
+            new ToastButton(ResourceController.GetTranslation("ExceptionNotificationAccessLogFileButton"), "accessLogFile")
             {
                 ActivationType = ToastActivationType.Foreground
             }
         }
-                    }
-                };
+                }
+            };
 
-                // Create the toast notification
-                var toastNotif = new ToastNotification(toastContent.GetXml());
+            // Create the toast notification
+            var toastNotif = new ToastNotification(toastContent.GetXml());
 
-                // And send the notification
-                ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
-            }
+            // And send the notification
+            ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
         }
 
         public static async void CloseApp()
