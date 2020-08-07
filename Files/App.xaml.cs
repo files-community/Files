@@ -222,7 +222,6 @@ namespace Files
                 Window.Current.CoreWindow.Activated += CoreWindow_Activated;
                 var currentView = SystemNavigationManager.GetForCurrentView();
                 currentView.BackRequested += Window_BackRequested;
-                ShowErrorNotification = true;
             }
         }
 
@@ -376,7 +375,6 @@ namespace Files
             Window.Current.Activate();
             Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
             Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-            ShowErrorNotification = true;
         }
 
         private void TryEnablePrelaunch()
