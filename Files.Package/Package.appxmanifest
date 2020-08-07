@@ -48,13 +48,14 @@
 				<uap:Extension Category="windows.protocol">
 					<uap:Protocol ReturnResults="none" Name="files-uwp"/>
 				</uap:Extension>
-				<uap5:Extension
+        <uap5:Extension
 				  Category="windows.appExecutionAlias"
 				  Executable="files.exe"
 				  EntryPoint="files.App">
-					<uap5:AppExecutionAlias>
-						<uap5:ExecutionAlias Alias="files.exe"/>
-					</uap5:AppExecutionAlias>
+          <uap5:AppExecutionAlias>
+            <uap5:ExecutionAlias Alias="files.exe"/>
+          </uap5:AppExecutionAlias>
+        </uap5:Extension>
 			</Extensions>
 		</Application>
 	</Applications>
