@@ -415,24 +415,18 @@ namespace Files
         }
 
         // Occurs when an exception is not handled on the UI thread.
-        private static void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
-        {
-            Logger.Error(e.Exception, e.Message);
-            UnhandledExceptionNotification();
-        }
+        private static void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e) => AppUnhandledException(e.Exception);
 
         // Occurs when an exception is not handled on a background thread.
         // ie. A task is fired and forgotten Task.Run(() => {...})
-        private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e)
-        {
-            Logger.Error(e.Exception, e.Exception.Message);
-            UnhandledExceptionNotification();
-        }
+        private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e) => AppUnhandledException(e.Exception, true);
 
-        private static void UnhandledExceptionNotification()
+        private static void AppUnhandledException(Exception ex, bool isBackgroundTask = false)
         {
+            Logger.Error(ex, ex.Message);
             if (ShowErrorNotification)
             {
+                
                 var toastContent = new ToastContent()
                 {
                     Visual = new ToastVisual()
