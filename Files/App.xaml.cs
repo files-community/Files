@@ -348,7 +348,7 @@ namespace Files
 
                 case ActivationKind.ToastNotification:
                     var eventArgsForNotification = args as ToastNotificationActivatedEventArgs;
-                    rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+                    rootFrame.Navigate(typeof(MainPage), "tryRecoverTabs", new SuppressNavigationTransitionInfo());
                     // Ensure the current window is active.
                     Window.Current.Activate();
                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
@@ -412,6 +412,15 @@ namespace Files
         private static void AppUnhandledException(Exception ex, bool isBackgroundTask = false)
         {
             Logger.Error(ex, ex.Message);
+            // Saving tabs is not possible in a task because doing that will prevent from getting a crash report
+            if (!isBackgroundTask)
+            {
+                MainPage.SaveTabs();
+            }
+            else
+            {
+                ApplicationData.Current.LocalSettings.Values["tabsSaved"] = false;
+            }
 
             var toastContent = new ToastContent()
             {
@@ -420,16 +429,16 @@ namespace Files
                     BindingGeneric = new ToastBindingGeneric()
                     {
                         Children =
-            {
-                new AdaptiveText()
-                {
-                    Text = ResourceController.GetTranslation("ExceptionNotificationHeader")
-                },
-                new AdaptiveText()
-                {
-                    Text = ResourceController.GetTranslation("ExceptionNotificationBody")
-                }
-            },
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = ResourceController.GetTranslation("ExceptionNotificationHeader")
+                            },
+                            new AdaptiveText()
+                            {
+                                Text = ResourceController.GetTranslation("ExceptionNotificationBody")
+                            }
+                        },
                         AppLogoOverride = new ToastGenericAppLogo()
                         {
                             Source = "ms-appx:///Assets/error.png"
@@ -439,12 +448,12 @@ namespace Files
                 Actions = new ToastActionsCustom()
                 {
                     Buttons =
-        {
-            new ToastButton(ResourceController.GetTranslation("ExceptionNotificationReportButton"), "report")
-            {
-                ActivationType = ToastActivationType.Foreground
-            }
-        }
+                    {
+                        new ToastButton(ResourceController.GetTranslation("ExceptionNotificationReportButton"), "report")
+                        {
+                            ActivationType = ToastActivationType.Foreground
+                        }
+                    }
                 }
             };
 

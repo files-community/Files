@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
-using Windows.Services.Maps;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.ViewManagement;
@@ -25,6 +24,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Windows.UI.Notifications;
 
 using static Files.Helpers.PathNormalization;
 
@@ -106,6 +107,60 @@ namespace Files.Views
                         await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
                     }
                 }
+                else if (navArgs == "tryRecoverTabs")
+                {
+                    if ((bool)ApplicationData.Current.LocalSettings.Values["tabsSaved"])
+                    {
+                        var tabFile = await ApplicationData.Current.TemporaryFolder.GetFileAsync("savedTabs");
+                        try
+                        {
+                            var tabsToRestore = await FileIO.ReadLinesAsync(tabFile);
+                            foreach (string path in tabsToRestore)
+                            {
+                                await AddNewTab(typeof(ModernShellPage), path);
+                            }
+
+                            var toastContent = new ToastContent()
+                            {
+                                Visual = new ToastVisual()
+                                {
+                                    BindingGeneric = new ToastBindingGeneric()
+                                    {
+                                        Children =
+                                        {
+                                            new AdaptiveText()
+                                            {
+                                                Text = "We've restored your tabs"
+                                            },
+                                            new AdaptiveText()
+                                            {
+                                                Text = "You can continue doing what you were trying before!"
+                                            }
+                                        }
+                                    }
+                                }
+                            };
+
+                            // Create the toast notification
+                            var toastNotif = new ToastNotification(toastContent.GetXml());
+
+                            // And send the notification
+                            ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+                        }
+                        catch
+                        {
+                            SendRestoreTabFailedNotification();
+                        }
+                        finally
+                        {
+                            await tabFile.DeleteAsync();
+                        }
+                    }
+                    else
+                    {
+                        SendRestoreTabFailedNotification();
+                    }
+                }
                 else if (string.IsNullOrEmpty(navArgs))
                 {
                     await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
@@ -119,6 +174,56 @@ namespace Files.Views
                 Frame rootFrame = Window.Current.Content as Frame;
                 var mainView = rootFrame.Content as MainPage;
                 mainView.SelectedTabItem = AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
+            }
+
+        }
+
+        private static void SendRestoreTabFailedNotification()
+        {
+            var toastContent = new ToastContent()
+            {
+                Visual = new ToastVisual()
+                {
+                    BindingGeneric = new ToastBindingGeneric()
+                    {
+                        Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = "We couldn't restore your tabs"
+                            },
+                            new AdaptiveText()
+                            {
+                                Text = "Sorry, something went wrong while trying to restore yout tabs."
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Create the toast notification
+            var toastNotif = new ToastNotification(toastContent.GetXml());
+
+            // And send the notification
+            ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+        }
+
+        public static async void SaveTabs()
+        {
+            try
+            {
+                string[] savedTabPaths = new string[AppInstances.Count];
+                for (int i = 0; i < AppInstances.Count; i++)
+                {
+                    savedTabPaths[i] = (((AppInstances[i].Content as Grid).Children.First() as Frame).Tag as TabItemContent).NavigationArg;
+                }
+                StorageFile tabFile = await ApplicationData.Current.TemporaryFolder.CreateFileAsync("savedTabs", CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteLinesAsync(tabFile, savedTabPaths);
+                ApplicationData.Current.LocalSettings.Values["tabsSaved"] = true;
+            }
+            catch
+            {
+                ApplicationData.Current.LocalSettings.Values["tabsSaved"] = false;
             }
         }
 
