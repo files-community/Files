@@ -348,24 +348,15 @@ namespace Files
 
                 case ActivationKind.ToastNotification:
                     var eventArgsForNotification = args as ToastNotificationActivatedEventArgs;
-                    if (eventArgsForNotification.Argument == "accessLogFile")
-                    {
-                        // Open log location and activate this instance
-                        SettingsViewModel.OpenLogLocation();
-                    }
-                    else
-                    {
-                        rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
-                        // Ensure the current window is active.
-                        Window.Current.Activate();
-                        Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
-                        Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-                        currentView.BackRequested += Window_BackRequested;
-                        // Launch the URI now
-                        SettingsViewModel.ReportIssueOnGitHub();
-                        return;
-                    }
-                    break;
+                    rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+                    // Ensure the current window is active.
+                    Window.Current.Activate();
+                    Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                    Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+                    currentView.BackRequested += Window_BackRequested;
+                    // Launch the URI now
+                    SettingsViewModel.ReportIssueOnGitHub();
+                    return;
             }
 
             rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
@@ -450,10 +441,6 @@ namespace Files
                     Buttons =
         {
             new ToastButton(ResourceController.GetTranslation("ExceptionNotificationReportButton"), "report")
-            {
-                ActivationType = ToastActivationType.Foreground
-            },
-            new ToastButton(ResourceController.GetTranslation("ExceptionNotificationAccessLogFileButton"), "accessLogFile")
             {
                 ActivationType = ToastActivationType.Foreground
             }
