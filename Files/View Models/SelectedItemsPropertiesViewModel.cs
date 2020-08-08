@@ -2,10 +2,15 @@ using ByteSizeLib;
 using Files.Filesystem;
 using Files.Helpers;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -500,11 +505,22 @@ namespace Files.View_Models
             set => Set(ref _IsSelectedItemImage, value);
         }
 
-        public void CheckForImage()
-        {
-            //check if the selected item is an image file
-            string ItemExtension = App.CurrentInstance.ContentPage.SelectedItem.FileExtension;
+        private bool _IsSelectedItemShortcut = false;
 
+        public bool IsSelectedItemShortcut
+        {
+            get => _IsSelectedItemShortcut;
+            set => Set(ref _IsSelectedItemShortcut, value);
+        }
+
+        public async void CheckFileExtension()
+        {
+            // Set properties to false
+            IsSelectedItemImage = false;
+            IsSelectedItemShortcut = false;
+
+            //check if the selected item is an image file
+            string ItemExtension = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => App.CurrentInstance.ContentPage.SelectedItem.FileExtension);
             if (!string.IsNullOrEmpty(ItemExtension) && SelectedItemsCount == "1 " + ResourceController.GetTranslation("ItemSelected/Text"))
             {
                 if (ItemExtension.Equals(".png", StringComparison.OrdinalIgnoreCase)
@@ -514,12 +530,103 @@ namespace Files.View_Models
                 {
                     // Since item is an image, set the IsSelectedItemImage property to true
                     IsSelectedItemImage = true;
-                    return;
+                }
+                else if (ItemExtension.Equals(".lnk", StringComparison.OrdinalIgnoreCase))
+                {
+                    // The selected item is a shortcut, so set the IsSelectedItemShortcut property to true
+                    IsSelectedItemShortcut = true;
                 }
             }
+        }
 
-            // Since item is not an image, folder or file without extension, set the IsSelectedItemImage property to false
-            IsSelectedItemImage = false;
+        private string _ShortcutItemType;
+
+        public string ShortcutItemType
+        {
+            get => _ShortcutItemType;
+            set
+            {
+                Set(ref _ShortcutItemType, value);
+            }
+        }
+
+        private string _ShortcutItemPath;
+
+        public string ShortcutItemPath
+        {
+            get => _ShortcutItemPath;
+            set
+            {
+                Set(ref _ShortcutItemPath, value);
+                ShortcutItemOpenLinkCommand?.RaiseCanExecuteChanged();
+            }
+        }
+
+        private string _ShortcutItemWorkingDir;
+
+        public string ShortcutItemWorkingDir
+        {
+            get => _ShortcutItemWorkingDir;
+            set
+            {
+                Set(ref _ShortcutItemWorkingDir, value);
+            }
+        }
+
+        private Visibility _ShortcutItemWorkingDirVisibility = Visibility.Collapsed;
+
+        public Visibility ShortcutItemWorkingDirVisibility
+        {
+            get => _ShortcutItemWorkingDirVisibility;
+            set => Set(ref _ShortcutItemWorkingDirVisibility, value);
+        }
+
+        private string _ShortcutItemArguments;
+
+        public string ShortcutItemArguments
+        {
+            get => _ShortcutItemArguments;
+            set
+            {
+                Set(ref _ShortcutItemArguments, value);
+            }
+        }
+
+        private Visibility _ShortcutItemArgumentsVisibility = Visibility.Collapsed;
+
+        public Visibility ShortcutItemArgumentsVisibility
+        {
+            get => _ShortcutItemArgumentsVisibility;
+            set => Set(ref _ShortcutItemArgumentsVisibility, value);
+        }
+
+        private bool _LoadLinkIcon;
+
+        public bool LoadLinkIcon
+        {
+            get => _LoadLinkIcon;
+            set => Set(ref _LoadLinkIcon, value);
+        }
+
+        private RelayCommand _ShortcutItemOpenLinkCommand;
+
+        public RelayCommand ShortcutItemOpenLinkCommand
+        {
+            get => _ShortcutItemOpenLinkCommand;
+            set
+            {
+                Set(ref _ShortcutItemOpenLinkCommand, value);
+            }
+        }
+
+        public bool ContainsFilesOrFolders { get; set; }
+
+        public Uri FolderIconSource
+        {
+            get
+            {
+                return ContainsFilesOrFolders ? new Uri("ms-appx:///Assets/FolderIcon2.svg") : new Uri("ms-appx:///Assets/FolderIcon.svg");
+            }
         }
     }
 }

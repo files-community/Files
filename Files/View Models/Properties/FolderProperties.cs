@@ -1,10 +1,12 @@
 ﻿using ByteSizeLib;
 using Files.Filesystem;
 using Files.Helpers;
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Core;
@@ -24,6 +26,7 @@ namespace Files.View_Models.Properties
             Item = item;
 
             GetBaseProperties();
+            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
         public override void GetBaseProperties()
@@ -34,17 +37,49 @@ namespace Files.View_Models.Properties
                 ViewModel.ItemType = Item.ItemType;
                 ViewModel.ItemPath = Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath;
                 ViewModel.ItemModifiedTimestamp = Item.ItemDateModified;
-                ViewModel.FileIconSource = Item.FileImage;
+                //ViewModel.FileIconSource = Item.FileImage;
                 ViewModel.LoadFolderGlyph = Item.LoadFolderGlyph;
                 ViewModel.LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
                 ViewModel.LoadFileIcon = Item.LoadFileIcon;
+                ViewModel.ContainsFilesOrFolders = Item.ContainsFilesOrFolders;
+
+                if (Item.IsShortcutItem)
+                {
+                    var shortcutItem = (ShortcutItem)Item;
+                    ViewModel.ShortcutItemType = ResourceController.GetTranslation("PropertiesShortcutTypeFolder");
+                    ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
+                    ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
+                    ViewModel.ShortcutItemWorkingDirVisibility = Visibility.Collapsed;
+                    ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
+                    ViewModel.ShortcutItemArgumentsVisibility = Visibility.Collapsed;
+                    ViewModel.ShortcutItemOpenLinkCommand = new GalaSoft.MvvmLight.Command.RelayCommand(async () =>
+                    {
+                        var folderUri = new Uri("files-uwp:" + "?folder=" + Path.GetDirectoryName(ViewModel.ShortcutItemPath));
+                        await Windows.System.Launcher.LaunchUriAsync(folderUri);
+                    }, () =>
+                    {
+                        return !string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath);
+                    }, false);
+                }
             }
         }
 
         public async override void GetSpecialProperties()
         {
+            if (Item.IsShortcutItem)
+            {
+                ViewModel.ItemSizeVisibility = Visibility.Visible;
+                ViewModel.ItemSize = ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()
+                    + " (" + ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
+                ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
+                ViewModel.ItemAccessedTimestamp = Item.ItemDateAccessed;
+                // Can't show any other property
+                return;
+            }
+
             StorageFolder storageFolder;
-            if (App.CurrentInstance.ContentPage.IsItemSelected)
+            var isItemSelected = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => App.CurrentInstance.ContentPage.IsItemSelected);
+            if (isItemSelected)
             {
                 storageFolder = await ItemViewModel.GetFolderFromPathAsync(Item.ItemPath);
                 ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(storageFolder.DateCreated);
@@ -135,6 +170,34 @@ namespace Files.View_Models.Properties
             ViewModel.ItemSizeProgressVisibility = Visibility.Collapsed;
 
             SetItemsCountString();
+        }
+
+        private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "ShortcutItemPath":
+                case "ShortcutItemWorkingDir":
+                case "ShortcutItemArguments":
+                    var tmpItem = (ShortcutItem)Item;
+                    if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
+                        return;
+                    if (App.Connection != null)
+                    {
+                        var value = new ValueSet()
+                        {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "UpdateLink" },
+                            { "filepath", Item.ItemPath },
+                            { "targetpath", ViewModel.ShortcutItemPath },
+                            { "arguments", ViewModel.ShortcutItemArguments },
+                            { "workingdir", ViewModel.ShortcutItemWorkingDir },
+                            { "runasadmin", tmpItem.RunAsAdmin },
+                        };
+                        await App.Connection.SendMessageAsync(value);
+                    }
+                    break;
+            }
         }
     }
 }

@@ -35,6 +35,8 @@ namespace Files.Views
     /// </summary>
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
+        public SettingsViewModel AppSettings => App.AppSettings;
+
         private TabItem _SelectedTabItem;
 
         public TabItem SelectedTabItem
@@ -50,7 +52,6 @@ namespace Files.Views
             }
         }
 
-        public SettingsViewModel AppSettings => App.AppSettings;
         public static ObservableCollection<TabItem> AppInstances = new ObservableCollection<TabItem>();
         public static ObservableCollection<INavigationControlItem> sideBarItems = new ObservableCollection<INavigationControlItem>();
 
@@ -264,11 +265,6 @@ namespace Files.Views
                 frame.Navigate((frame.Tag as TabItemContent).InitialPageType, (frame.Tag as TabItemContent).NavigationArg);
                 frame.Loaded -= TabViewItemFrame_Loaded;
             }
-        }
-
-        private void DragArea_Loaded(object sender, RoutedEventArgs e)
-        {
-            Window.Current.SetTitleBar(sender as Grid);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
