@@ -49,7 +49,7 @@ namespace Files.Filesystem
                 return await root.Properties.RetrievePropertiesAsync(new[] { "System.FreeSpace", "System.Capacity" });
             }).Result;
 
-            if (properties.ContainsKey("System.Capacity"))
+            if (properties.ContainsKey("System.Capacity") && properties.ContainsKey("System.FreeSpace"))
             {
                 try
                 {

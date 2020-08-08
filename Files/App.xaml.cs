@@ -50,7 +50,6 @@ namespace Files
                 }
             }
         }
-
         public static SettingsViewModel AppSettings { get; set; }
         public static InteractionViewModel InteractionViewModel { get; set; }
         public static JumpListManager JumpList { get; } = new JumpListManager();
@@ -421,6 +420,7 @@ namespace Files
             {
                 ApplicationData.Current.LocalSettings.Values["tabsSaved"] = false;
             }
+
 
             var toastContent = new ToastContent()
             {
