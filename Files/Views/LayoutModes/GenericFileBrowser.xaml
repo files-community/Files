@@ -252,6 +252,16 @@
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
+                x:Name="OpenFileLocation"
+                x:Uid="BaseLayoutItemContextFlyoutOpenFileLocation"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenFileLocation_Click}"
+                Text="Open file location"
+                Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemShortcut, Mode=OneWay}">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA5A;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
                 x:Name="OpenInNewTab"
                 x:Uid="BaseLayoutItemContextFlyoutOpenInNewTab"
                 x:Load="False"
@@ -343,6 +353,15 @@
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
+            <MenuFlyoutItem
+                x:Name="CreateShortcut"
+                x:Uid="BaseLayoutItemContextFlyoutShortcut"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CreateShortcutFromItem_Click}"
+                Text="Create shortcut">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="DeleteItem"
                 x:Uid="BaseLayoutItemContextFlyoutDelete"
@@ -610,7 +629,7 @@
                                         <SvgImageSource
                                             RasterizePixelHeight="128"
                                             RasterizePixelWidth="128"
-                                            UriSource="/Assets/FolderIcon.svg" />
+                                            UriSource="{x:Bind FolderIconSource}" />
                                     </Image.Source>
                                 </Image>
                                 <FontIcon
@@ -618,6 +637,11 @@
                                     x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     Glyph="&#xEA00;" />
+                                <FontIcon
+                                    x:Name="WebShortcutGlyph"
+                                    x:Load="{x:Bind IsLinkItem, Mode=OneWay}"
+                                    FontFamily="{StaticResource FluentUIGlyphs}"
+                                    Glyph="&#xEAAB;" />
                                 <Image
                                     x:Name="FileImageElement"
                                     Width="20"
@@ -625,6 +649,21 @@
                                     x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                                     Source="{x:Bind FileImage, Mode=OneWay}"
                                     Stretch="UniformToFill" />
+                                <Border
+                                    x:Name="ShortcutGlyphElement"
+                                    Margin="2,18,18,2"
+                                    Padding="1"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    x:Load="{x:Bind IsShortcutItem}"
+                                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                    BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
+                                    BorderThickness="1">
+                                    <FontIcon
+                                        FontFamily="{StaticResource CustomGlyph}"
+                                        FontSize="10"
+                                        Glyph="&#xF10A;" />
+                                </Border>
                             </Grid>
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>

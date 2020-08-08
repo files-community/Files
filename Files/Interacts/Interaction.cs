@@ -6,7 +6,6 @@ using Files.UserControls;
 using Files.View_Models;
 using Files.Views;
 using Files.Views.Pages;
-using GalaSoft.MvvmLight.Command;
 using Newtonsoft.Json;
 using NLog;
 using System;
@@ -19,6 +18,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
@@ -35,11 +35,8 @@ using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
-using Windows.UI.WindowManagement;
-using Windows.UI.WindowManagement.Preview;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
@@ -115,7 +112,7 @@ namespace Files.Interacts
             var items = CurrentInstance.ContentPage.SelectedItems;
             foreach (ListedItem listedItem in items)
             {
-                var selectedItemPath = listedItem.ItemPath;
+                var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
                 var folderUri = new Uri("files-uwp:" + "?folder=" + @selectedItemPath);
                 await Launcher.LaunchUriAsync(folderUri);
             }
@@ -127,7 +124,7 @@ namespace Files.Interacts
             {
                 await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
                 {
-                    await MainPage.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
+                    await MainPage.AddNewTab(typeof(ModernShellPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
                 });
             }
         }
@@ -183,19 +180,19 @@ namespace Files.Interacts
             }
         }
 
-        public static async Task InvokeWin32Component(string applicationPath, string arguments = null, bool runAsAdmin = false)
+        public static async Task InvokeWin32Component(string applicationPath, string arguments = null, bool runAsAdmin = false, string workingDir = null)
         {
-            await InvokeWin32Components(new List<string>() { applicationPath }, arguments, runAsAdmin);
+            await InvokeWin32Components(new List<string>() { applicationPath }, arguments, runAsAdmin, workingDir);
         }
 
-        public static async Task InvokeWin32Components(List<string> applicationPaths, string arguments = null, bool runAsAdmin = false)
+        public static async Task InvokeWin32Components(List<string> applicationPaths, string arguments = null, bool runAsAdmin = false, string workingDir = null)
         {
             Debug.WriteLine("Launching EXE in FullTrustProcess");
             if (App.Connection != null)
             {
                 var value = new ValueSet
                 {
-                    { "WorkingDirectory", App.CurrentInstance.FilesystemViewModel.WorkingDirectory },
+                    { "WorkingDirectory", string.IsNullOrEmpty(workingDir) ? App.CurrentInstance.FilesystemViewModel.WorkingDirectory : workingDir },
                     { "Application", applicationPaths.FirstOrDefault() },
                     { "ApplicationList", JsonConvert.SerializeObject(applicationPaths) },
                 };
@@ -236,12 +233,16 @@ namespace Files.Interacts
             for (int i = 0; i < count; i++)
             {
                 DependencyObject current = VisualTreeHelper.GetChild(startNode, i);
-                if ((current.GetType()).Equals(typeof(T)) || (current.GetType().GetTypeInfo().IsSubclassOf(typeof(T))))
+                if (current.GetType().Equals(typeof(T)) || current.GetType().GetTypeInfo().IsSubclassOf(typeof(T)))
                 {
                     T asType = (T)current;
                     return asType;
                 }
-                return FindChild<T>(current);
+                var retVal = FindChild<T>(current);
+                if (retVal != null)
+                {
+                    return retVal;
+                }
             }
             return null;
         }
@@ -313,6 +314,13 @@ namespace Files.Interacts
             OpenSelectedItems(true);
         }
 
+        public void OpenFileLocation_Click(object sender, RoutedEventArgs e)
+        {
+            var item = CurrentInstance.ContentPage.SelectedItem as ShortcutItem;
+            var folderPath = Path.GetDirectoryName(item.TargetPath);
+            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), folderPath);
+        }
+
         private async void OpenSelectedItems(bool displayApplicationPicker)
         {
             if (CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
@@ -336,7 +344,8 @@ namespace Files.Interacts
                     var clickedOnItemPath = clickedOnItem.ItemPath;
                     if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
-                        var childFolder = await ItemViewModel.GetFolderWithPathFromPathAsync(clickedOnItem.ItemPath);
+                        var childFolder = await ItemViewModel.GetFolderWithPathFromPathAsync(
+                            (clickedOnItem as ShortcutItem)?.TargetPath ?? clickedOnItem.ItemPath);
 
                         // Add location to MRU List
                         mostRecentlyUsed.Add(childFolder.Folder, childFolder.Path);
@@ -346,6 +355,24 @@ namespace Files.Interacts
 
                         CurrentInstance.ContentPage.AssociatedViewModel.IsFolderEmptyTextDisplayed = false;
                         CurrentInstance.ContentFrame.Navigate(sourcePageType, childFolder.Path, new SuppressNavigationTransitionInfo());
+                    }
+                    else if (clickedOnItem.IsShortcutItem)
+                    {
+                        var shortcutItem = (ShortcutItem)clickedOnItem;
+                        if (string.IsNullOrEmpty(shortcutItem.TargetPath))
+                        {
+                            await InvokeWin32Component(shortcutItem.ItemPath);
+                        }
+                        else
+                        {
+                            if (!shortcutItem.IsUrl)
+                            {
+                                var childFile = await ItemViewModel.GetFileWithPathFromPathAsync(shortcutItem.TargetPath);
+                                // Add location to MRU List
+                                mostRecentlyUsed.Add(childFile.File, childFile.Path);
+                            }
+                            await InvokeWin32Component(shortcutItem.TargetPath, shortcutItem.Arguments, shortcutItem.RunAsAdmin, shortcutItem.WorkingDirectory);
+                        }
                     }
                     else
                     {
@@ -369,8 +396,6 @@ namespace Files.Interacts
                             try
                             {
                                 StorageFileQueryResult fileQueryResult = null;
-
-                                var file = await ItemViewModel.GetFileFromPathAsync(clickedOnItem.ItemPath);
 
                                 //Get folder to create a file query (to pass to apps like Photos, Movies & TV..., needed to scroll through the folder like what Windows Explorer does)
                                 StorageFolder currFolder = await ItemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(clickedOnItem.ItemPath));
@@ -427,7 +452,7 @@ namespace Files.Interacts
                                 };
 
                                 //Now launch file with options.
-                                launchSuccess = await Launcher.LaunchFileAsync(file, options);
+                                launchSuccess = await Launcher.LaunchFileAsync(childFile.File, options);
                             }
                             catch (Exception ex)
                             {
@@ -444,9 +469,10 @@ namespace Files.Interacts
                 {
                     foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder))
                     {
-                        await MainPage.AddNewTab(typeof(ModernShellPage), clickedOnItem.ItemPath);
+                        await MainPage.AddNewTab(typeof(ModernShellPage), (clickedOnItem as ShortcutItem)?.TargetPath ?? clickedOnItem.ItemPath);
                     }
-                    foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File))
+                    foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File
+                        && !x.IsShortcutItem))
                     {
                         var childFile = await ItemViewModel.GetFileWithPathFromPathAsync(clickedOnItem.ItemPath);
                         // Add location to MRU List
@@ -463,7 +489,7 @@ namespace Files.Interacts
                     }
                     if (!displayApplicationPicker)
                     {
-                        var applicationPath = string.Join(";", CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).Select(x => x.ItemPath));
+                        var applicationPath = string.Join('|', CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).Select(x => x.ItemPath));
                         await InvokeWin32Component(applicationPath);
                     }
                 }
@@ -500,9 +526,6 @@ namespace Files.Interacts
             DataTransferManager.ShowShareUI();
         }
 
-        public static Dictionary<UIContext, AppWindow> AppWindows { get; set; }
-            = new Dictionary<UIContext, AppWindow>();
-
         private async void ShowProperties()
         {
             if (App.CurrentInstance.ContentPage.IsItemSelected)
@@ -535,27 +558,28 @@ namespace Files.Interacts
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                AppWindow appWindow = await AppWindow.TryCreateAsync();
-                Frame frame = new Frame();
-                appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-                frame.Navigate(typeof(Properties), item, new SuppressNavigationTransitionInfo());
+                CoreApplicationView newWindow = CoreApplication.CreateNewView();
+                ApplicationView newView = null;
 
-                WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 500));
-
-                appWindow.RequestSize(new Size(400, 475));
-                appWindow.Title = ResourceController.GetTranslation("PropertiesTitle");
-
-                ElementCompositionPreview.SetAppWindowContent(appWindow, frame);
-                AppWindows.Add(frame.UIContext, appWindow);
-
-                appWindow.Closed += delegate
+                await newWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    AppWindows.Remove(frame.UIContext);
-                    frame.Content = null;
-                    appWindow = null;
-                };
+                    Frame frame = new Frame();
+                    frame.Navigate(typeof(Properties), item, new SuppressNavigationTransitionInfo());
+                    Window.Current.Content = frame;
+                    Window.Current.Activate();
 
-                await appWindow.TryShowAsync();
+                    newView = ApplicationView.GetForCurrentView();
+                    newWindow.TitleBar.ExtendViewIntoTitleBar = true;
+                    newView.Title = ResourceController.GetTranslation("PropertiesTitle");
+                    newView.SetPreferredMinSize(new Size(400, 550));
+                    newView.Consolidated += delegate
+                    {
+                        Window.Current.Close();
+                    };
+                });
+                bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newView.Id);
+                // Set window size again here as sometimes it's not resized in the page Loaded event
+                newView.TryResizeView(new Size(400, 550));
             }
             else
             {
@@ -586,9 +610,22 @@ namespace Files.Interacts
             DataRequestDeferral dataRequestDeferral = args.Request.GetDeferral();
             List<IStorageItem> items = new List<IStorageItem>();
 
+            DataRequest dataRequest = args.Request;
+            dataRequest.Data.Properties.Title = "Data Shared From Files";
+            dataRequest.Data.Properties.Description = "The items you selected will be shared";
+
             foreach (ListedItem item in App.CurrentInstance.ContentPage.SelectedItems)
             {
-                if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                if (item.IsShortcutItem)
+                {
+                    if (item.IsLinkItem)
+                    {
+                        dataRequest.Data.SetWebLink(new Uri(((ShortcutItem)item).TargetPath));
+                        dataRequestDeferral.Complete();
+                        return;
+                    }
+                }
+                else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
                     var folderAsItem = await ItemViewModel.GetFolderFromPathAsync(item.ItemPath);
                     items.Add(folderAsItem);
@@ -600,11 +637,40 @@ namespace Files.Interacts
                 }
             }
 
-            DataRequest dataRequest = args.Request;
+            if (items.Count == 0)
+            {
+                dataRequest.FailWithDisplayText("Could not access file(s) for sharing");
+                dataRequestDeferral.Complete();
+                return;
+            }
+
             dataRequest.Data.SetStorageItems(items);
-            dataRequest.Data.Properties.Title = "Data Shared From Files";
-            dataRequest.Data.Properties.Description = "The items you selected will be shared";
             dataRequestDeferral.Complete();
+        }
+
+        public async void CreateShortcutFromItem_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ListedItem selectedItem in CurrentInstance.ContentPage.SelectedItems)
+            {
+                if (App.Connection != null)
+                {
+                    var value = new ValueSet
+                    {
+                        { "Arguments", "FileOperation" },
+                        { "fileop", "CreateLink" },
+                        { "targetpath", selectedItem.ItemPath },
+                        { "arguments", "" },
+                        { "workingdir", "" },
+                        { "runasadmin", false },
+                        {
+                            "filepath",
+                            Path.Combine(CurrentInstance.FilesystemViewModel.WorkingDirectory,
+                                string.Format(ResourceController.GetTranslation("ShortcutCreateNewSuffix"), selectedItem.ItemName) + ".lnk")
+                        }
+                    };
+                    await App.Connection.SendMessageAsync(value);
+                }
+            }
         }
 
         public void DeleteItem_Click(object sender, RoutedEventArgs e)
@@ -614,11 +680,19 @@ namespace Files.Interacts
 
         public async void DeleteItem(StorageDeleteOption deleteOption)
         {
-            var deleteFromRecycleBin = CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath);
+            var deleteFromRecycleBin = App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath);
             if (deleteFromRecycleBin)
             {
                 // Permanently delete if deleting from recycle bin
                 deleteOption = StorageDeleteOption.PermanentDelete;
+            }
+
+            // Get selected items before showing the prompt to prevent deleting items selected after the prompt
+            var CurrentInstance = App.CurrentInstance;
+            List<ListedItem> selectedItems = new List<ListedItem>();
+            foreach (ListedItem selectedItem in CurrentInstance.ContentPage.SelectedItems)
+            {
+                selectedItems.Add(selectedItem);
             }
 
             if (AppSettings.ShowConfirmDeleteDialog == true) //check if the setting to show a confirmation dialog is on
@@ -635,12 +709,6 @@ namespace Files.Interacts
             StatusBanner banner = null;
             try
             {
-                var CurrentInstance = App.CurrentInstance;
-                List<ListedItem> selectedItems = new List<ListedItem>();
-                foreach (ListedItem selectedItem in CurrentInstance.ContentPage.SelectedItems)
-                {
-                    selectedItems.Add(selectedItem);
-                }
                 int itemsDeleted = 0;
                 if (selectedItems.Count > 3)
                 {
@@ -674,6 +742,28 @@ namespace Files.Interacts
                             }
 
                             await item.DeleteAsync(deleteOption);
+                        }
+                        catch (UnauthorizedAccessException)
+                        {
+                            if (deleteOption == StorageDeleteOption.Default)
+                            {
+                                // Try again with fulltrust process
+                                if (App.Connection != null)
+                                {
+                                    var result = await App.Connection.SendMessageAsync(new ValueSet() {
+                                    { "Arguments", "FileOperation" },
+                                    { "fileop", "MoveToBin" },
+                                    { "filepath", storItem.ItemPath } });
+                                }
+                            }
+                            else
+                            {
+                                // Try again with DeleteFileFromApp
+                                if (!NativeDirectoryChangesHelper.DeleteFileFromApp(storItem.ItemPath))
+                                {
+                                    Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
+                                }
+                            }
                         }
                         catch (FileLoadException)
                         {
@@ -795,7 +885,16 @@ namespace Files.Interacts
                         await file.RenameAsync(newName, NameCollisionOption.FailIfExists);
                     }
                 }
-                catch (Exception)
+                catch (UnauthorizedAccessException)
+                {
+                    // Try again with MoveFileFromApp
+                    if (!NativeDirectoryChangesHelper.MoveFileFromApp(item.ItemPath, Path.Combine(Path.GetDirectoryName(item.ItemPath), newName)))
+                    {
+                        Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
+                        return false;
+                    }
+                }
+                catch
                 {
                     var ItemAlreadyExistsDialog = new ContentDialog()
                     {
@@ -860,21 +959,22 @@ namespace Files.Interacts
                 {
                     try
                     {
+                        var recycleBinItem = listedItem as RecycleBinItem;
                         if (listedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                         {
-                            StorageFolder sourceFolder = await ItemViewModel.GetFolderFromPathAsync(listedItem.ItemPath);
-                            StorageFolder destFolder = await ItemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(listedItem.ItemOriginalPath));
-                            await MoveDirectoryAsync(sourceFolder, destFolder, listedItem.ItemName);
+                            StorageFolder sourceFolder = await ItemViewModel.GetFolderFromPathAsync(recycleBinItem.ItemPath);
+                            StorageFolder destFolder = await ItemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(recycleBinItem.ItemOriginalPath));
+                            await MoveDirectoryAsync(sourceFolder, destFolder, recycleBinItem.ItemName);
                             await sourceFolder.DeleteAsync(StorageDeleteOption.PermanentDelete);
                         }
                         else
                         {
-                            var file = await ItemViewModel.GetFileFromPathAsync(listedItem.ItemPath);
-                            var destinationFolder = await ItemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(listedItem.ItemOriginalPath));
-                            await file.MoveAsync(destinationFolder, Path.GetFileName(listedItem.ItemOriginalPath), NameCollisionOption.GenerateUniqueName);
+                            var file = await ItemViewModel.GetFileFromPathAsync(recycleBinItem.ItemPath);
+                            var destinationFolder = await ItemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(recycleBinItem.ItemOriginalPath));
+                            await file.MoveAsync(destinationFolder, Path.GetFileName(recycleBinItem.ItemOriginalPath), NameCollisionOption.GenerateUniqueName);
                         }
                         // Recycle bin also stores a file starting with $I for each item
-                        var iFilePath = Path.Combine(Path.GetDirectoryName(listedItem.ItemPath), Path.GetFileName(listedItem.ItemPath).Replace("$R", "$I"));
+                        var iFilePath = Path.Combine(Path.GetDirectoryName(recycleBinItem.ItemPath), Path.GetFileName(recycleBinItem.ItemPath).Replace("$R", "$I"));
                         await (await ItemViewModel.GetFileFromPathAsync(iFilePath)).DeleteAsync(StorageDeleteOption.PermanentDelete);
                     }
                     catch (UnauthorizedAccessException)
@@ -925,13 +1025,13 @@ namespace Files.Interacts
                 // First, reset DataGrid Rows that may be in "cut" command mode
                 CurrentInstance.ContentPage.ResetItemOpacity();
 
-                foreach (ListedItem listedItem in CurrentInstance.ContentPage.SelectedItems)
+                try
                 {
-                    // Dim opacities accordingly
-                    CurrentInstance.ContentPage.SetItemOpacity(listedItem);
-
-                    try
+                    foreach (ListedItem listedItem in CurrentInstance.ContentPage.SelectedItems)
                     {
+                        // Dim opacities accordingly
+                        CurrentInstance.ContentPage.SetItemOpacity(listedItem);
+
                         if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
                         {
                             var item = await ItemViewModel.GetFileFromPathAsync(listedItem.ItemPath);
@@ -943,11 +1043,30 @@ namespace Files.Interacts
                             items.Add(item);
                         }
                     }
-                    catch (FileNotFoundException)
+                }
+                catch (FileNotFoundException)
+                {
+                    CurrentInstance.ContentPage.ResetItemOpacity();
+                    return;
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    // Try again with fulltrust process
+                    if (App.Connection != null)
                     {
-                        CurrentInstance.ContentPage.ResetItemOpacity();
-                        return;
+                        var filePaths = string.Join('|', CurrentInstance.ContentPage.SelectedItems.Select(x => x.ItemPath));
+                        var result = await App.Connection.SendMessageAsync(new ValueSet() {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "Clipboard" },
+                            { "filepath", filePaths },
+                            { "operation", (int)DataPackageOperation.Move } });
+                        if (result.Status == AppServiceResponseStatus.Success)
+                        {
+                            return;
+                        }
                     }
+                    CurrentInstance.ContentPage.ResetItemOpacity();
+                    return;
                 }
             }
             dataPackage.SetStorageItems(items);
@@ -978,18 +1097,35 @@ namespace Files.Interacts
 
             if (App.CurrentInstance.ContentPage.IsItemSelected)
             {
-                foreach (ListedItem listedItem in App.CurrentInstance.ContentPage.SelectedItems)
+                try
                 {
-                    if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                    foreach (ListedItem listedItem in App.CurrentInstance.ContentPage.SelectedItems)
                     {
-                        var item = await ItemViewModel.GetFileFromPathAsync(listedItem.ItemPath);
-                        items.Add(item);
+                        if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                        {
+                            var item = await ItemViewModel.GetFileFromPathAsync(listedItem.ItemPath);
+                            items.Add(item);
+                        }
+                        else
+                        {
+                            var item = await ItemViewModel.GetFolderFromPathAsync(listedItem.ItemPath);
+                            items.Add(item);
+                        }
                     }
-                    else
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    // Try again with fulltrust process
+                    if (App.Connection != null)
                     {
-                        var item = await ItemViewModel.GetFolderFromPathAsync(listedItem.ItemPath);
-                        items.Add(item);
+                        var filePaths = string.Join('|', CurrentInstance.ContentPage.SelectedItems.Select(x => x.ItemPath));
+                        var result = await App.Connection.SendMessageAsync(new ValueSet() {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "Clipboard" },
+                            { "filepath", filePaths },
+                            { "operation", (int)DataPackageOperation.Copy } });
                     }
+                    return;
                 }
             }
 
@@ -1155,6 +1291,18 @@ namespace Files.Interacts
                             pastedSourceItems.Add(item);
                             pastedItems.Add(pastedFile);
                         }
+                        catch (UnauthorizedAccessException)
+                        {
+                            // Try again with CopyFileFromApp
+                            if (NativeDirectoryChangesHelper.CopyFileFromApp(item.Path, Path.Combine(destinationPath, item.Name), true))
+                            {
+                                pastedSourceItems.Add(item);
+                            }
+                            else
+                            {
+                                Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
+                            }
+                        }
                         catch (FileNotFoundException)
                         {
                             // File was moved/deleted in the meantime
@@ -1188,6 +1336,14 @@ namespace Files.Interacts
                                 // If we reached this we are not in an MTP device, using StorageFolder.* is ok here
                                 StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(item.Path);
                                 await folder.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                            }
+                        }
+                        catch (UnauthorizedAccessException)
+                        {
+                            // Try again with DeleteFileFromApp
+                            if (!NativeDirectoryChangesHelper.DeleteFileFromApp(item.Path))
+                            {
+                                Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
                             }
                         }
                         catch (FileNotFoundException)
@@ -1429,7 +1585,7 @@ namespace Files.Interacts
         public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg, CancellationToken token, Microsoft.UI.Xaml.Controls.ProgressBar progress)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
-            var itemFromPath = await ItemViewModel.GetFileFromPathAsync(fileItem.ItemPath);
+            var itemFromPath = await ItemViewModel.GetFileFromPathAsync((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath);
             var stream = await itemFromPath.OpenStreamForReadAsync();
             var inputStream = stream.AsInputStream();
             var str = inputStream.AsStreamForRead();
@@ -1457,8 +1613,10 @@ namespace Files.Interacts
                 {
                     break;
                 }
-
-                progress.Value = (double)str.Position / str.Length * 100;
+                if (progress != null)
+                {
+                    progress.Value = (double)str.Position / str.Length * 100;
+                }
             }
             inputStream.Dispose();
             stream.Dispose();

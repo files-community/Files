@@ -248,6 +248,16 @@
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
+                x:Name="OpenFileLocation"
+                x:Uid="BaseLayoutItemContextFlyoutOpenFileLocation"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenFileLocation_Click}"
+                Text="Open file location"
+                Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemShortcut, Mode=OneWay}">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA5A;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
                 x:Name="OpenInNewTab"
                 x:Uid="BaseLayoutItemContextFlyoutOpenInNewTab"
                 x:Load="False"
@@ -339,6 +349,15 @@
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
+            <MenuFlyoutItem
+                x:Name="CreateShortcut"
+                x:Uid="BaseLayoutItemContextFlyoutShortcut"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CreateShortcutFromItem_Click}"
+                Text="Create shortcut">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="DeleteItem"
                 x:Uid="BaseLayoutItemContextFlyoutDelete"
@@ -450,21 +469,21 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0" Tag="ItemImage">
+                <Grid
+                    Grid.Row="0"
+                    Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
+                    Height="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
+                    Tag="ItemImage">
                     <Grid
                         x:Name="Picture"
-                        Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
-                        Height="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
                         Padding="12"
                         HorizontalAlignment="Stretch"
-                        VerticalAlignment="Bottom"
+                        VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadFileIcon, Mode=OneWay}">
                         <Image Source="{x:Bind FileImage, Mode=OneWay}" Stretch="Uniform" />
                     </Grid>
                     <Image
                         x:Name="FolderGlyph"
-                        Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
-                        Height="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadFolderGlyph}"
@@ -473,13 +492,11 @@
                             <SvgImageSource
                                 RasterizePixelHeight="638"
                                 RasterizePixelWidth="900"
-                                UriSource="/Assets/FolderIconLarge.svg" />
+                                UriSource="{x:Bind FolderIconSourceLarge}" />
                         </Image.Source>
                     </Image>
                     <Grid
                         x:Name="TypeUnknownGlyph"
-                        Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
-                        Height="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
                         Padding="12"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
@@ -488,6 +505,34 @@
                             <SymbolIcon Symbol="Page2" />
                         </Viewbox>
                     </Grid>
+                    <Grid
+                        x:Name="WebShortcutGlyph"
+                        Padding="12"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
+                        <Viewbox MaxWidth="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}" MaxHeight="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}">
+                            <FontIcon
+                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                FontSize="28"
+                                Glyph="&#xEAAB;" />
+                        </Viewbox>
+                    </Grid>
+                    <Border
+                        x:Name="ShortcutGlyphElement"
+                        Margin="8,0,0,8"
+                        Padding="2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        x:Load="{x:Bind IsShortcutItem}"
+                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                        BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
+                        BorderThickness="1">
+                        <FontIcon
+                            FontFamily="{StaticResource CustomGlyph}"
+                            FontSize="18"
+                            Glyph="&#xF10A;" />
+                    </Border>
                 </Grid>
                 <Grid
                     Grid.Row="1"
@@ -591,7 +636,7 @@
                             <SvgImageSource
                                 RasterizePixelHeight="128"
                                 RasterizePixelWidth="128"
-                                UriSource="/Assets/FolderIcon.svg" />
+                                UriSource="{x:Bind FolderIconSource}" />
                         </Image.Source>
                     </Image>
                     <Grid
@@ -607,6 +652,34 @@
                                 Glyph="&#xEA00;" />
                         </Grid>
                     </Grid>
+                    <Grid
+                        x:Name="WebShortcutGlyph"
+                        Width="74"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
+                        <Viewbox MaxWidth="74">
+                            <FontIcon
+                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                FontSize="28"
+                                Glyph="&#xEAAB;" />
+                        </Viewbox>
+                    </Grid>
+                    <Border
+                        x:Name="ShortcutGlyphElement"
+                        Margin="8,0,0,8"
+                        Padding="2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        x:Load="{x:Bind IsShortcutItem}"
+                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                        BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
+                        BorderThickness="1">
+                        <FontIcon
+                            FontFamily="{StaticResource CustomGlyph}"
+                            FontSize="15"
+                            Glyph="&#xF10A;" />
+                    </Border>
                 </Grid>
                 <Grid Grid.Column="2" Height="100">
                     <StackPanel Height="Auto" VerticalAlignment="Center">

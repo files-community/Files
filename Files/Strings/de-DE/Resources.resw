@@ -777,4 +777,7 @@
   <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
     <value>Der Zielordner ist identisch mit dem Quellordner.</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
+    <value>Dateispeicherort öffnen</value>
+  </data>
 </root>

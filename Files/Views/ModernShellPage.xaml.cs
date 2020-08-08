@@ -310,6 +310,11 @@ namespace Files.Views.Pages
                 }
             }
         }
+
+        private void SmallWindowTitlebar_Loaded(object sender, RoutedEventArgs e)
+        {
+            Window.Current.SetTitleBar(sender as Grid);
+        }
     }
 
     public enum InteractionOperationType

@@ -47,6 +47,14 @@
 
                 <StackPanel Spacing="10">
                     <TextBlock
+                        x:Uid="SettingsPreferencesShowHorizontalTabStrip"
+                        FontSize="17"
+                        Text="Show a horizontal tab strip on the title bar" />
+                    <ToggleSwitch IsOn="{x:Bind AppSettings.IsHorizontalTabStripVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+
+                <StackPanel Spacing="10">
+                    <TextBlock
                         x:Uid="SettingsExperimentalDoubleTapToRenameFiles"
                         FontSize="17"
                         Text="Double tap to rename files" />

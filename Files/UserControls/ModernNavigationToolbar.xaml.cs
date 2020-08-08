@@ -2,7 +2,6 @@
 using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
-using Files.Views;
 using Files.Views.Pages;
 using System;
 using System.Collections.Generic;
@@ -12,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Text;
@@ -413,7 +413,11 @@ namespace Files.UserControls
         {
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
                 pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab")) return;
-
+            if (!e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                e.AcceptedOperation = DataPackageOperation.None;
+                return;
+            }
             e.Handled = true;
             var deferral = e.GetDeferral();
 
