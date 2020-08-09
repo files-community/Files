@@ -726,9 +726,9 @@
           <source>Restore</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Geri Yükle</target>
         </trans-unit>
-        <trans-unit id="SettingsExperimentalRecycleBin.Text" translate="yes" xml:space="preserve">
-          <source>Enable Recycle Bin support</source>
-          <target state="new">Enable Recycle Bin support</target>
+        <trans-unit id="SettingsPreferencesRecycleBin.Text" translate="yes" xml:space="preserve">
+          <source>Pin Recycle Bin to the sidebar</source>
+          <target state="new">Pin Recycle Bin to the sidebar</target>
         </trans-unit>
         <trans-unit id="DaysAgo" translate="yes" xml:space="preserve">
           <source>{0} days ago</source>

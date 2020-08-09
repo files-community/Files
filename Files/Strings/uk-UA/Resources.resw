@@ -540,7 +540,7 @@
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Відновити</value>
   </data>
-  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
+  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
     <value>Підтримка Кошика</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">

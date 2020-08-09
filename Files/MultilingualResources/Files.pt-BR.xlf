@@ -331,9 +331,10 @@
           <source>Pin OneDrive to the sidebar</source>
           <target state="translated">Fixar o OneDrive na barra lateral</target>
         </trans-unit>
-        <trans-unit id="SettingsExperimentalRecycleBin.Text" translate="yes" xml:space="preserve">
-          <source>Enable Recycle Bin support</source>
-          <target state="translated">Ativar suporte à Lixeira</target>
+        <trans-unit id="SettingsPreferencesRecycleBin.Text" translate="yes" xml:space="preserve">
+          <source>Pin Recycle Bin to the sidebar</source>
+          <target state="needs-review-translation">Ativar suporte à Lixeira</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsShowFileOwnerInProperties.Text" translate="yes" xml:space="preserve">
           <source>Show Owner in properties</source>

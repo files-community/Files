@@ -249,7 +249,7 @@
   <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
     <value>OneDrive をサイドバーに固定</value>
   </data>
-  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
+  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
     <value>ごみ箱を有効にする</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">

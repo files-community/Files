@@ -255,7 +255,7 @@
   <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
     <value>ୱାନଡ୍ରାଇଭ କୁ ସାଇଡବାରରେ ପିନ୍ କର</value>
   </data>
-  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
+  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
     <value>ରିସାଇକ୍ଲବିନ୍ ସମର୍ଥନ ସକ୍ଷମ କରନ୍ତୁ</value>
   </data>
   <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">

@@ -360,8 +360,8 @@
   <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
     <value>Pin OneDrive to the sidebar</value>
   </data>
-  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
-    <value>Enable Recycle Bin support</value>
+  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
+    <value>Pin Recycle Bin to the sidebar</value>
   </data>
   <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
     <value>Show Owner in properties</value>

@@ -549,7 +549,7 @@
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Przywróć</value>
   </data>
-  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
+  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
     <value>Włącz obsługę Kosza</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">

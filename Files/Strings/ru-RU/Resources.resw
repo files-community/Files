@@ -546,7 +546,7 @@
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Восстановить</value>
   </data>
-  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
+  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
     <value>Поддержка Корзины</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
