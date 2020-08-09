@@ -50,9 +50,10 @@
                 </StackPanel>
 
                 <ListView
+                    x:Name="FeedbackListView"
                     HorizontalAlignment="Left"
-                    IsItemClickEnabled="True"
-                    ItemClick="ListView_ItemClick">
+                    DoubleTapped="FeedbackListView_DoubleTapped"
+                    SelectionMode="Single">
                     <ListViewItem
                         x:Name="FeedbackForm"
                         Padding="8,2"
@@ -63,7 +64,10 @@
                             Padding="0,4"
                             Orientation="Horizontal"
                             Spacing="14">
-                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeb05;" />
+                            <FontIcon
+                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                Foreground="{ThemeResource SystemAccentColor}"
+                                Glyph="&#xeb05;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                                 <TextBlock x:Uid="SettingsAboutSubmitFeedback" Text="Submit Feedback" />
                                 <TextBlock
@@ -75,6 +79,54 @@
                             </StackPanel>
                         </StackPanel>
                     </ListViewItem>
+                    <ListViewItem
+                        Padding="8,2"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        IsEnabled="True">
+                        <StackPanel
+                            Padding="0,4"
+                            Orientation="Horizontal"
+                            Spacing="14">
+                            <FontIcon
+                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                Foreground="{ThemeResource SystemAccentColor}"
+                                Glyph="&#xEB3A;" />
+                            <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Uid="SettingsAboutReleaseNotes" Text="Release Notes" />
+                                <TextBlock
+                                    x:Uid="SettingsAboutReleaseNotesDescription"
+                                    FontSize="12"
+                                    Foreground="Gray"
+                                    Text="Find out what's new in Files UWP"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem
+                        Padding="8,2"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        IsEnabled="True">
+                        <StackPanel
+                            Padding="0,4"
+                            Orientation="Horizontal"
+                            Spacing="14">
+                            <FontIcon
+                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                Foreground="{ThemeResource SystemAccentColor}"
+                                Glyph="&#xEAF7;" />
+                            <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Uid="SettingsAboutContributors" Text="Contributors" />
+                                <TextBlock
+                                    x:Uid="SettingsAboutContributorsDescription"
+                                    FontSize="12"
+                                    Foreground="Gray"
+                                    Text="See who contributed to Files UWP"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ListViewItem>
                 </ListView>
 
                 <Button
@@ -82,18 +134,6 @@
                     x:Uid="SettingsAboutOpenLogLocationButton"
                     Click="OpenLogLocationButton_Click"
                     Content="Open log location" />
-
-                <StackPanel Spacing="4">
-                    <TextBlock
-                        x:Uid="SettingsAboutSpecialThanks"
-                        FontSize="16"
-                        Text="Special thanks to:" />
-                    <TextBlock Text="SOI7" />
-                    <TextBlock Text="jeffsieu" />
-                    <TextBlock Text="lampenlampen" />
-                    <TextBlock Text="tsvietOK" />
-                    <TextBlock Text="gave92" />
-                </StackPanel>
 
                 <TextBlock
                     x:Uid="SettingsAboutThirdPartyLicenses"

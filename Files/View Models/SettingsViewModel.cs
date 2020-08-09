@@ -59,6 +59,8 @@ namespace Files.View_Models
             Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
             Analytics.TrackEvent("AcrylicSidebar " + AcrylicEnabled.ToString());
             Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
+            Analytics.TrackEvent("IsHorizontalTabStripVisible " + IsHorizontalTabStripVisible.ToString());
+            Analytics.TrackEvent("IsMultitaskingControlVisible " + IsMultitaskingControlVisible.ToString());
             // Load the supported languages
 
             var supportedLang = ApplicationLanguages.ManifestLanguages;
