@@ -936,4 +936,16 @@
   <data name="SettingsPreferencesShowHorizontalTabStrip.Text" xml:space="preserve">
     <value>Show a horizontal tab strip on the title bar</value>
   </data>
+  <data name="SettingsAboutContributors.Text" xml:space="preserve">
+    <value>Contributors</value>
+  </data>
+  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
+    <value>See who contributed to Files UWP</value>
+  </data>
+  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
+  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
+    <value>Find out what's new in Files UWP</value>
+  </data>
 </root>

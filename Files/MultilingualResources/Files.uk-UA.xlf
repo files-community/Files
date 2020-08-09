@@ -1100,6 +1100,22 @@
           <source>Show a horizontal tab strip on the title bar</source>
           <target state="new">Show a horizontal tab strip on the title bar</target>
         </trans-unit>
+        <trans-unit id="SettingsAboutContributors.Text" translate="yes" xml:space="preserve">
+          <source>Contributors</source>
+          <target state="new">Contributors</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutContributorsDescription.Text" translate="yes" xml:space="preserve">
+          <source>See who contributed to Files UWP</source>
+          <target state="new">See who contributed to Files UWP</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
+          <source>Release Notes</source>
+          <target state="new">Release Notes</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutReleaseNotesDescription.Text" translate="yes" xml:space="preserve">
+          <source>Find out what's new in Files UWP</source>
+          <target state="new">Find out what's new in Files UWP</target>
+        </trans-unit>
       </group>
     </body>
   </file>
