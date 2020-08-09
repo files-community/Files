@@ -723,7 +723,7 @@
           <source>Restore</source>
           <target state="translated">撤销</target>
         </trans-unit>
-        <trans-unit id="SettingsExperimentalRecycleBin.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsPreferencesRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Enable Recycle Bin support</source>
           <target state="translated">启用回收站</target>
         </trans-unit>

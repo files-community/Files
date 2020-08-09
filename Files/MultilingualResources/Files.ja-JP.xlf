@@ -324,7 +324,7 @@
           <source>Pin OneDrive to the sidebar</source>
           <target state="translated">OneDrive をサイドバーに固定</target>
         </trans-unit>
-        <trans-unit id="SettingsExperimentalRecycleBin.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsPreferencesRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Enable Recycle Bin support</source>
           <target state="translated">ごみ箱を有効にする</target>
         </trans-unit>

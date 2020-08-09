@@ -549,7 +549,7 @@
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Restaurar</value>
   </data>
-  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
+  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
     <value>Mostrar la papelera de reciclaje en la barra lateral</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">

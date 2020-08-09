@@ -331,7 +331,7 @@
           <source>Pin OneDrive to the sidebar</source>
           <target state="translated">ୱାନଡ୍ରାଇଭ କୁ ସାଇଡବାରରେ ପିନ୍ କର</target>
         </trans-unit>
-        <trans-unit id="SettingsExperimentalRecycleBin.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsPreferencesRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Enable Recycle Bin support</source>
           <target state="translated">ରିସାଇକ୍ଲବିନ୍ ସମର୍ଥନ ସକ୍ଷମ କରନ୍ତୁ</target>
         </trans-unit>

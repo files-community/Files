@@ -543,7 +543,7 @@
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>மீட்டெடு</value>
   </data>
-  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
+  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
     <value>மறுசுழற்சிக் கூடை ஆதரவை இயக்கு</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">

@@ -730,7 +730,7 @@
           <source>Restore</source>
           <target state="translated" state-qualifier="tm-suggestion">Wiederherstellen</target>
         </trans-unit>
-        <trans-unit id="SettingsExperimentalRecycleBin.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsPreferencesRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Enable Recycle Bin support</source>
           <target state="translated">Unterstützung für Papierkorb aktivieren</target>
         </trans-unit>

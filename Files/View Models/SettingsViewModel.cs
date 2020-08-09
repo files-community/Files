@@ -322,7 +322,7 @@ namespace Files.View_Models
             }
         }
 
-        private bool _PinRecycleBinToSideBar = false;
+        private bool _PinRecycleBinToSideBar;
 
         public bool PinRecycleBinToSideBar
         {

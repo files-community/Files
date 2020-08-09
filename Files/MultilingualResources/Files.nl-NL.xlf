@@ -726,7 +726,7 @@
           <source>Restore</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Herstellen</target>
         </trans-unit>
-        <trans-unit id="SettingsExperimentalRecycleBin.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsPreferencesRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Enable Recycle Bin support</source>
           <target state="new">Enable Recycle Bin support</target>
         </trans-unit>
