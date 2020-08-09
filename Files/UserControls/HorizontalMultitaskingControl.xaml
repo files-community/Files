@@ -57,7 +57,7 @@
                                             <primitives:TabViewListView
                                                 x:Name="TabListView"
                                                 Grid.Column="1"
-                                                Margin="5"
+                                                Margin="6"
                                                 AllowDrop="{TemplateBinding AllowDropTabs}"
                                                 CanDragItems="{TemplateBinding CanDragTabs}"
                                                 CanReorderItems="{TemplateBinding CanReorderTabs}"
