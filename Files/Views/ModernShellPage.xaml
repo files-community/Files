@@ -152,13 +152,11 @@
                 <Grid Padding="0,8,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Grid Height="24" x:Name="SmallWindowTitlebar" Loaded="SmallWindowTitlebar_Loaded" x:Load="{x:Bind AppSettings.IsHorizontalTabStripVisible, Mode=OneWay}"/>
 
-                    <Grid Grid.Row="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                         <controls1:ModernNavigationToolbar
                             x:Name="NavToolbar"
                             Grid.Column="0"
@@ -168,7 +166,7 @@
 
                     <Frame
                         x:Name="ItemDisplayFrame"
-                        Grid.Row="2"
+                        Grid.Row="1"
                         x:FieldModifier="public"
                         Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                         CacheSize="2"
@@ -176,7 +174,7 @@
 
                     <controls1:StatusBarControl
                         x:Name="StatusBarControl"
-                        Grid.Row="3"
+                        Grid.Row="2"
                         x:Load="{x:Bind instanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
                 </Grid>
             </Custom:DropShadowPanel>

@@ -22,7 +22,7 @@
                         <Setter Property="VerticalAlignment" Value="Top" />
                         <Setter Property="Padding" Value="{ThemeResource TabViewHeaderPadding}" />
                         <Setter Property="IsTabStop" Value="False" />
-                        <Setter Property="Background" Value="{ThemeResource TabViewBackground}" />
+                        <Setter Property="Background" Value="{x:Null}" />
                         <Setter Property="KeyboardAcceleratorPlacementMode" Value="Hidden" />
 
                         <Setter Property="Template">
@@ -57,6 +57,7 @@
                                             <primitives:TabViewListView
                                                 x:Name="TabListView"
                                                 Grid.Column="1"
+                                                Margin="5"
                                                 AllowDrop="{TemplateBinding AllowDropTabs}"
                                                 CanDragItems="{TemplateBinding CanDragTabs}"
                                                 CanReorderItems="{TemplateBinding CanReorderTabs}"
@@ -67,7 +68,6 @@
                                             <Button
                                                 x:Name="AddButton"
                                                 Grid.Column="2"
-                                                Margin="-8,1,0,0"
                                                 Command="{TemplateBinding AddTabButtonCommand}"
                                                 CommandParameter="{TemplateBinding AddTabButtonCommandParameter}"
                                                 Content="&#xE710;"
@@ -80,6 +80,7 @@
                                             <ContentPresenter
                                                 x:Name="RightContentPresenter"
                                                 Grid.Column="3"
+                                                Margin="0,0,250,0"
                                                 HorizontalAlignment="Stretch"
                                                 Content="{TemplateBinding TabStripFooter}"
                                                 ContentTemplate="{TemplateBinding TabStripFooterTemplate}" />
@@ -136,7 +137,9 @@
                         <Setter Property="ItemsPanel">
                             <Setter.Value>
                                 <ItemsPanelTemplate>
-                                    <ItemsStackPanel Orientation="Horizontal" />
+                                    <ItemsStackPanel
+                                        Orientation="Horizontal"
+                                        VerticalAlignment="Center" />
                                 </ItemsPanelTemplate>
                             </Setter.Value>
                         </Setter>
@@ -167,7 +170,7 @@
                                             VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
                                             ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
 
-                                            <ItemsPresenter x:Name="TabsItemsPresenter" Padding="{TemplateBinding Padding}" />
+                                            <ItemsPresenter x:Name="TabsItemsPresenter" />
 
                                         </ScrollViewer>
                                     </Border>
@@ -317,7 +320,6 @@
                                     <Grid
                                         x:Name="LayoutRoot"
                                         Height="34"
-                                        Margin="-1,0,0,0"
                                         Padding="{TemplateBinding Padding}">
                                         <!--  This item will cover the separator on its left side.  -->
 
@@ -753,7 +755,13 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid
+        Canvas.ZIndex="4"
+        Background="{ThemeResource TabViewBackground}">
+        <Grid
+            x:Name="DragArea"
+            Background="Transparent"
+            Loaded="DragArea_Loaded" />
         <muxc:TabView
             x:Name="horizontalTabView"
             HorizontalAlignment="Stretch"
@@ -777,7 +785,7 @@
             <muxc:TabView.TabItemTemplate>
                 <DataTemplate x:DataType="local:TabItem">
                     <muxc:TabViewItem
-                        Margin="-2,-2,8,4"
+                        Margin="2,0,2,0"
                         AllowDrop="True"
                         DragOver="TabViewItem_DragOver"
                         Drop="TabViewItem_Drop"
@@ -788,17 +796,6 @@
                         ToolTipService.ToolTip="{x:Null}" />
                 </DataTemplate>
             </muxc:TabView.TabItemTemplate>
-            <muxc:TabView.TabStripFooter>
-                <Grid
-                    x:Name="DragArea"
-                    Grid.Column="1"
-                    Height="32"
-                    Margin="0,0,250,0"
-                    VerticalAlignment="Top"
-                    Background="Transparent"
-                    Canvas.ZIndex="4"
-                    Loaded="DragArea_Loaded" />
-            </muxc:TabView.TabStripFooter>
         </muxc:TabView>
     </Grid>
 </UserControl>
