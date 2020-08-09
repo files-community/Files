@@ -723,8 +723,9 @@
           <target state="translated">Restaurar</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBin.Text" translate="yes" xml:space="preserve">
-          <source>Enable Recycle Bin support</source>
-          <target state="translated">Mostrar la papelera de reciclaje en la barra lateral</target>
+          <source>Pin Recycle Bin to the sidebar</source>
+          <target state="needs-review-translation">Mostrar la papelera de reciclaje en la barra lateral</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="DaysAgo" translate="yes" xml:space="preserve">
           <source>{0} days ago</source>
