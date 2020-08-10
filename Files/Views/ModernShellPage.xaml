@@ -152,7 +152,7 @@
                 Canvas.ZIndex="100"
                 OffsetX="-2"
                 ShadowOpacity=".04">
-                <Grid Padding="0,8,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -162,6 +162,7 @@
 
                     <Grid
                         Height="30"
+                        Background="Transparent"
                         x:Name="SmallWindowTitlebar"
                         Loaded="SmallWindowTitlebar_Loaded"
                         x:Load="{x:Bind AppSettings.IsHorizontalTabStripVisible, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
@@ -170,7 +171,7 @@
                         <controls1:ModernNavigationToolbar
                             x:Name="NavToolbar"
                             Grid.Column="0"
-                            Margin="10,0"
+                            Margin="10"
                             x:FieldModifier="public" />
                     </Grid>
 
