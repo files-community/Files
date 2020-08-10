@@ -843,4 +843,7 @@
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
     <value>Vedi cosa c'è di nuovo in Files UWP</value>
   </data>
+  <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
+    <value>Mostra le cartelle aperte nel menu a comparsa</value>
+  </data>
 </root>

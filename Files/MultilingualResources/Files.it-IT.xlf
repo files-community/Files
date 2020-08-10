@@ -1115,6 +1115,10 @@
           <source>Find out what's new in Files UWP</source>
           <target state="translated">Vedi cosa c'è di nuovo in Files UWP</target>
         </trans-unit>
+        <trans-unit id="SettingsPreferencesShowMultitaskingControl.Text" translate="yes" xml:space="preserve">
+          <source>Show multitasking flyout in the navigation toolbar</source>
+          <target state="translated">Mostra le cartelle aperte nel menu a comparsa</target>
+        </trans-unit>
       </group>
     </body>
   </file>
