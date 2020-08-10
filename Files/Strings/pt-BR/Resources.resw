@@ -256,7 +256,7 @@
     <value>Fixar o OneDrive na barra lateral</value>
   </data>
   <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
-    <value>Ativar suporte à Lixeira</value>
+    <value>Fixar a lixeira na barra lateral</value>
   </data>
   <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
     <value>Mostrar proprietário nas propriedades</value>
@@ -824,5 +824,26 @@
   </data>
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - atalho</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
+    <value>Abrir local do arquivo</value>
+  </data>
+  <data name="SettingsPreferencesShowHorizontalTabStrip.Text" xml:space="preserve">
+    <value>Mostrar uma tabulação horizontal na barra de título</value>
+  </data>
+  <data name="SettingsAboutContributors.Text" xml:space="preserve">
+    <value>Contribuidores</value>
+  </data>
+  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
+    <value>Veja quem contribuiu para o Files UWP</value>
+  </data>
+  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
+    <value>Notas de Atualização</value>
+  </data>
+  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
+    <value>Descubra o que há de novo no Files UWP</value>
+  </data>
+  <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
+    <value>Mostrar menu multitarefa na barra de navegação</value>
   </data>
 </root>
