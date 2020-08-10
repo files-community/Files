@@ -1202,7 +1202,6 @@ namespace Files.Filesystem
 
         private void AddFolder(WIN32_FIND_DATA findData, string pathRoot)
         {
-
             if (_addFilesCTS.IsCancellationRequested)
             {
                 IsLoadingItems = false;
@@ -1341,7 +1340,7 @@ namespace Files.Filesystem
                             RunAsAdmin = (bool)response.Message["RunAsAdmin"],
                             IsUrl = isUrl,
                             ContainsFilesOrFolders = containsFilesOrFolders
-                        }) ;
+                        });
                     }
                 }
             }
@@ -1376,7 +1375,6 @@ namespace Files.Filesystem
 
         public async Task AddFolder(StorageFolder folder)
         {
-
             var basicProperties = await folder.GetBasicPropertiesAsync();
 
             if ((App.CurrentInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser)) || (App.CurrentInstance.ContentFrame.SourcePageType == typeof(GridViewBrowser)))
@@ -1532,7 +1530,7 @@ namespace Files.Filesystem
         /// This function is used to determine whether or not a folder has any contents.
         /// </summary>
         /// <param name="targetPath">The path to the target folder</param>
-        /// 
+        ///
         public bool CheckForFilesFolders(string targetPath)
         {
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;

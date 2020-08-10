@@ -84,7 +84,6 @@
                                                 HorizontalAlignment="Stretch"
                                                 Content="{TemplateBinding TabStripFooter}"
                                                 ContentTemplate="{TemplateBinding TabStripFooterTemplate}" />
-
                                         </Grid>
 
                                         <!--  We don't want this to take space on the second row in case the user isn't using tab content.  -->
@@ -137,9 +136,7 @@
                         <Setter Property="ItemsPanel">
                             <Setter.Value>
                                 <ItemsPanelTemplate>
-                                    <ItemsStackPanel
-                                        Orientation="Horizontal"
-                                        VerticalAlignment="Center" />
+                                    <ItemsStackPanel VerticalAlignment="Center" Orientation="Horizontal" />
                                 </ItemsPanelTemplate>
                             </Setter.Value>
                         </Setter>
@@ -171,7 +168,6 @@
                                             ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
 
                                             <ItemsPresenter x:Name="TabsItemsPresenter" />
-
                                         </ScrollViewer>
                                     </Border>
                                 </ControlTemplate>
@@ -243,7 +239,6 @@
                             </Setter.Value>
                         </Setter>
                     </Style>
-
 
                     <Style x:Key="TabViewCloseButtonStyle" TargetType="Button">
                         <Setter Property="BorderThickness" Value="0" />
@@ -655,7 +650,6 @@
                                             </VisualStateGroup>
                                         </VisualStateManager.VisualStateGroups>
                                     </Grid>
-
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
@@ -730,12 +724,9 @@
                                                         </ObjectAnimationUsingKeyFrames>
                                                     </Storyboard>
                                                 </VisualState>
-
                                             </VisualStateGroup>
-
                                         </VisualStateManager.VisualStateGroups>
                                     </ContentPresenter>
-
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
@@ -755,9 +746,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid
-        Canvas.ZIndex="4"
-        Background="{ThemeResource TabViewBackground}">
+    <Grid Background="{ThemeResource TabViewBackground}" Canvas.ZIndex="4">
         <Grid
             x:Name="DragArea"
             Background="Transparent"
