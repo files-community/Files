@@ -990,8 +990,8 @@
           <target state="new">Remove Page</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
-          <source>When launching a pinned folder</source>
-          <target state="new">When launching a pinned folder</target>
+          <source>When launching an item from the jumplist</source>
+          <target state="new">When launching an item from the jumplist</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
           <source>Always open a new instance</source>
