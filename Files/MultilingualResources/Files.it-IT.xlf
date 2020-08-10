@@ -172,8 +172,7 @@
         </trans-unit>
         <trans-unit id="RecentItemDescription.Text" translate="yes" xml:space="preserve">
           <source>Files you've previously accessed will show up here</source>
-          <target state="needs-review-translation">I file e le cartelle a cui hai avuto accesso di recente verranno visualizzati qui</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">I file e le cartelle a cui hai avuto accesso di recente verranno visualizzati qui</target>
         </trans-unit>
         <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
@@ -289,7 +288,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
           <source>Open a specific page or pages</source>
-          <target state="needs-review-translation">Apri una specifica pagina/pagine</target>
+          <target state="translated">Apri una specifica pagina/pagine</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
           <source>On Startup</source>
@@ -726,8 +725,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
-          <target state="needs-review-translation">Abilita il supporto al Cestino</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Abilita il supporto al Cestino</target>
         </trans-unit>
         <trans-unit id="DaysAgo" translate="yes" xml:space="preserve">
           <source>{0} days ago</source>
@@ -1095,27 +1093,27 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
-          <target state="new">Open file location</target>
+          <target state="translated">Apri percorso file</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowHorizontalTabStrip.Text" translate="yes" xml:space="preserve">
           <source>Show a horizontal tab strip on the title bar</source>
-          <target state="new">Show a horizontal tab strip on the title bar</target>
+          <target state="translated">Mostra le schede nella barra del titolo</target>
         </trans-unit>
         <trans-unit id="SettingsAboutContributors.Text" translate="yes" xml:space="preserve">
           <source>Contributors</source>
-          <target state="new">Contributors</target>
+          <target state="translated">Collaboratori</target>
         </trans-unit>
         <trans-unit id="SettingsAboutContributorsDescription.Text" translate="yes" xml:space="preserve">
           <source>See who contributed to Files UWP</source>
-          <target state="new">See who contributed to Files UWP</target>
+          <target state="translated">Vedi chi ha contribuito a Files UWP</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
           <source>Release Notes</source>
-          <target state="new">Release Notes</target>
+          <target state="translated">Note di Rilascio</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotesDescription.Text" translate="yes" xml:space="preserve">
           <source>Find out what's new in Files UWP</source>
-          <target state="new">Find out what's new in Files UWP</target>
+          <target state="translated">Vedi cosa c'è di nuovo in Files UWP</target>
         </trans-unit>
       </group>
     </body>

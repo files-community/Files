@@ -825,4 +825,22 @@
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - collegamento</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
+    <value>Apri percorso file</value>
+  </data>
+  <data name="SettingsPreferencesShowHorizontalTabStrip.Text" xml:space="preserve">
+    <value>Mostra le schede nella barra del titolo</value>
+  </data>
+  <data name="SettingsAboutContributors.Text" xml:space="preserve">
+    <value>Collaboratori</value>
+  </data>
+  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
+    <value>Vedi chi ha contribuito a Files UWP</value>
+  </data>
+  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
+    <value>Note di Rilascio</value>
+  </data>
+  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
+    <value>Vedi cosa c'è di nuovo in Files UWP</value>
+  </data>
 </root>
