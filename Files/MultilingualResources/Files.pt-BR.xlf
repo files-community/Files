@@ -333,8 +333,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
-          <target state="needs-review-translation">Ativar suporte à Lixeira</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="needs-review-translation">Fixar a lixeira na barra lateral</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileOwnerInProperties.Text" translate="yes" xml:space="preserve">
           <source>Show Owner in properties</source>
@@ -1095,31 +1094,31 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
-          <target state="new">Open file location</target>
+          <target state="translated">Abrir local do arquivo</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowHorizontalTabStrip.Text" translate="yes" xml:space="preserve">
           <source>Show a horizontal tab strip on the title bar</source>
-          <target state="new">Show a horizontal tab strip on the title bar</target>
+          <target state="translated">Mostrar uma tabulação horizontal na barra de título</target>
         </trans-unit>
         <trans-unit id="SettingsAboutContributors.Text" translate="yes" xml:space="preserve">
           <source>Contributors</source>
-          <target state="new">Contributors</target>
+          <target state="translated">Contribuidores</target>
         </trans-unit>
         <trans-unit id="SettingsAboutContributorsDescription.Text" translate="yes" xml:space="preserve">
           <source>See who contributed to Files UWP</source>
-          <target state="new">See who contributed to Files UWP</target>
+          <target state="translated">Veja quem contribuiu para o Files UWP</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
           <source>Release Notes</source>
-          <target state="new">Release Notes</target>
+          <target state="translated">Notas de Atualização</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotesDescription.Text" translate="yes" xml:space="preserve">
           <source>Find out what's new in Files UWP</source>
-          <target state="new">Find out what's new in Files UWP</target>
+          <target state="translated">Descubra o que há de novo no Files UWP</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowMultitaskingControl.Text" translate="yes" xml:space="preserve">
           <source>Show multitasking flyout in the navigation toolbar</source>
-          <target state="new">Show multitasking flyout in the navigation toolbar</target>
+          <target state="translated">Mostrar menu multitarefa na barra de navegação</target>
         </trans-unit>
       </group>
     </body>
