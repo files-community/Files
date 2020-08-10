@@ -5,9 +5,7 @@ using Files.UserControls;
 using Files.UserControls.MultiTaskingControl;
 using Files.View_Models;
 using System;
-using System.Diagnostics;
 using System.Linq;
-using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.System;
@@ -316,7 +314,6 @@ namespace Files.Views.Pages
         private void SmallWindowTitlebar_Loaded(object sender, RoutedEventArgs e)
         {
             Window.Current.SetTitleBar(SmallWindowTitlebar);
-            Debug.WriteLine("title bar selected");
         }
     }
 
