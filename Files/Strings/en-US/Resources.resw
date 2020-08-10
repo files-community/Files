@@ -948,4 +948,7 @@
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
     <value>Find out what's new in Files UWP</value>
   </data>
+  <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
+    <value>Show multitasking flyout in the navigation toolbar</value>
+  </data>
 </root>
