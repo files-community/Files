@@ -127,7 +127,7 @@
     <value>Останні файли</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>Ліцензія</value>
+    <value>Ліцензія:</value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Особлива подяка:</value>
@@ -142,7 +142,7 @@
     <value>Про програму</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Веб-сайт</value>
+    <value>Веб-сайт:</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
     <value>Бокова панель з ефектом акрила</value>

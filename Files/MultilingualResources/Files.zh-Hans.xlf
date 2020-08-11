@@ -56,7 +56,7 @@
           <target state="translated">文件管理 UWP</target>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
-          <source>License: </source>
+          <source>License:</source>
           <target state="translated">许可证:</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
@@ -80,7 +80,7 @@
           <target state="translated">关于</target>
         </trans-unit>
         <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
-          <source>Website: </source>
+          <source>Website:</source>
           <target state="translated">网站:</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
