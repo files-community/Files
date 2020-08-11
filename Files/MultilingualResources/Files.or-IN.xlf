@@ -208,8 +208,8 @@
           <target state="translated">Files UWP</target>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
-          <source>License: </source>
-          <target state="translated">ଲାଇସେନ୍ସ: </target>
+          <source>License:</source>
+          <target state="translated">ଲାଇସେନ୍ସ:</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
           <source>Special thanks to:</source>
@@ -232,8 +232,8 @@
           <target state="translated">ବିଷୟରେ</target>
         </trans-unit>
         <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
-          <source>Website: </source>
-          <target state="translated">ୱେବସାଇଟ୍: </target>
+          <source>Website:</source>
+          <target state="translated">ୱେବସାଇଟ୍:</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>

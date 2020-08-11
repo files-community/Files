@@ -49,7 +49,7 @@
     <value>Files UWP</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>Lizenz: </value>
+    <value>Lizenz:</value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Besonderer Dank an:</value>
@@ -67,7 +67,7 @@
     <value>Über</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Internetseite: </value>
+    <value>Internetseite:</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
     <value>Acrylic Seitenleiste</value>

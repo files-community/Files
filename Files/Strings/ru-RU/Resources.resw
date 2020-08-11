@@ -49,7 +49,7 @@
     <value>Files UWP</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>Лицензия: </value>
+    <value>Лицензия:</value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Особые благодарности:</value>
@@ -67,7 +67,7 @@
     <value>О приложении</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Сайт: </value>
+    <value>Сайт:</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
     <value>Боковая панель с эффектом акрила</value>
