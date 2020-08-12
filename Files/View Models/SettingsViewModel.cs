@@ -267,7 +267,7 @@ namespace Files.View_Models
             get => Get(false);
             set => Set(value);
         }
-                
+
         private bool _PinOneDriveToSideBar = true;
 
         public bool PinOneDriveToSideBar

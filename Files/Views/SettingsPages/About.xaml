@@ -3,9 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Files.SettingsPages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:my="using:Microsoft.Toolkit.Uwp.UI.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
@@ -147,21 +145,32 @@
                     </TextBlock.Transitions>
                 </TextBlock>
 
-                <StackPanel Orientation="Horizontal">
+                <StackPanel
+                    Orientation="Horizontal"
+                    Spacing="20">
                     <TextBlock
-                        Margin="0,0,16,0"
-                        VerticalAlignment="Bottom"
+                        VerticalAlignment="Center"
                         FontSize="16"
                         Text="QuickLook" />
-                    <TextBlock
-                        Margin="0,0,8,0"
-                        VerticalAlignment="Bottom"
-                        TextWrapping="WrapWholeWords">
-                        <Span xml:space="preserve"><Run x:Uid="SettingsAboutWebsite">Website: </Run><Hyperlink NavigateUri="https://github.com/QL-Win/QuickLook">Link</Hyperlink></Span>
-                    </TextBlock>
-                    <TextBlock VerticalAlignment="Bottom" TextWrapping="WrapWholeWords">
-                        <Span xml:space="preserve"><Run x:Uid="SettingsAboutLicense">License: </Run><Hyperlink NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt">GPL</Hyperlink></Span>
-                    </TextBlock>
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Spacing="5">
+                        <TextBlock
+                            x:Uid="SettingsAboutWebsite"
+                            Text="Website:"
+                            VerticalAlignment="Center" />
+                        <HyperlinkButton NavigateUri="https://github.com/QL-Win/QuickLook">Link</HyperlinkButton>
+                    </StackPanel>
+
+                    <StackPanel
+                        Orientation="Horizontal"
+                        Spacing="5">
+                        <TextBlock
+                            x:Uid="SettingsAboutLicense"
+                            Text="License:"
+                            VerticalAlignment="Center" />
+                        <HyperlinkButton NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt">GPL</HyperlinkButton>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

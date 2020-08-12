@@ -98,7 +98,7 @@
                 <TextBlock
                     x:Uid="SettingsOnStartupNewInstanceBehavior"
                     FontSize="17"
-                    Text="When launching a pinned folder" />
+                    Text="When launching an item from the jumplist" />
 
                 <RadioButton
                     x:Uid="SettingsOnStartupLaunchNewTab"

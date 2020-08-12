@@ -154,7 +154,7 @@
     <value>சமீபத்திய உருப்படிகள்</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>உரிமம்: </value>
+    <value>உரிமம்:</value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>சிறப்பு நன்றிகள்:</value>
@@ -172,7 +172,7 @@
     <value>பற்றி</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>வலைத்தளம்: </value>
+    <value>வலைத்தளம்:</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
     <value>Acrylic பக்கப்பட்டி</value>

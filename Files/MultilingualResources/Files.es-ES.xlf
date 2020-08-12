@@ -55,8 +55,8 @@
           <target state="translated">Files UWP</target>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
-          <source>License: </source>
-          <target state="translated">Licencia: </target>
+          <source>License:</source>
+          <target state="translated">Licencia:</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
           <source>Special thanks to:</source>
@@ -64,7 +64,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
           <source>Submit Feedback</source>
-          <target state="translated">Envíar opiniones</target>
+          <target state="translated">Enviar opiniones</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
           <source>Send the developers an issue report with more information</source>
@@ -79,8 +79,8 @@
           <target state="translated">Acerca de Files UWP</target>
         </trans-unit>
         <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
-          <source>Website: </source>
-          <target state="translated">Sitio web: </target>
+          <source>Website:</source>
+          <target state="translated">Sitio web:</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>
@@ -724,8 +724,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
-          <target state="needs-review-translation">Mostrar la papelera de reciclaje en la barra lateral</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Anclar la papelera de reciclaje a la barra lateral</target>
         </trans-unit>
         <trans-unit id="DaysAgo" translate="yes" xml:space="preserve">
           <source>{0} days ago</source>
@@ -988,8 +987,8 @@
           <target state="translated">Quitar</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
-          <source>When launching a pinned folder</source>
-          <target state="translated">Al abrir una carpeta anclada desde la barra de tareas</target>
+          <source>When launching an item from the jumplist</source>
+          <target state="translated">Al abrir una carpeta anclada desde la JumpList</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
           <source>Always open a new instance</source>
@@ -1097,23 +1096,27 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowHorizontalTabStrip.Text" translate="yes" xml:space="preserve">
           <source>Show a horizontal tab strip on the title bar</source>
-          <target state="new">Show a horizontal tab strip on the title bar</target>
+          <target state="translated">Mostrar pestañas horizontales en la barra de título</target>
         </trans-unit>
         <trans-unit id="SettingsAboutContributors.Text" translate="yes" xml:space="preserve">
           <source>Contributors</source>
-          <target state="new">Contributors</target>
+          <target state="translated">Contribuidores</target>
         </trans-unit>
         <trans-unit id="SettingsAboutContributorsDescription.Text" translate="yes" xml:space="preserve">
           <source>See who contributed to Files UWP</source>
-          <target state="new">See who contributed to Files UWP</target>
+          <target state="translated">Ver quiénes contribuyen a Files UWP</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
           <source>Release Notes</source>
-          <target state="new">Release Notes</target>
+          <target state="translated">Notas de publicación</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotesDescription.Text" translate="yes" xml:space="preserve">
           <source>Find out what's new in Files UWP</source>
-          <target state="new">Find out what's new in Files UWP</target>
+          <target state="translated">Ver las novedades de esta versión</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesShowMultitaskingControl.Text" translate="yes" xml:space="preserve">
+          <source>Show multitasking flyout in the navigation toolbar</source>
+          <target state="translated">Mostrar menú de pestañas en la barra de navegación</target>
         </trans-unit>
         <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
           <source>The item referenced is either invalid or inaccessible.

@@ -163,7 +163,7 @@
     <value>Files UWP</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>ଲାଇସେନ୍ସ: </value>
+    <value>ଲାଇସେନ୍ସ:</value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>ବିଶେଷ ଧନ୍ୟବାଦ:</value>
@@ -181,7 +181,7 @@
     <value>ବିଷୟରେ</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>ୱେବସାଇଟ୍: </value>
+    <value>ୱେବସାଇଟ୍:</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
     <value>ଆକ୍ରିଲିକ୍ ସାଇଡବାର୍</value>

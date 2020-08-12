@@ -17,8 +17,7 @@
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
-            <converters:BoolNegationConverter
-                x:Key="BoolNegationConverter" />
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
             <Style x:Key="DefaultGridSplitterStyle" TargetType="Custom:GridSplitter">
                 <Setter Property="IsTabStop" Value="True" />
                 <Setter Property="UseSystemFocusVisuals" Value="True" />
@@ -161,11 +160,11 @@
                     </Grid.RowDefinitions>
 
                     <Grid
-                        Height="30"
-                        Background="Transparent"
                         x:Name="SmallWindowTitlebar"
-                        Loaded="SmallWindowTitlebar_Loaded"
-                        x:Load="{x:Bind AppSettings.IsHorizontalTabStripVisible, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
+                        Height="30"
+                        x:Load="{x:Bind AppSettings.IsHorizontalTabStripVisible, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                        Background="Transparent"
+                        Loaded="SmallWindowTitlebar_Loaded" />
 
                     <Grid Grid.Row="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                         <controls1:ModernNavigationToolbar

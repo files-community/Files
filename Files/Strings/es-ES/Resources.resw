@@ -49,13 +49,13 @@
     <value>Files UWP</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>Licencia: </value>
+    <value>Licencia:</value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Agradecimientos especiales a:</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
-    <value>Envíar opiniones</value>
+    <value>Enviar opiniones</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
     <value>Envía un informe de fallos a los desarrolladores con más información</value>
@@ -67,7 +67,7 @@
     <value>Acerca de Files UWP</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Sitio web: </value>
+    <value>Sitio web:</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
     <value>Barra lateral acrílica</value>
@@ -550,7 +550,7 @@
     <value>Restaurar</value>
   </data>
   <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
-    <value>Mostrar la papelera de reciclaje en la barra lateral</value>
+    <value>Anclar la papelera de reciclaje a la barra lateral</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
     <value>Hace {0} días</value>
@@ -727,7 +727,7 @@
     <value>Quitar</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Al abrir una carpeta anclada desde la barra de tareas</value>
+    <value>Al abrir una carpeta anclada desde la JumpList</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
     <value>Abrir en una nueva ventana</value>
@@ -806,5 +806,23 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Abrir ubicación de archivo</value>
+  </data>
+  <data name="SettingsPreferencesShowHorizontalTabStrip.Text" xml:space="preserve">
+    <value>Mostrar pestañas horizontales en la barra de título</value>
+  </data>
+  <data name="SettingsAboutContributors.Text" xml:space="preserve">
+    <value>Contribuidores</value>
+  </data>
+  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
+    <value>Ver quiénes contribuyen a Files UWP</value>
+  </data>
+  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
+    <value>Notas de publicación</value>
+  </data>
+  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
+    <value>Ver las novedades de esta versión</value>
+  </data>
+  <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
+    <value>Mostrar menú de pestañas en la barra de navegación</value>
   </data>
 </root>
