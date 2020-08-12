@@ -951,4 +951,13 @@
   <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
     <value>Show multitasking flyout in the navigation toolbar</value>
   </data>
+  <data name="InvalidItemDialogContent" xml:space="preserve">
+    <value>The item referenced is either invalid or inaccessible.
+Message:
+
+{0}</value>
+  </data>
+  <data name="InvalidItemDialogTitle" xml:space="preserve">
+    <value>Invalid item</value>
+  </data>
 </root>

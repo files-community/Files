@@ -1307,7 +1307,8 @@ namespace Files.Filesystem
                         IsLoadingItems = false;
                         return;
                     }
-                    if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
+                    if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
+                        && response.Message.ContainsKey("TargetPath"))
                     {
                         var isUrl = findData.cFileName.EndsWith(".url");
                         string target = (string)response.Message["TargetPath"];
