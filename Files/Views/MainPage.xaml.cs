@@ -54,8 +54,6 @@ namespace Files.Views
         public static ObservableCollection<TabItem> AppInstances = new ObservableCollection<TabItem>();
         public static ObservableCollection<INavigationControlItem> sideBarItems = new ObservableCollection<INavigationControlItem>();
 
-        public static event EventHandler<bool> OnTabItemDraggedOver;
-
         public MainPage()
         {
             this.InitializeComponent();
@@ -71,15 +69,6 @@ namespace Files.Views
             }
 
             AllowDrop = true;
-            DragOver += MainPage_DragOver;
-        }
-
-        private void MainPage_DragOver(object sender, DragEventArgs e)
-        {
-            if (e.DataView.Properties.ContainsKey(VerticalTabView.TabPathIdentifier))
-            {
-                OnTabItemDraggedOver?.Invoke(sender, true);
-            }
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -203,7 +192,7 @@ namespace Files.Views
                         var dirName = Path.GetDirectoryName(normalizedPath);
                         if (dirName != null)
                         {
-                            tabLocationHeader = dirName;
+                            tabLocationHeader = Path.GetFileName(path);
                             fontIconSource.Glyph = "\xea55";
                         }
                         else

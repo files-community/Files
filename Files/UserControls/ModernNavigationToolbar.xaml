@@ -319,7 +319,7 @@
                         <Setter Property="VerticalContentAlignment" Value="Center" />
                         <Setter Property="MinWidth" Value="8" />
                         <Setter Property="MinHeight" Value="20" />
-                        <Setter Property="AllowDrop" Value="False" />
+                        <Setter Property="AllowDrop" Value="True" />
                         <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
                         <Setter Property="FocusVisualMargin" Value="0" />
                         <Setter Property="Template">
@@ -493,7 +493,10 @@
                         <Grid
                             x:Name="ListViewItemContentGrid"
                             Background="Transparent"
-                            Tag="{Binding Path}">
+                            Tag="{Binding Path}"
+                            AllowDrop="True"
+                            DragOver="PathBoxItem_DragOver"
+                            Drop="PathBoxItem_Drop">
 
                             <StackPanel Orientation="Horizontal" Spacing="5">
                                 <TextBlock
@@ -567,7 +570,10 @@
                         <Grid
                             x:Name="ListViewItemContentGrid"
                             Background="Transparent"
-                            Tag="{Binding Path}">
+                            Tag="{Binding Path}"
+                            AllowDrop="True"
+                            DragOver="PathBoxItem_DragOver"
+                            Drop="PathBoxItem_Drop">
                             <Interactivity:Interaction.Behaviors>
                                 <Core:EventTriggerBehavior EventName="PointerEntered">
                                     <Core:ChangePropertyAction PropertyName="Opacity">

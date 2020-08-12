@@ -257,7 +257,7 @@ namespace Files.UserControls
 
         private void TabStrip_TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)
         {
-            var tabViewItemPath = ((((args.Item as TabItem).Content as Grid).Children[0] as Frame).Content as IShellPage).NavigationToolbar.PathControlDisplayText;
+            var tabViewItemPath = ((((args.Item as TabItem).Content as Grid).Children[0] as Frame).Tag as TabItemContent).NavigationArg;
             args.Data.Properties.Add(TabPathIdentifier, tabViewItemPath);
             args.Data.RequestedOperation = DataPackageOperation.Move;
         }
@@ -321,7 +321,7 @@ namespace Files.UserControls
             if (sender.TabItems.Count == 1) return;
 
             var indexOfTabViewItem = sender.TabItems.IndexOf(args.Tab);
-            var tabViewItemPath = ((((args.Item as TabItem).Content as Grid).Children[0] as Frame).Content as IShellPage).NavigationToolbar.PathControlDisplayText;
+            var tabViewItemPath = ((((args.Item as TabItem).Content as Grid).Children[0] as Frame).Tag as TabItemContent).NavigationArg;
             var selectedTabViewItemIndex = sender.SelectedIndex;
             RemoveTab(args.Item as TabItem);
             if (!await Interaction.OpenPathInNewWindow(tabViewItemPath))
@@ -331,16 +331,15 @@ namespace Files.UserControls
             }
         }
 
-        private async void RemoveTab(TabItem tabItem)
+        private void RemoveTab(TabItem tabItem)
         {
             if (Items.Count == 1)
             {
-                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                App.CloseApp();
             }
             else if (Items.Count > 1)
             {
                 Items.Remove(tabItem);
-                //App.InteractionViewModel.TabStripSelectedIndex = verticalTabView.SelectedIndex;
             }
         }
     }

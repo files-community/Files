@@ -204,8 +204,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutAppName.Text" translate="yes" xml:space="preserve">
           <source>Files UWP</source>
-          <target state="needs-review-translation">Files UWP</target>
-          <note from="MultilingualUpdate" priority="2">Resource is marked as 'Needs review' since the Source and target were the same value.</note>
+          <target state="translated">Files UWP</target>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
           <source>License: </source>
@@ -321,8 +320,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
           <source>Open a specific page or pages</source>
-          <target state="needs-review-translation">एक विशिष्ट पृष्ठ खोलें</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">एक विशिष्ट पन्ना या पन्ने खोलें</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
           <source>On Startup</source>
@@ -858,38 +856,31 @@
         </trans-unit>
         <trans-unit id="ItemSizeBytes" translate="yes" xml:space="preserve">
           <source>bytes</source>
-          <target state="needs-review-translation">bytes</target>
-          <note from="MultilingualUpdate" priority="2">Resource is marked as 'Needs review' since the Source and target were the same value.</note>
+          <target state="translated">bytes</target>
         </trans-unit>
         <trans-unit id="KiloByteSymbol" translate="yes" xml:space="preserve">
           <source>KB</source>
-          <target state="needs-review-translation">KB</target>
-          <note from="MultilingualUpdate" priority="2">Resource is marked as 'Needs review' since the Source and target were the same value.</note>
+          <target state="translated">KB</target>
         </trans-unit>
         <trans-unit id="MegaByteSymbol" translate="yes" xml:space="preserve">
           <source>MB</source>
-          <target state="needs-review-translation">MB</target>
-          <note from="MultilingualUpdate" priority="2">Resource is marked as 'Needs review' since the Source and target were the same value.</note>
+          <target state="translated">MB</target>
         </trans-unit>
         <trans-unit id="GigaByteSymbol" translate="yes" xml:space="preserve">
           <source>GB</source>
-          <target state="needs-review-translation">GB</target>
-          <note from="MultilingualUpdate" priority="2">Resource is marked as 'Needs review' since the Source and target were the same value.</note>
+          <target state="translated">GB</target>
         </trans-unit>
         <trans-unit id="TeraByteSymbol" translate="yes" xml:space="preserve">
           <source>TB</source>
-          <target state="needs-review-translation">TB</target>
-          <note from="MultilingualUpdate" priority="2">Resource is marked as 'Needs review' since the Source and target were the same value.</note>
+          <target state="translated">TB</target>
         </trans-unit>
         <trans-unit id="PetaByteSymbol" translate="yes" xml:space="preserve">
           <source>PB</source>
-          <target state="needs-review-translation">PB</target>
-          <note from="MultilingualUpdate" priority="2">Resource is marked as 'Needs review' since the Source and target were the same value.</note>
+          <target state="translated">PB</target>
         </trans-unit>
         <trans-unit id="ByteSymbol" translate="yes" xml:space="preserve">
           <source>B</source>
-          <target state="needs-review-translation">B</target>
-          <note from="MultilingualUpdate" priority="2">Resource is marked as 'Needs review' since the Source and target were the same value.</note>
+          <target state="translated">B</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
@@ -981,47 +972,63 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenAddPageButton.Content" translate="yes" xml:space="preserve">
           <source>Add a new page</source>
-          <target state="new">Add a new page</target>
+          <target state="translated">एक नया पन्ना जोड़ें</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" translate="yes" xml:space="preserve">
           <source>Change Page Location</source>
-          <target state="new">Change Page Location</target>
+          <target state="translated">पन्ने का स्थान बदलें</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupPages.Text" translate="yes" xml:space="preserve">
           <source>Pages:</source>
-          <target state="new">Pages:</target>
+          <target state="translated">पन्ने:</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" translate="yes" xml:space="preserve">
           <source>Remove Page</source>
-          <target state="new">Remove Page</target>
+          <target state="translated">पन्ने हटाएं</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
           <source>When launching a pinned folder</source>
-          <target state="new">When launching a pinned folder</target>
+          <target state="translated">पिन किए गए फ़ोल्डर को खोलते समय</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
           <source>Always open a new instance</source>
-          <target state="new">Always open a new instance</target>
+          <target state="translated">हमेशा एक नया दृष्टांत खोलें</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewTab.Content" translate="yes" xml:space="preserve">
           <source>Open folder in a new tab</source>
-          <target state="new">Open folder in a new tab</target>
+          <target state="translated">फ़ोल्डर को एक नए टैब में खोलें</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
           <source>Windows default</source>
-          <target state="new">Windows default</target>
+          <target state="translated">विन्डोज़ डिफ़ॉल्ट</target>
         </trans-unit>
         <trans-unit id="TabStripDragAndDropUIOverrideCaption" translate="yes" xml:space="preserve">
           <source>Move tab here</source>
-          <target state="new">Move tab here</target>
+          <target state="translated">टैब यहां लाएं</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarVisiblePathNoResults" translate="yes" xml:space="preserve">
           <source>No results</source>
-          <target state="new">No results</target>
+          <target state="translated">कोई परिणाम नहीं</target>
         </trans-unit>
         <trans-unit id="SubDirectoryAccessDenied" translate="yes" xml:space="preserve">
           <source>Can't access any items to display</source>
-          <target state="new">Can't access any items to display</target>
+          <target state="translated">प्रदर्शित करने के लिए किसी भी आइटम तक नहीं पहुंच सकते</target>
+        </trans-unit>
+        <trans-unit id="MoveToFolderCaptionText" translate="yes" xml:space="preserve">
+          <source>Move to {0}</source>
+          <target state="translated">{0} पर ले जाएँ</target>
+        </trans-unit>
+        <trans-unit id="ErrorDialogSameSourceDestinationFile" translate="yes" xml:space="preserve">
+          <source>The source and destination file names are the same.</source>
+          <target state="translated">स्रोत और गंतव्य फ़ाइल नाम एक ही हैं।</target>
+        </trans-unit>
+        <trans-unit id="ErrorDialogSameSourceDestinationFolder" translate="yes" xml:space="preserve">
+          <source>The destination folder is the same as the source folder.</source>
+          <target state="translated">गंतव्य फ़ोल्डर स्रोत फ़ोल्डर के समान है।</target>
+        </trans-unit>
+        <trans-unit id="CopyToFolderCaptionText" translate="yes" xml:space="preserve">
+          <source>Copy to {0}</source>
+          <target state="new">Copy to {0}</target>
         </trans-unit>
       </group>
     </body>

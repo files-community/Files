@@ -31,13 +31,6 @@ namespace Files.UserControls
         public ModernNavigationToolbar()
         {
             this.InitializeComponent();
-
-            MainPage.OnTabItemDraggedOver += MainPage_OnTabItemDraggedOver;
-        }
-
-        private void MainPage_OnTabItemDraggedOver(object sender, bool e)
-        {
-            VerticalTabViewFlyout.ShowAt(VerticalTabStripInvokeButton);
         }
 
         private bool manualEntryBoxLoaded = false;
@@ -282,20 +275,35 @@ namespace Files.UserControls
                                 }
                             }
 
-                            var dialog = new ContentDialog()
+                            try
                             {
-                                Title = "Invalid item",
-                                Content = "The item referenced is either invalid or inaccessible.\nMessage:\n\n" + ex.Message,
-                                CloseButtonText = "OK"
-                            };
-
-                            await dialog.ShowAsync();
+                                if (!await Launcher.LaunchUriAsync(new Uri(currentInput)))
+                                {
+                                    throw new Exception();
+                                }
+                            }
+                            catch
+                            {
+                                ShowInvalidAccessDialog(ex.Message);
+                            }
                         }
                     }
                 }
 
                 App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
             }
+        }
+
+        private async void ShowInvalidAccessDialog(string message)
+        {
+            var dialog = new ContentDialog()
+            {
+                Title = "Invalid item",
+                Content = "The item referenced is either invalid or inaccessible.\nMessage:\n\n" + message,
+                CloseButtonText = "OK"
+            };
+
+            await dialog.ShowAsync();
         }
 
         private void VisiblePath_LostFocus(object sender, RoutedEventArgs e)
@@ -412,6 +420,42 @@ namespace Files.UserControls
             }
         }
 
+        private async void PathBoxItem_DragOver(object sender, DragEventArgs e)
+        {
+            if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
+                pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab")) return;
+
+            e.Handled = true;
+            var deferral = e.GetDeferral();
+
+            var storageItems = await e.DataView.GetStorageItemsAsync();
+            if (!storageItems.Any(storageItem =>
+            storageItem.Path.Replace(pathBoxItem.Path, string.Empty).
+            Trim(Path.DirectorySeparatorChar).
+            Contains(Path.DirectorySeparatorChar)))
+            {
+                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.None;
+            }
+            else
+            {
+                e.DragUIOverride.IsCaptionVisible = true;
+                e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), pathBoxItem.Title);
+                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+            }
+
+            deferral.Complete();
+        }
+
+        private async void PathBoxItem_Drop(object sender, DragEventArgs e)
+        {
+            if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
+                pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab")) return;
+
+            var deferral = e.GetDeferral();
+            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, pathBoxItem.Path, e.AcceptedOperation);
+            deferral.Complete();
+        }
+
         private void VisiblePath_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
@@ -484,9 +528,11 @@ namespace Files.UserControls
             catch
             {
                 NavigationBarSuggestions.Clear();
-                NavigationBarSuggestions.Add(new ListedItem(null) {
+                NavigationBarSuggestions.Add(new ListedItem(null)
+                {
                     ItemPath = App.CurrentInstance.FilesystemViewModel.WorkingDirectory,
-                    ItemName = ResourceController.GetTranslation("NavigationToolbarVisiblePathNoResults") });
+                    ItemName = ResourceController.GetTranslation("NavigationToolbarVisiblePathNoResults")
+                });
             }
         }
 
@@ -524,14 +570,14 @@ namespace Files.UserControls
         {
             var nextPathItemTitle = App.CurrentInstance.NavigationToolbar.PathComponents
                 [App.CurrentInstance.NavigationToolbar.PathComponents.IndexOf(pathItem) + 1].Title;
-            IList< StorageFolderWithPath> childFolders = new List<StorageFolderWithPath>();
+            IList<StorageFolderWithPath> childFolders = new List<StorageFolderWithPath>();
 
             try
             {
                 var folder = await ItemViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
                 childFolders = await folder.GetFoldersWithPathAsync(string.Empty);
             }
-            catch 
+            catch
             {
                 // Do nothing.
             }
@@ -552,7 +598,7 @@ namespace Files.UserControls
                 flyout.Items.Add(flyoutItem);
                 return;
             }
-            
+
             var boldFontWeight = new FontWeight { Weight = 800 };
             var normalFontWeight = new FontWeight { Weight = 400 };
             var customGlyphFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily;

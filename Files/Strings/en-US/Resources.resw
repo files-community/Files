@@ -873,4 +873,16 @@
   <data name="SubDirectoryAccessDenied" xml:space="preserve">
     <value>Can't access any items to display</value>
   </data>
+  <data name="MoveToFolderCaptionText" xml:space="preserve">
+    <value>Move to {0}</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
+    <value>The source and destination file names are the same.</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
+    <value>The destination folder is the same as the source folder.</value>
+  </data>
+  <data name="CopyToFolderCaptionText" xml:space="preserve">
+    <value>Copy to {0}</value>
+  </data>
 </root>

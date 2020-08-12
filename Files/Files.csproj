@@ -195,9 +195,6 @@
       <DependentUpon>ModernNavigationToolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MultitaskingControl\IMultitaskingControl.cs" />
-    <Compile Include="UserControls\SidebarControl.cs">
-      <DependentUpon>SidebarControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="DataModels\TerminalFileModel.cs" />
     <Compile Include="DataModels\Terminal.cs" />
     <Compile Include="Dialogs\AddItemDialog.xaml.cs">
@@ -228,6 +225,9 @@
     <Compile Include="Enums\WallpaperType.cs" />
     <Compile Include="Filesystem\DriveItem.cs" />
     <Compile Include="Filesystem\Drives.cs" />
+    <Compile Include="UserControls\SidebarControl.xaml.cs">
+      <DependentUpon>SidebarControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\SpecificPageOnStartup.xaml.cs">
       <DependentUpon>SpecificPageOnStartup.xaml</DependentUpon>
     </Compile>
@@ -432,10 +432,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\SidebarControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Dialogs\AddItemDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -461,6 +457,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\RenameDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\SidebarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
