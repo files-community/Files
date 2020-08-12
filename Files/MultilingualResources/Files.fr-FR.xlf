@@ -1118,6 +1118,20 @@
           <source>Find out what's new in Files UWP</source>
           <target state="new">Find out what's new in Files UWP</target>
         </trans-unit>
+        <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
+          <source>The item referenced is either invalid or inaccessible.
+Message:
+
+{0}</source>
+          <target state="new">The item referenced is either invalid or inaccessible.
+Message:
+
+{0}</target>
+        </trans-unit>
+        <trans-unit id="InvalidItemDialogTitle" translate="yes" xml:space="preserve">
+          <source>Invalid item</source>
+          <target state="new">Invalid item</target>
+        </trans-unit>
       </group>
     </body>
   </file>

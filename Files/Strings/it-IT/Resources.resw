@@ -825,4 +825,13 @@
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - collegamento</value>
   </data>
+  <data name="InvalidItemDialogContent" xml:space="preserve">
+    <value>L'elemento è non valido o non accessibile.
+Messaggio:
+
+{0}</value>
+  </data>
+  <data name="InvalidItemDialogTitle" xml:space="preserve">
+    <value>Elemento non valido</value>
+  </data>
 </root>
