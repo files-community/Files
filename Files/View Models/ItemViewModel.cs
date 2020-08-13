@@ -1160,13 +1160,16 @@ namespace Files.Filesystem
 
         private void UpdateDirectoryInfo()
         {
-            if (_filesAndFolders.Count == 1)
+            if (App.CurrentInstance.ContentPage != null)
             {
-                App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemCount/Text");
-            }
-            else
-            {
-                App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemsCount/Text");
+                if (_filesAndFolders.Count == 1)
+                {
+                    App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemCount/Text");
+                }
+                else
+                {
+                    App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemsCount/Text");
+                }
             }
         }
 
