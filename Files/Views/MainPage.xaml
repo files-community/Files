@@ -4,9 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.Views"
+    xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:usercontrols="using:Files.UserControls" xmlns:local1="using:Files"
+    xmlns:usercontrols="using:Files.UserControls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
     NavigationCacheMode="Required"
@@ -60,11 +61,11 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
-        <usercontrols:HorizontalMultitaskingControl x:Name="horizontalMultitaskingControl" x:Load="{x:Bind AppSettings.IsHorizontalTabStripVisible, Mode=OneWay}"/>
+        <usercontrols:HorizontalMultitaskingControl x:Name="horizontalMultitaskingControl" x:Load="{x:Bind AppSettings.IsHorizontalTabStripVisible, Mode=OneWay}" />
 
         <ContentPresenter Grid.Row="1" Content="{x:Bind ((usercontrols:TabItem)SelectedTabItem).Content, Mode=OneWay}" />
     </Grid>

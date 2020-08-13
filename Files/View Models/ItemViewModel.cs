@@ -116,7 +116,7 @@ namespace Files.Filesystem
                 _customPath = null;
             }
 
-            NotifyPropertyChanged("WorkingDirectory");
+            NotifyPropertyChanged(nameof(WorkingDirectory));
         }
 
         public static async Task<StorageFolder> GetFolderFromPathAsync(string value)
@@ -153,24 +153,24 @@ namespace Files.Filesystem
                 if (value != _IsFolderEmptyTextDisplayed)
                 {
                     _IsFolderEmptyTextDisplayed = value;
-                    NotifyPropertyChanged("IsFolderEmptyTextDisplayed");
+                    NotifyPropertyChanged(nameof(IsFolderEmptyTextDisplayed));
                 }
             }
         }
 
         public void UpdateSortOptionStatus()
         {
-            NotifyPropertyChanged("IsSortedByName");
-            NotifyPropertyChanged("IsSortedByDate");
-            NotifyPropertyChanged("IsSortedByType");
-            NotifyPropertyChanged("IsSortedBySize");
+            NotifyPropertyChanged(nameof(IsSortedByName));
+            NotifyPropertyChanged(nameof(IsSortedByDate));
+            NotifyPropertyChanged(nameof(IsSortedByType));
+            NotifyPropertyChanged(nameof(IsSortedBySize));
             OrderFiles();
         }
 
         public void UpdateSortDirectionStatus()
         {
-            NotifyPropertyChanged("IsSortedAscending");
-            NotifyPropertyChanged("IsSortedDescending");
+            NotifyPropertyChanged(nameof(IsSortedAscending));
+            NotifyPropertyChanged(nameof(IsSortedDescending));
             OrderFiles();
         }
 
@@ -182,7 +182,7 @@ namespace Files.Filesystem
                 if (value)
                 {
                     AppSettings.DirectorySortOption = SortOption.Name;
-                    NotifyPropertyChanged("IsSortedByName");
+                    NotifyPropertyChanged(nameof(IsSortedByName));
                 }
             }
         }
@@ -195,7 +195,7 @@ namespace Files.Filesystem
                 if (value)
                 {
                     AppSettings.DirectorySortOption = SortOption.DateModified;
-                    NotifyPropertyChanged("IsSortedByDate");
+                    NotifyPropertyChanged(nameof(IsSortedByDate));
                 }
             }
         }
@@ -208,7 +208,7 @@ namespace Files.Filesystem
                 if (value)
                 {
                     AppSettings.DirectorySortOption = SortOption.FileType;
-                    NotifyPropertyChanged("IsSortedByType");
+                    NotifyPropertyChanged(nameof(IsSortedByType));
                 }
             }
         }
@@ -221,7 +221,7 @@ namespace Files.Filesystem
                 if (value)
                 {
                     AppSettings.DirectorySortOption = SortOption.Size;
-                    NotifyPropertyChanged("IsSortedBySize");
+                    NotifyPropertyChanged(nameof(IsSortedBySize));
                 }
             }
         }
@@ -232,8 +232,8 @@ namespace Files.Filesystem
             set
             {
                 AppSettings.DirectorySortDirection = value ? SortDirection.Ascending : SortDirection.Descending;
-                NotifyPropertyChanged("IsSortedAscending");
-                NotifyPropertyChanged("IsSortedDescending");
+                NotifyPropertyChanged(nameof(IsSortedAscending));
+                NotifyPropertyChanged(nameof(IsSortedDescending));
             }
         }
 
@@ -243,8 +243,8 @@ namespace Files.Filesystem
             set
             {
                 AppSettings.DirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
-                NotifyPropertyChanged("IsSortedAscending");
-                NotifyPropertyChanged("IsSortedDescending");
+                NotifyPropertyChanged(nameof(IsSortedAscending));
+                NotifyPropertyChanged(nameof(IsSortedDescending));
             }
         }
 
@@ -447,7 +447,7 @@ namespace Files.Filesystem
                 if (_isLoadingItems != value)
                 {
                     _isLoadingItems = value;
-                    NotifyPropertyChanged("IsLoadingItems");
+                    NotifyPropertyChanged(nameof(IsLoadingItems));
                 }
             }
         }
@@ -1202,7 +1202,6 @@ namespace Files.Filesystem
 
         private void AddFolder(WIN32_FIND_DATA findData, string pathRoot)
         {
-
             if (_addFilesCTS.IsCancellationRequested)
             {
                 IsLoadingItems = false;
@@ -1308,7 +1307,8 @@ namespace Files.Filesystem
                         IsLoadingItems = false;
                         return;
                     }
-                    if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
+                    if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
+                        && response.Message.ContainsKey("TargetPath"))
                     {
                         var isUrl = findData.cFileName.EndsWith(".url");
                         string target = (string)response.Message["TargetPath"];
@@ -1341,7 +1341,7 @@ namespace Files.Filesystem
                             RunAsAdmin = (bool)response.Message["RunAsAdmin"],
                             IsUrl = isUrl,
                             ContainsFilesOrFolders = containsFilesOrFolders
-                        }) ;
+                        });
                     }
                 }
             }
@@ -1376,7 +1376,6 @@ namespace Files.Filesystem
 
         public async Task AddFolder(StorageFolder folder)
         {
-
             var basicProperties = await folder.GetBasicPropertiesAsync();
 
             if ((App.CurrentInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser)) || (App.CurrentInstance.ContentFrame.SourcePageType == typeof(GridViewBrowser)))
@@ -1532,7 +1531,7 @@ namespace Files.Filesystem
         /// This function is used to determine whether or not a folder has any contents.
         /// </summary>
         /// <param name="targetPath">The path to the target folder</param>
-        /// 
+        ///
         public bool CheckForFilesFolders(string targetPath)
         {
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;

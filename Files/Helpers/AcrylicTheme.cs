@@ -17,7 +17,7 @@ namespace Files.Helpers
             set
             {
                 _FallbackColor = value;
-                NotifyPropertyChanged("FallbackColor");
+                NotifyPropertyChanged(nameof(FallbackColor));
             }
         }
 
@@ -27,7 +27,7 @@ namespace Files.Helpers
             set
             {
                 _TintColor = value;
-                NotifyPropertyChanged("TintColor");
+                NotifyPropertyChanged(nameof(TintColor));
             }
         }
 
@@ -37,7 +37,7 @@ namespace Files.Helpers
             set
             {
                 _TintOpacity = value;
-                NotifyPropertyChanged("TintOpacity");
+                NotifyPropertyChanged(nameof(TintOpacity));
             }
         }
 
