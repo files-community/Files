@@ -52,7 +52,7 @@ namespace Files
                 if (value != isItemSelected)
                 {
                     isItemSelected = value;
-                    NotifyPropertyChanged("IsItemSelected");
+                    NotifyPropertyChanged(nameof(IsItemSelected));
                 }
             }
         }
@@ -106,7 +106,7 @@ namespace Files
                             }
                         }
                     }
-                    NotifyPropertyChanged("SelectedItems");
+                    NotifyPropertyChanged(nameof(SelectedItems));
                     SetDragModeForItems();
                 }
             }

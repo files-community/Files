@@ -47,7 +47,7 @@ namespace Files.UserControls
                 if (value != manualEntryBoxLoaded)
                 {
                     manualEntryBoxLoaded = value;
-                    NotifyPropertyChanged("ManualEntryBoxLoaded");
+                    NotifyPropertyChanged(nameof(ManualEntryBoxLoaded));
                 }
             }
         }
@@ -65,7 +65,7 @@ namespace Files.UserControls
                 if (value != clickablePathLoaded)
                 {
                     clickablePathLoaded = value;
-                    NotifyPropertyChanged("ClickablePathLoaded");
+                    NotifyPropertyChanged(nameof(ClickablePathLoaded));
                 }
             }
         }
@@ -188,7 +188,7 @@ namespace Files.UserControls
             set
             {
                 PathText = value;
-                NotifyPropertyChanged("PathText");
+                NotifyPropertyChanged(nameof(PathText));
             }
         }
 
