@@ -36,7 +36,7 @@ namespace Files.Controls
                 if (value != _SelectedSidebarItem)
                 {
                     _SelectedSidebarItem = value;
-                    NotifyPropertyChanged("SelectedSidebarItem");
+                    NotifyPropertyChanged(nameof(SelectedSidebarItem));
                 }
             }
         }
@@ -54,7 +54,7 @@ namespace Files.Controls
                 if (value != _ShowUnpinItem)
                 {
                     _ShowUnpinItem = value;
-                    NotifyPropertyChanged("ShowUnpinItem");
+                    NotifyPropertyChanged(nameof(ShowUnpinItem));
                 }
             }
         }
@@ -72,7 +72,7 @@ namespace Files.Controls
                 if (value != _ShowEmptyRecycleBin)
                 {
                     _ShowEmptyRecycleBin = value;
-                    NotifyPropertyChanged("ShowEmptyRecycleBin");
+                    NotifyPropertyChanged(nameof(ShowEmptyRecycleBin));
                 }
             }
         }
@@ -90,7 +90,7 @@ namespace Files.Controls
                 if (value != _RecycleBinHasItems)
                 {
                     _RecycleBinHasItems = value;
-                    NotifyPropertyChanged("RecycleBinHasItems");
+                    NotifyPropertyChanged(nameof(RecycleBinHasItems));
                 }
             }
         }
