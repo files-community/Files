@@ -311,28 +311,43 @@ namespace FilesFullTrust
 
                 case "ParseLink":
                     var linkPath = (string)args.Request.Message["filepath"];
-                    if (linkPath.EndsWith(".lnk"))
+                    try
                     {
-                        using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
-                        await args.Request.SendResponseAsync(new ValueSet() {
-                            { "TargetPath", link.TargetPath },
-                            { "Arguments", link.Arguments },
-                            { "WorkingDirectory", link.WorkingDirectory },
-                            { "RunAsAdmin", link.RunAsAdministrator },
-                            { "IsFolder", !string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder },
-                        });
-                    }
-                    else if (linkPath.EndsWith(".url"))
-                    {
-                        var linkUrl = await Win32API.StartSTATask(() =>
+                        if (linkPath.EndsWith(".lnk"))
                         {
-                            var ipf = new Url.IUniformResourceLocator();
-                            (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Load(linkPath, 0);
-                            ipf.GetUrl(out var retVal);
-                            return retVal;
-                        });
+                            using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
+                            await args.Request.SendResponseAsync(new ValueSet() {
+                                { "TargetPath", link.TargetPath },
+                                { "Arguments", link.Arguments },
+                                { "WorkingDirectory", link.WorkingDirectory },
+                                { "RunAsAdmin", link.RunAsAdministrator },
+                                { "IsFolder", !string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder }
+                            });
+                        }
+                        else if (linkPath.EndsWith(".url"))
+                        {
+                            var linkUrl = await Win32API.StartSTATask(() =>
+                            {
+                                var ipf = new Url.IUniformResourceLocator();
+                                (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Load(linkPath, 0);
+                                ipf.GetUrl(out var retVal);
+                                return retVal;
+                            });
+                            await args.Request.SendResponseAsync(new ValueSet() {
+                                { "TargetPath", linkUrl },
+                                { "Arguments", null },
+                                { "WorkingDirectory", null },
+                                { "RunAsAdmin", false },
+                                { "IsFolder", false }
+                            });
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Could not parse shortcut
+                        Logger.Warn(ex, ex.Message);
                         await args.Request.SendResponseAsync(new ValueSet() {
-                            { "TargetPath", linkUrl },
+                            { "TargetPath", null },
                             { "Arguments", null },
                             { "WorkingDirectory", null },
                             { "RunAsAdmin", false },

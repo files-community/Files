@@ -7,6 +7,7 @@ using System.IO;
 using System.Threading;
 using Windows.Foundation.Collections;
 using Windows.Security.Cryptography.Core;
+using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -100,7 +101,17 @@ namespace Files.View_Models.Properties
                 }
             }
 
-            var file = await ItemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+            StorageFile file = null;
+            try
+            {
+                file = await ItemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                // Could not access file, can't show any other property
+                return;
+            }
 
             using (var Thumbnail = await file.GetThumbnailAsync(ThumbnailMode.SingleItem, 80, ThumbnailOptions.UseCurrentScale))
             {

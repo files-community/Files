@@ -314,11 +314,24 @@ namespace Files.Interacts
             OpenSelectedItems(true);
         }
 
-        public void OpenFileLocation_Click(object sender, RoutedEventArgs e)
+        public async void OpenFileLocation_Click(object sender, RoutedEventArgs e)
         {
             var item = CurrentInstance.ContentPage.SelectedItem as ShortcutItem;
-            var folderPath = Path.GetDirectoryName(item.TargetPath);
-            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), folderPath);
+            try
+            {
+                var folderPath = Path.GetDirectoryName(item.TargetPath);
+                // Check if destination path exists
+                var destFolder = await ItemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+                App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), folderPath);
+            }
+            catch (FileNotFoundException)
+            {
+                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FileNotFoundDialog/Title"), ResourceController.GetTranslation("FileNotFoundDialog/Text"));
+            }
+            catch (Exception ex)
+            {
+                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("InvalidItemDialogTitle"), string.Format(ResourceController.GetTranslation("InvalidItemDialogContent"), ex.Message));
+            }
         }
 
         private async void OpenSelectedItems(bool displayApplicationPicker)

@@ -63,14 +63,6 @@
 
                 <StackPanel Spacing="10">
                     <TextBlock
-                        x:Uid="SettingsExperimentalRecycleBin"
-                        FontSize="17"
-                        Text="Enable Recycle Bin support" />
-                    <ToggleSwitch IsOn="{x:Bind AppSettings.PinRecycleBinToSideBar, Mode=TwoWay}" />
-                </StackPanel>
-
-                <StackPanel Spacing="10">
-                    <TextBlock
                         x:Uid="SettingsShowFileOwnerInProperties"
                         FontSize="17"
                         Text="Show Owner in properties" />
