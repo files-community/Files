@@ -110,12 +110,17 @@ namespace Files
             Visibility ItemFileIconVis;
             if (item.IsOfType(StorageItemTypes.File))
             {
-                using (var inputStream = await ((StorageFile)item).OpenReadAsync())
-                using (var classicStream = inputStream.AsStreamForRead())
-                using (var streamReader = new StreamReader(classicStream))
+                // Try to read the file to check if still exists
+                // This is only needed to remove files opened from a disconnected android/MTP phone
+                if (string.IsNullOrEmpty(item.Path)) // This indicates that the file was open from an MTP device
                 {
-                    // Try to read the file to check if still exists
-                    streamReader.Peek();
+                    using (var inputStream = await ((StorageFile)item).OpenReadAsync())
+                    using (var classicStream = inputStream.AsStreamForRead())
+                    using (var streamReader = new StreamReader(classicStream))
+                    {
+                        // NB: this might trigger the download of the file from OneDrive
+                        streamReader.Peek();
+                    }
                 }
 
                 ItemName = item.Name;
