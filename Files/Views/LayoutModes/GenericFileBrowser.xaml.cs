@@ -288,7 +288,7 @@ namespace Files
 
         private async void AllView_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            if (e.EditAction == DataGridEditAction.Cancel)
+            if (e.EditAction == DataGridEditAction.Cancel || renamingTextBox == null)
             {
                 return;
             }
@@ -308,7 +308,10 @@ namespace Files
 
         private void AllView_CellEditEnded(object sender, DataGridCellEditEndedEventArgs e)
         {
-            renamingTextBox.TextChanged -= TextBox_TextChanged;
+            if (renamingTextBox != null)
+            {
+                renamingTextBox.TextChanged -= TextBox_TextChanged;
+            }
             FileNameTeachingTip.IsOpen = false;
             isRenamingItem = false;
         }
