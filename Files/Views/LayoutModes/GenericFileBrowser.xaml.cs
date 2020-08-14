@@ -251,9 +251,14 @@ namespace Files
 
             if (AppSettings.DoubleTapToRenameFiles == false) // Check if the double tap to rename files setting is off
             {
-                AllView.CancelEdit(); // Cancel the edit operation
-                App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null); // Open the file instead
-                return;
+                // Only cancel if this event was triggered by a tap
+                // Do not cancel when user presses F2 or context menu
+                if (e.EditingEventArgs is TappedRoutedEventArgs)
+                {
+                    AllView.CancelEdit(); // Cancel the edit operation
+                    App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null); // Open the file instead
+                    return;
+                }
             }
 
             int extensionLength = SelectedItem.FileExtension?.Length ?? 0;
@@ -288,7 +293,7 @@ namespace Files
 
         private async void AllView_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            if (e.EditAction == DataGridEditAction.Cancel)
+            if (e.EditAction == DataGridEditAction.Cancel || renamingTextBox == null)
             {
                 return;
             }
@@ -308,7 +313,10 @@ namespace Files
 
         private void AllView_CellEditEnded(object sender, DataGridCellEditEndedEventArgs e)
         {
-            renamingTextBox.TextChanged -= TextBox_TextChanged;
+            if (renamingTextBox != null)
+            {
+                renamingTextBox.TextChanged -= TextBox_TextChanged;
+            }
             FileNameTeachingTip.IsOpen = false;
             isRenamingItem = false;
         }
