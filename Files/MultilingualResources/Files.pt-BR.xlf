@@ -1121,8 +1121,8 @@
           <target state="translated">Mostrar menu multitarefa na barra de navegação</target>
         </trans-unit>
         <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
-          <source>The item referenced is either invalid or inaccessible.{0}Error message:{0}{0}{1}</source>
-          <target state="new">The item referenced is either invalid or inaccessible.{0}Error message:{0}{0}{1}</target>
+          <source>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</source>
+          <target state="new">The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</target>
         </trans-unit>
         <trans-unit id="InvalidItemDialogTitle" translate="yes" xml:space="preserve">
           <source>Invalid item</source>
