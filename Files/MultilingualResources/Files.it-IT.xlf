@@ -1121,14 +1121,8 @@
           <target state="translated">Mostra le cartelle aperte nel menu a comparsa</target>
         </trans-unit>
         <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
-          <source>The item referenced is either invalid or inaccessible.
-Message:
-
-{0}</source>
-          <target state="translated">L'elemento è non valido o non accessibile.
-Messaggio:
-
-{0}</target>
+          <source>The item referenced is either invalid or inaccessible.{0}Error message:{0}{0}{1}</source>
+          <target state="translated">L'elemento è non valido o non accessibile.{0}Messaggio di errore:{0}{0}{1}</target>
         </trans-unit>
         <trans-unit id="InvalidItemDialogTitle" translate="yes" xml:space="preserve">
           <source>Invalid item</source>

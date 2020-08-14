@@ -847,10 +847,7 @@
     <value>Mostra le cartelle aperte nel menu a comparsa</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
-    <value>L'elemento è non valido o non accessibile.
-Messaggio:
-
-{0}</value>
+    <value>L'elemento è non valido o non accessibile.{0}Messaggio di errore:{0}{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Elemento non valido</value>

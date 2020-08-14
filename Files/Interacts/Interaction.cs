@@ -330,7 +330,8 @@ namespace Files.Interacts
             }
             catch (Exception ex)
             {
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("InvalidItemDialogTitle"), string.Format(ResourceController.GetTranslation("InvalidItemDialogContent"), ex.Message));
+                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("InvalidItemDialogTitle"), 
+                    string.Format(ResourceController.GetTranslation("InvalidItemDialogContent"), Environment.NewLine, ex.Message));
             }
         }
 
