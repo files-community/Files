@@ -636,7 +636,7 @@ namespace Files.View_Models
 
         public void Dispose()
         {
-            DrivesManager.Dispose();
+            DrivesManager?.Dispose();
         }
 
         public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
