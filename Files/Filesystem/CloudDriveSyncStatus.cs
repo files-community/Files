@@ -25,6 +25,7 @@ namespace Files.Filesystem
         public bool LoadSyncStatus { get => _LoadSyncStatus; set => Set(ref _LoadSyncStatus, value); }
         private string _Glyph;
         public string Glyph { get => _Glyph; set => Set(ref _Glyph, value); }
+        public string StatusText { get; set; }
         private SolidColorBrush _Foreground;
         public SolidColorBrush Foreground { get => _Foreground; set => Set(ref _Foreground, value); }
 
@@ -39,6 +40,7 @@ namespace Files.Filesystem
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uE753";
                     statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusOnlineColor"];
+                    statusUI.StatusText = "Available When Online";
                     break;
 
                 case CloudDriveSyncStatus.File_Offline:
@@ -46,12 +48,14 @@ namespace Files.Filesystem
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uE73E";
                     statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusOfflineColor"];
+                    statusUI.StatusText = "Available Offline";
                     break;
 
                 case CloudDriveSyncStatus.File_Sync:
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uE895";
                     statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusOnlineColor"];
+                    statusUI.StatusText = "Syncing";
                     break;
 
                 // Folder
@@ -60,6 +64,7 @@ namespace Files.Filesystem
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uE753";
                     statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusOnlineColor"];
+                    statusUI.StatusText = "Available When Online";
                     break;
 
                 case CloudDriveSyncStatus.Folder_Offline_Full:
@@ -68,12 +73,14 @@ namespace Files.Filesystem
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uE73E";
                     statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusOfflineColor"];
+                    statusUI.StatusText = "Available Offline";
                     break;
 
                 case CloudDriveSyncStatus.Folder_Excluded:
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uF140";
                     statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusExcludedColor"];
+                    statusUI.StatusText = "Folder Excluded";
                     break;
 
                 // Unknown

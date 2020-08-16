@@ -487,7 +487,9 @@ namespace Files.Filesystem
                                 matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                                 matchingItem.ItemType = matchingStorageItem.DisplayType;
                                 var syncStatus = await CheckCloudDriveSyncStatus(matchingStorageItem);
+                                var imageProperties = await matchingStorageItem.Properties.GetImagePropertiesAsync();
                                 matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+                                matchingItem.ImageDimensions = new int[2] { (int)imageProperties.Width, (int)imageProperties.Height };
                             }
                         }
                     }
@@ -1362,7 +1364,7 @@ namespace Files.Filesystem
                     ItemType = itemType,
                     ItemPath = itemPath,
                     FileSize = itemSize,
-                    FileSizeBytes = itemSizeBytes
+                    FileSizeBytes = itemSizeBytes,
                 });
             }
 
@@ -1409,7 +1411,7 @@ namespace Files.Filesystem
         public async Task AddFile(StorageFile file, bool suppressThumbnailLoading = false)
         {
             var basicProperties = await file.GetBasicPropertiesAsync();
-
+            var imageProperties = await file.Properties.GetImagePropertiesAsync();
             // Display name does not include extension
             var itemName = string.IsNullOrEmpty(file.DisplayName) || App.AppSettings.ShowFileExtensions ?
                 file.Name : file.DisplayName;
@@ -1420,6 +1422,7 @@ namespace Files.Filesystem
             var itemType = file.DisplayType;
             var itemFolderImgVis = false;
             var itemFileExtension = file.FileType;
+            int[] imageDimensions = { (int)imageProperties.Width, (int)imageProperties.Height };
 
             BitmapImage icon = new BitmapImage();
             bool itemThumbnailImgVis;
@@ -1504,7 +1507,8 @@ namespace Files.Filesystem
                     ItemType = itemType,
                     ItemPath = itemPath,
                     FileSize = itemSize,
-                    FileSizeBytes = (long)itemSizeBytes
+                    FileSizeBytes = (long)itemSizeBytes,
+                    ImageDimensions = imageDimensions
                 });
             }
 

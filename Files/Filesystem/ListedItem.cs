@@ -1,6 +1,9 @@
-﻿using Files.Enums;
+﻿using ByteSizeLib;
+using Files.Enums;
+using Files.Helpers;
 using GalaSoft.MvvmLight;
 using System;
+using System.Diagnostics;
 using Windows.Storage;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -52,7 +55,11 @@ namespace Files.Filesystem
         public CloudDriveSyncStatusUI SyncStatusUI
         {
             get => _SyncStatusUI;
-            set => Set(ref _SyncStatusUI, value);
+            set
+            {
+                Set(ref _SyncStatusUI, value);
+                RaisePropertyChanged("GetTooltip");
+            }
         }
 
         private BitmapImage _FileImage;
@@ -82,7 +89,11 @@ namespace Files.Filesystem
         public string ItemName
         {
             get => _ItemName;
-            set => Set(ref _ItemName, value);
+            set
+            {
+                Set(ref _ItemName, value);
+                RaisePropertyChanged("GetTooltip");
+            }
         }
 
         private string _ItemType;
@@ -95,7 +106,20 @@ namespace Files.Filesystem
                 if (value != null)
                 {
                     Set(ref _ItemType, value);
+                    RaisePropertyChanged("GetTooltip");
                 }
+            }
+        }
+
+        private int[] _ImageDimensions;
+
+        public int[] ImageDimensions
+        {
+            get => _ImageDimensions;
+            set
+            {
+                Set(ref _ImageDimensions, value);
+                RaisePropertyChanged("GetTooltip");
             }
         }
 
@@ -130,6 +154,21 @@ namespace Files.Filesystem
         }
 
         private DateTimeOffset _itemDateCreatedReal;
+
+        public string GetTooltip()
+        {
+            return "Name: " + ItemName + "\nType: " + ItemType
+                //Size
+                + (PrimaryItemAttribute != StorageItemTypes.Folder && !IsShortcutItem ? "\nSize: " + ByteSize.FromBytes(FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation() : "")
+                //Dimensions (if image)
+                + (ImageDimensions != null && ImageDimensions.Length > 1 && ImageDimensions[0] + ImageDimensions[1] > 0 ? "\nDimensions: " + ImageDimensions[0] + " x " + ImageDimensions[1] : "")
+                //Date modified
+                + "\nDate Modified: " + ItemDateModified
+                //Shortcut destination (if shortcut)
+                + (IsShortcutItem ? "\nDestination: " + (this as ShortcutItem).TargetPath.Split('?')[0] : "")
+                //Cloud sync status (if cloud item)
+                + (SyncStatusUI != null && SyncStatusUI.LoadSyncStatus ? "\nStatus: " + SyncStatusUI.StatusText : "");
+        }
 
         public DateTimeOffset ItemDateAccessedReal
         {
