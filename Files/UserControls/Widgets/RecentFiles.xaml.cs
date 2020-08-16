@@ -77,19 +77,16 @@ namespace Files
                     IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken);
                     await AddItemToRecentList(item, entry);
                 }
-                catch (FileNotFoundException)
-                {
-                    mostRecentlyUsed.Remove(mruToken);
-                }
-                catch (ArgumentException)
-                {
-                    mostRecentlyUsed.Remove(mruToken);
-                }
                 catch (UnauthorizedAccessException)
                 {
                     // Skip item until consent is provided
                 }
-                catch (COMException ex)
+                catch (Exception ex) when (
+                    ex is COMException
+                    || ex is FileNotFoundException
+                    || ex is ArgumentException
+                    || (uint)ex.HResult == 0x8007016A // The cloud file provider is not running
+                    || (uint)ex.HResult == 0x8000000A) // The data necessary to complete this operation is not yet available
                 {
                     mostRecentlyUsed.Remove(mruToken);
                     System.Diagnostics.Debug.WriteLine(ex);
@@ -113,12 +110,17 @@ namespace Files
             Visibility ItemFileIconVis;
             if (item.IsOfType(StorageItemTypes.File))
             {
-                using (var inputStream = await ((StorageFile)item).OpenReadAsync())
-                using (var classicStream = inputStream.AsStreamForRead())
-                using (var streamReader = new StreamReader(classicStream))
+                // Try to read the file to check if still exists
+                // This is only needed to remove files opened from a disconnected android/MTP phone
+                if (string.IsNullOrEmpty(item.Path)) // This indicates that the file was open from an MTP device
                 {
-                    // Try to read the file to check if still exists
-                    streamReader.Peek();
+                    using (var inputStream = await ((StorageFile)item).OpenReadAsync())
+                    using (var classicStream = inputStream.AsStreamForRead())
+                    using (var streamReader = new StreamReader(classicStream))
+                    {
+                        // NB: this might trigger the download of the file from OneDrive
+                        streamReader.Peek();
+                    }
                 }
 
                 ItemName = item.Name;
