@@ -35,6 +35,7 @@ namespace Files
     sealed partial class App : Application
     {
         private static IShellPage currentInstance;
+        private static bool ShowErrorNotification = false;
 
         public static IShellPage CurrentInstance
         {
@@ -228,6 +229,7 @@ namespace Files
             if (args.WindowActivationState == CoreWindowActivationState.CodeActivated ||
                 args.WindowActivationState == CoreWindowActivationState.PointerActivated)
             {
+                ShowErrorNotification = true;
                 ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
             }
         }
@@ -406,18 +408,20 @@ namespace Files
 
         // Occurs when an exception is not handled on a background thread.
         // ie. A task is fired and forgotten Task.Run(() => {...})
-        private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e) => AppUnhandledException(e.Exception, true);
+        private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e) => AppUnhandledException(e.Exception);
 
-        private static void AppUnhandledException(Exception ex, bool isBackgroundTask = false)
+        private static void AppUnhandledException(Exception ex)
         {
             Logger.Error(ex, ex.Message);
-            var toastContent = new ToastContent()
+            if (ShowErrorNotification)
             {
-                Visual = new ToastVisual()
+                var toastContent = new ToastContent()
                 {
-                    BindingGeneric = new ToastBindingGeneric()
+                    Visual = new ToastVisual()
                     {
-                        Children =
+                        BindingGeneric = new ToastBindingGeneric()
+                        {
+                            Children =
                         {
                             new AdaptiveText()
                             {
@@ -428,29 +432,30 @@ namespace Files
                                 Text = ResourceController.GetTranslation("ExceptionNotificationBody")
                             }
                         },
-                        AppLogoOverride = new ToastGenericAppLogo()
-                        {
-                            Source = "ms-appx:///Assets/error.png"
+                            AppLogoOverride = new ToastGenericAppLogo()
+                            {
+                                Source = "ms-appx:///Assets/error.png"
+                            }
                         }
-                    }
-                },
-                Actions = new ToastActionsCustom()
-                {
-                    Buttons =
+                    },
+                    Actions = new ToastActionsCustom()
+                    {
+                        Buttons =
                     {
                         new ToastButton(ResourceController.GetTranslation("ExceptiodnNotificationReportButton"), "report")
                         {
                             ActivationType = ToastActivationType.Foreground
                         }
                     }
-                }
-            };
+                    }
+                };
 
-            // Create the toast notification
-            var toastNotif = new ToastNotification(toastContent.GetXml());
+                // Create the toast notification
+                var toastNotif = new ToastNotification(toastContent.GetXml());
 
-            // And send the notification
-            ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+                // And send the notification
+                ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+            }
         }
 
         public static async void CloseApp()
