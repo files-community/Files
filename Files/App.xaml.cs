@@ -344,8 +344,8 @@ namespace Files
                         }
                     }
                     break;
-
-                case ActivationKind.ToastNotification:
+                /* For future use
+                    case ActivationKind.ToastNotification:
                     var eventArgsForNotification = args as ToastNotificationActivatedEventArgs;
                     rootFrame.Navigate(typeof(MainPage), "tryRecoverTabs", new SuppressNavigationTransitionInfo());
                     // Ensure the current window is active.
@@ -355,7 +355,7 @@ namespace Files
                     currentView.BackRequested += Window_BackRequested;
                     // Launch the URI now
                     SettingsViewModel.ReportIssueOnGitHub();
-                    return;
+                    return;*/
             }
 
             rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
@@ -411,17 +411,6 @@ namespace Files
         private static void AppUnhandledException(Exception ex, bool isBackgroundTask = false)
         {
             Logger.Error(ex, ex.Message);
-            // Saving tabs is not possible in a task because doing that will prevent from getting a crash report
-            if (!isBackgroundTask)
-            {
-                MainPage.SaveTabs();
-            }
-            else
-            {
-                ApplicationData.Current.LocalSettings.Values["tabsSaved"] = false;
-            }
-
-
             var toastContent = new ToastContent()
             {
                 Visual = new ToastVisual()
@@ -449,7 +438,7 @@ namespace Files
                 {
                     Buttons =
                     {
-                        new ToastButton(ResourceController.GetTranslation("ExceptionNotificationReportButton"), "report")
+                        new ToastButton(ResourceController.GetTranslation("ExceptiodnNotificationReportButton"), "report")
                         {
                             ActivationType = ToastActivationType.Foreground
                         }
