@@ -42,3 +42,6 @@ If applicable, add screenshots to help explain your problem.
 
 **Additional context**
 Add any other context about the problem here. Does this problem occur again after restarting the app?
+
+**Log file**
+Please post the log file here so that we can understand you problem better

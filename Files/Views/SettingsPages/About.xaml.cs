@@ -1,4 +1,5 @@
-﻿using Windows.ApplicationModel;
+﻿using System;
+using Windows.ApplicationModel;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
