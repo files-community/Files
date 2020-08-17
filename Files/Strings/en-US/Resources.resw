@@ -268,7 +268,7 @@
     <value>Files UWP</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>License: </value>
+    <value>License:</value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Special thanks to:</value>
@@ -286,7 +286,7 @@
     <value>About</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Website: </value>
+    <value>Website:</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
     <value>Acrylic sidebar</value>
@@ -360,8 +360,8 @@
   <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
     <value>Pin OneDrive to the sidebar</value>
   </data>
-  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
-    <value>Enable Recycle Bin support</value>
+  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
+    <value>Pin Recycle Bin to the sidebar</value>
   </data>
   <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
     <value>Show Owner in properties</value>
@@ -862,7 +862,7 @@
     <value>Open folder in a new tab</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>When launching a pinned folder</value>
+    <value>When launching an item from the jumplist</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows default</value>
@@ -950,5 +950,26 @@
   </data>
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
     <value>Report this issue</value>
+  </data>
+  <data name="SettingsAboutContributors.Text" xml:space="preserve">
+    <value>Contributors</value>
+  </data>
+  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
+    <value>See who contributed to Files UWP</value>
+  </data>
+  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
+  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
+    <value>Find out what's new in Files UWP</value>
+  </data>
+  <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
+    <value>Show multitasking flyout in the navigation toolbar</value>
+  </data>
+  <data name="InvalidItemDialogContent" xml:space="preserve">
+    <value>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</value>
+  </data>
+  <data name="InvalidItemDialogTitle" xml:space="preserve">
+    <value>Invalid item</value>
   </data>
 </root>

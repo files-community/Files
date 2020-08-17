@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -35,7 +36,7 @@ namespace Files.Controls
                 if (value != _SelectedSidebarItem)
                 {
                     _SelectedSidebarItem = value;
-                    NotifyPropertyChanged("SelectedSidebarItem");
+                    NotifyPropertyChanged(nameof(SelectedSidebarItem));
                 }
             }
         }
@@ -53,7 +54,7 @@ namespace Files.Controls
                 if (value != _ShowUnpinItem)
                 {
                     _ShowUnpinItem = value;
-                    NotifyPropertyChanged("ShowUnpinItem");
+                    NotifyPropertyChanged(nameof(ShowUnpinItem));
                 }
             }
         }
@@ -71,7 +72,25 @@ namespace Files.Controls
                 if (value != _ShowEmptyRecycleBin)
                 {
                     _ShowEmptyRecycleBin = value;
-                    NotifyPropertyChanged("ShowEmptyRecycleBin");
+                    NotifyPropertyChanged(nameof(ShowEmptyRecycleBin));
+                }
+            }
+        }
+
+        private bool _RecycleBinHasItems;
+
+        public bool RecycleBinHasItems
+        {
+            get
+            {
+                return _RecycleBinHasItems;
+            }
+            set
+            {
+                if (value != _RecycleBinHasItems)
+                {
+                    _RecycleBinHasItems = value;
+                    NotifyPropertyChanged(nameof(RecycleBinHasItems));
                 }
             }
         }
@@ -142,7 +161,7 @@ namespace Files.Controls
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
         }
 
-        private void NavigationViewLocationItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        private async void NavigationViewLocationItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as LocationItem;
@@ -158,6 +177,21 @@ namespace Files.Controls
 
             if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
+                var value = new ValueSet
+                {
+                    { "Arguments", "RecycleBin" },
+                    { "action", "Query" }
+                };
+                var response = await App.Connection.SendMessageAsync(value);
+                if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success && response.Message.TryGetValue("NumItems", out var numItems))
+                {
+                    RecycleBinHasItems = (long)numItems > 0;
+                }
+                else
+                {
+                    RecycleBinHasItems = false;
+                }
+
                 ShowEmptyRecycleBin = true;
                 ShowUnpinItem = true;
             }

@@ -60,6 +60,8 @@ namespace Files.View_Models
             Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
             Analytics.TrackEvent("AcrylicSidebar " + AcrylicEnabled.ToString());
             Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
+            Analytics.TrackEvent("IsHorizontalTabStripVisible " + IsHorizontalTabStripVisible.ToString());
+            Analytics.TrackEvent("IsMultitaskingControlVisible " + IsMultitaskingControlVisible.ToString());
             // Load the supported languages
 
             var supportedLang = ApplicationLanguages.ManifestLanguages;
@@ -276,7 +278,7 @@ namespace Files.View_Models
             get => Get(false);
             set => Set(value);
         }
-                
+
         private bool _PinOneDriveToSideBar = true;
 
         public bool PinOneDriveToSideBar
@@ -331,7 +333,7 @@ namespace Files.View_Models
             }
         }
 
-        private bool _PinRecycleBinToSideBar = false;
+        private bool _PinRecycleBinToSideBar;
 
         public bool PinRecycleBinToSideBar
         {
@@ -645,7 +647,7 @@ namespace Files.View_Models
 
         public void Dispose()
         {
-            DrivesManager.Dispose();
+            DrivesManager?.Dispose();
         }
 
         public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)

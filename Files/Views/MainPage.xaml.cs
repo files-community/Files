@@ -49,7 +49,7 @@ namespace Files.Views
             set
             {
                 _SelectedTabItem = value;
-                NotifyPropertyChanged("SelectedTabItem");
+                NotifyPropertyChanged(nameof(SelectedTabItem));
             }
         }
 

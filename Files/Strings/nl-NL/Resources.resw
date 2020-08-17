@@ -64,7 +64,7 @@
     <value>Over</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Website</value>
+    <value>Website:</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
     <value>Acryl-effect op zijbalk</value>

@@ -549,7 +549,7 @@
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Ripristina</value>
   </data>
-  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
+  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
     <value>Abilita il supporto al Cestino</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
@@ -824,5 +824,32 @@
   </data>
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - collegamento</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
+    <value>Apri percorso file</value>
+  </data>
+  <data name="SettingsPreferencesShowHorizontalTabStrip.Text" xml:space="preserve">
+    <value>Mostra le schede nella barra del titolo</value>
+  </data>
+  <data name="SettingsAboutContributors.Text" xml:space="preserve">
+    <value>Collaboratori</value>
+  </data>
+  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
+    <value>Vedi chi ha contribuito a Files UWP</value>
+  </data>
+  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
+    <value>Note di Rilascio</value>
+  </data>
+  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
+    <value>Vedi cosa c'è di nuovo in Files UWP</value>
+  </data>
+  <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
+    <value>Mostra le cartelle aperte nel menu a comparsa</value>
+  </data>
+  <data name="InvalidItemDialogContent" xml:space="preserve">
+    <value>L'elemento è non valido o non accessibile.{0}Messaggio di errore:{0}{1}</value>
+  </data>
+  <data name="InvalidItemDialogTitle" xml:space="preserve">
+    <value>Elemento non valido</value>
   </data>
 </root>
