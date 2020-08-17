@@ -1,4 +1,5 @@
 ﻿using Windows.ApplicationModel;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -19,7 +20,7 @@ namespace Files.SettingsPages
         {
             if (FeedbackListView.SelectedIndex == 0)
             {
-                View_Models.SettingsViewModel.ReportIssueOnGitHub()
+                View_Models.SettingsViewModel.ReportIssueOnGitHub();
             }
             else if (FeedbackListView.SelectedIndex == 1)
             {
