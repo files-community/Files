@@ -44,4 +44,4 @@ If applicable, add screenshots to help explain your problem.
 Add any other context about the problem here. Does this problem occur again after restarting the app?
 
 **Log file**
-Please post the log file here so that we can understand you problem better
+Please post the log file here so that we can understand you problem better. You can access it from Settings->About->Open log location.
