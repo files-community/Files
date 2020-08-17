@@ -1152,6 +1152,10 @@
           <source>Invalid item</source>
           <target state="new">Invalid item</target>
         </trans-unit>
+        <trans-unit id="SettingsAboutVersionTitle" translate="yes" xml:space="preserve">
+          <source>Version:</source>
+          <target state="new">Version:</target>
+        </trans-unit>
       </group>
     </body>
   </file>

@@ -1148,6 +1148,10 @@
           <source>Report this issue</source>
           <target state="new">Report this issue</target>
         </trans-unit>
+        <trans-unit id="SettingsAboutVersionTitle" translate="yes" xml:space="preserve">
+          <source>Version:</source>
+          <target state="new">Version:</target>
+        </trans-unit>
       </group>
     </body>
   </file>
