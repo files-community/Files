@@ -458,7 +458,7 @@ namespace Files
                     {
                         Buttons =
                     {
-                        new ToastButton(ResourceController.GetTranslation("ExceptiodnNotificationReportButton"), "report")
+                        new ToastButton(ResourceController.GetTranslation("ExceptionNotificationReportButton"), "report")
                         {
                             ActivationType = ToastActivationType.Foreground
                         }
