@@ -271,6 +271,9 @@
     <Compile Include="Views\LayoutModes\GridViewBrowser.xaml.cs">
       <DependentUpon>GridViewBrowser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LayoutModes\PropertiesDetailsImage.xaml.cs">
+      <DependentUpon>PropertiesDetailsImage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -513,6 +516,10 @@
     <Page Include="Views\LayoutModes\GridViewBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LayoutModes\PropertiesDetailsImage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MainPage.xaml">
       <SubType>Designer</SubType>

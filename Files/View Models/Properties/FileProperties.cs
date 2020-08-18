@@ -4,6 +4,8 @@ using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Collections;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using Windows.Foundation.Collections;
@@ -149,6 +151,81 @@ namespace Files.View_Models.Properties
                 NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                 ViewModel.ItemMD5HashCalcError = true;
             }
+        }
+
+        private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "ShortcutItemPath":
+                case "ShortcutItemWorkingDir":
+                case "ShortcutItemArguments":
+                    var tmpItem = (ShortcutItem)Item;
+                    if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
+                        return;
+                    if (App.Connection != null)
+                    {
+                        var value = new ValueSet()
+                        {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "UpdateLink" },
+                            { "filepath", Item.ItemPath },
+                            { "targetpath", ViewModel.ShortcutItemPath },
+                            { "arguments", ViewModel.ShortcutItemArguments },
+                            { "workingdir", ViewModel.ShortcutItemWorkingDir },
+                            { "runasadmin", tmpItem.RunAsAdmin },
+                        };
+                        await App.Connection.SendMessageAsync(value);
+                    }
+                    break;
+            }
+        }
+
+    }
+
+    internal class ImageFileProperties : FileProperties
+    {
+        private ProgressBar ProgressBar;
+
+        public ImageFileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ProgressBar progressBar, ListedItem item) : base(viewModel, tokenSource, coreDispatcher, progressBar, item)
+        {
+            ProgressBar = progressBar;
+
+            GetBaseProperties();
+            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+        }
+
+        public override async void GetSpecialProperties()
+        {
+            base.GetSpecialProperties();
+
+            StorageFile file = null;
+            ImageProperties imageProperties;
+            try
+            {
+                file = await ItemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+                imageProperties = await file.Properties.GetImagePropertiesAsync();
+            } catch(Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                // Could not access file, can't show any other property
+                return;
+            }
+
+            ViewModel.DateTaken = imageProperties.DateTaken;
+            ViewModel.CameraModel = imageProperties.CameraModel;
+            ViewModel.CameraManufacturer = imageProperties.CameraManufacturer;
+            ViewModel.ImageWidth = (int) imageProperties.Width;
+            ViewModel.ImageHeight = (int)imageProperties.Height;
+            ViewModel.ImageTitle = imageProperties.Title;
+            ViewModel.Longitude = imageProperties.Longitude;
+            ViewModel.Latitude = imageProperties.Latitude;
+            ViewModel.ImageKeywords = imageProperties.Keywords;
+            ViewModel.Rating = (int)imageProperties.Rating;
+            ViewModel.ImageOrientation = imageProperties.Orientation;
+            
+            //ViewModel.People = (System.Collections.Generic.IList<string>) imageProperties.PeopleNames;
+
         }
 
         private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
