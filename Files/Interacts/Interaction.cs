@@ -634,6 +634,8 @@ namespace Files.Interacts
                 {
                     if (item.IsLinkItem)
                     {
+                        dataRequest.Data.Properties.Title = string.Format(ResourceController.GetTranslation("ShareDialogTitle"), items.First().Name);
+                        dataRequest.Data.Properties.Description = ResourceController.GetTranslation("ShareDialogSingleItemDescription");
                         dataRequest.Data.SetWebLink(new Uri(((ShortcutItem)item).TargetPath));
                         dataRequestDeferral.Complete();
                         return;
@@ -664,8 +666,8 @@ namespace Files.Interacts
             }
             else
             {
-                dataRequest.Data.Properties.Title = string.Format(ResourceController.GetTranslation("ShareDialogTitle"), items.Count) + 
-                    $" {ResourceController.GetTranslation("ItemsCount.Text")}";
+                dataRequest.Data.Properties.Title = string.Format(ResourceController.GetTranslation("ShareDialogTitleMultipleItems"), items.Count, 
+                    ResourceController.GetTranslation("ItemsCount.Text"));
                 dataRequest.Data.Properties.Description = ResourceController.GetTranslation("ShareDialogMultipleItemsDescription");
             }
 

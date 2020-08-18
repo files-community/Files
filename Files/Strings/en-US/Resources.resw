@@ -969,4 +969,7 @@
   <data name="ShareDialogTitle" xml:space="preserve">
     <value>Sharing {0}</value>
   </data>
+  <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
+    <value>Sharing {0} {1}</value>
+  </data>
 </root>
