@@ -324,11 +324,6 @@ namespace Files
         public void RightClickItemContextMenu_Opening(object sender, object e)
         {
             SetShellContextmenu();
-            if (!DataTransferManager.IsSupported())
-            {
-                UnloadMenuFlyoutItemByName("ShareItem");
-            }
-
             var selectedFileSystemItems = App.CurrentInstance.ContentPage.SelectedItems;
 
             // Find selected items that are not folders
