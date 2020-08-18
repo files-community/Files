@@ -623,12 +623,12 @@ namespace Files.Interacts
         {
             DataRequestDeferral dataRequestDeferral = args.Request.GetDeferral();
             List<IStorageItem> items = new List<IStorageItem>();
-
             DataRequest dataRequest = args.Request;
-            dataRequest.Data.Properties.Title = "Data Shared From Files";
-            dataRequest.Data.Properties.Description = "The items you selected will be shared";
 
-            foreach (ListedItem item in App.CurrentInstance.ContentPage.SelectedItems)
+            /*dataRequest.Data.Properties.Title = "Data Shared From Files";
+            dataRequest.Data.Properties.Description = "The items you selected will be shared";*/
+
+            foreach (ListedItem item in CurrentInstance.ContentPage.SelectedItems)
             {
                 if (item.IsShortcutItem)
                 {
@@ -651,11 +651,22 @@ namespace Files.Interacts
                 }
             }
 
-            if (items.Count == 0)
+            if (items.Count == 1)
             {
-                dataRequest.FailWithDisplayText("Could not access file(s) for sharing");
+                dataRequest.Data.Properties.Title = string.Format(ResourceController.GetTranslation("ShareDialogTitle"), items.First().Name);
+                dataRequest.Data.Properties.Description = ResourceController.GetTranslation("ShareDialogSingleItemDescription");
+            }
+            else if (items.Count == 0)
+            {
+                dataRequest.FailWithDisplayText(ResourceController.GetTranslation("ShareDialogFailMessage"));
                 dataRequestDeferral.Complete();
                 return;
+            }
+            else
+            {
+                dataRequest.Data.Properties.Title = string.Format(ResourceController.GetTranslation("ShareDialogTitle"), items.Count) + 
+                    $" {ResourceController.GetTranslation("ItemsCount.Text")}";
+                dataRequest.Data.Properties.Description = ResourceController.GetTranslation("ShareDialogMultipleItemsDescription");
             }
 
             dataRequest.Data.SetStorageItems(items);
