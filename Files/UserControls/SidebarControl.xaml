@@ -296,6 +296,7 @@
                                 x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
                                 x:Load="{x:Bind ShowEmptyRecycleBin, Mode=OneWay}"
                                 Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.EmptyRecycleBin_ClickAsync}"
+                                IsEnabled="{x:Bind RecycleBinHasItems, Mode=OneWay}"
                                 Text="Empty recycle bin">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />

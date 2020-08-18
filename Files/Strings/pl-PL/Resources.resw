@@ -49,7 +49,7 @@
     <value>Files UWP</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>Licencja: </value>
+    <value>Licencja:</value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Podziękowania:</value>
@@ -67,7 +67,7 @@
     <value>O programie</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Strona: </value>
+    <value>Strona:</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
     <value>Przezroczysty pasek boczny</value>
@@ -549,7 +549,7 @@
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Przywróć</value>
   </data>
-  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
+  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
     <value>Włącz obsługę Kosza</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">

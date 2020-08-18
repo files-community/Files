@@ -116,7 +116,7 @@ namespace Files.Filesystem
                 _customPath = null;
             }
 
-            NotifyPropertyChanged("WorkingDirectory");
+            NotifyPropertyChanged(nameof(WorkingDirectory));
         }
 
         public static async Task<StorageFolder> GetFolderFromPathAsync(string value)
@@ -153,24 +153,24 @@ namespace Files.Filesystem
                 if (value != _IsFolderEmptyTextDisplayed)
                 {
                     _IsFolderEmptyTextDisplayed = value;
-                    NotifyPropertyChanged("IsFolderEmptyTextDisplayed");
+                    NotifyPropertyChanged(nameof(IsFolderEmptyTextDisplayed));
                 }
             }
         }
 
         public void UpdateSortOptionStatus()
         {
-            NotifyPropertyChanged("IsSortedByName");
-            NotifyPropertyChanged("IsSortedByDate");
-            NotifyPropertyChanged("IsSortedByType");
-            NotifyPropertyChanged("IsSortedBySize");
+            NotifyPropertyChanged(nameof(IsSortedByName));
+            NotifyPropertyChanged(nameof(IsSortedByDate));
+            NotifyPropertyChanged(nameof(IsSortedByType));
+            NotifyPropertyChanged(nameof(IsSortedBySize));
             OrderFiles();
         }
 
         public void UpdateSortDirectionStatus()
         {
-            NotifyPropertyChanged("IsSortedAscending");
-            NotifyPropertyChanged("IsSortedDescending");
+            NotifyPropertyChanged(nameof(IsSortedAscending));
+            NotifyPropertyChanged(nameof(IsSortedDescending));
             OrderFiles();
         }
 
@@ -182,7 +182,7 @@ namespace Files.Filesystem
                 if (value)
                 {
                     AppSettings.DirectorySortOption = SortOption.Name;
-                    NotifyPropertyChanged("IsSortedByName");
+                    NotifyPropertyChanged(nameof(IsSortedByName));
                 }
             }
         }
@@ -195,7 +195,7 @@ namespace Files.Filesystem
                 if (value)
                 {
                     AppSettings.DirectorySortOption = SortOption.DateModified;
-                    NotifyPropertyChanged("IsSortedByDate");
+                    NotifyPropertyChanged(nameof(IsSortedByDate));
                 }
             }
         }
@@ -208,7 +208,7 @@ namespace Files.Filesystem
                 if (value)
                 {
                     AppSettings.DirectorySortOption = SortOption.FileType;
-                    NotifyPropertyChanged("IsSortedByType");
+                    NotifyPropertyChanged(nameof(IsSortedByType));
                 }
             }
         }
@@ -221,7 +221,7 @@ namespace Files.Filesystem
                 if (value)
                 {
                     AppSettings.DirectorySortOption = SortOption.Size;
-                    NotifyPropertyChanged("IsSortedBySize");
+                    NotifyPropertyChanged(nameof(IsSortedBySize));
                 }
             }
         }
@@ -232,8 +232,8 @@ namespace Files.Filesystem
             set
             {
                 AppSettings.DirectorySortDirection = value ? SortDirection.Ascending : SortDirection.Descending;
-                NotifyPropertyChanged("IsSortedAscending");
-                NotifyPropertyChanged("IsSortedDescending");
+                NotifyPropertyChanged(nameof(IsSortedAscending));
+                NotifyPropertyChanged(nameof(IsSortedDescending));
             }
         }
 
@@ -243,8 +243,8 @@ namespace Files.Filesystem
             set
             {
                 AppSettings.DirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
-                NotifyPropertyChanged("IsSortedAscending");
-                NotifyPropertyChanged("IsSortedDescending");
+                NotifyPropertyChanged(nameof(IsSortedAscending));
+                NotifyPropertyChanged(nameof(IsSortedDescending));
             }
         }
 
@@ -447,7 +447,7 @@ namespace Files.Filesystem
                 if (_isLoadingItems != value)
                 {
                     _isLoadingItems = value;
-                    NotifyPropertyChanged("IsLoadingItems");
+                    NotifyPropertyChanged(nameof(IsLoadingItems));
                 }
             }
         }
@@ -710,58 +710,7 @@ namespace Files.Filesystem
                     for (int count = 0; count < folderContentsList.Count; count++)
                     {
                         var item = folderContentsList[count];
-                        if (item.IsFolder)
-                        {
-                            // Folder
-                            _filesAndFolders.Add(new RecycleBinItem(null)
-                            {
-                                PrimaryItemAttribute = StorageItemTypes.Folder,
-                                ItemName = item.FileName,
-                                ItemDateModifiedReal = item.RecycleDate,
-                                ItemType = item.FileType,
-                                LoadFolderGlyph = true,
-                                FileImage = null,
-                                LoadFileIcon = false,
-                                ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
-                                ItemOriginalPath = item.FilePath,
-                                LoadUnknownTypeGlyph = false,
-                                FileSize = null,
-                                FileSizeBytes = 0,
-                                //FolderTooltipText = tooltipString,
-                            });
-                        }
-                        else
-                        {
-                            // File
-                            string itemName;
-                            if (AppSettings.ShowFileExtensions && !item.FileName.EndsWith(".lnk") && !item.FileName.EndsWith(".url"))
-                                itemName = item.FileName; // never show extension for shortcuts
-                            else
-                                itemName = Path.GetFileNameWithoutExtension(item.FileName);
-
-                            string itemFileExtension = null;
-                            if (item.FileName.Contains('.'))
-                            {
-                                itemFileExtension = Path.GetExtension(item.FileName);
-                            }
-
-                            _filesAndFolders.Add(new RecycleBinItem(null)
-                            {
-                                PrimaryItemAttribute = StorageItemTypes.File,
-                                FileExtension = itemFileExtension,
-                                LoadUnknownTypeGlyph = true,
-                                FileImage = null,
-                                LoadFileIcon = false,
-                                LoadFolderGlyph = false,
-                                ItemName = itemName,
-                                ItemDateModifiedReal = item.RecycleDate,
-                                ItemType = item.FileType,
-                                ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
-                                ItemOriginalPath = item.FilePath,
-                                FileSize = item.FileSize,
-                                FileSizeBytes = (long)item.FileSizeBytes
-                            });
-                        }
+                        AddFileOrFolderFromShellFile(item);
                         if (count % 64 == 0)
                         {
                             await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
@@ -1066,7 +1015,7 @@ namespace Files.Filesystem
 
                                         case FILE_ACTION_REMOVED:
                                             Debug.WriteLine("File " + FileName + " removed from working directory.");
-                                            RemoveFileOrFolder(FilesAndFolders.ToList().First(x => x.ItemPath.Equals(FileName)));
+                                            RemoveFileOrFolder(FileName);
                                             break;
 
                                         case FILE_ACTION_MODIFIED:
@@ -1076,7 +1025,7 @@ namespace Files.Filesystem
 
                                         case FILE_ACTION_RENAMED_OLD_NAME:
                                             Debug.WriteLine("File " + FileName + " will be renamed in the working directory.");
-                                            RemoveFileOrFolder(FilesAndFolders.ToList().First(x => x.ItemPath.Equals(FileName)));
+                                            RemoveFileOrFolder(FileName);
                                             break;
 
                                         case FILE_ACTION_RENAMED_NEW_NAME:
@@ -1107,6 +1056,65 @@ namespace Files.Filesystem
             });
 
             Debug.WriteLine("Task exiting...");
+        }
+
+        public void AddFileOrFolderFromShellFile(ShellFileItem item)
+        {
+            if (item.IsFolder)
+            {
+                // Folder
+                _filesAndFolders.Add(new RecycleBinItem(null)
+                {
+                    PrimaryItemAttribute = StorageItemTypes.Folder,
+                    ItemName = item.FileName,
+                    ItemDateModifiedReal = item.RecycleDate,
+                    ItemType = item.FileType,
+                    LoadFolderGlyph = true,
+                    FileImage = null,
+                    LoadFileIcon = false,
+                    ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
+                    ItemOriginalPath = item.FilePath,
+                    LoadUnknownTypeGlyph = false,
+                    FileSize = null,
+                    FileSizeBytes = 0,
+                    //FolderTooltipText = tooltipString,
+                });
+            }
+            else
+            {
+                // File
+                string itemName;
+                if (AppSettings.ShowFileExtensions && !item.FileName.EndsWith(".lnk") && !item.FileName.EndsWith(".url"))
+                    itemName = item.FileName; // never show extension for shortcuts
+                else
+                    itemName = Path.GetFileNameWithoutExtension(item.FileName);
+
+                string itemFileExtension = null;
+                if (item.FileName.Contains('.'))
+                {
+                    itemFileExtension = Path.GetExtension(item.FileName);
+                }
+
+                _filesAndFolders.Add(new RecycleBinItem(null)
+                {
+                    PrimaryItemAttribute = StorageItemTypes.File,
+                    FileExtension = itemFileExtension,
+                    LoadUnknownTypeGlyph = true,
+                    FileImage = null,
+                    LoadFileIcon = false,
+                    LoadFolderGlyph = false,
+                    ItemName = itemName,
+                    ItemDateModifiedReal = item.RecycleDate,
+                    ItemType = item.FileType,
+                    ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
+                    ItemOriginalPath = item.FilePath,
+                    FileSize = item.FileSize,
+                    FileSizeBytes = (long)item.FileSizeBytes
+                });
+            }
+
+            IsFolderEmptyTextDisplayed = false;
+            UpdateDirectoryInfo();
         }
 
         public void AddFileOrFolder(ListedItem item)
@@ -1152,13 +1160,16 @@ namespace Files.Filesystem
 
         private void UpdateDirectoryInfo()
         {
-            if (_filesAndFolders.Count == 1)
+            if (App.CurrentInstance.ContentPage != null)
             {
-                App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemCount/Text");
-            }
-            else
-            {
-                App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemsCount/Text");
+                if (_filesAndFolders.Count == 1)
+                {
+                    App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemCount/Text");
+                }
+                else
+                {
+                    App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemsCount/Text");
+                }
             }
         }
 
@@ -1200,9 +1211,17 @@ namespace Files.Filesystem
                 });
         }
 
+        public void RemoveFileOrFolder(string path)
+        {
+            var matchingItem = FilesAndFolders.ToList().FirstOrDefault(x => x.ItemPath.Equals(path));
+            if (matchingItem != null)
+            {
+                RemoveFileOrFolder(matchingItem);
+            }
+        }
+
         private void AddFolder(WIN32_FIND_DATA findData, string pathRoot)
         {
-
             if (_addFilesCTS.IsCancellationRequested)
             {
                 IsLoadingItems = false;
@@ -1308,7 +1327,8 @@ namespace Files.Filesystem
                         IsLoadingItems = false;
                         return;
                     }
-                    if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
+                    if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
+                        && response.Message.ContainsKey("TargetPath"))
                     {
                         var isUrl = findData.cFileName.EndsWith(".url");
                         string target = (string)response.Message["TargetPath"];
@@ -1341,7 +1361,7 @@ namespace Files.Filesystem
                             RunAsAdmin = (bool)response.Message["RunAsAdmin"],
                             IsUrl = isUrl,
                             ContainsFilesOrFolders = containsFilesOrFolders
-                        }) ;
+                        });
                     }
                 }
             }
@@ -1376,7 +1396,6 @@ namespace Files.Filesystem
 
         public async Task AddFolder(StorageFolder folder)
         {
-
             var basicProperties = await folder.GetBasicPropertiesAsync();
 
             if ((App.CurrentInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser)) || (App.CurrentInstance.ContentFrame.SourcePageType == typeof(GridViewBrowser)))
@@ -1532,7 +1551,7 @@ namespace Files.Filesystem
         /// This function is used to determine whether or not a folder has any contents.
         /// </summary>
         /// <param name="targetPath">The path to the target folder</param>
-        /// 
+        ///
         public bool CheckForFilesFolders(string targetPath)
         {
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
