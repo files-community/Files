@@ -60,7 +60,7 @@ namespace Files.View_Models.Properties
                     }, () =>
                     {
                         return !string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath);
-                    }, false);
+                    });
                 }
             }
         }
