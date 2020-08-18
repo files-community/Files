@@ -2,7 +2,6 @@
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using Windows.Storage;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem

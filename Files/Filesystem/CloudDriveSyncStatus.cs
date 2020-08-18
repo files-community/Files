@@ -30,14 +30,17 @@ namespace Files.Filesystem
         }
 
         private string _Glyph;
-        public string Glyph 
-        { 
-            get => _Glyph; 
-            set => SetProperty(ref _Glyph, value); 
+
+        public string Glyph
+        {
+            get => _Glyph;
+            set => SetProperty(ref _Glyph, value);
         }
 
         private SolidColorBrush _Foreground;
-        public SolidColorBrush Foreground { 
+
+        public SolidColorBrush Foreground
+        {
             get => _Foreground;
             set => SetProperty(ref _Foreground, value);
         }

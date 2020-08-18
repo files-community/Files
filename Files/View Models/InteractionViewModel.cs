@@ -1,7 +1,5 @@
-﻿using Files.UserControls;
-using Files.Views;
+﻿using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
