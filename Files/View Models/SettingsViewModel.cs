@@ -5,13 +5,11 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Views;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
@@ -24,7 +22,7 @@ using Windows.UI.Xaml.Media;
 
 namespace Files.View_Models
 {
-    public class SettingsViewModel : ViewModelBase
+    public class SettingsViewModel : ObservableObject
     {
         private readonly ApplicationDataContainer _roamingSettings;
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
@@ -217,7 +215,7 @@ namespace Files.View_Models
             get => _DisplayedTimeStyle;
             set
             {
-                Set(ref _DisplayedTimeStyle, value);
+                SetProperty(ref _DisplayedTimeStyle, value);
                 if (value.Equals(TimeStyle.Application))
                 {
                     localSettings.Values[LocalSettings.DateTimeFormat] = "Application";
@@ -234,7 +232,7 @@ namespace Files.View_Models
         public FormFactorMode FormFactor
         {
             get => _FormFactor;
-            set => Set(ref _FormFactor, value);
+            set => SetProperty(ref _FormFactor, value);
         }
 
         public string OneDrivePath { get; set; } = Environment.GetEnvironmentVariable("OneDrive");
@@ -277,7 +275,7 @@ namespace Files.View_Models
             {
                 if (value != _PinOneDriveToSideBar)
                 {
-                    Set(ref _PinOneDriveToSideBar, value);
+                    SetProperty(ref _PinOneDriveToSideBar, value);
                     if (value == true)
                     {
                         localSettings.Values["PinOneDrive"] = true;
@@ -331,7 +329,7 @@ namespace Files.View_Models
             {
                 if (value != _PinRecycleBinToSideBar)
                 {
-                    Set(ref _PinRecycleBinToSideBar, value);
+                    SetProperty(ref _PinRecycleBinToSideBar, value);
                     if (value == true)
                     {
                         localSettings.Values["PinRecycleBin"] = true;
@@ -374,7 +372,7 @@ namespace Files.View_Models
         public string TempPath
         {
             get => _TempPath;
-            set => Set(ref _TempPath, value);
+            set => SetProperty(ref _TempPath, value);
         }
 
         private string _LocalAppDataPath = UserDataPaths.GetDefault().LocalAppData;
@@ -382,7 +380,7 @@ namespace Files.View_Models
         public string LocalAppDataPath
         {
             get => _LocalAppDataPath;
-            set => Set(ref _LocalAppDataPath, value);
+            set => SetProperty(ref _LocalAppDataPath, value);
         }
 
         private string _HomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
@@ -390,7 +388,7 @@ namespace Files.View_Models
         public string HomePath
         {
             get => _HomePath;
-            set => Set(ref _HomePath, value);
+            set => SetProperty(ref _HomePath, value);
         }
 
         private string _WinDirPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
@@ -398,7 +396,7 @@ namespace Files.View_Models
         public string WinDirPath
         {
             get => _WinDirPath;
-            set => Set(ref _WinDirPath, value);
+            set => SetProperty(ref _WinDirPath, value);
         }
 
         public bool DoubleTapToRenameFiles
@@ -476,7 +474,7 @@ namespace Files.View_Models
             {
                 if (value != _AcrylicEnabled)
                 {
-                    Set(ref _AcrylicEnabled, value);
+                    SetProperty(ref _AcrylicEnabled, value);
                     localSettings.Values["AcrylicEnabled"] = value;
                 }
             }
@@ -652,7 +650,7 @@ namespace Files.View_Models
                 originalValue = Get(originalValue, propertyName);
 
                 _roamingSettings.Values[propertyName] = value;
-                if (!base.Set(ref originalValue, value, propertyName)) return false;
+                if (!base.SetProperty(ref originalValue, value, propertyName)) return false;
             }
             else
             {

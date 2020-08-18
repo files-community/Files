@@ -1,5 +1,5 @@
 ﻿using Files.Enums;
-using GalaSoft.MvvmLight;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using Windows.Storage;
 using Windows.UI.Xaml.Media;
@@ -36,7 +36,7 @@ namespace Files.Filesystem
         public bool LoadFileIcon
         {
             get => _LoadFileIcon;
-            set => Set(ref _LoadFileIcon, value);
+            set => SetProperty(ref _LoadFileIcon, value);
         }
 
         private bool _LoadUnknownTypeGlyph;
@@ -44,7 +44,7 @@ namespace Files.Filesystem
         public bool LoadUnknownTypeGlyph
         {
             get => _LoadUnknownTypeGlyph;
-            set => Set(ref _LoadUnknownTypeGlyph, value);
+            set => SetProperty(ref _LoadUnknownTypeGlyph, value);
         }
 
         private CloudDriveSyncStatusUI _SyncStatusUI;
@@ -52,7 +52,7 @@ namespace Files.Filesystem
         public CloudDriveSyncStatusUI SyncStatusUI
         {
             get => _SyncStatusUI;
-            set => Set(ref _SyncStatusUI, value);
+            set => SetProperty(ref _SyncStatusUI, value);
         }
 
         private BitmapImage _FileImage;
@@ -64,7 +64,7 @@ namespace Files.Filesystem
             {
                 if (value != null)
                 {
-                    Set(ref _FileImage, value);
+                    SetProperty(ref _FileImage, value);
                 }
             }
         }
@@ -74,7 +74,7 @@ namespace Files.Filesystem
         public string ItemPath
         {
             get => _ItemPath;
-            set => Set(ref _ItemPath, value);
+            set => SetProperty(ref _ItemPath, value);
         }
 
         private string _ItemName;
@@ -82,7 +82,7 @@ namespace Files.Filesystem
         public string ItemName
         {
             get => _ItemName;
-            set => Set(ref _ItemName, value);
+            set => SetProperty(ref _ItemName, value);
         }
 
         private string _ItemType;
@@ -94,7 +94,7 @@ namespace Files.Filesystem
             {
                 if (value != null)
                 {
-                    Set(ref _ItemType, value);
+                    SetProperty(ref _ItemType, value);
                 }
             }
         }

@@ -1,24 +1,24 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using System;
 
 namespace Files.UserControls
 {
-    public class TabItem : ViewModelBase
+    public class TabItem : ObservableObject
     {
         private string _Header;
-        public string Header { get => _Header; set => Set(ref _Header, value); }
+        public string Header { get => _Header; set => SetProperty(ref _Header, value); }
 
         private string _Description = null;
-        public string Description { get => _Description; set => Set(ref _Description, value); }
+        public string Description { get => _Description; set => SetProperty(ref _Description, value); }
 
         private IconSource _IconSource;
-        public IconSource IconSource { get => _IconSource; set => Set(ref _IconSource, value); }
+        public IconSource IconSource { get => _IconSource; set => SetProperty(ref _IconSource, value); }
 
         public object Content { get; set; }
 
         private bool _AllowStorageItemDrop = false;
-        public bool AllowStorageItemDrop { get => _AllowStorageItemDrop; set => Set(ref _AllowStorageItemDrop, value); }
+        public bool AllowStorageItemDrop { get => _AllowStorageItemDrop; set => SetProperty(ref _AllowStorageItemDrop, value); }
     }
 
     public class TabItemContent
