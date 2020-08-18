@@ -1,13 +1,12 @@
 using Files.View_Models;
 using Files.Views;
-using GalaSoft.MvvmLight;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Devices.Enumeration;
@@ -23,11 +22,13 @@ namespace Files.Filesystem
         public SettingsViewModel AppSettings => App.AppSettings;
         public IList<DriveItem> Drives { get; } = new List<DriveItem>();
         private bool _ShowUserConsentOnInit = false;
+
         public bool ShowUserConsentOnInit
         {
             get => _ShowUserConsentOnInit;
-            set => Set(ref _ShowUserConsentOnInit, value);
+            set => SetProperty(ref _ShowUserConsentOnInit, value);
         }
+
         private DeviceWatcher _deviceWatcher;
 
         public DrivesManager()

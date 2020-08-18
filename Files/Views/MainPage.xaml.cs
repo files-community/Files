@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
-using Windows.Services.Maps;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.ViewManagement;

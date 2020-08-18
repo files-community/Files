@@ -1,29 +1,23 @@
 using ByteSizeLib;
-using Files.Filesystem;
 using Files.Helpers;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
 namespace Files.View_Models
 {
-    public class SelectedItemsPropertiesViewModel : ViewModelBase
+    public class SelectedItemsPropertiesViewModel : ObservableObject
     {
         private bool _LoadFolderGlyph;
 
         public bool LoadFolderGlyph
         {
             get => _LoadFolderGlyph;
-            set => Set(ref _LoadFolderGlyph, value);
+            set => SetProperty(ref _LoadFolderGlyph, value);
         }
 
         private bool _LoadUnknownTypeGlyph;
@@ -31,7 +25,7 @@ namespace Files.View_Models
         public bool LoadUnknownTypeGlyph
         {
             get => _LoadUnknownTypeGlyph;
-            set => Set(ref _LoadUnknownTypeGlyph, value);
+            set => SetProperty(ref _LoadUnknownTypeGlyph, value);
         }
 
         private bool _LoadCombinedItemsGlyph;
@@ -39,7 +33,7 @@ namespace Files.View_Models
         public bool LoadCombinedItemsGlyph
         {
             get => _LoadCombinedItemsGlyph;
-            set => Set(ref _LoadCombinedItemsGlyph, value);
+            set => SetProperty(ref _LoadCombinedItemsGlyph, value);
         }
 
         private string _DriveItemGlyphSource;
@@ -47,7 +41,7 @@ namespace Files.View_Models
         public string DriveItemGlyphSource
         {
             get => _DriveItemGlyphSource;
-            set => Set(ref _DriveItemGlyphSource, value);
+            set => SetProperty(ref _DriveItemGlyphSource, value);
         }
 
         private bool _LoadDriveItemGlyph;
@@ -55,7 +49,7 @@ namespace Files.View_Models
         public bool LoadDriveItemGlyph
         {
             get => _LoadDriveItemGlyph;
-            set => Set(ref _LoadDriveItemGlyph, value);
+            set => SetProperty(ref _LoadDriveItemGlyph, value);
         }
 
         private bool _LoadFileIcon;
@@ -63,7 +57,7 @@ namespace Files.View_Models
         public bool LoadFileIcon
         {
             get => _LoadFileIcon;
-            set => Set(ref _LoadFileIcon, value);
+            set => SetProperty(ref _LoadFileIcon, value);
         }
 
         private ImageSource _FileIconSource;
@@ -71,7 +65,7 @@ namespace Files.View_Models
         public ImageSource FileIconSource
         {
             get => _FileIconSource;
-            set => Set(ref _FileIconSource, value);
+            set => SetProperty(ref _FileIconSource, value);
         }
 
         private string _ItemName;
@@ -82,7 +76,7 @@ namespace Files.View_Models
             set
             {
                 ItemNameVisibility = Visibility.Visible;
-                Set(ref _ItemName, value);
+                SetProperty(ref _ItemName, value);
             }
         }
 
@@ -91,7 +85,7 @@ namespace Files.View_Models
         public Visibility ItemNameVisibility
         {
             get => _ItemNameVisibility;
-            set => Set(ref _ItemNameVisibility, value);
+            set => SetProperty(ref _ItemNameVisibility, value);
         }
 
         private string _ItemType;
@@ -102,7 +96,7 @@ namespace Files.View_Models
             set
             {
                 ItemTypeVisibility = Visibility.Visible;
-                Set(ref _ItemType, value);
+                SetProperty(ref _ItemType, value);
             }
         }
 
@@ -111,7 +105,7 @@ namespace Files.View_Models
         public Visibility ItemTypeVisibility
         {
             get => _ItemTypeVisibility;
-            set => Set(ref _ItemTypeVisibility, value);
+            set => SetProperty(ref _ItemTypeVisibility, value);
         }
 
         private string _DriveFileSystem;
@@ -122,7 +116,7 @@ namespace Files.View_Models
             set
             {
                 DriveFileSystemVisibility = Visibility.Visible;
-                Set(ref _DriveFileSystem, value);
+                SetProperty(ref _DriveFileSystem, value);
             }
         }
 
@@ -131,7 +125,7 @@ namespace Files.View_Models
         public Visibility DriveFileSystemVisibility
         {
             get => _DriveFileSystemVisibility;
-            set => Set(ref _DriveFileSystemVisibility, value);
+            set => SetProperty(ref _DriveFileSystemVisibility, value);
         }
 
         private string _ItemPath;
@@ -142,7 +136,7 @@ namespace Files.View_Models
             set
             {
                 ItemPathVisibility = Visibility.Visible;
-                Set(ref _ItemPath, value);
+                SetProperty(ref _ItemPath, value);
             }
         }
 
@@ -151,7 +145,7 @@ namespace Files.View_Models
         public Visibility ItemPathVisibility
         {
             get => _ItemPathVisibility;
-            set => Set(ref _ItemPathVisibility, value);
+            set => SetProperty(ref _ItemPathVisibility, value);
         }
 
         private string _ItemSize;
@@ -159,7 +153,7 @@ namespace Files.View_Models
         public string ItemSize
         {
             get => _ItemSize;
-            set => Set(ref _ItemSize, value);
+            set => SetProperty(ref _ItemSize, value);
         }
 
         private Visibility _ItemSizeVisibility = Visibility.Collapsed;
@@ -167,7 +161,7 @@ namespace Files.View_Models
         public Visibility ItemSizeVisibility
         {
             get => _ItemSizeVisibility;
-            set => Set(ref _ItemSizeVisibility, value);
+            set => SetProperty(ref _ItemSizeVisibility, value);
         }
 
         private long _ItemSizeBytes;
@@ -175,7 +169,7 @@ namespace Files.View_Models
         public long ItemSizeBytes
         {
             get => _ItemSizeBytes;
-            set => Set(ref _ItemSizeBytes, value);
+            set => SetProperty(ref _ItemSizeBytes, value);
         }
 
         private Visibility _ItemSizeProgressVisibility = Visibility.Collapsed;
@@ -183,7 +177,7 @@ namespace Files.View_Models
         public Visibility ItemSizeProgressVisibility
         {
             get => _ItemSizeProgressVisibility;
-            set => Set(ref _ItemSizeProgressVisibility, value);
+            set => SetProperty(ref _ItemSizeProgressVisibility, value);
         }
 
         public string _ItemMD5Hash;
@@ -195,7 +189,7 @@ namespace Files.View_Models
             {
                 if (!string.IsNullOrEmpty(value) && value != _ItemMD5Hash)
                 {
-                    Set(ref _ItemMD5Hash, value);
+                    SetProperty(ref _ItemMD5Hash, value);
                     ItemMD5HashProgressVisibility = Visibility.Collapsed;
                 }
             }
@@ -206,7 +200,7 @@ namespace Files.View_Models
         public bool ItemMD5HashCalcError
         {
             get => _ItemMD5HashCalcError;
-            set => Set(ref _ItemMD5HashCalcError, value);
+            set => SetProperty(ref _ItemMD5HashCalcError, value);
         }
 
         public Visibility _ItemMD5HashVisibility = Visibility.Collapsed;
@@ -214,7 +208,7 @@ namespace Files.View_Models
         public Visibility ItemMD5HashVisibility
         {
             get => _ItemMD5HashVisibility;
-            set => Set(ref _ItemMD5HashVisibility, value);
+            set => SetProperty(ref _ItemMD5HashVisibility, value);
         }
 
         public Visibility _ItemMD5HashProgressVisibiity = Visibility.Collapsed;
@@ -222,7 +216,7 @@ namespace Files.View_Models
         public Visibility ItemMD5HashProgressVisibility
         {
             get => _ItemMD5HashProgressVisibiity;
-            set => Set(ref _ItemMD5HashProgressVisibiity, value);
+            set => SetProperty(ref _ItemMD5HashProgressVisibiity, value);
         }
 
         public int _FoldersCount;
@@ -230,7 +224,7 @@ namespace Files.View_Models
         public int FoldersCount
         {
             get => _FoldersCount;
-            set => Set(ref _FoldersCount, value);
+            set => SetProperty(ref _FoldersCount, value);
         }
 
         public int _FilesCount;
@@ -238,7 +232,7 @@ namespace Files.View_Models
         public int FilesCount
         {
             get => _FilesCount;
-            set => Set(ref _FilesCount, value);
+            set => SetProperty(ref _FilesCount, value);
         }
 
         public string _FilesAndFoldersCountString;
@@ -252,7 +246,7 @@ namespace Files.View_Models
                 {
                     FilesAndFoldersCountVisibility = Visibility.Visible;
                 }
-                Set(ref _FilesAndFoldersCountString, value);
+                SetProperty(ref _FilesAndFoldersCountString, value);
             }
         }
 
@@ -261,7 +255,7 @@ namespace Files.View_Models
         public Visibility FilesAndFoldersCountVisibility
         {
             get => _FilesAndFoldersCountVisibility;
-            set => Set(ref _FilesAndFoldersCountVisibility, value);
+            set => SetProperty(ref _FilesAndFoldersCountVisibility, value);
         }
 
         private ulong _DriveUsedSpaceValue;
@@ -271,7 +265,7 @@ namespace Files.View_Models
             get => _DriveUsedSpaceValue;
             set
             {
-                Set(ref _DriveUsedSpaceValue, value);
+                SetProperty(ref _DriveUsedSpaceValue, value);
                 DriveUsedSpace = ByteSize.FromBytes(DriveUsedSpaceValue).ToBinaryString().ConvertSizeAbbreviation()
                     + " (" + ByteSize.FromBytes(DriveUsedSpaceValue).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
                 DriveUsedSpaceDoubleValue = Convert.ToDouble(DriveUsedSpaceValue);
@@ -286,7 +280,7 @@ namespace Files.View_Models
             set
             {
                 DriveUsedSpaceVisibiity = Visibility.Visible;
-                Set(ref _DriveUsedSpace, value);
+                SetProperty(ref _DriveUsedSpace, value);
             }
         }
 
@@ -295,7 +289,7 @@ namespace Files.View_Models
         public Visibility DriveUsedSpaceVisibiity
         {
             get => _DriveUsedSpaceVisibiity;
-            set => Set(ref _DriveUsedSpaceVisibiity, value);
+            set => SetProperty(ref _DriveUsedSpaceVisibiity, value);
         }
 
         private ulong _DriveFreeSpaceValue;
@@ -305,7 +299,7 @@ namespace Files.View_Models
             get => _DriveFreeSpaceValue;
             set
             {
-                Set(ref _DriveFreeSpaceValue, value);
+                SetProperty(ref _DriveFreeSpaceValue, value);
                 DriveFreeSpace = ByteSize.FromBytes(DriveFreeSpaceValue).ToBinaryString().ConvertSizeAbbreviation()
                     + " (" + ByteSize.FromBytes(DriveFreeSpaceValue).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
             }
@@ -319,7 +313,7 @@ namespace Files.View_Models
             set
             {
                 DriveFreeSpaceVisibiity = Visibility.Visible;
-                Set(ref _DriveFreeSpace, value);
+                SetProperty(ref _DriveFreeSpace, value);
             }
         }
 
@@ -328,7 +322,7 @@ namespace Files.View_Models
         public Visibility DriveFreeSpaceVisibiity
         {
             get => _DriveFreeSpaceVisibiity;
-            set => Set(ref _DriveFreeSpaceVisibiity, value);
+            set => SetProperty(ref _DriveFreeSpaceVisibiity, value);
         }
 
         private string _ItemCreatedTimestamp;
@@ -339,7 +333,7 @@ namespace Files.View_Models
             set
             {
                 ItemCreatedTimestampVisibiity = Visibility.Visible;
-                Set(ref _ItemCreatedTimestamp, value);
+                SetProperty(ref _ItemCreatedTimestamp, value);
             }
         }
 
@@ -348,7 +342,7 @@ namespace Files.View_Models
         public Visibility ItemCreatedTimestampVisibiity
         {
             get => _ItemCreatedTimestampVisibiity;
-            set => Set(ref _ItemCreatedTimestampVisibiity, value);
+            set => SetProperty(ref _ItemCreatedTimestampVisibiity, value);
         }
 
         private string _ItemModifiedTimestamp;
@@ -359,7 +353,7 @@ namespace Files.View_Models
             set
             {
                 ItemModifiedTimestampVisibility = Visibility.Visible;
-                Set(ref _ItemModifiedTimestamp, value);
+                SetProperty(ref _ItemModifiedTimestamp, value);
             }
         }
 
@@ -368,7 +362,7 @@ namespace Files.View_Models
         public Visibility ItemModifiedTimestampVisibility
         {
             get => _ItemModifiedTimestampVisibility;
-            set => Set(ref _ItemModifiedTimestampVisibility, value);
+            set => SetProperty(ref _ItemModifiedTimestampVisibility, value);
         }
 
         public string _ItemAccessedTimestamp;
@@ -379,7 +373,7 @@ namespace Files.View_Models
             set
             {
                 ItemAccessedTimestampVisibility = Visibility.Visible;
-                Set(ref _ItemAccessedTimestamp, value);
+                SetProperty(ref _ItemAccessedTimestamp, value);
             }
         }
 
@@ -388,7 +382,7 @@ namespace Files.View_Models
         public Visibility ItemAccessedTimestampVisibility
         {
             get => _ItemAccessedTimestampVisibility;
-            set => Set(ref _ItemAccessedTimestampVisibility, value);
+            set => SetProperty(ref _ItemAccessedTimestampVisibility, value);
         }
 
         public string _ItemFileOwner;
@@ -399,7 +393,7 @@ namespace Files.View_Models
             set
             {
                 ItemFileOwnerVisibility = Visibility.Visible;
-                Set(ref _ItemFileOwner, value);
+                SetProperty(ref _ItemFileOwner, value);
             }
         }
 
@@ -408,7 +402,7 @@ namespace Files.View_Models
         public Visibility ItemFileOwnerVisibility
         {
             get => _ItemFileOwnerVisibility;
-            set => Set(ref _ItemFileOwnerVisibility, value);
+            set => SetProperty(ref _ItemFileOwnerVisibility, value);
         }
 
         private Visibility _LastSeparatorVisibility = Visibility.Visible;
@@ -416,7 +410,7 @@ namespace Files.View_Models
         public Visibility LastSeparatorVisibility
         {
             get => _LastSeparatorVisibility;
-            set => Set(ref _LastSeparatorVisibility, value);
+            set => SetProperty(ref _LastSeparatorVisibility, value);
         }
 
         private ulong _DriveCapacityValue;
@@ -426,7 +420,7 @@ namespace Files.View_Models
             get => _DriveCapacityValue;
             set
             {
-                Set(ref _DriveCapacityValue, value);
+                SetProperty(ref _DriveCapacityValue, value);
                 DriveCapacity = ByteSize.FromBytes(DriveCapacityValue).ToBinaryString().ConvertSizeAbbreviation()
                     + " (" + ByteSize.FromBytes(DriveCapacityValue).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
                 DriveCapacityDoubleValue = Convert.ToDouble(DriveCapacityValue);
@@ -441,7 +435,7 @@ namespace Files.View_Models
             set
             {
                 DriveCapacityVisibiity = Visibility.Visible;
-                Set(ref _DriveCapacity, value);
+                SetProperty(ref _DriveCapacity, value);
             }
         }
 
@@ -450,7 +444,7 @@ namespace Files.View_Models
         public Visibility DriveCapacityVisibiity
         {
             get => _DriveCapacityVisibiity;
-            set => Set(ref _DriveCapacityVisibiity, value);
+            set => SetProperty(ref _DriveCapacityVisibiity, value);
         }
 
         private double _DriveCapacityDoubleValue;
@@ -458,7 +452,7 @@ namespace Files.View_Models
         public double DriveCapacityDoubleValue
         {
             get => _DriveCapacityDoubleValue;
-            set => Set(ref _DriveCapacityDoubleValue, value);
+            set => SetProperty(ref _DriveCapacityDoubleValue, value);
         }
 
         private double _DriveUsedSpaceDoubleValue;
@@ -466,7 +460,7 @@ namespace Files.View_Models
         public double DriveUsedSpaceDoubleValue
         {
             get => _DriveUsedSpaceDoubleValue;
-            set => Set(ref _DriveUsedSpaceDoubleValue, value);
+            set => SetProperty(ref _DriveUsedSpaceDoubleValue, value);
         }
 
         private Visibility _ItemAttributesVisibility = Visibility.Visible;
@@ -474,7 +468,7 @@ namespace Files.View_Models
         public Visibility ItemAttributesVisibility
         {
             get => _ItemAttributesVisibility;
-            set => Set(ref _ItemAttributesVisibility, value);
+            set => SetProperty(ref _ItemAttributesVisibility, value);
         }
 
         private string _SelectedItemsCount;
@@ -482,7 +476,7 @@ namespace Files.View_Models
         public string SelectedItemsCount
         {
             get => _SelectedItemsCount;
-            set => Set(ref _SelectedItemsCount, value);
+            set => SetProperty(ref _SelectedItemsCount, value);
         }
 
         private bool _IsItemSelected;
@@ -490,7 +484,7 @@ namespace Files.View_Models
         public bool IsItemSelected
         {
             get => _IsItemSelected;
-            set => Set(ref _IsItemSelected, value);
+            set => SetProperty(ref _IsItemSelected, value);
         }
 
         public SelectedItemsPropertiesViewModel()
@@ -502,7 +496,7 @@ namespace Files.View_Models
         public bool IsSelectedItemImage
         {
             get => _IsSelectedItemImage;
-            set => Set(ref _IsSelectedItemImage, value);
+            set => SetProperty(ref _IsSelectedItemImage, value);
         }
 
         private bool _IsSelectedItemShortcut = false;
@@ -510,7 +504,7 @@ namespace Files.View_Models
         public bool IsSelectedItemShortcut
         {
             get => _IsSelectedItemShortcut;
-            set => Set(ref _IsSelectedItemShortcut, value);
+            set => SetProperty(ref _IsSelectedItemShortcut, value);
         }
 
         public async void CheckFileExtension()
@@ -544,10 +538,7 @@ namespace Files.View_Models
         public string ShortcutItemType
         {
             get => _ShortcutItemType;
-            set
-            {
-                Set(ref _ShortcutItemType, value);
-            }
+            set => SetProperty(ref _ShortcutItemType, value);
         }
 
         private string _ShortcutItemPath;
@@ -555,11 +546,7 @@ namespace Files.View_Models
         public string ShortcutItemPath
         {
             get => _ShortcutItemPath;
-            set
-            {
-                Set(ref _ShortcutItemPath, value);
-                ShortcutItemOpenLinkCommand?.RaiseCanExecuteChanged();
-            }
+            set => SetProperty(ref _ShortcutItemPath, value);
         }
 
         private string _ShortcutItemWorkingDir;
@@ -567,10 +554,7 @@ namespace Files.View_Models
         public string ShortcutItemWorkingDir
         {
             get => _ShortcutItemWorkingDir;
-            set
-            {
-                Set(ref _ShortcutItemWorkingDir, value);
-            }
+            set => SetProperty(ref _ShortcutItemWorkingDir, value);
         }
 
         private Visibility _ShortcutItemWorkingDirVisibility = Visibility.Collapsed;
@@ -578,7 +562,7 @@ namespace Files.View_Models
         public Visibility ShortcutItemWorkingDirVisibility
         {
             get => _ShortcutItemWorkingDirVisibility;
-            set => Set(ref _ShortcutItemWorkingDirVisibility, value);
+            set => SetProperty(ref _ShortcutItemWorkingDirVisibility, value);
         }
 
         private string _ShortcutItemArguments;
@@ -588,7 +572,7 @@ namespace Files.View_Models
             get => _ShortcutItemArguments;
             set
             {
-                Set(ref _ShortcutItemArguments, value);
+                SetProperty(ref _ShortcutItemArguments, value);
             }
         }
 
@@ -597,7 +581,7 @@ namespace Files.View_Models
         public Visibility ShortcutItemArgumentsVisibility
         {
             get => _ShortcutItemArgumentsVisibility;
-            set => Set(ref _ShortcutItemArgumentsVisibility, value);
+            set => SetProperty(ref _ShortcutItemArgumentsVisibility, value);
         }
 
         private bool _LoadLinkIcon;
@@ -605,7 +589,7 @@ namespace Files.View_Models
         public bool LoadLinkIcon
         {
             get => _LoadLinkIcon;
-            set => Set(ref _LoadLinkIcon, value);
+            set => SetProperty(ref _LoadLinkIcon, value);
         }
 
         private RelayCommand _ShortcutItemOpenLinkCommand;
@@ -615,7 +599,7 @@ namespace Files.View_Models
             get => _ShortcutItemOpenLinkCommand;
             set
             {
-                Set(ref _ShortcutItemOpenLinkCommand, value);
+                SetProperty(ref _ShortcutItemOpenLinkCommand, value);
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using ByteSizeLib;
 using Files.Filesystem;
 using Files.Helpers;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.IO;
@@ -52,14 +53,14 @@ namespace Files.View_Models.Properties
                     ViewModel.ShortcutItemWorkingDirVisibility = Visibility.Collapsed;
                     ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
                     ViewModel.ShortcutItemArgumentsVisibility = Visibility.Collapsed;
-                    ViewModel.ShortcutItemOpenLinkCommand = new GalaSoft.MvvmLight.Command.RelayCommand(async () =>
+                    ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
                     {
                         var folderUri = new Uri("files-uwp:" + "?folder=" + Path.GetDirectoryName(ViewModel.ShortcutItemPath));
                         await Windows.System.Launcher.LaunchUriAsync(folderUri);
                     }, () =>
                     {
                         return !string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath);
-                    }, false);
+                    });
                 }
             }
         }
