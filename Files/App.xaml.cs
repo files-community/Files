@@ -362,18 +362,6 @@ namespace Files
                         }
                     }
                     break;
-                /* For future use
-                    case ActivationKind.ToastNotification:
-                    var eventArgsForNotification = args as ToastNotificationActivatedEventArgs;
-                    rootFrame.Navigate(typeof(MainPage), "tryRecoverTabs", new SuppressNavigationTransitionInfo());
-                    // Ensure the current window is active.
-                    Window.Current.Activate();
-                    Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
-                    Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-                    currentView.BackRequested += Window_BackRequested;
-                    // Launch the URI now
-                    SettingsViewModel.ReportIssueOnGitHub();
-                    return;*/
             }
 
             rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
