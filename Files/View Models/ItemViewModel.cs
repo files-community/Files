@@ -1244,7 +1244,7 @@ namespace Files.Filesystem
 
             if (App.Connection != null)
             {
-                var response = await App.Connection.SendMessageAsync(new ValueSet() { { "Arguments", "FolderDisplayName" }, { "path", itemPath } });
+                var response = App.Connection.SendMessageAsync(new ValueSet() { { "Arguments", "FolderDisplayName" }, { "path", itemPath } }).AsTask().Result;
                 itemName = (string)response.Message["FolderDisplayName"];
             }
             else
