@@ -1239,11 +1239,25 @@ namespace Files.Filesystem
                 systemTimeOutput.Milliseconds,
                 DateTimeKind.Utc);
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
+            var itemName = string.Empty;
+            if (App.Connection != null)
+            {
+                var response = App.Connection.SendMessageAsync(new ValueSet()
+                {
+                    { "Arguments", "FolderLocalizedName"},
+                    { "FolderPath", itemPath }
+                }).AsTask().Result;
+                itemName = (string)response.Message["LocalizedName"];
+            }
+            else
+            {
+                itemName = findData.cFileName;
+            }
 
             _filesAndFolders.Add(new ListedItem(null)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
-                ItemName = findData.cFileName,
+                ItemName = itemName,
                 ItemDateModifiedReal = itemDate,
                 ItemType = ResourceController.GetTranslation("FileFolderListItem"),
                 LoadFolderGlyph = true,

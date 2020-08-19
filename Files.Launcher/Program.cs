@@ -261,6 +261,11 @@ namespace FilesFullTrust
                     await parseFileOperation(args);
                     break;
 
+                case "FolderLocalizedName":
+                    var folderPath = (string)args.Request.Message["FolderPath"];
+                    await args.Request.SendResponseAsync(new ValueSet() { { "LocalizedName", new ShellFileInfo(folderPath).DisplayName } });
+                    break;
+
                 default:
                     if (args.Request.Message.ContainsKey("Application"))
                     {
