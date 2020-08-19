@@ -162,5 +162,7 @@ namespace FilesFullTrust
                 // If user cancels UAC
             }
         }
+
+        public static string GetDisplayName(string path) => new ShellFileInfo(path).DisplayName;
     }
 }

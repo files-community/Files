@@ -1220,7 +1220,7 @@ namespace Files.Filesystem
             }
         }
 
-        private void AddFolder(WIN32_FIND_DATA findData, string pathRoot)
+        private async void AddFolder(WIN32_FIND_DATA findData, string pathRoot)
         {
             if (_addFilesCTS.IsCancellationRequested)
             {
@@ -1240,10 +1240,22 @@ namespace Files.Filesystem
                 DateTimeKind.Utc);
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
+            string itemName = string.Empty;
+
+            if (App.Connection != null)
+            {
+                var response = await App.Connection.SendMessageAsync(new ValueSet() { { "Arguments", "FolderDisplayName" }, { "path", itemPath } });
+                itemName = (string)response.Message["FolderDisplayName"];
+            }
+            else
+            {
+                itemName = findData.cFileName;
+            }
+
             _filesAndFolders.Add(new ListedItem(null)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
-                ItemName = findData.cFileName,
+                ItemName = itemName,
                 ItemDateModifiedReal = itemDate,
                 ItemType = ResourceController.GetTranslation("FileFolderListItem"),
                 LoadFolderGlyph = true,

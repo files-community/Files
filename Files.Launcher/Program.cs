@@ -261,6 +261,10 @@ namespace FilesFullTrust
                     await parseFileOperation(args);
                     break;
 
+                case "FolderDisplayName":
+                    var folderPath = (string)args.Request.Message["path"];
+                    await args.Request.SendResponseAsync(new ValueSet() { { "FolderDisplayName", Win32API.GetDisplayName(folderPath) } });
+                    break;
                 default:
                     if (args.Request.Message.ContainsKey("Application"))
                     {
