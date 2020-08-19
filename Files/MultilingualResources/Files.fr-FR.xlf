@@ -1148,6 +1148,10 @@
           <source>Sharing {0}</source>
           <target state="new">Sharing {0}</target>
         </trans-unit>
+        <trans-unit id="ShareDialogTitleMultipleItems" translate="yes" xml:space="preserve">
+          <source>Sharing {0} {1}</source>
+          <target state="new">Sharing {0} {1}</target>
+        </trans-unit>
       </group>
     </body>
   </file>
