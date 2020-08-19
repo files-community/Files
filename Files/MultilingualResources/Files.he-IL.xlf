@@ -1152,6 +1152,26 @@
           <source>Version:</source>
           <target state="new">Version:</target>
         </trans-unit>
+        <trans-unit id="ShareDialogFailMessage" translate="yes" xml:space="preserve">
+          <source>There's nothing to share right now</source>
+          <target state="new">There's nothing to share right now</target>
+        </trans-unit>
+        <trans-unit id="ShareDialogMultipleItemsDescription" translate="yes" xml:space="preserve">
+          <source>The items you've selected will be shared</source>
+          <target state="new">The items you've selected will be shared</target>
+        </trans-unit>
+        <trans-unit id="ShareDialogSingleItemDescription" translate="yes" xml:space="preserve">
+          <source>The selected item will be shared</source>
+          <target state="new">The selected item will be shared</target>
+        </trans-unit>
+        <trans-unit id="ShareDialogTitle" translate="yes" xml:space="preserve">
+          <source>Sharing {0}</source>
+          <target state="new">Sharing {0}</target>
+        </trans-unit>
+        <trans-unit id="ShareDialogTitleMultipleItems" translate="yes" xml:space="preserve">
+          <source>Sharing {0} {1}</source>
+          <target state="new">Sharing {0} {1}</target>
+        </trans-unit>
       </group>
     </body>
   </file>

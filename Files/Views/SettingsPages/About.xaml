@@ -145,30 +145,24 @@
                     </TextBlock.Transitions>
                 </TextBlock>
 
-                <StackPanel
-                    Orientation="Horizontal"
-                    Spacing="20">
+                <StackPanel Orientation="Horizontal" Spacing="20">
                     <TextBlock
                         VerticalAlignment="Center"
                         FontSize="16"
                         Text="QuickLook" />
-                    <StackPanel
-                        Orientation="Horizontal"
-                        Spacing="5">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
                         <TextBlock
                             x:Uid="SettingsAboutWebsite"
-                            Text="Website:"
-                            VerticalAlignment="Center" />
+                            VerticalAlignment="Center"
+                            Text="Website:" />
                         <HyperlinkButton NavigateUri="https://github.com/QL-Win/QuickLook">Link</HyperlinkButton>
                     </StackPanel>
 
-                    <StackPanel
-                        Orientation="Horizontal"
-                        Spacing="5">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
                         <TextBlock
                             x:Uid="SettingsAboutLicense"
-                            Text="License:"
-                            VerticalAlignment="Center" />
+                            VerticalAlignment="Center"
+                            Text="License:" />
                         <HyperlinkButton NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt">GPL</HyperlinkButton>
                     </StackPanel>
                 </StackPanel>

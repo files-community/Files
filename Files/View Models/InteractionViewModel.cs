@@ -1,20 +1,18 @@
-﻿using Files.UserControls;
-using Files.Views;
-using GalaSoft.MvvmLight;
-using System;
+﻿using Files.Views;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.Controls
 {
-    public class InteractionViewModel : ViewModelBase
+    public class InteractionViewModel : ObservableObject
     {
         private bool _IsContentLoadingIndicatorVisible = false;
 
         public bool IsContentLoadingIndicatorVisible
         {
             get => _IsContentLoadingIndicatorVisible;
-            set => Set(ref _IsContentLoadingIndicatorVisible, value);
+            set => SetProperty(ref _IsContentLoadingIndicatorVisible, value);
         }
 
         private int _TabStripSelectedIndex = 0;
@@ -26,7 +24,7 @@ namespace Files.Controls
             {
                 if (value >= 0)
                 {
-                    Set(ref _TabStripSelectedIndex, value);
+                    SetProperty(ref _TabStripSelectedIndex, value);
                     Frame rootFrame = Window.Current.Content as Frame;
                     var mainView = rootFrame.Content as MainPage;
                     mainView.SelectedTabItem = App.CurrentInstance.MultitaskingControl.Items[value];
@@ -39,7 +37,7 @@ namespace Files.Controls
         public Thickness TabsLeftMargin
         {
             get => _TabsLeftMargin;
-            set => Set(ref _TabsLeftMargin, value);
+            set => SetProperty(ref _TabsLeftMargin, value);
         }
 
         private bool _LeftMarginLoaded = true;
@@ -47,7 +45,7 @@ namespace Files.Controls
         public bool LeftMarginLoaded
         {
             get => _LeftMarginLoaded;
-            set => Set(ref _LeftMarginLoaded, value);
+            set => SetProperty(ref _LeftMarginLoaded, value);
         }
 
         private bool _isPasteEnabled = false;
@@ -55,7 +53,7 @@ namespace Files.Controls
         public bool IsPasteEnabled
         {
             get => _isPasteEnabled;
-            set => Set(ref _isPasteEnabled, value);
+            set => SetProperty(ref _isPasteEnabled, value);
         }
     }
 }

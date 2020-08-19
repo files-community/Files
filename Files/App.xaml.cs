@@ -1,24 +1,24 @@
 using Files.CommandLine;
+using Files.Common;
 using Files.Controllers;
 using Files.Controls;
 using Files.Filesystem;
-using Files.Interacts;
+using Files.Helpers;
 using Files.View_Models;
 using Files.Views;
-using Files.Helpers;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
@@ -134,9 +134,11 @@ namespace Files
                             case "Created":
                                 CurrentInstance.FilesystemViewModel.AddFileOrFolderFromShellFile(newItem);
                                 break;
+
                             case "Deleted":
                                 CurrentInstance.FilesystemViewModel.RemoveFileOrFolder(itemPath);
                                 break;
+
                             default:
                                 CurrentInstance.FilesystemViewModel.RefreshItems();
                                 break;
