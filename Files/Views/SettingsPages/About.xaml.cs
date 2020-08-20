@@ -21,7 +21,7 @@ namespace Files.SettingsPages
             await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
         }
 
-        private async void FeedbackListView_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+        private async void FeedbackListView_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             if (FeedbackListView.SelectedIndex == 0)
             {
@@ -35,6 +35,8 @@ namespace Files.SettingsPages
             {
                 await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/files-uwp/graphs/contributors"));
             }
+
+            (FeedbackListView.Items[FeedbackListView.SelectedIndex] as ListViewItem).IsSelected = false;
         }
     }
 }
