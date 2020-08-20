@@ -846,4 +846,25 @@
   <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
     <value>Mostrar menu multitarefa na barra de navegação</value>
   </data>
+  <data name="InvalidItemDialogContent" xml:space="preserve">
+    <value>O item referenciado é inválido ou inacessível.{0}Mensagem de erro:{0}{1}</value>
+  </data>
+  <data name="InvalidItemDialogTitle" xml:space="preserve">
+    <value>Item inválido</value>
+  </data>
+  <data name="ShareDialogFailMessage" xml:space="preserve">
+    <value>Não há nada para compartilhar agora</value>
+  </data>
+  <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
+    <value>Os itens selecionados serão compartilhados</value>
+  </data>
+  <data name="ShareDialogSingleItemDescription" xml:space="preserve">
+    <value>O item selecionado será compartilhado</value>
+  </data>
+  <data name="ShareDialogTitle" xml:space="preserve">
+    <value>Compartilhando {0}</value>
+  </data>
+  <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
+    <value>Compartilhando {0} {1}</value>
+  </data>
 </root>

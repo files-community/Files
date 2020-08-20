@@ -1122,31 +1122,31 @@
         </trans-unit>
         <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
           <source>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</source>
-          <target state="new">The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</target>
+          <target state="translated">O item referenciado é inválido ou inacessível.{0}Mensagem de erro:{0}{1}</target>
         </trans-unit>
         <trans-unit id="InvalidItemDialogTitle" translate="yes" xml:space="preserve">
           <source>Invalid item</source>
-          <target state="new">Invalid item</target>
+          <target state="translated">Item inválido</target>
         </trans-unit>
         <trans-unit id="ShareDialogFailMessage" translate="yes" xml:space="preserve">
           <source>There's nothing to share right now</source>
-          <target state="new">There's nothing to share right now</target>
+          <target state="translated">Não há nada para compartilhar agora</target>
         </trans-unit>
         <trans-unit id="ShareDialogMultipleItemsDescription" translate="yes" xml:space="preserve">
           <source>The items you've selected will be shared</source>
-          <target state="new">The items you've selected will be shared</target>
+          <target state="translated">Os itens selecionados serão compartilhados</target>
         </trans-unit>
         <trans-unit id="ShareDialogSingleItemDescription" translate="yes" xml:space="preserve">
           <source>The selected item will be shared</source>
-          <target state="new">The selected item will be shared</target>
+          <target state="translated">O item selecionado será compartilhado</target>
         </trans-unit>
         <trans-unit id="ShareDialogTitle" translate="yes" xml:space="preserve">
           <source>Sharing {0}</source>
-          <target state="new">Sharing {0}</target>
+          <target state="translated">Compartilhando {0}</target>
         </trans-unit>
         <trans-unit id="ShareDialogTitleMultipleItems" translate="yes" xml:space="preserve">
           <source>Sharing {0} {1}</source>
-          <target state="new">Sharing {0} {1}</target>
+          <target state="translated">Compartilhando {0} {1}</target>
         </trans-unit>
       </group>
     </body>
