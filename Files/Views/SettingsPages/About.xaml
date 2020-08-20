@@ -50,7 +50,7 @@
                 <ListView
                     x:Name="FeedbackListView"
                     HorizontalAlignment="Left"
-                    DoubleTapped="FeedbackListView_DoubleTapped"
+                    Tapped="FeedbackListView_Tapped"
                     SelectionMode="Single">
                     <ListViewItem
                         x:Name="FeedbackForm"
