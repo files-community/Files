@@ -24,8 +24,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.Toolkit.Uwp.Notifications;
-using Windows.UI.Notifications;
 
 using static Files.Helpers.PathNormalization;
 
