@@ -102,7 +102,6 @@ namespace Files.Views
                             {
                                 await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
                             }
-
                         }
                         else if (App.AppSettings.ContinueLastSessionOnStartUp)
                         {
