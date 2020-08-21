@@ -84,15 +84,37 @@ namespace Files.Views
                 Clipboard.ContentChanged += Clipboard_ContentChanged;
                 Clipboard_ContentChanged(null, null);
 
-                if (string.IsNullOrEmpty(navArgs) && App.AppSettings.OpenASpecificPageOnStartup)
+                if (string.IsNullOrEmpty(navArgs))
                 {
                     try
                     {
-                        if (App.AppSettings.PagesOnStartupList != null)
+                        if (App.AppSettings.OpenASpecificPageOnStartup)
                         {
-                            foreach (string path in App.AppSettings.PagesOnStartupList)
+
+                            if (App.AppSettings.PagesOnStartupList != null)
                             {
-                                await AddNewTab(typeof(ModernShellPage), path);
+                                foreach (string path in App.AppSettings.PagesOnStartupList)
+                                {
+                                    await AddNewTab(typeof(ModernShellPage), path);
+                                }
+                            }
+                            else
+                            {
+                                await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+                            }
+                        }
+                        else if (App.AppSettings.ContinueLastSessionOnStartUp)
+                        {
+                            if (App.AppSettings.LastSessionPages != null)
+                            {
+                                foreach (string path in App.AppSettings.LastSessionPages)
+                                {
+                                    await AddNewTab(typeof(ModernShellPage), path);
+                                }
+                            }
+                            else
+                            {
+                                await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
                             }
                         }
                         else
@@ -231,6 +253,7 @@ namespace Files.Views
             TabItem tvi = new TabItem()
             {
                 Header = tabLocationHeader,
+                Path = path,
                 Content = new Grid()
                 {
                     Children =

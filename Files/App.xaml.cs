@@ -4,6 +4,7 @@ using Files.Controllers;
 using Files.Controls;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.UserControls;
 using Files.View_Models;
 using Files.Views;
 using Microsoft.AppCenter;
@@ -15,6 +16,7 @@ using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -391,6 +393,8 @@ namespace Files
         /// <param name="e">Details about the suspend request.</param>
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
+            SaveSessionTabs();
+
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             if (Connection != null)
@@ -400,6 +404,11 @@ namespace Files
             }
             AppSettings?.Dispose();
             deferral.Complete();
+        }
+
+        private void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
+        {
+            AppSettings.LastSessionPages = MainPage.AppInstances.Select(x => x.Path ?? ResourceController.GetTranslation("NewTab")).ToArray();
         }
 
         // Occurs when an exception is not handled on the UI thread.

@@ -47,7 +47,7 @@
                     Content="Continue where you left off"
                     FontSize="16"
                     GroupName="StartupPageSettingRadioGroup"
-                    IsEnabled="False" />
+                    IsChecked="{x:Bind AppSettings.ContinueLastSessionOnStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <RadioButton
                     x:Name="OpenSpecificPage"
