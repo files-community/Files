@@ -109,8 +109,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 BorderThickness="1"
-                IsReadOnly="True"
-                Text="{x:Bind ViewModel.ItemName, Mode=OneWay}"
+                Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}"
                 Visibility="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}" />
 
             <MenuFlyoutSeparator

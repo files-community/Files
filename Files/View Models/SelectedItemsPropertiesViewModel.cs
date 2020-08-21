@@ -80,6 +80,18 @@ namespace Files.View_Models
             }
         }
 
+        private string _OriginalItemName;
+
+        public string OriginalItemName
+        {
+            get => _OriginalItemName;
+            set
+            {
+                ItemNameVisibility = Visibility.Visible;
+                SetProperty(ref _OriginalItemName, value);
+            }
+        }
+
         private Visibility _ItemNameVisibility = Visibility.Collapsed;
 
         public Visibility ItemNameVisibility

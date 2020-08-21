@@ -27,6 +27,8 @@ namespace Files
 
         private object navParameter;
 
+        private ListedItem file;
+
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public Properties()
@@ -159,6 +161,20 @@ namespace Files
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (contentFrame.Content is PropertiesGeneral)
+            {
+                if ((contentFrame.Content as PropertiesGeneral).ViewModel.OriginalItemName != null
+                    && (contentFrame.Content as PropertiesGeneral).ViewModel.ItemName != null
+                    && (contentFrame.Content as PropertiesGeneral).ViewModel.ItemName != (contentFrame.Content as PropertiesGeneral).ViewModel.OriginalItemName
+                    && !App.CurrentInstance.InteractionOperations.ContainsRestrictedFileName((contentFrame.Content as PropertiesGeneral).ViewModel.ItemName))
+                {
+                    // Rename
+                    await App.CurrentInstance.InteractionOperations.RenameFileItem(file,
+                        (contentFrame.Content as PropertiesGeneral).ViewModel.OriginalItemName,
+                        (contentFrame.Content as PropertiesGeneral).ViewModel.ItemName);
+                }
+            }
+
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 await ApplicationView.GetForCurrentView().TryConsolidateAsync();
