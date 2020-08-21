@@ -163,7 +163,7 @@
     <value>Files UWP</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>Licença: </value>
+    <value>Licença:</value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Agradecimentos especiais para:</value>
@@ -181,7 +181,7 @@
     <value>Sobre</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Site da web: </value>
+    <value>Site da web:</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
     <value>Barra lateral em acrílico</value>
@@ -255,8 +255,8 @@
   <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
     <value>Fixar o OneDrive na barra lateral</value>
   </data>
-  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
-    <value>Ativar suporte à Lixeira</value>
+  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
+    <value>Fixar a lixeira na barra lateral</value>
   </data>
   <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
     <value>Mostrar proprietário nas propriedades</value>
@@ -283,7 +283,7 @@
     <value>Página Inicial</value>
   </data>
   <data name="SidebarMusic" xml:space="preserve">
-    <value>Música</value>
+    <value>Músicas</value>
   </data>
   <data name="SidebarPictures" xml:space="preserve">
     <value>Imagens</value>
@@ -746,5 +746,125 @@
   </data>
   <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
     <value>Remover Página</value>
+  </data>
+  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
+    <value>Ao iniciar uma pasta fixada</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
+    <value>Sempre abra uma nova instância</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
+    <value>Abrir pasta em uma nova guia</value>
+  </data>
+  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
+    <value>Padrão do Windows</value>
+  </data>
+  <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
+    <value>Mover a guia aqui</value>
+  </data>
+  <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
+    <value>Sem resultados</value>
+  </data>
+  <data name="SubDirectoryAccessDenied" xml:space="preserve">
+    <value>Não é possível acessar nenhum item para exibir</value>
+  </data>
+  <data name="MoveToFolderCaptionText" xml:space="preserve">
+    <value>Mover para {0}</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
+    <value>Os nomes dos arquivos de origem e de destino são iguais.</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
+    <value>A pasta de destino é igual à pasta de origem.</value>
+  </data>
+  <data name="CopyToFolderCaptionText" xml:space="preserve">
+    <value>Copiar para {0}</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+    <value>Criar atalho</value>
+  </data>
+  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+    <value>Abrir local do arquivo</value>
+  </data>
+  <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
+    <value>Argumentos:</value>
+  </data>
+  <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
+    <value>Destino:</value>
+  </data>
+  <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
+    <value>Tipo de atalho:</value>
+  </data>
+  <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
+    <value>Diretório de trabalho:</value>
+  </data>
+  <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
+    <value>Aplicativo</value>
+  </data>
+  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
+    <value>Arquivo</value>
+  </data>
+  <data name="PropertiesShortcutTypeFolder" xml:space="preserve">
+    <value>Pasta</value>
+  </data>
+  <data name="PropertiesShortcutTypeLink" xml:space="preserve">
+    <value>Link da Web</value>
+  </data>
+  <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
+    <value>Geral</value>
+  </data>
+  <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
+    <value>Atalho</value>
+  </data>
+  <data name="ShortcutFileType" xml:space="preserve">
+    <value>Atalho</value>
+  </data>
+  <data name="ShortcutWebLinkFileType" xml:space="preserve">
+    <value>Atalho da internet</value>
+  </data>
+  <data name="ShortcutCreateNewSuffix" xml:space="preserve">
+    <value>{0} - atalho</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
+    <value>Abrir local do arquivo</value>
+  </data>
+  <data name="SettingsPreferencesShowHorizontalTabStrip.Text" xml:space="preserve">
+    <value>Mostrar uma tabulação horizontal na barra de título</value>
+  </data>
+  <data name="SettingsAboutContributors.Text" xml:space="preserve">
+    <value>Contribuidores</value>
+  </data>
+  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
+    <value>Veja quem contribuiu para o Files UWP</value>
+  </data>
+  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
+    <value>Notas de Atualização</value>
+  </data>
+  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
+    <value>Descubra o que há de novo no Files UWP</value>
+  </data>
+  <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
+    <value>Mostrar menu multitarefa na barra de navegação</value>
+  </data>
+  <data name="InvalidItemDialogContent" xml:space="preserve">
+    <value>O item referenciado é inválido ou inacessível.{0}Mensagem de erro:{0}{1}</value>
+  </data>
+  <data name="InvalidItemDialogTitle" xml:space="preserve">
+    <value>Item inválido</value>
+  </data>
+  <data name="ShareDialogFailMessage" xml:space="preserve">
+    <value>Não há nada para compartilhar agora</value>
+  </data>
+  <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
+    <value>Os itens selecionados serão compartilhados</value>
+  </data>
+  <data name="ShareDialogSingleItemDescription" xml:space="preserve">
+    <value>O item selecionado será compartilhado</value>
+  </data>
+  <data name="ShareDialogTitle" xml:space="preserve">
+    <value>Compartilhando {0}</value>
+  </data>
+  <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
+    <value>Compartilhando {0} {1}</value>
   </data>
 </root>

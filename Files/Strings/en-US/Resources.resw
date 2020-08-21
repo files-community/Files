@@ -253,7 +253,7 @@
     <value>Search</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Files and folders you've previously accessed will show up here</value>
+    <value>Files you've previously accessed will show up here</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
     <value>Open file location</value>
@@ -268,7 +268,7 @@
     <value>Files UWP</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>License: </value>
+    <value>License:</value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Special thanks to:</value>
@@ -286,7 +286,7 @@
     <value>About</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Website: </value>
+    <value>Website:</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
     <value>Acrylic sidebar</value>
@@ -360,8 +360,8 @@
   <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
     <value>Pin OneDrive to the sidebar</value>
   </data>
-  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
-    <value>Enable Recycle Bin support</value>
+  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
+    <value>Pin Recycle Bin to the sidebar</value>
   </data>
   <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
     <value>Show Owner in properties</value>
@@ -862,7 +862,7 @@
     <value>Open folder in a new tab</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>When launching a pinned folder</value>
+    <value>When launching an item from the jumplist</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows default</value>
@@ -884,5 +884,92 @@
   </data>
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Copy to {0}</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+    <value>Create shortcut</value>
+  </data>
+  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+    <value>Open file location</value>
+  </data>
+  <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
+    <value>Arguments:</value>
+  </data>
+  <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
+    <value>Destination:</value>
+  </data>
+  <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
+    <value>Shortcut type:</value>
+  </data>
+  <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
+    <value>Working directory:</value>
+  </data>
+  <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="PropertiesShortcutTypeFolder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="PropertiesShortcutTypeLink" xml:space="preserve">
+    <value>Web link</value>
+  </data>
+  <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
+    <value>Shortcut</value>
+  </data>
+  <data name="ShortcutFileType" xml:space="preserve">
+    <value>Shortcut</value>
+  </data>
+  <data name="ShortcutWebLinkFileType" xml:space="preserve">
+    <value>Internet shortcut</value>
+  </data>
+  <data name="ShortcutCreateNewSuffix" xml:space="preserve">
+    <value>{0} - shortcut</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
+    <value>Open file location</value>
+  </data>
+  <data name="SettingsPreferencesShowHorizontalTabStrip.Text" xml:space="preserve">
+    <value>Show a horizontal tab strip on the title bar</value>
+  </data>
+  <data name="SettingsAboutContributors.Text" xml:space="preserve">
+    <value>Contributors</value>
+  </data>
+  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
+    <value>See who contributed to Files UWP</value>
+  </data>
+  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
+  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
+    <value>Find out what's new in Files UWP</value>
+  </data>
+  <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
+    <value>Show multitasking flyout in the navigation toolbar</value>
+  </data>
+  <data name="InvalidItemDialogContent" xml:space="preserve">
+    <value>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</value>
+  </data>
+  <data name="InvalidItemDialogTitle" xml:space="preserve">
+    <value>Invalid item</value>
+  </data>
+  <data name="ShareDialogFailMessage" xml:space="preserve">
+    <value>There's nothing to share right now</value>
+  </data>
+  <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
+    <value>The items you've selected will be shared</value>
+  </data>
+  <data name="ShareDialogSingleItemDescription" xml:space="preserve">
+    <value>The selected item will be shared</value>
+  </data>
+  <data name="ShareDialogTitle" xml:space="preserve">
+    <value>Sharing {0}</value>
+  </data>
+  <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
+    <value>Sharing {0} {1}</value>
   </data>
 </root>

@@ -187,8 +187,9 @@
           <target state="translated">Pesquisar</target>
         </trans-unit>
         <trans-unit id="RecentItemDescription.Text" translate="yes" xml:space="preserve">
-          <source>Files and folders you've previously accessed will show up here</source>
-          <target state="translated">Os arquivos e pastas que você acessou anteriormente aparecerão aqui</target>
+          <source>Files you've previously accessed will show up here</source>
+          <target state="needs-review-translation">Os arquivos e pastas que você acessou anteriormente aparecerão aqui</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
@@ -207,8 +208,8 @@
           <target state="translated">Files UWP</target>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
-          <source>License: </source>
-          <target state="translated">Licença: </target>
+          <source>License:</source>
+          <target state="translated">Licença:</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
           <source>Special thanks to:</source>
@@ -231,8 +232,8 @@
           <target state="translated">Sobre</target>
         </trans-unit>
         <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
-          <source>Website: </source>
-          <target state="translated">Site da web: </target>
+          <source>Website:</source>
+          <target state="translated">Site da web:</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>
@@ -330,9 +331,9 @@
           <source>Pin OneDrive to the sidebar</source>
           <target state="translated">Fixar o OneDrive na barra lateral</target>
         </trans-unit>
-        <trans-unit id="SettingsExperimentalRecycleBin.Text" translate="yes" xml:space="preserve">
-          <source>Enable Recycle Bin support</source>
-          <target state="translated">Ativar suporte à Lixeira</target>
+        <trans-unit id="SettingsPreferencesRecycleBin.Text" translate="yes" xml:space="preserve">
+          <source>Pin Recycle Bin to the sidebar</source>
+          <target state="translated">Fixar a lixeira na barra lateral</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileOwnerInProperties.Text" translate="yes" xml:space="preserve">
           <source>Show Owner in properties</source>
@@ -368,7 +369,7 @@
         </trans-unit>
         <trans-unit id="SidebarMusic" translate="yes" xml:space="preserve">
           <source>Music</source>
-          <target state="translated">Música</target>
+          <target state="translated">Músicas</target>
         </trans-unit>
         <trans-unit id="SidebarPictures" translate="yes" xml:space="preserve">
           <source>Pictures</source>
@@ -987,48 +988,165 @@
           <target state="translated">Remover Página</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
-          <source>When launching a pinned folder</source>
-          <target state="new">When launching a pinned folder</target>
+          <source>When launching an item from the jumplist</source>
+          <target state="needs-review-translation">Ao iniciar uma pasta fixada</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
           <source>Always open a new instance</source>
-          <target state="new">Always open a new instance</target>
+          <target state="translated">Sempre abra uma nova instância</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewTab.Content" translate="yes" xml:space="preserve">
           <source>Open folder in a new tab</source>
-          <target state="new">Open folder in a new tab</target>
+          <target state="translated">Abrir pasta em uma nova guia</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
           <source>Windows default</source>
-          <target state="new">Windows default</target>
+          <target state="translated">Padrão do Windows</target>
         </trans-unit>
         <trans-unit id="TabStripDragAndDropUIOverrideCaption" translate="yes" xml:space="preserve">
           <source>Move tab here</source>
-          <target state="new">Move tab here</target>
+          <target state="translated">Mover a guia aqui</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarVisiblePathNoResults" translate="yes" xml:space="preserve">
           <source>No results</source>
-          <target state="new">No results</target>
+          <target state="translated">Sem resultados</target>
         </trans-unit>
         <trans-unit id="SubDirectoryAccessDenied" translate="yes" xml:space="preserve">
           <source>Can't access any items to display</source>
-          <target state="new">Can't access any items to display</target>
+          <target state="translated">Não é possível acessar nenhum item para exibir</target>
         </trans-unit>
         <trans-unit id="MoveToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Move to {0}</source>
-          <target state="new">Move to {0}</target>
+          <target state="translated">Mover para {0}</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFile" translate="yes" xml:space="preserve">
           <source>The source and destination file names are the same.</source>
-          <target state="new">The source and destination file names are the same.</target>
+          <target state="translated">Os nomes dos arquivos de origem e de destino são iguais.</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFolder" translate="yes" xml:space="preserve">
           <source>The destination folder is the same as the source folder.</source>
-          <target state="new">The destination folder is the same as the source folder.</target>
+          <target state="translated">A pasta de destino é igual à pasta de origem.</target>
         </trans-unit>
         <trans-unit id="CopyToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Copy to {0}</source>
-          <target state="new">Copy to {0}</target>
+          <target state="translated">Copiar para {0}</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutShortcut.Text" translate="yes" xml:space="preserve">
+          <source>Create shortcut</source>
+          <target state="translated">Criar atalho</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
+          <source>Open file location</source>
+          <target state="translated">Abrir local do arquivo</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutItemArgs.Text" translate="yes" xml:space="preserve">
+          <source>Arguments:</source>
+          <target state="translated">Argumentos:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutItemPath.Text" translate="yes" xml:space="preserve">
+          <source>Destination:</source>
+          <target state="translated">Destino:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutItemType.Text" translate="yes" xml:space="preserve">
+          <source>Shortcut type:</source>
+          <target state="translated">Tipo de atalho:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutItemWorkingDir.Text" translate="yes" xml:space="preserve">
+          <source>Working directory:</source>
+          <target state="translated">Diretório de trabalho:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutTypeApplication" translate="yes" xml:space="preserve">
+          <source>Application</source>
+          <target state="translated">Aplicativo</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutTypeFile" translate="yes" xml:space="preserve">
+          <source>File</source>
+          <target state="translated">Arquivo</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutTypeFolder" translate="yes" xml:space="preserve">
+          <source>Folder</source>
+          <target state="translated">Pasta</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutTypeLink" translate="yes" xml:space="preserve">
+          <source>Web link</source>
+          <target state="translated">Link da Web</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogTabGeneral.Content" translate="yes" xml:space="preserve">
+          <source>General</source>
+          <target state="translated">Geral</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogTabShortcut.Content" translate="yes" xml:space="preserve">
+          <source>Shortcut</source>
+          <target state="translated">Atalho</target>
+        </trans-unit>
+        <trans-unit id="ShortcutFileType" translate="yes" xml:space="preserve">
+          <source>Shortcut</source>
+          <target state="translated">Atalho</target>
+        </trans-unit>
+        <trans-unit id="ShortcutWebLinkFileType" translate="yes" xml:space="preserve">
+          <source>Internet shortcut</source>
+          <target state="translated">Atalho da internet</target>
+        </trans-unit>
+        <trans-unit id="ShortcutCreateNewSuffix" translate="yes" xml:space="preserve">
+          <source>{0} - shortcut</source>
+          <target state="translated">{0} - atalho</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation.Text" translate="yes" xml:space="preserve">
+          <source>Open file location</source>
+          <target state="translated">Abrir local do arquivo</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesShowHorizontalTabStrip.Text" translate="yes" xml:space="preserve">
+          <source>Show a horizontal tab strip on the title bar</source>
+          <target state="translated">Mostrar uma tabulação horizontal na barra de título</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutContributors.Text" translate="yes" xml:space="preserve">
+          <source>Contributors</source>
+          <target state="translated">Contribuidores</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutContributorsDescription.Text" translate="yes" xml:space="preserve">
+          <source>See who contributed to Files UWP</source>
+          <target state="translated">Veja quem contribuiu para o Files UWP</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
+          <source>Release Notes</source>
+          <target state="translated">Notas de Atualização</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutReleaseNotesDescription.Text" translate="yes" xml:space="preserve">
+          <source>Find out what's new in Files UWP</source>
+          <target state="translated">Descubra o que há de novo no Files UWP</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesShowMultitaskingControl.Text" translate="yes" xml:space="preserve">
+          <source>Show multitasking flyout in the navigation toolbar</source>
+          <target state="translated">Mostrar menu multitarefa na barra de navegação</target>
+        </trans-unit>
+        <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
+          <source>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</source>
+          <target state="translated">O item referenciado é inválido ou inacessível.{0}Mensagem de erro:{0}{1}</target>
+        </trans-unit>
+        <trans-unit id="InvalidItemDialogTitle" translate="yes" xml:space="preserve">
+          <source>Invalid item</source>
+          <target state="translated">Item inválido</target>
+        </trans-unit>
+        <trans-unit id="ShareDialogFailMessage" translate="yes" xml:space="preserve">
+          <source>There's nothing to share right now</source>
+          <target state="translated">Não há nada para compartilhar agora</target>
+        </trans-unit>
+        <trans-unit id="ShareDialogMultipleItemsDescription" translate="yes" xml:space="preserve">
+          <source>The items you've selected will be shared</source>
+          <target state="translated">Os itens selecionados serão compartilhados</target>
+        </trans-unit>
+        <trans-unit id="ShareDialogSingleItemDescription" translate="yes" xml:space="preserve">
+          <source>The selected item will be shared</source>
+          <target state="translated">O item selecionado será compartilhado</target>
+        </trans-unit>
+        <trans-unit id="ShareDialogTitle" translate="yes" xml:space="preserve">
+          <source>Sharing {0}</source>
+          <target state="translated">Compartilhando {0}</target>
+        </trans-unit>
+        <trans-unit id="ShareDialogTitleMultipleItems" translate="yes" xml:space="preserve">
+          <source>Sharing {0} {1}</source>
+          <target state="translated">Compartilhando {0} {1}</target>
         </trans-unit>
       </group>
     </body>

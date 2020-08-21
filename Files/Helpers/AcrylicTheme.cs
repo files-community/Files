@@ -17,7 +17,7 @@ namespace Files.Helpers
             set
             {
                 _FallbackColor = value;
-                NotifyPropertyChanged("FallbackColor");
+                NotifyPropertyChanged(nameof(FallbackColor));
             }
         }
 
@@ -27,7 +27,7 @@ namespace Files.Helpers
             set
             {
                 _TintColor = value;
-                NotifyPropertyChanged("TintColor");
+                NotifyPropertyChanged(nameof(TintColor));
             }
         }
 
@@ -37,7 +37,7 @@ namespace Files.Helpers
             set
             {
                 _TintOpacity = value;
-                NotifyPropertyChanged("TintOpacity");
+                NotifyPropertyChanged(nameof(TintOpacity));
             }
         }
 
@@ -54,21 +54,26 @@ namespace Files.Helpers
 
         public void SetDefaultTheme()
         {
-            FallbackColor = (Color)Application.Current.Resources["SystemChromeMediumLowColor"];
-            TintColor = (Color)Application.Current.Resources["SystemAltHighColor"];
-            TintOpacity = 0.9;
+            if (Application.Current.RequestedTheme == ApplicationTheme.Light)
+            {
+                SetLightTheme();
+            }
+            else if (Application.Current.RequestedTheme == ApplicationTheme.Dark)
+            {
+                SetDarkTheme();
+            }
         }
 
         public void SetLightTheme()
         {
-            FallbackColor = Color.FromArgb(255, 242, 242, 242);
+            FallbackColor = Color.FromArgb(255, 250, 249, 248);
             TintColor = Colors.White;
             TintOpacity = 0.9;
         }
 
         public void SetDarkTheme()
         {
-            FallbackColor = Color.FromArgb(255, 43, 43, 43);
+            FallbackColor = Color.FromArgb(255, 50, 49, 48);
             TintColor = Colors.Black;
             TintOpacity = 0.7;
         }

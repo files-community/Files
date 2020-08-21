@@ -1,24 +1,24 @@
 using Files.CommandLine;
+using Files.Common;
 using Files.Controllers;
 using Files.Controls;
 using Files.Filesystem;
-using Files.Interacts;
+using Files.Helpers;
 using Files.View_Models;
 using Files.Views;
-using Files.Helpers;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
@@ -26,7 +26,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using System.Threading.Tasks;
 
 namespace Files
 {
@@ -114,17 +113,32 @@ namespace Files
             // The fulltrust process signaled that something in the recycle bin folder has changed
             if (args.Request.Message.ContainsKey("FileSystem"))
             {
-                var path = (string)args.Request.Message["FileSystem"];
-                Debug.WriteLine("{0}: {1}", path, args.Request.Message["Type"]);
-                if (App.CurrentInstance.FilesystemViewModel.CurrentFolder?.ItemPath == path)
+                var folderPath = (string)args.Request.Message["FileSystem"];
+                var itemPath = (string)args.Request.Message["Path"];
+                var changeType = (string)args.Request.Message["Type"];
+                var newItem = JsonConvert.DeserializeObject<ShellFileItem>(args.Request.Message.Get("Item", ""));
+                Debug.WriteLine("{0}: {1}", folderPath, changeType);
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     // If we are currently displaying the reycle bin lets refresh the items
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                        () =>
+                    if (CurrentInstance.FilesystemViewModel?.CurrentFolder?.ItemPath == folderPath)
+                    {
+                        switch (changeType)
                         {
-                            App.CurrentInstance.FilesystemViewModel.RefreshItems();
-                        });
-                }
+                            case "Created":
+                                CurrentInstance.FilesystemViewModel.AddFileOrFolderFromShellFile(newItem);
+                                break;
+
+                            case "Deleted":
+                                CurrentInstance.FilesystemViewModel.RemoveFileOrFolder(itemPath);
+                                break;
+
+                            default:
+                                CurrentInstance.FilesystemViewModel.RefreshItems();
+                                break;
+                        }
+                    }
+                });
             }
 
             // Complete the deferral so that the platform knows that we're done responding to the app service call.

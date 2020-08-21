@@ -1,5 +1,6 @@
 using Files.View_Models;
 using Files.Views;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -15,37 +16,48 @@ using Windows.UI.Core;
 
 namespace Files.Filesystem
 {
-    public class DrivesManager
+    public class DrivesManager : ObservableObject
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public SettingsViewModel AppSettings => App.AppSettings;
         public IList<DriveItem> Drives { get; } = new List<DriveItem>();
-        public bool ShowUserConsentOnInit { get; set; } = false;
+        private bool _ShowUserConsentOnInit = false;
+
+        public bool ShowUserConsentOnInit
+        {
+            get => _ShowUserConsentOnInit;
+            set => SetProperty(ref _ShowUserConsentOnInit, value);
+        }
+
         private DeviceWatcher _deviceWatcher;
 
         public DrivesManager()
         {
-            Task findDrivesTask = null;
+            EnumerateDrives();
+        }
+
+        private async void EnumerateDrives()
+        {
             try
             {
-                findDrivesTask = GetDrives(Drives);
+                await GetDrives(Drives);
+                GetVirtualDrivesList(Drives);
+                StartDeviceWatcher();
             }
             catch (AggregateException)
             {
                 ShowUserConsentOnInit = true;
-            }
+            };
+        }
 
-            findDrivesTask.ContinueWith((x) =>
-            {
-                GetVirtualDrivesList(Drives);
-
-                _deviceWatcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
-                _deviceWatcher.Added += DeviceAdded;
-                _deviceWatcher.Removed += DeviceRemoved;
-                _deviceWatcher.Updated += DeviceUpdated;
-                _deviceWatcher.EnumerationCompleted += DeviceWatcher_EnumerationCompleted;
-                _deviceWatcher.Start();
-            });
+        private void StartDeviceWatcher()
+        {
+            _deviceWatcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
+            _deviceWatcher.Added += DeviceAdded;
+            _deviceWatcher.Removed += DeviceRemoved;
+            _deviceWatcher.Updated += DeviceUpdated;
+            _deviceWatcher.EnumerationCompleted += DeviceWatcher_EnumerationCompleted;
+            _deviceWatcher.Start();
         }
 
         private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
@@ -337,9 +349,12 @@ namespace Files.Filesystem
 
         public void Dispose()
         {
-            if (_deviceWatcher.Status == DeviceWatcherStatus.Started || _deviceWatcher.Status == DeviceWatcherStatus.EnumerationCompleted)
+            if (_deviceWatcher != null)
             {
-                _deviceWatcher.Stop();
+                if (_deviceWatcher.Status == DeviceWatcherStatus.Started || _deviceWatcher.Status == DeviceWatcherStatus.EnumerationCompleted)
+                {
+                    _deviceWatcher.Stop();
+                }
             }
         }
     }

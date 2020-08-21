@@ -190,6 +190,9 @@
     <Compile Include="Helpers\RegistryReader.cs" />
     <Compile Include="ResourceController.cs" />
     <Compile Include="INavigationToolbar.cs" />
+    <Compile Include="UserControls\MultitaskingControl\HorizontalMultitaskingControl.xaml.cs">
+      <DependentUpon>HorizontalMultitaskingControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ModernNavigationToolbar.xaml.cs">
       <DependentUpon>ModernNavigationToolbar.xaml</DependentUpon>
     </Compile>
@@ -227,7 +230,7 @@
     <Compile Include="UserControls\SidebarControl.xaml.cs">
       <DependentUpon>SidebarControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\SpecificPageOnStartup.xaml.cs">
+    <Compile Include="UserControls\SettingsControls\SpecificPageOnStartup.xaml.cs">
       <DependentUpon>SpecificPageOnStartup.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\StatusBarControl.xaml.cs">
@@ -236,8 +239,8 @@
     <Compile Include="UserControls\StatusCenter.xaml.cs">
       <DependentUpon>StatusCenter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\TabItem.cs" />
-    <Compile Include="UserControls\VerticalTabView.xaml.cs">
+    <Compile Include="UserControls\MultitaskingControl\TabItem.cs" />
+    <Compile Include="UserControls\MultitaskingControl\VerticalTabView.xaml.cs">
       <DependentUpon>VerticalTabView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Widgets\LibraryCards.xaml.cs">
@@ -278,6 +281,12 @@
       <DependentUpon>Properties.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\Pages\PropertiesGeneral.xaml.cs">
+      <DependentUpon>PropertiesGeneral.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\PropertiesShortcut.xaml.cs">
+      <DependentUpon>PropertiesShortcut.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pages\Search.xaml.cs">
       <DependentUpon>Search.xaml</DependentUpon>
     </Compile>
@@ -314,8 +323,10 @@
     <Content Include="Assets\Files UWP Beta Icon.png" />
     <Content Include="Assets\Files UWP Icon.png" />
     <Content Include="Assets\FilesHome.png" />
+    <Content Include="Assets\FolderIcon2.svg" />
     <Content Include="Assets\FolderIcon.png" />
     <Content Include="Assets\FolderIcon.svg" />
+    <Content Include="Assets\FolderIcon2Large.svg" />
     <Content Include="Assets\FolderIconLarge.svg" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
@@ -427,6 +438,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="ResourceDictionaries\TabView_themeresources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\MultitaskingControl\HorizontalMultitaskingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\ModernNavigationToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -463,11 +482,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\SpecificPageOnStartup.xaml">
+    <Page Include="UserControls\SettingsControls\SpecificPageOnStartup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\VerticalTabView.xaml">
+    <Page Include="UserControls\MultitaskingControl\VerticalTabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -506,6 +525,14 @@
     <Page Include="Views\Pages\Properties.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\PropertiesGeneral.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Pages\PropertiesShortcut.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Pages\Search.xaml">
       <SubType>Designer</SubType>
@@ -564,41 +591,41 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.10</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Mvvm">
+      <Version>7.0.0-preview2</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp">
-      <Version>6.1.0</Version>
+      <Version>6.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.DeveloperTools">
-      <Version>6.1.0</Version>
+      <Version>6.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
-      <Version>6.1.0</Version>
+      <Version>6.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Animations">
-      <Version>6.1.0</Version>
+      <Version>6.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
-      <Version>6.1.0</Version>
+      <Version>6.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid">
-      <Version>6.1.0</Version>
+      <Version>6.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.4.2</Version>
+      <Version>2.4.3</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Win32.Registry">
       <Version>5.0.0-preview.1.20120.5</Version>
-    </PackageReference>
-    <PackageReference Include="MvvmLight">
-      <Version>5.4.1.1</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.7.2</Version>
+      <Version>4.7.3</Version>
     </PackageReference>
     <PackageReference Include="NLog.Schema">
-      <Version>4.7.2</Version>
+      <Version>4.7.3</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

@@ -5,13 +5,11 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Views;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
@@ -24,7 +22,7 @@ using Windows.UI.Xaml.Media;
 
 namespace Files.View_Models
 {
-    public class SettingsViewModel : ViewModelBase
+    public class SettingsViewModel : ObservableObject
     {
         private readonly ApplicationDataContainer _roamingSettings;
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
@@ -59,6 +57,8 @@ namespace Files.View_Models
             Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
             Analytics.TrackEvent("AcrylicSidebar " + AcrylicEnabled.ToString());
             Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
+            Analytics.TrackEvent("IsHorizontalTabStripVisible " + IsHorizontalTabStripVisible.ToString());
+            Analytics.TrackEvent("IsMultitaskingControlVisible " + IsMultitaskingControlVisible.ToString());
             // Load the supported languages
 
             var supportedLang = ApplicationLanguages.ManifestLanguages;
@@ -69,7 +69,7 @@ namespace Files.View_Models
             }
         }
 
-        public DefaultLanguageModel CurrentLanguage = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);
+        public DefaultLanguageModel CurrentLanguage { get; set; } = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);
 
         public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; }
 
@@ -215,7 +215,7 @@ namespace Files.View_Models
             get => _DisplayedTimeStyle;
             set
             {
-                Set(ref _DisplayedTimeStyle, value);
+                SetProperty(ref _DisplayedTimeStyle, value);
                 if (value.Equals(TimeStyle.Application))
                 {
                     localSettings.Values[LocalSettings.DateTimeFormat] = "Application";
@@ -232,10 +232,10 @@ namespace Files.View_Models
         public FormFactorMode FormFactor
         {
             get => _FormFactor;
-            set => Set(ref _FormFactor, value);
+            set => SetProperty(ref _FormFactor, value);
         }
 
-        public string OneDrivePath = Environment.GetEnvironmentVariable("OneDrive");
+        public string OneDrivePath { get; set; } = Environment.GetEnvironmentVariable("OneDrive");
 
         private async void DetectOneDrivePreference()
         {
@@ -275,7 +275,7 @@ namespace Files.View_Models
             {
                 if (value != _PinOneDriveToSideBar)
                 {
-                    Set(ref _PinOneDriveToSideBar, value);
+                    SetProperty(ref _PinOneDriveToSideBar, value);
                     if (value == true)
                     {
                         localSettings.Values["PinOneDrive"] = true;
@@ -304,7 +304,7 @@ namespace Files.View_Models
 
         // Any distinguishable path here is fine
         // Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
-        public string RecycleBinPath = @"Shell:RecycleBinFolder";
+        public string RecycleBinPath { get; set; } = @"Shell:RecycleBinFolder";
 
         private void DetectRecycleBinPreference()
         {
@@ -320,7 +320,7 @@ namespace Files.View_Models
             }
         }
 
-        private bool _PinRecycleBinToSideBar = false;
+        private bool _PinRecycleBinToSideBar;
 
         public bool PinRecycleBinToSideBar
         {
@@ -329,7 +329,7 @@ namespace Files.View_Models
             {
                 if (value != _PinRecycleBinToSideBar)
                 {
-                    Set(ref _PinRecycleBinToSideBar, value);
+                    SetProperty(ref _PinRecycleBinToSideBar, value);
                     if (value == true)
                     {
                         localSettings.Values["PinRecycleBin"] = true;
@@ -360,24 +360,19 @@ namespace Files.View_Models
             }
         }
 
-        public string DesktopPath = UserDataPaths.GetDefault().Desktop;
-
-        public string DocumentsPath = UserDataPaths.GetDefault().Documents;
-
-        public string DownloadsPath = UserDataPaths.GetDefault().Downloads;
-
-        public string PicturesPath = UserDataPaths.GetDefault().Pictures;
-
-        public string MusicPath = UserDataPaths.GetDefault().Music;
-
-        public string VideosPath = UserDataPaths.GetDefault().Videos;
+        public string DesktopPath { get; set; } = UserDataPaths.GetDefault().Desktop;
+        public string DocumentsPath { get; set; } = UserDataPaths.GetDefault().Documents;
+        public string DownloadsPath { get; set; } = UserDataPaths.GetDefault().Downloads;
+        public string PicturesPath { get; set; } = UserDataPaths.GetDefault().Pictures;
+        public string MusicPath { get; set; } = UserDataPaths.GetDefault().Music;
+        public string VideosPath { get; set; } = UserDataPaths.GetDefault().Videos;
 
         private string _TempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
 
         public string TempPath
         {
             get => _TempPath;
-            set => Set(ref _TempPath, value);
+            set => SetProperty(ref _TempPath, value);
         }
 
         private string _LocalAppDataPath = UserDataPaths.GetDefault().LocalAppData;
@@ -385,7 +380,7 @@ namespace Files.View_Models
         public string LocalAppDataPath
         {
             get => _LocalAppDataPath;
-            set => Set(ref _LocalAppDataPath, value);
+            set => SetProperty(ref _LocalAppDataPath, value);
         }
 
         private string _HomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
@@ -393,7 +388,7 @@ namespace Files.View_Models
         public string HomePath
         {
             get => _HomePath;
-            set => Set(ref _HomePath, value);
+            set => SetProperty(ref _HomePath, value);
         }
 
         private string _WinDirPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
@@ -401,7 +396,7 @@ namespace Files.View_Models
         public string WinDirPath
         {
             get => _WinDirPath;
-            set => Set(ref _WinDirPath, value);
+            set => SetProperty(ref _WinDirPath, value);
         }
 
         public bool DoubleTapToRenameFiles
@@ -429,6 +424,12 @@ namespace Files.View_Models
         }
 
         public bool IsMultitaskingControlVisible
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        public bool IsHorizontalTabStripVisible
         {
             get => Get(true);
             set => Set(value);
@@ -473,7 +474,7 @@ namespace Files.View_Models
             {
                 if (value != _AcrylicEnabled)
                 {
-                    Set(ref _AcrylicEnabled, value);
+                    SetProperty(ref _AcrylicEnabled, value);
                     localSettings.Values["AcrylicEnabled"] = value;
                 }
             }
@@ -633,7 +634,7 @@ namespace Files.View_Models
 
         public void Dispose()
         {
-            DrivesManager.Dispose();
+            DrivesManager?.Dispose();
         }
 
         public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
@@ -649,7 +650,7 @@ namespace Files.View_Models
                 originalValue = Get(originalValue, propertyName);
 
                 _roamingSettings.Values[propertyName] = value;
-                if (!base.Set(ref originalValue, value, propertyName)) return false;
+                if (!base.SetProperty(ref originalValue, value, propertyName)) return false;
             }
             else
             {

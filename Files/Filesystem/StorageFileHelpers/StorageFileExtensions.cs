@@ -1,5 +1,4 @@
 ﻿using Files.Common;
-using Files.Filesystem;
 using Files.Helpers;
 using Files.View_Models;
 using Files.Views;
@@ -207,16 +206,16 @@ namespace Files.Filesystem
 
         public static string GetPathWithoutEnvironmentVariable(string path)
         {
-            if (path.Contains("%temp%", StringComparison.OrdinalIgnoreCase)) 
+            if (path.Contains("%temp%", StringComparison.OrdinalIgnoreCase))
                 path = path.Replace("%temp%", _AppSettings.TempPath, StringComparison.OrdinalIgnoreCase);
 
-            if (path.Contains("%tmp%", StringComparison.OrdinalIgnoreCase)) 
+            if (path.Contains("%tmp%", StringComparison.OrdinalIgnoreCase))
                 path = path.Replace("%tmp%", _AppSettings.TempPath, StringComparison.OrdinalIgnoreCase);
 
-            if (path.Contains("%localappdata%", StringComparison.OrdinalIgnoreCase)) 
+            if (path.Contains("%localappdata%", StringComparison.OrdinalIgnoreCase))
                 path = path.Replace("%localappdata%", _AppSettings.LocalAppDataPath, StringComparison.OrdinalIgnoreCase);
 
-            if (path.Contains("%homepath%", StringComparison.OrdinalIgnoreCase)) 
+            if (path.Contains("%homepath%", StringComparison.OrdinalIgnoreCase))
                 path = path.Replace("%homepath%", _AppSettings.HomePath, StringComparison.OrdinalIgnoreCase);
 
             return Environment.ExpandEnvironmentVariables(path);

@@ -35,8 +35,8 @@
           <target state="translated">Очистить все</target>
         </trans-unit>
         <trans-unit id="RecentItemDescription.Text" translate="yes" xml:space="preserve">
-          <source>Files and folders you've previously accessed will show up here</source>
-          <target state="translated">Файлы и папки, с которыми вы ранее взаимодействовали будут отображаться здесь</target>
+          <source>Files you've previously accessed will show up here</source>
+          <target state="translated">Файлы с которыми вы ранее взаимодействовали будут отображаться здесь</target>
         </trans-unit>
         <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
@@ -55,8 +55,8 @@
           <target state="translated">Files UWP</target>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
-          <source>License: </source>
-          <target state="translated">Лицензия: </target>
+          <source>License:</source>
+          <target state="translated">Лицензия:</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
           <source>Special thanks to:</source>
@@ -79,8 +79,8 @@
           <target state="translated">О приложении</target>
         </trans-unit>
         <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
-          <source>Website: </source>
-          <target state="translated">Сайт: </target>
+          <source>Website:</source>
+          <target state="translated">Сайт:</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>
@@ -148,8 +148,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
           <source>Open a specific page or pages</source>
-          <target state="needs-review-translation">Открыть определенную страницу(ы)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Открыть определенную страницу(ы)</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
           <source>On Startup</source>
@@ -723,9 +722,9 @@
           <source>Restore</source>
           <target state="translated">Восстановить</target>
         </trans-unit>
-        <trans-unit id="SettingsExperimentalRecycleBin.Text" translate="yes" xml:space="preserve">
-          <source>Enable Recycle Bin support</source>
-          <target state="translated">Поддержка Корзины</target>
+        <trans-unit id="SettingsPreferencesRecycleBin.Text" translate="yes" xml:space="preserve">
+          <source>Pin Recycle Bin to the sidebar</source>
+          <target state="translated">Закрепить Корзину в боковой панели</target>
         </trans-unit>
         <trans-unit id="DaysAgo" translate="yes" xml:space="preserve">
           <source>{0} days ago</source>
@@ -973,63 +972,179 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenAddPageButton.Content" translate="yes" xml:space="preserve">
           <source>Add a new page</source>
-          <target state="new">Add a new page</target>
+          <target state="translated">Добавить новую страницу</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" translate="yes" xml:space="preserve">
           <source>Change Page Location</source>
-          <target state="new">Change Page Location</target>
+          <target state="translated">Изменить расположение</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupPages.Text" translate="yes" xml:space="preserve">
           <source>Pages:</source>
-          <target state="new">Pages:</target>
+          <target state="translated">Страницы:</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" translate="yes" xml:space="preserve">
           <source>Remove Page</source>
-          <target state="new">Remove Page</target>
+          <target state="translated">Удалить страницу</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
-          <source>When launching a pinned folder</source>
-          <target state="new">When launching a pinned folder</target>
+          <source>When launching an item from the jumplist</source>
+          <target state="translated">При открытии элемента из списка быстрого запуска</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
           <source>Always open a new instance</source>
-          <target state="new">Always open a new instance</target>
+          <target state="translated">Всегда открывать в новом окне</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewTab.Content" translate="yes" xml:space="preserve">
           <source>Open folder in a new tab</source>
-          <target state="new">Open folder in a new tab</target>
+          <target state="translated">Открыть в новой вкладке</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
           <source>Windows default</source>
-          <target state="new">Windows default</target>
+          <target state="translated">Стандартный</target>
         </trans-unit>
         <trans-unit id="TabStripDragAndDropUIOverrideCaption" translate="yes" xml:space="preserve">
           <source>Move tab here</source>
-          <target state="new">Move tab here</target>
+          <target state="translated">Переместить вкладку</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarVisiblePathNoResults" translate="yes" xml:space="preserve">
           <source>No results</source>
-          <target state="new">No results</target>
+          <target state="translated">Нет результатов</target>
         </trans-unit>
         <trans-unit id="SubDirectoryAccessDenied" translate="yes" xml:space="preserve">
           <source>Can't access any items to display</source>
-          <target state="new">Can't access any items to display</target>
+          <target state="translated">Нет доступа</target>
         </trans-unit>
         <trans-unit id="MoveToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Move to {0}</source>
-          <target state="new">Move to {0}</target>
+          <target state="translated">Переместить в {0}</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFile" translate="yes" xml:space="preserve">
           <source>The source and destination file names are the same.</source>
-          <target state="new">The source and destination file names are the same.</target>
+          <target state="translated">Имена исходного и конечного файлов совпадают.</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFolder" translate="yes" xml:space="preserve">
           <source>The destination folder is the same as the source folder.</source>
-          <target state="new">The destination folder is the same as the source folder.</target>
+          <target state="translated">Папка, в которую следует поместить файлы, одновременно является их исходным местоположением.</target>
         </trans-unit>
         <trans-unit id="CopyToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Copy to {0}</source>
-          <target state="new">Copy to {0}</target>
+          <target state="translated">Копировать в {0}</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutShortcut.Text" translate="yes" xml:space="preserve">
+          <source>Create shortcut</source>
+          <target state="translated">Создать ярлык</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
+          <source>Open file location</source>
+          <target state="translated">Открыть расположение файла</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutItemArgs.Text" translate="yes" xml:space="preserve">
+          <source>Arguments:</source>
+          <target state="translated">Аргументы:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutItemPath.Text" translate="yes" xml:space="preserve">
+          <source>Destination:</source>
+          <target state="translated">Объект:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutItemType.Text" translate="yes" xml:space="preserve">
+          <source>Shortcut type:</source>
+          <target state="translated">Тип объекта:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutItemWorkingDir.Text" translate="yes" xml:space="preserve">
+          <source>Working directory:</source>
+          <target state="translated">Рабочая папка:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutTypeApplication" translate="yes" xml:space="preserve">
+          <source>Application</source>
+          <target state="translated">Приложение</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutTypeFile" translate="yes" xml:space="preserve">
+          <source>File</source>
+          <target state="translated">Файл</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutTypeFolder" translate="yes" xml:space="preserve">
+          <source>Folder</source>
+          <target state="translated">Папка</target>
+        </trans-unit>
+        <trans-unit id="PropertiesShortcutTypeLink" translate="yes" xml:space="preserve">
+          <source>Web link</source>
+          <target state="translated">Ссылка</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogTabGeneral.Content" translate="yes" xml:space="preserve">
+          <source>General</source>
+          <target state="translated">Общие</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogTabShortcut.Content" translate="yes" xml:space="preserve">
+          <source>Shortcut</source>
+          <target state="translated">Ярлык</target>
+        </trans-unit>
+        <trans-unit id="ShortcutFileType" translate="yes" xml:space="preserve">
+          <source>Shortcut</source>
+          <target state="translated">Ярлык</target>
+        </trans-unit>
+        <trans-unit id="ShortcutWebLinkFileType" translate="yes" xml:space="preserve">
+          <source>Internet shortcut</source>
+          <target state="translated">Интернет-ярлык</target>
+        </trans-unit>
+        <trans-unit id="ShortcutCreateNewSuffix" translate="yes" xml:space="preserve">
+          <source>{0} - shortcut</source>
+          <target state="translated">{0} - ярлык</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation.Text" translate="yes" xml:space="preserve">
+          <source>Open file location</source>
+          <target state="translated">Открыть расположение файла</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesShowHorizontalTabStrip.Text" translate="yes" xml:space="preserve">
+          <source>Show a horizontal tab strip on the title bar</source>
+          <target state="translated">Показывать горизонтальную полосу вкладок в строке заголовка</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutContributors.Text" translate="yes" xml:space="preserve">
+          <source>Contributors</source>
+          <target state="translated">Авторы</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutContributorsDescription.Text" translate="yes" xml:space="preserve">
+          <source>See who contributed to Files UWP</source>
+          <target state="translated">Узнайте, кто участвовал в разработке Files UWP</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
+          <source>Release Notes</source>
+          <target state="translated">Заметки о выпуске</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutReleaseNotesDescription.Text" translate="yes" xml:space="preserve">
+          <source>Find out what's new in Files UWP</source>
+          <target state="translated">Узнайте, что нового в Files UWP</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesShowMultitaskingControl.Text" translate="yes" xml:space="preserve">
+          <source>Show multitasking flyout in the navigation toolbar</source>
+          <target state="translated">Показать всплывающее меню многозадачности на панели инструментов навигации</target>
+        </trans-unit>
+        <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
+          <source>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</source>
+          <target state="new">The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</target>
+        </trans-unit>
+        <trans-unit id="InvalidItemDialogTitle" translate="yes" xml:space="preserve">
+          <source>Invalid item</source>
+          <target state="new">Invalid item</target>
+        </trans-unit>
+        <trans-unit id="ShareDialogFailMessage" translate="yes" xml:space="preserve">
+          <source>There's nothing to share right now</source>
+          <target state="new">There's nothing to share right now</target>
+        </trans-unit>
+        <trans-unit id="ShareDialogMultipleItemsDescription" translate="yes" xml:space="preserve">
+          <source>The items you've selected will be shared</source>
+          <target state="new">The items you've selected will be shared</target>
+        </trans-unit>
+        <trans-unit id="ShareDialogSingleItemDescription" translate="yes" xml:space="preserve">
+          <source>The selected item will be shared</source>
+          <target state="new">The selected item will be shared</target>
+        </trans-unit>
+        <trans-unit id="ShareDialogTitle" translate="yes" xml:space="preserve">
+          <source>Sharing {0}</source>
+          <target state="new">Sharing {0}</target>
+        </trans-unit>
+        <trans-unit id="ShareDialogTitleMultipleItems" translate="yes" xml:space="preserve">
+          <source>Sharing {0} {1}</source>
+          <target state="new">Sharing {0} {1}</target>
         </trans-unit>
       </group>
     </body>

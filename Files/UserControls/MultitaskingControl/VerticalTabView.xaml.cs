@@ -1,24 +1,19 @@
 ﻿using Files.Common;
+using Files.Interacts;
+using Files.UserControls.MultiTaskingControl;
+using Files.Views;
 using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
 using System;
-using System.Diagnostics;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.System;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using System.Collections.ObjectModel;
-using Windows.ApplicationModel.DataTransfer;
-
 using static Files.Helpers.PathNormalization;
-using Files.UserControls.MultiTaskingControl;
-using Files.Views;
-using Files.Interacts;
 
 namespace Files.UserControls
 {

@@ -1,22 +1,15 @@
-﻿using Files.Views;
-using GalaSoft.MvvmLight;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace Files.View_Models
 {
-    public class CurrentInstanceViewModel : ViewModelBase
+    public class CurrentInstanceViewModel : ObservableObject
     {
         private bool _IsPageTypeNotHome = false;
 
         public bool IsPageTypeNotHome
         {
             get => _IsPageTypeNotHome;
-            set
-            {
-                Set(ref _IsPageTypeNotHome, value);
-                RaisePropertyChanged("IsCreateButtonEnabledInPage");
-                RaisePropertyChanged("CanCreateFileInPage");
-                RaisePropertyChanged("CanOpenTerminalInPage");
-            }
+            set => SetProperty(ref _IsPageTypeNotHome, value);
         }
 
         private bool _IsPageTypeMtpDevice = false;
@@ -24,13 +17,7 @@ namespace Files.View_Models
         public bool IsPageTypeMtpDevice
         {
             get => _IsPageTypeMtpDevice;
-            set
-            {
-                Set(ref _IsPageTypeMtpDevice, value);
-                RaisePropertyChanged("IsCreateButtonEnabledInPage");
-                RaisePropertyChanged("CanCreateFileInPage");
-                RaisePropertyChanged("CanOpenTerminalInPage");
-            }
+            set => SetProperty(ref _IsPageTypeMtpDevice, value);
         }
 
         private bool _IsPageTypeRecycleBin = false;
@@ -38,13 +25,7 @@ namespace Files.View_Models
         public bool IsPageTypeRecycleBin
         {
             get => _IsPageTypeRecycleBin;
-            set
-            {
-                Set(ref _IsPageTypeRecycleBin, value);
-                RaisePropertyChanged("IsCreateButtonEnabledInPage");
-                RaisePropertyChanged("CanCreateFileInPage");
-                RaisePropertyChanged("CanOpenTerminalInPage");
-            }
+            set => SetProperty(ref _IsPageTypeRecycleBin, value);
         }
 
         public bool IsCreateButtonEnabledInPage
@@ -67,7 +48,7 @@ namespace Files.View_Models
         public bool IsPageTypeCloudDrive
         {
             get => _IsPageTypeCloudDrive;
-            set => Set(ref _IsPageTypeCloudDrive, value);
+            set => SetProperty(ref _IsPageTypeCloudDrive, value);
         }
     }
 }

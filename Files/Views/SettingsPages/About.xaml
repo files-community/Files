@@ -3,9 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Files.SettingsPages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:my="using:Microsoft.Toolkit.Uwp.UI.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
@@ -50,9 +48,10 @@
                 </StackPanel>
 
                 <ListView
+                    x:Name="FeedbackListView"
                     HorizontalAlignment="Left"
-                    IsItemClickEnabled="True"
-                    ItemClick="ListView_ItemClick">
+                    Tapped="FeedbackListView_Tapped"
+                    SelectionMode="Single">
                     <ListViewItem
                         x:Name="FeedbackForm"
                         Padding="8,2"
@@ -63,7 +62,10 @@
                             Padding="0,4"
                             Orientation="Horizontal"
                             Spacing="14">
-                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeb05;" />
+                            <FontIcon
+                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                Foreground="{ThemeResource SystemAccentColor}"
+                                Glyph="&#xeb05;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                                 <TextBlock x:Uid="SettingsAboutSubmitFeedback" Text="Submit Feedback" />
                                 <TextBlock
@@ -75,6 +77,54 @@
                             </StackPanel>
                         </StackPanel>
                     </ListViewItem>
+                    <ListViewItem
+                        Padding="8,2"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        IsEnabled="True">
+                        <StackPanel
+                            Padding="0,4"
+                            Orientation="Horizontal"
+                            Spacing="14">
+                            <FontIcon
+                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                Foreground="{ThemeResource SystemAccentColor}"
+                                Glyph="&#xEB3A;" />
+                            <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Uid="SettingsAboutReleaseNotes" Text="Release Notes" />
+                                <TextBlock
+                                    x:Uid="SettingsAboutReleaseNotesDescription"
+                                    FontSize="12"
+                                    Foreground="Gray"
+                                    Text="Find out what's new in Files UWP"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem
+                        Padding="8,2"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        IsEnabled="True">
+                        <StackPanel
+                            Padding="0,4"
+                            Orientation="Horizontal"
+                            Spacing="14">
+                            <FontIcon
+                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                Foreground="{ThemeResource SystemAccentColor}"
+                                Glyph="&#xEAF7;" />
+                            <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Uid="SettingsAboutContributors" Text="Contributors" />
+                                <TextBlock
+                                    x:Uid="SettingsAboutContributorsDescription"
+                                    FontSize="12"
+                                    Foreground="Gray"
+                                    Text="See who contributed to Files UWP"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ListViewItem>
                 </ListView>
 
                 <Button
@@ -82,18 +132,6 @@
                     x:Uid="SettingsAboutOpenLogLocationButton"
                     Click="OpenLogLocationButton_Click"
                     Content="Open log location" />
-
-                <StackPanel Spacing="4">
-                    <TextBlock
-                        x:Uid="SettingsAboutSpecialThanks"
-                        FontSize="16"
-                        Text="Special thanks to:" />
-                    <TextBlock Text="SOI7" />
-                    <TextBlock Text="jeffsieu" />
-                    <TextBlock Text="lampenlampen" />
-                    <TextBlock Text="tsvietOK" />
-                    <TextBlock Text="gave92" />
-                </StackPanel>
 
                 <TextBlock
                     x:Uid="SettingsAboutThirdPartyLicenses"
@@ -107,21 +145,26 @@
                     </TextBlock.Transitions>
                 </TextBlock>
 
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Spacing="20">
                     <TextBlock
-                        Margin="0,0,16,0"
-                        VerticalAlignment="Bottom"
+                        VerticalAlignment="Center"
                         FontSize="16"
                         Text="QuickLook" />
-                    <TextBlock
-                        Margin="0,0,8,0"
-                        VerticalAlignment="Bottom"
-                        TextWrapping="WrapWholeWords">
-                        <Span xml:space="preserve"><Run x:Uid="SettingsAboutWebsite">Website: </Run><Hyperlink NavigateUri="https://github.com/QL-Win/QuickLook">Link</Hyperlink></Span>
-                    </TextBlock>
-                    <TextBlock VerticalAlignment="Bottom" TextWrapping="WrapWholeWords">
-                        <Span xml:space="preserve"><Run x:Uid="SettingsAboutLicense">License: </Run><Hyperlink NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt">GPL</Hyperlink></Span>
-                    </TextBlock>
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <TextBlock
+                            x:Uid="SettingsAboutWebsite"
+                            VerticalAlignment="Center"
+                            Text="Website:" />
+                        <HyperlinkButton NavigateUri="https://github.com/QL-Win/QuickLook">Link</HyperlinkButton>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Spacing="5">
+                        <TextBlock
+                            x:Uid="SettingsAboutLicense"
+                            VerticalAlignment="Center"
+                            Text="License:" />
+                        <HyperlinkButton NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt">GPL</HyperlinkButton>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

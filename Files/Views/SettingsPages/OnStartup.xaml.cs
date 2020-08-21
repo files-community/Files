@@ -1,15 +1,11 @@
-﻿using Files.View_Models;
+﻿using Files.UserControls;
+using Files.View_Models;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.UI.Xaml.Controls;
-using Files.UserControls;
-
-using System.Collections.Generic;
-
-using System.Linq;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Files.SettingsPages
 {

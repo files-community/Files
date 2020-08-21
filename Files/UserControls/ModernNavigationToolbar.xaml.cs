@@ -1,8 +1,8 @@
 ﻿using Files.Common;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
-using Files.Views;
 using Files.Views.Pages;
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Text;
@@ -46,7 +47,7 @@ namespace Files.UserControls
                 if (value != manualEntryBoxLoaded)
                 {
                     manualEntryBoxLoaded = value;
-                    NotifyPropertyChanged("ManualEntryBoxLoaded");
+                    NotifyPropertyChanged(nameof(ManualEntryBoxLoaded));
                 }
             }
         }
@@ -64,7 +65,7 @@ namespace Files.UserControls
                 if (value != clickablePathLoaded)
                 {
                     clickablePathLoaded = value;
-                    NotifyPropertyChanged("ClickablePathLoaded");
+                    NotifyPropertyChanged(nameof(ClickablePathLoaded));
                 }
             }
         }
@@ -187,7 +188,7 @@ namespace Files.UserControls
             set
             {
                 PathText = value;
-                NotifyPropertyChanged("PathText");
+                NotifyPropertyChanged(nameof(PathText));
             }
         }
 
@@ -284,7 +285,8 @@ namespace Files.UserControls
                             }
                             catch
                             {
-                                ShowInvalidAccessDialog(ex.Message);
+                                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("InvalidItemDialogTitle"),
+                                    string.Format(ResourceController.GetTranslation("InvalidItemDialogContent"), Environment.NewLine, ex.Message));
                             }
                         }
                     }
@@ -292,18 +294,6 @@ namespace Files.UserControls
 
                 App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
             }
-        }
-
-        private async void ShowInvalidAccessDialog(string message)
-        {
-            var dialog = new ContentDialog()
-            {
-                Title = "Invalid item",
-                Content = "The item referenced is either invalid or inaccessible.\nMessage:\n\n" + message,
-                CloseButtonText = "OK"
-            };
-
-            await dialog.ShowAsync();
         }
 
         private void VisiblePath_LostFocus(object sender, RoutedEventArgs e)
@@ -413,7 +403,11 @@ namespace Files.UserControls
         {
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
                 pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab")) return;
-
+            if (!e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                e.AcceptedOperation = DataPackageOperation.None;
+                return;
+            }
             e.Handled = true;
             var deferral = e.GetDeferral();
 
