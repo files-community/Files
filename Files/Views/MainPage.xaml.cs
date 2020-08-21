@@ -121,7 +121,6 @@ namespace Files.Views
                 var mainView = rootFrame.Content as MainPage;
                 mainView.SelectedTabItem = AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
             }
-
         }
 
         public static async Task AddNewTab(Type t, string path, int atIndex = -1)
