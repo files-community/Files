@@ -105,9 +105,9 @@ namespace Files.Views
                         }
                         else if (App.AppSettings.ContinueLastSessionOnStartUp)
                         {
-                            if (App.AppSettings.LastSessionPagesList != null)
+                            if (App.AppSettings.LastSessionPages != null)
                             {
-                                foreach (string path in App.AppSettings.LastSessionPagesList)
+                                foreach (string path in App.AppSettings.LastSessionPages)
                                 {
                                     await AddNewTab(typeof(ModernShellPage), path);
                                 }

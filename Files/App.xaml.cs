@@ -406,21 +406,9 @@ namespace Files
             deferral.Complete();
         }
 
-        private void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPagesList
+        private void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
         {
-            bool arrayCleared = false;
-
-            foreach (TabItem tab in MainPage.AppInstances)
-            {
-                if (!arrayCleared)
-                {
-                    AppSettings.LastSessionPagesList = new string[] { tab.Path ?? ResourceController.GetTranslation("NewTab") };
-                    arrayCleared = true;
-                    continue;
-                }
-
-                AppSettings.LastSessionPagesList = AppSettings.LastSessionPagesList.Append(tab.Path ?? ResourceController.GetTranslation("NewTab")).ToArray();
-            }
+            AppSettings.LastSessionPages = MainPage.AppInstances.Select(x => x.Path ?? ResourceController.GetTranslation("NewTab")).ToArray();
         }
 
         // Occurs when an exception is not handled on the UI thread.

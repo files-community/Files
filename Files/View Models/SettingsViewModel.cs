@@ -720,7 +720,7 @@ namespace Files.View_Models
             set => Set(value);
         }
 
-        public string[] LastSessionPagesList
+        public string[] LastSessionPages
         {
             get => Get<string[]>(null);
             set => Set(value);
