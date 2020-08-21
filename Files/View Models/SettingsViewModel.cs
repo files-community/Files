@@ -10,6 +10,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
@@ -447,6 +448,12 @@ namespace Files.View_Models
             set => Set(value);
         }
 
+        public bool ContinueLastSessionOnStartUp
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         public string OpenASpecificPageOnStartupPath
         {
             get => Get("");
@@ -708,6 +715,12 @@ namespace Files.View_Models
         private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
 
         public string[] PagesOnStartupList
+        {
+            get => Get<string[]>(null);
+            set => Set(value);
+        }
+
+        public string[] LastSessionPagesList
         {
             get => Get<string[]>(null);
             set => Set(value);
