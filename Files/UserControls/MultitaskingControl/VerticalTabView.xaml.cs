@@ -8,6 +8,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -31,7 +32,7 @@ namespace Files.UserControls
             this.InitializeComponent();
         }
 
-        public async void SetSelectedTabInfo(string text, string currentPathForTabIcon = null)
+        public async Task SetSelectedTabInfo(string text, string currentPathForTabIcon = null)
         {
             var selectedTabItem = (MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex] as TabItem);
             selectedTabItem.AllowStorageItemDrop = App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome;

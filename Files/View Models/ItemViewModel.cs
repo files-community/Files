@@ -541,7 +541,6 @@ namespace Files.Filesystem
         {
             App.CurrentInstance.NavigationToolbar.CanRefresh = false;
 
-            App.CurrentInstance.MultitaskingControl?.SetSelectedTabInfo(new DirectoryInfo(path).Name, path);
             CancelLoadAndClearFiles();
 
             try

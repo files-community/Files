@@ -221,8 +221,9 @@ namespace Files
             await App.CurrentInstance.FilesystemViewModel.SetWorkingDirectory(parameters);
 
             // pathRoot will be empty on recycle bin path
-            string pathRoot = Path.GetPathRoot(App.CurrentInstance.FilesystemViewModel.WorkingDirectory);
-            if (string.IsNullOrEmpty(pathRoot) || App.CurrentInstance.FilesystemViewModel.WorkingDirectory == pathRoot)
+            var workingDir = App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
+            string pathRoot = Path.GetPathRoot(workingDir);
+            if (string.IsNullOrEmpty(pathRoot) || workingDir == pathRoot)
             {
                 App.CurrentInstance.NavigationToolbar.CanNavigateToParent = false;
             }
@@ -230,12 +231,12 @@ namespace Files
             {
                 App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
             }
-            App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
-            App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin =
-                App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
-            App.CurrentInstance.InstanceViewModel.IsPageTypeMtpDevice =
-                App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith("\\\\?\\");
 
+            App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
+            App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
+            App.CurrentInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
+
+            await App.CurrentInstance.MultitaskingControl?.SetSelectedTabInfo(new DirectoryInfo(workingDir).Name, workingDir);
             App.CurrentInstance.FilesystemViewModel.RefreshItems();
 
             App.CurrentInstance.MultitaskingControl?.SelectionChanged();
