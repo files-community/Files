@@ -4,38 +4,51 @@
     xmlns:helpers="using:Files.Helpers">
 
     <Style
+        TargetType="MenuFlyoutSubItem"
+        x:Key="MouseMenuFlyoutSubItemStyle"
+        BasedOn="{StaticResource MenuFlyoutSubItemRevealStyle}">
+        <Setter
+            Property="Padding"
+            Value="11,2,11,3" />
+        <Setter
+            Property="FontSize"
+            Value="14" />
+    </Style>
+
+    <Style
+        TargetType="MenuFlyoutSubItem"
+        x:Key="TouchMenuFlyoutSubItemStyle"
+        BasedOn="{StaticResource MenuFlyoutSubItemRevealStyle}">
+    </Style>
+    
+    <Style
         TargetType="MenuFlyoutItem"
-        x:Key="CustomMenuFlyoutItemStyle">
+        x:Key="MouseMenuFlyoutItemStyle"
+        BasedOn="{StaticResource CustomMenuFlyoutItemStyle}">
         <Setter
-            Property="Background"
-            Value="{ThemeResource MenuFlyoutItemRevealBackground}" />
+            Property="Padding"
+            Value="11,2,11,3" />
         <Setter
-            Property="BorderBrush"
-            Value="{ThemeResource MenuFlyoutItemRevealBorderBrush}" />
-        <Setter
-            Property="BorderThickness"
-            Value="{ThemeResource MenuFlyoutItemRevealBorderThickness}" />
-        <Setter
-            Property="Foreground"
-            Value="{ThemeResource MenuFlyoutItemForeground}" />
+            Property="FontSize"
+            Value="14" />
+    </Style>
+
+    <Style
+        TargetType="MenuFlyoutItem"
+        x:Key="TouchMenuFlyoutItemStyle"
+        BasedOn="{StaticResource CustomMenuFlyoutItemStyle}">
+    </Style>
+    
+    <Style
+        TargetType="MenuFlyoutItem"
+        x:Key="CustomMenuFlyoutItemStyle"
+        BasedOn="{StaticResource MenuFlyoutItemRevealStyle}">
         <Setter
             Property="Padding"
             Value="{ThemeResource MenuFlyoutItemThemePadding}" />
         <Setter
             Property="FontSize"
             Value="{ThemeResource ControlContentThemeFontSize}" />
-        <Setter
-            Property="HorizontalContentAlignment"
-            Value="Stretch" />
-        <Setter
-            Property="VerticalContentAlignment"
-            Value="Center" />
-        <Setter
-            Property="UseSystemFocusVisuals"
-            Value="{StaticResource UseSystemFocusVisuals}" />
-        <Setter
-            Property="KeyboardAcceleratorPlacementMode"
-            Value="Hidden" />
         <Setter
             Property="Template">
             <Setter.Value>
