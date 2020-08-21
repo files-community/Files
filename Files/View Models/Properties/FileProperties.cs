@@ -2,14 +2,18 @@
 using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
+using Windows.Devices.Geolocation;
 using Windows.Foundation.Collections;
 using Windows.Security.Cryptography.Core;
+using Windows.Services.Maps;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Core;
@@ -205,28 +209,106 @@ namespace Files.View_Models.Properties
             {
                 file = await ItemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
                 imageProperties = await file.Properties.GetImagePropertiesAsync();
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                 // Could not access file, can't show any other property
                 return;
             }
 
+            //List of properties to retrieve
+            List<string> moreProperties = new List<string>() {
+                    "System.Image.BitDepth",
+                    "System.Photo.ExposureTime",
+                    "System.Photo.FocalLength",
+                    "System.Photo.Aperture",
+            };
+
+            IDictionary<string, object> extraProperties;
+            List<PropertiesData> propertiesDatas = new List<PropertiesData>();
+
+            try
+            {
+                // Get the specified properties through StorageFile.Properties
+                extraProperties = await file.Properties.RetrievePropertiesAsync(moreProperties);
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                // Well this blew up
+                return;
+            }
+
             ViewModel.DateTaken = imageProperties.DateTaken;
             ViewModel.CameraModel = imageProperties.CameraModel;
             ViewModel.CameraManufacturer = imageProperties.CameraManufacturer;
-            ViewModel.ImageWidth = (int) imageProperties.Width;
+            ViewModel.ImageWidth = (int)imageProperties.Width;
             ViewModel.ImageHeight = (int)imageProperties.Height;
+            ViewModel.DimensionString = ViewModel.ImageWidth + "x" + ViewModel.ImageHeight;
+            ViewModel.DimensionsTooltip = "Width: " + ViewModel.ImageWidth + "px\nHeight: " + ViewModel.ImageHeight + "px";
             ViewModel.ImageTitle = imageProperties.Title;
             ViewModel.Longitude = imageProperties.Longitude;
             ViewModel.Latitude = imageProperties.Latitude;
             ViewModel.ImageKeywords = imageProperties.Keywords;
             ViewModel.Rating = (int)imageProperties.Rating;
             ViewModel.ImageOrientation = imageProperties.Orientation;
-            
+            ViewModel.CameraNameString = string.Format("{0} {1}", ViewModel.CameraManufacturer, ViewModel.CameraModel);
+
+            foreach (string str in ViewModel.ImageKeywords)
+                ViewModel.Tags += str + "; ";
+
+            ViewModel.ShowTitle = ViewModel.ImageTitle.Equals("") ? Visibility.Collapsed : Visibility.Visible;
+
+            ViewModel.RatingReal = ViewModel.Rating / 20.00 == 0.0 ? -1 : ViewModel.Rating / 20.00;
+
             //ViewModel.People = (System.Collections.Generic.IList<string>) imageProperties.PeopleNames;
 
+            if (ViewModel.Longitude != null && ViewModel.Latitude != null)
+            {
+                MapService.ServiceToken = "S7IF7M4Zxe9of0hbatDv~byc7WbHGg1rNYUqk4bL8Zw~Ar_Ap1WxoB_qnXme_hErpFhs74E8qKzCOXugSrankFJgJe9_D4l09O3TNj3WN2f2";
+                // The location to reverse geocode.
+                BasicGeoposition location = new BasicGeoposition();
+                location.Latitude = (double)ViewModel.Latitude;
+                location.Longitude = (double)ViewModel.Longitude;
+                Geopoint pointToReverseGeocode = new Geopoint(location);
+
+                // Reverse geocode the specified geographic location.
+                MapLocationFinderResult result =
+                      await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
+
+                // If the query returns results, display the name of the town
+                // contained in the address of the first result.
+                if (result.Status == MapLocationFinderStatus.Success)
+                {
+                    ViewModel.Geopoint = result.Locations[0];
+                    ViewModel.GeopointString = string.Format("{0}, {1}", result.Locations[0].Address.Town.ToString(), result.Locations[0].Address.Region.ToString());
+                }
+                else
+                {
+                    ViewModel.GeopointString = string.Format("{0:g}, {1:g}", Math.Truncate((decimal)ViewModel.Latitude * 10000000) / 10000000, Math.Truncate((decimal)ViewModel.Longitude * 10000000) / 10000000);
+                }
+            }
+            else
+            {
+                ViewModel.ShowGeotag = Visibility.Collapsed;
+            }
+
+
+            var propValue = extraProperties[moreProperties[0]];
+            if (propValue != null)
+            {
+                ViewModel.BitDepth = Convert.ToInt32(propValue);
+            }
+
+            if (extraProperties[moreProperties[1]] != null && extraProperties[moreProperties[2]] != null && extraProperties[moreProperties[3]] != null)
+            {
+                ViewModel.ShotString = string.Format("{0} sec. f/{1} {2}mm", extraProperties[moreProperties[1]], extraProperties[moreProperties[2]], extraProperties[moreProperties[3]]);
+            }
+
         }
+
+        
 
         private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {

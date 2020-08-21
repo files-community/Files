@@ -62,13 +62,13 @@
                 </muxc:NavigationViewItem>
 
                 <muxc:NavigationViewItem
-                    x:Name="TabImageDetails"
+                    x:Name="TabDetails"
                     x:Uid="PropertiesDialogTabDetailsImage"
                     Content="Details"
                     Tag="Image"
                     Visibility="Collapsed">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea8d;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.MenuItems>
