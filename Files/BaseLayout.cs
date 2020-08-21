@@ -274,7 +274,11 @@ namespace Files
 
         private void LoadMenuFlyoutItem(IList<MenuFlyoutItemBase> MenuItemsList, IEnumerable<IWin32ContextMenuItem> menuFlyoutItems, string menuHandle, bool showIcons = true, int itemsBeforeOverflow = int.MaxValue)
         {
-            if (menuFlyoutItems.Count() > itemsBeforeOverflow)
+            var items_count = 0; // Separators do not count for reaching the overflow threshold
+            var menu_items = menuFlyoutItems.TakeWhile(x => x.Type == MenuItemType.MFT_SEPARATOR || ++items_count <= itemsBeforeOverflow).ToList();
+            var overflow_items = menuFlyoutItems.Except(menu_items).ToList();
+
+            if (overflow_items.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any())
             {
                 var menuLayoutSubItem = new MenuFlyoutSubItem()
                 {
@@ -286,13 +290,17 @@ namespace Files
                         Glyph = "\xEAD0"
                     }
                 };
-                LoadMenuFlyoutItem(menuLayoutSubItem.Items, menuFlyoutItems.Skip(itemsBeforeOverflow), menuHandle, false);
+                LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflow_items, menuHandle, false);
                 MenuItemsList.Insert(0, menuLayoutSubItem);
             }
-            foreach (var menuFlyoutItem in menuFlyoutItems.Take(itemsBeforeOverflow).Reverse())
+            foreach (var menuFlyoutItem in menu_items
+                .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR) // Remove leading seperators
+                .Reverse()
+                .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR)) // Remove trailing separators
             {
-                if (MenuItemsList.Any(c => ParseContextMenuTag(c.Tag).menuItem?.ID == menuFlyoutItem.ID))
+                if ((menuFlyoutItem.Type == MenuItemType.MFT_SEPARATOR) && (MenuItemsList.FirstOrDefault() is MenuFlyoutSeparator))
                 {
+                    // Avoid duplicate separators
                     continue;
                 }
 
@@ -320,7 +328,8 @@ namespace Files
                     };
                     MenuItemsList.Insert(0, menuLayoutItem);
                 }
-                else if (menuFlyoutItem.SubItems.Any() && !string.IsNullOrEmpty(menuFlyoutItem.Label))
+                else if (menuFlyoutItem.SubItems.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any() 
+                    && !string.IsNullOrEmpty(menuFlyoutItem.Label))
                 {
                     var menuLayoutSubItem = new MenuFlyoutSubItem()
                     {

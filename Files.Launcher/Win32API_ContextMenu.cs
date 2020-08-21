@@ -275,16 +275,7 @@ namespace FilesFullTrust
                         Debug.WriteLine("Item {0}: {1}", ii, mii.fType.ToString());
                     }
                     container.Dispose();
-                    if (!menuItemsResult.Any() || !(menuItem.Type == MenuItemType.MFT_SEPARATOR) || !(menuItemsResult.Last().Type == MenuItemType.MFT_SEPARATOR))
-                    {
-                        // Avoid duplicate separators
-                        menuItemsResult.Add(menuItem);
-                    }
-                }
-                if (menuItemsResult.LastOrDefault()?.Type == MenuItemType.MFT_SEPARATOR)
-                {
-                    // Remove trailing separator
-                    menuItemsResult.Remove(menuItemsResult.Last());
+                    menuItemsResult.Add(menuItem);
                 }
             }
 
