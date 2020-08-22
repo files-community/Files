@@ -25,7 +25,6 @@ namespace Files.View_Models.Properties
                 ViewModel.DriveItemGlyphSource = Drive.Glyph;
                 ViewModel.LoadDriveItemGlyph = true;
                 ViewModel.ItemName = Drive.Text;
-                ViewModel.OriginalItemName = Drive.Text;
                 ViewModel.ItemType = Drive.Type.ToString();
             }
         }
