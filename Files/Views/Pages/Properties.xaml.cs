@@ -27,7 +27,7 @@ namespace Files
 
         private object navParameter;
 
-        private ListedItem file;
+        private ListedItem listedItem;
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -40,7 +40,7 @@ namespace Files
         {
             this.navParameter = e.Parameter;
             this.TabShorcut.Visibility = e.Parameter is ShortcutItem ? Visibility.Visible : Visibility.Collapsed;
-            this.file = e.Parameter as ListedItem;
+            this.listedItem = e.Parameter as ListedItem;
             this.SetBackground();
             base.OnNavigatedTo(e);
         }
@@ -160,20 +160,11 @@ namespace Files
             });
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private async void OKButton_Click(object sender, RoutedEventArgs e)
         {
             if (contentFrame.Content is PropertiesGeneral)
             {
-                if ((contentFrame.Content as PropertiesGeneral).ViewModel.OriginalItemName != null
-                    && (contentFrame.Content as PropertiesGeneral).ViewModel.ItemName != null
-                    && (contentFrame.Content as PropertiesGeneral).ViewModel.ItemName != (contentFrame.Content as PropertiesGeneral).ViewModel.OriginalItemName
-                    && !App.CurrentInstance.InteractionOperations.ContainsRestrictedFileName((contentFrame.Content as PropertiesGeneral).ViewModel.ItemName))
-                {
-                    // Rename
-                    await App.CurrentInstance.InteractionOperations.RenameFileItem(file,
-                        (contentFrame.Content as PropertiesGeneral).ViewModel.OriginalItemName,
-                        (contentFrame.Content as PropertiesGeneral).ViewModel.ItemName);
-                }
+                (contentFrame.Content as PropertiesGeneral).SaveChanges(listedItem);
             }
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))

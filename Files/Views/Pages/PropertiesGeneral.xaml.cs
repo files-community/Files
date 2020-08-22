@@ -61,5 +61,12 @@ namespace Files
 
             base.OnNavigatedTo(e);
         }
+
+        public async void SaveChanges(ListedItem item)
+        {
+            await App.CurrentInstance.InteractionOperations.RenameFileItem(item,
+                ViewModel.OriginalItemName,
+                ViewModel.ItemName);
+        }
     }
 }

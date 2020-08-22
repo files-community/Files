@@ -101,7 +101,7 @@
                     Source="{x:Bind ViewModel.FileIconSource, Mode=OneWay}" />
             </Grid>
             <TextBox
-                x:Name="itemFileName"
+                x:Name="ItemFileName"
                 x:Uid="PropertiesItemFileName"
                 Grid.Row="0"
                 Grid.Column="1"
