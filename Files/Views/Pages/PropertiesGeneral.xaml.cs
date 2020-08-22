@@ -64,7 +64,7 @@ namespace Files
 
         public async void SaveChanges(ListedItem item)
         {
-            if (item.OriginalItemName != null)
+            if (ViewModel.OriginalItemName != null)
             {
                 await App.CurrentInstance.InteractionOperations.RenameFileItem(item,
                     ViewModel.OriginalItemName,
