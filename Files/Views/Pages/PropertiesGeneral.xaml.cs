@@ -66,9 +66,9 @@ namespace Files
         {
             if (ViewModel.OriginalItemName != null)
             {
-                await App.CurrentInstance.InteractionOperations.RenameFileItem(item,
-                    ViewModel.OriginalItemName,
-                    ViewModel.ItemName);
+                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => App.CurrentInstance.InteractionOperations.RenameFileItem(item,
+                                ViewModel.OriginalItemName,
+                                ViewModel.ItemName));
             }
         }
     }
