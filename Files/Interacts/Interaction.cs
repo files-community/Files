@@ -971,7 +971,7 @@ namespace Files.Interacts
             {
                 return false;
             }
-
+            
             CurrentInstance.NavigationToolbar.CanGoForward = false;
             return true;
         }

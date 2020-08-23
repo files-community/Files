@@ -74,7 +74,7 @@
                 Grid.Column="1"
                 MinWidth="100"
                 HorizontalAlignment="Right"
-                Click="Button_Click"
+                Click="OKButton_Click"
                 Content="OK"
                 Style="{ThemeResource ButtonRevealStyle}" />
         </Grid>

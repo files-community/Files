@@ -27,6 +27,8 @@ namespace Files
 
         private object navParameter;
 
+        private ListedItem listedItem;
+
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public Properties()
@@ -38,6 +40,7 @@ namespace Files
         {
             this.navParameter = e.Parameter;
             this.TabShorcut.Visibility = e.Parameter is ShortcutItem ? Visibility.Visible : Visibility.Collapsed;
+            this.listedItem = e.Parameter as ListedItem;
             this.SetBackground();
             base.OnNavigatedTo(e);
         }
@@ -157,8 +160,13 @@ namespace Files
             });
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private async void OKButton_Click(object sender, RoutedEventArgs e)
         {
+            if (contentFrame.Content is PropertiesGeneral)
+            {
+                (contentFrame.Content as PropertiesGeneral).SaveChanges(listedItem);
+            }
+
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 await ApplicationView.GetForCurrentView().TryConsolidateAsync();
