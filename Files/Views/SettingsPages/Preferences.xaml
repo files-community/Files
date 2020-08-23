@@ -125,6 +125,19 @@
                             Style="{ThemeResource TextBlockButtonStyle}" />
                     </StackPanel>
                 </StackPanel>
+
+                <StackPanel
+                    Spacing="10">
+
+                    <TextBlock
+                        x:Uid="SettingsPreferencesContextMenu"
+                        FontSize="17"
+                        Text="Show all context menu items" />
+
+                    <ToggleSwitch
+                        x:Name="ContextMenuToggleSwitch"
+                        IsOn="{x:Bind AppSettings.ShowAllContextMenuItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

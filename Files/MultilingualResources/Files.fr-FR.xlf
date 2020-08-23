@@ -1156,6 +1156,10 @@
           <source>More</source>
           <target state="new">More</target>
         </trans-unit>
+        <trans-unit id="SettingsPreferencesContextMenu.Text" translate="yes" xml:space="preserve">
+          <source>Show all context menu items</source>
+          <target state="new">Show all context menu items</target>
+        </trans-unit>
       </group>
     </body>
   </file>

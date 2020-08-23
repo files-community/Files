@@ -855,4 +855,7 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Altri elementi</value>
   </data>
+  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
+    <value>Mostra tutti gli elementi nel menu contestuale</value>
+  </data>
 </root>

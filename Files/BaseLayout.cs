@@ -170,6 +170,7 @@ namespace Files
             {
                 var currentBaseLayoutItemCount = BaseLayoutItemContextFlyout.Items.Count;
                 var isDirectory = !_SelectedItems.Any(c => c.PrimaryItemAttribute == StorageItemTypes.File || c.PrimaryItemAttribute == StorageItemTypes.None);
+                var maxItems = AppSettings.ShowAllContextMenuItems ? int.MaxValue : shiftPressed ? 6 : 4;
                 if (App.Connection != null)
                 {
                     var response = App.Connection.SendMessageAsync(new ValueSet() {
@@ -181,7 +182,7 @@ namespace Files
                         && response.Message.ContainsKey("Handle"))
                     {
                         var contextMenu = JsonConvert.DeserializeObject<IWin32ContextMenu>((string)response.Message["ContextMenu"]);
-                        LoadMenuFlyoutItem(BaseLayoutItemContextFlyout.Items, contextMenu.Items, (string)response.Message["Handle"], true, shiftPressed ? 6 : 4);
+                        LoadMenuFlyoutItem(BaseLayoutItemContextFlyout.Items, contextMenu.Items, (string)response.Message["Handle"], true, maxItems);
                     }
                 }
                 var totalFlyoutItems = BaseLayoutItemContextFlyout.Items.Count - currentBaseLayoutItemCount;
