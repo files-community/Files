@@ -4,42 +4,6 @@
     xmlns:helpers="using:Files.Helpers">
 
     <Style
-        TargetType="MenuFlyoutSubItem"
-        x:Key="MouseMenuFlyoutSubItemStyle"
-        BasedOn="{StaticResource MenuFlyoutSubItemRevealStyle}">
-        <Setter
-            Property="Padding"
-            Value="11,2,11,3" />
-        <Setter
-            Property="FontSize"
-            Value="14" />
-    </Style>
-
-    <Style
-        TargetType="MenuFlyoutSubItem"
-        x:Key="TouchMenuFlyoutSubItemStyle"
-        BasedOn="{StaticResource MenuFlyoutSubItemRevealStyle}">
-    </Style>
-    
-    <Style
-        TargetType="MenuFlyoutItem"
-        x:Key="MouseMenuFlyoutItemStyle"
-        BasedOn="{StaticResource CustomMenuFlyoutItemStyle}">
-        <Setter
-            Property="Padding"
-            Value="11,2,11,3" />
-        <Setter
-            Property="FontSize"
-            Value="14" />
-    </Style>
-
-    <Style
-        TargetType="MenuFlyoutItem"
-        x:Key="TouchMenuFlyoutItemStyle"
-        BasedOn="{StaticResource CustomMenuFlyoutItemStyle}">
-    </Style>
-    
-    <Style
         TargetType="MenuFlyoutItem"
         x:Key="CustomMenuFlyoutItemStyle"
         BasedOn="{StaticResource MenuFlyoutItemRevealStyle}">
