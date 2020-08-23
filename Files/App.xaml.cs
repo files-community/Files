@@ -28,12 +28,19 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Windows.UI.Notifications;
+using System.Linq;
+using Newtonsoft.Json;
+using Files.Common;
 
 namespace Files
 {
     sealed partial class App : Application
     {
         private static IShellPage currentInstance;
+        private static bool ShowErrorNotification = false;
 
         public static IShellPage CurrentInstance
         {
@@ -49,7 +56,6 @@ namespace Files
                 }
             }
         }
-
         public static SettingsViewModel AppSettings { get; set; }
         public static InteractionViewModel InteractionViewModel { get; set; }
         public static JumpListManager JumpList { get; } = new JumpListManager();
@@ -243,6 +249,7 @@ namespace Files
             if (args.WindowActivationState == CoreWindowActivationState.CodeActivated ||
                 args.WindowActivationState == CoreWindowActivationState.PointerActivated)
             {
+                ShowErrorNotification = true;
                 ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
             }
         }
@@ -412,16 +419,58 @@ namespace Files
         }
 
         // Occurs when an exception is not handled on the UI thread.
-        private static void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
-        {
-            Logger.Error(e.Exception, e.Message);
-        }
+        private static void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e) => AppUnhandledException(e.Exception);
 
         // Occurs when an exception is not handled on a background thread.
         // ie. A task is fired and forgotten Task.Run(() => {...})
-        private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e)
+        private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e) => AppUnhandledException(e.Exception);
+
+        private static void AppUnhandledException(Exception ex)
         {
-            Logger.Error(e.Exception, e.Exception.Message);
+            Logger.Error(ex, ex.Message);
+            if (ShowErrorNotification)
+            {
+                var toastContent = new ToastContent()
+                {
+                    Visual = new ToastVisual()
+                    {
+                        BindingGeneric = new ToastBindingGeneric()
+                        {
+                            Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = ResourceController.GetTranslation("ExceptionNotificationHeader")
+                            },
+                            new AdaptiveText()
+                            {
+                                Text = ResourceController.GetTranslation("ExceptionNotificationBody")
+                            }
+                        },
+                            AppLogoOverride = new ToastGenericAppLogo()
+                            {
+                                Source = "ms-appx:///Assets/error.png"
+                            }
+                        }
+                    },
+                    Actions = new ToastActionsCustom()
+                    {
+                        Buttons =
+                    {
+                        new ToastButton(ResourceController.GetTranslation("ExceptionNotificationReportButton"), "report")
+                        {
+                            ActivationType = ToastActivationType.Foreground
+                        }
+                    }
+                    }
+                };
+
+                // Create the toast notification
+                var toastNotif = new ToastNotification(toastContent.GetXml());
+
+                // And send the notification
+                ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+            }
         }
 
         public static async void CloseApp()

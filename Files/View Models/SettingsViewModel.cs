@@ -20,6 +20,7 @@ using Windows.Globalization;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+using Windows.System;
 
 namespace Files.View_Models
 {
@@ -68,6 +69,16 @@ namespace Files.View_Models
             {
                 DefaultLanguages.Add(new DefaultLanguageModel(lang));
             }
+        }
+
+        public static async void OpenLogLocation()
+        {
+            await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+        }
+
+        public static async void ReportIssueOnGitHub()
+        {
+            await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/files-uwp/issues/new/choose"));
         }
 
         public DefaultLanguageModel CurrentLanguage { get; set; } = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);

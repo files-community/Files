@@ -1128,6 +1128,30 @@
           <source>Invalid item</source>
           <target state="translated">Elemento non valido</target>
         </trans-unit>
+        <trans-unit id="DriveCapacityUnknown" translate="yes" xml:space="preserve">
+          <source>Unknown</source>
+          <target state="new">Unknown</target>
+        </trans-unit>
+        <trans-unit id="ExceptionNotificationAccessLogFileButton" translate="yes" xml:space="preserve">
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
+        </trans-unit>
+        <trans-unit id="ExceptionNotificationBody" translate="yes" xml:space="preserve">
+          <source>Files ran into a problem that the developers didn't prepare for yet.</source>
+          <target state="new">Files ran into a problem that the developers didn't prepare for yet.</target>
+        </trans-unit>
+        <trans-unit id="ExceptionNotificationHeader" translate="yes" xml:space="preserve">
+          <source>Something went wrong!</source>
+          <target state="new">Something went wrong!</target>
+        </trans-unit>
+        <trans-unit id="ExceptionNotificationReportButton" translate="yes" xml:space="preserve">
+          <source>Report this issue</source>
+          <target state="new">Report this issue</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutVersionTitle" translate="yes" xml:space="preserve">
+          <source>Version:</source>
+          <target state="new">Version:</target>
+        </trans-unit>
         <trans-unit id="ShareDialogFailMessage" translate="yes" xml:space="preserve">
           <source>There's nothing to share right now</source>
           <target state="new">There's nothing to share right now</target>
