@@ -480,19 +480,10 @@ namespace Files.View_Models
             }
         }
 
-        private bool _ShowAllContextMenuItems = false;
-
         public bool ShowAllContextMenuItems
         {
-            get => _ShowAllContextMenuItems;
-            set
-            {
-                if (value != _ShowAllContextMenuItems)
-                {
-                    SetProperty(ref _ShowAllContextMenuItems, value);
-                    localSettings.Values["ShowAllContextMenuItems"] = value;
-                }
-            }
+            get => Get(false);
+            set => Set(value);
         }
 
         public event EventHandler ThemeModeChanged;
