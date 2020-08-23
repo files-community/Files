@@ -1,4 +1,4 @@
-﻿using Files.Filesystem;
+using Files.Filesystem;
 using Files.View_Models;
 using Files.View_Models.Properties;
 using System.Collections.Generic;
@@ -6,6 +6,8 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Windows.ApplicationModel.Core;
+using Microsoft.Toolkit.Uwp.Helpers;
 
 // Il modello di elemento Pagina vuota è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -67,8 +69,8 @@ namespace Files
             if (ViewModel.OriginalItemName != null)
             {
                 await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => App.CurrentInstance.InteractionOperations.RenameFileItem(item,
-                                ViewModel.OriginalItemName,
-                                ViewModel.ItemName));
+                      ViewModel.OriginalItemName,
+                      ViewModel.ItemName));
             }
         }
     }
