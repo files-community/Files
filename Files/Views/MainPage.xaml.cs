@@ -111,6 +111,7 @@ namespace Files.Views
                                 {
                                     await AddNewTab(typeof(ModernShellPage), path);
                                 }
+                                App.AppSettings.LastSessionPages = new string[] { ResourceController.GetTranslation("NewTab") };
                             }
                             else
                             {

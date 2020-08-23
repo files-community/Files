@@ -333,6 +333,7 @@ namespace Files.UserControls
         {
             if (Items.Count == 1)
             {
+                MainPage.AppInstances.Remove(tabItem);
                 App.CloseApp();
             }
             else if (Items.Count > 1)

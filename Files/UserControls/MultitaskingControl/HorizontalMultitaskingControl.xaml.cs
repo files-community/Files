@@ -343,6 +343,7 @@ namespace Files.UserControls
         {
             if (Items.Count == 1)
             {
+                MainPage.AppInstances.Remove(tabItem);
                 await ApplicationView.GetForCurrentView().TryConsolidateAsync();
             }
             else if (Items.Count > 1)
