@@ -342,13 +342,12 @@ namespace Files
                 }
                 else if (!string.IsNullOrEmpty(menuFlyoutItem.Label))
                 {
-                    var menuLayoutItem = new MenuFlyoutItem()
+                    var menuLayoutItem = new MenuFlyoutItemWithImage()
                     {
                         Text = menuFlyoutItem.Label.Replace("&", ""),
                         Tag = (menuFlyoutItem, menuHandle),
-                        Style = (Style)Resources["CustomMenuFlyoutItemStyle"]
+                        BitmapIcon = image
                     };
-                    Helpers.AttachedProperties.SetBitmapIcon(menuLayoutItem, image);
                     menuLayoutItem.Click += MenuLayoutItem_Click;
                     MenuItemsList.Insert(0, menuLayoutItem);
                 }

@@ -289,7 +289,7 @@ namespace FilesFullTrust
                     Debug.WriteLine("Verb {0}: {1}", offset, commandString);
                     return commandString.ToString();
                 }
-                catch (InvalidCastException ex)
+                catch (Exception ex) when (ex is InvalidCastException || ex is ArgumentException)
                 {
                     // TODO: investigate this..
                     Debug.WriteLine(ex);

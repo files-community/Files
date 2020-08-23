@@ -172,7 +172,6 @@
     <Compile Include="Filesystem\StorageFileHelpers\StorageFileWithPath.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\StorageFolderWithPath.cs" />
     <Compile Include="Helpers\AcrylicTheme.cs" />
-    <Compile Include="Helpers\AttachedProperties.cs" />
     <Compile Include="Helpers\DialogDisplayHelper.cs" />
     <Compile Include="Helpers\DispatcherHelper.cs" />
     <Compile Include="Helpers\ItemsDataTemplateSelector.cs" />
@@ -189,6 +188,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="ResourceController.cs" />
     <Compile Include="INavigationToolbar.cs" />
+    <Compile Include="UserControls\MenuFlyoutItemWithImage.cs" />
     <Compile Include="UserControls\MultitaskingControl\HorizontalMultitaskingControl.xaml.cs">
       <DependentUpon>HorizontalMultitaskingControl.xaml</DependentUpon>
     </Compile>
