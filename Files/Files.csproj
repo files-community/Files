@@ -309,6 +309,9 @@
     <Compile Include="Views\SettingsPages\Experimental.xaml.cs">
       <DependentUpon>Experimental.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SettingsPages\Multitasking.xaml.cs">
+      <DependentUpon>Multitasking.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SettingsPages\Preferences.xaml.cs">
       <DependentUpon>Preferences.xaml</DependentUpon>
     </Compile>
@@ -560,6 +563,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SettingsPages\Experimental.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SettingsPages\Multitasking.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
