@@ -59,31 +59,6 @@
                 </StackPanel>
 
                 <StackPanel Spacing="10">
-                    <TextBlock
-                        x:Uid="SettingsPreferencesPinOneDrive"
-                        FontSize="17"
-                        Text="Pin OneDrive to the sidebar" />
-                    <ToggleSwitch x:Name="OneDrivePin" IsOn="{x:Bind AppSettings.PinOneDriveToSideBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
-
-                <StackPanel Spacing="10">
-                    <TextBlock
-                        x:Uid="SettingsPreferencesRecycleBin"
-                        FontSize="17"
-                        Text="Pin Recycle Bin to the sidebar" />
-                    <ToggleSwitch IsOn="{x:Bind AppSettings.PinRecycleBinToSideBar, Mode=TwoWay}" />
-                </StackPanel>
-
-                <StackPanel Spacing="10">
-                    <TextBlock
-                        x:Uid="SettingsPreferencesShowConfirmDeleteDialog"
-                        FontSize="17"
-                        Text="Show a confirmation dialog when deleting files or folders"
-                        TextWrapping="WrapWholeWords" />
-                    <ToggleSwitch x:Name="ShowConfirmDeleteDialog" IsOn="{x:Bind AppSettings.ShowConfirmDeleteDialog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
-
-                <StackPanel Spacing="10">
 
                     <TextBlock
                         x:Uid="SettingsPreferencesTerminalApplications"
@@ -126,17 +101,39 @@
                     </StackPanel>
                 </StackPanel>
 
-                <StackPanel
-                    Spacing="10">
+                <StackPanel Spacing="10">
+                    <TextBlock
+                        x:Uid="SettingsPreferencesPinOneDrive"
+                        FontSize="17"
+                        Text="Pin OneDrive to the sidebar" />
+                    <ToggleSwitch x:Name="OneDrivePin" IsOn="{x:Bind AppSettings.PinOneDriveToSideBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+
+                <StackPanel Spacing="10">
+                    <TextBlock
+                        x:Uid="SettingsPreferencesRecycleBin"
+                        FontSize="17"
+                        Text="Pin Recycle Bin to the sidebar" />
+                    <ToggleSwitch IsOn="{x:Bind AppSettings.PinRecycleBinToSideBar, Mode=TwoWay}" />
+                </StackPanel>
+
+                <StackPanel Spacing="10">
+                    <TextBlock
+                        x:Uid="SettingsPreferencesShowConfirmDeleteDialog"
+                        FontSize="17"
+                        Text="Show a confirmation dialog when deleting files or folders"
+                        TextWrapping="WrapWholeWords" />
+                    <ToggleSwitch x:Name="ShowConfirmDeleteDialog" IsOn="{x:Bind AppSettings.ShowConfirmDeleteDialog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+
+                <StackPanel Spacing="10">
 
                     <TextBlock
                         x:Uid="SettingsPreferencesContextMenu"
                         FontSize="17"
                         Text="Show all context menu items" />
 
-                    <ToggleSwitch
-                        x:Name="ContextMenuToggleSwitch"
-                        IsOn="{x:Bind AppSettings.ShowAllContextMenuItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <ToggleSwitch x:Name="ContextMenuToggleSwitch" IsOn="{x:Bind AppSettings.ShowAllContextMenuItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
