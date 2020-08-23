@@ -326,7 +326,7 @@ namespace FilesFullTrust
         private static Func<string, bool> FilterMenuItems(bool showOpenMenu)
         {
             var knownItems = new List<string>() {
-                "opennew", "openas", "opencontaining"," opennewprocess",
+                "opennew", "openas", "opencontaining", "opennewprocess",
                 "runas", "runasuser", "pintohome",
                 "cut", "copy", "delete", "properties", "link",
                 "Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
@@ -336,7 +336,7 @@ namespace FilesFullTrust
 
             bool filterMenuItemsImpl(string menuItem)
             {
-                return string.IsNullOrEmpty(menuItem) ? false : knownItems.Contains(menuItem) 
+                return string.IsNullOrEmpty(menuItem) ? false : knownItems.Contains(menuItem)
                     || (!showOpenMenu && menuItem.Equals("open", StringComparison.OrdinalIgnoreCase));
             }
 
