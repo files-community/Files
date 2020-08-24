@@ -1172,6 +1172,14 @@
           <source>Sharing {0} {1}</source>
           <target state="new">Sharing {0} {1}</target>
         </trans-unit>
+        <trans-unit id="ContextMenuMoreItemsLabel" translate="yes" xml:space="preserve">
+          <source>More</source>
+          <target state="translated">Altri elementi</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesContextMenu.Text" translate="yes" xml:space="preserve">
+          <source>Show all context menu items</source>
+          <target state="translated">Mostra tutti gli elementi nel menu contestuale</target>
+        </trans-unit>
       </group>
     </body>
   </file>

@@ -1,10 +1,12 @@
-﻿using Files.Filesystem;
+﻿using Files.Common;
+using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
 using Files.View_Models;
 using Files.Views;
 using Files.Views.Pages;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,12 +15,14 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
@@ -148,7 +152,7 @@ namespace Files
 
         private void ClearShellContextMenus()
         {
-            var contextMenuItems = BaseLayoutItemContextFlyout.Items.Where(c => c.Tag != null && ParseContextMenuTag(c.Tag).commandKey != null).ToList();
+            var contextMenuItems = BaseLayoutItemContextFlyout.Items.Where(c => c.Tag != null && ParseContextMenuTag(c.Tag).menuHandle != null).ToList();
             for (int i = 0; i < contextMenuItems.Count; i++)
             {
                 BaseLayoutItemContextFlyout.Items.RemoveAt(BaseLayoutItemContextFlyout.Items.IndexOf(contextMenuItems[i]));
@@ -159,17 +163,30 @@ namespace Files
             }
         }
 
-        public virtual void SetShellContextmenu()
+        public virtual void SetShellContextmenu(bool shiftPressed, bool showOpenMenu)
         {
             ClearShellContextMenus();
             if (_SelectedItems != null && _SelectedItems.Count > 0)
             {
                 var currentBaseLayoutItemCount = BaseLayoutItemContextFlyout.Items.Count;
                 var isDirectory = !_SelectedItems.Any(c => c.PrimaryItemAttribute == StorageItemTypes.File || c.PrimaryItemAttribute == StorageItemTypes.None);
-                foreach (var selectedItem in _SelectedItems)
+                var maxItems = AppSettings.ShowAllContextMenuItems ? int.MaxValue : shiftPressed ? 6 : 4;
+                if (App.Connection != null)
                 {
-                    var menuFlyoutItems = Task.Run(() => new RegistryReader().GetExtensionContextMenuForFiles(isDirectory, selectedItem.FileExtension));
-                    LoadMenuFlyoutItem(menuFlyoutItems.Result);
+                    var response = App.Connection.SendMessageAsync(new ValueSet() {
+                        { "Arguments", "LoadContextMenu" },
+                        { "FilePath", string.Join('|', _SelectedItems.Select(x => x.ItemPath)) },
+                        { "ExtendedMenu", shiftPressed },
+                        { "ShowOpenMenu", showOpenMenu }}).AsTask().Result;
+                    if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
+                        && response.Message.ContainsKey("Handle"))
+                    {
+                        var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response.Message["ContextMenu"]);
+                        if (contextMenu != null)
+                        {
+                            LoadMenuFlyoutItem(BaseLayoutItemContextFlyout.Items, contextMenu.Items, (string)response.Message["Handle"], true, maxItems);
+                        }
+                    }
                 }
                 var totalFlyoutItems = BaseLayoutItemContextFlyout.Items.Count - currentBaseLayoutItemCount;
                 if (totalFlyoutItems > 0 && !(BaseLayoutItemContextFlyout.Items[totalFlyoutItems] is MenuFlyoutSeparator))
@@ -260,90 +277,150 @@ namespace Files
                 (menuItem as MenuFlyoutItemBase).Visibility = Visibility.Collapsed;
         }
 
-        private void LoadMenuFlyoutItem(IEnumerable<(string commandKey, string commandName, string commandIcon, string command)> menuFlyoutItems)
+        private void LoadMenuFlyoutItem(IList<MenuFlyoutItemBase> MenuItemsList, IEnumerable<Win32ContextMenuItem> menuFlyoutItems, string menuHandle, bool showIcons = true, int itemsBeforeOverflow = int.MaxValue)
         {
-            foreach (var menuFlyoutItem in menuFlyoutItems)
+            var items_count = 0; // Separators do not count for reaching the overflow threshold
+            var menu_items = menuFlyoutItems.TakeWhile(x => x.Type == MenuItemType.MFT_SEPARATOR || ++items_count <= itemsBeforeOverflow).ToList();
+            var overflow_items = menuFlyoutItems.Except(menu_items).ToList();
+
+            if (overflow_items.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any())
             {
-                if (BaseLayoutItemContextFlyout.Items.Any(c => ParseContextMenuTag(c.Tag).commandKey == menuFlyoutItem.commandKey))
+                var menuLayoutSubItem = new MenuFlyoutSubItem()
                 {
+                    Text = ResourceController.GetTranslation("ContextMenuMoreItemsLabel"),
+                    Tag = ((Win32ContextMenuItem)null, menuHandle),
+                    Icon = new FontIcon()
+                    {
+                        FontFamily = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
+                        Glyph = "\xEAD0"
+                    }
+                };
+                LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflow_items, menuHandle, false);
+                MenuItemsList.Insert(0, menuLayoutSubItem);
+            }
+            foreach (var menuFlyoutItem in menu_items
+                .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR) // Remove leading seperators
+                .Reverse()
+                .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR)) // Remove trailing separators
+            {
+                if ((menuFlyoutItem.Type == MenuItemType.MFT_SEPARATOR) && (MenuItemsList.FirstOrDefault() is MenuFlyoutSeparator))
+                {
+                    // Avoid duplicate separators
                     continue;
                 }
 
-                var menuLayoutItem = new MenuFlyoutItem()
+                BitmapImage image = null;
+                if (showIcons)
                 {
-                    Text = menuFlyoutItem.commandName,
-                    Tag = menuFlyoutItem
-                };
-                menuLayoutItem.Click += MenuLayoutItem_Click;
+                    image = new BitmapImage();
+                    if (!string.IsNullOrEmpty(menuFlyoutItem.IconBase64))
+                    {
+                        byte[] bitmapData = Convert.FromBase64String(menuFlyoutItem.IconBase64);
+                        using (var ms = new MemoryStream(bitmapData))
+                        {
+#pragma warning disable CS4014
+                            image.SetSourceAsync(ms.AsRandomAccessStream());
+#pragma warning restore CS4014
+                        }
+                    }
+                }
 
-                BaseLayoutItemContextFlyout.Items.Insert(0, menuLayoutItem);
+                if (menuFlyoutItem.Type == MenuItemType.MFT_SEPARATOR)
+                {
+                    var menuLayoutItem = new MenuFlyoutSeparator()
+                    {
+                        Tag = (menuFlyoutItem, menuHandle)
+                    };
+                    MenuItemsList.Insert(0, menuLayoutItem);
+                }
+                else if (menuFlyoutItem.SubItems.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any() 
+                    && !string.IsNullOrEmpty(menuFlyoutItem.Label))
+                {
+                    var menuLayoutSubItem = new MenuFlyoutSubItem()
+                    {
+                        Text = menuFlyoutItem.Label.Replace("&", ""),
+                        Tag = (menuFlyoutItem, menuHandle),
+                    };
+                    LoadMenuFlyoutItem(menuLayoutSubItem.Items, menuFlyoutItem.SubItems, menuHandle, false);
+                    MenuItemsList.Insert(0, menuLayoutSubItem);
+                }
+                else if (!string.IsNullOrEmpty(menuFlyoutItem.Label))
+                {
+                    var menuLayoutItem = new MenuFlyoutItemWithImage()
+                    {
+                        Text = menuFlyoutItem.Label.Replace("&", ""),
+                        Tag = (menuFlyoutItem, menuHandle),
+                        BitmapIcon = image
+                    };
+                    menuLayoutItem.Click += MenuLayoutItem_Click;
+                    MenuItemsList.Insert(0, menuLayoutItem);
+                }
             }
         }
 
-        private (string commandKey, string commandName, string commandIcon, string command) ParseContextMenuTag(object tag)
+        private (Win32ContextMenuItem menuItem, string menuHandle) ParseContextMenuTag(object tag)
         {
-            if (tag is ValueTuple<string, string, string, string>)
+            if (tag is ValueTuple<Win32ContextMenuItem, string>)
             {
-                (string commandKey, string commandName, string commandIcon, string command) = (ValueTuple<string, string, string, string>)tag;
-                return (commandKey, commandName, commandIcon, command);
+                (Win32ContextMenuItem menuItem, string menuHandle) = (ValueTuple<Win32ContextMenuItem, string>)tag;
+                return (menuItem, menuHandle);
             }
 
-            return (null, null, null, null);
+            return (null, null);
         }
 
         private async void MenuLayoutItem_Click(object sender, RoutedEventArgs e)
         {
-            var selectedFileSystemItems = (App.CurrentInstance.ContentPage as BaseLayout).SelectedItems;
             var currentMenuLayoutItem = (MenuFlyoutItem)sender;
             if (currentMenuLayoutItem != null)
             {
-                var (_, _, _, command) = ParseContextMenuTag(currentMenuLayoutItem.Tag);
-                if (selectedFileSystemItems.Count > 1)
+                var (menuItem, menuHandle) = ParseContextMenuTag(currentMenuLayoutItem.Tag);
+                if (App.Connection != null)
                 {
-                    foreach (var selectedDataItem in selectedFileSystemItems)
-                    {
-                        var commandToExecute = await new ShellCommandParser().ParseShellCommand(command, selectedDataItem.ItemPath);
-                        if (!string.IsNullOrEmpty(commandToExecute.command))
-                        {
-                            await Interaction.InvokeWin32Component(commandToExecute.command, commandToExecute.arguments);
-                        }
-                    }
+                    await App.Connection.SendMessageAsync(new ValueSet() {
+                        { "Arguments", "ExecAndCloseContextMenu" },
+                        { "Handle", menuHandle },
+                        { "ItemID", menuItem.ID } });
                 }
-                else if (selectedFileSystemItems.Count == 1)
-                {
-                    var selectedDataItem = selectedFileSystemItems[0] as ListedItem;
+            }
+        }
 
-                    var commandToExecute = await new ShellCommandParser().ParseShellCommand(command, selectedDataItem.ItemPath);
-                    if (!string.IsNullOrEmpty(commandToExecute.command))
-                    {
-                        await Interaction.InvokeWin32Component(commandToExecute.command, commandToExecute.arguments);
-                    }
-                }
+        public async void RightClickItemContextMenu_Closing(object sender, object e)
+        {
+            var shellContextMenuTag = (sender as MenuFlyout).Items.Where(x => x.Tag != null)
+                .Select(x => ParseContextMenuTag(x.Tag)).FirstOrDefault(x => x.menuItem != null);
+            if (shellContextMenuTag.menuItem != null && App.Connection != null)
+            {
+                await App.Connection.SendMessageAsync(new ValueSet() {
+                    { "Arguments", "ExecAndCloseContextMenu" },
+                    { "Handle", shellContextMenuTag.menuHandle } });
             }
         }
 
         public void RightClickItemContextMenu_Opening(object sender, object e)
         {
-            SetShellContextmenu();
+            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var showOpenMenu = (SelectedItems.Count == 1) 
+                && SelectedItem.PrimaryItemAttribute == StorageItemTypes.File 
+                && !string.IsNullOrEmpty(SelectedItem.FileExtension)
+                && SelectedItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase);
+            SetShellContextmenu(shiftPressed, showOpenMenu);
+
             if (!DataTransferManager.IsSupported())
             {
                 UnloadMenuFlyoutItemByName("ShareItem");
             }
 
-            var selectedFileSystemItems = App.CurrentInstance.ContentPage.SelectedItems;
-
             // Find selected items that are not folders
-            if (selectedFileSystemItems.Any(x => x.PrimaryItemAttribute != StorageItemTypes.Folder))
+            if (SelectedItems.Any(x => x.PrimaryItemAttribute != StorageItemTypes.Folder))
             {
                 UnloadMenuFlyoutItemByName("SidebarPinItem");
                 UnloadMenuFlyoutItemByName("OpenInNewTab");
                 UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
 
-                if (selectedFileSystemItems.Count == 1)
+                if (SelectedItems.Count == 1)
                 {
-                    var selectedDataItem = selectedFileSystemItems[0] as ListedItem;
-
-                    if (!string.IsNullOrEmpty(selectedDataItem.FileExtension))
+                    if (!string.IsNullOrEmpty(SelectedItem.FileExtension))
                     {
                         if (SelectedItem.IsShortcutItem)
                         {
@@ -364,15 +441,21 @@ namespace Files
                             (this.FindName("UnzipItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                         }
                         else if (SelectedItem.FileExtension.Equals(".exe", StringComparison.OrdinalIgnoreCase)
-                            || SelectedItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase)
                             || SelectedItem.FileExtension.Equals(".bat", StringComparison.OrdinalIgnoreCase))
                         {
                             (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                            //this.FindName("OpenItem");
-
                             UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
                             UnloadMenuFlyoutItemByName("UnzipItem");
                             (this.FindName("RunAsAdmin") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            (this.FindName("RunAsAnotherUser") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                        }
+                        else if (SelectedItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase))
+                        {
+                            UnloadMenuFlyoutItemByName("OpenItem");
+                            UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
+                            UnloadMenuFlyoutItemByName("UnzipItem");
+                            UnloadMenuFlyoutItemByName("RunAsAdmin");
                             (this.FindName("RunAsAnotherUser") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                         }
@@ -390,8 +473,6 @@ namespace Files
                         else
                         {
                             (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                            //this.FindName("OpenItem");
-
                             (this.FindName("OpenItemWithAppPicker") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             UnloadMenuFlyoutItemByName("UnzipItem");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
@@ -400,7 +481,7 @@ namespace Files
                         }
                     }
                 }
-                else if (selectedFileSystemItems.Count > 1)
+                else if (SelectedItems.Count > 1)
                 {
                     UnloadMenuFlyoutItemByName("OpenItem");
                     UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
@@ -413,15 +494,14 @@ namespace Files
                 UnloadMenuFlyoutItemByName("OpenItem");
                 UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
 
-                if (selectedFileSystemItems.Any(x => x.IsShortcutItem))
+                if (SelectedItems.Any(x => x.IsShortcutItem))
                 {
                     UnloadMenuFlyoutItemByName("SidebarPinItem");
                     UnloadMenuFlyoutItemByName("CreateShortcut");
                 }
-                else if (selectedFileSystemItems.Count == 1)
+                else if (SelectedItems.Count == 1)
                 {
                     (this.FindName("SidebarPinItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                    //this.FindName("SidebarPinItem");
                     (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                     (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                 }
@@ -431,7 +511,7 @@ namespace Files
                     UnloadMenuFlyoutItemByName("CreateShortcut");
                 }
 
-                if (selectedFileSystemItems.Count <= 5 && selectedFileSystemItems.Count > 0)
+                if (SelectedItems.Count <= 5 && SelectedItems.Count > 0)
                 {
                     (this.FindName("OpenInNewTab") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                     (this.FindName("OpenInNewWindowItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
@@ -440,7 +520,7 @@ namespace Files
                     //this.FindName("OpenInNewWindowItem");
                     UnloadMenuFlyoutItemByName("UnzipItem");
                 }
-                else if (selectedFileSystemItems.Count > 5)
+                else if (SelectedItems.Count > 5)
                 {
                     UnloadMenuFlyoutItemByName("OpenInNewTab");
                     UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
