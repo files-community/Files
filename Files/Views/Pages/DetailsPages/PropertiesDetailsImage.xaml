@@ -29,17 +29,15 @@
             <Setter Property="Margin" Value="-12, 0"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
         </Style>
-    </Page.Resources>
 
-    <Grid VerticalAlignment="Top">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid Visibility="{x:Bind ViewModel.BasicDetailsVisibility, Mode=OneWay}" Grid.Row="0" Margin="14,0,14,0">
+        <Style TargetType="TextBlock" x:Key="SeparatorText">
+            <Setter Property="Grid.Column" Value="0"/>
+            <Setter Property="FontSize" Value="22"/>
+        </Style>
+    </Page.Resources>
+    <ScrollViewer Height="{Binding Height, ElementName=Page, Mode=OneWay}" Name="ScrollViewer">
+        <Grid VerticalAlignment="Top" Margin="14,0,14,0" Name="MainGrid">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -65,13 +63,28 @@
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
             </Grid.RowDefinitions>
-
             <Grid.RenderTransform>
                 <CompositeTransform/>
             </Grid.RenderTransform>
-
-            <Grid 
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid 
                 x:Name="Icon2"
                 Grid.Row="0"
                 Grid.Column="0"
@@ -80,7 +93,7 @@
                 Margin="0,7"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
-                <Image
+                    <Image
                     x:Name="FolderGlyphIcon2"
                     Width="70"
                     Height="70"
@@ -88,14 +101,14 @@
                     VerticalAlignment="Stretch"
                     x:Load="{x:Bind ViewModel.LoadFolderGlyph}"
                     Stretch="Uniform">
-                    <Image.Source>
-                        <SvgImageSource
+                        <Image.Source>
+                            <SvgImageSource
                             RasterizePixelHeight="128"
                             RasterizePixelWidth="128"
                             UriSource="{x:Bind ViewModel.FolderIconSource}" />
-                    </Image.Source>
-                </Image>
-                <FontIcon
+                        </Image.Source>
+                    </Image>
+                    <FontIcon
                     x:Name="EmptyImageIcon2"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Stretch"
@@ -103,7 +116,7 @@
                     FontFamily="{StaticResource FluentUIGlyphs}"
                     FontSize="70"
                     Glyph="&#xea00;" />
-                <FontIcon
+                    <FontIcon
                     x:Name="WebShortcutGlyph2"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Stretch"
@@ -111,14 +124,14 @@
                     FontFamily="{StaticResource FluentUIGlyphs}"
                     FontSize="70"
                     Glyph="&#xEAAB;" />
-                <Image
+                    <Image
                     x:Name="itemIcon2"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     x:Load="{x:Bind ViewModel.LoadFileIcon, Mode=OneWay}"
                     Source="{x:Bind ViewModel.FileIconSource, Mode=OneWay}" />
-            </Grid>
-            <TextBox
+                </Grid>
+                <TextBox
                 x:Name="itemFileName2"
                 x:Uid="PropertiesItemFileName"
                 Grid.Row="0"
@@ -130,215 +143,13 @@
                 IsReadOnly="True"
                 Text="{x:Bind ViewModel.ItemName, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}" />
-
-            <MenuFlyoutSeparator
-                Grid.Row="1"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Margin="-12,0"
-                HorizontalAlignment="Stretch" />
-
-
-            <TextBlock
-                x:Uid="PropertiesDetailsImageTitle"
-                Grid.Row="2"
-                Grid.Column="0"
-                Margin="0,7"
-                FontWeight="SemiBold"
-                Text="Title:"
-                Visibility="{x:Bind ViewModel.ShowTitle}" />
-            <TextBlock
-                x:Name="propertiesDetailsImageTitleValue"
-                Grid.Row="2"
-                Grid.Column="1"
-                Margin="20,0,0,0"
-                VerticalAlignment="Center"
-                IsTextSelectionEnabled="True"
-                Text="{x:Bind ViewModel.ImageTitle, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.ShowTitle}" />
-
-            <TextBlock
-                x:Uid="PropertiesDetailsImageItemType"
-                Grid.Row="3"
-                Grid.Column="0"
-                Margin="0,7"
-                FontWeight="SemiBold"
-                Text="Image Type:"
-                Visibility="Visible" />
-            <TextBlock
-                x:Name="propertiesDetailsImageItemTypeValue"
-                Grid.Row="3"
-                Grid.Column="1"
-                Margin="20,0,0,0"
-                VerticalAlignment="Center"
-                IsTextSelectionEnabled="True"
-                Text="{x:Bind ViewModel.ItemType, Mode=OneWay}"
-                Visibility="Visible" />
-
-            <TextBlock
-                x:Uid="PropertiesDetailsImageDateTaken"
-                Grid.Row="4"
-                Grid.Column="0"
-                Margin="0,7"
-                FontWeight="SemiBold"
-                Text="Date Taken:"
-                Visibility="Visible" />
-            <TextBlock
-                x:Name="PropertiesDetailsImageDateTakenValue"
-                Grid.Row="4"
-                Grid.Column="1"
-                Margin="20,0,0,0"
-                VerticalAlignment="Center"
-                IsTextSelectionEnabled="True"
-                Text="{x:Bind ViewModel.DateTaken.LocalDateTime, Mode=OneWay}"
-                Visibility="Visible"/>
-
-            <TextBlock
-                x:Uid="PropertiesDetailsImageSize"
-                Grid.Row="5"
-                Grid.Column="0"
-                Margin="0,7"
-                FontWeight="SemiBold"
-                Text="Dimensions:"
-                Visibility="Visible" />
-            <TextBlock
-                x:Name="PropertiesDetailsImageSize"
-                Grid.Row="5"
-                Grid.Column="1"
-                Margin="20,0,0,0"
-                VerticalAlignment="Center"
-                Text="{x:Bind ViewModel.DimensionString, Mode=OneWay}"
-                Visibility="Visible"
-                IsTextSelectionEnabled="True"
-                ToolTipService.ToolTip="{x:Bind ViewModel.DimensionsTooltip, Mode=OneWay}"/>
-
-            <TextBlock
-                x:Uid="PropertiesDetailsImageBitDepth"
-                Grid.Row="6"
-                Grid.Column="0"
-                Margin="0,7"
-                FontWeight="SemiBold"
-                Text="Bit Depth:"
-                Visibility="Visible" />
-            <TextBlock
-                x:Name="propertiesDetailsImageBitDepthValue"
-                Grid.Row="6"
-                Grid.Column="1"
-                Margin="20,0,0,0"
-                VerticalAlignment="Center"
-                Text="{x:Bind ViewModel.BitDepth, Mode=OneWay}"
-                Visibility="Visible"
-                IsTextSelectionEnabled="True"/>
-
-            <TextBlock
-                x:Uid="PropertiesDetailsImageCamera"
-                Grid.Row="7"
-                Grid.Column="0"
-                Margin="0,7"
-                FontWeight="SemiBold"
-                Text="Camera:"
-                Visibility="Visible" />
-            <TextBlock
-                x:Name="propertiesDetailsImageCameraValue"
-                Grid.Row="7"
-                Grid.Column="1"
-                Margin="20,0,0,0"
-                VerticalAlignment="Center"
-                 IsTextSelectionEnabled="True"
-                Text="{x:Bind ViewModel.CameraNameString, Mode=OneWay}"
-                Visibility="Visible" />
-
-            <TextBlock
-                x:Uid="PropertiesDetailsImageCoordinates"
-                Grid.Row="8"
-                Grid.Column="0"
-                Margin="0,7"
-                FontWeight="SemiBold"
-                Text="Location:"
-                Visibility="{x:Bind ViewModel.ShowGeotag, Mode=OneWay}" />
-            <TextBlock
-                    x:Name="propertiesDetailsImageCoordinatesValue"
-                    Text="{x:Bind ViewModel.GeopointString, Mode=OneWay}"
-                    Visibility="{x:Bind ViewModel.ShowGeotag, Mode=OneWay}" 
-                    Grid.Row="8"
-                    Grid.Column="1"
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    IsTextSelectionEnabled="True"/>
-            <Button
-                Grid.Row="8"
-                Grid.Column="1"
-                Margin="20,0,0,0"
-                VerticalAlignment="Center" HorizontalAlignment="Right"
-                ToolTipService.ToolTip="Open in Maps"
-                Click="Button_Click"
-                Visibility="{x:Bind ViewModel.ShowGeotag, Mode=OneWay}"
-                Style="{ThemeResource ButtonRevealStyle}">
-                
-                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeae8;"/>
-            </Button>
-
-            <TextBlock
-                x:Uid="PropertiesDetailsImageRating"
-                Grid.Row="9"
-                Grid.Column="0"
-                Margin="0,7"
-                FontWeight="SemiBold"
-                Text="Rating:"
-                Visibility="Visible" />
-            <RatingControl
-                x:Name="propertiesDetailsImageRatingValue"
-                Grid.Row="9"
-                Grid.Column="1"
-                Margin="20,0,0,0"
-                VerticalAlignment="Center"
-                IsReadOnly="True"
-                HorizontalAlignment="Left"
-                PlaceholderValue="{x:Bind ViewModel.RatingReal, Mode=OneWay}"
-                
-                
-                Visibility="Visible" />
-
-            <TextBlock
-                x:Uid="PropertiesDetailsImageShot"
-                Grid.Row="10"
-                Grid.Column="0"
-                Margin="0,7"
-                FontWeight="SemiBold"
-                Text="Shot:"
-                Visibility="Visible" />
-            <TextBlock
-                    x:Name="propertiesDetailsImageShotValue"
-                    Text="{x:Bind ViewModel.ShotString, Mode=OneWay}"
-                    Visibility="Visible" 
-                    Grid.Row="10"
-                    Grid.Column="1"
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    IsTextSelectionEnabled="True"/>
-
-            <MenuFlyoutSeparator
-                Grid.Row="11"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Margin="-12,0"
-                HorizontalAlignment="Stretch" />
-        </Grid>
-        <ToggleButton Grid.Row="1" Name="ShowMore" HorizontalAlignment="Stretch" Click="ShowMore_Click" Margin="14,0,14,0">
-            <StackPanel Orientation="Horizontal" Spacing="5" HorizontalAlignment="Center">
-                <FontIcon Name="MoreInfoArrow" FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#59813;"/>
-                <TextBlock Text="View All"/>
-            </StackPanel>
-        </ToggleButton>
-        <ScrollViewer Grid.Row="2" Visibility="{x:Bind ViewModel.AllDetailsVisibility, Mode=OneWay}" VerticalScrollBarVisibility="Visible" Height="{Binding Height, ElementName=Page, Mode=OneWay}"
-                      Margin="0,4,0,0">
-            <Grid Margin="14,0,18,0">
+            </Grid>
+            
+            <TextBlock Text="Overview" Grid.Row="1" Style="{StaticResource SeparatorText}"/>
+            <MenuFlyoutSeparator Grid.Row="2" Style="{StaticResource Separator}"/>
+            
+            <Grid Grid.Row="3" Grid.Column="0" Name="TopGrid">
                 <Grid.RowDefinitions >
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -352,124 +163,365 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="TopColumn" Width="80" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    x:Uid="PropertiesDetailsImageItemType"
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Margin="0,7"
+                    FontWeight="SemiBold"
+                    Text="Image Type:"
+                    Visibility="Visible" />
+                <TextBlock
+                    x:Name="propertiesDetailsImageItemTypeValue"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Margin="20,0,0,0"
+                    VerticalAlignment="Center"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind ViewModel.ItemType, Mode=OneWay}"
+                    Visibility="Visible" />
+
+                <TextBlock
+                    x:Uid="PropertiesDetailsImageDateTaken"
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Margin="0,7"
+                    FontWeight="SemiBold"
+                    Text="Date Taken:"
+                    Visibility="Visible" />
+
+                <TextBlock
+                    x:Name="PropertiesDetailsImageDateTakenValue"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Margin="20,0,0,0"
+                    VerticalAlignment="Center"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind ViewModel.DateTaken.LocalDateTime, Mode=OneWay}"
+                    Visibility="Visible"/>
+
+                <TextBlock
+                    x:Uid="PropertiesDetailsImageSize"
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Margin="0,7"
+                    FontWeight="SemiBold"
+                    Text="Dimensions:"
+                    Visibility="Visible" />
+                <TextBlock
+                    x:Name="PropertiesDetailsImageSize"
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Margin="20,0,0,0"
+                    VerticalAlignment="Center"
+                    Text="{x:Bind ViewModel.DimensionString, Mode=OneWay}"
+                    Visibility="Visible"
+                    IsTextSelectionEnabled="True"
+                    ToolTipService.ToolTip="{x:Bind ViewModel.DimensionsTooltip, Mode=OneWay}"/>
+
+                <TextBlock
+                    x:Uid="PropertiesDetailsImageCamera"
+                    Grid.Row="7"
+                    Grid.Column="0"
+                    Margin="0,7"
+                    FontWeight="SemiBold"
+                    Text="Camera:"
+                    Visibility="Visible" />
+                <TextBlock
+                    x:Name="propertiesDetailsImageCameraValue"
+                    Grid.Row="7"
+                    Grid.Column="1"
+                    Margin="20,0,0,0"
+                    VerticalAlignment="Center"
+                     IsTextSelectionEnabled="True"
+                    Text="{x:Bind ViewModel.CameraNameString, Mode=OneWay}"
+                    Visibility="Visible" />
+
+                <TextBlock
+                    x:Uid="PropertiesDetailsImageCoordinates"
+                    Grid.Row="8"
+                    Grid.Column="0"
+                    Margin="0,7"
+                    FontWeight="SemiBold"
+                    Text="Location:"
+                    Visibility="{x:Bind ViewModel.ShowGeotag, Mode=OneWay}" />
+                <TextBlock
+                    x:Name="propertiesDetailsImageCoordinatesValue"
+                    Text="{x:Bind ViewModel.GeopointString, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.ShowGeotag, Mode=OneWay}" 
+                    Grid.Row="8"
+                    Grid.Column="1"
+                    Margin="20,0,0,0"
+                    VerticalAlignment="Center"
+                    IsTextSelectionEnabled="True"/>
+
+                <Button
+                    Grid.Row="8"
+                    Grid.Column="1"
+                    Margin="20,0,0,0"
+                    VerticalAlignment="Center" HorizontalAlignment="Right"
+                    ToolTipService.ToolTip="Open in Maps"
+                    Click="Button_Click"
+                    Visibility="{x:Bind ViewModel.ShowGeotag, Mode=OneWay}">
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeae8;"/>
+                </Button>
+
+                <TextBlock
+                    x:Uid="PropertiesDetailsImageRating"
+                    Grid.Row="9"
+                    Grid.Column="0"
+                    Margin="0,7"
+                    FontWeight="SemiBold"
+                    Text="Rating:"
+                    Visibility="Visible" />
+                <RatingControl
+                    x:Name="propertiesDetailsImageRatingValue"
+                    Grid.Row="9"
+                    Grid.Column="1"
+                    Margin="20,0,0,0"
+                    VerticalAlignment="Center"
+                    IsReadOnly="True"
+                    HorizontalAlignment="Left"
+                    PlaceholderValue="{x:Bind ViewModel.RatingReal, Mode=OneWay}" 
+                    Visibility="Visible" />
+
+                <TextBlock
+                        x:Uid="PropertiesDetailsImageShot"
+                        Grid.Row="10"
+                        Grid.Column="0"
+                        Margin="0,7"
+                        FontWeight="SemiBold"
+                        Text="Shot:"
+                        Visibility="Visible" />
+                <TextBlock
+                    x:Name="propertiesDetailsImageShotValue"
+                    Text="{x:Bind ViewModel.ShotString, Mode=OneWay}"
+                    Visibility="Visible" 
+                    Grid.Row="10"
+                    Grid.Column="1"
+                    Margin="20,0,0,0"
+                    VerticalAlignment="Center"
+                    IsTextSelectionEnabled="True"/>
+            </Grid>
+
+            <TextBlock Text="Description" Grid.Row="4" Style="{StaticResource SeparatorText}"/>
+            <MenuFlyoutSeparator Grid.Row="5" Style="{StaticResource Separator}"/>
+            <Grid Grid.Row="6" Grid.Column="0">
+                <Grid.RowDefinitions >
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{Binding ElementName=TopColumn, Path=Width, Mode=OneWay}" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Description" Grid.Row="1" Grid.Column="0" FontSize="25"/>
-                <MenuFlyoutSeparator Grid.Row="2" Style="{StaticResource Separator}"/>
-                <Grid Grid.Row="3" Grid.Column="0">
-                    <Grid.RowDefinitions >
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row ="0" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
+                <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}"/>
 
-                    <TextBlock Grid.Row ="0" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
-                    <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}"/>
+                <TextBlock Grid.Row ="1" Style="{StaticResource PropertyTextBlock}" Text="Subject"/>
+                <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}"/>
 
-                    <TextBlock Grid.Row ="1" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
-                    <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}"/>
+                <TextBlock Grid.Row ="7" Style="{StaticResource PropertyTextBlock}" Text="Rating"/>
+                <TextBox Grid.Row ="7" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.Rating, Mode=OneWay}"/>
 
-                    <TextBlock Grid.Row ="7" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
-                    <TextBox Grid.Row ="7" Style="{StaticResource ValueTextBox}"/>
-                </Grid>
+                <TextBlock Grid.Row ="8" Style="{StaticResource PropertyTextBlock}" Text="Tags"/>
+                <TextBox Grid.Row ="8" Style="{StaticResource ValueTextBox}" Text=""/>
 
-                <TextBlock Grid.Row="4" Text="Origin"  Grid.Column="0" FontSize="25"/>
-                <MenuFlyoutSeparator Grid.Row="5" Style="{StaticResource Separator}"/>
+                <TextBlock Grid.Row ="9" Style="{StaticResource PropertyTextBlock}" Text="Comments"/>
+                <TextBox Grid.Row ="9" Style="{StaticResource ValueTextBox}" Text=""/>
 
-                <Grid Grid.Row="6" Grid.Column="0">
-                    <Grid.RowDefinitions >
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Row ="0" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
-                    <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}"/>
-
-                    <TextBlock Grid.Row ="1" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
-                    <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}"/>
-
-                    <TextBlock Grid.Row ="7" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
-                    <TextBox Grid.Row ="7" Style="{StaticResource ValueTextBox}"/>
-                </Grid>
-
-                <TextBlock Grid.Row="7" Text="Image"  Grid.Column="0" FontSize="25"/>
-                <MenuFlyoutSeparator Grid.Row="8" Style="{StaticResource Separator}"/>
-
-                <Grid Grid.Row="9" Grid.Column="0">
-                    <Grid.RowDefinitions >
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Row ="0" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
-                    <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}"/>
-
-                    <TextBlock Grid.Row ="1" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
-                    <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}"/>
-
-                    <TextBlock Grid.Row ="7" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
-                    <TextBox Grid.Row ="7" Style="{StaticResource ValueTextBox}"/>
-                </Grid>
-
-                <TextBlock Grid.Row="10" Text="Camera"  Grid.Column="0" FontSize="25"/>
-                <MenuFlyoutSeparator Grid.Row="11" Style="{StaticResource Separator}"/>
-
-                <Grid Grid.Row="12" Grid.Column="0">
-                    <Grid.RowDefinitions >
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Row ="0" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
-                    <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}"/>
-
-                    <TextBlock Grid.Row ="1" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
-                    <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}"/>
-
-                    <TextBlock Grid.Row ="7" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
-                    <TextBox Grid.Row ="7" Style="{StaticResource ValueTextBox}"/>
-                </Grid>
             </Grid>
-        </ScrollViewer>
-    </Grid>
+
+            <TextBlock Grid.Row="7" Text="Origin"  Style="{StaticResource SeparatorText}"/>
+            <MenuFlyoutSeparator Grid.Row="8" Style="{StaticResource Separator}"/>
+
+            <Grid Grid.Row="9" Grid.Column="0">
+                <Grid.RowDefinitions >
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{Binding ElementName=TopColumn, Path=Width, Mode=OneWay}" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row ="0" Style="{StaticResource PropertyTextBlock}" Text="Authors"/>
+                <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}"/>
+
+                <TextBlock Grid.Row ="1" Style="{StaticResource PropertyTextBlock}" Text="Dake taken"/>
+                <DatePicker Grid.Row="1" Grid.Column="1" Margin="20,2,0,2" Date="{x:Bind ViewModel.DateTaken, Mode=OneWay}"/>
+
+                <TextBlock Grid.Row ="2" Style="{StaticResource PropertyTextBlock}" Text="Time taken"/>
+                <TimePicker Grid.Row="2" Grid.Column="1" Margin="20,2,0,2" Time="{x:Bind ViewModel.DateTaken, Mode=OneWay}"/>
+
+                <TextBlock Grid.Row ="3" Style="{StaticResource PropertyTextBlock}" Text="Program name"/>
+                <TextBox Grid.Row ="3" Style="{StaticResource ValueTextBox}"/>
+
+                <TextBlock Grid.Row ="4" Style="{StaticResource PropertyTextBlock}" Text="Date Aquired"/>
+                <TextBox Grid.Row ="4" Style="{StaticResource ValueTextBox}"/>
+
+            </Grid>
+
+            <TextBlock Grid.Row="10" Text="Image"  Style="{StaticResource SeparatorText}"/>
+            <MenuFlyoutSeparator Grid.Row="11" Style="{StaticResource Separator}"/>
+
+            <Grid Grid.Row="12" Grid.Column="0">
+                <Grid.RowDefinitions >
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{Binding ElementName=TopColumn, Path=Width, Mode=OneWay}" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row ="0" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
+                <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}"/>
+
+                <TextBlock Grid.Row ="1" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
+                <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}"/>
+
+                <TextBlock Grid.Row ="7" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
+                <TextBox Grid.Row ="7" Style="{StaticResource ValueTextBox}"/>
+            </Grid>
+
+            <TextBlock Grid.Row="13" Text="Camera"  Style="{StaticResource SeparatorText}"/>
+            <MenuFlyoutSeparator Grid.Row="14" Style="{StaticResource Separator}"/>
+            <Grid Grid.Row="15" Grid.Column="0">
+                <Grid.RowDefinitions >
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{Binding ElementName=TopColumn, Path=Width, Mode=OneWay}" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row ="0" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
+                <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}"/>
+
+                <TextBlock Grid.Row ="1" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
+                <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}"/>
+
+                <TextBlock Grid.Row ="7" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
+                <TextBox Grid.Row ="7" Style="{StaticResource ValueTextBox}"/>
+            </Grid>
+
+
+            <TextBlock Grid.Row="16" Text="Advanced photo"  Style="{StaticResource SeparatorText}"/>
+            <MenuFlyoutSeparator Grid.Row="17" Style="{StaticResource Separator}"/>
+            <Grid Grid.Row="18" Grid.Column="0">
+                <Grid.RowDefinitions >
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{Binding ElementName=TopColumn, Path=Width, Mode=OneWay}" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row ="0" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
+                <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}"/>
+
+                <TextBlock Grid.Row ="1" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
+                <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}"/>
+
+                <TextBlock Grid.Row ="7" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
+                <TextBox Grid.Row ="7" Style="{StaticResource ValueTextBox}"/>
+            </Grid>
+
+
+            <TextBlock Grid.Row="19" Text="GPS"  Style="{StaticResource SeparatorText}"/>
+            <MenuFlyoutSeparator Grid.Row="20" Style="{StaticResource Separator}"/>
+            <Grid Grid.Row="21" Grid.Column="0">
+                <Grid.RowDefinitions >
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{Binding ElementName=TopColumn, Path=Width, Mode=OneWay}" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row ="0" Style="{StaticResource PropertyTextBlock}" Text="Latitude"/>
+                <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.Latitude, Mode=OneWay}"/>
+
+                <TextBlock Grid.Row ="1" Style="{StaticResource PropertyTextBlock}" Text="Longitude"/>
+                <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.Longitude, Mode=OneWay}"/>
+
+                <TextBlock Grid.Row ="7" Style="{StaticResource PropertyTextBlock}" Text="Altitude"/>
+                <TextBox Grid.Row ="7" Style="{StaticResource ValueTextBox}"/>
+            </Grid>
+
+            <TextBlock Grid.Row="22" Text="File"  Style="{StaticResource SeparatorText}"/>
+            <MenuFlyoutSeparator Grid.Row="23" Style="{StaticResource Separator}"/>
+            <Grid Grid.Row="24" Grid.Column="0">
+                <Grid.RowDefinitions >
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="{Binding ElementName=TopColumn, Path=Width, Mode=OneWay}" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row ="0" Style="{StaticResource PropertyTextBlock}" Text="Name"/>
+                <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}"/>
+
+                <TextBlock Grid.Row ="1" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
+                <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}"/>
+
+                <TextBlock Grid.Row ="7" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
+                <TextBox Grid.Row ="7" Style="{StaticResource ValueTextBox}"/>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
 </Page>

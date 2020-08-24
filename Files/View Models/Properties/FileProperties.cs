@@ -226,6 +226,7 @@ namespace Files.View_Models.Properties
             };
 
             IDictionary<string, object> extraProperties;
+            IDictionary<string, object> extraProperties2;
             List<PropertiesData> propertiesDatas = new List<PropertiesData>();
 
             try

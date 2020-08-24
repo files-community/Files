@@ -60,7 +60,7 @@ namespace Files
             }
 
             ViewModel.AllDetailsVisibility = ViewModel.BasicDetailsVisibility.Equals(Visibility.Visible)? Visibility.Collapsed : Visibility.Visible;
-            ShowMore.IsChecked = ViewModel.AllDetailsVisibility.Equals(Visibility.Visible);
+            //ShowMore.IsChecked = ViewModel.AllDetailsVisibility.Equals(Visibility.Visible);
 
             base.OnNavigatedTo(e);
         }
@@ -75,12 +75,7 @@ namespace Files
             var launcherOptions = new Windows.System.LauncherOptions();
             launcherOptions.TargetApplicationPackageFamilyName = "Microsoft.WindowsMaps_8wekyb3d8bbwe";
             var success = await Windows.System.Launcher.LaunchUriAsync(mapUri, launcherOptions);
-        }
-
-        private void ShowMore_Click(object sender, RoutedEventArgs e)
-        {
-            ViewModel.BasicDetailsVisibility = (bool)ShowMore.IsChecked ? Visibility.Collapsed : Visibility.Visible;
-            ViewModel.AllDetailsVisibility = (bool)!ShowMore.IsChecked ? Visibility.Collapsed : Visibility.Visible;
+            
         }
     }
 }
