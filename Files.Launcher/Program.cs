@@ -329,7 +329,7 @@ namespace FilesFullTrust
                 "opennew", "openas", "opencontaining", "opennewprocess",
                 "runas", "runasuser", "pintohome",
                 "cut", "copy", "delete", "properties", "link",
-                "Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
+                "WSL", "Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
                 Win32API.ExtractStringFromDLL("shell32.dll", 30312), // SendTo menu
                 Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
             };

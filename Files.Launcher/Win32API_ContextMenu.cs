@@ -247,7 +247,7 @@ namespace FilesFullTrust
                         }
                         if (mii.hbmpItem != HBITMAP.NULL)
                         {
-                            var bitmap = GetTransparentBitmap(mii.hbmpItem);
+                            var bitmap = GetItemBitmap(mii.hbmpItem);
                             menuItem.Icon = bitmap;
                         }
                         if (mii.hSubMenu != HMENU.NULL)
@@ -306,19 +306,26 @@ namespace FilesFullTrust
                 }
             }
 
+            private static Bitmap GetItemBitmap(HBITMAP hbitmap)
+            {
+                var bitmap = GetTransparentBitmap(hbitmap);
+                bitmap.RotateFlip(RotateFlipType.Rotate270FlipNone);
+                return bitmap;
+            }
+
             private static Bitmap GetTransparentBitmap(HBITMAP hbitmap)
             {
                 try
                 {
                     var dibsection = GetObject<BITMAP>(hbitmap);
-                    var bitmap = new Bitmap(dibsection.bmHeight, dibsection.bmWidth, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                    var bitmap = new Bitmap(dibsection.bmWidth, dibsection.bmHeight, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                     using var mstr = new NativeMemoryStream(dibsection.bmBits, dibsection.bmBitsPixel * dibsection.bmHeight * dibsection.bmWidth);
                     for (var x = 0; x < dibsection.bmWidth; x++)
                         for (var y = 0; y < dibsection.bmHeight; y++)
                         {
                             var rgbquad = mstr.Read<RGBQUAD>();
                             if (rgbquad.rgbReserved != 0)
-                                bitmap.SetPixel(y, dibsection.bmWidth - 1 - x, rgbquad.Color);
+                                bitmap.SetPixel(x, y, rgbquad.Color);
                         }
                     return bitmap;
                 }
