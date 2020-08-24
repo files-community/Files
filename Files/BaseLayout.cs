@@ -399,6 +399,7 @@ namespace Files
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var showOpenMenu = (selectedFileSystemItems.Count == 1) 
                 && SelectedItem.PrimaryItemAttribute == StorageItemTypes.File 
+                && !string.IsNullOrEmpty(SelectedItem.FileExtension)
                 && SelectedItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase);
             SetShellContextmenu(shiftPressed, showOpenMenu);
 
