@@ -127,14 +127,14 @@ namespace FilesFullTrust
             }
         }
 
-        public class ContextMenu : IWin32ContextMenu, IDisposable
+        public class ContextMenu : Win32ContextMenu, IDisposable
         {
             private Shell32.IContextMenu cMenu;
 
             public ContextMenu(Shell32.IContextMenu cMenu)
             {
                 this.cMenu = cMenu;
-                this.Items = new List<IWin32ContextMenuItem>();
+                this.Items = new List<Win32ContextMenuItem>();
             }
 
             public void InvokeVerb(string verb)
@@ -209,7 +209,7 @@ namespace FilesFullTrust
             private static void EnumMenuItems(
                 Shell32.IContextMenu cMenu, 
                 HMENU hMenu, 
-                List<IWin32ContextMenuItem> menuItemsResult, 
+                List<Win32ContextMenuItem> menuItemsResult, 
                 Func<string, bool> itemFilter = null)
             {
                 var itemCount = User32.GetMenuItemCount(hMenu);
@@ -253,7 +253,7 @@ namespace FilesFullTrust
                         if (mii.hSubMenu != HMENU.NULL)
                         {
                             Debug.WriteLine("Item {0}: has submenu", ii);
-                            var subItems = new List<IWin32ContextMenuItem>();
+                            var subItems = new List<Win32ContextMenuItem>();
                             try
                             {
                                 (cMenu as Shell32.IContextMenu2)?.HandleMenuMsg((uint)User32.WindowMessage.WM_INITMENUPOPUP, (IntPtr)mii.hSubMenu, new IntPtr(ii));
@@ -334,7 +334,7 @@ namespace FilesFullTrust
             }
 
             #region IDisposable Support
-            private bool disposedValue = false; // Per rilevare chiamate ridondanti
+            private bool disposedValue = false; // To detect redundant calls
 
             protected virtual void Dispose(bool disposing)
             {
@@ -342,7 +342,7 @@ namespace FilesFullTrust
                 {
                     if (disposing)
                     {
-                        // TODO: eliminare lo stato gestito (oggetti gestiti).
+                        // TODO: dispose managed state (managed objects).
                         if (Items != null)
                         {
                             foreach (var si in Items)
@@ -351,7 +351,7 @@ namespace FilesFullTrust
                         }
                     }
 
-                    // TODO: liberare risorse non gestite (oggetti non gestiti) ed eseguire sotto l'override di un finalizzatore.
+                    // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
                     if (cMenu != null)
                     {
                         Marshal.ReleaseComObject(cMenu);
@@ -362,25 +362,20 @@ namespace FilesFullTrust
                 }
             }
 
-            // TODO: eseguire l'override di un finalizzatore solo se Dispose(bool disposing) include il codice per liberare risorse non gestite.
             ~ContextMenu()
             {
-                // Non modificare questo codice. Inserire il codice di pulizia in Dispose(bool disposing) sopra.
                 Dispose(false);
             }
 
-            // Questo codice viene aggiunto per implementare in modo corretto il criterio Disposable.
             public void Dispose()
             {
-                // Non modificare questo codice. Inserire il codice di pulizia in Dispose(bool disposing) sopra.
                 Dispose(true);
-                // TODO: rimuovere il commento dalla riga seguente se è stato eseguito l'override del finalizzatore.
                 GC.SuppressFinalize(this);
             }
             #endregion
         }
 
-        public class ContextMenuItem : IWin32ContextMenuItem, IDisposable
+        public class ContextMenuItem : Win32ContextMenuItem, IDisposable
         {
             private Bitmap _Icon;
             [JsonIgnore]
@@ -400,7 +395,7 @@ namespace FilesFullTrust
 
             public ContextMenuItem()
             {
-                this.SubItems = new List<IWin32ContextMenuItem>();
+                this.SubItems = new List<Win32ContextMenuItem>();
             }
 
             public void Dispose()

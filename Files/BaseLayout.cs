@@ -181,7 +181,7 @@ namespace Files
                     if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
                         && response.Message.ContainsKey("Handle"))
                     {
-                        var contextMenu = JsonConvert.DeserializeObject<IWin32ContextMenu>((string)response.Message["ContextMenu"]);
+                        var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response.Message["ContextMenu"]);
                         LoadMenuFlyoutItem(BaseLayoutItemContextFlyout.Items, contextMenu.Items, (string)response.Message["Handle"], true, maxItems);
                     }
                 }
@@ -273,7 +273,7 @@ namespace Files
                 (menuItem as MenuFlyoutItemBase).Visibility = Visibility.Collapsed;
         }
 
-        private void LoadMenuFlyoutItem(IList<MenuFlyoutItemBase> MenuItemsList, IEnumerable<IWin32ContextMenuItem> menuFlyoutItems, string menuHandle, bool showIcons = true, int itemsBeforeOverflow = int.MaxValue)
+        private void LoadMenuFlyoutItem(IList<MenuFlyoutItemBase> MenuItemsList, IEnumerable<Win32ContextMenuItem> menuFlyoutItems, string menuHandle, bool showIcons = true, int itemsBeforeOverflow = int.MaxValue)
         {
             var items_count = 0; // Separators do not count for reaching the overflow threshold
             var menu_items = menuFlyoutItems.TakeWhile(x => x.Type == MenuItemType.MFT_SEPARATOR || ++items_count <= itemsBeforeOverflow).ToList();
@@ -284,7 +284,7 @@ namespace Files
                 var menuLayoutSubItem = new MenuFlyoutSubItem()
                 {
                     Text = ResourceController.GetTranslation("ContextMenuMoreItemsLabel"),
-                    Tag = ((IWin32ContextMenuItem)null, menuHandle),
+                    Tag = ((Win32ContextMenuItem)null, menuHandle),
                     Icon = new FontIcon()
                     {
                         FontFamily = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
@@ -354,11 +354,11 @@ namespace Files
             }
         }
 
-        private (IWin32ContextMenuItem menuItem, string menuHandle) ParseContextMenuTag(object tag)
+        private (Win32ContextMenuItem menuItem, string menuHandle) ParseContextMenuTag(object tag)
         {
-            if (tag is ValueTuple<IWin32ContextMenuItem, string>)
+            if (tag is ValueTuple<Win32ContextMenuItem, string>)
             {
-                (IWin32ContextMenuItem menuItem, string menuHandle) = (ValueTuple<IWin32ContextMenuItem, string>)tag;
+                (Win32ContextMenuItem menuItem, string menuHandle) = (ValueTuple<Win32ContextMenuItem, string>)tag;
                 return (menuItem, menuHandle);
             }
 
