@@ -182,7 +182,10 @@ namespace Files
                         && response.Message.ContainsKey("Handle"))
                     {
                         var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response.Message["ContextMenu"]);
-                        LoadMenuFlyoutItem(BaseLayoutItemContextFlyout.Items, contextMenu.Items, (string)response.Message["Handle"], true, maxItems);
+                        if (contextMenu != null)
+                        {
+                            LoadMenuFlyoutItem(BaseLayoutItemContextFlyout.Items, contextMenu.Items, (string)response.Message["Handle"], true, maxItems);
+                        }
                     }
                 }
                 var totalFlyoutItems = BaseLayoutItemContextFlyout.Items.Count - currentBaseLayoutItemCount;

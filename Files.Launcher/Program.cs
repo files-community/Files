@@ -267,7 +267,7 @@ namespace FilesFullTrust
                     var split = filePath.Split('|').Where(x => !string.IsNullOrWhiteSpace(x));
                     using (var cMenu = Win32API.ContextMenu.GetContextMenuForFiles(split.ToArray(), Shell32.CMF.CMF_DEFAULTONLY))
                     {
-                        cMenu.InvokeVerb((string)args.Request.Message["Verb"]);
+                        cMenu?.InvokeVerb((string)args.Request.Message["Verb"]);
                     }
                     break;
 
@@ -628,7 +628,7 @@ namespace FilesFullTrust
                                         continue;
                                     }
                                     using var cMenu = Win32API.ContextMenu.GetContextMenuForFiles(group.ToArray(), Shell32.CMF.CMF_DEFAULTONLY);
-                                    cMenu.InvokeVerb(Shell32.CMDSTR_OPEN);
+                                    cMenu?.InvokeVerb(Shell32.CMDSTR_OPEN);
                                 }
                             }
                             return true;
