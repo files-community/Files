@@ -395,9 +395,8 @@ namespace Files
 
         public void RightClickItemContextMenu_Opening(object sender, object e)
         {
-            var selectedFileSystemItems = App.CurrentInstance.ContentPage.SelectedItems;
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var showOpenMenu = (selectedFileSystemItems.Count == 1) 
+            var showOpenMenu = (SelectedItems.Count == 1) 
                 && SelectedItem.PrimaryItemAttribute == StorageItemTypes.File 
                 && !string.IsNullOrEmpty(SelectedItem.FileExtension)
                 && SelectedItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase);
@@ -409,17 +408,15 @@ namespace Files
             }
 
             // Find selected items that are not folders
-            if (selectedFileSystemItems.Any(x => x.PrimaryItemAttribute != StorageItemTypes.Folder))
+            if (SelectedItems.Any(x => x.PrimaryItemAttribute != StorageItemTypes.Folder))
             {
                 UnloadMenuFlyoutItemByName("SidebarPinItem");
                 UnloadMenuFlyoutItemByName("OpenInNewTab");
                 UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
 
-                if (selectedFileSystemItems.Count == 1)
+                if (SelectedItems.Count == 1)
                 {
-                    var selectedDataItem = selectedFileSystemItems[0] as ListedItem;
-
-                    if (!string.IsNullOrEmpty(selectedDataItem.FileExtension))
+                    if (!string.IsNullOrEmpty(SelectedItem.FileExtension))
                     {
                         if (SelectedItem.IsShortcutItem)
                         {
@@ -480,7 +477,7 @@ namespace Files
                         }
                     }
                 }
-                else if (selectedFileSystemItems.Count > 1)
+                else if (SelectedItems.Count > 1)
                 {
                     UnloadMenuFlyoutItemByName("OpenItem");
                     UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
@@ -493,12 +490,12 @@ namespace Files
                 UnloadMenuFlyoutItemByName("OpenItem");
                 UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
 
-                if (selectedFileSystemItems.Any(x => x.IsShortcutItem))
+                if (SelectedItems.Any(x => x.IsShortcutItem))
                 {
                     UnloadMenuFlyoutItemByName("SidebarPinItem");
                     UnloadMenuFlyoutItemByName("CreateShortcut");
                 }
-                else if (selectedFileSystemItems.Count == 1)
+                else if (SelectedItems.Count == 1)
                 {
                     (this.FindName("SidebarPinItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                     (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
@@ -510,7 +507,7 @@ namespace Files
                     UnloadMenuFlyoutItemByName("CreateShortcut");
                 }
 
-                if (selectedFileSystemItems.Count <= 5 && selectedFileSystemItems.Count > 0)
+                if (SelectedItems.Count <= 5 && SelectedItems.Count > 0)
                 {
                     (this.FindName("OpenInNewTab") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                     (this.FindName("OpenInNewWindowItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
@@ -519,7 +516,7 @@ namespace Files
                     //this.FindName("OpenInNewWindowItem");
                     UnloadMenuFlyoutItemByName("UnzipItem");
                 }
-                else if (selectedFileSystemItems.Count > 5)
+                else if (SelectedItems.Count > 5)
                 {
                     UnloadMenuFlyoutItemByName("OpenInNewTab");
                     UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
