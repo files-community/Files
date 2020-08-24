@@ -179,9 +179,14 @@ namespace FilesFullTrust
                 List<ShellItem> shellItems = new List<ShellItem>();
                 try
                 {
-                    foreach (var fp in filePathList)
+                    foreach (var fp in filePathList.Where(x => !string.IsNullOrEmpty(x)))
                         shellItems.Add(new ShellItem(fp));
                     return GetContextMenuForFiles(shellItems.ToArray(), flags, itemFilter);
+                }
+                catch (ArgumentException)
+                {
+                    // Return empty context menu
+                    return null;
                 }
                 finally
                 {
@@ -194,12 +199,11 @@ namespace FilesFullTrust
             {
                 if (shellItems == null || !shellItems.Any())
                     return null;
-                using var sf = shellItems.First().Parent; // TODO: what if the items aren't all in the same folder?
+                using var sf = shellItems.First().Parent; // HP: the items are all in the same folder
                 Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(null, shellItems);
                 var contextMenu = new ContextMenu(menu);
                 var hMenu = User32.CreatePopupMenu();
                 menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
-                //User32.TrackPopupMenuEx(hMenu, User32.TrackPopupMenuFlags.TPM_RETURNCMD, 0, 0, wv.Handle);
                 ContextMenu.EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
                 User32.DestroyMenu(hMenu);
                 return contextMenu;
