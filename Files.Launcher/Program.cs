@@ -255,6 +255,10 @@ namespace FilesFullTrust
                     {
                         await execThreadWithMessageQueue.PostMessage(args.Request.Message);
                     }
+                    // The following line is needed to cleanup resources when menu is closed. 
+                    // Unfortunately if you uncomment it some menu items will randomly stop working.
+                    // Resource cleanup is currently done on app closing, 
+                    // if we find a solution for the issue above, we should cleanup as soon as a menu is closed.
                     //handleTable.RemoveValue(menuKey);
                     break;
 
@@ -315,6 +319,10 @@ namespace FilesFullTrust
                 case "ExecAndCloseContextMenu":
                     var cMenuExec = table.GetValue<Win32API.ContextMenu>("MENU");
                     cMenuExec?.InvokeItem(message.Get("ItemID", -1));
+                    // The following line is needed to cleanup resources when menu is closed. 
+                    // Unfortunately if you uncomment it some menu items will randomly stop working.
+                    // Resource cleanup is currently done on app closing, 
+                    // if we find a solution for the issue above, we should cleanup as soon as a menu is closed.
                     //table.RemoveValue("MENU");
                     return null;
 
