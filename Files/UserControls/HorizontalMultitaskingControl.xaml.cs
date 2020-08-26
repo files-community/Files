@@ -271,7 +271,7 @@ namespace Files.UserControls
 
         private void TabStrip_TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)
         {
-            var tabViewItemPath = ((((args.Item as TabItem).Content as Grid).Children[0] as Frame).Content as IShellPage).NavigationToolbar.PathControlDisplayText;
+            var tabViewItemPath = ((((args.Item as TabItem).Content as Grid).Children[0] as Frame).Tag as TabItemContent).NavigationArg;
             args.Data.Properties.Add(TabPathIdentifier, tabViewItemPath);
             args.Data.RequestedOperation = DataPackageOperation.Move;
         }

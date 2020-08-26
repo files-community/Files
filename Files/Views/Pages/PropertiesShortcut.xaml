@@ -180,8 +180,8 @@
                 <Button
                     x:Name="OpenLinkButton"
                     x:Uid="PropertiesDialogOpenLinkButton"
-                    x:Load="{x:Bind ViewModel.IsSelectedItemShortcut, Mode=OneWay}"
                     MinWidth="100"
+                    x:Load="{x:Bind ViewModel.IsSelectedItemShortcut, Mode=OneWay}"
                     Command="{x:Bind ViewModel.ShortcutItemOpenLinkCommand, Mode=OneWay}"
                     Content="Open file location"
                     Style="{ThemeResource ButtonRevealStyle}" />

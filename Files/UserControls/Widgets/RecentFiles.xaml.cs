@@ -254,7 +254,7 @@ namespace Files
                 if (value != visibility)
                 {
                     visibility = value;
-                    NotifyPropertyChanged("Visibility");
+                    NotifyPropertyChanged(nameof(Visibility));
                 }
             }
         }
