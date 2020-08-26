@@ -220,13 +220,13 @@
     <value>Coller</value>
   </data>
   <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
-    <value>Ouvrir dans Terminal</value>
+    <value>_Ouvrir dans Terminal</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
-    <value>Nouveau</value>
+    <value>Nouvelle</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
-    <value>Dossier</value>
+    <value>Dossier :</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
     <value>Image bitmap</value>
@@ -487,7 +487,7 @@
     <value>{0} libre(s) sur {1}</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Ouvrir avec</value>
+    <value>Ouvrir _avec</value>
   </data>
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
     <value>Assez bon</value>
@@ -590,11 +590,5 @@
   </data>
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
     <value>Ouvrir l'emplacement des journaux</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>Épingler le dossier à la barre latérale</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
-    <value>Définir en tant qu'arrière plan de verrouillage</value>
   </data>
 </root>
