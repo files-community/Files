@@ -4,13 +4,10 @@ using Files.Controllers;
 using Files.Controls;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.UserControls;
 using Files.View_Models;
 using Files.Views;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using NLog;
 using System;
@@ -23,17 +20,12 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
 using Windows.Storage;
 using Windows.UI.Core;
+using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Notifications;
-using Windows.UI.Notifications;
-using System.Linq;
-using Newtonsoft.Json;
-using Files.Common;
 
 namespace Files
 {
@@ -56,6 +48,7 @@ namespace Files
                 }
             }
         }
+
         public static SettingsViewModel AppSettings { get; set; }
         public static InteractionViewModel InteractionViewModel { get; set; }
         public static JumpListManager JumpList { get; } = new JumpListManager();

@@ -10,7 +10,6 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
@@ -18,9 +17,9 @@ using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
 using Windows.Globalization;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
-using Windows.System;
 
 namespace Files.View_Models
 {

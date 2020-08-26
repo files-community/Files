@@ -50,8 +50,8 @@
                 <ListView
                     x:Name="FeedbackListView"
                     HorizontalAlignment="Left"
-                    Tapped="FeedbackListView_Tapped"
-                    SelectionMode="Single">
+                    SelectionMode="Single"
+                    Tapped="FeedbackListView_Tapped">
                     <ListViewItem
                         x:Name="FeedbackForm"
                         Padding="8,2"
