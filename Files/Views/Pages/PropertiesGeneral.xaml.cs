@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Windows.ApplicationModel.Core;
 using Microsoft.Toolkit.Uwp.Helpers;
+using System.Threading.Tasks;
 
 // Il modello di elemento Pagina vuota è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -64,7 +65,7 @@ namespace Files
             base.OnNavigatedTo(e);
         }
 
-        public async void SaveChanges(ListedItem item)
+        public async Task SaveChanges(ListedItem item)
         {
             if (ViewModel.OriginalItemName != null)
             {
