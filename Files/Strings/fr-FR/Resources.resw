@@ -126,15 +126,6 @@
   <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
     <value>Épingler OneDrive à la barre latérale</value>
   </data>
-  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
-    <value>Activer le support de la corbeille</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
-    <value>Afficher le propriétaire dans les propriétés</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
-    <value>Demander une confirmation lors de la suppression de fichiers ou dossiers</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>Applications en ligne de commandes</value>
   </data>
@@ -190,7 +181,7 @@
     <value>Extraire</value>
   </data>
   <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>Parcourir</value>
+    <value>W!!ßrøwsè 表!!W</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Trier la liste par</value>
@@ -578,17 +569,5 @@
   </data>
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
     <value>Système de fichiers</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>Langue de l'application</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>Redémarrage requis</value>
-  </data>
-  <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
-    <value>ATTENTION : FONCTIONNALITES EXPERIMENTALES !</value>
-  </data>
-  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Ouvrir l'emplacement des journaux</value>
   </data>
 </root>
