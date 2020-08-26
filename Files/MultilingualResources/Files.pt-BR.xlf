@@ -197,7 +197,7 @@
         </trans-unit>
         <trans-unit id="RecentItemRemove.Text" translate="yes" xml:space="preserve">
           <source>Remove this item</source>
-          <target state="translated">Remover este item?</target>
+          <target state="translated">Remover este item</target>
         </trans-unit>
         <trans-unit id="RecentItems.Text" translate="yes" xml:space="preserve">
           <source>Recent items</source>
@@ -1130,27 +1130,27 @@
         </trans-unit>
         <trans-unit id="DriveCapacityUnknown" translate="yes" xml:space="preserve">
           <source>Unknown</source>
-          <target state="new">Unknown</target>
+          <target state="translated">Desconhecido</target>
         </trans-unit>
         <trans-unit id="ExceptionNotificationAccessLogFileButton" translate="yes" xml:space="preserve">
           <source>Open log location</source>
-          <target state="new">Open log location</target>
+          <target state="translated">Abrir local do log</target>
         </trans-unit>
         <trans-unit id="ExceptionNotificationBody" translate="yes" xml:space="preserve">
           <source>Files ran into a problem that the developers didn't prepare for yet.</source>
-          <target state="new">Files ran into a problem that the developers didn't prepare for yet.</target>
+          <target state="translated">O Files encontrou um problema para o qual os desenvolvedores ainda não se prepararam.</target>
         </trans-unit>
         <trans-unit id="ExceptionNotificationHeader" translate="yes" xml:space="preserve">
           <source>Something went wrong!</source>
-          <target state="new">Something went wrong!</target>
+          <target state="translated">Algo deu errado!</target>
         </trans-unit>
         <trans-unit id="ExceptionNotificationReportButton" translate="yes" xml:space="preserve">
           <source>Report this issue</source>
-          <target state="new">Report this issue</target>
+          <target state="translated">Reportar este problema</target>
         </trans-unit>
         <trans-unit id="SettingsAboutVersionTitle" translate="yes" xml:space="preserve">
           <source>Version:</source>
-          <target state="new">Version:</target>
+          <target state="translated">Versão:</target>
         </trans-unit>
         <trans-unit id="ShareDialogFailMessage" translate="yes" xml:space="preserve">
           <source>There's nothing to share right now</source>
@@ -1174,11 +1174,11 @@
         </trans-unit>
         <trans-unit id="ContextMenuMoreItemsLabel" translate="yes" xml:space="preserve">
           <source>More</source>
-          <target state="new">More</target>
+          <target state="translated">Mais</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesContextMenu.Text" translate="yes" xml:space="preserve">
           <source>Show all context menu items</source>
-          <target state="new">Show all context menu items</target>
+          <target state="translated">Mostrar todos os itens do menu de contexto</target>
         </trans-unit>
       </group>
     </body>

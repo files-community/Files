@@ -154,7 +154,7 @@
     <value>Abrir local do arquivo</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>Remover este item?</value>
+    <value>Remover este item</value>
   </data>
   <data name="RecentItems.Text" xml:space="preserve">
     <value>Arquivos recentes</value>
@@ -831,6 +831,21 @@
   <data name="SettingsPreferencesShowHorizontalTabStrip.Text" xml:space="preserve">
     <value>Mostrar uma tabulação horizontal na barra de título</value>
   </data>
+  <data name="DriveCapacityUnknown" xml:space="preserve">
+    <value>Desconhecido</value>
+  </data>
+  <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
+    <value>Abri local do log</value>
+  </data>
+  <data name="ExceptionNotificationBody" xml:space="preserve">
+    <value>O Files encontrou um problema para o qual os desenvolvedores ainda não se prepararam.</value>
+  </data>
+  <data name="ExceptionNotificationHeader" xml:space="preserve">
+    <value>Algo deu errado!</value>
+  </data>
+  <data name="ExceptionNotificationReportButton" xml:space="preserve">
+    <value>Reportar este problema</value>
+  </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Contribuidores</value>
   </data>
@@ -852,6 +867,9 @@
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Item inválido</value>
   </data>
+  <data name="SettingsAboutVersionTitle" xml:space="preserve">
+    <value>Versão:</value>
+  </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
     <value>Não há nada para compartilhar agora</value>
   </data>
@@ -866,5 +884,11 @@
   </data>
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
     <value>Compartilhando {0} {1}</value>
+  </data>
+  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
+    <value>Mais</value>
+  </data>
+  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
+    <value>Mostrar todos os itens do menu de contexto</value>
   </data>
 </root>
