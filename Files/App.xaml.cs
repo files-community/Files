@@ -34,11 +34,14 @@ using Windows.UI.Notifications;
 using System.Linq;
 using Newtonsoft.Json;
 using Files.Common;
+using Files.UserControls.MultiTaskingControl;
 
 namespace Files
 {
     sealed partial class App : Application
     {
+        public static IMultitaskingControl multitaskingControl = null;
+
         private static IShellPage currentInstance;
         private static bool ShowErrorNotification = false;
 

@@ -25,17 +25,44 @@ namespace Files.SettingsPages
 
         private void AdaptiveMultToggle_Checked(object sender, RoutedEventArgs e)
         {
-
+            if (AdaptiveMultToggle.IsChecked == true)
+            {
+                AppSettings.IsHorizontalTabStripEnabled = false;
+                AppSettings.IsVerticalTabFlyoutEnabled = false;
+                AppSettings.IsMultitaskingExperienceAdaptive = true;
+            }
+            else
+            {
+                AppSettings.IsMultitaskingExperienceAdaptive = false;
+            }
         }
 
         private void VerticalMultToggle_Checked(object sender, RoutedEventArgs e)
         {
-
+            if (VerticalMultToggle.IsChecked == true)
+            {
+                AppSettings.IsHorizontalTabStripEnabled = false;
+                AppSettings.IsVerticalTabFlyoutEnabled = true;
+                AppSettings.IsMultitaskingExperienceAdaptive = false;
+            }
+            else
+            {
+                AppSettings.IsVerticalTabFlyoutEnabled = false;
+            }
         }
 
         private void HorizontalMultToggle_Checked(object sender, RoutedEventArgs e)
         {
-
+            if (HorizontalMultToggle.IsChecked == true)
+            {
+                AppSettings.IsHorizontalTabStripEnabled = true;
+                AppSettings.IsVerticalTabFlyoutEnabled = false;
+                AppSettings.IsMultitaskingExperienceAdaptive = false;
+            }
+            else
+            {
+                AppSettings.IsHorizontalTabStripEnabled = false;
+            }
         }
     }
 }

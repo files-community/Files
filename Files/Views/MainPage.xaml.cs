@@ -3,6 +3,7 @@ using Files.Controllers;
 using Files.Controls;
 using Files.Filesystem;
 using Files.UserControls;
+using Files.UserControls.MultiTaskingControl;
 using Files.View_Models;
 using Files.Views.Pages;
 using System;
@@ -67,8 +68,8 @@ namespace Files.Views
             {
                 FlowDirection = FlowDirection.RightToLeft;
             }
-
             AllowDrop = true;
+
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -402,6 +403,11 @@ namespace Files.Views
         {
             await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
             args.Handled = true;
+        }
+
+        private void horizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            App.multitaskingControl = horizontalMultitaskingControl;
         }
     }
 }

@@ -65,7 +65,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <usercontrols:HorizontalMultitaskingControl x:Name="horizontalMultitaskingControl" x:Load="{x:Bind AppSettings.IsHorizontalTabStripVisible, Mode=OneWay}" />
+        <usercontrols:HorizontalMultitaskingControl x:FieldModifier="public" Loaded="horizontalMultitaskingControl_Loaded" x:Name="horizontalMultitaskingControl" x:Load="{x:Bind local1:App.InteractionViewModel.IsHorizontalTabStripVisible, Mode=OneWay}" />
 
         <ContentPresenter Grid.Row="1" Content="{x:Bind ((usercontrols:TabItem)SelectedTabItem).Content, Mode=OneWay}" />
     </Grid>

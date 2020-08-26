@@ -614,5 +614,10 @@ namespace Files.UserControls
                 flyout.Items.Add(flyoutItem);
             }
         }
+
+        private void VerticalTabStripInvokeButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            App.multitaskingControl = verticalTabs;
+        }
     }
 }

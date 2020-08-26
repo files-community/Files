@@ -1,5 +1,6 @@
 ﻿using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -27,7 +28,7 @@ namespace Files.Controls
                     SetProperty(ref _TabStripSelectedIndex, value);
                     Frame rootFrame = Window.Current.Content as Frame;
                     var mainView = rootFrame.Content as MainPage;
-                    mainView.SelectedTabItem = App.CurrentInstance.MultitaskingControl.Items[value];
+                    mainView.SelectedTabItem = App.multitaskingControl.Items[value];
                 }
             }
         }
@@ -54,6 +55,48 @@ namespace Files.Controls
         {
             get => _isPasteEnabled;
             set => SetProperty(ref _isPasteEnabled, value);
+        }
+
+        private bool _isHorizontalTabStripVisible = false;
+
+        public bool IsHorizontalTabStripVisible
+        {
+            get => _isHorizontalTabStripVisible;
+            set => SetProperty(ref _isHorizontalTabStripVisible, value);
+        }
+
+        private bool _isVerticalTabFlyoutVisible = false;
+
+        public bool IsVerticalTabFlyoutVisible
+        {
+            get => _isVerticalTabFlyoutVisible;
+            set => SetProperty(ref _isVerticalTabFlyoutVisible, value);
+        }
+
+        private bool _isWindowCompactSize = IsWindowResizedToCompactWidth();
+
+        public static bool IsWindowResizedToCompactWidth()
+        {
+            return Window.Current.Bounds.Width <= 750 ? true : false;
+        }
+
+        public bool IsWindowCompactSize
+        {
+            get => _isWindowCompactSize;
+            set 
+            { 
+                SetProperty(ref _isWindowCompactSize, value);
+                if (value)
+                {
+                    IsHorizontalTabStripVisible = false;
+                    IsVerticalTabFlyoutVisible = true;
+                }
+                else
+                {
+                    IsHorizontalTabStripVisible = true;
+                    IsVerticalTabFlyoutVisible = false;
+                }
+            }
         }
     }
 }

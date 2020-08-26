@@ -66,13 +66,12 @@ namespace Files.Views.Pages
         ItemViewModel IShellPage.FilesystemViewModel => viewModel;
 
         BaseLayout IShellPage.ContentPage => GetContentOrNull();
+
         Control IShellPage.OperationsControl => null;
 
         StatusBarControl IShellPage.StatusBarControl => StatusBarControl;
 
         CurrentInstanceViewModel IShellPage.InstanceViewModel => instanceViewModel;
-
-        IMultitaskingControl IShellPage.MultitaskingControl => NavToolbar.verticalTabs;
 
         private BaseLayout GetContentOrNull()
         {

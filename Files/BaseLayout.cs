@@ -236,10 +236,10 @@ namespace Files
             App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
             App.CurrentInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
 
-            await App.CurrentInstance.MultitaskingControl?.SetSelectedTabInfo(new DirectoryInfo(workingDir).Name, workingDir);
+            await App.multitaskingControl?.SetSelectedTabInfo(new DirectoryInfo(workingDir).Name, workingDir);
             App.CurrentInstance.FilesystemViewModel.RefreshItems();
 
-            App.CurrentInstance.MultitaskingControl?.SelectionChanged();
+            App.multitaskingControl?.SelectionChanged();
             MainPage.Clipboard_ContentChanged(null, null);
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = parameters;
         }

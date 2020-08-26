@@ -925,7 +925,8 @@
                 Width="34"
                 Height="30"
                 Margin="2,0,2,0"
-                x:Load="{x:Bind AppSettings.IsMultitaskingControlVisible, Mode=OneWay}"
+                x:Load="{x:Bind local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible, Mode=OneWay}"
+                Loaded="VerticalTabStripInvokeButton_Loaded"
                 AllowDrop="True"
                 Background="Transparent"
                 Content="&#xF5ED;"
@@ -938,8 +939,7 @@
                 PointerExited="VerticalTabStripInvokeButton_PointerExited"
                 Style="{StaticResource ToolBarButtonStyle}"
                 Tapped="Button_Tapped"
-                ToolTipService.ToolTip="Open tabs"
-                Visibility="Visible">
+                ToolTipService.ToolTip="Open tabs">
                 <Button.Flyout>
                     <Flyout
                         x:Name="VerticalTabViewFlyout"
@@ -975,7 +975,6 @@
                         <MenuFlyoutItem
                             x:Name="NavToolbarNewTab"
                             x:Uid="NavigationToolbarNewTab"
-                            x:Load="{x:Bind AppSettings.IsMultitaskingControlVisible, Mode=OneWay}"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.OpenNewTab}"
                             Text="New Tab">
                             <MenuFlyoutItem.Icon>

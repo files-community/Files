@@ -21,6 +21,8 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.System;
+using Windows.ApplicationModel.Core;
+using Files.Controls;
 
 namespace Files.View_Models
 {
@@ -59,8 +61,8 @@ namespace Files.View_Models
             Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
             Analytics.TrackEvent("AcrylicSidebar " + AcrylicEnabled.ToString());
             Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
-            Analytics.TrackEvent("IsHorizontalTabStripVisible " + IsHorizontalTabStripVisible.ToString());
-            Analytics.TrackEvent("IsMultitaskingControlVisible " + IsMultitaskingControlVisible.ToString());
+            Analytics.TrackEvent("IsHorizontalTabStripEnabled " + IsHorizontalTabStripEnabled.ToString());
+            Analytics.TrackEvent("IsVerticalTabFlyoutEnabled " + IsVerticalTabFlyoutEnabled.ToString());
             // Load the supported languages
 
             var supportedLang = ApplicationLanguages.ManifestLanguages;
@@ -435,16 +437,58 @@ namespace Files.View_Models
             set => Set(value);
         }
 
-        public bool IsMultitaskingControlVisible
+        public bool IsMultitaskingExperienceAdaptive
         {
             get => Get(true);
-            set => Set(value);
+            set 
+            {
+                Set(value);
+                if (value)
+                {
+                    Window.Current.SizeChanged += Current_SizeChanged;
+                    if (App.InteractionViewModel.IsWindowCompactSize)
+                    {
+                        App.InteractionViewModel.IsVerticalTabFlyoutVisible = true;
+                        App.InteractionViewModel.IsHorizontalTabStripVisible = false;
+                    }
+                    else if (!App.InteractionViewModel.IsWindowCompactSize)
+                    {
+                        App.InteractionViewModel.IsVerticalTabFlyoutVisible = false;
+                        App.InteractionViewModel.IsHorizontalTabStripVisible = true;
+                    }
+                }
+                else
+                {
+                    Window.Current.SizeChanged -= Current_SizeChanged;
+                }
+            }
         }
 
-        public bool IsHorizontalTabStripVisible
+        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
         {
-            get => Get(true);
-            set => Set(value);
+            App.InteractionViewModel.IsWindowCompactSize = InteractionViewModel.IsWindowResizedToCompactWidth();
+        }
+
+        public bool IsVerticalTabFlyoutEnabled
+        {
+            get => Get(false);
+            set
+            {     
+                Set(value);
+                App.InteractionViewModel.IsVerticalTabFlyoutVisible = value;
+                App.InteractionViewModel.IsHorizontalTabStripVisible = !value;
+            }
+        }
+
+        public bool IsHorizontalTabStripEnabled
+        {
+            get => Get(false);
+            set 
+            { 
+                Set(value);
+                App.InteractionViewModel.IsVerticalTabFlyoutVisible = !value;
+                App.InteractionViewModel.IsHorizontalTabStripVisible = value;
+            }
         }
 
         public bool OpenNewTabPageOnStartup
