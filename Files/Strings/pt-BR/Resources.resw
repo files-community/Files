@@ -885,6 +885,7 @@
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
     <value>Compartilhando {0} {1}</value>
   </data>
+  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Mais</value>
   </data>
   <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
