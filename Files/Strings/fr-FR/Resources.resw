@@ -349,10 +349,10 @@
     <value>Sombre</value>
   </data>
   <data name="ApplicationTimeStye" xml:space="preserve">
-    <value>Application (lundi 6 janvier 2020)</value>
+    <value>Candidature</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
-    <value>Système (06/01/2020)</value>
+    <value>Système</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Nouveau dossier</value>
@@ -596,8 +596,5 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>Définir en tant qu'arrière plan de verrouillage</value>
-  </data>
-  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>En savoir plus au sujet des formats de date</value>
   </data>
 </root>
