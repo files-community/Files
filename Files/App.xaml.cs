@@ -415,7 +415,7 @@ namespace Files
 
         private void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
         {
-            AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(x => x != null ? x.Path : ResourceController.GetTranslation("NewTab")).ToArray();
+            AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab => tab != null ? tab.Path ?? ResourceController.GetTranslation("NewTab") : ResourceController.GetTranslation("NewTab")).ToArray();
         }
 
         // Occurs when an exception is not handled on the UI thread.

@@ -1007,5 +1007,10 @@
   </data>
   <data name="RenameError.TooLong.Title" xml:space="preserve">
     <value>Item name was too long</value>
+  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
+    <value>More</value>
+  </data>
+  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
+    <value>Show all context menu items</value>
   </data>
 </root>

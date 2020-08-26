@@ -498,6 +498,12 @@ namespace Files.View_Models
             }
         }
 
+        public bool ShowAllContextMenuItems
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         public event EventHandler ThemeModeChanged;
 
         public RelayCommand UpdateThemeElements => new RelayCommand(() =>

@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel;
@@ -50,6 +51,9 @@ namespace FilesFullTrust
 
             try
             {
+                // Create handle table to store e.g. context menu references
+                handleTable = new Win32API.DisposableDictionary();
+
                 // Create shell COM object and get recycle bin folder
                 recycler = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_RecycleBinFolder);
                 ApplicationData.Current.LocalSettings.Values["RecycleBin_Title"] = recycler.Name;
@@ -89,6 +93,7 @@ namespace FilesFullTrust
                 {
                     watcher.Dispose();
                 }
+                handleTable?.Dispose();
                 recycler?.Dispose();
                 appServiceExit?.Dispose();
                 mutex?.ReleaseMutex();
@@ -129,6 +134,7 @@ namespace FilesFullTrust
         private static AppServiceConnection connection;
         private static AutoResetEvent appServiceExit;
         private static ShellFolder recycler;
+        private static Win32API.DisposableDictionary handleTable;
         private static IList<FileSystemWatcher> watchers;
 
         private static async void InitializeAppServiceConnection()
@@ -233,17 +239,36 @@ namespace FilesFullTrust
                     process.Start();
                     break;
 
-                case "LoadMUIVerb":
-                    var responseSet = new ValueSet();
-                    responseSet.Add("MUIVerbString", Win32API.ExtractStringFromDLL((string)args.Request.Message["MUIVerbLocation"], (int)args.Request.Message["MUIVerbLine"]));
-                    await args.Request.SendResponseAsync(responseSet);
+                case "LoadContextMenu":
+                    var contextMenuResponse = new ValueSet();
+                    var loadThreadWithMessageQueue = new Win32API.ThreadWithMessageQueue<ValueSet>(HandleMenuMessage);
+                    var cMenuLoad = await loadThreadWithMessageQueue.PostMessage<Win32API.ContextMenu>(args.Request.Message);
+                    contextMenuResponse.Add("Handle", handleTable.AddValue(loadThreadWithMessageQueue));
+                    contextMenuResponse.Add("ContextMenu", JsonConvert.SerializeObject(cMenuLoad));
+                    await args.Request.SendResponseAsync(contextMenuResponse);
                     break;
 
-                case "ParseAguments":
-                    var responseArray = new ValueSet();
-                    var resultArgument = Win32API.CommandLineToArgs((string)args.Request.Message["Command"]);
-                    responseArray.Add("ParsedArguments", JsonConvert.SerializeObject(resultArgument));
-                    await args.Request.SendResponseAsync(responseArray);
+                case "ExecAndCloseContextMenu":
+                    var menuKey = (string)args.Request.Message["Handle"];
+                    var execThreadWithMessageQueue = handleTable.GetValue<Win32API.ThreadWithMessageQueue<ValueSet>>(menuKey);
+                    if (execThreadWithMessageQueue != null)
+                    {
+                        await execThreadWithMessageQueue.PostMessage(args.Request.Message);
+                    }
+                    // The following line is needed to cleanup resources when menu is closed. 
+                    // Unfortunately if you uncomment it some menu items will randomly stop working.
+                    // Resource cleanup is currently done on app closing, 
+                    // if we find a solution for the issue above, we should cleanup as soon as a menu is closed.
+                    //handleTable.RemoveValue(menuKey);
+                    break;
+
+                case "InvokeVerb":
+                    var filePath = (string)args.Request.Message["FilePath"];
+                    var split = filePath.Split('|').Where(x => !string.IsNullOrWhiteSpace(x));
+                    using (var cMenu = Win32API.ContextMenu.GetContextMenuForFiles(split.ToArray(), Shell32.CMF.CMF_DEFAULTONLY))
+                    {
+                        cMenu?.InvokeVerb((string)args.Request.Message["Verb"]);
+                    }
                     break;
 
                 case "Bitlocker":
@@ -274,6 +299,56 @@ namespace FilesFullTrust
                     }
                     break;
             }
+        }
+
+        private static object HandleMenuMessage(ValueSet message, Win32API.DisposableDictionary table)
+        {
+            switch ((string)message["Arguments"])
+            {
+                case "LoadContextMenu":
+                    var contextMenuResponse = new ValueSet();
+                    var filePath = (string)message["FilePath"];
+                    var extendedMenu = (bool)message["ExtendedMenu"];
+                    var showOpenMenu = (bool)message["ShowOpenMenu"];
+                    var split = filePath.Split('|').Where(x => !string.IsNullOrWhiteSpace(x));
+                    var cMenuLoad = Win32API.ContextMenu.GetContextMenuForFiles(split.ToArray(),
+                        extendedMenu ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL, FilterMenuItems(showOpenMenu));
+                    table.SetValue("MENU", cMenuLoad);
+                    return cMenuLoad;
+
+                case "ExecAndCloseContextMenu":
+                    var cMenuExec = table.GetValue<Win32API.ContextMenu>("MENU");
+                    cMenuExec?.InvokeItem(message.Get("ItemID", -1));
+                    // The following line is needed to cleanup resources when menu is closed. 
+                    // Unfortunately if you uncomment it some menu items will randomly stop working.
+                    // Resource cleanup is currently done on app closing, 
+                    // if we find a solution for the issue above, we should cleanup as soon as a menu is closed.
+                    //table.RemoveValue("MENU");
+                    return null;
+
+                default:
+                    return null;
+            }
+        }
+
+        private static Func<string, bool> FilterMenuItems(bool showOpenMenu)
+        {
+            var knownItems = new List<string>() {
+                "opennew", "openas", "opencontaining", "opennewprocess",
+                "runas", "runasuser", "pintohome",
+                "cut", "copy", "delete", "properties", "link",
+                "WSL", "Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
+                Win32API.ExtractStringFromDLL("shell32.dll", 30312), // SendTo menu
+                Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
+            };
+
+            bool filterMenuItemsImpl(string menuItem)
+            {
+                return string.IsNullOrEmpty(menuItem) ? false : knownItems.Contains(menuItem)
+                    || (!showOpenMenu && menuItem.Equals("open", StringComparison.OrdinalIgnoreCase));
+            }
+
+            return filterMenuItemsImpl;
         }
 
         private static async Task parseFileOperation(AppServiceRequestReceivedEventArgs args)
@@ -552,32 +627,8 @@ namespace FilesFullTrust
                                     {
                                         continue;
                                     }
-
-                                    var files = group.Select(x => new ShellItem(x));
-                                    using var sf = files.First().Parent;
-                                    Shell32.IContextMenu menu = null;
-                                    try
-                                    {
-                                        menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(null, files.ToArray());
-                                        menu.QueryContextMenu(HMENU.NULL, 0, 0, 0, Shell32.CMF.CMF_DEFAULTONLY);
-                                        var pici = new Shell32.CMINVOKECOMMANDINFOEX();
-                                        pici.lpVerb = new SafeResourceId(Shell32.CMDSTR_OPEN, CharSet.Ansi);
-                                        pici.nShow = ShowWindowCommand.SW_SHOW;
-                                        pici.cbSize = (uint)Marshal.SizeOf(pici);
-                                        menu.InvokeCommand(pici);
-                                    }
-                                    finally
-                                    {
-                                        foreach (var elem in files)
-                                        {
-                                            elem.Dispose();
-                                        }
-
-                                        if (menu != null)
-                                        {
-                                            Marshal.ReleaseComObject(menu);
-                                        }
-                                    }
+                                    using var cMenu = Win32API.ContextMenu.GetContextMenuForFiles(group.ToArray(), Shell32.CMF.CMF_DEFAULTONLY);
+                                    cMenu?.InvokeVerb(Shell32.CMDSTR_OPEN);
                                 }
                             }
                             return true;

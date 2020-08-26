@@ -1198,6 +1198,13 @@
         <trans-unit id="RenameError.TooLong.Title" translate="yes" xml:space="preserve">
           <source>Item name was too long</source>
           <target state="new">Item name was too long</target>
+        <trans-unit id="ContextMenuMoreItemsLabel" translate="yes" xml:space="preserve">
+          <source>More</source>
+          <target state="new">More</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesContextMenu.Text" translate="yes" xml:space="preserve">
+          <source>Show all context menu items</source>
+          <target state="new">Show all context menu items</target>
         </trans-unit>
       </group>
     </body>
