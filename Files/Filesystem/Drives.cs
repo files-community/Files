@@ -50,8 +50,9 @@ namespace Files.Filesystem
             };
         }
 
-        private void StartDeviceWatcher()
+        public void StartDeviceWatcher()
         {
+            this.Dispose();
             _deviceWatcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
             _deviceWatcher.Added += DeviceAdded;
             _deviceWatcher.Removed += DeviceRemoved;
