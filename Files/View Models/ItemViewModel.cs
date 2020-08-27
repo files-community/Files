@@ -1129,6 +1129,8 @@ namespace Files.Filesystem
 
             IntPtr hFile = FindFirstFileExFromApp(fileOrFolderPath, findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
                                                   additionalFlags);
+            FindClose(hFile);
+
             if ((findData.dwFileAttributes & 0x10) > 0) // FILE_ATTRIBUTE_DIRECTORY
             {
                 AddFolder(findData, Directory.GetParent(fileOrFolderPath).FullName);
@@ -1556,9 +1558,11 @@ namespace Files.Filesystem
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
             int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
 
-            IntPtr hFile = FindFirstFileExFromApp(targetPath + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findChildData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
-            FindNextFile(hFile, out findChildData);
-            return FindNextFile(hFile, out findChildData);
+            IntPtr hFile = FindFirstFileExFromApp(targetPath + "\\*.*", findInfoLevel, out WIN32_FIND_DATA _, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
+            FindNextFile(hFile, out _);
+            var result = FindNextFile(hFile, out _);
+            FindClose(hFile);
+            return result;
         }
     }
 }
