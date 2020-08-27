@@ -420,7 +420,10 @@ namespace Files.View_Models
         public bool ShowFileExtensions
         {
             get => Get(true);
-            set => Set(value);
+            set {
+                Set(value);
+                this.DotFileNames = false;
+            }
         }
 
         public bool DotFileNames
