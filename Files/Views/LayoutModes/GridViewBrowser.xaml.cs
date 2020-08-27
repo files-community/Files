@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.System;
@@ -194,27 +195,21 @@ namespace Files
 
         public override void ResetItemOpacity()
         {
-            foreach (ListedItem listedItem in FileList.Items)
+            IEnumerable items = (IEnumerable)FileList.ItemsSource;
+            if (items == null)
             {
-                List<Grid> itemContentGrids = new List<Grid>();
-                GridViewItem gridViewItem = FileList.ContainerFromItem(listedItem) as GridViewItem;
-                if (gridViewItem == null)
-                {
-                    return;
-                }
-                Interaction.FindChildren<Grid>(itemContentGrids, gridViewItem);
-                var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
-                imageOfItem.Opacity = 1;
+                return;
+            }
+
+            foreach (ListedItem listedItem in items)
+            {
+                listedItem.IsDimmed = false;
             }
         }
 
         public override void SetItemOpacity(ListedItem item)
         {
-            GridViewItem itemToDimForCut = (GridViewItem)FileList.ContainerFromItem(item);
-            List<Grid> itemContentGrids = new List<Grid>();
-            Interaction.FindChildren(itemContentGrids, itemToDimForCut);
-            var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
-            imageOfItem.Opacity = 0.4;
+            item.IsDimmed = true;
         }
 
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
