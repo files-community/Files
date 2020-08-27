@@ -13,7 +13,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -333,7 +332,7 @@ namespace Files
                     };
                     MenuItemsList.Insert(0, menuLayoutItem);
                 }
-                else if (menuFlyoutItem.SubItems.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any() 
+                else if (menuFlyoutItem.SubItems.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any()
                     && !string.IsNullOrEmpty(menuFlyoutItem.Label))
                 {
                     var menuLayoutSubItem = new MenuFlyoutSubItem()
@@ -400,8 +399,8 @@ namespace Files
         public void RightClickItemContextMenu_Opening(object sender, object e)
         {
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var showOpenMenu = (SelectedItems.Count == 1) 
-                && SelectedItem.PrimaryItemAttribute == StorageItemTypes.File 
+            var showOpenMenu = (SelectedItems.Count == 1)
+                && SelectedItem.PrimaryItemAttribute == StorageItemTypes.File
                 && !string.IsNullOrEmpty(SelectedItem.FileExtension)
                 && SelectedItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase);
             SetShellContextmenu(shiftPressed, showOpenMenu);

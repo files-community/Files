@@ -90,7 +90,6 @@ namespace Files.Views
                     {
                         if (App.AppSettings.OpenASpecificPageOnStartup)
                         {
-
                             if (App.AppSettings.PagesOnStartupList != null)
                             {
                                 foreach (string path in App.AppSettings.PagesOnStartupList)

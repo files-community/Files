@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.PInvoke;
-using Vanara.Windows.Shell;
 using Windows.System;
 
 namespace FilesFullTrust
@@ -117,7 +116,4 @@ namespace FilesFullTrust
     // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.
     // The Vanara library contains the definitions for all members of Shell32.dll, User32.dll and more
     // The ones below are due to bugs in the current version of the library and can be removed once fixed
-    #region WIN32_INTERFACES
-
-    #endregion
 }
