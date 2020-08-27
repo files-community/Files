@@ -4,10 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
+    xmlns:ivb="using:Files.Converters"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
-
+    <Page.Resources>
+        <ivb:InverseBoolConverter x:Key="InverseBoolConverterKey" />
+    </Page.Resources>
     <Grid>
 
         <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -42,13 +45,21 @@
                         Text="Show extensions for known file types" />
                     <ToggleSwitch x:Name="FileExtensionsToggle" IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
                 </StackPanel>
-                
+
                 <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="DotFileNamesToggle"
                         FontSize="17"
                         Text="Show Dotfile Names" />
-                    <ToggleSwitch x:Name="DotFileNamesToggle" IsOn="{x:Bind AppSettings.DotFileNames, Mode=TwoWay}" />
+                    <ToggleSwitch x:Name="DotFileNamesToggle" 
+                        IsOn="{x:Bind AppSettings.DotFileNames, Mode=TwoWay}"
+                        IsEnabled="{Binding Path=IsOn, ElementName=FileExtensionsToggle, Mode=TwoWay, Converter={StaticResource InverseBoolConverterKey}}"
+                                />
+                    <TextBlock
+                        x:Uid="DotFileDisabledText"
+                        FontSize="15"
+                        Text='Disabled while "Show extensions for known file types" is enabled.'
+                        Foreground="#FFEE8506" Visibility="{Binding Path=IsOn, ElementName=FileExtensionsToggle}" />
                 </StackPanel>
 
                 <StackPanel Spacing="10">

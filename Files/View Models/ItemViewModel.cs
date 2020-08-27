@@ -1089,7 +1089,7 @@ namespace Files.Filesystem
                 }
                 else
                 {
-                    if (AppSettings.DotFileNames && item.FileName.StartsWith("."))
+                    if (AppSettings.DotFileNames && !AppSettings.ShowFileExtensions && item.FileName.StartsWith("."))
                         itemName = item.FileName; // Always show full name for dotfiles.
                     else
                         itemName = Path.GetFileNameWithoutExtension(item.FileName);
@@ -1279,7 +1279,7 @@ namespace Files.Filesystem
             }
             else
             {
-                if (AppSettings.DotFileNames && findData.cFileName.StartsWith("."))
+                if (AppSettings.DotFileNames && !AppSettings.ShowFileExtensions && findData.cFileName.StartsWith("."))
                     itemName = findData.cFileName; // Always show full name for dotfiles.
                 else
                     itemName = Path.GetFileNameWithoutExtension(itemPath);
