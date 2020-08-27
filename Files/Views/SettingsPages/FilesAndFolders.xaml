@@ -42,6 +42,14 @@
                         Text="Show extensions for known file types" />
                     <ToggleSwitch x:Name="FileExtensionsToggle" IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
                 </StackPanel>
+                
+                <StackPanel Spacing="10">
+                    <TextBlock
+                        x:Uid="DotFileNamesToggle"
+                        FontSize="17"
+                        Text="Show Dotfile Names" />
+                    <ToggleSwitch x:Name="DotFileNamesToggle" IsOn="{x:Bind AppSettings.DotFileNames, Mode=TwoWay}" />
+                </StackPanel>
 
                 <StackPanel Spacing="10">
                     <TextBlock
