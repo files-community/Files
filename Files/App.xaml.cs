@@ -40,7 +40,7 @@ namespace Files
 {
     sealed partial class App : Application
     {
-        public static IMultitaskingControl multitaskingControl = null;
+        public static IMultitaskingControl MultitaskingControl = null;
 
         private static IShellPage currentInstance;
         private static bool ShowErrorNotification = false;
