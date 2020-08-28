@@ -79,7 +79,7 @@ namespace Files
         {
             // Need to reinitialize AppService when app is resuming
             InitializeAppServiceConnection();
-            AppSettings?.DrivesManager?.StartDeviceWatcher();
+            AppSettings?.DrivesManager?.ResumeDeviceWatcher();
         }
 
         public static AppServiceConnection Connection;
