@@ -6,6 +6,7 @@ using Files.Helpers;
 using Files.View_Models;
 using Files.Views;
 using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -1089,10 +1090,18 @@ namespace Files.Filesystem
                 }
                 else
                 {
-                    if (item.FileName.StartsWith("."))
+                    // Get the Windows version and make sure its above 1903 before displaying dotfiles
+                    // as there is apparently a compatibility issue
+                    // GitHub: https://github.com/files-community/files-uwp/pull/1832#pullrequestreview-477205981
+                    uint WinVersion = Convert.ToUInt32(Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", "ReleaseID", null));
+                    if (WinVersion > 1903 && item.FileName.StartsWith("."))
+                    {
                         itemName = item.FileName; // Always show full name for dotfiles.
+                    }
                     else
+                    {
                         itemName = Path.GetFileNameWithoutExtension(item.FileName);
+                    }
                 }
 
                 string itemFileExtension = null;
@@ -1279,10 +1288,18 @@ namespace Files.Filesystem
             }
             else
             {
-                if (findData.cFileName.StartsWith("."))
+                // Get the Windows version and make sure its above 1903 before displaying dotfiles
+                // as there is apparently a compatibility issue
+                // GitHub: https://github.com/files-community/files-uwp/pull/1832#pullrequestreview-477205981
+                uint WinVersion = Convert.ToUInt32(Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", "ReleaseID", null));
+                if (WinVersion > 1903 && findData.cFileName.StartsWith("."))
+                {
                     itemName = findData.cFileName; // Always show full name for dotfiles.
+                }
                 else
+                {
                     itemName = Path.GetFileNameWithoutExtension(itemPath);
+                }
             }
 
             FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemModifiedDateOutput);
