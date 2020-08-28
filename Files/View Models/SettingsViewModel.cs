@@ -55,7 +55,6 @@ namespace Files.View_Models
             Analytics.TrackEvent("PinRecycleBinToSideBar " + PinRecycleBinToSideBar.ToString());
             Analytics.TrackEvent("DoubleTapToRenameFiles " + DoubleTapToRenameFiles.ToString());
             Analytics.TrackEvent("ShowFileExtensions " + ShowFileExtensions.ToString());
-            Analytics.TrackEvent("DotFileNames " + DotFileNames.ToString());
             Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
             Analytics.TrackEvent("AcrylicSidebar " + AcrylicEnabled.ToString());
             Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
@@ -420,16 +419,7 @@ namespace Files.View_Models
         public bool ShowFileExtensions
         {
             get => Get(true);
-            set {
-                Set(value);
-                this.DotFileNames = false;
-            }
-        }
-
-        public bool DotFileNames
-        {
-            get => Get(true);
-            set => Set(value);
+            set => Set(value); 
         }
 
         public bool ShowConfirmDeleteDialog

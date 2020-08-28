@@ -48,22 +48,6 @@
 
                 <StackPanel Spacing="10">
                     <TextBlock
-                        x:Uid="DotFileNamesToggle"
-                        FontSize="17"
-                        Text="Show Dotfile Names" />
-                    <ToggleSwitch x:Name="DotFileNamesToggle" 
-                        IsOn="{x:Bind AppSettings.DotFileNames, Mode=TwoWay}"
-                        IsEnabled="{Binding Path=IsOn, ElementName=FileExtensionsToggle, Mode=TwoWay, Converter={StaticResource InverseBoolConverterKey}}"
-                                />
-                    <TextBlock
-                        x:Uid="DotFileDisabledText"
-                        FontSize="15"
-                        Text='Disabled while "Show extensions for known file types" is enabled.'
-                        Foreground="#FFEE8506" Visibility="{Binding Path=IsOn, ElementName=FileExtensionsToggle}" />
-                </StackPanel>
-
-                <StackPanel Spacing="10">
-                    <TextBlock
                         x:Uid="SettingsFilesAndFoldersShowDriveLetters"
                         FontSize="17"
                         Text="Show drive letters" />
