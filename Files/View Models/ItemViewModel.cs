@@ -1129,7 +1129,7 @@ namespace Files.Filesystem
                 });
             }
 
-            IsFolderEmptyTextDisplayed = true;
+            IsFolderEmptyTextDisplayed = false;
             UpdateDirectoryInfo();
         }
 
