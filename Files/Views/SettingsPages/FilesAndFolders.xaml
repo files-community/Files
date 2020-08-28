@@ -53,7 +53,6 @@
                         Text="Show Dotfile Names" />
                     <ToggleSwitch x:Name="DotFileNamesToggle" 
                         IsOn="{x:Bind AppSettings.DotFileNames, Mode=TwoWay}"
-                        Visibility="{Binding Path=IsOn, ElementName=FileExtensionsToggle, Mode=TwoWay, Converter={StaticResource InverseBoolConverterKey}}"
                         IsEnabled="{Binding Path=IsOn, ElementName=FileExtensionsToggle, Mode=TwoWay, Converter={StaticResource InverseBoolConverterKey}}"
                                 />
                     <TextBlock
