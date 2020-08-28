@@ -21,6 +21,9 @@
 
     <local:BaseLayout.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        <converters:BoolToObjectConverter x:Key="BoolToOpacityConverter"
+                                          FalseValue="1"
+                                          TrueValue="0.4" />
 
         <MenuFlyout x:Key="BaseLayoutContextFlyout">
             <MenuFlyoutSubItem
@@ -614,6 +617,7 @@
                             <Grid
                                 x:Name="Icon"
                                 EffectiveViewportChanged="Icon_EffectiveViewportChanged"
+                                Opacity="{x:Bind IsDimmed, Converter={StaticResource BoolToOpacityConverter}, Mode=OneWay}"
                                 ToolTipService.ToolTip="{x:Bind FolderTooltipText}">
                                 <Rectangle
                                     x:Name="CutIndicator"

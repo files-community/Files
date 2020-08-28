@@ -175,17 +175,13 @@ namespace Files
 
             foreach (ListedItem listedItem in items)
             {
-                FrameworkElement element = AllView.Columns[0].GetCellContent(listedItem);
-                if (element != null)
-                {
-                    element.Opacity = 1;
-                }
+                listedItem.IsDimmed = false;
             }
         }
 
         public override void SetItemOpacity(ListedItem item)
         {
-            AllView.Columns[0].GetCellContent(item).Opacity = 0.4;
+            item.IsDimmed = true;
         }
 
         private async void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
