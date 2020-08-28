@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Core;
@@ -1093,8 +1094,8 @@ namespace Files.Filesystem
                     // Get the Windows version and make sure its above 1903 before displaying dotfiles
                     // as there is apparently a compatibility issue
                     // GitHub: https://github.com/files-community/files-uwp/pull/1832#pullrequestreview-477205981
-                    uint WinVersion = Convert.ToUInt32(Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", "ReleaseID", null));
-                    if (WinVersion > 1903 && item.FileName.StartsWith("."))
+                    bool WinVersion = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8);
+                    if (WinVersion && item.FileName.StartsWith("."))
                     {
                         itemName = item.FileName; // Always show full name for dotfiles.
                     }
@@ -1291,8 +1292,8 @@ namespace Files.Filesystem
                 // Get the Windows version and make sure its above 1903 before displaying dotfiles
                 // as there is apparently a compatibility issue
                 // GitHub: https://github.com/files-community/files-uwp/pull/1832#pullrequestreview-477205981
-                uint WinVersion = Convert.ToUInt32(Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", "ReleaseID", null));
-                if (WinVersion > 1903 && findData.cFileName.StartsWith("."))
+                bool WinVersion = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8);
+                if (WinVersion && findData.cFileName.StartsWith("."))
                 {
                     itemName = findData.cFileName; // Always show full name for dotfiles.
                 }
