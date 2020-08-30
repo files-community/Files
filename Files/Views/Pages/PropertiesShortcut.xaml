@@ -9,6 +9,14 @@
     Loaded="Properties_Loaded"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
     <StackPanel Padding="14,0,14,14" VerticalAlignment="Top">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -31,7 +39,7 @@
                 Grid.Column="0"
                 Width="80"
                 Height="80"
-                Margin="0,7"
+                Margin="{StaticResource PropertyNameMargin}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
                 <usercontrols:FileIcon ViewModel="{x:Bind ViewModel}" ItemSize="70"/>
@@ -41,10 +49,7 @@
                 x:Uid="PropertiesItemFileName"
                 Grid.Row="0"
                 Grid.Column="1"
-                Margin="20,0"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Center"
-                BorderThickness="1"
+                Style="{StaticResource PropertyValueTextBox}"
                 IsReadOnly="True"
                 Text="{x:Bind ViewModel.ItemName, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}" />
@@ -60,17 +65,14 @@
                 x:Uid="PropertiesShortcutItemType"
                 Grid.Row="2"
                 Grid.Column="0"
-                Margin="0,7"
-                FontWeight="SemiBold"
+                Style="{StaticResource PropertyName}"
                 Text="Shortcut type:"
                 Visibility="Visible" />
             <TextBlock
                 x:Name="shortcutItemTypeValue"
                 Grid.Row="2"
                 Grid.Column="1"
-                Margin="20,0,0,0"
-                VerticalAlignment="Center"
-                IsTextSelectionEnabled="True"
+                Style="{StaticResource PropertyValueTextBlock}"
                 Text="{x:Bind ViewModel.ShortcutItemType, Mode=OneWay}"
                 Visibility="Visible" />
 
@@ -78,16 +80,14 @@
                 x:Uid="PropertiesShortcutItemPath"
                 Grid.Row="3"
                 Grid.Column="0"
-                Margin="0,7"
-                FontWeight="SemiBold"
+                Style="{StaticResource PropertyName}"
                 Text="Destination:"
                 Visibility="Visible" />
             <TextBox
                 x:Name="shortcutItemPathValue"
                 Grid.Row="3"
                 Grid.Column="1"
-                Margin="20,0,0,0"
-                VerticalAlignment="Center"
+                Style="{StaticResource PropertyValueTextBox}"
                 Text="{x:Bind ViewModel.ShortcutItemPath, Mode=TwoWay}"
                 Visibility="Visible" />
 
@@ -95,16 +95,14 @@
                 x:Uid="PropertiesShortcutItemArgs"
                 Grid.Row="4"
                 Grid.Column="0"
-                Margin="0,7"
-                FontWeight="SemiBold"
+                Style="{StaticResource PropertyName}"
                 Text="Arguments:"
                 Visibility="{x:Bind ViewModel.ShortcutItemArgumentsVisibility, Mode=OneWay}" />
             <TextBox
                 x:Name="shortcutItemArgsValue"
                 Grid.Row="4"
                 Grid.Column="1"
-                Margin="20,0,0,0"
-                VerticalAlignment="Center"
+                Style="{StaticResource PropertyValueTextBox}"
                 Text="{x:Bind ViewModel.ShortcutItemArguments, Mode=TwoWay}"
                 Visibility="{x:Bind ViewModel.ShortcutItemArgumentsVisibility, Mode=OneWay}" />
 
@@ -112,16 +110,14 @@
                 x:Uid="PropertiesShortcutItemWorkingDir"
                 Grid.Row="5"
                 Grid.Column="0"
-                Margin="0,7"
-                FontWeight="SemiBold"
+                Style="{StaticResource PropertyName}"
                 Text="Working directory:"
                 Visibility="{x:Bind ViewModel.ShortcutItemWorkingDirVisibility, Mode=OneWay}" />
             <TextBox
                 x:Name="shortcutItemWorkingDirValue"
                 Grid.Row="5"
                 Grid.Column="1"
-                Margin="20,0,0,0"
-                VerticalAlignment="Center"
+                Style="{StaticResource PropertyValueTextBox}"
                 Text="{x:Bind ViewModel.ShortcutItemWorkingDir, Mode=TwoWay}"
                 Visibility="{x:Bind ViewModel.ShortcutItemWorkingDirVisibility, Mode=OneWay}" />
 
@@ -136,7 +132,7 @@
                 Grid.Row="7"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
-                Margin="20,0,0,0"
+                Margin="{StaticResource PropertyValueMargin}"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
