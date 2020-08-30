@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:usercontrols="using:Files.UserControls"
     Loaded="Properties_Loaded"
     mc:Ignorable="d">
 
@@ -33,43 +34,7 @@
                 Margin="0,7"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
-                <Image
-                    x:Name="FolderGlyphIcon2"
-                    Width="70"
-                    Height="70"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    x:Load="{x:Bind ViewModel.LoadFolderGlyph}"
-                    Stretch="Uniform">
-                    <Image.Source>
-                        <SvgImageSource
-                            RasterizePixelHeight="128"
-                            RasterizePixelWidth="128"
-                            UriSource="{x:Bind ViewModel.FolderIconSource}" />
-                    </Image.Source>
-                </Image>
-                <FontIcon
-                    x:Name="EmptyImageIcon2"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Stretch"
-                    x:Load="{x:Bind ViewModel.LoadUnknownTypeGlyph, Mode=OneWay}"
-                    FontFamily="{StaticResource FluentUIGlyphs}"
-                    FontSize="70"
-                    Glyph="&#xea00;" />
-                <FontIcon
-                    x:Name="WebShortcutGlyph2"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Stretch"
-                    x:Load="{x:Bind ViewModel.LoadLinkIcon, Mode=OneWay}"
-                    FontFamily="{StaticResource FluentUIGlyphs}"
-                    FontSize="70"
-                    Glyph="&#xEAAB;" />
-                <Image
-                    x:Name="itemIcon2"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    x:Load="{x:Bind ViewModel.LoadFileIcon, Mode=OneWay}"
-                    Source="{x:Bind ViewModel.FileIconSource, Mode=OneWay}" />
+                <usercontrols:FileIcon ViewModel="{x:Bind ViewModel}" ItemSize="70"/>
             </Grid>
             <TextBox
                 x:Name="itemFileName2"
