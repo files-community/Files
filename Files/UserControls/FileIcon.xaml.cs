@@ -1,7 +1,6 @@
 ﻿using Files.View_Models;
 using Windows.UI.Xaml.Controls;
 
-
 namespace Files.UserControls
 {
     public sealed partial class FileIcon : UserControl
