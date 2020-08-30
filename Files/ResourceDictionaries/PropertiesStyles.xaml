@@ -3,6 +3,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Files.ResourceDictionaries">
 
+    <Style TargetType="StackPanel" x:Key="PropertiesTab">
+        <Setter Property="Padding" Value="14,0,14,14"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+    </Style>
+
     <Thickness x:Key="PropertyNameMargin">0,7</Thickness>
     <Thickness x:Key="PropertyValueMargin">20,0,0,0</Thickness>
     <VerticalAlignment x:Key="PropertyValueVerticalAlignment">Center</VerticalAlignment>

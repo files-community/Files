@@ -17,7 +17,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <StackPanel Padding="14,0,14,14" VerticalAlignment="Top">
+    <StackPanel Style="{StaticResource PropertiesTab}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
