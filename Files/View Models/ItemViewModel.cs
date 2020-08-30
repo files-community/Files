@@ -6,7 +6,6 @@ using Files.Helpers;
 using Files.View_Models;
 using Files.Views;
 using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,7 +19,6 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Core;
@@ -1091,11 +1089,7 @@ namespace Files.Filesystem
                 }
                 else
                 {
-                    // Get the Windows version and make sure its above 1903 before displaying dotfiles
-                    // as there is apparently a compatibility issue
-                    // GitHub: https://github.com/files-community/files-uwp/pull/1832#pullrequestreview-477205981
-                    bool WinVersion = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8);
-                    if (WinVersion && item.FileName.StartsWith("."))
+                    if (item.FileName.StartsWith("."))
                     {
                         itemName = item.FileName; // Always show full name for dotfiles.
                     }
@@ -1289,11 +1283,7 @@ namespace Files.Filesystem
             }
             else
             {
-                // Get the Windows version and make sure its above 1903 before displaying dotfiles
-                // as there is apparently a compatibility issue
-                // GitHub: https://github.com/files-community/files-uwp/pull/1832#pullrequestreview-477205981
-                bool WinVersion = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8);
-                if (WinVersion && findData.cFileName.StartsWith("."))
+                if (findData.cFileName.StartsWith("."))
                 {
                     itemName = findData.cFileName; // Always show full name for dotfiles.
                 }
