@@ -14,7 +14,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../ResourceDictionaries/PropertiesStyles.xaml"/>
+                <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
@@ -52,7 +52,7 @@
                 Grid.Column="0"
                 Width="80"
                 Height="80"
-                Margin="0,7"
+                Margin="{StaticResource PropertyNameMargin}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
                 <usercontrols:FileIcon ViewModel="{x:Bind ViewModel}" ItemSize="70"/>
@@ -223,7 +223,7 @@
             <StackPanel
                 Grid.Row="10"
                 Grid.Column="0"
-                Margin="0,7"
+                Margin="{StaticResource PropertyNameMargin}"
                 Orientation="Horizontal"
                 Visibility="{x:Bind ViewModel.DriveFreeSpaceVisibiity, Mode=OneWay}">
                 <Rectangle
