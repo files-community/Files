@@ -188,8 +188,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="ResourceController.cs" />
     <Compile Include="INavigationToolbar.cs" />
-    <Compile Include="UserControls\ItemIcon.xaml.cs">
-      <DependentUpon>ItemIcon.xaml</DependentUpon>
+    <Compile Include="UserControls\FileIcon.xaml.cs">
+      <DependentUpon>FileIcon.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MenuFlyoutItemWithImage.xaml.cs">
       <DependentUpon>MenuFlyoutItemWithImage.xaml</DependentUpon>
@@ -447,7 +447,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControls\ItemIcon.xaml">
+    <Page Include="UserControls\FileIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

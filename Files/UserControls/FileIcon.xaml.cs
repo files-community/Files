@@ -4,25 +4,26 @@ using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls
 {
-    public sealed partial class ItemIcon : UserControl
+    public sealed partial class FileIcon : UserControl
     {
         private SelectedItemsPropertiesViewModel viewModel;
-        private double size;
+        private double itemSize;
 
         public SelectedItemsPropertiesViewModel ViewModel { get => viewModel; set => viewModel = value; }
+        public double ItemSize { get; set; }
 
         public double Size
         {
-            get => size;
+            get => itemSize;
             set
             {
-                size = value;
-                LargerItemSize = size + 2.0;
+                itemSize = value;
+                LargerItemSize = itemSize + 2.0;
             }
         }
         private double LargerItemSize { get; set; }
 
-        public ItemIcon()
+        public FileIcon()
         {
             this.InitializeComponent();
         }
