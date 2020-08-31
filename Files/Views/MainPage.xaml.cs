@@ -69,6 +69,20 @@ namespace Files.Views
             }
 
             AllowDrop = true;
+
+            AppInstances.CollectionChanged += AppInstances_CollectionChanged;
+        }
+
+        private void AppInstances_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null)
+            {
+                foreach (var removedTab in e.OldItems)
+                {
+                    // Cleanup resources for the closed tab
+                    ((((removedTab as TabItem).Content as Grid).Children[0] as Frame).Content as IShellPage)?.FilesystemViewModel?.Dispose();
+                }
+            }
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -90,7 +104,6 @@ namespace Files.Views
                     {
                         if (App.AppSettings.OpenASpecificPageOnStartup)
                         {
-
                             if (App.AppSettings.PagesOnStartupList != null)
                             {
                                 foreach (string path in App.AppSettings.PagesOnStartupList)
