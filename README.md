@@ -8,7 +8,13 @@ Meet Files, an enthusiast take on what Windows File Explorer explorer <b>should<
 
 <img src="Files/Assets/FilesHome.png" width="600px">
 
-## Building Files UWP from the source code
+## What is Files UWP?
+Files UWP is an all in one File Explorer solution. Whether you want to simplify your experience with your files or want to try something new, Files is a one-stop solution to exploring your files on the fly.
+
+## Why should I contribute?
+You should contribute to Files UWP because it helps everyone. When you contribute on GitHub, you are helping the community by fixing bugs that only you might know how to fix. These changes get uploaded to the final product for all consumers to enjoy.
+
+## How to Build Files UWP from the source code
 - Install Visual Studio 2019 & UWP Development Kit.
 - Clone the source and open the Files.sln in VS.
 - VS installs all missing dependencies for you.
