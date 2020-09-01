@@ -996,4 +996,16 @@
   <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
     <value>Show all context menu items</value>
   </data>
+  <data name="RestartDialogCancelButton" xml:space="preserve">
+    <value>Restart later</value>
+  </data>
+  <data name="RestartDialogPrimaryButton" xml:space="preserve">
+    <value>Restart now</value>
+  </data>
+  <data name="RestartDialogText" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="RestartDialogTitle" xml:space="preserve">
+    <value>Restart required</value>
+  </data>
 </root>
