@@ -1,6 +1,7 @@
 ﻿using Files.DataModels;
 using Files.View_Models;
 using System;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -42,13 +43,32 @@ namespace Files.SettingsPages
 
         private void ComboAppLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (AppSettings.CurrentLanguage.ID == AppSettings.DefaultLanguage.ID)
+            if (AppSettings.CurrentLanguage.ID != AppSettings.DefaultLanguage.ID)
             {
-                RestartRequiredPrompt.Visibility = Visibility.Collapsed;
+                ShowRestartDialog();
             }
-            else
+        }
+
+        private async void ShowRestartDialog()
+        {
+            ContentDialog restartDialog = new ContentDialog
             {
-                RestartRequiredPrompt.Visibility = Visibility.Visible;
+                Title = ResourceController.GetTranslation("RestartDialogTitle"),
+                Content = ResourceController.GetTranslation("RestartDialogText"),
+                PrimaryButtonText = ResourceController.GetTranslation("RestartDialogPrimaryButton"),
+                CloseButtonText = ResourceController.GetTranslation("RestartDialogCancelButton")
+            };
+
+            ContentDialogResult result = await restartDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                System.Diagnostics.Debug.WriteLine("Restart app");
+                AppRestartFailureReason failureReason = await CoreApplication.RequestRestartAsync("");
+                if (failureReason == AppRestartFailureReason.NotInForeground)
+                {
+
+                }
             }
         }
 
