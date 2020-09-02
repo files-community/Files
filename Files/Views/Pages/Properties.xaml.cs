@@ -91,7 +91,7 @@ namespace Files
                     TintColor = AppSettings.AcrylicTheme.TintColor,
                     TintOpacity = AppSettings.AcrylicTheme.TintOpacity,
                 };
-                if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+                if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 9))
                 {
                     backgroundBrush.TintLuminosityOpacity = 0.9;
                 }

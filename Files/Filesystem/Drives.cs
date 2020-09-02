@@ -131,9 +131,11 @@ namespace Files.Filesystem
             {
                 root = StorageDevice.FromId(deviceId);
             }
-            catch (UnauthorizedAccessException)
+            catch (Exception ex) when (
+                ex is UnauthorizedAccessException
+                || ex is ArgumentException)
             {
-                Logger.Warn($"UnauthorizedAccessException: Attemting to add the device, {args.Name}, failed at the StorageFolder initialization step. This device will be ignored. Device ID: {args.Id}");
+                Logger.Warn($"{ex.GetType()}: Attemting to add the device, {args.Name}, failed at the StorageFolder initialization step. This device will be ignored. Device ID: {args.Id}");
                 return;
             }
 

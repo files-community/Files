@@ -1084,9 +1084,20 @@ namespace Files.Filesystem
                 // File
                 string itemName;
                 if (AppSettings.ShowFileExtensions && !item.FileName.EndsWith(".lnk") && !item.FileName.EndsWith(".url"))
+                {
                     itemName = item.FileName; // never show extension for shortcuts
+                }
                 else
-                    itemName = Path.GetFileNameWithoutExtension(item.FileName);
+                {
+                    if (item.FileName.StartsWith("."))
+                    {
+                        itemName = item.FileName; // Always show full name for dotfiles.
+                    }
+                    else
+                    {
+                        itemName = Path.GetFileNameWithoutExtension(item.FileName);
+                    }
+                }
 
                 string itemFileExtension = null;
                 if (item.FileName.Contains('.'))
@@ -1267,9 +1278,20 @@ namespace Files.Filesystem
 
             string itemName;
             if (AppSettings.ShowFileExtensions && !findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
+            {
                 itemName = findData.cFileName; // never show extension for shortcuts
+            }
             else
-                itemName = Path.GetFileNameWithoutExtension(itemPath);
+            {
+                if (findData.cFileName.StartsWith("."))
+                {
+                    itemName = findData.cFileName; // Always show full name for dotfiles.
+                }
+                else
+                {
+                    itemName = Path.GetFileNameWithoutExtension(itemPath);
+                }
+            }
 
             FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemModifiedDateOutput);
             var itemModifiedDate = new DateTime(
