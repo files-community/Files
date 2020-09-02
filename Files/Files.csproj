@@ -263,6 +263,7 @@
     <Compile Include="View Models\Properties\DriveProperties.cs" />
     <Compile Include="View Models\Properties\FileProperties.cs" />
     <Compile Include="View Models\Properties\FolderProperties.cs" />
+    <Compile Include="View Models\Properties\PropertiesTab.cs" />
     <Compile Include="Views\LayoutModes\GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
