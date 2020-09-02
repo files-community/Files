@@ -55,7 +55,7 @@
                 Margin="{StaticResource PropertyNameMargin}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
-                <usercontrols:FileIcon ViewModel="{x:Bind ViewModel}" ItemSize="70"/>
+                <usercontrols:FileIcon ViewModel="{x:Bind PropertiesTab.ViewModel}" ItemSize="70"/>
             </Grid>
             <TextBox
                 x:Name="ItemFileName"
@@ -63,8 +63,8 @@
                 Grid.Row="0"
                 Grid.Column="1"
                 Style="{StaticResource PropertyValueTextBox}"
-                Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}"
-                Visibility="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}" />
+                Text="{x:Bind PropertiesTab.ViewModel.ItemName, Mode=TwoWay}"
+                Visibility="{x:Bind PropertiesTab.ViewModel.ItemNameVisibility, Mode=OneWay}" />
 
             <MenuFlyoutSeparator
                 Grid.Row="1"
@@ -79,14 +79,14 @@
                 Grid.Column="0"
                 Style="{StaticResource PropertyName}"
                 Text="Item type:"
-                Visibility="{x:Bind ViewModel.ItemTypeVisibility, Mode=OneWay}" />
+                Visibility="{x:Bind PropertiesTab.ViewModel.ItemTypeVisibility, Mode=OneWay}" />
             <TextBlock
                 x:Name="itemTypeValue"
                 Grid.Row="2"
                 Grid.Column="1"
                 Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.ItemType, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.ItemTypeVisibility, Mode=OneWay}" />
+                Text="{x:Bind PropertiesTab.ViewModel.ItemType, Mode=OneWay}"
+                Visibility="{x:Bind PropertiesTab.ViewModel.ItemTypeVisibility, Mode=OneWay}" />
 
             <TextBlock
                 x:Uid="PropertiesDriveFileSystem"
@@ -94,14 +94,14 @@
                 Grid.Column="0"
                 Style="{StaticResource PropertyName}"
                 Text="File system:"
-                Visibility="{x:Bind ViewModel.DriveFileSystemVisibility, Mode=OneWay}" />
+                Visibility="{x:Bind PropertiesTab.ViewModel.DriveFileSystemVisibility, Mode=OneWay}" />
             <TextBlock
                 x:Name="DriveFileSystemValue"
                 Grid.Row="3"
                 Grid.Column="1"
                 Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.DriveFileSystem, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.DriveFileSystemVisibility, Mode=OneWay}" />
+                Text="{x:Bind PropertiesTab.ViewModel.DriveFileSystem, Mode=OneWay}"
+                Visibility="{x:Bind PropertiesTab.ViewModel.DriveFileSystemVisibility, Mode=OneWay}" />
 
             <TextBlock
                 x:Uid="PropertiesItemPath"
@@ -109,15 +109,15 @@
                 Grid.Column="0"
                 Style="{StaticResource PropertyName}"
                 Text="Path:"
-                Visibility="{x:Bind ViewModel.ItemPathVisibility, Mode=OneWay}" />
+                Visibility="{x:Bind PropertiesTab.ViewModel.ItemPathVisibility, Mode=OneWay}" />
             <TextBlock
                 x:Name="itemPathValue"
                 Grid.Row="4"
                 Grid.Column="1"
                 Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.ItemPath, Mode=OneWay}"
+                Text="{x:Bind PropertiesTab.ViewModel.ItemPath, Mode=OneWay}"
                 TextWrapping="Wrap"
-                Visibility="{x:Bind ViewModel.ItemPathVisibility, Mode=OneWay}" />
+                Visibility="{x:Bind PropertiesTab.ViewModel.ItemPathVisibility, Mode=OneWay}" />
 
             <TextBlock
                 x:Uid="PropertiesItemSize"
@@ -125,12 +125,12 @@
                 Grid.Column="0"
                 Style="{StaticResource PropertyName}"
                 Text="Size:"
-                Visibility="{x:Bind ViewModel.ItemSizeVisibility, Mode=OneWay}" />
+                Visibility="{x:Bind PropertiesTab.ViewModel.ItemSizeVisibility, Mode=OneWay}" />
             <Grid
                 Grid.Row="5"
                 Grid.Column="1"
                 Style="{StaticResource PropertyValueGrid}"
-                Visibility="{x:Bind ViewModel.ItemSizeVisibility, Mode=OneWay}">
+                Visibility="{x:Bind PropertiesTab.ViewModel.ItemSizeVisibility, Mode=OneWay}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="100" />
                     <ColumnDefinition Width="*" />
@@ -139,13 +139,13 @@
                     x:Name="itemSizeValue"
                     Grid.Column="0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ViewModel.ItemSize, Mode=OneWay}" />
+                    Text="{x:Bind PropertiesTab.ViewModel.ItemSize, Mode=OneWay}" />
                 <muxc:ProgressRing
                     x:Name="ItemSizeProgress"
                     Grid.Column="1"
                     Margin="0,-10"
                     HorizontalAlignment="Left"
-                    Visibility="{x:Bind ViewModel.ItemSizeProgressVisibility, Mode=OneWay}" />
+                    Visibility="{x:Bind PropertiesTab.ViewModel.ItemSizeProgressVisibility, Mode=OneWay}" />
             </Grid>
 
             <TextBlock
@@ -155,22 +155,22 @@
                 Grid.Column="0"
                 Style="{StaticResource PropertyName}"
                 Text="MD5Hash:"
-                Visibility="{x:Bind ViewModel.ItemMD5HashVisibility, Mode=OneWay}" />
+                Visibility="{x:Bind PropertiesTab.ViewModel.ItemMD5HashVisibility, Mode=OneWay}" />
             <TextBlock
                 x:Name="itemMD5HashValue"
                 Grid.Row="6"
                 Grid.Column="1"
                 Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.ItemMD5Hash, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.ItemMD5HashVisibility, Mode=OneWay}" />
+                Text="{x:Bind PropertiesTab.ViewModel.ItemMD5Hash, Mode=OneWay}"
+                Visibility="{x:Bind PropertiesTab.ViewModel.ItemMD5HashVisibility, Mode=OneWay}" />
             <muxc:ProgressBar
                 x:Name="ItemMD5HashProgress"
                 Grid.Row="6"
                 Grid.Column="1"
                 Margin="20,0,0,0"
                 VerticalAlignment="Center"
-                ShowError="{x:Bind ViewModel.ItemMD5HashCalcError, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.ItemMD5HashProgressVisibility, Mode=OneWay}" />
+                ShowError="{x:Bind PropertiesTab.ViewModel.ItemMD5HashCalcError, Mode=OneWay}"
+                Visibility="{x:Bind PropertiesTab.ViewModel.ItemMD5HashProgressVisibility, Mode=OneWay}" />
 
             <TextBlock
                 x:Name="PropertiesCount"
@@ -179,14 +179,14 @@
                 Grid.Column="0"
                 Style="{StaticResource PropertyName}"
                 Text="Contains:"
-                Visibility="{x:Bind ViewModel.FilesAndFoldersCountVisibility, Mode=OneWay}" />
+                Visibility="{x:Bind PropertiesTab.ViewModel.FilesAndFoldersCountVisibility, Mode=OneWay}" />
             <TextBlock
                 x:Name="itemFilesAndFoldersCountValue"
                 Grid.Row="7"
                 Grid.Column="1"
                 Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.FilesAndFoldersCountString, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.FilesAndFoldersCountVisibility, Mode=OneWay}" />
+                Text="{x:Bind PropertiesTab.ViewModel.FilesAndFoldersCountString, Mode=OneWay}"
+                Visibility="{x:Bind PropertiesTab.ViewModel.FilesAndFoldersCountVisibility, Mode=OneWay}" />
 
             <MenuFlyoutSeparator
                 Grid.Row="8"
@@ -199,7 +199,7 @@
                 Grid.Column="0"
                 Margin="0,7"
                 Orientation="Horizontal"
-                Visibility="{x:Bind ViewModel.DriveUsedSpaceVisibiity, Mode=OneWay}">
+                Visibility="{x:Bind PropertiesTab.ViewModel.DriveUsedSpaceVisibiity, Mode=OneWay}">
                 <Rectangle
                     Width="15"
                     Height="15"
@@ -217,15 +217,15 @@
                 Grid.Row="9"
                 Grid.Column="1"
                 Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.DriveUsedSpace, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.DriveUsedSpaceVisibiity, Mode=OneWay}" />
+                Text="{x:Bind PropertiesTab.ViewModel.DriveUsedSpace, Mode=OneWay}"
+                Visibility="{x:Bind PropertiesTab.ViewModel.DriveUsedSpaceVisibiity, Mode=OneWay}" />
 
             <StackPanel
                 Grid.Row="10"
                 Grid.Column="0"
                 Margin="{StaticResource PropertyNameMargin}"
                 Orientation="Horizontal"
-                Visibility="{x:Bind ViewModel.DriveFreeSpaceVisibiity, Mode=OneWay}">
+                Visibility="{x:Bind PropertiesTab.ViewModel.DriveFreeSpaceVisibiity, Mode=OneWay}">
                 <Rectangle
                     Width="15"
                     Height="15"
@@ -242,8 +242,8 @@
                 Grid.Row="10"
                 Grid.Column="1"
                 Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.DriveFreeSpace, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.DriveFreeSpaceVisibiity, Mode=OneWay}" />
+                Text="{x:Bind PropertiesTab.ViewModel.DriveFreeSpace, Mode=OneWay}"
+                Visibility="{x:Bind PropertiesTab.ViewModel.DriveFreeSpaceVisibiity, Mode=OneWay}" />
 
             <TextBlock
                 x:Uid="PropertiesCreated"
@@ -251,14 +251,14 @@
                 Grid.Column="0"
                 Style="{StaticResource PropertyName}"
                 Text="Created:"
-                Visibility="{x:Bind ViewModel.ItemCreatedTimestampVisibiity, Mode=OneWay}" />
+                Visibility="{x:Bind PropertiesTab.ViewModel.ItemCreatedTimestampVisibiity, Mode=OneWay}" />
             <TextBlock
                 x:Name="itemCreatedTimestampValue"
                 Grid.Row="11"
                 Grid.Column="1"
                 Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.ItemCreatedTimestamp, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.ItemCreatedTimestampVisibiity, Mode=OneWay}" />
+                Text="{x:Bind PropertiesTab.ViewModel.ItemCreatedTimestamp, Mode=OneWay}"
+                Visibility="{x:Bind PropertiesTab.ViewModel.ItemCreatedTimestampVisibiity, Mode=OneWay}" />
 
             <TextBlock
                 x:Uid="PropertiesModified"
@@ -266,14 +266,14 @@
                 Grid.Column="0"
                 Style="{StaticResource PropertyName}"
                 Text="Modified:"
-                Visibility="{x:Bind ViewModel.ItemModifiedTimestampVisibility, Mode=OneWay}" />
+                Visibility="{x:Bind PropertiesTab.ViewModel.ItemModifiedTimestampVisibility, Mode=OneWay}" />
             <TextBlock
                 x:Name="itemModifiedTimestampValue"
                 Grid.Row="12"
                 Grid.Column="1"
                 Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.ItemModifiedTimestamp, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.ItemModifiedTimestampVisibility, Mode=OneWay}" />
+                Text="{x:Bind PropertiesTab.ViewModel.ItemModifiedTimestamp, Mode=OneWay}"
+                Visibility="{x:Bind PropertiesTab.ViewModel.ItemModifiedTimestampVisibility, Mode=OneWay}" />
 
             <TextBlock
                 x:Uid="PropertiesAccessed"
@@ -281,14 +281,14 @@
                 Grid.Column="0"
                 Style="{StaticResource PropertyName}"
                 Text="Accessed:"
-                Visibility="{x:Bind ViewModel.ItemAccessedTimestampVisibility, Mode=OneWay}" />
+                Visibility="{x:Bind PropertiesTab.ViewModel.ItemAccessedTimestampVisibility, Mode=OneWay}" />
             <TextBlock
                 x:Name="itemAccessedTimestampValue"
                 Grid.Row="13"
                 Grid.Column="1"
                 Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.ItemAccessedTimestamp, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.ItemAccessedTimestampVisibility, Mode=OneWay}" />
+                Text="{x:Bind PropertiesTab.ViewModel.ItemAccessedTimestamp, Mode=OneWay}"
+                Visibility="{x:Bind PropertiesTab.ViewModel.ItemAccessedTimestampVisibility, Mode=OneWay}" />
 
             <TextBlock
                 x:Uid="PropertiesOwner"
@@ -296,21 +296,21 @@
                 Grid.Column="0"
                 Style="{StaticResource PropertyName}"
                 Text="Owner:"
-                Visibility="{x:Bind ViewModel.ItemFileOwnerVisibility, Mode=OneWay}" />
+                Visibility="{x:Bind PropertiesTab.ViewModel.ItemFileOwnerVisibility, Mode=OneWay}" />
             <TextBlock
                 x:Uid="ItemFileOwnerValue"
                 Grid.Row="14"
                 Grid.Column="1"
                 Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.ItemFileOwner, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.ItemFileOwnerVisibility, Mode=OneWay}" />
+                Text="{x:Bind PropertiesTab.ViewModel.ItemFileOwner, Mode=OneWay}"
+                Visibility="{x:Bind PropertiesTab.ViewModel.ItemFileOwnerVisibility, Mode=OneWay}" />
 
             <MenuFlyoutSeparator
                 Grid.Row="15"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
                 Margin="-12,0"
-                Visibility="{x:Bind ViewModel.LastSeparatorVisibility, Mode=OneWay}" />
+                Visibility="{x:Bind PropertiesTab.ViewModel.LastSeparatorVisibility, Mode=OneWay}" />
 
             <TextBlock
                 x:Uid="PropertiesDriveCapacity"
@@ -318,14 +318,14 @@
                 Grid.Column="0"
                 Style="{StaticResource PropertyName}"
                 Text="Capacity:"
-                Visibility="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}" />
+                Visibility="{x:Bind PropertiesTab.ViewModel.DriveCapacityVisibiity, Mode=OneWay}" />
             <TextBlock
                 x:Uid="driveCapacityValue"
                 Grid.Row="16"
                 Grid.Column="1"
                 Style="{StaticResource PropertyValueTextBlock}"
-                Text="{x:Bind ViewModel.DriveCapacity, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}" />
+                Text="{x:Bind PropertiesTab.ViewModel.DriveCapacity, Mode=OneWay}"
+                Visibility="{x:Bind PropertiesTab.ViewModel.DriveCapacityVisibiity, Mode=OneWay}" />
 
             <toolkit:RadialProgressBar
                 Grid.Row="17"
@@ -335,12 +335,12 @@
                 Height="70"
                 Margin="10"
                 Foreground="DodgerBlue"
-                Maximum="{x:Bind ViewModel.DriveCapacityDoubleValue, Mode=OneWay}"
+                Maximum="{x:Bind PropertiesTab.ViewModel.DriveCapacityDoubleValue, Mode=OneWay}"
                 Minimum="0"
                 Outline="Gray"
                 Thickness="10"
-                Visibility="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}"
-                Value="{x:Bind ViewModel.DriveUsedSpaceDoubleValue, Mode=OneWay}" />
+                Visibility="{x:Bind PropertiesTab.ViewModel.DriveCapacityVisibiity, Mode=OneWay}"
+                Value="{x:Bind PropertiesTab.ViewModel.DriveUsedSpaceDoubleValue, Mode=OneWay}" />
 
             <TextBlock
                 x:Uid="PropertiesAttributes"
@@ -350,7 +350,7 @@
                 VerticalAlignment="Center"
                 FontWeight="SemiBold"
                 Text="Attributes:"
-                Visibility="{x:Bind ViewModel.ItemAttributesVisibility, Mode=OneWay}" />
+                Visibility="{x:Bind PropertiesTab.ViewModel.ItemAttributesVisibility, Mode=OneWay}" />
             <StackPanel
                 Grid.Row="18"
                 Grid.Column="1"
@@ -358,7 +358,7 @@
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
                 Spacing="16"
-                Visibility="{x:Bind ViewModel.ItemAttributesVisibility, Mode=OneWay}">
+                Visibility="{x:Bind PropertiesTab.ViewModel.ItemAttributesVisibility, Mode=OneWay}">
                 <CheckBox
                     x:Uid="PropertiesDialogReadOnly"
                     Content="Read-only"
