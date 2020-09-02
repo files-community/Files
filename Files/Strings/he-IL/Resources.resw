@@ -573,10 +573,31 @@
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>פתח מיקום קובץ</value>
   </data>
+  <data name="DriveCapacityUnknown" xml:space="preserve">
+    <value>לא ידוע</value>
+  </data>
+  <data name="ExceptionNotificationHeader" xml:space="preserve">
+    <value>משהו השתבש</value>
+  </data>
+  <data name="ExceptionNotificationReportButton" xml:space="preserve">
+    <value>דווח על בעיה זו</value>
+  </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>‏‏תורמים</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>הערות מוצר</value>
+  </data>
+  <data name="SettingsAboutVersionTitle" xml:space="preserve">
+    <value>גירסה</value>
+  </data>
+  <data name="ShareDialogFailMessage" xml:space="preserve">
+    <value>‏‏אין כרגע פריטים לשיתוף.</value>
+  </data>
+  <data name="ShareDialogTitle" xml:space="preserve">
+    <value>שיתוף: {0}%</value>
+  </data>
+  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
+    <value>עוד</value>
   </data>
 </root>
