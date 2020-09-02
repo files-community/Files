@@ -71,8 +71,9 @@
           <target state="translated">Stuur de ontwikkelaars een probleemrapport met meer informatie</target>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
-          <source>Third Party Licenses</source>
-          <target state="translated">Derde Partij Licenties</target>
+          <source>Third Party Licenses:</source>
+          <target state="needs-review-translation">Derde Partij Licenties</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
           <source>About</source>
@@ -423,16 +424,18 @@
           <target state="translated" state-qualifier="tm-suggestion">Grootte</target>
         </trans-unit>
         <trans-unit id="WelcomeDialog.Title" translate="yes" xml:space="preserve">
-          <source>Welcome to Files</source>
-          <target state="translated">Welkom bij Files</target>
+          <source>Welcome to Files!</source>
+          <target state="needs-review-translation">Welkom bij Files</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="WelcomeDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Grant Permission</source>
           <target state="translated" state-qualifier="tm-suggestion">Toestemming geven</target>
         </trans-unit>
         <trans-unit id="WelcomeDialogTextBlock.Text" translate="yes" xml:space="preserve">
-          <source>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once completed. </source>
-          <target state="translated">Om aan de slag te gaan, moet u ons toestemming geven om uw bestanden weer te geven. Hierdoor wordt een instellingenpagina geopend waar u ons deze toestemming kunt geven. U moet de app opnieuw openen zodra dit is voltooid.</target>
+          <source>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </source>
+          <target state="needs-review-translation">Om aan de slag te gaan, moet u ons toestemming geven om uw bestanden weer te geven. Hierdoor wordt een instellingenpagina geopend waar u ons deze toestemming kunt geven. U moet de app opnieuw openen zodra dit is voltooid.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="FileFolderListItem" translate="yes" xml:space="preserve">
           <source>File folder</source>
@@ -443,8 +446,9 @@
           <target state="translated">Vul een item naam in</target>
         </trans-unit>
         <trans-unit id="RenameDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Enter an item name without an extension</source>
-          <target state="translated">Vul een item naam in zonder extensie</target>
+          <source>Enter an item name</source>
+          <target state="needs-review-translation">Vul een item naam in zonder extensie</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="RenameDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Set Name</source>
@@ -599,8 +603,9 @@
           <target state="translated" state-qualifier="tm-suggestion">Experimenteel</target>
         </trans-unit>
         <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Text" translate="yes" xml:space="preserve">
-          <source>Double tap to rename files</source>
-          <target state="translated">Dubbel-klikken om bestandsnamen te wijzigen</target>
+          <source>Double click to rename files</source>
+          <target state="needs-review-translation">Dubbel-klikken om bestandsnamen te wijzigen</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>View sample profiles</source>
@@ -964,8 +969,9 @@
           <target state="translated">Taal</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguageRestartRequired.Text" translate="yes" xml:space="preserve">
-          <source>Restart required</source>
-          <target state="translated">Opnieuw opstarten vereist</target>
+          <source>To see changes, a restart is required</source>
+          <target state="needs-review-translation">Opnieuw opstarten vereist</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
           <source>Status</source>
@@ -1132,8 +1138,9 @@
           <target state="new">Release Notes</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotesDescription.Text" translate="yes" xml:space="preserve">
-          <source>Find out what's new in Files UWP</source>
-          <target state="translated">Ontdek wat er nieuw is in Files UWP</target>
+          <source>Find out what's new</source>
+          <target state="needs-review-translation">Ontdek wat er nieuw is in Files UWP</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowMultitaskingControl.Text" translate="yes" xml:space="preserve">
           <source>Show multitasking flyout in the navigation toolbar</source>
@@ -1152,8 +1159,9 @@
           <target state="new">Version:</target>
         </trans-unit>
         <trans-unit id="ShareDialogFailMessage" translate="yes" xml:space="preserve">
-          <source>There's nothing to share right now</source>
-          <target state="translated">Er valt op dit moment niets te delen</target>
+          <source>There's nothing to share right now...</source>
+          <target state="needs-review-translation">Er valt op dit moment niets te delen</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="ShareDialogMultipleItemsDescription" translate="yes" xml:space="preserve">
           <source>The items you've selected will be shared</source>

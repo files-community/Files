@@ -216,8 +216,9 @@
           <target state="translated">உருவாக்குனர்ளுக்கு கூடுதல் தகவலுடன் ஒரு சிக்கல் அறிக்கையை அனுப்பவும்</target>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
-          <source>Third Party Licenses</source>
-          <target state="translated">மூன்றாம் தரப்பு உரிமங்கள்</target>
+          <source>Third Party Licenses:</source>
+          <target state="needs-review-translation">மூன்றாம் தரப்பு உரிமங்கள்</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
           <source>About</source>
@@ -261,8 +262,9 @@
           <note from="MultilingualEditor" annotates="source" priority="4">Replaced and (மற்றும்) with the &amp; symbol to fit the text on the screen</note>
         </trans-unit>
         <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Text" translate="yes" xml:space="preserve">
-          <source>Double tap to rename files</source>
-          <target state="translated">கோப்புகளை மறுபெயரிட இரண்டு தட்டு</target>
+          <source>Double click to rename files</source>
+          <target state="needs-review-translation">கோப்புகளை மறுபெயரிட இரண்டு தட்டு</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
@@ -490,16 +492,18 @@
           <target state="final">QuickLook</target>
         </trans-unit>
         <trans-unit id="WelcomeDialog.Title" translate="yes" xml:space="preserve">
-          <source>Welcome to Files</source>
-          <target state="translated">Files இற்கு வருக</target>
+          <source>Welcome to Files!</source>
+          <target state="needs-review-translation">Files இற்கு வருக</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="WelcomeDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Grant Permission</source>
           <target state="translated">அனுமதியை வழங்கு</target>
         </trans-unit>
         <trans-unit id="WelcomeDialogTextBlock.Text" translate="yes" xml:space="preserve">
-          <source>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once completed. </source>
-          <target state="translated">தொடங்க, நீங்கள் உங்கள் கோப்புகளைக் காண்பிக்க அனுமதியை வழங்கவும். இது ஒரு அமைப்புகள் பக்கத்தை திறக்கும், அங்கு நீங்கள் இந்த அனுமதியை எங்களுக்கு வழங்கலாம். நிறைவடைந்தவுடன் பயன்பாட்டை நீங்கள் மீண்டும் திறக்க வேண்டும். </target>
+          <source>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </source>
+          <target state="needs-review-translation">தொடங்க, நீங்கள் உங்கள் கோப்புகளைக் காண்பிக்க அனுமதியை வழங்கவும். இது ஒரு அமைப்புகள் பக்கத்தை திறக்கும், அங்கு நீங்கள் இந்த அனுமதியை எங்களுக்கு வழங்கலாம். நிறைவடைந்தவுடன் பயன்பாட்டை நீங்கள் மீண்டும் திறக்க வேண்டும். </target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="FileFolderListItem" translate="yes" xml:space="preserve">
           <source>File folder</source>
@@ -514,8 +518,9 @@
           <target state="translated">ஒரு உருப்படி பெயரை உள்ளிடுக</target>
         </trans-unit>
         <trans-unit id="RenameDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Enter an item name without an extension</source>
-          <target state="translated">நீட்டிப்பு இல்லாமல் ஒரு உருப்படி பெயரை உள்ளிடுக</target>
+          <source>Enter an item name</source>
+          <target state="needs-review-translation">நீட்டிப்பு இல்லாமல் ஒரு உருப்படி பெயரை உள்ளிடுக</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="RenameDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Set Name</source>
@@ -967,8 +972,9 @@
           <target state="translated">பயன்பாட்டு மொழி</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguageRestartRequired.Text" translate="yes" xml:space="preserve">
-          <source>Restart required</source>
-          <target state="translated">மறுதொடக்கம் தேவை</target>
+          <source>To see changes, a restart is required</source>
+          <target state="needs-review-translation">மறுதொடக்கம் தேவை</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
           <source>Status</source>
@@ -1136,8 +1142,8 @@
           <target state="new">Release Notes</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotesDescription.Text" translate="yes" xml:space="preserve">
-          <source>Find out what's new in Files UWP</source>
-          <target state="new">Find out what's new in Files UWP</target>
+          <source>Find out what's new</source>
+          <target state="new">Find out what's new</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowMultitaskingControl.Text" translate="yes" xml:space="preserve">
           <source>Show multitasking flyout in the navigation toolbar</source>
@@ -1156,8 +1162,8 @@
           <target state="new">Version:</target>
         </trans-unit>
         <trans-unit id="ShareDialogFailMessage" translate="yes" xml:space="preserve">
-          <source>There's nothing to share right now</source>
-          <target state="new">There's nothing to share right now</target>
+          <source>There's nothing to share right now...</source>
+          <target state="new">There's nothing to share right now...</target>
         </trans-unit>
         <trans-unit id="ShareDialogMultipleItemsDescription" translate="yes" xml:space="preserve">
           <source>The items you've selected will be shared</source>
