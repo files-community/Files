@@ -1251,11 +1251,12 @@ namespace Files.Filesystem
                 systemTimeOutput.Milliseconds,
                 DateTimeKind.Utc);
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
+            var itemName = StorageFolder.GetFolderFromPathAsync(itemPath).GetAwaiter().GetResult().DisplayName;
 
             _filesAndFolders.Add(new ListedItem(null)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
-                ItemName = findData.cFileName,
+                ItemName = itemName,
                 ItemDateModifiedReal = itemDate,
                 ItemType = ResourceController.GetTranslation("FileFolderListItem"),
                 LoadFolderGlyph = true,
@@ -1432,7 +1433,7 @@ namespace Files.Filesystem
                 _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemName = folder.Name,
+                    ItemName = folder.DisplayName,
                     ItemDateModifiedReal = basicProperties.DateModified,
                     ItemType = folder.DisplayType,
                     LoadFolderGlyph = true,
