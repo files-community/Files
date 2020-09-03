@@ -1192,8 +1192,8 @@
           <target state="new"> items?</target>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogDeleteOneItem.Text" translate="yes" xml:space="preserve">
-          <source>Are you sure you want do delete this item?</source>
-          <target state="new">Are you sure you want do delete this item?</target>
+          <source>Are you sure you want to delete this item?</source>
+          <target state="new">Are you sure you want to delete this item?</target>
         </trans-unit>
       </group>
     </body>
