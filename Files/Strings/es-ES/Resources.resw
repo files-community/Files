@@ -870,4 +870,7 @@
   <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
     <value>Mostrar todos los elementos del menú contextual</value>
   </data>
+  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
 </root>

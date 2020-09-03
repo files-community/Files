@@ -1187,6 +1187,10 @@
           <source>Show all context menu items</source>
           <target state="translated">Mostra tutti gli elementi nel menu contestuale</target>
         </trans-unit>
+        <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
       </group>
     </body>
   </file>
