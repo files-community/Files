@@ -21,9 +21,6 @@
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
     <value>Excluir</value>
   </data>
-  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
-    <value>Tem certeza de que deseja excluir o(s) item(ns) selecionado(s)?</value>
-  </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Excluir permanentemente</value>
   </data>
@@ -175,7 +172,7 @@
     <value>Envie aos desenvolvedores um relatório de problemas com mais informações</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Licenças de Terceiros</value>
+    <value>Licenças de Terceiros:</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Sobre</value>
@@ -385,7 +382,7 @@
     <value>QuickLook</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Bem vindo ao Files UWP</value>
+    <value>Bem vindo ao Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Conceder Permissão</value>
@@ -400,10 +397,10 @@
     <value>Arquivo</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
-    <value>Digite o nome do arquivo</value>
+    <value>Insira o nome do arquivo</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Digite o nome do arquivo sem uma extensão</value>
+    <value>Insira o nome do arquivo</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Definir Nome</value>
@@ -727,7 +724,7 @@
     <value>Idioma</value>
   </data>
   <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>Reinicialização necessária</value>
+    <value>Para ver as mudanças, é necessário reiniciar</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Status</value>
@@ -841,7 +838,7 @@
     <value>Notas de Atualização</value>
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Descubra o que há de novo no Files UWP</value>
+    <value>Descubra o que há de novo</value>
   </data>
   <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
     <value>Mostrar menu multitarefa na barra de navegação</value>
@@ -856,7 +853,7 @@
     <value>Desconhecido</value>
   </data>
   <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
-    <value>Abrir local do log</value>
+    <value>Abrir local de registro</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>O Files encontrou um problema para o qual os desenvolvedores ainda não se prepararam.</value>
@@ -871,7 +868,7 @@
     <value>Versão:</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
-    <value>Não há nada para compartilhar agora</value>
+    <value>Não há nada para compartilhar agora...</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
     <value>Os itens selecionados serão compartilhados</value>
