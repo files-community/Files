@@ -5,25 +5,11 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files
 {
-    public sealed partial class PropertiesShortcut : Page
+    public sealed partial class PropertiesShortcut : PropertiesTab
     {
-        private readonly PropertiesTab PropertiesTab;
-
         public PropertiesShortcut()
         {
             this.InitializeComponent();
-            PropertiesTab = new PropertiesTab();
-        }
-
-        private void Properties_Loaded(object sender, RoutedEventArgs e)
-        {
-            PropertiesTab.HandlePropertiesLoaded();
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            PropertiesTab.HandleNavigation(e, Dispatcher);
-            base.OnNavigatedTo(e);
         }
     }
 }
