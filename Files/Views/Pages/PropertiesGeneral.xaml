@@ -1,11 +1,9 @@
-﻿<local1:PropertiesTab
-    xmlns:local1="using:Files.View_Models.Properties"
+﻿<local:PropertiesTab
     x:Class="Files.PropertiesGeneral"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Files.Views.Pages"
-    xmlns:local2="using:Files"
+    xmlns:local="using:Files.View_Models.Properties"
     xmlns:usercontrols="using:Files.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
@@ -13,13 +11,13 @@
     Loaded="Properties_Loaded"
     mc:Ignorable="d">
 
-    <local1:PropertiesTab.Resources>
+    <local:PropertiesTab.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </local1:PropertiesTab.Resources>
+    </local:PropertiesTab.Resources>
 
     <StackPanel Style="{StaticResource PropertiesTab}">
         <Grid>
@@ -372,4 +370,4 @@
             </StackPanel>
         </Grid>
     </StackPanel>
-</local1:PropertiesTab>
+</local:PropertiesTab>
