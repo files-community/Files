@@ -31,13 +31,13 @@ namespace Files.Dialogs
             // If deleting from recycle bin disable "permanently delete" option
             this.chkPermanentlyDelete.IsEnabled = !deleteFromRecycleBin;
 
-            if (SelectedItemsPropertiesViewModel.SelectedItemsCount == "1")
+            if (SelectedItemsPropertiesViewModel.SelectedItemsCount == 1)
             {
                 Description = ResourceController.GetTranslation("ConfirmDeleteDialogDeleteOneItem/Text");
             }
             else
             {
-                Description = ResourceController.GetTranslation("ConfirmDeleteDialogDeleteMultipleItemsPart1/Text") + SelectedItemsPropertiesViewModel.SelectedItemsCount + ResourceController.GetTranslation("ConfirmDeleteDialogDeleteMultipleItemsPart2/Text");
+                Description = string.Format(ResourceController.GetTranslation("ConfirmDeleteDialogDeleteMultipleItems/Text"), SelectedItemsPropertiesViewModel.SelectedItemsCount);
             }
         }
 

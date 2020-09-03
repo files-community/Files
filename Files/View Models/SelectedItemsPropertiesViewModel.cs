@@ -483,17 +483,17 @@ namespace Files.View_Models
             set => SetProperty(ref _ItemAttributesVisibility, value);
         }
 
-        private string _ItemsSelectedCount;
+        private string _SelectedItemsCountString;
 
-        public string ItemsSelectedCount
+        public string SelectedItemsCountString
         {
-            get => _ItemsSelectedCount;
-            set => SetProperty(ref _ItemsSelectedCount, value);
+            get => _SelectedItemsCountString;
+            set => SetProperty(ref _SelectedItemsCountString, value);
         }
 
-        private string _SelectedItemsCount;
+        private int _SelectedItemsCount;
 
-        public string SelectedItemsCount
+        public int SelectedItemsCount
         {
             get => _SelectedItemsCount;
             set => SetProperty(ref _SelectedItemsCount, value);
@@ -535,7 +535,7 @@ namespace Files.View_Models
 
             //check if the selected item is an image file
             string ItemExtension = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => App.CurrentInstance.ContentPage.SelectedItem.FileExtension);
-            if (!string.IsNullOrEmpty(ItemExtension) && ItemsSelectedCount == "1 " + ResourceController.GetTranslation("ItemSelected/Text"))
+            if (!string.IsNullOrEmpty(ItemExtension) && SelectedItemsCount == 1)
             {
                 if (ItemExtension.Equals(".png", StringComparison.OrdinalIgnoreCase)
                 || ItemExtension.Equals(".jpg", StringComparison.OrdinalIgnoreCase)
