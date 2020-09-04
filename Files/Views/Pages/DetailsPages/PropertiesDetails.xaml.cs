@@ -25,11 +25,13 @@ namespace Files
     /// <summary>
     /// Pagina vuota che può essere usata autonomamente oppure per l'esplorazione all'interno di un frame.
     /// </summary>
-    public sealed partial class PropertiesDetailsImage : Page
+    public sealed partial class PropertiesDetails : Page
     {
         public BaseProperties BaseProperties { get; set; }
 
         public SelectedItemsPropertiesViewModel ViewModel { get; set; }
+
+        public TimeSpan FallbackTime= new TimeSpan(0, 0, 0);
 
         public PropertiesDetailsImage()
         {

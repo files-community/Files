@@ -203,7 +203,7 @@ namespace Files
                     break;
 
                 case "Image":
-                    contentFrame.Navigate(typeof(PropertiesDetailsImage), navParam, args.RecommendedNavigationTransitionInfo);
+                    contentFrame.Navigate(typeof(PropertiesDetails), navParam, args.RecommendedNavigationTransitionInfo);
                     break;
 
 

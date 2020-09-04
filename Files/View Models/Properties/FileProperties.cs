@@ -157,6 +157,33 @@ namespace Files.View_Models.Properties
             }
         }
 
+        public async void GetAddressFromCoordinates()
+        {
+            //lol please don't steal this
+            MapService.ServiceToken = "S7IF7M4Zxe9of0hbatDv~byc7WbHGg1rNYUqk4bL8Zw~Ar_Ap1WxoB_qnXme_hErpFhs74E8qKzCOXugSrankFJgJe9_D4l09O3TNj3WN2f2";
+            // The location to reverse geocode.
+            BasicGeoposition location = new BasicGeoposition();
+            location.Latitude = (double)ViewModel.Latitude;
+            location.Longitude = (double)ViewModel.Longitude;
+            Geopoint pointToReverseGeocode = new Geopoint(location);
+
+            // Reverse geocode the specified geographic location.
+            MapLocationFinderResult result =
+                    await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
+
+            // If the query returns results, display the name of the town
+            // contained in the address of the first result.
+            if (result.Status == MapLocationFinderStatus.Success)
+            {
+                ViewModel.Geopoint = result.Locations[0];
+                ViewModel.GeopointString = string.Format("{0}, {1}", result.Locations[0].Address.Town.ToString(), result.Locations[0].Address.Region.ToString());
+            }
+            else
+            {
+                ViewModel.GeopointString = string.Format("{0:g}, {1:g}", Math.Truncate((decimal)ViewModel.Latitude * 10000000) / 10000000, Math.Truncate((decimal)ViewModel.Longitude * 10000000) / 10000000);
+            }
+        }
+
         private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -184,7 +211,6 @@ namespace Files.View_Models.Properties
                     break;
             }
         }
-
     }
 
     internal class ImageFileProperties : FileProperties

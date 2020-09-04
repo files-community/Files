@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="Files.PropertiesDetailsImage"
+    x:Class="Files.PropertiesDetails"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,7 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:filesystem="using:Files.Filesystem"
     Loaded="Properties_Loaded"
     mc:Ignorable="d"
-    Name="Page">
+    Name="Page"
+    d:DesignHeight="5000">
 
     <Page.Resources>
         <Style x:Key="PropertyTextBlock" TargetType="TextBlock">
@@ -75,7 +76,7 @@
             <Grid.RenderTransform>
                 <CompositeTransform/>
             </Grid.RenderTransform>
-            <Grid Grid.Row="0">
+            <Grid x:Load="True" x:Name="HeaderGrid" Grid.Row="0">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -147,8 +148,8 @@
             
             <TextBlock Text="Overview" Grid.Row="1" Style="{StaticResource SeparatorText}"/>
             <MenuFlyoutSeparator Grid.Row="2" Style="{StaticResource Separator}"/>
-            
-            <Grid Grid.Row="3" Grid.Column="0" Name="TopGrid">
+
+            <Grid x:Load="True" Grid.Row="3" Grid.Column="0" x:Name="TopGrid">
                 <Grid.RowDefinitions >
                     <RowDefinition/>
                     <RowDefinition/>
@@ -219,8 +220,7 @@
                     VerticalAlignment="Center"
                     Text="{x:Bind ViewModel.DimensionString, Mode=OneWay}"
                     Visibility="Visible"
-                    IsTextSelectionEnabled="True"
-                    ToolTipService.ToolTip="{x:Bind ViewModel.DimensionsTooltip, Mode=OneWay}"/>
+                    IsTextSelectionEnabled="True"/>
 
                 <TextBlock
                     x:Uid="PropertiesDetailsImageCamera"
@@ -309,7 +309,8 @@
 
             <TextBlock Text="Description" Grid.Row="4" Style="{StaticResource SeparatorText}"/>
             <MenuFlyoutSeparator Grid.Row="5" Style="{StaticResource Separator}"/>
-            <Grid Grid.Row="6" Grid.Column="0">
+
+            <Grid x:Name="DescriptionGrid" x:Load="True" Grid.Row="6" Grid.Column="0">
                 <Grid.RowDefinitions >
                     <RowDefinition/>
                     <RowDefinition/>
@@ -334,20 +335,20 @@
                 <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}"/>
 
                 <TextBlock Grid.Row ="7" Style="{StaticResource PropertyTextBlock}" Text="Rating"/>
-                <TextBox Grid.Row ="7" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.Rating, Mode=OneWay}"/>
+                <RatingControl Grid.Row="7" Grid.Column="1" Margin="20,2,0,2" Value="{x:Bind ViewModel.Rating}"/>
 
                 <TextBlock Grid.Row ="8" Style="{StaticResource PropertyTextBlock}" Text="Tags"/>
-                <TextBox Grid.Row ="8" Style="{StaticResource ValueTextBox}" Text=""/>
+                <TextBox Grid.Row ="8" Style="{StaticResource ValueTextBox}" Text="test"/>
 
                 <TextBlock Grid.Row ="9" Style="{StaticResource PropertyTextBlock}" Text="Comments"/>
-                <TextBox Grid.Row ="9" Style="{StaticResource ValueTextBox}" Text=""/>
+                <TextBox Grid.Row ="9" Style="{StaticResource ValueTextBox}" Text="test"/>
 
             </Grid>
 
             <TextBlock Grid.Row="7" Text="Origin"  Style="{StaticResource SeparatorText}"/>
             <MenuFlyoutSeparator Grid.Row="8" Style="{StaticResource Separator}"/>
 
-            <Grid Grid.Row="9" Grid.Column="0">
+            <Grid x:Name="OriginGrid" x:Load="True" Grid.Row="9" Grid.Column="0">
                 <Grid.RowDefinitions >
                     <RowDefinition/>
                     <RowDefinition/>
@@ -367,24 +368,40 @@
                 <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}"/>
 
                 <TextBlock Grid.Row ="1" Style="{StaticResource PropertyTextBlock}" Text="Dake taken"/>
-                <DatePicker Grid.Row="1" Grid.Column="1" Margin="20,2,0,2" Date="{x:Bind ViewModel.DateTaken, Mode=OneWay}"/>
+                <DatePicker Grid.Row="1" Grid.Column="1" Margin="20,2,0,2"/>
 
                 <TextBlock Grid.Row ="2" Style="{StaticResource PropertyTextBlock}" Text="Time taken"/>
-                <TimePicker Grid.Row="2" Grid.Column="1" Margin="20,2,0,2" Time="{x:Bind ViewModel.DateTaken, Mode=OneWay}"/>
+                <TimePicker Grid.Row="2" Grid.Column="1" Margin="20,2,0,2"/>
 
                 <TextBlock Grid.Row ="3" Style="{StaticResource PropertyTextBlock}" Text="Program name"/>
                 <TextBox Grid.Row ="3" Style="{StaticResource ValueTextBox}"/>
 
-                <TextBlock Grid.Row ="4" Style="{StaticResource PropertyTextBlock}" Text="Date Aquired"/>
-                <TextBox Grid.Row ="4" Style="{StaticResource ValueTextBox}"/>
+                <TextBlock Grid.Row ="4" Style="{StaticResource PropertyTextBlock}" Text="Date aquired"/>
+                <DatePicker Grid.Row="4" Grid.Column="1" Margin="20,2,0,2"/>
 
+                <TextBlock Grid.Row ="5" Style="{StaticResource PropertyTextBlock}" Text="Time aquired"/>
+                <TimePicker Grid.Row="5" Grid.Column="1" Margin="20,2,0,2"/>
+
+                <TextBlock Grid.Row ="6" Style="{StaticResource PropertyTextBlock}" Text="Copyright"/>
+                <TextBox Grid.Row ="6" Style="{StaticResource ValueTextBox}"/>
             </Grid>
 
             <TextBlock Grid.Row="10" Text="Image"  Style="{StaticResource SeparatorText}"/>
             <MenuFlyoutSeparator Grid.Row="11" Style="{StaticResource Separator}"/>
 
-            <Grid Grid.Row="12" Grid.Column="0">
+            <Grid x:Name="ImageGrid" x:Load="True" Grid.Row="12" Grid.Column="0">
                 <Grid.RowDefinitions >
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -399,19 +416,22 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row ="0" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
+                <TextBlock Grid.Row ="0" Style="{StaticResource PropertyTextBlock}" Text="Image ID"/>
                 <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}"/>
 
-                <TextBlock Grid.Row ="1" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
-                <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}"/>
+                <TextBlock Grid.Row ="1" Style="{StaticResource PropertyTextBlock}" Text="Dimensions"/>
+                <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.DimensionString, Mode=OneWay, FallbackValue='0x0'}"/>
 
-                <TextBlock Grid.Row ="7" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
-                <TextBox Grid.Row ="7" Style="{StaticResource ValueTextBox}"/>
+                <TextBlock Grid.Row ="7" Style="{StaticResource PropertyTextBlock}" Text="Width"/>
+                <TextBox Grid.Row ="7" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.ImageWidth, Mode=OneWay, FallbackValue=0}"/>
+
+                <TextBlock Grid.Row ="8" Style="{StaticResource PropertyTextBlock}" Text="Height"/>
+                <TextBox Grid.Row ="8" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.ImageHeight, FallbackValue=0}"/>
             </Grid>
 
             <TextBlock Grid.Row="13" Text="Camera"  Style="{StaticResource SeparatorText}"/>
             <MenuFlyoutSeparator Grid.Row="14" Style="{StaticResource Separator}"/>
-            <Grid Grid.Row="15" Grid.Column="0">
+            <Grid x:Name="CameraGrid" x:Load="True" Grid.Row="15" Grid.Column="0">
                 <Grid.RowDefinitions >
                     <RowDefinition/>
                     <RowDefinition/>
@@ -440,7 +460,7 @@
 
             <TextBlock Grid.Row="16" Text="Advanced photo"  Style="{StaticResource SeparatorText}"/>
             <MenuFlyoutSeparator Grid.Row="17" Style="{StaticResource Separator}"/>
-            <Grid Grid.Row="18" Grid.Column="0">
+            <Grid x:Name="AdvancedPhotoGrid" x:Load="True" Grid.Row="18" Grid.Column="0">
                 <Grid.RowDefinitions >
                     <RowDefinition/>
                     <RowDefinition/>
@@ -469,7 +489,7 @@
 
             <TextBlock Grid.Row="19" Text="GPS"  Style="{StaticResource SeparatorText}"/>
             <MenuFlyoutSeparator Grid.Row="20" Style="{StaticResource Separator}"/>
-            <Grid Grid.Row="21" Grid.Column="0">
+            <Grid x:Name="GPSGrid" x:Load="True" Grid.Row="21" Grid.Column="0">
                 <Grid.RowDefinitions >
                     <RowDefinition/>
                     <RowDefinition/>
@@ -497,7 +517,7 @@
 
             <TextBlock Grid.Row="22" Text="File"  Style="{StaticResource SeparatorText}"/>
             <MenuFlyoutSeparator Grid.Row="23" Style="{StaticResource Separator}"/>
-            <Grid Grid.Row="24" Grid.Column="0">
+            <Grid x:Name="FileGrid" x:Load="True" Grid.Row="24" Grid.Column="0">
                 <Grid.RowDefinitions >
                     <RowDefinition/>
                     <RowDefinition/>
