@@ -993,6 +993,9 @@
   <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
     <value>Show all context menu items</value>
   </data>
+  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
     <value>Are you sure you want to delete these {0} items?</value>
   </data>

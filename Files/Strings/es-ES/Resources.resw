@@ -867,6 +867,9 @@
   <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
     <value>Mostrar todos los elementos del menú contextual</value>
   </data>
+  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
   <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
     <value>¿Está seguro que desea eliminar este elemento?</value>
   </data>

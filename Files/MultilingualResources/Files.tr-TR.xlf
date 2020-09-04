@@ -1179,6 +1179,10 @@
           <source>Show all context menu items</source>
           <target state="new">Show all context menu items</target>
         </trans-unit>
+        <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
         <trans-unit id="ConfirmDeleteDialogDeleteOneItem.Text" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete this item?</source>
           <target state="new">Are you sure you want to delete this item?</target>
