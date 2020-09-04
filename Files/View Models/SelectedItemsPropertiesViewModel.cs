@@ -1,10 +1,16 @@
 using ByteSizeLib;
+using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
+using System.Collections.Generic;
 using Windows.ApplicationModel.Core;
+using Windows.Devices.Geolocation;
+using Windows.Services.Maps;
+using Windows.Storage.FileProperties;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -632,5 +638,202 @@ namespace Files.View_Models
                 return ContainsFilesOrFolders ? new Uri("ms-appx:///Assets/FolderIcon2.svg") : new Uri("ms-appx:///Assets/FolderIcon.svg");
             }
         }
+
+        private int _ImageWidth;
+        public int ImageWidth
+        {
+            get => _ImageWidth;
+            set => SetProperty(ref _ImageWidth, value);
+                
+        }
+
+        private int _ImageHeight;
+        public int ImageHeight
+        {
+            get => _ImageHeight;
+            set => SetProperty(ref _ImageHeight, value);
+        }
+
+        private string _DimensionString;
+        public string DimensionString
+        {
+            get => _DimensionString;
+            set => SetProperty(ref _DimensionString, value);
+        }
+
+        private DateTimeOffset _DateTaken;
+        public DateTimeOffset DateTaken
+        {
+            get => _DateTaken;
+            set => SetProperty(ref _DateTaken, value);
+        }
+
+        private string _ImageTitle;
+        public string ImageTitle
+        {
+            get => _ImageTitle;
+            set => SetProperty(ref _ImageTitle, value);
+        }
+
+        public IList<string> People { get; set; }
+
+        private System.Nullable<double> _Longitude;
+        public System.Nullable<double> Longitude
+        {
+            get => _Longitude;
+            set => SetProperty(ref _Longitude, value);
+        }
+
+        private System.Nullable<double> _Latitude;
+        public System.Nullable<double> Latitude
+        {
+            get => _Latitude;
+            set => SetProperty(ref _Latitude, value);
+        }
+
+        private string _CameraModel;
+        public string CameraModel
+        {
+            get => _CameraModel;
+            set => SetProperty(ref _CameraModel, value);
+        }
+
+        private string _CameraManufacturer;
+        public string CameraManufacturer
+        {
+            get => _CameraManufacturer;
+            set => SetProperty(ref _CameraManufacturer, value);
+        }
+
+        private int _Rating;
+        public int Rating
+        {
+            get => _Rating;
+            set => SetProperty(ref _Rating, value);
+        }
+
+        private MapLocation _Geopoint;
+        public MapLocation Geopoint
+        {
+            get => _Geopoint;
+            set => SetProperty(ref _Geopoint, value);
+        }
+
+        private string _GeopointString;
+        public string GeopointString
+        {
+            get => _GeopointString;
+            set => SetProperty(ref _GeopointString, value);
+        }
+
+        public Visibility ShowCoordinates
+        {
+            get
+            {
+                return (Longitude == null || Latitude == null) ? Visibility.Collapsed : Visibility.Visible;
+            }
+        }
+
+        public Visibility ShowRating
+        {
+            get
+            {
+                return Rating == 0 ? Visibility.Collapsed : Visibility.Visible;
+            }
+        }
+
+        public IList<string> ImageKeywords { get; set; }
+        public PhotoOrientation ImageOrientation { get; set; }
+
+
+        public string GetImageSizeString()
+        {
+            return ImageWidth + " x " + ImageHeight;
+        }
+
+        private double _RatingReal;
+        public double RatingReal
+        {
+            get => _RatingReal;
+            set => SetProperty(ref _RatingReal, value);
+        }
+
+        private string _CoordinatesString;
+        public string CoordinatesString
+        {
+            get => _CoordinatesString;
+            set => SetProperty(ref _CoordinatesString, value);
+        }
+
+        private string _CameraNameString;
+        public string CameraNameString
+        {
+            get => _CameraNameString;
+            set => SetProperty(ref _CameraNameString, value);
+        }
+
+        private Visibility _ShowGeotag;
+        public Visibility ShowGeotag
+        {
+            get => _ShowGeotag;
+            set => SetProperty(ref _ShowGeotag, value);
+        }
+
+        private Visibility _ShowTitle;
+        public Visibility ShowTitle
+        {
+            get => _ShowTitle;
+            set => SetProperty(ref _ShowTitle, value);
+        }
+
+        private string _Tags;
+        public string Tags
+        {
+            get => _Tags;
+            set => SetProperty(ref _Tags, value);
+        }
+
+        private string _DimensionsTooltip;
+        public string DimensionsTooltip
+        {
+            get => _DimensionsTooltip;
+            set => SetProperty(ref _DimensionsTooltip, value);
+        }
+
+        private int _BitDepth;
+        public int BitDepth
+        {
+            get => _BitDepth;
+            set => SetProperty(ref _BitDepth, value);
+        }
+
+        private string _ShotString;
+        public string ShotString
+        {
+            get => _ShotString;
+            set => SetProperty(ref _ShotString, value);
+        }
+
+        private List<PropertiesData> _ImageInformation;
+        public List<PropertiesData> ImageInformation
+        {
+            get => _ImageInformation;
+            set => SetProperty(ref _ImageInformation, value);
+        }
+
+        private Visibility _BasicDetailsVisibility;
+        public Visibility BasicDetailsVisibility
+        {
+            get => _BasicDetailsVisibility;
+            set => SetProperty(ref _BasicDetailsVisibility, value);
+        }
+
+        private Visibility _AllDetailsVisibility;
+        public Visibility AllDetailsVisibility
+        {
+            get => _AllDetailsVisibility;
+            set => SetProperty(ref _AllDetailsVisibility, value);
+        }
+
     }
 }

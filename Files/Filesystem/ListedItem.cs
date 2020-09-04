@@ -150,6 +150,32 @@ namespace Files.Filesystem
 
         private DateTimeOffset _itemDateAccessedReal;
 
+        public bool IsImage()
+        {
+            if (FileExtension != null)
+            {
+                string lower = FileExtension.ToLower();
+                return lower.Contains("png") || lower.Contains("jpg") || lower.Contains("png") || lower.Contains("gif") || lower.Contains("jpeg");
+            }
+            return false;
+        }
+
+        public FileType GetFileType()
+        {
+            if (FileExtension != null)
+            {
+                string lower = FileExtension.ToLower();
+
+                if (lower.Contains("png") || lower.Contains("jpg") || lower.Contains("png") || lower.Contains("gif") || lower.Contains("jpeg"))
+                    return FileType.Image;
+
+                if (lower.Contains("png") || lower.Contains("jpg") || lower.Contains("png") || lower.Contains("gif") || lower.Contains("jpeg"))
+                    return FileType.Image;
+
+            }
+            return FileType.Folder;
+        }
+
         public ListedItem(string folderRelativeId)
         {
             FolderRelativeId = folderRelativeId;
@@ -224,5 +250,14 @@ namespace Files.Filesystem
         public string WorkingDirectory { get; set; }
         public bool RunAsAdmin { get; set; }
         public bool IsUrl { get; set; }
+    }
+
+    public enum FileType
+    {
+        Document,
+        Image,
+        Music,
+        Video,
+        Folder,
     }
 }

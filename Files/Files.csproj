@@ -167,6 +167,7 @@
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Filesystem\CloudDriveSyncStatus.cs" />
+    <Compile Include="Filesystem\PropertiesData.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\StorageFileExtensions.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\IStorageItemWithPath.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\StorageFileWithPath.cs" />
@@ -271,6 +272,9 @@
     <Compile Include="Navigation\NavigationActions.cs" />
     <Compile Include="Views\LayoutModes\GridViewBrowser.xaml.cs">
       <DependentUpon>GridViewBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\DetailsPages\PropertiesDetails.xaml.cs">
+      <DependentUpon>PropertiesDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -519,6 +523,10 @@
     <Page Include="Views\LayoutModes\GridViewBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\DetailsPages\PropertiesDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MainPage.xaml">
       <SubType>Designer</SubType>

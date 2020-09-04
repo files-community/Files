@@ -41,6 +41,8 @@ namespace Files
             this.navParameter = e.Parameter;
             this.TabShorcut.Visibility = e.Parameter is ShortcutItem ? Visibility.Visible : Visibility.Collapsed;
             this.listedItem = e.Parameter as ListedItem;
+            //this.TabImageDetails.Visibility = (e.Parameter as ListedItem).IsImage() ? Visibility.Visible : Visibility.Collapsed;
+            this.TabDetails.Visibility = Visibility.Visible;
             this.SetBackground();
             base.OnNavigatedTo(e);
         }
@@ -220,6 +222,12 @@ namespace Files
                 case "Shortcut":
                     contentFrame.Navigate(typeof(PropertiesShortcut), navParam, args.RecommendedNavigationTransitionInfo);
                     break;
+
+                case "Image":
+                    contentFrame.Navigate(typeof(PropertiesDetails), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
+
+
             }
         }
 
