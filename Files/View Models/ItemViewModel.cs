@@ -1251,7 +1251,9 @@ namespace Files.Filesystem
                 systemTimeOutput.Milliseconds,
                 DateTimeKind.Utc);
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
-            var itemName = StorageFolder.GetFolderFromPathAsync(itemPath).GetAwaiter().GetResult().DisplayName;
+            string itemName = string.Empty;
+            if (AppSettings.ShowLocalisedName) itemName = StorageFolder.GetFolderFromPathAsync(itemPath).GetAwaiter().GetResult().DisplayName;
+            else itemName = findData.cFileName;
 
             _filesAndFolders.Add(new ListedItem(null)
             {
@@ -1430,10 +1432,14 @@ namespace Files.Filesystem
                     return;
                 }
 
+                string itemName = string.Empty;
+                if (AppSettings.ShowLocalisedName) itemName = folder.DisplayName;
+                else itemName = folder.Name;
+
                 _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemName = folder.DisplayName,
+                    ItemName = itemName,
                     ItemDateModifiedReal = basicProperties.DateModified,
                     ItemType = folder.DisplayType,
                     LoadFolderGlyph = true,
