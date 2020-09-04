@@ -127,7 +127,7 @@
     <value>Delete</value>
   </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Permanently delete</value>
+    <value>Permanently erase</value>
   </data>
   <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
     <value>Open in new tab</value>
@@ -142,7 +142,7 @@
     <value>Cancel</value>
   </data>
   <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Extract</value>
+    <value>Extract Files</value>
   </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>New Tab</value>
@@ -241,7 +241,7 @@
     <value>Owner:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>Clear all items</value>
+    <value>Clear all items from list</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Enter a path</value>
