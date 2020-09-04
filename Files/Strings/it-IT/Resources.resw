@@ -21,9 +21,6 @@
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
     <value>Elimina</value>
   </data>
-  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
-    <value>Sei sicuro di voler eliminare gli elementi selezionati?</value>
-  </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Elimina definitivamente</value>
   </data>
@@ -851,5 +848,11 @@
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Elemento non valido</value>
+  </data>
+  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
+    <value>Altri elementi</value>
+  </data>
+  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
+    <value>Mostra tutti gli elementi nel menu contestuale</value>
   </data>
 </root>

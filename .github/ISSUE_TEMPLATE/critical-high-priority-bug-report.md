@@ -43,3 +43,6 @@ If applicable, add screenshots to help explain your problem.
 
 **Additional context**
 Add any other context about the problem here. For instance, are you building from source or using a precompiled build/snapshot?
+
+**Log file**
+Please post the log file here so that we can understand your problem better. You can access it from Settings->About->Open log location.

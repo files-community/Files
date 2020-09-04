@@ -109,6 +109,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuickLook.cs" />
     <Compile Include="Win32API.cs" />
+    <Compile Include="Win32API_ContextMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -124,7 +125,7 @@
       <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.7.3</Version>
+      <Version>4.7.4</Version>
     </PackageReference>
     <PackageReference Include="System.Runtime.WindowsRuntime">
       <Version>4.7.0</Version>
@@ -133,7 +134,7 @@
       <Version>4.7.0</Version>
     </PackageReference>
     <PackageReference Include="Vanara.Windows.Shell">
-      <Version>3.2.13</Version>
+      <Version>3.2.15</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

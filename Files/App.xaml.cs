@@ -6,23 +6,26 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.View_Models;
 using Files.Views;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
 using Windows.Storage;
 using Windows.UI.Core;
+using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
@@ -32,6 +35,7 @@ namespace Files
     sealed partial class App : Application
     {
         private static IShellPage currentInstance;
+        private static bool ShowErrorNotification = false;
 
         public static IShellPage CurrentInstance
         {
@@ -75,6 +79,7 @@ namespace Files
         {
             // Need to reinitialize AppService when app is resuming
             InitializeAppServiceConnection();
+            AppSettings?.DrivesManager?.ResumeDeviceWatcher();
         }
 
         public static AppServiceConnection Connection;
@@ -241,6 +246,7 @@ namespace Files
             if (args.WindowActivationState == CoreWindowActivationState.CodeActivated ||
                 args.WindowActivationState == CoreWindowActivationState.PointerActivated)
             {
+                ShowErrorNotification = true;
                 ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
             }
         }
@@ -391,6 +397,8 @@ namespace Files
         /// <param name="e">Details about the suspend request.</param>
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
+            SaveSessionTabs();
+
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             if (Connection != null)
@@ -402,17 +410,64 @@ namespace Files
             deferral.Complete();
         }
 
-        // Occurs when an exception is not handled on the UI thread.
-        private static void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        private void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
         {
-            Logger.Error(e.Exception, e.Message);
+            AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab => tab != null ? tab.Path ?? ResourceController.GetTranslation("NewTab") : ResourceController.GetTranslation("NewTab")).ToArray();
         }
+
+        // Occurs when an exception is not handled on the UI thread.
+        private static void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e) => AppUnhandledException(e.Exception);
 
         // Occurs when an exception is not handled on a background thread.
         // ie. A task is fired and forgotten Task.Run(() => {...})
-        private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e)
+        private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e) => AppUnhandledException(e.Exception);
+
+        private static void AppUnhandledException(Exception ex)
         {
-            Logger.Error(e.Exception, e.Exception.Message);
+            Logger.Error(ex, ex.Message);
+            if (ShowErrorNotification)
+            {
+                var toastContent = new ToastContent()
+                {
+                    Visual = new ToastVisual()
+                    {
+                        BindingGeneric = new ToastBindingGeneric()
+                        {
+                            Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = ResourceController.GetTranslation("ExceptionNotificationHeader")
+                            },
+                            new AdaptiveText()
+                            {
+                                Text = ResourceController.GetTranslation("ExceptionNotificationBody")
+                            }
+                        },
+                            AppLogoOverride = new ToastGenericAppLogo()
+                            {
+                                Source = "ms-appx:///Assets/error.png"
+                            }
+                        }
+                    },
+                    Actions = new ToastActionsCustom()
+                    {
+                        Buttons =
+                    {
+                        new ToastButton(ResourceController.GetTranslation("ExceptionNotificationReportButton"), "report")
+                        {
+                            ActivationType = ToastActivationType.Foreground
+                        }
+                    }
+                    }
+                };
+
+                // Create the toast notification
+                var toastNotif = new ToastNotification(toastContent.GetXml());
+
+                // And send the notification
+                ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+            }
         }
 
         public static async void CloseApp()

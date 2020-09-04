@@ -1,7 +1,10 @@
-﻿using Files.Filesystem;
+using Files.Filesystem;
 using Files.View_Models;
 using Files.View_Models.Properties;
+using Microsoft.Toolkit.Uwp.Helpers;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -60,6 +63,16 @@ namespace Files
             }
 
             base.OnNavigatedTo(e);
+        }
+
+        public async Task SaveChanges(ListedItem item)
+        {
+            if (ViewModel.OriginalItemName != null)
+            {
+                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => App.CurrentInstance.InteractionOperations.RenameFileItem(item,
+                      ViewModel.OriginalItemName,
+                      ViewModel.ItemName));
+            }
         }
     }
 }

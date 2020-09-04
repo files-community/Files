@@ -45,6 +45,7 @@ namespace Files.View_Models.Properties
             if (Item != null)
             {
                 ViewModel.ItemName = Item.ItemName;
+                ViewModel.OriginalItemName = Item.ItemName;
                 ViewModel.ItemType = Item.ItemType;
                 ViewModel.ItemPath = Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath;
                 ViewModel.ItemModifiedTimestamp = Item.ItemDateModified;

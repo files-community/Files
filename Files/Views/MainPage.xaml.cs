@@ -69,6 +69,20 @@ namespace Files.Views
             }
 
             AllowDrop = true;
+
+            AppInstances.CollectionChanged += AppInstances_CollectionChanged;
+        }
+
+        private void AppInstances_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null)
+            {
+                foreach (var removedTab in e.OldItems)
+                {
+                    // Cleanup resources for the closed tab
+                    ((((removedTab as TabItem).Content as Grid).Children[0] as Frame).Content as IShellPage)?.FilesystemViewModel?.Dispose();
+                }
+            }
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -84,15 +98,37 @@ namespace Files.Views
                 Clipboard.ContentChanged += Clipboard_ContentChanged;
                 Clipboard_ContentChanged(null, null);
 
-                if (string.IsNullOrEmpty(navArgs) && App.AppSettings.OpenASpecificPageOnStartup)
+                if (string.IsNullOrEmpty(navArgs))
                 {
                     try
                     {
-                        if (App.AppSettings.PagesOnStartupList != null)
+                        if (App.AppSettings.OpenASpecificPageOnStartup)
                         {
-                            foreach (string path in App.AppSettings.PagesOnStartupList)
+                            if (App.AppSettings.PagesOnStartupList != null)
                             {
-                                await AddNewTab(typeof(ModernShellPage), path);
+                                foreach (string path in App.AppSettings.PagesOnStartupList)
+                                {
+                                    await AddNewTab(typeof(ModernShellPage), path);
+                                }
+                            }
+                            else
+                            {
+                                await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+                            }
+                        }
+                        else if (App.AppSettings.ContinueLastSessionOnStartUp)
+                        {
+                            if (App.AppSettings.LastSessionPages != null)
+                            {
+                                foreach (string path in App.AppSettings.LastSessionPages)
+                                {
+                                    await AddNewTab(typeof(ModernShellPage), path);
+                                }
+                                App.AppSettings.LastSessionPages = new string[] { ResourceController.GetTranslation("NewTab") };
+                            }
+                            else
+                            {
+                                await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
                             }
                         }
                         else
@@ -231,6 +267,7 @@ namespace Files.Views
             TabItem tvi = new TabItem()
             {
                 Header = tabLocationHeader,
+                Path = path,
                 Content = new Grid()
                 {
                     Children =

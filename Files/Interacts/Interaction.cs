@@ -287,19 +287,24 @@ namespace Files.Interacts
 
         public async void RunAsAdmin_Click()
         {
-            await InvokeWin32Component(CurrentInstance.ContentPage.SelectedItem.ItemPath, null, true);
+            if (App.Connection != null)
+            {
+                await App.Connection.SendMessageAsync(new ValueSet() {
+                    { "Arguments", "InvokeVerb" },
+                    { "FilePath", CurrentInstance.ContentPage.SelectedItem.ItemPath },
+                    { "Verb", "runas" } });
+            }
         }
 
         public async void RunAsAnotherUser_Click()
         {
-            if (CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
+            if (App.Connection != null)
             {
-                // Do not open files and folders inside the recycle bin
-                return;
+                await App.Connection.SendMessageAsync(new ValueSet() {
+                    { "Arguments", "InvokeVerb" },
+                    { "FilePath", CurrentInstance.ContentPage.SelectedItem.ItemPath },
+                    { "Verb", "runasuser" } });
             }
-
-            var clickedOnItem = CurrentInstance.ContentPage.SelectedItem;
-            await InvokeWin32Component(clickedOnItem.ItemPath, "runasuser", false);
         }
 
         public void OpenItem_Click(object sender, RoutedEventArgs e)
@@ -621,17 +626,19 @@ namespace Files.Interacts
         {
             DataRequestDeferral dataRequestDeferral = args.Request.GetDeferral();
             List<IStorageItem> items = new List<IStorageItem>();
-
             DataRequest dataRequest = args.Request;
-            dataRequest.Data.Properties.Title = "Data Shared From Files";
-            dataRequest.Data.Properties.Description = "The items you selected will be shared";
 
-            foreach (ListedItem item in App.CurrentInstance.ContentPage.SelectedItems)
+            /*dataRequest.Data.Properties.Title = "Data Shared From Files";
+            dataRequest.Data.Properties.Description = "The items you selected will be shared";*/
+
+            foreach (ListedItem item in CurrentInstance.ContentPage.SelectedItems)
             {
                 if (item.IsShortcutItem)
                 {
                     if (item.IsLinkItem)
                     {
+                        dataRequest.Data.Properties.Title = string.Format(ResourceController.GetTranslation("ShareDialogTitle"), items.First().Name);
+                        dataRequest.Data.Properties.Description = ResourceController.GetTranslation("ShareDialogSingleItemDescription");
                         dataRequest.Data.SetWebLink(new Uri(((ShortcutItem)item).TargetPath));
                         dataRequestDeferral.Complete();
                         return;
@@ -649,11 +656,22 @@ namespace Files.Interacts
                 }
             }
 
-            if (items.Count == 0)
+            if (items.Count == 1)
             {
-                dataRequest.FailWithDisplayText("Could not access file(s) for sharing");
+                dataRequest.Data.Properties.Title = string.Format(ResourceController.GetTranslation("ShareDialogTitle"), items.First().Name);
+                dataRequest.Data.Properties.Description = ResourceController.GetTranslation("ShareDialogSingleItemDescription");
+            }
+            else if (items.Count == 0)
+            {
+                dataRequest.FailWithDisplayText(ResourceController.GetTranslation("ShareDialogFailMessage"));
                 dataRequestDeferral.Complete();
                 return;
+            }
+            else
+            {
+                dataRequest.Data.Properties.Title = string.Format(ResourceController.GetTranslation("ShareDialogTitleMultipleItems"), items.Count,
+                    ResourceController.GetTranslation("ItemsCount.Text"));
+                dataRequest.Data.Properties.Description = ResourceController.GetTranslation("ShareDialogMultipleItemsDescription");
             }
 
             dataRequest.Data.SetStorageItems(items);

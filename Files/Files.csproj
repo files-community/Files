@@ -182,15 +182,16 @@
     <Compile Include="Helpers\NaturalStringComparer.cs" />
     <Compile Include="Helpers\PackageHelper.cs" />
     <Compile Include="Helpers\PathNormalization.cs" />
-    <Compile Include="Helpers\ShellCommandParser.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Helpers\BulkObservableCollection.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Helpers\Win32FindDataExtensions.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Helpers\RegistryReader.cs" />
     <Compile Include="ResourceController.cs" />
     <Compile Include="INavigationToolbar.cs" />
+    <Compile Include="UserControls\MenuFlyoutItemWithImage.xaml.cs">
+      <DependentUpon>MenuFlyoutItemWithImage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MultitaskingControl\HorizontalMultitaskingControl.xaml.cs">
       <DependentUpon>HorizontalMultitaskingControl.xaml</DependentUpon>
     </Compile>
@@ -324,6 +325,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\error.png" />
     <Content Include="Assets\Files UWP Beta Icon.png" />
     <Content Include="Assets\Files UWP Icon.png" />
     <Content Include="Assets\FilesHome.png" />
@@ -445,6 +447,10 @@
     <Page Include="ResourceDictionaries\TabView_themeresources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\MenuFlyoutItemWithImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\MultitaskingControl\HorizontalMultitaskingControl.xaml">
       <SubType>Designer</SubType>
@@ -591,10 +597,10 @@
       <Version>2020.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
-      <Version>3.4.0</Version>
+      <Version>3.4.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Crashes">
-      <Version>3.4.0</Version>
+      <Version>3.4.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.10</Version>
@@ -606,6 +612,9 @@
       <Version>6.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.DeveloperTools">
+      <Version>6.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
       <Version>6.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
@@ -630,10 +639,10 @@
       <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.7.3</Version>
+      <Version>4.7.4</Version>
     </PackageReference>
     <PackageReference Include="NLog.Schema">
-      <Version>4.7.3</Version>
+      <Version>4.7.4</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

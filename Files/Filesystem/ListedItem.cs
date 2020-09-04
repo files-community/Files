@@ -46,6 +46,14 @@ namespace Files.Filesystem
             set => SetProperty(ref _LoadUnknownTypeGlyph, value);
         }
 
+        private bool _IsDimmed;
+
+        public bool IsDimmed
+        {
+            get => _IsDimmed;
+            set => SetProperty(ref _IsDimmed, value);
+        }
+
         private CloudDriveSyncStatusUI _SyncStatusUI;
 
         public CloudDriveSyncStatusUI SyncStatusUI

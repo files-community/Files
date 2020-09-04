@@ -9,6 +9,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.ViewManagement;
@@ -36,10 +37,12 @@ namespace Files.UserControls
         private const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
         public ObservableCollection<TabItem> Items => MainPage.AppInstances;
 
-        public async void SetSelectedTabInfo(string text, string currentPathForTabIcon)
+        public async Task SetSelectedTabInfo(string text, string currentPathForTabIcon)
         {
             var selectedTabItem = (MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex] as TabItem);
             selectedTabItem.AllowStorageItemDrop = App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome;
+
+            (MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Path = currentPathForTabIcon;
 
             string tabLocationHeader;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
@@ -340,6 +343,7 @@ namespace Files.UserControls
         {
             if (Items.Count == 1)
             {
+                MainPage.AppInstances.Remove(tabItem);
                 await ApplicationView.GetForCurrentView().TryConsolidateAsync();
             }
             else if (Items.Count > 1)
