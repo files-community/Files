@@ -61,7 +61,7 @@
     <value>Envía un informe de fallos a los desarrolladores con más información</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Licencias de terceros</value>
+    <value>Licencias de terceros:</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Acerca de Files UWP</value>
@@ -322,13 +322,13 @@
     <value>Tamaño</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Bienvenido a Files UWP</value>
+    <value>Bienvenido a Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Conceder Permiso</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Para comenzar, deberá otorgarnos permiso para mostrar sus archivos. Esto abrirá una página de Configuración donde puede otorgarnos este permiso. Deberá volver a abrir la aplicación una vez completada. </value>
+    <value>Para comenzar, deberá otorgarnos permiso para mostrar sus archivos. Esto abrirá una página de Configuración donde puede otorgarnos este permiso. Deberá volver a abrir la aplicación una vez que haya completado este paso.</value>
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>Carpeta de archivos</value>
@@ -337,7 +337,7 @@
     <value>Ingrese un nombre de archivo</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Ingrese un nombre de archivo sin una extensión</value>
+    <value>Ingrese un nombre de archivo</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Establecer Nombre</value>
@@ -847,7 +847,7 @@
     <value>Versión:</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
-    <value>No hay nada que compartir ahora mismo</value>
+    <value>No hay nada que compartir ahora mismo...</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
     <value>Los elementos que ha seleccionado se compartirán</value>
@@ -866,5 +866,11 @@
   </data>
   <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
     <value>Mostrar todos los elementos del menú contextual</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
+    <value>¿Está seguro que desea eliminar este elemento?</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
+    <value>¿Está seguro que desea eliminar estos {0} elementos?</value>
   </data>
 </root>
