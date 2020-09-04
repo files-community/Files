@@ -1187,6 +1187,10 @@
           <source>Are you sure you want to delete these {0} items?</source>
           <target state="new">Are you sure you want to delete these {0} items?</target>
         </trans-unit>
+        <trans-unit id="SettingsShowLocalisedName" translate="yes" xml:space="preserve">
+          <source>Show localized name for folders</source>
+          <target state="new">Show localized name for folders</target>
+        </trans-unit>
       </group>
     </body>
   </file>

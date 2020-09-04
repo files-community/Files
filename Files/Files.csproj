@@ -409,6 +409,7 @@
     <Content Include="Assets\WSL\ubuntu.svg" />
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
+    <PRIResource Include="Strings\en-GB\Resources.resw" />
     <PRIResource Include="Strings\or-IN\Resources.resw" />
     <PRIResource Include="Strings\hi-IN\Resources.resw" />
     <PRIResource Include="Strings\pt-BR\Resources.resw" />
@@ -644,6 +645,7 @@
   </ItemGroup>
   <ItemGroup>
     <XliffResource Include="MultilingualResources\Files.de-DE.xlf" />
+    <XliffResource Include="MultilingualResources\Files.en-GB.xlf" />
     <XliffResource Include="MultilingualResources\Files.es-ES.xlf" />
     <XliffResource Include="MultilingualResources\Files.fr-FR.xlf" />
     <XliffResource Include="MultilingualResources\Files.he-IL.xlf" />

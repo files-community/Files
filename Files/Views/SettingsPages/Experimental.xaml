@@ -68,6 +68,14 @@
                         Text="Show Owner in properties" />
                     <ToggleSwitch IsOn="{x:Bind AppSettings.ShowFileOwner, Mode=TwoWay}" />
                 </StackPanel>
+
+                <StackPanel Spacing="10">
+                    <TextBlock
+                        x:Uid="SettingsShowLocalisedName"
+                        FontSize="17"
+                        Text="Show localized name for folders" />
+                    <ToggleSwitch IsOn="{x:Bind AppSettings.ShowLocalisedName, Mode=TwoWay}" />
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

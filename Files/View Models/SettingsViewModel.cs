@@ -135,6 +135,12 @@ namespace Files.View_Models
             set => Set(value);
         }
 
+        public bool ShowLocalisedName
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         public async void DetectQuickLook()
         {
             // Detect QuickLook
