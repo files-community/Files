@@ -510,6 +510,7 @@ namespace Files.Filesystem
                         StorageFolder matchingStorageItem = await StorageFileExtensions.GetFolderFromPathAsync(item.ItemPath, _workingRoot, _currentStorageFolder);
                         if (matchingItem != null && matchingStorageItem != null)
                         {
+                            matchingItem.ItemName = matchingStorageItem.DisplayName;
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                             matchingItem.ItemType = matchingStorageItem.DisplayType;
                             var syncStatus = await CheckCloudDriveSyncStatus(matchingStorageItem);
@@ -1252,8 +1253,8 @@ namespace Files.Filesystem
                 DateTimeKind.Utc);
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
             string itemName = string.Empty;
-            if (AppSettings.ShowLocalisedName) itemName = StorageFolder.GetFolderFromPathAsync(itemPath).GetAwaiter().GetResult().DisplayName;
-            else itemName = findData.cFileName;
+            if (!AppSettings.ShowLocalisedName) itemName = findData.cFileName;
+            else  // ItemName will be loaded later to improve perfomance
 
             _filesAndFolders.Add(new ListedItem(null)
             {
@@ -1433,8 +1434,8 @@ namespace Files.Filesystem
                 }
 
                 string itemName = string.Empty;
-                if (AppSettings.ShowLocalisedName) itemName = folder.DisplayName;
-                else itemName = folder.Name;
+                if (!AppSettings.ShowLocalisedName) itemName = folder.Name;
+                else // ItemName will be loaded later to improve perfomance
 
                 _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId)
                 {
