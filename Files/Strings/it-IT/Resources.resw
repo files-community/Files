@@ -21,9 +21,6 @@
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
     <value>Elimina</value>
   </data>
-  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
-    <value>Sei sicuro di voler eliminare gli elementi selezionati?</value>
-  </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Elimina definitivamente</value>
   </data>

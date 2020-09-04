@@ -17,9 +17,10 @@
     mc:Ignorable="d">
     <local:BaseLayout.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
-        <converters:BoolToObjectConverter x:Key="BoolToOpacityConverter"
-                                          FalseValue="1"
-                                          TrueValue="0.4" />
+        <converters:BoolToObjectConverter
+            x:Key="BoolToOpacityConverter"
+            FalseValue="1"
+            TrueValue="0.4" />
 
         <MenuFlyout x:Key="BaseLayoutContextFlyout">
             <MenuFlyoutSubItem

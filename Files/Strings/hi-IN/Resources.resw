@@ -21,9 +21,6 @@
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
     <value>हटाएँ</value>
   </data>
-  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
-    <value>क्या आप सुनिश्चित हैं कि आप चयनित वस्तु(ओं) को हटाना चाहते हैं?</value>
-  </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>स्थायी रूप से हटाएं</value>
   </data>
