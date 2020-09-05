@@ -17,6 +17,10 @@
     mc:Ignorable="d">
     <local:BaseLayout.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        <converters:BoolToObjectConverter
+            x:Key="BoolToOpacityConverter"
+            FalseValue="1"
+            TrueValue="0.4" />
 
         <MenuFlyout x:Key="BaseLayoutContextFlyout">
             <MenuFlyoutSubItem
@@ -472,6 +476,7 @@
                     Grid.Row="0"
                     Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
                     Height="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
+                    Opacity="{x:Bind IsDimmed, Converter={StaticResource BoolToOpacityConverter}, Mode=OneWay}"
                     Tag="ItemImage">
                     <Grid
                         x:Name="Picture"
@@ -613,6 +618,7 @@
                     Grid.Column="1"
                     Height="Auto"
                     MinHeight="100"
+                    Opacity="{x:Bind IsDimmed, Converter={StaticResource BoolToOpacityConverter}, Mode=OneWay}"
                     Tag="ItemImage">
                     <Grid
                         x:Name="Picture"

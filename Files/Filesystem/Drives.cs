@@ -30,6 +30,7 @@ namespace Files.Filesystem
         }
 
         private DeviceWatcher _deviceWatcher;
+        private bool _driveEnumInProgress;
 
         public DrivesManager()
         {
@@ -38,16 +39,19 @@ namespace Files.Filesystem
 
         private async void EnumerateDrives()
         {
+            _driveEnumInProgress = true;
             try
             {
                 await GetDrives(Drives);
                 GetVirtualDrivesList(Drives);
                 StartDeviceWatcher();
             }
-            catch (AggregateException)
+            catch (AggregateException ex)
             {
+                Logger.Warn(ex, ex.Message);
                 ShowUserConsentOnInit = true;
             };
+            _driveEnumInProgress = false;
         }
 
         private void StartDeviceWatcher()
@@ -127,9 +131,11 @@ namespace Files.Filesystem
             {
                 root = StorageDevice.FromId(deviceId);
             }
-            catch (UnauthorizedAccessException)
+            catch (Exception ex) when (
+                ex is UnauthorizedAccessException
+                || ex is ArgumentException)
             {
-                Logger.Warn($"UnauthorizedAccessException: Attemting to add the device, {args.Name}, failed at the StorageFolder initialization step. This device will be ignored. Device ID: {args.Id}");
+                Logger.Warn($"{ex.GetType()}: Attemting to add the device, {args.Name}, failed at the StorageFolder initialization step. This device will be ignored. Device ID: {args.Id}");
                 return;
             }
 
@@ -355,6 +361,15 @@ namespace Files.Filesystem
                 {
                     _deviceWatcher.Stop();
                 }
+            }
+        }
+
+        public void ResumeDeviceWatcher()
+        {
+            if (!_driveEnumInProgress)
+            {
+                this.Dispose();
+                this.StartDeviceWatcher();
             }
         }
     }

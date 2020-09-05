@@ -28,13 +28,13 @@
     <value>Dateityp:</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
-    <value>Verändert:</value>
+    <value>Geändert:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Alle Dateien löschen</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Kürzliche verwendete Dateien und Ordner werden hier zu sehen sein</value>
+    <value>Kürzlich verwendete Dateien und Ordner werden hier zu sehen sein</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
     <value>Dateispeicherort öffnen</value>
@@ -118,7 +118,7 @@
     <value>Eine neue Registerkarte öffnen</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Bestimmte Seite oder Seiten öffnen</value>
+    <value>Bestimmte Seite oder mehrere Seiten öffnen</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Beim Start</value>
@@ -143,9 +143,6 @@
   </data>
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
     <value>Löschen</value>
-  </data>
-  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
-    <value>Sind Sie sicher, dass Sie die ausgewählten Dateien löschen möchten?</value>
   </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Endgültig löschen</value>
@@ -550,7 +547,7 @@
     <value>Wiederherstellen</value>
   </data>
   <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
-    <value>Unterstützung für Papierkorb aktivieren</value>
+    <value>Papierkorb an Seitenleiste anheften</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
     <value>Vor {0} Tagen</value>
@@ -562,19 +559,19 @@
     <value>Vor einem Tag</value>
   </data>
   <data name="HourAgo" xml:space="preserve">
-    <value>vor einer Stunde</value>
+    <value>Vor einer Stunde</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>Vor {0} Minuten</value>
   </data>
   <data name="MinuteAgo" xml:space="preserve">
-    <value>vor einer Minute</value>
+    <value>Vor einer Minute</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>vor {0} Sekunden</value>
+    <value>Vor {0} Sekunden</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
-    <value>Neue Registerkarte</value>
+    <value>Neuer Tab</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>Der angeforderte Vorgang wird nicht unterstützt.</value>
@@ -598,7 +595,7 @@
     <value>Logverzeichnis öffnen</value>
   </data>
   <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Neue Registerkarte (Strg + T)</value>
+    <value>Neuer Tab (Strg + T)</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>Element ausgewählt</value>
@@ -640,7 +637,7 @@
     <value>Bytes</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
-    <value>kB</value>
+    <value>KB</value>
   </data>
   <data name="MegaByteSymbol" xml:space="preserve">
     <value>MB</value>
@@ -655,7 +652,7 @@
     <value>PB</value>
   </data>
   <data name="ByteSymbol" xml:space="preserve">
-    <value>Bit</value>
+    <value>B</value>
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>Dateien werden gelöscht</value>
@@ -777,7 +774,94 @@
   <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
     <value>Der Zielordner ist identisch mit dem Quellordner.</value>
   </data>
+  <data name="CopyToFolderCaptionText" xml:space="preserve">
+    <value>Kopieren nach {0}</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+    <value>Verknüpfung erstellen</value>
+  </data>
+  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+    <value>Dateipfad öffnen</value>
+  </data>
+  <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
+    <value>Argumente</value>
+  </data>
+  <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
+    <value>Ziel:</value>
+  </data>
+  <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
+    <value>Verknüpfungstyp:</value>
+  </data>
+  <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
+    <value>Ausführen in:</value>
+  </data>
+  <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
+    <value>Programm</value>
+  </data>
+  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
+    <value>Datei</value>
+  </data>
+  <data name="PropertiesShortcutTypeFolder" xml:space="preserve">
+    <value>Ordner</value>
+  </data>
+  <data name="PropertiesShortcutTypeLink" xml:space="preserve">
+    <value>Weblink</value>
+  </data>
+  <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
+    <value>Allgemein</value>
+  </data>
+  <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
+    <value>Verknüpfung</value>
+  </data>
+  <data name="ShortcutFileType" xml:space="preserve">
+    <value>Verknüpfung</value>
+  </data>
+  <data name="ShortcutWebLinkFileType" xml:space="preserve">
+    <value>Internet-Verknüpfung</value>
+  </data>
+  <data name="ShortcutCreateNewSuffix" xml:space="preserve">
+    <value>{0} - Verknüpfung</value>
+  </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Dateispeicherort öffnen</value>
+  </data>
+  <data name="DriveCapacityUnknown" xml:space="preserve">
+    <value>Unbekannt</value>
+  </data>
+  <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
+    <value>Logverzeichnis öffnen</value>
+  </data>
+  <data name="ExceptionNotificationHeader" xml:space="preserve">
+    <value>Etwas ist schief gelaufen!</value>
+  </data>
+  <data name="ExceptionNotificationReportButton" xml:space="preserve">
+    <value>DIeses Problem melden</value>
+  </data>
+  <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
+    <value>Multitasking-Flyout in der Navigationstoolbar anzeigen</value>
+  </data>
+  <data name="InvalidItemDialogTitle" xml:space="preserve">
+    <value>Ungültiges Element</value>
+  </data>
+  <data name="SettingsAboutVersionTitle" xml:space="preserve">
+    <value>Version:</value>
+  </data>
+  <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
+    <value>Die von Ihnen ausgewählten Elemente werden geteilt</value>
+  </data>
+  <data name="ShareDialogSingleItemDescription" xml:space="preserve">
+    <value>Das ausgewählte Element wird geteilt</value>
+  </data>
+  <data name="ShareDialogTitle" xml:space="preserve">
+    <value>Teilen {0}</value>
+  </data>
+  <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
+    <value>Teilen {0} {1}</value>
+  </data>
+  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
+    <value>Mehr</value>
+  </data>
+  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
+    <value>Alle im Kontextmenü verfügbaren Elemente anzeigen</value>
   </data>
 </root>

@@ -22,10 +22,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Spacing="10">
-            <TextBlock
-                x:Uid="ConfirmDeleteDialogHeader"
-                Text="Are you sure you want to delete the selected item(s)?"
-                TextWrapping="WrapWholeWords" />
+            <TextBlock Text="{x:Bind Description, Mode=OneWay}" TextWrapping="WrapWholeWords" />
 
             <CheckBox
                 x:Name="chkPermanentlyDelete"

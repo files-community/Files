@@ -21,9 +21,6 @@
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
     <value>நீக்கு</value>
   </data>
-  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
-    <value>தேர்ந்தெடுக்கப்பட்ட உருப்படி(கள்) ஐ நீங்கள் நிச்சயம் நீக்க விரும்புகிறீர்களா?</value>
-  </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>நிரந்தரமாக நீக்கு</value>
   </data>

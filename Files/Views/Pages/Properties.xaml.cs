@@ -91,7 +91,7 @@ namespace Files
                     TintColor = AppSettings.AcrylicTheme.TintColor,
                     TintOpacity = AppSettings.AcrylicTheme.TintOpacity,
                 };
-                if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+                if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 9))
                 {
                     backgroundBrush.TintLuminosityOpacity = 0.9;
                 }
@@ -164,9 +164,22 @@ namespace Files
         {
             if (contentFrame.Content is PropertiesGeneral)
             {
-                (contentFrame.Content as PropertiesGeneral).SaveChanges(listedItem);
+                await (contentFrame.Content as PropertiesGeneral).SaveChanges(listedItem);
             }
 
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+            }
+            else
+            {
+                var propertiesDialog = Interaction.FindParent<ContentDialog>(this);
+                propertiesDialog.Hide();
+            }
+        }
+
+        private async void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 await ApplicationView.GetForCurrentView().TryConsolidateAsync();

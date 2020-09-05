@@ -14,7 +14,7 @@ namespace Files.SettingsPages
             var version = Package.Current.Id.Version;
             VersionNumber.Text = string.Format($"{ResourceController.GetTranslation("SettingsAboutVersionTitle")} {version.Major}.{version.Minor}.{version.Build}.{version.Revision}");
         }
-        
+
         private void OpenLogLocationButton_Click(object sender, RoutedEventArgs e) => View_Models.SettingsViewModel.OpenLogLocation();
 
         private async void FeedbackListView_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)

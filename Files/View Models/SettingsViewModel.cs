@@ -1,5 +1,6 @@
 using Files.Common;
 using Files.Controllers;
+using Files.Controls;
 using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
@@ -10,19 +11,17 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Core;
 using Windows.Globalization;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
-using Windows.System;
-using Windows.ApplicationModel.Core;
-using Files.Controls;
 
 namespace Files.View_Models
 {
@@ -540,6 +539,12 @@ namespace Files.View_Models
                     localSettings.Values["AcrylicEnabled"] = value;
                 }
             }
+        }
+
+        public bool ShowAllContextMenuItems
+        {
+            get => Get(false);
+            set => Set(value);
         }
 
         public event EventHandler ThemeModeChanged;
