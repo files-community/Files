@@ -1,9 +1,11 @@
 ﻿using Files.DataModels;
 using Files.View_Models;
+using Microsoft.Toolkit.Uwp.Notifications;
 using System;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -45,11 +47,11 @@ namespace Files.SettingsPages
         {
             if (AppSettings.CurrentLanguage.ID != AppSettings.DefaultLanguage.ID)
             {
-                ShowRestartDialog();
+                ShowRestartNotification();
             }
         }
 
-        private async void ShowRestartDialog()
+        private void ShowRestartNotification()
         {
             ContentDialog restartDialog = new ContentDialog
             {
@@ -59,17 +61,42 @@ namespace Files.SettingsPages
                 CloseButtonText = ResourceController.GetTranslation("RestartDialogCancelButton")
             };
 
-            ContentDialogResult result = await restartDialog.ShowAsync();
-
-            if (result == ContentDialogResult.Primary)
+            var toastContent = new ToastContent
             {
-                System.Diagnostics.Debug.WriteLine("Restart app");
-                AppRestartFailureReason failureReason = await CoreApplication.RequestRestartAsync("");
-                if (failureReason == AppRestartFailureReason.NotInForeground)
+                Visual = new ToastVisual
                 {
-
+                    BindingGeneric = new ToastBindingGeneric
+                    {
+                        Children =
+                        {
+                            new AdaptiveText
+                            {
+                                Text = ResourceController.GetTranslation("RestartDialogTitle")
+                            },
+                            new AdaptiveText
+                            {
+                                Text = ResourceController.GetTranslation("RestartDialogText")
+                            }
+                        }
+                    }
+                },
+                Actions = new ToastActionsCustom
+                {
+                    Buttons =
+                    {
+                        new ToastButton(ResourceController.GetTranslation("RestartDialogPrimaryButton"), "restart")
+                        {
+                            ActivationType = ToastActivationType.Background
+                        }
+                    }
                 }
-            }
+            };
+
+            // Create the toast notification
+            var toastNotif = new ToastNotification(toastContent.GetXml());
+
+            // And send the notification
+            ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
         }
 
         private void EditTerminalApplications_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
