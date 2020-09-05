@@ -617,7 +617,7 @@ namespace Files.UserControls
 
         private void VerticalTabStripInvokeButton_Loaded(object sender, RoutedEventArgs e)
         {
-            App.multitaskingControl = verticalTabs;
+            App.MultitaskingControl = verticalTabs;
         }
     }
 }

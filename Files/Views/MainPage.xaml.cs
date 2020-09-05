@@ -407,7 +407,7 @@ namespace Files.Views
 
         private void horizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
         {
-            App.multitaskingControl = horizontalMultitaskingControl;
+            App.MultitaskingControl = horizontalMultitaskingControl;
         }
     }
 }

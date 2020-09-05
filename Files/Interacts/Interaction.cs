@@ -515,13 +515,13 @@ namespace Files.Interacts
 
         public void CloseTab()
         {
-            if (App.multitaskingControl.Items.Count == 1)
+            if (App.MultitaskingControl.Items.Count == 1)
             {
                 App.CloseApp();
             }
-            else if (App.multitaskingControl.Items.Count > 1)
+            else if (App.MultitaskingControl.Items.Count > 1)
             {
-                App.multitaskingControl.Items.RemoveAt(App.InteractionViewModel.TabStripSelectedIndex);
+                App.MultitaskingControl.Items.RemoveAt(App.InteractionViewModel.TabStripSelectedIndex);
             }
         }
 

@@ -28,7 +28,7 @@ namespace Files.Controls
                     SetProperty(ref _TabStripSelectedIndex, value);
                     Frame rootFrame = Window.Current.Content as Frame;
                     var mainView = rootFrame.Content as MainPage;
-                    mainView.SelectedTabItem = App.multitaskingControl.Items[value];
+                    mainView.SelectedTabItem = App.MultitaskingControl.Items[value];
                 }
             }
         }
@@ -57,7 +57,7 @@ namespace Files.Controls
             set => SetProperty(ref _isPasteEnabled, value);
         }
 
-        private bool _isHorizontalTabStripVisible = false;
+        private bool _isHorizontalTabStripVisible = App.AppSettings.IsMultitaskingExperienceAdaptive ? !IsWindowResizedToCompactWidth() : App.AppSettings.IsHorizontalTabStripEnabled;
 
         public bool IsHorizontalTabStripVisible
         {
@@ -65,7 +65,7 @@ namespace Files.Controls
             set => SetProperty(ref _isHorizontalTabStripVisible, value);
         }
 
-        private bool _isVerticalTabFlyoutVisible = false;
+        private bool _isVerticalTabFlyoutVisible = App.AppSettings.IsMultitaskingExperienceAdaptive ? IsWindowResizedToCompactWidth() : App.AppSettings.IsVerticalTabFlyoutEnabled;
 
         public bool IsVerticalTabFlyoutVisible
         {
