@@ -13,6 +13,8 @@ namespace Files.View_Models.Properties
 
         public SelectedItemsPropertiesViewModel ViewModel { get; set; }
 
+        protected Microsoft.UI.Xaml.Controls.ProgressBar ItemMD5HashProgress = null;
+
         protected void Properties_Loaded(object sender, RoutedEventArgs e)
         {
             if (BaseProperties != null)
@@ -31,7 +33,7 @@ namespace Files.View_Models.Properties
                 var listedItem = np.navParameter as ListedItem;
                 if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
                 {
-                    BaseProperties = new FileProperties(ViewModel, np.tokenSource, Dispatcher, null, listedItem);
+                    BaseProperties = new FileProperties(ViewModel, np.tokenSource, Dispatcher, ItemMD5HashProgress, listedItem);
                 }
                 else if (listedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {

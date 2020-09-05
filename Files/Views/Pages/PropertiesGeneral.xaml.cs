@@ -11,6 +11,7 @@ namespace Files
         public PropertiesGeneral()
         {
             this.InitializeComponent();
+            base.ItemMD5HashProgress = ItemMD5HashProgress;
         }
 
         public async Task SaveChanges(ListedItem item)

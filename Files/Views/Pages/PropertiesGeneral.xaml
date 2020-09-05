@@ -167,7 +167,7 @@
                 x:Name="ItemMD5HashProgress"
                 Grid.Row="6"
                 Grid.Column="1"
-                Margin="20,0,0,0"
+                Margin="{StaticResource PropertyValueMargin}"
                 VerticalAlignment="Center"
                 ShowError="{x:Bind ViewModel.ItemMD5HashCalcError, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.ItemMD5HashProgressVisibility, Mode=OneWay}" />
