@@ -720,7 +720,7 @@
                     Tag="Date">
                     <controls:DataGridTextColumn.CellStyle>
                         <Style TargetType="controls:DataGridCell">
-                            <Setter Property="Foreground" Value="{ThemeResource GrayTextColor}" />
+                            <Setter Property="Opacity" Value="0.6" />
                         </Style>
                     </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
@@ -739,7 +739,7 @@
                     Tag="Type">
                     <controls:DataGridTextColumn.CellStyle>
                         <Style TargetType="controls:DataGridCell">
-                            <Setter Property="Foreground" Value="{ThemeResource GrayTextColor}" />
+                            <Setter Property="Opacity" Value="0.6" />
                         </Style>
                     </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
@@ -759,7 +759,7 @@
                     Tag="Size">
                     <controls:DataGridTextColumn.CellStyle>
                         <Style TargetType="controls:DataGridCell">
-                            <Setter Property="Foreground" Value="{ThemeResource GrayTextColor}" />
+                            <Setter Property="Opacity" Value="0.6" />
                         </Style>
                     </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
