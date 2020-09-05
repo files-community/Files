@@ -21,9 +21,6 @@
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
     <value>ବିଲୋପ କର</value>
   </data>
-  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
-    <value>ଆପଣ ନିଶ୍ଚିତ କି ଆପଣ ମନୋନୀତ ଆଇଟମ୍(ଗୁଡିକ) ବିଲୋପ କରିବାକୁ ଚାହୁଁଛନ୍ତି କି?</value>
-  </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>ସ୍ଥାୟୀ ଭାବରେ ବିଲୋପ କର</value>
   </data>

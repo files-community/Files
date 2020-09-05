@@ -101,7 +101,7 @@
                     Source="{x:Bind ViewModel.FileIconSource, Mode=OneWay}" />
             </Grid>
             <TextBox
-                x:Name="itemFileName"
+                x:Name="ItemFileName"
                 x:Uid="PropertiesItemFileName"
                 Grid.Row="0"
                 Grid.Column="1"
@@ -109,8 +109,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 BorderThickness="1"
-                IsReadOnly="True"
-                Text="{x:Bind ViewModel.ItemName, Mode=OneWay}"
+                Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}"
                 Visibility="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}" />
 
             <MenuFlyoutSeparator

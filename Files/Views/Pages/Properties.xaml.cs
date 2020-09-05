@@ -27,6 +27,8 @@ namespace Files
 
         private object navParameter;
 
+        private ListedItem listedItem;
+
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public Properties()
@@ -38,6 +40,7 @@ namespace Files
         {
             this.navParameter = e.Parameter;
             this.TabShorcut.Visibility = e.Parameter is ShortcutItem ? Visibility.Visible : Visibility.Collapsed;
+            this.listedItem = e.Parameter as ListedItem;
             this.SetBackground();
             base.OnNavigatedTo(e);
         }
@@ -88,7 +91,7 @@ namespace Files
                     TintColor = AppSettings.AcrylicTheme.TintColor,
                     TintOpacity = AppSettings.AcrylicTheme.TintOpacity,
                 };
-                if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+                if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 9))
                 {
                     backgroundBrush.TintLuminosityOpacity = 0.9;
                 }
@@ -157,7 +160,25 @@ namespace Files
             });
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private async void OKButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (contentFrame.Content is PropertiesGeneral)
+            {
+                await (contentFrame.Content as PropertiesGeneral).SaveChanges(listedItem);
+            }
+
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+            }
+            else
+            {
+                var propertiesDialog = Interaction.FindParent<ContentDialog>(this);
+                propertiesDialog.Hide();
+            }
+        }
+
+        private async void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {

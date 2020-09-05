@@ -126,9 +126,6 @@
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
     <value>Delete</value>
   </data>
-  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
-    <value>Are you sure you want to delete the selected item(s)?</value>
-  </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Permanently delete</value>
   </data>
@@ -280,7 +277,7 @@
     <value>Send the developers an issue report with more information</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Third Party Licenses</value>
+    <value>Third Party Licenses:</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>About</value>
@@ -313,7 +310,7 @@
     <value>Files and Folders</value>
   </data>
   <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
-    <value>Double tap to rename files</value>
+    <value>Double click to rename files</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimental</value>
@@ -490,13 +487,13 @@
     <value>QuickLook</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Welcome to Files</value>
+    <value>Welcome to Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Grant Permission</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once completed. </value>
+    <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </value>
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>File folder</value>
@@ -508,7 +505,7 @@
     <value>Enter an item name</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Enter an item name without an extension</value>
+    <value>Enter an item name</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Set Name</value>
@@ -835,7 +832,7 @@
     <value>App Language</value>
   </data>
   <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>Restart required</value>
+    <value>To see changes, a restart is required</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Move tab here</value>
@@ -936,6 +933,21 @@
   <data name="SettingsPreferencesShowHorizontalTabStrip.Text" xml:space="preserve">
     <value>Show a horizontal tab strip on the title bar</value>
   </data>
+  <data name="DriveCapacityUnknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
+    <value>Open log location</value>
+  </data>
+  <data name="ExceptionNotificationBody" xml:space="preserve">
+    <value>Files ran into a problem that the developers didn't prepare for yet.</value>
+  </data>
+  <data name="ExceptionNotificationHeader" xml:space="preserve">
+    <value>Something went wrong!</value>
+  </data>
+  <data name="ExceptionNotificationReportButton" xml:space="preserve">
+    <value>Report this issue</value>
+  </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Contributors</value>
   </data>
@@ -946,7 +958,7 @@
     <value>Release Notes</value>
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Find out what's new in Files UWP</value>
+    <value>Find out what's new</value>
   </data>
   <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
     <value>Show multitasking flyout in the navigation toolbar</value>
@@ -957,8 +969,11 @@
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Invalid item</value>
   </data>
+  <data name="SettingsAboutVersionTitle" xml:space="preserve">
+    <value>Version:</value>
+  </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
-    <value>There's nothing to share right now</value>
+    <value>There's nothing to share right now...</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
     <value>The items you've selected will be shared</value>
@@ -971,5 +986,20 @@
   </data>
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
     <value>Sharing {0} {1}</value>
+  </data>
+  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
+    <value>More</value>
+  </data>
+  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
+    <value>Show all context menu items</value>
+  </data>
+  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
+    <value>Are you sure you want to delete these {0} items?</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
+    <value>Are you sure you want to delete this item?</value>
   </data>
 </root>

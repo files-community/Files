@@ -8,6 +8,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -31,10 +32,12 @@ namespace Files.UserControls
             this.InitializeComponent();
         }
 
-        public async void SetSelectedTabInfo(string text, string currentPathForTabIcon = null)
+        public async Task SetSelectedTabInfo(string text, string currentPathForTabIcon = null)
         {
             var selectedTabItem = (MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex] as TabItem);
             selectedTabItem.AllowStorageItemDrop = App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome;
+
+            MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex].Path = currentPathForTabIcon;
 
             string tabLocationHeader;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
@@ -330,6 +333,7 @@ namespace Files.UserControls
         {
             if (Items.Count == 1)
             {
+                MainPage.AppInstances.Remove(tabItem);
                 App.CloseApp();
             }
             else if (Items.Count > 1)

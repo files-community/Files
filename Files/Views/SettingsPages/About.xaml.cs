@@ -1,6 +1,5 @@
 ﻿using System;
 using Windows.ApplicationModel;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -13,19 +12,16 @@ namespace Files.SettingsPages
         {
             InitializeComponent();
             var version = Package.Current.Id.Version;
-            VersionNumber.Text = string.Format($"Version: {version.Major}.{version.Minor}.{version.Build}.{version.Revision}");
+            VersionNumber.Text = string.Format($"{ResourceController.GetTranslation("SettingsAboutVersionTitle")} {version.Major}.{version.Minor}.{version.Build}.{version.Revision}");
         }
 
-        private async void OpenLogLocationButton_Click(object sender, RoutedEventArgs e)
-        {
-            await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
-        }
+        private void OpenLogLocationButton_Click(object sender, RoutedEventArgs e) => View_Models.SettingsViewModel.OpenLogLocation();
 
         private async void FeedbackListView_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             if (FeedbackListView.SelectedIndex == 0)
             {
-                await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/files-uwp/issues/new/choose"));
+                View_Models.SettingsViewModel.ReportIssueOnGitHub();
             }
             else if (FeedbackListView.SelectedIndex == 1)
             {
