@@ -32,7 +32,7 @@
         <Setter Property="IsTextSelectionEnabled" Value="True"/>
     </Style>
 
-    <Style TargetType="TextBox" x:Key="PropertyValueTextBox">
+    <Style TargetType="TextBox" BasedOn="{StaticResource DefaultTextBoxStyle}" x:Key="PropertyValueTextBox">
         <Setter Property="Margin" Value="{StaticResource PropertyValueMargin}"/>
         <Setter Property="VerticalAlignment" Value="{StaticResource PropertyValueVerticalAlignment}"/>
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
