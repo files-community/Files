@@ -22,18 +22,6 @@
           <source>Permanently delete</source>
           <target state="translated">Elimina definitivamente</target>
         </trans-unit>
-        <trans-unit id="ExtractFilesDialog.Title" translate="yes" xml:space="preserve">
-          <source>Extract Compressed Archive</source>
-          <target state="translated">Estrai archivio compresso</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialog.CloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Annulla</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Extract</source>
-          <target state="translated">Estrai</target>
-        </trans-unit>
         <trans-unit id="NavigationToolbarNewTab.Text" translate="yes" xml:space="preserve">
           <source>New Tab</source>
           <target state="translated">Nuova scheda</target>
@@ -93,14 +81,6 @@
         <trans-unit id="PropertiesItemFileName.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Item Name</source>
           <target state="translated">Nome:</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialogDescription.Text" translate="yes" xml:space="preserve">
-          <source>Pick a location to extract this compressed archive to. You'll need to stay in the current folder until we're done. A new tab will open up with the extracted items.</source>
-          <target state="translated">Scegli una posizione in cui estrarre questo archivio compresso. Dovrai rimanere nella cartella corrente fino a quando l'operazione non sarà completata. Al termine si aprirà una nuova scheda con gli elementi estratti.</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialogBrowseButton.Content" translate="yes" xml:space="preserve">
-          <source>Browse</source>
-          <target state="translated">Esplora</target>
         </trans-unit>
         <trans-unit id="PropertiesItemPath.Text" translate="yes" xml:space="preserve">
           <source>Path:</source>
@@ -943,10 +923,6 @@
         <trans-unit id="DeleteInProgress.Title" translate="yes" xml:space="preserve">
           <source>Deleting files</source>
           <target state="translated">Eliminazione file in corso</target>
-        </trans-unit>
-        <trans-unit id="ExtractInProgress.Title" translate="yes" xml:space="preserve">
-          <source>Extracting files</source>
-          <target state="translated">Estrazione file in corso</target>
         </trans-unit>
         <trans-unit id="PasteInProgress.Title" translate="yes" xml:space="preserve">
           <source>Pasting files</source>

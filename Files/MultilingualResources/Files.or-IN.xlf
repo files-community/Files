@@ -30,18 +30,6 @@
           <source>Open in new window</source>
           <target state="translated">ନୂଆ ୱିଣ୍ଡୋରେ ଖୋଲ</target>
         </trans-unit>
-        <trans-unit id="ExtractFilesDialog.Title" translate="yes" xml:space="preserve">
-          <source>Extract Compressed Archive</source>
-          <target state="translated">ସଙ୍କୋଚିତ ଅଭିଲେଖାଗାର ବାହାର କରନ୍ତୁ</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialog.CloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">ବାତିଲ୍ କର</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Extract</source>
-          <target state="translated">ବାହାର କର</target>
-        </trans-unit>
         <trans-unit id="NavigationToolbarNewTab.Text" translate="yes" xml:space="preserve">
           <source>New Tab</source>
           <target state="translated">ନୂତନ ଟ୍ୟାବ୍</target>
@@ -101,14 +89,6 @@
         <trans-unit id="PropertiesItemFileName.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Item Name</source>
           <target state="translated">ଆଇଟମ୍ ନାମ</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialogDescription.Text" translate="yes" xml:space="preserve">
-          <source>Pick a location to extract this compressed archive to. You'll need to stay in the current folder until we're done. A new tab will open up with the extracted items.</source>
-          <target state="translated">ଏହି ସଙ୍କୋଚିତ ଅଭିଲେଖକୁ ବାହାର କରିବା ପାଇଁ ଏକ ସ୍ଥାନ ବାଛନ୍ତୁ | ଆମେ ଶେଷ ନହେବା ପର୍ଯ୍ୟନ୍ତ ଆପଣଙ୍କୁ ସାମ୍ପ୍ରତିକ ଫୋଲ୍ଡରରେ ରହିବାକୁ ପଡିବ | ବାହାର କରାଯାଇଥିବା ଆଇଟମ୍ ସହିତ ଏକ ନୂତନ ଟ୍ୟାବ୍ ଖୋଲିବ |</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialogBrowseButton.Content" translate="yes" xml:space="preserve">
-          <source>Browse</source>
-          <target state="translated">ବ୍ରାଉଜ୍ କର</target>
         </trans-unit>
         <trans-unit id="PropertiesItemPath.Text" translate="yes" xml:space="preserve">
           <source>Path:</source>
@@ -824,10 +804,6 @@
         <trans-unit id="DeleteInProgress.Title" translate="yes" xml:space="preserve">
           <source>Deleting files</source>
           <target state="translated">ଫାଇଲଗୁଡିକ ବିଲୋପ କର</target>
-        </trans-unit>
-        <trans-unit id="ExtractInProgress.Title" translate="yes" xml:space="preserve">
-          <source>Extracting files</source>
-          <target state="translated">ଫାଇଲଗୁଡିକ ବାହାର କରାଯାଉଛି</target>
         </trans-unit>
         <trans-unit id="PasteInProgress.Title" translate="yes" xml:space="preserve">
           <source>Pasting files</source>

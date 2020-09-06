@@ -223,26 +223,6 @@
           <source>New Tab</source>
           <target state="translated" state-qualifier="tm-suggestion">Nieuw tabblad</target>
         </trans-unit>
-        <trans-unit id="ExtractFilesDialog.Title" translate="yes" xml:space="preserve">
-          <source>Extract Compressed Archive</source>
-          <target state="translated">Gecomprimeerd archief uitpakken</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialog.CloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated" state-qualifier="tm-suggestion">Annuleren</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Extract</source>
-          <target state="translated" state-qualifier="tm-suggestion">Uitpakken</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialogDescription.Text" translate="yes" xml:space="preserve">
-          <source>Pick a location to extract this compressed archive to. You'll need to stay in the current folder until we're done. A new tab will open up with the extracted items.</source>
-          <target state="translated">Kies een locatie om dit gecomprimeerde archief uit te pakken. U moet in de huidige map blijven totdat we klaar zijn. Er wordt een nieuw tabblad geopend met de uitgepakte items.</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialogBrowseButton.Content" translate="yes" xml:space="preserve">
-          <source>Browse</source>
-          <target state="translated">Bladeren</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
           <source>Sort by</source>
           <target state="translated">Sorteren op</target>
@@ -871,10 +851,6 @@
         <trans-unit id="DeleteInProgress.Title" translate="yes" xml:space="preserve">
           <source>Deleting files</source>
           <target state="translated" state-qualifier="tm-suggestion">Bestanden verwijderen</target>
-        </trans-unit>
-        <trans-unit id="ExtractInProgress.Title" translate="yes" xml:space="preserve">
-          <source>Extracting files</source>
-          <target state="translated">Bestanden uitpakken</target>
         </trans-unit>
         <trans-unit id="PasteInProgress.Title" translate="yes" xml:space="preserve">
           <source>Pasting files</source>

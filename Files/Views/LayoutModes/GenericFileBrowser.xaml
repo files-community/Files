@@ -223,17 +223,6 @@
             x:Name="BaseLayoutItemContextFlyout"
             Opening="RightClickItemContextMenu_Opening">
             <MenuFlyoutItem
-                x:Name="UnzipItem"
-                x:Uid="BaseLayoutItemContextFlyoutExtract"
-                x:Load="False"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ExtractItems_Click}"
-                Tag="Extract_FlyoutItem"
-                Text="Extract">
-                <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea5c;" />
-                </MenuFlyoutItem.Icon>
-            </MenuFlyoutItem>
-            <MenuFlyoutItem
                 x:Name="OpenItem"
                 x:Uid="BaseLayoutItemContextFlyoutOpenItem"
                 x:Load="False"
