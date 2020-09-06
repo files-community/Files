@@ -5,12 +5,10 @@ namespace Files.UserControls
 {
     public sealed partial class FileIcon : UserControl
     {
-        private double itemSize;
-
         public SelectedItemsPropertiesViewModel ViewModel { get; set; }
-        public double ItemSize { get; set; }
 
-        public double Size
+        private double itemSize;
+        public double ItemSize
         {
             get => itemSize;
             set
@@ -20,7 +18,7 @@ namespace Files.UserControls
             }
         }
         private double LargerItemSize { get; set; }
-        
+
         public FileIcon()
         {
             this.InitializeComponent();
