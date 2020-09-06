@@ -188,6 +188,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="ResourceController.cs" />
     <Compile Include="INavigationToolbar.cs" />
+    <Compile Include="UserControls\FileIcon.xaml.cs">
+      <DependentUpon>FileIcon.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MenuFlyoutItemWithImage.xaml.cs">
       <DependentUpon>MenuFlyoutItemWithImage.xaml</DependentUpon>
     </Compile>
@@ -257,6 +260,7 @@
     <Compile Include="View Models\Properties\DriveProperties.cs" />
     <Compile Include="View Models\Properties\FileProperties.cs" />
     <Compile Include="View Models\Properties\FolderProperties.cs" />
+    <Compile Include="View Models\Properties\PropertiesTab.cs" />
     <Compile Include="Views\LayoutModes\GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
@@ -437,9 +441,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="ResourceDictionaries\PropertiesStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ResourceDictionaries\TabView_themeresources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\FileIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\MenuFlyoutItemWithImage.xaml">
       <SubType>Designer</SubType>
