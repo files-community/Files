@@ -716,13 +716,15 @@
                             Text="{x:Bind ItemType}"
                             TextAlignment="Left"
                             TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap" />
+                            TextWrapping="NoWrap"
+                            Opacity="0.6" />
                         <TextBlock
                             HorizontalAlignment="Left"
                             Text="{x:Bind FileSize}"
                             TextAlignment="Left"
                             TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap" />
+                            TextWrapping="NoWrap"
+                            Opacity="0.6" />
                     </StackPanel>
                 </Grid>
             </Grid>

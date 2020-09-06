@@ -718,6 +718,11 @@
                     Header="Date modified"
                     IsReadOnly="True"
                     Tag="Date">
+                    <controls:DataGridTextColumn.CellStyle>
+                        <Style TargetType="controls:DataGridCell">
+                            <Setter Property="Opacity" Value="0.6" />
+                        </Style>
+                    </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
                         <ToolTip Content="{Binding FolderTooltipText}" />
                     </ToolTipService.ToolTip>
@@ -732,6 +737,11 @@
                     Header="Type"
                     IsReadOnly="True"
                     Tag="Type">
+                    <controls:DataGridTextColumn.CellStyle>
+                        <Style TargetType="controls:DataGridCell">
+                            <Setter Property="Opacity" Value="0.6" />
+                        </Style>
+                    </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
                         <ToolTip Content="{Binding FolderTooltipText}" />
                     </ToolTipService.ToolTip>
@@ -747,6 +757,11 @@
                     Header="Size"
                     IsReadOnly="True"
                     Tag="Size">
+                    <controls:DataGridTextColumn.CellStyle>
+                        <Style TargetType="controls:DataGridCell">
+                            <Setter Property="Opacity" Value="0.6" />
+                        </Style>
+                    </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
                         <ToolTip Content="{Binding FolderTooltipText}" />
                     </ToolTipService.ToolTip>
