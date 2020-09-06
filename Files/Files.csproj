@@ -209,9 +209,6 @@
     <Compile Include="Dialogs\ExceptionDialog.xaml.cs">
       <DependentUpon>ExceptionDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\ExtractFilesDialog.xaml.cs">
-      <DependentUpon>ExtractFilesDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Dialogs\LayoutDialog.xaml.cs">
       <DependentUpon>LayoutDialog.xaml</DependentUpon>
     </Compile>
@@ -465,10 +462,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\ExceptionDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\ExtractFilesDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
