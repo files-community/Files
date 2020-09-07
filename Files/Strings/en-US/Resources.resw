@@ -270,7 +270,7 @@
     <value>Website</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
-    <value>Acrylic material sidebar</value>
+    <value>Acrylic sidebar</value>
   </data>
   <data name="SettingsAppearanceDateFormat.Text" xml:space="preserve">
     <value>Date format</value>
