@@ -55,8 +55,8 @@
           <target state="translated">Files UWP</target>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
-          <source>License:</source>
-          <target state="translated">Licencia:</target>
+          <source>License</source>
+          <target state="translated">Licencia</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
           <source>Special thanks to:</source>
@@ -67,20 +67,20 @@
           <target state="translated">Enviar opiniones</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
-          <source>Send the developers an issue report with more information</source>
-          <target state="translated">Envía un informe de fallos a los desarrolladores con más información</target>
+          <source>Send the developers an issue report with detailed information</source>
+          <target state="translated">Envía un informe de fallos a los desarrolladores con información detallada</target>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
-          <source>Third Party Licenses:</source>
-          <target state="translated">Licencias de terceros:</target>
+          <source>Third Party Licenses</source>
+          <target state="translated">Licencias de terceros</target>
         </trans-unit>
         <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Acerca de Files UWP</target>
         </trans-unit>
         <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
-          <source>Website:</source>
-          <target state="translated">Sitio web:</target>
+          <source>Website</source>
+          <target state="translated">Sitio web</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>
@@ -327,8 +327,8 @@
           <target state="translated">Propiedades</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
-          <source>QuickLook</source>
-          <target state="translated">QuickLook</target>
+          <source>QuickLook:</source>
+          <target state="translated">QuickLook:</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewWindow.Text" translate="yes" xml:space="preserve">
           <source>New Window</source>
