@@ -144,9 +144,6 @@
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
     <value>Sil</value>
   </data>
-  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
-    <value>Seçilen öğeyi silmek istediğinizden emin misiniz?</value>
-  </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Kalıcı Olarak Sil</value>
   </data>
@@ -176,21 +173,6 @@
   </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>Yeni Sekme</value>
-  </data>
-  <data name="ExtractFilesDialog.Title" xml:space="preserve">
-    <value>Sıkıştırılmış Arşivi Çıkart</value>
-  </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>İptal</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Çıkart</value>
-  </data>
-  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
-    <value>Bu sıkıştırılmış arşivi çıkarmak için bir konum seçin. İşlem tamamlanana kadar geçerli klasörde kalmanız gerekir. Çıkarılan öğelerle yeni bir sekme açılacaktır.</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>Gözat</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Göre Sırala</value>
@@ -575,8 +557,5 @@
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>Dosyalar siliniyor</value>
-  </data>
-  <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>Dosyalar ayıklanıyor ...</value>
   </data>
 </root>

@@ -1,4 +1,4 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -74,7 +74,7 @@ namespace Files.UserControls
         }
     }
 
-    public class StatusBanner : ViewModelBase, IProgress<uint>
+    public class StatusBanner : ObservableObject, IProgress<uint>
     {
         private string _FullTitle;
         private uint Progress { get; set; } = 0;
@@ -95,7 +95,7 @@ namespace Files.UserControls
         public string FullTitle
         {
             get => _FullTitle;
-            set => Set(ref _FullTitle, value);
+            set => SetProperty(ref _FullTitle, value);
         }
 
         public enum StatusBannerSeverity

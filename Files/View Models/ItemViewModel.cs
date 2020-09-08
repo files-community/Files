@@ -1,8 +1,10 @@
 using ByteSizeLib;
 using Files.Common;
+using Files.Dialogs;
 using Files.Enums;
 using Files.Helpers;
 using Files.View_Models;
+using Files.Views;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
@@ -27,9 +29,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
 using static Files.Helpers.NativeDirectoryChangesHelper;
 using static Files.Helpers.NativeFindStorageItemHelper;
-using Files.Views;
-using Files.UserControls;
-using Files.Dialogs;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Filesystem
@@ -117,7 +116,7 @@ namespace Files.Filesystem
                 _customPath = null;
             }
 
-            NotifyPropertyChanged("WorkingDirectory");
+            NotifyPropertyChanged(nameof(WorkingDirectory));
         }
 
         public static async Task<StorageFolder> GetFolderFromPathAsync(string value)
@@ -154,24 +153,24 @@ namespace Files.Filesystem
                 if (value != _IsFolderEmptyTextDisplayed)
                 {
                     _IsFolderEmptyTextDisplayed = value;
-                    NotifyPropertyChanged("IsFolderEmptyTextDisplayed");
+                    NotifyPropertyChanged(nameof(IsFolderEmptyTextDisplayed));
                 }
             }
         }
 
         public void UpdateSortOptionStatus()
         {
-            NotifyPropertyChanged("IsSortedByName");
-            NotifyPropertyChanged("IsSortedByDate");
-            NotifyPropertyChanged("IsSortedByType");
-            NotifyPropertyChanged("IsSortedBySize");
+            NotifyPropertyChanged(nameof(IsSortedByName));
+            NotifyPropertyChanged(nameof(IsSortedByDate));
+            NotifyPropertyChanged(nameof(IsSortedByType));
+            NotifyPropertyChanged(nameof(IsSortedBySize));
             OrderFiles();
         }
 
         public void UpdateSortDirectionStatus()
         {
-            NotifyPropertyChanged("IsSortedAscending");
-            NotifyPropertyChanged("IsSortedDescending");
+            NotifyPropertyChanged(nameof(IsSortedAscending));
+            NotifyPropertyChanged(nameof(IsSortedDescending));
             OrderFiles();
         }
 
@@ -183,7 +182,7 @@ namespace Files.Filesystem
                 if (value)
                 {
                     AppSettings.DirectorySortOption = SortOption.Name;
-                    NotifyPropertyChanged("IsSortedByName");
+                    NotifyPropertyChanged(nameof(IsSortedByName));
                 }
             }
         }
@@ -196,7 +195,7 @@ namespace Files.Filesystem
                 if (value)
                 {
                     AppSettings.DirectorySortOption = SortOption.DateModified;
-                    NotifyPropertyChanged("IsSortedByDate");
+                    NotifyPropertyChanged(nameof(IsSortedByDate));
                 }
             }
         }
@@ -209,7 +208,7 @@ namespace Files.Filesystem
                 if (value)
                 {
                     AppSettings.DirectorySortOption = SortOption.FileType;
-                    NotifyPropertyChanged("IsSortedByType");
+                    NotifyPropertyChanged(nameof(IsSortedByType));
                 }
             }
         }
@@ -222,7 +221,7 @@ namespace Files.Filesystem
                 if (value)
                 {
                     AppSettings.DirectorySortOption = SortOption.Size;
-                    NotifyPropertyChanged("IsSortedBySize");
+                    NotifyPropertyChanged(nameof(IsSortedBySize));
                 }
             }
         }
@@ -233,8 +232,8 @@ namespace Files.Filesystem
             set
             {
                 AppSettings.DirectorySortDirection = value ? SortDirection.Ascending : SortDirection.Descending;
-                NotifyPropertyChanged("IsSortedAscending");
-                NotifyPropertyChanged("IsSortedDescending");
+                NotifyPropertyChanged(nameof(IsSortedAscending));
+                NotifyPropertyChanged(nameof(IsSortedDescending));
             }
         }
 
@@ -244,8 +243,8 @@ namespace Files.Filesystem
             set
             {
                 AppSettings.DirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
-                NotifyPropertyChanged("IsSortedAscending");
-                NotifyPropertyChanged("IsSortedDescending");
+                NotifyPropertyChanged(nameof(IsSortedAscending));
+                NotifyPropertyChanged(nameof(IsSortedDescending));
             }
         }
 
@@ -448,7 +447,7 @@ namespace Files.Filesystem
                 if (_isLoadingItems != value)
                 {
                     _isLoadingItems = value;
-                    NotifyPropertyChanged("IsLoadingItems");
+                    NotifyPropertyChanged(nameof(IsLoadingItems));
                 }
             }
         }
@@ -465,11 +464,9 @@ namespace Files.Filesystem
                     var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
                     try
                     {
-                        StorageFile matchingStorageItem = await StorageFileExtensions.GetFileFromPathAsync(item.ItemPath, _workingRoot);
+                        StorageFile matchingStorageItem = await StorageFileExtensions.GetFileFromPathAsync((item as ShortcutItem)?.TargetPath ?? item.ItemPath, _workingRoot, _currentStorageFolder);
                         if (matchingItem != null && matchingStorageItem != null)
                         {
-                            matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
-                            matchingItem.ItemType = matchingStorageItem.DisplayType;
                             using (var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale))
                             {
                                 if (Thumbnail != null)
@@ -480,12 +477,27 @@ namespace Files.Filesystem
                                     matchingItem.LoadFileIcon = true;
                                 }
                             }
-                            var syncStatus = await CheckCloudDriveSyncStatus(matchingStorageItem);
-                            matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+                            if (item.IsShortcutItem)
+                            {
+                                // Reset cloud sync status icon
+                                matchingItem.SyncStatusUI = new CloudDriveSyncStatusUI() { LoadSyncStatus = false };
+                            }
+                            else
+                            {
+                                matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
+                                matchingItem.ItemType = matchingStorageItem.DisplayType;
+                                var syncStatus = await CheckCloudDriveSyncStatus(matchingStorageItem);
+                                matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+                            }
                         }
                     }
                     catch (Exception)
                     {
+                        if (matchingItem != null)
+                        {
+                            // Reset cloud sync status icon
+                            matchingItem.SyncStatusUI = new CloudDriveSyncStatusUI() { LoadSyncStatus = false };
+                        }
                         item.ItemPropertiesInitialized = true;
                         return;
                     }
@@ -495,7 +507,7 @@ namespace Files.Filesystem
                     var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
                     try
                     {
-                        StorageFolder matchingStorageItem = await StorageFileExtensions.GetFolderFromPathAsync(item.ItemPath, _workingRoot);
+                        StorageFolder matchingStorageItem = await StorageFileExtensions.GetFolderFromPathAsync(item.ItemPath, _workingRoot, _currentStorageFolder);
                         if (matchingItem != null && matchingStorageItem != null)
                         {
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
@@ -506,6 +518,11 @@ namespace Files.Filesystem
                     }
                     catch (Exception)
                     {
+                        if (matchingItem != null)
+                        {
+                            // Reset cloud sync status icon
+                            matchingItem.SyncStatusUI = new CloudDriveSyncStatusUI() { LoadSyncStatus = false };
+                        }
                         item.ItemPropertiesInitialized = true;
                         return;
                     }
@@ -524,7 +541,6 @@ namespace Files.Filesystem
         {
             App.CurrentInstance.NavigationToolbar.CanRefresh = false;
 
-            App.CurrentInstance.MultitaskingControl?.SetSelectedTabInfo(new DirectoryInfo(path).Name, path);
             CancelLoadAndClearFiles();
 
             try
@@ -693,58 +709,7 @@ namespace Files.Filesystem
                     for (int count = 0; count < folderContentsList.Count; count++)
                     {
                         var item = folderContentsList[count];
-                        if (item.IsFolder)
-                        {
-                            // Folder
-                            _filesAndFolders.Add(new ListedItem(null)
-                            {
-                                PrimaryItemAttribute = StorageItemTypes.Folder,
-                                ItemName = item.FileName,
-                                ItemDateModifiedReal = item.RecycleDate,
-                                ItemType = item.FileType,
-                                LoadFolderGlyph = true,
-                                FileImage = null,
-                                LoadFileIcon = false,
-                                ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
-                                ItemOriginalPath = item.FilePath,
-                                LoadUnknownTypeGlyph = false,
-                                FileSize = null,
-                                FileSizeBytes = 0
-                                //FolderTooltipText = tooltipString,
-                            });
-                        }
-                        else
-                        {
-                            // File
-                            string itemName;
-                            if (AppSettings.ShowFileExtensions)
-                                itemName = item.FileName;
-                            else
-                                itemName = Path.GetFileNameWithoutExtension(item.FileName);
-
-                            string itemFileExtension = null;
-                            if (item.FileName.Contains('.'))
-                            {
-                                itemFileExtension = Path.GetExtension(item.FileName);
-                            }
-
-                            _filesAndFolders.Add(new ListedItem(null)
-                            {
-                                PrimaryItemAttribute = StorageItemTypes.File,
-                                FileExtension = itemFileExtension,
-                                LoadUnknownTypeGlyph = true,
-                                FileImage = null,
-                                LoadFileIcon = false,
-                                LoadFolderGlyph = false,
-                                ItemName = itemName,
-                                ItemDateModifiedReal = item.RecycleDate,
-                                ItemType = item.FileType,
-                                ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
-                                ItemOriginalPath = item.FilePath,
-                                FileSize = item.FileSize,
-                                FileSizeBytes = (long)item.FileSizeBytes
-                            });
-                        }
+                        AddFileOrFolderFromShellFile(item);
                         if (count % 64 == 0)
                         {
                             await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
@@ -863,11 +828,8 @@ namespace Files.Filesystem
                         {
                             if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                             {
-                                if (!findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
-                                {
-                                    AddFile(findData, path);
-                                    ++count;
-                                }
+                                AddFile(findData, path);
+                                ++count;
                             }
                             else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
                             {
@@ -921,10 +883,7 @@ namespace Files.Filesystem
                 else
                 {
                     var file = item as StorageFile;
-                    if (!file.Name.EndsWith(".lnk") && !file.Name.EndsWith(".url"))
-                    {
-                        await AddFile(file, true);
-                    }
+                    await AddFile(file, true);
                     ++count;
                 }
                 if (_addFilesCTS.IsCancellationRequested)
@@ -1055,7 +1014,7 @@ namespace Files.Filesystem
 
                                         case FILE_ACTION_REMOVED:
                                             Debug.WriteLine("File " + FileName + " removed from working directory.");
-                                            RemoveFileOrFolder(FilesAndFolders.ToList().First(x => x.ItemPath.Equals(FileName)));
+                                            RemoveFileOrFolder(FileName);
                                             break;
 
                                         case FILE_ACTION_MODIFIED:
@@ -1065,7 +1024,7 @@ namespace Files.Filesystem
 
                                         case FILE_ACTION_RENAMED_OLD_NAME:
                                             Debug.WriteLine("File " + FileName + " will be renamed in the working directory.");
-                                            RemoveFileOrFolder(FilesAndFolders.ToList().First(x => x.ItemPath.Equals(FileName)));
+                                            RemoveFileOrFolder(FileName);
                                             break;
 
                                         case FILE_ACTION_RENAMED_NEW_NAME:
@@ -1098,25 +1057,109 @@ namespace Files.Filesystem
             Debug.WriteLine("Task exiting...");
         }
 
+        public void AddFileOrFolderFromShellFile(ShellFileItem item)
+        {
+            if (item.IsFolder)
+            {
+                // Folder
+                _filesAndFolders.Add(new RecycleBinItem(null)
+                {
+                    PrimaryItemAttribute = StorageItemTypes.Folder,
+                    ItemName = item.FileName,
+                    ItemDateModifiedReal = item.RecycleDate,
+                    ItemType = item.FileType,
+                    LoadFolderGlyph = true,
+                    FileImage = null,
+                    LoadFileIcon = false,
+                    ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
+                    ItemOriginalPath = item.FilePath,
+                    LoadUnknownTypeGlyph = false,
+                    FileSize = null,
+                    FileSizeBytes = 0,
+                    //FolderTooltipText = tooltipString,
+                });
+            }
+            else
+            {
+                // File
+                string itemName;
+                if (AppSettings.ShowFileExtensions && !item.FileName.EndsWith(".lnk") && !item.FileName.EndsWith(".url"))
+                {
+                    itemName = item.FileName; // never show extension for shortcuts
+                }
+                else
+                {
+                    if (item.FileName.StartsWith("."))
+                    {
+                        itemName = item.FileName; // Always show full name for dotfiles.
+                    }
+                    else
+                    {
+                        itemName = Path.GetFileNameWithoutExtension(item.FileName);
+                    }
+                }
+
+                string itemFileExtension = null;
+                if (item.FileName.Contains('.'))
+                {
+                    itemFileExtension = Path.GetExtension(item.FileName);
+                }
+
+                _filesAndFolders.Add(new RecycleBinItem(null)
+                {
+                    PrimaryItemAttribute = StorageItemTypes.File,
+                    FileExtension = itemFileExtension,
+                    LoadUnknownTypeGlyph = true,
+                    FileImage = null,
+                    LoadFileIcon = false,
+                    LoadFolderGlyph = false,
+                    ItemName = itemName,
+                    ItemDateModifiedReal = item.RecycleDate,
+                    ItemType = item.FileType,
+                    ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
+                    ItemOriginalPath = item.FilePath,
+                    FileSize = item.FileSize,
+                    FileSizeBytes = (long)item.FileSizeBytes
+                });
+            }
+
+            IsFolderEmptyTextDisplayed = false;
+            UpdateDirectoryInfo();
+        }
+
         public void AddFileOrFolder(ListedItem item)
         {
             _filesAndFolders.Add(item);
             IsFolderEmptyTextDisplayed = false;
         }
 
-        public async void AddFileOrFolder(string path)
+        private void AddFileOrFolder2(string fileOrFolderPath)
+        {
+            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+            int additionalFlags = FIND_FIRST_EX_CASE_SENSITIVE;
+
+            IntPtr hFile = FindFirstFileExFromApp(fileOrFolderPath, findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
+                                                  additionalFlags);
+            FindClose(hFile);
+
+            if ((findData.dwFileAttributes & 0x10) > 0) // FILE_ATTRIBUTE_DIRECTORY
+            {
+                AddFolder(findData, Directory.GetParent(fileOrFolderPath).FullName);
+            }
+            else
+            {
+                AddFile(findData, Directory.GetParent(fileOrFolderPath).FullName);
+            }
+        }
+
+        private async void AddFileOrFolder(string path)
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                async () =>
+                () =>
                 {
                     try
                     {
-                        await StorageFile.GetFileFromPathAsync(path);
-                        AddFile(path);
-                    }
-                    catch (ArgumentException)
-                    {
-                        AddFolder(path);
+                        AddFileOrFolder2(path);
                     }
                     catch (Exception)
                     {
@@ -1129,13 +1172,16 @@ namespace Files.Filesystem
 
         private void UpdateDirectoryInfo()
         {
-            if (_filesAndFolders.Count == 1)
+            if (App.CurrentInstance.ContentPage != null)
             {
-                App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemCount/Text");
-            }
-            else
-            {
-                App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemsCount/Text");
+                if (_filesAndFolders.Count == 1)
+                {
+                    App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemCount/Text");
+                }
+                else
+                {
+                    App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemsCount/Text");
+                }
             }
         }
 
@@ -1177,14 +1223,13 @@ namespace Files.Filesystem
                 });
         }
 
-        public void AddFolder(string folderPath)
+        public void RemoveFileOrFolder(string path)
         {
-            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-            int additionalFlags = FIND_FIRST_EX_CASE_SENSITIVE;
-
-            IntPtr hFile = FindFirstFileExFromApp(folderPath, findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
-                                                  additionalFlags);
-            AddFolder(findData, Directory.GetParent(folderPath).FullName);
+            var matchingItem = FilesAndFolders.ToList().FirstOrDefault(x => x.ItemPath.Equals(path));
+            if (matchingItem != null)
+            {
+                RemoveFileOrFolder(matchingItem);
+            }
         }
 
         private void AddFolder(WIN32_FIND_DATA findData, string pathRoot)
@@ -1219,21 +1264,12 @@ namespace Files.Filesystem
                 ItemPath = itemPath,
                 LoadUnknownTypeGlyph = false,
                 FileSize = null,
-                FileSizeBytes = 0
+                FileSizeBytes = 0,
+                ContainsFilesOrFolders = CheckForFilesFolders(itemPath)
                 //FolderTooltipText = tooltipString,
             });
 
             IsFolderEmptyTextDisplayed = false;
-        }
-
-        public void AddFile(string filePath)
-        {
-            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-            int additionalFlags = FIND_FIRST_EX_CASE_SENSITIVE;
-
-            IntPtr hFile = FindFirstFileExFromApp(filePath, findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
-                                                  additionalFlags);
-            AddFile(findData, Directory.GetParent(filePath).FullName);
         }
 
         private void AddFile(WIN32_FIND_DATA findData, string pathRoot)
@@ -1241,21 +1277,40 @@ namespace Files.Filesystem
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
             string itemName;
-            if (AppSettings.ShowFileExtensions)
-                itemName = findData.cFileName;
+            if (AppSettings.ShowFileExtensions && !findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
+            {
+                itemName = findData.cFileName; // never show extension for shortcuts
+            }
             else
-                itemName = Path.GetFileNameWithoutExtension(itemPath);
+            {
+                if (findData.cFileName.StartsWith("."))
+                {
+                    itemName = findData.cFileName; // Always show full name for dotfiles.
+                }
+                else
+                {
+                    itemName = Path.GetFileNameWithoutExtension(itemPath);
+                }
+            }
 
-            FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemTimeOutput);
-            var itemDate = new DateTime(
-                systemTimeOutput.Year,
-                systemTimeOutput.Month,
-                systemTimeOutput.Day,
-                systemTimeOutput.Hour,
-                systemTimeOutput.Minute,
-                systemTimeOutput.Second,
-                systemTimeOutput.Milliseconds,
+            FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemModifiedDateOutput);
+            var itemModifiedDate = new DateTime(
+                systemModifiedDateOutput.Year, systemModifiedDateOutput.Month, systemModifiedDateOutput.Day,
+                systemModifiedDateOutput.Hour, systemModifiedDateOutput.Minute, systemModifiedDateOutput.Second, systemModifiedDateOutput.Milliseconds,
                 DateTimeKind.Utc);
+
+            FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedDateOutput);
+            var itemCreatedDate = new DateTime(
+                systemCreatedDateOutput.Year, systemCreatedDateOutput.Month, systemCreatedDateOutput.Day,
+                systemCreatedDateOutput.Hour, systemCreatedDateOutput.Minute, systemCreatedDateOutput.Second, systemCreatedDateOutput.Milliseconds,
+                DateTimeKind.Utc);
+
+            FileTimeToSystemTime(ref findData.ftLastAccessTime, out SYSTEMTIME systemLastAccessOutput);
+            var itemLastAccessDate = new DateTime(
+                systemLastAccessOutput.Year, systemLastAccessOutput.Month, systemLastAccessOutput.Day,
+                systemLastAccessOutput.Hour, systemLastAccessOutput.Minute, systemLastAccessOutput.Second, systemLastAccessOutput.Milliseconds,
+                DateTimeKind.Utc);
+
             long itemSizeBytes = findData.GetSize();
             var itemSize = ByteSize.FromBytes(itemSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
             string itemType = ResourceController.GetTranslation("ItemTypeFile");
@@ -1280,21 +1335,79 @@ namespace Files.Filesystem
                 IsLoadingItems = false;
                 return;
             }
-            _filesAndFolders.Add(new ListedItem(null)
+
+            if (findData.cFileName.EndsWith(".lnk") || findData.cFileName.EndsWith(".url"))
             {
-                PrimaryItemAttribute = StorageItemTypes.File,
-                FileExtension = itemFileExtension,
-                LoadUnknownTypeGlyph = itemEmptyImgVis,
-                FileImage = icon,
-                LoadFileIcon = itemThumbnailImgVis,
-                LoadFolderGlyph = itemFolderImgVis,
-                ItemName = itemName,
-                ItemDateModifiedReal = itemDate,
-                ItemType = itemType,
-                ItemPath = itemPath,
-                FileSize = itemSize,
-                FileSizeBytes = itemSizeBytes
-            });
+                if (App.Connection != null)
+                {
+                    var response = App.Connection.SendMessageAsync(new ValueSet() {
+                        { "Arguments", "FileOperation" },
+                        { "fileop", "ParseLink" },
+                        { "filepath", itemPath } }).AsTask().Result;
+                    // If the request was canceled return now
+                    if (_addFilesCTS.IsCancellationRequested)
+                    {
+                        IsLoadingItems = false;
+                        return;
+                    }
+                    if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
+                        && response.Message.ContainsKey("TargetPath"))
+                    {
+                        var isUrl = findData.cFileName.EndsWith(".url");
+                        string target = (string)response.Message["TargetPath"];
+                        bool containsFilesOrFolders = false;
+
+                        if ((bool)response.Message["IsFolder"])
+                        {
+                            containsFilesOrFolders = CheckForFilesFolders(target);
+                        }
+
+                        _filesAndFolders.Add(new ShortcutItem(null)
+                        {
+                            PrimaryItemAttribute = (bool)response.Message["IsFolder"] ? StorageItemTypes.Folder : StorageItemTypes.File,
+                            FileExtension = itemFileExtension,
+                            FileImage = !(bool)response.Message["IsFolder"] ? icon : null,
+                            LoadFileIcon = !(bool)response.Message["IsFolder"] && itemThumbnailImgVis,
+                            LoadUnknownTypeGlyph = !(bool)response.Message["IsFolder"] && !isUrl && itemEmptyImgVis,
+                            LoadFolderGlyph = (bool)response.Message["IsFolder"],
+                            ItemName = itemName,
+                            ItemDateModifiedReal = itemModifiedDate,
+                            ItemDateAccessedReal = itemLastAccessDate,
+                            ItemDateCreatedReal = itemCreatedDate,
+                            ItemType = ResourceController.GetTranslation(isUrl ? "ShortcutWebLinkFileType" : "ShortcutFileType"),
+                            ItemPath = itemPath,
+                            FileSize = itemSize,
+                            FileSizeBytes = itemSizeBytes,
+                            TargetPath = target,
+                            Arguments = (string)response.Message["Arguments"],
+                            WorkingDirectory = (string)response.Message["WorkingDirectory"],
+                            RunAsAdmin = (bool)response.Message["RunAsAdmin"],
+                            IsUrl = isUrl,
+                            ContainsFilesOrFolders = containsFilesOrFolders
+                        });
+                    }
+                }
+            }
+            else
+            {
+                _filesAndFolders.Add(new ListedItem(null)
+                {
+                    PrimaryItemAttribute = StorageItemTypes.File,
+                    FileExtension = itemFileExtension,
+                    LoadUnknownTypeGlyph = itemEmptyImgVis,
+                    FileImage = icon,
+                    LoadFileIcon = itemThumbnailImgVis,
+                    LoadFolderGlyph = itemFolderImgVis,
+                    ItemName = itemName,
+                    ItemDateModifiedReal = itemModifiedDate,
+                    ItemDateAccessedReal = itemLastAccessDate,
+                    ItemDateCreatedReal = itemCreatedDate,
+                    ItemType = itemType,
+                    ItemPath = itemPath,
+                    FileSize = itemSize,
+                    FileSizeBytes = itemSizeBytes
+                });
+            }
 
             IsFolderEmptyTextDisplayed = false;
         }
@@ -1328,7 +1441,7 @@ namespace Files.Filesystem
                     ItemPath = string.IsNullOrEmpty(folder.Path) ? Path.Combine(_currentStorageFolder.Path, folder.Name) : folder.Path,
                     LoadUnknownTypeGlyph = false,
                     FileSize = null,
-                    FileSizeBytes = 0,
+                    FileSizeBytes = 0
                     //FolderTooltipText = tooltipString,
                 });
 
@@ -1413,21 +1526,30 @@ namespace Files.Filesystem
                 IsLoadingItems = false;
                 return;
             }
-            _filesAndFolders.Add(new ListedItem(file.FolderRelativeId)
+
+            if (file.Name.EndsWith(".lnk") || file.Name.EndsWith(".url"))
             {
-                PrimaryItemAttribute = StorageItemTypes.File,
-                FileExtension = itemFileExtension,
-                LoadUnknownTypeGlyph = itemEmptyImgVis,
-                FileImage = icon,
-                LoadFileIcon = itemThumbnailImgVis,
-                LoadFolderGlyph = itemFolderImgVis,
-                ItemName = itemName,
-                ItemDateModifiedReal = itemDate,
-                ItemType = itemType,
-                ItemPath = itemPath,
-                FileSize = itemSize,
-                FileSizeBytes = (long)itemSizeBytes
-            });
+                // This shouldn't happen, StorageFile api does not support shortcuts
+                Debug.WriteLine("Something strange: StorageFile api returned a shortcut");
+            }
+            else
+            {
+                _filesAndFolders.Add(new ListedItem(file.FolderRelativeId)
+                {
+                    PrimaryItemAttribute = StorageItemTypes.File,
+                    FileExtension = itemFileExtension,
+                    LoadUnknownTypeGlyph = itemEmptyImgVis,
+                    FileImage = icon,
+                    LoadFileIcon = itemThumbnailImgVis,
+                    LoadFolderGlyph = itemFolderImgVis,
+                    ItemName = itemName,
+                    ItemDateModifiedReal = itemDate,
+                    ItemType = itemType,
+                    ItemPath = itemPath,
+                    FileSize = itemSize,
+                    FileSizeBytes = (long)itemSizeBytes
+                });
+            }
 
             IsFolderEmptyTextDisplayed = false;
         }
@@ -1446,6 +1568,23 @@ namespace Files.Filesystem
             _addFilesCTS?.Dispose();
             _semaphoreCTS?.Dispose();
             CloseWatcher();
+        }
+
+        /// <summary>
+        /// This function is used to determine whether or not a folder has any contents.
+        /// </summary>
+        /// <param name="targetPath">The path to the target folder</param>
+        ///
+        public bool CheckForFilesFolders(string targetPath)
+        {
+            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+
+            IntPtr hFile = FindFirstFileExFromApp(targetPath + "\\*.*", findInfoLevel, out WIN32_FIND_DATA _, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
+            FindNextFile(hFile, out _);
+            var result = FindNextFile(hFile, out _);
+            FindClose(hFile);
+            return result;
         }
     }
 }

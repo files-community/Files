@@ -84,6 +84,7 @@ namespace Files.DataModels
                 ex is ArgumentException // Pinned item was invalid
                 || ex is FileNotFoundException // Pinned item was deleted
                 || ex is System.Runtime.InteropServices.COMException // Pinned item's drive was ejected
+                || (uint)ex.HResult == 0x8007000F // The system cannot find the drive specified
                 || (uint)ex.HResult == 0x800700A1) // The specified path is invalid (usually an mtp device was disconnected)
             {
                 Debug.WriteLine("Pinned item was invalid and will be removed from the file lines list soon: " + ex.Message);

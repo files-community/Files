@@ -6,6 +6,7 @@
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     xmlns:controls="using:Files.Controls"
     xmlns:controls1="using:Files.UserControls"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.Views.Pages"
     xmlns:local1="using:Files"
@@ -14,6 +15,50 @@
     KeyboardAcceleratorPlacementMode="Hidden"
     Loaded="Page_Loaded"
     mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary>
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+            <Style x:Key="DefaultGridSplitterStyle" TargetType="Custom:GridSplitter">
+                <Setter Property="IsTabStop" Value="True" />
+                <Setter Property="UseSystemFocusVisuals" Value="True" />
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="VerticalAlignment" Value="Stretch" />
+                <Setter Property="IsFocusEngagementEnabled" Value="True" />
+                <Setter Property="MinWidth" Value="2" />
+                <Setter Property="MinHeight" Value="2" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="GripperForeground" Value="Transparent" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Custom:GridSplitter">
+                            <Grid x:Name="RootGrid" Background="Transparent">
+                                <ContentPresenter
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="Stretch"
+                                    Content="{TemplateBinding Element}" />
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="GridSplitterStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Target="RootGrid.Background" Value="Transparent" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Target="RootGrid.Background" Value="Transparent" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+
     <Page.KeyboardAccelerators>
         <KeyboardAccelerator
             Key="N"
@@ -72,6 +117,14 @@
             Invoked="KeyboardAccelerator_Invoked"
             Modifiers="Control" />
         <KeyboardAccelerator
+            Key="L"
+            Invoked="KeyboardAccelerator_Invoked"
+            Modifiers="Control" />
+        <KeyboardAccelerator
+            Key="D"
+            Invoked="KeyboardAccelerator_Invoked"
+            Modifiers="Menu" />
+        <KeyboardAccelerator
             Key="F2"
             Invoked="KeyboardAccelerator_Invoked"
             Modifiers="None" />
@@ -79,8 +132,11 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition
+                Width="{x:Bind AppSettings.SidebarWidth, Mode=TwoWay}"
+                MinWidth="200"
+                MaxWidth="500" />
+            <ColumnDefinition Width="*" MinWidth="300" />
         </Grid.ColumnDefinitions>
 
         <Grid>
@@ -95,24 +151,32 @@
                 Canvas.ZIndex="100"
                 OffsetX="-2"
                 ShadowOpacity=".04">
-                <Grid Padding="0,32,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    <Grid
+                        x:Name="SmallWindowTitlebar"
+                        Height="30"
+                        x:Load="{x:Bind AppSettings.IsHorizontalTabStripVisible, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                        Background="Transparent"
+                        Loaded="SmallWindowTitlebar_Loaded" />
+
+                    <Grid Grid.Row="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                         <controls1:ModernNavigationToolbar
                             x:Name="NavToolbar"
                             Grid.Column="0"
-                            Margin="10,0"
+                            Margin="10"
                             x:FieldModifier="public" />
                     </Grid>
 
                     <Frame
                         x:Name="ItemDisplayFrame"
-                        Grid.Row="1"
+                        Grid.Row="2"
                         x:FieldModifier="public"
                         Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                         CacheSize="2"
@@ -120,10 +184,29 @@
 
                     <controls1:StatusBarControl
                         x:Name="StatusBarControl"
-                        Grid.Row="2"
+                        Grid.Row="3"
                         x:Load="{x:Bind instanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
                 </Grid>
             </Custom:DropShadowPanel>
         </Grid>
+        <Custom:GridSplitter
+            x:Name="SidebarResizer"
+            Grid.Column="1"
+            Width="5"
+            MinWidth="5"
+            HorizontalAlignment="Left"
+            Background="Transparent"
+            Canvas.ZIndex="150"
+            CursorBehavior="ChangeOnSplitterHover"
+            Foreground="Transparent"
+            GripperCursor="Default"
+            GripperForeground="Transparent"
+            ResizeBehavior="BasedOnAlignment"
+            ResizeDirection="Auto"
+            Style="{StaticResource DefaultGridSplitterStyle}">
+            <Custom:GridSplitter.RenderTransform>
+                <TranslateTransform X="0" />
+            </Custom:GridSplitter.RenderTransform>
+        </Custom:GridSplitter>
     </Grid>
 </Page>

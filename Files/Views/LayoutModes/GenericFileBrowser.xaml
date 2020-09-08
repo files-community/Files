@@ -21,6 +21,10 @@
 
     <local:BaseLayout.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        <converters:BoolToObjectConverter
+            x:Key="BoolToOpacityConverter"
+            FalseValue="1"
+            TrueValue="0.4" />
 
         <MenuFlyout x:Key="BaseLayoutContextFlyout">
             <MenuFlyoutSubItem
@@ -219,17 +223,6 @@
             x:Name="BaseLayoutItemContextFlyout"
             Opening="RightClickItemContextMenu_Opening">
             <MenuFlyoutItem
-                x:Name="UnzipItem"
-                x:Uid="BaseLayoutItemContextFlyoutExtract"
-                x:Load="False"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ExtractItems_Click}"
-                Tag="Extract_FlyoutItem"
-                Text="Extract">
-                <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea5c;" />
-                </MenuFlyoutItem.Icon>
-            </MenuFlyoutItem>
-            <MenuFlyoutItem
                 x:Name="OpenItem"
                 x:Uid="BaseLayoutItemContextFlyoutOpenItem"
                 x:Load="False"
@@ -249,6 +242,16 @@
                 Text="Open With">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF108;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
+                x:Name="OpenFileLocation"
+                x:Uid="BaseLayoutItemContextFlyoutOpenFileLocation"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenFileLocation_Click}"
+                Text="Open file location"
+                Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemShortcut, Mode=OneWay}">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA5A;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -343,6 +346,15 @@
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
+            <MenuFlyoutItem
+                x:Name="CreateShortcut"
+                x:Uid="BaseLayoutItemContextFlyoutShortcut"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CreateShortcutFromItem_Click}"
+                Text="Create shortcut">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="DeleteItem"
                 x:Uid="BaseLayoutItemContextFlyoutDelete"
@@ -595,6 +607,7 @@
                             <Grid
                                 x:Name="Icon"
                                 EffectiveViewportChanged="Icon_EffectiveViewportChanged"
+                                Opacity="{x:Bind IsDimmed, Converter={StaticResource BoolToOpacityConverter}, Mode=OneWay}"
                                 ToolTipService.ToolTip="{x:Bind FolderTooltipText}">
                                 <Rectangle
                                     x:Name="CutIndicator"
@@ -610,7 +623,7 @@
                                         <SvgImageSource
                                             RasterizePixelHeight="128"
                                             RasterizePixelWidth="128"
-                                            UriSource="/Assets/FolderIcon.svg" />
+                                            UriSource="{x:Bind FolderIconSource}" />
                                     </Image.Source>
                                 </Image>
                                 <FontIcon
@@ -618,6 +631,11 @@
                                     x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     Glyph="&#xEA00;" />
+                                <FontIcon
+                                    x:Name="WebShortcutGlyph"
+                                    x:Load="{x:Bind IsLinkItem, Mode=OneWay}"
+                                    FontFamily="{StaticResource FluentUIGlyphs}"
+                                    Glyph="&#xEAAB;" />
                                 <Image
                                     x:Name="FileImageElement"
                                     Width="20"
@@ -625,6 +643,21 @@
                                     x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                                     Source="{x:Bind FileImage, Mode=OneWay}"
                                     Stretch="UniformToFill" />
+                                <Border
+                                    x:Name="ShortcutGlyphElement"
+                                    Margin="2,18,18,2"
+                                    Padding="1"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    x:Load="{x:Bind IsShortcutItem}"
+                                    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                    BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
+                                    BorderThickness="1">
+                                    <FontIcon
+                                        FontFamily="{StaticResource CustomGlyph}"
+                                        FontSize="10"
+                                        Glyph="&#xF10A;" />
+                                </Border>
                             </Grid>
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>
@@ -674,6 +707,11 @@
                     Header="Date modified"
                     IsReadOnly="True"
                     Tag="Date">
+                    <controls:DataGridTextColumn.CellStyle>
+                        <Style TargetType="controls:DataGridCell">
+                            <Setter Property="Opacity" Value="0.6" />
+                        </Style>
+                    </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
                         <ToolTip Content="{Binding FolderTooltipText}" />
                     </ToolTipService.ToolTip>
@@ -688,6 +726,11 @@
                     Header="Type"
                     IsReadOnly="True"
                     Tag="Type">
+                    <controls:DataGridTextColumn.CellStyle>
+                        <Style TargetType="controls:DataGridCell">
+                            <Setter Property="Opacity" Value="0.6" />
+                        </Style>
+                    </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
                         <ToolTip Content="{Binding FolderTooltipText}" />
                     </ToolTipService.ToolTip>
@@ -703,6 +746,11 @@
                     Header="Size"
                     IsReadOnly="True"
                     Tag="Size">
+                    <controls:DataGridTextColumn.CellStyle>
+                        <Style TargetType="controls:DataGridCell">
+                            <Setter Property="Opacity" Value="0.6" />
+                        </Style>
+                    </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
                         <ToolTip Content="{Binding FolderTooltipText}" />
                     </ToolTipService.ToolTip>

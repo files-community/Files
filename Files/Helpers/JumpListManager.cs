@@ -1,11 +1,11 @@
+using Files.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.UI.StartScreen;
 using Windows.Storage;
-using Files.Common;
+using Windows.UI.StartScreen;
 
 namespace Files.Helpers
 {
@@ -33,8 +33,14 @@ namespace Files.Helpers
 
         public async void AddFolderToJumpList(string path)
         {
-            await AddFolder(path);
-            await _instance?.SaveAsync();
+            // Saving to jumplist may fail randomly with error: ERROR_UNABLE_TO_REMOVE_REPLACED
+            // In that case app should just catch the error and proceed as usual
+            try
+            {
+                await AddFolder(path);
+                await _instance?.SaveAsync();
+            }
+            catch { }
         }
 
         private Task AddFolder(string path)

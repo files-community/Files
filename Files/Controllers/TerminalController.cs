@@ -47,16 +47,23 @@ namespace Files.Controllers
                 if (Model == null)
                 {
                     Model = new TerminalFileModel();
-                    throw new JsonSerializationException($"{JsonFileName} is empty, regenerating...");
+                    throw new JsonParsingNullException(JsonFileName);
                 }
             }
-            catch (JsonSerializationException)
+            catch (JsonParsingNullException)
             {
                 var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri(defaultTerminalPath));
 
                 JsonFile = await Folder.CreateFileAsync(JsonFileName, CreationCollisionOption.ReplaceExisting);
                 await FileIO.WriteBufferAsync(JsonFile, await FileIO.ReadBufferAsync(await defaultFile));
                 var defaultContent = await FileIO.ReadTextAsync(JsonFile);
+                Model = JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
+            }
+            catch (Exception)
+            {
+                var defaultFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(defaultTerminalPath));
+                JsonFile = null;
+                var defaultContent = await FileIO.ReadTextAsync(defaultFile);
                 Model = JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
             }
         }
@@ -95,12 +102,21 @@ namespace Files.Controllers
 
         public void SaveModel()
         {
+            if (JsonFile == null) return;
+
             using (var file = File.CreateText(Folder.Path + Path.DirectorySeparatorChar + JsonFileName))
             {
                 JsonSerializer serializer = new JsonSerializer();
                 serializer.Formatting = Formatting.Indented;
                 serializer.Serialize(file, Model);
             }
+        }
+    }
+
+    public class JsonParsingNullException : Exception
+    {
+        public JsonParsingNullException(string jsonFileName) : base($"{jsonFileName} is empty, regenerating...")
+        {
         }
     }
 }

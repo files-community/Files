@@ -29,11 +29,8 @@ namespace Files.Views.Pages
         public ModernShellPage()
         {
             this.InitializeComponent();
-            if (AppSettings.DrivesManager.ShowUserConsentOnInit)
-            {
-                AppSettings.DrivesManager.ShowUserConsentOnInit = false;
-                DisplayFilesystemConsentDialog();
-            }
+            AppSettings.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
+            DisplayFilesystemConsentDialog();
 
             var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
 
@@ -46,6 +43,14 @@ namespace Files.Views.Pages
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = ResourceController.GetTranslation("NewTab");
             App.CurrentInstance.NavigationToolbar.CanGoBack = false;
             App.CurrentInstance.NavigationToolbar.CanGoForward = false;
+        }
+
+        private void DrivesManager_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ShowUserConsentOnInit")
+            {
+                DisplayFilesystemConsentDialog();
+            }
         }
 
         Type IShellPage.CurrentPageType => ItemDisplayFrame.SourcePageType;
@@ -83,8 +88,12 @@ namespace Files.Views.Pages
 
         private async void DisplayFilesystemConsentDialog()
         {
-            var consentDialogDisplay = new ConsentDialog();
-            await consentDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
+            if (AppSettings.DrivesManager.ShowUserConsentOnInit)
+            {
+                AppSettings.DrivesManager.ShowUserConsentOnInit = false;
+                var consentDialogDisplay = new ConsentDialog();
+                await consentDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
+            }
         }
 
         private string NavParams = null;
@@ -290,6 +299,11 @@ namespace Files.Views.Pages
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
                     NavigationActions.Refresh_Click(null, null);
                     break;
+
+                case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
+                case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
+                    App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = true;
+                    break;
             };
 
             if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser))
@@ -304,6 +318,11 @@ namespace Files.Views.Pages
                         break;
                 }
             }
+        }
+
+        private void SmallWindowTitlebar_Loaded(object sender, RoutedEventArgs e)
+        {
+            Window.Current.SetTitleBar(SmallWindowTitlebar);
         }
     }
 

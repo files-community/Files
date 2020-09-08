@@ -53,7 +53,8 @@ namespace Files.Dialogs
             {
                 currentPath = TabInstance.FilesystemViewModel.WorkingDirectory;
             }
-            StorageFolder folderToCreateItem = await Filesystem.ItemViewModel.GetFolderFromPathAsync(currentPath);
+            var folderWithPath = await Filesystem.ItemViewModel.GetFolderWithPathFromPathAsync(currentPath);
+            StorageFolder folderToCreateItem = folderWithPath.Folder;
             RenameDialog renameDialog = new RenameDialog();
 
             var renameResult = await renameDialog.ShowAsync();

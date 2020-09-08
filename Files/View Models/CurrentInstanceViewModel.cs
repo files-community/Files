@@ -1,9 +1,8 @@
-﻿using Files.Views;
-using GalaSoft.MvvmLight;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace Files.View_Models
 {
-    public class CurrentInstanceViewModel : ViewModelBase
+    public class CurrentInstanceViewModel : ObservableObject
     {
         private bool _IsPageTypeNotHome = false;
 
@@ -12,10 +11,10 @@ namespace Files.View_Models
             get => _IsPageTypeNotHome;
             set
             {
-                Set(ref _IsPageTypeNotHome, value);
-                RaisePropertyChanged("IsCreateButtonEnabledInPage");
-                RaisePropertyChanged("CanCreateFileInPage");
-                RaisePropertyChanged("CanOpenTerminalInPage");
+                SetProperty(ref _IsPageTypeNotHome, value);
+                OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
+                OnPropertyChanged(nameof(CanCreateFileInPage));
+                OnPropertyChanged(nameof(CanOpenTerminalInPage));
             }
         }
 
@@ -26,10 +25,10 @@ namespace Files.View_Models
             get => _IsPageTypeMtpDevice;
             set
             {
-                Set(ref _IsPageTypeMtpDevice, value);
-                RaisePropertyChanged("IsCreateButtonEnabledInPage");
-                RaisePropertyChanged("CanCreateFileInPage");
-                RaisePropertyChanged("CanOpenTerminalInPage");
+                SetProperty(ref _IsPageTypeMtpDevice, value);
+                OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
+                OnPropertyChanged(nameof(CanCreateFileInPage));
+                OnPropertyChanged(nameof(CanOpenTerminalInPage));
             }
         }
 
@@ -40,10 +39,10 @@ namespace Files.View_Models
             get => _IsPageTypeRecycleBin;
             set
             {
-                Set(ref _IsPageTypeRecycleBin, value);
-                RaisePropertyChanged("IsCreateButtonEnabledInPage");
-                RaisePropertyChanged("CanCreateFileInPage");
-                RaisePropertyChanged("CanOpenTerminalInPage");
+                SetProperty(ref _IsPageTypeRecycleBin, value);
+                OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
+                OnPropertyChanged(nameof(CanCreateFileInPage));
+                OnPropertyChanged(nameof(CanOpenTerminalInPage));
             }
         }
 
@@ -67,7 +66,7 @@ namespace Files.View_Models
         public bool IsPageTypeCloudDrive
         {
             get => _IsPageTypeCloudDrive;
-            set => Set(ref _IsPageTypeCloudDrive, value);
+            set => SetProperty(ref _IsPageTypeCloudDrive, value);
         }
     }
 }

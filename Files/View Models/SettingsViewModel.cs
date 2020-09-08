@@ -5,13 +5,11 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Views;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
@@ -19,12 +17,13 @@ using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
 using Windows.Globalization;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
 namespace Files.View_Models
 {
-    public class SettingsViewModel : ViewModelBase
+    public class SettingsViewModel : ObservableObject
     {
         private readonly ApplicationDataContainer _roamingSettings;
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
@@ -59,6 +58,8 @@ namespace Files.View_Models
             Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
             Analytics.TrackEvent("AcrylicSidebar " + AcrylicEnabled.ToString());
             Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
+            Analytics.TrackEvent("IsHorizontalTabStripVisible " + IsHorizontalTabStripVisible.ToString());
+            Analytics.TrackEvent("IsMultitaskingControlVisible " + IsMultitaskingControlVisible.ToString());
             // Load the supported languages
 
             var supportedLang = ApplicationLanguages.ManifestLanguages;
@@ -69,7 +70,17 @@ namespace Files.View_Models
             }
         }
 
-        public DefaultLanguageModel CurrentLanguage = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);
+        public static async void OpenLogLocation()
+        {
+            await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+        }
+
+        public static async void ReportIssueOnGitHub()
+        {
+            await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/files-uwp/issues/new/choose"));
+        }
+
+        public DefaultLanguageModel CurrentLanguage { get; set; } = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);
 
         public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; }
 
@@ -84,6 +95,12 @@ namespace Files.View_Models
             {
                 ApplicationLanguages.PrimaryLanguageOverride = value.ID;
             }
+        }
+
+        public GridLength SidebarWidth
+        {
+            get => new GridLength(Math.Min(Math.Max(Get(200d), 200d), 500d), GridUnitType.Pixel);
+            set => Set(value.Value);
         }
 
         public SortOption DirectorySortOption
@@ -209,7 +226,7 @@ namespace Files.View_Models
             get => _DisplayedTimeStyle;
             set
             {
-                Set(ref _DisplayedTimeStyle, value);
+                SetProperty(ref _DisplayedTimeStyle, value);
                 if (value.Equals(TimeStyle.Application))
                 {
                     localSettings.Values[LocalSettings.DateTimeFormat] = "Application";
@@ -226,10 +243,10 @@ namespace Files.View_Models
         public FormFactorMode FormFactor
         {
             get => _FormFactor;
-            set => Set(ref _FormFactor, value);
+            set => SetProperty(ref _FormFactor, value);
         }
 
-        public string OneDrivePath = Environment.GetEnvironmentVariable("OneDrive");
+        public string OneDrivePath { get; set; } = Environment.GetEnvironmentVariable("OneDrive");
 
         private async void DetectOneDrivePreference()
         {
@@ -269,7 +286,7 @@ namespace Files.View_Models
             {
                 if (value != _PinOneDriveToSideBar)
                 {
-                    Set(ref _PinOneDriveToSideBar, value);
+                    SetProperty(ref _PinOneDriveToSideBar, value);
                     if (value == true)
                     {
                         localSettings.Values["PinOneDrive"] = true;
@@ -298,11 +315,11 @@ namespace Files.View_Models
 
         // Any distinguishable path here is fine
         // Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
-        public string RecycleBinPath = @"Shell:RecycleBinFolder";
+        public string RecycleBinPath { get; set; } = @"Shell:RecycleBinFolder";
 
         private void DetectRecycleBinPreference()
         {
-            if (localSettings.Values["PinRecycleBin"] == null) { localSettings.Values["PinRecycleBin"] = false; }
+            if (localSettings.Values["PinRecycleBin"] == null) { localSettings.Values["PinRecycleBin"] = true; }
 
             if ((bool)localSettings.Values["PinRecycleBin"] == true)
             {
@@ -314,7 +331,7 @@ namespace Files.View_Models
             }
         }
 
-        private bool _PinRecycleBinToSideBar = false;
+        private bool _PinRecycleBinToSideBar;
 
         public bool PinRecycleBinToSideBar
         {
@@ -323,7 +340,7 @@ namespace Files.View_Models
             {
                 if (value != _PinRecycleBinToSideBar)
                 {
-                    Set(ref _PinRecycleBinToSideBar, value);
+                    SetProperty(ref _PinRecycleBinToSideBar, value);
                     if (value == true)
                     {
                         localSettings.Values["PinRecycleBin"] = true;
@@ -354,32 +371,27 @@ namespace Files.View_Models
             }
         }
 
-        public string DesktopPath = UserDataPaths.GetDefault().Desktop;
-
-        public string DocumentsPath = UserDataPaths.GetDefault().Documents;
-
-        public string DownloadsPath = UserDataPaths.GetDefault().Downloads;
-
-        public string PicturesPath = UserDataPaths.GetDefault().Pictures;
-
-        public string MusicPath = UserDataPaths.GetDefault().Music;
-
-        public string VideosPath = UserDataPaths.GetDefault().Videos;
+        public string DesktopPath { get; set; } = UserDataPaths.GetDefault().Desktop;
+        public string DocumentsPath { get; set; } = UserDataPaths.GetDefault().Documents;
+        public string DownloadsPath { get; set; } = UserDataPaths.GetDefault().Downloads;
+        public string PicturesPath { get; set; } = UserDataPaths.GetDefault().Pictures;
+        public string MusicPath { get; set; } = UserDataPaths.GetDefault().Music;
+        public string VideosPath { get; set; } = UserDataPaths.GetDefault().Videos;
 
         private string _TempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
 
         public string TempPath
         {
             get => _TempPath;
-            set => Set(ref _TempPath, value);
+            set => SetProperty(ref _TempPath, value);
         }
 
-        private string _AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        private string _LocalAppDataPath = UserDataPaths.GetDefault().LocalAppData;
 
-        public string AppDataPath
+        public string LocalAppDataPath
         {
-            get => _AppDataPath;
-            set => Set(ref _AppDataPath, value);
+            get => _LocalAppDataPath;
+            set => SetProperty(ref _LocalAppDataPath, value);
         }
 
         private string _HomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
@@ -387,7 +399,7 @@ namespace Files.View_Models
         public string HomePath
         {
             get => _HomePath;
-            set => Set(ref _HomePath, value);
+            set => SetProperty(ref _HomePath, value);
         }
 
         private string _WinDirPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
@@ -395,7 +407,7 @@ namespace Files.View_Models
         public string WinDirPath
         {
             get => _WinDirPath;
-            set => Set(ref _WinDirPath, value);
+            set => SetProperty(ref _WinDirPath, value);
         }
 
         public bool DoubleTapToRenameFiles
@@ -428,6 +440,12 @@ namespace Files.View_Models
             set => Set(value);
         }
 
+        public bool IsHorizontalTabStripVisible
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
         public bool OpenNewTabPageOnStartup
         {
             get => Get(true);
@@ -435,6 +453,12 @@ namespace Files.View_Models
         }
 
         public bool OpenASpecificPageOnStartup
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        public bool ContinueLastSessionOnStartUp
         {
             get => Get(false);
             set => Set(value);
@@ -467,10 +491,16 @@ namespace Files.View_Models
             {
                 if (value != _AcrylicEnabled)
                 {
-                    Set(ref _AcrylicEnabled, value);
+                    SetProperty(ref _AcrylicEnabled, value);
                     localSettings.Values["AcrylicEnabled"] = value;
                 }
             }
+        }
+
+        public bool ShowAllContextMenuItems
+        {
+            get => Get(false);
+            set => Set(value);
         }
 
         public event EventHandler ThemeModeChanged;
@@ -627,7 +657,7 @@ namespace Files.View_Models
 
         public void Dispose()
         {
-            DrivesManager.Dispose();
+            DrivesManager?.Dispose();
         }
 
         public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
@@ -643,7 +673,7 @@ namespace Files.View_Models
                 originalValue = Get(originalValue, propertyName);
 
                 _roamingSettings.Values[propertyName] = value;
-                if (!base.Set(ref originalValue, value, propertyName)) return false;
+                if (!base.SetProperty(ref originalValue, value, propertyName)) return false;
             }
             else
             {
@@ -701,6 +731,12 @@ namespace Files.View_Models
         private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
 
         public string[] PagesOnStartupList
+        {
+            get => Get<string[]>(null);
+            set => Set(value);
+        }
+
+        public string[] LastSessionPages
         {
             get => Get<string[]>(null);
             set => Set(value);

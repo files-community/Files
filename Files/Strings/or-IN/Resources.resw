@@ -21,9 +21,6 @@
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
     <value>ବିଲୋପ କର</value>
   </data>
-  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
-    <value>ଆପଣ ନିଶ୍ଚିତ କି ଆପଣ ମନୋନୀତ ଆଇଟମ୍(ଗୁଡିକ) ବିଲୋପ କରିବାକୁ ଚାହୁଁଛନ୍ତି କି?</value>
-  </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>ସ୍ଥାୟୀ ଭାବରେ ବିଲୋପ କର</value>
   </data>
@@ -32,15 +29,6 @@
   </data>
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>ନୂଆ ୱିଣ୍ଡୋରେ ଖୋଲ</value>
-  </data>
-  <data name="ExtractFilesDialog.Title" xml:space="preserve">
-    <value>ସଙ୍କୋଚିତ ଅଭିଲେଖାଗାର ବାହାର କରନ୍ତୁ</value>
-  </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍ କର</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>ବାହାର କର</value>
   </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>ନୂତନ ଟ୍ୟାବ୍</value>
@@ -86,12 +74,6 @@
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>ଆଇଟମ୍ ନାମ</value>
-  </data>
-  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
-    <value>ଏହି ସଙ୍କୋଚିତ ଅଭିଲେଖକୁ ବାହାର କରିବା ପାଇଁ ଏକ ସ୍ଥାନ ବାଛନ୍ତୁ | ଆମେ ଶେଷ ନହେବା ପର୍ଯ୍ୟନ୍ତ ଆପଣଙ୍କୁ ସାମ୍ପ୍ରତିକ ଫୋଲ୍ଡରରେ ରହିବାକୁ ପଡିବ | ବାହାର କରାଯାଇଥିବା ଆଇଟମ୍ ସହିତ ଏକ ନୂତନ ଟ୍ୟାବ୍ ଖୋଲିବ |</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>ବ୍ରାଉଜ୍ କର</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
     <value>ପଥ:</value>
@@ -163,7 +145,7 @@
     <value>Files UWP</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>ଲାଇସେନ୍ସ: </value>
+    <value>ଲାଇସେନ୍ସ:</value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>ବିଶେଷ ଧନ୍ୟବାଦ:</value>
@@ -181,7 +163,7 @@
     <value>ବିଷୟରେ</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>ୱେବସାଇଟ୍: </value>
+    <value>ୱେବସାଇଟ୍:</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
     <value>ଆକ୍ରିଲିକ୍ ସାଇଡବାର୍</value>
@@ -247,7 +229,7 @@
     <value>ଏକ ନୂତନ ଟ୍ୟାବ୍ ଖୋଲ</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>ଏକ ନିର୍ଦ୍ଦିଷ୍ଟ ପୃଷ୍ଠା ଖୋଲ</value>
+    <value>ଏକ ନିର୍ଦ୍ଦିଷ୍ଟ ପୃଷ୍ଠା କିମ୍ବା ପୃଷ୍ଠାଗୁଡ଼ିକ ଖୋଲନ୍ତୁ</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>ଆରମ୍ଭ ରେ</value>
@@ -255,7 +237,7 @@
   <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
     <value>ୱାନଡ୍ରାଇଭ କୁ ସାଇଡବାରରେ ପିନ୍ କର</value>
   </data>
-  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
+  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
     <value>ରିସାଇକ୍ଲବିନ୍ ସମର୍ଥନ ସକ୍ଷମ କରନ୍ତୁ</value>
   </data>
   <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
@@ -624,9 +606,6 @@
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>ଫାଇଲଗୁଡିକ ବିଲୋପ କର</value>
   </data>
-  <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>ଫାଇଲଗୁଡିକ ବାହାର କରାଯାଉଛି</value>
-  </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
     <value>ଫାଇଲଗୁଡିକ ଲେପନ କରାଯାଉଛି</value>
   </data>
@@ -734,5 +713,47 @@
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>ସ୍ଥିତି</value>
+  </data>
+  <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
+    <value>ଏକ ନୂତନ ପୃଷ୍ଠା ଯୋଡନ୍ତୁ</value>
+  </data>
+  <data name="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" xml:space="preserve">
+    <value>ପୃଷ୍ଠା ଅବସ୍ଥାନ ପରିବର୍ତ୍ତନ କରନ୍ତୁ</value>
+  </data>
+  <data name="SettingsOnStartupPages.Text" xml:space="preserve">
+    <value>ପୃଷ୍ଠାଗୁଡିକ:</value>
+  </data>
+  <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
+    <value>ପୃଷ୍ଠା ଅପସାରଣ କରନ୍ତୁ</value>
+  </data>
+  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
+    <value>ଏକ ପିନ୍ ହୋଇଥିବା ଫୋଲ୍ଡର୍ ଲଞ୍ଚ କରିବାବେଳେ</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
+    <value>ସର୍ବଦା ଏକ ନୂତନ ଉଦାହରଣ ଖୋଲ</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
+    <value>ଏକ ନୂଆ ଟ୍ୟାବରେ ଫୋଲ୍ଡର୍ ଖୋଲ</value>
+  </data>
+  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
+    <value>ୱିଣ୍ଡୋଜ୍ ଡିଫଲ୍ଟ</value>
+  </data>
+  <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
+    <value>ଏଠାରେ ଟ୍ୟାବ୍ ଘୁଞ୍ଚାନ୍ତୁ</value>
+  </data>
+  <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
+    <value>କୌଣସି ଫଳାଫଳ ନାହିଁ</value>
+  </data>
+  <data name="SubDirectoryAccessDenied" xml:space="preserve">
+    <value>ପ୍ରଦର୍ଶନ କରିବାକୁ କୌଣସି ଆଇଟମ୍ ପ୍ରବେଶ କରିପାରିବ ନାହିଁ</value>
+  </data>
+  <data name="MoveToFolderCaptionText" xml:space="preserve">
+    <value>{0} କୁ ଘୁଞ୍ଚାନ୍ତୁ</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
+    <value>ଉତ୍ସ ଏବଂ ଗନ୍ତବ୍ୟସ୍ଥଳ ଫାଇଲ ନାମଗୁଡ଼ିକ ସମାନ |</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
+    <value>ଗନ୍ତବ୍ୟସ୍ଥଳ ଫୋଲ୍ଡର ଉତ୍ସ ଫୋଲ୍ଡର ସହିତ ସମାନ |</value>
   </data>
 </root>

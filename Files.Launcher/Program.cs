@@ -1,5 +1,6 @@
 using Files.Common;
 using Newtonsoft.Json;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,13 +11,13 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Vanara.PInvoke;
-using NLog;
 
 namespace FilesFullTrust
 {
@@ -49,6 +50,9 @@ namespace FilesFullTrust
 
             try
             {
+                // Create handle table to store e.g. context menu references
+                handleTable = new Win32API.DisposableDictionary();
+
                 // Create shell COM object and get recycle bin folder
                 recycler = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_RecycleBinFolder);
                 ApplicationData.Current.LocalSettings.Values["RecycleBin_Title"] = recycler.Name;
@@ -88,6 +92,7 @@ namespace FilesFullTrust
                 {
                     watcher.Dispose();
                 }
+                handleTable?.Dispose();
                 recycler?.Dispose();
                 appServiceExit?.Dispose();
                 mutex?.ReleaseMutex();
@@ -103,20 +108,32 @@ namespace FilesFullTrust
         private static async void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
             Debug.WriteLine($"Recycle bin event: {e.ChangeType}, {e.FullPath}");
+            if (e.Name.StartsWith("$I"))
+            {
+                // Recycle bin also stores a file starting with $I for each item
+                return;
+            }
             if (connection != null)
             {
-                // Send message to UWP app to refresh items
-                await connection.SendMessageAsync(new ValueSet() {
+                var response = new ValueSet() {
                     { "FileSystem", @"Shell:RecycleBinFolder" },
                     { "Path", e.FullPath },
-                    { "Type", e.ChangeType.ToString() }
-                });
+                    { "Type", e.ChangeType.ToString() } };
+                if (e.ChangeType == WatcherChangeTypes.Created)
+                {
+                    using var folderItem = new ShellItem(e.FullPath);
+                    var shellFileItem = GetRecycleBinItem(folderItem);
+                    response["Item"] = JsonConvert.SerializeObject(shellFileItem);
+                }
+                // Send message to UWP app to refresh items
+                await connection.SendMessageAsync(response);
             }
         }
 
         private static AppServiceConnection connection;
         private static AutoResetEvent appServiceExit;
         private static ShellFolder recycler;
+        private static Win32API.DisposableDictionary handleTable;
         private static IList<FileSystemWatcher> watchers;
 
         private static async void InitializeAppServiceConnection()
@@ -221,17 +238,36 @@ namespace FilesFullTrust
                     process.Start();
                     break;
 
-                case "LoadMUIVerb":
-                    var responseSet = new ValueSet();
-                    responseSet.Add("MUIVerbString", Win32API.ExtractStringFromDLL((string)args.Request.Message["MUIVerbLocation"], (int)args.Request.Message["MUIVerbLine"]));
-                    await args.Request.SendResponseAsync(responseSet);
+                case "LoadContextMenu":
+                    var contextMenuResponse = new ValueSet();
+                    var loadThreadWithMessageQueue = new Win32API.ThreadWithMessageQueue<ValueSet>(HandleMenuMessage);
+                    var cMenuLoad = await loadThreadWithMessageQueue.PostMessage<Win32API.ContextMenu>(args.Request.Message);
+                    contextMenuResponse.Add("Handle", handleTable.AddValue(loadThreadWithMessageQueue));
+                    contextMenuResponse.Add("ContextMenu", JsonConvert.SerializeObject(cMenuLoad));
+                    await args.Request.SendResponseAsync(contextMenuResponse);
                     break;
 
-                case "ParseAguments":
-                    var responseArray = new ValueSet();
-                    var resultArgument = Win32API.CommandLineToArgs((string)args.Request.Message["Command"]);
-                    responseArray.Add("ParsedArguments", JsonConvert.SerializeObject(resultArgument));
-                    await args.Request.SendResponseAsync(responseArray);
+                case "ExecAndCloseContextMenu":
+                    var menuKey = (string)args.Request.Message["Handle"];
+                    var execThreadWithMessageQueue = handleTable.GetValue<Win32API.ThreadWithMessageQueue<ValueSet>>(menuKey);
+                    if (execThreadWithMessageQueue != null)
+                    {
+                        await execThreadWithMessageQueue.PostMessage(args.Request.Message);
+                    }
+                    // The following line is needed to cleanup resources when menu is closed.
+                    // Unfortunately if you uncomment it some menu items will randomly stop working.
+                    // Resource cleanup is currently done on app closing,
+                    // if we find a solution for the issue above, we should cleanup as soon as a menu is closed.
+                    //handleTable.RemoveValue(menuKey);
+                    break;
+
+                case "InvokeVerb":
+                    var filePath = (string)args.Request.Message["FilePath"];
+                    var split = filePath.Split('|').Where(x => !string.IsNullOrWhiteSpace(x));
+                    using (var cMenu = Win32API.ContextMenu.GetContextMenuForFiles(split.ToArray(), Shell32.CMF.CMF_DEFAULTONLY))
+                    {
+                        cMenu?.InvokeVerb((string)args.Request.Message["Verb"]);
+                    }
                     break;
 
                 case "Bitlocker":
@@ -245,6 +281,10 @@ namespace FilesFullTrust
                     }
                     break;
 
+                case "FileOperation":
+                    await parseFileOperation(args);
+                    break;
+
                 default:
                     if (args.Request.Message.ContainsKey("Application"))
                     {
@@ -255,6 +295,174 @@ namespace FilesFullTrust
                     {
                         var applicationList = JsonConvert.DeserializeObject<IEnumerable<string>>((string)args.Request.Message["ApplicationList"]);
                         HandleApplicationsLaunch(applicationList, args);
+                    }
+                    break;
+            }
+        }
+
+        private static object HandleMenuMessage(ValueSet message, Win32API.DisposableDictionary table)
+        {
+            switch ((string)message["Arguments"])
+            {
+                case "LoadContextMenu":
+                    var contextMenuResponse = new ValueSet();
+                    var filePath = (string)message["FilePath"];
+                    var extendedMenu = (bool)message["ExtendedMenu"];
+                    var showOpenMenu = (bool)message["ShowOpenMenu"];
+                    var split = filePath.Split('|').Where(x => !string.IsNullOrWhiteSpace(x));
+                    var cMenuLoad = Win32API.ContextMenu.GetContextMenuForFiles(split.ToArray(),
+                        extendedMenu ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL, FilterMenuItems(showOpenMenu));
+                    table.SetValue("MENU", cMenuLoad);
+                    return cMenuLoad;
+
+                case "ExecAndCloseContextMenu":
+                    var cMenuExec = table.GetValue<Win32API.ContextMenu>("MENU");
+                    cMenuExec?.InvokeItem(message.Get("ItemID", -1));
+                    // The following line is needed to cleanup resources when menu is closed.
+                    // Unfortunately if you uncomment it some menu items will randomly stop working.
+                    // Resource cleanup is currently done on app closing,
+                    // if we find a solution for the issue above, we should cleanup as soon as a menu is closed.
+                    //table.RemoveValue("MENU");
+                    return null;
+
+                default:
+                    return null;
+            }
+        }
+
+        private static Func<string, bool> FilterMenuItems(bool showOpenMenu)
+        {
+            var knownItems = new List<string>() {
+                "opennew", "openas", "opencontaining", "opennewprocess",
+                "runas", "runasuser", "pintohome",
+                "cut", "copy", "delete", "properties", "link",
+                "WSL", "Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
+                Win32API.ExtractStringFromDLL("shell32.dll", 30312), // SendTo menu
+                Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
+            };
+
+            bool filterMenuItemsImpl(string menuItem)
+            {
+                return string.IsNullOrEmpty(menuItem) ? false : knownItems.Contains(menuItem)
+                    || (!showOpenMenu && menuItem.Equals("open", StringComparison.OrdinalIgnoreCase));
+            }
+
+            return filterMenuItemsImpl;
+        }
+
+        private static async Task parseFileOperation(AppServiceRequestReceivedEventArgs args)
+        {
+            var fileOp = (string)args.Request.Message["fileop"];
+
+            switch (fileOp)
+            {
+                case "Clipboard":
+                    await Win32API.StartSTATask(() =>
+                    {
+                        System.Windows.Forms.Clipboard.Clear();
+                        var fileToCopy = (string)args.Request.Message["filepath"];
+                        var operation = (DataPackageOperation)(int)args.Request.Message["operation"];
+                        var fileList = new System.Collections.Specialized.StringCollection();
+                        fileList.AddRange(fileToCopy.Split('|'));
+                        if (operation == DataPackageOperation.Copy)
+                        {
+                            System.Windows.Forms.Clipboard.SetFileDropList(fileList);
+                        }
+                        else if (operation == DataPackageOperation.Move)
+                        {
+                            byte[] moveEffect = new byte[] { 2, 0, 0, 0 };
+                            MemoryStream dropEffect = new MemoryStream();
+                            dropEffect.Write(moveEffect, 0, moveEffect.Length);
+                            var data = new System.Windows.Forms.DataObject();
+                            data.SetFileDropList(fileList);
+                            data.SetData("Preferred DropEffect", dropEffect);
+                            System.Windows.Forms.Clipboard.SetDataObject(data, true);
+                        }
+                        return true;
+                    });
+                    break;
+
+                case "MoveToBin":
+                    var fileToDeletePath = (string)args.Request.Message["filepath"];
+                    using (var op = new ShellFileOperations())
+                    {
+                        op.Options = ShellFileOperations.OperationFlags.AllowUndo | ShellFileOperations.OperationFlags.NoUI;
+                        using var shi = new ShellItem(fileToDeletePath);
+                        op.QueueDeleteOperation(shi);
+                        op.PerformOperations();
+                    }
+                    //ShellFileOperations.Delete(fileToDeletePath, ShellFileOperations.OperationFlags.AllowUndo | ShellFileOperations.OperationFlags.NoUI);
+                    break;
+
+                case "ParseLink":
+                    var linkPath = (string)args.Request.Message["filepath"];
+                    try
+                    {
+                        if (linkPath.EndsWith(".lnk"))
+                        {
+                            using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
+                            await args.Request.SendResponseAsync(new ValueSet() {
+                                { "TargetPath", link.TargetPath },
+                                { "Arguments", link.Arguments },
+                                { "WorkingDirectory", link.WorkingDirectory },
+                                { "RunAsAdmin", link.RunAsAdministrator },
+                                { "IsFolder", !string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder }
+                            });
+                        }
+                        else if (linkPath.EndsWith(".url"))
+                        {
+                            var linkUrl = await Win32API.StartSTATask(() =>
+                            {
+                                var ipf = new Url.IUniformResourceLocator();
+                                (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Load(linkPath, 0);
+                                ipf.GetUrl(out var retVal);
+                                return retVal;
+                            });
+                            await args.Request.SendResponseAsync(new ValueSet() {
+                                { "TargetPath", linkUrl },
+                                { "Arguments", null },
+                                { "WorkingDirectory", null },
+                                { "RunAsAdmin", false },
+                                { "IsFolder", false }
+                            });
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Could not parse shortcut
+                        Logger.Warn(ex, ex.Message);
+                        await args.Request.SendResponseAsync(new ValueSet() {
+                            { "TargetPath", null },
+                            { "Arguments", null },
+                            { "WorkingDirectory", null },
+                            { "RunAsAdmin", false },
+                            { "IsFolder", false }
+                        });
+                    }
+                    break;
+
+                case "CreateLink":
+                case "UpdateLink":
+                    var linkSavePath = (string)args.Request.Message["filepath"];
+                    var targetPath = (string)args.Request.Message["targetpath"];
+                    if (linkSavePath.EndsWith(".lnk"))
+                    {
+                        var arguments = (string)args.Request.Message["arguments"];
+                        var workingDirectory = (string)args.Request.Message["workingdir"];
+                        var runAsAdmin = (bool)args.Request.Message["runasadmin"];
+                        using var newLink = new ShellLink(targetPath, arguments, workingDirectory);
+                        newLink.RunAsAdministrator = runAsAdmin;
+                        newLink.SaveAs(linkSavePath); // Overwrite if exists
+                    }
+                    else if (linkSavePath.EndsWith(".url"))
+                    {
+                        await Win32API.StartSTATask(() =>
+                        {
+                            var ipf = new Url.IUniformResourceLocator();
+                            ipf.SetUrl(targetPath, Url.IURL_SETURL_FLAGS.IURL_SETURL_FL_GUESS_PROTOCOL);
+                            (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Save(linkSavePath, false); // Overwrite if exists
+                            return true;
+                        });
                     }
                     break;
             }
@@ -292,24 +500,8 @@ namespace FilesFullTrust
                     {
                         try
                         {
-                            string recyclePath = folderItem.FileSystemPath; // True path on disk
-                            string fileName = Path.GetFileName(folderItem.Name); // Original file name
-                            string filePath = folderItem.Name; // Original file path + name
-                            bool isFolder = folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip";
-                            if (folderItem.Properties == null)
-                            {
-                                folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, DateTime.Now, null, 0, null));
-                                continue;
-                            }
-                            folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
-                                Ole32.PROPERTYKEY.System.DateCreated, out var fileTime);
-                            var recycleDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
-                            string fileSize = folderItem.Properties.TryGetValue<ulong?>(
-                                Ole32.PROPERTYKEY.System.Size, out var fileSizeBytes) ?
-                                folderItem.Properties.GetPropertyString(Ole32.PROPERTYKEY.System.Size) : null;
-                            folderItem.Properties.TryGetValue<string>(
-                                Ole32.PROPERTYKEY.System.ItemTypeText, out var fileType);
-                            folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, fileSize, fileSizeBytes ?? 0, fileType));
+                            var shellFileItem = GetRecycleBinItem(folderItem);
+                            folderContentsList.Add(shellFileItem);
                         }
                         catch (FileNotFoundException)
                         {
@@ -327,6 +519,27 @@ namespace FilesFullTrust
                 default:
                     break;
             }
+        }
+
+        private static ShellFileItem GetRecycleBinItem(ShellItem folderItem)
+        {
+            string recyclePath = folderItem.FileSystemPath; // True path on disk
+            string fileName = Path.GetFileName(folderItem.Name); // Original file name
+            string filePath = folderItem.Name; // Original file path + name
+            bool isFolder = folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip";
+            if (folderItem.Properties == null)
+            {
+                return new ShellFileItem(isFolder, recyclePath, fileName, filePath, DateTime.Now, null, 0, null);
+            }
+            folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
+                Ole32.PROPERTYKEY.System.DateCreated, out var fileTime);
+            var recycleDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
+            string fileSize = folderItem.Properties.TryGetValue<ulong?>(
+                Ole32.PROPERTYKEY.System.Size, out var fileSizeBytes) ?
+                folderItem.Properties.GetPropertyString(Ole32.PROPERTYKEY.System.Size) : null;
+            folderItem.Properties.TryGetValue<string>(
+                Ole32.PROPERTYKEY.System.ItemTypeText, out var fileType);
+            return new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, fileSize, fileSizeBytes ?? 0, fileType);
         }
 
         private static void HandleApplicationsLaunch(IEnumerable<string> applications, AppServiceRequestReceivedEventArgs args)
@@ -395,7 +608,7 @@ namespace FilesFullTrust
                     {
                         await Win32API.StartSTATask(() =>
                         {
-                            var split = application.Split(';').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => GetMtpPath(x));
+                            var split = application.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => GetMtpPath(x));
                             if (split.Count() == 1)
                             {
                                 Process.Start(split.First());
@@ -413,32 +626,8 @@ namespace FilesFullTrust
                                     {
                                         continue;
                                     }
-
-                                    var files = group.Select(x => new ShellItem(x));
-                                    using var sf = files.First().Parent;
-                                    Shell32.IContextMenu menu = null;
-                                    try
-                                    {
-                                        menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(null, files.ToArray());
-                                        menu.QueryContextMenu(HMENU.NULL, 0, 0, 0, Shell32.CMF.CMF_DEFAULTONLY);
-                                        var pici = new Shell32.CMINVOKECOMMANDINFOEX();
-                                        pici.lpVerb = new SafeResourceId(Shell32.CMDSTR_OPEN, CharSet.Ansi);
-                                        pici.nShow = ShowWindowCommand.SW_SHOW;
-                                        pici.cbSize = (uint)Marshal.SizeOf(pici);
-                                        menu.InvokeCommand(pici);
-                                    }
-                                    finally
-                                    {
-                                        foreach (var elem in files)
-                                        {
-                                            elem.Dispose();
-                                        }
-
-                                        if (menu != null)
-                                        {
-                                            Marshal.ReleaseComObject(menu);
-                                        }
-                                    }
+                                    using var cMenu = Win32API.ContextMenu.GetContextMenuForFiles(group.ToArray(), Shell32.CMF.CMF_DEFAULTONLY);
+                                    cMenu?.InvokeVerb(Shell32.CMDSTR_OPEN);
                                 }
                             }
                             return true;

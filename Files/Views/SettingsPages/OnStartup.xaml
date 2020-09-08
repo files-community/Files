@@ -2,8 +2,8 @@
     x:Class="Files.SettingsPages.OnStartup"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -47,7 +47,7 @@
                     Content="Continue where you left off"
                     FontSize="16"
                     GroupName="StartupPageSettingRadioGroup"
-                    IsEnabled="False" />
+                    IsChecked="{x:Bind AppSettings.ContinueLastSessionOnStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <RadioButton
                     x:Name="OpenSpecificPage"
@@ -59,50 +59,62 @@
                     GroupName="StartupPageSettingRadioGroup"
                     IsChecked="{x:Bind AppSettings.OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                <StackPanel
-                    x:Name="PagesPanel"
-                    Width="550"
+                <Grid
+                    Width="Auto"
                     HorizontalAlignment="Left"
                     Visibility="{x:Bind OpenSpecificPage.IsChecked, Mode=OneWay}">
-                    <StackPanel Margin="0,10,0,20" Orientation="Horizontal">
-                        <TextBlock
-                            x:Uid="SettingsOnStartupPages"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontSize="18"
-                            Text="Pages: " />
-                        <Button
-                            x:Name="btnAddPage"
-                            x:Uid="SettingsOnStartupOpenAddPageButton"
-                            Margin="277,0,0,0"
-                            BorderThickness="2,2,2,2"
-                            Click="btnAddPage_Click"
-                            Content="Add a new page" />
-                    </StackPanel>
-                </StackPanel>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition MinWidth="100" />
+                        <ColumnDefinition MinWidth="240" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        x:Uid="SettingsOnStartupPages"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontSize="18"
+                        Text="Pages: " />
+
+                    <Button
+                        x:Name="btnAddPage"
+                        x:Uid="SettingsOnStartupOpenAddPageButton"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        BorderThickness="2,2,2,2"
+                        Click="btnAddPage_Click"
+                        Content="Add a new page" />
+
+                    <StackPanel
+                        x:Name="PagesPanel"
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Margin="0,10,0,20"
+                        HorizontalAlignment="Stretch" />
+                </Grid>
 
                 <TextBlock
-                        x:Uid="SettingsOnStartupNewInstanceBehaviour"
-                        FontSize="17"
-                        Text="When launching a pinned folder" />
-
-                <RadioButton
-                    x:Uid="SettingsOnStartupLaunchNewInstance"
-                    Grid.Column="0"
-                    VerticalAlignment="Center"
-                    Content="Always open a new instance"
-                    FontSize="16"
-                    GroupName="StartupPageLaunchRadioGroup"
-                    IsChecked="{x:Bind AppSettings.AlwaysOpenANewInstance, Mode=TwoWay}" />
+                    x:Uid="SettingsOnStartupNewInstanceBehavior"
+                    FontSize="17"
+                    Text="When launching an item from the jumplist" />
 
                 <RadioButton
                     x:Uid="SettingsOnStartupLaunchNewTab"
-                    Grid.Column="0"
                     VerticalAlignment="Center"
                     Content="Open folder in a new tab"
                     FontSize="16"
                     GroupName="StartupPageLaunchRadioGroup"
                     IsChecked="{x:Bind AppSettings.AlwaysOpenANewInstance, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}" />
+
+                <RadioButton
+                    x:Uid="SettingsOnStartupLaunchNewInstance"
+                    VerticalAlignment="Center"
+                    Content="Always open a new instance"
+                    FontSize="16"
+                    GroupName="StartupPageLaunchRadioGroup"
+                    IsChecked="{x:Bind AppSettings.AlwaysOpenANewInstance, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

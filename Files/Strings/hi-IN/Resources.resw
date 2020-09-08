@@ -21,9 +21,6 @@
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
     <value>हटाएँ</value>
   </data>
-  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
-    <value>क्या आप सुनिश्चित हैं कि आप चयनित वस्तु(ओं) को हटाना चाहते हैं?</value>
-  </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>स्थायी रूप से हटाएं</value>
   </data>
@@ -32,15 +29,6 @@
   </data>
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>नई विंडो में खोलें</value>
-  </data>
-  <data name="ExtractFilesDialog.Title" xml:space="preserve">
-    <value>संकुचित संग्रह को निकालें</value>
-  </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>रद्द करें</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>निकालें</value>
   </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>नया टैब</value>
@@ -86,12 +74,6 @@
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>वस्तु का नाम</value>
-  </data>
-  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
-    <value>इस संकुचित संग्रह को निकालने के लिए एक स्थान चुनें। जब तक हम नहीं कर लेते तब तक आपको वर्तमान फ़ोल्डर में रहना होगा। निकाले गए आइटम्स के साथ एक नया टैब खुल जाएगा।</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>ब्राउज़</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
     <value>मार्ग:</value>
@@ -247,7 +229,7 @@
     <value>एक नया टैब खोलें</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>एक विशिष्ट पृष्ठ खोलें</value>
+    <value>एक विशिष्ट पन्ना या पन्ने खोलें</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>शुरू पर</value>
@@ -255,7 +237,7 @@
   <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
     <value>साइडबार मे वनड्राइव पिन करें</value>
   </data>
-  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
+  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
     <value>रीसायकल बिन समर्थन सक्षम करें</value>
   </data>
   <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
@@ -624,9 +606,6 @@
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>फ़ाइलों को हटाना</value>
   </data>
-  <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>फाइलें निकालना</value>
-  </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
     <value>फाइलें चिपकाने</value>
   </data>
@@ -734,5 +713,47 @@
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>स्थिति</value>
+  </data>
+  <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
+    <value>एक नया पन्ना जोड़ें</value>
+  </data>
+  <data name="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" xml:space="preserve">
+    <value>पन्ने का स्थान बदलें</value>
+  </data>
+  <data name="SettingsOnStartupPages.Text" xml:space="preserve">
+    <value>पन्ने:</value>
+  </data>
+  <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
+    <value>पन्ने हटाएं</value>
+  </data>
+  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
+    <value>पिन किए गए फ़ोल्डर को खोलते समय</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
+    <value>हमेशा एक नया दृष्टांत खोलें</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
+    <value>फ़ोल्डर को एक नए टैब में खोलें</value>
+  </data>
+  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
+    <value>विन्डोज़ डिफ़ॉल्ट</value>
+  </data>
+  <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
+    <value>टैब यहां लाएं</value>
+  </data>
+  <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
+    <value>कोई परिणाम नहीं</value>
+  </data>
+  <data name="SubDirectoryAccessDenied" xml:space="preserve">
+    <value>प्रदर्शित करने के लिए किसी भी आइटम तक नहीं पहुंच सकते</value>
+  </data>
+  <data name="MoveToFolderCaptionText" xml:space="preserve">
+    <value>{0} पर ले जाएँ</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
+    <value>स्रोत और गंतव्य फ़ाइल नाम एक ही हैं।</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
+    <value>गंतव्य फ़ोल्डर स्रोत फ़ोल्डर के समान है।</value>
   </data>
 </root>

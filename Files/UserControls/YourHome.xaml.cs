@@ -1,21 +1,5 @@
-﻿using Files.Dialogs;
-using Files.Filesystem;
-using Files.Helpers;
-using Files.Interacts;
-using Files.UserControls;
-using Files.View_Models;
-using Files.Views;
+﻿using Files.View_Models;
 using Files.Views.Pages;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using Windows.Storage;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 

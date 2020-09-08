@@ -144,9 +144,6 @@
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
     <value>Supprimer</value>
   </data>
-  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
-    <value>Voulez-vous vraiment supprimer le(s) élément(s) sélectionné(s) ?</value>
-  </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Supprimer de façon définitive</value>
   </data>
@@ -173,15 +170,6 @@
   </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>Nouvel onglet</value>
-  </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>Annuler</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Extraire</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>W!!ßrøwsè 表!!W</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Trier la liste par</value>
@@ -536,9 +524,6 @@
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>Suppression des fichiers</value>
-  </data>
-  <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>Extraction de fichiers...</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Déverrouiller</value>

@@ -1,5 +1,5 @@
 ﻿using Files.Enums;
-using GalaSoft.MvvmLight;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
@@ -13,12 +13,29 @@ namespace Files.Filesystem
         public string FolderTooltipText { get; set; }
         public string FolderRelativeId { get; set; }
         public bool LoadFolderGlyph { get; set; }
+        public bool ContainsFilesOrFolders { get; set; }
         private bool _LoadFileIcon;
+
+        public Uri FolderIconSource
+        {
+            get
+            {
+                return ContainsFilesOrFolders ? new Uri("ms-appx:///Assets/FolderIcon2.svg") : new Uri("ms-appx:///Assets/FolderIcon.svg");
+            }
+        }
+
+        public Uri FolderIconSourceLarge
+        {
+            get
+            {
+                return ContainsFilesOrFolders ? new Uri("ms-appx:///Assets/FolderIcon2Large.svg") : new Uri("ms-appx:///Assets/FolderIconLarge.svg");
+            }
+        }
 
         public bool LoadFileIcon
         {
             get => _LoadFileIcon;
-            set => Set(ref _LoadFileIcon, value);
+            set => SetProperty(ref _LoadFileIcon, value);
         }
 
         private bool _LoadUnknownTypeGlyph;
@@ -26,7 +43,15 @@ namespace Files.Filesystem
         public bool LoadUnknownTypeGlyph
         {
             get => _LoadUnknownTypeGlyph;
-            set => Set(ref _LoadUnknownTypeGlyph, value);
+            set => SetProperty(ref _LoadUnknownTypeGlyph, value);
+        }
+
+        private bool _IsDimmed;
+
+        public bool IsDimmed
+        {
+            get => _IsDimmed;
+            set => SetProperty(ref _IsDimmed, value);
         }
 
         private CloudDriveSyncStatusUI _SyncStatusUI;
@@ -34,7 +59,7 @@ namespace Files.Filesystem
         public CloudDriveSyncStatusUI SyncStatusUI
         {
             get => _SyncStatusUI;
-            set => Set(ref _SyncStatusUI, value);
+            set => SetProperty(ref _SyncStatusUI, value);
         }
 
         private BitmapImage _FileImage;
@@ -46,13 +71,27 @@ namespace Files.Filesystem
             {
                 if (value != null)
                 {
-                    Set(ref _FileImage, value);
+                    SetProperty(ref _FileImage, value);
                 }
             }
         }
 
-        public string ItemName { get; set; }
-        public string ItemDateModified { get; private set; }
+        private string _ItemPath;
+
+        public string ItemPath
+        {
+            get => _ItemPath;
+            set => SetProperty(ref _ItemPath, value);
+        }
+
+        private string _ItemName;
+
+        public string ItemName
+        {
+            get => _ItemName;
+            set => SetProperty(ref _ItemName, value);
+        }
+
         private string _ItemType;
 
         public string ItemType
@@ -62,18 +101,18 @@ namespace Files.Filesystem
             {
                 if (value != null)
                 {
-                    Set(ref _ItemType, value);
+                    SetProperty(ref _ItemType, value);
                 }
             }
         }
 
         public string FileExtension { get; set; }
-        public string ItemPath { get; set; }
         public string FileSize { get; set; }
         public long FileSizeBytes { get; set; }
 
-        // For recycle bin elements (path + name)
-        public string ItemOriginalPath { get; set; }
+        public string ItemDateModified { get; private set; }
+        public string ItemDateCreated { get; private set; }
+        public string ItemDateAccessed { get; private set; }
 
         public DateTimeOffset ItemDateModifiedReal
         {
@@ -86,6 +125,30 @@ namespace Files.Filesystem
         }
 
         private DateTimeOffset _itemDateModifiedReal;
+
+        public DateTimeOffset ItemDateCreatedReal
+        {
+            get => _itemDateCreatedReal;
+            set
+            {
+                ItemDateCreated = GetFriendlyDate(value);
+                _itemDateCreatedReal = value;
+            }
+        }
+
+        private DateTimeOffset _itemDateCreatedReal;
+
+        public DateTimeOffset ItemDateAccessedReal
+        {
+            get => _itemDateAccessedReal;
+            set
+            {
+                ItemDateAccessed = GetFriendlyDate(value);
+                _itemDateAccessedReal = value;
+            }
+        }
+
+        private DateTimeOffset _itemDateAccessedReal;
 
         public ListedItem(string folderRelativeId)
         {
@@ -132,5 +195,34 @@ namespace Files.Filesystem
                 return string.Format(ResourceController.GetTranslation("SecondsAgo"), elapsed.Seconds);
             }
         }
+
+        public bool IsRecycleBinItem => this is RecycleBinItem;
+        public bool IsShortcutItem => this is ShortcutItem;
+        public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
+    }
+
+    public class RecycleBinItem : ListedItem
+    {
+        public RecycleBinItem(string folderRelativeId) : base(folderRelativeId)
+        {
+        }
+
+        // For recycle bin elements (path + name)
+        public string ItemOriginalPath { get; set; }
+    }
+
+    public class ShortcutItem : ListedItem
+    {
+        public ShortcutItem(string folderRelativeId) : base(folderRelativeId)
+        {
+        }
+
+        // For shortcut elements (.lnk and .url)
+        public string TargetPath { get; set; }
+
+        public string Arguments { get; set; }
+        public string WorkingDirectory { get; set; }
+        public bool RunAsAdmin { get; set; }
+        public bool IsUrl { get; set; }
     }
 }

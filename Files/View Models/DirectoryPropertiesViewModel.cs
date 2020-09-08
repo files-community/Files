@@ -1,15 +1,15 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 
 namespace Files.View_Models
 {
-    public class DirectoryPropertiesViewModel : ViewModelBase
+    public class DirectoryPropertiesViewModel : ObservableObject
     {
         private string _DirectoryItemCount;
 
         public string DirectoryItemCount
         {
             get => _DirectoryItemCount;
-            set => Set(ref _DirectoryItemCount, value);
+            set => SetProperty(ref _DirectoryItemCount, value);
         }
     }
 }

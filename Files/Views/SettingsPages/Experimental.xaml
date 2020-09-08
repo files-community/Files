@@ -47,18 +47,18 @@
 
                 <StackPanel Spacing="10">
                     <TextBlock
-                        x:Uid="SettingsExperimentalDoubleTapToRenameFiles"
+                        x:Uid="SettingsPreferencesShowHorizontalTabStrip"
                         FontSize="17"
-                        Text="Double tap to rename files" />
-                    <ToggleSwitch IsOn="{x:Bind AppSettings.DoubleTapToRenameFiles, Mode=TwoWay}" />
+                        Text="Show a horizontal tab strip on the title bar" />
+                    <ToggleSwitch IsOn="{x:Bind AppSettings.IsHorizontalTabStripVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
 
                 <StackPanel Spacing="10">
                     <TextBlock
-                        x:Uid="SettingsExperimentalRecycleBin"
+                        x:Uid="SettingsExperimentalDoubleTapToRenameFiles"
                         FontSize="17"
-                        Text="Enable Recycle Bin support" />
-                    <ToggleSwitch IsOn="{x:Bind AppSettings.PinRecycleBinToSideBar, Mode=TwoWay}" />
+                        Text="Double tap to rename files" />
+                    <ToggleSwitch IsOn="{x:Bind AppSettings.DoubleTapToRenameFiles, Mode=TwoWay}" />
                 </StackPanel>
 
                 <StackPanel Spacing="10">

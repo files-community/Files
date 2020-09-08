@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace Files.UserControls.MultiTaskingControl
 {
     public interface IMultitaskingControl
     {
-        void SetSelectedTabInfo(string text, string currentPathForTabIcon);
+        Task SetSelectedTabInfo(string text, string currentPathForTabIcon);
 
         void SelectionChanged();
 
