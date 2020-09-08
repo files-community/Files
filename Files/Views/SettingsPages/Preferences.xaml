@@ -6,6 +6,7 @@
     xmlns:datamodels="using:Files.DataModels"
     xmlns:local="using:Files.SettingsPages"
     xmlns:local2="using:Files"
+    xmlns:dialogs="using:Files.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -135,6 +136,9 @@
 
                     <ToggleSwitch x:Name="ContextMenuToggleSwitch" IsOn="{x:Bind AppSettings.ShowAllContextMenuItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
+
+                <dialogs:RestartDialog/>
+
             </StackPanel>
         </ScrollViewer>
     </Grid>
