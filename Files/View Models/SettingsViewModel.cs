@@ -450,7 +450,7 @@ namespace Files.View_Models
                         App.InteractionViewModel.IsVerticalTabFlyoutVisible = true;
                         App.InteractionViewModel.IsHorizontalTabStripVisible = false;
                     }
-                    else if (!App.InteractionViewModel.IsWindowCompactSize)
+                    else
                     {
                         App.InteractionViewModel.IsVerticalTabFlyoutVisible = false;
                         App.InteractionViewModel.IsHorizontalTabStripVisible = true;
