@@ -1,11 +1,8 @@
 ﻿using Files.DataModels;
 using Files.View_Models;
-using Microsoft.Toolkit.Uwp.Notifications;
 using System;
-using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.System;
-using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -56,7 +53,7 @@ namespace Files.SettingsPages
             }
         }
 
-        private void EditTerminalApplications_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void EditTerminalApplications_Click(object sender, RoutedEventArgs e)
         {
             LaunchTerminalsConfigFile();
         }
