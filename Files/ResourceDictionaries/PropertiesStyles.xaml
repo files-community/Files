@@ -1,0 +1,41 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style TargetType="StackPanel" x:Key="PropertiesTab">
+        <Setter Property="Padding" Value="14,0,14,14"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+    </Style>
+
+    <Thickness x:Key="PropertyNameMargin">0,7</Thickness>
+    <Thickness x:Key="PropertyValueMargin">20,0,0,0</Thickness>
+    <VerticalAlignment x:Key="PropertyValueVerticalAlignment">Center</VerticalAlignment>
+
+    <Style TargetType="TextBlock" x:Key="PropertyName">
+        <Setter Property="Margin" Value="{StaticResource PropertyNameMargin}"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
+
+    <Style TargetType="Grid" x:Key="PropertyValueGrid">
+        <Setter Property="Margin" Value="{StaticResource PropertyValueMargin}"/>
+        <Setter Property="VerticalAlignment" Value="{StaticResource PropertyValueVerticalAlignment}"/>
+    </Style>
+
+    <Style TargetType="Grid" x:Key="PropertyValueStackPanel">
+        <Setter Property="Margin" Value="{StaticResource PropertyValueMargin}"/>
+        <Setter Property="VerticalAlignment" Value="{StaticResource PropertyValueVerticalAlignment}"/>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="PropertyValueTextBlock">
+        <Setter Property="Margin" Value="{StaticResource PropertyValueMargin}"/>
+        <Setter Property="VerticalAlignment" Value="{StaticResource PropertyValueVerticalAlignment}"/>
+        <Setter Property="IsTextSelectionEnabled" Value="True"/>
+    </Style>
+
+    <Style TargetType="TextBox" BasedOn="{StaticResource DefaultTextBoxStyle}" x:Key="PropertyValueTextBox">
+        <Setter Property="Margin" Value="{StaticResource PropertyValueMargin}"/>
+        <Setter Property="VerticalAlignment" Value="{StaticResource PropertyValueVerticalAlignment}"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+</ResourceDictionary>
