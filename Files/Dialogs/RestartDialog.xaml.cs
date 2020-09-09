@@ -1,5 +1,6 @@
 ﻿using System;
-using Windows.ApplicationModel.Core;
+using System.Diagnostics;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -24,12 +25,8 @@ namespace Files.Dialogs
 
         private async void YesButton_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Restart app");
-            AppRestartFailureReason failureReason = await CoreApplication.RequestRestartAsync("");
-            if (failureReason == AppRestartFailureReason.NotInForeground)
-            {
-                System.Diagnostics.Debug.WriteLine("App not in foreground");
-            }
+            await Launcher.LaunchUriAsync(new Uri("files-uwp://home/page=home"));
+            Process.GetCurrentProcess().Kill();
         }
 
         private void NoButton_Click(object sender, RoutedEventArgs e)
