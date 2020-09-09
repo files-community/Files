@@ -996,16 +996,13 @@
   <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
     <value>Show all context menu items</value>
   </data>
-  <data name="RestartDialogCancelButton" xml:space="preserve">
-    <value>Restart later</value>
+  <data name="ButtonNo.Content" xml:space="preserve">
+    <value>No</value>
   </data>
-  <data name="RestartDialogPrimaryButton" xml:space="preserve">
-    <value>Restart now</value>
+  <data name="ButtonYes.Content" xml:space="preserve">
+    <value>Yes</value>
   </data>
-  <data name="RestartDialogText" xml:space="preserve">
-    <value>Test</value>
-  </data>
-  <data name="RestartDialogTitle" xml:space="preserve">
-    <value>Restart required</value>
+  <data name="RestartNotificationText.Text" xml:space="preserve">
+    <value>You need to restart the application to apply the changed language settings. Do you want to restart the application now?</value>
   </data>
 </root>
