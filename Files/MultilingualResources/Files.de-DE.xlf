@@ -1180,6 +1180,10 @@
           <source>Are you sure you want to delete these {0} items?</source>
           <target state="new">Are you sure you want to delete these {0} items?</target>
         </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAs.Text" translate="yes" xml:space="preserve">
+          <source>Set as</source>
+          <target state="new">Set as</target>
+        </trans-unit>
       </group>
     </body>
   </file>
