@@ -296,7 +296,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" translate="yes" xml:space="preserve">
           <source>Set as desktop background</source>
-          <target state="translated">Establecer como fondo de escritorio</target>
+          <target state="translated">Fondo de escritorio</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutShare.Text" translate="yes" xml:space="preserve">
           <source>Share</source>
@@ -600,7 +600,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" translate="yes" xml:space="preserve">
           <source>Set as lockscreen background</source>
-          <target state="translated">Establecer como fondo de pantalla de bloqueo</target>
+          <target state="translated">Fondo de pantalla de bloqueo</target>
         </trans-unit>
         <trans-unit id="StatusBarControlGridViewLarge.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Large)</source>

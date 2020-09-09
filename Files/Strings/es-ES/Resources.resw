@@ -229,7 +229,7 @@
     <value>Abrir en nueva ventana</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
-    <value>Establecer como fondo de escritorio</value>
+    <value>Fondo de escritorio</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Compartir</value>
@@ -457,7 +457,7 @@
     <value>Reemplazar elemento existente</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
-    <value>Establecer como fondo de pantalla de bloqueo</value>
+    <value>Fondo de pantalla de bloqueo</value>
   </data>
   <data name="StatusBarControlGridViewLarge.Text" xml:space="preserve">
     <value>Iconos grandes</value>
