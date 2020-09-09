@@ -70,23 +70,23 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Button
-                x:Name="CancelButton"
-                x:Uid="PropertiesDialogCancelButton"
+                x:Name="OKButton"
+                x:Uid="PropertiesDialogOKButton"
                 Grid.Column="1"
                 MinWidth="100"
                 Margin="0,0,10,0"
                 HorizontalAlignment="Right"
-                Click="CancelButton_Click"
-                Content="Cancel"
+                Click="OKButton_Click"
+                Content="OK"
                 Style="{ThemeResource ButtonRevealStyle}" />
             <Button
-                x:Name="OKButton"
-                x:Uid="PropertiesDialogOKButton"
+                x:Name="CancelButton"
+                x:Uid="PropertiesDialogCancelButton"
                 Grid.Column="2"
                 MinWidth="100"
                 HorizontalAlignment="Right"
-                Click="OKButton_Click"
-                Content="OK"
+                Click="CancelButton_Click"
+                Content="Cancel"
                 Style="{ThemeResource ButtonRevealStyle}" />
         </Grid>
     </Grid>

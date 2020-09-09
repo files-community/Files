@@ -1,14 +1,23 @@
-﻿<Page
+﻿<local:PropertiesTab
     x:Class="Files.PropertiesShortcut"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Files.Views.Pages"
+    xmlns:local="using:Files.View_Models.Properties"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:usercontrols="using:Files.UserControls"
     Loaded="Properties_Loaded"
     mc:Ignorable="d">
 
-    <StackPanel Padding="14,0,14,14" VerticalAlignment="Top">
+    <local:PropertiesTab.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </local:PropertiesTab.Resources>
+
+    <StackPanel Style="{StaticResource PropertiesTab}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -30,56 +39,17 @@
                 Grid.Column="0"
                 Width="80"
                 Height="80"
-                Margin="0,7"
+                Margin="{StaticResource PropertyNameMargin}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
-                <Image
-                    x:Name="FolderGlyphIcon2"
-                    Width="70"
-                    Height="70"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    x:Load="{x:Bind ViewModel.LoadFolderGlyph}"
-                    Stretch="Uniform">
-                    <Image.Source>
-                        <SvgImageSource
-                            RasterizePixelHeight="128"
-                            RasterizePixelWidth="128"
-                            UriSource="{x:Bind ViewModel.FolderIconSource}" />
-                    </Image.Source>
-                </Image>
-                <FontIcon
-                    x:Name="EmptyImageIcon2"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Stretch"
-                    x:Load="{x:Bind ViewModel.LoadUnknownTypeGlyph, Mode=OneWay}"
-                    FontFamily="{StaticResource FluentUIGlyphs}"
-                    FontSize="70"
-                    Glyph="&#xea00;" />
-                <FontIcon
-                    x:Name="WebShortcutGlyph2"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Stretch"
-                    x:Load="{x:Bind ViewModel.LoadLinkIcon, Mode=OneWay}"
-                    FontFamily="{StaticResource FluentUIGlyphs}"
-                    FontSize="70"
-                    Glyph="&#xEAAB;" />
-                <Image
-                    x:Name="itemIcon2"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    x:Load="{x:Bind ViewModel.LoadFileIcon, Mode=OneWay}"
-                    Source="{x:Bind ViewModel.FileIconSource, Mode=OneWay}" />
+                <usercontrols:FileIcon ViewModel="{x:Bind ViewModel}" ItemSize="70"/>
             </Grid>
             <TextBox
                 x:Name="itemFileName2"
                 x:Uid="PropertiesItemFileName"
                 Grid.Row="0"
                 Grid.Column="1"
-                Margin="20,0"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Center"
-                BorderThickness="1"
+                Style="{StaticResource PropertyValueTextBox}"
                 IsReadOnly="True"
                 Text="{x:Bind ViewModel.ItemName, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}" />
@@ -95,17 +65,14 @@
                 x:Uid="PropertiesShortcutItemType"
                 Grid.Row="2"
                 Grid.Column="0"
-                Margin="0,7"
-                FontWeight="SemiBold"
+                Style="{StaticResource PropertyName}"
                 Text="Shortcut type:"
                 Visibility="Visible" />
             <TextBlock
                 x:Name="shortcutItemTypeValue"
                 Grid.Row="2"
                 Grid.Column="1"
-                Margin="20,0,0,0"
-                VerticalAlignment="Center"
-                IsTextSelectionEnabled="True"
+                Style="{StaticResource PropertyValueTextBlock}"
                 Text="{x:Bind ViewModel.ShortcutItemType, Mode=OneWay}"
                 Visibility="Visible" />
 
@@ -113,16 +80,14 @@
                 x:Uid="PropertiesShortcutItemPath"
                 Grid.Row="3"
                 Grid.Column="0"
-                Margin="0,7"
-                FontWeight="SemiBold"
+                Style="{StaticResource PropertyName}"
                 Text="Destination:"
                 Visibility="Visible" />
             <TextBox
                 x:Name="shortcutItemPathValue"
                 Grid.Row="3"
                 Grid.Column="1"
-                Margin="20,0,0,0"
-                VerticalAlignment="Center"
+                Style="{StaticResource PropertyValueTextBox}"
                 Text="{x:Bind ViewModel.ShortcutItemPath, Mode=TwoWay}"
                 Visibility="Visible" />
 
@@ -130,16 +95,14 @@
                 x:Uid="PropertiesShortcutItemArgs"
                 Grid.Row="4"
                 Grid.Column="0"
-                Margin="0,7"
-                FontWeight="SemiBold"
+                Style="{StaticResource PropertyName}"
                 Text="Arguments:"
                 Visibility="{x:Bind ViewModel.ShortcutItemArgumentsVisibility, Mode=OneWay}" />
             <TextBox
                 x:Name="shortcutItemArgsValue"
                 Grid.Row="4"
                 Grid.Column="1"
-                Margin="20,0,0,0"
-                VerticalAlignment="Center"
+                Style="{StaticResource PropertyValueTextBox}"
                 Text="{x:Bind ViewModel.ShortcutItemArguments, Mode=TwoWay}"
                 Visibility="{x:Bind ViewModel.ShortcutItemArgumentsVisibility, Mode=OneWay}" />
 
@@ -147,16 +110,14 @@
                 x:Uid="PropertiesShortcutItemWorkingDir"
                 Grid.Row="5"
                 Grid.Column="0"
-                Margin="0,7"
-                FontWeight="SemiBold"
+                Style="{StaticResource PropertyName}"
                 Text="Working directory:"
                 Visibility="{x:Bind ViewModel.ShortcutItemWorkingDirVisibility, Mode=OneWay}" />
             <TextBox
                 x:Name="shortcutItemWorkingDirValue"
                 Grid.Row="5"
                 Grid.Column="1"
-                Margin="20,0,0,0"
-                VerticalAlignment="Center"
+                Style="{StaticResource PropertyValueTextBox}"
                 Text="{x:Bind ViewModel.ShortcutItemWorkingDir, Mode=TwoWay}"
                 Visibility="{x:Bind ViewModel.ShortcutItemWorkingDirVisibility, Mode=OneWay}" />
 
@@ -171,7 +132,7 @@
                 Grid.Row="7"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
-                Margin="20,0,0,0"
+                Margin="{StaticResource PropertyValueMargin}"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
@@ -188,4 +149,4 @@
             </StackPanel>
         </Grid>
     </StackPanel>
-</Page>
+</local:PropertiesTab>

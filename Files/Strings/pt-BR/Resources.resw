@@ -21,9 +21,6 @@
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
     <value>Excluir</value>
   </data>
-  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
-    <value>Tem certeza de que deseja excluir o(s) item(ns) selecionado(s)?</value>
-  </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Excluir permanentemente</value>
   </data>
@@ -32,15 +29,6 @@
   </data>
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>Abrir em nova janela</value>
-  </data>
-  <data name="ExtractFilesDialog.Title" xml:space="preserve">
-    <value>Extrair arquivo compactado</value>
-  </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>Cancelar</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Extrair</value>
   </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>Nova guia</value>
@@ -86,12 +74,6 @@
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Nome do item</value>
-  </data>
-  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
-    <value>Escolha um local para extrair esse arquivo compactado. Você precisará permanecer na pasta atual até terminarmos. Uma nova guia será aberta com os itens extraídos.</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>Procurar</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
     <value>Caminho:</value>
@@ -175,7 +157,7 @@
     <value>Envie aos desenvolvedores um relatório de problemas com mais informações</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Licenças de Terceiros</value>
+    <value>Licenças de Terceiros:</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Sobre</value>
@@ -385,7 +367,7 @@
     <value>QuickLook</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Bem vindo ao Files UWP</value>
+    <value>Bem vindo ao Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Conceder Permissão</value>
@@ -400,10 +382,10 @@
     <value>Arquivo</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
-    <value>Digite o nome do arquivo</value>
+    <value>Insira o nome do arquivo</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Digite o nome do arquivo sem uma extensão</value>
+    <value>Insira o nome do arquivo</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Definir Nome</value>
@@ -624,9 +606,6 @@
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>Excluindo arquivos</value>
   </data>
-  <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>Extraindo arquivos...</value>
-  </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
     <value>Colando arquivos</value>
   </data>
@@ -727,7 +706,7 @@
     <value>Idioma</value>
   </data>
   <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>Reinicialização necessária</value>
+    <value>Para ver as mudanças, é necessário reiniciar</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Status</value>
@@ -841,7 +820,7 @@
     <value>Notas de Atualização</value>
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Descubra o que há de novo no Files UWP</value>
+    <value>Descubra o que há de novo</value>
   </data>
   <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
     <value>Mostrar menu multitarefa na barra de navegação</value>
@@ -856,7 +835,7 @@
     <value>Desconhecido</value>
   </data>
   <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
-    <value>Abrir local do log</value>
+    <value>Abrir local de registro</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>O Files encontrou um problema para o qual os desenvolvedores ainda não se prepararam.</value>
@@ -871,7 +850,7 @@
     <value>Versão:</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
-    <value>Não há nada para compartilhar agora</value>
+    <value>Não há nada para compartilhar agora...</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
     <value>Os itens selecionados serão compartilhados</value>
