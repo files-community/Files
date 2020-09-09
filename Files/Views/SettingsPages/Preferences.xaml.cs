@@ -45,9 +45,14 @@ namespace Files.SettingsPages
 
         private void ComboAppLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (AppSettings.CurrentLanguage.ID != AppSettings.DefaultLanguage.ID)
+            var selectedValue = ((sender as ComboBox).SelectedValue as DefaultLanguageModel).ID;
+            if (AppSettings.CurrentLanguage.ID != selectedValue)
             {
-                ShowRestartNotification();
+                RestartDialog.Show();
+            }
+            else
+            {
+                RestartDialog.Dismiss();
             }
         }
 
