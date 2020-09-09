@@ -56,54 +56,6 @@ namespace Files.SettingsPages
             }
         }
 
-        private void ShowRestartNotification()
-        {
-            ContentDialog restartDialog = new ContentDialog
-            {
-                Title = ResourceController.GetTranslation("RestartDialogTitle"),
-                Content = ResourceController.GetTranslation("RestartDialogText"),
-                PrimaryButtonText = ResourceController.GetTranslation("RestartDialogPrimaryButton"),
-                CloseButtonText = ResourceController.GetTranslation("RestartDialogCancelButton")
-            };
-
-            var toastContent = new ToastContent
-            {
-                Visual = new ToastVisual
-                {
-                    BindingGeneric = new ToastBindingGeneric
-                    {
-                        Children =
-                        {
-                            new AdaptiveText
-                            {
-                                Text = ResourceController.GetTranslation("RestartDialogTitle")
-                            },
-                            new AdaptiveText
-                            {
-                                Text = ResourceController.GetTranslation("RestartDialogText")
-                            }
-                        }
-                    }
-                },
-                Actions = new ToastActionsCustom
-                {
-                    Buttons =
-                    {
-                        new ToastButton(ResourceController.GetTranslation("RestartDialogPrimaryButton"), "restart")
-                        {
-                            ActivationType = ToastActivationType.Background
-                        }
-                    }
-                }
-            };
-
-            // Create the toast notification
-            var toastNotif = new ToastNotification(toastContent.GetXml());
-
-            // And send the notification
-            ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
-        }
-
         private void EditTerminalApplications_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             LaunchTerminalsConfigFile();
