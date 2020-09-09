@@ -1189,6 +1189,14 @@
           <source>Are you sure you want to delete these {0} items?</source>
           <target state="translated">Möchten Sie diese {0} Elemente wirklich löschen?</target>
         </trans-unit>
+        <trans-unit id="VerticalTabViewAddTab.Text" translate="yes" xml:space="preserve">
+          <source>Add tab</source>
+          <target state="translated">Neuen Tab hinzufügen</target>
+        </trans-unit>
+        <trans-unit id="VerticalTabViewHeader.Text" translate="yes" xml:space="preserve">
+          <source>Open tabs</source>
+          <target state="translated">Offene Tabs</target>
+        </trans-unit>
       </group>
     </body>
   </file>

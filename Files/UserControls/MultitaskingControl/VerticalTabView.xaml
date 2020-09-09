@@ -582,7 +582,7 @@
                                     <Button.Content>
                                         <StackPanel Orientation="Horizontal" Spacing="8">
                                             <FontIcon FontSize="14" Glyph="&#xE710;" />
-                                            <TextBlock x:Uid="VerticalTabViewerAddTab" Text="Add tab" />
+                                            <TextBlock x:Uid="VerticalTabViewAddTab" Text="Add tab" />
                                         </StackPanel>
                                     </Button.Content>
                                 </Button>
