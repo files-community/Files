@@ -2,7 +2,6 @@
     x:Class="Files.Dialogs.RestartDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Files.Dialogs"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
@@ -20,34 +19,39 @@
                         </Grid.RowDefinitions>
 
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
+                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
                         <TextBlock
                             x:Name="TextBlock"
-                            Grid.RowSpan="2" 
-                            Text="Do you like it?"
+                            x:Uid="RestartNotificationText"
+                            Grid.RowSpan="2"
+                            TextWrapping="WrapWholeWords"
                             VerticalAlignment="Center" />
 
                         <StackPanel
                             x:Name="ButtonsStackPanel"
-                            Grid.RowSpan="2" Grid.Column="1" 
+                            Grid.RowSpan="2"
+                            Grid.Column="1"
+                            Margin="20,0,0,0"
                             Orientation="Horizontal"
                             VerticalAlignment="Center">
                             
                             <Button
                                 x:Name="YesButton"
-                                Content="Yes"
-                                Width="150"
-                                Height="30" />
+                                x:Uid="ButtonYes"
+                                Width="70"
+                                Height="30"
+                                Click="YesButton_Click" />
                             
                             <Button
                                 x:Name="NoButton"
-                                Content="No"
-                                Width="150"
+                                x:Uid="ButtonNo"
+                                Width="70"
                                 Height="30"
-                                Margin="10 0 0 0" />
+                                Margin="10,0,0,0"
+                                Click="NoButton_Click" />
                         </StackPanel>
                     </Grid>
                 </Grid>
