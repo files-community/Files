@@ -184,8 +184,9 @@
           <target state="translated">Files UWP</target>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
-          <source>License:</source>
-          <target state="translated">Licença:</target>
+          <source>License</source>
+          <target state="needs-review-translation">Licença:</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
           <source>Special thanks to:</source>
@@ -196,20 +197,23 @@
           <target state="translated">Enviar Comentários</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
-          <source>Send the developers an issue report with more information</source>
-          <target state="translated">Envie aos desenvolvedores um relatório de problemas com mais informações</target>
+          <source>Send the developers an issue report with detailed information</source>
+          <target state="needs-review-translation">Envie aos desenvolvedores um relatório de problemas com mais informações</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
-          <source>Third Party Licenses:</source>
-          <target state="translated">Licenças de Terceiros:</target>
+          <source>Third Party Licenses</source>
+          <target state="needs-review-translation">Licenças de Terceiros:</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Sobre</target>
         </trans-unit>
         <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
-          <source>Website:</source>
-          <target state="translated">Site da web:</target>
+          <source>Website</source>
+          <target state="needs-review-translation">Site da web:</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>
@@ -476,8 +480,9 @@
           <target state="translated">Propriedades</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
-          <source>QuickLook</source>
-          <target state="translated">QuickLook</target>
+          <source>QuickLook:</source>
+          <target state="needs-review-translation">QuickLook</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="WelcomeDialog.Title" translate="yes" xml:space="preserve">
           <source>Welcome to Files!</source>
@@ -1163,6 +1168,10 @@
         <trans-unit id="ConfirmDeleteDialogDeleteMultipleItems.Text" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete these {0} items?</source>
           <target state="new">Are you sure you want to delete these {0} items?</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAs.Text" translate="yes" xml:space="preserve">
+          <source>Set as</source>
+          <target state="new">Set as</target>
         </trans-unit>
       </group>
     </body>

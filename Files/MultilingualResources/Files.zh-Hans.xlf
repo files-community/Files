@@ -56,8 +56,9 @@
           <target state="translated">文件管理 UWP</target>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
-          <source>License:</source>
-          <target state="translated">许可证:</target>
+          <source>License</source>
+          <target state="needs-review-translation">许可证:</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
           <source>Special thanks to:</source>
@@ -68,11 +69,12 @@
           <target state="translated">提交反馈</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
-          <source>Send the developers an issue report with more information</source>
-          <target state="translated">向开发者报告问题，并提供更多信息</target>
+          <source>Send the developers an issue report with detailed information</source>
+          <target state="needs-review-translation">向开发者报告问题，并提供更多信息</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
-          <source>Third Party Licenses:</source>
+          <source>Third Party Licenses</source>
           <target state="needs-review-translation">第三方许可证</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
@@ -81,8 +83,9 @@
           <target state="translated">关于</target>
         </trans-unit>
         <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
-          <source>Website:</source>
-          <target state="translated">网站:</target>
+          <source>Website</source>
+          <target state="needs-review-translation">网站:</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>
@@ -329,8 +332,9 @@
           <target state="translated">属性</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
-          <source>QuickLook</source>
-          <target state="translated">QuickLook 预览</target>
+          <source>QuickLook:</source>
+          <target state="needs-review-translation">QuickLook 预览</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewWindow.Text" translate="yes" xml:space="preserve">
           <source>New Window</source>
@@ -1170,6 +1174,10 @@
         <trans-unit id="ConfirmDeleteDialogDeleteMultipleItems.Text" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete these {0} items?</source>
           <target state="new">Are you sure you want to delete these {0} items?</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAs.Text" translate="yes" xml:space="preserve">
+          <source>Set as</source>
+          <target state="new">Set as</target>
         </trans-unit>
       </group>
     </body>

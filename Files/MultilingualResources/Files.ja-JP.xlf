@@ -176,7 +176,7 @@
           <target state="translated">Files UWP</target>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
-          <source>License:</source>
+          <source>License</source>
           <target state="needs-review-translation">ライセンス：</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
@@ -189,11 +189,12 @@
           <target state="translated">フィードバックを送信</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
-          <source>Send the developers an issue report with more information</source>
-          <target state="translated">バグレポートを開発者に送信</target>
+          <source>Send the developers an issue report with detailed information</source>
+          <target state="needs-review-translation">バグレポートを開発者に送信</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
-          <source>Third Party Licenses:</source>
+          <source>Third Party Licenses</source>
           <target state="needs-review-translation">サードパーティライセンス</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
@@ -202,7 +203,7 @@
           <target state="translated">について</target>
         </trans-unit>
         <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
-          <source>Website:</source>
+          <source>Website</source>
           <target state="needs-review-translation">ウェブサイト：</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
@@ -470,8 +471,9 @@
           <target state="translated">プロパティ</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
-          <source>QuickLook</source>
-          <target state="translated">QuickLook</target>
+          <source>QuickLook:</source>
+          <target state="needs-review-translation">QuickLook</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="WelcomeDialog.Title" translate="yes" xml:space="preserve">
           <source>Welcome to Files!</source>
@@ -1172,6 +1174,10 @@
         <trans-unit id="ConfirmDeleteDialogDeleteMultipleItems.Text" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete these {0} items?</source>
           <target state="new">Are you sure you want to delete these {0} items?</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAs.Text" translate="yes" xml:space="preserve">
+          <source>Set as</source>
+          <target state="new">Set as</target>
         </trans-unit>
       </group>
     </body>

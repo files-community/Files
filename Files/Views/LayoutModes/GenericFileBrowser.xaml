@@ -277,26 +277,30 @@
                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF107;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-            <MenuFlyoutItem
-                x:Name="SetAsDesktopBackgroundItem"
-                x:Uid="BaseLayoutItemContextFlyoutSetAsDesktopBackground"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SetAsDesktopBackgroundItem_Click}"
-                Text="Set as desktop background"
+            <MenuFlyoutSubItem
+                x:Uid="BaseLayoutItemContextFlyoutSetAs"
+                Text="Set as"
                 Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemImage, Mode=OneWay}">
-                <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEC16;" />
-                </MenuFlyoutItem.Icon>
-            </MenuFlyoutItem>
-            <MenuFlyoutItem
-                x:Name="SetAsLockscreenBackgroundItem"
-                x:Uid="BaseLayoutItemContextFlyoutSetAsLockscreenBackground"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SetAsLockscreenBackgroundItem_Click}"
-                Text="Set as lockscreen background"
-                Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemImage, Mode=OneWay}">
-                <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF103;" />
-                </MenuFlyoutItem.Icon>
-            </MenuFlyoutItem>
+                <MenuFlyoutItem
+                    x:Name="SetAsDesktopBackgroundItem"
+                    x:Uid="BaseLayoutItemContextFlyoutSetAsDesktopBackground"
+                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SetAsDesktopBackgroundItem_Click}"
+                    Text="Set as desktop background">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEC16;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
+                    x:Name="SetAsLockscreenBackgroundItem"
+                    x:Uid="BaseLayoutItemContextFlyoutSetAsLockscreenBackground"
+                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SetAsLockscreenBackgroundItem_Click}"
+                    Text="Set as lockscreen background">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF103;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+            </MenuFlyoutSubItem>
+
             <MenuFlyoutItem
                 x:Name="RunAsAdmin"
                 x:Uid="BaseLayoutContextFlyoutRunAsAdmin"

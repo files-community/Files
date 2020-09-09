@@ -183,7 +183,7 @@
           <target state="new">Files UWP</target>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
-          <source>License:</source>
+          <source>License</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">רשיון</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
@@ -196,19 +196,19 @@
           <target state="translated" state-qualifier="tm-suggestion">שלח משוב</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
-          <source>Send the developers an issue report with more information</source>
-          <target state="new">Send the developers an issue report with more information</target>
+          <source>Send the developers an issue report with detailed information</source>
+          <target state="new">Send the developers an issue report with detailed information</target>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
-          <source>Third Party Licenses:</source>
-          <target state="new">Third Party Licenses:</target>
+          <source>Third Party Licenses</source>
+          <target state="new">Third Party Licenses</target>
         </trans-unit>
         <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated" state-qualifier="tm-suggestion">אודות</target>
         </trans-unit>
         <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
-          <source>Website:</source>
+          <source>Website</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">אתר אינטרנט</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
@@ -477,8 +477,8 @@
           <target state="translated" state-qualifier="tm-suggestion">מאפיינים</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
-          <source>QuickLook</source>
-          <target state="new">QuickLook</target>
+          <source>QuickLook:</source>
+          <target state="new">QuickLook:</target>
         </trans-unit>
         <trans-unit id="WelcomeDialog.Title" translate="yes" xml:space="preserve">
           <source>Welcome to Files!</source>
@@ -1164,6 +1164,10 @@
         <trans-unit id="ConfirmDeleteDialogDeleteMultipleItems.Text" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete these {0} items?</source>
           <target state="new">Are you sure you want to delete these {0} items?</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAs.Text" translate="yes" xml:space="preserve">
+          <source>Set as</source>
+          <target state="new">Set as</target>
         </trans-unit>
       </group>
     </body>
