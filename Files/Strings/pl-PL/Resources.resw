@@ -174,21 +174,6 @@
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>Nowa karta</value>
   </data>
-  <data name="ExtractFilesDialog.Title" xml:space="preserve">
-    <value>Wypakuj skompresowany plik</value>
-  </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>Anuluj</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Wypakuj</value>
-  </data>
-  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
-    <value>Wybierz lokalizację do wypakowania skompresowanego archiwum. Będziesz musiał pozostać w bieżącym folderze, dopóki proces nie zostanie ukończony. Zostanie otwarta nowa karta z wyodrębnionymi elementami.</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>Przeglądaj</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sortuj według</value>
   </data>
@@ -656,9 +641,6 @@
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>Usuwanie plików</value>
-  </data>
-  <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>Wypakowywanie plików</value>
   </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
     <value>Wklejanie plików</value>
