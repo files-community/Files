@@ -858,4 +858,7 @@
   <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
     <value>¿Está seguro que desea eliminar estos {0} elementos?</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+    <value>Establecer como</value>
+  </data>
 </root>
