@@ -136,10 +136,9 @@
 
                     <ToggleSwitch x:Name="ContextMenuToggleSwitch" IsOn="{x:Bind AppSettings.ShowAllContextMenuItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
-
-                <dialogs:RestartDialog/>
-
             </StackPanel>
         </ScrollViewer>
+
+        <dialogs:RestartDialog x:Name="RestartDialog"/>
     </Grid>
 </Page>
