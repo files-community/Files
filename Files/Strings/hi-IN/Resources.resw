@@ -30,15 +30,6 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>नई विंडो में खोलें</value>
   </data>
-  <data name="ExtractFilesDialog.Title" xml:space="preserve">
-    <value>संकुचित संग्रह को निकालें</value>
-  </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>रद्द करें</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>निकालें</value>
-  </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>नया टैब</value>
   </data>
@@ -83,12 +74,6 @@
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>वस्तु का नाम</value>
-  </data>
-  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
-    <value>इस संकुचित संग्रह को निकालने के लिए एक स्थान चुनें। जब तक हम नहीं कर लेते तब तक आपको वर्तमान फ़ोल्डर में रहना होगा। निकाले गए आइटम्स के साथ एक नया टैब खुल जाएगा।</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>ब्राउज़</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
     <value>मार्ग:</value>
@@ -620,9 +605,6 @@
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>फ़ाइलों को हटाना</value>
-  </data>
-  <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>फाइलें निकालना</value>
   </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
     <value>फाइलें चिपकाने</value>

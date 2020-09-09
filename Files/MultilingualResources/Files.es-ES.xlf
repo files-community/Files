@@ -55,8 +55,8 @@
           <target state="translated">Files UWP</target>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
-          <source>License:</source>
-          <target state="translated">Licencia:</target>
+          <source>License</source>
+          <target state="translated">Licencia</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
           <source>Special thanks to:</source>
@@ -67,20 +67,20 @@
           <target state="translated">Enviar opiniones</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
-          <source>Send the developers an issue report with more information</source>
-          <target state="translated">Envía un informe de fallos a los desarrolladores con más información</target>
+          <source>Send the developers an issue report with detailed information</source>
+          <target state="translated">Envía un informe de fallos a los desarrolladores con información detallada</target>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
-          <source>Third Party Licenses:</source>
-          <target state="translated">Licencias de terceros:</target>
+          <source>Third Party Licenses</source>
+          <target state="translated">Licencias de terceros</target>
         </trans-unit>
         <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Acerca de Files UWP</target>
         </trans-unit>
         <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
-          <source>Website:</source>
-          <target state="translated">Sitio web:</target>
+          <source>Website</source>
+          <target state="translated">Sitio web</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>
@@ -222,26 +222,6 @@
           <source>New Tab</source>
           <target state="translated">Nueva Pestaña</target>
         </trans-unit>
-        <trans-unit id="ExtractFilesDialog.Title" translate="yes" xml:space="preserve">
-          <source>Extract Compressed Archive</source>
-          <target state="translated">Extraer Archivo Comprimido</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialog.CloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">Cancelar</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Extract</source>
-          <target state="translated">Extraer</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialogDescription.Text" translate="yes" xml:space="preserve">
-          <source>Pick a location to extract this compressed archive to. You'll need to stay in the current folder until we're done. A new tab will open up with the extracted items.</source>
-          <target state="translated">Elija una ubicación para extraer este archivo comprimido. Deberá permanecer en la carpeta actual hasta que hayamos terminado. Se abrirá una nueva pestaña con los elementos extraídos.</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialogBrowseButton.Content" translate="yes" xml:space="preserve">
-          <source>Browse</source>
-          <target state="translated">Examinar</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
           <source>Sort by</source>
           <target state="translated">Ordenar por</target>
@@ -316,7 +296,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" translate="yes" xml:space="preserve">
           <source>Set as desktop background</source>
-          <target state="translated">Establecer como fondo de escritorio</target>
+          <target state="translated">Fondo de escritorio</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutShare.Text" translate="yes" xml:space="preserve">
           <source>Share</source>
@@ -347,8 +327,8 @@
           <target state="translated">Propiedades</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
-          <source>QuickLook</source>
-          <target state="translated">QuickLook</target>
+          <source>QuickLook:</source>
+          <target state="translated">QuickLook:</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewWindow.Text" translate="yes" xml:space="preserve">
           <source>New Window</source>
@@ -620,7 +600,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" translate="yes" xml:space="preserve">
           <source>Set as lockscreen background</source>
-          <target state="translated">Establecer como fondo de pantalla de bloqueo</target>
+          <target state="translated">Fondo de pantalla de bloqueo</target>
         </trans-unit>
         <trans-unit id="StatusBarControlGridViewLarge.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Large)</source>
@@ -938,10 +918,6 @@
           <source>Deleting files</source>
           <target state="translated">Eliminando archivos</target>
         </trans-unit>
-        <trans-unit id="ExtractInProgress.Title" translate="yes" xml:space="preserve">
-          <source>Extracting files</source>
-          <target state="translated">Extrayendo archivos</target>
-        </trans-unit>
         <trans-unit id="PasteInProgress.Title" translate="yes" xml:space="preserve">
           <source>Pasting files</source>
           <target state="translated">Pegando archivos</target>
@@ -1185,6 +1161,10 @@
         <trans-unit id="ConfirmDeleteDialogDeleteMultipleItems.Text" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete these {0} items?</source>
           <target state="translated">¿Está seguro que desea eliminar estos {0} elementos?</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAs.Text" translate="yes" xml:space="preserve">
+          <source>Set as</source>
+          <target state="translated">Establecer como</target>
         </trans-unit>
       </group>
     </body>

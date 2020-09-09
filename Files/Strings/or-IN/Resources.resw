@@ -30,15 +30,6 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>ନୂଆ ୱିଣ୍ଡୋରେ ଖୋଲ</value>
   </data>
-  <data name="ExtractFilesDialog.Title" xml:space="preserve">
-    <value>ସଙ୍କୋଚିତ ଅଭିଲେଖାଗାର ବାହାର କରନ୍ତୁ</value>
-  </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>ବାତିଲ୍ କର</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>ବାହାର କର</value>
-  </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>ନୂତନ ଟ୍ୟାବ୍</value>
   </data>
@@ -83,12 +74,6 @@
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>ଆଇଟମ୍ ନାମ</value>
-  </data>
-  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
-    <value>ଏହି ସଙ୍କୋଚିତ ଅଭିଲେଖକୁ ବାହାର କରିବା ପାଇଁ ଏକ ସ୍ଥାନ ବାଛନ୍ତୁ | ଆମେ ଶେଷ ନହେବା ପର୍ଯ୍ୟନ୍ତ ଆପଣଙ୍କୁ ସାମ୍ପ୍ରତିକ ଫୋଲ୍ଡରରେ ରହିବାକୁ ପଡିବ | ବାହାର କରାଯାଇଥିବା ଆଇଟମ୍ ସହିତ ଏକ ନୂତନ ଟ୍ୟାବ୍ ଖୋଲିବ |</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>ବ୍ରାଉଜ୍ କର</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
     <value>ପଥ:</value>
@@ -620,9 +605,6 @@
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>ଫାଇଲଗୁଡିକ ବିଲୋପ କର</value>
-  </data>
-  <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>ଫାଇଲଗୁଡିକ ବାହାର କରାଯାଉଛି</value>
   </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
     <value>ଫାଇଲଗୁଡିକ ଲେପନ କରାଯାଉଛି</value>
