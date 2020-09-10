@@ -430,7 +430,6 @@ namespace Files
                         {
                             (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
-                            UnloadMenuFlyoutItemByName("UnzipItem");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
                             UnloadMenuFlyoutItemByName("CreateShortcut");
@@ -442,14 +441,12 @@ namespace Files
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
                             (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                            (this.FindName("UnzipItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                         }
                         else if (SelectedItem.FileExtension.Equals(".exe", StringComparison.OrdinalIgnoreCase)
                             || SelectedItem.FileExtension.Equals(".bat", StringComparison.OrdinalIgnoreCase))
                         {
                             (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
-                            UnloadMenuFlyoutItemByName("UnzipItem");
                             (this.FindName("RunAsAdmin") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             (this.FindName("RunAsAnotherUser") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
@@ -458,7 +455,6 @@ namespace Files
                         {
                             UnloadMenuFlyoutItemByName("OpenItem");
                             UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
-                            UnloadMenuFlyoutItemByName("UnzipItem");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             (this.FindName("RunAsAnotherUser") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
@@ -469,7 +465,6 @@ namespace Files
                             || SelectedItem.FileExtension.Equals(".msixbundle", StringComparison.OrdinalIgnoreCase))
                         {
                             (this.FindName("OpenItemWithAppPicker") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                            UnloadMenuFlyoutItemByName("UnzipItem");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
                             (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
@@ -478,7 +473,6 @@ namespace Files
                         {
                             (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             (this.FindName("OpenItemWithAppPicker") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                            UnloadMenuFlyoutItemByName("UnzipItem");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
                             (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
@@ -489,7 +483,6 @@ namespace Files
                 {
                     UnloadMenuFlyoutItemByName("OpenItem");
                     UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
-                    UnloadMenuFlyoutItemByName("UnzipItem");
                     UnloadMenuFlyoutItemByName("CreateShortcut");
                 }
             }
@@ -522,13 +515,11 @@ namespace Files
                     //this.FindName("SidebarPinItem");
                     //this.FindName("OpenInNewTab");
                     //this.FindName("OpenInNewWindowItem");
-                    UnloadMenuFlyoutItemByName("UnzipItem");
                 }
                 else if (SelectedItems.Count > 5)
                 {
                     UnloadMenuFlyoutItemByName("OpenInNewTab");
                     UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
-                    UnloadMenuFlyoutItemByName("UnzipItem");
                 }
             }
 

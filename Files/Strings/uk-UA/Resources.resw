@@ -24,15 +24,6 @@
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Остаточно видалити</value>
   </data>
-  <data name="ExtractFilesDialog.Title" xml:space="preserve">
-    <value>Розархівувати</value>
-  </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>Скасувати</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Розархівувати</value>
-  </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>Створити вкладку</value>
   </data>
@@ -74,12 +65,6 @@
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Ім’я</value>
-  </data>
-  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
-    <value>Виберіть місце для вилучення цього стисненого архіву. Вам потрібно буде залишитися в поточній папці, поки ми не закінчимо. З відкритими елементами відкриється нова вкладка.</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>Огляд</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
     <value>Шлях:</value>
@@ -647,9 +632,6 @@
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>Видалення файлів</value>
-  </data>
-  <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>Видобування файлів</value>
   </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
     <value>Вставка файлів</value>

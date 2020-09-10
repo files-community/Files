@@ -30,15 +30,6 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>புதியச் சாளரத்தில் திற</value>
   </data>
-  <data name="ExtractFilesDialog.Title" xml:space="preserve">
-    <value>சுருக்கப்பட்ட காப்பகத்தை பிரித்தெடு</value>
-  </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>இரத்து</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>பிரித்தெடு</value>
-  </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>புதியத் தாவல்</value>
   </data>
@@ -83,12 +74,6 @@
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>உருப்படிப் பெயர்</value>
-  </data>
-  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
-    <value>இந்த சுருக்கப்பட்ட காப்பகத்தை பிரித்தெடுப்பதற்கு ஒரு இருப்பிடத்தைத் தேர்ந்தெடுக்கவும். இது முடியும் வரை நீங்கள் நடப்பு கோப்புறையில் இருக்க வேண்டும். பிரித்தெடுக்கப்பட்ட உருப்படிகளுடன் ஒரு புதிய தாவல் திறக்கும்.</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>உலாவு</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
     <value>பாதை:</value>
@@ -650,9 +635,6 @@
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>கோப்புகளை நீக்குகிறது...</value>
-  </data>
-  <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>கோப்புகளைப் பிரித்தெடுத்தல்</value>
   </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
     <value>கோப்புகளை ஒட்டுகிறது</value>

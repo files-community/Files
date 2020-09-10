@@ -174,21 +174,6 @@
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>Neuer Tab</value>
   </data>
-  <data name="ExtractFilesDialog.Title" xml:space="preserve">
-    <value>Archiv entpacken</value>
-  </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>Abbrechen</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Entpacken</value>
-  </data>
-  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
-    <value>Wähle aus wohin das Archiv entpackt werden soll. Sie müssen im derzeitigen Ordner bleiben bis das Entpacken beended wurde. Ein neuer Tab mit den entpackten Dateien wird anschließend geöffnet.</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>Durchsuchen</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sortieren nach</value>
   </data>
@@ -656,9 +641,6 @@
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>Dateien werden gelöscht</value>
-  </data>
-  <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>Dateien werden extrahiert</value>
   </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
     <value>Dateien werden kopiert</value>

@@ -30,15 +30,6 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>新しいウィンドウで開きます</value>
   </data>
-  <data name="ExtractFilesDialog.Title" xml:space="preserve">
-    <value>圧縮ドキュメントを抽出する</value>
-  </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>キャンセル</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>抽出</value>
-  </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>新しいタブ</value>
   </data>
@@ -83,12 +74,6 @@
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>名前</value>
-  </data>
-  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
-    <value>この圧縮アーカイブを抽出する場所を選択してください。 抽出が完了する前にこのページを離れないでください。完了すると、抽出されたファイルを示す新しいタブページが開きます。</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>ブラウズ</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
     <value>パス：</value>
@@ -647,9 +632,6 @@
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>ファイルを削除しています</value>
-  </data>
-  <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>ファイルを展開しています...</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>ロック解除</value>

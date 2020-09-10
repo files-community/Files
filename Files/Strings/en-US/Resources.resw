@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -135,15 +135,6 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>Open in new window</value>
   </data>
-  <data name="ExtractFilesDialog.Title" xml:space="preserve">
-    <value>Extract Compressed Archive</value>
-  </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Extract</value>
-  </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>New Tab</value>
   </data>
@@ -188,12 +179,6 @@
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Item Name</value>
-  </data>
-  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
-    <value>Pick a location to extract this compressed archive to. You'll need to stay in the current folder until we're done. A new tab will open up with the extracted items.</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>Browse</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
     <value>Path:</value>
@@ -265,7 +250,7 @@
     <value>Files UWP</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>License:</value>
+    <value>License</value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Special thanks to:</value>
@@ -274,16 +259,16 @@
     <value>Submit Feedback</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Send the developers an issue report with more information</value>
+    <value>Send the developers an issue report with detailed information</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Third Party Licenses:</value>
+    <value>Third Party Licenses</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>About</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Website:</value>
+    <value>Website</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
     <value>Acrylic sidebar</value>
@@ -484,7 +469,7 @@
     <value>Properties</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>QuickLook</value>
+    <value>QuickLook:</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Welcome to Files!</value>
@@ -725,9 +710,6 @@
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>Deleting files</value>
-  </data>
-  <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>Extracting files</value>
   </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
     <value>Pasting files</value>
@@ -1019,5 +1001,8 @@
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Multitasking</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+    <value>Set as</value>
   </data>
 </root>

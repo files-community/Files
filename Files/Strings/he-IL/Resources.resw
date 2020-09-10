@@ -30,12 +30,6 @@
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>פתח בחלון חדש</value>
   </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>ביטול</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>חלץ</value>
-  </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>כרטיסיה חדשה</value>
   </data>
@@ -77,9 +71,6 @@
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>שם פריט</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>צפייה</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
     <value>נתיב:</value>
@@ -431,9 +422,6 @@
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>מוחק קבצים</value>
-  </data>
-  <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>מחלץ קבצים.</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
     <value>אישור</value>

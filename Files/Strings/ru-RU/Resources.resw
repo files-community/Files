@@ -171,12 +171,6 @@
   <data name="SidebarVideos" xml:space="preserve">
     <value>Видео</value>
   </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>Отмена</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Распаковать</value>
-  </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>Новая вкладка</value>
   </data>
@@ -191,12 +185,6 @@
   </data>
   <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
     <value>Открыть в терминале...</value>
-  </data>
-  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
-    <value>Выберите куда распаковать архив. Вам нужно оставаться в текущей папке, пока операция выполняется. Так же будет открыта новая вкладка с распакованными элементами.</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>Просматривать</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Введите путь</value>
@@ -281,9 +269,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Свойства</value>
-  </data>
-  <data name="ExtractFilesDialog.Title" xml:space="preserve">
-    <value>Извлечь архив</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
     <value>Папку</value>
@@ -707,9 +692,6 @@
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>Удаление файлов</value>
-  </data>
-  <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>Извлечение файлов</value>
   </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
     <value>Вставка файлов</value>

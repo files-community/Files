@@ -174,21 +174,6 @@
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>Nieuw tabblad</value>
   </data>
-  <data name="ExtractFilesDialog.Title" xml:space="preserve">
-    <value>Gecomprimeerd archief uitpakken</value>
-  </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>Annuleren</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Uitpakken</value>
-  </data>
-  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
-    <value>Kies een locatie om dit gecomprimeerde archief uit te pakken. U moet in de huidige map blijven totdat we klaar zijn. Er wordt een nieuw tabblad geopend met de uitgepakte items.</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>Bladeren</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sorteren op</value>
   </data>
@@ -656,9 +641,6 @@
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>Bestanden verwijderen</value>
-  </data>
-  <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>Bestanden uitpakken</value>
   </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
     <value>Bestanden plakken</value>
