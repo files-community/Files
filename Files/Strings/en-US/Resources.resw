@@ -989,6 +989,7 @@
   </data>
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
     <value>Open tabs</value>
+</data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Set as</value>
   </data>
