@@ -30,18 +30,6 @@
           <source>Open in new window</source>
           <target state="translated">新しいウィンドウで開きます</target>
         </trans-unit>
-        <trans-unit id="ExtractFilesDialog.Title" translate="yes" xml:space="preserve">
-          <source>Extract Compressed Archive</source>
-          <target state="translated">圧縮ドキュメントを抽出する</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialog.CloseButtonText" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="translated">キャンセル</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>Extract</source>
-          <target state="translated">抽出</target>
-        </trans-unit>
         <trans-unit id="NavigationToolbarNewTab.Text" translate="yes" xml:space="preserve">
           <source>New Tab</source>
           <target state="translated">新しいタブ</target>
@@ -101,14 +89,6 @@
         <trans-unit id="PropertiesItemFileName.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Item Name</source>
           <target state="translated">名前</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialogDescription.Text" translate="yes" xml:space="preserve">
-          <source>Pick a location to extract this compressed archive to. You'll need to stay in the current folder until we're done. A new tab will open up with the extracted items.</source>
-          <target state="translated">この圧縮アーカイブを抽出する場所を選択してください。 抽出が完了する前にこのページを離れないでください。完了すると、抽出されたファイルを示す新しいタブページが開きます。</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialogBrowseButton.Content" translate="yes" xml:space="preserve">
-          <source>Browse</source>
-          <target state="translated">ブラウズ</target>
         </trans-unit>
         <trans-unit id="PropertiesItemPath.Text" translate="yes" xml:space="preserve">
           <source>Path:</source>
@@ -196,7 +176,7 @@
           <target state="translated">Files UWP</target>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
-          <source>License:</source>
+          <source>License</source>
           <target state="needs-review-translation">ライセンス：</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
@@ -209,11 +189,12 @@
           <target state="translated">フィードバックを送信</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
-          <source>Send the developers an issue report with more information</source>
-          <target state="translated">バグレポートを開発者に送信</target>
+          <source>Send the developers an issue report with detailed information</source>
+          <target state="needs-review-translation">バグレポートを開発者に送信</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
-          <source>Third Party Licenses:</source>
+          <source>Third Party Licenses</source>
           <target state="needs-review-translation">サードパーティライセンス</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
@@ -222,7 +203,7 @@
           <target state="translated">について</target>
         </trans-unit>
         <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
-          <source>Website:</source>
+          <source>Website</source>
           <target state="needs-review-translation">ウェブサイト：</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
@@ -490,8 +471,9 @@
           <target state="translated">プロパティ</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
-          <source>QuickLook</source>
-          <target state="translated">QuickLook</target>
+          <source>QuickLook:</source>
+          <target state="needs-review-translation">QuickLook</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="WelcomeDialog.Title" translate="yes" xml:space="preserve">
           <source>Welcome to Files!</source>
@@ -877,10 +859,6 @@
           <source>Deleting files</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ファイルを削除しています</target>
         </trans-unit>
-        <trans-unit id="ExtractInProgress.Title" translate="yes" xml:space="preserve">
-          <source>Extracting files</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ファイルを展開しています...</target>
-        </trans-unit>
         <trans-unit id="PasteInProgress.Title" translate="yes" xml:space="preserve">
           <source>Pasting files</source>
           <target state="new">Pasting files</target>
@@ -1220,6 +1198,10 @@
         <trans-unit id="SettingsNavMultitasking.Content" translate="yes" xml:space="preserve">
           <source>Multitasking</source>
           <target state="new">Multitasking</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAs.Text" translate="yes" xml:space="preserve">
+          <source>Set as</source>
+          <target state="new">Set as</target>
         </trans-unit>
       </group>
     </body>
