@@ -416,9 +416,9 @@ namespace Files.Views
             args.Handled = true;
         }
 
-        private void horizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
+        private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
         {
-            App.MultitaskingControl = horizontalMultitaskingControl;
+            App.MultitaskingControl = HorizontalMultitaskingControl;
         }
     }
 }

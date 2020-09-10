@@ -81,31 +81,31 @@ namespace Files.Controls
             set => SetProperty(ref _LeftMarginLoaded, value);
         }
 
-        private bool _isPasteEnabled = false;
+        private bool _IsPasteEnabled = false;
 
         public bool IsPasteEnabled
         {
-            get => _isPasteEnabled;
-            set => SetProperty(ref _isPasteEnabled, value);
+            get => _IsPasteEnabled;
+            set => SetProperty(ref _IsPasteEnabled, value);
         }
 
-        private bool _isHorizontalTabStripVisible = App.AppSettings.IsMultitaskingExperienceAdaptive ? !IsWindowResizedToCompactWidth() : App.AppSettings.IsHorizontalTabStripEnabled;
+        private bool _IsHorizontalTabStripVisible = App.AppSettings.IsMultitaskingExperienceAdaptive ? !IsWindowResizedToCompactWidth() : App.AppSettings.IsHorizontalTabStripEnabled;
 
         public bool IsHorizontalTabStripVisible
         {
-            get => _isHorizontalTabStripVisible;
-            set => SetProperty(ref _isHorizontalTabStripVisible, value);
+            get => _IsHorizontalTabStripVisible;
+            set => SetProperty(ref _IsHorizontalTabStripVisible, value);
         }
 
-        private bool _isVerticalTabFlyoutVisible = App.AppSettings.IsMultitaskingExperienceAdaptive ? IsWindowResizedToCompactWidth() : App.AppSettings.IsVerticalTabFlyoutEnabled;
+        private bool _IsVerticalTabFlyoutVisible = App.AppSettings.IsMultitaskingExperienceAdaptive ? IsWindowResizedToCompactWidth() : App.AppSettings.IsVerticalTabFlyoutEnabled;
 
         public bool IsVerticalTabFlyoutVisible
         {
-            get => _isVerticalTabFlyoutVisible;
-            set => SetProperty(ref _isVerticalTabFlyoutVisible, value);
+            get => _IsVerticalTabFlyoutVisible;
+            set => SetProperty(ref _IsVerticalTabFlyoutVisible, value);
         }
 
-        private bool _isWindowCompactSize = IsWindowResizedToCompactWidth();
+        private bool _IsWindowCompactSize = IsWindowResizedToCompactWidth();
 
         public static bool IsWindowResizedToCompactWidth()
         {
@@ -114,10 +114,10 @@ namespace Files.Controls
 
         public bool IsWindowCompactSize
         {
-            get => _isWindowCompactSize;
+            get => _IsWindowCompactSize;
             set
             {
-                SetProperty(ref _isWindowCompactSize, value);
+                SetProperty(ref _IsWindowCompactSize, value);
                 if (value)
                 {
                     IsHorizontalTabStripVisible = false;
