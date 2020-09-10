@@ -34,7 +34,6 @@
                         <RadioButton
                             x:Name="AdaptiveMultToggle"
                             x:Uid="SettingsMultitaskingAdaptive"
-                            Checked="AdaptiveMultToggle_Checked"
                             Content="Adaptive (Recommended)"
                             IsChecked="{x:Bind AppSettings.IsMultitaskingExperienceAdaptive, Mode=OneWay}" />
                         <TextBlock
@@ -44,12 +43,11 @@
                             Foreground="{ThemeResource SystemColorGrayTextColor}"
                             Text="Selects the best multitasking control based on how the app window is resized. When the window is small, you'll notice the horizontal tab strip is collapsed into a flyout on the navigation toolbar."
                             TextWrapping="WrapWholeWords" />
-                    </StackPanel>
-                    <StackPanel Orientation="Vertical">
+
                         <RadioButton
                             x:Name="HorizontalMultToggle"
                             x:Uid="SettingsMultitaskingHorizontal"
-                            Checked="HorizontalMultToggle_Checked"
+                            Margin="0,18,0,0"
                             Content="Horizontal"
                             IsChecked="{x:Bind AppSettings.IsHorizontalTabStripEnabled, Mode=OneWay}" />
                         <TextBlock
@@ -59,12 +57,11 @@
                             Foreground="{ThemeResource SystemColorGrayTextColor}"
                             Text="Always hides the vertical multitasking flyout from the navigation toolbar, and shows the traditional horizontal tabstrip on the app window. This is suited for users who need to keep track of every open app instance at all times."
                             TextWrapping="WrapWholeWords" />
-                    </StackPanel>
-                    <StackPanel Orientation="Vertical">
+
                         <RadioButton
                             x:Name="VerticalMultToggle"
                             x:Uid="SettingsMultitaskingVertical"
-                            Checked="VerticalMultToggle_Checked"
+                            Margin="0,18,0,0"
                             Content="Vertical"
                             IsChecked="{x:Bind AppSettings.IsVerticalTabFlyoutEnabled, Mode=OneWay}" />
                         <TextBlock
