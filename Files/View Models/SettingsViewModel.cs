@@ -439,55 +439,19 @@ namespace Files.View_Models
         public bool IsMultitaskingExperienceAdaptive
         {
             get => Get(true);
-            set 
-            {
-                Set(value);
-                if (value)
-                {
-                    Window.Current.SizeChanged += Current_SizeChanged;
-                    if (App.InteractionViewModel.IsWindowCompactSize)
-                    {
-                        App.InteractionViewModel.IsVerticalTabFlyoutVisible = true;
-                        App.InteractionViewModel.IsHorizontalTabStripVisible = false;
-                    }
-                    else
-                    {
-                        App.InteractionViewModel.IsVerticalTabFlyoutVisible = false;
-                        App.InteractionViewModel.IsHorizontalTabStripVisible = true;
-                    }
-                }
-                else
-                {
-                    Window.Current.SizeChanged -= Current_SizeChanged;
-                }
-            }
-        }
-
-        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
-        {
-            App.InteractionViewModel.IsWindowCompactSize = InteractionViewModel.IsWindowResizedToCompactWidth();
+            set => Set(value);
         }
 
         public bool IsVerticalTabFlyoutEnabled
         {
             get => Get(false);
-            set
-            {     
-                Set(value);
-                App.InteractionViewModel.IsVerticalTabFlyoutVisible = value;
-                App.InteractionViewModel.IsHorizontalTabStripVisible = !value;
-            }
+            set => Set(value);
         }
 
         public bool IsHorizontalTabStripEnabled
         {
             get => Get(false);
-            set 
-            { 
-                Set(value);
-                App.InteractionViewModel.IsVerticalTabFlyoutVisible = !value;
-                App.InteractionViewModel.IsHorizontalTabStripVisible = value;
-            }
+            set => Set(value);
         }
 
         public bool OpenNewTabPageOnStartup

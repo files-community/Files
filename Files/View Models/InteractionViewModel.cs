@@ -1,4 +1,5 @@
-﻿using Files.Views;
+﻿using Files.View_Models;
+using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using Windows.UI.Xaml;
@@ -8,6 +9,30 @@ namespace Files.Controls
 {
     public class InteractionViewModel : ObservableObject
     {
+        public SettingsViewModel AppSettings => App.AppSettings;
+
+        public InteractionViewModel()
+        {
+            IsWindowCompactSize = InteractionViewModel.IsWindowResizedToCompactWidth();
+
+            if (AppSettings.IsMultitaskingExperienceAdaptive)
+                if (IsWindowCompactSize)
+                {
+                    IsVerticalTabFlyoutVisible = true;
+                    IsHorizontalTabStripVisible = false;
+                }
+                else if (!IsWindowCompactSize)
+                {
+                    IsVerticalTabFlyoutVisible = false;
+                    IsHorizontalTabStripVisible = true;
+                }
+        }
+
+        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        {
+            App.InteractionViewModel.IsWindowCompactSize = InteractionViewModel.IsWindowResizedToCompactWidth();
+        }
+
         private bool _IsContentLoadingIndicatorVisible = false;
 
         public bool IsContentLoadingIndicatorVisible
@@ -83,8 +108,8 @@ namespace Files.Controls
         public bool IsWindowCompactSize
         {
             get => _isWindowCompactSize;
-            set 
-            { 
+            set
+            {
                 SetProperty(ref _isWindowCompactSize, value);
                 if (value)
                 {
