@@ -926,7 +926,7 @@
                 Width="34"
                 Height="30"
                 Margin="2,0,2,0"
-                x:Load="{x:Bind converters:MultiVisibilityConverter.Convert(AppSettings.IsVerticalTabFlyoutEnabled, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible), Mode=OneWay}"
+                x:Load="{x:Bind converters:MultiBooleanConverter.Convert(AppSettings.IsVerticalTabFlyoutEnabled, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible), Mode=OneWay}"
                 AllowDrop="True"
                 Background="Transparent"
                 Content="&#xF5ED;"

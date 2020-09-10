@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Data;
 
 namespace Files.Converters
 {
-    internal class MultiVisibilityConverter
+    internal class MultiBooleanConverter
     {
         public static Boolean Convert(bool a, bool b)
             => (a || b) ? true : false;
