@@ -257,10 +257,10 @@ namespace Files
             App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
             App.CurrentInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
 
-            await App.CurrentInstance.MultitaskingControl?.SetSelectedTabInfo(new DirectoryInfo(workingDir).Name, workingDir);
+            await App.MultitaskingControl?.SetSelectedTabInfo(new DirectoryInfo(workingDir).Name, workingDir);
             App.CurrentInstance.FilesystemViewModel.RefreshItems();
 
-            App.CurrentInstance.MultitaskingControl?.SelectionChanged();
+            App.MultitaskingControl?.SelectionChanged();
             MainPage.Clipboard_ContentChanged(null, null);
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = parameters;
         }
@@ -535,7 +535,7 @@ namespace Files
                 AssociatedInteractions = App.CurrentInstance.InteractionOperations;
                 if (App.CurrentInstance == null)
                 {
-                    App.CurrentInstance = VerticalTabView.GetCurrentSelectedTabInstance<ModernShellPage>();
+                    App.CurrentInstance = VerticalTabViewControl.GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
             }
         }

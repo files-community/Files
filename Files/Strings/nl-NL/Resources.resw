@@ -807,9 +807,6 @@
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Bestandslocatie openen</value>
   </data>
-  <data name="SettingsPreferencesShowHorizontalTabStrip.Text" xml:space="preserve">
-    <value>Toon horizontale tabbladen op de titelbalk</value>
-  </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Bijdragers</value>
   </data>
@@ -818,9 +815,6 @@
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
     <value>Ontdek wat er nieuw is in Files UWP</value>
-  </data>
-  <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
-    <value>Toon multitasking-flyout in de navigatiewerkbalk</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>Het item waarnaar wordt verwezen, is ongeldig of niet toegankelijk. {0} Foutmelding: {0} {1}</value>

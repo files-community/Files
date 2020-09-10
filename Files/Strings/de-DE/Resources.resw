@@ -819,9 +819,6 @@
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
     <value>DIeses Problem melden</value>
   </data>
-  <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
-    <value>Multitasking-Flyout in der Navigationstoolbar anzeigen</value>
-  </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Ungültiges Element</value>
   </data>

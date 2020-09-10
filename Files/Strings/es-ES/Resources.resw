@@ -49,7 +49,7 @@
     <value>Files UWP</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>Licencia</value>
+    <value>Licencia:</value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Agradecimientos especiales a:</value>
@@ -58,16 +58,16 @@
     <value>Enviar opiniones</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Envía un informe de fallos a los desarrolladores con información detallada</value>
+    <value>Envía un informe de fallos a los desarrolladores con más información</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Licencias de terceros</value>
+    <value>Licencias de terceros:</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Acerca de Files UWP</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Sitio web</value>
+    <value>Sitio web:</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
     <value>Barra lateral acrílica</value>
@@ -229,7 +229,7 @@
     <value>Abrir en nueva ventana</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
-    <value>Fondo de escritorio</value>
+    <value>Establecer como fondo de escritorio</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Compartir</value>
@@ -253,7 +253,7 @@
     <value>Propiedades</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>QuickLook:</value>
+    <value>QuickLook</value>
   </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
     <value>Nueva Ventana</value>
@@ -457,7 +457,7 @@
     <value>Reemplazar elemento existente</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
-    <value>Fondo de pantalla de bloqueo</value>
+    <value>Establecer como fondo de pantalla de bloqueo</value>
   </data>
   <data name="StatusBarControlGridViewLarge.Text" xml:space="preserve">
     <value>Iconos grandes</value>
@@ -786,9 +786,6 @@
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Abrir ubicación de archivo</value>
   </data>
-  <data name="SettingsPreferencesShowHorizontalTabStrip.Text" xml:space="preserve">
-    <value>Mostrar pestañas horizontales en la barra de título</value>
-  </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Contribuidores</value>
   </data>
@@ -800,9 +797,6 @@
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
     <value>Ver las novedades de esta versión</value>
-  </data>
-  <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
-    <value>Mostrar menú de pestañas en la barra de navegación</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>El elemento al que se hace referencia no es válido o es inaccesible.{0}Mensaje de error:{0}{1}</value>
@@ -857,8 +851,5 @@
   </data>
   <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
     <value>¿Está seguro que desea eliminar estos {0} elementos?</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
-    <value>Establecer como</value>
   </data>
 </root>

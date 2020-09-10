@@ -156,6 +156,7 @@
     <Compile Include="CommandLine\ParsedCommandType.cs" />
     <Compile Include="Controllers\IJson.cs" />
     <Compile Include="Controllers\SidebarPinnedController.cs" />
+    <Compile Include="Converters\MultiBooleanConverter.cs" />
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
     <Compile Include="DataModels\DefaultLanguageModel.cs" />
     <Compile Include="DataModels\SidebarPinnedModel.cs" />
@@ -241,8 +242,8 @@
       <DependentUpon>StatusCenter.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MultitaskingControl\TabItem.cs" />
-    <Compile Include="UserControls\MultitaskingControl\VerticalTabView.xaml.cs">
-      <DependentUpon>VerticalTabView.xaml</DependentUpon>
+    <Compile Include="UserControls\MultitaskingControl\VerticalTabViewControl.xaml.cs">
+      <DependentUpon>VerticalTabViewControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Widgets\LibraryCards.xaml.cs">
       <DependentUpon>LibraryCards.xaml</DependentUpon>
@@ -310,6 +311,9 @@
     </Compile>
     <Compile Include="Views\SettingsPages\Experimental.xaml.cs">
       <DependentUpon>Experimental.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsPages\Multitasking.xaml.cs">
+      <DependentUpon>Multitasking.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPages\Preferences.xaml.cs">
       <DependentUpon>Preferences.xaml</DependentUpon>
@@ -497,7 +501,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\MultitaskingControl\VerticalTabView.xaml">
+    <Page Include="UserControls\MultitaskingControl\VerticalTabViewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -570,6 +574,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SettingsPages\Experimental.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SettingsPages\Multitasking.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
