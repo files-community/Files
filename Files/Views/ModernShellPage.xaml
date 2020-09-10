@@ -162,7 +162,7 @@
                     <Grid
                         x:Name="SmallWindowTitlebar"
                         Height="30"
-                        x:Load="{x:Bind local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible, Mode=OneWay}"
+                        x:Load="{x:Bind AppSettings.IsVerticalTabFlyoutEnabled, Mode=OneWay}"
                         Background="Transparent"
                         Loaded="SmallWindowTitlebar_Loaded" />
 
