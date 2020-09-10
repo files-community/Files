@@ -982,7 +982,7 @@
     <value>Yes</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>You need to restart the application to apply the changed language settings. Do you want to restart the application now?</value>
+    <value>The application needs to be restarted in order to apply the langague setting, would you like to restart the app?</value>
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Cancel</value>
