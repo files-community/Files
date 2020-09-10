@@ -151,7 +151,7 @@
     <value>Text Document</value>
   </data>
   <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>Copy Path</value>
+    <value>Copy location</value>
   </data>
   <data name="NavigationToolbarPaste.Text" xml:space="preserve">
     <value>Paste</value>
@@ -986,5 +986,8 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Set as</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
+    <value>Copy location</value>
   </data>
 </root>

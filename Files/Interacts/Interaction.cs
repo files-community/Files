@@ -1174,6 +1174,18 @@ namespace Files.Interacts
             }
         }
 
+        public void CopyLocation_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            if (App.CurrentInstance.ContentPage != null)
+            {
+                Clipboard.Clear();
+                DataPackage data = new DataPackage();
+                data.SetText(CurrentInstance.ContentPage.SelectedItem.ItemPath);
+                Clipboard.SetContent(data);
+                Clipboard.Flush();
+            }
+        }
+
         private enum ImpossibleActionResponseTypes
         {
             Skip,
