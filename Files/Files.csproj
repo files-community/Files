@@ -242,8 +242,8 @@
       <DependentUpon>StatusCenter.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MultitaskingControl\TabItem.cs" />
-    <Compile Include="UserControls\MultitaskingControl\VerticalTabView.xaml.cs">
-      <DependentUpon>VerticalTabView.xaml</DependentUpon>
+    <Compile Include="UserControls\MultitaskingControl\VerticalTabViewControl.xaml.cs">
+      <DependentUpon>VerticalTabViewControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Widgets\LibraryCards.xaml.cs">
       <DependentUpon>LibraryCards.xaml</DependentUpon>
@@ -501,7 +501,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\MultitaskingControl\VerticalTabView.xaml">
+    <Page Include="UserControls\MultitaskingControl\VerticalTabViewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

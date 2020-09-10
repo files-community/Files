@@ -535,7 +535,7 @@ namespace Files
                 AssociatedInteractions = App.CurrentInstance.InteractionOperations;
                 if (App.CurrentInstance == null)
                 {
-                    App.CurrentInstance = VerticalTabView.GetCurrentSelectedTabInstance<ModernShellPage>();
+                    App.CurrentInstance = VerticalTabViewControl.GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
             }
         }

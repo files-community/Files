@@ -946,13 +946,13 @@
                         x:Name="VerticalTabViewFlyout"
                         Closed="Flyout_Closed"
                         Opened="Flyout_Opened">
-                        <local:VerticalTabView
-                            x:Name="verticalTabs"
+                        <local:VerticalTabViewControl
+                            x:Name="VerticalTabs"
                             Width="275"
                             MaxHeight="300"
                             Margin="-6"
                             x:FieldModifier="public"
-                            PointerExited="verticalTabs_PointerExited" />
+                            PointerExited="VerticalTabs_PointerExited" />
                     </Flyout>
                 </Button.Flyout>
             </Button>
