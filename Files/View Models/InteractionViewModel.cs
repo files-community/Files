@@ -13,9 +13,15 @@ namespace Files.Controls
 
         public InteractionViewModel()
         {
-            IsWindowCompactSize = InteractionViewModel.IsWindowResizedToCompactWidth();
+            Window.Current.SizeChanged += Current_SizeChanged;
+        }
+
+        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        {
+            IsWindowCompactSize = IsWindowResizedToCompactWidth();
 
             if (AppSettings.IsMultitaskingExperienceAdaptive)
+            {
                 if (IsWindowCompactSize)
                 {
                     IsVerticalTabFlyoutVisible = true;
@@ -26,11 +32,12 @@ namespace Files.Controls
                     IsVerticalTabFlyoutVisible = false;
                     IsHorizontalTabStripVisible = true;
                 }
-        }
-
-        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
-        {
-            App.InteractionViewModel.IsWindowCompactSize = InteractionViewModel.IsWindowResizedToCompactWidth();
+            }
+            else
+            {
+                IsVerticalTabFlyoutVisible = false;
+                IsHorizontalTabStripVisible = false;
+            }
         }
 
         private bool _IsContentLoadingIndicatorVisible = false;
