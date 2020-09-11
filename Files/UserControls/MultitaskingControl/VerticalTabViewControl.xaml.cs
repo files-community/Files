@@ -18,23 +18,24 @@ using static Files.Helpers.PathNormalization;
 
 namespace Files.UserControls
 {
-    public sealed partial class VerticalTabView : UserControl, IMultitaskingControl
+    public sealed partial class VerticalTabViewControl : UserControl, IMultitaskingControl
     {
-        public ObservableCollection<TabItem> Items => MainPage.AppInstances;
-
-        public void SelectionChanged() => TabStrip_SelectionChanged(null, null);
-
-        public const string TabPathIdentifier = "FilesTabViewItemPath";
         private const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
 
-        public VerticalTabView()
+        public const string TabPathIdentifier = "FilesTabViewItemPath";
+
+        public VerticalTabViewControl()
         {
             this.InitializeComponent();
         }
 
+        public void SelectionChanged() => TabStrip_SelectionChanged(null, null);
+
+        public ObservableCollection<TabItem> Items => MainPage.AppInstances;
+
         public async Task SetSelectedTabInfo(string text, string currentPathForTabIcon = null)
         {
-            var selectedTabItem = (MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex] as TabItem);
+            var selectedTabItem = MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
             selectedTabItem.AllowStorageItemDrop = App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome;
 
             MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex].Path = currentPathForTabIcon;
@@ -140,13 +141,13 @@ namespace Files.UserControls
             {
                 Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
                 icon.Glyph = "\xE713";
-                if ((Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text")
-                    && (Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).IconSource != icon)
+                if (Items[App.InteractionViewModel.TabStripSelectedIndex].Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text")
+                    && Items[App.InteractionViewModel.TabStripSelectedIndex].IconSource != icon)
                 {
                     App.CurrentInstance = GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
 
-                if ((Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Header.ToString() == ResourceController.GetTranslation("SidebarSettings/Text"))
+                if (Items[App.InteractionViewModel.TabStripSelectedIndex].Header.ToString() == ResourceController.GetTranslation("SidebarSettings/Text"))
                 {
                     App.InteractionViewModel.TabsLeftMargin = new Thickness(0, 0, 0, 0);
                     App.InteractionViewModel.LeftMarginLoaded = false;
@@ -155,7 +156,7 @@ namespace Files.UserControls
                 {
                     if (App.CurrentInstance != null)
                     {
-                        if ((Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Header.ToString() == ResourceController.GetTranslation("NewTab"))
+                        if (Items[App.InteractionViewModel.TabStripSelectedIndex].Header.ToString() == ResourceController.GetTranslation("NewTab"))
                         {
                             App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = false;
                         }
@@ -183,32 +184,32 @@ namespace Files.UserControls
 
         public static T GetCurrentSelectedTabInstance<T>()
         {
-            var selectedTabContent = (MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Content as Grid;
+            var selectedTabContent = MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex].Content as Grid;
             foreach (UIElement uiElement in selectedTabContent.Children)
             {
                 if (uiElement.GetType() == typeof(Frame))
                 {
-                    return (T)((uiElement as Frame).Content);
+                    return (T)(uiElement as Frame).Content;
                 }
             }
             return default;
         }
 
-        private async void verticalTabView_AddTabButtonClick(TabView sender, object args)
+        private async void VerticalTabView_AddTabButtonClick(TabView sender, object args)
         {
             await MainPage.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
         }
 
-        private void verticalTabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
+        private void VerticalTabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
         {
             switch (args.CollectionChange)
             {
                 case Windows.Foundation.Collections.CollectionChange.ItemRemoved:
-                    App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(verticalTabView.SelectedItem as TabItem);
+                    App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(VerticalTabView.SelectedItem as TabItem);
                     break;
 
                 case Windows.Foundation.Collections.CollectionChange.ItemInserted:
-                    App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(verticalTabView.SelectedItem as TabItem);
+                    App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(VerticalTabView.SelectedItem as TabItem);
                     break;
             }
         }
@@ -230,7 +231,7 @@ namespace Files.UserControls
                 {
                     if (item.IsOfType(StorageItemTypes.Folder))
                     {
-                        await App.CurrentInstance.InteractionOperations.CloneDirectoryAsync(((StorageFolder)item), await StorageFolder.GetFolderFromPathAsync(tabViewItemWorkingDir), item.Name, true);
+                        await App.CurrentInstance.InteractionOperations.CloneDirectoryAsync((StorageFolder)item, await StorageFolder.GetFolderFromPathAsync(tabViewItemWorkingDir), item.Name, true);
                         await (await StorageFolder.GetFolderFromPathAsync(item.Path)).DeleteAsync();
                     }
                     else
@@ -248,9 +249,13 @@ namespace Files.UserControls
         private void TabViewItem_DragOver(object sender, DragEventArgs e)
         {
             if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
+            {
                 e.AcceptedOperation = DataPackageOperation.Move;
+            }
             else
+            {
                 e.AcceptedOperation = DataPackageOperation.None;
+            }
         }
 
         private void TabStrip_TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)
@@ -316,7 +321,10 @@ namespace Files.UserControls
 
         private async void TabStrip_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
         {
-            if (sender.TabItems.Count == 1) return;
+            if (sender.TabItems.Count == 1)
+            {
+                return;
+            }
 
             var indexOfTabViewItem = sender.TabItems.IndexOf(args.Tab);
             var tabViewItemPath = ((((args.Item as TabItem).Content as Grid).Children[0] as Frame).Tag as TabItemContent).NavigationArg;

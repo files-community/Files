@@ -1,5 +1,6 @@
 using Files.Common;
 using Files.Controllers;
+using Files.Controls;
 using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
@@ -15,6 +16,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Core;
 using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
@@ -58,8 +60,8 @@ namespace Files.View_Models
             Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
             Analytics.TrackEvent("AcrylicSidebar " + AcrylicEnabled.ToString());
             Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
-            Analytics.TrackEvent("IsHorizontalTabStripVisible " + IsHorizontalTabStripVisible.ToString());
-            Analytics.TrackEvent("IsMultitaskingControlVisible " + IsMultitaskingControlVisible.ToString());
+            Analytics.TrackEvent("IsHorizontalTabStripEnabled " + IsHorizontalTabStripEnabled.ToString());
+            Analytics.TrackEvent("IsVerticalTabFlyoutEnabled " + IsVerticalTabFlyoutEnabled.ToString());
             // Load the supported languages
 
             var supportedLang = ApplicationLanguages.ManifestLanguages;
@@ -434,15 +436,21 @@ namespace Files.View_Models
             set => Set(value);
         }
 
-        public bool IsMultitaskingControlVisible
+        public bool IsMultitaskingExperienceAdaptive
         {
             get => Get(true);
             set => Set(value);
         }
 
-        public bool IsHorizontalTabStripVisible
+        public bool IsVerticalTabFlyoutEnabled
         {
-            get => Get(true);
+            get => Get(false);
+            set => Set(value);
+        }
+
+        public bool IsHorizontalTabStripEnabled
+        {
+            get => Get(false);
             set => Set(value);
         }
 

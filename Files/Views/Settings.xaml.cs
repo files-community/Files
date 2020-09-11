@@ -36,9 +36,10 @@ namespace Files
                 0 => SettingsContentFrame.Navigate(typeof(Appearance)),
                 1 => SettingsContentFrame.Navigate(typeof(OnStartup)),
                 2 => SettingsContentFrame.Navigate(typeof(Preferences)),
-                3 => SettingsContentFrame.Navigate(typeof(FilesAndFolders)),
-                4 => SettingsContentFrame.Navigate(typeof(Experimental)),
-                5 => SettingsContentFrame.Navigate(typeof(About)),
+                3 => SettingsContentFrame.Navigate(typeof(Multitasking)),
+                4 => SettingsContentFrame.Navigate(typeof(FilesAndFolders)),
+                5 => SettingsContentFrame.Navigate(typeof(Experimental)),
+                6 => SettingsContentFrame.Navigate(typeof(About)),
                 _ => SettingsContentFrame.Navigate(typeof(Appearance))
             };
         }

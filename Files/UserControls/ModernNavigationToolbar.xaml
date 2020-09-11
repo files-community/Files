@@ -6,6 +6,7 @@
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
+    xmlns:converters="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:helpers="using:Files.Helpers"
@@ -925,7 +926,7 @@
                 Width="34"
                 Height="30"
                 Margin="2,0,2,0"
-                x:Load="{x:Bind AppSettings.IsMultitaskingControlVisible, Mode=OneWay}"
+                x:Load="{x:Bind converters:MultiBooleanConverter.Convert(AppSettings.IsVerticalTabFlyoutEnabled, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible), Mode=OneWay}"
                 AllowDrop="True"
                 Background="Transparent"
                 Content="&#xF5ED;"
@@ -934,24 +935,24 @@
                 FontFamily="Segoe MDL2 Assets"
                 FontSize="16"
                 IsTapEnabled="True"
+                Loaded="VerticalTabStripInvokeButton_Loaded"
                 PointerEntered="Button_PointerEntered"
                 PointerExited="VerticalTabStripInvokeButton_PointerExited"
                 Style="{StaticResource ToolBarButtonStyle}"
                 Tapped="Button_Tapped"
-                ToolTipService.ToolTip="Open tabs"
-                Visibility="Visible">
+                ToolTipService.ToolTip="Open tabs">
                 <Button.Flyout>
                     <Flyout
                         x:Name="VerticalTabViewFlyout"
                         Closed="Flyout_Closed"
                         Opened="Flyout_Opened">
-                        <local:VerticalTabView
-                            x:Name="verticalTabs"
+                        <local:VerticalTabViewControl
+                            x:Name="VerticalTabs"
                             Width="275"
                             MaxHeight="300"
                             Margin="-6"
                             x:FieldModifier="public"
-                            PointerExited="verticalTabs_PointerExited" />
+                            PointerExited="VerticalTabs_PointerExited" />
                     </Flyout>
                 </Button.Flyout>
             </Button>
@@ -975,7 +976,6 @@
                         <MenuFlyoutItem
                             x:Name="NavToolbarNewTab"
                             x:Uid="NavigationToolbarNewTab"
-                            x:Load="{x:Bind AppSettings.IsMultitaskingControlVisible, Mode=OneWay}"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.OpenNewTab}"
                             Text="New Tab">
                             <MenuFlyoutItem.Icon>

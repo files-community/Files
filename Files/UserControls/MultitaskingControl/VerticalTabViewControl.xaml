@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="Files.UserControls.VerticalTabView"
+    x:Class="Files.UserControls.VerticalTabViewControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:contract4Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,4)"
@@ -619,11 +619,11 @@
 
     <Grid>
         <muxc:TabView
-            x:Name="verticalTabView"
+            x:Name="VerticalTabView"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             x:FieldModifier="public"
-            AddTabButtonClick="verticalTabView_AddTabButtonClick"
+            AddTabButtonClick="VerticalTabView_AddTabButtonClick"
             AllowDropTabs="True"
             Background="Transparent"
             CanDragTabs="True"
@@ -636,7 +636,7 @@
             TabDragCompleted="TabStrip_TabDragCompleted"
             TabDragStarting="TabStrip_TabDragStarting"
             TabDroppedOutside="TabStrip_TabDroppedOutside"
-            TabItemsChanged="verticalTabView_TabItemsChanged"
+            TabItemsChanged="VerticalTabView_TabItemsChanged"
             TabItemsSource="{x:Bind Items, Mode=OneWay}"
             TabStripDragOver="TabStrip_TabStripDragOver"
             TabStripDrop="TabStrip_TabStripDrop"
