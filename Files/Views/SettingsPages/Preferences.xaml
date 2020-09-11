@@ -135,6 +135,15 @@
 
                     <ToggleSwitch x:Name="ContextMenuToggleSwitch" IsOn="{x:Bind AppSettings.ShowAllContextMenuItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
+
+                <StackPanel Spacing="10">
+                    <TextBlock
+                        x:Uid="SettingsPreferencesCopyLocation"
+                        FontSize="17"
+                        Text="Show an option to copy the location of the selected item" />
+
+                    <ToggleSwitch x:Name="CopyLocationToggleSwitch" IsOn="{x:Bind AppSettings.ShowCopyLocationOption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -503,6 +503,12 @@ namespace Files.View_Models
             set => Set(value);
         }
 
+        public bool ShowCopyLocationOption
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
         public event EventHandler ThemeModeChanged;
 
         public RelayCommand UpdateThemeElements => new RelayCommand(() =>
