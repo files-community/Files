@@ -20,11 +20,6 @@ namespace Files.UserControls
             this.InitializeComponent();
         }
 
-        public void RemoveBanner(StatusBanner banner)
-        {
-            StatusBannersSource.Remove(banner);
-        }
-
         /// <summary>
         /// Posts a new banner to the Status Center control for an operation. 
         /// It may be used to return the progress, success, or failure of the respective operation.
@@ -35,11 +30,11 @@ namespace Files.UserControls
         /// <param name="severity"></param>
         /// <param name="operation"></param>
         /// <returns>A StatusBanner object which may be used to track/update the progress of an operation.</returns>
-        public StatusBanner PostBanner(string title, string message, uint initialProgress, StatusBanner.StatusBannerSeverity severity, StatusBanner.StatusBannerOperation operation)
+        public PostedStatusBanner PostBanner(string title, string message, uint initialProgress, StatusBanner.StatusBannerSeverity severity, StatusBanner.StatusBannerOperation operation)
         {
             var item = new StatusBanner(message, title, initialProgress, severity, operation);
             StatusBannersSource.Add(item);
-            return item;
+            return new PostedStatusBanner(item);
         }
 
         /// <summary>
@@ -52,11 +47,11 @@ namespace Files.UserControls
         /// <param name="cancelButtonText"></param>
         /// <param name="primaryAction"></param>
         /// <returns>A StatusBanner object which may be used to automatically remove the banner from UI.</returns>
-        public StatusBanner PostActionBanner(string title, string message, string primaryButtonText, string cancelButtonText, Action primaryAction)
+        public PostedStatusBanner PostActionBanner(string title, string message, string primaryButtonText, string cancelButtonText, Action primaryAction)
         {
             var item = new StatusBanner(message, title, primaryButtonText, cancelButtonText, primaryAction);
             StatusBannersSource.Add(item);
-            return item;
+            return new PostedStatusBanner(item);
         }
 
         // Dismiss banner button event handler
@@ -74,11 +69,41 @@ namespace Files.UserControls
         }
     }
 
-    public class StatusBanner : ObservableObject, IProgress<uint>
+    public class PostedStatusBanner
     {
-        private string _FullTitle;
-        private uint Progress { get; set; } = 0;
+        internal StatusBanner Banner;
+        public Progress<uint> Progress;
+        public PostedStatusBanner(StatusBanner bannerArg)
+        {
+            Banner = bannerArg;
+            Progress = new Progress<uint>(ReportProgressToBanner);
+        }
 
+        private void ReportProgressToBanner(uint value)
+        {
+            if (value <= 100)
+            {
+                Banner.FullTitle = Banner.Title + " (" + value + "%)";
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public void Remove()
+        {
+            if (StatusCenter.StatusBannersSource.Contains(Banner))
+            {
+                StatusCenter.StatusBannersSource.Remove(Banner);
+            }
+        }
+    }
+
+    public class StatusBanner : ObservableObject
+    {
+        private uint InitialProgress = 0;
+        private string _FullTitle;
         public bool IsProgressing { get; } = false;
         public string Title { get; }
         public StatusBannerSeverity Severity { get; } = StatusBannerSeverity.Ongoing;
@@ -117,7 +142,7 @@ namespace Files.UserControls
         {
             Message = message;
             Title = title;
-            Progress = progress;
+            InitialProgress = progress;
             Severity = severity;
             Operation = operation;
 
@@ -166,7 +191,7 @@ namespace Files.UserControls
                                 break;
                         }
                     }
-                    FullTitle = Title + " (" + Progress + "%)";
+                    FullTitle = Title + " (" + InitialProgress + "%)";
                     break;
 
                 case StatusBannerSeverity.Success:
@@ -245,17 +270,6 @@ namespace Files.UserControls
             }
         }
 
-        public void Report(uint value)
-        {
-            if (value <= 100)
-            {
-                Progress = value;
-                FullTitle = Title + " (" + Progress + "%)";
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException();
-            }
-        }
+        
     }
 }

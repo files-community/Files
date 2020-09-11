@@ -1,4 +1,5 @@
-﻿using Files.Common;
+﻿using Files.Commands;
+using Files.Common;
 using Files.Interacts;
 using Files.UserControls.MultiTaskingControl;
 using Files.View_Models;
@@ -225,7 +226,7 @@ namespace Files.UserControls
             }
         }
 
-        private async void TabViewItem_Drop(object sender, DragEventArgs e)
+        private void TabViewItem_Drop(object sender, DragEventArgs e)
         {
             if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
             {
@@ -238,18 +239,7 @@ namespace Files.UserControls
                     .FilesystemViewModel
                     .WorkingDirectory;
 
-                foreach (IStorageItem item in await e.DataView.GetStorageItemsAsync())
-                {
-                    if (item.IsOfType(StorageItemTypes.Folder))
-                    {
-                        await App.CurrentInstance.InteractionOperations.CloneDirectoryAsync((StorageFolder)item, await StorageFolder.GetFolderFromPathAsync(tabViewItemWorkingDir), item.Name, true);
-                        await (await StorageFolder.GetFolderFromPathAsync(item.Path)).DeleteAsync();
-                    }
-                    else
-                    {
-                        await ((StorageFile)item).MoveAsync(await StorageFolder.GetFolderFromPathAsync(tabViewItemWorkingDir), item.Name, NameCollisionOption.GenerateUniqueName);
-                    }
-                }
+                ItemOperations.PasteItemWithStatus(e.DataView, tabViewItemWorkingDir, DataPackageOperation.Move);
             }
             else
             {

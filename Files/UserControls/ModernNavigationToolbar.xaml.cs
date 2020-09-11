@@ -1,4 +1,5 @@
-﻿using Files.Common;
+﻿using Files.Commands;
+using Files.Common;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
@@ -439,7 +440,7 @@ namespace Files.UserControls
             deferral.Complete();
         }
 
-        private async void PathBoxItem_Drop(object sender, DragEventArgs e)
+        private void PathBoxItem_Drop(object sender, DragEventArgs e)
         {
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
                 pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab"))
@@ -448,7 +449,7 @@ namespace Files.UserControls
             }
 
             var deferral = e.GetDeferral();
-            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, pathBoxItem.Path, e.AcceptedOperation);
+            ItemOperations.PasteItemWithStatus(e.DataView, pathBoxItem.Path, e.AcceptedOperation);
             deferral.Complete();
         }
 
