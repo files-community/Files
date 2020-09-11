@@ -446,10 +446,10 @@
             </MenuFlyoutItem>
         </MenuFlyout>
 
-        <Style x:Key="DataGridRowStandardContextFlyout" TargetType="controls:DataGridRow">
+        <Style x:Key="ListViewItemStandardContextFlyout" TargetType="ListViewItem">
             <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutItemContextFlyout}" />
         </Style>
-        <Style x:Key="DataGridRowRecycleBinContextFlyout" TargetType="controls:DataGridRow">
+        <Style x:Key="ListViewItemRecycleBinContextFlyout" TargetType="ListViewItem">
             <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutRecycleBinItemContextFlyout}" />
         </Style>
 
@@ -527,13 +527,13 @@
                     <Core:ChangePropertyAction
                         PropertyName="ItemContainerStyle"
                         TargetObject="{Binding ElementName=FileList}"
-                        Value="{StaticResource GridViewItemRecycleBinContextFlyout}" />
+                        Value="{StaticResource ListViewItemRecycleBinContextFlyout}" />
                 </Core:DataTriggerBehavior>
                 <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="False">
                     <Core:ChangePropertyAction
                         PropertyName="ItemContainerStyle"
                         TargetObject="{Binding ElementName=FileList}"
-                        Value="{StaticResource GridViewItemStandardContextFlyout}" />
+                        Value="{StaticResource ListViewItemStandardContextFlyout}" />
                 </Core:DataTriggerBehavior>
             </Interactivity:Interaction.Behaviors>
 

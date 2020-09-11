@@ -10,6 +10,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -194,6 +195,33 @@ namespace Files.Views.LayoutModes
         public override void SetShellContextmenu(bool shiftPressed, bool showOpenMenu)
         {
             base.SetShellContextmenu(shiftPressed, showOpenMenu);
+        }
+
+        private void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
+            {
+                if (!isRenamingItem)
+                {
+                    App.CurrentInstance.InteractionOperations.List_ItemClick(null, null);
+                    e.Handled = true;
+                }
+            }
+            else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
+            {
+                AssociatedInteractions.ShowPropertiesButton_Click(null, null);
+            }
+            else if (e.Key == VirtualKey.Space)
+            {
+                if (!isRenamingItem && !App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                {
+                    if ((App.CurrentInstance.ContentPage).IsQuickLookEnabled)
+                    {
+                        App.CurrentInstance.InteractionOperations.ToggleQuickLook();
+                    }
+                    e.Handled = true;
+                }
+            }
         }
     }
 }
