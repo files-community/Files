@@ -6,6 +6,7 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Views;
+using Files.Views.LayoutModes;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -529,7 +530,7 @@ namespace Files.View_Models
         public Type GetLayoutType()
         {
             Type type = null;
-            switch (LayoutMode)
+            /* switch (LayoutMode)
             {
                 case 0:
                     type = typeof(GenericFileBrowser);
@@ -546,7 +547,9 @@ namespace Files.View_Models
                 default:
                     type = typeof(GenericFileBrowser);
                     break;
-            }
+            } */
+
+            type = typeof(ListBrowser);
             return type;
         }
 
