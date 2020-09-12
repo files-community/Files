@@ -120,7 +120,7 @@ namespace Files.Controls
 
                         if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
                         {
-                            if (ItemPath.Equals(SelectedSidebarItem.Path, StringComparison.OrdinalIgnoreCase)) return; // return if already selected
+                            if (ItemPath.Equals(SelectedSidebarItem?.Path, StringComparison.OrdinalIgnoreCase)) return; // return if already selected
 
                             navigationPath = ResourceController.GetTranslation("NewTab");
                             sourcePageType = typeof(YourHome);
