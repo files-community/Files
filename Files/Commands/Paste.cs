@@ -107,7 +107,8 @@ namespace Files.Commands
                     }
                     else
                     {
-                        uint progressValue = (uint)(CalculateTotalItemsSize(pastedSourceItems) * 100 / totalItemsSize);
+                        var pastedItemSize = await Task.Run(() => CalculateTotalItemsSize(pastedSourceItems));
+                        uint progressValue = (uint)(pastedItemSize * 100 / totalItemsSize);
                         progress.Report(progressValue);
 
                         try
@@ -128,7 +129,8 @@ namespace Files.Commands
                 }
                 else if (item.IsOfType(StorageItemTypes.File))
                 {
-                    uint progressValue = (uint)(CalculateTotalItemsSize(pastedSourceItems) * 100 / totalItemsSize);
+                    var pastedItemSize = await Task.Run(() => CalculateTotalItemsSize(pastedSourceItems));
+                    uint progressValue = (uint)(pastedItemSize * 100 / totalItemsSize);
                     progress.Report(progressValue);
 
                     try
@@ -161,7 +163,8 @@ namespace Files.Commands
                 }
             }
 
-            uint finalProgressValue = (uint)(CalculateTotalItemsSize(pastedSourceItems) * 100 / totalItemsSize);
+            var finalPastedItemSize = await Task.Run(() => CalculateTotalItemsSize(pastedSourceItems));
+            uint finalProgressValue = (uint)(finalPastedItemSize * 100 / totalItemsSize);
             progress.Report(finalProgressValue);
 
             if (acceptedOperation == DataPackageOperation.Move)
@@ -223,7 +226,7 @@ namespace Files.Commands
         public class ClonedDirectoryOutput
         {
             public StorageFolder FolderOutput { get; set; }
-            // TODO: simplify/remove this
+            // TODO: simplify/remove this class
         }
 
         public async static Task<ClonedDirectoryOutput> CloneDirectoryAsync(StorageFolder SourceFolder, StorageFolder DestinationFolder, string sourceRootName)
