@@ -112,7 +112,7 @@ namespace Files.Commands
 
         private static async Task DeleteItem(StorageDeleteOption deleteOption, IShellPage AppInstance, IProgress<uint> progress)
         {
-            var deleteFromRecycleBin = App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
+            var deleteFromRecycleBin = AppInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
 
             List<ListedItem> selectedItems = new List<ListedItem>();
             foreach (ListedItem selectedItem in AppInstance.ContentPage.SelectedItems)
@@ -143,11 +143,11 @@ namespace Files.Commands
                 {
                     if (storItem.PrimaryItemAttribute == StorageItemTypes.File)
                     {
-                        item = await ItemViewModel.GetFileFromPathAsync(storItem.ItemPath);
+                        item = await ItemViewModel.GetFileFromPathAsync(storItem.ItemPath, AppInstance);
                     }
                     else
                     {
-                        item = await ItemViewModel.GetFolderFromPathAsync(storItem.ItemPath);
+                        item = await ItemViewModel.GetFolderFromPathAsync(storItem.ItemPath, AppInstance);
                     }
 
                     await item.DeleteAsync(deleteOption);
@@ -179,11 +179,11 @@ namespace Files.Commands
                     // try again
                     if (storItem.PrimaryItemAttribute == StorageItemTypes.File)
                     {
-                        item = await ItemViewModel.GetFileFromPathAsync(storItem.ItemPath);
+                        item = await ItemViewModel.GetFileFromPathAsync(storItem.ItemPath, AppInstance);
                     }
                     else
                     {
-                        item = await ItemViewModel.GetFolderFromPathAsync(storItem.ItemPath);
+                        item = await ItemViewModel.GetFolderFromPathAsync(storItem.ItemPath, AppInstance);
                     }
 
                     await item.DeleteAsync(deleteOption);
