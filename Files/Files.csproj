@@ -273,7 +273,7 @@
     <Compile Include="Views\LayoutModes\GridViewBrowser.xaml.cs">
       <DependentUpon>GridViewBrowser.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Pages\DetailsPages\PropertiesDetails.xaml.cs">
+    <Compile Include="Views\Pages\PropertiesDetails.xaml.cs">
       <DependentUpon>PropertiesDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
@@ -524,7 +524,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Pages\DetailsPages\PropertiesDetails.xaml">
+    <Page Include="Views\Pages\PropertiesDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

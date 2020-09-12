@@ -65,7 +65,7 @@
                     x:Name="TabDetails"
                     x:Uid="PropertiesDialogTabDetailsImage"
                     Content="Details"
-                    Tag="Image"
+                    Tag="Details"
                     Visibility="Collapsed">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea8d;" />

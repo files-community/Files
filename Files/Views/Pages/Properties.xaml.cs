@@ -2,6 +2,7 @@
 using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
+using Files.View_Models.Properties;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading;
@@ -167,6 +168,9 @@ namespace Files
             if (contentFrame.Content is PropertiesGeneral)
             {
                 await (contentFrame.Content as PropertiesGeneral).SaveChanges(listedItem);
+            } else if (contentFrame.Content is PropertiesDetails)
+            {
+                await (contentFrame.Content as PropertiesDetails).SaveChanges(listedItem);
             }
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
@@ -223,7 +227,7 @@ namespace Files
                     contentFrame.Navigate(typeof(PropertiesShortcut), navParam, args.RecommendedNavigationTransitionInfo);
                     break;
 
-                case "Image":
+                case "Details":
                     contentFrame.Navigate(typeof(PropertiesDetails), navParam, args.RecommendedNavigationTransitionInfo);
                     break;
 

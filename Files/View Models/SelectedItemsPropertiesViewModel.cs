@@ -1,12 +1,15 @@
 using ByteSizeLib;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.View_Models.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Windows.ApplicationModel.Core;
+using Windows.Devices.Bluetooth.Advertisement;
 using Windows.Devices.Geolocation;
 using Windows.Services.Maps;
 using Windows.Storage.FileProperties;
@@ -726,30 +729,9 @@ namespace Files.View_Models
             set => SetProperty(ref _GeopointString, value);
         }
 
-        public Visibility ShowCoordinates
-        {
-            get
-            {
-                return (Longitude == null || Latitude == null) ? Visibility.Collapsed : Visibility.Visible;
-            }
-        }
-
-        public Visibility ShowRating
-        {
-            get
-            {
-                return Rating == 0 ? Visibility.Collapsed : Visibility.Visible;
-            }
-        }
-
         public IList<string> ImageKeywords { get; set; }
         public PhotoOrientation ImageOrientation { get; set; }
 
-
-        public string GetImageSizeString()
-        {
-            return ImageWidth + " x " + ImageHeight;
-        }
 
         private double _RatingReal;
         public double RatingReal
@@ -814,26 +796,18 @@ namespace Files.View_Models
             set => SetProperty(ref _ShotString, value);
         }
 
-        private List<PropertiesData> _ImageInformation;
-        public List<PropertiesData> ImageInformation
+        private IDictionary<string, object> _SystemFileProperties_RO;
+        public IDictionary<string, object> SystemFileProperties_RO
         {
-            get => _ImageInformation;
-            set => SetProperty(ref _ImageInformation, value);
+            get => _SystemFileProperties_RO;
+            set => SetProperty(ref _SystemFileProperties_RO, value);
         }
 
-        private Visibility _BasicDetailsVisibility;
-        public Visibility BasicDetailsVisibility
+        private IDictionary<string, object> _SystemFileProperties_RW;
+        public IDictionary<string, object> SystemFileProperties_RW
         {
-            get => _BasicDetailsVisibility;
-            set => SetProperty(ref _BasicDetailsVisibility, value);
+            get => _SystemFileProperties_RW;
+            set => SetProperty(ref _SystemFileProperties_RW, value);
         }
-
-        private Visibility _AllDetailsVisibility;
-        public Visibility AllDetailsVisibility
-        {
-            get => _AllDetailsVisibility;
-            set => SetProperty(ref _AllDetailsVisibility, value);
-        }
-
     }
 }

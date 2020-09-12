@@ -4,20 +4,25 @@ using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml.Controls;
+using SQLitePCL;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
 using Windows.Foundation.Collections;
+using Windows.Media.Core;
 using Windows.Security.Cryptography.Core;
 using Windows.Services.Maps;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.View_Models.Properties
@@ -26,6 +31,52 @@ namespace Files.View_Models.Properties
     {
         private ProgressBar ProgressBar;
 
+        //Read-only Properties
+        private readonly List<string> PropertiesToGet_RO = new List<string>()
+        {
+            //Description
+            "System.Rating",
+
+            //Image
+            "System.Image.BitDepth",
+            "System.Image.Dimensions",
+            "System.Image.HorizontalResolution",
+            "System.Image.VerticalResolution",
+            "System.Image.Compression",
+            "System.Image.ResolutionUnit",
+            "System.Image.HorizontalSize",
+            "System.Image.VerticalSize",
+
+            //Photo
+            "System.Photo.ExposureTime",
+            "System.Photo.FocalLength",
+            "System.Photo.Aperture",
+            "System.Photo.DateTaken"
+
+            //GPS
+            //Dunno why, but everything breaks when these are used, so an alternative is in place
+
+            //"System.GPS.LatitudeDecimal",
+            //"System.GPS.LongitudeDecimal",
+            //"System.GPS.Altitude",
+
+        };
+
+        //Read and write properties
+        private readonly List<string> PropertiesToGet_RW = new List<string>()
+        {
+            //Description
+            "System.Title",
+            "System.Subject",
+            "System.Comment",
+            "System.Copyright",
+
+
+            //Photo
+            "System.Photo.CameraManufacturer",
+            "System.Photo.CameraModel",
+
+        };
         public ListedItem Item { get; }
 
         public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ProgressBar progressBar, ListedItem item)
@@ -156,86 +207,17 @@ namespace Files.View_Models.Properties
                 NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                 ViewModel.ItemMD5HashCalcError = true;
             }
+
+            GetSystemFileProperties();
         }
 
-        public async void GetAddressFromCoordinates()
+        public async void GetSystemFileProperties()
         {
-            //lol please don't steal this
-            MapService.ServiceToken = "S7IF7M4Zxe9of0hbatDv~byc7WbHGg1rNYUqk4bL8Zw~Ar_Ap1WxoB_qnXme_hErpFhs74E8qKzCOXugSrankFJgJe9_D4l09O3TNj3WN2f2";
-            // The location to reverse geocode.
-            BasicGeoposition location = new BasicGeoposition();
-            location.Latitude = (double)ViewModel.Latitude;
-            location.Longitude = (double)ViewModel.Longitude;
-            Geopoint pointToReverseGeocode = new Geopoint(location);
-
-            // Reverse geocode the specified geographic location.
-            MapLocationFinderResult result =
-                    await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
-
-            // If the query returns results, display the name of the town
-            // contained in the address of the first result.
-            if (result.Status == MapLocationFinderStatus.Success)
-            {
-                ViewModel.Geopoint = result.Locations[0];
-                ViewModel.GeopointString = string.Format("{0}, {1}", result.Locations[0].Address.Town.ToString(), result.Locations[0].Address.Region.ToString());
-            }
-            else
-            {
-                ViewModel.GeopointString = string.Format("{0:g}, {1:g}", Math.Truncate((decimal)ViewModel.Latitude * 10000000) / 10000000, Math.Truncate((decimal)ViewModel.Longitude * 10000000) / 10000000);
-            }
-        }
-
-        private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case "ShortcutItemPath":
-                case "ShortcutItemWorkingDir":
-                case "ShortcutItemArguments":
-                    var tmpItem = (ShortcutItem)Item;
-                    if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
-                        return;
-                    if (App.Connection != null)
-                    {
-                        var value = new ValueSet()
-                        {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "UpdateLink" },
-                            { "filepath", Item.ItemPath },
-                            { "targetpath", ViewModel.ShortcutItemPath },
-                            { "arguments", ViewModel.ShortcutItemArguments },
-                            { "workingdir", ViewModel.ShortcutItemWorkingDir },
-                            { "runasadmin", tmpItem.RunAsAdmin },
-                        };
-                        await App.Connection.SendMessageAsync(value);
-                    }
-                    break;
-            }
-        }
-    }
-
-    internal class ImageFileProperties : FileProperties
-    {
-        private ProgressBar ProgressBar;
-
-        public ImageFileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ProgressBar progressBar, ListedItem item) : base(viewModel, tokenSource, coreDispatcher, progressBar, item)
-        {
-            ProgressBar = progressBar;
-
-            GetBaseProperties();
-            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
-        }
-
-        public override async void GetSpecialProperties()
-        {
-            base.GetSpecialProperties();
 
             StorageFile file = null;
-            ImageProperties imageProperties;
             try
             {
                 file = await ItemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
-                imageProperties = await file.Properties.GetImagePropertiesAsync();
             }
             catch (Exception ex)
             {
@@ -244,22 +226,13 @@ namespace Files.View_Models.Properties
                 return;
             }
 
-            //List of properties to retrieve
-            List<string> moreProperties = new List<string>() {
-                    "System.Image.BitDepth",
-                    "System.Photo.ExposureTime",
-                    "System.Photo.FocalLength",
-                    "System.Photo.Aperture",
-            };
-
-            IDictionary<string, object> extraProperties;
-            IDictionary<string, object> extraProperties2;
-            List<PropertiesData> propertiesDatas = new List<PropertiesData>();
+            //IDictionary<string, object> ViewModel.SystemFileProperties;
 
             try
             {
                 // Get the specified properties through StorageFile.Properties
-                extraProperties = await file.Properties.RetrievePropertiesAsync(moreProperties);
+                ViewModel.SystemFileProperties_RO = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RO);
+                ViewModel.SystemFileProperties_RW = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RW);
             }
             catch (Exception ex)
             {
@@ -268,54 +241,22 @@ namespace Files.View_Models.Properties
                 return;
             }
 
-            ViewModel.DateTaken = imageProperties.DateTaken;
-            ViewModel.CameraModel = imageProperties.CameraModel;
-            ViewModel.CameraManufacturer = imageProperties.CameraManufacturer;
-            ViewModel.ImageWidth = (int)imageProperties.Width;
-            ViewModel.ImageHeight = (int)imageProperties.Height;
-            ViewModel.DimensionString = ViewModel.ImageWidth + "x" + ViewModel.ImageHeight;
-            ViewModel.DimensionsTooltip = "Width: " + ViewModel.ImageWidth + "px\nHeight: " + ViewModel.ImageHeight + "px";
-            ViewModel.ImageTitle = imageProperties.Title;
-            ViewModel.Longitude = imageProperties.Longitude;
-            ViewModel.Latitude = imageProperties.Latitude;
-            ViewModel.ImageKeywords = imageProperties.Keywords;
-            ViewModel.Rating = (int)imageProperties.Rating;
-            ViewModel.ImageOrientation = imageProperties.Orientation;
-            ViewModel.CameraNameString = string.Format("{0} {1}", ViewModel.CameraManufacturer, ViewModel.CameraModel);
+            ViewModel.CameraNameString = string.Format("{0} {1}", ViewModel.SystemFileProperties_RW["System.Photo.CameraManufacturer"], ViewModel.SystemFileProperties_RW["System.Photo.CameraModel"]);
 
-            foreach (string str in ViewModel.ImageKeywords)
-                ViewModel.Tags += str + "; ";
-
-            ViewModel.ShowTitle = ViewModel.ImageTitle.Equals("") ? Visibility.Collapsed : Visibility.Visible;
-
-            ViewModel.RatingReal = ViewModel.Rating / 20.00 == 0.0 ? -1 : ViewModel.Rating / 20.00;
-
-            //ViewModel.People = (System.Collections.Generic.IList<string>) imageProperties.PeopleNames;
-
-            if (ViewModel.Longitude != null && ViewModel.Latitude != null)
+            MapLocationFinderResult result = null;
+            try
             {
-                MapService.ServiceToken = "S7IF7M4Zxe9of0hbatDv~byc7WbHGg1rNYUqk4bL8Zw~Ar_Ap1WxoB_qnXme_hErpFhs74E8qKzCOXugSrankFJgJe9_D4l09O3TNj3WN2f2";
-                // The location to reverse geocode.
-                BasicGeoposition location = new BasicGeoposition();
-                location.Latitude = (double)ViewModel.Latitude;
-                location.Longitude = (double)ViewModel.Longitude;
-                Geopoint pointToReverseGeocode = new Geopoint(location);
+                //This code is temporary since the normal GPS property code doesn't work
+                var imgprops = await file.Properties.GetImagePropertiesAsync();
+                result = await GetAddressFromCoordinates((double)imgprops.Latitude, (double)imgprops.Longitude);
+                //result = await GetAddressFromCoordinates((double)ViewModel.SystemFileProperties_RO["System.GPS.LatitudeDecimal"], (double)ViewModel.SystemFileProperties_RO["System.GPS.LongitudeDecimal"]);
+            }
+            catch { }
 
-                // Reverse geocode the specified geographic location.
-                MapLocationFinderResult result =
-                      await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
-
-                // If the query returns results, display the name of the town
-                // contained in the address of the first result.
-                if (result.Status == MapLocationFinderStatus.Success)
-                {
-                    ViewModel.Geopoint = result.Locations[0];
-                    ViewModel.GeopointString = string.Format("{0}, {1}", result.Locations[0].Address.Town.ToString(), result.Locations[0].Address.Region.ToString());
-                }
-                else
-                {
-                    ViewModel.GeopointString = string.Format("{0:g}, {1:g}", Math.Truncate((decimal)ViewModel.Latitude * 10000000) / 10000000, Math.Truncate((decimal)ViewModel.Longitude * 10000000) / 10000000);
-                }
+            if (result != null && result.Locations.Count > 0 && result.Status == MapLocationFinderStatus.Success)
+            {
+                ViewModel.Geopoint = result.Locations[0];
+                ViewModel.GeopointString = string.Format("{0}, {1}", result.Locations[0].Address.Town.ToString(), result.Locations[0].Address.Region.ToString());
             }
             else
             {
@@ -323,20 +264,64 @@ namespace Files.View_Models.Properties
             }
 
 
-            var propValue = extraProperties[moreProperties[0]];
-            if (propValue != null)
+            //var propValue = ViewModel.SystemFileProperties["System.Image.BitDepth"];
+            //if (propValue != null)
+            //{
+            //    ViewModel.BitDepth = Convert.ToInt32(propValue);
+            //}
+
+            if (ViewModel.SystemFileProperties_RO["System.Photo.ExposureTime"] != null && ViewModel.SystemFileProperties_RO["System.Photo.FocalLength"] != null && ViewModel.SystemFileProperties_RO["System.Photo.Aperture"] != null)
             {
-                ViewModel.BitDepth = Convert.ToInt32(propValue);
+                ViewModel.ShotString = string.Format("{0} sec. f/{1} {2}mm", ViewModel.SystemFileProperties_RO["System.Photo.ExposureTime"], ViewModel.SystemFileProperties_RO["System.Photo.FocalLength"], ViewModel.SystemFileProperties_RO["System.Photo.Aperture"]);
             }
 
-            if (extraProperties[moreProperties[1]] != null && extraProperties[moreProperties[2]] != null && extraProperties[moreProperties[3]] != null)
-            {
-                ViewModel.ShotString = string.Format("{0} sec. f/{1} {2}mm", extraProperties[moreProperties[1]], extraProperties[moreProperties[2]], extraProperties[moreProperties[3]]);
-            }
-
+            var list = ViewModel.SystemFileProperties_RW;
+            Debug.WriteLine(list.ToString());
         }
 
-        
+        public async Task<MapLocationFinderResult> GetAddressFromCoordinates(double Lat, double Lon)
+        {
+            //lol please don't steal this
+            MapService.ServiceToken = "S7IF7M4Zxe9of0hbatDv~byc7WbHGg1rNYUqk4bL8Zw~Ar_Ap1WxoB_qnXme_hErpFhs74E8qKzCOXugSrankFJgJe9_D4l09O3TNj3WN2f2";
+            // The location to reverse geocode.
+            BasicGeoposition location = new BasicGeoposition();
+            location.Latitude = Lat;
+            location.Longitude = Lon;
+            Geopoint pointToReverseGeocode = new Geopoint(location);
+
+            // Reverse geocode the specified geographic location.
+            return await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
+
+            // If the query returns results, display the name of the town
+            // contained in the address of the first result.
+        }
+
+        public async void SyncPropertyChanges()
+        {
+            StorageFile file = null;
+            try
+            {
+                file = await ItemViewModel.GetFileFromPathAsync(Item.ItemPath);
+            }
+            catch
+            {
+                return;
+            }
+            //Dictionary<string, object> keyValues = new Dictionary<string, object>();
+            //foreach(KeyValuePair<string, object> o in ViewModel.SystemFileProperties_RW)
+            //    keyValues.Add(o.Key, o.Value);
+
+            //IEnumerable<KeyValuePair<string, object>> param = ViewModel.SystemFileProperties_RW;
+            //IEnumerable<KeyValuePair<string, object>> param = keyValues;
+            try
+            {
+                await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_RW);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+            }
+        }
 
         private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
