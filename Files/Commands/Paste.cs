@@ -6,9 +6,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using static Files.Helpers.NativeFindStorageItemHelper;
+using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Commands
 {
@@ -51,7 +54,6 @@ namespace Files.Commands
 
         private static async Task PasteItem(DataPackageView packageView, string destinationPath, DataPackageOperation acceptedOperation, IShellPage AppInstance, IProgress<uint> progress)
         {
-            int itemsPasted = 0;
             IReadOnlyList<IStorageItem> itemsToPaste = await packageView.GetStorageItemsAsync();
 
             if (!packageView.Contains(StandardDataFormats.StorageItems))
@@ -67,9 +69,9 @@ namespace Files.Commands
                 return;
             }
             
-            HashSet<IStorageItem> pastedSourceItems = new HashSet<IStorageItem>();
+            List<IStorageItem> pastedSourceItems = new List<IStorageItem>();
             HashSet<IStorageItem> pastedItems = new HashSet<IStorageItem>();
-
+            var totalItemsSize = CalculateTotalItemsSize(itemsToPaste);
             foreach (IStorageItem item in itemsToPaste)
             {
                 if (item.IsOfType(StorageItemTypes.Folder))
@@ -105,18 +107,17 @@ namespace Files.Commands
                     }
                     else
                     {
+                        uint progressValue = (uint)(CalculateTotalItemsSize(pastedSourceItems) * 100 / totalItemsSize);
+                        progress.Report(progressValue);
+
                         try
                         {
                             ClonedDirectoryOutput pastedOutput = await CloneDirectoryAsync(
                                 (StorageFolder)item,
                                 await ItemViewModel.GetFolderFromPathAsync(destinationPath),
-                                item.Name, 
-                                itemsToPaste, 
-                                itemsPasted, 
-                                progress);
+                                item.Name);
                             pastedSourceItems.Add(item);
                             pastedItems.Add(pastedOutput.FolderOutput);
-                            itemsPasted = pastedOutput.PastedItemCount;
                         }
                         catch (FileNotFoundException)
                         {
@@ -127,8 +128,8 @@ namespace Files.Commands
                 }
                 else if (item.IsOfType(StorageItemTypes.File))
                 {
-                    uint progressValue = (uint)(itemsPasted * 100.0 / itemsToPaste.Count);
-                    progress.Report((uint)progressValue);
+                    uint progressValue = (uint)(CalculateTotalItemsSize(pastedSourceItems) * 100 / totalItemsSize);
+                    progress.Report(progressValue);
 
                     try
                     {
@@ -158,8 +159,10 @@ namespace Files.Commands
                         continue;
                     }
                 }
-                itemsPasted++;
             }
+
+            uint finalProgressValue = (uint)(CalculateTotalItemsSize(pastedSourceItems) * 100 / totalItemsSize);
+            progress.Report(finalProgressValue);
 
             if (acceptedOperation == DataPackageOperation.Move)
             {
@@ -220,41 +223,113 @@ namespace Files.Commands
         public class ClonedDirectoryOutput
         {
             public StorageFolder FolderOutput { get; set; }
-            public int PastedItemCount { get; set; }
+            // TODO: simplify/remove this
         }
 
-        public async static Task<ClonedDirectoryOutput> CloneDirectoryAsync(StorageFolder SourceFolder, StorageFolder DestinationFolder, string sourceRootName, IReadOnlyList<IStorageItem> itemsToPaste, int currentPastedCount, IProgress<uint> progress)
+        public async static Task<ClonedDirectoryOutput> CloneDirectoryAsync(StorageFolder SourceFolder, StorageFolder DestinationFolder, string sourceRootName)
         {
             var createdRoot = await DestinationFolder.CreateFolderAsync(sourceRootName, CreationCollisionOption.GenerateUniqueName);
             DestinationFolder = createdRoot;
 
             foreach (StorageFile fileInSourceDir in await SourceFolder.GetFilesAsync())
             {
-                if (itemsToPaste != null)
-                {
-                    uint progressValue = (uint)(currentPastedCount * 100.0 / (itemsToPaste.Count + (await SourceFolder.GetFilesAsync()).Count));
-                    progress.Report(progressValue);
-                }
-
                 await fileInSourceDir.CopyAsync(DestinationFolder, fileInSourceDir.Name, NameCollisionOption.GenerateUniqueName);
             }
 
             foreach (StorageFolder folderinSourceDir in await SourceFolder.GetFoldersAsync())
             {
-                if (itemsToPaste != null)
-                {
-                    uint progressValue = (uint)(currentPastedCount * 100.0 / (itemsToPaste.Count + (await SourceFolder.GetFoldersAsync()).Count));
-                    progress.Report(progressValue);
-                }
-
-                await CloneDirectoryAsync(folderinSourceDir, DestinationFolder, folderinSourceDir.Name, itemsToPaste, currentPastedCount, progress);
+                await CloneDirectoryAsync(folderinSourceDir, DestinationFolder, folderinSourceDir.Name);
             }
 
             return new ClonedDirectoryOutput()
             {
                 FolderOutput = createdRoot,
-                PastedItemCount = currentPastedCount
             };
+        }
+
+        public static long CalculateTotalItemsSize(IReadOnlyList<IStorageItem> itemsPasting)
+        {
+            var folderSizes = itemsPasting.Where(x => x.IsOfType(StorageItemTypes.Folder)).Select(async x => await CalculateFolderSizeAsync(x.Path)).Select(x => x.Result);
+            var fileSizes = itemsPasting.Where(x => x.IsOfType(StorageItemTypes.File)).Select(x => CalculateFileSize(x.Path));
+            return folderSizes.Sum() + fileSizes.Sum();
+        }
+
+        public static async Task<long> CalculateFolderSizeAsync(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                // In MTP devices calculating folder size would be too slow
+                // Also should use StorageFolder methods instead of FindFirstFileExFromApp
+                return 0;
+            }
+
+            long size = 0;
+            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+
+            IntPtr hFile = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
+                                                  additionalFlags);
+
+            var count = 0;
+            if (hFile.ToInt64() != -1)
+            {
+                do
+                {
+                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
+                    {
+                        size += findData.GetSize();
+                        ++count;
+                    }
+                    else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+                    {
+                        if (findData.cFileName != "." && findData.cFileName != "..")
+                        {
+                            var itemPath = Path.Combine(path, findData.cFileName);
+
+                            size += await CalculateFolderSizeAsync(itemPath);
+                            ++count;
+                        }
+                    }
+                } while (FindNextFile(hFile, out findData));
+                FindClose(hFile);
+                return size;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public static long CalculateFileSize(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                // In MTP devices calculating folder size would be too slow
+                // Also should use StorageFolder methods instead of FindFirstFileExFromApp
+                return 0;
+            }
+
+            long size = 0;
+            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+
+            IntPtr hFile = FindFirstFileExFromApp(path, findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
+                                                  additionalFlags);
+
+            if (hFile.ToInt64() != -1)
+            {
+                if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
+                {
+                    size += findData.GetSize();
+                }
+                FindClose(hFile);
+                Debug.WriteLine("Individual file size for Progress UI will be reported as: " + size.ToString() + " bytes");
+                return size;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
 }
