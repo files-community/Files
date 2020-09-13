@@ -995,7 +995,7 @@
                             x:Uid="NavigationToolbarCopyPath"
                             x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.GetPath_Click}"
-                            Text="Copy Path">
+                            Text="Copy location">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9B1;" />
                             </MenuFlyoutItem.Icon>

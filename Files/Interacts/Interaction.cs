@@ -81,7 +81,8 @@ namespace Files.Interacts
                 // Get the app's local folder to use as the destination folder.
                 StorageFolder localFolder = ApplicationData.Current.LocalFolder;
 
-                // Copy the file to the destination folder.
+                // 
+              the file to the destination folder.
                 // Generate unique name if the file already exists.
                 // If the file you are trying to set as the wallpaper has the same name as the current wallpaper,
                 // the system will ignore the request and no-op the operation
@@ -1033,6 +1034,24 @@ namespace Files.Interacts
                     dataPackage = null;
                 }
             }
+        }
+
+        public void CopyLocation_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            if (App.CurrentInstance.ContentPage != null)
+            {
+                Clipboard.Clear();
+                DataPackage data = new DataPackage();
+                data.SetText(CurrentInstance.ContentPage.SelectedItem.ItemPath);
+                Clipboard.SetContent(data);
+                Clipboard.Flush();
+            }
+        }
+
+        private enum ImpossibleActionResponseTypes
+        {
+            Skip,
+            Abort
         }
 
         public async void EmptyRecycleBin_ClickAsync(object sender, RoutedEventArgs e)

@@ -340,8 +340,9 @@
           <target state="translated" state-qualifier="tm-suggestion">Nieuw venster</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarCopyPath.Text" translate="yes" xml:space="preserve">
-          <source>Copy Path</source>
-          <target state="translated" state-qualifier="tm-suggestion">Pad kopiëren</target>
+          <source>Copy location</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Pad kopiëren</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavigationToolbarPaste.Text" translate="yes" xml:space="preserve">
           <source>Paste</source>
@@ -1202,6 +1203,10 @@
         <trans-unit id="BaseLayoutItemContextFlyoutSetAs.Text" translate="yes" xml:space="preserve">
           <source>Set as</source>
           <target state="new">Set as</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutCopyLocation.Text" translate="yes" xml:space="preserve">
+          <source>Copy location</source>
+          <target state="new">Copy location</target>
         </trans-unit>
       </group>
     </body>

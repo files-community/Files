@@ -366,6 +366,16 @@ namespace Files
                         }
                     }
                     break;
+
+                case ActivationKind.ToastNotification:
+                    var eventArgsForNotification = args as ToastNotificationActivatedEventArgs;
+                    if (eventArgsForNotification.Argument == "report")
+                    {
+                        // Launch the URI and open log files location
+                        //SettingsViewModel.OpenLogLocation();
+                        SettingsViewModel.ReportIssueOnGitHub();
+                    }
+                    break;
             }
 
             rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
@@ -437,16 +447,16 @@ namespace Files
                         BindingGeneric = new ToastBindingGeneric()
                         {
                             Children =
-                        {
-                            new AdaptiveText()
                             {
-                                Text = ResourceController.GetTranslation("ExceptionNotificationHeader")
+                                new AdaptiveText()
+                                {
+                                    Text = ResourceController.GetTranslation("ExceptionNotificationHeader")
+                                },
+                                new AdaptiveText()
+                                {
+                                    Text = ResourceController.GetTranslation("ExceptionNotificationBody")
+                                }
                             },
-                            new AdaptiveText()
-                            {
-                                Text = ResourceController.GetTranslation("ExceptionNotificationBody")
-                            }
-                        },
                             AppLogoOverride = new ToastGenericAppLogo()
                             {
                                 Source = "ms-appx:///Assets/error.png"
@@ -456,12 +466,12 @@ namespace Files
                     Actions = new ToastActionsCustom()
                     {
                         Buttons =
-                    {
-                        new ToastButton(ResourceController.GetTranslation("ExceptionNotificationReportButton"), "report")
                         {
-                            ActivationType = ToastActivationType.Foreground
+                            new ToastButton(ResourceController.GetTranslation("ExceptionNotificationReportButton"), "report")
+                            {
+                                ActivationType = ToastActivationType.Foreground
+                            }
                         }
-                    }
                     }
                 };
 
