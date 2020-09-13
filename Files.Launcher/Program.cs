@@ -80,6 +80,11 @@ namespace FilesFullTrust
                     watchers.Add(watcher);
                 }
 
+                // Preload context menu for better performace
+                // We query the context menu for the app's local folder
+                var preloadPath = ApplicationData.Current.LocalFolder.Path;
+                using var _ = Win32API.ContextMenu.GetContextMenuForFiles(new string[] { preloadPath }, Shell32.CMF.CMF_NORMAL);
+
                 // Connect to app service and wait until the connection gets closed
                 appServiceExit = new AutoResetEvent(false);
                 InitializeAppServiceConnection();
