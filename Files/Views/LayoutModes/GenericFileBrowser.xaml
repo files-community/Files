@@ -348,6 +348,15 @@
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe9d6;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+            <MenuFlyoutItem
+                x:Name="CopyLocationItem"
+                x:Uid="BaseLayoutItemContextFlyoutCopyLocation"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CopyLocation_ClickAsync}"
+                Text="Copy location">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9B1;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
                 x:Name="CreateShortcut"
