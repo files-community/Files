@@ -81,8 +81,7 @@ namespace Files.Interacts
                 // Get the app's local folder to use as the destination folder.
                 StorageFolder localFolder = ApplicationData.Current.LocalFolder;
 
-                // 
-              the file to the destination folder.
+                // the file to the destination folder.
                 // Generate unique name if the file already exists.
                 // If the file you are trying to set as the wallpaper has the same name as the current wallpaper,
                 // the system will ignore the request and no-op the operation
