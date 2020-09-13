@@ -1203,6 +1203,10 @@
           <source>Copy location</source>
           <target state="new">Copy location</target>
         </trans-unit>
+        <trans-unit id="SettingsPreferencesCopyLocation.Text" translate="yes" xml:space="preserve">
+          <source>Show an option to copy the location of the selected item</source>
+          <target state="new">Show an option to copy the location of the selected item</target>
+        </trans-unit>
       </group>
     </body>
   </file>

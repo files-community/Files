@@ -813,17 +813,38 @@
   <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
     <value>Logverzeichnis öffnen</value>
   </data>
+  <data name="ExceptionNotificationBody" xml:space="preserve">
+    <value>Files ran into a problem that the developers didn't prepare for yet.</value>
+  </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
     <value>Etwas ist schief gelaufen!</value>
   </data>
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
-    <value>DIeses Problem melden</value>
+    <value>Dieses Problem melden</value>
+  </data>
+  <data name="SettingsAboutContributors.Text" xml:space="preserve">
+    <value>Mitwirkende</value>
+  </data>
+  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
+    <value>Siehe wer bei Files UWP mitgewirt hat</value>
+  </data>
+  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
+  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
+    <value>Finde heraus was neu ist</value>
+  </data>
+  <data name="InvalidItemDialogContent" xml:space="preserve">
+    <value>Das Element auf das verwiesen wurde ist fehlerhaft oder nicht erreichbar {0}Fehlermeldung:{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Ungültiges Element</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>Version:</value>
+  </data>
+  <data name="ShareDialogFailMessage" xml:space="preserve">
+    <value>Zurzeit gibt es nichts zum Teilen...</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
     <value>Die von Ihnen ausgewählten Elemente werden geteilt</value>
@@ -842,5 +863,41 @@
   </data>
   <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
     <value>Alle im Kontextmenü verfügbaren Elemente anzeigen</value>
+  </data>
+  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
+    <value>Are you sure you want to delete this item?</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
+    <value>Sind Sie sicher, dass Sie diese {0} Elemente löschen möchten?</value>
+  </data>
+  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
+    <value>Adaptiv (Empohlen)</value>
+  </data>
+  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
+    <value>Basierend auf der Fenstergröße wird das beste Layout ausgewählt. Wenn das Fenster klein ist, wird die horizontale Leiste zu einem Flyout-Menü in der Navigationsbereich zusammengeklappt.</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
+    <value>Versteckt das vertikale Flyout immer vom Navigationsbereich und zeigt stattdessen die traditionelle, horizontale Leiste. Dies ist geeignet für Benutzer die jederzeit die Übersicht über ihre geöffneten Appinstanzen haben möchten.</value>
+  </data>
+  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
+    <value>Multitasking</value>
+  </data>
+  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
+    <value>Vertikal</value>
+  </data>
+  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
+    <value>Die horizontale Liste mit Appinstanzen wird zu einem vertikalem Flyoutmenü. Die ist geeignet für Benutzer die die Benutzeroberfläche ordentlich mögen.</value>
+  </data>
+  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
+    <value>Multitasking</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+    <value>Festlegen als</value>
   </data>
 </root>

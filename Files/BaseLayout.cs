@@ -1,4 +1,5 @@
-﻿using Files.Common;
+﻿using Files.Commands;
+using Files.Common;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
@@ -583,13 +584,13 @@ namespace Files
             deferral.Complete();
         }
 
-        protected async void List_Drop(object sender, DragEventArgs e)
+        protected void List_Drop(object sender, DragEventArgs e)
         {
             var deferral = e.GetDeferral();
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                await AssociatedInteractions.PasteItems(e.DataView, App.CurrentInstance.FilesystemViewModel.WorkingDirectory, e.AcceptedOperation);
+                ItemOperations.PasteItemWithStatus(e.DataView, App.CurrentInstance.FilesystemViewModel.WorkingDirectory, e.AcceptedOperation);
                 e.Handled = true;
             }
 
@@ -659,13 +660,13 @@ namespace Files
             deferral.Complete();
         }
 
-        protected async void Item_Drop(object sender, DragEventArgs e)
+        protected void Item_Drop(object sender, DragEventArgs e)
         {
             var deferral = e.GetDeferral();
 
             e.Handled = true;
             ListedItem rowItem = GetItemFromElement(sender);
-            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, e.AcceptedOperation);
+            ItemOperations.PasteItemWithStatus(e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, e.AcceptedOperation);
             deferral.Complete();
         }
 

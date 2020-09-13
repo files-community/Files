@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Commands;
+using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
 using System;
@@ -277,14 +278,14 @@ namespace Files.Controls
             deferral.Complete();
         }
 
-        private async void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
+        private void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
         {
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem)) return;
 
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
             var deferral = e.GetDeferral();
-            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, locationItem.Path, e.AcceptedOperation);
+            ItemOperations.PasteItemWithStatus(e.DataView, locationItem.Path, e.AcceptedOperation);
             deferral.Complete();
         }
 
@@ -320,14 +321,14 @@ namespace Files.Controls
             deferral.Complete();
         }
 
-        private async void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
+        private void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
         {
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem)) return;
 
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
             var deferral = e.GetDeferral();
-            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, driveItem.Path, e.AcceptedOperation);
+            ItemOperations.PasteItemWithStatus(e.DataView, driveItem.Path, e.AcceptedOperation);
             deferral.Complete();
         }
     }

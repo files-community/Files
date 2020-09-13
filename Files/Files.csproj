@@ -154,6 +154,8 @@
     <Compile Include="CommandLine\ParsedCommand.cs" />
     <Compile Include="CommandLine\ParsedCommands.cs" />
     <Compile Include="CommandLine\ParsedCommandType.cs" />
+    <Compile Include="Commands\Delete.cs" />
+    <Compile Include="Commands\Paste.cs" />
     <Compile Include="Controllers\IJson.cs" />
     <Compile Include="Controllers\SidebarPinnedController.cs" />
     <Compile Include="Converters\MultiBooleanConverter.cs" />
@@ -688,9 +690,7 @@
       <Name>Files.MessageRelay</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Commands\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <SDKReference Include="WindowsDesktop, Version=10.0.19041.0">
       <Name>Windows Desktop Extensions for the UWP</Name>

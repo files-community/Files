@@ -1,4 +1,5 @@
-﻿using Files.Dialogs;
+﻿using Files.Commands;
+using Files.Dialogs;
 using Files.Filesystem;
 using Files.Interacts;
 using Files.UserControls;
@@ -225,7 +226,7 @@ namespace Files.Views.Pages
 
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
                     if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
-                        App.CurrentInstance.InteractionOperations.DeleteItem(StorageDeleteOption.PermanentDelete);
+                        ItemOperations.DeleteItemWithStatus(StorageDeleteOption.PermanentDelete);
                     break;
 
                 case (true, false, false, true, VirtualKey.C): // ctrl + c, copy
@@ -274,7 +275,7 @@ namespace Files.Views.Pages
 
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
                     if (App.CurrentInstance.ContentPage.IsItemSelected && !App.CurrentInstance.ContentPage.isRenamingItem)
-                        App.CurrentInstance.InteractionOperations.DeleteItem(StorageDeleteOption.Default);
+                        ItemOperations.DeleteItemWithStatus(StorageDeleteOption.Default);
                     break;
 
                 case (false, false, false, true, VirtualKey.Space): // space, quick look
