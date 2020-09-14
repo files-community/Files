@@ -116,6 +116,11 @@ namespace Files.Filesystem
                 _customPath = null;
             }
 
+            if (value == "Home")
+            {
+                _currentStorageFolder = null;
+            }
+
             NotifyPropertyChanged(nameof(WorkingDirectory));
         }
 
