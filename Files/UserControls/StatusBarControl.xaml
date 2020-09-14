@@ -149,7 +149,7 @@
                 FontSize="16"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Ongoing tasks"
-                Visibility="Collapsed">
+                Visibility="Visible">
                 <Button.Flyout>
                     <Flyout>
                         <local:StatusCenter

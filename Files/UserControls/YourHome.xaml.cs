@@ -22,8 +22,8 @@ namespace Files
             App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
             App.CurrentInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
             var parameters = eventArgs.Parameter.ToString();
-            App.CurrentInstance.MultitaskingControl?.SetSelectedTabInfo(parameters, null);
-            App.CurrentInstance.MultitaskingControl?.SelectionChanged();
+            App.MultitaskingControl?.SetSelectedTabInfo(parameters, null);
+            App.MultitaskingControl?.SelectionChanged();
             App.CurrentInstance.NavigationToolbar.CanRefresh = false;
             App.CurrentInstance.NavigationToolbar.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
             App.CurrentInstance.NavigationToolbar.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;

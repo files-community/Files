@@ -807,9 +807,6 @@
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Apri percorso file</value>
   </data>
-  <data name="SettingsPreferencesShowHorizontalTabStrip.Text" xml:space="preserve">
-    <value>Mostra le schede nella barra del titolo</value>
-  </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Collaboratori</value>
   </data>
@@ -821,9 +818,6 @@
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
     <value>Vedi cosa c'è di nuovo in Files UWP</value>
-  </data>
-  <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
-    <value>Mostra le cartelle aperte nel menu a comparsa</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>L'elemento è non valido o non accessibile.{0}Messaggio di errore:{0}{1}</value>

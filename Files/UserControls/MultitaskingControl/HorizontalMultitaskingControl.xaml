@@ -752,7 +752,7 @@
             Background="Transparent"
             Loaded="DragArea_Loaded" />
         <muxc:TabView
-            x:Name="horizontalTabView"
+            x:Name="HorizontalTabView"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             AddTabButtonClick="TabView_AddTabButtonClick"
@@ -766,7 +766,7 @@
             TabDragCompleted="TabStrip_TabDragCompleted"
             TabDragStarting="TabStrip_TabDragStarting"
             TabDroppedOutside="TabStrip_TabDroppedOutside"
-            TabItemsChanged="horizontalTabView_TabItemsChanged"
+            TabItemsChanged="HorizontalTabView_TabItemsChanged"
             TabItemsSource="{x:Bind Items, Mode=OneWay}"
             TabStripDragOver="TabStrip_TabStripDragOver"
             TabStripDrop="TabStrip_TabStripDrop"

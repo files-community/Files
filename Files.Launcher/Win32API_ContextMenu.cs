@@ -147,9 +147,10 @@ namespace FilesFullTrust
                     pici.cbSize = (uint)Marshal.SizeOf(pici);
                     cMenu.InvokeCommand(pici);
                 }
-                catch (COMException ex)
+                catch (Exception ex) when (
+                    ex is COMException
+                    || ex is UnauthorizedAccessException)
                 {
-                    // Usually it's "invalid window handle"
                     Debug.WriteLine(ex);
                 }
             }
@@ -165,9 +166,10 @@ namespace FilesFullTrust
                     pici.cbSize = (uint)Marshal.SizeOf(pici);
                     cMenu.InvokeCommand(pici);
                 }
-                catch (COMException ex)
+                catch (Exception ex) when (
+                    ex is COMException
+                    || ex is UnauthorizedAccessException)
                 {
-                    // Usually it's "invalid window handle"
                     Debug.WriteLine(ex);
                 }
             }

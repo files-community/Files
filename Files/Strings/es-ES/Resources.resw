@@ -786,9 +786,6 @@
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Abrir ubicación de archivo</value>
   </data>
-  <data name="SettingsPreferencesShowHorizontalTabStrip.Text" xml:space="preserve">
-    <value>Mostrar pestañas horizontales en la barra de título</value>
-  </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Contribuidores</value>
   </data>
@@ -800,9 +797,6 @@
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
     <value>Ver las novedades de esta versión</value>
-  </data>
-  <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
-    <value>Mostrar menú de pestañas en la barra de navegación</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>El elemento al que se hace referencia no es válido o es inaccesible.{0}Mensaje de error:{0}{1}</value>

@@ -7,6 +7,7 @@
     xmlns:controls="using:Files.Controls"
     xmlns:controls1="using:Files.UserControls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:converters1="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.Views.Pages"
     xmlns:local1="using:Files"
@@ -162,7 +163,7 @@
                     <Grid
                         x:Name="SmallWindowTitlebar"
                         Height="30"
-                        x:Load="{x:Bind AppSettings.IsHorizontalTabStripVisible, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                        x:Load="{x:Bind converters1:MultiBooleanConverter.Convert(AppSettings.IsVerticalTabFlyoutEnabled, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible), Mode=OneWay}"
                         Background="Transparent"
                         Loaded="SmallWindowTitlebar_Loaded" />
 

@@ -804,9 +804,6 @@
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Открыть расположение файла</value>
   </data>
-  <data name="SettingsPreferencesShowHorizontalTabStrip.Text" xml:space="preserve">
-    <value>Показывать горизонтальную полосу вкладок в строке заголовка</value>
-  </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Авторы</value>
   </data>
@@ -818,8 +815,5 @@
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
     <value>Узнайте, что нового в Files UWP</value>
-  </data>
-  <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
-    <value>Показать всплывающее меню многозадачности на панели инструментов навигации</value>
   </data>
 </root>
