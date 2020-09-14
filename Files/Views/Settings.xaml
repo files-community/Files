@@ -88,6 +88,14 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
+                    x:Uid="SettingsNavMultitasking"
+                    BorderThickness="0.8"
+                    Content="Multitasking">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeba9;" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem
                     x:Uid="SettingsNavFilesAndFolders"
                     BorderThickness="0.8"
                     Content="Files and Folders">
