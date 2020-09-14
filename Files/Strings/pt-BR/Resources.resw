@@ -130,7 +130,7 @@
     <value>Pesquisar</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Os arquivos e pastas que você acessou anteriormente aparecerão aqui</value>
+    <value>Os arquivos que você acessou anteriormente serão exibidos aqui</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
     <value>Abrir local do arquivo</value>
@@ -145,7 +145,7 @@
     <value>Files UWP</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>Licença:</value>
+    <value>Licença</value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Agradecimentos especiais para:</value>
@@ -154,16 +154,16 @@
     <value>Enviar Comentários</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Envie aos desenvolvedores um relatório de problemas com mais informações</value>
+    <value>Envie aos desenvolvedores um relatório de problema com informações detalhadas</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Licenças de Terceiros:</value>
+    <value>Licenças de Terceiros</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Sobre</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Site da web:</value>
+    <value>Site da web</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
     <value>Barra lateral em acrílico</value>
@@ -364,7 +364,7 @@
     <value>Propriedades</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>QuickLook</value>
+    <value>QuickLook:</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Bem vindo ao Files!</value>
@@ -727,7 +727,7 @@
     <value>Remover Página</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Ao iniciar uma pasta fixada</value>
+    <value>Ao iniciar um item da lista fixada</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
     <value>Sempre abra uma nova instância</value>
@@ -863,5 +863,47 @@
   </data>
   <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
     <value>Mostrar todos os itens do menu de contexto</value>
+  </data>
+  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
+    <value>Tem certeza de que deseja excluir estes {0} itens?</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
+    <value>Tem certeza de que deseja excluir este item?</value>
+  </data>
+  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
+    <value>Adaptável (recomendado)</value>
+  </data>
+  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
+    <value>Seleciona o melhor controle multitarefa com base em como a janela do aplicativo é redimensionada. Quando a janela é pequena, você notará que a faixa de tabulação horizontal é recolhida em um menu flutuante na barra de ferramentas de navegação.</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
+    <value>Sempre oculta o menu flutuante multitarefa vertical da barra de ferramentas de navegação e mostra a faixa de guias horizontal tradicional na janela do aplicativo. Isso é adequado para usuários que precisam manter o controle de todas as instâncias de aplicativos abertas o tempo todo.</value>
+  </data>
+  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
+    <value>Multitarefa</value>
+  </data>
+  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
+    <value>Vertical</value>
+  </data>
+  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
+    <value>Recolhe a lista horizontal de instâncias de aplicativos em um menu flutuante vertical na barra de ferramentas de navegação, projetada para usuários que desejam uma interface de aplicativo limpa com acesso sob demanda a uma experiência multitarefa.</value>
+  </data>
+  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
+    <value>Multitarefa</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+    <value>Definir como</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
+    <value>Copiar caminho</value>
+  </data>
+  <data name="SettingsPreferencesCopyLocation.Text" xml:space="preserve">
+    <value>Mostra uma opção para copiar o caminho do item selecionado</value>
   </data>
 </root>
