@@ -120,7 +120,7 @@
             <TextBlock
                 Margin="10,8"
                 FontSize="14"
-                FontWeight="Bold"
+                FontWeight="SemiBold"
                 Text="Ongoing Tasks" />
         </Grid>
 
@@ -134,6 +134,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local:StatusBanner">
                     <Grid
+                        Height="{x:Bind BannerHeight}"
                         Padding="8"
                         Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                         BorderBrush="{x:Bind StrokeColor}"
@@ -144,6 +145,10 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="30" />
                             </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
                             <Grid>
                                 <muxc:ProgressRing
                                     x:Name="ProgressSpinner"
@@ -175,6 +180,8 @@
                             <Button
                                 Grid.Column="2"
                                 Padding="0"
+                                DataContext="{x:Bind}"
+                                Click="Button_Click"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"
                                 Background="Transparent">
@@ -182,6 +189,14 @@
                                     <FontIcon FontSize="11" Glyph="&#xE711;" />
                                 </Button.Content>
                             </Button>
+                            <Grid x:Name="solutionButtons" x:Load="{x:Bind SolutionButtonsVisible}" Grid.ColumnSpan="3" Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Button DataContext="{x:Bind}" Content="{x:Bind PrimaryButtonText}" Click="Button_Click_1" Grid.Column="0"/>
+                                <Button DataContext="{x:Bind}" Content="{x:Bind SecondaryButtonText}" Click="Button_Click" Grid.Column="1"/>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </DataTemplate>

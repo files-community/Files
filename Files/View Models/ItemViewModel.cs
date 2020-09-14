@@ -119,15 +119,15 @@ namespace Files.Filesystem
             NotifyPropertyChanged(nameof(WorkingDirectory));
         }
 
-        public static async Task<StorageFolder> GetFolderFromPathAsync(string value)
+        public static async Task<StorageFolder> GetFolderFromPathAsync(string value, IShellPage appInstance = null)
         {
-            var instance = App.CurrentInstance.FilesystemViewModel;
+            var instance = appInstance == null ? App.CurrentInstance.FilesystemViewModel : appInstance.FilesystemViewModel;
             return await StorageFileExtensions.GetFolderFromPathAsync(value, instance._workingRoot, instance._currentStorageFolder);
         }
 
-        public static async Task<StorageFile> GetFileFromPathAsync(string value)
+        public static async Task<StorageFile> GetFileFromPathAsync(string value, IShellPage appInstance = null)
         {
-            var instance = App.CurrentInstance.FilesystemViewModel;
+            var instance = appInstance == null ? App.CurrentInstance.FilesystemViewModel : appInstance.FilesystemViewModel;
             return await StorageFileExtensions.GetFileFromPathAsync(value, instance._workingRoot, instance._currentStorageFolder);
         }
 
