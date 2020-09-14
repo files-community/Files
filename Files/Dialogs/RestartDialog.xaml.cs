@@ -16,6 +16,7 @@ namespace Files.Dialogs
         public void Show()
         {
             RestartNotification.Show();
+            RestartNotification.Focus(FocusState.Programmatic);
         }
 
         public void Dismiss()
@@ -30,6 +31,11 @@ namespace Files.Dialogs
         }
 
         private void NoButton_Click(object sender, RoutedEventArgs e)
+        {
+            RestartNotification.Dismiss();
+        }
+
+        private void RestartNotification_LostFocus(object sender, RoutedEventArgs e)
         {
             RestartNotification.Dismiss();
         }

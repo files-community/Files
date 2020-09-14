@@ -61,5 +61,5 @@
 
     <controls:InAppNotification
         x:Name="RestartNotification"
-        ContentTemplate="{StaticResource RestartDialogTemplate}" />
+        ContentTemplate="{StaticResource RestartDialogTemplate}" LostFocus="RestartNotification_LostFocus" />
 </UserControl>
