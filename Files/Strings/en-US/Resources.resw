@@ -151,7 +151,7 @@
     <value>Text Document</value>
   </data>
   <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>Copy Path</value>
+    <value>Copy location</value>
   </data>
   <data name="NavigationToolbarPaste.Text" xml:space="preserve">
     <value>Paste</value>
@@ -912,9 +912,6 @@
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Open file location</value>
   </data>
-  <data name="SettingsPreferencesShowHorizontalTabStrip.Text" xml:space="preserve">
-    <value>Show a horizontal tab strip on the title bar</value>
-  </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
     <value>Unknown</value>
   </data>
@@ -941,9 +938,6 @@
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
     <value>Find out what's new</value>
-  </data>
-  <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
-    <value>Show multitasking flyout in the navigation toolbar</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</value>
@@ -982,7 +976,7 @@
     <value>Yes</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>You need to restart the application to apply the changed language settings. Do you want to restart the application now?</value>
+    <value>The application needs to be restarted in order to apply the langague setting, would you like to restart the app?</value>
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Cancel</value>
@@ -993,7 +987,37 @@
   <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
     <value>Are you sure you want to delete this item?</value>
   </data>
+  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
+    <value>Adaptive (Recommended)</value>
+  </data>
+  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
+    <value>Selects the best multitasking control based on how the app window is resized. When the window is small, you'll notice the horizontal tab strip is collapsed into a flyout on the navigation toolbar.</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
+    <value>Always hides the vertical multitasking flyout from the navigation toolbar, and shows the traditional horizontal tabstrip on the app window. This is suited for users who need to keep track of every open app instance at all times.</value>
+  </data>
+  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
+    <value>Multitasking</value>
+  </data>
+  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
+    <value>Vertical</value>
+  </data>
+  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
+    <value>Collapses the horizontal list of app instances into a vertical flyout on the navigation toolbar, designed for users who want a clean app interface with on-demand access to a multitasking experience.</value>
+  </data>
+  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
+    <value>Multitasking</value>
+  </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Set as</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
+    <value>Copy location</value>
+  </data>
+  <data name="SettingsPreferencesCopyLocation.Text" xml:space="preserve">
+    <value>Show an option to copy the location of the selected item</value>
   </data>
 </root>
