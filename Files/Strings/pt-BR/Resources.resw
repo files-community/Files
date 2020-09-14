@@ -867,11 +867,11 @@
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Cancelar</value>
   </data>
-  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
-    <value>Tem certeza de que deseja excluir estes {0} itens?</value>
-  </data>
   <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
     <value>Tem certeza de que deseja excluir este item?</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
+    <value>Tem certeza de que deseja excluir estes {0} itens?</value>
   </data>
   <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
     <value>Adaptável (recomendado)</value>
