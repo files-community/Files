@@ -582,7 +582,7 @@
                                     <Button.Content>
                                         <StackPanel Orientation="Horizontal" Spacing="8">
                                             <FontIcon FontSize="14" Glyph="&#xE710;" />
-                                            <TextBlock Text="Add tab" />
+                                            <TextBlock x:Uid="VerticalTabViewAddTab" Text="Add tab" />
                                         </StackPanel>
                                     </Button.Content>
                                 </Button>
@@ -660,6 +660,7 @@
             </muxc:TabView.TabItemTemplate>
             <muxc:TabView.TabStripHeader>
                 <TextBlock
+                    x:Uid="VerticalTabViewHeader"
                     Padding="4,6"
                     VerticalAlignment="Center"
                     FontWeight="Medium"

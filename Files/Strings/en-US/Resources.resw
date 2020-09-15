@@ -978,6 +978,12 @@
   <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
     <value>Are you sure you want to delete this item?</value>
   </data>
+  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
+    <value>Add tab</value>
+  </data>
+  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
+    <value>Open tabs</value>
+</data>
   <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
     <value>Adaptive (Recommended)</value>
   </data>

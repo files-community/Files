@@ -1208,6 +1208,14 @@
           <source>Show an option to copy the location of the selected item</source>
           <target state="new">Show an option to copy the location of the selected item</target>
         </trans-unit>
+        <trans-unit id="VerticalTabViewAddTab.Text" translate="yes" xml:space="preserve">
+          <source>Add tab</source>
+          <target state="new">Add tab</target>
+        </trans-unit>
+        <trans-unit id="VerticalTabViewHeader.Text" translate="yes" xml:space="preserve">
+          <source>Open tabs</source>
+          <target state="new">Open tabs</target>
+        </trans-unit>
       </group>
     </body>
   </file>
