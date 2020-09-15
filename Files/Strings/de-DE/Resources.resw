@@ -127,7 +127,7 @@
     <value>OneDrive an die Seitenleiste anheften</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Terminal Anwendung</value>
+    <value>Terminal Anwendungen</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Voreinstellungen</value>
@@ -268,7 +268,7 @@
     <value>In Terminal öffnen...</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Pfad einfügen</value>
+    <value>Pfad eingeben</value>
   </data>
   <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
     <value>Suchen</value>
@@ -307,13 +307,13 @@
     <value>Größe</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Willkommen in Files UWP</value>
+    <value>Willkommen zu Files</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Erlaubnis erteilen</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Um loslegen zu können, geben Sie uns bitte die Erlaubnis, Dateien anzeigen zu dürfen. Diese Option wird die Einstellungensseite öffnen auf der Sie diese Erlaubnis erteilen können. Anschließend starten Sie die App bitte neu.</value>
+    <value>Um loslegen zu können, müssen Sie uns die Erlaubnis geben, Ihre Dateien anzeigen zu dürfen. Es wird eine Einstellungensseite geöffnet, auf der Sie diese Erlaubnis erteilen können. Wenn SIe diesen Schritt erledigt haben, müssen Sie die Anwendung neustarten.</value>
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>Dateiordner</value>
@@ -322,7 +322,7 @@
     <value>Dateinamen eingeben</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Geben Sie den Dateinamen ohne Erweiterung ein</value>
+    <value>Geben Sie den Dateinamen ein</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Name festlegen</value>
@@ -391,7 +391,7 @@
     <value>Aktion kann nicht ausgeführt werden</value>
   </data>
   <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
-    <value>Der Ausgangsordner</value>
+    <value>Der Zielordner</value>
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>ist ein Unterordner des Quellordners</value>
@@ -439,7 +439,7 @@
     <value>Experimentell</value>
   </data>
   <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
-    <value>Doppelt antippen zum Umbenennen</value>
+    <value>Doppelclicken, um die Dateien umzubenennen</value>
   </data>
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Beispielprofile anzeigen</value>
@@ -586,7 +586,7 @@
     <value>Element ausgewählt</value>
   </data>
   <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>Ausgewählte Elemente</value>
+    <value>Elemente ausgewählt</value>
   </data>
   <data name="ItemCount.Text" xml:space="preserve">
     <value>Element</value>
@@ -649,7 +649,7 @@
     <value>Dateien werden in den Papierkorb verschoben</value>
   </data>
   <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Lernen Sie mehr über Datumsformate</value>
+    <value>Erfahren Sie mehr über Datumsformate</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Entsperren</value>
@@ -709,7 +709,7 @@
     <value>App Sprache</value>
   </data>
   <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>Neustart erforderlich</value>
+    <value>Um die Änderungen zu sehen, ist ein Neustart erforderlich</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Status</value>
@@ -727,7 +727,7 @@
     <value>Seite entfernen</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Wenn eine angeheftete Seite gestarted wird</value>
+    <value>Wenn ein angeheftetes Element gestartet wird</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
     <value>Immer eine neue Instanz öffnen</value>
@@ -766,7 +766,7 @@
     <value>Dateipfad öffnen</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
-    <value>Argumente</value>
+    <value>Argumente:</value>
   </data>
   <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
     <value>Ziel:</value>
@@ -778,7 +778,7 @@
     <value>Ausführen in:</value>
   </data>
   <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
-    <value>Programm</value>
+    <value>Anwendung</value>
   </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
     <value>Datei</value>
