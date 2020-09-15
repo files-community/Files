@@ -1,6 +1,8 @@
-﻿using Files.Enums;
+﻿using Files.Dialogs;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Interacts;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,15 +31,16 @@ namespace Files.Views.LayoutModes
         {
             InitializeComponent();
             base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
-
             AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
         }
 
         private void ListViewBrowser_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-
+            if (e.GetCurrentPoint(sender as Page).Properties.IsLeftButtonPressed)
+            {
+                ClearSelection();
+            }
         }
-
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
@@ -184,12 +187,35 @@ namespace Files.Views.LayoutModes
 
         public override void SetDragModeForItems()
         {
-            throw new NotImplementedException();
+            foreach (ListedItem listedItem in FileList.Items)
+            {
+                ListViewItem gridViewItem = FileList.ContainerFromItem(listedItem) as ListViewItem;
+
+                if (gridViewItem != null)
+                {
+                    List<Grid> grids = new List<Grid>();
+                    Interaction.FindChildren(grids, gridViewItem);
+                    var rootItem = grids.Find(x => x.Tag?.ToString() == "ItemRoot");
+                    rootItem.CanDrag = SelectedItems.Contains(listedItem);
+                }
+            }
         }
 
-        public override void StartRenameItem()
+        public override async void StartRenameItem()
         {
-            throw new NotImplementedException();
+            RenameDialog dialog = new RenameDialog();
+            var result = await dialog.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                string oldItemName = SelectedItem.ItemName;
+                string newItemName = dialog.storedRenameInput.Trim().TrimEnd('.');
+
+                bool successful = await App.CurrentInstance.InteractionOperations.RenameFileItem(SelectedItem, SelectedItem.ItemName, newItemName);
+                if (!successful)
+                {
+                    SelectedItem.ItemName = oldItemName;
+                }
+            }
         }
 
         public override void SetShellContextmenu(bool shiftPressed, bool showOpenMenu)
@@ -219,8 +245,30 @@ namespace Files.Views.LayoutModes
                     {
                         App.CurrentInstance.InteractionOperations.ToggleQuickLook();
                     }
+
                     e.Handled = true;
                 }
+            }
+        }
+
+        private void FileListItem_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args) => InitializeDrag(sender as UIElement);
+
+        private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            var parentContainer = Interaction.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
+            if (FileList.SelectedItems.Contains(FileList.ItemFromContainer(parentContainer)))
+            {
+                return;
+            }
+            // The following code is only reachable when a user RightTapped an unselected row
+            SetSelectedItemOnUi(FileList.ItemFromContainer(parentContainer) as ListedItem);
+        }
+
+        private void FileListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.GetCurrentPoint(sender as Page).Properties.IsLeftButtonPressed)
+            {
+                ClearSelection();
             }
         }
     }

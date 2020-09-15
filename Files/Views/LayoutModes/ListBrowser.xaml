@@ -2,18 +2,18 @@
     x:Class="Files.Views.LayoutModes.ListBrowser"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="using:Files"
-    xmlns:local2="using:Files.Filesystem"
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files"
+    xmlns:local2="using:Files.Filesystem"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     PointerPressed="ListViewBrowser_PointerPressed"
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
 
     <local:BaseLayout.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -510,6 +510,7 @@
         <ListView
             x:Name="FileList"
             Margin="14,14,14,0"
+            HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch"
             x:FieldModifier="public"
             AllowDrop="True"
@@ -539,7 +540,20 @@
 
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local2:ListedItem">
-                    <TextBlock Text="{x:Bind ItemName}" />
+                    <Grid
+                        Height="Auto"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="Transparent"
+                        DataContext="{x:Bind}"
+                        DataContextChanged="FileListItem_DataContextChanged"
+                        IsRightTapEnabled="True"
+                        PointerPressed="FileListItem_PointerPressed"
+                        RightTapped="StackPanel_RightTapped"
+                        Tag="ItemRoot"
+                        ToolTipService.ToolTip="{x:Bind ItemName}">
+                        <TextBlock Text="{x:Bind ItemName}" />
+                    </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
