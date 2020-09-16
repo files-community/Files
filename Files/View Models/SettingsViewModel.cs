@@ -472,6 +472,12 @@ namespace Files.View_Models
             set => Set(value);
         }
 
+        public bool ResumeAfterRestart
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         public string OpenASpecificPageOnStartupPath
         {
             get => Get("");

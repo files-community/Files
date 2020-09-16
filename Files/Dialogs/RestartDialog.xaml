@@ -11,49 +11,47 @@
     <UserControl.Resources>
         <DataTemplate x:Key="RestartDialogTemplate">
             <UserControl>
-                <Grid>
-                    <Grid x:Name="RootGrid">
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
+                <Grid x:Name="RootGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-                        <TextBlock
-                            x:Name="TextBlock"
-                            x:Uid="RestartNotificationText"
-                            Grid.RowSpan="2"
-                            TextWrapping="WrapWholeWords"
-                            VerticalAlignment="Center" />
+                    <TextBlock
+                        x:Name="TextBlock"
+                        x:Uid="RestartNotificationText"
+                        Grid.RowSpan="2"
+                        TextWrapping="WrapWholeWords"
+                        VerticalAlignment="Center" />
 
-                        <StackPanel
-                            x:Name="ButtonsStackPanel"
-                            Grid.RowSpan="2"
-                            Grid.Column="1"
-                            Margin="20,0,0,0"
-                            Orientation="Horizontal"
-                            VerticalAlignment="Center">
-                            
-                            <Button
-                                x:Name="YesButton"
-                                x:Uid="ButtonYes"
-                                Width="70"
-                                Height="30"
-                                Click="YesButton_Click" />
-                            
-                            <Button
-                                x:Name="NoButton"
-                                x:Uid="ButtonNo"
-                                Width="70"
-                                Height="30"
-                                Margin="10,0,0,0"
-                                Click="NoButton_Click" />
-                        </StackPanel>
-                    </Grid>
+                    <StackPanel
+                        x:Name="ButtonsStackPanel"
+                        Grid.RowSpan="2"
+                        Grid.Column="1"
+                        Margin="20,0,0,0"
+                        Orientation="Horizontal"
+                        VerticalAlignment="Center">
+
+                        <Button
+                            x:Name="YesButton"
+                            x:Uid="ButtonYes"
+                            Width="70"
+                            Height="30"
+                            Click="YesButton_Click" />
+
+                        <Button
+                            x:Name="NoButton"
+                            x:Uid="ButtonNo"
+                            Width="70"
+                            Height="30"
+                            Margin="10,0,0,0"
+                            Click="NoButton_Click" />
+                    </StackPanel>
                 </Grid>
             </UserControl>
         </DataTemplate>

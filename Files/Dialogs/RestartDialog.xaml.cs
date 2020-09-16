@@ -26,7 +26,13 @@ namespace Files.Dialogs
 
         private async void YesButton_Click(object sender, RoutedEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri("files-uwp://home/page=home"));
+            if (!App.AppSettings.ContinueLastSessionOnStartUp)
+            {
+                App.AppSettings.ResumeAfterRestart = true;
+                App.SaveSessionTabs();
+            }
+
+            await Launcher.LaunchUriAsync(new Uri("files-uwp://home/page=resumeAfterLanguageChange"));
             Process.GetCurrentProcess().Kill();
         }
 
@@ -37,7 +43,7 @@ namespace Files.Dialogs
 
         private void RestartNotification_LostFocus(object sender, RoutedEventArgs e)
         {
-            RestartNotification.Dismiss();
+            //RestartNotification.Dismiss();
         }
     }
 }

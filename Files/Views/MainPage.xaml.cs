@@ -144,6 +144,19 @@ namespace Files.Views
                 {
                     await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
                 }
+                else if (App.AppSettings.ResumeAfterRestart)
+                {
+                    App.AppSettings.ResumeAfterRestart = false;
+
+                    if (!App.AppSettings.ContinueLastSessionOnStartUp)
+                    {
+                        foreach (string path in App.AppSettings.LastSessionPages)
+                        {
+                            await AddNewTab(typeof(ModernShellPage), path);
+                        }
+                        App.AppSettings.LastSessionPages = null;
+                    }
+                }
                 else
                 {
                     await AddNewTab(typeof(ModernShellPage), navArgs);
