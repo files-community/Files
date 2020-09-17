@@ -17,7 +17,6 @@ namespace Files
         public CurrentInstanceViewModel InstanceViewModel { get; }
         public BaseLayout ContentPage { get; }
         public Control OperationsControl { get; }
-        public IMultitaskingControl MultitaskingControl { get; }
         public Type CurrentPageType { get; }
         public INavigationControlItem SidebarSelectedItem { get; set; }
         public INavigationToolbar NavigationToolbar { get; }

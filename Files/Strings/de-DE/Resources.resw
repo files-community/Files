@@ -127,7 +127,7 @@
     <value>OneDrive an die Seitenleiste anheften</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Terminal Anwendung</value>
+    <value>Terminal Anwendungen</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Voreinstellungen</value>
@@ -268,7 +268,7 @@
     <value>In Terminal öffnen...</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Pfad einfügen</value>
+    <value>Pfad eingeben</value>
   </data>
   <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
     <value>Suchen</value>
@@ -307,13 +307,13 @@
     <value>Größe</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Willkommen in Files UWP</value>
+    <value>Willkommen zu Files</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Erlaubnis erteilen</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Um loslegen zu können, geben Sie uns bitte die Erlaubnis, Dateien anzeigen zu dürfen. Diese Option wird die Einstellungensseite öffnen auf der Sie diese Erlaubnis erteilen können. Anschließend starten Sie die App bitte neu.</value>
+    <value>Um loslegen zu können, müssen Sie uns die Erlaubnis geben, Ihre Dateien anzeigen zu dürfen. Es wird eine Einstellungensseite geöffnet, auf der Sie diese Erlaubnis erteilen können. Wenn SIe diesen Schritt erledigt haben, müssen Sie die Anwendung neustarten.</value>
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>Dateiordner</value>
@@ -322,7 +322,7 @@
     <value>Dateinamen eingeben</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Geben Sie den Dateinamen ohne Erweiterung ein</value>
+    <value>Geben Sie den Dateinamen ein</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Name festlegen</value>
@@ -391,7 +391,7 @@
     <value>Aktion kann nicht ausgeführt werden</value>
   </data>
   <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
-    <value>Der Ausgangsordner</value>
+    <value>Der Zielordner</value>
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
     <value>ist ein Unterordner des Quellordners</value>
@@ -439,7 +439,7 @@
     <value>Experimentell</value>
   </data>
   <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
-    <value>Doppelt antippen zum Umbenennen</value>
+    <value>Doppelclicken, um die Dateien umzubenennen</value>
   </data>
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Beispielprofile anzeigen</value>
@@ -586,7 +586,7 @@
     <value>Element ausgewählt</value>
   </data>
   <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>Ausgewählte Elemente</value>
+    <value>Elemente ausgewählt</value>
   </data>
   <data name="ItemCount.Text" xml:space="preserve">
     <value>Element</value>
@@ -649,7 +649,7 @@
     <value>Dateien werden in den Papierkorb verschoben</value>
   </data>
   <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Lernen Sie mehr über Datumsformate</value>
+    <value>Erfahren Sie mehr über Datumsformate</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Entsperren</value>
@@ -709,7 +709,7 @@
     <value>App Sprache</value>
   </data>
   <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>Neustart erforderlich</value>
+    <value>Um die Änderungen zu sehen, ist ein Neustart erforderlich</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Status</value>
@@ -727,7 +727,7 @@
     <value>Seite entfernen</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Wenn eine angeheftete Seite gestarted wird</value>
+    <value>Wenn ein angeheftetes Element gestartet wird</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
     <value>Immer eine neue Instanz öffnen</value>
@@ -766,7 +766,7 @@
     <value>Dateipfad öffnen</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
-    <value>Argumente</value>
+    <value>Argumente:</value>
   </data>
   <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
     <value>Ziel:</value>
@@ -778,7 +778,7 @@
     <value>Ausführen in:</value>
   </data>
   <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
-    <value>Programm</value>
+    <value>Anwendung</value>
   </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
     <value>Datei</value>
@@ -813,20 +813,38 @@
   <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
     <value>Logverzeichnis öffnen</value>
   </data>
+  <data name="ExceptionNotificationBody" xml:space="preserve">
+    <value>Files ran into a problem that the developers didn't prepare for yet.</value>
+  </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
     <value>Etwas ist schief gelaufen!</value>
   </data>
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
-    <value>DIeses Problem melden</value>
+    <value>Dieses Problem melden</value>
   </data>
-  <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
-    <value>Multitasking-Flyout in der Navigationstoolbar anzeigen</value>
+  <data name="SettingsAboutContributors.Text" xml:space="preserve">
+    <value>Mitwirkende</value>
+  </data>
+  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
+    <value>Siehe wer bei Files UWP mitgewirt hat</value>
+  </data>
+  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
+  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
+    <value>Finde heraus was neu ist</value>
+  </data>
+  <data name="InvalidItemDialogContent" xml:space="preserve">
+    <value>Das Element auf das verwiesen wurde ist fehlerhaft oder nicht erreichbar {0}Fehlermeldung:{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Ungültiges Element</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>Version:</value>
+  </data>
+  <data name="ShareDialogFailMessage" xml:space="preserve">
+    <value>Zurzeit gibt es nichts zum Teilen...</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
     <value>Die von Ihnen ausgewählten Elemente werden geteilt</value>
@@ -845,5 +863,41 @@
   </data>
   <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
     <value>Alle im Kontextmenü verfügbaren Elemente anzeigen</value>
+  </data>
+  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
+    <value>Are you sure you want to delete this item?</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
+    <value>Sind Sie sicher, dass Sie diese {0} Elemente löschen möchten?</value>
+  </data>
+  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
+    <value>Adaptiv (Empohlen)</value>
+  </data>
+  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
+    <value>Basierend auf der Fenstergröße wird das beste Layout ausgewählt. Wenn das Fenster klein ist, wird die horizontale Leiste zu einem Flyout-Menü in der Navigationsbereich zusammengeklappt.</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
+    <value>Versteckt das vertikale Flyout immer vom Navigationsbereich und zeigt stattdessen die traditionelle, horizontale Leiste. Dies ist geeignet für Benutzer die jederzeit die Übersicht über ihre geöffneten Appinstanzen haben möchten.</value>
+  </data>
+  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
+    <value>Multitasking</value>
+  </data>
+  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
+    <value>Vertikal</value>
+  </data>
+  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
+    <value>Die horizontale Liste mit Appinstanzen wird zu einem vertikalem Flyoutmenü. Die ist geeignet für Benutzer die die Benutzeroberfläche ordentlich mögen.</value>
+  </data>
+  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
+    <value>Multitasking</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+    <value>Festlegen als</value>
   </data>
 </root>

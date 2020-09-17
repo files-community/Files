@@ -40,17 +40,17 @@ namespace Files.Filesystem
         private async void EnumerateDrives()
         {
             _driveEnumInProgress = true;
-            try
+            if (await GetDrives(Drives))
             {
-                await GetDrives(Drives);
-                GetVirtualDrivesList(Drives);
-                StartDeviceWatcher();
+                if (!Drives.Any(d => d.Type != DriveType.Removable))
+                {
+                    // Only show consent dialog if the exception is UnauthorizedAccessException
+                    // and the drives list is empty (except for Removable drives which don't require FileSystem access)
+                    ShowUserConsentOnInit = true;
+                }
             }
-            catch (AggregateException ex)
-            {
-                Logger.Warn(ex, ex.Message);
-                ShowUserConsentOnInit = true;
-            };
+            GetVirtualDrivesList(Drives);
+            StartDeviceWatcher();
             _driveEnumInProgress = false;
         }
 
@@ -201,8 +201,11 @@ namespace Files.Filesystem
             Debug.WriteLine("Devices updated");
         }
 
-        private async Task GetDrives(IList<DriveItem> list)
+        private async Task<bool> GetDrives(IList<DriveItem> list)
         {
+            // Flag set if any drive throws UnauthorizedAccessException
+            bool unauthorizedAccessDetected = false;
+
             var drives = DriveInfo.GetDrives().ToList();
 
             var remDevices = await DeviceInformation.FindAllAsync(StorageDevice.GetDeviceSelector());
@@ -235,7 +238,22 @@ namespace Files.Filesystem
                     continue;
                 }
 
-                var folder = Task.Run(async () => await StorageFolder.GetFolderFromPathAsync(drive.Name)).Result;
+                StorageFolder folder = null;
+                try
+                {
+                    folder = await StorageFolder.GetFolderFromPathAsync(drive.Name);
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    unauthorizedAccessDetected = true;
+                    Logger.Warn($"{ex.GetType()}: Attemting to add the device, {drive.Name}, failed at the StorageFolder initialization step. This device will be ignored.");
+                    continue;
+                }
+                catch (ArgumentException ex)
+                {
+                    Logger.Warn($"{ex.GetType()}: Attemting to add the device, {drive.Name}, failed at the StorageFolder initialization step. This device will be ignored.");
+                    continue;
+                }
 
                 DriveType type = DriveType.Unknown;
 
@@ -289,6 +307,8 @@ namespace Files.Filesystem
 
                 list.Add(driveItem);
             }
+
+            return unauthorizedAccessDetected;
         }
 
         private void GetVirtualDrivesList(IList<DriveItem> list)

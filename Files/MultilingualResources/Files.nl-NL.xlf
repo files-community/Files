@@ -55,8 +55,9 @@
           <target state="translated">Files UWP</target>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
-          <source>License:</source>
-          <target state="translated">Licentie:</target>
+          <source>License</source>
+          <target state="needs-review-translation">Licentie:</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
           <source>Special thanks to:</source>
@@ -67,11 +68,12 @@
           <target state="translated">Verstuur Feedback</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
-          <source>Send the developers an issue report with more information</source>
-          <target state="translated">Stuur de ontwikkelaars een probleemrapport met meer informatie</target>
+          <source>Send the developers an issue report with detailed information</source>
+          <target state="needs-review-translation">Stuur de ontwikkelaars een probleemrapport met meer informatie</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
-          <source>Third Party Licenses:</source>
+          <source>Third Party Licenses</source>
           <target state="needs-review-translation">Derde Partij Licenties</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
@@ -80,8 +82,9 @@
           <target state="translated">Over</target>
         </trans-unit>
         <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
-          <source>Website:</source>
-          <target state="translated">Website:</target>
+          <source>Website</source>
+          <target state="needs-review-translation">Website:</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>
@@ -328,16 +331,18 @@
           <target state="translated" state-qualifier="tm-suggestion">Eigenschappen</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
-          <source>QuickLook</source>
-          <target state="translated">QuickLook</target>
+          <source>QuickLook:</source>
+          <target state="needs-review-translation">QuickLook</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewWindow.Text" translate="yes" xml:space="preserve">
           <source>New Window</source>
           <target state="translated" state-qualifier="tm-suggestion">Nieuw venster</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarCopyPath.Text" translate="yes" xml:space="preserve">
-          <source>Copy Path</source>
-          <target state="translated" state-qualifier="tm-suggestion">Pad kopiëren</target>
+          <source>Copy location</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Pad kopiëren</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavigationToolbarPaste.Text" translate="yes" xml:space="preserve">
           <source>Paste</source>
@@ -1073,10 +1078,6 @@
           <source>Open file location</source>
           <target state="translated">Bestandslocatie openen</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesShowHorizontalTabStrip.Text" translate="yes" xml:space="preserve">
-          <source>Show a horizontal tab strip on the title bar</source>
-          <target state="translated">Toon horizontale tabbladen op de titelbalk</target>
-        </trans-unit>
         <trans-unit id="DriveCapacityUnknown" translate="yes" xml:space="preserve">
           <source>Unknown</source>
           <target state="new">Unknown</target>
@@ -1113,10 +1114,6 @@
           <source>Find out what's new</source>
           <target state="needs-review-translation">Ontdek wat er nieuw is in Files UWP</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesShowMultitaskingControl.Text" translate="yes" xml:space="preserve">
-          <source>Show multitasking flyout in the navigation toolbar</source>
-          <target state="translated">Toon multitasking-flyout in de navigatiewerkbalk</target>
         </trans-unit>
         <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
           <source>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</source>
@@ -1170,6 +1167,58 @@
         <trans-unit id="ConfirmDeleteDialogDeleteMultipleItems.Text" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete these {0} items?</source>
           <target state="new">Are you sure you want to delete these {0} items?</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingAdaptive.Content" translate="yes" xml:space="preserve">
+          <source>Adaptive (Recommended)</source>
+          <target state="new">Adaptive (Recommended)</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingAdaptiveDescription.Text" translate="yes" xml:space="preserve">
+          <source>Selects the best multitasking control based on how the app window is resized. When the window is small, you'll notice the horizontal tab strip is collapsed into a flyout on the navigation toolbar.</source>
+          <target state="new">Selects the best multitasking control based on how the app window is resized. When the window is small, you'll notice the horizontal tab strip is collapsed into a flyout on the navigation toolbar.</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingHorizontal.Content" translate="yes" xml:space="preserve">
+          <source>Horizontal</source>
+          <target state="new">Horizontal</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingHorizontalDescription.Text" translate="yes" xml:space="preserve">
+          <source>Always hides the vertical multitasking flyout from the navigation toolbar, and shows the traditional horizontal tabstrip on the app window. This is suited for users who need to keep track of every open app instance at all times.</source>
+          <target state="new">Always hides the vertical multitasking flyout from the navigation toolbar, and shows the traditional horizontal tabstrip on the app window. This is suited for users who need to keep track of every open app instance at all times.</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingTitle.Text" translate="yes" xml:space="preserve">
+          <source>Multitasking</source>
+          <target state="new">Multitasking</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingVertical.Content" translate="yes" xml:space="preserve">
+          <source>Vertical</source>
+          <target state="new">Vertical</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingVerticalDescription.Text" translate="yes" xml:space="preserve">
+          <source>Collapses the horizontal list of app instances into a vertical flyout on the navigation toolbar, designed for users who want a clean app interface with on-demand access to a multitasking experience.</source>
+          <target state="new">Collapses the horizontal list of app instances into a vertical flyout on the navigation toolbar, designed for users who want a clean app interface with on-demand access to a multitasking experience.</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavMultitasking.Content" translate="yes" xml:space="preserve">
+          <source>Multitasking</source>
+          <target state="new">Multitasking</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAs.Text" translate="yes" xml:space="preserve">
+          <source>Set as</source>
+          <target state="new">Set as</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutCopyLocation.Text" translate="yes" xml:space="preserve">
+          <source>Copy location</source>
+          <target state="new">Copy location</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesCopyLocation.Text" translate="yes" xml:space="preserve">
+          <source>Show an option to copy the location of the selected item</source>
+          <target state="new">Show an option to copy the location of the selected item</target>
+        </trans-unit>
+        <trans-unit id="VerticalTabViewAddTab.Text" translate="yes" xml:space="preserve">
+          <source>Add tab</source>
+          <target state="new">Add tab</target>
+        </trans-unit>
+        <trans-unit id="VerticalTabViewHeader.Text" translate="yes" xml:space="preserve">
+          <source>Open tabs</source>
+          <target state="new">Open tabs</target>
         </trans-unit>
       </group>
     </body>

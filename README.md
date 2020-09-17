@@ -1,14 +1,15 @@
 ## Files UWP
 Meet Files, an enthusiast take on what Windows File Explorer explorer <b>should</b> be.
-<br/><br/>
-<a href="https://www.microsoft.com/store/apps/9NGHP3DX8HDX">Download Files UWP</a>
-<p>Files UWP </p><a href="https://github.com/files-community/files-uwp/blob/master/CODE_OF_CONDUCT.md">code of conduct</a>
+<br><br>
+Files UWP <a href="https://github.com/files-community/files-uwp/blob/master/CODE_OF_CONDUCT.md">code of conduct</a>
 
 [![Build Status](https://dev.azure.com/lukeblevins150823/Files%20UWP/_apis/build/status/Build%20Pipeline?branchName=master)](https://dev.azure.com/lukeblevins150823/Files%20UWP/_build/latest?definitionId=4&branchName=master)
 [![Discord](https://discordapp.com/api/guilds/725513575971684472/widget.png)](https://discord.gg/mr5hVu8)
 
-<img src="Files/Assets/FilesHome.png" width="600px">
-
+<img src="Files/Assets/FilesHome.png" width="600px"><br>
+## Download Files UWP
+- <a href="https://www.microsoft.com/store/apps/9NGHP3DX8HDX">Microsoft Store</a>
+- <a href="https://github.com/files-community/files-uwp/releases/download/v0.14/FilesUWP-0.14.Msixbundle">GitHub</a>
 ## What is Files UWP?
 Files UWP is an all in one File Explorer solution. Whether you want to simplify your experience with your files or want to try something new, Files is a one-stop solution to exploring your files on the fly.
 

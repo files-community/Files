@@ -1,4 +1,5 @@
-﻿using Files.Common;
+﻿using Files.Commands;
+using Files.Common;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
@@ -257,10 +258,10 @@ namespace Files
             App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
             App.CurrentInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
 
-            await App.CurrentInstance.MultitaskingControl?.SetSelectedTabInfo(new DirectoryInfo(workingDir).Name, workingDir);
+            await App.MultitaskingControl?.SetSelectedTabInfo(new DirectoryInfo(workingDir).Name, workingDir);
             App.CurrentInstance.FilesystemViewModel.RefreshItems();
 
-            App.CurrentInstance.MultitaskingControl?.SelectionChanged();
+            App.MultitaskingControl?.SelectionChanged();
             MainPage.Clipboard_ContentChanged(null, null);
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = parameters;
         }
@@ -410,6 +411,11 @@ namespace Files
                 && SelectedItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase);
             SetShellContextmenu(shiftPressed, showOpenMenu);
 
+            if (!AppSettings.ShowCopyLocationOption)
+            {
+                UnloadMenuFlyoutItemByName("CopyLocationItem");
+            }
+
             if (!DataTransferManager.IsSupported())
             {
                 UnloadMenuFlyoutItemByName("ShareItem");
@@ -535,7 +541,7 @@ namespace Files
                 AssociatedInteractions = App.CurrentInstance.InteractionOperations;
                 if (App.CurrentInstance == null)
                 {
-                    App.CurrentInstance = VerticalTabView.GetCurrentSelectedTabInstance<ModernShellPage>();
+                    App.CurrentInstance = VerticalTabViewControl.GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
             }
         }
@@ -578,13 +584,13 @@ namespace Files
             deferral.Complete();
         }
 
-        protected async void List_Drop(object sender, DragEventArgs e)
+        protected void List_Drop(object sender, DragEventArgs e)
         {
             var deferral = e.GetDeferral();
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                await AssociatedInteractions.PasteItems(e.DataView, App.CurrentInstance.FilesystemViewModel.WorkingDirectory, e.AcceptedOperation);
+                ItemOperations.PasteItemWithStatus(e.DataView, App.CurrentInstance.FilesystemViewModel.WorkingDirectory, e.AcceptedOperation);
                 e.Handled = true;
             }
 
@@ -654,13 +660,13 @@ namespace Files
             deferral.Complete();
         }
 
-        protected async void Item_Drop(object sender, DragEventArgs e)
+        protected void Item_Drop(object sender, DragEventArgs e)
         {
             var deferral = e.GetDeferral();
 
             e.Handled = true;
             ListedItem rowItem = GetItemFromElement(sender);
-            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, e.AcceptedOperation);
+            ItemOperations.PasteItemWithStatus(e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, e.AcceptedOperation);
             deferral.Complete();
         }
 
