@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
+using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Media.Core;
 using Windows.Security.Cryptography.Core;
@@ -31,52 +32,60 @@ namespace Files.View_Models.Properties
     {
         private ProgressBar ProgressBar;
 
-        //Read-only Properties
-        private readonly List<string> PropertiesToGet_RO = new List<string>()
+        private readonly IDictionary<string, List<string>> PropertiesToGet = new Dictionary<string, List<string>>()
         {
-            //Description
-            "System.Rating",
+            {"Image_RO", new List<string>
+                {
+                    //Image
+                    "System.Image.BitDepth",
+                    "System.Image.Dimensions",
+                    "System.Image.HorizontalResolution",
+                    "System.Image.VerticalResolution",
+                    "System.Image.Compression",
+                    "System.Image.ResolutionUnit",
+                    "System.Image.HorizontalSize",
+                    "System.Image.VerticalSize"
+                }
+            },
+            {"GPS_RO", new List<string>()
+                {
+                    "System.GPS.Latitude",
+                    "System.GPS.LatitudeRef",
+                    "System.GPS.Longitude",
+                    "System.GPS.LongitudeRef",
+                    "System.GPS.Altitude",
+                }
+            },
+            {"Photo_RO", new List<string>()
+                {
+                    "System.Photo.ExposureTime",
+                    "System.Photo.FocalLength",
+                    "System.Photo.Aperture",
+                    "System.Photo.DateTaken",
+                }
 
-            //Image
-            "System.Image.BitDepth",
-            "System.Image.Dimensions",
-            "System.Image.HorizontalResolution",
-            "System.Image.VerticalResolution",
-            "System.Image.Compression",
-            "System.Image.ResolutionUnit",
-            "System.Image.HorizontalSize",
-            "System.Image.VerticalSize",
-
-            //Photo
-            "System.Photo.ExposureTime",
-            "System.Photo.FocalLength",
-            "System.Photo.Aperture",
-            "System.Photo.DateTaken"
-
-            //GPS
-            //Dunno why, but everything breaks when these are used, so an alternative is in place
-
-            //"System.GPS.LatitudeDecimal",
-            //"System.GPS.LongitudeDecimal",
-            //"System.GPS.Altitude",
-
+            },
+            { "Description_RO", new List<string>()
+                {
+                    "System.Rating",
+                }
+            },
+            {"Description_RW", new List<string>()
+                {
+                    "System.Title",
+                    "System.Subject",
+                    "System.Comment",
+                    "System.Copyright",
+                }
+            },
+            {"Photo_RW", new List<string>()
+                {
+                    "System.Photo.CameraManufacturer",
+                    "System.Photo.CameraModel",
+                }
+            }
         };
 
-        //Read and write properties
-        private readonly List<string> PropertiesToGet_RW = new List<string>()
-        {
-            //Description
-            "System.Title",
-            "System.Subject",
-            "System.Comment",
-            "System.Copyright",
-
-
-            //Photo
-            "System.Photo.CameraManufacturer",
-            "System.Photo.CameraModel",
-
-        };
         public ListedItem Item { get; }
 
         public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ProgressBar progressBar, ListedItem item)
@@ -230,56 +239,62 @@ namespace Files.View_Models.Properties
 
             try
             {
-                // Get the specified properties through StorageFile.Properties
-                ViewModel.SystemFileProperties_RO = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RO);
-                ViewModel.SystemFileProperties_RW = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RW);
+
+                ViewModel.SystemFileProperties_Image_RO = await RetrieveProperties(file, PropertiesToGet["Image_RO"]);
+                ViewModel.SystemFileProperties_Photo_RO = await RetrieveProperties(file, PropertiesToGet["Photo_RO"]);
+                ViewModel.SystemFileProperties_Photo_RW = await RetrieveProperties(file, PropertiesToGet["Photo_RW"]);
+                ViewModel.SystemFileProperties_Description_RO = await RetrieveProperties(file, PropertiesToGet["Description_RO"]);
+                ViewModel.SystemFileProperties_GPS_RO = await RetrieveProperties(file, PropertiesToGet["GPS_RO"]);
+                ViewModel.SystemFileProperties_Description_RW = await RetrieveProperties(file, PropertiesToGet["Description_RW"]);
+
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                //NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                Debug.WriteLine(ex.ToString());
                 // Well this blew up
-                return;
+                //return;
             }
 
-            ViewModel.CameraNameString = string.Format("{0} {1}", ViewModel.SystemFileProperties_RW["System.Photo.CameraManufacturer"], ViewModel.SystemFileProperties_RW["System.Photo.CameraModel"]);
+            if (ViewModel.SystemFileProperties_Photo_RW["System.Photo.CameraManufacturer"] != null && ViewModel.SystemFileProperties_Photo_RW["System.Photo.CameraModel"] != null)
+                ViewModel.CameraNameString = string.Format("{0} {1}", ViewModel.SystemFileProperties_Photo_RW["System.Photo.CameraManufacturer"], ViewModel.SystemFileProperties_Photo_RW["System.Photo.CameraModel"]);
 
-            MapLocationFinderResult result = null;
-            try
+            if (ViewModel.SystemFileProperties_GPS_RO["System.GPS.Longitude"] != null && ViewModel.SystemFileProperties_GPS_RO["System.GPS.Longitude"] != null)
             {
-                //This code is temporary since the normal GPS property code doesn't work
-                var imgprops = await file.Properties.GetImagePropertiesAsync();
-                result = await GetAddressFromCoordinates((double)imgprops.Latitude, (double)imgprops.Longitude);
-                //result = await GetAddressFromCoordinates((double)ViewModel.SystemFileProperties_RO["System.GPS.LatitudeDecimal"], (double)ViewModel.SystemFileProperties_RO["System.GPS.LongitudeDecimal"]);
-            }
-            catch { }
+                double[] latitude = ViewModel.SystemFileProperties_GPS_RO["System.GPS.Latitude"] as double[];
+                double[] longitude = ViewModel.SystemFileProperties_GPS_RO["System.GPS.Longitude"] as double[];
+                ViewModel.Latitude = (latitude[0] + (latitude[1] / 60) + (latitude[2] / 3600));
+                ViewModel.Longitude = longitude[0] + (longitude[1] / 60) + (longitude[2] / 3600);
+                ViewModel.Latitude *= (ViewModel.SystemFileProperties_GPS_RO["System.GPS.LatitudeRef"] as string).ToLower().Equals("s") ? -1 : 1;
+                ViewModel.Longitude *= (ViewModel.SystemFileProperties_GPS_RO["System.GPS.LongitudeRef"] as string).ToLower().Equals("w") ? -1 : 1;
 
-            if (result != null && result.Locations.Count > 0 && result.Status == MapLocationFinderStatus.Success)
-            {
+
+                MapLocationFinderResult result = null;
+                try
+                {
+                    result = await GetAddressFromCoordinates((double)ViewModel.Latitude, (double)ViewModel.Longitude);
+                }
+                catch
+                {
+                    ViewModel.DetailsSectionVisibility.Add("GPS", Visibility.Collapsed);
+                }
+
                 ViewModel.Geopoint = result.Locations[0];
                 ViewModel.GeopointString = string.Format("{0}, {1}", result.Locations[0].Address.Town.ToString(), result.Locations[0].Address.Region.ToString());
             }
             else
             {
-                ViewModel.ShowGeotag = Visibility.Collapsed;
+                ViewModel.DetailsSectionVisibility.Add("GPS", Visibility.Collapsed);
             }
 
-
-            //var propValue = ViewModel.SystemFileProperties["System.Image.BitDepth"];
-            //if (propValue != null)
-            //{
-            //    ViewModel.BitDepth = Convert.ToInt32(propValue);
-            //}
-
-            if (ViewModel.SystemFileProperties_RO["System.Photo.ExposureTime"] != null && ViewModel.SystemFileProperties_RO["System.Photo.FocalLength"] != null && ViewModel.SystemFileProperties_RO["System.Photo.Aperture"] != null)
+            if (ViewModel.SystemFileProperties_Photo_RO["System.Photo.ExposureTime"] != null && ViewModel.SystemFileProperties_Photo_RO["System.Photo.FocalLength"] != null && ViewModel.SystemFileProperties_Photo_RO["System.Photo.Aperture"] != null)
             {
-                ViewModel.ShotString = string.Format("{0} sec. f/{1} {2}mm", ViewModel.SystemFileProperties_RO["System.Photo.ExposureTime"], ViewModel.SystemFileProperties_RO["System.Photo.FocalLength"], ViewModel.SystemFileProperties_RO["System.Photo.Aperture"]);
+                ViewModel.ShotString = string.Format("{0} sec. f/{1} {2}mm", ViewModel.SystemFileProperties_Photo_RO["System.Photo.ExposureTime"], ViewModel.SystemFileProperties_Photo_RO["System.Photo.FocalLength"], ViewModel.SystemFileProperties_Photo_RO["System.Photo.Aperture"]);
             }
-
-            var list = ViewModel.SystemFileProperties_RW;
-            Debug.WriteLine(list.ToString());
+            
         }
 
-        public async Task<MapLocationFinderResult> GetAddressFromCoordinates(double Lat, double Lon)
+        private async Task<MapLocationFinderResult> GetAddressFromCoordinates(double Lat, double Lon)
         {
             //lol please don't steal this
             MapService.ServiceToken = "S7IF7M4Zxe9of0hbatDv~byc7WbHGg1rNYUqk4bL8Zw~Ar_Ap1WxoB_qnXme_hErpFhs74E8qKzCOXugSrankFJgJe9_D4l09O3TNj3WN2f2";
@@ -291,9 +306,20 @@ namespace Files.View_Models.Properties
 
             // Reverse geocode the specified geographic location.
             return await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
-
             // If the query returns results, display the name of the town
             // contained in the address of the first result.
+        }
+
+        private async Task<IDictionary<string, object>> RetrieveProperties(StorageFile file, List<string> props)
+        {
+            try
+            {
+                return await file.Properties.RetrievePropertiesAsync(props);
+            } catch (Exception e)
+            {
+                Debug.WriteLine(e.ToString());
+                return new Dictionary<string, object>();
+            }
         }
 
         public async void SyncPropertyChanges()
@@ -315,7 +341,13 @@ namespace Files.View_Models.Properties
             //IEnumerable<KeyValuePair<string, object>> param = keyValues;
             try
             {
-                await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_RW);
+                await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Description_RO);
+                await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Description_RW);
+                await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_GPS_RO);
+                await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Image_RO);
+                await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Image_RW);
+                await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Photo_RO);
+                await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Photo_RW);
             }
             catch (Exception e)
             {
