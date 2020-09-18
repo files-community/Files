@@ -169,6 +169,9 @@
     <Compile Include="Dialogs\ConfirmDeleteDialog.xaml.cs">
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\RestartDialog.xaml.cs">
+      <DependentUpon>RestartDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Filesystem\CloudDriveSyncStatus.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\StorageFileExtensions.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\IStorageItemWithPath.cs" />
@@ -446,6 +449,10 @@
     <Page Include="Dialogs\ConfirmDeleteDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\RestartDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ResourceDictionaries\PropertiesStyles.xaml">
       <SubType>Designer</SubType>

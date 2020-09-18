@@ -813,9 +813,6 @@
   <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
     <value>App Language</value>
   </data>
-  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>To see changes, a restart is required</value>
-  </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Move tab here</value>
   </data>
@@ -968,6 +965,15 @@
   </data>
   <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
     <value>Show all context menu items</value>
+  </data>
+  <data name="ButtonNo.Content" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="ButtonYes.Content" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="RestartNotificationText.Text" xml:space="preserve">
+    <value>The application needs to be restarted in order to apply the langague setting, would you like to restart the app?</value>
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Cancel</value>

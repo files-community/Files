@@ -6,6 +6,7 @@
     xmlns:datamodels="using:Files.DataModels"
     xmlns:local="using:Files.SettingsPages"
     xmlns:local2="using:Files"
+    xmlns:dialogs="using:Files.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -34,14 +35,6 @@
                         x:Uid="SettingsPreferencesAppLanguage"
                         FontSize="17"
                         Text="App Language" />
-                    <TextBlock
-                        x:Name="RestartRequiredPrompt"
-                        x:Uid="SettingsPreferencesAppLanguageRestartRequired"
-                        FontSize="14"
-                        FontStyle="Italic"
-                        Foreground="{ThemeResource SystemErrorTextColor}"
-                        Text="Restart required"
-                        Visibility="Collapsed" />
                     <ComboBox
                         x:Name="ComboAppLanguage"
                         Width="200"
@@ -146,5 +139,7 @@
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
+
+        <dialogs:RestartDialog x:Name="RestartDialog"/>
     </Grid>
 </Page>

@@ -101,7 +101,21 @@ namespace Files.Views
                 {
                     try
                     {
-                        if (App.AppSettings.OpenASpecificPageOnStartup)
+                        if (App.AppSettings.ResumeAfterRestart)
+                        {
+                            App.AppSettings.ResumeAfterRestart = false;
+
+                            foreach (string path in App.AppSettings.LastSessionPages)
+                            {
+                                await AddNewTab(typeof(ModernShellPage), path);
+                            }
+
+                            if (!App.AppSettings.ContinueLastSessionOnStartUp)
+                            {
+                                App.AppSettings.LastSessionPages = null;
+                            }
+                        }
+                        else if (App.AppSettings.OpenASpecificPageOnStartup)
                         {
                             if (App.AppSettings.PagesOnStartupList != null)
                             {

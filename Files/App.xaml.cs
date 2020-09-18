@@ -423,7 +423,7 @@ namespace Files
             deferral.Complete();
         }
 
-        private void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
+        public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
         {
             AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab => tab != null ? tab.Path ?? ResourceController.GetTranslation("NewTab") : ResourceController.GetTranslation("NewTab")).ToArray();
         }
