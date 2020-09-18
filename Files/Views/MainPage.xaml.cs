@@ -101,7 +101,21 @@ namespace Files.Views
                 {
                     try
                     {
-                        if (App.AppSettings.OpenASpecificPageOnStartup)
+                        if (App.AppSettings.ResumeAfterRestart)
+                        {
+                            App.AppSettings.ResumeAfterRestart = false;
+
+                            foreach (string path in App.AppSettings.LastSessionPages)
+                            {
+                                await AddNewTab(typeof(ModernShellPage), path);
+                            }
+
+                            if (!App.AppSettings.ContinueLastSessionOnStartUp)
+                            {
+                                App.AppSettings.LastSessionPages = null;
+                            }
+                        }
+                        else if (App.AppSettings.OpenASpecificPageOnStartup)
                         {
                             if (App.AppSettings.PagesOnStartupList != null)
                             {
@@ -143,19 +157,6 @@ namespace Files.Views
                 else if (string.IsNullOrEmpty(navArgs))
                 {
                     await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
-                }
-                else if (App.AppSettings.ResumeAfterRestart)
-                {
-                    App.AppSettings.ResumeAfterRestart = false;
-
-                    if (!App.AppSettings.ContinueLastSessionOnStartUp)
-                    {
-                        foreach (string path in App.AppSettings.LastSessionPages)
-                        {
-                            await AddNewTab(typeof(ModernShellPage), path);
-                        }
-                        App.AppSettings.LastSessionPages = null;
-                    }
                 }
                 else
                 {
