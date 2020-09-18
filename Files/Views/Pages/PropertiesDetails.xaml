@@ -392,10 +392,10 @@
                 <TimePicker Grid.Row="5" Grid.Column="1" Margin="20,2,0,2"/>
             </Grid>
 
-            <TextBlock Grid.Row="10" Text="Image"  Style="{StaticResource SeparatorText}"/>
-            <MenuFlyoutSeparator Grid.Row="11" Style="{StaticResource Separator}"/>
+            <TextBlock Grid.Row="10" Text="Image"  Style="{StaticResource SeparatorText}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Image, Mode=OneWay}"/>
+            <MenuFlyoutSeparator Grid.Row="11" Style="{StaticResource Separator}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Image, Mode=OneWay}"/>
 
-            <Grid x:Name="ImageGrid" x:Load="True" Grid.Row="12" Grid.Column="0">
+            <Grid x:Name="ImageGrid" x:Load="True" Grid.Row="12" Grid.Column="0" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Image, Mode=OneWay}">
                 <Grid.RowDefinitions >
                     <RowDefinition/>
                     <RowDefinition/>
@@ -445,9 +445,9 @@
 
             </Grid>
 
-            <TextBlock Grid.Row="13" Text="Camera"  Style="{StaticResource SeparatorText}"/>
-            <MenuFlyoutSeparator Grid.Row="14" Style="{StaticResource Separator}"/>
-            <Grid x:Name="CameraGrid" x:Load="True" Grid.Row="15" Grid.Column="0">
+            <TextBlock Grid.Row="13" Text="Photo"  Style="{StaticResource SeparatorText}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}"/>
+            <MenuFlyoutSeparator Grid.Row="14" Style="{StaticResource Separator}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}"/>
+            <Grid x:Name="PhotoGrid" x:Load="True" Grid.Row="15" Grid.Column="0" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}">
                 <Grid.RowDefinitions >
                     <RowDefinition/>
                     <RowDefinition/>
@@ -509,9 +509,9 @@
             </Grid>
 
 
-            <TextBlock Grid.Row="19" Text="GPS"  Style="{StaticResource SeparatorText}"/>
-            <MenuFlyoutSeparator Grid.Row="20" Style="{StaticResource Separator}"/>
-            <Grid x:Name="GPSGrid" x:Load="True" Grid.Row="21" Grid.Column="0" Visibility="Visible">
+            <TextBlock Grid.Row="19" Text="GPS"  Style="{StaticResource SeparatorText}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}"/>
+            <MenuFlyoutSeparator Grid.Row="20" Style="{StaticResource Separator}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}"/>
+            <Grid x:Name="GPSGrid" x:Load="True" Grid.Row="21" Grid.Column="0" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}">
                 <Grid.RowDefinitions >
                     <RowDefinition/>
                     <RowDefinition/>

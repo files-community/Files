@@ -854,13 +854,32 @@ namespace Files.View_Models
             set => SetProperty(ref _SystemFileProperties_Photo_RW, value);
         }
 
-
-
-        private IDictionary<string, Visibility> _DetailsSectionVisibility;
-        public IDictionary<string, Visibility> DetailsSectionVisibility
+        private Visibility _DetailsSectionVisibility_Image;
+        public Visibility DetailsSectionVisibility_Image
         {
-            get => _DetailsSectionVisibility;
-            set => SetProperty(ref _DetailsSectionVisibility, value);
+            get => _DetailsSectionVisibility_Image;
+            set => SetProperty(ref _DetailsSectionVisibility_Image, value);
         }
+
+        private Visibility _DetailsSectionVisibility_GPS;
+        public Visibility DetailsSectionVisibility_GPS
+        {
+            get => _DetailsSectionVisibility_GPS;
+            set => SetProperty(ref _DetailsSectionVisibility_GPS, value);
+        }
+
+        private Visibility _DetailsSectionVisibility_Photo;
+        public Visibility DetailsSectionVisibility_Photo
+        {
+            get => _DetailsSectionVisibility_Photo;
+            set => SetProperty(ref _DetailsSectionVisibility_Photo, value);
+        }
+
+        //private IDictionary<string, Visibility> _DetailsSectionVisibility;
+        //public IDictionary<string, Visibility> DetailsSectionVisibility
+        //{
+        //    get => _DetailsSectionVisibility;
+        //    set => SetProperty(ref _DetailsSectionVisibility, value);
+        //}
     }
 }

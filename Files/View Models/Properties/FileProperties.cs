@@ -250,12 +250,17 @@ namespace Files.View_Models.Properties
             }
             catch (Exception ex)
             {
-                //NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                 Debug.WriteLine(ex.ToString());
-                // Well this blew up
-                //return;
             }
+            SetVisibilities();
+            ViewModelProcessing();
+        }
 
+        /// <summary>
+        /// Use this function to process any information for the view model
+        /// </summary>
+        private async void ViewModelProcessing()
+        {
             if (ViewModel.SystemFileProperties_Photo_RW["System.Photo.CameraManufacturer"] != null && ViewModel.SystemFileProperties_Photo_RW["System.Photo.CameraModel"] != null)
                 ViewModel.CameraNameString = string.Format("{0} {1}", ViewModel.SystemFileProperties_Photo_RW["System.Photo.CameraManufacturer"], ViewModel.SystemFileProperties_Photo_RW["System.Photo.CameraModel"]);
 
@@ -276,7 +281,7 @@ namespace Files.View_Models.Properties
                 }
                 catch
                 {
-                    ViewModel.DetailsSectionVisibility.Add("GPS", Visibility.Collapsed);
+
                 }
 
                 ViewModel.Geopoint = result.Locations[0];
@@ -284,14 +289,29 @@ namespace Files.View_Models.Properties
             }
             else
             {
-                ViewModel.DetailsSectionVisibility.Add("GPS", Visibility.Collapsed);
+                //ViewModel.DetailsSectionVisibility.Add("GPS", Visibility.Collapsed);
             }
 
             if (ViewModel.SystemFileProperties_Photo_RO["System.Photo.ExposureTime"] != null && ViewModel.SystemFileProperties_Photo_RO["System.Photo.FocalLength"] != null && ViewModel.SystemFileProperties_Photo_RO["System.Photo.Aperture"] != null)
             {
                 ViewModel.ShotString = string.Format("{0} sec. f/{1} {2}mm", ViewModel.SystemFileProperties_Photo_RO["System.Photo.ExposureTime"], ViewModel.SystemFileProperties_Photo_RO["System.Photo.FocalLength"], ViewModel.SystemFileProperties_Photo_RO["System.Photo.Aperture"]);
             }
-            
+        }
+
+        private void SetVisibilities()
+        {
+            ViewModel.DetailsSectionVisibility_GPS = GetVisibility(ViewModel.SystemFileProperties_GPS_RO) ? Visibility.Visible : Visibility.Collapsed;
+            ViewModel.DetailsSectionVisibility_Photo = GetVisibility(ViewModel.SystemFileProperties_Photo_RO) && GetVisibility(ViewModel.SystemFileProperties_Photo_RW) ? Visibility.Visible : Visibility.Collapsed;
+            ViewModel.DetailsSectionVisibility_Image = GetVisibility(ViewModel.SystemFileProperties_Image_RO) ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private bool GetVisibility(IDictionary<string, object> dict)
+        {
+            foreach (KeyValuePair<string, object> pair in dict)
+                if (pair.Value != null)
+                    return true;
+
+            return false;
         }
 
         private async Task<MapLocationFinderResult> GetAddressFromCoordinates(double Lat, double Lon)
