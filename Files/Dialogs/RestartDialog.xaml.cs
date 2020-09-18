@@ -15,8 +15,7 @@ namespace Files.Dialogs
 
         public void Show()
         {
-            RestartNotification.Show();
-            RestartNotification.Focus(FocusState.Programmatic);
+            RestartNotification.Show(10000);
         }
 
         public void Dismiss()
@@ -26,24 +25,15 @@ namespace Files.Dialogs
 
         private async void YesButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!App.AppSettings.ContinueLastSessionOnStartUp)
-            {
-                App.AppSettings.ResumeAfterRestart = true;
-                App.SaveSessionTabs();
-            }
-
-            await Launcher.LaunchUriAsync(new Uri("files-uwp://home/page=resumeAfterLanguageChange"));
+            App.AppSettings.ResumeAfterRestart = true;
+            App.SaveSessionTabs();
+            await Launcher.LaunchUriAsync(new Uri("files-uwp://home/page="));
             Process.GetCurrentProcess().Kill();
         }
 
         private void NoButton_Click(object sender, RoutedEventArgs e)
         {
             RestartNotification.Dismiss();
-        }
-
-        private void RestartNotification_LostFocus(object sender, RoutedEventArgs e)
-        {
-            //RestartNotification.Dismiss();
         }
     }
 }
