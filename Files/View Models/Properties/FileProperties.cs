@@ -382,12 +382,8 @@ namespace Files.View_Models.Properties
             //IEnumerable<KeyValuePair<string, object>> param = keyValues;
             try
             {
-                //await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Description_RO);
                 await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Description_RW);
                 await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Photo_RW);
-                //await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_GPS_RO);
-                //await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Image_RO);
-                //await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Photo_RO);
             }
             catch (Exception e)
             {
@@ -417,7 +413,6 @@ namespace Files.View_Models.Properties
 
             await file.Properties.SavePropertiesAsync(dict);
 
-            //GetBaseProperties();
             GetSpecialProperties();
         }
 

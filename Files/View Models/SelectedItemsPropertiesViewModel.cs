@@ -642,43 +642,12 @@ namespace Files.View_Models
             }
         }
 
-        private int _ImageWidth;
-        public int ImageWidth
-        {
-            get => _ImageWidth;
-            set => SetProperty(ref _ImageWidth, value);
-                
-        }
-
-        private int _ImageHeight;
-        public int ImageHeight
-        {
-            get => _ImageHeight;
-            set => SetProperty(ref _ImageHeight, value);
-        }
-
-        private string _DimensionString;
-        public string DimensionString
-        {
-            get => _DimensionString;
-            set => SetProperty(ref _DimensionString, value);
-        }
-
         private DateTimeOffset _DateTaken;
         public DateTimeOffset DateTaken
         {
             get => _DateTaken;
             set => SetProperty(ref _DateTaken, value);
         }
-
-        private string _ImageTitle;
-        public string ImageTitle
-        {
-            get => _ImageTitle;
-            set => SetProperty(ref _ImageTitle, value);
-        }
-
-        public IList<string> People { get; set; }
 
         private System.Nullable<double> _Longitude;
         public System.Nullable<double> Longitude
@@ -692,20 +661,6 @@ namespace Files.View_Models
         {
             get => _Latitude;
             set => SetProperty(ref _Latitude, value);
-        }
-
-        private string _CameraModel;
-        public string CameraModel
-        {
-            get => _CameraModel;
-            set => SetProperty(ref _CameraModel, value);
-        }
-
-        private string _CameraManufacturer;
-        public string CameraManufacturer
-        {
-            get => _CameraManufacturer;
-            set => SetProperty(ref _CameraManufacturer, value);
         }
 
         private int _Rating;
@@ -729,64 +684,11 @@ namespace Files.View_Models
             set => SetProperty(ref _GeopointString, value);
         }
 
-        public IList<string> ImageKeywords { get; set; }
-        public PhotoOrientation ImageOrientation { get; set; }
-
-
-        private double _RatingReal;
-        public double RatingReal
-        {
-            get => _RatingReal;
-            set => SetProperty(ref _RatingReal, value);
-        }
-
-        private string _CoordinatesString;
-        public string CoordinatesString
-        {
-            get => _CoordinatesString;
-            set => SetProperty(ref _CoordinatesString, value);
-        }
-
         private string _CameraNameString;
         public string CameraNameString
         {
             get => _CameraNameString;
             set => SetProperty(ref _CameraNameString, value);
-        }
-
-        private Visibility _ShowGeotag;
-        public Visibility ShowGeotag
-        {
-            get => _ShowGeotag;
-            set => SetProperty(ref _ShowGeotag, value);
-        }
-
-        private Visibility _ShowTitle;
-        public Visibility ShowTitle
-        {
-            get => _ShowTitle;
-            set => SetProperty(ref _ShowTitle, value);
-        }
-
-        private string _Tags;
-        public string Tags
-        {
-            get => _Tags;
-            set => SetProperty(ref _Tags, value);
-        }
-
-        private string _DimensionsTooltip;
-        public string DimensionsTooltip
-        {
-            get => _DimensionsTooltip;
-            set => SetProperty(ref _DimensionsTooltip, value);
-        }
-
-        private int _BitDepth;
-        public int BitDepth
-        {
-            get => _BitDepth;
-            set => SetProperty(ref _BitDepth, value);
         }
 
         private string _ShotString;
