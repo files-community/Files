@@ -37,8 +37,6 @@ namespace Files
 
         public SelectedItemsPropertiesViewModel ViewModel { get; set; }
 
-        public TimeSpan FallbackTime= new TimeSpan(0, 0, 0);
-
         public PropertiesDetails()
         {
             this.InitializeComponent();

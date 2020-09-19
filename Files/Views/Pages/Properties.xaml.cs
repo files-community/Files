@@ -42,8 +42,7 @@ namespace Files
             this.navParameter = e.Parameter;
             this.TabShorcut.Visibility = e.Parameter is ShortcutItem ? Visibility.Visible : Visibility.Collapsed;
             this.listedItem = e.Parameter as ListedItem;
-            //this.TabImageDetails.Visibility = (e.Parameter as ListedItem).IsImage() ? Visibility.Visible : Visibility.Collapsed;
-            this.TabDetails.Visibility = Visibility.Visible;
+            this.TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null ? Visibility.Visible : Visibility.Collapsed;
             this.SetBackground();
             base.OnNavigatedTo(e);
         }
