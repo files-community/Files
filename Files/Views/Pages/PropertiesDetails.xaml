@@ -10,13 +10,14 @@
     Loaded="Properties_Loaded"
     mc:Ignorable="d"
     Name="Page"
-    d:DesignHeight="5000">
+    d:DesignHeight="3000">
 
     <Page.Resources>
         <Style x:Key="PropertyTextBlock" TargetType="TextBlock">
             <Setter Property="Grid.Column" Value="0"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Margin" Value="0,8,0,2"/>
+            <Setter Property="Margin" Value="0,2,0,2"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
 
         <Style x:Key="ValueTextBox" TargetType="TextBox">
@@ -33,6 +34,13 @@
             <Setter Property="BorderThickness" Value="1"/>
         </Style>
 
+        <Style x:Key="ValueTextBlock" TargetType="TextBlock">
+            <Setter Property="Grid.Column" Value="1"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="20,2,0,2"/>
+        </Style>
+
         <Style TargetType="MenuFlyoutSeparator" x:Key="Separator">
             <Setter Property="Grid.Column" Value="0"/>
             <Setter Property="Grid.ColumnSpan" Value="2"/>
@@ -44,6 +52,7 @@
             <Setter Property="Grid.Column" Value="0"/>
             <Setter Property="FontSize" Value="22"/>
         </Style>
+       
     </Page.Resources>
     <ScrollViewer Height="{Binding Height, ElementName=Page, Mode=OneWay}" Name="ScrollViewer">
         <Grid VerticalAlignment="Top" Margin="14,0,14,0" Name="MainGrid">
@@ -176,96 +185,21 @@
                     <ColumnDefinition x:Name="TopColumn" Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock
-                    x:Uid="PropertiesDetailsImageItemType"
-                    Grid.Row="3"
-                    Grid.Column="0"
-                    Margin="0,7"
-                    FontWeight="SemiBold"
-                    Text="Image Type:"
-                    Visibility="Visible" />
-                <TextBlock
-                    x:Name="propertiesDetailsImageItemTypeValue"
-                    Grid.Row="3"
-                    Grid.Column="1"
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    IsTextSelectionEnabled="True"
-                    Text="{x:Bind ViewModel.ItemType, Mode=OneWay}"
-                    Visibility="Visible" />
+                
+                <TextBlock Style="{StaticResource PropertyTextBlock}" Text="Image Type:" Visibility="Visible" Grid.Row="3"/>
+                <TextBlock Style="{StaticResource ValueTextBlock}" Grid.Row="3" Text="{x:Bind ViewModel.ItemType, Mode=OneWay}"/>
 
-                <TextBlock
-                    x:Uid="PropertiesDetailsImageDateTaken"
-                    Grid.Row="4"
-                    Grid.Column="0"
-                    Margin="0,7"
-                    FontWeight="SemiBold"
-                    Text="Date Taken:"
-                    Visibility="Visible" />
+                <TextBlock Style="{StaticResource PropertyTextBlock}" Grid.Row="4" Text="Date Taken:" Visibility="Visible"/>
+                <TextBlock Style="{StaticResource ValueTextBlock}" Grid.Row="4" Text="{x:Bind ViewModel.DateTaken.LocalDateTime, Mode=OneWay}" Visibility="Visible"/>
 
-                <TextBlock
-                    x:Name="PropertiesDetailsImageDateTakenValue"
-                    Grid.Row="4"
-                    Grid.Column="1"
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    IsTextSelectionEnabled="True"
-                    Text="{x:Bind ViewModel.DateTaken.LocalDateTime, Mode=OneWay}"
-                    Visibility="Visible"/>
+                <TextBlock Style="{StaticResource PropertyTextBlock}" Grid.Row="5" Text="Dimensions:" Visibility="Visible" />
+                <TextBlock Grid.Row="5" Text="{x:Bind ViewModel.SystemFileProperties_Image_RO['System.Image.Dimensions'], Mode=OneWay}" Visibility="Visible" Style="{StaticResource ValueTextBlock}"/>
 
-                <TextBlock
-                    x:Uid="PropertiesDetailsImageSize"
-                    Grid.Row="5"
-                    Grid.Column="0"
-                    Margin="0,7"
-                    FontWeight="SemiBold"
-                    Text="Dimensions:"
-                    Visibility="Visible" />
-                <TextBlock
-                    x:Name="PropertiesDetailsImageSize"
-                    Grid.Row="5"
-                    Grid.Column="1"
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    Text="{x:Bind ViewModel.SystemFileProperties_Image_RO['System.Image.Dimensions'], Mode=OneWay}"
-                    Visibility="Visible"
-                    IsTextSelectionEnabled="True"/>
+                <TextBlock Grid.Row="7" Text="Camera:" Style="{StaticResource PropertyTextBlock}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}"/>
+                <TextBlock Grid.Row="7" Text="{x:Bind ViewModel.CameraNameString, Mode=OneWay}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}" Style="{StaticResource ValueTextBlock}"/>
 
-                <TextBlock
-                    x:Uid="PropertiesDetailsImageCamera"
-                    Grid.Row="7"
-                    Grid.Column="0"
-                    Margin="0,7"
-                    FontWeight="SemiBold"
-                    Text="Camera:"
-                    Visibility="Visible" />
-                <TextBlock
-                    x:Name="propertiesDetailsImageCameraValue"
-                    Grid.Row="7"
-                    Grid.Column="1"
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ViewModel.CameraNameString, Mode=OneWay}"
-                    Visibility="Visible" />
-
-                <TextBlock
-                    x:Uid="PropertiesDetailsImageCoordinates"
-                    Grid.Row="8"
-                    Grid.Column="0"
-                    Margin="0,7"
-                    FontWeight="SemiBold"
-                    Text="Location:"
-                    Visibility="{x:Bind ViewModel.ShowGeotag, Mode=OneWay}" />
-                <TextBlock
-                    x:Name="propertiesDetailsImageCoordinatesValue"
-                    Text="{x:Bind ViewModel.GeopointString, Mode=OneWay}"
-                    Visibility="{x:Bind ViewModel.ShowGeotag, Mode=OneWay}" 
-                    Grid.Row="8"
-                    Grid.Column="1"
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    IsTextSelectionEnabled="True"/>
+                <TextBlock Grid.Row="8" Text="Location:" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}" Style="{StaticResource PropertyTextBlock}"/>
+                <TextBlock Text="{x:Bind ViewModel.GeopointString, Mode=OneWay}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}" Grid.Row="8" Style="{StaticResource ValueTextBlock}"/>
 
                 <Button
                     Grid.Row="8"
@@ -274,46 +208,12 @@
                     VerticalAlignment="Center" HorizontalAlignment="Right"
                     ToolTipService.ToolTip="Open in Maps"
                     Click="Button_Click"
-                    Visibility="{x:Bind ViewModel.ShowGeotag, Mode=OneWay}">
+                    Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}">
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeae8;"/>
                 </Button>
 
-                <TextBlock
-                    x:Uid="PropertiesDetailsImageRating"
-                    Grid.Row="9"
-                    Grid.Column="0"
-                    Margin="0,7"
-                    FontWeight="SemiBold"
-                    Text="Rating:"
-                    Visibility="Visible" />
-                <RatingControl
-                    x:Name="propertiesDetailsImageRatingValue"
-                    Grid.Row="9"
-                    Grid.Column="1"
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    IsReadOnly="True"
-                    HorizontalAlignment="Left"
-                    PlaceholderValue="{x:Bind ViewModel.RatingReal, Mode=OneWay}" 
-                    Visibility="Visible" />
-
-                <TextBlock
-                        x:Uid="PropertiesDetailsImageShot"
-                        Grid.Row="10"
-                        Grid.Column="0"
-                        Margin="0,7"
-                        FontWeight="SemiBold"
-                        Text="Shot:"
-                        Visibility="Visible" />
-                <TextBlock
-                    x:Name="propertiesDetailsImageShotValue"
-                    Text="{x:Bind ViewModel.ShotString, Mode=OneWay}"
-                    Visibility="Visible" 
-                    Grid.Row="10"
-                    Grid.Column="1"
-                    Margin="20,0,0,0"
-                    VerticalAlignment="Center"
-                    IsTextSelectionEnabled="True"/>
+                <TextBlock Grid.Row="9" Text="Shot:" Style="{StaticResource PropertyTextBlock}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo}"/>
+                <TextBlock Text="{x:Bind ViewModel.ShotString, Mode=OneWay}" Grid.Row="9" Style="{StaticResource ValueTextBlock}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo}"/>
             </Grid>
 
             <TextBlock Text="Description" Grid.Row="4" Style="{StaticResource SeparatorText}"/>
