@@ -86,5 +86,9 @@ namespace Files
              await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => (BaseProperties as FileProperties).SyncPropertyChanges());
         }
 
+        private async void ClearPersonalInformation_Click(object sender, RoutedEventArgs e)
+        {
+            await (BaseProperties as FileProperties).ClearPersonalInformation();
+        }
     }
 }

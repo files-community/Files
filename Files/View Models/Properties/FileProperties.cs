@@ -1,6 +1,7 @@
 ﻿using ByteSizeLib;
 using Files.Filesystem;
 using Files.Helpers;
+using Microsoft.Graphics.Canvas.Text;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml.Controls;
@@ -239,19 +240,17 @@ namespace Files.View_Models.Properties
 
             try
             {
-
                 ViewModel.SystemFileProperties_Image_RO = await RetrieveProperties(file, PropertiesToGet["Image_RO"]);
                 ViewModel.SystemFileProperties_Photo_RO = await RetrieveProperties(file, PropertiesToGet["Photo_RO"]);
                 ViewModel.SystemFileProperties_Photo_RW = await RetrieveProperties(file, PropertiesToGet["Photo_RW"]);
                 ViewModel.SystemFileProperties_Description_RO = await RetrieveProperties(file, PropertiesToGet["Description_RO"]);
                 ViewModel.SystemFileProperties_GPS_RO = await RetrieveProperties(file, PropertiesToGet["GPS_RO"]);
                 ViewModel.SystemFileProperties_Description_RW = await RetrieveProperties(file, PropertiesToGet["Description_RW"]);
-
-            }
-            catch (Exception ex)
+            } catch (Exception e)
             {
-                Debug.WriteLine(ex.ToString());
+                Debug.WriteLine(e.ToString());
             }
+
             SetVisibilities();
             ViewModelProcessing();
         }
@@ -361,18 +360,37 @@ namespace Files.View_Models.Properties
             //IEnumerable<KeyValuePair<string, object>> param = keyValues;
             try
             {
-                await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Description_RO);
+                //await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Description_RO);
                 await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Description_RW);
-                await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_GPS_RO);
-                await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Image_RO);
-                await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Image_RW);
-                await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Photo_RO);
                 await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Photo_RW);
+                await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_GPS_RO);
+                //await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Image_RO);
+                //await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Photo_RO);
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.ToString());
             }
+        }
+
+        /// <summary>
+        /// This function goes through ever read-write property saved, then syncs it
+        /// </summary>
+        /// <returns></returns>
+        public async Task ClearPersonalInformation()
+        {
+            ViewModel.SystemFileProperties_Photo_RW = ClearPropertyList(ViewModel.SystemFileProperties_Photo_RW);
+            ViewModel.SystemFileProperties_Description_RW = ClearPropertyList(ViewModel.SystemFileProperties_Description_RW);
+            ViewModel.SystemFileProperties_GPS_RO = ClearPropertyList(ViewModel.SystemFileProperties_GPS_RO);
+            SyncPropertyChanges();
+        }
+
+        private IDictionary<string, object> ClearPropertyList(IDictionary<string, object> keyValuePairs)
+        {
+            foreach (KeyValuePair<string, object> keyValuePair in keyValuePairs)
+                keyValuePairs[keyValuePair.Key] = null;
+
+            return keyValuePairs;
         }
 
         private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
