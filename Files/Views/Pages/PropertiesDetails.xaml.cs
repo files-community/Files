@@ -88,6 +88,7 @@ namespace Files
 
         private async void ClearPersonalInformation_Click(object sender, RoutedEventArgs e)
         {
+            ClearPersonalInformationFlyout.Hide();
             await (BaseProperties as FileProperties).ClearPersonalInformation();
         }
     }

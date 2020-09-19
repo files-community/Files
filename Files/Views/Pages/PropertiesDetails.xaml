@@ -466,7 +466,7 @@
             </Grid>
             <Button x:Name="ClearPersonalInformation" Margin="0, 10, 0, 0" Grid.Row="25" Content="Clear All Personal Information" HorizontalAlignment="Stretch">
                 <Button.Flyout>
-                    <Flyout>
+                    <Flyout x:Name="ClearPersonalInformationFlyout">
                         <StackPanel Orientation="Vertical" Spacing="5">
                             <TextBlock Text="Confirm?"/>
                             <StackPanel Orientation="Horizontal" Spacing="10">

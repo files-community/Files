@@ -87,6 +87,26 @@ namespace Files.View_Models.Properties
             }
         };
 
+        /// <summary>
+        /// This list stores all properties to be cleared when clear personal properties is called
+        /// </summary>
+        private readonly List<string> PersonalProperties = new List<string>()
+        {
+                "System.GPS.LatitudeNumerator",
+                "System.GPS.LatitudeDenominator",
+                "System.GPS.LongitudeNumerator",
+                "System.GPS.LongitudeDenominator",
+                "System.GPS.AltitudeNumerator",
+                "System.GPS.AltitudeDenominator",
+                "System.GPS.AltitudeRef",
+                "System.Title",
+                "System.Subject",
+                "System.Comment",
+                "System.Copyright",
+                "System.Photo.CameraManufacturer",
+                "System.Photo.CameraModel",
+        };
+
         public ListedItem Item { get; }
 
         public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ProgressBar progressBar, ListedItem item)
@@ -246,7 +266,8 @@ namespace Files.View_Models.Properties
                 ViewModel.SystemFileProperties_Description_RO = await RetrieveProperties(file, PropertiesToGet["Description_RO"]);
                 ViewModel.SystemFileProperties_GPS_RO = await RetrieveProperties(file, PropertiesToGet["GPS_RO"]);
                 ViewModel.SystemFileProperties_Description_RW = await RetrieveProperties(file, PropertiesToGet["Description_RW"]);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Debug.WriteLine(e.ToString());
             }
@@ -334,7 +355,8 @@ namespace Files.View_Models.Properties
             try
             {
                 return await file.Properties.RetrievePropertiesAsync(props);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Debug.WriteLine(e.ToString());
                 return new Dictionary<string, object>();
@@ -363,7 +385,7 @@ namespace Files.View_Models.Properties
                 //await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Description_RO);
                 await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Description_RW);
                 await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Photo_RW);
-                await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_GPS_RO);
+                //await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_GPS_RO);
                 //await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Image_RO);
                 //await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Photo_RO);
             }
@@ -379,10 +401,24 @@ namespace Files.View_Models.Properties
         /// <returns></returns>
         public async Task ClearPersonalInformation()
         {
-            ViewModel.SystemFileProperties_Photo_RW = ClearPropertyList(ViewModel.SystemFileProperties_Photo_RW);
-            ViewModel.SystemFileProperties_Description_RW = ClearPropertyList(ViewModel.SystemFileProperties_Description_RW);
-            ViewModel.SystemFileProperties_GPS_RO = ClearPropertyList(ViewModel.SystemFileProperties_GPS_RO);
-            SyncPropertyChanges();
+            StorageFile file = null;
+            try
+            {
+                file = await ItemViewModel.GetFileFromPathAsync(Item.ItemPath);
+            }
+            catch
+            {
+                //return;
+            }
+            var dict = new Dictionary<string, object>();
+
+            foreach (string str in PersonalProperties)
+                dict.Add(str, null);
+
+            await file.Properties.SavePropertiesAsync(dict);
+
+            //GetBaseProperties();
+            GetSpecialProperties();
         }
 
         private IDictionary<string, object> ClearPropertyList(IDictionary<string, object> keyValuePairs)
