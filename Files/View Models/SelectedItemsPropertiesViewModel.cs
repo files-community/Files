@@ -727,18 +727,18 @@ namespace Files.View_Models
             set => SetProperty(ref _SystemFileProperties_Photo_RO, value);
         }
 
-        private IDictionary<string, object> _SystemFileProperties_Description_RO;
-        public IDictionary<string, object> SystemFileProperties_Description_RO
+        private IDictionary<string, object> _SystemFileProperties_Core_RO;
+        public IDictionary<string, object> SystemFileProperties_Core_RO
         {
-            get => _SystemFileProperties_Description_RO;
-            set => SetProperty(ref _SystemFileProperties_Description_RO, value);
+            get => _SystemFileProperties_Core_RO;
+            set => SetProperty(ref _SystemFileProperties_Core_RO, value);
         }
 
-        private IDictionary<string, object> _SystemFileProperties_Description_RW;
-        public IDictionary<string, object> SystemFileProperties_Description_RW
+        private IDictionary<string, object> _SystemFileProperties_Core_RW;
+        public IDictionary<string, object> SystemFileProperties_Core_RW
         {
-            get => _SystemFileProperties_Description_RW;
-            set => SetProperty(ref _SystemFileProperties_Description_RW, value);
+            get => _SystemFileProperties_Core_RW;
+            set => SetProperty(ref _SystemFileProperties_Core_RW, value);
         }
 
         private IDictionary<string, object> _SystemFileProperties_Image_RW;
@@ -776,12 +776,5 @@ namespace Files.View_Models
             get => _DetailsSectionVisibility_Photo;
             set => SetProperty(ref _DetailsSectionVisibility_Photo, value);
         }
-
-        //private IDictionary<string, Visibility> _DetailsSectionVisibility;
-        //public IDictionary<string, Visibility> DetailsSectionVisibility
-        //{
-        //    get => _DetailsSectionVisibility;
-        //    set => SetProperty(ref _DetailsSectionVisibility, value);
-        //}
     }
 }

@@ -55,45 +55,7 @@
        
     </Page.Resources>
     <ScrollViewer Height="{Binding Height, ElementName=Page, Mode=OneWay}" Name="ScrollViewer">
-        <Grid VerticalAlignment="Top" Margin="14,0,14,0" Name="MainGrid">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Grid.RenderTransform>
-                <CompositeTransform/>
-            </Grid.RenderTransform>
+        <StackPanel VerticalAlignment="Top" Margin="14,0,14,0" Name="MainGrid">
             <Grid x:Load="True" x:Name="HeaderGrid" Grid.Row="0">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
@@ -189,20 +151,23 @@
                 <TextBlock Style="{StaticResource PropertyTextBlock}" Text="Image Type:" Visibility="Visible" Grid.Row="3"/>
                 <TextBlock Style="{StaticResource ValueTextBlock}" Grid.Row="3" Text="{x:Bind ViewModel.ItemType, Mode=OneWay}"/>
 
-                <TextBlock Style="{StaticResource PropertyTextBlock}" Grid.Row="4" Text="Date Taken:" Visibility="Visible"/>
-                <TextBlock Style="{StaticResource ValueTextBlock}" Grid.Row="4" Text="{x:Bind ViewModel.DateTaken.LocalDateTime, Mode=OneWay}" Visibility="Visible"/>
+                <TextBlock Style="{StaticResource PropertyTextBlock}" Grid.Row="4" Text="Date Taken:" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}"/>
+                <TextBlock Style="{StaticResource ValueTextBlock}" Grid.Row="4" Text="{x:Bind ViewModel.SystemFileProperties_Photo_RO['System.Photo.DateTaken'].ToString(), Mode=OneWay}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}"/>
 
                 <TextBlock Style="{StaticResource PropertyTextBlock}" Grid.Row="5" Text="Dimensions:" Visibility="Visible" />
-                <TextBlock Grid.Row="5" Text="{x:Bind ViewModel.SystemFileProperties_Image_RO['System.Image.Dimensions'], Mode=OneWay}" Visibility="Visible" Style="{StaticResource ValueTextBlock}"/>
+                <TextBlock Grid.Row="5" Text="{x:Bind ViewModel.SystemFileProperties_Image_RO['System.Image.Dimensions'].ToString(), Mode=OneWay}" Visibility="Visible" Style="{StaticResource ValueTextBlock}"/>
 
                 <TextBlock Grid.Row="7" Text="Camera:" Style="{StaticResource PropertyTextBlock}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}"/>
                 <TextBlock Grid.Row="7" Text="{x:Bind ViewModel.CameraNameString, Mode=OneWay}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}" Style="{StaticResource ValueTextBlock}"/>
 
-                <TextBlock Grid.Row="8" Text="Location:" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}" Style="{StaticResource PropertyTextBlock}"/>
-                <TextBlock Text="{x:Bind ViewModel.GeopointString, Mode=OneWay}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}" Grid.Row="8" Style="{StaticResource ValueTextBlock}"/>
+                <TextBlock Grid.Row="8" Text="Shot:" Style="{StaticResource PropertyTextBlock}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo}"/>
+                <TextBlock Text="{x:Bind ViewModel.ShotString, Mode=OneWay}" Grid.Row="8" Style="{StaticResource ValueTextBlock}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo}"/>
+
+                <TextBlock Grid.Row="9" Text="Location:" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}" Style="{StaticResource PropertyTextBlock}"/>
+                <TextBlock Text="{x:Bind ViewModel.GeopointString, Mode=OneWay}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}" Grid.Row="9" Style="{StaticResource ValueTextBlock}"/>
 
                 <Button
-                    Grid.Row="8"
+                    Grid.Row="9"
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     VerticalAlignment="Center" HorizontalAlignment="Right"
@@ -211,16 +176,21 @@
                     Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}">
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeae8;"/>
                 </Button>
-
-                <TextBlock Grid.Row="9" Text="Shot:" Style="{StaticResource PropertyTextBlock}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo}"/>
-                <TextBlock Text="{x:Bind ViewModel.ShotString, Mode=OneWay}" Grid.Row="9" Style="{StaticResource ValueTextBlock}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo}"/>
             </Grid>
 
-            <TextBlock Text="Description" Grid.Row="4" Style="{StaticResource SeparatorText}"/>
+            <TextBlock Text="Core" Grid.Row="4" Style="{StaticResource SeparatorText}"/>
             <MenuFlyoutSeparator Grid.Row="5" Style="{StaticResource Separator}"/>
 
             <Grid x:Name="DescriptionGrid" x:Load="True" Grid.Row="6" Grid.Column="0">
                 <Grid.RowDefinitions >
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
@@ -238,58 +208,38 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row ="0" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
-                <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Description_RW['System.Title'], Mode=TwoWay}"/>
+                <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Core_RW['System.Title'], Mode=TwoWay}"/>
 
                 <TextBlock Grid.Row ="1" Style="{StaticResource PropertyTextBlock}" Text="Subject"/>
-                <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Description_RW['System.Subject'], Mode=TwoWay}"/>
+                <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Core_RW['System.Subject'], Mode=TwoWay}"/>
 
                 <TextBlock Grid.Row ="7" Style="{StaticResource PropertyTextBlock}" Text="Rating"/>
-                <RatingControl Grid.Row="7" Grid.Column="1" Margin="20,2,0,2" Value="{x:Bind sys:Convert.ToDouble(ViewModel.SystemFileProperties_Description_RO['System.Rating']), Mode=OneWay}" IsReadOnly="True"/>
+                <TextBox Grid.Row="7" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Core_RO['System.Rating'].ToString(), Mode=OneWay}" IsReadOnly="True"/>
 
                 <TextBlock Grid.Row ="8" Style="{StaticResource PropertyTextBlock}" Text="Comments"/>
-                <TextBox Grid.Row ="8" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Description_RW['Details_RW'], Mode=TwoWay}"/>
+                <TextBox Grid.Row ="8" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Core_RW['Details_RW'], Mode=TwoWay}"/>
 
                 <TextBlock Grid.Row ="9" Style="{StaticResource PropertyTextBlock}" Text="Copyright"/>
-                <TextBox Grid.Row ="9" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Description_RW['System.Copyright'], Mode=TwoWay}"/>
+                <TextBox Grid.Row ="9" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Core_RW['System.Copyright'], Mode=TwoWay}"/>
 
-            </Grid>
+                <TextBlock Grid.Row ="10" Style="{StaticResource PropertyTextBlock}" Text="Type"/>
+                <TextBox Grid.Row ="10" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Core_RO['System.ItemTypeText'].ToString(), Mode=OneWay}" IsReadOnly="True"/>
 
-            <TextBlock Grid.Row="7" Text="Origin"  Style="{StaticResource SeparatorText}"/>
-            <MenuFlyoutSeparator Grid.Row="8" Style="{StaticResource Separator}"/>
+                <TextBlock Grid.Row ="11" Style="{StaticResource PropertyTextBlock}" Text="Folder Path"/>
+                <TextBox Grid.Row ="11" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Core_RO['System.ItemFolderPathDisplay'].ToString(), Mode=OneWay}" IsReadOnly="True"/>
 
-            <Grid x:Name="OriginGrid" x:Load="True" Grid.Row="9" Grid.Column="0">
-                <Grid.RowDefinitions >
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{Binding ElementName=TopColumn, Path=Width, Mode=OneWay}" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row ="12" Style="{StaticResource PropertyTextBlock}" Text="Date Created"/>
+                <TextBox Grid.Row ="12" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Core_RO['System.DateCreated'].ToString(), Mode=OneWay}" IsReadOnly="True"/>
 
-                <TextBlock Grid.Row ="0" Style="{StaticResource PropertyTextBlock}" Text="Authors"/>
-                <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}"/>
+                <TextBlock Grid.Row ="13" Style="{StaticResource PropertyTextBlock}" Text="Date Modified"/>
+                <TextBox Grid.Row ="13" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Core_RO['System.DateModified'].ToString(), Mode=OneWay}" IsReadOnly="True"/>
 
-                <TextBlock Grid.Row ="1" Style="{StaticResource PropertyTextBlock}" Text="Dake taken"/>
-                <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Photo_RO['System.Photo.DateTaken'].ToString()}"/>
+                <TextBlock Grid.Row ="14" Style="{StaticResource PropertyTextBlock}" Text="Size"/>
+                <TextBox Grid.Row ="14" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Core_RW['System.Size'].ToString(), Mode=OneWay}" IsReadOnly="True"/>
 
-                <TextBlock Grid.Row ="2" Style="{StaticResource PropertyTextBlock}" Text="Time taken"/>
-                <TimePicker Grid.Row="2" Grid.Column="1" Margin="20,2,0,2"/>
+                <TextBlock Grid.Row ="15" Style="{StaticResource PropertyTextBlock}" Text="Owner"/>
+                <TextBox Grid.Row ="15" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Core_RW['System.FileOwner'].ToString(), Mode=OneWay}" IsReadOnly="True"/>
 
-                <TextBlock Grid.Row ="3" Style="{StaticResource PropertyTextBlock}" Text="Program name"/>
-                <TextBox Grid.Row ="3" Style="{StaticResource ValueTextBox}"/>
-
-                <TextBlock Grid.Row ="4" Style="{StaticResource PropertyTextBlock}" Text="Date aquired"/>
-                <DatePicker Grid.Row="4" Grid.Column="1" Margin="20,2,0,2"/>
-
-                <TextBlock Grid.Row ="5" Style="{StaticResource PropertyTextBlock}" Text="Time aquired"/>
-                <TimePicker Grid.Row="5" Grid.Column="1" Margin="20,2,0,2"/>
             </Grid>
 
             <TextBlock Grid.Row="10" Text="Image"  Style="{StaticResource SeparatorText}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Image, Mode=OneWay}"/>
@@ -369,47 +319,20 @@
                 <TextBlock Grid.Row ="1" Style="{StaticResource PropertyTextBlock}" Text="Camera Model"/>
                 <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Photo_RW['System.Photo.CameraModel'], Mode=TwoWay}"/>
 
-                <TextBlock Grid.Row ="2" Style="{StaticResource PropertyTextBlock}" Text="Exposure"/>
-                <TextBox Grid.Row ="2" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Photo_RO['System.Photo.ExposureTime'].ToString(), Mode=OneWay}" IsReadOnly="True"/>
+                <TextBlock Grid.Row ="2" Style="{StaticResource PropertyTextBlock}" Text="Dake taken"/>
+                <TextBox Grid.Row ="2" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Photo_RO['System.Photo.DateTaken'].ToString()}"/>
 
-                <TextBlock Grid.Row ="3" Style="{StaticResource PropertyTextBlock}" Text="Focal Length"/>
-                <TextBox Grid.Row ="3" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Photo_RO['System.Photo.FocalLength'].ToString(), Mode=OneWay}" IsReadOnly="True"/>
+                <TextBlock Grid.Row ="3" Style="{StaticResource PropertyTextBlock}" Text="Exposure"/>
+                <TextBox Grid.Row ="3" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Photo_RO['System.Photo.ExposureTime'].ToString(), Mode=OneWay}" IsReadOnly="True"/>
 
-                <TextBlock Grid.Row ="4" Style="{StaticResource PropertyTextBlock}" Text="Aperature"/>
-                <TextBox Grid.Row ="4" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Photo_RO['System.Photo.Aperture'].ToString(), Mode=OneWay}" IsReadOnly="True"/>
+                <TextBlock Grid.Row ="4" Style="{StaticResource PropertyTextBlock}" Text="Focal Length"/>
+                <TextBox Grid.Row ="4" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Photo_RO['System.Photo.FocalLength'].ToString(), Mode=OneWay}" IsReadOnly="True"/>
+
+                <TextBlock Grid.Row ="5" Style="{StaticResource PropertyTextBlock}" Text="Aperature"/>
+                <TextBox Grid.Row ="5" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Photo_RO['System.Photo.Aperture'].ToString(), Mode=OneWay}" IsReadOnly="True"/>
             </Grid>
-
-
-            <TextBlock Grid.Row="16" Text="Advanced photo"  Style="{StaticResource SeparatorText}"/>
-            <MenuFlyoutSeparator Grid.Row="17" Style="{StaticResource Separator}"/>
-            <Grid x:Name="AdvancedPhotoGrid" x:Load="True" Grid.Row="18" Grid.Column="0">
-                <Grid.RowDefinitions >
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{Binding ElementName=TopColumn, Path=Width, Mode=OneWay}" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Grid.Row ="0" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
-                <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}"/>
-
-                <TextBlock Grid.Row ="1" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
-                <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}"/>
-
-                <TextBlock Grid.Row ="7" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
-                <TextBox Grid.Row ="7" Style="{StaticResource ValueTextBox}"/>
-            </Grid>
-
-
-            <TextBlock Grid.Row="19" Text="GPS"  Style="{StaticResource SeparatorText}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}"/>
+            
+            <TextBlock Text="GPS"  Style="{StaticResource SeparatorText}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}"/>
             <MenuFlyoutSeparator Grid.Row="20" Style="{StaticResource Separator}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}"/>
             <Grid x:Name="GPSGrid" x:Load="True" Grid.Row="21" Grid.Column="0" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}">
                 <Grid.RowDefinitions >
@@ -434,36 +357,12 @@
                 <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.Longitude.ToString(), Mode=OneWay}" IsReadOnly="True"/>
 
                 <TextBlock Grid.Row ="2" Style="{StaticResource PropertyTextBlock}" Text="Altitude"/>
-                <TextBox Grid.Row ="2" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_GPS_RO['System.GPS.Altitude'].ToString(), Mode=OneWay}"/>
+                <TextBox Grid.Row ="2" Style="{StaticResource ValueTextBox}" IsReadOnly="True" Text="{x:Bind ViewModel.SystemFileProperties_GPS_RO['System.GPS.Altitude'].ToString(), Mode=OneWay}"/>
+
+                <TextBlock Grid.Row ="3" Style="{StaticResource PropertyTextBlock}" Text="Address"/>
+                <TextBox Grid.Row ="3" Style="{StaticResource ValueTextBox}" IsReadOnly="True" Text="{x:Bind ViewModel.Geopoint.Address.FormattedAddress, Mode=OneWay}"/>
             </Grid>
-
-            <TextBlock Grid.Row="22" Text="File"  Style="{StaticResource SeparatorText}"/>
-            <MenuFlyoutSeparator Grid.Row="23" Style="{StaticResource Separator}"/>
-            <Grid x:Name="FileGrid" x:Load="True" Grid.Row="24" Grid.Column="0">
-                <Grid.RowDefinitions >
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{Binding ElementName=TopColumn, Path=Width, Mode=OneWay}" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Grid.Row ="0" Style="{StaticResource PropertyTextBlock}" Text="Name"/>
-                <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}"/>
-
-                <TextBlock Grid.Row ="1" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
-                <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}"/>
-
-                <TextBlock Grid.Row ="7" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
-                <TextBox Grid.Row ="7" Style="{StaticResource ValueTextBox}"/>
-            </Grid>
+            
             <Button x:Name="ClearPersonalInformation" Margin="0, 10, 0, 0" Grid.Row="25" Content="Clear All Personal Information" HorizontalAlignment="Stretch">
                 <Button.Flyout>
                     <Flyout x:Name="ClearPersonalInformationFlyout">
@@ -476,6 +375,6 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
-        </Grid>
+        </StackPanel>
     </ScrollViewer>
 </Page>

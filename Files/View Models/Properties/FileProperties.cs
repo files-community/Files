@@ -66,12 +66,18 @@ namespace Files.View_Models.Properties
                 }
 
             },
-            { "Description_RO", new List<string>()
+            { "Core_RO", new List<string>()
                 {
                     "System.Rating",
+                    "System.ItemFolderPathDisplay",
+                    "System.DateCreated",
+                    "System.DateModified",
+                    "System.Size",
+                    "System.ItemTypeText",
+                    "System.FileOwner",
                 }
             },
-            {"Description_RW", new List<string>()
+            {"Core_RW", new List<string>()
                 {
                     "System.Title",
                     "System.Subject",
@@ -263,17 +269,29 @@ namespace Files.View_Models.Properties
                 ViewModel.SystemFileProperties_Image_RO = await RetrieveProperties(file, PropertiesToGet["Image_RO"]);
                 ViewModel.SystemFileProperties_Photo_RO = await RetrieveProperties(file, PropertiesToGet["Photo_RO"]);
                 ViewModel.SystemFileProperties_Photo_RW = await RetrieveProperties(file, PropertiesToGet["Photo_RW"]);
-                ViewModel.SystemFileProperties_Description_RO = await RetrieveProperties(file, PropertiesToGet["Description_RO"]);
+                ViewModel.SystemFileProperties_Core_RO = await RetrieveProperties(file, PropertiesToGet["Core_RO"]);
                 ViewModel.SystemFileProperties_GPS_RO = await RetrieveProperties(file, PropertiesToGet["GPS_RO"]);
-                ViewModel.SystemFileProperties_Description_RW = await RetrieveProperties(file, PropertiesToGet["Description_RW"]);
+                ViewModel.SystemFileProperties_Core_RW = await RetrieveProperties(file, PropertiesToGet["Core_RW"]);
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.ToString());
             }
-
             SetVisibilities();
+            if(ViewModel.DetailsSectionVisibility_GPS == Visibility.Visible)
+                SetLocationInformation();
+
             ViewModelProcessing();
+        }
+
+        private void SetLocationInformation()
+        {
+            double[] latitude = ViewModel.SystemFileProperties_GPS_RO["System.GPS.Latitude"] as double[];
+            double[] longitude = ViewModel.SystemFileProperties_GPS_RO["System.GPS.Longitude"] as double[];
+            ViewModel.Latitude = (latitude[0] + (latitude[1] / 60) + (latitude[2] / 3600));
+            ViewModel.Longitude = longitude[0] + (longitude[1] / 60) + (longitude[2] / 3600);
+            ViewModel.Latitude *= (ViewModel.SystemFileProperties_GPS_RO["System.GPS.LatitudeRef"] as string).ToLower().Equals("s") ? -1 : 1;
+            ViewModel.Longitude *= (ViewModel.SystemFileProperties_GPS_RO["System.GPS.LongitudeRef"] as string).ToLower().Equals("w") ? -1 : 1;
         }
 
         /// <summary>
@@ -286,14 +304,6 @@ namespace Files.View_Models.Properties
 
             if (ViewModel.SystemFileProperties_GPS_RO["System.GPS.Longitude"] != null && ViewModel.SystemFileProperties_GPS_RO["System.GPS.Longitude"] != null)
             {
-                double[] latitude = ViewModel.SystemFileProperties_GPS_RO["System.GPS.Latitude"] as double[];
-                double[] longitude = ViewModel.SystemFileProperties_GPS_RO["System.GPS.Longitude"] as double[];
-                ViewModel.Latitude = (latitude[0] + (latitude[1] / 60) + (latitude[2] / 3600));
-                ViewModel.Longitude = longitude[0] + (longitude[1] / 60) + (longitude[2] / 3600);
-                ViewModel.Latitude *= (ViewModel.SystemFileProperties_GPS_RO["System.GPS.LatitudeRef"] as string).ToLower().Equals("s") ? -1 : 1;
-                ViewModel.Longitude *= (ViewModel.SystemFileProperties_GPS_RO["System.GPS.LongitudeRef"] as string).ToLower().Equals("w") ? -1 : 1;
-
-
                 MapLocationFinderResult result = null;
                 try
                 {
@@ -382,7 +392,7 @@ namespace Files.View_Models.Properties
             //IEnumerable<KeyValuePair<string, object>> param = keyValues;
             try
             {
-                await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Description_RW);
+                await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Core_RW);
                 await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_Photo_RW);
             }
             catch (Exception e)
@@ -414,14 +424,6 @@ namespace Files.View_Models.Properties
             await file.Properties.SavePropertiesAsync(dict);
 
             GetSpecialProperties();
-        }
-
-        private IDictionary<string, object> ClearPropertyList(IDictionary<string, object> keyValuePairs)
-        {
-            foreach (KeyValuePair<string, object> keyValuePair in keyValuePairs)
-                keyValuePairs[keyValuePair.Key] = null;
-
-            return keyValuePairs;
         }
 
         private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
