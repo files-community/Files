@@ -937,10 +937,6 @@
           <source>App Language</source>
           <target state="translated">App Sprache</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesAppLanguageRestartRequired.Text" translate="yes" xml:space="preserve">
-          <source>To see changes, a restart is required</source>
-          <target state="translated">Um die Änderungen zu sehen, ist ein Neustart erforderlich</target>
-        </trans-unit>
         <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
           <source>Status</source>
           <target state="translated">Status</target>
@@ -1208,6 +1204,18 @@
         <trans-unit id="VerticalTabViewHeader.Text" translate="yes" xml:space="preserve">
           <source>Open tabs</source>
           <target state="translated">Geöffnete Tabs</target>
+        </trans-unit>
+        <trans-unit id="ButtonNo.Content" translate="yes" xml:space="preserve">
+          <source>No</source>
+          <target state="new">No</target>
+        </trans-unit>
+        <trans-unit id="ButtonYes.Content" translate="yes" xml:space="preserve">
+          <source>Yes</source>
+          <target state="new">Yes</target>
+        </trans-unit>
+        <trans-unit id="RestartNotificationText.Text" translate="yes" xml:space="preserve">
+          <source>The application needs to be restarted in order to apply the langague setting, would you like to restart the app?</source>
+          <target state="new">The application needs to be restarted in order to apply the langague setting, would you like to restart the app?</target>
         </trans-unit>
       </group>
     </body>

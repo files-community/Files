@@ -687,9 +687,6 @@
   <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
     <value>Idioma</value>
   </data>
-  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>Los cambios se aplicarán la próxima vez que inicies la aplicación</value>
-  </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Estado</value>
   </data>

@@ -699,9 +699,6 @@
   <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
     <value>Мова програми</value>
   </data>
-  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>Необхідне перезавантаження</value>
-  </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Статус</value>
   </data>

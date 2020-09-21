@@ -702,9 +702,6 @@
   <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
     <value>பயன்பாட்டு மொழி</value>
   </data>
-  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>மறுதொடக்கம் தேவை</value>
-  </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>நிலை</value>
   </data>
