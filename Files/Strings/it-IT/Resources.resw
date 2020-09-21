@@ -708,9 +708,6 @@
   <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
     <value>Lingua dell'applicazione</value>
   </data>
-  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>Riavvio richiesto</value>
-  </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Stato</value>
   </data>

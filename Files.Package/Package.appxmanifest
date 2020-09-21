@@ -9,9 +9,9 @@
          xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
          xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
          IgnorableNamespaces="uap uap5 mp rescap desktop4 desktop">
-    <Identity Name="FilesUWPDev" Publisher="CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7" Version="0.14.0.0" />
+    <Identity Name="FilesDev" Publisher="CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7" Version="0.14.0.0" />
     <Properties>
-        <DisplayName>Files UWP - Dev</DisplayName>
+        <DisplayName>Files - Dev</DisplayName>
         <PublisherDisplayName>Yair A</PublisherDisplayName>
         <Logo>Assets\StoreLogo.png</Logo>
     </Properties>
@@ -24,7 +24,7 @@
     </Resources>
     <Applications>
         <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="$targetentrypoint$" desktop4:SupportsMultipleInstances="true">
-            <uap:VisualElements DisplayName="Files UWP - Dev" Description="Meet Files, a free and open-source File Manager for Windows 10. Created from the ground up to look and feel amazing, Files is built to replace the dated Windows File Explorer." Square150x150Logo="Assets\Square150x150Logo.png"  Square44x44Logo="Assets\Square44x44Logo.png"  BackgroundColor="transparent">
+            <uap:VisualElements DisplayName="Files - Dev" Description="Meet Files, a free and open-source File Manager for Windows 10. Created from the ground up to look and feel amazing, Files is built to replace the dated Windows File Explorer." Square150x150Logo="Assets\Square150x150Logo.png"  Square44x44Logo="Assets\Square44x44Logo.png"  BackgroundColor="transparent">
                 <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png" ShortName="Files">
                     <uap:ShowNameOnTiles>
                         <uap:ShowOn Tile="square150x150Logo"/>

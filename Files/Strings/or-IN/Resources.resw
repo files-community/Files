@@ -708,9 +708,6 @@
   <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
     <value>ଆପ୍ ଭାଷା</value>
   </data>
-  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>ପୁନରାରମ୍ଭ ଆବଶ୍ୟକ</value>
-  </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>ସ୍ଥିତି</value>
   </data>

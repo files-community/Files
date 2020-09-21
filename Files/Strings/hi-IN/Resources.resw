@@ -708,9 +708,6 @@
   <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
     <value>ऐप लैंग्वेज</value>
   </data>
-  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>पुनरारंभ करना आवश्यक है</value>
-  </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>स्थिति</value>
   </data>

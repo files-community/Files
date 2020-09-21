@@ -705,9 +705,6 @@
   <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
     <value>Idioma</value>
   </data>
-  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>Para ver as mudanças, é necessário reiniciar</value>
-  </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Status</value>
   </data>

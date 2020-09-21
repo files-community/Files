@@ -708,9 +708,6 @@
   <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
     <value>Taal</value>
   </data>
-  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>Opnieuw opstarten vereist</value>
-  </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Status</value>
   </data>

@@ -708,9 +708,6 @@
   <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
     <value>语言 (国家或地区)</value>
   </data>
-  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>需要重启应用</value>
-  </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>等级</value>
   </data>
