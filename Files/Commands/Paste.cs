@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -68,7 +67,7 @@ namespace Files.Commands
                 await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"), ResourceController.GetTranslation("ErrorDialogUnsupportedOperation"));
                 return;
             }
-            
+
             List<IStorageItem> pastedSourceItems = new List<IStorageItem>();
             HashSet<IStorageItem> pastedItems = new HashSet<IStorageItem>();
             var totalItemsSize = CalculateTotalItemsSize(itemsToPaste);

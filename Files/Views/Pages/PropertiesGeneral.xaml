@@ -4,17 +4,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.View_Models.Properties"
-    xmlns:usercontrols="using:Files.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:usercontrols="using:Files.UserControls"
     Loaded="Properties_Loaded"
     mc:Ignorable="d">
 
     <local:PropertiesTab.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml"/>
+                <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </local:PropertiesTab.Resources>
@@ -55,7 +55,7 @@
                 Margin="{StaticResource PropertyNameMargin}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
-                <usercontrols:FileIcon ViewModel="{x:Bind ViewModel}" ItemSize="70"/>
+                <usercontrols:FileIcon ItemSize="70" ViewModel="{x:Bind ViewModel}" />
             </Grid>
             <TextBox
                 x:Name="ItemFileName"

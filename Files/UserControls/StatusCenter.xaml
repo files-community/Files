@@ -146,8 +146,8 @@
                                 <ColumnDefinition Width="30" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition Height="Auto"/>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <Grid>
                                 <muxc:ProgressRing
@@ -180,22 +180,34 @@
                             <Button
                                 Grid.Column="2"
                                 Padding="0"
-                                DataContext="{x:Bind}"
-                                Click="Button_Click"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"
-                                Background="Transparent">
+                                Background="Transparent"
+                                Click="Button_Click"
+                                DataContext="{x:Bind}">
                                 <Button.Content>
                                     <FontIcon FontSize="11" Glyph="&#xE711;" />
                                 </Button.Content>
                             </Button>
-                            <Grid x:Name="solutionButtons" x:Load="{x:Bind SolutionButtonsVisible}" Grid.ColumnSpan="3" Grid.Row="1">
+                            <Grid
+                                x:Name="solutionButtons"
+                                Grid.Row="1"
+                                Grid.ColumnSpan="3"
+                                x:Load="{x:Bind SolutionButtonsVisible}">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
                                 </Grid.ColumnDefinitions>
-                                <Button DataContext="{x:Bind}" Content="{x:Bind PrimaryButtonText}" Click="Button_Click_1" Grid.Column="0"/>
-                                <Button DataContext="{x:Bind}" Content="{x:Bind SecondaryButtonText}" Click="Button_Click" Grid.Column="1"/>
+                                <Button
+                                    Grid.Column="0"
+                                    Click="Button_Click_1"
+                                    Content="{x:Bind PrimaryButtonText}"
+                                    DataContext="{x:Bind}" />
+                                <Button
+                                    Grid.Column="1"
+                                    Click="Button_Click"
+                                    Content="{x:Bind SecondaryButtonText}"
+                                    DataContext="{x:Bind}" />
                             </Grid>
                         </Grid>
                     </Grid>

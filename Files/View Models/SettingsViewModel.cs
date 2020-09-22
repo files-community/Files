@@ -1,6 +1,5 @@
 using Files.Common;
 using Files.Controllers;
-using Files.Controls;
 using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
@@ -16,7 +15,6 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.Core;
 using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;

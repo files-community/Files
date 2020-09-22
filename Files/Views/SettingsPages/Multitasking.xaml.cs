@@ -1,9 +1,4 @@
-﻿using Files.DataModels;
-using Files.View_Models;
-using System;
-using Windows.Storage;
-using Windows.System;
-using Windows.UI.Xaml;
+﻿using Files.View_Models;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 

@@ -12,7 +12,7 @@
     <local:PropertiesTab.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml"/>
+                <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </local:PropertiesTab.Resources>
@@ -42,15 +42,15 @@
                 Margin="{StaticResource PropertyNameMargin}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
-                <usercontrols:FileIcon ViewModel="{x:Bind ViewModel}" ItemSize="70"/>
+                <usercontrols:FileIcon ItemSize="70" ViewModel="{x:Bind ViewModel}" />
             </Grid>
             <TextBox
                 x:Name="itemFileName2"
                 x:Uid="PropertiesItemFileName"
                 Grid.Row="0"
                 Grid.Column="1"
-                Style="{StaticResource PropertyValueTextBox}"
                 IsReadOnly="True"
+                Style="{StaticResource PropertyValueTextBox}"
                 Text="{x:Bind ViewModel.ItemName, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}" />
 
