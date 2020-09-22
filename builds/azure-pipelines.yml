@@ -27,6 +27,12 @@ steps:
   displayName: 'Download Bing Maps Dev Key'
   inputs:
     secureFile: 'BingMapsKey.json'
+    
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      Copy-Item -Path $(mapsDevKey.secureFilePath) -Destination $(Build.SourcesDirectory)\Files
   
 - task: NuGetToolInstaller@1
 
