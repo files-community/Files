@@ -22,10 +22,11 @@ steps:
       $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
     failOnStderr: true
     
-  - task: DownloadDevKeyFile@1
-    displayName: mySecureFile # The name with which to reference the secure file's path on the agent, like $(mySecureFile.secureFilePath)
-      inputs:
-        secureFile: 'BingMapsKey.json'
+- task: DownloadSecureFile@1
+  name: mapsDevKey
+  displayName: 'Download Bing Maps Dev Key'
+  inputs:
+    secureFile: 'BingMapsKey.json'
   
 - task: NuGetToolInstaller@1
 
