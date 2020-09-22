@@ -611,7 +611,7 @@
       <Version>2020.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
-      <Version>3.4.1</Version>
+      <Version>3.4.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Crashes">
       <Version>3.4.1</Version>
