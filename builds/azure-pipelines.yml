@@ -21,6 +21,12 @@ steps:
       $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files UWP - Preview"
       $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
     failOnStderr: true
+    
+- task: DownloadSecureFile@1
+  name: mapsDevKey
+  displayName: 'Download Bing Maps Dev Key'
+  inputs:
+    secureFile: 'BingMapsKey.json'
   
 - task: NuGetToolInstaller@1
 
