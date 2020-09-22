@@ -5,6 +5,7 @@ using Microsoft.Graphics.Canvas.Text;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml.Controls;
+using Newtonsoft.Json.Linq;
 using SQLitePCL;
 using System;
 using System.Collections;
@@ -346,9 +347,15 @@ namespace Files.View_Models.Properties
 
         private async Task<MapLocationFinderResult> GetAddressFromCoordinates(double Lat, double Lon)
         {
-            //lol please don't steal this
-            MapService.ServiceToken = "S7IF7M4Zxe9of0hbatDv~byc7WbHGg1rNYUqk4bL8Zw~Ar_Ap1WxoB_qnXme_hErpFhs74E8qKzCOXugSrankFJgJe9_D4l09O3TNj3WN2f2";
-            // The location to reverse geocode.
+            JObject obj;
+            try {
+                obj = JObject.Parse(File.ReadAllText(@"ms-appx:///bingmapskey.json"));
+            } catch
+            {
+                return null;
+            }
+            MapService.ServiceToken = (string)obj.SelectToken("key");
+
             BasicGeoposition location = new BasicGeoposition();
             location.Latitude = Lat;
             location.Longitude = Lon;
