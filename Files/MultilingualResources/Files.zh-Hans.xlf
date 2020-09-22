@@ -36,8 +36,7 @@
         </trans-unit>
         <trans-unit id="RecentItemDescription.Text" translate="yes" xml:space="preserve">
           <source>Files you've previously accessed will show up here</source>
-          <target state="needs-review-translation">您以前访问过的文件和文件夹将显示在此处</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">您以前访问过的文件和文件夹将显示在此处</target>
         </trans-unit>
         <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
@@ -53,12 +52,11 @@
         </trans-unit>
         <trans-unit id="SettingsAboutAppName.Text" translate="yes" xml:space="preserve">
           <source>Files UWP</source>
-          <target state="translated">文件管理 UWP</target>
+          <target state="translated">文件资源管理器</target>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
           <source>License</source>
-          <target state="needs-review-translation">许可证:</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">许可证:</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
           <source>Special thanks to:</source>
@@ -70,13 +68,11 @@
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
           <source>Send the developers an issue report with detailed information</source>
-          <target state="needs-review-translation">向开发者报告问题，并提供更多信息</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">向开发者报告问题，并提供更多信息</target>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
           <source>Third Party Licenses</source>
-          <target state="needs-review-translation">第三方许可证</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">第三方许可证</target>
         </trans-unit>
         <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
           <source>About</source>
@@ -84,8 +80,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
           <source>Website</source>
-          <target state="needs-review-translation">网站:</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">网站:</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>
@@ -333,8 +328,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
           <source>QuickLook:</source>
-          <target state="needs-review-translation">QuickLook 预览</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">速览 (QuickLook)</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewWindow.Text" translate="yes" xml:space="preserve">
           <source>New Window</source>
@@ -342,8 +336,7 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarCopyPath.Text" translate="yes" xml:space="preserve">
           <source>Copy location</source>
-          <target state="needs-review-translation">复制路径</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">复制路径</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarPaste.Text" translate="yes" xml:space="preserve">
           <source>Paste</source>
@@ -407,8 +400,7 @@
         </trans-unit>
         <trans-unit id="WelcomeDialog.Title" translate="yes" xml:space="preserve">
           <source>Welcome to Files!</source>
-          <target state="needs-review-translation">欢迎使用文件管理 UWP</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">欢迎使用</target>
         </trans-unit>
         <trans-unit id="WelcomeDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Grant Permission</source>
@@ -416,8 +408,7 @@
         </trans-unit>
         <trans-unit id="WelcomeDialogTextBlock.Text" translate="yes" xml:space="preserve">
           <source>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </source>
-          <target state="needs-review-translation">请授权我们访问您的文件系统。Windows 设置 将会打开，然后您可以选择授权。您需要在完成设置后重启应用程序。 </target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">请授权我们访问您的文件系统。Windows 设置 将会打开，然后您可以选择授权。您需要在完成设置后重启应用程序。 </target>
         </trans-unit>
         <trans-unit id="FileFolderListItem" translate="yes" xml:space="preserve">
           <source>File folder</source>
@@ -429,8 +420,7 @@
         </trans-unit>
         <trans-unit id="RenameDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter an item name</source>
-          <target state="needs-review-translation">输入文件名（无扩展名）</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">输入文件名 (无扩展名)</target>
         </trans-unit>
         <trans-unit id="RenameDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Set Name</source>
@@ -490,7 +480,7 @@
         </trans-unit>
         <trans-unit id="NavUpButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Up (Alt + Up Arrow)</source>
-          <target state="translated">上移  (Alt+向上键)</target>
+          <target state="translated">上移 (Alt+向上键)</target>
         </trans-unit>
         <trans-unit id="NavRefreshButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Refresh (F5)</source>
@@ -586,8 +576,7 @@
         </trans-unit>
         <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Text" translate="yes" xml:space="preserve">
           <source>Double click to rename files</source>
-          <target state="needs-review-translation">双击重命名</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">双击重命名</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>View sample profiles</source>
@@ -711,8 +700,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
-          <target state="needs-review-translation">启用回收站</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">启用回收站</target>
         </trans-unit>
         <trans-unit id="DaysAgo" translate="yes" xml:space="preserve">
           <source>{0} days ago</source>
@@ -944,7 +932,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.Text" translate="yes" xml:space="preserve">
           <source>App Language</source>
-          <target state="translated">语言 (国家或地区)</target>
+          <target state="translated">语言 (国家、地区或特别行政区)</target>
         </trans-unit>
         <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
           <source>Status</source>
@@ -968,8 +956,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
           <source>When launching an item from the jumplist</source>
-          <target state="needs-review-translation">启动固定文件夹时</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">启动收藏文件夹时</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
           <source>Always open a new instance</source>
@@ -993,239 +980,239 @@
         </trans-unit>
         <trans-unit id="SubDirectoryAccessDenied" translate="yes" xml:space="preserve">
           <source>Can't access any items to display</source>
-          <target state="new">Can't access any items to display</target>
+          <target state="translated">无法访问要显示的任何项目</target>
         </trans-unit>
         <trans-unit id="MoveToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Move to {0}</source>
-          <target state="new">Move to {0}</target>
+          <target state="translated">移动到 {0}</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFile" translate="yes" xml:space="preserve">
           <source>The source and destination file names are the same.</source>
-          <target state="new">The source and destination file names are the same.</target>
+          <target state="translated">源文件和目标文件名相同。</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFolder" translate="yes" xml:space="preserve">
           <source>The destination folder is the same as the source folder.</source>
-          <target state="new">The destination folder is the same as the source folder.</target>
+          <target state="translated">目标文件夹与源文件夹相同。</target>
         </trans-unit>
         <trans-unit id="CopyToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Copy to {0}</source>
-          <target state="new">Copy to {0}</target>
+          <target state="translated">复制到 {0}</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutShortcut.Text" translate="yes" xml:space="preserve">
           <source>Create shortcut</source>
-          <target state="new">Create shortcut</target>
+          <target state="translated">创建快捷方式</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
           <source>Open file location</source>
-          <target state="new">Open file location</target>
+          <target state="translated">打开文件位置</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutItemArgs.Text" translate="yes" xml:space="preserve">
           <source>Arguments:</source>
-          <target state="new">Arguments:</target>
+          <target state="translated">参数:</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutItemPath.Text" translate="yes" xml:space="preserve">
           <source>Destination:</source>
-          <target state="new">Destination:</target>
+          <target state="translated">目标位置:</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutItemType.Text" translate="yes" xml:space="preserve">
           <source>Shortcut type:</source>
-          <target state="new">Shortcut type:</target>
+          <target state="translated">快捷方式类型:</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutItemWorkingDir.Text" translate="yes" xml:space="preserve">
           <source>Working directory:</source>
-          <target state="new">Working directory:</target>
+          <target state="translated">工作目录:</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutTypeApplication" translate="yes" xml:space="preserve">
           <source>Application</source>
-          <target state="new">Application</target>
+          <target state="translated">应用</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutTypeFile" translate="yes" xml:space="preserve">
           <source>File</source>
-          <target state="new">File</target>
+          <target state="translated">文件</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutTypeFolder" translate="yes" xml:space="preserve">
           <source>Folder</source>
-          <target state="new">Folder</target>
+          <target state="translated">文件夹</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutTypeLink" translate="yes" xml:space="preserve">
           <source>Web link</source>
-          <target state="new">Web link</target>
+          <target state="translated">链接</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogTabGeneral.Content" translate="yes" xml:space="preserve">
           <source>General</source>
-          <target state="new">General</target>
+          <target state="translated">常规</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogTabShortcut.Content" translate="yes" xml:space="preserve">
           <source>Shortcut</source>
-          <target state="new">Shortcut</target>
+          <target state="translated">快捷方式</target>
         </trans-unit>
         <trans-unit id="ShortcutFileType" translate="yes" xml:space="preserve">
           <source>Shortcut</source>
-          <target state="new">Shortcut</target>
+          <target state="translated">快捷方式</target>
         </trans-unit>
         <trans-unit id="ShortcutWebLinkFileType" translate="yes" xml:space="preserve">
           <source>Internet shortcut</source>
-          <target state="new">Internet shortcut</target>
+          <target state="translated">网络快捷方式</target>
         </trans-unit>
         <trans-unit id="ShortcutCreateNewSuffix" translate="yes" xml:space="preserve">
           <source>{0} - shortcut</source>
-          <target state="new">{0} - shortcut</target>
+          <target state="translated">{0} - 快捷方式</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
-          <target state="new">Open file location</target>
+          <target state="translated">打开文件位置</target>
         </trans-unit>
         <trans-unit id="DriveCapacityUnknown" translate="yes" xml:space="preserve">
           <source>Unknown</source>
-          <target state="new">Unknown</target>
+          <target state="translated">未知</target>
         </trans-unit>
         <trans-unit id="ExceptionNotificationAccessLogFileButton" translate="yes" xml:space="preserve">
           <source>Open log location</source>
-          <target state="new">Open log location</target>
+          <target state="translated">打开日志位置</target>
         </trans-unit>
         <trans-unit id="ExceptionNotificationBody" translate="yes" xml:space="preserve">
           <source>Files ran into a problem that the developers didn't prepare for yet.</source>
-          <target state="new">Files ran into a problem that the developers didn't prepare for yet.</target>
+          <target state="translated">未知错误。</target>
         </trans-unit>
         <trans-unit id="ExceptionNotificationHeader" translate="yes" xml:space="preserve">
           <source>Something went wrong!</source>
-          <target state="new">Something went wrong!</target>
+          <target state="translated">错误</target>
         </trans-unit>
         <trans-unit id="ExceptionNotificationReportButton" translate="yes" xml:space="preserve">
           <source>Report this issue</source>
-          <target state="new">Report this issue</target>
+          <target state="translated">联机报告问题</target>
         </trans-unit>
         <trans-unit id="SettingsAboutContributors.Text" translate="yes" xml:space="preserve">
           <source>Contributors</source>
-          <target state="new">Contributors</target>
+          <target state="translated">贡献者</target>
         </trans-unit>
         <trans-unit id="SettingsAboutContributorsDescription.Text" translate="yes" xml:space="preserve">
           <source>See who contributed to Files UWP</source>
-          <target state="new">See who contributed to Files UWP</target>
+          <target state="translated">查看贡献者</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
           <source>Release Notes</source>
-          <target state="new">Release Notes</target>
+          <target state="translated">发行说明</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotesDescription.Text" translate="yes" xml:space="preserve">
           <source>Find out what's new</source>
-          <target state="new">Find out what's new</target>
+          <target state="translated">更新日志</target>
         </trans-unit>
         <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
           <source>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</source>
-          <target state="new">The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</target>
+          <target state="translated">引用的项无效或无法访问。{0}代码:{0}{1}</target>
         </trans-unit>
         <trans-unit id="InvalidItemDialogTitle" translate="yes" xml:space="preserve">
           <source>Invalid item</source>
-          <target state="new">Invalid item</target>
+          <target state="translated">无效项目</target>
         </trans-unit>
         <trans-unit id="SettingsAboutVersionTitle" translate="yes" xml:space="preserve">
           <source>Version:</source>
-          <target state="new">Version:</target>
+          <target state="translated">版本:</target>
         </trans-unit>
         <trans-unit id="ShareDialogFailMessage" translate="yes" xml:space="preserve">
           <source>There's nothing to share right now...</source>
-          <target state="new">There's nothing to share right now...</target>
+          <target state="translated">无分享内容</target>
         </trans-unit>
         <trans-unit id="ShareDialogMultipleItemsDescription" translate="yes" xml:space="preserve">
           <source>The items you've selected will be shared</source>
-          <target state="new">The items you've selected will be shared</target>
+          <target state="translated">所选项目将被共享</target>
         </trans-unit>
         <trans-unit id="ShareDialogSingleItemDescription" translate="yes" xml:space="preserve">
           <source>The selected item will be shared</source>
-          <target state="new">The selected item will be shared</target>
+          <target state="translated">所选项目将被共享</target>
         </trans-unit>
         <trans-unit id="ShareDialogTitle" translate="yes" xml:space="preserve">
           <source>Sharing {0}</source>
-          <target state="new">Sharing {0}</target>
+          <target state="translated">共享中 {0}</target>
         </trans-unit>
         <trans-unit id="ShareDialogTitleMultipleItems" translate="yes" xml:space="preserve">
           <source>Sharing {0} {1}</source>
-          <target state="new">Sharing {0} {1}</target>
+          <target state="translated">共享中 {0} {1}</target>
         </trans-unit>
         <trans-unit id="ContextMenuMoreItemsLabel" translate="yes" xml:space="preserve">
           <source>More</source>
-          <target state="new">More</target>
+          <target state="translated">更多</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesContextMenu.Text" translate="yes" xml:space="preserve">
           <source>Show all context menu items</source>
-          <target state="new">Show all context menu items</target>
+          <target state="translated">显示所有上下文菜单项</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="translated">取消</target>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogDeleteOneItem.Text" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete this item?</source>
-          <target state="new">Are you sure you want to delete this item?</target>
+          <target state="translated">确实要删除此项目吗？</target>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogDeleteMultipleItems.Text" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete these {0} items?</source>
-          <target state="new">Are you sure you want to delete these {0} items?</target>
+          <target state="translated">确实要删除 {0} 个项目吗？</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingAdaptive.Content" translate="yes" xml:space="preserve">
           <source>Adaptive (Recommended)</source>
-          <target state="new">Adaptive (Recommended)</target>
+          <target state="translated">自适应 (推荐)</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingAdaptiveDescription.Text" translate="yes" xml:space="preserve">
           <source>Selects the best multitasking control based on how the app window is resized. When the window is small, you'll notice the horizontal tab strip is collapsed into a flyout on the navigation toolbar.</source>
-          <target state="new">Selects the best multitasking control based on how the app window is resized. When the window is small, you'll notice the horizontal tab strip is collapsed into a flyout on the navigation toolbar.</target>
+          <target state="translated">根据应用窗口的大小自动调整最佳多任务控件大小。当窗口较小时，控件会自动折叠。</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingHorizontal.Content" translate="yes" xml:space="preserve">
           <source>Horizontal</source>
-          <target state="new">Horizontal</target>
+          <target state="translated">评分</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingHorizontalDescription.Text" translate="yes" xml:space="preserve">
           <source>Always hides the vertical multitasking flyout from the navigation toolbar, and shows the traditional horizontal tabstrip on the app window. This is suited for users who need to keep track of every open app instance at all times.</source>
-          <target state="new">Always hides the vertical multitasking flyout from the navigation toolbar, and shows the traditional horizontal tabstrip on the app window. This is suited for users who need to keep track of every open app instance at all times.</target>
+          <target state="translated">始终在导航工具栏隐藏垂直多任务弹出窗口，并在应用窗口中显示水平选项卡栏。</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingTitle.Text" translate="yes" xml:space="preserve">
           <source>Multitasking</source>
-          <target state="new">Multitasking</target>
+          <target state="translated">多任务</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingVertical.Content" translate="yes" xml:space="preserve">
           <source>Vertical</source>
-          <target state="new">Vertical</target>
+          <target state="translated">垂直</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingVerticalDescription.Text" translate="yes" xml:space="preserve">
           <source>Collapses the horizontal list of app instances into a vertical flyout on the navigation toolbar, designed for users who want a clean app interface with on-demand access to a multitasking experience.</source>
-          <target state="new">Collapses the horizontal list of app instances into a vertical flyout on the navigation toolbar, designed for users who want a clean app interface with on-demand access to a multitasking experience.</target>
+          <target state="translated">将水平列表改为垂直排列。</target>
         </trans-unit>
         <trans-unit id="SettingsNavMultitasking.Content" translate="yes" xml:space="preserve">
           <source>Multitasking</source>
-          <target state="new">Multitasking</target>
+          <target state="translated">多任务</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutSetAs.Text" translate="yes" xml:space="preserve">
           <source>Set as</source>
-          <target state="new">Set as</target>
+          <target state="translated">设置为</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutCopyLocation.Text" translate="yes" xml:space="preserve">
           <source>Copy location</source>
-          <target state="new">Copy location</target>
+          <target state="translated">复制路径</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesCopyLocation.Text" translate="yes" xml:space="preserve">
           <source>Show an option to copy the location of the selected item</source>
-          <target state="new">Show an option to copy the location of the selected item</target>
+          <target state="translated">允许复制选定项目</target>
         </trans-unit>
         <trans-unit id="VerticalTabViewAddTab.Text" translate="yes" xml:space="preserve">
           <source>Add tab</source>
-          <target state="new">Add tab</target>
+          <target state="translated">添加选项卡</target>
         </trans-unit>
         <trans-unit id="VerticalTabViewHeader.Text" translate="yes" xml:space="preserve">
           <source>Open tabs</source>
-          <target state="new">Open tabs</target>
+          <target state="translated">打开标签页</target>
         </trans-unit>
         <trans-unit id="ButtonNo.Content" translate="yes" xml:space="preserve">
           <source>No</source>
-          <target state="new">No</target>
+          <target state="translated">否</target>
         </trans-unit>
         <trans-unit id="ButtonYes.Content" translate="yes" xml:space="preserve">
           <source>Yes</source>
-          <target state="new">Yes</target>
+          <target state="translated">是</target>
         </trans-unit>
         <trans-unit id="RestartNotificationText.Text" translate="yes" xml:space="preserve">
           <source>The application needs to be restarted in order to apply the langague setting, would you like to restart the app?</source>
-          <target state="new">The application needs to be restarted in order to apply the langague setting, would you like to restart the app?</target>
+          <target state="translated">需要重新启动应用才能更改语言设置，您想重新启动应用吗？</target>
         </trans-unit>
       </group>
     </body>
