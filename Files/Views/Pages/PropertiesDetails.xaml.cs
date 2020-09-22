@@ -60,22 +60,14 @@ namespace Files
             {
                 BaseProperties = new FileProperties(ViewModel, np.tokenSource, Dispatcher, null, listedItem);
             }
-            
-
-            //ViewModel.AllDetailsVisibility = ViewModel.BasicDetailsVisibility.Equals(Visibility.Visible)? Visibility.Collapsed : Visibility.Visible;
-            //ShowMore.IsChecked = ViewModel.AllDetailsVisibility.Equals(Visibility.Visible);
 
             base.OnNavigatedTo(e);
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            var mapUri = new Uri(String.Format(@"bingmaps:?where={0}", ViewModel.Geopoint.Address.FormattedAddress));
-
-            // Launch the Windows Maps app
-            var launcherOptions = new Windows.System.LauncherOptions();
-            launcherOptions.TargetApplicationPackageFamilyName = "Microsoft.WindowsMaps_8wekyb3d8bbwe";
-            var success = await Windows.System.Launcher.LaunchUriAsync(mapUri, launcherOptions);
+            await Windows.System.Launcher.LaunchUriAsync(ViewModel.Geopoint.Address != null ? new Uri(String.Format(@"bingmaps:?where={0}", ViewModel.Geopoint.Address.FormattedAddress)) : new Uri(String.Format(@"bingmaps:?cp={0}~{1}", ViewModel.Latitude, ViewModel.Longitude)),
+                new Windows.System.LauncherOptions() { TargetApplicationPackageFamilyName = "Microsoft.WindowsMaps_8wekyb3d8bbwe" });
             
         }
 
