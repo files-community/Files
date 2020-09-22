@@ -50,6 +50,15 @@ namespace Files
             }
         }
 
+        private void SetOverviewVisibilities()
+        {
+            var name = ViewModel.ItemName.Split(".");
+            var extension = name[name.Length -1].ToLower();
+
+            if (extension.Contains("png") || extension.Contains("jpg") || extension.Contains("png") || extension.Contains("gif") || extension.Contains("jpeg"))
+                OverviewImage.Visibility = Visibility.Visible;
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel = new SelectedItemsPropertiesViewModel();
@@ -61,6 +70,7 @@ namespace Files
                 BaseProperties = new FileProperties(ViewModel, np.tokenSource, Dispatcher, null, listedItem);
             }
 
+            SetOverviewVisibilities();
             base.OnNavigatedTo(e);
         }
 

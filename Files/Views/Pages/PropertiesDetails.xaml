@@ -126,10 +126,10 @@
                 Visibility="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}" />
             </Grid>
 
-            <TextBlock Text="Overview" Grid.Row="1" Style="{StaticResource SeparatorText}"/>
-            <MenuFlyoutSeparator Grid.Row="2" Style="{StaticResource Separator}"/>
+            <TextBlock Text="Overview" Grid.Row="1" Style="{StaticResource SeparatorText}" Visibility="{Binding ElementName=OverviewImage, Path=Visibility, Mode=OneWay}"/>
+            <MenuFlyoutSeparator Grid.Row="2" Style="{StaticResource Separator}" Visibility="{Binding ElementName=OverviewImage, Path=Visibility, Mode=OneWay}"/>
 
-            <Grid x:Load="True" Grid.Row="3" Grid.Column="0" x:Name="TopGrid">
+            <Grid x:Load="True" Grid.Row="3" Grid.Column="0" x:Name="OverviewImage" Visibility="Collapsed">
                 <Grid.RowDefinitions >
                     <RowDefinition/>
                     <RowDefinition/>
@@ -144,7 +144,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Name="TopColumn" Width="80" />
+                    <ColumnDefinition Width="{Binding ElementName=TopColumn, Path=Width, Mode=OneWay}" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 
@@ -181,7 +181,7 @@
             <TextBlock Text="Core" Grid.Row="4" Style="{StaticResource SeparatorText}"/>
             <MenuFlyoutSeparator Grid.Row="5" Style="{StaticResource Separator}"/>
 
-            <Grid x:Name="DescriptionGrid" x:Load="True" Grid.Row="6" Grid.Column="0">
+            <Grid x:Name="CoreGrid" x:Load="True" Grid.Row="6" Grid.Column="0">
                 <Grid.RowDefinitions >
                     <RowDefinition/>
                     <RowDefinition/>
@@ -203,7 +203,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="{Binding ElementName=TopColumn, Path=Width, Mode=OneWay}" />
+                    <ColumnDefinition x:Name="TopColumn" Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
