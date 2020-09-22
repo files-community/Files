@@ -200,5 +200,5 @@ namespace Files.Commands
                 itemsDeleted++;
             }
         }
-    } 
+    }
 }

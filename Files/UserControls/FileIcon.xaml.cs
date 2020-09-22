@@ -8,6 +8,7 @@ namespace Files.UserControls
         public SelectedItemsPropertiesViewModel ViewModel { get; set; }
 
         private double itemSize;
+
         public double ItemSize
         {
             get => itemSize;
@@ -17,6 +18,7 @@ namespace Files.UserControls
                 LargerItemSize = itemSize + 2.0;
             }
         }
+
         private double LargerItemSize { get; set; }
 
         public FileIcon()

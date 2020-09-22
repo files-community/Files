@@ -4,9 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:datamodels="using:Files.DataModels"
+    xmlns:dialogs="using:Files.Dialogs"
     xmlns:local="using:Files.SettingsPages"
     xmlns:local2="using:Files"
-    xmlns:dialogs="using:Files.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -140,6 +140,6 @@
             </StackPanel>
         </ScrollViewer>
 
-        <dialogs:RestartDialog x:Name="RestartDialog"/>
+        <dialogs:RestartDialog x:Name="RestartDialog" />
     </Grid>
 </Page>

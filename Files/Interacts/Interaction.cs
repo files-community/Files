@@ -3,7 +3,6 @@ using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.UserControls;
 using Files.View_Models;
 using Files.Views;
 using Files.Views.Pages;
@@ -13,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -40,7 +38,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using static Files.Dialogs.ConfirmDeleteDialog;
 
 namespace Files.Interacts
 {
