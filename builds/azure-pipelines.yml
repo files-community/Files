@@ -33,6 +33,7 @@ steps:
     SourceFolder: '$(Agent.TempDirectory)'
     Contents: '$(mapsDevKey.secureFilePath)'
     TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
+    overWrite: true
 
 - task: NuGetToolInstaller@1
 
