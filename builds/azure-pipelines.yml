@@ -26,7 +26,7 @@ steps:
   name: mapsDevKey
   displayName: 'Download Bing Maps Dev Key'
   inputs:
-    secureFile: 'BingMapsKey.json'
+    secureFile: 'BingMapsKey.txt'
 
 - task: CopyFiles@2
   inputs:
