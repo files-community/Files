@@ -9,7 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <Grid Margin="14,14,14,0" RowSpacing="10">
+    <Grid Margin="14,14,14,0" RowSpacing="18">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />

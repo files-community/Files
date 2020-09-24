@@ -5,57 +5,38 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <Style
-            x:Key="AdaptiveGridViewItemContainerStyle2"
-            BasedOn="{StaticResource GridViewItemExpanded}"
-            TargetType="GridViewItem">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="CornerRadius" Value="4" />
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="VerticalContentAlignment" Value="Stretch" />
-            <Setter Property="Margin" Value="0,0,8,0" />
-        </Style>
-    </UserControl.Resources>
-
     <Grid>
-        <controls:AdaptiveGridView
+        <muxc:ItemsRepeater
             x:Name="CardsList"
             Grid.Row="0"
             HorizontalAlignment="Stretch"
-            DesiredWidth="100"
-            IsItemClickEnabled="True"
-            ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle2}"
-            ItemHeight="90"
-            ItemsSource="{x:Bind local:LibraryCards.itemsAdded}"
-            OneRowModeEnabled="True"
-            ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-            SelectionMode="None"
-            StretchContentForSingleRow="True">
-            <controls:AdaptiveGridView.ItemTemplate>
+            ItemsSource="{x:Bind local:LibraryCards.itemsAdded}">
+            <muxc:ItemsRepeater.Layout>
+                <muxc:UniformGridLayout ItemsStretch="Fill" Orientation="Horizontal" MinItemWidth="100" MaximumRowsOrColumns="5" MinItemHeight="90" MinRowSpacing="8" MinColumnSpacing="8"/>
+            </muxc:ItemsRepeater.Layout>
+            <muxc:ItemsRepeater.ItemTemplate>
                 <DataTemplate x:DataType="local:FavoriteLocationItem">
                     <Grid>
-                        <Grid>
-                            <Grid.Resources>
-                                <ResourceDictionary>
-                                    <ResourceDictionary.ThemeDictionaries>
-                                        <ResourceDictionary x:Name="Light">
-                                            <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef" />
-                                        </ResourceDictionary>
-                                        <ResourceDictionary x:Name="Dark">
-                                            <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="Black" />
-                                        </ResourceDictionary>
-                                        <ResourceDictionary x:Name="HighContrast">
-                                            <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="Black" />
-                                        </ResourceDictionary>
-                                    </ResourceDictionary.ThemeDictionaries>
-                                </ResourceDictionary>
-                            </Grid.Resources>
-                            <Button
+                        <Grid.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.ThemeDictionaries>
+                                    <ResourceDictionary x:Name="Light">
+                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef" />
+                                    </ResourceDictionary>
+                                    <ResourceDictionary x:Name="Dark">
+                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="Black" />
+                                    </ResourceDictionary>
+                                    <ResourceDictionary x:Name="HighContrast">
+                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="Black" />
+                                    </ResourceDictionary>
+                                </ResourceDictionary.ThemeDictionaries>
+                            </ResourceDictionary>
+                        </Grid.Resources>
+                        <Button
                                 Padding="0"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
@@ -68,23 +49,23 @@
                                 Style="{StaticResource ButtonRevealStyle}"
                                 Tag="{x:Bind Tag}">
 
-                                <Grid
+                            <Grid
                                     Margin="8,14"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
                                     RowSpacing="2">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <FontIcon
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <FontIcon
                                         Grid.Row="0"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
                                         FontFamily="{StaticResource FluentUIGlyphs}"
                                         FontSize="28"
                                         Glyph="{x:Bind Icon}" />
-                                    <TextBlock
+                                <TextBlock
                                         x:Name="ItemLocationName"
                                         Grid.Row="1"
                                         HorizontalAlignment="Stretch"
@@ -94,12 +75,11 @@
                                         HorizontalTextAlignment="Center"
                                         Text="{x:Bind Text}"
                                         TextWrapping="WrapWholeWords" />
-                                </Grid>
-                            </Button>
-                        </Grid>
+                            </Grid>
+                        </Button>
                     </Grid>
                 </DataTemplate>
-            </controls:AdaptiveGridView.ItemTemplate>
-        </controls:AdaptiveGridView>
+            </muxc:ItemsRepeater.ItemTemplate>
+        </muxc:ItemsRepeater>
     </Grid>
 </UserControl>
