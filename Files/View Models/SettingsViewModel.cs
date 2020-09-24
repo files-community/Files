@@ -58,8 +58,8 @@ namespace Files.View_Models
             Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
             Analytics.TrackEvent("AcrylicSidebar " + AcrylicEnabled.ToString());
             Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
-            Analytics.TrackEvent("IsHorizontalTabStripVisible " + IsHorizontalTabStripVisible.ToString());
-            Analytics.TrackEvent("IsMultitaskingControlVisible " + IsMultitaskingControlVisible.ToString());
+            Analytics.TrackEvent("IsHorizontalTabStripEnabled " + IsHorizontalTabStripEnabled.ToString());
+            Analytics.TrackEvent("IsVerticalTabFlyoutEnabled " + IsVerticalTabFlyoutEnabled.ToString());
             // Load the supported languages
 
             var supportedLang = ApplicationLanguages.ManifestLanguages;
@@ -434,15 +434,21 @@ namespace Files.View_Models
             set => Set(value);
         }
 
-        public bool IsMultitaskingControlVisible
+        public bool IsMultitaskingExperienceAdaptive
         {
             get => Get(true);
             set => Set(value);
         }
 
-        public bool IsHorizontalTabStripVisible
+        public bool IsVerticalTabFlyoutEnabled
         {
-            get => Get(true);
+            get => Get(false);
+            set => Set(value);
+        }
+
+        public bool IsHorizontalTabStripEnabled
+        {
+            get => Get(false);
             set => Set(value);
         }
 
@@ -459,6 +465,12 @@ namespace Files.View_Models
         }
 
         public bool ContinueLastSessionOnStartUp
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        public bool ResumeAfterRestart
         {
             get => Get(false);
             set => Set(value);
@@ -500,6 +512,12 @@ namespace Files.View_Models
         public bool ShowAllContextMenuItems
         {
             get => Get(false);
+            set => Set(value);
+        }
+
+        public bool ShowCopyLocationOption
+        {
+            get => Get(true);
             set => Set(value);
         }
 

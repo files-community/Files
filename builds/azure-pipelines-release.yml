@@ -17,8 +17,8 @@ steps:
     script: |
       [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\Files.Package\Package.appxmanifest
       $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
-      $xmlDoc.Package.Properties.DisplayName="Files UWP - Preview"
-      $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files UWP - Preview"
+      $xmlDoc.Package.Properties.DisplayName="Files - Preview"
+      $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files - Preview"
       $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
     failOnStderr: true
 

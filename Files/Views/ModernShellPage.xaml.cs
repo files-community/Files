@@ -1,8 +1,8 @@
-﻿using Files.Dialogs;
+﻿using Files.Commands;
+using Files.Dialogs;
 using Files.Filesystem;
 using Files.Interacts;
 using Files.UserControls;
-using Files.UserControls.MultiTaskingControl;
 using Files.View_Models;
 using System;
 using System.Linq;
@@ -66,13 +66,12 @@ namespace Files.Views.Pages
         ItemViewModel IShellPage.FilesystemViewModel => viewModel;
 
         BaseLayout IShellPage.ContentPage => GetContentOrNull();
+
         Control IShellPage.OperationsControl => null;
 
         StatusBarControl IShellPage.StatusBarControl => StatusBarControl;
 
         CurrentInstanceViewModel IShellPage.InstanceViewModel => instanceViewModel;
-
-        IMultitaskingControl IShellPage.MultitaskingControl => NavToolbar.verticalTabs;
 
         private BaseLayout GetContentOrNull()
         {
@@ -119,47 +118,47 @@ namespace Files.Views.Pages
             {
                 case "Start":
                     ItemDisplayFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems[0];
+                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault();
                     break;
 
                 case "Desktop":
                     NavigationPath = AppSettings.DesktopPath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.First(x => x.Path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Downloads":
                     NavigationPath = AppSettings.DownloadsPath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.First(x => x.Path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Documents":
                     NavigationPath = AppSettings.DocumentsPath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.First(x => x.Path.Equals(AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Pictures":
                     NavigationPath = AppSettings.PicturesPath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.First(x => x.Path.Equals(AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Music":
                     NavigationPath = AppSettings.MusicPath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.First(x => x.Path.Equals(AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Videos":
                     NavigationPath = AppSettings.VideosPath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.First(x => x.Path.Equals(AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "RecycleBin":
                     NavigationPath = AppSettings.RecycleBinPath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.First(x => x.Path.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "OneDrive":
                     NavigationPath = AppSettings.OneDrivePath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.First(x => x.Path.Equals(AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 default:
@@ -172,12 +171,12 @@ namespace Files.Views.Pages
                         && NavParams[1] == ':')
                     {
                         NavigationPath = NavParams;
-                        SidebarControl.SelectedSidebarItem = AppSettings.DrivesManager.Drives.First(x => x.Path.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
+                        SidebarControl.SelectedSidebarItem = AppSettings.DrivesManager.Drives.FirstOrDefault(x => x.Path.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
                     }
                     else if (NavParams.StartsWith("\\\\?\\"))
                     {
                         NavigationPath = NavParams;
-                        SidebarControl.SelectedSidebarItem = App.AppSettings.DrivesManager.Drives.First(x => x.Path.ToString().Equals($"{System.IO.Path.GetPathRoot(NavParams)}", StringComparison.OrdinalIgnoreCase));
+                        SidebarControl.SelectedSidebarItem = App.AppSettings.DrivesManager.Drives.FirstOrDefault(x => x.Path.ToString().Equals($"{System.IO.Path.GetPathRoot(NavParams)}", StringComparison.OrdinalIgnoreCase));
                     }
                     else if (NavParams.StartsWith(AppSettings.RecycleBinPath))
                     {
@@ -226,7 +225,7 @@ namespace Files.Views.Pages
 
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
                     if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
-                        App.CurrentInstance.InteractionOperations.DeleteItem(StorageDeleteOption.PermanentDelete);
+                        ItemOperations.DeleteItemWithStatus(StorageDeleteOption.PermanentDelete);
                     break;
 
                 case (true, false, false, true, VirtualKey.C): // ctrl + c, copy
@@ -275,7 +274,7 @@ namespace Files.Views.Pages
 
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
                     if (App.CurrentInstance.ContentPage.IsItemSelected && !App.CurrentInstance.ContentPage.isRenamingItem)
-                        App.CurrentInstance.InteractionOperations.DeleteItem(StorageDeleteOption.Default);
+                        ItemOperations.DeleteItemWithStatus(StorageDeleteOption.Default);
                     break;
 
                 case (false, false, false, true, VirtualKey.Space): // space, quick look

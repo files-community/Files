@@ -67,9 +67,7 @@ namespace Files.Views
             {
                 FlowDirection = FlowDirection.RightToLeft;
             }
-
             AllowDrop = true;
-
             AppInstances.CollectionChanged += AppInstances_CollectionChanged;
         }
 
@@ -102,7 +100,21 @@ namespace Files.Views
                 {
                     try
                     {
-                        if (App.AppSettings.OpenASpecificPageOnStartup)
+                        if (App.AppSettings.ResumeAfterRestart)
+                        {
+                            App.AppSettings.ResumeAfterRestart = false;
+
+                            foreach (string path in App.AppSettings.LastSessionPages)
+                            {
+                                await AddNewTab(typeof(ModernShellPage), path);
+                            }
+
+                            if (!App.AppSettings.ContinueLastSessionOnStartUp)
+                            {
+                                App.AppSettings.LastSessionPages = null;
+                            }
+                        }
+                        else if (App.AppSettings.OpenASpecificPageOnStartup)
                         {
                             if (App.AppSettings.PagesOnStartupList != null)
                             {
@@ -415,6 +427,11 @@ namespace Files.Views
         {
             await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
             args.Handled = true;
+        }
+
+        private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            App.MultitaskingControl = HorizontalMultitaskingControl;
         }
     }
 }
