@@ -217,7 +217,7 @@
                 <TextBox Grid.Row="7" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Core_RO['System.Rating'].ToString(), Mode=OneWay}" IsReadOnly="True"/>
 
                 <TextBlock Grid.Row ="8" Style="{StaticResource PropertyTextBlock}" Text="Comments"/>
-                <TextBox Grid.Row ="8" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Core_RW['Details_RW'], Mode=TwoWay}"/>
+                <TextBox Grid.Row ="8" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Core_RW['System.Comment'], Mode=TwoWay}"/>
 
                 <TextBlock Grid.Row ="9" Style="{StaticResource PropertyTextBlock}" Text="Copyright"/>
                 <TextBox Grid.Row ="9" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_Core_RW['System.Copyright'], Mode=TwoWay}"/>
