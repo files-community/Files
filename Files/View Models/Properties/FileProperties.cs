@@ -309,14 +309,13 @@ namespace Files.View_Models.Properties
                 try
                 {
                     result = await GetAddressFromCoordinates((double)ViewModel.Latitude, (double)ViewModel.Longitude);
+                    ViewModel.Geopoint = result.Locations[0];
+                    ViewModel.GeopointString = string.Format("{0}, {1}", result.Locations[0].Address.Town.ToString(), result.Locations[0].Address.Region.ToString());
                 }
                 catch
                 {
-
+                    
                 }
-
-                ViewModel.Geopoint = result.Locations[0];
-                ViewModel.GeopointString = string.Format("{0}, {1}", result.Locations[0].Address.Town.ToString(), result.Locations[0].Address.Region.ToString());
             }
             else
             {
