@@ -338,9 +338,8 @@ namespace Files.View_Models.Properties
 
                 StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/BingMapsKey.txt"));
                 var lines = await FileIO.ReadTextAsync(file);
-                ViewModel.DevKey = lines;
+                ViewModel.DevKey = lines.Replace('\n', ' ');
                 obj = JObject.Parse(lines);
-                ViewModel.DevKey = obj.ToString();
             }
             catch (Exception e)
             {
