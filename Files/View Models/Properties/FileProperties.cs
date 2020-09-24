@@ -349,7 +349,7 @@ namespace Files.View_Models.Properties
         {
             JObject obj;
             try {
-                obj = JObject.Parse(File.ReadAllText(@"ms-appx:///bingmapskey.json"));
+                obj = JObject.Parse(File.ReadAllText(@"ms-appx:///Resources/BingMapsKey.json"));
             } catch
             {
                 return null;

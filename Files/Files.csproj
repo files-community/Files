@@ -350,6 +350,7 @@
     <None Include="Assets\terminal\terminal.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Resources\BingMapsKey.json" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
