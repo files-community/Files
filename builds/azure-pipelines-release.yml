@@ -26,13 +26,14 @@ steps:
   name: mapsDevKey
   displayName: 'Download Bing Maps Dev Key'
   inputs:
-    secureFile: 'BingMapsKey.json'
+    secureFile: 'BingMapsKey.txt'
 
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(Agent.TempDirectory)'
     Contents: '$(mapsDevKey.secureFilePath)'
     TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
+    overWrite: true
 
 - task: NuGetToolInstaller@1
 
