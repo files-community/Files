@@ -335,12 +335,16 @@ namespace Files.View_Models.Properties
             JObject obj;
             try
             {
+
                 StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/BingMapsKey.txt"));
                 var lines = await FileIO.ReadTextAsync(file);
+                ViewModel.DevKey = lines;
                 obj = JObject.Parse(lines);
+                ViewModel.DevKey = obj.ToString();
             }
-            catch
+            catch (Exception e)
             {
+                ViewModel.DevKeyError = e.ToString();
                 return null;
             }
             MapService.ServiceToken = (string)obj.SelectToken("key");

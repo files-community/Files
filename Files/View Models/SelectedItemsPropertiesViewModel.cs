@@ -732,5 +732,19 @@ namespace Files.View_Models
             get => _DetailsSectionVisibility_Photo;
             set => SetProperty(ref _DetailsSectionVisibility_Photo, value);
         }
+
+        private string _DevKey;
+        public string DevKey
+        {
+            get => _DevKey;
+            set => SetProperty(ref _DevKey, value);
+        }
+
+        private string _DevKeyError;
+        public string DevKeyError
+        {
+            get => _DevKeyError;
+            set => SetProperty(ref _DevKeyError, value);
+        }
     }
 }
