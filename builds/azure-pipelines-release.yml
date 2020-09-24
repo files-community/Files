@@ -32,7 +32,7 @@ steps:
   inputs:
     SourceFolder: '$(Agent.TempDirectory)'
     Contents: '$(mapsDevKey.secureFilePath)'
-    TargetFolder: '$(Build.SourcesDirectory)\Files'
+    TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
 
 - task: NuGetToolInstaller@1
 
