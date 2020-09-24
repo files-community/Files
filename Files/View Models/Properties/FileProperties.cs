@@ -348,7 +348,9 @@ namespace Files.View_Models.Properties
         {
             JObject obj;
             try {
-                obj = JObject.Parse(File.ReadAllText(@"ms-appx:///Resources/BingMapsKey.json"));
+                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/BingMapsKey.txt"));
+                var lines = await FileIO.ReadTextAsync(file);
+                obj = JObject.Parse(lines);
             } catch
             {
                 return null;
