@@ -144,9 +144,6 @@
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
     <value>Удалить</value>
   </data>
-  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
-    <value>Вы уверены, что хотите удалить выбранный элемент(ы)?</value>
-  </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Удалить безвозвратно</value>
   </data>
@@ -174,12 +171,6 @@
   <data name="SidebarVideos" xml:space="preserve">
     <value>Видео</value>
   </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>Отмена</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Распаковать</value>
-  </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>Новая вкладка</value>
   </data>
@@ -194,12 +185,6 @@
   </data>
   <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
     <value>Открыть в терминале...</value>
-  </data>
-  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
-    <value>Выберите куда распаковать архив. Вам нужно оставаться в текущей папке, пока операция выполняется. Так же будет открыта новая вкладка с распакованными элементами.</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>Просматривать</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Введите путь</value>
@@ -284,9 +269,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Свойства</value>
-  </data>
-  <data name="ExtractFilesDialog.Title" xml:space="preserve">
-    <value>Извлечь архив</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
     <value>Папку</value>
@@ -711,9 +693,6 @@
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>Удаление файлов</value>
   </data>
-  <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>Извлечение файлов</value>
-  </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
     <value>Вставка файлов</value>
   </data>
@@ -725,9 +704,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
     <value>Язык приложения</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>Требуется перезагрузка</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Статус</value>
@@ -825,9 +801,6 @@
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Открыть расположение файла</value>
   </data>
-  <data name="SettingsPreferencesShowHorizontalTabStrip.Text" xml:space="preserve">
-    <value>Показывать горизонтальную полосу вкладок в строке заголовка</value>
-  </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Авторы</value>
   </data>
@@ -839,8 +812,5 @@
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
     <value>Узнайте, что нового в Files UWP</value>
-  </data>
-  <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
-    <value>Показать всплывающее меню многозадачности на панели инструментов навигации</value>
   </data>
 </root>

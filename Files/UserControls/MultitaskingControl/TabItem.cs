@@ -19,7 +19,7 @@ namespace Files.UserControls
         // Please, remember to update the Path whenever navigating to directory,
         // currently the update is done in both methods SetSelectedTabInfo in
         // classes HorizontalMultitaskingControl and VerticalTabView
-        public string Path 
+        public string Path
         {
             get => _Path;
             set => SetProperty(ref _Path, value);

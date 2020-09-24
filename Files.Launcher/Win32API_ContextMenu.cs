@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 using Vanara.InteropServices;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
-using Windows.Foundation.Collections;
 using static Vanara.PInvoke.Gdi32;
 
 namespace FilesFullTrust
@@ -148,9 +147,10 @@ namespace FilesFullTrust
                     pici.cbSize = (uint)Marshal.SizeOf(pici);
                     cMenu.InvokeCommand(pici);
                 }
-                catch (COMException ex)
+                catch (Exception ex) when (
+                    ex is COMException
+                    || ex is UnauthorizedAccessException)
                 {
-                    // Usually it's "invalid window handle"
                     Debug.WriteLine(ex);
                 }
             }
@@ -166,14 +166,16 @@ namespace FilesFullTrust
                     pici.cbSize = (uint)Marshal.SizeOf(pici);
                     cMenu.InvokeCommand(pici);
                 }
-                catch (COMException ex)
+                catch (Exception ex) when (
+                    ex is COMException
+                    || ex is UnauthorizedAccessException)
                 {
-                    // Usually it's "invalid window handle"
                     Debug.WriteLine(ex);
                 }
             }
 
             #region FactoryMethods
+
             public static ContextMenu GetContextMenuForFiles(string[] filePathList, Shell32.CMF flags, Func<string, bool> itemFilter = null)
             {
                 List<ShellItem> shellItems = new List<ShellItem>();
@@ -208,12 +210,13 @@ namespace FilesFullTrust
                 User32.DestroyMenu(hMenu);
                 return contextMenu;
             }
-            #endregion
+
+            #endregion FactoryMethods
 
             private static void EnumMenuItems(
-                Shell32.IContextMenu cMenu, 
-                HMENU hMenu, 
-                List<Win32ContextMenuItem> menuItemsResult, 
+                Shell32.IContextMenu cMenu,
+                HMENU hMenu,
+                List<Win32ContextMenuItem> menuItemsResult,
                 Func<string, bool> itemFilter = null)
             {
                 var itemCount = User32.GetMenuItemCount(hMenu);
@@ -338,6 +341,7 @@ namespace FilesFullTrust
             }
 
             #region IDisposable Support
+
             private bool disposedValue = false; // To detect redundant calls
 
             protected virtual void Dispose(bool disposing)
@@ -376,12 +380,14 @@ namespace FilesFullTrust
                 Dispose(true);
                 GC.SuppressFinalize(this);
             }
-            #endregion
+
+            #endregion IDisposable Support
         }
 
         public class ContextMenuItem : Win32ContextMenuItem, IDisposable
         {
             private Bitmap _Icon;
+
             [JsonIgnore]
             public Bitmap Icon
             {
@@ -418,7 +424,4 @@ namespace FilesFullTrust
     // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.
     // The Vanara library contains the definitions for all members of Shell32.dll, User32.dll and more
     // The ones below are due to bugs in the current version of the library and can be removed once fixed
-    #region WIN32_INTERFACES
-
-    #endregion
 }

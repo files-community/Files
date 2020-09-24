@@ -21,9 +21,6 @@
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
     <value>מחק</value>
   </data>
-  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
-    <value>האם אתה בטוח שאתה רוצה למחוק את הפריט/ים המסומנ/ים?</value>
-  </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>‏‏מחק לצמיתות</value>
   </data>
@@ -32,12 +29,6 @@
   </data>
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>פתח בחלון חדש</value>
-  </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>ביטול</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>חלץ</value>
   </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>כרטיסיה חדשה</value>
@@ -80,9 +71,6 @@
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>שם פריט</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>צפייה</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
     <value>נתיב:</value>
@@ -435,9 +423,6 @@
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>מוחק קבצים</value>
   </data>
-  <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>מחלץ קבצים.</value>
-  </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
     <value>אישור</value>
   </data>
@@ -500,9 +485,6 @@
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>לאחרונה</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>נדרשת הפעלה מחדש</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>מצב</value>
@@ -573,10 +555,31 @@
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>פתח מיקום קובץ</value>
   </data>
+  <data name="DriveCapacityUnknown" xml:space="preserve">
+    <value>לא ידוע</value>
+  </data>
+  <data name="ExceptionNotificationHeader" xml:space="preserve">
+    <value>משהו השתבש</value>
+  </data>
+  <data name="ExceptionNotificationReportButton" xml:space="preserve">
+    <value>דווח על בעיה זו</value>
+  </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>‏‏תורמים</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>הערות מוצר</value>
+  </data>
+  <data name="SettingsAboutVersionTitle" xml:space="preserve">
+    <value>גירסה</value>
+  </data>
+  <data name="ShareDialogFailMessage" xml:space="preserve">
+    <value>‏‏אין כרגע פריטים לשיתוף.</value>
+  </data>
+  <data name="ShareDialogTitle" xml:space="preserve">
+    <value>שיתוף: {0}%</value>
+  </data>
+  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
+    <value>עוד</value>
   </data>
 </root>

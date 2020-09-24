@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:datamodels="using:Files.DataModels"
+    xmlns:dialogs="using:Files.Dialogs"
     xmlns:local="using:Files.SettingsPages"
     xmlns:local2="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -34,14 +35,6 @@
                         x:Uid="SettingsPreferencesAppLanguage"
                         FontSize="17"
                         Text="App Language" />
-                    <TextBlock
-                        x:Name="RestartRequiredPrompt"
-                        x:Uid="SettingsPreferencesAppLanguageRestartRequired"
-                        FontSize="14"
-                        FontStyle="Italic"
-                        Foreground="{ThemeResource SystemErrorTextColor}"
-                        Text="Restart required"
-                        Visibility="Collapsed" />
                     <ComboBox
                         x:Name="ComboAppLanguage"
                         Width="200"
@@ -135,7 +128,18 @@
 
                     <ToggleSwitch x:Name="ContextMenuToggleSwitch" IsOn="{x:Bind AppSettings.ShowAllContextMenuItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
+
+                <StackPanel Spacing="10">
+                    <TextBlock
+                        x:Uid="SettingsPreferencesCopyLocation"
+                        FontSize="17"
+                        Text="Show an option to copy the location of the selected item" />
+
+                    <ToggleSwitch x:Name="CopyLocationToggleSwitch" IsOn="{x:Bind AppSettings.ShowCopyLocationOption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
+
+        <dialogs:RestartDialog x:Name="RestartDialog" />
     </Grid>
 </Page>

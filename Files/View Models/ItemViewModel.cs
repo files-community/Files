@@ -116,18 +116,23 @@ namespace Files.Filesystem
                 _customPath = null;
             }
 
+            if (value == "Home")
+            {
+                _currentStorageFolder = null;
+            }
+
             NotifyPropertyChanged(nameof(WorkingDirectory));
         }
 
-        public static async Task<StorageFolder> GetFolderFromPathAsync(string value)
+        public static async Task<StorageFolder> GetFolderFromPathAsync(string value, IShellPage appInstance = null)
         {
-            var instance = App.CurrentInstance.FilesystemViewModel;
+            var instance = appInstance == null ? App.CurrentInstance.FilesystemViewModel : appInstance.FilesystemViewModel;
             return await StorageFileExtensions.GetFolderFromPathAsync(value, instance._workingRoot, instance._currentStorageFolder);
         }
 
-        public static async Task<StorageFile> GetFileFromPathAsync(string value)
+        public static async Task<StorageFile> GetFileFromPathAsync(string value, IShellPage appInstance = null)
         {
-            var instance = App.CurrentInstance.FilesystemViewModel;
+            var instance = appInstance == null ? App.CurrentInstance.FilesystemViewModel : appInstance.FilesystemViewModel;
             return await StorageFileExtensions.GetFileFromPathAsync(value, instance._workingRoot, instance._currentStorageFolder);
         }
 
@@ -1084,9 +1089,20 @@ namespace Files.Filesystem
                 // File
                 string itemName;
                 if (AppSettings.ShowFileExtensions && !item.FileName.EndsWith(".lnk") && !item.FileName.EndsWith(".url"))
+                {
                     itemName = item.FileName; // never show extension for shortcuts
+                }
                 else
-                    itemName = Path.GetFileNameWithoutExtension(item.FileName);
+                {
+                    if (item.FileName.StartsWith("."))
+                    {
+                        itemName = item.FileName; // Always show full name for dotfiles.
+                    }
+                    else
+                    {
+                        itemName = Path.GetFileNameWithoutExtension(item.FileName);
+                    }
+                }
 
                 string itemFileExtension = null;
                 if (item.FileName.Contains('.'))
@@ -1129,6 +1145,8 @@ namespace Files.Filesystem
 
             IntPtr hFile = FindFirstFileExFromApp(fileOrFolderPath, findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
                                                   additionalFlags);
+            FindClose(hFile);
+
             if ((findData.dwFileAttributes & 0x10) > 0) // FILE_ATTRIBUTE_DIRECTORY
             {
                 AddFolder(findData, Directory.GetParent(fileOrFolderPath).FullName);
@@ -1265,9 +1283,20 @@ namespace Files.Filesystem
 
             string itemName;
             if (AppSettings.ShowFileExtensions && !findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
+            {
                 itemName = findData.cFileName; // never show extension for shortcuts
+            }
             else
-                itemName = Path.GetFileNameWithoutExtension(itemPath);
+            {
+                if (findData.cFileName.StartsWith("."))
+                {
+                    itemName = findData.cFileName; // Always show full name for dotfiles.
+                }
+                else
+                {
+                    itemName = Path.GetFileNameWithoutExtension(itemPath);
+                }
+            }
 
             FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemModifiedDateOutput);
             var itemModifiedDate = new DateTime(
@@ -1556,9 +1585,11 @@ namespace Files.Filesystem
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
             int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
 
-            IntPtr hFile = FindFirstFileExFromApp(targetPath + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findChildData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
-            FindNextFile(hFile, out findChildData);
-            return FindNextFile(hFile, out findChildData);
+            IntPtr hFile = FindFirstFileExFromApp(targetPath + "\\*.*", findInfoLevel, out WIN32_FIND_DATA _, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
+            FindNextFile(hFile, out _);
+            var result = FindNextFile(hFile, out _);
+            FindClose(hFile);
+            return result;
         }
     }
 }

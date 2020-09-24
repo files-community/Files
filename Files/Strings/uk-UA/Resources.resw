@@ -21,20 +21,8 @@
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
     <value>Видалити</value>
   </data>
-  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
-    <value>Ви впевнені, що хочете видалити обрані елементи?</value>
-  </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Остаточно видалити</value>
-  </data>
-  <data name="ExtractFilesDialog.Title" xml:space="preserve">
-    <value>Розархівувати</value>
-  </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>Скасувати</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Розархівувати</value>
   </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>Створити вкладку</value>
@@ -77,12 +65,6 @@
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Ім’я</value>
-  </data>
-  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
-    <value>Виберіть місце для вилучення цього стисненого архіву. Вам потрібно буде залишитися в поточній папці, поки ми не закінчимо. З відкритими елементами відкриється нова вкладка.</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>Огляд</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
     <value>Шлях:</value>
@@ -651,9 +633,6 @@
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>Видалення файлів</value>
   </data>
-  <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>Видобування файлів</value>
-  </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
     <value>Вставка файлів</value>
   </data>
@@ -719,9 +698,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
     <value>Мова програми</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>Необхідне перезавантаження</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Статус</value>
@@ -819,9 +795,6 @@
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Відкрити розташування файлу</value>
   </data>
-  <data name="SettingsPreferencesShowHorizontalTabStrip.Text" xml:space="preserve">
-    <value>Показати горизонтальну смужку вкладок</value>
-  </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Автори</value>
   </data>
@@ -833,8 +806,5 @@
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
     <value>Дізнайтеся, що нового у Files UWP</value>
-  </data>
-  <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
-    <value>Показувати меню багатозадачності на панелі навігації</value>
   </data>
 </root>

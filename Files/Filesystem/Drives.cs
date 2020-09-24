@@ -30,6 +30,7 @@ namespace Files.Filesystem
         }
 
         private DeviceWatcher _deviceWatcher;
+        private bool _driveEnumInProgress;
 
         public DrivesManager()
         {
@@ -38,16 +39,19 @@ namespace Files.Filesystem
 
         private async void EnumerateDrives()
         {
-            try
+            _driveEnumInProgress = true;
+            if (await GetDrives(Drives))
             {
-                await GetDrives(Drives);
-                GetVirtualDrivesList(Drives);
-                StartDeviceWatcher();
+                if (!Drives.Any(d => d.Type != DriveType.Removable))
+                {
+                    // Only show consent dialog if the exception is UnauthorizedAccessException
+                    // and the drives list is empty (except for Removable drives which don't require FileSystem access)
+                    ShowUserConsentOnInit = true;
+                }
             }
-            catch (AggregateException)
-            {
-                ShowUserConsentOnInit = true;
-            };
+            GetVirtualDrivesList(Drives);
+            StartDeviceWatcher();
+            _driveEnumInProgress = false;
         }
 
         private void StartDeviceWatcher()
@@ -127,9 +131,11 @@ namespace Files.Filesystem
             {
                 root = StorageDevice.FromId(deviceId);
             }
-            catch (UnauthorizedAccessException)
+            catch (Exception ex) when (
+                ex is UnauthorizedAccessException
+                || ex is ArgumentException)
             {
-                Logger.Warn($"UnauthorizedAccessException: Attemting to add the device, {args.Name}, failed at the StorageFolder initialization step. This device will be ignored. Device ID: {args.Id}");
+                Logger.Warn($"{ex.GetType()}: Attemting to add the device, {args.Name}, failed at the StorageFolder initialization step. This device will be ignored. Device ID: {args.Id}");
                 return;
             }
 
@@ -195,8 +201,11 @@ namespace Files.Filesystem
             Debug.WriteLine("Devices updated");
         }
 
-        private async Task GetDrives(IList<DriveItem> list)
+        private async Task<bool> GetDrives(IList<DriveItem> list)
         {
+            // Flag set if any drive throws UnauthorizedAccessException
+            bool unauthorizedAccessDetected = false;
+
             var drives = DriveInfo.GetDrives().ToList();
 
             var remDevices = await DeviceInformation.FindAllAsync(StorageDevice.GetDeviceSelector());
@@ -229,7 +238,22 @@ namespace Files.Filesystem
                     continue;
                 }
 
-                var folder = Task.Run(async () => await StorageFolder.GetFolderFromPathAsync(drive.Name)).Result;
+                StorageFolder folder = null;
+                try
+                {
+                    folder = await StorageFolder.GetFolderFromPathAsync(drive.Name);
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    unauthorizedAccessDetected = true;
+                    Logger.Warn($"{ex.GetType()}: Attemting to add the device, {drive.Name}, failed at the StorageFolder initialization step. This device will be ignored.");
+                    continue;
+                }
+                catch (ArgumentException ex)
+                {
+                    Logger.Warn($"{ex.GetType()}: Attemting to add the device, {drive.Name}, failed at the StorageFolder initialization step. This device will be ignored.");
+                    continue;
+                }
 
                 DriveType type = DriveType.Unknown;
 
@@ -283,6 +307,8 @@ namespace Files.Filesystem
 
                 list.Add(driveItem);
             }
+
+            return unauthorizedAccessDetected;
         }
 
         private void GetVirtualDrivesList(IList<DriveItem> list)
@@ -355,6 +381,15 @@ namespace Files.Filesystem
                 {
                     _deviceWatcher.Stop();
                 }
+            }
+        }
+
+        public void ResumeDeviceWatcher()
+        {
+            if (!_driveEnumInProgress)
+            {
+                this.Dispose();
+                this.StartDeviceWatcher();
             }
         }
     }

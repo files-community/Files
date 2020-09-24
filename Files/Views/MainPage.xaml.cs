@@ -67,8 +67,20 @@ namespace Files.Views
             {
                 FlowDirection = FlowDirection.RightToLeft;
             }
-
             AllowDrop = true;
+            AppInstances.CollectionChanged += AppInstances_CollectionChanged;
+        }
+
+        private void AppInstances_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.OldItems != null)
+            {
+                foreach (var removedTab in e.OldItems)
+                {
+                    // Cleanup resources for the closed tab
+                    ((((removedTab as TabItem).Content as Grid).Children[0] as Frame).Content as IShellPage)?.FilesystemViewModel?.Dispose();
+                }
+            }
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -88,9 +100,22 @@ namespace Files.Views
                 {
                     try
                     {
-                        if (App.AppSettings.OpenASpecificPageOnStartup)
+                        if (App.AppSettings.ResumeAfterRestart)
                         {
+                            App.AppSettings.ResumeAfterRestart = false;
 
+                            foreach (string path in App.AppSettings.LastSessionPages)
+                            {
+                                await AddNewTab(typeof(ModernShellPage), path);
+                            }
+
+                            if (!App.AppSettings.ContinueLastSessionOnStartUp)
+                            {
+                                App.AppSettings.LastSessionPages = null;
+                            }
+                        }
+                        else if (App.AppSettings.OpenASpecificPageOnStartup)
+                        {
                             if (App.AppSettings.PagesOnStartupList != null)
                             {
                                 foreach (string path in App.AppSettings.PagesOnStartupList)
@@ -402,6 +427,11 @@ namespace Files.Views
         {
             await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
             args.Handled = true;
+        }
+
+        private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            App.MultitaskingControl = HorizontalMultitaskingControl;
         }
     }
 }
