@@ -7,7 +7,6 @@ using Files.Helpers;
 using Files.View_Models;
 using Files.Views;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using NLog;
 using System;
@@ -20,7 +19,6 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
 using Windows.Storage;
 using Windows.UI.Core;
-using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Microsoft.AppCenter;
@@ -29,11 +27,16 @@ using Microsoft.AppCenter.Crashes;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Windows.UI.Notifications;
+using Files.UserControls.MultiTaskingControl;
 
 namespace Files
 {
     sealed partial class App : Application
     {
+        public static IMultitaskingControl MultitaskingControl = null;
+
         private static IShellPage currentInstance;
         private static bool ShowErrorNotification = false;
 
@@ -363,6 +366,16 @@ namespace Files
                         }
                     }
                     break;
+
+                case ActivationKind.ToastNotification:
+                    var eventArgsForNotification = args as ToastNotificationActivatedEventArgs;
+                    if (eventArgsForNotification.Argument == "report")
+                    {
+                        // Launch the URI and open log files location
+                        //SettingsViewModel.OpenLogLocation();
+                        SettingsViewModel.ReportIssueOnGitHub();
+                    }
+                    break;
             }
 
             rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
@@ -410,7 +423,7 @@ namespace Files
             deferral.Complete();
         }
 
-        private void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
+        public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
         {
             AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab => tab != null ? tab.Path ?? ResourceController.GetTranslation("NewTab") : ResourceController.GetTranslation("NewTab")).ToArray();
         }
@@ -434,16 +447,16 @@ namespace Files
                         BindingGeneric = new ToastBindingGeneric()
                         {
                             Children =
-                        {
-                            new AdaptiveText()
                             {
-                                Text = ResourceController.GetTranslation("ExceptionNotificationHeader")
+                                new AdaptiveText()
+                                {
+                                    Text = ResourceController.GetTranslation("ExceptionNotificationHeader")
+                                },
+                                new AdaptiveText()
+                                {
+                                    Text = ResourceController.GetTranslation("ExceptionNotificationBody")
+                                }
                             },
-                            new AdaptiveText()
-                            {
-                                Text = ResourceController.GetTranslation("ExceptionNotificationBody")
-                            }
-                        },
                             AppLogoOverride = new ToastGenericAppLogo()
                             {
                                 Source = "ms-appx:///Assets/error.png"
@@ -453,12 +466,12 @@ namespace Files
                     Actions = new ToastActionsCustom()
                     {
                         Buttons =
-                    {
-                        new ToastButton(ResourceController.GetTranslation("ExceptionNotificationReportButton"), "report")
                         {
-                            ActivationType = ToastActivationType.Foreground
+                            new ToastButton(ResourceController.GetTranslation("ExceptionNotificationReportButton"), "report")
+                            {
+                                ActivationType = ToastActivationType.Foreground
+                            }
                         }
-                    }
                     }
                 };
 

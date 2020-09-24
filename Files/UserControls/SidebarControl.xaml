@@ -305,7 +305,6 @@
                             <MenuFlyoutItem
                                 x:Name="OpenInNewTab"
                                 x:Uid="SideBarOpenInNewTab"
-                                x:Load="{x:Bind AppSettings.IsMultitaskingControlVisible, Mode=OneWay}"
                                 Click="OpenInNewTab_Click"
                                 Text="Open in new tab">
                                 <MenuFlyoutItem.Icon>

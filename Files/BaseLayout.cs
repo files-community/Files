@@ -1,4 +1,5 @@
-﻿using Files.Common;
+﻿using Files.Commands;
+using Files.Common;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
@@ -257,10 +258,10 @@ namespace Files
             App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
             App.CurrentInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
 
-            await App.CurrentInstance.MultitaskingControl?.SetSelectedTabInfo(new DirectoryInfo(workingDir).Name, workingDir);
+            await App.MultitaskingControl?.SetSelectedTabInfo(new DirectoryInfo(workingDir).Name, workingDir);
             App.CurrentInstance.FilesystemViewModel.RefreshItems();
 
-            App.CurrentInstance.MultitaskingControl?.SelectionChanged();
+            App.MultitaskingControl?.SelectionChanged();
             MainPage.Clipboard_ContentChanged(null, null);
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = parameters;
         }
@@ -410,6 +411,11 @@ namespace Files
                 && SelectedItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase);
             SetShellContextmenu(shiftPressed, showOpenMenu);
 
+            if (!AppSettings.ShowCopyLocationOption)
+            {
+                UnloadMenuFlyoutItemByName("CopyLocationItem");
+            }
+
             if (!DataTransferManager.IsSupported())
             {
                 UnloadMenuFlyoutItemByName("ShareItem");
@@ -430,7 +436,6 @@ namespace Files
                         {
                             (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
-                            UnloadMenuFlyoutItemByName("UnzipItem");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
                             UnloadMenuFlyoutItemByName("CreateShortcut");
@@ -442,14 +447,12 @@ namespace Files
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
                             (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                            (this.FindName("UnzipItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                         }
                         else if (SelectedItem.FileExtension.Equals(".exe", StringComparison.OrdinalIgnoreCase)
                             || SelectedItem.FileExtension.Equals(".bat", StringComparison.OrdinalIgnoreCase))
                         {
                             (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
-                            UnloadMenuFlyoutItemByName("UnzipItem");
                             (this.FindName("RunAsAdmin") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             (this.FindName("RunAsAnotherUser") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
@@ -458,7 +461,6 @@ namespace Files
                         {
                             UnloadMenuFlyoutItemByName("OpenItem");
                             UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
-                            UnloadMenuFlyoutItemByName("UnzipItem");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             (this.FindName("RunAsAnotherUser") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
@@ -469,7 +471,6 @@ namespace Files
                             || SelectedItem.FileExtension.Equals(".msixbundle", StringComparison.OrdinalIgnoreCase))
                         {
                             (this.FindName("OpenItemWithAppPicker") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                            UnloadMenuFlyoutItemByName("UnzipItem");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
                             (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
@@ -478,7 +479,6 @@ namespace Files
                         {
                             (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             (this.FindName("OpenItemWithAppPicker") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                            UnloadMenuFlyoutItemByName("UnzipItem");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
                             (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
@@ -489,7 +489,6 @@ namespace Files
                 {
                     UnloadMenuFlyoutItemByName("OpenItem");
                     UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
-                    UnloadMenuFlyoutItemByName("UnzipItem");
                     UnloadMenuFlyoutItemByName("CreateShortcut");
                 }
             }
@@ -522,13 +521,11 @@ namespace Files
                     //this.FindName("SidebarPinItem");
                     //this.FindName("OpenInNewTab");
                     //this.FindName("OpenInNewWindowItem");
-                    UnloadMenuFlyoutItemByName("UnzipItem");
                 }
                 else if (SelectedItems.Count > 5)
                 {
                     UnloadMenuFlyoutItemByName("OpenInNewTab");
                     UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
-                    UnloadMenuFlyoutItemByName("UnzipItem");
                 }
             }
 
@@ -544,7 +541,7 @@ namespace Files
                 AssociatedInteractions = App.CurrentInstance.InteractionOperations;
                 if (App.CurrentInstance == null)
                 {
-                    App.CurrentInstance = VerticalTabView.GetCurrentSelectedTabInstance<ModernShellPage>();
+                    App.CurrentInstance = VerticalTabViewControl.GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
             }
         }
@@ -587,13 +584,13 @@ namespace Files
             deferral.Complete();
         }
 
-        protected async void List_Drop(object sender, DragEventArgs e)
+        protected void List_Drop(object sender, DragEventArgs e)
         {
             var deferral = e.GetDeferral();
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                await AssociatedInteractions.PasteItems(e.DataView, App.CurrentInstance.FilesystemViewModel.WorkingDirectory, e.AcceptedOperation);
+                ItemOperations.PasteItemWithStatus(e.DataView, App.CurrentInstance.FilesystemViewModel.WorkingDirectory, e.AcceptedOperation);
                 e.Handled = true;
             }
 
@@ -663,13 +660,13 @@ namespace Files
             deferral.Complete();
         }
 
-        protected async void Item_Drop(object sender, DragEventArgs e)
+        protected void Item_Drop(object sender, DragEventArgs e)
         {
             var deferral = e.GetDeferral();
 
             e.Handled = true;
             ListedItem rowItem = GetItemFromElement(sender);
-            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, e.AcceptedOperation);
+            ItemOperations.PasteItemWithStatus(e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, e.AcceptedOperation);
             deferral.Complete();
         }
 

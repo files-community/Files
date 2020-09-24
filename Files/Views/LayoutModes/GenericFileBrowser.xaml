@@ -223,17 +223,6 @@
             x:Name="BaseLayoutItemContextFlyout"
             Opening="RightClickItemContextMenu_Opening">
             <MenuFlyoutItem
-                x:Name="UnzipItem"
-                x:Uid="BaseLayoutItemContextFlyoutExtract"
-                x:Load="False"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ExtractItems_Click}"
-                Tag="Extract_FlyoutItem"
-                Text="Extract">
-                <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea5c;" />
-                </MenuFlyoutItem.Icon>
-            </MenuFlyoutItem>
-            <MenuFlyoutItem
                 x:Name="OpenItem"
                 x:Uid="BaseLayoutItemContextFlyoutOpenItem"
                 x:Load="False"
@@ -271,8 +260,7 @@
                 x:Load="False"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenDirectoryInNewTab_Click}"
                 Tag="OpenTab_FlyoutItem"
-                Text="Open in new tab"
-                Visibility="{x:Bind AppSettings.IsMultitaskingControlVisible, Mode=OneWay}">
+                Text="Open in new tab">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
                 </MenuFlyoutItem.Icon>
@@ -288,26 +276,30 @@
                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF107;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-            <MenuFlyoutItem
-                x:Name="SetAsDesktopBackgroundItem"
-                x:Uid="BaseLayoutItemContextFlyoutSetAsDesktopBackground"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SetAsDesktopBackgroundItem_Click}"
-                Text="Set as desktop background"
+            <MenuFlyoutSubItem
+                x:Uid="BaseLayoutItemContextFlyoutSetAs"
+                Text="Set as"
                 Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemImage, Mode=OneWay}">
-                <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEC16;" />
-                </MenuFlyoutItem.Icon>
-            </MenuFlyoutItem>
-            <MenuFlyoutItem
-                x:Name="SetAsLockscreenBackgroundItem"
-                x:Uid="BaseLayoutItemContextFlyoutSetAsLockscreenBackground"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SetAsLockscreenBackgroundItem_Click}"
-                Text="Set as lockscreen background"
-                Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemImage, Mode=OneWay}">
-                <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF103;" />
-                </MenuFlyoutItem.Icon>
-            </MenuFlyoutItem>
+                <MenuFlyoutItem
+                    x:Name="SetAsDesktopBackgroundItem"
+                    x:Uid="BaseLayoutItemContextFlyoutSetAsDesktopBackground"
+                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SetAsDesktopBackgroundItem_Click}"
+                    Text="Set as desktop background">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEC16;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
+                    x:Name="SetAsLockscreenBackgroundItem"
+                    x:Uid="BaseLayoutItemContextFlyoutSetAsLockscreenBackground"
+                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SetAsLockscreenBackgroundItem_Click}"
+                    Text="Set as lockscreen background">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF103;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+            </MenuFlyoutSubItem>
+
             <MenuFlyoutItem
                 x:Name="RunAsAdmin"
                 x:Uid="BaseLayoutContextFlyoutRunAsAdmin"
@@ -354,6 +346,15 @@
                 Text="Copy">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe9d6;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
+                x:Name="CopyLocationItem"
+                x:Uid="BaseLayoutItemContextFlyoutCopyLocation"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CopyLocation_ClickAsync}"
+                Text="Copy location">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9B1;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
@@ -718,6 +719,11 @@
                     Header="Date modified"
                     IsReadOnly="True"
                     Tag="Date">
+                    <controls:DataGridTextColumn.CellStyle>
+                        <Style TargetType="controls:DataGridCell">
+                            <Setter Property="Opacity" Value="0.6" />
+                        </Style>
+                    </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
                         <ToolTip Content="{Binding FolderTooltipText}" />
                     </ToolTipService.ToolTip>
@@ -732,6 +738,11 @@
                     Header="Type"
                     IsReadOnly="True"
                     Tag="Type">
+                    <controls:DataGridTextColumn.CellStyle>
+                        <Style TargetType="controls:DataGridCell">
+                            <Setter Property="Opacity" Value="0.6" />
+                        </Style>
+                    </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
                         <ToolTip Content="{Binding FolderTooltipText}" />
                     </ToolTipService.ToolTip>
@@ -747,6 +758,11 @@
                     Header="Size"
                     IsReadOnly="True"
                     Tag="Size">
+                    <controls:DataGridTextColumn.CellStyle>
+                        <Style TargetType="controls:DataGridCell">
+                            <Setter Property="Opacity" Value="0.6" />
+                        </Style>
+                    </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
                         <ToolTip Content="{Binding FolderTooltipText}" />
                     </ToolTipService.ToolTip>
