@@ -784,50 +784,65 @@ namespace Files.Interacts
                         return false;
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    var ItemAlreadyExistsDialog = new ContentDialog()
+                    if (ex is ArgumentException)
                     {
-                        Title = ResourceController.GetTranslation("ItemAlreadyExistsDialogTitle"),
-                        Content = ResourceController.GetTranslation("ItemAlreadyExistsDialogContent"),
-                        PrimaryButtonText = ResourceController.GetTranslation("ItemAlreadyExistsDialogPrimaryButtonText"),
-                        SecondaryButtonText = ResourceController.GetTranslation("ItemAlreadyExistsDialogSecondaryButtonText")
-                    };
-
-                    ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
-
-                    if (result == ContentDialogResult.Primary)
-                    {
-                        if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                        {
-                            var folder = await ItemViewModel.GetFolderFromPathAsync(item.ItemPath);
-
-                            await folder.RenameAsync(newName, NameCollisionOption.GenerateUniqueName);
-
-                            App.JumpList.RemoveFolder(folder.Path);
-                        }
-                        else
-                        {
-                            var file = await ItemViewModel.GetFileFromPathAsync(item.ItemPath);
-
-                            await file.RenameAsync(newName, NameCollisionOption.GenerateUniqueName);
-                        }
+                        await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("RenameError.NameInvalid.Title"), ResourceController.GetTranslation("RenameError.NameInvalid.Text"));
                     }
-                    else if (result == ContentDialogResult.Secondary)
+                    else if (ex is PathTooLongException)
                     {
-                        if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                        await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("RenameError.TooLong.Title"), ResourceController.GetTranslation("RenameError.TooLong.Text"));
+                    }
+                    else if (ex is FileNotFoundException)
+                    {
+                        await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("RenameError.ItemDeleted.Title"), ResourceController.GetTranslation("RenameError.ItemDeleted.Text"));
+                    }
+                    else
+                    {
+                        var ItemAlreadyExistsDialog = new ContentDialog()
                         {
-                            var folder = await ItemViewModel.GetFolderFromPathAsync(item.ItemPath);
+                            Title = ResourceController.GetTranslation("ItemAlreadyExistsDialogTitle"),
+                            Content = ResourceController.GetTranslation("ItemAlreadyExistsDialogContent"),
+                            PrimaryButtonText = ResourceController.GetTranslation("ItemAlreadyExistsDialogPrimaryButtonText"),
+                            SecondaryButtonText = ResourceController.GetTranslation("ItemAlreadyExistsDialogSecondaryButtonText")
+                        };
 
-                            await folder.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+                        ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
 
-                            App.JumpList.RemoveFolder(folder.Path);
+                        if (result == ContentDialogResult.Primary)
+                        {
+                            if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                            {
+                                var folder = await ItemViewModel.GetFolderFromPathAsync(item.ItemPath);
+
+                                await folder.RenameAsync(newName, NameCollisionOption.GenerateUniqueName);
+
+                                App.JumpList.RemoveFolder(folder.Path);
+                            }
+                            else
+                            {
+                                var file = await ItemViewModel.GetFileFromPathAsync(item.ItemPath);
+
+                                await file.RenameAsync(newName, NameCollisionOption.GenerateUniqueName);
+                            }
                         }
-                        else
+                        else if (result == ContentDialogResult.Secondary)
                         {
-                            var file = await ItemViewModel.GetFileFromPathAsync(item.ItemPath);
+                            if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                            {
+                                var folder = await ItemViewModel.GetFolderFromPathAsync(item.ItemPath);
 
-                            await file.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+                                await folder.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+
+                                App.JumpList.RemoveFolder(folder.Path);
+                            }
+                            else
+                            {
+                                var file = await ItemViewModel.GetFileFromPathAsync(item.ItemPath);
+
+                                await file.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+                            }
                         }
                     }
                 }

@@ -46,7 +46,7 @@
     <value>最近使用的文件</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>文件管理 UWP</value>
+    <value>文件资源管理器</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
     <value>许可证:</value>
@@ -253,7 +253,7 @@
     <value>属性</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>QuickLook 预览</value>
+    <value>速览 (QuickLook)</value>
   </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
     <value>在新窗口中打开</value>
@@ -307,7 +307,7 @@
     <value>大小</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>欢迎使用文件管理 UWP</value>
+    <value>欢迎使用</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>授权</value>
@@ -322,7 +322,7 @@
     <value>输入文件名</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>输入文件名（无扩展名）</value>
+    <value>输入文件名 (无扩展名)</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>命名</value>
@@ -367,7 +367,7 @@
     <value>向前 (Alt+向右键)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>上移  (Alt+向上键)</value>
+    <value>上移 (Alt+向上键)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>刷新 (F5)</value>
@@ -706,7 +706,7 @@
     <value>最近</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>语言 (国家或地区)</value>
+    <value>语言 (国家、地区或特别行政区)</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>等级</value>
@@ -724,7 +724,7 @@
     <value>删除页</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>启动固定文件夹时</value>
+    <value>启动收藏文件夹时</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
     <value>始终打开新实例</value>
@@ -740,5 +740,182 @@
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>无结果</value>
+  </data>
+  <data name="SubDirectoryAccessDenied" xml:space="preserve">
+    <value>无法访问要显示的任何项目</value>
+  </data>
+  <data name="MoveToFolderCaptionText" xml:space="preserve">
+    <value>移动到 {0}</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
+    <value>源文件和目标文件名相同。</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
+    <value>目标文件夹与源文件夹相同。</value>
+  </data>
+  <data name="CopyToFolderCaptionText" xml:space="preserve">
+    <value>复制到 {0}</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+    <value>创建快捷方式</value>
+  </data>
+  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+    <value>打开文件位置</value>
+  </data>
+  <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
+    <value>参数:</value>
+  </data>
+  <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
+    <value>目标位置:</value>
+  </data>
+  <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
+    <value>快捷方式类型:</value>
+  </data>
+  <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
+    <value>工作目录:</value>
+  </data>
+  <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="PropertiesShortcutTypeFolder" xml:space="preserve">
+    <value>文件夹</value>
+  </data>
+  <data name="PropertiesShortcutTypeLink" xml:space="preserve">
+    <value>链接</value>
+  </data>
+  <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
+    <value>常规</value>
+  </data>
+  <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
+    <value>快捷方式</value>
+  </data>
+  <data name="ShortcutFileType" xml:space="preserve">
+    <value>快捷方式</value>
+  </data>
+  <data name="ShortcutWebLinkFileType" xml:space="preserve">
+    <value>网络快捷方式</value>
+  </data>
+  <data name="ShortcutCreateNewSuffix" xml:space="preserve">
+    <value>{0} - 快捷方式</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
+    <value>打开文件位置</value>
+  </data>
+  <data name="DriveCapacityUnknown" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
+    <value>打开日志位置</value>
+  </data>
+  <data name="ExceptionNotificationBody" xml:space="preserve">
+    <value>未知错误。</value>
+  </data>
+  <data name="ExceptionNotificationHeader" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="ExceptionNotificationReportButton" xml:space="preserve">
+    <value>联机报告问题</value>
+  </data>
+  <data name="SettingsAboutContributors.Text" xml:space="preserve">
+    <value>贡献者</value>
+  </data>
+  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
+    <value>查看贡献者</value>
+  </data>
+  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
+    <value>发行说明</value>
+  </data>
+  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
+    <value>更新日志</value>
+  </data>
+  <data name="InvalidItemDialogContent" xml:space="preserve">
+    <value>引用的项无效或无法访问。{0}代码:{0}{1}</value>
+  </data>
+  <data name="InvalidItemDialogTitle" xml:space="preserve">
+    <value>无效项目</value>
+  </data>
+  <data name="SettingsAboutVersionTitle" xml:space="preserve">
+    <value>版本:</value>
+  </data>
+  <data name="ShareDialogFailMessage" xml:space="preserve">
+    <value>无分享内容</value>
+  </data>
+  <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
+    <value>所选项目将被共享</value>
+  </data>
+  <data name="ShareDialogSingleItemDescription" xml:space="preserve">
+    <value>所选项目将被共享</value>
+  </data>
+  <data name="ShareDialogTitle" xml:space="preserve">
+    <value>共享中 {0}</value>
+  </data>
+  <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
+    <value>共享中 {0} {1}</value>
+  </data>
+  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
+    <value>更多</value>
+  </data>
+  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
+    <value>显示所有上下文菜单项</value>
+  </data>
+  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
+    <value>确实要删除此项目吗？</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
+    <value>确实要删除 {0} 个项目吗？</value>
+  </data>
+  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
+    <value>自适应 (推荐)</value>
+  </data>
+  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
+    <value>根据应用窗口的大小自动调整最佳多任务控件大小。当窗口较小时，控件会自动折叠。</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
+    <value>评分</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
+    <value>始终在导航工具栏隐藏垂直多任务弹出窗口，并在应用窗口中显示水平选项卡栏。</value>
+  </data>
+  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
+    <value>多任务</value>
+  </data>
+  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
+    <value>垂直</value>
+  </data>
+  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
+    <value>将水平列表改为垂直排列。</value>
+  </data>
+  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
+    <value>多任务</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+    <value>设置为</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
+    <value>复制路径</value>
+  </data>
+  <data name="SettingsPreferencesCopyLocation.Text" xml:space="preserve">
+    <value>允许复制选定项目</value>
+  </data>
+  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
+    <value>添加选项卡</value>
+  </data>
+  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
+    <value>打开标签页</value>
+  </data>
+  <data name="ButtonNo.Content" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="ButtonYes.Content" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="RestartNotificationText.Text" xml:space="preserve">
+    <value>需要重新启动应用才能更改语言设置，您想重新启动应用吗？</value>
   </data>
 </root>

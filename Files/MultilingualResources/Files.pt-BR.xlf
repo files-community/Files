@@ -1130,6 +1130,30 @@
           <source>Sharing {0} {1}</source>
           <target state="translated">Compartilhando {0} {1}</target>
         </trans-unit>
+        <trans-unit id="RenameError.ItemDeleted.Text" translate="yes" xml:space="preserve">
+          <source>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</source>
+          <target state="new">The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</target>
+        </trans-unit>
+        <trans-unit id="RenameError.ItemDeleted.Title" translate="yes" xml:space="preserve">
+          <source>Item no longer exists</source>
+          <target state="new">Item no longer exists</target>
+        </trans-unit>
+        <trans-unit id="RenameError.NameInvalid.Text" translate="yes" xml:space="preserve">
+          <source>The name specified was invalid. Please check the desired item name and try again.</source>
+          <target state="new">The name specified was invalid. Please check the desired item name and try again.</target>
+        </trans-unit>
+        <trans-unit id="RenameError.NameInvalid.Title" translate="yes" xml:space="preserve">
+          <source>Invalid item name</source>
+          <target state="new">Invalid item name</target>
+        </trans-unit>
+        <trans-unit id="RenameError.TooLong.Text" translate="yes" xml:space="preserve">
+          <source>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</source>
+          <target state="new">The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</target>
+        </trans-unit>
+        <trans-unit id="RenameError.TooLong.Title" translate="yes" xml:space="preserve">
+          <source>Item name was too long</source>
+          <target state="new">Item name was too long</target>
+        </trans-unit>
         <trans-unit id="ContextMenuMoreItemsLabel" translate="yes" xml:space="preserve">
           <source>More</source>
           <target state="translated">Mais</target>
