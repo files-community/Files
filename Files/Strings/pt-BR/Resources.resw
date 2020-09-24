@@ -855,11 +855,38 @@
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
     <value>Compartilhando {0} {1}</value>
   </data>
+   <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
+    <value>O item que você está tentando renomear não existe mais. Verifique a localização correta do item que você precisa renomear.</value>
+  </data>
+  <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
+    <value>O item não existe mais</value>
+  </data>
+  <data name="RenameError.NameInvalid.Text" xml:space="preserve">
+    <value>O nome especificado é inválido. Verifique o nome do item desejado e tente novamente.</value>
+  </data>
+  <data name="RenameError.NameInvalid.Title" xml:space="preserve">
+    <value>Nome de item inválido</value>
+  </data>
+  <data name="RenameError.TooLong.Text" xml:space="preserve">
+    <value>O comprimento do nome do item especificado excede o limite máximo. Verifique o nome desejado e tente novamente.</value>
+  </data>
+  <data name="RenameError.TooLong.Title" xml:space="preserve">
+    <value>O nome do item é muito longo</value>
+  </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Mais</value>
   </data>
   <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
     <value>Mostrar todos os itens do menu de contexto</value>
+  </data>
+    <data name="ButtonNo.Content" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="ButtonYes.Content" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="RestartNotificationText.Text" xml:space="preserve">
+    <value>O aplicativo precisa ser reiniciado para aplicar a configuração de idioma. Deseja reiniciar o aplicativo?</value>
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Cancelar</value>
@@ -869,6 +896,12 @@
   </data>
   <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
     <value>Tem certeza de que deseja excluir estes {0} itens?</value>
+  </data>
+    <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
+    <value>Adicionar guia</value>
+  </data>
+  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
+    <value>Abrir guias</value>
   </data>
   <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
     <value>Adaptável (recomendado)</value>
