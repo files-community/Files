@@ -698,62 +698,18 @@ namespace Files.View_Models
             set => SetProperty(ref _ShotString, value);
         }
 
-        ////This is the dictionary of dictionaries for file properties
-        //private IDictionary<string, IDictionary<string, object>> _SystemFileProperties;
-        //public IDictionary<string, IDictionary<string, object>> SystemFileProperties
-        //{
-        //    get => _SystemFileProperties;
-        //    set => SetProperty(ref _SystemFileProperties, value);
-        //}
-
-        private IDictionary<string, object> _SystemFileProperties_Image_RO;
-        public IDictionary<string, object> SystemFileProperties_Image_RO
+        private IDictionary<string, object> _SystemFileProperties_RO;
+        public IDictionary<string, object> SystemFileProperties_RO
         {
-            get => _SystemFileProperties_Image_RO;
-            set => SetProperty(ref _SystemFileProperties_Image_RO, value);
+            get => _SystemFileProperties_RO;
+            set => SetProperty(ref _SystemFileProperties_RO, value);
         }
 
-        private IDictionary<string, object> _SystemFileProperties_GPS_RO;
-        public IDictionary<string, object> SystemFileProperties_GPS_RO
+        private IDictionary<string, object> _SystemFileProperties_RW;
+        public IDictionary<string, object> SystemFileProperties_RW
         {
-            get => _SystemFileProperties_GPS_RO;
-            set => SetProperty(ref _SystemFileProperties_GPS_RO, value);
-        }
-
-        private IDictionary<string, object> _SystemFileProperties_Photo_RO;
-        public IDictionary<string, object> SystemFileProperties_Photo_RO
-        {
-            get => _SystemFileProperties_Photo_RO;
-            set => SetProperty(ref _SystemFileProperties_Photo_RO, value);
-        }
-
-        private IDictionary<string, object> _SystemFileProperties_Core_RO;
-        public IDictionary<string, object> SystemFileProperties_Core_RO
-        {
-            get => _SystemFileProperties_Core_RO;
-            set => SetProperty(ref _SystemFileProperties_Core_RO, value);
-        }
-
-        private IDictionary<string, object> _SystemFileProperties_Core_RW;
-        public IDictionary<string, object> SystemFileProperties_Core_RW
-        {
-            get => _SystemFileProperties_Core_RW;
-            set => SetProperty(ref _SystemFileProperties_Core_RW, value);
-        }
-
-        private IDictionary<string, object> _SystemFileProperties_Image_RW;
-        public IDictionary<string, object> SystemFileProperties_Image_RW
-        {
-            get => _SystemFileProperties_Image_RW;
-            set => SetProperty(ref _SystemFileProperties_Image_RW, value);
-        }
-
-
-        private IDictionary<string, object> _SystemFileProperties_Photo_RW;
-        public IDictionary<string, object> SystemFileProperties_Photo_RW
-        {
-            get => _SystemFileProperties_Photo_RW;
-            set => SetProperty(ref _SystemFileProperties_Photo_RW, value);
+            get => _SystemFileProperties_RW;
+            set => SetProperty(ref _SystemFileProperties_RW, value);
         }
 
         private Visibility _DetailsSectionVisibility_Image;
