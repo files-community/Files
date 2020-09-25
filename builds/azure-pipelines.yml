@@ -30,7 +30,7 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(mapsDevKey.secureFilePath)'
+    SourceFolder: 'D:\a\1\s\'
     Contents: 'BingMapsKey.txt'
     TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
     overWrite: true
