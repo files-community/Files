@@ -250,13 +250,6 @@ namespace Files.View_Models.Properties
 
             try
             {
-                //ViewModel.SystemFileProperties_Image_RO = await RetrieveProperties(file, PropertiesToGet["Image_RO"]);
-                //ViewModel.SystemFileProperties_Photo_RO = await RetrieveProperties(file, PropertiesToGet["Photo_RO"]);
-                //ViewModel.SystemFileProperties_Photo_RW = await RetrieveProperties(file, PropertiesToGet["Photo_RW"]);
-                //ViewModel.SystemFileProperties_Core_RO = await RetrieveProperties(file, PropertiesToGet["Core_RO"]);
-                //ViewModel.SystemFileProperties_GPS_RO = await RetrieveProperties(file, PropertiesToGet["GPS_RO"]);
-                //ViewModel.SystemFileProperties_Core_RW = await RetrieveProperties(file, PropertiesToGet["Core_RW"]);
-
                 ViewModel.SystemFileProperties_RO = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RO);
                 ViewModel.SystemFileProperties_RW = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RW);
             }
@@ -265,8 +258,6 @@ namespace Files.View_Models.Properties
                 Debug.WriteLine(e.ToString());
             }
             SetVisibilities();
-            if (ViewModel.DetailsSectionVisibility_GPS == Visibility.Visible)
-                SetLocationInformation();
 
             ViewModelProcessing();
         }
@@ -286,29 +277,34 @@ namespace Files.View_Models.Properties
         /// </summary>
         private async void ViewModelProcessing()
         {
-            if (ViewModel.SystemFileProperties_RW["System.Photo.CameraManufacturer"] != null && ViewModel.SystemFileProperties_RW["System.Photo.CameraModel"] != null)
+            if (ViewModel.DetailsSectionVisibility_Photo.Equals(Visibility.Visible))
                 ViewModel.CameraNameString = string.Format("{0} {1}", ViewModel.SystemFileProperties_RW["System.Photo.CameraManufacturer"], ViewModel.SystemFileProperties_RW["System.Photo.CameraModel"]);
 
-            if (ViewModel.SystemFileProperties_RO["System.GPS.Longitude"] != null && ViewModel.SystemFileProperties_RO["System.GPS.Longitude"] != null)
+            if (ViewModel.DetailsSectionVisibility_GPS == Visibility.Visible)
+                SetLocationInformation();
+
+            if (ViewModel.DetailsSectionVisibility_GPS.Equals(Visibility.Visible))
             {
                 MapLocationFinderResult result = null;
                 try
                 {
                     result = await GetAddressFromCoordinates((double)ViewModel.Latitude, (double)ViewModel.Longitude);
-                    ViewModel.Geopoint = result.Locations[0];
-                    ViewModel.GeopointString = string.Format("{0}, {1}", result.Locations[0].Address.Town.ToString(), result.Locations[0].Address.Region.ToString());
+                    if(result != null)
+                    {
+                        ViewModel.Geopoint = result.Locations[0];
+                        ViewModel.GeopointString = string.Format("{0}, {1}", result.Locations[0].Address.Town.ToString(), result.Locations[0].Address.Region.ToString());
+                    } else
+                    {
+                        ViewModel.GeopointString = string.Format("{0}, {1}", ViewModel.Latitude, ViewModel.Longitude);
+                    }
                 }
                 catch
                 {
 
                 }
             }
-            else
-            {
-                //ViewModel.DetailsSectionVisibility.Add("GPS", Visibility.Collapsed);
-            }
 
-            if (ViewModel.SystemFileProperties_RO["System.Photo.ExposureTime"] != null && ViewModel.SystemFileProperties_RO["System.Photo.FocalLength"] != null && ViewModel.SystemFileProperties_RO["System.Photo.Aperture"] != null)
+            if (ViewModel.DetailsSectionVisibility_Photo.Equals(Visibility.Visible))
             {
                 ViewModel.ShotString = string.Format("{0} sec. f/{1} {2}mm", ViewModel.SystemFileProperties_RO["System.Photo.ExposureTime"], ViewModel.SystemFileProperties_RO["System.Photo.FocalLength"], ViewModel.SystemFileProperties_RO["System.Photo.Aperture"]);
             }

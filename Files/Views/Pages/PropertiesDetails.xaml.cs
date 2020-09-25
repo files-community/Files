@@ -76,7 +76,7 @@ namespace Files
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            await Windows.System.Launcher.LaunchUriAsync(ViewModel.Geopoint.Address != null ? new Uri(String.Format(@"bingmaps:?where={0}", ViewModel.Geopoint.Address.FormattedAddress)) : new Uri(String.Format(@"bingmaps:?cp={0}~{1}", ViewModel.Latitude, ViewModel.Longitude)),
+            await Windows.System.Launcher.LaunchUriAsync(ViewModel.Geopoint != null ? new Uri(String.Format(@"bingmaps:?where={0}", ViewModel.Geopoint.Address.FormattedAddress)) : new Uri(String.Format(@"bingmaps:?cp={0}~{1}", ViewModel.Latitude, ViewModel.Longitude)),
                 new Windows.System.LauncherOptions() { TargetApplicationPackageFamilyName = "Microsoft.WindowsMaps_8wekyb3d8bbwe" });
             
         }
