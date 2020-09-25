@@ -207,11 +207,11 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row ="0" Style="{StaticResource PropertyTextBlock}" Text="Error"/>
-                <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.DevKeyError, Mode=TwoWay}"/>
+                <TextBlock Grid.Row ="0" Style="{StaticResource PropertyTextBlock}" Text="Title"/>
+                <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RW['System.Title'], Mode=TwoWay}"/>
 
-                <TextBlock Grid.Row ="1" Style="{StaticResource PropertyTextBlock}" Text="Key"/>
-                <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.DevKey, Mode=TwoWay}"/>
+                <TextBlock Grid.Row ="1" Style="{StaticResource PropertyTextBlock}" Text="Subject"/>
+                <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RW['System.Subject'], Mode=TwoWay}"/>
 
                 <TextBlock Grid.Row ="7" Style="{StaticResource PropertyTextBlock}" Text="Rating"/>
                 <TextBox Grid.Row="7" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RO['System.Rating'].ToString(), Mode=OneWay}" IsReadOnly="True"/>
