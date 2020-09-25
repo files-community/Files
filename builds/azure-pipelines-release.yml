@@ -30,7 +30,6 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: '$(system.defaultworkingdirectory)'
     Contents: '$(mapsDevKey.secureFilePath)'
     TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
     overWrite: true
