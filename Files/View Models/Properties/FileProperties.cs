@@ -36,6 +36,16 @@ namespace Files.View_Models.Properties
 
         private readonly List<string> PropertiesToGet_RO = new List<string>()
         {
+            //Core
+            "System.Rating",
+            "System.ItemFolderPathDisplay",
+            "System.DateCreated",
+            "System.DateModified",
+            "System.Size",
+            "System.ItemTypeText",
+            "System.FileOwner",
+
+            //Image
             "System.Image.BitDepth",
             "System.Image.Dimensions",
             "System.Image.HorizontalResolution",
@@ -45,24 +55,25 @@ namespace Files.View_Models.Properties
             "System.Image.HorizontalSize",
             "System.Image.VerticalSize",
 
+            //GPS
             "System.GPS.Latitude",
             "System.GPS.LatitudeRef",
             "System.GPS.Longitude",
             "System.GPS.LongitudeRef",
             "System.GPS.Altitude",
 
+            //Photo
             "System.Photo.ExposureTime",
             "System.Photo.FocalLength",
             "System.Photo.Aperture",
             "System.Photo.DateTaken",
 
-            "System.Rating",
-            "System.ItemFolderPathDisplay",
-            "System.DateCreated",
-            "System.DateModified",
-            "System.Size",
-            "System.ItemTypeText",
-            "System.FileOwner",
+            //Audio
+            "System.Audio.ChannelCount",
+            "System.Audio.EncodingBitrate",
+            "System.Audio.Compression",
+            "System.Audio.Format",
+            "System.Audio.SampleRate",
 
         };
 
@@ -315,6 +326,7 @@ namespace Files.View_Models.Properties
             ViewModel.DetailsSectionVisibility_GPS = GetVisibility("System.GPS", ViewModel.SystemFileProperties_RO) ? Visibility.Visible : Visibility.Collapsed;
             ViewModel.DetailsSectionVisibility_Photo = GetVisibility("System.Photo", ViewModel.SystemFileProperties_RO) && GetVisibility("System.Photo", ViewModel.SystemFileProperties_RW) ? Visibility.Visible : Visibility.Collapsed;
             ViewModel.DetailsSectionVisibility_Image = GetVisibility("System.Image", ViewModel.SystemFileProperties_RO) ? Visibility.Visible : Visibility.Collapsed;
+            ViewModel.DetailsSectionVisibility_Audio = GetVisibility("System.Audio", ViewModel.SystemFileProperties_RO) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private bool GetVisibility(string endpoint, IDictionary<string, object> dict)

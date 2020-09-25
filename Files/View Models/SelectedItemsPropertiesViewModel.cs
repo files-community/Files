@@ -732,5 +732,12 @@ namespace Files.View_Models
             get => _DetailsSectionVisibility_Photo;
             set => SetProperty(ref _DetailsSectionVisibility_Photo, value);
         }
+
+        private Visibility _DetailsSectionVisibility_Audio;
+        public Visibility DetailsSectionVisibility_Audio
+        {
+            get => _DetailsSectionVisibility_Audio;
+            set => SetProperty(ref _DetailsSectionVisibility_Audio, value);
+        }
     }
 }
