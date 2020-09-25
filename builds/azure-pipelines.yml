@@ -28,13 +28,12 @@ steps:
   inputs:
     secureFile: 'BingMapsKey.txt'
 
-- task: PowerShell@2
+- task: CopyFiles@2
   inputs:
-    targetType: 'inline'
-    script: |
-      Copy-Item $(mapsDevKey.secureFilePath)
-      -Destination $(Build.SourcesDirectory)\Files\Resources
-    failOnStderr: true
+    SourceFolder: '$(Agent.TempDirectory)'
+    Contents: '$(mapsDevKey.secureFilePath)'
+    TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
+    overWrite: true
 
 - task: NuGetToolInstaller@1
 
