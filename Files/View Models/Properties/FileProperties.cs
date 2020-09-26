@@ -383,13 +383,6 @@ namespace Files.View_Models.Properties
         public async void SyncPropertyChanges()
         {
             StorageFile file = null;
-            try
-            {
-            }
-            catch
-            {
-                return;
-            }
 
             try
             {

@@ -15,6 +15,7 @@
 
     <Page.Resources>
         <converters:StringArrayToString x:Key="StringArrayToString"/>
+        <converters:UInt32ToString x:Key="UInt32ToString"/>
         
         
         <Style x:Key="PropertyTextBlock" TargetType="TextBlock">
@@ -451,7 +452,7 @@
                 <TextBox Grid.Row ="10" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.Genre'], Mode=TwoWay, Converter={StaticResource StringArrayToString}}"/>
 
                 <TextBlock Grid.Row ="11" Style="{StaticResource PropertyTextBlock}" Text="Track Number"/>
-                <TextBox Grid.Row ="11" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.TrackNumber'].ToString(), Mode=OneWay}"/>
+                <TextBox Grid.Row ="11" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.TrackNumber'], Converter={StaticResource UInt32ToString}, Mode=TwoWay}"/>
             </Grid>
 
             <Button x:Name="ClearPersonalInformation" Margin="0, 10, 0, 0" Grid.Row="25" Content="Clear All Personal Information" HorizontalAlignment="Stretch">
