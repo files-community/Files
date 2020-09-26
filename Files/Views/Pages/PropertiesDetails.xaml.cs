@@ -63,6 +63,23 @@ namespace Files
             if (extension.Contains("png") || extension.Contains("jpg") || extension.Contains("png") || extension.Contains("gif") || extension.Contains("jpeg"))
                 OverviewImage.Visibility = Visibility.Visible;
         }
+        
+        private string GetStringArray(object array)
+        {
+            if (array == null || !(array is string[]))
+                return "";
+
+            var str = "";
+            foreach (var i in array as string[])
+                str += string.Format("{0}; ", i);
+
+            return str;
+        }
+
+        private void SetStringArray(string val, string key)
+        {
+            ViewModel.SystemFileProperties_RW[key] = val.Split("; ");
+        }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

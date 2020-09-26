@@ -6,13 +6,17 @@
     xmlns:local="using:Files.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:filesystem="using:Files.Filesystem"
     xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
-    xmlns:sys="using:System"
+    xmlns:convert="using:System.Convert" xmlns:usercontrols="using:Files.UserControls" 
+    xmlns:converters="using:Files.Converters"
     Loaded="Properties_Loaded"
     mc:Ignorable="d"
     Name="Page"
     d:DesignHeight="3000">
 
     <Page.Resources>
+        <converters:StringArrayToString x:Key="StringArrayToString"/>
+        
+        
         <Style x:Key="PropertyTextBlock" TargetType="TextBlock">
             <Setter Property="Grid.Column" Value="0"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
@@ -409,6 +413,7 @@
                     <RowDefinition/>
                     <RowDefinition/>
                     <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="{Binding ElementName=TopColumn, Path=Width, Mode=OneWay}" />
@@ -425,25 +430,28 @@
                 <TextBox Grid.Row ="2" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.AlbumID'], Mode=TwoWay}"/>
 
                 <TextBlock Grid.Row ="3" Style="{StaticResource PropertyTextBlock}" Text="Artist"/>
-                <TextBox Grid.Row ="3" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.Artist'], Mode=OneWay}"/>
+                <TextBox Grid.Row ="3" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.Artist'], Mode=TwoWay, Converter={StaticResource StringArrayToString}}"/>
 
                 <TextBlock Grid.Row ="4" Style="{StaticResource PropertyTextBlock}" Text="Beats Per Minute"/>
                 <TextBox Grid.Row ="4" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.BeatsPerMinute'], Mode=TwoWay}"/>
 
-                <TextBlock Grid.Row ="6" Style="{StaticResource PropertyTextBlock}" Text="Conductor"/>
-                <TextBox Grid.Row ="6" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.Conductor'], Mode=TwoWay}"/>
+                <TextBlock Grid.Row ="6" Style="{StaticResource PropertyTextBlock}" Text="Composer"/>
+                <TextBox Grid.Row ="6" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.Composer'], Mode=TwoWay, Converter={StaticResource StringArrayToString}}"/>
+                
+                <TextBlock Grid.Row ="7" Style="{StaticResource PropertyTextBlock}" Text="Conductor"/>
+                <TextBox Grid.Row ="7" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.Conductor'], Mode=TwoWay, Converter={StaticResource StringArrayToString}}"/>
 
-                <TextBlock Grid.Row ="7" Style="{StaticResource PropertyTextBlock}" Text="Disc Number"/>
-                <TextBox Grid.Row ="7" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.DiscNumber'], Mode=TwoWay}"/>
+                <TextBlock Grid.Row ="8" Style="{StaticResource PropertyTextBlock}" Text="Disc Number"/>
+                <TextBox Grid.Row ="8" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.DiscNumber'], Mode=TwoWay}"/>
 
-                <TextBlock Grid.Row ="8" Style="{StaticResource PropertyTextBlock}" Text="Display Artist"/>
-                <TextBox Grid.Row ="8" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RO['System.Music.DisplayArtist'], Mode=TwoWay}" IsReadOnly="True"/>
+                <TextBlock Grid.Row ="9" Style="{StaticResource PropertyTextBlock}" Text="Display Artist"/>
+                <TextBox Grid.Row ="9" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RO['System.Music.DisplayArtist'], Mode=TwoWay}" IsReadOnly="True"/>
 
-                <TextBlock Grid.Row ="9" Style="{StaticResource PropertyTextBlock}" Text="Genre"/>
-                <TextBox Grid.Row ="9" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.Genre'], Mode=TwoWay}"/>
+                <TextBlock Grid.Row ="10" Style="{StaticResource PropertyTextBlock}" Text="Genre"/>
+                <TextBox Grid.Row ="10" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.Genre'], Mode=TwoWay, Converter={StaticResource StringArrayToString}}"/>
 
-                <TextBlock Grid.Row ="10" Style="{StaticResource PropertyTextBlock}" Text="Track Number"/>
-                <TextBox Grid.Row ="10" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.TrackNumber'], Mode=TwoWay}"/>
+                <TextBlock Grid.Row ="11" Style="{StaticResource PropertyTextBlock}" Text="Track Number"/>
+                <TextBox Grid.Row ="11" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.TrackNumber'].ToString(), Mode=OneWay}"/>
             </Grid>
 
             <Button x:Name="ClearPersonalInformation" Margin="0, 10, 0, 0" Grid.Row="25" Content="Clear All Personal Information" HorizontalAlignment="Stretch">
