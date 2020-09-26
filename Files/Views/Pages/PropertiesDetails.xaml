@@ -428,7 +428,7 @@
                 <TextBox Grid.Row ="1" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.AlbumTitle'], Mode=TwoWay}"/>
 
                 <TextBlock Grid.Row ="2" Style="{StaticResource PropertyTextBlock}" Text="AlbumID"/>
-                <TextBox Grid.Row ="2" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.AlbumID'], Mode=TwoWay}"/>
+                <TextBox Grid.Row ="2" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RO['System.Music.AlbumID'], Mode=OneWay}" IsReadOnly="True"/>
 
                 <TextBlock Grid.Row ="3" Style="{StaticResource PropertyTextBlock}" Text="Artist"/>
                 <TextBox Grid.Row ="3" Style="{StaticResource ValueTextBox}" Text="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.Artist'], Mode=TwoWay, Converter={StaticResource StringArrayToString}}"/>

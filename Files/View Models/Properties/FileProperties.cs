@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
@@ -76,6 +77,7 @@ namespace Files.View_Models.Properties
             "System.Audio.SampleRate",
 
             //Music
+            "System.Music.AlbumID",
             "System.Music.DisplayArtist",
         };
 
@@ -94,7 +96,6 @@ namespace Files.View_Models.Properties
             //Music
             "System.Music.AlbumArtist",
             "System.Music.AlbumTitle",
-            "System.Music.AlbumID",
             "System.Music.Artist",
             "System.Music.BeatsPerMinute",
             "System.Music.Composer",
@@ -314,11 +315,12 @@ namespace Files.View_Models.Properties
                 try
                 {
                     result = await GetAddressFromCoordinates((double)ViewModel.Latitude, (double)ViewModel.Longitude);
-                    if(result != null)
+                    if (result != null)
                     {
                         ViewModel.Geopoint = result.Locations[0];
                         ViewModel.GeopointString = string.Format("{0}, {1}", result.Locations[0].Address.Town.ToString(), result.Locations[0].Address.Region.ToString());
-                    } else
+                    }
+                    else
                     {
                         ViewModel.GeopointString = string.Format("{0}, {1}", ViewModel.Latitude, ViewModel.Longitude);
                     }
@@ -387,11 +389,34 @@ namespace Files.View_Models.Properties
             try
             {
                 file = await ItemViewModel.GetFileFromPathAsync(Item.ItemPath);
+                //SavePropertiesAsyncDebug(file);
                 await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_RW);
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.ToString());
+            }
+        }
+
+        /// <summary>
+        /// This function is for debug purposes, use it to debug "incorrect parameter" errors.
+        /// </summary>
+        /// <param name="file"></param>
+        private async void SavePropertiesAsyncDebug(StorageFile file)
+        {
+            foreach (KeyValuePair<string, object> valuePair in ViewModel.SystemFileProperties_RW)
+            {
+                var newDict = new Dictionary<string, object>();
+                newDict.Add(valuePair.Key, valuePair.Value);
+
+                try
+                {
+                    await file.Properties.SavePropertiesAsync(newDict);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(string.Format("{0}\n{1}", valuePair.Key, e.ToString()));
+                }
             }
         }
 
