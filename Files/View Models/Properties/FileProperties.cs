@@ -30,7 +30,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.View_Models.Properties
 {
-    internal class FileProperties : BaseProperties
+    public class FileProperties : BaseProperties
     {
         private ProgressBar ProgressBar;
 
@@ -75,17 +75,33 @@ namespace Files.View_Models.Properties
             "System.Audio.Format",
             "System.Audio.SampleRate",
 
+            //Music
+            "System.Music.DisplayArtist",
         };
 
         private readonly List<string> PropertiesToGet_RW = new List<string>()
         {
+            //Core
             "System.Title",
             "System.Subject",
             "System.Comment",
             "System.Copyright",
 
+            //Photo
             "System.Photo.CameraManufacturer",
             "System.Photo.CameraModel",
+
+            //Music
+            "System.Music.AlbumArtist",
+            "System.Music.AlbumTitle",
+            "System.Music.AlbumID",
+            "System.Music.Artist",
+            "System.Music.BeatsPerMinute",
+            "System.Music.Composer",
+            "System.Music.Conductor",
+            "System.Music.DiscNumber",
+            "System.Music.Genre",
+            "System.Music.TrackNumber",
         };
 
         /// <summary>
@@ -238,8 +254,6 @@ namespace Files.View_Models.Properties
                 NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                 ViewModel.ItemMD5HashCalcError = true;
             }
-
-            GetSystemFileProperties();
         }
 
         public async void GetSystemFileProperties()
@@ -327,6 +341,7 @@ namespace Files.View_Models.Properties
             ViewModel.DetailsSectionVisibility_Photo = GetVisibility("System.Photo", ViewModel.SystemFileProperties_RO) && GetVisibility("System.Photo", ViewModel.SystemFileProperties_RW) ? Visibility.Visible : Visibility.Collapsed;
             ViewModel.DetailsSectionVisibility_Image = GetVisibility("System.Image", ViewModel.SystemFileProperties_RO) ? Visibility.Visible : Visibility.Collapsed;
             ViewModel.DetailsSectionVisibility_Audio = GetVisibility("System.Audio", ViewModel.SystemFileProperties_RO) ? Visibility.Visible : Visibility.Collapsed;
+            ViewModel.DetailsSectionVisibility_Audio = GetVisibility("System.Music", ViewModel.SystemFileProperties_RO) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private bool GetVisibility(string endpoint, IDictionary<string, object> dict)

@@ -739,5 +739,12 @@ namespace Files.View_Models
             get => _DetailsSectionVisibility_Audio;
             set => SetProperty(ref _DetailsSectionVisibility_Audio, value);
         }
+
+        private Visibility _DetailsSectionVisibility_Music;
+        public Visibility DetailsSectionVisibility_Music
+        {
+            get => _DetailsSectionVisibility_Music;
+            set => SetProperty(ref _DetailsSectionVisibility_Music, value);
+        }
     }
 }

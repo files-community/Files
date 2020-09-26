@@ -6,6 +6,7 @@ using Microsoft.Toolkit.Uwp.UI.Converters;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -33,7 +34,7 @@ namespace Files
     /// </summary>
     public sealed partial class PropertiesDetails : Page
     {
-        public BaseProperties BaseProperties { get; set; }
+        public FileProperties BaseProperties { get; set; }
 
         public SelectedItemsPropertiesViewModel ViewModel { get; set; }
 
@@ -47,6 +48,10 @@ namespace Files
             if (BaseProperties != null)
             {
                 BaseProperties.GetSpecialProperties();
+                Stopwatch stopwatch = System.Diagnostics.Stopwatch.StartNew();
+                BaseProperties.GetSystemFileProperties();
+                stopwatch.Stop();
+                Debug.WriteLine(string.Format("System file properties were obtained in {0} milliseconds", stopwatch.ElapsedMilliseconds));
             }
         }
 
