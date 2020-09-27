@@ -486,7 +486,7 @@ namespace FilesFullTrust
                     var responseQuery = new ValueSet();
                     Shell32.SHQUERYRBINFO queryBinInfo = new Shell32.SHQUERYRBINFO();
                     queryBinInfo.cbSize = (uint)Marshal.SizeOf(queryBinInfo);
-                    var res = Shell32.SHQueryRecycleBin(null, ref queryBinInfo);
+                    var res = Shell32.SHQueryRecycleBin("", ref queryBinInfo);
                     if (res == HRESULT.S_OK)
                     {
                         var numItems = queryBinInfo.i64NumItems;
