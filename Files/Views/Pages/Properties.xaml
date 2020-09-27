@@ -43,7 +43,7 @@
             PaneDisplayMode="Top"
             SelectionChanged="NavigationView_SelectionChanged"
             SelectionFollowsFocus="Enabled">
-            
+
             <!--  Tabs  -->
             <muxc:NavigationView.MenuItems>
                 <muxc:NavigationViewItem
