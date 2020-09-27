@@ -544,6 +544,7 @@
             PreparingCellForEdit="AllView_PreparingCellForEdit"
             PreviewKeyDown="AllView_PreviewKeyDown"
             RightTapped="AllView_RightTapped"
+            Holding="AllView_Holding"
             RowDetailsVisibilityMode="Collapsed"
             ScrollViewer.IsScrollInertiaEnabled="True"
             SelectionChanged="AllView_SelectionChanged"
