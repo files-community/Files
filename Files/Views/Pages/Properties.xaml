@@ -14,6 +14,11 @@
     Unloaded="Properties_Unloaded"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
+        <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
+    </Page.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
