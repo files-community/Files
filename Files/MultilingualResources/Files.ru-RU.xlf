@@ -356,8 +356,8 @@
           <target state="translated">Свойства</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
-          <source>QuickLook:</source>
-          <target state="new">QuickLook:</target>
+          <source>QuickLook</source>
+          <target state="new">QuickLook</target>
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewFolder.Text" translate="yes" xml:space="preserve">
           <source>Folder</source>
