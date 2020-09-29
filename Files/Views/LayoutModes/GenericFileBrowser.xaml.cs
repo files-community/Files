@@ -330,10 +330,19 @@ namespace Files
 
         private async void AllView_Sorting(object sender, DataGridColumnEventArgs e)
         {
+            bool hasNoSorting = e.Column.SortDirection == null;
+
             if (e.Column == SortedColumn)
                 App.CurrentInstance.FilesystemViewModel.IsSortedAscending = !App.CurrentInstance.FilesystemViewModel.IsSortedAscending;
             else if (e.Column != iconColumn)
                 SortedColumn = e.Column;
+
+            if (hasNoSorting) // This must be the first because the value of DataGridSortDirection.Ascending is 0
+                e.Column.SortDirection = DataGridSortDirection.Ascending;
+            else if (e.Column.SortDirection == DataGridSortDirection.Ascending)
+                e.Column.SortDirection = DataGridSortDirection.Descending;
+            else if (e.Column.SortDirection == DataGridSortDirection.Descending)
+                e.Column.SortDirection = DataGridSortDirection.Ascending;
 
             if (!AssociatedViewModel.IsLoadingItems && AssociatedViewModel.FilesAndFolders.Count > 0)
             {
