@@ -129,7 +129,7 @@
       <Version>6.2.10</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.7.4</Version>
+      <Version>4.7.5</Version>
     </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
