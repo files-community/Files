@@ -1,4 +1,5 @@
 ﻿using ByteSizeLib;
+using Files.Converters;
 using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Graphics.Canvas.Text;
@@ -79,6 +80,12 @@ namespace Files.View_Models.Properties
             //Music
             "System.Music.AlbumID",
             "System.Music.DisplayArtist",
+
+            //Media
+            "System.Media.AverageLevel",
+            "System.Media.Duration",
+            "System.Media.FrameCount",
+            "System.Media.ProtectionType",
         };
 
         private readonly List<string> PropertiesToGet_RW = new List<string>()
@@ -103,6 +110,32 @@ namespace Files.View_Models.Properties
             "System.Music.DiscNumber",
             "System.Music.Genre",
             "System.Music.TrackNumber",
+
+            //Media
+            "System.Media.AuthorUrl",
+            "System.Media.ContentDistributor",
+            "System.Media.CreatorApplication",
+            "System.Media.DateReleased",
+            "System.Media.DlnaProfileID",
+            "System.Media.DVDID",
+            "System.Media.EncodedBy",
+            "System.Media.EncodingSettings",
+            "System.Media.SeriesName",
+            "System.Media.SeasonNumber",
+            "System.Media.EpisodeNumber",
+            "System.Media.MCDI",
+            "System.Media.Producer",
+            "System.Media.PromotionUrl",
+            "System.Media.ProviderStyle",
+            "System.Media.Publisher",
+            "System.Media.ThumbnailLargePath",
+            "System.Media.ThumbnailLargeUri",
+            "System.Media.ThumbnailSmallPath",
+            "System.Media.ThumbnailSmallUri",
+            "System.Media.UniqueFileIdentifier",
+            "System.Media.UserWebUrl",
+            "System.Media.Writer",
+            "System.Media.Year",
         };
 
         /// <summary>
@@ -278,6 +311,7 @@ namespace Files.View_Models.Properties
             {
                 ViewModel.SystemFileProperties_RO = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RO);
                 ViewModel.SystemFileProperties_RW = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RW);
+                //GetPropertiesAsyncDebug(file);
             }
             catch (Exception e)
             {
@@ -339,14 +373,20 @@ namespace Files.View_Models.Properties
 
         private void SetVisibilities()
         {
-            ViewModel.DetailsSectionVisibility_GPS = GetVisibility("System.GPS", ViewModel.SystemFileProperties_RO) ? Visibility.Visible : Visibility.Collapsed;
-            ViewModel.DetailsSectionVisibility_Photo = GetVisibility("System.Photo", ViewModel.SystemFileProperties_RO) && GetVisibility("System.Photo", ViewModel.SystemFileProperties_RW) ? Visibility.Visible : Visibility.Collapsed;
-            ViewModel.DetailsSectionVisibility_Image = GetVisibility("System.Image", ViewModel.SystemFileProperties_RO) ? Visibility.Visible : Visibility.Collapsed;
-            ViewModel.DetailsSectionVisibility_Audio = GetVisibility("System.Audio", ViewModel.SystemFileProperties_RO) ? Visibility.Visible : Visibility.Collapsed;
-            ViewModel.DetailsSectionVisibility_Audio = GetVisibility("System.Music", ViewModel.SystemFileProperties_RO) ? Visibility.Visible : Visibility.Collapsed;
+            ViewModel.DetailsSectionVisibility_GPS = CheckVisibility("System.GPS");
+            ViewModel.DetailsSectionVisibility_Photo = CheckVisibility("System.Photo");
+            ViewModel.DetailsSectionVisibility_Image = CheckVisibility("System.Image");
+            ViewModel.DetailsSectionVisibility_Audio = CheckVisibility("System.Audio");
+            ViewModel.DetailsSectionVisibility_Music = CheckVisibility("System.Music");
+            ViewModel.DetailsSectionVisibility_Media = CheckVisibility("System.Media");
         }
 
-        private bool GetVisibility(string endpoint, IDictionary<string, object> dict)
+        private Visibility CheckVisibility(string endpoint)
+        {
+            return CheckVisibilityHelper(endpoint, ViewModel.SystemFileProperties_RO) && CheckVisibilityHelper(endpoint, ViewModel.SystemFileProperties_RW) ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private bool CheckVisibilityHelper(string endpoint, IDictionary<string, object> dict)
         {
             foreach (KeyValuePair<string, object> pair in dict)
                 if (pair.Key.Contains(endpoint) && pair.Value != null)
@@ -416,6 +456,53 @@ namespace Files.View_Models.Properties
                 catch (Exception e)
                 {
                     Debug.WriteLine(string.Format("{0}\n{1}", valuePair.Key, e.ToString()));
+                }
+            }
+        }
+
+        /// <summary>
+        /// This function is for debug purposes only. 
+        /// </summary>
+        /// <param name="file"></param>
+        private async void GetPropertiesAsyncDebug(StorageFile file)
+        {
+            foreach (var item in PropertiesToGet_RW)
+            {
+                IDictionary<string, object> result;
+                try
+                {
+                    var temp = new List<string>()
+                {
+                    item
+                };
+                    result = (await file.Properties.RetrievePropertiesAsync(temp));
+                    var tempDict = ViewModel.SystemFileProperties_RW;
+                    tempDict[item] = result[item];
+                    ViewModel.SystemFileProperties_RW = tempDict;
+                }
+                catch (Exception reee)
+                {
+                    Debug.WriteLine(string.Format("{0}\n{1}", item, reee.ToString()));
+                }
+            }
+
+            foreach (var item in PropertiesToGet_RO)
+            {
+                IDictionary<string, object> result;
+                try
+                {
+                    var temp = new List<string>()
+                {
+                    item
+                };
+                    result = (await file.Properties.RetrievePropertiesAsync(temp));
+                    var tempDict = ViewModel.SystemFileProperties_RO;
+                    tempDict[item] = result[item];
+                    ViewModel.SystemFileProperties_RO = tempDict;
+                }
+                catch (Exception reee)
+                {
+                    Debug.WriteLine(string.Format("{0}\n{1}", item, reee.ToString()));
                 }
             }
         }

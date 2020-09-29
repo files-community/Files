@@ -1,6 +1,7 @@
 ﻿using Files.Filesystem;
 using Files.View_Models;
 using Files.View_Models.Properties;
+using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Converters;
 using System;
@@ -37,6 +38,7 @@ namespace Files
         public FileProperties BaseProperties { get; set; }
 
         public SelectedItemsPropertiesViewModel ViewModel { get; set; }
+
 
         public PropertiesDetails()
         {

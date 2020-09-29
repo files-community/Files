@@ -2,6 +2,7 @@ using ByteSizeLib;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.View_Models.Properties;
+using Files.Views.Pages;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Helpers;
@@ -745,6 +746,13 @@ namespace Files.View_Models
         {
             get => _DetailsSectionVisibility_Music;
             set => SetProperty(ref _DetailsSectionVisibility_Music, value);
+        }
+
+        private Visibility _DetailsSectionVisibility_Media;
+        public Visibility DetailsSectionVisibility_Media
+        {
+            get => _DetailsSectionVisibility_Media;
+            set => SetProperty(ref _DetailsSectionVisibility_Media, value);
         }
     }
 }
