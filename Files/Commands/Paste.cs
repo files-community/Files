@@ -53,14 +53,15 @@ namespace Files.Commands
 
         private static async Task PasteItem(DataPackageView packageView, string destinationPath, DataPackageOperation acceptedOperation, IShellPage AppInstance, IProgress<uint> progress)
         {
-            IReadOnlyList<IStorageItem> itemsToPaste = await packageView.GetStorageItemsAsync();
-
             if (!packageView.Contains(StandardDataFormats.StorageItems))
             {
                 // Happens if you copy some text and then you Ctrl+V in FilesUWP
                 // Should this be done in ModernShellPage?
                 return;
             }
+            
+            IReadOnlyList<IStorageItem> itemsToPaste = await packageView.GetStorageItemsAsync();
+
             if (AppInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
             {
                 // Do not paste files and folders inside the recycle bin
