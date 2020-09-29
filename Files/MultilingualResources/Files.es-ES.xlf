@@ -327,8 +327,9 @@
           <target state="translated">Propiedades</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
-          <source>QuickLook:</source>
-          <target state="translated">QuickLook:</target>
+          <source>QuickLook</source>
+          <target state="needs-review-translation">QuickLook:</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewWindow.Text" translate="yes" xml:space="preserve">
           <source>New Window</source>

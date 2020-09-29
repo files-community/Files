@@ -468,8 +468,8 @@
           <target state="translated">பண்புகள்</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="no" xml:space="preserve">
-          <source>QuickLook:</source>
-          <target state="final">QuickLook:</target>
+          <source>QuickLook</source>
+          <target state="final">QuickLook</target>
         </trans-unit>
         <trans-unit id="WelcomeDialog.Title" translate="yes" xml:space="preserve">
           <source>Welcome to Files!</source>
