@@ -21,7 +21,12 @@ namespace Files.UserControls
 {
     public sealed partial class PropertyListItem : UserControl
     {
-        public GridLength ColumnWidth { get; set; }
+        public static readonly DependencyProperty ColumnWidthProperty = DependencyProperty.Register("ColumnWidth", typeof(GridLength), typeof(PropertyListItem), null);
+        public GridLength ColumnWidth
+        {
+            get => (GridLength)GetValue(ColumnWidthProperty);
+            set => SetValue(ColumnWidthProperty, (GridLength)value);
+        }
 
         public string Text { get; set; }
 

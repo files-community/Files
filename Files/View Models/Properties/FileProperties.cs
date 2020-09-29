@@ -80,6 +80,7 @@ namespace Files.View_Models.Properties
             //Music
             "System.Music.AlbumID",
             "System.Music.DisplayArtist",
+            "System.Media.CreatorApplication",
 
             //Media
             "System.Media.AverageLevel",
@@ -114,7 +115,6 @@ namespace Files.View_Models.Properties
             //Media
             "System.Media.AuthorUrl",
             "System.Media.ContentDistributor",
-            "System.Media.CreatorApplication",
             "System.Media.DateReleased",
             "System.Media.DlnaProfileID",
             "System.Media.DVDID",
@@ -307,6 +307,7 @@ namespace Files.View_Models.Properties
 
             //IDictionary<string, object> ViewModel.SystemFileProperties;
 
+            //GenerateXAMLCode();
             try
             {
                 ViewModel.SystemFileProperties_RO = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RO);
@@ -530,6 +531,44 @@ namespace Files.View_Models.Properties
             await file.Properties.SavePropertiesAsync(dict);
 
             GetSpecialProperties();
+        }
+
+        private void GenerateXAMLCode()
+        {
+            var PropsToGen = new List<string>()
+            {
+                "System.Media.AuthorUrl",
+                "System.Media.ContentDistributor",
+                "System.Media.CreatorApplication",
+                "System.Media.DateReleased",
+                "System.Media.DlnaProfileID",
+                "System.Media.DVDID",
+                "System.Media.EncodedBy",
+                "System.Media.EncodingSettings",
+                "System.Media.SeriesName",
+                "System.Media.SeasonNumber",
+                "System.Media.EpisodeNumber",
+                "System.Media.MCDI",
+                "System.Media.Producer",
+                "System.Media.PromotionUrl",
+                "System.Media.ProviderStyle",
+                "System.Media.Publisher",
+                "System.Media.ThumbnailLargePath",
+                "System.Media.ThumbnailLargeUri",
+                "System.Media.ThumbnailSmallPath",
+                "System.Media.ThumbnailSmallUri",
+                "System.Media.UniqueFileIdentifier",
+                "System.Media.UserWebUrl",
+                "System.Media.Writer",
+                "System.Media.Year",
+            };
+
+            foreach (var item in PropsToGen)
+            {
+                var array = item.Split(".");
+                var text = array[array.Length - 1];
+                Debug.WriteLine(string.Format("<usercontrols:PropertyListItem Text=\"{1}\" ValueText=\"{{x:Bind ViewModel.SystemFileProperties_RW['{0}'], Mode=TwoWay}}\"/>", item, text));
+            }
         }
 
         private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

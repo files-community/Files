@@ -11,7 +11,9 @@ namespace Files.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return value.ToString();
+            if(value != null)
+                return value.ToString();
+            return "";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
@@ -22,7 +24,7 @@ namespace Files.Converters
             }
             catch (FormatException e)
             {
-                return (UInt32) 0;
+                return null;
             }
         }
     }
