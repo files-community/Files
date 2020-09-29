@@ -288,6 +288,12 @@ namespace FilesFullTrust
 
             private static string GetCommandString(Shell32.IContextMenu cMenu, uint offset, Shell32.GCS flags = Shell32.GCS.GCS_VERBW)
             {
+                if (offset > 5000)
+                {
+                    // Hackish workaround to avoid an AccessViolationException on some items, 
+                    // notably the "Run with graphic processor" menu item of NVidia cards
+                    return null;
+                }
                 SafeCoTaskMemString commandString = null;
                 try
                 {
