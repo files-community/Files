@@ -253,7 +253,7 @@
     <value>Eigenschaften</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>QuickLook:</value>
+    <value>QuickLook</value>
   </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
     <value>Neues Fenster</value>
@@ -511,13 +511,13 @@
     <value>Die Datei die sie löschen möchten wird derzeitig von einer anderen Anwendung verwendet.</value>
   </data>
   <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
-    <value>Datei wird bereits verwendet.</value>
+    <value>Datei wird bereits verwendet</value>
   </data>
   <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
     <value>Erneut versuchen</value>
   </data>
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Ja</value>
+    <value>OK</value>
   </data>
   <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
     <value>Schreibgeschützt</value>
@@ -855,6 +855,24 @@
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
     <value>Teilen {0} {1}</value>
   </data>
+  <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
+    <value>Das Element, das Sie umbenennen möchten, ist nicht mehr vorhanden. Bitte überprüfen Sie den richtigen Speicherort des Elements, das Sie umbenennen möchten.</value>
+  </data>
+  <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
+    <value>Das Element exisitert nicht mehr</value>
+  </data>
+  <data name="RenameError.NameInvalid.Text" xml:space="preserve">
+    <value>Der angegebene Dateiname war ungültig. Bitte überprüfen Sie den gewünschten Elementnamen und versuchen Sie es erneut.</value>
+  </data>
+  <data name="RenameError.NameInvalid.Title" xml:space="preserve">
+    <value>Ungültiger Dateiname</value>
+  </data>
+  <data name="RenameError.TooLong.Text" xml:space="preserve">
+    <value>Die Länge des angegebenen Elementnamens überschreitet den Grenzwert. Bitte überprüfen Sie den gewünschten Namen und versuchen Sie es erneut.</value>
+  </data>
+  <data name="RenameError.TooLong.Title" xml:space="preserve">
+    <value>Der Elementname war zu lang</value>
+  </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Mehr</value>
   </data>
@@ -908,5 +926,14 @@
   </data>
   <data name="VerticalTabViewHeader.Text" xml:space="preserve">
     <value>Geöffnete Tabs</value>
+  </data>
+  <data name="ButtonNo.Content" xml:space="preserve">
+    <value>Nein</value>
+  </data>
+  <data name="ButtonYes.Content" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="RestartNotificationText.Text" xml:space="preserve">
+    <value>Die Anwendung muss neugestartet werden, um die Spracheinstellungen zu übernehmen. Möchten Sie die Anwendung jetzt neustarten?</value>
   </data>
 </root>

@@ -855,7 +855,7 @@
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
     <value>Compartilhando {0} {1}</value>
   </data>
-   <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
+  <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
     <value>O item que você está tentando renomear não existe mais. Verifique a localização correta do item que você precisa renomear.</value>
   </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
@@ -879,15 +879,6 @@
   <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
     <value>Mostrar todos os itens do menu de contexto</value>
   </data>
-    <data name="ButtonNo.Content" xml:space="preserve">
-    <value>Não</value>
-  </data>
-  <data name="ButtonYes.Content" xml:space="preserve">
-    <value>Sim</value>
-  </data>
-  <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>O aplicativo precisa ser reiniciado para aplicar a configuração de idioma. Deseja reiniciar o aplicativo?</value>
-  </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Cancelar</value>
   </data>
@@ -896,12 +887,6 @@
   </data>
   <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
     <value>Tem certeza de que deseja excluir estes {0} itens?</value>
-  </data>
-    <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
-    <value>Adicionar guia</value>
-  </data>
-  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
-    <value>Abrir guias</value>
   </data>
   <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
     <value>Adaptável (recomendado)</value>
@@ -935,5 +920,20 @@
   </data>
   <data name="SettingsPreferencesCopyLocation.Text" xml:space="preserve">
     <value>Mostra uma opção para copiar o caminho do item selecionado</value>
+  </data>
+  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
+    <value>Adicionar guia</value>
+  </data>
+  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
+    <value>Abrir guias</value>
+  </data>
+  <data name="ButtonNo.Content" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="ButtonYes.Content" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="RestartNotificationText.Text" xml:space="preserve">
+    <value>O aplicativo precisa ser reiniciado para aplicar a configuração de idioma. Deseja reiniciar o aplicativo?</value>
   </data>
 </root>
