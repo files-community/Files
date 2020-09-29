@@ -486,9 +486,6 @@
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>לאחרונה</value>
   </data>
-  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>נדרשת הפעלה מחדש</value>
-  </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>מצב</value>
   </data>

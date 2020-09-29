@@ -3,7 +3,6 @@ using Files.Controllers;
 using Files.Controls;
 using Files.Filesystem;
 using Files.UserControls;
-using Files.UserControls.MultiTaskingControl;
 using Files.View_Models;
 using Files.Views.Pages;
 using System;

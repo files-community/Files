@@ -21,7 +21,7 @@ namespace Files.UserControls
         }
 
         /// <summary>
-        /// Posts a new banner to the Status Center control for an operation. 
+        /// Posts a new banner to the Status Center control for an operation.
         /// It may be used to return the progress, success, or failure of the respective operation.
         /// </summary>
         /// <param name="title">Reserved for success and error banners. Otherwise, pass an empty string for this argument.</param>
@@ -60,6 +60,7 @@ namespace Files.UserControls
             var itemToDismiss = (sender as Button).DataContext as StatusBanner;
             StatusBannersSource.Remove(itemToDismiss);
         }
+
         // Primary action button click
         private async void Button_Click_1(object sender, RoutedEventArgs e)
         {
@@ -73,6 +74,7 @@ namespace Files.UserControls
     {
         internal StatusBanner Banner;
         public Progress<uint> Progress;
+
         public PostedStatusBanner(StatusBanner bannerArg)
         {
             Banner = bannerArg;
@@ -231,6 +233,7 @@ namespace Files.UserControls
                     break;
             }
         }
+
         /// <summary>
         /// Post an error message banner following a failed operation
         /// </summary>
@@ -269,7 +272,5 @@ namespace Files.UserControls
                 };
             }
         }
-
-        
     }
 }

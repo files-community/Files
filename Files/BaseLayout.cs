@@ -258,7 +258,10 @@ namespace Files
             App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
             App.CurrentInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
 
-            await App.MultitaskingControl?.SetSelectedTabInfo(new DirectoryInfo(workingDir).Name, workingDir);
+            if (App.MultitaskingControl != null)
+            {
+                await App.MultitaskingControl.SetSelectedTabInfo(new DirectoryInfo(workingDir).Name, workingDir);
+            }
             App.CurrentInstance.FilesystemViewModel.RefreshItems();
 
             App.MultitaskingControl?.SelectionChanged();

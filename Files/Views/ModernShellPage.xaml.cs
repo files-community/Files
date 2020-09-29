@@ -3,7 +3,6 @@ using Files.Dialogs;
 using Files.Filesystem;
 using Files.Interacts;
 using Files.UserControls;
-using Files.UserControls.MultiTaskingControl;
 using Files.View_Models;
 using System;
 using System.Linq;

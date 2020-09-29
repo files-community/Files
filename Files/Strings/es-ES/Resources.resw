@@ -687,9 +687,6 @@
   <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
     <value>Idioma</value>
   </data>
-  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>Los cambios se aplicarán la próxima vez que inicies la aplicación</value>
-  </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Estado</value>
   </data>
@@ -884,5 +881,20 @@
   </data>
   <data name="SettingsPreferencesCopyLocation.Text" xml:space="preserve">
     <value>Mostrar una opción en el menu contextual para copiar la ubicación de un archivo seleccionado</value>
+  </data>
+  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
+    <value>Añadir pestaña</value>
+  </data>
+  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
+    <value>Pestañas abiertas</value>
+  </data>
+  <data name="ButtonNo.Content" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="ButtonYes.Content" xml:space="preserve">
+    <value>Si</value>
+  </data>
+  <data name="RestartNotificationText.Text" xml:space="preserve">
+    <value>La aplicación necesita reiniciarse para aplicar el cambio de idioma, ¿Reiniciar ahora?</value>
   </data>
 </root>

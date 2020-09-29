@@ -13,7 +13,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -328,7 +327,7 @@ namespace Files.UserControls
             }
 
             var indexOfTabViewItem = sender.TabItems.IndexOf(args.Tab);
-            var tabViewItemPath = ((((args.Item as TabItem).Content as Grid).Children[0] as Frame).Content as IShellPage).NavigationToolbar.PathControlDisplayText;
+            var tabViewItemPath = ((((args.Item as TabItem).Content as Grid).Children[0] as Frame).Tag as TabItemContent).NavigationArg;
             var selectedTabViewItemIndex = sender.SelectedIndex;
             RemoveTab(args.Item as TabItem);
             if (!await Interaction.OpenPathInNewWindow(tabViewItemPath))
@@ -338,17 +337,16 @@ namespace Files.UserControls
             }
         }
 
-        private async void RemoveTab(TabItem tabItem)
+        private void RemoveTab(TabItem tabItem)
         {
             if (Items.Count == 1)
             {
                 MainPage.AppInstances.Remove(tabItem);
-                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                App.CloseApp();
             }
             else if (Items.Count > 1)
             {
                 Items.Remove(tabItem);
-                //App.InteractionViewModel.TabStripSelectedIndex = verticalTabView.SelectedIndex;
             }
         }
     }
