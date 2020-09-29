@@ -478,8 +478,8 @@
           <target state="translated" state-qualifier="tm-suggestion">מאפיינים</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
-          <source>QuickLook:</source>
-          <target state="new">QuickLook:</target>
+          <source>QuickLook</source>
+          <target state="new">QuickLook</target>
         </trans-unit>
         <trans-unit id="WelcomeDialog.Title" translate="yes" xml:space="preserve">
           <source>Welcome to Files!</source>
