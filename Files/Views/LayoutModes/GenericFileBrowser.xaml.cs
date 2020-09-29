@@ -376,6 +376,16 @@ namespace Files
 
         public void AllView_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
+            HandleRightClick(sender, e);
+        }
+
+        public void AllView_Holding(object sender, HoldingRoutedEventArgs e)
+        {
+            HandleRightClick(sender, e);
+        }
+
+        private void HandleRightClick(object sender, RoutedEventArgs e)
+        {
             var rowPressed = Interacts.Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
             if (rowPressed != null)
             {
