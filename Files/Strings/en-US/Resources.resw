@@ -1041,4 +1041,7 @@
   <data name="SettingsPreferencesCopyLocation.Text" xml:space="preserve">
     <value>Show an option to copy the location of the selected item</value>
   </data>
+  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Layout mode</value>
+  </data>
 </root>

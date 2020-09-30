@@ -65,6 +65,51 @@
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedDescending, Mode=TwoWay}"
                     Text="Descending" />
             </MenuFlyoutSubItem>
+            <MenuFlyoutSubItem x:Uid="BaseLayoutContextFlyoutLayoutMode" Text="Layout mode">
+                <MenuFlyoutSubItem.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE152;" />
+                </MenuFlyoutSubItem.Icon>
+                <MenuFlyoutItem
+                    x:Uid="StatusBarControlGridViewLarge"
+                    Command="{x:Bind AppSettings.ToggleLayoutModeGridViewLarge}"
+                    Text="Grid View (Large)">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9A0;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
+                    x:Uid="StatusBarControlGridViewMedium"
+                    Command="{x:Bind AppSettings.ToggleLayoutModeGridViewMedium}"
+                    Text="Grid View (Medium)">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA72;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
+                    x:Uid="StatusBarControlGridViewSmall"
+                    Command="{x:Bind AppSettings.ToggleLayoutModeGridViewSmall}"
+                    Text="Grid View (Small)">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEBA1;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
+                    x:Uid="StatusBarControlTilesView"
+                    Command="{x:Bind AppSettings.ToggleLayoutModeTiles}"
+                    Text="Tiles View">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF100;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
+                    x:Uid="StatusBarControlListView"
+                    Command="{x:Bind AppSettings.ToggleLayoutModeListView}"
+                    Text="List View">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF101;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+            </MenuFlyoutSubItem>
             <MenuFlyoutItem
                 x:Name="RefreshEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutRefresh"
@@ -537,6 +582,7 @@
             DragOver="List_DragOver"
             Drop="List_Drop"
             FocusVisualPrimaryThickness="0"
+            Holding="AllView_Holding"
             IsDoubleTapEnabled="True"
             IsRightTapEnabled="True"
             ItemsSource="{x:Bind AssociatedViewModel.FilesAndFolders, Mode=OneWay}"
@@ -544,7 +590,6 @@
             PreparingCellForEdit="AllView_PreparingCellForEdit"
             PreviewKeyDown="AllView_PreviewKeyDown"
             RightTapped="AllView_RightTapped"
-            Holding="AllView_Holding"
             RowDetailsVisibilityMode="Collapsed"
             ScrollViewer.IsScrollInertiaEnabled="True"
             SelectionChanged="AllView_SelectionChanged"
