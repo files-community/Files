@@ -7,6 +7,7 @@
     xmlns:local="using:Files.Dialogs"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="AddDialog"
+    x:Uid="AddDialog"
     Title="Create a New Item"
     Grid.RowSpan="4"
     BorderThickness="0"
@@ -16,7 +17,7 @@
 
     <StackPanel Orientation="Vertical" Spacing="25">
         <Grid x:Name="SubtitleArea">
-            <TextBlock x:Name="Description" Text="Choose a type for this new item below" />
+            <TextBlock x:Name="Description" x:Uid="AddDialogDescription" Text="Choose a type for this new item below" />
         </Grid>
         <Grid x:Name="SelectionListContent" HorizontalAlignment="Stretch">
             <StackPanel>

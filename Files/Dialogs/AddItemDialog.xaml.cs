@@ -19,9 +19,32 @@ namespace Files.Dialogs
         public void AddItemsToList()
         {
             AddItemsList.Clear();
-            AddItemsList.Add(new AddListItem { Header = "Folder", SubHeader = "Creates an empty folder", Icon = "\xE838", IsItemEnabled = true, ItemType = AddItemType.Folder });
-            AddItemsList.Add(new AddListItem { Header = "Text Document", SubHeader = "Creates a simple text file", Icon = "\xE8A5", IsItemEnabled = true, ItemType = AddItemType.TextDocument });
-            AddItemsList.Add(new AddListItem { Header = "Bitmap Image", SubHeader = "Creates an empty bitmap image file", Icon = "\xEB9F", IsItemEnabled = true, ItemType = AddItemType.BitmapImage });
+
+            AddItemsList.Add(new AddListItem
+            {
+                Header = ResourceController.GetTranslation("AddDialogListFolderHeader"),
+                SubHeader = ResourceController.GetTranslation("AddDialogListFolderSubHeader"),
+                Icon = "\xE838",
+                IsItemEnabled = true,
+                ItemType = AddItemType.Folder
+            });
+
+            AddItemsList.Add(new AddListItem
+            {
+                Header = ResourceController.GetTranslation("AddDialogListTextFileHeader"),
+                SubHeader = ResourceController.GetTranslation("AddDialogListTextFileSubHeader"),
+                Icon = "\xE8A5",
+                IsItemEnabled = true,
+                ItemType = AddItemType.TextDocument
+            });
+            AddItemsList.Add(new AddListItem
+            {
+                Header = ResourceController.GetTranslation("AddDialogListBitmapHeader"),
+                SubHeader = ResourceController.GetTranslation("AddDialogListBitmapSubHeader"),
+                Icon = "\xEB9F",
+                IsItemEnabled = true,
+                ItemType = AddItemType.BitmapImage
+            });
         }
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
@@ -62,7 +85,7 @@ namespace Files.Dialogs
                     userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : ResourceController.GetTranslation("NewTextDocument");
                     await folderToCreateItem.CreateFileAsync(userInput + ".txt", CreationCollisionOption.GenerateUniqueName);
                     break;
-                
+
                 case AddItemType.BitmapImage:
                     userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : ResourceController.GetTranslation("NewBitmapImage");
                     await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.GenerateUniqueName);
