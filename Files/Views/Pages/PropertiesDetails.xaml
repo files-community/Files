@@ -14,55 +14,11 @@
     d:DesignHeight="3000">
 
     <Page.Resources>
-        <converters:StringArrayToString x:Key="StringArrayToString"/>
-        <converters:UInt32ToString x:Key="UInt32ToString"/>
-        <converters:DoubleToString x:Key="DoubleToString"/>
-        <converters:DateTimeOffsetToString x:Key="DateTimeOffsetToString"/>
-
-        <Style x:Key="PropertyTextBlock" TargetType="TextBlock">
-            <Setter Property="Grid.Column" Value="0"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Margin" Value="0,2,0,2"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-        </Style>
-
-        <Style x:Key="ValueTextBox" TargetType="TextBox">
-            <Setter Property="Grid.Column" Value="1"/>
-            <Setter Property="Margin" Value="20,2,0,2"/>
-            <Setter Property="CornerRadius" Value="2"/>
-            <Setter Property="BorderThickness" Value="1"/>
-        </Style>
-
-        <Style x:Key="ValueNumberBox" TargetType="TextBox">
-            <Setter Property="Grid.Column" Value="1"/>
-            <Setter Property="Margin" Value="20,2,0,2"/>
-            <Setter Property="CornerRadius" Value="2"/>
-            <Setter Property="BorderThickness" Value="1"/>
-        </Style>
-
-        <Style x:Key="ValueTextBlock" TargetType="TextBlock">
-            <Setter Property="Grid.Column" Value="1"/>
-            <Setter Property="FontWeight" Value="Normal"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="20,2,0,2"/>
-        </Style>
-
-        <Style TargetType="MenuFlyoutSeparator" x:Key="Separator">
-            <Setter Property="Grid.Column" Value="0"/>
-            <Setter Property="Grid.ColumnSpan" Value="2"/>
-            <Setter Property="Margin" Value="-12, 0"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        </Style>
-
-        <Style TargetType="TextBlock" x:Key="SeparatorText">
-            <Setter Property="Grid.Column" Value="0"/>
-            <Setter Property="FontSize" Value="22"/>
-        </Style>
-
-        <Style TargetType="usercontrols:PropertyListItem">
-            <Setter Property="ColumnWidth" Value="110"/>
-        </Style>
-       
+        <ResourceDictionary x:Key="PropertiesStyles">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Page.Resources>
     <ScrollViewer Height="{Binding Height, ElementName=Page, Mode=OneWay}" Name="ScrollViewer">
         <StackPanel VerticalAlignment="Top" Margin="14,0,14,0" Name="MainGrid">
@@ -100,21 +56,21 @@
                         </Image.Source>
                     </Image>
                     <FontIcon
-                    x:Name="EmptyImageIcon2"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Stretch"
-                    x:Load="{x:Bind ViewModel.LoadUnknownTypeGlyph, Mode=OneWay}"
-                    FontFamily="{StaticResource FluentUIGlyphs}"
-                    FontSize="70"
-                    Glyph="&#xea00;" />
-                    <FontIcon
-                    x:Name="WebShortcutGlyph2"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Stretch"
-                    x:Load="{x:Bind ViewModel.LoadLinkIcon, Mode=OneWay}"
-                    FontFamily="{StaticResource FluentUIGlyphs}"
-                    FontSize="70"
-                    Glyph="&#xEAAB;" />
+                        x:Name="EmptyImageIcon2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Stretch"
+                        x:Load="{x:Bind ViewModel.LoadUnknownTypeGlyph, Mode=OneWay}"
+                        FontFamily="{StaticResource FluentUIGlyphs}"
+                        FontSize="70"
+                        Glyph="&#xea00;" />
+                        <FontIcon
+                        x:Name="WebShortcutGlyph2"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Stretch"
+                        x:Load="{x:Bind ViewModel.LoadLinkIcon, Mode=OneWay}"
+                        FontFamily="{StaticResource FluentUIGlyphs}"
+                        FontSize="70"
+                        Glyph="&#xEAAB;" />
                     <Image
                     x:Name="itemIcon2"
                     HorizontalAlignment="Stretch"
@@ -123,17 +79,18 @@
                     Source="{x:Bind ViewModel.FileIconSource, Mode=OneWay}" />
                 </Grid>
                 <TextBox
-                x:Name="itemFileName2"
-                x:Uid="PropertiesItemFileName"
-                Grid.Row="0"
-                Grid.Column="1"
-                Margin="20,0"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Center"
-                BorderThickness="1"
-                IsReadOnly="True"
-                Text="{x:Bind ViewModel.ItemName, Mode=OneWay}"
-                Visibility="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}" />
+                    x:Name="itemFileName2"
+                    x:Uid="PropertiesItemFileName"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="20,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    BorderThickness="1"
+                    IsReadOnly="True"
+                    Text="{x:Bind ViewModel.ItemName, Mode=OneWay}"
+                    Style="{StaticResource PropertyValueTextBox}"
+                    Visibility="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}" />
             </Grid>
 
             <TextBlock Text="Overview" Grid.Row="1" Style="{StaticResource SeparatorText}" Visibility="{Binding ElementName=OverviewImage, Path=Visibility, Mode=OneWay}"/>
@@ -158,23 +115,23 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 
-                <TextBlock Style="{StaticResource PropertyTextBlock}" Text="Image Type:" Visibility="Visible" Grid.Row="3"/>
-                <TextBlock Style="{StaticResource ValueTextBlock}" Grid.Row="3" Text="{x:Bind ViewModel.ItemType, Mode=OneWay}"/>
+                <TextBlock Style="{StaticResource PropertyName}" Text="Image Type:" Visibility="Visible" Grid.Row="3"/>
+                <TextBlock Style="{StaticResource PropertyValueTextBlock}" Grid.Row="3" Text="{x:Bind ViewModel.ItemType, Mode=OneWay}"/>
 
-                <TextBlock Style="{StaticResource PropertyTextBlock}" Grid.Row="4" Text="Date Taken:" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}"/>
-                <TextBlock Style="{StaticResource ValueTextBlock}" Grid.Row="4" Text="{x:Bind ViewModel.SystemFileProperties_RO['System.Photo.DateTaken'].ToString(), Mode=OneWay}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}"/>
+                <TextBlock Style="{StaticResource PropertyName}" Grid.Row="4" Text="Date Taken:" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}"/>
+                <TextBlock Style="{StaticResource PropertyValueTextBlock}" Grid.Row="4" Text="{x:Bind ViewModel.SystemFileProperties_RO['System.Photo.DateTaken'].ToString(), Mode=OneWay}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}"/>
 
-                <TextBlock Style="{StaticResource PropertyTextBlock}" Grid.Row="5" Text="Dimensions:" Visibility="Visible" />
-                <TextBlock Grid.Row="5" Text="{x:Bind ViewModel.SystemFileProperties_RO['System.Image.Dimensions'].ToString(), Mode=OneWay}" Visibility="Visible" Style="{StaticResource ValueTextBlock}"/>
+                <TextBlock Style="{StaticResource PropertyName}" Grid.Row="5" Text="Dimensions:" Visibility="Visible" />
+                <TextBlock Grid.Row="5" Text="{x:Bind ViewModel.SystemFileProperties_RO['System.Image.Dimensions'].ToString(), Mode=OneWay}" Visibility="Visible" Style="{StaticResource PropertyValueTextBlock}"/>
 
-                <TextBlock Grid.Row="7" Text="Camera:" Style="{StaticResource PropertyTextBlock}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}"/>
-                <TextBlock Grid.Row="7" Text="{x:Bind ViewModel.CameraNameString, Mode=OneWay}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}" Style="{StaticResource ValueTextBlock}"/>
+                <TextBlock Grid.Row="7" Text="Camera:" Style="{StaticResource PropertyName}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}"/>
+                <TextBlock Grid.Row="7" Text="{x:Bind ViewModel.CameraNameString, Mode=OneWay}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}" Style="{StaticResource PropertyValueTextBlock}"/>
 
-                <TextBlock Grid.Row="8" Text="Shot:" Style="{StaticResource PropertyTextBlock}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo}"/>
-                <TextBlock Text="{x:Bind ViewModel.ShotString, Mode=OneWay}" Grid.Row="8" Style="{StaticResource ValueTextBlock}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo}"/>
+                <TextBlock Grid.Row="8" Text="Shot:" Style="{StaticResource PropertyName}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo}"/>
+                <TextBlock Text="{x:Bind ViewModel.ShotString, Mode=OneWay}" Grid.Row="8" Style="{StaticResource PropertyValueTextBlock}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo}"/>
 
-                <TextBlock Grid.Row="9" Text="Location:" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}" Style="{StaticResource PropertyTextBlock}"/>
-                <TextBlock Text="{x:Bind ViewModel.GeopointString, Mode=OneWay}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}" Grid.Row="9" Style="{StaticResource ValueTextBlock}"/>
+                <TextBlock Grid.Row="9" Text="Location:" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}" Style="{StaticResource PropertyName}"/>
+                <TextBlock Text="{x:Bind ViewModel.GeopointString, Mode=OneWay}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}" Grid.Row="9" Style="{StaticResource PropertyValueTextBlock}"/>
 
                 <Button
                     Grid.Row="9"
