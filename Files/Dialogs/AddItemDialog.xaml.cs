@@ -8,12 +8,9 @@ namespace Files.Dialogs
 {
     public sealed partial class AddItemDialog : ContentDialog
     {
-        //public ListView addItemsChoices;
-
         public AddItemDialog()
         {
             InitializeComponent();
-            //addItemsChoices = AddItemsListView;
             AddItemsToList();
         }
 
