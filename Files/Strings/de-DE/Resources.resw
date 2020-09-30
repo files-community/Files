@@ -936,4 +936,31 @@
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>Die Anwendung muss neugestartet werden, um die Spracheinstellungen zu übernehmen. Möchten Sie die Anwendung jetzt neustarten?</value>
   </data>
+  <data name="AddDialog.Title" xml:space="preserve">
+    <value>Neues Element erstellen</value>
+  </data>
+  <data name="AddDialogDescription.Text" xml:space="preserve">
+    <value>Wählen Sie unten einen Dateityp für das neue Element aus</value>
+  </data>
+  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="AddDialogListBitmapHeader" xml:space="preserve">
+    <value>Bitmapbild</value>
+  </data>
+  <data name="AddDialogListBitmapSubHeader" xml:space="preserve">
+    <value>Erstelt ein leeres Bitmapbild</value>
+  </data>
+  <data name="AddDialogListFolderHeader" xml:space="preserve">
+    <value>Ordner</value>
+  </data>
+  <data name="AddDialogListFolderSubHeader" xml:space="preserve">
+    <value>Erstellt einen leeren Ordner</value>
+  </data>
+  <data name="AddDialogListTextFileHeader" xml:space="preserve">
+    <value>Textdokument</value>
+  </data>
+  <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
+    <value>Erstellt ein leeres Textdokument</value>
+  </data>
 </root>
