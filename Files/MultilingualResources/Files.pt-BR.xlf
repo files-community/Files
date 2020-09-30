@@ -1239,6 +1239,10 @@
           <source>The application needs to be restarted in order to apply the langague setting, would you like to restart the app?</source>
           <target state="translated">O aplicativo precisa ser reiniciado para aplicar a configuração de idioma. Deseja reiniciar o aplicativo?</target>
         </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
+          <source>Layout mode</source>
+          <target state="new">Layout mode</target>
+        </trans-unit>
       </group>
     </body>
   </file>
