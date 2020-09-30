@@ -39,20 +39,18 @@ namespace Files.View_Models.Properties
         private readonly List<string> PropertiesToGet_RO = new List<string>()
         {
             //Core
-            "System.Rating",
+            "System.RatingText",
             "System.ItemFolderPathDisplay",
-            "System.DateCreated",
-            "System.DateModified",
-            "System.Size",
             "System.ItemTypeText",
-            "System.FileOwner",
 
             //Image
+            "System.Image.ImageID",
+            "System.Image.CompressedBitsPerPixel",
             "System.Image.BitDepth",
             "System.Image.Dimensions",
             "System.Image.HorizontalResolution",
             "System.Image.VerticalResolution",
-            "System.Image.Compression",
+            "System.Image.CompressionText",
             "System.Image.ResolutionUnit",
             "System.Image.HorizontalSize",
             "System.Image.VerticalSize",
@@ -96,6 +94,8 @@ namespace Files.View_Models.Properties
             "System.Subject",
             "System.Comment",
             "System.Copyright",
+            "System.DateCreated",
+            "System.DateModified",
 
             //Photo
             "System.Photo.CameraManufacturer",
@@ -384,7 +384,7 @@ namespace Files.View_Models.Properties
 
         private Visibility CheckVisibility(string endpoint)
         {
-            return CheckVisibilityHelper(endpoint, ViewModel.SystemFileProperties_RO) && CheckVisibilityHelper(endpoint, ViewModel.SystemFileProperties_RW) ? Visibility.Visible : Visibility.Collapsed;
+            return CheckVisibilityHelper(endpoint, ViewModel.SystemFileProperties_RO) || CheckVisibilityHelper(endpoint, ViewModel.SystemFileProperties_RW) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private bool CheckVisibilityHelper(string endpoint, IDictionary<string, object> dict)
@@ -565,7 +565,7 @@ namespace Files.View_Models.Properties
 
             foreach (var item in PropsToGen)
             {
-                var array = item.Split(".");
+                var array = item.Split('.');
                 var text = array[array.Length - 1];
                 Debug.WriteLine(string.Format("<usercontrols:PropertyListItem Text=\"{1}\" ValueText=\"{{x:Bind ViewModel.SystemFileProperties_RW['{0}'], Mode=TwoWay}}\"/>", item, text));
             }
