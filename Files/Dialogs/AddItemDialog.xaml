@@ -5,6 +5,7 @@
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.Dialogs"
+    xmlns:local2="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="AddDialog"
     x:Uid="AddDialog"
@@ -13,6 +14,7 @@
     BorderThickness="0"
     CornerRadius="4"
     PrimaryButtonText="Cancel"
+    RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
     mc:Ignorable="d">
 
     <StackPanel Orientation="Vertical" Spacing="25">
