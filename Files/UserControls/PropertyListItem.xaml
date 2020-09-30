@@ -10,8 +10,6 @@
     d:DesignWidth="400">
 
     <UserControl.Resources>
-
-
         <Style x:Key="PropertyTextBlock" TargetType="TextBlock">
             <Setter Property="Grid.Column" Value="0"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
@@ -51,6 +49,7 @@
             <Setter Property="Grid.Column" Value="0"/>
             <Setter Property="FontSize" Value="22"/>
         </Style>
+
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -62,6 +61,10 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Row ="0" Style="{StaticResource PropertyTextBlock}" Text="{x:Bind Text}"/>
-        <TextBox Grid.Row ="0" Style="{StaticResource ValueTextBox}" Text="{x:Bind ValueText, Mode=TwoWay}" IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}"/>
+        <TextBox  Grid.Row ="0" Style="{StaticResource ValueTextBox}" Text="{x:Bind ValueText, Mode=TwoWay}" IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}" TextChanged="TextBox_TextChanged">
+            <TextBox.Background>
+                <AcrylicBrush BackgroundSource="HostBackdrop" TintOpacity="0.1" Opacity="0.0" />
+            </TextBox.Background>
+        </TextBox>
     </Grid>
 </UserControl>

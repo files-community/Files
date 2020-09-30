@@ -462,53 +462,6 @@ namespace Files.View_Models.Properties
         }
 
         /// <summary>
-        /// This function is for debug purposes only. 
-        /// </summary>
-        /// <param name="file"></param>
-        private async void GetPropertiesAsyncDebug(StorageFile file)
-        {
-            foreach (var item in PropertiesToGet_RW)
-            {
-                IDictionary<string, object> result;
-                try
-                {
-                    var temp = new List<string>()
-                {
-                    item
-                };
-                    result = (await file.Properties.RetrievePropertiesAsync(temp));
-                    var tempDict = ViewModel.SystemFileProperties_RW;
-                    tempDict[item] = result[item];
-                    ViewModel.SystemFileProperties_RW = tempDict;
-                }
-                catch (Exception reee)
-                {
-                    Debug.WriteLine(string.Format("{0}\n{1}", item, reee.ToString()));
-                }
-            }
-
-            foreach (var item in PropertiesToGet_RO)
-            {
-                IDictionary<string, object> result;
-                try
-                {
-                    var temp = new List<string>()
-                {
-                    item
-                };
-                    result = (await file.Properties.RetrievePropertiesAsync(temp));
-                    var tempDict = ViewModel.SystemFileProperties_RO;
-                    tempDict[item] = result[item];
-                    ViewModel.SystemFileProperties_RO = tempDict;
-                }
-                catch (Exception reee)
-                {
-                    Debug.WriteLine(string.Format("{0}\n{1}", item, reee.ToString()));
-                }
-            }
-        }
-
-        /// <summary>
         /// This function goes through ever read-write property saved, then syncs it
         /// </summary>
         /// <returns></returns>
@@ -531,44 +484,6 @@ namespace Files.View_Models.Properties
             await file.Properties.SavePropertiesAsync(dict);
 
             GetSpecialProperties();
-        }
-
-        private void GenerateXAMLCode()
-        {
-            var PropsToGen = new List<string>()
-            {
-                "System.Media.AuthorUrl",
-                "System.Media.ContentDistributor",
-                "System.Media.CreatorApplication",
-                "System.Media.DateReleased",
-                "System.Media.DlnaProfileID",
-                "System.Media.DVDID",
-                "System.Media.EncodedBy",
-                "System.Media.EncodingSettings",
-                "System.Media.SeriesName",
-                "System.Media.SeasonNumber",
-                "System.Media.EpisodeNumber",
-                "System.Media.MCDI",
-                "System.Media.Producer",
-                "System.Media.PromotionUrl",
-                "System.Media.ProviderStyle",
-                "System.Media.Publisher",
-                "System.Media.ThumbnailLargePath",
-                "System.Media.ThumbnailLargeUri",
-                "System.Media.ThumbnailSmallPath",
-                "System.Media.ThumbnailSmallUri",
-                "System.Media.UniqueFileIdentifier",
-                "System.Media.UserWebUrl",
-                "System.Media.Writer",
-                "System.Media.Year",
-            };
-
-            foreach (var item in PropsToGen)
-            {
-                var array = item.Split('.');
-                var text = array[array.Length - 1];
-                Debug.WriteLine(string.Format("<usercontrols:PropertyListItem Text=\"{1}\" ValueText=\"{{x:Bind ViewModel.SystemFileProperties_RW['{0}'], Mode=TwoWay}}\"/>", item, text));
-            }
         }
 
         private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

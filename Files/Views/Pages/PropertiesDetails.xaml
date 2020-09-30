@@ -17,8 +17,8 @@
         <converters:StringArrayToString x:Key="StringArrayToString"/>
         <converters:UInt32ToString x:Key="UInt32ToString"/>
         <converters:DoubleToString x:Key="DoubleToString"/>
-        <converters:DateTimeOffsetToString x:Key="DateTimeOffsetToString"/>    
-        
+        <converters:DateTimeOffsetToString x:Key="DateTimeOffsetToString"/>
+
         <Style x:Key="PropertyTextBlock" TargetType="TextBlock">
             <Setter Property="Grid.Column" Value="0"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
@@ -60,7 +60,7 @@
         </Style>
 
         <Style TargetType="usercontrols:PropertyListItem">
-            <Setter Property="ColumnWidth" Value="80"/>
+            <Setter Property="ColumnWidth" Value="110"/>
         </Style>
        
     </Page.Resources>
@@ -79,7 +79,7 @@
                 x:Name="Icon2"
                 Grid.Row="0"
                 Grid.Column="0"
-                Width="80"
+                Width="110"
                 Height="80"
                 Margin="0,7"
                 HorizontalAlignment="Stretch"
