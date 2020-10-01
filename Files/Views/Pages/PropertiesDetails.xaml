@@ -127,7 +127,7 @@
                 <TextBlock Grid.Row="7" Text="Camera:" Style="{StaticResource PropertyName}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}" />
                 <TextBlock Grid.Row="7" Text="{x:Bind ViewModel.CameraNameString, Mode=OneWay}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}" Style="{StaticResource PropertyValueTextBlock}" Grid.Column="1"/>
 
-                <TextBlock Grid.Row="8" Text="Shot:" Style="{StaticResource PropertyName}" Grid.Column="2" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo}"/>
+                <TextBlock Grid.Row="8" Text="Shot:" Style="{StaticResource PropertyName}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo}"/>
                 <TextBlock Text="{x:Bind ViewModel.ShotString, Mode=OneWay}" Grid.Row="8" Style="{StaticResource PropertyValueTextBlock}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo}" Grid.Column="1"/>
 
                 <TextBlock Grid.Row="9" Text="Location:" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}" Style="{StaticResource PropertyName}"/>
