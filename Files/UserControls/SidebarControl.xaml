@@ -164,7 +164,6 @@
                             DragOver="NavigationViewLocationItem_DragOver"
                             Drop="NavigationViewLocationItem_Drop"
                             IsRightTapEnabled="True"
-                            IsTabStop="False"
                             RightTapped="NavigationViewLocationItem_RightTapped"
                             Style="{StaticResource DefaultSidebarStyle}"
                             Tag="{x:Bind Path}">
@@ -211,7 +210,6 @@
                             DataContext="{x:Bind}"
                             DragEnter="NavigationViewItem_DragEnter"
                             DragLeave="NavigationViewItem_DragLeave"
-                            IsTabStop="False"
                             Style="{StaticResource DefaultSidebarStyle}"
                             Tag="{x:Bind Path}">
                             <muxc:NavigationViewItem.Icon>
