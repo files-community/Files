@@ -114,24 +114,24 @@
                     <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                
+
                 <TextBlock Style="{StaticResource PropertyName}" Text="Image Type:" Visibility="Visible" Grid.Row="3"/>
-                <TextBlock Style="{StaticResource PropertyValueTextBlock}" Grid.Row="3" Text="{x:Bind ViewModel.ItemType, Mode=OneWay}"/>
+                <TextBlock Style="{StaticResource PropertyValueTextBlock}" Grid.Row="3" Text="{x:Bind ViewModel.ItemType, Mode=OneWay}" Grid.Column="1"/>
 
                 <TextBlock Style="{StaticResource PropertyName}" Grid.Row="4" Text="Date Taken:" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}"/>
-                <TextBlock Style="{StaticResource PropertyValueTextBlock}" Grid.Row="4" Text="{x:Bind ViewModel.SystemFileProperties_RO['System.Photo.DateTaken'].ToString(), Mode=OneWay}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}"/>
+                <TextBlock Style="{StaticResource PropertyValueTextBlock}" Grid.Row="4" Text="{x:Bind ViewModel.SystemFileProperties_RO['System.Photo.DateTaken'].ToString(), Mode=OneWay}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}" Grid.Column="1"/>
 
                 <TextBlock Style="{StaticResource PropertyName}" Grid.Row="5" Text="Dimensions:" Visibility="Visible" />
-                <TextBlock Grid.Row="5" Text="{x:Bind ViewModel.SystemFileProperties_RO['System.Image.Dimensions'].ToString(), Mode=OneWay}" Visibility="Visible" Style="{StaticResource PropertyValueTextBlock}"/>
+                <TextBlock Grid.Row="5" Text="{x:Bind ViewModel.SystemFileProperties_RO['System.Image.Dimensions'].ToString(), Mode=OneWay}" Visibility="Visible" Style="{StaticResource PropertyValueTextBlock}" Grid.Column="1"/>
 
-                <TextBlock Grid.Row="7" Text="Camera:" Style="{StaticResource PropertyName}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}"/>
-                <TextBlock Grid.Row="7" Text="{x:Bind ViewModel.CameraNameString, Mode=OneWay}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}" Style="{StaticResource PropertyValueTextBlock}"/>
+                <TextBlock Grid.Row="7" Text="Camera:" Style="{StaticResource PropertyName}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}" />
+                <TextBlock Grid.Row="7" Text="{x:Bind ViewModel.CameraNameString, Mode=OneWay}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}" Style="{StaticResource PropertyValueTextBlock}" Grid.Column="1"/>
 
-                <TextBlock Grid.Row="8" Text="Shot:" Style="{StaticResource PropertyName}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo}"/>
-                <TextBlock Text="{x:Bind ViewModel.ShotString, Mode=OneWay}" Grid.Row="8" Style="{StaticResource PropertyValueTextBlock}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo}"/>
+                <TextBlock Grid.Row="8" Text="Shot:" Style="{StaticResource PropertyName}" Grid.Column="2" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo}"/>
+                <TextBlock Text="{x:Bind ViewModel.ShotString, Mode=OneWay}" Grid.Row="8" Style="{StaticResource PropertyValueTextBlock}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo}" Grid.Column="1"/>
 
                 <TextBlock Grid.Row="9" Text="Location:" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}" Style="{StaticResource PropertyName}"/>
-                <TextBlock Text="{x:Bind ViewModel.GeopointString, Mode=OneWay}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}" Grid.Row="9" Style="{StaticResource PropertyValueTextBlock}"/>
+                <TextBlock Text="{x:Bind ViewModel.GeopointString, Mode=OneWay}" Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}" Grid.Row="9" Style="{StaticResource PropertyValueTextBlock}" Grid.Column="1"/>
 
                 <Button
                     Grid.Row="9"
