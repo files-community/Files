@@ -804,11 +804,23 @@
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Bestandslocatie openen</value>
   </data>
+  <data name="DriveCapacityUnknown" xml:space="preserve">
+    <value>Onbekend</value>
+  </data>
+  <data name="ExceptionNotificationHeader" xml:space="preserve">
+    <value>Er is iets misgegaan</value>
+  </data>
+  <data name="ExceptionNotificationReportButton" xml:space="preserve">
+    <value>Dit probleem melden</value>
+  </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Bijdragers</value>
   </data>
   <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
     <value>Bekijk wie heeft bijgedragen aan Files UWP</value>
+  </data>
+  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
+    <value>Releaseopmerkingen</value>
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
     <value>Ontdek wat er nieuw is in Files UWP</value>
@@ -818,6 +830,9 @@
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Ongeldig item</value>
+  </data>
+  <data name="SettingsAboutVersionTitle" xml:space="preserve">
+    <value>Versie</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
     <value>Er valt op dit moment niets te delen</value>
@@ -833,5 +848,50 @@
   </data>
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
     <value>Delen {0} {1}</value>
+  </data>
+  <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
+    <value>Item bestaat niet meer</value>
+  </data>
+  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
+    <value>Meer</value>
+  </data>
+  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
+    <value>Annuleren</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
+    <value>Weet u zeker dat u dit item wilt verwijderen?</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
+    <value>Horizontaal</value>
+  </data>
+  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
+    <value>Multitasking</value>
+  </data>
+  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
+    <value>Verticaal</value>
+  </data>
+  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
+    <value>Multitasking</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+    <value>Instellen als</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
+    <value>Locatie kopiëren</value>
+  </data>
+  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
+    <value>Tabblad toevoegen</value>
+  </data>
+  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
+    <value>Tabs openen</value>
+  </data>
+  <data name="ButtonNo.Content" xml:space="preserve">
+    <value>NEE</value>
+  </data>
+  <data name="ButtonYes.Content" xml:space="preserve">
+    <value>JA</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Lay-outmodus</value>
   </data>
 </root>

@@ -247,7 +247,7 @@
     <value>Recent items</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files UWP</value>
+    <value>Files</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
     <value>License</value>
@@ -928,13 +928,13 @@
     <value>Contributors</value>
   </data>
   <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>See who contributed to Files UWP</value>
+    <value>See who contributed to Files</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>Release Notes</value>
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Find out what's new</value>
+    <value>Find out what's new in Files</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</value>

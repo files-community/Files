@@ -52,8 +52,9 @@
           <target state="translated">Son öğeler</target>
         </trans-unit>
         <trans-unit id="SettingsAboutAppName.Text" translate="yes" xml:space="preserve">
-          <source>Files UWP</source>
-          <target state="translated">Files UWP</target>
+          <source>Files</source>
+          <target state="needs-review-translation">Files UWP</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
           <source>License</source>
@@ -937,19 +938,19 @@
         </trans-unit>
         <trans-unit id="JumpListRecentGroupHeader" translate="yes" xml:space="preserve">
           <source>Recent</source>
-          <target state="new">Recent</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">En Son</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.Text" translate="yes" xml:space="preserve">
           <source>App Language</source>
-          <target state="new">App Language</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Uygulama Dili</target>
         </trans-unit>
         <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
           <source>Status</source>
-          <target state="new">Status</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Durum</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenAddPageButton.Content" translate="yes" xml:space="preserve">
           <source>Add a new page</source>
-          <target state="new">Add a new page</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Yeni sayfa ekle</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" translate="yes" xml:space="preserve">
           <source>Change Page Location</source>
@@ -957,11 +958,11 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupPages.Text" translate="yes" xml:space="preserve">
           <source>Pages:</source>
-          <target state="new">Pages:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Sayfa:</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" translate="yes" xml:space="preserve">
           <source>Remove Page</source>
-          <target state="new">Remove Page</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Sayfayı Kaldır</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
           <source>When launching an item from the jumplist</source>
@@ -977,7 +978,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
           <source>Windows default</source>
-          <target state="new">Windows default</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Windows varsayılan</target>
         </trans-unit>
         <trans-unit id="TabStripDragAndDropUIOverrideCaption" translate="yes" xml:space="preserve">
           <source>Move tab here</source>
@@ -985,7 +986,7 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarVisiblePathNoResults" translate="yes" xml:space="preserve">
           <source>No results</source>
-          <target state="new">No results</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Hiç sonuç yok</target>
         </trans-unit>
         <trans-unit id="SubDirectoryAccessDenied" translate="yes" xml:space="preserve">
           <source>Can't access any items to display</source>
@@ -993,35 +994,35 @@
         </trans-unit>
         <trans-unit id="MoveToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Move to {0}</source>
-          <target state="new">Move to {0}</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">{0} adlı rapora taşı</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFile" translate="yes" xml:space="preserve">
           <source>The source and destination file names are the same.</source>
-          <target state="new">The source and destination file names are the same.</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Kaynak ve hedef dosya adları aynı.</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFolder" translate="yes" xml:space="preserve">
           <source>The destination folder is the same as the source folder.</source>
-          <target state="new">The destination folder is the same as the source folder.</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Hedef klasör kaynak klasörle aynı.</target>
         </trans-unit>
         <trans-unit id="CopyToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Copy to {0}</source>
-          <target state="new">Copy to {0}</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">{0} uygulamasına kopyala</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutShortcut.Text" translate="yes" xml:space="preserve">
           <source>Create shortcut</source>
-          <target state="new">Create shortcut</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Kısayol oluştur</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
           <source>Open file location</source>
-          <target state="new">Open file location</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Dosya konumunu aç</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutItemArgs.Text" translate="yes" xml:space="preserve">
           <source>Arguments:</source>
-          <target state="new">Arguments:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Bağımsız Değişkenler:</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutItemPath.Text" translate="yes" xml:space="preserve">
           <source>Destination:</source>
-          <target state="new">Destination:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Hedef</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutItemType.Text" translate="yes" xml:space="preserve">
           <source>Shortcut type:</source>
@@ -1029,35 +1030,35 @@
         </trans-unit>
         <trans-unit id="PropertiesShortcutItemWorkingDir.Text" translate="yes" xml:space="preserve">
           <source>Working directory:</source>
-          <target state="new">Working directory:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Çalışılan dizin:</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutTypeApplication" translate="yes" xml:space="preserve">
           <source>Application</source>
-          <target state="new">Application</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Uygulama</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutTypeFile" translate="yes" xml:space="preserve">
           <source>File</source>
-          <target state="new">File</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Dosya</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutTypeFolder" translate="yes" xml:space="preserve">
           <source>Folder</source>
-          <target state="new">Folder</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Klasör</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutTypeLink" translate="yes" xml:space="preserve">
           <source>Web link</source>
-          <target state="new">Web link</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Web bağlantısı</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogTabGeneral.Content" translate="yes" xml:space="preserve">
           <source>General</source>
-          <target state="new">General</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Genel</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogTabShortcut.Content" translate="yes" xml:space="preserve">
           <source>Shortcut</source>
-          <target state="new">Shortcut</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Kısayol</target>
         </trans-unit>
         <trans-unit id="ShortcutFileType" translate="yes" xml:space="preserve">
           <source>Shortcut</source>
-          <target state="new">Shortcut</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Kısayol</target>
         </trans-unit>
         <trans-unit id="ShortcutWebLinkFileType" translate="yes" xml:space="preserve">
           <source>Internet shortcut</source>
@@ -1069,11 +1070,11 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
-          <target state="new">Open file location</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Dosya konumunu aç</target>
         </trans-unit>
         <trans-unit id="DriveCapacityUnknown" translate="yes" xml:space="preserve">
           <source>Unknown</source>
-          <target state="new">Unknown</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Bilinmiyor</target>
         </trans-unit>
         <trans-unit id="ExceptionNotificationAccessLogFileButton" translate="yes" xml:space="preserve">
           <source>Open log location</source>
@@ -1085,27 +1086,27 @@
         </trans-unit>
         <trans-unit id="ExceptionNotificationHeader" translate="yes" xml:space="preserve">
           <source>Something went wrong!</source>
-          <target state="new">Something went wrong!</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Bir sorun oluştu...</target>
         </trans-unit>
         <trans-unit id="ExceptionNotificationReportButton" translate="yes" xml:space="preserve">
           <source>Report this issue</source>
-          <target state="new">Report this issue</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Bu sorunu bildirin</target>
         </trans-unit>
         <trans-unit id="SettingsAboutContributors.Text" translate="yes" xml:space="preserve">
           <source>Contributors</source>
-          <target state="new">Contributors</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Katkıda Bulunanlar</target>
         </trans-unit>
         <trans-unit id="SettingsAboutContributorsDescription.Text" translate="yes" xml:space="preserve">
-          <source>See who contributed to Files UWP</source>
-          <target state="new">See who contributed to Files UWP</target>
+          <source>See who contributed to Files</source>
+          <target state="new">See who contributed to Files</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
           <source>Release Notes</source>
-          <target state="new">Release Notes</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Sürüm Notları</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotesDescription.Text" translate="yes" xml:space="preserve">
-          <source>Find out what's new</source>
-          <target state="new">Find out what's new</target>
+          <source>Find out what's new in Files</source>
+          <target state="new">Find out what's new in Files</target>
         </trans-unit>
         <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
           <source>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</source>
@@ -1117,11 +1118,11 @@
         </trans-unit>
         <trans-unit id="SettingsAboutVersionTitle" translate="yes" xml:space="preserve">
           <source>Version:</source>
-          <target state="new">Version:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Sürüm</target>
         </trans-unit>
         <trans-unit id="ShareDialogFailMessage" translate="yes" xml:space="preserve">
           <source>There's nothing to share right now...</source>
-          <target state="new">There's nothing to share right now...</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Şu anda paylaşılacak bir şey yok.</target>
         </trans-unit>
         <trans-unit id="ShareDialogMultipleItemsDescription" translate="yes" xml:space="preserve">
           <source>The items you've selected will be shared</source>
@@ -1133,7 +1134,7 @@
         </trans-unit>
         <trans-unit id="ShareDialogTitle" translate="yes" xml:space="preserve">
           <source>Sharing {0}</source>
-          <target state="new">Sharing {0}</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">{0} paylaşılıyor</target>
         </trans-unit>
         <trans-unit id="ShareDialogTitleMultipleItems" translate="yes" xml:space="preserve">
           <source>Sharing {0} {1}</source>
@@ -1145,7 +1146,7 @@
         </trans-unit>
         <trans-unit id="RenameError.ItemDeleted.Title" translate="yes" xml:space="preserve">
           <source>Item no longer exists</source>
-          <target state="new">Item no longer exists</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Öğe artık yok</target>
         </trans-unit>
         <trans-unit id="RenameError.NameInvalid.Text" translate="yes" xml:space="preserve">
           <source>The name specified was invalid. Please check the desired item name and try again.</source>
@@ -1165,7 +1166,7 @@
         </trans-unit>
         <trans-unit id="ContextMenuMoreItemsLabel" translate="yes" xml:space="preserve">
           <source>More</source>
-          <target state="new">More</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Diğer</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesContextMenu.Text" translate="yes" xml:space="preserve">
           <source>Show all context menu items</source>
@@ -1173,15 +1174,15 @@
         </trans-unit>
         <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">İptal</target>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogDeleteOneItem.Text" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete this item?</source>
-          <target state="new">Are you sure you want to delete this item?</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Bu öğeyi silmek istediğinizden emin misiniz?</target>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogDeleteMultipleItems.Text" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete these {0} items?</source>
-          <target state="new">Are you sure you want to delete these {0} items?</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Bu {0} öğeyi silmek istediğinizden emin misiniz?</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingAdaptive.Content" translate="yes" xml:space="preserve">
           <source>Adaptive (Recommended)</source>
@@ -1193,7 +1194,7 @@
         </trans-unit>
         <trans-unit id="SettingsMultitaskingHorizontal.Content" translate="yes" xml:space="preserve">
           <source>Horizontal</source>
-          <target state="new">Horizontal</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Yatay</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingHorizontalDescription.Text" translate="yes" xml:space="preserve">
           <source>Always hides the vertical multitasking flyout from the navigation toolbar, and shows the traditional horizontal tabstrip on the app window. This is suited for users who need to keep track of every open app instance at all times.</source>
@@ -1201,11 +1202,11 @@
         </trans-unit>
         <trans-unit id="SettingsMultitaskingTitle.Text" translate="yes" xml:space="preserve">
           <source>Multitasking</source>
-          <target state="new">Multitasking</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Çok görevli</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingVertical.Content" translate="yes" xml:space="preserve">
           <source>Vertical</source>
-          <target state="new">Vertical</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Dikey</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingVerticalDescription.Text" translate="yes" xml:space="preserve">
           <source>Collapses the horizontal list of app instances into a vertical flyout on the navigation toolbar, designed for users who want a clean app interface with on-demand access to a multitasking experience.</source>
@@ -1213,15 +1214,15 @@
         </trans-unit>
         <trans-unit id="SettingsNavMultitasking.Content" translate="yes" xml:space="preserve">
           <source>Multitasking</source>
-          <target state="new">Multitasking</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Çok görevli</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutSetAs.Text" translate="yes" xml:space="preserve">
           <source>Set as</source>
-          <target state="new">Set as</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ayarla</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutCopyLocation.Text" translate="yes" xml:space="preserve">
           <source>Copy location</source>
-          <target state="new">Copy location</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Konumu kopyala</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesCopyLocation.Text" translate="yes" xml:space="preserve">
           <source>Show an option to copy the location of the selected item</source>
@@ -1229,19 +1230,19 @@
         </trans-unit>
         <trans-unit id="VerticalTabViewAddTab.Text" translate="yes" xml:space="preserve">
           <source>Add tab</source>
-          <target state="new">Add tab</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Sekme ekle</target>
         </trans-unit>
         <trans-unit id="VerticalTabViewHeader.Text" translate="yes" xml:space="preserve">
           <source>Open tabs</source>
-          <target state="new">Open tabs</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Sekmeleri aç</target>
         </trans-unit>
         <trans-unit id="ButtonNo.Content" translate="yes" xml:space="preserve">
           <source>No</source>
-          <target state="new">No</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Hayır</target>
         </trans-unit>
         <trans-unit id="ButtonYes.Content" translate="yes" xml:space="preserve">
           <source>Yes</source>
-          <target state="new">Yes</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Evet</target>
         </trans-unit>
         <trans-unit id="RestartNotificationText.Text" translate="yes" xml:space="preserve">
           <source>The application needs to be restarted in order to apply the langague setting, would you like to restart the app?</source>
@@ -1249,7 +1250,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
-          <target state="new">Layout mode</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Düzen modu</target>
         </trans-unit>
       </group>
     </body>

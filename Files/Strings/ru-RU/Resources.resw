@@ -813,4 +813,70 @@
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
     <value>Узнайте, что нового в Files UWP</value>
   </data>
+  <data name="DriveCapacityUnknown" xml:space="preserve">
+    <value>Неизвестно</value>
+  </data>
+  <data name="ExceptionNotificationHeader" xml:space="preserve">
+    <value>Что-то пошло не так</value>
+  </data>
+  <data name="ExceptionNotificationReportButton" xml:space="preserve">
+    <value>Сообщение о проблеме</value>
+  </data>
+  <data name="SettingsAboutVersionTitle" xml:space="preserve">
+    <value>Версия</value>
+  </data>
+  <data name="ShareDialogFailMessage" xml:space="preserve">
+    <value>Сейчас нет ничего, к чему можно предоставить общий доступ.</value>
+  </data>
+  <data name="ShareDialogTitle" xml:space="preserve">
+    <value>Предоставляется общий доступ к {0}</value>
+  </data>
+  <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
+    <value>Элемент больше не существует</value>
+  </data>
+  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
+    <value>дополнительно</value>
+  </data>
+  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
+    <value>Действительно удалить этот элемент?</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
+    <value>Вы действительно хотите удалить эти элементы {0}?</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
+    <value>Горизонтальный</value>
+  </data>
+  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
+    <value>Многозадачность</value>
+  </data>
+  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
+    <value>По вертикали</value>
+  </data>
+  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
+    <value>Многозадачность</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+    <value>Использовать как</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
+    <value>Копировать местоположение</value>
+  </data>
+  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
+    <value>Добавить вкладку</value>
+  </data>
+  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
+    <value>Открыть вкладки</value>
+  </data>
+  <data name="ButtonNo.Content" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="ButtonYes.Content" xml:space="preserve">
+    <value>Да</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Режим макета</value>
+  </data>
 </root>

@@ -834,6 +834,9 @@
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
     <value>Compartiendo {0} {1}</value>
   </data>
+  <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
+    <value>El elemento ya no existe</value>
+  </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Más</value>
   </data>
@@ -896,5 +899,8 @@
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>La aplicación necesita reiniciarse para aplicar el cambio de idioma, ¿Reiniciar ahora?</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Modo de diseño</value>
   </data>
 </root>

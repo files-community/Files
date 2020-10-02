@@ -750,4 +750,97 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>{0} இற்கு நகலெடு</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+    <value>குறுக்குவழி உருவாக்கு</value>
+  </data>
+  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+    <value>கோப்பு இருப்பிடத்தைத் திற</value>
+  </data>
+  <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
+    <value>நியாயவாதம்:</value>
+  </data>
+  <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
+    <value>இலக்கு:</value>
+  </data>
+  <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
+    <value>பணிக் கோப்பகம்:</value>
+  </data>
+  <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
+    <value>பயன்பாடு</value>
+  </data>
+  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
+    <value>கோப்பு</value>
+  </data>
+  <data name="PropertiesShortcutTypeFolder" xml:space="preserve">
+    <value>கோப்புறை</value>
+  </data>
+  <data name="PropertiesShortcutTypeLink" xml:space="preserve">
+    <value>வலை இணைப்பு</value>
+  </data>
+  <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
+    <value>பொது</value>
+  </data>
+  <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
+    <value>குறுக்குவழி</value>
+  </data>
+  <data name="ShortcutFileType" xml:space="preserve">
+    <value>குறுக்குவழி</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
+    <value>கோப்பு இருப்பிடத்தைத் திற</value>
+  </data>
+  <data name="DriveCapacityUnknown" xml:space="preserve">
+    <value>அறியாதது</value>
+  </data>
+  <data name="ExceptionNotificationHeader" xml:space="preserve">
+    <value>ஏதோ தவறாகிவிட்டது</value>
+  </data>
+  <data name="SettingsAboutContributors.Text" xml:space="preserve">
+    <value>பங்களிப்பாளர்கள்</value>
+  </data>
+  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
+    <value>வெளியீட்டுக் குறிப்புகள்</value>
+  </data>
+  <data name="SettingsAboutVersionTitle" xml:space="preserve">
+    <value>பதிப்பு</value>
+  </data>
+  <data name="ShareDialogFailMessage" xml:space="preserve">
+    <value>இப்போது பகிர ஒன்றுமில்லை.</value>
+  </data>
+  <data name="ShareDialogTitle" xml:space="preserve">
+    <value>{0} பகிரப்படுகிறது</value>
+  </data>
+  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
+    <value>மேலும்</value>
+  </data>
+  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
+    <value>ரத்து</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
+    <value>இந்த உருப்படியை உறுதியாக நீக்க விரும்புகிறீர்களா?</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
+    <value>கிடைமட்ட</value>
+  </data>
+  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
+    <value>மல்டிடாஸ்க்கிங்</value>
+  </data>
+  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
+    <value>செங்குத்து</value>
+  </data>
+  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
+    <value>மல்டிடாஸ்க்கிங்</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+    <value>இவ்வாறு அமை</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
+    <value>இருப்பிடத்தை நகலெடு</value>
+  </data>
+  <data name="ButtonNo.Content" xml:space="preserve">
+    <value>இல்லை</value>
+  </data>
+  <data name="ButtonYes.Content" xml:space="preserve">
+    <value>ஆம்</value>
+  </data>
 </root>

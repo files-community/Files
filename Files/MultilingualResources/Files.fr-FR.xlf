@@ -51,8 +51,9 @@
           <target state="translated">Récents</target>
         </trans-unit>
         <trans-unit id="SettingsAboutAppName.Text" translate="yes" xml:space="preserve">
-          <source>Files UWP</source>
-          <target state="translated">Files UWP</target>
+          <source>Files</source>
+          <target state="needs-review-translation">Files UWP</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
           <source>License</source>
@@ -1020,11 +1021,11 @@
         </trans-unit>
         <trans-unit id="PropertiesShortcutItemWorkingDir.Text" translate="yes" xml:space="preserve">
           <source>Working directory:</source>
-          <target state="new">Working directory:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">_Répertoire de travail :</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutTypeApplication" translate="yes" xml:space="preserve">
           <source>Application</source>
-          <target state="new">Application</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Candidature</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutTypeFile" translate="yes" xml:space="preserve">
           <source>File</source>
@@ -1087,16 +1088,18 @@
           <target state="translated">Contributeurs</target>
         </trans-unit>
         <trans-unit id="SettingsAboutContributorsDescription.Text" translate="yes" xml:space="preserve">
-          <source>See who contributed to Files UWP</source>
-          <target state="translated">Voir qui a contribué à Files UWP</target>
+          <source>See who contributed to Files</source>
+          <target state="needs-review-translation">Voir qui a contribué à Files UWP</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
           <source>Release Notes</source>
           <target state="translated">Notes de version</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotesDescription.Text" translate="yes" xml:space="preserve">
-          <source>Find out what's new</source>
-          <target state="translated">Découvrez les nouveautés</target>
+          <source>Find out what's new in Files</source>
+          <target state="needs-review-translation">Découvrez les nouveautés</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
           <source>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</source>
@@ -1112,7 +1115,7 @@
         </trans-unit>
         <trans-unit id="ShareDialogFailMessage" translate="yes" xml:space="preserve">
           <source>There's nothing to share right now...</source>
-          <target state="new">There's nothing to share right now...</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Aucun élément à partager pour le moment.</target>
         </trans-unit>
         <trans-unit id="ShareDialogMultipleItemsDescription" translate="yes" xml:space="preserve">
           <source>The items you've selected will be shared</source>
@@ -1124,7 +1127,7 @@
         </trans-unit>
         <trans-unit id="ShareDialogTitle" translate="yes" xml:space="preserve">
           <source>Sharing {0}</source>
-          <target state="new">Sharing {0}</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Partage de {0}</target>
         </trans-unit>
         <trans-unit id="ShareDialogTitleMultipleItems" translate="yes" xml:space="preserve">
           <source>Sharing {0} {1}</source>
@@ -1136,7 +1139,7 @@
         </trans-unit>
         <trans-unit id="RenameError.ItemDeleted.Title" translate="yes" xml:space="preserve">
           <source>Item no longer exists</source>
-          <target state="new">Item no longer exists</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">L’élément n’existe plus</target>
         </trans-unit>
         <trans-unit id="RenameError.NameInvalid.Text" translate="yes" xml:space="preserve">
           <source>The name specified was invalid. Please check the desired item name and try again.</source>
@@ -1168,11 +1171,11 @@
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogDeleteOneItem.Text" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete this item?</source>
-          <target state="new">Are you sure you want to delete this item?</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Voulez-vous vraiment supprimer cet élément ?</target>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogDeleteMultipleItems.Text" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete these {0} items?</source>
-          <target state="new">Are you sure you want to delete these {0} items?</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Voulez-vous vraiment supprimer ces éléments {0} ?</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingAdaptive.Content" translate="yes" xml:space="preserve">
           <source>Adaptive (Recommended)</source>
@@ -1184,7 +1187,7 @@
         </trans-unit>
         <trans-unit id="SettingsMultitaskingHorizontal.Content" translate="yes" xml:space="preserve">
           <source>Horizontal</source>
-          <target state="new">Horizontal</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Horizontalement</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingHorizontalDescription.Text" translate="yes" xml:space="preserve">
           <source>Always hides the vertical multitasking flyout from the navigation toolbar, and shows the traditional horizontal tabstrip on the app window. This is suited for users who need to keep track of every open app instance at all times.</source>
@@ -1192,11 +1195,11 @@
         </trans-unit>
         <trans-unit id="SettingsMultitaskingTitle.Text" translate="yes" xml:space="preserve">
           <source>Multitasking</source>
-          <target state="new">Multitasking</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Multitâche</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingVertical.Content" translate="yes" xml:space="preserve">
           <source>Vertical</source>
-          <target state="new">Vertical</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Verticale</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingVerticalDescription.Text" translate="yes" xml:space="preserve">
           <source>Collapses the horizontal list of app instances into a vertical flyout on the navigation toolbar, designed for users who want a clean app interface with on-demand access to a multitasking experience.</source>
@@ -1204,15 +1207,15 @@
         </trans-unit>
         <trans-unit id="SettingsNavMultitasking.Content" translate="yes" xml:space="preserve">
           <source>Multitasking</source>
-          <target state="new">Multitasking</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Multitâche</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutSetAs.Text" translate="yes" xml:space="preserve">
           <source>Set as</source>
-          <target state="new">Set as</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Définir comme</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutCopyLocation.Text" translate="yes" xml:space="preserve">
           <source>Copy location</source>
-          <target state="new">Copy location</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Copier l'emplacement</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesCopyLocation.Text" translate="yes" xml:space="preserve">
           <source>Show an option to copy the location of the selected item</source>
@@ -1220,19 +1223,19 @@
         </trans-unit>
         <trans-unit id="VerticalTabViewAddTab.Text" translate="yes" xml:space="preserve">
           <source>Add tab</source>
-          <target state="new">Add tab</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ajouter un onglet</target>
         </trans-unit>
         <trans-unit id="VerticalTabViewHeader.Text" translate="yes" xml:space="preserve">
           <source>Open tabs</source>
-          <target state="new">Open tabs</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ouvrir les onglets</target>
         </trans-unit>
         <trans-unit id="ButtonNo.Content" translate="yes" xml:space="preserve">
           <source>No</source>
-          <target state="new">No</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">NON</target>
         </trans-unit>
         <trans-unit id="ButtonYes.Content" translate="yes" xml:space="preserve">
           <source>Yes</source>
-          <target state="new">Yes</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">OUI</target>
         </trans-unit>
         <trans-unit id="RestartNotificationText.Text" translate="yes" xml:space="preserve">
           <source>The application needs to be restarted in order to apply the langague setting, would you like to restart the app?</source>
@@ -1240,7 +1243,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
-          <target state="new">Layout mode</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Mode disposition</target>
         </trans-unit>
       </group>
     </body>

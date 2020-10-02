@@ -822,10 +822,73 @@
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Elemento non valido</value>
   </data>
+  <data name="DriveCapacityUnknown" xml:space="preserve">
+    <value>Sconosciuto</value>
+  </data>
+  <data name="ExceptionNotificationHeader" xml:space="preserve">
+    <value>Si è verificato un errore.</value>
+  </data>
+  <data name="ExceptionNotificationReportButton" xml:space="preserve">
+    <value>Segnala questo problema</value>
+  </data>
+  <data name="SettingsAboutVersionTitle" xml:space="preserve">
+    <value>Versione</value>
+  </data>
+  <data name="ShareDialogFailMessage" xml:space="preserve">
+    <value>Nessun contenuto da condividere.</value>
+  </data>
+  <data name="ShareDialogTitle" xml:space="preserve">
+    <value>Condivisione di {0}</value>
+  </data>
+  <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
+    <value>L'elemento non esiste più</value>
+  </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Altri elementi</value>
   </data>
   <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
     <value>Mostra tutti gli elementi nel menu contestuale</value>
+  </data>
+  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
+    <value>Annulla</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
+    <value>Eliminare questo elemento?</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
+    <value>Eliminare questi {0} elementi?</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
+    <value>Orizzontale</value>
+  </data>
+  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
+    <value>Multitasking</value>
+  </data>
+  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
+    <value>Verticale</value>
+  </data>
+  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
+    <value>Multitasking</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+    <value>Imposta come</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
+    <value>Copia posizione</value>
+  </data>
+  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
+    <value>Aggiungi scheda</value>
+  </data>
+  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
+    <value>Apri schede</value>
+  </data>
+  <data name="ButtonNo.Content" xml:space="preserve">
+    <value>Nr</value>
+  </data>
+  <data name="ButtonYes.Content" xml:space="preserve">
+    <value>Sì</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Modalità layout</value>
   </data>
 </root>

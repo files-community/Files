@@ -936,4 +936,7 @@
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>O aplicativo precisa ser reiniciado para aplicar a configuração de idioma. Deseja reiniciar o aplicativo?</value>
   </data>
+  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Modo de layout</value>
+  </data>
 </root>
