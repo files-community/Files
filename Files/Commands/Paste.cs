@@ -59,7 +59,7 @@ namespace Files.Commands
                 // Should this be done in ModernShellPage?
                 return;
             }
-            
+
             IReadOnlyList<IStorageItem> itemsToPaste = await packageView.GetStorageItemsAsync();
 
             if (AppInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))

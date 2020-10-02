@@ -179,8 +179,9 @@
           <target state="translated">Arquivos recentes</target>
         </trans-unit>
         <trans-unit id="SettingsAboutAppName.Text" translate="yes" xml:space="preserve">
-          <source>Files UWP</source>
-          <target state="translated">Files UWP</target>
+          <source>Files</source>
+          <target state="needs-review-translation">Files UWP</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
           <source>License</source>
@@ -1068,16 +1069,18 @@
           <target state="translated">Contribuidores</target>
         </trans-unit>
         <trans-unit id="SettingsAboutContributorsDescription.Text" translate="yes" xml:space="preserve">
-          <source>See who contributed to Files UWP</source>
-          <target state="translated">Veja quem contribuiu para o Files UWP</target>
+          <source>See who contributed to Files</source>
+          <target state="needs-review-translation">Veja quem contribuiu para o Files UWP</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
           <source>Release Notes</source>
           <target state="translated">Notas de Atualização</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotesDescription.Text" translate="yes" xml:space="preserve">
-          <source>Find out what's new</source>
-          <target state="translated">Descubra o que há de novo</target>
+          <source>Find out what's new in Files</source>
+          <target state="needs-review-translation">Descubra o que há de novo</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
           <source>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</source>
@@ -1241,7 +1244,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
-          <target state="new">Layout mode</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Modo de layout</target>
         </trans-unit>
       </group>
     </body>

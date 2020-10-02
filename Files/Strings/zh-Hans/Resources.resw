@@ -855,6 +855,9 @@
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
     <value>共享中 {0} {1}</value>
   </data>
+  <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
+    <value>项目不再存在</value>
+  </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>更多</value>
   </data>
@@ -917,5 +920,8 @@
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>需要重新启动应用才能更改语言设置，您想重新启动应用吗？</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>布局模式</value>
   </data>
 </root>

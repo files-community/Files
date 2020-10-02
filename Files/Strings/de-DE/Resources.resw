@@ -936,4 +936,7 @@
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>Die Anwendung muss neugestartet werden, um die Spracheinstellungen zu übernehmen. Möchten Sie die Anwendung jetzt neustarten?</value>
   </data>
+  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Layoutmodus</value>
+  </data>
 </root>

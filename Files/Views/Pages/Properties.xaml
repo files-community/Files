@@ -17,7 +17,7 @@
     <Page.Resources>
         <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="Transparent" />
     </Page.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />

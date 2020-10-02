@@ -37,7 +37,7 @@
                             x:Uid="SettingsAboutAppName"
                             FontSize="16"
                             FontWeight="Medium"
-                            Text="Files UWP" />
+                            Text="Files" />
                         <TextBlock
                             x:Name="VersionNumber"
                             Padding="0,4"
@@ -96,7 +96,7 @@
                                     x:Uid="SettingsAboutReleaseNotesDescription"
                                     FontSize="12"
                                     Foreground="Gray"
-                                    Text="Find out what's new in Files UWP"
+                                    Text="Find out what's new in Files"
                                     TextWrapping="Wrap" />
                             </StackPanel>
                         </StackPanel>
@@ -120,7 +120,7 @@
                                     x:Uid="SettingsAboutContributorsDescription"
                                     FontSize="12"
                                     Foreground="Gray"
-                                    Text="See who contributed to Files UWP"
+                                    Text="See who contributed to Files"
                                     TextWrapping="Wrap" />
                             </StackPanel>
                         </StackPanel>
