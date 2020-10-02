@@ -368,7 +368,7 @@ namespace Files.View_Models.Properties
 
             if (ViewModel.DetailsSectionVisibility_Photo.Equals(Visibility.Visible))
             {
-                ViewModel.ShotString = string.Format("{0} sec. f/{1} {2}mm", ViewModel.SystemFileProperties_RO["System.Photo.ExposureTime"], ViewModel.SystemFileProperties_RO["System.Photo.FocalLength"], ViewModel.SystemFileProperties_RO["System.Photo.Aperture"]);
+                ViewModel.ShotString = string.Format("{0} sec. f/{1} {2}mm", ViewModel.SystemFileProperties_RO["System.Photo.ExposureTime"], ViewModel.SystemFileProperties_RO["System.Photo.Aperture"], ViewModel.SystemFileProperties_RO["System.Photo.FocalLength"]);
             }
         }
 
@@ -430,8 +430,7 @@ namespace Files.View_Models.Properties
             try
             {
                 file = await ItemViewModel.GetFileFromPathAsync(Item.ItemPath);
-                //SavePropertiesAsyncDebug(file);
-                await file.Properties.SavePropertiesAsync(ViewModel.SystemFileProperties_RW);
+                SavePropertiesAsync(file);
             }
             catch (Exception e)
             {
@@ -439,11 +438,7 @@ namespace Files.View_Models.Properties
             }
         }
 
-        /// <summary>
-        /// This function is for debug purposes, use it to debug "incorrect parameter" errors.
-        /// </summary>
-        /// <param name="file"></param>
-        private async void SavePropertiesAsyncDebug(StorageFile file)
+        private async void SavePropertiesAsync(StorageFile file)
         {
             foreach (KeyValuePair<string, object> valuePair in ViewModel.SystemFileProperties_RW)
             {
