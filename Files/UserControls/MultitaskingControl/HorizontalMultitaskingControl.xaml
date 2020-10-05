@@ -776,7 +776,8 @@
                     <muxc:TabViewItem
                         Margin="2,0,2,0"
                         AllowDrop="True"
-                        DragOver="TabViewItem_DragOver"
+                        DragEnter="TabViewItem_DragEnter"
+                        DragLeave="TabViewItem_DragLeave"
                         Drop="TabViewItem_Drop"
                         FontFamily="{StaticResource FluentUIGlyphs}"
                         Header="{x:Bind Header, Mode=OneWay}"
