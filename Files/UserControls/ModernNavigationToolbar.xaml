@@ -527,6 +527,8 @@
 
                                 <FontIcon
                                     x:Name="PathSeaparatorIcon"
+                                    Width="32"
+                                    Margin="-11,0,-11,0"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     FontSize="10"
                                     Glyph="&#xE9A8;"
@@ -641,6 +643,7 @@
             <Button
                 x:Name="Back"
                 x:Uid="NavBackButton"
+                AutomationProperties.Name="Navigate backwards"
                 Width="34"
                 Height="30"
                 Margin="4,0,2,0"
@@ -666,6 +669,7 @@
             <Button
                 x:Name="Forward"
                 x:Uid="NavForwardButton"
+                AutomationProperties.Name="Navigate forward"
                 Width="34"
                 Height="30"
                 Margin="2,0,2,0"
@@ -690,6 +694,7 @@
             <Button
                 x:Name="Up"
                 x:Uid="NavUpButton"
+                AutomationProperties.Name="Go up one directory"
                 Width="34"
                 Height="30"
                 Margin="2,0,2,0"
@@ -714,6 +719,7 @@
             <Button
                 x:Name="Refresh"
                 x:Uid="NavRefreshButton"
+                AutomationProperties.Name="Refresh the directory"
                 Width="34"
                 Height="30"
                 Margin="2,0,0,0"
@@ -840,6 +846,7 @@
                 Padding="0"
                 HorizontalAlignment="Right"
                 x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                AutomationProperties.Name="Create new item"
                 Background="Transparent"
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
@@ -923,6 +930,7 @@
             <Button
                 x:Name="VerticalTabStripInvokeButton"
                 x:Uid="VerticalTabStrip"
+                AutomationProperties.Name="Vertical tab strip"
                 Width="34"
                 Height="30"
                 Margin="2,0,2,0"
