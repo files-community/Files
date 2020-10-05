@@ -758,6 +758,7 @@
             AddTabButtonClick="TabView_AddTabButtonClick"
             AllowDropTabs="True"
             CanDragTabs="True"
+            DragLeave="TabStrip_DragLeave"
             IsAddTabButtonVisible="True"
             SelectedIndex="{x:Bind local1:App.InteractionViewModel.TabStripSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             SelectionChanged="TabStrip_SelectionChanged"
@@ -770,7 +771,6 @@
             TabItemsSource="{x:Bind Items, Mode=OneWay}"
             TabStripDragOver="TabStrip_TabStripDragOver"
             TabStripDrop="TabStrip_TabStripDrop"
-            DragLeave="TabStrip_DragLeave"
             TabWidthMode="Equal">
             <muxc:TabView.TabItemTemplate>
                 <DataTemplate x:DataType="local:TabItem">
