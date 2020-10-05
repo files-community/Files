@@ -770,6 +770,7 @@
             TabItemsSource="{x:Bind Items, Mode=OneWay}"
             TabStripDragOver="TabStrip_TabStripDragOver"
             TabStripDrop="TabStrip_TabStripDrop"
+            DragLeave="TabStrip_DragLeave"
             TabWidthMode="Equal">
             <muxc:TabView.TabItemTemplate>
                 <DataTemplate x:DataType="local:TabItem">

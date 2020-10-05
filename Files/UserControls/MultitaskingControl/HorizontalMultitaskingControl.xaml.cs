@@ -249,6 +249,7 @@ namespace Files.UserControls
             {
                 e.AcceptedOperation = DataPackageOperation.None;
             }
+            HorizontalTabView.CanReorderTabs = true;
             tabHoverTimer.Stop();
         }
 
@@ -256,6 +257,7 @@ namespace Files.UserControls
         {
             if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
             {
+                HorizontalTabView.CanReorderTabs = false;
                 e.AcceptedOperation = DataPackageOperation.Move;
                 tabHoverTimer.Start();
                 hoveredTabViewItem = sender as TabViewItem;
@@ -291,15 +293,25 @@ namespace Files.UserControls
         {
             if (e.DataView.Properties.ContainsKey(TabPathIdentifier))
             {
+                HorizontalTabView.CanReorderTabs = true;
                 e.AcceptedOperation = DataPackageOperation.Move;
                 e.DragUIOverride.Caption = ResourceController.GetTranslation("TabStripDragAndDropUIOverrideCaption");
                 e.DragUIOverride.IsCaptionVisible = true;
                 e.DragUIOverride.IsGlyphVisible = false;
+            } else
+            {
+                HorizontalTabView.CanReorderTabs = false;
             }
+        }
+
+        private void TabStrip_DragLeave(object sender, DragEventArgs e)
+        {
+            HorizontalTabView.CanReorderTabs = true;
         }
 
         private async void TabStrip_TabStripDrop(object sender, DragEventArgs e)
         {
+            HorizontalTabView.CanReorderTabs = true;
             if (!(sender is TabView tabStrip))
             {
                 return;
