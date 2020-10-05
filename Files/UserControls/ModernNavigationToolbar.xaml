@@ -527,6 +527,7 @@
 
                                 <FontIcon
                                     x:Name="PathSeaparatorIcon"
+                                    Width="32" Margin="-11,0,-11,0"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     FontSize="10"
                                     Glyph="&#xE9A8;"
