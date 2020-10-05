@@ -1245,6 +1245,34 @@
           <source>Layout mode</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">מצב פריסה</target>
         </trans-unit>
+        <trans-unit id="NewItemButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Create new item</source>
+          <target state="new">Create new item</target>
+        </trans-unit>
+        <trans-unit id="NavBackButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Navigate backwards</source>
+          <target state="new">Navigate backwards</target>
+        </trans-unit>
+        <trans-unit id="NavForwardButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Navigate forward</source>
+          <target state="new">Navigate forward</target>
+        </trans-unit>
+        <trans-unit id="NavResfreshButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Refresh the directory</source>
+          <target state="new">Refresh the directory</target>
+        </trans-unit>
+        <trans-unit id="NavUpButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Go up one directory</source>
+          <target state="new">Go up one directory</target>
+        </trans-unit>
+        <trans-unit id="VerticalTabStrip.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Vertical tab strip</source>
+          <target state="new">Vertical tab strip</target>
+        </trans-unit>
+        <trans-unit id="SidebarSettingsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="new">Settings</target>
+        </trans-unit>
       </group>
     </body>
   </file>

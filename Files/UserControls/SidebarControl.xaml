@@ -258,9 +258,11 @@
                 <Grid>
                     <Button
                         x:Name="SettingsButton"
+                        x:Uid="SidebarSettingsButton"
                         Height="40"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Left"
+                        AutomationProperties.Name="Settings"
                         Background="Transparent"
                         BorderBrush="{StaticResource ButtonRevealBorderBrush}"
                         Click="SettingsButton_Click"
