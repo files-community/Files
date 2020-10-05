@@ -36,33 +36,46 @@
                 </MenuFlyoutSubItem.Icon>
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByName"
+                    Click="RadioMenuSortColumn_Click"
                     GroupName="SortGroup"
+                    IsChecked="{x:Bind AssociatedViewModel.IsSortedByName, Mode=TwoWay}"
+                    Tag="nameColumn"
                     Text="Name" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByDate"
+                    Click="RadioMenuSortColumn_Click"
                     GroupName="SortGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedByDate, Mode=TwoWay}"
+                    Tag="dateColumn"
                     Text="Date modified" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByType"
+                    Click="RadioMenuSortColumn_Click"
                     GroupName="SortGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedByType, Mode=TwoWay}"
+                    Tag="typeColumn"
                     Text="Type" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortBySize"
+                    Click="RadioMenuSortColumn_Click"
                     GroupName="SortGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedBySize, Mode=TwoWay}"
+                    Tag="sizeColumn"
                     Text="Size" />
                 <MenuFlyoutSeparator />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByAscending"
+                    Click="RadioMenuSortDirection_Click"
                     GroupName="SortOrderGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedAscending, Mode=TwoWay}"
+                    Tag="sortAscending"
                     Text="Ascending" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByDescending"
+                    Click="RadioMenuSortDirection_Click"
                     GroupName="SortOrderGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedDescending, Mode=TwoWay}"
+                    Tag="sortDescending"
                     Text="Descending" />
             </MenuFlyoutSubItem>
             <MenuFlyoutItem
@@ -166,34 +179,46 @@
                 </MenuFlyoutSubItem.Icon>
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByName"
+                    Click="RadioMenuSortColumn_Click"
                     GroupName="SortGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedByName, Mode=TwoWay}"
+                    Tag="nameColumn"
                     Text="Name" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByDate"
+                    Click="RadioMenuSortColumn_Click"
                     GroupName="SortGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedByDate, Mode=TwoWay}"
+                    Tag="dateColumn"
                     Text="Date modified" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByType"
+                    Click="RadioMenuSortColumn_Click"
                     GroupName="SortGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedByType, Mode=TwoWay}"
+                    Tag="typeColumn"
                     Text="Type" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortBySize"
+                    Click="RadioMenuSortColumn_Click"
                     GroupName="SortGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedBySize, Mode=TwoWay}"
+                    Tag="sizeColumn"
                     Text="Size" />
                 <MenuFlyoutSeparator />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByAscending"
+                    Click="RadioMenuSortDirection_Click"
                     GroupName="SortOrderGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedAscending, Mode=TwoWay}"
+                    Tag="sortAscending"
                     Text="Ascending" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByDescending"
+                    Click="RadioMenuSortDirection_Click"
                     GroupName="SortOrderGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedDescending, Mode=TwoWay}"
+                    Tag="sortDescending"
                     Text="Descending" />
             </MenuFlyoutSubItem>
             <MenuFlyoutItem
