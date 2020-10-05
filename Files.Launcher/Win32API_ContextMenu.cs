@@ -129,10 +129,12 @@ namespace FilesFullTrust
         public class ContextMenu : Win32ContextMenu, IDisposable
         {
             private Shell32.IContextMenu cMenu;
+            private User32.SafeHMENU hMenu;
 
-            public ContextMenu(Shell32.IContextMenu cMenu)
+            public ContextMenu(Shell32.IContextMenu cMenu, User32.SafeHMENU hMenu)
             {
                 this.cMenu = cMenu;
+                this.hMenu = hMenu;
                 this.Items = new List<Win32ContextMenuItem>();
             }
 
@@ -203,11 +205,10 @@ namespace FilesFullTrust
                     return null;
                 using var sf = shellItems.First().Parent; // HP: the items are all in the same folder
                 Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(null, shellItems);
-                var contextMenu = new ContextMenu(menu);
                 var hMenu = User32.CreatePopupMenu();
                 menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
+                var contextMenu = new ContextMenu(menu, hMenu);
                 ContextMenu.EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
-                User32.DestroyMenu(hMenu);
                 return contextMenu;
             }
 
@@ -264,9 +265,6 @@ namespace FilesFullTrust
                             try
                             {
                                 (cMenu as Shell32.IContextMenu2)?.HandleMenuMsg((uint)User32.WindowMessage.WM_INITMENUPOPUP, (IntPtr)mii.hSubMenu, new IntPtr(ii));
-                                // Skip this items, clicking on them probably won't work
-                                container.Dispose();
-                                continue;
                             }
                             catch (NotImplementedException)
                             {
@@ -366,6 +364,11 @@ namespace FilesFullTrust
                     }
 
                     // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                    if (hMenu != null)
+                    {
+                        User32.DestroyMenu(hMenu);
+                        hMenu = null;
+                    }
                     if (cMenu != null)
                     {
                         Marshal.ReleaseComObject(cMenu);
