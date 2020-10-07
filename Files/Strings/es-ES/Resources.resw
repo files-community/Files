@@ -46,7 +46,7 @@
     <value>Recientes</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files UWP</value>
+    <value>Files</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
     <value>Licencia</value>
@@ -253,7 +253,7 @@
     <value>Propiedades</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>QuickLook:</value>
+    <value>QuickLook</value>
   </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
     <value>Nueva Ventana</value>
@@ -787,7 +787,7 @@
     <value>Contribuidores</value>
   </data>
   <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>Ver quiénes contribuyen a Files UWP</value>
+    <value>Ver quiénes contribuyen a Files</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>Notas de publicación</value>
@@ -916,15 +916,27 @@
     <value>Crea un archivo de texto vacío.</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
-    <value>Modo de diseño</value>
+    <value>Tipo de vista</value>
   </data>
   <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Crear elemento</value>
+    <value>Crear nuevo elemento</value>
+  </data>
+  <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Navegar hacia atrás</value>
   </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Navegar hacia delante</value>
+    <value>Navegar hacia adelante</value>
+  </data>
+  <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Actualizar directorio</value>
+  </data>
+  <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Subir un directorio</value>
+  </data>
+  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
+    <value>Barra de pestañas vertical</value>
   </data>
   <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Configuración</value>
+    <value>Ajustes</value>
   </data>
 </root>
