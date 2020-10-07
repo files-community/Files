@@ -3,6 +3,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -456,6 +457,47 @@ namespace Files
         {
             DataGridRow row = element as DataGridRow;
             return row.DataContext as ListedItem;
+        }
+
+        private void RadioMenuSortColumn_Click(object sender, RoutedEventArgs e)
+        {
+            DataGridColumnEventArgs args = null;
+
+            switch ((sender as RadioMenuFlyoutItem).Tag)
+            {
+                case "nameColumn":
+                    args = new DataGridColumnEventArgs(nameColumn);
+                    break;
+
+                case "dateColumn":
+                    args = new DataGridColumnEventArgs(dateColumn);
+                    break;
+
+                case "typeColumn":
+                    args = new DataGridColumnEventArgs(typeColumn);
+                    break;
+
+                case "sizeColumn":
+                    args = new DataGridColumnEventArgs(sizeColumn);
+                    break;
+            }
+
+            if (args != null)
+            {
+                AllView_Sorting(sender, args);
+            }
+        }
+
+        private void RadioMenuSortDirection_Click(object sender, RoutedEventArgs e)
+        {
+            if (((sender as RadioMenuFlyoutItem).Tag as string) == "sortAscending")
+            {
+                SortedColumn.SortDirection = DataGridSortDirection.Ascending;
+            }
+            else if (((sender as RadioMenuFlyoutItem).Tag as string) == "sortDescending")
+            {
+                SortedColumn.SortDirection = DataGridSortDirection.Descending;
+            }
         }
     }
 }
