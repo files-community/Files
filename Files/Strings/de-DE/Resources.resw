@@ -962,6 +962,7 @@
   </data>
   <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
     <value>Erstellt ein leeres Textdokument</value>
+  </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Layoutmodus</value>
   </data>

@@ -1279,6 +1279,7 @@
         <trans-unit id="AddDialogListTextFileSubHeader" translate="yes" xml:space="preserve">
           <source>Creates an empty text file</source>
           <target state="translated">Erstellt ein leeres Textdokument</target>
+        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Layoutmodus</target>

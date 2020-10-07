@@ -1067,6 +1067,7 @@
   </data>
   <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
     <value>Creates an empty text file</value>
+  </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Layout mode</value>
   </data>
