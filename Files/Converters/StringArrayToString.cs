@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
 
 namespace Files.Converters
 {
-    class StringArrayToString : IValueConverter
+    internal class StringArrayToString : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            var array = value as string[]; 
+            var array = value as string[];
 
             if (array == null || !(array is string[]))
                 return "";

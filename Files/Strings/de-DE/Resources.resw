@@ -966,4 +966,13 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Layoutmodus</value>
   </data>
+  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Neues Element erstellen</value>
+  </data>
+  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Vorwärts navigieren</value>
+  </data>
+  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
 </root>

@@ -1,20 +1,12 @@
 using ByteSizeLib;
-using Files.Filesystem;
 using Files.Helpers;
-using Files.View_Models.Properties;
-using Files.Views.Pages;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Windows.ApplicationModel.Core;
-using Windows.Devices.Bluetooth.Advertisement;
-using Windows.Devices.Geolocation;
 using Windows.Services.Maps;
-using Windows.Storage.FileProperties;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -644,6 +636,7 @@ namespace Files.View_Models
         }
 
         private DateTimeOffset _DateTaken;
+
         public DateTimeOffset DateTaken
         {
             get => _DateTaken;
@@ -651,6 +644,7 @@ namespace Files.View_Models
         }
 
         private System.Nullable<double> _Longitude;
+
         public System.Nullable<double> Longitude
         {
             get => _Longitude;
@@ -658,6 +652,7 @@ namespace Files.View_Models
         }
 
         private System.Nullable<double> _Latitude;
+
         public System.Nullable<double> Latitude
         {
             get => _Latitude;
@@ -665,6 +660,7 @@ namespace Files.View_Models
         }
 
         private int _Rating;
+
         public int Rating
         {
             get => _Rating;
@@ -672,6 +668,7 @@ namespace Files.View_Models
         }
 
         private MapLocation _Geopoint;
+
         public MapLocation Geopoint
         {
             get => _Geopoint;
@@ -679,6 +676,7 @@ namespace Files.View_Models
         }
 
         private string _GeopointString;
+
         public string GeopointString
         {
             get => _GeopointString;
@@ -686,6 +684,7 @@ namespace Files.View_Models
         }
 
         private string _CameraNameString;
+
         public string CameraNameString
         {
             get => _CameraNameString;
@@ -693,6 +692,7 @@ namespace Files.View_Models
         }
 
         private string _ShotString;
+
         public string ShotString
         {
             get => _ShotString;
@@ -700,6 +700,7 @@ namespace Files.View_Models
         }
 
         private IDictionary<string, object> _SystemFileProperties_RO;
+
         public IDictionary<string, object> SystemFileProperties_RO
         {
             get => _SystemFileProperties_RO;
@@ -707,6 +708,7 @@ namespace Files.View_Models
         }
 
         private IDictionary<string, object> _SystemFileProperties_RW;
+
         public IDictionary<string, object> SystemFileProperties_RW
         {
             get => _SystemFileProperties_RW;
@@ -714,6 +716,7 @@ namespace Files.View_Models
         }
 
         private Visibility _DetailsSectionVisibility_Image;
+
         public Visibility DetailsSectionVisibility_Image
         {
             get => _DetailsSectionVisibility_Image;
@@ -721,6 +724,7 @@ namespace Files.View_Models
         }
 
         private Visibility _DetailsSectionVisibility_GPS;
+
         public Visibility DetailsSectionVisibility_GPS
         {
             get => _DetailsSectionVisibility_GPS;
@@ -728,6 +732,7 @@ namespace Files.View_Models
         }
 
         private Visibility _DetailsSectionVisibility_Photo;
+
         public Visibility DetailsSectionVisibility_Photo
         {
             get => _DetailsSectionVisibility_Photo;
@@ -735,6 +740,7 @@ namespace Files.View_Models
         }
 
         private Visibility _DetailsSectionVisibility_Audio;
+
         public Visibility DetailsSectionVisibility_Audio
         {
             get => _DetailsSectionVisibility_Audio;
@@ -742,6 +748,7 @@ namespace Files.View_Models
         }
 
         private Visibility _DetailsSectionVisibility_Music;
+
         public Visibility DetailsSectionVisibility_Music
         {
             get => _DetailsSectionVisibility_Music;
@@ -749,6 +756,7 @@ namespace Files.View_Models
         }
 
         private Visibility _DetailsSectionVisibility_Media;
+
         public Visibility DetailsSectionVisibility_Media
         {
             get => _DetailsSectionVisibility_Media;

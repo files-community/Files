@@ -2,7 +2,6 @@
 using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
-using Files.View_Models.Properties;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading;
@@ -169,7 +168,8 @@ namespace Files
             if (contentFrame.Content is PropertiesGeneral)
             {
                 await (contentFrame.Content as PropertiesGeneral).SaveChanges(listedItem);
-            } else if (contentFrame.Content is PropertiesDetails)
+            }
+            else if (contentFrame.Content is PropertiesDetails)
             {
                 await (contentFrame.Content as PropertiesDetails).SaveChanges(listedItem);
             }
@@ -228,8 +228,6 @@ namespace Files
                 case "Details":
                     contentFrame.Navigate(typeof(PropertiesDetails), navParam, args.RecommendedNavigationTransitionInfo);
                     break;
-
-
             }
         }
 
