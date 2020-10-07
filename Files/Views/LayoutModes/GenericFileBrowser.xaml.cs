@@ -3,6 +3,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -331,9 +332,16 @@ namespace Files
         private async void AllView_Sorting(object sender, DataGridColumnEventArgs e)
         {
             if (e.Column == SortedColumn)
+            {
                 App.CurrentInstance.FilesystemViewModel.IsSortedAscending = !App.CurrentInstance.FilesystemViewModel.IsSortedAscending;
+                e.Column.SortDirection = App.CurrentInstance.FilesystemViewModel.IsSortedAscending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
+            }
             else if (e.Column != iconColumn)
+            {
                 SortedColumn = e.Column;
+                e.Column.SortDirection = DataGridSortDirection.Ascending;
+                App.CurrentInstance.FilesystemViewModel.IsSortedAscending = true;
+            }
 
             if (!AssociatedViewModel.IsLoadingItems && AssociatedViewModel.FilesAndFolders.Count > 0)
             {
@@ -376,6 +384,16 @@ namespace Files
 
         public void AllView_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
+            HandleRightClick(sender, e);
+        }
+
+        public void AllView_Holding(object sender, HoldingRoutedEventArgs e)
+        {
+            HandleRightClick(sender, e);
+        }
+
+        private void HandleRightClick(object sender, RoutedEventArgs e)
+        {
             var rowPressed = Interacts.Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
             if (rowPressed != null)
             {
@@ -401,8 +419,9 @@ namespace Files
             {
                 if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
                 {
-                    var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
-                    if (focusedElement is TextBox || focusedElement is PasswordBox ||
+                    // Don't block the various uses of enter key (key 13)
+                    var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
+                    if (args.KeyCode == 13 || focusedElement is Button || focusedElement is TextBox || focusedElement is PasswordBox ||
                         Interacts.Interaction.FindParent<ContentDialog>(focusedElement) != null)
                     {
                         return;
@@ -439,6 +458,47 @@ namespace Files
         {
             DataGridRow row = element as DataGridRow;
             return row.DataContext as ListedItem;
+        }
+
+        private void RadioMenuSortColumn_Click(object sender, RoutedEventArgs e)
+        {
+            DataGridColumnEventArgs args = null;
+
+            switch ((sender as RadioMenuFlyoutItem).Tag)
+            {
+                case "nameColumn":
+                    args = new DataGridColumnEventArgs(nameColumn);
+                    break;
+
+                case "dateColumn":
+                    args = new DataGridColumnEventArgs(dateColumn);
+                    break;
+
+                case "typeColumn":
+                    args = new DataGridColumnEventArgs(typeColumn);
+                    break;
+
+                case "sizeColumn":
+                    args = new DataGridColumnEventArgs(sizeColumn);
+                    break;
+            }
+
+            if (args != null)
+            {
+                AllView_Sorting(sender, args);
+            }
+        }
+
+        private void RadioMenuSortDirection_Click(object sender, RoutedEventArgs e)
+        {
+            if (((sender as RadioMenuFlyoutItem).Tag as string) == "sortAscending")
+            {
+                SortedColumn.SortDirection = DataGridSortDirection.Ascending;
+            }
+            else if (((sender as RadioMenuFlyoutItem).Tag as string) == "sortDescending")
+            {
+                SortedColumn.SortDirection = DataGridSortDirection.Descending;
+            }
         }
     }
 }

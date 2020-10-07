@@ -247,7 +247,7 @@
     <value>Recent items</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files UWP</value>
+    <value>Files</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
     <value>License</value>
@@ -469,7 +469,7 @@
     <value>Properties</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>QuickLook:</value>
+    <value>QuickLook</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Welcome to Files!</value>
@@ -928,13 +928,13 @@
     <value>Contributors</value>
   </data>
   <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>See who contributed to Files UWP</value>
+    <value>See who contributed to Files</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>Release Notes</value>
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Find out what's new</value>
+    <value>Find out what's new in Files</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</value>
@@ -1040,5 +1040,29 @@
   </data>
   <data name="SettingsPreferencesCopyLocation.Text" xml:space="preserve">
     <value>Show an option to copy the location of the selected item</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Layout mode</value>
+  </data>
+  <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Navigate backwards</value>
+  </data>
+  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Navigate forward</value>
+  </data>
+  <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Refresh the directory</value>
+  </data>
+  <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Go up one directory</value>
+  </data>
+  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Create new item</value>
+  </data>
+  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
+    <value>Vertical tab strip</value>
+  </data>
+  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Settings</value>
   </data>
 </root>

@@ -303,8 +303,9 @@ namespace Files
             {
                 if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser) && !isRenamingItem)
                 {
-                    var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
-                    if (focusedElement is TextBox || focusedElement is PasswordBox ||
+                    // Don't block the various uses of enter key (key 13)
+                    var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
+                    if (args.KeyCode == 13 || focusedElement is Button || focusedElement is TextBox || focusedElement is PasswordBox ||
                         Interacts.Interaction.FindParent<ContentDialog>(focusedElement) != null)
                     {
                         return;

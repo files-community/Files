@@ -53,14 +53,15 @@ namespace Files.Commands
 
         private static async Task PasteItem(DataPackageView packageView, string destinationPath, DataPackageOperation acceptedOperation, IShellPage AppInstance, IProgress<uint> progress)
         {
-            IReadOnlyList<IStorageItem> itemsToPaste = await packageView.GetStorageItemsAsync();
-
             if (!packageView.Contains(StandardDataFormats.StorageItems))
             {
                 // Happens if you copy some text and then you Ctrl+V in FilesUWP
                 // Should this be done in ModernShellPage?
                 return;
             }
+
+            IReadOnlyList<IStorageItem> itemsToPaste = await packageView.GetStorageItemsAsync();
+
             if (AppInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
             {
                 // Do not paste files and folders inside the recycle bin
@@ -71,6 +72,8 @@ namespace Files.Commands
             List<IStorageItem> pastedSourceItems = new List<IStorageItem>();
             HashSet<IStorageItem> pastedItems = new HashSet<IStorageItem>();
             var totalItemsSize = CalculateTotalItemsSize(itemsToPaste);
+            bool isItemSizeUnreported = totalItemsSize <= 0;
+
             foreach (IStorageItem item in itemsToPaste)
             {
                 if (item.IsOfType(StorageItemTypes.Folder))
@@ -106,9 +109,12 @@ namespace Files.Commands
                     }
                     else
                     {
-                        var pastedItemSize = await Task.Run(() => CalculateTotalItemsSize(pastedSourceItems));
-                        uint progressValue = (uint)(pastedItemSize * 100 / totalItemsSize);
-                        progress.Report(progressValue);
+                        if (!isItemSizeUnreported)
+                        {
+                            var pastedItemSize = await Task.Run(() => CalculateTotalItemsSize(pastedSourceItems));
+                            uint progressValue = (uint)(pastedItemSize * 100 / totalItemsSize);
+                            progress.Report(progressValue);
+                        }
 
                         try
                         {
@@ -128,9 +134,12 @@ namespace Files.Commands
                 }
                 else if (item.IsOfType(StorageItemTypes.File))
                 {
-                    var pastedItemSize = await Task.Run(() => CalculateTotalItemsSize(pastedSourceItems));
-                    uint progressValue = (uint)(pastedItemSize * 100 / totalItemsSize);
-                    progress.Report(progressValue);
+                    if (!isItemSizeUnreported)
+                    {
+                        var pastedItemSize = await Task.Run(() => CalculateTotalItemsSize(pastedSourceItems));
+                        uint progressValue = (uint)(pastedItemSize * 100 / totalItemsSize);
+                        progress.Report(progressValue);
+                    }
 
                     try
                     {
@@ -161,10 +170,16 @@ namespace Files.Commands
                     }
                 }
             }
-
-            var finalPastedItemSize = await Task.Run(() => CalculateTotalItemsSize(pastedSourceItems));
-            uint finalProgressValue = (uint)(finalPastedItemSize * 100 / totalItemsSize);
-            progress.Report(finalProgressValue);
+            if (!isItemSizeUnreported)
+            {
+                var finalPastedItemSize = await Task.Run(() => CalculateTotalItemsSize(pastedSourceItems));
+                uint finalProgressValue = (uint)(finalPastedItemSize * 100 / totalItemsSize);
+                progress.Report(finalProgressValue);
+            }
+            else
+            {
+                progress.Report(100);
+            }
 
             if (acceptedOperation == DataPackageOperation.Move)
             {

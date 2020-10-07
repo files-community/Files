@@ -753,4 +753,97 @@
   <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
     <value>ଗନ୍ତବ୍ୟସ୍ଥଳ ଫୋଲ୍ଡର ଉତ୍ସ ଫୋଲ୍ଡର ସହିତ ସମାନ |</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+    <value>ସର୍ଟକଟ୍ ସୃଷ୍ଟି କରନ୍ତୁ</value>
+  </data>
+  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+    <value>ଫାଇଲ୍ ଅବସ୍ଥାନ ଖୋଲନ୍ତୁ</value>
+  </data>
+  <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
+    <value>ତର୍କ:</value>
+  </data>
+  <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
+    <value>ଲକ୍ଷ୍ୟସ୍ଥଳ:</value>
+  </data>
+  <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
+    <value>ୱାର୍କିଂ ଡାଇରେକ୍ଟୋରୀ:</value>
+  </data>
+  <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
+    <value>ଅନୁପ୍ରୟୋଗ</value>
+  </data>
+  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
+    <value>ଫାଇଲ୍:</value>
+  </data>
+  <data name="PropertiesShortcutTypeFolder" xml:space="preserve">
+    <value>ଫୋଲ୍ଡର:</value>
+  </data>
+  <data name="PropertiesShortcutTypeLink" xml:space="preserve">
+    <value>ୱେବ୍ ଲିଙ୍କ</value>
+  </data>
+  <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
+    <value>ସାଧାରଣ</value>
+  </data>
+  <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
+    <value>ସର୍ଟକଟ୍</value>
+  </data>
+  <data name="ShortcutFileType" xml:space="preserve">
+    <value>ସର୍ଟକଟ୍</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
+    <value>ଫାଇଲ୍ ଅବସ୍ଥାନ ଖୋଲନ୍ତୁ</value>
+  </data>
+  <data name="DriveCapacityUnknown" xml:space="preserve">
+    <value>ଅଜ୍ଞାତ</value>
+  </data>
+  <data name="ExceptionNotificationHeader" xml:space="preserve">
+    <value>କିଛି ଭୁଲ୍‌ ହେଲା</value>
+  </data>
+  <data name="SettingsAboutContributors.Text" xml:space="preserve">
+    <value>ଯୋଗଦାନକାରୀ</value>
+  </data>
+  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
+    <value>ନୋଟ୍‌ଗୁଡିକ ରିଲିଜ୍‌ କରନ୍ତୁ</value>
+  </data>
+  <data name="SettingsAboutVersionTitle" xml:space="preserve">
+    <value>ଚାଲୁ-କରିବାକୁ-କ୍ଲିକ୍ ସଂସ୍କରଣ:</value>
+  </data>
+  <data name="ShareDialogFailMessage" xml:space="preserve">
+    <value>ବର୍ତ୍ତମାନ ଅଂଶୀଦାର କରିବାକୁ କିଛି ନାହିଁ.</value>
+  </data>
+  <data name="ShareDialogTitle" xml:space="preserve">
+    <value>ଅଂଶିଦାର କରୁଛି {0}</value>
+  </data>
+  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
+    <value>ଅଧିକ</value>
+  </data>
+  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
+    <value>ବାତିଲ୍</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
+    <value>ଆପଣ ଏହି ଆଇଟମ୍ ବିଲୋପ କରିବାକୁ ଚାହୁଁଥିବା ନିଶ୍ଚିତ କି?</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
+    <value>ଅକ୍ଷାଂଶ</value>
+  </data>
+  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
+    <value>ମଲ୍ଟିଟାସ୍କିଂ</value>
+  </data>
+  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
+    <value>ଭୂ-ଲମ୍ବ</value>
+  </data>
+  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
+    <value>ମଲ୍ଟିଟାସ୍କିଂ</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+    <value>ଏହି ଭାବେ ସେଟ୍ କରନ୍ତୁ</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
+    <value>ଅବସ୍ଥାନ କପି କରନ୍ତୁ</value>
+  </data>
+  <data name="ButtonNo.Content" xml:space="preserve">
+    <value>ନାଁ</value>
+  </data>
+  <data name="ButtonYes.Content" xml:space="preserve">
+    <value>ହଁ</value>
+  </data>
 </root>

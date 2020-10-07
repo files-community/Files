@@ -47,7 +47,7 @@ namespace Files.Dialogs
             {
                 if (e.Key.Equals(VirtualKey.Enter))
                 {
-                    var element = Windows.UI.Xaml.Input.FocusManager.GetFocusedElement(XamlRoot) as Button;
+                    var element = Windows.UI.Xaml.Input.FocusManager.GetFocusedElement() as Button;
                     if (element == null || element.Name == "PrimaryButton")
                     {
                         if (!IsPrimaryButtonEnabled) return;

@@ -974,6 +974,10 @@ namespace Files.Interacts
                     return;
                 }
             }
+            if (!items.Any())
+            {
+                return;
+            }
             dataPackage.SetStorageItems(items);
             Clipboard.SetContent(dataPackage);
             try

@@ -35,7 +35,8 @@
                             x:Name="AdaptiveMultToggle"
                             x:Uid="SettingsMultitaskingAdaptive"
                             Content="Adaptive (Recommended)"
-                            IsChecked="{x:Bind AppSettings.IsMultitaskingExperienceAdaptive, Mode=TwoWay}" />
+                            GroupName="MultitaskingSettingRadioGroup"
+                            IsChecked="{x:Bind AppSettings.IsMultitaskingExperienceAdaptive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock
                             x:Uid="SettingsMultitaskingAdaptiveDescription"
                             MaxWidth="450"
@@ -49,7 +50,8 @@
                             x:Uid="SettingsMultitaskingHorizontal"
                             Margin="0,18,0,0"
                             Content="Horizontal"
-                            IsChecked="{x:Bind AppSettings.IsHorizontalTabStripEnabled, Mode=TwoWay}" />
+                            GroupName="MultitaskingSettingRadioGroup"
+                            IsChecked="{x:Bind AppSettings.IsHorizontalTabStripEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock
                             x:Uid="SettingsMultitaskingHorizontalDescription"
                             MaxWidth="450"
@@ -63,7 +65,8 @@
                             x:Uid="SettingsMultitaskingVertical"
                             Margin="0,18,0,0"
                             Content="Vertical"
-                            IsChecked="{x:Bind AppSettings.IsVerticalTabFlyoutEnabled, Mode=TwoWay}" />
+                            GroupName="MultitaskingSettingRadioGroup"
+                            IsChecked="{x:Bind AppSettings.IsVerticalTabFlyoutEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock
                             x:Uid="SettingsMultitaskingVerticalDescription"
                             MaxWidth="450"
