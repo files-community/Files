@@ -807,4 +807,61 @@
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
     <value>Дізнайтеся, що нового у Files UWP</value>
   </data>
+  <data name="DriveCapacityUnknown" xml:space="preserve">
+    <value>Невідомо</value>
+  </data>
+  <data name="ExceptionNotificationHeader" xml:space="preserve">
+    <value>Сталася помилка</value>
+  </data>
+  <data name="ExceptionNotificationReportButton" xml:space="preserve">
+    <value>Повідомте про цю проблему</value>
+  </data>
+  <data name="SettingsAboutVersionTitle" xml:space="preserve">
+    <value>Версія</value>
+  </data>
+  <data name="ShareDialogFailMessage" xml:space="preserve">
+    <value>Наразі нема до чого надавати спільний доступ.</value>
+  </data>
+  <data name="ShareDialogTitle" xml:space="preserve">
+    <value>Надається спільний доступ до ресурсу "{0}"</value>
+  </data>
+  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
+    <value>Додатково</value>
+  </data>
+  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
+    <value>Скасувати</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
+    <value>Справді видалити цей елемент?</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
+    <value>Горизонтально</value>
+  </data>
+  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
+    <value>Багатозадачність</value>
+  </data>
+  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
+    <value>По вертикалі</value>
+  </data>
+  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
+    <value>Багатозадачність</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+    <value>Вибрати для</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
+    <value>Копіювати розташування</value>
+  </data>
+  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
+    <value>Додати вкладку</value>
+  </data>
+  <data name="ButtonNo.Content" xml:space="preserve">
+    <value>Ні</value>
+  </data>
+  <data name="ButtonYes.Content" xml:space="preserve">
+    <value>Так</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Режим макета</value>
+  </data>
 </root>

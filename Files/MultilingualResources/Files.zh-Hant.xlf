@@ -796,11 +796,11 @@
         </trans-unit>
         <trans-unit id="ItemSelected.Text" translate="yes" xml:space="preserve">
           <source>item selected</source>
-          <target state="new">選擇的項目</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">选择项目</target>
         </trans-unit>
         <trans-unit id="ItemsSelected.Text" translate="yes" xml:space="preserve">
           <source>items selected</source>
-          <target state="new">多選的項目</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">已选定项目</target>
         </trans-unit>
       </group>
     </body>

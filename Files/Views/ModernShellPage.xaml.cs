@@ -229,22 +229,22 @@ namespace Files.Views.Pages
                     break;
 
                 case (true, false, false, true, VirtualKey.C): // ctrl + c, copy
-                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled && !App.CurrentInstance.ContentPage.isRenamingItem)
                         App.CurrentInstance.InteractionOperations.CopyItem_ClickAsync(null, null);
                     break;
 
                 case (true, false, false, true, VirtualKey.V): // ctrl + v, paste
-                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled && !App.CurrentInstance.ContentPage.isRenamingItem)
                         App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync(null, null);
                     break;
 
                 case (true, false, false, true, VirtualKey.X): // ctrl + x, cut
-                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled && !App.CurrentInstance.ContentPage.isRenamingItem)
                         App.CurrentInstance.InteractionOperations.CutItem_Click(null, null);
                     break;
 
                 case (true, false, false, true, VirtualKey.A): // ctrl + a, select all
-                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled && !App.CurrentInstance.ContentPage.isRenamingItem)
                         App.CurrentInstance.InteractionOperations.SelectAllItems();
                     break;
 

@@ -753,4 +753,109 @@
   <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
     <value>गंतव्य फ़ोल्डर स्रोत फ़ोल्डर के समान है।</value>
   </data>
+  <data name="CopyToFolderCaptionText" xml:space="preserve">
+    <value>{0} की प्रतिलिपि बनाएँ</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+    <value>शॉर्टकट बनाएँ</value>
+  </data>
+  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+    <value>फ़ाइल स्थान खोलें</value>
+  </data>
+  <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
+    <value>तर्क</value>
+  </data>
+  <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
+    <value>गंतव्य</value>
+  </data>
+  <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
+    <value>कार्य निर्देशिका:</value>
+  </data>
+  <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
+    <value>अनुप्रयोग</value>
+  </data>
+  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
+    <value>फ़ाइल</value>
+  </data>
+  <data name="PropertiesShortcutTypeFolder" xml:space="preserve">
+    <value>फ़ोल्डर</value>
+  </data>
+  <data name="PropertiesShortcutTypeLink" xml:space="preserve">
+    <value>वेब लिंक</value>
+  </data>
+  <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
+    <value>सामान्य</value>
+  </data>
+  <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
+    <value>शॉर्टकट</value>
+  </data>
+  <data name="ShortcutFileType" xml:space="preserve">
+    <value>शॉर्टकट</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
+    <value>फ़ाइल स्थान खोलें</value>
+  </data>
+  <data name="DriveCapacityUnknown" xml:space="preserve">
+    <value>अज्ञात</value>
+  </data>
+  <data name="ExceptionNotificationHeader" xml:space="preserve">
+    <value>कुछ गलत हुआ.</value>
+  </data>
+  <data name="ExceptionNotificationReportButton" xml:space="preserve">
+    <value>इस समस्या की रिपोर्ट करें</value>
+  </data>
+  <data name="SettingsAboutContributors.Text" xml:space="preserve">
+    <value>योगदानकर्ता</value>
+  </data>
+  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
+    <value>रिलीज़ नोट्स</value>
+  </data>
+  <data name="SettingsAboutVersionTitle" xml:space="preserve">
+    <value>संस्करण</value>
+  </data>
+  <data name="ShareDialogFailMessage" xml:space="preserve">
+    <value>अभी साझा करने के लिए कुछ भी नहीं है.</value>
+  </data>
+  <data name="ShareDialogTitle" xml:space="preserve">
+    <value>साझाकरण {0}</value>
+  </data>
+  <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
+    <value>आइटम अब मौजूद नहीं है</value>
+  </data>
+  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
+    <value>अधिक</value>
+  </data>
+  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
+    <value>रद्द करें</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
+    <value>क्‍या आप वाकई यह आइटम हटाना चाहते हैं?</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
+    <value>क्षैतिज्य</value>
+  </data>
+  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
+    <value>मल्टिटास्किंग</value>
+  </data>
+  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
+    <value>अनुलंब</value>
+  </data>
+  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
+    <value>मल्टिटास्किंग</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+    <value>के रूप में सेट करें</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
+    <value>स्थान की प्रतिलिपि बनाएँ</value>
+  </data>
+  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
+    <value>टैब जोड़ें</value>
+  </data>
+  <data name="ButtonNo.Content" xml:space="preserve">
+    <value>नहीं</value>
+  </data>
+  <data name="ButtonYes.Content" xml:space="preserve">
+    <value>हाँ</value>
+  </data>
 </root>

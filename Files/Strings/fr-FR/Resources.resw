@@ -699,6 +699,12 @@
   <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
     <value>Destination :</value>
   </data>
+  <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
+    <value>_Répertoire de travail :</value>
+  </data>
+  <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
+    <value>Candidature</value>
+  </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
     <value>Fichier</value>
   </data>
@@ -753,6 +759,15 @@
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>Version :</value>
   </data>
+  <data name="ShareDialogFailMessage" xml:space="preserve">
+    <value>Aucun élément à partager pour le moment.</value>
+  </data>
+  <data name="ShareDialogTitle" xml:space="preserve">
+    <value>Partage de {0}</value>
+  </data>
+  <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
+    <value>L’élément n’existe plus</value>
+  </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Plus</value>
   </data>
@@ -761,5 +776,44 @@
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Annuler</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
+    <value>Voulez-vous vraiment supprimer cet élément ?</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
+    <value>Voulez-vous vraiment supprimer ces éléments {0} ?</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
+    <value>Horizontalement</value>
+  </data>
+  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
+    <value>Multitâche</value>
+  </data>
+  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
+    <value>Verticale</value>
+  </data>
+  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
+    <value>Multitâche</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+    <value>Définir comme</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
+    <value>Copier l'emplacement</value>
+  </data>
+  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
+    <value>Ajouter un onglet</value>
+  </data>
+  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
+    <value>Ouvrir les onglets</value>
+  </data>
+  <data name="ButtonNo.Content" xml:space="preserve">
+    <value>NON</value>
+  </data>
+  <data name="ButtonYes.Content" xml:space="preserve">
+    <value>OUI</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Mode disposition</value>
   </data>
 </root>

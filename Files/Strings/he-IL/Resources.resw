@@ -582,4 +582,40 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>עוד</value>
   </data>
+  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
+    <value>ביטול</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
+    <value>האם אתה בטוח שברצונך למחוק פריט זה?</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
+    <value>אופקי</value>
+  </data>
+  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
+    <value>ריבוי משימות</value>
+  </data>
+  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
+    <value>אנכי</value>
+  </data>
+  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
+    <value>ריבוי משימות</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+    <value>קבע כ-</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
+    <value>העתק מיקום</value>
+  </data>
+  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
+    <value>הוסף כרטיסיה</value>
+  </data>
+  <data name="ButtonNo.Content" xml:space="preserve">
+    <value>לא</value>
+  </data>
+  <data name="ButtonYes.Content" xml:space="preserve">
+    <value>כן</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>מצב פריסה</value>
+  </data>
 </root>
