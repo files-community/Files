@@ -24,6 +24,7 @@ namespace Files
         private static ApplicationViewTitleBar TitleBar;
 
         private CancellationTokenSource tokenSource = new CancellationTokenSource();
+        private ContentDialog propertiesDialog;
 
         private object navParameter;
 
@@ -34,6 +35,7 @@ namespace Files
         public Properties()
         {
             InitializeComponent();
+            propertiesDialog = Interaction.FindParent<ContentDialog>(this);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -61,7 +63,6 @@ namespace Files
             }
             else
             {
-                var propertiesDialog = Interaction.FindParent<ContentDialog>(this);
                 propertiesDialog.Closed += PropertiesDialog_Closed;
             }
         }
@@ -123,6 +124,7 @@ namespace Files
                 tokenSource.Dispose();
                 tokenSource = null;
             }
+            propertiesDialog.Hide();
         }
 
         private void Properties_Unloaded(object sender, RoutedEventArgs e)
@@ -173,7 +175,6 @@ namespace Files
             }
             else
             {
-                var propertiesDialog = Interaction.FindParent<ContentDialog>(this);
                 propertiesDialog.Hide();
             }
         }
@@ -186,7 +187,6 @@ namespace Files
             }
             else
             {
-                var propertiesDialog = Interaction.FindParent<ContentDialog>(this);
                 propertiesDialog.Hide();
             }
         }
@@ -201,7 +201,6 @@ namespace Files
                 }
                 else
                 {
-                    var propertiesDialog = Interaction.FindParent<ContentDialog>(this);
                     propertiesDialog.Hide();
                 }
             }
