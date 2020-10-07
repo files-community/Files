@@ -150,6 +150,16 @@ namespace Files.Filesystem
 
         private DateTimeOffset _itemDateAccessedReal;
 
+        public bool IsImage()
+        {
+            if (FileExtension != null)
+            {
+                string lower = FileExtension.ToLower();
+                return lower.Contains("png") || lower.Contains("jpg") || lower.Contains("gif") || lower.Contains("jpeg");
+            }
+            return false;
+        }
+
         public ListedItem(string folderRelativeId)
         {
             FolderRelativeId = folderRelativeId;

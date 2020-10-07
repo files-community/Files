@@ -22,6 +22,19 @@ steps:
       $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
     failOnStderr: true
 
+- task: DownloadSecureFile@1
+  name: mapsDevKey
+  displayName: 'Download Bing Maps Dev Key'
+  inputs:
+    secureFile: 'BingMapsKey.txt'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)'
+    Contents: '$(mapsDevKey.secureFilePath)'
+    TargetFolder: '$(Build.SourcesDirectory)\Files\Resources'
+    overWrite: true
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2

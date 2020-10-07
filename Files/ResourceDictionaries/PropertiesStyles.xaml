@@ -1,4 +1,5 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:usercontrols="using:Files.UserControls" xmlns:converters="using:Files.Converters">
 
     <Style x:Key="PropertiesTab" TargetType="StackPanel">
         <Setter Property="Padding" Value="14,0,14,14" />
@@ -12,6 +13,7 @@
     <Style x:Key="PropertyName" TargetType="TextBlock">
         <Setter Property="Margin" Value="{StaticResource PropertyNameMargin}" />
         <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Margin" Value="0,7"/>
     </Style>
 
     <Style x:Key="PropertyValueGrid" TargetType="Grid">
@@ -28,6 +30,7 @@
         <Setter Property="Margin" Value="{StaticResource PropertyValueMargin}" />
         <Setter Property="VerticalAlignment" Value="{StaticResource PropertyValueVerticalAlignment}" />
         <Setter Property="IsTextSelectionEnabled" Value="True" />
+        <Setter Property="Margin" Value="20,0,0,0"/>
     </Style>
 
     <Style
@@ -38,5 +41,40 @@
         <Setter Property="VerticalAlignment" Value="{StaticResource PropertyValueVerticalAlignment}" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Margin" Value="20,0,0,0"/>
+        <Setter Property="BorderBrush">
+            <Setter.Value>
+                <SolidColorBrush Color="Transparent"/>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Color="Transparent"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <converters:StringArrayToString x:Key="StringArrayToString"/>
+    <converters:UInt32ToString x:Key="UInt32ToString"/>
+    <converters:DoubleToString x:Key="DoubleToString"/>
+    <converters:DateTimeOffsetToString x:Key="DateTimeOffsetToString"/>
+
+
+
+    <Style TargetType="MenuFlyoutSeparator" x:Key="Separator">
+        <Setter Property="Grid.Column" Value="0"/>
+        <Setter Property="Grid.ColumnSpan" Value="2"/>
+        <Setter Property="Margin" Value="-12, 0"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="SeparatorText">
+        <Setter Property="Grid.Column" Value="0"/>
+        <Setter Property="FontSize" Value="22"/>
+    </Style>
+
+    <Style TargetType="usercontrols:PropertyListItem">
+        <Setter Property="ColumnWidth" Value="110"/>
     </Style>
 </ResourceDictionary>

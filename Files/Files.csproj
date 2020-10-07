@@ -158,8 +158,12 @@
     <Compile Include="Commands\Paste.cs" />
     <Compile Include="Controllers\IJson.cs" />
     <Compile Include="Controllers\SidebarPinnedController.cs" />
+    <Compile Include="Converters\DateTimeOffsetToString.cs" />
+    <Compile Include="Converters\DoubleToString.cs" />
     <Compile Include="Converters\MultiBooleanConverter.cs" />
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
+    <Compile Include="Converters\StringArrayToString.cs" />
+    <Compile Include="Converters\UInt32ToString.cs" />
     <Compile Include="DataModels\DefaultLanguageModel.cs" />
     <Compile Include="DataModels\SidebarPinnedModel.cs" />
     <Compile Include="Controllers\TerminalController.cs" />
@@ -173,6 +177,7 @@
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Filesystem\CloudDriveSyncStatus.cs" />
+    <Compile Include="Filesystem\PropertiesData.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\StorageFileExtensions.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\IStorageItemWithPath.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\StorageFileWithPath.cs" />
@@ -234,6 +239,9 @@
     <Compile Include="Enums\WallpaperType.cs" />
     <Compile Include="Filesystem\DriveItem.cs" />
     <Compile Include="Filesystem\Drives.cs" />
+    <Compile Include="UserControls\PropertyListItem.xaml.cs">
+      <DependentUpon>PropertyListItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\SidebarControl.xaml.cs">
       <DependentUpon>SidebarControl.xaml</DependentUpon>
     </Compile>
@@ -278,6 +286,9 @@
     <Compile Include="Navigation\NavigationActions.cs" />
     <Compile Include="Views\LayoutModes\GridViewBrowser.xaml.cs">
       <DependentUpon>GridViewBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\PropertiesDetails.xaml.cs">
+      <DependentUpon>PropertiesDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -356,6 +367,7 @@
     <None Include="Assets\terminal\terminal.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Include="Resources\BingMapsKey.txt" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -502,6 +514,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\PropertyListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\SidebarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -537,6 +553,10 @@
     <Page Include="Views\LayoutModes\GridViewBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\PropertiesDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MainPage.xaml">
       <SubType>Designer</SubType>

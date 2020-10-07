@@ -1,10 +1,20 @@
 using ByteSizeLib;
+using Files.Filesystem;
 using Files.Helpers;
+using Files.View_Models.Properties;
+using Files.Views.Pages;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Windows.ApplicationModel.Core;
+using Windows.Devices.Bluetooth.Advertisement;
+using Windows.Devices.Geolocation;
+using Windows.Services.Maps;
+using Windows.Storage.FileProperties;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -631,6 +641,118 @@ namespace Files.View_Models
             {
                 return ContainsFilesOrFolders ? new Uri("ms-appx:///Assets/FolderIcon2.svg") : new Uri("ms-appx:///Assets/FolderIcon.svg");
             }
+        }
+
+        private DateTimeOffset _DateTaken;
+        public DateTimeOffset DateTaken
+        {
+            get => _DateTaken;
+            set => SetProperty(ref _DateTaken, value);
+        }
+
+        private System.Nullable<double> _Longitude;
+        public System.Nullable<double> Longitude
+        {
+            get => _Longitude;
+            set => SetProperty(ref _Longitude, value);
+        }
+
+        private System.Nullable<double> _Latitude;
+        public System.Nullable<double> Latitude
+        {
+            get => _Latitude;
+            set => SetProperty(ref _Latitude, value);
+        }
+
+        private int _Rating;
+        public int Rating
+        {
+            get => _Rating;
+            set => SetProperty(ref _Rating, value);
+        }
+
+        private MapLocation _Geopoint;
+        public MapLocation Geopoint
+        {
+            get => _Geopoint;
+            set => SetProperty(ref _Geopoint, value);
+        }
+
+        private string _GeopointString;
+        public string GeopointString
+        {
+            get => _GeopointString;
+            set => SetProperty(ref _GeopointString, value);
+        }
+
+        private string _CameraNameString;
+        public string CameraNameString
+        {
+            get => _CameraNameString;
+            set => SetProperty(ref _CameraNameString, value);
+        }
+
+        private string _ShotString;
+        public string ShotString
+        {
+            get => _ShotString;
+            set => SetProperty(ref _ShotString, value);
+        }
+
+        private IDictionary<string, object> _SystemFileProperties_RO;
+        public IDictionary<string, object> SystemFileProperties_RO
+        {
+            get => _SystemFileProperties_RO;
+            set => SetProperty(ref _SystemFileProperties_RO, value);
+        }
+
+        private IDictionary<string, object> _SystemFileProperties_RW;
+        public IDictionary<string, object> SystemFileProperties_RW
+        {
+            get => _SystemFileProperties_RW;
+            set => SetProperty(ref _SystemFileProperties_RW, value);
+        }
+
+        private Visibility _DetailsSectionVisibility_Image;
+        public Visibility DetailsSectionVisibility_Image
+        {
+            get => _DetailsSectionVisibility_Image;
+            set => SetProperty(ref _DetailsSectionVisibility_Image, value);
+        }
+
+        private Visibility _DetailsSectionVisibility_GPS;
+        public Visibility DetailsSectionVisibility_GPS
+        {
+            get => _DetailsSectionVisibility_GPS;
+            set => SetProperty(ref _DetailsSectionVisibility_GPS, value);
+        }
+
+        private Visibility _DetailsSectionVisibility_Photo;
+        public Visibility DetailsSectionVisibility_Photo
+        {
+            get => _DetailsSectionVisibility_Photo;
+            set => SetProperty(ref _DetailsSectionVisibility_Photo, value);
+        }
+
+        private Visibility _DetailsSectionVisibility_Audio;
+        public Visibility DetailsSectionVisibility_Audio
+        {
+            get => _DetailsSectionVisibility_Audio;
+            set => SetProperty(ref _DetailsSectionVisibility_Audio, value);
+        }
+
+        private Visibility _DetailsSectionVisibility_Music;
+        public Visibility DetailsSectionVisibility_Music
+        {
+            get => _DetailsSectionVisibility_Music;
+            set => SetProperty(ref _DetailsSectionVisibility_Music, value);
+        }
+
+        private Visibility _DetailsSectionVisibility_Media;
+        public Visibility DetailsSectionVisibility_Media
+        {
+            get => _DetailsSectionVisibility_Media;
+            set => SetProperty(ref _DetailsSectionVisibility_Media, value);
         }
     }
 }
