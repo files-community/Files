@@ -2,7 +2,6 @@
 using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
-using Files.View_Models.Properties;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading;
@@ -25,6 +24,7 @@ namespace Files
         private static ApplicationViewTitleBar TitleBar;
 
         private CancellationTokenSource tokenSource = new CancellationTokenSource();
+        private ContentDialog propertiesDialog;
 
         private object navParameter;
 
@@ -35,6 +35,7 @@ namespace Files
         public Properties()
         {
             InitializeComponent();
+            propertiesDialog = Interaction.FindParent<ContentDialog>(this);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -63,7 +64,6 @@ namespace Files
             }
             else
             {
-                var propertiesDialog = Interaction.FindParent<ContentDialog>(this);
                 propertiesDialog.Closed += PropertiesDialog_Closed;
             }
         }
@@ -125,6 +125,7 @@ namespace Files
                 tokenSource.Dispose();
                 tokenSource = null;
             }
+            propertiesDialog.Hide();
         }
 
         private void Properties_Unloaded(object sender, RoutedEventArgs e)
@@ -167,7 +168,8 @@ namespace Files
             if (contentFrame.Content is PropertiesGeneral)
             {
                 await (contentFrame.Content as PropertiesGeneral).SaveChanges(listedItem);
-            } else if (contentFrame.Content is PropertiesDetails)
+            }
+            else if (contentFrame.Content is PropertiesDetails)
             {
                 await (contentFrame.Content as PropertiesDetails).SaveChanges(listedItem);
             }
@@ -178,7 +180,6 @@ namespace Files
             }
             else
             {
-                var propertiesDialog = Interaction.FindParent<ContentDialog>(this);
                 propertiesDialog.Hide();
             }
         }
@@ -191,7 +192,6 @@ namespace Files
             }
             else
             {
-                var propertiesDialog = Interaction.FindParent<ContentDialog>(this);
                 propertiesDialog.Hide();
             }
         }
@@ -206,7 +206,6 @@ namespace Files
                 }
                 else
                 {
-                    var propertiesDialog = Interaction.FindParent<ContentDialog>(this);
                     propertiesDialog.Hide();
                 }
             }
@@ -229,8 +228,6 @@ namespace Files
                 case "Details":
                     contentFrame.Navigate(typeof(PropertiesDetails), navParam, args.RecommendedNavigationTransitionInfo);
                     break;
-
-
             }
         }
 

@@ -108,6 +108,9 @@
   <data name="RecentItems.Text" xml:space="preserve">
     <value>Останні файли</value>
   </data>
+  <data name="SettingsAboutAppName.Text" xml:space="preserve">
+    <value>Файли</value>
+  </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
     <value>Ліцензія:</value>
   </data>
@@ -861,7 +864,28 @@
   <data name="ButtonYes.Content" xml:space="preserve">
     <value>Так</value>
   </data>
+  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Скасувати</value>
+  </data>
+  <data name="AddDialogListBitmapHeader" xml:space="preserve">
+    <value>Точковий рисунок</value>
+  </data>
+  <data name="AddDialogListFolderHeader" xml:space="preserve">
+    <value>Папка</value>
+  </data>
+  <data name="AddDialogListTextFileHeader" xml:space="preserve">
+    <value>Текстовий документ</value>
+  </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Режим макета</value>
+  </data>
+  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Створити елемент</value>
+  </data>
+  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Перехід уперед</value>
+  </data>
+  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Настройки</value>
   </data>
 </root>

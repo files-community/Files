@@ -864,7 +864,31 @@
   <data name="ButtonYes.Content" xml:space="preserve">
     <value>Tak</value>
   </data>
+  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Anuluj</value>
+  </data>
+  <data name="AddDialogListBitmapHeader" xml:space="preserve">
+    <value>Obraz - mapa bitowa</value>
+  </data>
+  <data name="AddDialogListFolderHeader" xml:space="preserve">
+    <value>Skoroszyt</value>
+  </data>
+  <data name="AddDialogListTextFileHeader" xml:space="preserve">
+    <value>Dokument tekstowy</value>
+  </data>
+  <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
+    <value>Tworzy pusty plik tekstowy.</value>
+  </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Tryb układu</value>
+  </data>
+  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Utwórz nowy element</value>
+  </data>
+  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Nawiguj do przodu</value>
+  </data>
+  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Ustawienia</value>
   </data>
 </root>

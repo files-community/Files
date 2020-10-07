@@ -921,7 +921,31 @@
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>需要重新启动应用才能更改语言设置，您想重新启动应用吗？</value>
   </data>
+  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="AddDialogListBitmapHeader" xml:space="preserve">
+    <value>BMP 图像</value>
+  </data>
+  <data name="AddDialogListFolderHeader" xml:space="preserve">
+    <value>文件夹</value>
+  </data>
+  <data name="AddDialogListTextFileHeader" xml:space="preserve">
+    <value>文本文档</value>
+  </data>
+  <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
+    <value>创建一个空文本文件。</value>
+  </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>布局模式</value>
+  </data>
+  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
+    <value>创建新项</value>
+  </data>
+  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+    <value>向前导航</value>
+  </data>
+  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>设置</value>
   </data>
 </root>

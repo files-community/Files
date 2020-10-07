@@ -807,7 +807,31 @@
   <data name="ButtonYes.Content" xml:space="preserve">
     <value>はい</value>
   </data>
+  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="AddDialogListBitmapHeader" xml:space="preserve">
+    <value>ビットマップ イメージ</value>
+  </data>
+  <data name="AddDialogListFolderHeader" xml:space="preserve">
+    <value>フォルダー</value>
+  </data>
+  <data name="AddDialogListTextFileHeader" xml:space="preserve">
+    <value>テキスト ドキュメント</value>
+  </data>
+  <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
+    <value>空のテキスト ファイルを作成します。</value>
+  </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>レイアウト モード</value>
+  </data>
+  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
+    <value>新しい項目の作成</value>
+  </data>
+  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+    <value>次に進む</value>
+  </data>
+  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>設定</value>
   </data>
 </root>

@@ -1244,13 +1244,49 @@
           <source>The application needs to be restarted in order to apply the langague setting, would you like to restart the app?</source>
           <target state="translated">Die Anwendung muss neugestartet werden, um die Spracheinstellungen zu übernehmen. Möchten Sie die Anwendung jetzt neustarten?</target>
         </trans-unit>
+        <trans-unit id="AddDialog.Title" translate="yes" xml:space="preserve">
+          <source>Create a New Item</source>
+          <target state="translated">Neues Element erstellen</target>
+        </trans-unit>
+        <trans-unit id="AddDialogDescription.Text" translate="yes" xml:space="preserve">
+          <source>Choose a type for this new item below</source>
+          <target state="translated">Wählen Sie unten einen Dateityp für das neue Element aus</target>
+        </trans-unit>
+        <trans-unit id="AddDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">Abbrechen</target>
+        </trans-unit>
+        <trans-unit id="AddDialogListBitmapHeader" translate="yes" xml:space="preserve">
+          <source>Bitmap Image</source>
+          <target state="translated">Bitmapbild</target>
+        </trans-unit>
+        <trans-unit id="AddDialogListBitmapSubHeader" translate="yes" xml:space="preserve">
+          <source>Creates an empty bitmap image file</source>
+          <target state="translated">Erstelt ein leeres Bitmapbild</target>
+        </trans-unit>
+        <trans-unit id="AddDialogListFolderHeader" translate="yes" xml:space="preserve">
+          <source>Folder</source>
+          <target state="translated">Ordner</target>
+        </trans-unit>
+        <trans-unit id="AddDialogListFolderSubHeader" translate="yes" xml:space="preserve">
+          <source>Creates an empty folder</source>
+          <target state="translated">Erstellt einen leeren Ordner</target>
+        </trans-unit>
+        <trans-unit id="AddDialogListTextFileHeader" translate="yes" xml:space="preserve">
+          <source>Text Document</source>
+          <target state="translated">Textdokument</target>
+        </trans-unit>
+        <trans-unit id="AddDialogListTextFileSubHeader" translate="yes" xml:space="preserve">
+          <source>Creates an empty text file</source>
+          <target state="translated">Erstellt ein leeres Textdokument</target>
+        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Layoutmodus</target>
         </trans-unit>
         <trans-unit id="NewItemButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Create new item</source>
-          <target state="new">Create new item</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Neues Element erstellen</target>
         </trans-unit>
         <trans-unit id="NavBackButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Navigate backwards</source>
@@ -1258,7 +1294,7 @@
         </trans-unit>
         <trans-unit id="NavForwardButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Navigate forward</source>
-          <target state="new">Navigate forward</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Vorwärts navigieren</target>
         </trans-unit>
         <trans-unit id="NavResfreshButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Refresh the directory</source>
@@ -1274,7 +1310,7 @@
         </trans-unit>
         <trans-unit id="SidebarSettingsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Settings</source>
-          <target state="new">Settings</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Einstellungen</target>
         </trans-unit>
       </group>
     </body>

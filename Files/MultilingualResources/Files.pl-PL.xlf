@@ -1253,13 +1253,49 @@
           <source>The application needs to be restarted in order to apply the langague setting, would you like to restart the app?</source>
           <target state="new">The application needs to be restarted in order to apply the langague setting, would you like to restart the app?</target>
         </trans-unit>
+        <trans-unit id="AddDialog.Title" translate="yes" xml:space="preserve">
+          <source>Create a New Item</source>
+          <target state="new">Create a New Item</target>
+        </trans-unit>
+        <trans-unit id="AddDialogDescription.Text" translate="yes" xml:space="preserve">
+          <source>Choose a type for this new item below</source>
+          <target state="new">Choose a type for this new item below</target>
+        </trans-unit>
+        <trans-unit id="AddDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Anuluj</target>
+        </trans-unit>
+        <trans-unit id="AddDialogListBitmapHeader" translate="yes" xml:space="preserve">
+          <source>Bitmap Image</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Obraz - mapa bitowa</target>
+        </trans-unit>
+        <trans-unit id="AddDialogListBitmapSubHeader" translate="yes" xml:space="preserve">
+          <source>Creates an empty bitmap image file</source>
+          <target state="new">Creates an empty bitmap image file</target>
+        </trans-unit>
+        <trans-unit id="AddDialogListFolderHeader" translate="yes" xml:space="preserve">
+          <source>Folder</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Skoroszyt</target>
+        </trans-unit>
+        <trans-unit id="AddDialogListFolderSubHeader" translate="yes" xml:space="preserve">
+          <source>Creates an empty folder</source>
+          <target state="new">Creates an empty folder</target>
+        </trans-unit>
+        <trans-unit id="AddDialogListTextFileHeader" translate="yes" xml:space="preserve">
+          <source>Text Document</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Dokument tekstowy</target>
+        </trans-unit>
+        <trans-unit id="AddDialogListTextFileSubHeader" translate="yes" xml:space="preserve">
+          <source>Creates an empty text file</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Tworzy pusty plik tekstowy.</target>
+        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Tryb układu</target>
         </trans-unit>
         <trans-unit id="NewItemButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Create new item</source>
-          <target state="new">Create new item</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Utwórz nowy element</target>
         </trans-unit>
         <trans-unit id="NavBackButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Navigate backwards</source>
@@ -1267,7 +1303,7 @@
         </trans-unit>
         <trans-unit id="NavForwardButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Navigate forward</source>
-          <target state="new">Navigate forward</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Nawiguj do przodu</target>
         </trans-unit>
         <trans-unit id="NavResfreshButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Refresh the directory</source>
@@ -1283,7 +1319,7 @@
         </trans-unit>
         <trans-unit id="SidebarSettingsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Settings</source>
-          <target state="new">Settings</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ustawienia</target>
         </trans-unit>
       </group>
     </body>
