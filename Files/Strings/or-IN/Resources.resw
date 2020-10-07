@@ -846,4 +846,22 @@
   <data name="ButtonYes.Content" xml:space="preserve">
     <value>ହଁ</value>
   </data>
+  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+    <value>ବାତିଲ୍</value>
+  </data>
+  <data name="AddDialogListBitmapHeader" xml:space="preserve">
+    <value>ବିଟ୍‌ମ୍ୟାପ୍ ପ୍ରତିଛବି</value>
+  </data>
+  <data name="AddDialogListFolderHeader" xml:space="preserve">
+    <value>ଫୋଲ୍ଡର:</value>
+  </data>
+  <data name="AddDialogListTextFileHeader" xml:space="preserve">
+    <value>ପାଠ ଡକ୍ୟୁମେଣ୍ଟ୍</value>
+  </data>
+  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+    <value>ଅଗ୍ରଗାମୀ ନେଭିଗେଟ୍ କରନ୍ତୁ</value>
+  </data>
+  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>ସେଟିଂସମୂହ</value>
+  </data>
 </root>

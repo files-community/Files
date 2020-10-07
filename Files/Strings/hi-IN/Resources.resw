@@ -858,4 +858,25 @@
   <data name="ButtonYes.Content" xml:space="preserve">
     <value>हाँ</value>
   </data>
+  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+    <value>रद्द करें</value>
+  </data>
+  <data name="AddDialogListBitmapHeader" xml:space="preserve">
+    <value>बिटमैप छवि</value>
+  </data>
+  <data name="AddDialogListFolderHeader" xml:space="preserve">
+    <value>फ़ोल्डर</value>
+  </data>
+  <data name="AddDialogListTextFileHeader" xml:space="preserve">
+    <value>पाठ दस्तावेज़</value>
+  </data>
+  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
+    <value>नया आइटम बनाएँ</value>
+  </data>
+  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+    <value>आगे नेविगेट करें</value>
+  </data>
+  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>सेटिंग्स</value>
+  </data>
 </root>

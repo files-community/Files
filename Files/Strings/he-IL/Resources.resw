@@ -120,6 +120,9 @@
   <data name="RecentItems.Text" xml:space="preserve">
     <value>פריטים אחרונים</value>
   </data>
+  <data name="SettingsAboutAppName.Text" xml:space="preserve">
+    <value>קבצים</value>
+  </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
     <value>רשיון</value>
   </data>
@@ -615,7 +618,28 @@
   <data name="ButtonYes.Content" xml:space="preserve">
     <value>כן</value>
   </data>
+  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+    <value>ביטול</value>
+  </data>
+  <data name="AddDialogListBitmapHeader" xml:space="preserve">
+    <value>תמונת מפת סיביות</value>
+  </data>
+  <data name="AddDialogListFolderHeader" xml:space="preserve">
+    <value>תיקיה</value>
+  </data>
+  <data name="AddDialogListTextFileHeader" xml:space="preserve">
+    <value>מסמך טקסט</value>
+  </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>מצב פריסה</value>
+  </data>
+  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
+    <value>צור פריט חדש</value>
+  </data>
+  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+    <value>נווט קדימה</value>
+  </data>
+  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>הגדרות</value>
   </data>
 </root>

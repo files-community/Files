@@ -1,29 +1,14 @@
 ﻿using Files.Filesystem;
 using Files.View_Models;
 using Files.View_Models.Properties;
-using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Converters;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.Devices.Geolocation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Services.Maps;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // Il modello di elemento Pagina vuota è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=234238
@@ -38,7 +23,6 @@ namespace Files
         public FileProperties BaseProperties { get; set; }
 
         public SelectedItemsPropertiesViewModel ViewModel { get; set; }
-
 
         public PropertiesDetails()
         {
@@ -60,12 +44,12 @@ namespace Files
         private void SetOverviewVisibilities()
         {
             var name = ViewModel.ItemName.Split(".");
-            var extension = name[name.Length -1].ToLower();
+            var extension = name[name.Length - 1].ToLower();
 
             if (extension.Contains("png") || extension.Contains("jpg") || extension.Contains("png") || extension.Contains("gif") || extension.Contains("jpeg"))
                 OverviewImage.Visibility = Visibility.Visible;
         }
-        
+
         private string GetStringArray(object array)
         {
             if (array == null || !(array is string[]))
@@ -102,12 +86,11 @@ namespace Files
         {
             await Windows.System.Launcher.LaunchUriAsync(ViewModel.Geopoint != null ? new Uri(String.Format(@"bingmaps:?where={0}", ViewModel.Geopoint.Address.FormattedAddress)) : new Uri(String.Format(@"bingmaps:?cp={0}~{1}", ViewModel.Latitude, ViewModel.Longitude)),
                 new Windows.System.LauncherOptions() { TargetApplicationPackageFamilyName = "Microsoft.WindowsMaps_8wekyb3d8bbwe" });
-            
         }
 
         public async Task SaveChanges(ListedItem item)
         {
-             await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => (BaseProperties as FileProperties).SyncPropertyChanges());
+            await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => (BaseProperties as FileProperties).SyncPropertyChanges());
         }
 
         private async void ClearPersonalInformation_Click(object sender, RoutedEventArgs e)

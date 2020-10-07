@@ -1,33 +1,23 @@
 ﻿using ByteSizeLib;
-using Files.Converters;
 using Files.Filesystem;
 using Files.Helpers;
-using Microsoft.Graphics.Canvas.Text;
 using Microsoft.Toolkit.Mvvm.Input;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml.Controls;
 using Newtonsoft.Json.Linq;
-using SQLitePCL;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
-using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.Media.Core;
 using Windows.Security.Cryptography.Core;
 using Windows.Services.Maps;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.View_Models.Properties
@@ -292,7 +282,6 @@ namespace Files.View_Models.Properties
 
         public async void GetSystemFileProperties()
         {
-
             StorageFile file = null;
             try
             {
@@ -362,7 +351,6 @@ namespace Files.View_Models.Properties
                 }
                 catch
                 {
-
                 }
             }
 
@@ -401,7 +389,6 @@ namespace Files.View_Models.Properties
             JObject obj;
             try
             {
-
                 StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/BingMapsKey.txt"));
                 var lines = await FileIO.ReadTextAsync(file);
                 obj = JObject.Parse(lines);

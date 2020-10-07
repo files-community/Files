@@ -18,7 +18,10 @@
 
     <StackPanel Orientation="Vertical" Spacing="25">
         <Grid x:Name="SubtitleArea">
-            <TextBlock x:Name="Description" x:Uid="AddDialogDescription" Text="Choose a type for this new item below" />
+            <TextBlock
+                x:Name="Description"
+                x:Uid="AddDialogDescription"
+                Text="Choose a type for this new item below" />
         </Grid>
         <Grid x:Name="SelectionListContent" HorizontalAlignment="Stretch">
             <StackPanel>

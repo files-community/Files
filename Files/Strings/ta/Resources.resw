@@ -843,4 +843,22 @@
   <data name="ButtonYes.Content" xml:space="preserve">
     <value>ஆம்</value>
   </data>
+  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+    <value>ரத்து</value>
+  </data>
+  <data name="AddDialogListBitmapHeader" xml:space="preserve">
+    <value>பிட் வரைபடப் படிமம்</value>
+  </data>
+  <data name="AddDialogListFolderHeader" xml:space="preserve">
+    <value>கோப்புறை</value>
+  </data>
+  <data name="AddDialogListTextFileHeader" xml:space="preserve">
+    <value>உரை ஆவணம்</value>
+  </data>
+  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+    <value>முன்னோக்கி வழிசெலுத்து</value>
+  </data>
+  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>அமைப்புகள்</value>
+  </data>
 </root>
