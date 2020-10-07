@@ -939,13 +939,4 @@
   <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Ajustes</value>
   </data>
-  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Crear elemento</value>
-  </data>
-  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Navegar hacia delante</value>
-  </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Configuración</value>
-  </data>
 </root>
