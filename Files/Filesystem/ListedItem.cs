@@ -155,7 +155,7 @@ namespace Files.Filesystem
             if (FileExtension != null)
             {
                 string lower = FileExtension.ToLower();
-                return lower.Contains("png") || lower.Contains("jpg") || lower.Contains("png") || lower.Contains("gif") || lower.Contains("jpeg");
+                return lower.Contains("png") || lower.Contains("jpg") || lower.Contains("gif") || lower.Contains("jpeg");
             }
             return false;
         }
