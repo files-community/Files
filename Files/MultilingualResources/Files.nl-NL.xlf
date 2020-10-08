@@ -1321,6 +1321,14 @@
           <source>Settings</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Instellingen</target>
         </trans-unit>
+        <trans-unit id="AccessDeniedCreateDialog.Text" translate="yes" xml:space="preserve">
+          <source>We weren't able to create this item</source>
+          <target state="new">We weren't able to create this item</target>
+        </trans-unit>
+        <trans-unit id="AccessDeniedCreateDialog.Title" translate="yes" xml:space="preserve">
+          <source>Access Denied</source>
+          <target state="new">Access Denied</target>
+        </trans-unit>
       </group>
     </body>
   </file>
