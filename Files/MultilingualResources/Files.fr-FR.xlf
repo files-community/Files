@@ -56,7 +56,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
           <source>License</source>
-          <target state="translated">Licence :</target>
+          <target state="translated">Licence</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
           <source>Special thanks to:</source>
@@ -68,7 +68,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
           <source>Send the developers an issue report with detailed information</source>
-          <target state="translated">Envoyez un rapport d'incident aux développeurs avec des informations</target>
+          <target state="translated">Envoyer un rapport d'incident aux développeurs avec des informations détaillées</target>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
           <source>Third Party Licenses</source>
@@ -140,7 +140,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupContinueWhereYouLeftOff.Content" translate="yes" xml:space="preserve">
           <source>Continue where you left off</source>
-          <target state="translated">Continuer où vous étiez</target>
+          <target state="translated">Continuer où vous en étiez</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenANewTab.Content" translate="yes" xml:space="preserve">
           <source>Open a new tab</source>
@@ -172,7 +172,7 @@
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Delete Item(s)</source>
-          <target state="translated" state-qualifier="tm-suggestion">Supprimer les éléments</target>
+          <target state="translated">Supprimer le(s) élément(s)</target>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogCancelButton.Content" translate="yes" xml:space="preserve">
           <source>Cancel</source>
@@ -184,7 +184,7 @@
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" translate="yes" xml:space="preserve">
           <source>Permanently delete</source>
-          <target state="translated" state-qualifier="tm-suggestion">Supprimer de façon définitive</target>
+          <target state="translated">Supprimer de définitivement</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
@@ -268,7 +268,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNewFolder.Text" translate="yes" xml:space="preserve">
           <source>Folder</source>
-          <target state="translated" state-qualifier="tm-suggestion">Dossier :</target>
+          <target state="translated">Dossier</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNewBitmapImage.Text" translate="yes" xml:space="preserve">
           <source>Bitmap Image</source>
@@ -364,7 +364,7 @@
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewFolder.Text" translate="yes" xml:space="preserve">
           <source>Folder</source>
-          <target state="translated" state-qualifier="tm-suggestion">Dossier :</target>
+          <target state="translated">Dossier</target>
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewBitmapImage.Text" translate="yes" xml:space="preserve">
           <source>Bitmap Image</source>
@@ -376,7 +376,7 @@
         </trans-unit>
         <trans-unit id="StatusBarControlListView.Text" translate="yes" xml:space="preserve">
           <source>List View</source>
-          <target state="translated">Vue List</target>
+          <target state="translated">Vue liste</target>
         </trans-unit>
         <trans-unit id="SidebarSettings.Text" translate="yes" xml:space="preserve">
           <source>Settings</source>
@@ -460,7 +460,7 @@
         </trans-unit>
         <trans-unit id="SystemTheme" translate="yes" xml:space="preserve">
           <source>Windows default</source>
-          <target state="translated" state-qualifier="tm-suggestion">Windows par défaut</target>
+          <target state="translated">Système</target>
         </trans-unit>
         <trans-unit id="LightTheme" translate="yes" xml:space="preserve">
           <source>Light</source>
@@ -496,15 +496,15 @@
         </trans-unit>
         <trans-unit id="NavBackButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Back (Alt + Left Arrow)</source>
-          <target state="translated" state-qualifier="tm-suggestion">Retour (Alt + flèche gauche)</target>
+          <target state="translated">Précédent (Alt + flèche gauche)</target>
         </trans-unit>
         <trans-unit id="NavForwardButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Forward (Alt + Right Arrow)</source>
-          <target state="translated" state-qualifier="tm-suggestion">Suivant (Alt+flèche droite)</target>
+          <target state="translated">Suivant (Alt + flèche droite)</target>
         </trans-unit>
         <trans-unit id="NavUpButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Up (Alt + Up Arrow)</source>
-          <target state="new">Up (Alt + Up Arrow)</target>
+          <target state="translated">Remonter (Alt + flèche haut)</target>
         </trans-unit>
         <trans-unit id="NavRefreshButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Refresh (F5)</source>
@@ -580,7 +580,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>View sample profiles</source>
-          <target state="new">View sample profiles</target>
+          <target state="translated">Voir un exemple de profils</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogContent" translate="yes" xml:space="preserve">
           <source>An item with this name already exists in this directory.</source>
