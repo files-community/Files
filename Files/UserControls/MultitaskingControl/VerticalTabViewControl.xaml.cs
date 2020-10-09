@@ -22,15 +22,14 @@ namespace Files.UserControls
     public sealed partial class VerticalTabViewControl : UserControl, IMultitaskingControl
     {
         private const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
+        private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
+        private TabViewItem hoveredTabViewItem = null;
 
         public const string TabPathIdentifier = "FilesTabViewItemPath";
 
         public void SelectionChanged() => TabStrip_SelectionChanged(null, null);
 
         public ObservableCollection<TabItem> Items => MainPage.AppInstances;
-
-        private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
-        private TabViewItem hoveredTabViewItem = null;
 
         public VerticalTabViewControl()
         {
