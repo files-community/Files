@@ -37,8 +37,10 @@
                         Text="App Language" />
                     <ComboBox
                         x:Name="ComboAppLanguage"
+                        x:Uid="SettingsPreferencesAppLanguage"
                         Width="200"
                         HorizontalAlignment="Left"
+                        AutomationProperties.Name="App Language"
                         ItemsSource="{x:Bind AppSettings.DefaultLanguages}"
                         PlaceholderText="{x:Bind AppSettings.DefaultLanguage}"
                         SelectedItem="{x:Bind AppSettings.DefaultLanguage, Mode=TwoWay}"
@@ -52,12 +54,10 @@
                 </StackPanel>
 
                 <StackPanel Spacing="10">
-
                     <TextBlock
                         x:Uid="SettingsPreferencesTerminalApplications"
                         FontSize="17"
                         Text="Terminal Applications" />
-
                     <StackPanel
                         Width="Auto"
                         HorizontalAlignment="Left"
@@ -65,9 +65,11 @@
                         Spacing="14">
                         <ComboBox
                             x:Name="TerminalApplicationsComboBox"
+                            x:Uid="SettingsPreferencesTerminalApplications"
                             Width="Auto"
                             MinWidth="200"
                             MaxWidth="250"
+                            AutomationProperties.Name="Terminal Applications"
                             ItemsSource="{x:Bind AppSettings.TerminalController.Model.Terminals}"
                             SelectionChanged="TerminalApp_SelectionChanged">
                             <ComboBox.ItemTemplate>
@@ -80,6 +82,8 @@
                         </ComboBox>
 
                         <HyperlinkButton
+                            x:Uid="SettingsPreferencesEditTerminalApplications"
+                            AutomationProperties.Name="Edit terminal applications"
                             Click="EditTerminalApplications_Click"
                             Content=""
                             FontFamily="Segoe MDL2 Assets"
@@ -88,7 +92,9 @@
                         <HyperlinkButton
                             x:Uid="SettingsPreferencesTerminalApplicationsSampleProfiles"
                             Content="&#xE946;"
+                            ToolTipService.ToolTip="View sample profiles"
                             FontFamily="Segoe MDL2 Assets"
+                            AutomationProperties.Name="View sample profiles"
                             NavigateUri="https://github.com/files-community/files-uwp/wiki/Sample-terminal-profiles"
                             Style="{ThemeResource TextBlockButtonStyle}" />
                     </StackPanel>
@@ -99,7 +105,11 @@
                         x:Uid="SettingsPreferencesPinOneDrive"
                         FontSize="17"
                         Text="Pin OneDrive to the sidebar" />
-                    <ToggleSwitch x:Name="OneDrivePin" IsOn="{x:Bind AppSettings.PinOneDriveToSideBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <ToggleSwitch
+                        x:Name="OneDrivePin"
+                        x:Uid="SettingsPreferencesPinOneDriveSwitch"
+                        AutomationProperties.Name="Pin OneDrive to the sidebar"
+                        IsOn="{x:Bind AppSettings.PinOneDriveToSideBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
 
                 <StackPanel Spacing="10">
@@ -107,7 +117,10 @@
                         x:Uid="SettingsPreferencesRecycleBin"
                         FontSize="17"
                         Text="Pin Recycle Bin to the sidebar" />
-                    <ToggleSwitch IsOn="{x:Bind AppSettings.PinRecycleBinToSideBar, Mode=TwoWay}" />
+                    <ToggleSwitch
+                        x:Uid="SettingsPreferencesRecycleBinSwitch"
+                        AutomationProperties.Name="Pin Recycle Bin to the sidebar"
+                        IsOn="{x:Bind AppSettings.PinRecycleBinToSideBar, Mode=TwoWay}" />
                 </StackPanel>
 
                 <StackPanel Spacing="10">
@@ -116,17 +129,23 @@
                         FontSize="17"
                         Text="Show a confirmation dialog when deleting files or folders"
                         TextWrapping="WrapWholeWords" />
-                    <ToggleSwitch x:Name="ShowConfirmDeleteDialog" IsOn="{x:Bind AppSettings.ShowConfirmDeleteDialog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <ToggleSwitch
+                        x:Name="ShowConfirmDeleteDialogSwitch"
+                        x:Uid="SettingsPreferencesShowConfirmDeleteDialogSwitch"
+                        AutomationProperties.Name="Show a confirmation dialog when deleting files or folders"
+                        IsOn="{x:Bind AppSettings.ShowConfirmDeleteDialog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
 
                 <StackPanel Spacing="10">
-
                     <TextBlock
                         x:Uid="SettingsPreferencesContextMenu"
                         FontSize="17"
                         Text="Show all context menu items" />
-
-                    <ToggleSwitch x:Name="ContextMenuToggleSwitch" IsOn="{x:Bind AppSettings.ShowAllContextMenuItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <ToggleSwitch
+                        x:Name="ContextMenuToggleSwitch"
+                        x:Uid="SettingsPreferencesContextMenuSwitch"
+                        AutomationProperties.Name="Show all context menu items"
+                        IsOn="{x:Bind AppSettings.ShowAllContextMenuItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
 
                 <StackPanel Spacing="10">
@@ -134,8 +153,11 @@
                         x:Uid="SettingsPreferencesCopyLocation"
                         FontSize="17"
                         Text="Show an option to copy the location of the selected item" />
-
-                    <ToggleSwitch x:Name="CopyLocationToggleSwitch" IsOn="{x:Bind AppSettings.ShowCopyLocationOption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <ToggleSwitch
+                        x:Name="CopyLocationToggleSwitch"
+                        x:Uid="SettingsPreferencesCopyLocationSwitch"
+                        AutomationProperties.Name="Show an option to copy the location of the selected item"
+                        IsOn="{x:Bind AppSettings.ShowCopyLocationOption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

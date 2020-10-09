@@ -46,10 +46,10 @@
     <value>Récents</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files UWP</value>
+    <value>Files</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>Licence :</value>
+    <value>Licence</value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Remerciements particuliers à :</value>
@@ -58,7 +58,7 @@
     <value>Soumettre un commentaire</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Envoyez un rapport d'incident aux développeurs avec des informations</value>
+    <value>Envoyer un rapport d'incident aux développeurs avec des informations détaillées</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Licences tierces :</value>
@@ -112,7 +112,7 @@
     <value>Recherche</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Continuer où vous étiez</value>
+    <value>Continuer où vous en étiez</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>Nouvel onglet</value>
@@ -136,7 +136,7 @@
     <value>Détacher de la barre latérale</value>
   </data>
   <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Supprimer les éléments</value>
+    <value>Supprimer le(s) élément(s)</value>
   </data>
   <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
     <value>Annuler</value>
@@ -145,7 +145,7 @@
     <value>Supprimer</value>
   </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Supprimer de façon définitive</value>
+    <value>Supprimer de définitivement</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
     <value>Demander une confirmation en supprimant des fichiers ou dossiers</value>
@@ -208,7 +208,7 @@
     <value>Nouveau</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
-    <value>Dossier :</value>
+    <value>Dossier</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
     <value>Image bitmap</value>
@@ -252,11 +252,14 @@
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Propriétés</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
+    <value>Aperçu</value>
+  </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
     <value>Nouvelle fenêtre</value>
   </data>
   <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>Copier le chemin d’accès</value>
+    <value>Copier l'emplacement</value>
   </data>
   <data name="NavigationToolbarPaste.Text" xml:space="preserve">
     <value>Coller</value>
@@ -277,7 +280,7 @@
     <value>Effacer la sélection</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
-    <value>Dossier :</value>
+    <value>Dossier</value>
   </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
     <value>Image bitmap</value>
@@ -286,7 +289,7 @@
     <value>Document texte</value>
   </data>
   <data name="StatusBarControlListView.Text" xml:space="preserve">
-    <value>Vue List</value>
+    <value>Vue liste</value>
   </data>
   <data name="SidebarSettings.Text" xml:space="preserve">
     <value>Paramètres</value>
@@ -296,6 +299,12 @@
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Cette action ne peut être effectuée</value>
+  </data>
+  <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
+    <value>Le dossier de destination</value>
+  </data>
+  <data name="ErrorDialogIsASubfolder" xml:space="preserve">
+    <value>est un sous dossier du dossier source</value>
   </data>
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>Ignorer</value>
@@ -343,7 +352,7 @@
     <value>Nouvel onglet</value>
   </data>
   <data name="SystemTheme" xml:space="preserve">
-    <value>Windows par défaut</value>
+    <value>Système</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Clair</value>
@@ -370,13 +379,19 @@
     <value>Ce dossier est vide.</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Retour (Alt + flèche gauche)</value>
+    <value>Précédent (Alt + flèche gauche)</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Suivant (Alt+flèche droite)</value>
+    <value>Suivant (Alt + flèche droite)</value>
+  </data>
+  <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Remonter (Alt + flèche haut)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Actualiser (F5)</value>
+  </data>
+  <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Créer un nouvel élément (Ctrl + Shift + N)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Rechercher</value>
@@ -418,10 +433,16 @@
     <value>Expérimental</value>
   </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
-    <value>ATTENTION : FONCTIONES EXPERIMENTALES !</value>
+    <value>ATTENTION : FONCTIONS EXPERIMENTALES !</value>
   </data>
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Expérimental</value>
+  </data>
+  <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
+    <value>Double clic pour renommer</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Voir un exemple de profils</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Un élément avec ce nom existe déjà dans ce répertoire.</value>
@@ -449,6 +470,9 @@
   </data>
   <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
     <value>Accès refusé</value>
+  </data>
+  <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
+    <value>Please insert the necessary drive to access this item.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
     <value>Disque déconnecté</value>
@@ -538,7 +562,7 @@
     <value>élément sélectionné</value>
   </data>
   <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>%@ éléments sélectionnés</value>
+    <value>éléments sélectionnés</value>
   </data>
   <data name="ItemCount.Text" xml:space="preserve">
     <value>élément</value>
@@ -663,6 +687,12 @@
   <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
     <value>Supprimer la page</value>
   </data>
+  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
+    <value>Lors de l'ouverture d'un élément</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
+    <value>Toujours ouvrir une nouvelle instance</value>
+  </data>
   <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
     <value>Ouvrir le dossier dans un nouvel onglet</value>
   </data>
@@ -700,7 +730,7 @@
     <value>Destination :</value>
   </data>
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
-    <value>_Répertoire de travail :</value>
+    <value>Répertoire de travail :</value>
   </data>
   <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
     <value>Candidature</value>
@@ -748,19 +778,22 @@
     <value>Contributeurs</value>
   </data>
   <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>Voir qui a contribué à Files UWP</value>
+    <value>Voir qui a contribué à Files</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>Notes de version</value>
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Découvrez les nouveautés</value>
+    <value>Découvrez les nouveautés de Files</value>
+  </data>
+  <data name="InvalidItemDialogTitle" xml:space="preserve">
+    <value>Élément invalide</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>Version :</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
-    <value>Aucun élément à partager pour le moment.</value>
+    <value>Il n'y a rien à partager pour le moment...</value>
   </data>
   <data name="ShareDialogTitle" xml:space="preserve">
     <value>Partage de {0}</value>
@@ -783,14 +816,18 @@
   <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
     <value>Voulez-vous vraiment supprimer ces éléments {0} ?</value>
   </data>
+  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
+    <value>Adaptif (Recommended)</value>
+  </data>
   <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Horizontalement</value>
+    <value>Horizontal
+</value>
   </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multitâche</value>
   </data>
   <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
-    <value>Verticale</value>
+    <value>Vertical</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Multitâche</value>
@@ -800,6 +837,9 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Copier l'emplacement</value>
+  </data>
+  <data name="SettingsPreferencesCopyLocation.Text" xml:space="preserve">
+    <value>Affichier une option pour copier l'emplacement de l'élément</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Ajouter un onglet</value>
@@ -829,7 +869,7 @@
     <value>Crée un fichier texte vide.</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
-    <value>Mode disposition</value>
+    <value>Disposition</value>
   </data>
   <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
     <value>Créer un élément</value>
