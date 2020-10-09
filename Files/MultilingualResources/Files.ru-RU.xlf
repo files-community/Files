@@ -1358,6 +1358,14 @@
           <source>View sample profiles</source>
           <target state="new">View sample profiles</target>
         </trans-unit>
+        <trans-unit id="SettingsAboutSupportUs.Text" translate="yes" xml:space="preserve">
+          <source>Support us</source>
+          <target state="new">Support us</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSupportUsDescription.Text" translate="yes" xml:space="preserve">
+          <source>Support us on PayPal</source>
+          <target state="new">Support us on PayPal</target>
+        </trans-unit>
       </group>
     </body>
   </file>
