@@ -30,34 +30,26 @@
                     FontWeight="Medium"
                     Text="Preferences" />
 
-                <StackPanel Spacing="10">
-                    <TextBlock
-                        x:Uid="SettingsPreferencesAppLanguage"
-                        FontSize="17"
-                        Text="App Language" />
-                    <ComboBox
-                        x:Name="ComboAppLanguage"
-                        x:Uid="SettingsPreferencesAppLanguage"
-                        Width="200"
-                        HorizontalAlignment="Left"
-                        AutomationProperties.Name="App Language"
-                        ItemsSource="{x:Bind AppSettings.DefaultLanguages}"
-                        PlaceholderText="{x:Bind AppSettings.DefaultLanguage}"
-                        SelectedItem="{x:Bind AppSettings.DefaultLanguage, Mode=TwoWay}"
-                        SelectionChanged="ComboAppLanguage_SelectionChanged">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate x:DataType="datamodels:DefaultLanguageModel">
-                                <TextBlock Text="{x:Bind Name}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                </StackPanel>
+                <ComboBox
+                    x:Name="ComboAppLanguage"
+                    x:Uid="SettingsPreferencesAppLanguage"
+                    Width="200"
+                    HorizontalAlignment="Left"
+                    AutomationProperties.Name="App Language"
+                    Header="App Language"
+                    ItemsSource="{x:Bind AppSettings.DefaultLanguages}"
+                    PlaceholderText="{x:Bind AppSettings.DefaultLanguage}"
+                    SelectedItem="{x:Bind AppSettings.DefaultLanguage, Mode=TwoWay}"
+                    SelectionChanged="ComboAppLanguage_SelectionChanged"
+                    Style="{StaticResource ComboBoxSettingsStyle}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="datamodels:DefaultLanguageModel">
+                            <TextBlock Text="{x:Bind Name}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 
                 <StackPanel Spacing="10">
-                    <TextBlock
-                        x:Uid="SettingsPreferencesTerminalApplications"
-                        FontSize="17"
-                        Text="Terminal Applications" />
                     <StackPanel
                         Width="Auto"
                         HorizontalAlignment="Left"
@@ -70,8 +62,10 @@
                             MinWidth="200"
                             MaxWidth="250"
                             AutomationProperties.Name="Terminal Applications"
+                            Header="Terminal Applications"
                             ItemsSource="{x:Bind AppSettings.TerminalController.Model.Terminals}"
-                            SelectionChanged="TerminalApp_SelectionChanged">
+                            SelectionChanged="TerminalApp_SelectionChanged"
+                            Style="{StaticResource ComboBoxSettingsStyle}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate x:DataType="datamodels:Terminal">
                                     <StackPanel Orientation="Horizontal">
@@ -83,6 +77,7 @@
 
                         <HyperlinkButton
                             x:Uid="SettingsPreferencesEditTerminalApplications"
+                            VerticalAlignment="Bottom"
                             AutomationProperties.Name="Edit terminal applications"
                             Click="EditTerminalApplications_Click"
                             Content=""
@@ -91,12 +86,13 @@
 
                         <HyperlinkButton
                             x:Uid="SettingsPreferencesTerminalApplicationsSampleProfiles"
-                            Content="&#xE946;"
-                            ToolTipService.ToolTip="View sample profiles"
-                            FontFamily="Segoe MDL2 Assets"
+                            VerticalAlignment="Bottom"
                             AutomationProperties.Name="View sample profiles"
+                            Content="&#xE946;"
+                            FontFamily="Segoe MDL2 Assets"
                             NavigateUri="https://github.com/files-community/files-uwp/wiki/Sample-terminal-profiles"
-                            Style="{ThemeResource TextBlockButtonStyle}" />
+                            Style="{ThemeResource TextBlockButtonStyle}"
+                            ToolTipService.ToolTip="View sample profiles" />
                     </StackPanel>
                 </StackPanel>
 
@@ -162,6 +158,6 @@
             </StackPanel>
         </ScrollViewer>
 
-        <dialogs:RestartDialog x:Name="RestartDialog" />
+        <dialogs:RestartDialog x:Name="RestartDialog" VerticalAlignment="Bottom" />
     </Grid>
 </Page>

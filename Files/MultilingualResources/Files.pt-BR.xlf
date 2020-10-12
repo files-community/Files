@@ -1350,6 +1350,14 @@
           <source>View sample profiles</source>
           <target state="new">View sample profiles</target>
         </trans-unit>
+        <trans-unit id="SettingsPreferencesAppLanguage.Header" translate="yes" xml:space="preserve">
+          <source>App Language</source>
+          <target state="new">App Language</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesTerminalApplications.Header" translate="yes" xml:space="preserve">
+          <source>Terminal Applications</source>
+          <target state="new">Terminal Applications</target>
+        </trans-unit>
       </group>
     </body>
   </file>
