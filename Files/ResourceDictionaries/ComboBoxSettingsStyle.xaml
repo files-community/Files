@@ -63,7 +63,7 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Control.IsTemplateFocusTarget="True"
-                            CornerRadius="{TemplateBinding CornerRadius}" />
+                            CornerRadius="2" />
                         <Border
                             x:Name="HighlightBackground"
                             Grid.Row="1"
@@ -80,8 +80,7 @@
                             Grid.Column="0"
                             Margin="{TemplateBinding Padding}"
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            CornerRadius="2">
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <TextBlock
                                 x:Name="PlaceholderTextBlock"
                                 Foreground="{Binding PlaceholderForeground, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue={ThemeResource ComboBoxPlaceHolderForeground}}"
@@ -145,7 +144,8 @@
                                 Background="{ThemeResource ComboBoxDropDownBackground}"
                                 BackgroundSizing="OuterBorderEdge"
                                 BorderBrush="{ThemeResource ComboBoxDropDownBorderBrush}"
-                                BorderThickness="{ThemeResource ComboBoxDropdownBorderThickness}">
+                                BorderThickness="{ThemeResource ComboBoxDropdownBorderThickness}"
+                                CornerRadius="2">
                                 <ScrollViewer
                                     x:Name="ScrollViewer"
                                     MinWidth="{Binding TemplateSettings.DropDownContentMinWidth, RelativeSource={RelativeSource Mode=TemplatedParent}}"
