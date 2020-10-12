@@ -177,15 +177,6 @@
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>उपस्थिति</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
-    <value>ड्राइव अक्षरों दिखाएं</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Text" xml:space="preserve">
-    <value>ज्ञात फ़ाइल प्रकारों के लिए एक्सटेंशन दिखाएं</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
-    <value>छिपी हुई फ़ाइलें, फ़ोल्डर्स और ड्राइव दिखाएं</value>
-  </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>फ़ाइलें और फ़ोल्डर्स</value>
   </data>

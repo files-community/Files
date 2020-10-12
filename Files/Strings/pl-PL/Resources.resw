@@ -81,15 +81,6 @@
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Wygląd</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
-    <value>Pokaż litery dysków</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Text" xml:space="preserve">
-    <value>Pokaż rozszerzenia znanych typów plików</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
-    <value>Pokaż ukryte pliki, foldery i dyski</value>
-  </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Pliki i foldery</value>
   </data>

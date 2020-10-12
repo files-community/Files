@@ -165,15 +165,6 @@
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Grafica</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
-    <value>Mostra la lettera dei dischi</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Text" xml:space="preserve">
-    <value>Mostra estensioni per i tipi di file conosciuti</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
-    <value>Mostra file, cartelle e dischi nascosti</value>
-  </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Opzioni esplorazione</value>
   </data>

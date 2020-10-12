@@ -141,12 +141,6 @@
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>מראה</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
-    <value>‏‏הצג אותיות כונן</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
-    <value>‏‏הצג קבצים, תיקיות וכוננים מוסתרים</value>
-  </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>קבצים ותיקיות</value>
   </data>

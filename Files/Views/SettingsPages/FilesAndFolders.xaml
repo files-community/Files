@@ -26,32 +26,25 @@
                     FontWeight="Medium"
                     Text="Files and Folders" />
 
-                <StackPanel Spacing="10">
-                    <TextBlock
-                        x:Uid="SettingsFilesAndFoldersShowHiddenFiles"
-                        FontSize="17"
-                        Text="Show hidden files, folders, and drives" />
-                    <ToggleSwitch IsEnabled="False" />
-                </StackPanel>
 
-                <StackPanel Spacing="10">
-                    <TextBlock
-                        x:Uid="SettingsFilesAndFoldersShowFileExtensions"
-                        FontSize="17"
-                        Text="Show extensions for known file types" />
-                    <ToggleSwitch x:Name="FileExtensionsToggle" IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
-                </StackPanel>
+                <ToggleSwitch
+                    x:Uid="SettingsFilesAndFoldersShowHiddenFiles"
+                    Header="Show hidden files, folders, and drives"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsEnabled="False" />
 
-                <StackPanel Spacing="10">
-                    <TextBlock
-                        x:Uid="SettingsFilesAndFoldersShowDriveLetters"
-                        FontSize="17"
-                        Text="Show drive letters" />
-                    <ToggleSwitch
-                        IsEnabled="False"
-                        OffContent=""
-                        OnContent="" />
-                </StackPanel>
+                <ToggleSwitch
+                    x:Name="FileExtensionsToggle"
+                    x:Uid="SettingsFilesAndFoldersShowFileExtensions"
+                    Header="Show extensions for known file types"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Uid="SettingsFilesAndFoldersShowDriveLetters"
+                    Header="Show drive letters"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsEnabled="False" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

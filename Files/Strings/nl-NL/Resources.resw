@@ -81,15 +81,6 @@
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Uiterlijk</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
-    <value>Toon schijf letters</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Text" xml:space="preserve">
-    <value>Toon extensies voor bekende bestand types</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
-    <value>Toon verborgen bestanden, mappen en schijven</value>
-  </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Bestanden en Mappen</value>
   </data>

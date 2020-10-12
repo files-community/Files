@@ -177,15 +177,6 @@
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Aparência</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
-    <value>Mostrar letras da unidade</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Text" xml:space="preserve">
-    <value>Mostrar extensões para tipos de arquivos conhecidos</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
-    <value>Mostrar arquivos, pastas e unidades ocultas</value>
-  </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Arquivos e Pastas</value>
   </data>
