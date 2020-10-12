@@ -993,7 +993,7 @@
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>The application needs to be restarted in order to apply the language setting, would you like to restart the app?</value>
   </data>
-    <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
+  <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Support us</value>
   </data>
   <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
@@ -1139,5 +1139,20 @@
   </data>
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Terminal Applications</value>
+  </data>
+  <data name="CopyLocationToggleSwitch.Header" xml:space="preserve">
+    <value>Show an option to copy the location of the selected item</value>
+  </data>
+  <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
+    <value>Show all context menu items</value>
+  </data>
+  <data name="SettingsPreferencesPinOneDriveSwitch.Header" xml:space="preserve">
+    <value>Pin OneDrive to the sidebar</value>
+  </data>
+  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+    <value>Pin Recycle Bin to the sidebar</value>
+  </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
+    <value>Show a confirmation dialog when deleting files or folders</value>
   </data>
 </root>
