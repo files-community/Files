@@ -210,12 +210,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>All'avvio</value>
   </data>
-  <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
-    <value>Fissa OneDrive sulla barra laterale</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
-    <value>Mostra una finestra di conferma per l'eliminazione di file o cartelle</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>Applicazione per la riga di comando (terminal)</value>
   </data>
@@ -531,9 +525,6 @@
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Ripristina</value>
   </data>
-  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
-    <value>Abilita il supporto al Cestino</value>
-  </data>
   <data name="DaysAgo" xml:space="preserve">
     <value>{0} giorni fa</value>
   </data>
@@ -845,9 +836,6 @@
   </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Altri elementi</value>
-  </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>Mostra tutti gli elementi nel menu contestuale</value>
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Annulla</value>

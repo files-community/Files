@@ -123,9 +123,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>En el inicio</value>
   </data>
-  <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
-    <value>Anclar OneDrive a la barra lateral</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>Aplicaciones del terminal</value>
   </data>
@@ -146,9 +143,6 @@
   </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Eliminar permanentemente</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
-    <value>Mostrar cuadro de diálogo para confirmar eliminación</value>
   </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Escritorio</value>
@@ -531,9 +525,6 @@
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Restaurar</value>
   </data>
-  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
-    <value>Anclar la papelera de reciclaje a la barra lateral</value>
-  </data>
   <data name="DaysAgo" xml:space="preserve">
     <value>Hace {0} días</value>
   </data>
@@ -840,9 +831,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Más</value>
   </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>Mostrar todos los elementos del menú contextual</value>
-  </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Cancelar</value>
   </data>
@@ -881,9 +869,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Copiar ubicación</value>
-  </data>
-  <data name="SettingsPreferencesCopyLocation.Text" xml:space="preserve">
-    <value>Mostrar una opción en el menu contextual para copiar la ubicación de un archivo seleccionado</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Añadir pestaña</value>

@@ -123,9 +123,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Au démarrage</value>
   </data>
-  <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
-    <value>Épingler OneDrive à la barre latérale</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>Applications en ligne de commandes</value>
   </data>
@@ -146,9 +143,6 @@
   </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Supprimer de définitivement</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
-    <value>Demander une confirmation en supprimant des fichiers ou dossiers</value>
   </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Bureau</value>
@@ -507,9 +501,6 @@
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Restaurer</value>
   </data>
-  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
-    <value>Épingler la Corbeille à la barre des latérale</value>
-  </data>
   <data name="DaysAgo" xml:space="preserve">
     <value>Il y a {0} jours</value>
   </data>
@@ -804,9 +795,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Plus</value>
   </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>Afficher tous les éléments du menu contextuel</value>
-  </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Annuler</value>
   </data>
@@ -837,9 +825,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Copier l'emplacement</value>
-  </data>
-  <data name="SettingsPreferencesCopyLocation.Text" xml:space="preserve">
-    <value>Affichier une option pour copier l'emplacement de l'élément</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Ajouter un onglet</value>

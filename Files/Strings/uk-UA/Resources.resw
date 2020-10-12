@@ -186,12 +186,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>При запуску</value>
   </data>
-  <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
-    <value>Закріпити OneDrive на бічній панелі</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
-    <value>Показувати діалогове вікно підтвердження під час видалення файлів або папок</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>Стандартний термінал</value>
   </data>
@@ -527,9 +521,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Відновити</value>
-  </data>
-  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
-    <value>Закріпити Кошик на бічній панелі</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
     <value>{0} днів тому</value>
@@ -873,9 +864,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Більше</value>
   </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>Показати всі пункти контекстного меню</value>
-  </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Скасувати</value>
   </data>
@@ -914,9 +902,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Копіювати розташування</value>
-  </data>
-  <data name="SettingsPreferencesCopyLocation.Text" xml:space="preserve">
-    <value>Показати опцію копіювання розташування вибраного елемента</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Створити вкладку</value>
@@ -1013,11 +998,5 @@
   </data>
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
     <value>Переглянути зразки профілів</value>
-  </data>
-  <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
-    <value>Підтримайте нас</value>
-  </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>Підтримайте нас на PayPal</value>
   </data>
 </root>

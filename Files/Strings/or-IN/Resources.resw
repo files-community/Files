@@ -234,17 +234,8 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>ଆରମ୍ଭ ରେ</value>
   </data>
-  <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
-    <value>ୱାନଡ୍ରାଇଭ କୁ ସାଇଡବାରରେ ପିନ୍ କର</value>
-  </data>
-  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
-    <value>ରିସାଇକ୍ଲବିନ୍ ସମର୍ଥନ ସକ୍ଷମ କରନ୍ତୁ</value>
-  </data>
   <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
     <value>ଗୁଣଧର୍ମରେ ମାଲିକ ଦେଖାନ୍ତୁ</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
-    <value>ଫାଇଲ୍ କିମ୍ବା ଫୋଲ୍ଡର୍ ଡିଲିଟ୍ କରିବା ସମୟରେ ଏକ ନିଶ୍ଚିତକରଣ ସଂଳାପ ଦେଖାନ୍ତୁ</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>ଟର୍ମିନାଲ୍ ଆପ୍ଲିକେସନଗୁଡ଼ିକ</value>

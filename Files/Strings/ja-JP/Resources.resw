@@ -228,15 +228,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>起動時</value>
   </data>
-  <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
-    <value>OneDrive をサイドバーに固定</value>
-  </data>
-  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
-    <value>ごみ箱を有効にする</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
-    <value>ファイルまたはフォルダーを削除するときに表示される確認ダイアログ</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>ターミナル</value>
   </data>
