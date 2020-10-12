@@ -770,22 +770,6 @@ namespace Files.Filesystem
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
 
-            CurrentFolder = new ListedItem(_rootFolder.FolderRelativeId, returnformat)
-            {
-                PrimaryItemAttribute = StorageItemTypes.Folder,
-                ItemPropertiesInitialized = true,
-                ItemName = _rootFolder.Name,
-                ItemDateModifiedReal = (await _rootFolder.GetBasicPropertiesAsync()).DateModified,
-                ItemType = _rootFolder.DisplayType,
-                LoadFolderGlyph = true,
-                FileImage = null,
-                LoadFileIcon = false,
-                ItemPath = string.IsNullOrEmpty(_rootFolder.Path) ? _currentStorageFolder.Path : _rootFolder.Path,
-                LoadUnknownTypeGlyph = false,
-                FileSize = null,
-                FileSizeBytes = 0
-            };
-
             if (await CheckBitlockerStatus(_rootFolder))
             {
                 var bitlockerDialog = new Dialogs.BitlockerDialog(Path.GetPathRoot(WorkingDirectory));
@@ -818,6 +802,21 @@ namespace Files.Filesystem
 
             if (enumFromStorageFolder)
             {
+                CurrentFolder = new ListedItem(_rootFolder.FolderRelativeId, returnformat)
+                {
+                    PrimaryItemAttribute = StorageItemTypes.Folder,
+                    ItemPropertiesInitialized = true,
+                    ItemName = _rootFolder.Name,
+                    ItemDateModifiedReal = (await _rootFolder.GetBasicPropertiesAsync()).DateModified,
+                    ItemType = _rootFolder.DisplayType,
+                    LoadFolderGlyph = true,
+                    FileImage = null,
+                    LoadFileIcon = false,
+                    ItemPath = string.IsNullOrEmpty(_rootFolder.Path) ? _currentStorageFolder.Path : _rootFolder.Path,
+                    LoadUnknownTypeGlyph = false,
+                    FileSize = null,
+                    FileSizeBytes = 0
+                };
                 await EnumFromStorageFolder();
             }
             else
@@ -827,6 +826,32 @@ namespace Files.Filesystem
 
                 IntPtr hFile = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
                                                       additionalFlags);
+                FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemTimeOutput);
+                var itemDate = new DateTime(
+                    systemTimeOutput.Year,
+                    systemTimeOutput.Month,
+                    systemTimeOutput.Day,
+                    systemTimeOutput.Hour,
+                    systemTimeOutput.Minute,
+                    systemTimeOutput.Second,
+                    systemTimeOutput.Milliseconds,
+                    DateTimeKind.Utc);
+
+                CurrentFolder = new ListedItem(_rootFolder.FolderRelativeId, returnformat)
+                {
+                    PrimaryItemAttribute = StorageItemTypes.Folder,
+                    ItemPropertiesInitialized = true,
+                    ItemName = _rootFolder.Name,
+                    ItemDateModifiedReal = itemDate,
+                    ItemType = _rootFolder.DisplayType,
+                    LoadFolderGlyph = true,
+                    FileImage = null,
+                    LoadFileIcon = false,
+                    ItemPath = string.IsNullOrEmpty(_rootFolder.Path) ? _currentStorageFolder.Path : _rootFolder.Path,
+                    LoadUnknownTypeGlyph = false,
+                    FileSize = null,
+                    FileSizeBytes = 0
+                };
 
                 var count = 0;
                 if (hFile.ToInt64() == -1)
