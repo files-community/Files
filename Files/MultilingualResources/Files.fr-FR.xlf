@@ -1236,8 +1236,8 @@
           <target state="translated" state-qualifier="tm-suggestion">OUI</target>
         </trans-unit>
         <trans-unit id="RestartNotificationText.Text" translate="yes" xml:space="preserve">
-          <source>The application needs to be restarted in order to apply the langague setting, would you like to restart the app?</source>
-          <target state="new">The application needs to be restarted in order to apply the langague setting, would you like to restart the app?</target>
+          <source>The application needs to be restarted in order to apply the language setting, would you like to restart the app?</source>
+          <target state="new">The application needs to be restarted in order to apply the language setting, would you like to restart the app?</target>
         </trans-unit>
         <trans-unit id="AddDialog.Title" translate="yes" xml:space="preserve">
           <source>Create a New Item</source>
