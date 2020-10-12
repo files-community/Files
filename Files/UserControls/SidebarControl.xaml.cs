@@ -60,6 +60,24 @@ namespace Files.Controls
             }
         }
 
+        private bool _ShowProperties;
+
+        public bool ShowProperties
+        {
+            get
+            {
+                return _ShowProperties;
+            }
+            set
+            {
+                if (value != _ShowProperties)
+                {
+                    _ShowProperties = value;
+                    NotifyPropertyChanged(nameof(ShowProperties));
+                }
+            }
+        }
+
         private bool _ShowEmptyRecycleBin;
 
         public bool ShowEmptyRecycleBin
@@ -195,10 +213,12 @@ namespace Files.Controls
 
                 ShowEmptyRecycleBin = true;
                 ShowUnpinItem = true;
+                ShowProperties = false;
             }
             else
             {
                 ShowEmptyRecycleBin = false;
+                ShowProperties = true;
             }
 
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
@@ -211,6 +231,7 @@ namespace Files.Controls
 
             ShowUnpinItem = false;
             ShowEmptyRecycleBin = false;
+            ShowProperties = true;
 
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
 
@@ -330,6 +351,28 @@ namespace Files.Controls
             var deferral = e.GetDeferral();
             ItemOperations.PasteItemWithStatus(e.DataView, driveItem.Path, e.AcceptedOperation);
             deferral.Complete();
+        }
+
+        private async void Properties_Click(object sender, RoutedEventArgs e)
+        {
+            var item = (sender as MenuFlyoutItem).DataContext;
+
+            if (item is DriveItem)
+            {
+                await App.CurrentInstance.InteractionOperations.OpenPropertiesWindow(item);
+            }
+            else if (item is LocationItem)
+            {
+                ListedItem listedItem = new ListedItem(null)
+                {
+                    ItemPath = (item as LocationItem).Path,
+                    ItemName = (item as LocationItem).Text,
+                    PrimaryItemAttribute = Windows.Storage.StorageItemTypes.Folder,
+                    ItemType = ResourceController.GetTranslation("FileFolderListItem"),
+                    LoadFolderGlyph = true
+                };
+                await App.CurrentInstance.InteractionOperations.OpenPropertiesWindow(listedItem);
+            }
         }
     }
 

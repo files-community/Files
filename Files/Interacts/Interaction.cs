@@ -569,7 +569,7 @@ namespace Files.Interacts
             }
         }
 
-        private async Task OpenPropertiesWindow(object item)
+        public async Task OpenPropertiesWindow(object item)
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
