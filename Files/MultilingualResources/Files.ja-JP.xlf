@@ -303,19 +303,6 @@
           <source>On Startup</source>
           <target state="translated">起動時</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesPinOneDrive.Text" translate="yes" xml:space="preserve">
-          <source>Pin OneDrive to the sidebar</source>
-          <target state="translated">OneDrive をサイドバーに固定</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesRecycleBin.Text" translate="yes" xml:space="preserve">
-          <source>Pin Recycle Bin to the sidebar</source>
-          <target state="needs-review-translation">ごみ箱を有効にする</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Text" translate="yes" xml:space="preserve">
-          <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="translated">ファイルまたはフォルダーを削除するときに表示される確認ダイアログ</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
           <source>Terminal Applications</source>
           <target state="translated">ターミナル</target>
@@ -1173,10 +1160,6 @@
           <source>More</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">その他</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesContextMenu.Text" translate="yes" xml:space="preserve">
-          <source>Show all context menu items</source>
-          <target state="new">Show all context menu items</target>
-        </trans-unit>
         <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">キャンセル</target>
@@ -1228,10 +1211,6 @@
         <trans-unit id="BaseLayoutItemContextFlyoutCopyLocation.Text" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">場所のコピー</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesCopyLocation.Text" translate="yes" xml:space="preserve">
-          <source>Show an option to copy the location of the selected item</source>
-          <target state="new">Show an option to copy the location of the selected item</target>
         </trans-unit>
         <trans-unit id="VerticalTabViewAddTab.Text" translate="yes" xml:space="preserve">
           <source>Add tab</source>

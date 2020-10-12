@@ -123,9 +123,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Beim Start</value>
   </data>
-  <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
-    <value>OneDrive an die Seitenleiste anheften</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>Terminal Anwendungen</value>
   </data>
@@ -146,9 +143,6 @@
   </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Endgültig löschen</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
-    <value>Einen Bestätigungsdialog anzeigen, bevor Dateien oder Ordner gelöscht werden</value>
   </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Desktop</value>
@@ -531,9 +525,6 @@
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Wiederherstellen</value>
   </data>
-  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
-    <value>Papierkorb an Seitenleiste anheften</value>
-  </data>
   <data name="DaysAgo" xml:space="preserve">
     <value>Vor {0} Tagen</value>
   </data>
@@ -876,9 +867,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Mehr</value>
   </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>Alle im Kontextmenü verfügbaren Elemente anzeigen</value>
-  </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Abbrechen</value>
   </data>
@@ -917,9 +905,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Speicherort kopieren</value>
-  </data>
-  <data name="SettingsPreferencesCopyLocation.Text" xml:space="preserve">
-    <value>Eine Option anzeigen, um den Speicherort des ausgewählten Elements zu kopieren</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Tab hinzufügen</value>

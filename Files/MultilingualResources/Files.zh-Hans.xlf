@@ -155,10 +155,6 @@
           <source>On Startup</source>
           <target state="translated">启动时</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesPinOneDrive.Text" translate="yes" xml:space="preserve">
-          <source>Pin OneDrive to the sidebar</source>
-          <target state="translated">固定 OneDrive 到侧边栏</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
           <source>Terminal Applications</source>
           <target state="translated">终端</target>
@@ -186,10 +182,6 @@
         <trans-unit id="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" translate="yes" xml:space="preserve">
           <source>Permanently delete</source>
           <target state="translated">永久删除</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Text" translate="yes" xml:space="preserve">
-          <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="translated">删除文件或文件夹时显示确认对话框</target>
         </trans-unit>
         <trans-unit id="SidebarDesktop" translate="yes" xml:space="preserve">
           <source>Desktop</source>
@@ -700,10 +692,6 @@
           <source>Restore</source>
           <target state="translated">撤销</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesRecycleBin.Text" translate="yes" xml:space="preserve">
-          <source>Pin Recycle Bin to the sidebar</source>
-          <target state="translated">启用回收站</target>
-        </trans-unit>
         <trans-unit id="DaysAgo" translate="yes" xml:space="preserve">
           <source>{0} days ago</source>
           <target state="translated">{0} 天前</target>
@@ -1162,10 +1150,6 @@
           <source>More</source>
           <target state="translated">更多</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesContextMenu.Text" translate="yes" xml:space="preserve">
-          <source>Show all context menu items</source>
-          <target state="translated">显示所有上下文菜单项</target>
-        </trans-unit>
         <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated">取消</target>
@@ -1217,10 +1201,6 @@
         <trans-unit id="BaseLayoutItemContextFlyoutCopyLocation.Text" translate="yes" xml:space="preserve">
           <source>Copy location</source>
           <target state="translated">复制路径</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesCopyLocation.Text" translate="yes" xml:space="preserve">
-          <source>Show an option to copy the location of the selected item</source>
-          <target state="translated">允许复制选定项目</target>
         </trans-unit>
         <trans-unit id="VerticalTabViewAddTab.Text" translate="yes" xml:space="preserve">
           <source>Add tab</source>

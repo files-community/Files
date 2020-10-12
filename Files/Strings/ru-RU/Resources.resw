@@ -123,9 +123,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>При запуске</value>
   </data>
-  <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
-    <value>Закрепить OneDrive в боковой панели</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>Стандартный терминал</value>
   </data>
@@ -146,9 +143,6 @@
   </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Удалить безвозвратно</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
-    <value>Показать диалог при удалении файлов или папок</value>
   </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Рабочий стол</value>
@@ -528,9 +522,6 @@
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Восстановить</value>
   </data>
-  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
-    <value>Закрепить Корзину в боковой панели</value>
-  </data>
   <data name="DaysAgo" xml:space="preserve">
     <value>{0} дней назад</value>
   </data>
@@ -873,9 +864,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Еще</value>
   </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>Показать все пункты контекстного меню</value>
-  </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Отмена</value>
   </data>
@@ -914,9 +902,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Копировать местоположение</value>
-  </data>
-  <data name="SettingsPreferencesCopyLocation.Text" xml:space="preserve">
-    <value>Показать возможность копирования местоположения выбранного элемента</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Создать вкладку</value>

@@ -123,9 +123,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Bij het opstarten</value>
   </data>
-  <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
-    <value>Pin OneDrive aan de zijbalk</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>Terminal Applicaties</value>
   </data>
@@ -146,9 +143,6 @@
   </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Permanent verwijderen</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
-    <value>Toon een bevestigingsvenster bij het verwijderen van bestanden of mappen</value>
   </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Bureaublad</value>
@@ -530,9 +524,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Herstellen</value>
-  </data>
-  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
-    <value>Maak de Prullenbak vast aan de zijbalk</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
     <value>{0} dagen geleden</value>
