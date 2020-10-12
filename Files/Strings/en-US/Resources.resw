@@ -270,13 +270,13 @@
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
     <value>Website</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
+  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Acrylic sidebar</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Text" xml:space="preserve">
+  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
     <value>Date format</value>
   </data>
-  <data name="SettingsAppearanceTheme.Text" xml:space="preserve">
+  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
     <value>App theme</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">

@@ -135,9 +135,6 @@
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
     <value>אתר אינטרנט</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Text" xml:space="preserve">
-    <value>תבנית תאריך.</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>מראה</value>
   </data>

@@ -69,15 +69,6 @@
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
     <value>Web Sitesi:</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
-    <value>Akrilik kenar çubuğu</value>
-  </data>
-  <data name="SettingsAppearanceDateFormat.Text" xml:space="preserve">
-    <value>Tarih formatı</value>
-  </data>
-  <data name="SettingsAppearanceTheme.Text" xml:space="preserve">
-    <value>Tema</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Görünüm</value>
   </data>

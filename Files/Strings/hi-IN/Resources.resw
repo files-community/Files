@@ -165,15 +165,6 @@
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
     <value>वेबसाइट:</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
-    <value>ऐक्रेलिक साइडबार</value>
-  </data>
-  <data name="SettingsAppearanceDateFormat.Text" xml:space="preserve">
-    <value>तिथि प्रारूप</value>
-  </data>
-  <data name="SettingsAppearanceTheme.Text" xml:space="preserve">
-    <value>ऐप थीम</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>उपस्थिति</value>
   </data>
