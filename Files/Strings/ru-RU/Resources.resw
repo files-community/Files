@@ -411,9 +411,6 @@
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Экспериментально</value>
   </data>
-  <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
-    <value>Двойное нажатие чтобы переименовать файл</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Посмотреть примеры профилей</value>
   </data>
@@ -572,9 +569,6 @@
   </data>
   <data name="PropertiesOwner.Text" xml:space="preserve">
     <value>Владелец:</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
-    <value>Показать Владельца в свойствах</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>Отмена</value>

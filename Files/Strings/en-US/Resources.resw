@@ -294,7 +294,7 @@
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Files and Folders</value>
   </data>
-  <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
+  <data name="SettingsExperimentalDoubleTapToRenameFiles.Header" xml:space="preserve">
     <value>Double click to rename files</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
@@ -339,7 +339,7 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>On Startup</value>
   </data>
-  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
+  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
     <value>Show Owner in properties</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">

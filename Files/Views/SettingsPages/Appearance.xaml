@@ -54,6 +54,7 @@
 
                     <HyperlinkButton
                         x:Uid="SettingsAppearanceDateFormatsTip"
+                        VerticalAlignment="Bottom"
                         Content="&#xE946;"
                         FontFamily="Segoe MDL2 Assets"
                         NavigateUri="https://github.com/files-community/files-uwp/wiki/Date-formats"

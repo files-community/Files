@@ -162,9 +162,6 @@
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>கோப்புகள் &amp; கோப்புறைகள்</value>
   </data>
-  <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
-    <value>கோப்புகளை மறுபெயரிட இரண்டு தட்டு</value>
-  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>சோதனை</value>
   </data>
@@ -569,9 +566,6 @@
   </data>
   <data name="PropertiesOwner.Text" xml:space="preserve">
     <value>உரிமையாளர்:</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
-    <value>பண்புகளில் உரிமையாளரை காண்பி</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>இரத்து</value>
