@@ -1249,8 +1249,8 @@
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ହଁ</target>
         </trans-unit>
         <trans-unit id="RestartNotificationText.Text" translate="yes" xml:space="preserve">
-          <source>The application needs to be restarted in order to apply the langague setting, would you like to restart the app?</source>
-          <target state="new">The application needs to be restarted in order to apply the langague setting, would you like to restart the app?</target>
+          <source>The application needs to be restarted in order to apply the language setting, would you like to restart the app?</source>
+          <target state="new">The application needs to be restarted in order to apply the language setting, would you like to restart the app?</target>
         </trans-unit>
         <trans-unit id="AddDialog.Title" translate="yes" xml:space="preserve">
           <source>Create a New Item</source>
@@ -1367,6 +1367,22 @@
         <trans-unit id="SettingsPreferencesTerminalApplications.Header" translate="yes" xml:space="preserve">
           <source>Terminal Applications</source>
           <target state="new">Terminal Applications</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSupportUs.Text" translate="yes" xml:space="preserve">
+          <source>Support us</source>
+          <target state="new">Support us</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSupportUsDescription.Text" translate="yes" xml:space="preserve">
+          <source>Support us on PayPal</source>
+          <target state="new">Support us on PayPal</target>
+        </trans-unit>
+        <trans-unit id="AccessDeniedCreateDialog.Text" translate="yes" xml:space="preserve">
+          <source>We weren't able to create this item</source>
+          <target state="new">We weren't able to create this item</target>
+        </trans-unit>
+        <trans-unit id="AccessDeniedCreateDialog.Title" translate="yes" xml:space="preserve">
+          <source>Access Denied</source>
+          <target state="new">Access Denied</target>
         </trans-unit>
       </group>
     </body>
