@@ -22,14 +22,15 @@ namespace Files.UserControls
     public sealed partial class VerticalTabViewControl : UserControl, IMultitaskingControl
     {
         private const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
-        private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
-        private TabViewItem hoveredTabViewItem = null;
 
         public const string TabPathIdentifier = "FilesTabViewItemPath";
 
         public void SelectionChanged() => TabStrip_SelectionChanged(null, null);
 
         public ObservableCollection<TabItem> Items => MainPage.AppInstances;
+
+        private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
+        private TabViewItem hoveredTabViewItem = null;
 
         public VerticalTabViewControl()
         {
@@ -214,7 +215,7 @@ namespace Files.UserControls
                     break;
 
                 case Windows.Foundation.Collections.CollectionChange.ItemInserted:
-                    App.InteractionViewModel.TabStripSelectedIndex = (int)args.Index;
+                    App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(VerticalTabView.SelectedItem as TabItem);
                     break;
             }
         }
@@ -268,9 +269,7 @@ namespace Files.UserControls
         {
             tabHoverTimer.Stop();
             if (hoveredTabViewItem != null)
-            {
                 VerticalTabView.SelectedItem = hoveredTabViewItem;
-            }
         }
 
         private void TabStrip_TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)
@@ -289,8 +288,7 @@ namespace Files.UserControls
                 e.DragUIOverride.Caption = ResourceController.GetTranslation("TabStripDragAndDropUIOverrideCaption");
                 e.DragUIOverride.IsCaptionVisible = true;
                 e.DragUIOverride.IsGlyphVisible = false;
-            }
-            else
+            } else
             {
                 VerticalTabView.CanReorderTabs = false;
             }

@@ -30,7 +30,6 @@ using Windows.UI.Xaml.Navigation;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Windows.UI.Notifications;
 using Files.UserControls.MultiTaskingControl;
-using Newtonsoft.Json.Linq;
 
 namespace Files
 {
@@ -74,24 +73,9 @@ namespace Files
             Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
             NLog.LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
 
-            StartAppCenter();
-        }
-
-        private async void StartAppCenter()
-        {
-            JObject obj;
-            try
-            {
-                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
-                var lines = await FileIO.ReadTextAsync(file);
-                obj = JObject.Parse(lines);
-            }
-            catch (Exception e)
-            {
-                return;
-            }
-
-            AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
+#if !DEBUG
+            AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
+#endif
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)

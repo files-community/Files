@@ -1,5 +1,4 @@
 ﻿using Files.Filesystem;
-using Files.Helpers;
 using System;
 using System.Collections.Generic;
 using Windows.Storage;
@@ -75,29 +74,22 @@ namespace Files.Dialogs
 
             // Create file based on dialog result
             string userInput = renameDialog.storedRenameInput;
-            try
+            switch (itemType)
             {
-                switch (itemType)
-                {
-                    case AddItemType.Folder:
-                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : ResourceController.GetTranslation("NewFolder");
-                        await folderToCreateItem.CreateFolderAsync(userInput, CreationCollisionOption.GenerateUniqueName);
-                        break;
+                case AddItemType.Folder:
+                    userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : ResourceController.GetTranslation("NewFolder");
+                    await folderToCreateItem.CreateFolderAsync(userInput, CreationCollisionOption.GenerateUniqueName);
+                    break;
 
-                    case AddItemType.TextDocument:
-                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : ResourceController.GetTranslation("NewTextDocument");
-                        await folderToCreateItem.CreateFileAsync(userInput + ".txt", CreationCollisionOption.GenerateUniqueName);
-                        break;
+                case AddItemType.TextDocument:
+                    userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : ResourceController.GetTranslation("NewTextDocument");
+                    await folderToCreateItem.CreateFileAsync(userInput + ".txt", CreationCollisionOption.GenerateUniqueName);
+                    break;
 
-                    case AddItemType.BitmapImage:
-                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : ResourceController.GetTranslation("NewBitmapImage");
-                        await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.GenerateUniqueName);
-                        break;
-                }
-            }
-            catch (UnauthorizedAccessException)
-            {
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("AccessDeniedCreateDialog/Title"), ResourceController.GetTranslation("AccessDeniedCreateDialog/Text"));
+                case AddItemType.BitmapImage:
+                    userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : ResourceController.GetTranslation("NewBitmapImage");
+                    await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.GenerateUniqueName);
+                    break;
             }
         }
     }

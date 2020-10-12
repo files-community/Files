@@ -125,30 +125,6 @@
                             </StackPanel>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem
-                        Padding="8,2"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Stretch"
-                        IsEnabled="True">
-                        <StackPanel
-                            Padding="0,4"
-                            Orientation="Horizontal"
-                            Spacing="14">
-                            <FontIcon
-                                FontFamily="{StaticResource FluentUIGlyphs}"
-                                Foreground="{ThemeResource SystemAccentColor}"
-                                Glyph="&#xEB3B;" />
-                            <StackPanel VerticalAlignment="Center" Orientation="Vertical">
-                                <TextBlock x:Uid="SettingsAboutSupportUs" Text="Support us" />
-                                <TextBlock
-                                    x:Uid="SettingsAboutSupportUsDescription"
-                                    FontSize="12"
-                                    Foreground="Gray"
-                                    Text="Support us on PayPal"
-                                    TextWrapping="Wrap" />
-                            </StackPanel>
-                        </StackPanel>
-                    </ListViewItem>
                 </ListView>
 
                 <Button
