@@ -25,19 +25,23 @@ namespace Files.UserControls
     public sealed partial class HorizontalMultitaskingControl : UserControl, IMultitaskingControl
     {
         private const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
+        private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
+        private TabViewItem hoveredTabViewItem = null;
 
         public const string TabPathIdentifier = "FilesTabViewItemPath";
-
-        public HorizontalMultitaskingControl()
-        {
-            this.InitializeComponent();
-        }
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public void SelectionChanged() => TabStrip_SelectionChanged(null, null);
 
         public ObservableCollection<TabItem> Items => MainPage.AppInstances;
+        
+        public HorizontalMultitaskingControl()
+        {
+            this.InitializeComponent();
+            tabHoverTimer.Interval = TimeSpan.FromMilliseconds(500);
+            tabHoverTimer.Tick += TabHoverSelected;
+        }
 
         public async Task SetSelectedTabInfo(string text, string currentPathForTabIcon)
         {
@@ -220,7 +224,7 @@ namespace Files.UserControls
                     break;
 
                 case Windows.Foundation.Collections.CollectionChange.ItemInserted:
-                    App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(HorizontalTabView.SelectedItem as TabItem);
+                    App.InteractionViewModel.TabStripSelectedIndex = (int)args.Index;
                     break;
             }
         }
@@ -244,17 +248,38 @@ namespace Files.UserControls
             {
                 e.AcceptedOperation = DataPackageOperation.None;
             }
+            HorizontalTabView.CanReorderTabs = true;
+            tabHoverTimer.Stop();
         }
 
-        private void TabViewItem_DragOver(object sender, DragEventArgs e)
+        private void TabViewItem_DragEnter(object sender, DragEventArgs e)
         {
             if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
             {
+                HorizontalTabView.CanReorderTabs = false;
                 e.AcceptedOperation = DataPackageOperation.Move;
+                tabHoverTimer.Start();
+                hoveredTabViewItem = sender as TabViewItem;
             }
             else
             {
                 e.AcceptedOperation = DataPackageOperation.None;
+            }
+        }
+
+        private void TabViewItem_DragLeave(object sender, DragEventArgs e)
+        {
+            tabHoverTimer.Stop();
+            hoveredTabViewItem = null;
+        }
+
+        // Select tab that is hovered over for a certain duration
+        private void TabHoverSelected(object sender, object e)
+        {
+            tabHoverTimer.Stop();
+            if (hoveredTabViewItem != null)
+            {
+                HorizontalTabView.SelectedItem = hoveredTabViewItem;
             }
         }
 
@@ -269,15 +294,26 @@ namespace Files.UserControls
         {
             if (e.DataView.Properties.ContainsKey(TabPathIdentifier))
             {
+                HorizontalTabView.CanReorderTabs = true;
                 e.AcceptedOperation = DataPackageOperation.Move;
                 e.DragUIOverride.Caption = ResourceController.GetTranslation("TabStripDragAndDropUIOverrideCaption");
                 e.DragUIOverride.IsCaptionVisible = true;
                 e.DragUIOverride.IsGlyphVisible = false;
             }
+            else
+            {
+                HorizontalTabView.CanReorderTabs = false;
+            }
+        }
+
+        private void TabStrip_DragLeave(object sender, DragEventArgs e)
+        {
+            HorizontalTabView.CanReorderTabs = true;
         }
 
         private async void TabStrip_TabStripDrop(object sender, DragEventArgs e)
         {
+            HorizontalTabView.CanReorderTabs = true;
             if (!(sender is TabView tabStrip))
             {
                 return;
