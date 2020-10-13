@@ -1,7 +1,6 @@
 ﻿using ByteSizeLib;
 using Files.Enums;
 using Files.Helpers;
-using GalaSoft.MvvmLight;
 ﻿using Files.Enums;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
@@ -111,18 +110,6 @@ namespace Files.Filesystem
             }
         }
 
-        private int[] _ImageDimensions;
-
-        public int[] ImageDimensions
-        {
-            get => _ImageDimensions;
-            set
-            {
-                Set(ref _ImageDimensions, value);
-                RaisePropertyChanged("GetTooltip");
-            }
-        }
-
         public string FileExtension { get; set; }
         public string FileSize { get; set; }
         public long FileSizeBytes { get; set; }
@@ -155,21 +142,6 @@ namespace Files.Filesystem
 
         private DateTimeOffset _itemDateCreatedReal;
 
-        public string GetTooltip()
-        {
-            return "Name: " + ItemName + "\nType: " + ItemType
-                //Size
-                + (PrimaryItemAttribute != StorageItemTypes.Folder && !IsShortcutItem ? "\nSize: " + ByteSize.FromBytes(FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation() : "")
-                //Dimensions (if image)
-                + (ImageDimensions != null && ImageDimensions.Length > 1 && ImageDimensions[0] + ImageDimensions[1] > 0 ? "\nDimensions: " + ImageDimensions[0] + " x " + ImageDimensions[1] : "")
-                //Date modified
-                + "\nDate Modified: " + ItemDateModified
-                //Shortcut destination (if shortcut)
-                + (IsShortcutItem ? "\nDestination: " + (this as ShortcutItem).TargetPath.Split('?')[0] : "")
-                //Cloud sync status (if cloud item)
-                + (SyncStatusUI != null && SyncStatusUI.LoadSyncStatus ? "\nStatus: " + SyncStatusUI.StatusText : "");
-        }
-
         public DateTimeOffset ItemDateAccessedReal
         {
             get => _itemDateAccessedReal;
@@ -181,16 +153,6 @@ namespace Files.Filesystem
         }
 
         private DateTimeOffset _itemDateAccessedReal;
-
-        public bool IsImage()
-        {
-            if (FileExtension != null)
-            {
-                string lower = FileExtension.ToLower();
-                return lower.Contains("png") || lower.Contains("jpg") || lower.Contains("gif") || lower.Contains("jpeg");
-            }
-            return false;
-        }
 
         /// <summary>
         /// Create an item object, optionally with an explicitly-specified dateReturnFormat.

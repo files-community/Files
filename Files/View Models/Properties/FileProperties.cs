@@ -1,7 +1,7 @@
 ﻿using ByteSizeLib;
-using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
 using Newtonsoft.Json.Linq;
@@ -262,10 +262,6 @@ namespace Files.View_Models.Properties
                 return;
             }
 
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-
-            ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDateFromFormat(file.DateCreated, returnformat);
             GetOtherProperties(file.Properties);
 
             // Get file MD5 hash
@@ -417,19 +413,59 @@ namespace Files.View_Models.Properties
         public async void SyncPropertyChanges()
         {
             StorageFile file = null;
+            var CurrentInstance = App.CurrentInstance;
+            PostedStatusBanner banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                "Saving properties",
+                CurrentInstance.FilesystemViewModel.WorkingDirectory,
+                0,
+                StatusBanner.StatusBannerSeverity.Ongoing,
+                StatusBanner.StatusBannerOperation.SaveProperties);
 
+            var errors = "";
+            //banner.Progress = new Progress<uint>();
             try
             {
                 file = await ItemViewModel.GetFileFromPathAsync(Item.ItemPath);
-                SavePropertiesAsync(file);
+                errors = await SavePropertiesAsync(file, banner.Progress);
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.ToString());
             }
+
+            Debug.WriteLine($"The following properties failed to save: \n{errors}");
+
         }
 
-        private async void SavePropertiesAsync(StorageFile file)
+        private async Task<string> SavePropertiesAsync(StorageFile file, IProgress<uint> progress)
+        {
+            var progressVal = (uint)0;
+            var errors = "";
+
+            foreach (KeyValuePair<string, object> valuePair in ViewModel.SystemFileProperties_RW)
+            {
+                var newDict = new Dictionary<string, object>();
+                newDict.Add(valuePair.Key, valuePair.Value);
+
+                try
+                {
+                    await file.Properties.SavePropertiesAsync(newDict);
+                }
+                catch (Exception e)
+                {
+                    //Debug.WriteLine(string.Format("{0}\n{1}", valuePair.Key, e.ToString()));
+                    errors += $"{valuePair.Key}\n";
+                }
+
+                progressVal += (uint)(100/ViewModel.SystemFileProperties_RW.Count);
+                progress.Report(progressVal);
+            }
+            progress.Report((uint) 100);
+
+            return errors;
+        }
+
+        private async Task SavePropertiesAsync(StorageFile file)
         {
             foreach (KeyValuePair<string, object> valuePair in ViewModel.SystemFileProperties_RW)
             {

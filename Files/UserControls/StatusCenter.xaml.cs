@@ -137,7 +137,8 @@ namespace Files.UserControls
             Recycle,
             Delete,
             Paste,
-            Extract
+            Extract,
+            SaveProperties
         }
 
         public StatusBanner(string message, string title, uint progress, StatusBannerSeverity severity, StatusBannerOperation operation)

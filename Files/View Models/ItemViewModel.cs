@@ -494,7 +494,6 @@ namespace Files.Filesystem
                                 var syncStatus = await CheckCloudDriveSyncStatus(matchingStorageItem);
                                 var imageProperties = await matchingStorageItem.Properties.GetImagePropertiesAsync();
                                 matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
-                                matchingItem.ImageDimensions = new int[2] { (int)imageProperties.Width, (int)imageProperties.Height };
                             }
                         }
                     }
@@ -1517,7 +1516,6 @@ namespace Files.Filesystem
             var itemType = file.DisplayType;
             var itemFolderImgVis = false;
             var itemFileExtension = file.FileType;
-            int[] imageDimensions = { (int)imageProperties.Width, (int)imageProperties.Height };
 
             BitmapImage icon = new BitmapImage();
             bool itemThumbnailImgVis;
@@ -1603,7 +1601,6 @@ namespace Files.Filesystem
                     ItemPath = itemPath,
                     FileSize = itemSize,
                     FileSizeBytes = (long)itemSizeBytes,
-                    ImageDimensions = imageDimensions
                 });
             }
 

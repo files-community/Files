@@ -513,14 +513,12 @@
                 IsRightTapEnabled="True"
                 PointerPressed="FileListGridItem_PointerPressed"
                 RightTapped="StackPanel_RightTapped"
-                Tag="ItemRoot">
+                Tag="ItemRoot"
+                ToolTipService.ToolTip="{x:Bind ItemName}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <ToolTipService.ToolTip>
-                    <ToolTip Placement="Bottom" Content="{x:Bind GetTooltip(), Mode=OneWay}"/>
-                </ToolTipService.ToolTip>
                 <Grid
                     Grid.Row="0"
                     Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
@@ -648,10 +646,8 @@
                 IsRightTapEnabled="True"
                 PointerPressed="FileListGridItem_PointerPressed"
                 RightTapped="StackPanel_RightTapped"
-                Tag="ItemRoot">
-                <ToolTipService.ToolTip>
-                    <ToolTip Placement="Bottom" Content="{x:Bind GetTooltip(), Mode=OneWay}"/>
-                </ToolTipService.ToolTip>
+                Tag="ItemRoot"
+                ToolTipService.ToolTip="{x:Bind ItemName}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="90" />

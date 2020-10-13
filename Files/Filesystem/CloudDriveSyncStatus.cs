@@ -56,7 +56,6 @@ namespace Files.Filesystem
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uE753";
                     statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusOnlineColor"];
-                    statusUI.StatusText = "Available When Online";
                     break;
 
                 case CloudDriveSyncStatus.File_Offline:
@@ -64,14 +63,12 @@ namespace Files.Filesystem
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uE73E";
                     statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusOfflineColor"];
-                    statusUI.StatusText = "Available Offline";
                     break;
 
                 case CloudDriveSyncStatus.File_Sync:
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uE895";
                     statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusOnlineColor"];
-                    statusUI.StatusText = "Syncing";
                     break;
 
                 // Folder
@@ -80,7 +77,6 @@ namespace Files.Filesystem
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uE753";
                     statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusOnlineColor"];
-                    statusUI.StatusText = "Available When Online";
                     break;
 
                 case CloudDriveSyncStatus.Folder_Offline_Full:
@@ -89,14 +85,12 @@ namespace Files.Filesystem
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uE73E";
                     statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusOfflineColor"];
-                    statusUI.StatusText = "Available Offline";
                     break;
 
                 case CloudDriveSyncStatus.Folder_Excluded:
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uF140";
                     statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusExcludedColor"];
-                    statusUI.StatusText = "Folder Excluded";
                     break;
 
                 // Unknown
