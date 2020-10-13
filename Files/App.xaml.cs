@@ -4,10 +4,16 @@ using Files.Controllers;
 using Files.Controls;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.UserControls.MultiTaskingControl;
 using Files.View_Models;
 using Files.Views;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -19,18 +25,12 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
 using Windows.Storage;
 using Windows.UI.Core;
+using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.Toolkit.Uwp.Notifications;
-using Windows.UI.Notifications;
-using Files.UserControls.MultiTaskingControl;
-using Newtonsoft.Json.Linq;
 
 namespace Files
 {

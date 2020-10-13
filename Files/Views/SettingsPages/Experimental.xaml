@@ -33,7 +33,6 @@
                     FontStyle="Italic"
                     Text="WARNING: EXPERIMENTAL FEATURES AHEAD!" />
 
-
                 <ToggleSwitch
                     x:Uid="SettingsExperimentalDoubleTapToRenameFiles"
                     Header="Double tap to rename files"
