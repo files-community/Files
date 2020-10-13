@@ -88,7 +88,7 @@ namespace Files
                 var lines = await FileIO.ReadTextAsync(file);
                 obj = JObject.Parse(lines);
             }
-            catch (Exception e)
+            catch
             {
                 return;
             }
