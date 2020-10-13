@@ -1,4 +1,4 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Windows.UI.Xaml.Media;
 
 namespace Files.Filesystem
@@ -22,12 +22,28 @@ namespace Files.Filesystem
     public class CloudDriveSyncStatusUI : ObservableObject
     {
         private bool _LoadSyncStatus;
-        public bool LoadSyncStatus { get => _LoadSyncStatus; set => Set(ref _LoadSyncStatus, value); }
+
+        public bool LoadSyncStatus
+        {
+            get => _LoadSyncStatus;
+            set => SetProperty(ref _LoadSyncStatus, value);
+        }
+
         private string _Glyph;
-        public string Glyph { get => _Glyph; set => Set(ref _Glyph, value); }
-        public string StatusText { get; set; }
+
+        public string Glyph
+        {
+            get => _Glyph;
+            set => SetProperty(ref _Glyph, value);
+        }
+
         private SolidColorBrush _Foreground;
-        public SolidColorBrush Foreground { get => _Foreground; set => Set(ref _Foreground, value); }
+
+        public SolidColorBrush Foreground
+        {
+            get => _Foreground;
+            set => SetProperty(ref _Foreground, value);
+        }
 
         public static CloudDriveSyncStatusUI FromCloudDriveSyncStatus(CloudDriveSyncStatus syncStatus)
         {

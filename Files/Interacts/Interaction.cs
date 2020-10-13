@@ -1,8 +1,8 @@
+using Files.Commands;
 using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.UserControls;
 using Files.View_Models;
 using Files.Views;
 using Files.Views.Pages;
@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -31,17 +30,14 @@ using Windows.Storage.Search;
 using Windows.Storage.Streams;
 using Windows.System;
 using Windows.System.UserProfile;
-using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using static Files.Dialogs.ConfirmDeleteDialog;
 
 namespace Files.Interacts
 {
@@ -82,7 +78,7 @@ namespace Files.Interacts
                 // Get the app's local folder to use as the destination folder.
                 StorageFolder localFolder = ApplicationData.Current.LocalFolder;
 
-                // Copy the file to the destination folder.
+                // the file to the destination folder.
                 // Generate unique name if the file already exists.
                 // If the file you are trying to set as the wallpaper has the same name as the current wallpaper,
                 // the system will ignore the request and no-op the operation
@@ -289,19 +285,24 @@ namespace Files.Interacts
 
         public async void RunAsAdmin_Click()
         {
-            await InvokeWin32Component(CurrentInstance.ContentPage.SelectedItem.ItemPath, null, true);
+            if (App.Connection != null)
+            {
+                await App.Connection.SendMessageAsync(new ValueSet() {
+                    { "Arguments", "InvokeVerb" },
+                    { "FilePath", CurrentInstance.ContentPage.SelectedItem.ItemPath },
+                    { "Verb", "runas" } });
+            }
         }
 
         public async void RunAsAnotherUser_Click()
         {
-            if (CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
+            if (App.Connection != null)
             {
-                // Do not open files and folders inside the recycle bin
-                return;
+                await App.Connection.SendMessageAsync(new ValueSet() {
+                    { "Arguments", "InvokeVerb" },
+                    { "FilePath", CurrentInstance.ContentPage.SelectedItem.ItemPath },
+                    { "Verb", "runasuser" } });
             }
-
-            var clickedOnItem = CurrentInstance.ContentPage.SelectedItem;
-            await InvokeWin32Component(clickedOnItem.ItemPath, "runasuser", false);
         }
 
         public void OpenItem_Click(object sender, RoutedEventArgs e)
@@ -330,7 +331,8 @@ namespace Files.Interacts
             }
             catch (Exception ex)
             {
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("InvalidItemDialogTitle"), string.Format(ResourceController.GetTranslation("InvalidItemDialogContent"), ex.Message));
+                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("InvalidItemDialogTitle"),
+                    string.Format(ResourceController.GetTranslation("InvalidItemDialogContent"), Environment.NewLine, ex.Message));
             }
         }
 
@@ -516,13 +518,13 @@ namespace Files.Interacts
 
         public void CloseTab()
         {
-            if (App.CurrentInstance.MultitaskingControl.Items.Count == 1)
+            if (App.MultitaskingControl.Items.Count == 1)
             {
                 App.CloseApp();
             }
-            else if (App.CurrentInstance.MultitaskingControl.Items.Count > 1)
+            else if (App.MultitaskingControl.Items.Count > 1)
             {
-                App.CurrentInstance.MultitaskingControl.Items.RemoveAt(App.InteractionViewModel.TabStripSelectedIndex);
+                App.MultitaskingControl.Items.RemoveAt(App.InteractionViewModel.TabStripSelectedIndex);
             }
         }
 
@@ -622,17 +624,19 @@ namespace Files.Interacts
         {
             DataRequestDeferral dataRequestDeferral = args.Request.GetDeferral();
             List<IStorageItem> items = new List<IStorageItem>();
-
             DataRequest dataRequest = args.Request;
-            dataRequest.Data.Properties.Title = "Data Shared From Files";
-            dataRequest.Data.Properties.Description = "The items you selected will be shared";
 
-            foreach (ListedItem item in App.CurrentInstance.ContentPage.SelectedItems)
+            /*dataRequest.Data.Properties.Title = "Data Shared From Files";
+            dataRequest.Data.Properties.Description = "The items you selected will be shared";*/
+
+            foreach (ListedItem item in CurrentInstance.ContentPage.SelectedItems)
             {
                 if (item.IsShortcutItem)
                 {
                     if (item.IsLinkItem)
                     {
+                        dataRequest.Data.Properties.Title = string.Format(ResourceController.GetTranslation("ShareDialogTitle"), items.First().Name);
+                        dataRequest.Data.Properties.Description = ResourceController.GetTranslation("ShareDialogSingleItemDescription");
                         dataRequest.Data.SetWebLink(new Uri(((ShortcutItem)item).TargetPath));
                         dataRequestDeferral.Complete();
                         return;
@@ -650,11 +654,22 @@ namespace Files.Interacts
                 }
             }
 
-            if (items.Count == 0)
+            if (items.Count == 1)
             {
-                dataRequest.FailWithDisplayText("Could not access file(s) for sharing");
+                dataRequest.Data.Properties.Title = string.Format(ResourceController.GetTranslation("ShareDialogTitle"), items.First().Name);
+                dataRequest.Data.Properties.Description = ResourceController.GetTranslation("ShareDialogSingleItemDescription");
+            }
+            else if (items.Count == 0)
+            {
+                dataRequest.FailWithDisplayText(ResourceController.GetTranslation("ShareDialogFailMessage"));
                 dataRequestDeferral.Complete();
                 return;
+            }
+            else
+            {
+                dataRequest.Data.Properties.Title = string.Format(ResourceController.GetTranslation("ShareDialogTitleMultipleItems"), items.Count,
+                    ResourceController.GetTranslation("ItemsCount.Text"));
+                dataRequest.Data.Properties.Description = ResourceController.GetTranslation("ShareDialogMultipleItemsDescription");
             }
 
             dataRequest.Data.SetStorageItems(items);
@@ -688,145 +703,7 @@ namespace Files.Interacts
 
         public void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-            DeleteItem(StorageDeleteOption.Default);
-        }
-
-        public async void DeleteItem(StorageDeleteOption deleteOption)
-        {
-            var deleteFromRecycleBin = App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath);
-            if (deleteFromRecycleBin)
-            {
-                // Permanently delete if deleting from recycle bin
-                deleteOption = StorageDeleteOption.PermanentDelete;
-            }
-
-            // Get selected items before showing the prompt to prevent deleting items selected after the prompt
-            var CurrentInstance = App.CurrentInstance;
-            List<ListedItem> selectedItems = new List<ListedItem>();
-            foreach (ListedItem selectedItem in CurrentInstance.ContentPage.SelectedItems)
-            {
-                selectedItems.Add(selectedItem);
-            }
-
-            if (AppSettings.ShowConfirmDeleteDialog == true) //check if the setting to show a confirmation dialog is on
-            {
-                var dialog = new ConfirmDeleteDialog(deleteFromRecycleBin, deleteOption);
-                await dialog.ShowAsync();
-
-                if (dialog.Result != MyResult.Delete) //delete selected  item(s) if the result is yes
-                {
-                    return; //return if the result isn't delete
-                }
-                deleteOption = dialog.PermanentlyDelete;
-            }
-            StatusBanner banner = null;
-            try
-            {
-                int itemsDeleted = 0;
-                if (selectedItems.Count > 3)
-                {
-                    banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(null,
-                        CurrentInstance.FilesystemViewModel.WorkingDirectory,
-                        0,
-                        UserControls.StatusBanner.StatusBannerSeverity.Ongoing,
-                        UserControls.StatusBanner.StatusBannerOperation.Delete);
-                }
-                await Task.Run(async () =>
-                {
-                    foreach (ListedItem storItem in selectedItems)
-                    {
-                        uint progressValue = (uint)(itemsDeleted * 100.0 / selectedItems.Count);
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                            new DispatchedHandler(() =>
-                            {
-                                if (selectedItems.Count > 3) { banner.Report((uint)progressValue); }
-                            }));
-
-                        IStorageItem item;
-                        try
-                        {
-                            if (storItem.PrimaryItemAttribute == StorageItemTypes.File)
-                            {
-                                item = await ItemViewModel.GetFileFromPathAsync(storItem.ItemPath);
-                            }
-                            else
-                            {
-                                item = await ItemViewModel.GetFolderFromPathAsync(storItem.ItemPath);
-                            }
-
-                            await item.DeleteAsync(deleteOption);
-                        }
-                        catch (UnauthorizedAccessException)
-                        {
-                            if (deleteOption == StorageDeleteOption.Default)
-                            {
-                                // Try again with fulltrust process
-                                if (App.Connection != null)
-                                {
-                                    var result = await App.Connection.SendMessageAsync(new ValueSet() {
-                                    { "Arguments", "FileOperation" },
-                                    { "fileop", "MoveToBin" },
-                                    { "filepath", storItem.ItemPath } });
-                                }
-                            }
-                            else
-                            {
-                                // Try again with DeleteFileFromApp
-                                if (!NativeDirectoryChangesHelper.DeleteFileFromApp(storItem.ItemPath))
-                                {
-                                    Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
-                                }
-                            }
-                        }
-                        catch (FileLoadException)
-                        {
-                            // try again
-                            if (storItem.PrimaryItemAttribute == StorageItemTypes.File)
-                            {
-                                item = await ItemViewModel.GetFileFromPathAsync(storItem.ItemPath);
-                            }
-                            else
-                            {
-                                item = await ItemViewModel.GetFolderFromPathAsync(storItem.ItemPath);
-                            }
-
-                            await item.DeleteAsync(deleteOption);
-                        }
-
-                        if (deleteFromRecycleBin)
-                        {
-                            // Recycle bin also stores a file starting with $I for each item
-                            var iFilePath = Path.Combine(Path.GetDirectoryName(storItem.ItemPath), Path.GetFileName(storItem.ItemPath).Replace("$R", "$I"));
-                            await (await ItemViewModel.GetFileFromPathAsync(iFilePath)).DeleteAsync(StorageDeleteOption.PermanentDelete);
-                        }
-
-                        CurrentInstance.FilesystemViewModel.RemoveFileOrFolder(storItem);
-                        itemsDeleted++;
-                    }
-                });
-
-                App.CurrentInstance.NavigationToolbar.CanGoForward = false;
-            }
-            catch (UnauthorizedAccessException)
-            {
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("AccessDeniedDeleteDialog/Title"), ResourceController.GetTranslation("AccessDeniedDeleteDialog/Text"));
-            }
-            catch (FileNotFoundException)
-            {
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FileNotFoundDialog/Title"), ResourceController.GetTranslation("FileNotFoundDialog/Text"));
-            }
-            catch (IOException)
-            {
-                if (await DialogDisplayHelper.ShowDialog(
-                    ResourceController.GetTranslation("FileInUseDeleteDialog/Title"),
-                    ResourceController.GetTranslation("FileInUseDeleteDialog/Text"),
-                    ResourceController.GetTranslation("FileInUseDeleteDialog/PrimaryButtonText"),
-                    ResourceController.GetTranslation("FileInUseDeleteDialog/SecondaryButtonText")))
-                {
-                    DeleteItem(deleteOption);
-                }
-            }
-            App.CurrentInstance.StatusBarControl.OngoingTasksControl.RemoveBanner(banner);
+            ItemOperations.DeleteItemWithStatus(StorageDeleteOption.Default);
         }
 
         public void RenameItem_Click(object sender, RoutedEventArgs e)
@@ -907,50 +784,65 @@ namespace Files.Interacts
                         return false;
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
-                    var ItemAlreadyExistsDialog = new ContentDialog()
+                    if (ex is ArgumentException)
                     {
-                        Title = ResourceController.GetTranslation("ItemAlreadyExistsDialogTitle"),
-                        Content = ResourceController.GetTranslation("ItemAlreadyExistsDialogContent"),
-                        PrimaryButtonText = ResourceController.GetTranslation("ItemAlreadyExistsDialogPrimaryButtonText"),
-                        SecondaryButtonText = ResourceController.GetTranslation("ItemAlreadyExistsDialogSecondaryButtonText")
-                    };
-
-                    ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
-
-                    if (result == ContentDialogResult.Primary)
-                    {
-                        if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                        {
-                            var folder = await ItemViewModel.GetFolderFromPathAsync(item.ItemPath);
-
-                            await folder.RenameAsync(newName, NameCollisionOption.GenerateUniqueName);
-
-                            App.JumpList.RemoveFolder(folder.Path);
-                        }
-                        else
-                        {
-                            var file = await ItemViewModel.GetFileFromPathAsync(item.ItemPath);
-
-                            await file.RenameAsync(newName, NameCollisionOption.GenerateUniqueName);
-                        }
+                        await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("RenameError.NameInvalid.Title"), ResourceController.GetTranslation("RenameError.NameInvalid.Text"));
                     }
-                    else if (result == ContentDialogResult.Secondary)
+                    else if (ex is PathTooLongException)
                     {
-                        if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                        await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("RenameError.TooLong.Title"), ResourceController.GetTranslation("RenameError.TooLong.Text"));
+                    }
+                    else if (ex is FileNotFoundException)
+                    {
+                        await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("RenameError.ItemDeleted.Title"), ResourceController.GetTranslation("RenameError.ItemDeleted.Text"));
+                    }
+                    else
+                    {
+                        var ItemAlreadyExistsDialog = new ContentDialog()
                         {
-                            var folder = await ItemViewModel.GetFolderFromPathAsync(item.ItemPath);
+                            Title = ResourceController.GetTranslation("ItemAlreadyExistsDialogTitle"),
+                            Content = ResourceController.GetTranslation("ItemAlreadyExistsDialogContent"),
+                            PrimaryButtonText = ResourceController.GetTranslation("ItemAlreadyExistsDialogPrimaryButtonText"),
+                            SecondaryButtonText = ResourceController.GetTranslation("ItemAlreadyExistsDialogSecondaryButtonText")
+                        };
 
-                            await folder.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+                        ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
 
-                            App.JumpList.RemoveFolder(folder.Path);
+                        if (result == ContentDialogResult.Primary)
+                        {
+                            if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                            {
+                                var folder = await ItemViewModel.GetFolderFromPathAsync(item.ItemPath);
+
+                                await folder.RenameAsync(newName, NameCollisionOption.GenerateUniqueName);
+
+                                App.JumpList.RemoveFolder(folder.Path);
+                            }
+                            else
+                            {
+                                var file = await ItemViewModel.GetFileFromPathAsync(item.ItemPath);
+
+                                await file.RenameAsync(newName, NameCollisionOption.GenerateUniqueName);
+                            }
                         }
-                        else
+                        else if (result == ContentDialogResult.Secondary)
                         {
-                            var file = await ItemViewModel.GetFileFromPathAsync(item.ItemPath);
+                            if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                            {
+                                var folder = await ItemViewModel.GetFolderFromPathAsync(item.ItemPath);
 
-                            await file.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+                                await folder.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+
+                                App.JumpList.RemoveFolder(folder.Path);
+                            }
+                            else
+                            {
+                                var file = await ItemViewModel.GetFileFromPathAsync(item.ItemPath);
+
+                                await file.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+                            }
                         }
                     }
                 }
@@ -1082,6 +974,10 @@ namespace Files.Interacts
                     return;
                 }
             }
+            if (!items.Any())
+            {
+                return;
+            }
             dataPackage.SetStorageItems(items);
             Clipboard.SetContent(dataPackage);
             try
@@ -1095,8 +991,6 @@ namespace Files.Interacts
         }
 
         public string CopySourcePath;
-        public IReadOnlyList<IStorageItem> itemsToPaste;
-        public int itemsPasted;
 
         public async void CopyItem_ClickAsync(object sender, RoutedEventArgs e)
         {
@@ -1157,6 +1051,18 @@ namespace Files.Interacts
             }
         }
 
+        public void CopyLocation_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            if (App.CurrentInstance.ContentPage != null)
+            {
+                Clipboard.Clear();
+                DataPackage data = new DataPackage();
+                data.SetText(CurrentInstance.ContentPage.SelectedItem.ItemPath);
+                Clipboard.SetContent(data);
+                Clipboard.Flush();
+            }
+        }
+
         private enum ImpossibleActionResponseTypes
         {
             Skip,
@@ -1188,277 +1094,12 @@ namespace Files.Interacts
             }
         }
 
-        public async void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
+        public void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
         {
             DataPackageView packageView = Clipboard.GetContent();
             string destinationPath = CurrentInstance.FilesystemViewModel.WorkingDirectory;
 
-            await PasteItems(packageView, destinationPath, packageView.RequestedOperation);
-        }
-
-        public async Task PasteItems(DataPackageView packageView, string destinationPath, DataPackageOperation acceptedOperation)
-        {
-            if (!packageView.Contains(StandardDataFormats.StorageItems))
-            {
-                // Happens if you copy some text and then you Ctrl+V in FilesUWP
-                // Should this be done in ModernShellPage?
-                return;
-            }
-            if (CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
-            {
-                // Do not paste files and folders inside the recycle bin
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"), ResourceController.GetTranslation("ErrorDialogUnsupportedOperation"));
-                return;
-            }
-
-            itemsToPaste = await packageView.GetStorageItemsAsync();
-            HashSet<IStorageItem> pastedSourceItems = new HashSet<IStorageItem>();
-            HashSet<IStorageItem> pastedItems = new HashSet<IStorageItem>();
-            itemsPasted = 0;
-            StatusBanner banner = null;
-            if (itemsToPaste.Count > 3)
-            {
-                banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(null,
-                        CurrentInstance.FilesystemViewModel.WorkingDirectory,
-                        0,
-                        StatusBanner.StatusBannerSeverity.Ongoing,
-                        StatusBanner.StatusBannerOperation.Paste);
-            }
-
-            await Task.Run(async () =>
-            {
-                foreach (IStorageItem item in itemsToPaste)
-                {
-                    if (item.IsOfType(StorageItemTypes.Folder))
-                    {
-                        if (!string.IsNullOrEmpty(item.Path) && destinationPath.IsSubPathOf(item.Path))
-                        {
-                            ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
-
-                            /// Currently following implementation throws exception until it is resolved keep it disabled
-                            /*Binding themeBind = new Binding();
-                            themeBind.Source = ThemeHelper.RootTheme;
-
-                            ContentDialog dialog = new ContentDialog()
-                            {
-                                Title = ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"),
-                                Content = ResourceController.GetTranslation("ErrorDialogTheDestinationFolder") + " (" + destinationPath.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last() + ") " + ResourceController.GetTranslation("ErrorDialogIsASubfolder") + " (" + item.Name + ")",
-                                PrimaryButtonText = ResourceController.GetTranslation("ErrorDialogSkip"),
-                                CloseButtonText = ResourceController.GetTranslation("ErrorDialogCancel"),
-                                PrimaryButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Skip; }),
-                                CloseButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Abort; }),
-                            };
-                            BindingOperations.SetBinding(dialog, FrameworkElement.RequestedThemeProperty, themeBind);
-
-                            await dialog.ShowAsync();*/
-                            if (responseType == ImpossibleActionResponseTypes.Skip)
-                            {
-                                continue;
-                            }
-                            else if (responseType == ImpossibleActionResponseTypes.Abort)
-                            {
-                                return;
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                ClonedDirectoryOutput pastedOutput = await CloneDirectoryAsync(
-                                    (StorageFolder)item,
-                                    await ItemViewModel.GetFolderFromPathAsync(destinationPath),
-                                    item.Name, false, banner);
-                                pastedSourceItems.Add(item);
-                                pastedItems.Add(pastedOutput.FolderOutput);
-                                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                                    new DispatchedHandler(() =>
-                                    {
-                                        banner = pastedOutput.StatusBannerOutput;
-                                    }));
-                            }
-                            catch (FileNotFoundException)
-                            {
-                                // Folder was moved/deleted in the meantime
-                                continue;
-                            }
-                        }
-                    }
-                    else if (item.IsOfType(StorageItemTypes.File))
-                    {
-                        uint progressValue = (uint)(itemsPasted * 100.0 / itemsToPaste.Count);
-                        if (itemsToPaste.Count > 3)
-                        {
-                            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                                new DispatchedHandler(() =>
-                                {
-                                    banner.Report((uint)progressValue);
-                                }));
-                        }
-                        try
-                        {
-                            StorageFile clipboardFile = (StorageFile)item;
-                            StorageFile pastedFile = await clipboardFile.CopyAsync(
-                                await ItemViewModel.GetFolderFromPathAsync(destinationPath),
-                                item.Name,
-                                NameCollisionOption.GenerateUniqueName);
-                            pastedSourceItems.Add(item);
-                            pastedItems.Add(pastedFile);
-                        }
-                        catch (UnauthorizedAccessException)
-                        {
-                            // Try again with CopyFileFromApp
-                            if (NativeDirectoryChangesHelper.CopyFileFromApp(item.Path, Path.Combine(destinationPath, item.Name), true))
-                            {
-                                pastedSourceItems.Add(item);
-                            }
-                            else
-                            {
-                                Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
-                            }
-                        }
-                        catch (FileNotFoundException)
-                        {
-                            // File was moved/deleted in the meantime
-                            continue;
-                        }
-                    }
-                    itemsPasted++;
-                }
-
-                if (acceptedOperation == DataPackageOperation.Move)
-                {
-                    foreach (IStorageItem item in pastedSourceItems)
-                    {
-                        try
-                        {
-                            if (string.IsNullOrEmpty(item.Path))
-                            {
-                                // Can't move (only copy) files from MTP devices because:
-                                // StorageItems returned in DataPackageView are read-only
-                                // The item.Path property will be empty and there's no way of retrieving a new StorageItem with R/W access
-                                continue;
-                            }
-                            if (item.IsOfType(StorageItemTypes.File))
-                            {
-                                // If we reached this we are not in an MTP device, using StorageFile.* is ok here
-                                StorageFile file = await StorageFile.GetFileFromPathAsync(item.Path);
-                                await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                            }
-                            else if (item.IsOfType(StorageItemTypes.Folder))
-                            {
-                                // If we reached this we are not in an MTP device, using StorageFolder.* is ok here
-                                StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(item.Path);
-                                await folder.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                            }
-                        }
-                        catch (UnauthorizedAccessException)
-                        {
-                            // Try again with DeleteFileFromApp
-                            if (!NativeDirectoryChangesHelper.DeleteFileFromApp(item.Path))
-                            {
-                                Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
-                            }
-                        }
-                        catch (FileNotFoundException)
-                        {
-                            // File or Folder was moved/deleted in the meantime
-                            continue;
-                        }
-                        ListedItem listedItem = CurrentInstance.FilesystemViewModel.FilesAndFolders.FirstOrDefault(listedItem => listedItem.ItemPath.Equals(item.Path, StringComparison.OrdinalIgnoreCase));
-                    }
-                }
-            });
-
-            if (destinationPath == CurrentInstance.FilesystemViewModel.WorkingDirectory)
-            {
-                List<string> pastedItemPaths = pastedItems.Select(item => item.Path).ToList();
-                List<ListedItem> copiedItems = CurrentInstance.FilesystemViewModel.FilesAndFolders.Where(listedItem => pastedItemPaths.Contains(listedItem.ItemPath)).ToList();
-                if (copiedItems.Any())
-                {
-                    CurrentInstance.ContentPage.SetSelectedItemsOnUi(copiedItems);
-                    CurrentInstance.ContentPage.FocusSelectedItems();
-                }
-            }
-            packageView.ReportOperationCompleted(acceptedOperation);
-            App.CurrentInstance.StatusBarControl.OngoingTasksControl.RemoveBanner(banner);
-        }
-
-        public class ClonedDirectoryOutput
-        {
-            public StorageFolder FolderOutput { get; set; }
-            public StatusBanner StatusBannerOutput { get; set; } = null;
-        }
-
-        public async Task<ClonedDirectoryOutput> CloneDirectoryAsync(StorageFolder SourceFolder, StorageFolder DestinationFolder, string sourceRootName, bool suppressProgressFlyout, StatusBanner banner = null)
-        {
-            var createdRoot = await DestinationFolder.CreateFolderAsync(sourceRootName, CreationCollisionOption.GenerateUniqueName);
-            DestinationFolder = createdRoot;
-
-            foreach (StorageFile fileInSourceDir in await SourceFolder.GetFilesAsync())
-            {
-                if (itemsToPaste != null)
-                {
-                    if (itemsToPaste.Count > 3 && !suppressProgressFlyout)
-                    {
-                        uint progressValue = (uint)(itemsPasted * 100.0 / (itemsToPaste.Count + (await SourceFolder.GetFilesAsync()).Count));
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                            new DispatchedHandler(() =>
-                            {
-                                if (banner == null)
-                                {
-                                    throw new ArgumentNullException();
-                                }
-                                else
-                                {
-                                    banner.Report(progressValue);
-                                }
-                            }));
-                    }
-                }
-
-                await fileInSourceDir.CopyAsync(DestinationFolder, fileInSourceDir.Name, NameCollisionOption.GenerateUniqueName);
-            }
-            foreach (StorageFolder folderinSourceDir in await SourceFolder.GetFoldersAsync())
-            {
-                if (itemsToPaste != null)
-                {
-                    if (itemsToPaste.Count > 3 && !suppressProgressFlyout)
-                    {
-                        uint progressValue = (uint)(itemsPasted * 100.0 / (itemsToPaste.Count + (await SourceFolder.GetFoldersAsync()).Count));
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                            new DispatchedHandler(() =>
-                            {
-                                if (banner == null)
-                                {
-                                    throw new ArgumentNullException();
-                                }
-                                else
-                                {
-                                    banner.Report(progressValue);
-                                }
-                            }));
-                    }
-                }
-
-                var output = await CloneDirectoryAsync(folderinSourceDir, DestinationFolder, folderinSourceDir.Name, false, banner);
-                banner = output.StatusBannerOutput;
-            }
-            if (!suppressProgressFlyout)
-            {
-                return new ClonedDirectoryOutput()
-                {
-                    FolderOutput = createdRoot,
-                    StatusBannerOutput = banner
-                };
-            }
-            else
-            {
-                return new ClonedDirectoryOutput()
-                {
-                    FolderOutput = createdRoot,
-                    StatusBannerOutput = null
-                };
-            }
+            ItemOperations.PasteItemWithStatus(packageView, destinationPath, packageView.RequestedOperation);
         }
 
         public void NewFolder_Click(object sender, RoutedEventArgs e)
@@ -1474,88 +1115,6 @@ namespace Files.Interacts
         public void NewBitmapImage_Click(object sender, RoutedEventArgs e)
         {
             AddItemDialog.CreateFile(AddItemType.BitmapImage);
-        }
-
-        public async void ExtractItems_Click(object sender, RoutedEventArgs e)
-        {
-            var selectedIndex = CurrentInstance.ContentPage.GetSelectedIndex();
-            StorageFile selectedItem = await ItemViewModel.GetFileFromPathAsync(CurrentInstance.FilesystemViewModel.FilesAndFolders[selectedIndex].ItemPath);
-
-            StatusBanner banner = null;
-            ExtractFilesDialog extractFilesDialog = new ExtractFilesDialog(CurrentInstance.FilesystemViewModel.WorkingDirectory);
-            await extractFilesDialog.ShowAsync();
-            if (((bool)ApplicationData.Current.LocalSettings.Values["Extract_Destination_Cancelled"]) == false)
-            {
-                var bufferItem = await selectedItem.CopyAsync(ApplicationData.Current.TemporaryFolder, selectedItem.DisplayName, NameCollisionOption.ReplaceExisting);
-                string destinationPath = ApplicationData.Current.LocalSettings.Values["Extract_Destination_Path"].ToString();
-                StorageFolder destinationFolder = await ItemViewModel.GetFolderFromPathAsync(destinationPath);
-                //ZipFile.ExtractToDirectory(selectedItem.Path, destinationPath, );
-                var destFolder_InBuffer = await ApplicationData.Current.TemporaryFolder.CreateFolderAsync(selectedItem.DisplayName + "_Extracted", CreationCollisionOption.ReplaceExisting);
-                using FileStream fs = new FileStream(bufferItem.Path, FileMode.Open);
-                ZipArchive zipArchive = new ZipArchive(fs);
-                int totalCount = zipArchive.Entries.Count;
-                int index = 0;
-
-                App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
-                banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
-                    null,
-                    App.CurrentInstance.FilesystemViewModel.WorkingDirectory,
-                    0,
-                    StatusBanner.StatusBannerSeverity.Ongoing,
-                    StatusBanner.StatusBannerOperation.Extract);
-
-                await Task.Run((Func<Task>)(async () =>
-                {
-                    foreach (ZipArchiveEntry archiveEntry in zipArchive.Entries)
-                    {
-                        uint progressValue = (uint)(index * 100.0 / zipArchive.Entries.Count);
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                            new DispatchedHandler(() =>
-                            {
-                                if (banner == null)
-                                {
-                                    throw new ArgumentNullException();
-                                }
-                                else
-                                {
-                                    banner.Report((uint)progressValue);
-                                }
-                            }));
-                        if (archiveEntry.FullName.Contains('/'))
-                        {
-                            var nestedDirectories = archiveEntry.FullName.Split('/').ToList();
-                            nestedDirectories.Remove(nestedDirectories.Last());
-                            var relativeOutputPathToEntry = Path.Combine(nestedDirectories.ToArray());
-                            System.IO.Directory.CreateDirectory(Path.Combine(destFolder_InBuffer.Path, relativeOutputPathToEntry));
-                        }
-
-                        if (!string.IsNullOrWhiteSpace(archiveEntry.Name))
-                            archiveEntry.ExtractToFile(Path.Combine(destFolder_InBuffer.Path, archiveEntry.FullName));
-
-                        index++;
-                        if (index == totalCount)
-                        {
-                            App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
-                        }
-                    }
-                }));
-
-                await CloneDirectoryAsync(destFolder_InBuffer, destinationFolder, destFolder_InBuffer.Name, true)
-                    .ContinueWith(async (x) =>
-                {
-                    await destFolder_InBuffer.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                    {
-                        await MainPage.AddNewTab(typeof(ModernShellPage), destinationPath + "\\" + selectedItem.DisplayName + "_Extracted");
-                    });
-                });
-                banner.Report(100);
-                App.CurrentInstance.StatusBarControl.OngoingTasksControl.RemoveBanner(banner);
-            }
-            else if (((bool)ApplicationData.Current.LocalSettings.Values["Extract_Destination_Cancelled"]) == true)
-            {
-                return;
-            }
         }
 
         public void SelectAllItems() => CurrentInstance.ContentPage.SelectAllItems();

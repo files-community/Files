@@ -37,7 +37,7 @@
                             x:Uid="SettingsAboutAppName"
                             FontSize="16"
                             FontWeight="Medium"
-                            Text="Files UWP" />
+                            Text="Files" />
                         <TextBlock
                             x:Name="VersionNumber"
                             Padding="0,4"
@@ -50,8 +50,8 @@
                 <ListView
                     x:Name="FeedbackListView"
                     HorizontalAlignment="Left"
-                    DoubleTapped="FeedbackListView_DoubleTapped"
-                    SelectionMode="Single">
+                    SelectionMode="Single"
+                    Tapped="FeedbackListView_Tapped">
                     <ListViewItem
                         x:Name="FeedbackForm"
                         Padding="8,2"
@@ -96,7 +96,7 @@
                                     x:Uid="SettingsAboutReleaseNotesDescription"
                                     FontSize="12"
                                     Foreground="Gray"
-                                    Text="Find out what's new in Files UWP"
+                                    Text="Find out what's new in Files"
                                     TextWrapping="Wrap" />
                             </StackPanel>
                         </StackPanel>
@@ -120,7 +120,31 @@
                                     x:Uid="SettingsAboutContributorsDescription"
                                     FontSize="12"
                                     Foreground="Gray"
-                                    Text="See who contributed to Files UWP"
+                                    Text="See who contributed to Files"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem
+                        Padding="8,2"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        IsEnabled="True">
+                        <StackPanel
+                            Padding="0,4"
+                            Orientation="Horizontal"
+                            Spacing="14">
+                            <FontIcon
+                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                Foreground="{ThemeResource SystemAccentColor}"
+                                Glyph="&#xEB3B;" />
+                            <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock x:Uid="SettingsAboutSupportUs" Text="Support us" />
+                                <TextBlock
+                                    x:Uid="SettingsAboutSupportUsDescription"
+                                    FontSize="12"
+                                    Foreground="Gray"
+                                    Text="Support us on PayPal"
                                     TextWrapping="Wrap" />
                             </StackPanel>
                         </StackPanel>
@@ -145,30 +169,24 @@
                     </TextBlock.Transitions>
                 </TextBlock>
 
-                <StackPanel
-                    Orientation="Horizontal"
-                    Spacing="20">
+                <StackPanel Orientation="Horizontal" Spacing="20">
                     <TextBlock
                         VerticalAlignment="Center"
                         FontSize="16"
                         Text="QuickLook" />
-                    <StackPanel
-                        Orientation="Horizontal"
-                        Spacing="5">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
                         <TextBlock
                             x:Uid="SettingsAboutWebsite"
-                            Text="Website:"
-                            VerticalAlignment="Center" />
+                            VerticalAlignment="Center"
+                            Text="Website:" />
                         <HyperlinkButton NavigateUri="https://github.com/QL-Win/QuickLook">Link</HyperlinkButton>
                     </StackPanel>
 
-                    <StackPanel
-                        Orientation="Horizontal"
-                        Spacing="5">
+                    <StackPanel Orientation="Horizontal" Spacing="5">
                         <TextBlock
                             x:Uid="SettingsAboutLicense"
-                            Text="License:"
-                            VerticalAlignment="Center" />
+                            VerticalAlignment="Center"
+                            Text="License:" />
                         <HyperlinkButton NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt">GPL</HyperlinkButton>
                     </StackPanel>
                 </StackPanel>

@@ -3,6 +3,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -175,17 +176,13 @@ namespace Files
 
             foreach (ListedItem listedItem in items)
             {
-                FrameworkElement element = AllView.Columns[0].GetCellContent(listedItem);
-                if (element != null)
-                {
-                    element.Opacity = 1;
-                }
+                listedItem.IsDimmed = false;
             }
         }
 
         public override void SetItemOpacity(ListedItem item)
         {
-            AllView.Columns[0].GetCellContent(item).Opacity = 0.4;
+            item.IsDimmed = true;
         }
 
         private async void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -251,9 +248,14 @@ namespace Files
 
             if (AppSettings.DoubleTapToRenameFiles == false) // Check if the double tap to rename files setting is off
             {
-                AllView.CancelEdit(); // Cancel the edit operation
-                App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null); // Open the file instead
-                return;
+                // Only cancel if this event was triggered by a tap
+                // Do not cancel when user presses F2 or context menu
+                if (e.EditingEventArgs is TappedRoutedEventArgs)
+                {
+                    AllView.CancelEdit(); // Cancel the edit operation
+                    App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null); // Open the file instead
+                    return;
+                }
             }
 
             int extensionLength = SelectedItem.FileExtension?.Length ?? 0;
@@ -288,7 +290,7 @@ namespace Files
 
         private async void AllView_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            if (e.EditAction == DataGridEditAction.Cancel)
+            if (e.EditAction == DataGridEditAction.Cancel || renamingTextBox == null)
             {
                 return;
             }
@@ -308,7 +310,10 @@ namespace Files
 
         private void AllView_CellEditEnded(object sender, DataGridCellEditEndedEventArgs e)
         {
-            renamingTextBox.TextChanged -= TextBox_TextChanged;
+            if (renamingTextBox != null)
+            {
+                renamingTextBox.TextChanged -= TextBox_TextChanged;
+            }
             FileNameTeachingTip.IsOpen = false;
             isRenamingItem = false;
         }
@@ -327,9 +332,16 @@ namespace Files
         private async void AllView_Sorting(object sender, DataGridColumnEventArgs e)
         {
             if (e.Column == SortedColumn)
+            {
                 App.CurrentInstance.FilesystemViewModel.IsSortedAscending = !App.CurrentInstance.FilesystemViewModel.IsSortedAscending;
+                e.Column.SortDirection = App.CurrentInstance.FilesystemViewModel.IsSortedAscending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
+            }
             else if (e.Column != iconColumn)
+            {
                 SortedColumn = e.Column;
+                e.Column.SortDirection = DataGridSortDirection.Ascending;
+                App.CurrentInstance.FilesystemViewModel.IsSortedAscending = true;
+            }
 
             if (!AssociatedViewModel.IsLoadingItems && AssociatedViewModel.FilesAndFolders.Count > 0)
             {
@@ -372,6 +384,16 @@ namespace Files
 
         public void AllView_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
+            HandleRightClick(sender, e);
+        }
+
+        public void AllView_Holding(object sender, HoldingRoutedEventArgs e)
+        {
+            HandleRightClick(sender, e);
+        }
+
+        private void HandleRightClick(object sender, RoutedEventArgs e)
+        {
             var rowPressed = Interacts.Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
             if (rowPressed != null)
             {
@@ -397,8 +419,9 @@ namespace Files
             {
                 if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
                 {
-                    var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
-                    if (focusedElement is TextBox || focusedElement is PasswordBox ||
+                    // Don't block the various uses of enter key (key 13)
+                    var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
+                    if (args.KeyCode == 13 || focusedElement is Button || focusedElement is TextBox || focusedElement is PasswordBox ||
                         Interacts.Interaction.FindParent<ContentDialog>(focusedElement) != null)
                     {
                         return;
@@ -435,6 +458,47 @@ namespace Files
         {
             DataGridRow row = element as DataGridRow;
             return row.DataContext as ListedItem;
+        }
+
+        private void RadioMenuSortColumn_Click(object sender, RoutedEventArgs e)
+        {
+            DataGridColumnEventArgs args = null;
+
+            switch ((sender as RadioMenuFlyoutItem).Tag)
+            {
+                case "nameColumn":
+                    args = new DataGridColumnEventArgs(nameColumn);
+                    break;
+
+                case "dateColumn":
+                    args = new DataGridColumnEventArgs(dateColumn);
+                    break;
+
+                case "typeColumn":
+                    args = new DataGridColumnEventArgs(typeColumn);
+                    break;
+
+                case "sizeColumn":
+                    args = new DataGridColumnEventArgs(sizeColumn);
+                    break;
+            }
+
+            if (args != null)
+            {
+                AllView_Sorting(sender, args);
+            }
+        }
+
+        private void RadioMenuSortDirection_Click(object sender, RoutedEventArgs e)
+        {
+            if (((sender as RadioMenuFlyoutItem).Tag as string) == "sortAscending")
+            {
+                SortedColumn.SortDirection = DataGridSortDirection.Ascending;
+            }
+            else if (((sender as RadioMenuFlyoutItem).Tag as string) == "sortDescending")
+            {
+                SortedColumn.SortDirection = DataGridSortDirection.Descending;
+            }
         }
     }
 }

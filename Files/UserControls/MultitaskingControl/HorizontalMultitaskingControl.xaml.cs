@@ -1,30 +1,22 @@
-﻿using Files.UserControls.MultiTaskingControl;
+﻿using Files.Commands;
+using Files.Common;
+using Files.Interacts;
+using Files.UserControls.MultiTaskingControl;
+using Files.View_Models;
 using Files.Views;
+using Files.Views.Pages;
+using Microsoft.UI.Xaml.Controls;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Files.Common;
-using Windows.UI.Xaml.Navigation;
-
 using static Files.Helpers.PathNormalization;
-using Microsoft.UI.Xaml.Controls;
-using Windows.UI.ViewManagement;
-using Files.Interacts;
-using Files.Views.Pages;
-using Windows.ApplicationModel.DataTransfer;
-using Files.View_Models;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -32,23 +24,31 @@ namespace Files.UserControls
 {
     public sealed partial class HorizontalMultitaskingControl : UserControl, IMultitaskingControl
     {
-        public HorizontalMultitaskingControl()
-        {
-            this.InitializeComponent();
-        }
+        private const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
+        private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
+        private TabViewItem hoveredTabViewItem = null;
+
+        public const string TabPathIdentifier = "FilesTabViewItemPath";
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public void SelectionChanged() => TabStrip_SelectionChanged(null, null);
 
-        public const string TabPathIdentifier = "FilesTabViewItemPath";
-        private const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
         public ObservableCollection<TabItem> Items => MainPage.AppInstances;
 
-        public async void SetSelectedTabInfo(string text, string currentPathForTabIcon)
+        public HorizontalMultitaskingControl()
         {
-            var selectedTabItem = (MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex] as TabItem);
+            this.InitializeComponent();
+            tabHoverTimer.Interval = TimeSpan.FromMilliseconds(500);
+            tabHoverTimer.Tick += TabHoverSelected;
+        }
+
+        public async Task SetSelectedTabInfo(string text, string currentPathForTabIcon)
+        {
+            var selectedTabItem = MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
             selectedTabItem.AllowStorageItemDrop = App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome;
+
+            MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex].Path = currentPathForTabIcon;
 
             string tabLocationHeader;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
@@ -151,13 +151,13 @@ namespace Files.UserControls
             {
                 Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
                 icon.Glyph = "\xE713";
-                if ((Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text")
-                    && (Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).IconSource != icon)
+                if (Items[App.InteractionViewModel.TabStripSelectedIndex].Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text")
+                    && Items[App.InteractionViewModel.TabStripSelectedIndex].IconSource != icon)
                 {
                     App.CurrentInstance = GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
 
-                if ((Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Header.ToString() == ResourceController.GetTranslation("SidebarSettings/Text"))
+                if (Items[App.InteractionViewModel.TabStripSelectedIndex].Header.ToString() == ResourceController.GetTranslation("SidebarSettings/Text"))
                 {
                     App.InteractionViewModel.TabsLeftMargin = new Thickness(0, 0, 0, 0);
                     App.InteractionViewModel.LeftMarginLoaded = false;
@@ -166,7 +166,7 @@ namespace Files.UserControls
                 {
                     if (App.CurrentInstance != null)
                     {
-                        if ((Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Header.ToString() == ResourceController.GetTranslation("NewTab"))
+                        if (Items[App.InteractionViewModel.TabStripSelectedIndex].Header.ToString() == ResourceController.GetTranslation("NewTab"))
                         {
                             App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = false;
                         }
@@ -194,12 +194,12 @@ namespace Files.UserControls
 
         public static T GetCurrentSelectedTabInstance<T>()
         {
-            var selectedTabContent = (MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Content as Grid;
+            var selectedTabContent = MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex].Content as Grid;
             foreach (UIElement uiElement in selectedTabContent.Children)
             {
                 if (uiElement.GetType() == typeof(Frame))
                 {
-                    return (T)((uiElement as Frame).Content);
+                    return (T)(uiElement as Frame).Content;
                 }
             }
             return default;
@@ -215,21 +215,21 @@ namespace Files.UserControls
             await MainPage.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
         }
 
-        private void horizontalTabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
+        private void HorizontalTabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
         {
             switch (args.CollectionChange)
             {
                 case Windows.Foundation.Collections.CollectionChange.ItemRemoved:
-                    App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(horizontalTabView.SelectedItem as TabItem);
+                    App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(HorizontalTabView.SelectedItem as TabItem);
                     break;
 
                 case Windows.Foundation.Collections.CollectionChange.ItemInserted:
-                    App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(horizontalTabView.SelectedItem as TabItem);
+                    App.InteractionViewModel.TabStripSelectedIndex = (int)args.Index;
                     break;
             }
         }
 
-        private async void TabViewItem_Drop(object sender, DragEventArgs e)
+        private void TabViewItem_Drop(object sender, DragEventArgs e)
         {
             if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
             {
@@ -242,18 +242,24 @@ namespace Files.UserControls
                     .FilesystemViewModel
                     .WorkingDirectory;
 
-                foreach (IStorageItem item in await e.DataView.GetStorageItemsAsync())
-                {
-                    if (item.IsOfType(StorageItemTypes.Folder))
-                    {
-                        await App.CurrentInstance.InteractionOperations.CloneDirectoryAsync(((StorageFolder)item), await StorageFolder.GetFolderFromPathAsync(tabViewItemWorkingDir), item.Name, true);
-                        await (await StorageFolder.GetFolderFromPathAsync(item.Path)).DeleteAsync();
-                    }
-                    else
-                    {
-                        await ((StorageFile)item).MoveAsync(await StorageFolder.GetFolderFromPathAsync(tabViewItemWorkingDir), item.Name, NameCollisionOption.GenerateUniqueName);
-                    }
-                }
+                ItemOperations.PasteItemWithStatus(e.DataView, tabViewItemWorkingDir, DataPackageOperation.Move);
+            }
+            else
+            {
+                e.AcceptedOperation = DataPackageOperation.None;
+            }
+            HorizontalTabView.CanReorderTabs = true;
+            tabHoverTimer.Stop();
+        }
+
+        private void TabViewItem_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
+            {
+                HorizontalTabView.CanReorderTabs = false;
+                e.AcceptedOperation = DataPackageOperation.Move;
+                tabHoverTimer.Start();
+                hoveredTabViewItem = sender as TabViewItem;
             }
             else
             {
@@ -261,12 +267,20 @@ namespace Files.UserControls
             }
         }
 
-        private void TabViewItem_DragOver(object sender, DragEventArgs e)
+        private void TabViewItem_DragLeave(object sender, DragEventArgs e)
         {
-            if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
-                e.AcceptedOperation = DataPackageOperation.Move;
-            else
-                e.AcceptedOperation = DataPackageOperation.None;
+            tabHoverTimer.Stop();
+            hoveredTabViewItem = null;
+        }
+
+        // Select tab that is hovered over for a certain duration
+        private void TabHoverSelected(object sender, object e)
+        {
+            tabHoverTimer.Stop();
+            if (hoveredTabViewItem != null)
+            {
+                HorizontalTabView.SelectedItem = hoveredTabViewItem;
+            }
         }
 
         private void TabStrip_TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)
@@ -280,15 +294,26 @@ namespace Files.UserControls
         {
             if (e.DataView.Properties.ContainsKey(TabPathIdentifier))
             {
+                HorizontalTabView.CanReorderTabs = true;
                 e.AcceptedOperation = DataPackageOperation.Move;
                 e.DragUIOverride.Caption = ResourceController.GetTranslation("TabStripDragAndDropUIOverrideCaption");
                 e.DragUIOverride.IsCaptionVisible = true;
                 e.DragUIOverride.IsGlyphVisible = false;
             }
+            else
+            {
+                HorizontalTabView.CanReorderTabs = false;
+            }
+        }
+
+        private void TabStrip_DragLeave(object sender, DragEventArgs e)
+        {
+            HorizontalTabView.CanReorderTabs = true;
         }
 
         private async void TabStrip_TabStripDrop(object sender, DragEventArgs e)
         {
+            HorizontalTabView.CanReorderTabs = true;
             if (!(sender is TabView tabStrip))
             {
                 return;
@@ -332,10 +357,13 @@ namespace Files.UserControls
 
         private async void TabStrip_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
         {
-            if (sender.TabItems.Count == 1) return;
+            if (sender.TabItems.Count == 1)
+            {
+                return;
+            }
 
             var indexOfTabViewItem = sender.TabItems.IndexOf(args.Tab);
-            var tabViewItemPath = ((((args.Item as TabItem).Content as Grid).Children[0] as Frame).Content as IShellPage).NavigationToolbar.PathControlDisplayText;
+            var tabViewItemPath = ((((args.Item as TabItem).Content as Grid).Children[0] as Frame).Tag as TabItemContent).NavigationArg;
             var selectedTabViewItemIndex = sender.SelectedIndex;
             RemoveTab(args.Item as TabItem);
             if (!await Interaction.OpenPathInNewWindow(tabViewItemPath))
@@ -345,16 +373,16 @@ namespace Files.UserControls
             }
         }
 
-        private async void RemoveTab(TabItem tabItem)
+        private void RemoveTab(TabItem tabItem)
         {
             if (Items.Count == 1)
             {
-                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                MainPage.AppInstances.Remove(tabItem);
+                App.CloseApp();
             }
             else if (Items.Count > 1)
             {
                 Items.Remove(tabItem);
-                //App.InteractionViewModel.TabStripSelectedIndex = verticalTabView.SelectedIndex;
             }
         }
     }

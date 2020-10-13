@@ -1,21 +1,5 @@
-﻿using Files.Dialogs;
-using Files.Filesystem;
-using Files.Helpers;
-using Files.Interacts;
-using Files.UserControls;
-using Files.View_Models;
-using Files.Views;
+﻿using Files.View_Models;
 using Files.Views.Pages;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using Windows.Storage;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -30,7 +14,7 @@ namespace Files
             InitializeComponent();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+        protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
             App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = false;
@@ -38,12 +22,15 @@ namespace Files
             App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
             App.CurrentInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
             var parameters = eventArgs.Parameter.ToString();
-            App.CurrentInstance.MultitaskingControl?.SetSelectedTabInfo(parameters, null);
-            App.CurrentInstance.MultitaskingControl?.SelectionChanged();
+            App.MultitaskingControl?.SetSelectedTabInfo(parameters, null);
+            App.MultitaskingControl?.SelectionChanged();
             App.CurrentInstance.NavigationToolbar.CanRefresh = false;
             App.CurrentInstance.NavigationToolbar.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
             App.CurrentInstance.NavigationToolbar.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
             App.CurrentInstance.NavigationToolbar.CanNavigateToParent = false;
+
+            // Set path of working directory empty
+            await App.CurrentInstance.FilesystemViewModel.SetWorkingDirectory("Home");
 
             // Clear the path UI and replace with Favorites
             App.CurrentInstance.NavigationToolbar.PathComponents.Clear();

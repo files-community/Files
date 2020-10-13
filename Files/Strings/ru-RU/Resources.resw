@@ -16,7 +16,7 @@
     <value>Создано:</value>
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
-    <value>Имя:</value>
+    <value>Имя</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
     <value>Расположение:</value>
@@ -46,10 +46,10 @@
     <value>Последние файлы</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files UWP</value>
+    <value>Files</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>Лицензия:</value>
+    <value>Лицензия</value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Особые благодарности:</value>
@@ -67,28 +67,10 @@
     <value>О приложении</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Сайт:</value>
-  </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
-    <value>Боковая панель с эффектом акрила</value>
-  </data>
-  <data name="SettingsAppearanceDateFormat.Text" xml:space="preserve">
-    <value>Формат даты</value>
-  </data>
-  <data name="SettingsAppearanceTheme.Text" xml:space="preserve">
-    <value>Тема</value>
+    <value>Сайт</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Внешний вид</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
-    <value>Показывать буквы разделов</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Text" xml:space="preserve">
-    <value>Показать расширения файла для известных типов файлов</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
-    <value>Показывать скрытые файлы, папки, разделы</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Файлы и папки</value>
@@ -123,9 +105,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>При запуске</value>
   </data>
-  <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
-    <value>Закрепить OneDrive в боковой панели</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>Стандартный терминал</value>
   </data>
@@ -144,14 +123,8 @@
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
     <value>Удалить</value>
   </data>
-  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
-    <value>Вы уверены, что хотите удалить выбранный элемент(ы)?</value>
-  </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Удалить безвозвратно</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
-    <value>Показать диалог при удалении файлов или папок</value>
   </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Рабочий стол</value>
@@ -174,12 +147,6 @@
   <data name="SidebarVideos" xml:space="preserve">
     <value>Видео</value>
   </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>Отмена</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Распаковать</value>
-  </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>Новая вкладка</value>
   </data>
@@ -194,12 +161,6 @@
   </data>
   <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
     <value>Открыть в терминале...</value>
-  </data>
-  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
-    <value>Выберите куда распаковать архив. Вам нужно оставаться в текущей папке, пока операция выполняется. Так же будет открыта новая вкладка с распакованными элементами.</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>Просматривать</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Введите путь</value>
@@ -285,9 +246,6 @@
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Свойства</value>
   </data>
-  <data name="ExtractFilesDialog.Title" xml:space="preserve">
-    <value>Извлечь архив</value>
-  </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
     <value>Папку</value>
   </data>
@@ -322,7 +280,7 @@
     <value>Параметры</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Добро пожаловать в Files</value>
+    <value>Добро пожаловать в Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Предоставить разрешение</value>
@@ -337,7 +295,7 @@
     <value>Введите название</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Введите название без расширения</value>
+    <value>Введите название</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Сохранить</value>
@@ -453,9 +411,6 @@
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Экспериментально</value>
   </data>
-  <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
-    <value>Двойное нажатие чтобы переименовать файл</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Посмотреть примеры профилей</value>
   </data>
@@ -546,9 +501,6 @@
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Восстановить</value>
   </data>
-  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
-    <value>Закрепить Корзину в боковой панели</value>
-  </data>
   <data name="DaysAgo" xml:space="preserve">
     <value>{0} дней назад</value>
   </data>
@@ -617,9 +569,6 @@
   </data>
   <data name="PropertiesOwner.Text" xml:space="preserve">
     <value>Владелец:</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
-    <value>Показать Владельца в свойствах</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>Отмена</value>
@@ -711,9 +660,6 @@
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>Удаление файлов</value>
   </data>
-  <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>Извлечение файлов</value>
-  </data>
   <data name="PasteInProgress.Title" xml:space="preserve">
     <value>Вставка файлов</value>
   </data>
@@ -725,9 +671,6 @@
   </data>
   <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
     <value>Язык приложения</value>
-  </data>
-  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>Требуется перезагрузка</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Статус</value>
@@ -825,22 +768,211 @@
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>Открыть расположение файла</value>
   </data>
-  <data name="SettingsPreferencesShowHorizontalTabStrip.Text" xml:space="preserve">
-    <value>Показывать горизонтальную полосу вкладок в строке заголовка</value>
-  </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Авторы</value>
   </data>
   <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>Узнайте, кто участвовал в разработке Files UWP</value>
+    <value>Узнайте, кто участвовал в разработке Files</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>Заметки о выпуске</value>
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Узнайте, что нового в Files UWP</value>
+    <value>Узнайте, что нового в Files</value>
   </data>
-  <data name="SettingsPreferencesShowMultitaskingControl.Text" xml:space="preserve">
-    <value>Показать всплывающее меню многозадачности на панели инструментов навигации</value>
+  <data name="InvalidItemDialogContent" xml:space="preserve">
+    <value>Указанный элемент недействителен или недоступен.{0}Сообщение об ошибке:{0}{1}</value>
+  </data>
+  <data name="InvalidItemDialogTitle" xml:space="preserve">
+    <value>Неверный элемент</value>
+  </data>
+  <data name="DriveCapacityUnknown" xml:space="preserve">
+    <value>Неизвестно</value>
+  </data>
+  <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
+    <value>Открыть расположение лог файла</value>
+  </data>
+  <data name="ExceptionNotificationBody" xml:space="preserve">
+    <value>Files столкнулись с проблемой, к которой разработчики еще не подготовились.</value>
+  </data>
+  <data name="ExceptionNotificationHeader" xml:space="preserve">
+    <value>Что-то пошло не так!</value>
+  </data>
+  <data name="ExceptionNotificationReportButton" xml:space="preserve">
+    <value>Сообщить о проблеме</value>
+  </data>
+  <data name="SettingsAboutVersionTitle" xml:space="preserve">
+    <value>Версия:</value>
+  </data>
+  <data name="ShareDialogFailMessage" xml:space="preserve">
+    <value>Сейчас нет ничего, что можно было бы опубликовать...</value>
+  </data>
+  <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
+    <value>Выбранные вами элементы будут опубликованы</value>
+  </data>
+  <data name="ShareDialogSingleItemDescription" xml:space="preserve">
+    <value>Выбранный элемент будет опубликован</value>
+  </data>
+  <data name="ShareDialogTitle" xml:space="preserve">
+    <value>Предоставляется общий доступ к {0}</value>
+  </data>
+  <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
+    <value>Предоставляется общий доступ к {0} {1}</value>
+  </data>
+  <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
+    <value>Элемент, который вы пытаетесь переименовать, больше не существует. Пожалуйста, проверьте правильность расположения элемента, который нужно переименовать.</value>
+  </data>
+  <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
+    <value>Элемент больше не существует</value>
+  </data>
+  <data name="RenameError.NameInvalid.Text" xml:space="preserve">
+    <value>Указано неверное имя. Пожалуйста, проверьте желаемое название элемента и попробуйте еще раз.</value>
+  </data>
+  <data name="RenameError.NameInvalid.Title" xml:space="preserve">
+    <value>Неверное имя элемента</value>
+  </data>
+  <data name="RenameError.TooLong.Text" xml:space="preserve">
+    <value>Длина указанного имени элемента превышает максимальный предел. Пожалуйста, проверьте желаемое имя и попробуйте еще раз.</value>
+  </data>
+  <data name="RenameError.TooLong.Title" xml:space="preserve">
+    <value>Название элемента слишком длинное</value>
+  </data>
+  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
+    <value>Еще</value>
+  </data>
+  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
+    <value>Вы действительно хотите удалить этот элемент?</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
+    <value>Вы действительно хотите удалить {0} элемента(ов)?</value>
+  </data>
+  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
+    <value>Адаптивная (рекомендуется)</value>
+  </data>
+  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
+    <value>Выбирает лучший элемент управления многозадачностью в зависимости от того, как изменяется размер окна приложения. Когда окно маленькое, вы заметите, что горизонтальная полоса вкладок сворачивается во всплывающее меню на панели инструментов навигации.</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
+    <value>Горизонтальная</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
+    <value>Всегда скрывает вертикальное всплывающее меню многозадачности на панели инструментов навигации и показывает традиционную горизонтальную полосу вкладок в окне приложения. Это подходит для пользователей, которым необходимо постоянно отслеживать каждый открытый экземпляр приложения.</value>
+  </data>
+  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
+    <value>Многозадачность</value>
+  </data>
+  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
+    <value>Вертикальная</value>
+  </data>
+  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
+    <value>Сворачивает горизонтальный список экземпляров приложения в вертикальное раскрывающееся меню на панели инструментов навигации, предназначенное для пользователей, которым нужен чистый интерфейс приложения с доступом по запросу для многозадачности.</value>
+  </data>
+  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
+    <value>Многозадачность</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+    <value>Установить как</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
+    <value>Копировать местоположение</value>
+  </data>
+  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
+    <value>Создать вкладку</value>
+  </data>
+  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
+    <value>Открытые вкладки</value>
+  </data>
+  <data name="ButtonNo.Content" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="ButtonYes.Content" xml:space="preserve">
+    <value>Да</value>
+  </data>
+  <data name="RestartNotificationText.Text" xml:space="preserve">
+    <value>Чтобы применить языковые настройки, необходимо перезапустить приложение. Вы хотите перезапустить приложение?</value>
+  </data>
+  <data name="AddDialog.Title" xml:space="preserve">
+    <value>Создать новый элемент</value>
+  </data>
+  <data name="AddDialogDescription.Text" xml:space="preserve">
+    <value>Выберите тип этого нового элемента ниже</value>
+  </data>
+  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="AddDialogListBitmapHeader" xml:space="preserve">
+    <value>Изображение</value>
+  </data>
+  <data name="AddDialogListBitmapSubHeader" xml:space="preserve">
+    <value>Создает пустой файл изображения</value>
+  </data>
+  <data name="AddDialogListFolderHeader" xml:space="preserve">
+    <value>Папка</value>
+  </data>
+  <data name="AddDialogListFolderSubHeader" xml:space="preserve">
+    <value>Создает пустую папку</value>
+  </data>
+  <data name="AddDialogListTextFileHeader" xml:space="preserve">
+    <value>Текстовый документ</value>
+  </data>
+  <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
+    <value>Создает пустой текстовый документ.</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>Вид значков</value>
+  </data>
+  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Создать элемент</value>
+  </data>
+  <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Перейти назад</value>
+  </data>
+  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Перейти вперед</value>
+  </data>
+  <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Обновить каталог</value>
+  </data>
+  <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Перейти на один каталог вверх</value>
+  </data>
+  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
+    <value>Вертикальная полоса вкладок</value>
+  </data>
+  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Параметры</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
+    <value>Язык приложения</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
+    <value>Стандартный терминал</value>
+  </data>
+  <data name="SettingsPreferencesContextMenuSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Показать все пункты контекстного меню</value>
+  </data>
+  <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Показать возможность копирования местоположения выбранного элемента</value>
+  </data>
+  <data name="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Закрепить OneDrive на боковой панели</value>
+  </data>
+  <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Закрепить Корзину на боковой панели</value>
+  </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Показывать диалоговое окно подтверждения при удалении файлов или папок</value>
+  </data>
+  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
+    <value>Изменить профили терминалов</value>
+  </data>
+  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Изменить профили терминалов</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
+    <value>Посмотреть образцы профилей</value>
   </data>
 </root>

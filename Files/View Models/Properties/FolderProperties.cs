@@ -1,6 +1,8 @@
 ﻿using ByteSizeLib;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.IO;
@@ -34,6 +36,7 @@ namespace Files.View_Models.Properties
             if (Item != null)
             {
                 ViewModel.ItemName = Item.ItemName;
+                ViewModel.OriginalItemName = Item.ItemName;
                 ViewModel.ItemType = Item.ItemType;
                 ViewModel.ItemPath = Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath;
                 ViewModel.ItemModifiedTimestamp = Item.ItemDateModified;
@@ -52,14 +55,14 @@ namespace Files.View_Models.Properties
                     ViewModel.ShortcutItemWorkingDirVisibility = Visibility.Collapsed;
                     ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
                     ViewModel.ShortcutItemArgumentsVisibility = Visibility.Collapsed;
-                    ViewModel.ShortcutItemOpenLinkCommand = new GalaSoft.MvvmLight.Command.RelayCommand(async () =>
+                    ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
                     {
                         var folderUri = new Uri("files-uwp:" + "?folder=" + Path.GetDirectoryName(ViewModel.ShortcutItemPath));
                         await Windows.System.Launcher.LaunchUriAsync(folderUri);
                     }, () =>
                     {
                         return !string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath);
-                    }, false);
+                    });
                 }
             }
         }
@@ -76,13 +79,15 @@ namespace Files.View_Models.Properties
                 // Can't show any other property
                 return;
             }
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
 
             StorageFolder storageFolder;
             var isItemSelected = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => App.CurrentInstance.ContentPage.IsItemSelected);
             if (isItemSelected)
             {
                 storageFolder = await ItemViewModel.GetFolderFromPathAsync(Item.ItemPath);
-                ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(storageFolder.DateCreated);
+                ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDateFromFormat(storageFolder.DateCreated, returnformat);
                 GetOtherProperties(storageFolder.Properties);
                 GetFolderSize(storageFolder, TokenSource.Token);
             }
@@ -132,7 +137,7 @@ namespace Files.View_Models.Properties
                 else
                 {
                     storageFolder = await ItemViewModel.GetFolderFromPathAsync(parentDirectory.ItemPath);
-                    ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(storageFolder.DateCreated);
+                    ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDateFromFormat(storageFolder.DateCreated, returnformat);
                     GetOtherProperties(storageFolder.Properties);
                     GetFolderSize(storageFolder, TokenSource.Token);
                 }

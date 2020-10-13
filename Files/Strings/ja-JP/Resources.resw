@@ -21,9 +21,6 @@
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
     <value>削除</value>
   </data>
-  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
-    <value>選択したアイテムを削除してもよろしいですか？</value>
-  </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>完全に削除</value>
   </data>
@@ -32,15 +29,6 @@
   </data>
   <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
     <value>新しいウィンドウで開きます</value>
-  </data>
-  <data name="ExtractFilesDialog.Title" xml:space="preserve">
-    <value>圧縮ドキュメントを抽出する</value>
-  </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>キャンセル</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>抽出</value>
   </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>新しいタブ</value>
@@ -86,12 +74,6 @@
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>名前</value>
-  </data>
-  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
-    <value>この圧縮アーカイブを抽出する場所を選択してください。 抽出が完了する前にこのページを離れないでください。完了すると、抽出されたファイルを示す新しいタブページが開きます。</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>ブラウズ</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
     <value>パス：</value>
@@ -177,32 +159,11 @@
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
     <value>ウェブサイト：</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
-    <value>透明効果</value>
-  </data>
-  <data name="SettingsAppearanceDateFormat.Text" xml:space="preserve">
-    <value>日付形式</value>
-  </data>
-  <data name="SettingsAppearanceTheme.Text" xml:space="preserve">
-    <value>テーマ</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>外観</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
-    <value>ドライブ文字を表示</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Text" xml:space="preserve">
-    <value>既知のファイルタイプの拡張子を表示</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
-    <value>隠しファイル、フォルダー、ドライブを表示</value>
-  </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>ファイルとフォルダー</value>
-  </data>
-  <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
-    <value>ダブルクリックして名前を変更</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>実験的機能</value>
@@ -245,15 +206,6 @@
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>起動時</value>
-  </data>
-  <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
-    <value>OneDrive をサイドバーに固定</value>
-  </data>
-  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
-    <value>ごみ箱を有効にする</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
-    <value>ファイルまたはフォルダーを削除するときに表示される確認ダイアログ</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>ターミナル</value>
@@ -651,9 +603,6 @@
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>ファイルを削除しています</value>
   </data>
-  <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>ファイルを展開しています...</value>
-  </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>ロック解除</value>
   </data>
@@ -683,5 +632,176 @@
   </data>
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
     <value>ファイル システム</value>
+  </data>
+  <data name="JumpListRecentGroupHeader" xml:space="preserve">
+    <value>履歴</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
+    <value>アプリの言語</value>
+  </data>
+  <data name="syncStatusColumn.Header" xml:space="preserve">
+    <value>状態</value>
+  </data>
+  <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
+    <value>新しいページを追加する</value>
+  </data>
+  <data name="SettingsOnStartupPages.Text" xml:space="preserve">
+    <value>ページ...</value>
+  </data>
+  <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
+    <value>ページの削除</value>
+  </data>
+  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
+    <value>Windows 既定</value>
+  </data>
+  <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
+    <value>結果はありません</value>
+  </data>
+  <data name="MoveToFolderCaptionText" xml:space="preserve">
+    <value>[${0}] に移動</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
+    <value>送り側と受け側のファイル名が同じです。</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
+    <value>送り側と受け側のフォルダーが同じです。</value>
+  </data>
+  <data name="CopyToFolderCaptionText" xml:space="preserve">
+    <value>{0} にコピー</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
+    <value>ショートカットの作成</value>
+  </data>
+  <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
+    <value>ファイルの場所を開く</value>
+  </data>
+  <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
+    <value>引数:</value>
+  </data>
+  <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
+    <value>送信先</value>
+  </data>
+  <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
+    <value>作業ディレクトリ...</value>
+  </data>
+  <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
+    <value>アプリケーション</value>
+  </data>
+  <data name="PropertiesShortcutTypeFile" xml:space="preserve">
+    <value>ファイル</value>
+  </data>
+  <data name="PropertiesShortcutTypeFolder" xml:space="preserve">
+    <value>フォルダー</value>
+  </data>
+  <data name="PropertiesShortcutTypeLink" xml:space="preserve">
+    <value>Web リンク</value>
+  </data>
+  <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
+    <value>概要</value>
+  </data>
+  <data name="PropertiesDialogTabShortcut.Content" xml:space="preserve">
+    <value>ショートカット</value>
+  </data>
+  <data name="ShortcutFileType" xml:space="preserve">
+    <value>ショートカット</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
+    <value>ファイルの場所を開く</value>
+  </data>
+  <data name="DriveCapacityUnknown" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="ExceptionNotificationHeader" xml:space="preserve">
+    <value>問題が発生しました</value>
+  </data>
+  <data name="ExceptionNotificationReportButton" xml:space="preserve">
+    <value>この問題を報告する</value>
+  </data>
+  <data name="SettingsAboutContributors.Text" xml:space="preserve">
+    <value>共同作成者</value>
+  </data>
+  <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
+    <value>リリース ノート</value>
+  </data>
+  <data name="SettingsAboutVersionTitle" xml:space="preserve">
+    <value>バージョン</value>
+  </data>
+  <data name="ShareDialogFailMessage" xml:space="preserve">
+    <value>現在共有できるものはありません。</value>
+  </data>
+  <data name="ShareDialogTitle" xml:space="preserve">
+    <value>{0} を共有しています</value>
+  </data>
+  <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
+    <value>項目はもうなくなりました</value>
+  </data>
+  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
+    <value>その他</value>
+  </data>
+  <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
+    <value>このアイテムを削除しますか?</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
+    <value>これらの {0} アイテムを削除しますか?</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
+    <value>水平</value>
+  </data>
+  <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
+    <value>マルチタスク</value>
+  </data>
+  <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
+    <value>垂直</value>
+  </data>
+  <data name="SettingsNavMultitasking.Content" xml:space="preserve">
+    <value>マルチタスク</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
+    <value>場所のコピー</value>
+  </data>
+  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
+    <value>タブの追加</value>
+  </data>
+  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
+    <value>タブを開く</value>
+  </data>
+  <data name="ButtonNo.Content" xml:space="preserve">
+    <value>いいえ</value>
+  </data>
+  <data name="ButtonYes.Content" xml:space="preserve">
+    <value>はい</value>
+  </data>
+  <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="AddDialogListBitmapHeader" xml:space="preserve">
+    <value>ビットマップ イメージ</value>
+  </data>
+  <data name="AddDialogListFolderHeader" xml:space="preserve">
+    <value>フォルダー</value>
+  </data>
+  <data name="AddDialogListTextFileHeader" xml:space="preserve">
+    <value>テキスト ドキュメント</value>
+  </data>
+  <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
+    <value>空のテキスト ファイルを作成します。</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>レイアウト モード</value>
+  </data>
+  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
+    <value>新しい項目の作成</value>
+  </data>
+  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+    <value>次に進む</value>
+  </data>
+  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
+    <value>設定</value>
   </data>
 </root>

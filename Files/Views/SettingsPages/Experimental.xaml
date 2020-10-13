@@ -33,41 +33,17 @@
                     FontStyle="Italic"
                     Text="WARNING: EXPERIMENTAL FEATURES AHEAD!" />
 
-                <StackPanel Spacing="10">
-                    <Image
-                        Height="200"
-                        HorizontalAlignment="Left"
-                        Source="/Assets/SettingsAssets/VerticalTabsFlyout.png" />
-                    <TextBlock
-                        x:Uid="SettingsPreferencesShowMultitaskingControl"
-                        FontSize="17"
-                        Text="Show multitasking flyout in the navigation toolbar" />
-                    <ToggleSwitch x:Name="ShowMultitaskingControl" IsOn="{x:Bind AppSettings.IsMultitaskingControlVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
+                <ToggleSwitch
+                    x:Uid="SettingsExperimentalDoubleTapToRenameFiles"
+                    Header="Double tap to rename files"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind AppSettings.DoubleTapToRenameFiles, Mode=TwoWay}" />
 
-                <StackPanel Spacing="10">
-                    <TextBlock
-                        x:Uid="SettingsPreferencesShowHorizontalTabStrip"
-                        FontSize="17"
-                        Text="Show a horizontal tab strip on the title bar" />
-                    <ToggleSwitch IsOn="{x:Bind AppSettings.IsHorizontalTabStripVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
-
-                <StackPanel Spacing="10">
-                    <TextBlock
-                        x:Uid="SettingsExperimentalDoubleTapToRenameFiles"
-                        FontSize="17"
-                        Text="Double tap to rename files" />
-                    <ToggleSwitch IsOn="{x:Bind AppSettings.DoubleTapToRenameFiles, Mode=TwoWay}" />
-                </StackPanel>
-
-                <StackPanel Spacing="10">
-                    <TextBlock
-                        x:Uid="SettingsShowFileOwnerInProperties"
-                        FontSize="17"
-                        Text="Show Owner in properties" />
-                    <ToggleSwitch IsOn="{x:Bind AppSettings.ShowFileOwner, Mode=TwoWay}" />
-                </StackPanel>
+                <ToggleSwitch
+                    x:Uid="SettingsShowFileOwnerInProperties"
+                    Header="Show Owner in properties"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind AppSettings.ShowFileOwner, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

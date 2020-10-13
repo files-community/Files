@@ -1,11 +1,11 @@
+using Files.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.UI.StartScreen;
 using Windows.Storage;
-using Files.Common;
+using Windows.UI.StartScreen;
 
 namespace Files.Helpers
 {

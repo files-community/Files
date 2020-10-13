@@ -1,38 +1,45 @@
 using Files.CommandLine;
+using Files.Common;
 using Files.Controllers;
 using Files.Controls;
 using Files.Filesystem;
-using Files.Interacts;
+using Files.Helpers;
+using Files.UserControls.MultiTaskingControl;
 using Files.View_Models;
 using Files.Views;
-using Files.Helpers;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Core;
+using Windows.UI.Notifications;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using System.Threading.Tasks;
 
 namespace Files
 {
     sealed partial class App : Application
     {
+        public static IMultitaskingControl MultitaskingControl = null;
+
         private static IShellPage currentInstance;
+        private static bool ShowErrorNotification = false;
 
         public static IShellPage CurrentInstance
         {
@@ -67,15 +74,31 @@ namespace Files
             Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
             NLog.LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
 
-#if !DEBUG
-            AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
-#endif
+            StartAppCenter();
+        }
+
+        private async void StartAppCenter()
+        {
+            JObject obj;
+            try
+            {
+                StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/AppCenterKey.txt"));
+                var lines = await FileIO.ReadTextAsync(file);
+                obj = JObject.Parse(lines);
+            }
+            catch (Exception e)
+            {
+                return;
+            }
+
+            AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
         {
             // Need to reinitialize AppService when app is resuming
             InitializeAppServiceConnection();
+            AppSettings?.DrivesManager?.ResumeDeviceWatcher();
         }
 
         public static AppServiceConnection Connection;
@@ -114,17 +137,32 @@ namespace Files
             // The fulltrust process signaled that something in the recycle bin folder has changed
             if (args.Request.Message.ContainsKey("FileSystem"))
             {
-                var path = (string)args.Request.Message["FileSystem"];
-                Debug.WriteLine("{0}: {1}", path, args.Request.Message["Type"]);
-                if (App.CurrentInstance.FilesystemViewModel.CurrentFolder?.ItemPath == path)
+                var folderPath = (string)args.Request.Message["FileSystem"];
+                var itemPath = (string)args.Request.Message["Path"];
+                var changeType = (string)args.Request.Message["Type"];
+                var newItem = JsonConvert.DeserializeObject<ShellFileItem>(args.Request.Message.Get("Item", ""));
+                Debug.WriteLine("{0}: {1}", folderPath, changeType);
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     // If we are currently displaying the reycle bin lets refresh the items
-                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                        () =>
+                    if (CurrentInstance.FilesystemViewModel?.CurrentFolder?.ItemPath == folderPath)
+                    {
+                        switch (changeType)
                         {
-                            App.CurrentInstance.FilesystemViewModel.RefreshItems();
-                        });
-                }
+                            case "Created":
+                                CurrentInstance.FilesystemViewModel.AddFileOrFolderFromShellFile(newItem);
+                                break;
+
+                            case "Deleted":
+                                CurrentInstance.FilesystemViewModel.RemoveFileOrFolder(itemPath);
+                                break;
+
+                            default:
+                                CurrentInstance.FilesystemViewModel.RefreshItems();
+                                break;
+                        }
+                    }
+                });
             }
 
             // Complete the deferral so that the platform knows that we're done responding to the app service call.
@@ -227,6 +265,7 @@ namespace Files
             if (args.WindowActivationState == CoreWindowActivationState.CodeActivated ||
                 args.WindowActivationState == CoreWindowActivationState.PointerActivated)
             {
+                ShowErrorNotification = true;
                 ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
             }
         }
@@ -343,6 +382,16 @@ namespace Files
                         }
                     }
                     break;
+
+                case ActivationKind.ToastNotification:
+                    var eventArgsForNotification = args as ToastNotificationActivatedEventArgs;
+                    if (eventArgsForNotification.Argument == "report")
+                    {
+                        // Launch the URI and open log files location
+                        //SettingsViewModel.OpenLogLocation();
+                        SettingsViewModel.ReportIssueOnGitHub();
+                    }
+                    break;
             }
 
             rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
@@ -377,6 +426,8 @@ namespace Files
         /// <param name="e">Details about the suspend request.</param>
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
+            SaveSessionTabs();
+
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             if (Connection != null)
@@ -388,17 +439,64 @@ namespace Files
             deferral.Complete();
         }
 
-        // Occurs when an exception is not handled on the UI thread.
-        private static void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
         {
-            Logger.Error(e.Exception, e.Message);
+            AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab => tab != null ? tab.Path ?? ResourceController.GetTranslation("NewTab") : ResourceController.GetTranslation("NewTab")).ToArray();
         }
+
+        // Occurs when an exception is not handled on the UI thread.
+        private static void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e) => AppUnhandledException(e.Exception);
 
         // Occurs when an exception is not handled on a background thread.
         // ie. A task is fired and forgotten Task.Run(() => {...})
-        private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e)
+        private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e) => AppUnhandledException(e.Exception);
+
+        private static void AppUnhandledException(Exception ex)
         {
-            Logger.Error(e.Exception, e.Exception.Message);
+            Logger.Error(ex, ex.Message);
+            if (ShowErrorNotification)
+            {
+                var toastContent = new ToastContent()
+                {
+                    Visual = new ToastVisual()
+                    {
+                        BindingGeneric = new ToastBindingGeneric()
+                        {
+                            Children =
+                            {
+                                new AdaptiveText()
+                                {
+                                    Text = ResourceController.GetTranslation("ExceptionNotificationHeader")
+                                },
+                                new AdaptiveText()
+                                {
+                                    Text = ResourceController.GetTranslation("ExceptionNotificationBody")
+                                }
+                            },
+                            AppLogoOverride = new ToastGenericAppLogo()
+                            {
+                                Source = "ms-appx:///Assets/error.png"
+                            }
+                        }
+                    },
+                    Actions = new ToastActionsCustom()
+                    {
+                        Buttons =
+                        {
+                            new ToastButton(ResourceController.GetTranslation("ExceptionNotificationReportButton"), "report")
+                            {
+                                ActivationType = ToastActivationType.Foreground
+                            }
+                        }
+                    }
+                };
+
+                // Create the toast notification
+                var toastNotif = new ToastNotification(toastContent.GetXml());
+
+                // And send the notification
+                ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+            }
         }
 
         public static async void CloseApp()

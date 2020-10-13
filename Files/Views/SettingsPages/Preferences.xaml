@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:datamodels="using:Files.DataModels"
+    xmlns:dialogs="using:Files.Dialogs"
     xmlns:local="using:Files.SettingsPages"
     xmlns:local2="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -29,67 +30,26 @@
                     FontWeight="Medium"
                     Text="Preferences" />
 
-                <StackPanel Spacing="10">
-                    <TextBlock
-                        x:Uid="SettingsPreferencesAppLanguage"
-                        FontSize="17"
-                        Text="App Language" />
-                    <TextBlock
-                        x:Name="RestartRequiredPrompt"
-                        x:Uid="SettingsPreferencesAppLanguageRestartRequired"
-                        FontSize="14"
-                        FontStyle="Italic"
-                        Foreground="{ThemeResource SystemErrorTextColor}"
-                        Text="Restart required"
-                        Visibility="Collapsed" />
-                    <ComboBox
-                        x:Name="ComboAppLanguage"
-                        Width="200"
-                        HorizontalAlignment="Left"
-                        ItemsSource="{x:Bind AppSettings.DefaultLanguages}"
-                        PlaceholderText="{x:Bind AppSettings.DefaultLanguage}"
-                        SelectedItem="{x:Bind AppSettings.DefaultLanguage, Mode=TwoWay}"
-                        SelectionChanged="ComboAppLanguage_SelectionChanged">
-                        <ComboBox.ItemTemplate>
-                            <DataTemplate x:DataType="datamodels:DefaultLanguageModel">
-                                <TextBlock Text="{x:Bind Name}" />
-                            </DataTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                </StackPanel>
+                <ComboBox
+                    x:Name="ComboAppLanguage"
+                    x:Uid="SettingsPreferencesAppLanguage"
+                    Width="200"
+                    HorizontalAlignment="Left"
+                    AutomationProperties.Name="App Language"
+                    Header="App Language"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    ItemsSource="{x:Bind AppSettings.DefaultLanguages}"
+                    PlaceholderText="{x:Bind AppSettings.DefaultLanguage}"
+                    SelectedItem="{x:Bind AppSettings.DefaultLanguage, Mode=TwoWay}"
+                    SelectionChanged="ComboAppLanguage_SelectionChanged">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate x:DataType="datamodels:DefaultLanguageModel">
+                            <TextBlock Text="{x:Bind Name}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
 
                 <StackPanel Spacing="10">
-                    <TextBlock
-                        x:Uid="SettingsPreferencesPinOneDrive"
-                        FontSize="17"
-                        Text="Pin OneDrive to the sidebar" />
-                    <ToggleSwitch x:Name="OneDrivePin" IsOn="{x:Bind AppSettings.PinOneDriveToSideBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
-
-                <StackPanel Spacing="10">
-                    <TextBlock
-                        x:Uid="SettingsPreferencesRecycleBin"
-                        FontSize="17"
-                        Text="Pin Recycle Bin to the sidebar" />
-                    <ToggleSwitch IsOn="{x:Bind AppSettings.PinRecycleBinToSideBar, Mode=TwoWay}" />
-                </StackPanel>
-
-                <StackPanel Spacing="10">
-                    <TextBlock
-                        x:Uid="SettingsPreferencesShowConfirmDeleteDialog"
-                        FontSize="17"
-                        Text="Show a confirmation dialog when deleting files or folders"
-                        TextWrapping="WrapWholeWords" />
-                    <ToggleSwitch x:Name="ShowConfirmDeleteDialog" IsOn="{x:Bind AppSettings.ShowConfirmDeleteDialog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
-
-                <StackPanel Spacing="10">
-
-                    <TextBlock
-                        x:Uid="SettingsPreferencesTerminalApplications"
-                        FontSize="17"
-                        Text="Terminal Applications" />
-
                     <StackPanel
                         Width="Auto"
                         HorizontalAlignment="Left"
@@ -97,9 +57,13 @@
                         Spacing="14">
                         <ComboBox
                             x:Name="TerminalApplicationsComboBox"
+                            x:Uid="SettingsPreferencesTerminalApplications"
                             Width="Auto"
                             MinWidth="200"
                             MaxWidth="250"
+                            AutomationProperties.Name="Terminal Applications"
+                            Header="Terminal Applications"
+                            HeaderTemplate="{StaticResource CustomHeaderStyle}"
                             ItemsSource="{x:Bind AppSettings.TerminalController.Model.Terminals}"
                             SelectionChanged="TerminalApp_SelectionChanged">
                             <ComboBox.ItemTemplate>
@@ -112,6 +76,9 @@
                         </ComboBox>
 
                         <HyperlinkButton
+                            x:Uid="SettingsPreferencesEditTerminalApplications"
+                            VerticalAlignment="Bottom"
+                            AutomationProperties.Name="Edit terminal applications"
                             Click="EditTerminalApplications_Click"
                             Content=""
                             FontFamily="Segoe MDL2 Assets"
@@ -119,13 +86,57 @@
 
                         <HyperlinkButton
                             x:Uid="SettingsPreferencesTerminalApplicationsSampleProfiles"
+                            VerticalAlignment="Bottom"
+                            AutomationProperties.Name="View sample profiles"
                             Content="&#xE946;"
                             FontFamily="Segoe MDL2 Assets"
                             NavigateUri="https://github.com/files-community/files-uwp/wiki/Sample-terminal-profiles"
-                            Style="{ThemeResource TextBlockButtonStyle}" />
+                            Style="{ThemeResource TextBlockButtonStyle}"
+                            ToolTipService.ToolTip="View sample profiles" />
                     </StackPanel>
                 </StackPanel>
+
+                <ToggleSwitch
+                    x:Name="OneDrivePin"
+                    x:Uid="SettingsPreferencesPinOneDriveSwitch"
+                    AutomationProperties.Name="Pin OneDrive to the sidebar"
+                    Header="Pin OneDrive to the sidebar"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind AppSettings.PinOneDriveToSideBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <ToggleSwitch
+                    x:Uid="SettingsPreferencesRecycleBinSwitch"
+                    AutomationProperties.Name="Pin Recycle Bin to the sidebar"
+                    Header="Pin Recycle Bin to the sidebar"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind AppSettings.PinRecycleBinToSideBar, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Name="ShowConfirmDeleteDialogSwitch"
+                    x:Uid="SettingsPreferencesShowConfirmDeleteDialogSwitch"
+                    AutomationProperties.Name="Show a confirmation dialog when deleting files or folders"
+                    Header="Show a confirmation dialog when deleting files or folders"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind AppSettings.ShowConfirmDeleteDialog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <ToggleSwitch
+                    x:Name="ContextMenuToggleSwitch"
+                    x:Uid="SettingsPreferencesContextMenuSwitch"
+                    AutomationProperties.Name="Show all context menu items"
+                    Header="Show all context menu items"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind AppSettings.ShowAllContextMenuItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <ToggleSwitch
+                    x:Name="CopyLocationToggleSwitch"
+                    x:Uid="SettingsPreferencesCopyLocationSwitch"
+                    AutomationProperties.Name="Show an option to copy the location of the selected item"
+                    Header="Show an option to copy the location of the selected item"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind AppSettings.ShowCopyLocationOption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </ScrollViewer>
+
+        <dialogs:RestartDialog x:Name="RestartDialog" VerticalAlignment="Bottom" />
     </Grid>
 </Page>

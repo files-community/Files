@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Files.Filesystem;
+using Files.Helpers;
+using System;
 using System.Collections.Generic;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 
@@ -8,12 +9,9 @@ namespace Files.Dialogs
 {
     public sealed partial class AddItemDialog : ContentDialog
     {
-        public ListView addItemsChoices;
-
         public AddItemDialog()
         {
-            this.InitializeComponent();
-            addItemsChoices = AddItemsListView;
+            InitializeComponent();
             AddItemsToList();
         }
 
@@ -22,67 +20,84 @@ namespace Files.Dialogs
         public void AddItemsToList()
         {
             AddItemsList.Clear();
-            AddItemsList.Add(new AddListItem { Header = "Folder", SubHeader = "Creates an empty folder", Icon = "\xE838", IsItemEnabled = true });
-            AddItemsList.Add(new AddListItem { Header = "Text Document", SubHeader = "Creates a simple text file", Icon = "\xE8A5", IsItemEnabled = true });
-            AddItemsList.Add(new AddListItem { Header = "Bitmap Image", SubHeader = "Creates an empty bitmap image file", Icon = "\xEB9F", IsItemEnabled = true });
+
+            AddItemsList.Add(new AddListItem
+            {
+                Header = ResourceController.GetTranslation("AddDialogListFolderHeader"),
+                SubHeader = ResourceController.GetTranslation("AddDialogListFolderSubHeader"),
+                Icon = "\xE838",
+                IsItemEnabled = true,
+                ItemType = AddItemType.Folder
+            });
+
+            AddItemsList.Add(new AddListItem
+            {
+                Header = ResourceController.GetTranslation("AddDialogListTextFileHeader"),
+                SubHeader = ResourceController.GetTranslation("AddDialogListTextFileSubHeader"),
+                Icon = "\xE8A5",
+                IsItemEnabled = true,
+                ItemType = AddItemType.TextDocument
+            });
+            AddItemsList.Add(new AddListItem
+            {
+                Header = ResourceController.GetTranslation("AddDialogListBitmapHeader"),
+                SubHeader = ResourceController.GetTranslation("AddDialogListBitmapSubHeader"),
+                Icon = "\xEB9F",
+                IsItemEnabled = true,
+                ItemType = AddItemType.BitmapImage
+            });
         }
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             this.Hide();
-            switch ((e.ClickedItem as AddListItem).Header)
-            {
-                case "Folder":
-                    CreateFile(AddItemType.Folder);
-                    break;
-
-                case "Text Document":
-                    CreateFile(AddItemType.TextDocument);
-                    break;
-
-                case "Bitmap Image":
-                    CreateFile(AddItemType.BitmapImage);
-                    break;
-            }
+            CreateFile((e.ClickedItem as AddListItem).ItemType);
         }
 
-        public static async void CreateFile(AddItemType fileType)
+        public static async void CreateFile(AddItemType itemType)
         {
-            var TabInstance = App.CurrentInstance;
             string currentPath = null;
-            if (TabInstance.ContentPage != null)
+            if (App.CurrentInstance.ContentPage != null)
             {
-                currentPath = TabInstance.FilesystemViewModel.WorkingDirectory;
+                currentPath = App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
             }
-            var folderWithPath = await Filesystem.ItemViewModel.GetFolderWithPathFromPathAsync(currentPath);
-            StorageFolder folderToCreateItem = folderWithPath.Folder;
-            RenameDialog renameDialog = new RenameDialog();
 
+            StorageFolderWithPath folderWithPath = await ItemViewModel.GetFolderWithPathFromPathAsync(currentPath);
+            StorageFolder folderToCreateItem = folderWithPath.Folder;
+
+            // Show rename dialog
+            RenameDialog renameDialog = new RenameDialog();
             var renameResult = await renameDialog.ShowAsync();
             if (renameResult != ContentDialogResult.Primary)
             {
                 return;
             }
 
-            var userInput = renameDialog.storedRenameInput;
-
-            if (fileType == AddItemType.Folder)
+            // Create file based on dialog result
+            string userInput = renameDialog.storedRenameInput;
+            try
             {
-                userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : ResourceController.GetTranslation("NewFolder");
+                switch (itemType)
+                {
+                    case AddItemType.Folder:
+                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : ResourceController.GetTranslation("NewFolder");
+                        await folderToCreateItem.CreateFolderAsync(userInput, CreationCollisionOption.GenerateUniqueName);
+                        break;
 
-                await folderToCreateItem.CreateFolderAsync(userInput, CreationCollisionOption.GenerateUniqueName);
+                    case AddItemType.TextDocument:
+                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : ResourceController.GetTranslation("NewTextDocument");
+                        await folderToCreateItem.CreateFileAsync(userInput + ".txt", CreationCollisionOption.GenerateUniqueName);
+                        break;
+
+                    case AddItemType.BitmapImage:
+                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : ResourceController.GetTranslation("NewBitmapImage");
+                        await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.GenerateUniqueName);
+                        break;
+                }
             }
-            else if (fileType == AddItemType.TextDocument)
+            catch (UnauthorizedAccessException)
             {
-                userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : ResourceController.GetTranslation("NewTextDocument");
-
-                await folderToCreateItem.CreateFileAsync(userInput + ".txt", CreationCollisionOption.GenerateUniqueName);
-            }
-            else if (fileType == AddItemType.BitmapImage)
-            {
-                userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : ResourceController.GetTranslation("NewBitmapImage");
-
-                await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.GenerateUniqueName);
+                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("AccessDeniedCreateDialog/Title"), ResourceController.GetTranslation("AccessDeniedCreateDialog/Text"));
             }
         }
     }
@@ -101,5 +116,6 @@ namespace Files.Dialogs
         public string SubHeader { get; set; }
         public string Icon { get; set; }
         public bool IsItemEnabled { get; set; }
+        public AddItemType ItemType { get; set; }
     }
 }

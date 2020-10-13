@@ -42,17 +42,18 @@ namespace Files.SettingsPages
 
         private void ComboAppLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (AppSettings.CurrentLanguage.ID == AppSettings.DefaultLanguage.ID)
+            var selectedValue = ((sender as ComboBox).SelectedValue as DefaultLanguageModel).ID;
+            if (AppSettings.CurrentLanguage.ID != selectedValue)
             {
-                RestartRequiredPrompt.Visibility = Visibility.Collapsed;
+                RestartDialog.Show();
             }
             else
             {
-                RestartRequiredPrompt.Visibility = Visibility.Visible;
+                RestartDialog.Dismiss();
             }
         }
 
-        private void EditTerminalApplications_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void EditTerminalApplications_Click(object sender, RoutedEventArgs e)
         {
             LaunchTerminalsConfigFile();
         }

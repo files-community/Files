@@ -1,0 +1,62 @@
+﻿<UserControl
+    x:Class="Files.Dialogs.RestartDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="RestartDialogTemplate">
+            <UserControl>
+                <Grid x:Name="RootGrid">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        x:Name="TextBlock"
+                        x:Uid="RestartNotificationText"
+                        Grid.RowSpan="2"
+                        VerticalAlignment="Center"
+                        TextWrapping="WrapWholeWords" />
+
+                    <StackPanel
+                        x:Name="ButtonsStackPanel"
+                        Grid.RowSpan="2"
+                        Grid.Column="1"
+                        Margin="20,0,0,0"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+
+                        <Button
+                            x:Name="YesButton"
+                            x:Uid="ButtonYes"
+                            Width="70"
+                            Height="30"
+                            Click="YesButton_Click" />
+
+                        <Button
+                            x:Name="NoButton"
+                            x:Uid="ButtonNo"
+                            Width="70"
+                            Height="30"
+                            Margin="10,0,0,0"
+                            Click="NoButton_Click" />
+                    </StackPanel>
+                </Grid>
+            </UserControl>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <controls:InAppNotification x:Name="RestartNotification" ContentTemplate="{StaticResource RestartDialogTemplate}" />
+</UserControl>
