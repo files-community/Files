@@ -26,7 +26,6 @@
                     FontWeight="Medium"
                     Text="Files and Folders" />
 
-
                 <ToggleSwitch
                     x:Uid="SettingsFilesAndFoldersShowHiddenFiles"
                     Header="Show hidden files, folders, and drives"
