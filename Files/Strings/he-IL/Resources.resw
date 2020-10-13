@@ -78,6 +78,12 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Size:</value>
   </data>
+  <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
+    <value>אין אפשרות לבצע פעולה זו</value>
+  </data>
+  <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
+    <value>תיקיית היעד</value>
+  </data>
   <data name="ErrorDialogSkip" xml:space="preserve">
     <value>דלג</value>
   </data>
@@ -632,5 +638,17 @@
   </data>
   <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
     <value>הגדרות</value>
+  </data>
+  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+    <value>הגישה נדחתה</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowDriveLetters.Header" xml:space="preserve">
+    <value>‏‏הצג אותיות כונן</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenFiles.Header" xml:space="preserve">
+    <value>‏‏הצג קבצים, תיקיות וכוננים מוסתרים</value>
+  </data>
+  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+    <value>תבנית תאריך.</value>
   </data>
 </root>
