@@ -156,32 +156,11 @@
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
     <value>வலைத்தளம்:</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
-    <value>Acrylic பக்கப்பட்டி</value>
-  </data>
-  <data name="SettingsAppearanceDateFormat.Text" xml:space="preserve">
-    <value>தேதி வடிவமைப்பு</value>
-  </data>
-  <data name="SettingsAppearanceTheme.Text" xml:space="preserve">
-    <value>பயன்பாட்டுக் கருப்பொருள்</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>தோற்றம்</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
-    <value>இயக்கக எழுத்துக்களைக் காண்பி</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Text" xml:space="preserve">
-    <value>அறிந்த கோப்பு வகைகளுக்கு நீட்டிப்புகளைக் காட்டு</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
-    <value>மறைந்துள்ள கோப்புகள், கோப்புறைகள் மற்றும் இயக்ககங்களைக் காண்பி</value>
-  </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>கோப்புகள் &amp; கோப்புறைகள்</value>
-  </data>
-  <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
-    <value>கோப்புகளை மறுபெயரிட இரண்டு தட்டு</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>சோதனை</value>
@@ -587,9 +566,6 @@
   </data>
   <data name="PropertiesOwner.Text" xml:space="preserve">
     <value>உரிமையாளர்:</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
-    <value>பண்புகளில் உரிமையாளரை காண்பி</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>இரத்து</value>

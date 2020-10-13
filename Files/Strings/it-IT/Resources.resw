@@ -153,26 +153,8 @@
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
     <value>Sito web:</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
-    <value>Effetto acrilico per la barra laterale</value>
-  </data>
-  <data name="SettingsAppearanceDateFormat.Text" xml:space="preserve">
-    <value>Formato data</value>
-  </data>
-  <data name="SettingsAppearanceTheme.Text" xml:space="preserve">
-    <value>Tema applicazione</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Grafica</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
-    <value>Mostra la lettera dei dischi</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Text" xml:space="preserve">
-    <value>Mostra estensioni per i tipi di file conosciuti</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
-    <value>Mostra file, cartelle e dischi nascosti</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Opzioni esplorazione</value>
@@ -432,9 +414,6 @@
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Esperimenti</value>
   </data>
-  <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
-    <value>Doppio click per rinominare un file</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Vedi profili di esempio</value>
   </data>
@@ -593,9 +572,6 @@
   </data>
   <data name="PropertiesOwner.Text" xml:space="preserve">
     <value>Proprietario:</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
-    <value>Mostra il proprietario nelle proprietà del file</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>Annulla</value>

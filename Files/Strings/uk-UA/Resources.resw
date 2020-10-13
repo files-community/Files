@@ -132,26 +132,8 @@
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
     <value>Веб-сайт</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
-    <value>Бокова панель з ефектом акрила</value>
-  </data>
-  <data name="SettingsAppearanceDateFormat.Text" xml:space="preserve">
-    <value>Формат дати</value>
-  </data>
-  <data name="SettingsAppearanceTheme.Text" xml:space="preserve">
-    <value>Тема</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Оформлення</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
-    <value>Відображати букви дисків</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Text" xml:space="preserve">
-    <value>Показати розширення для відомих типів файлів</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
-    <value>Відображати приховані файли, папки й диски</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Файли та папки</value>
@@ -429,9 +411,6 @@
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Експериментально</value>
   </data>
-  <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
-    <value>Подвійне натискання щоб перейменувати файл</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Переглянути приклади профілів</value>
   </data>
@@ -590,9 +569,6 @@
   </data>
   <data name="PropertiesOwner.Text" xml:space="preserve">
     <value>Власник:</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
-    <value>Показати Власника у властивостях</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>Скасувати</value>

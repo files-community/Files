@@ -30,50 +30,42 @@
                     FontWeight="Medium"
                     Text="Appearance" />
 
-                <StackPanel Spacing="10">
-                    <TextBlock
-                        x:Uid="SettingsAppearanceTheme"
-                        FontSize="17"
-                        Text="App theme" />
+                <ComboBox
+                    x:Name="ThemeChooser"
+                    x:Uid="SettingsAppearanceTheme"
+                    Width="Auto"
+                    MinWidth="200"
+                    MaxWidth="250"
+                    Header="App theme"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}" />
+
+                <StackPanel
+                    Width="Auto"
+                    Orientation="Horizontal"
+                    Spacing="8">
                     <ComboBox
-                        x:Name="ThemeChooser"
+                        x:Name="DateFormatChooser"
+                        x:Uid="SettingsAppearanceDateFormat"
                         Width="Auto"
                         MinWidth="200"
-                        MaxWidth="250" />
+                        MaxWidth="250"
+                        Header="Date format"
+                        HeaderTemplate="{StaticResource CustomHeaderStyle}" />
+
+                    <HyperlinkButton
+                        x:Uid="SettingsAppearanceDateFormatsTip"
+                        VerticalAlignment="Bottom"
+                        Content="&#xE946;"
+                        FontFamily="Segoe MDL2 Assets"
+                        NavigateUri="https://github.com/files-community/files-uwp/wiki/Date-formats"
+                        Style="{ThemeResource TextBlockButtonStyle}" />
                 </StackPanel>
 
-                <StackPanel Spacing="10">
-                    <TextBlock
-                        x:Uid="SettingsAppearanceDateFormat"
-                        FontSize="17"
-                        Text="Date format" />
-
-                    <StackPanel
-                        Width="Auto"
-                        Orientation="Horizontal"
-                        Spacing="8">
-                        <ComboBox
-                            x:Name="DateFormatChooser"
-                            Width="Auto"
-                            MinWidth="200"
-                            MaxWidth="250" />
-
-                        <HyperlinkButton
-                            x:Uid="SettingsAppearanceDateFormatsTip"
-                            Content="&#xE946;"
-                            FontFamily="Segoe MDL2 Assets"
-                            NavigateUri="https://github.com/files-community/files-uwp/wiki/Date-formats"
-                            Style="{ThemeResource TextBlockButtonStyle}" />
-                    </StackPanel>
-                </StackPanel>
-
-                <StackPanel Spacing="10">
-                    <TextBlock
-                        x:Uid="SettingsAppearanceAcrylicSidebar"
-                        FontSize="17"
-                        Text="Acrylic sidebar" />
-                    <ToggleSwitch x:Name="AcrylicSidebarSwitch" IsOn="{x:Bind AppSettings.AcrylicEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}" />
-                </StackPanel>
+                <ToggleSwitch
+                    x:Name="AcrylicSidebarSwitch"
+                    Header="Acrylic sidebar"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind AppSettings.AcrylicEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

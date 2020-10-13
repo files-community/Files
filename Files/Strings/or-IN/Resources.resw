@@ -165,32 +165,11 @@
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
     <value>ୱେବସାଇଟ୍:</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
-    <value>ଆକ୍ରିଲିକ୍ ସାଇଡବାର୍</value>
-  </data>
-  <data name="SettingsAppearanceDateFormat.Text" xml:space="preserve">
-    <value>ତାରିଖ ଫର୍ମାଟ୍</value>
-  </data>
-  <data name="SettingsAppearanceTheme.Text" xml:space="preserve">
-    <value>ଆପ୍ ଥିମ୍</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>ରୂପ</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
-    <value>ଡ୍ରାଇଭ୍ ଅକ୍ଷରଗୁଡିକ ଦେଖାନ୍ତୁ</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Text" xml:space="preserve">
-    <value>ଜଣାଶୁଣା ଫାଇଲ୍ ପ୍ରକାର ପାଇଁ ବିସ୍ତୃତକରଣ ଦେଖାନ୍ତୁ</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
-    <value>ଲୁକ୍କାୟିତ ଫାଇଲ, ଫୋଲ୍ଡର ଏବଂ ଡ୍ରାଇଭଗୁଡ଼ିକ ଦେଖାନ୍ତୁ</value>
-  </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>ଫାଇଲ୍ ଏବଂ ଫୋଲ୍ଡରଗୁଡ଼ିକ</value>
-  </data>
-  <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
-    <value>ଫାଇଲଗୁଡିକର ନାମ ପରିବର୍ତ୍ତନ କରିବାକୁ ଦୁଇଥର ଟ୍ୟାପ୍ କରନ୍ତୁ</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>ପରୀକ୍ଷାମୂଳକ</value>
@@ -233,9 +212,6 @@
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>ଆରମ୍ଭ ରେ</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
-    <value>ଗୁଣଧର୍ମରେ ମାଲିକ ଦେଖାନ୍ତୁ</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>ଟର୍ମିନାଲ୍ ଆପ୍ଲିକେସନଗୁଡ଼ିକ</value>

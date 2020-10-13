@@ -69,26 +69,8 @@
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
     <value>Site web :</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
-    <value>Effet flou de la barre latérale</value>
-  </data>
-  <data name="SettingsAppearanceDateFormat.Text" xml:space="preserve">
-    <value>Format de la date</value>
-  </data>
-  <data name="SettingsAppearanceTheme.Text" xml:space="preserve">
-    <value>Thème</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Apparence</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
-    <value>Afficher les lettres de lecteur</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Text" xml:space="preserve">
-    <value>Afficher les extensions de fichiers connus</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
-    <value>Afficher les fichiers, dossiers et lecteurs cachés</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Fichiers et dossiers</value>
@@ -432,17 +414,20 @@
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>Expérimental</value>
   </data>
-  <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
-    <value>Double clic pour renommer</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Voir un exemple de profils</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>Un élément avec ce nom existe déjà dans ce répertoire.</value>
   </data>
+  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Générer un nouveau nom</value>
+  </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>L‘élément existe déjà</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
+    <value>Remplacer l'élément existant</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>Définir en tant qu'écran de verrouillage</value>
@@ -462,6 +447,9 @@
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
+    <value>Impossible de supprimer cet élément</value>
+  </data>
   <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
     <value>Accès refusé</value>
   </data>
@@ -471,14 +459,26 @@
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
     <value>Disque déconnecté</value>
   </data>
+  <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>Le fichier auquel vous tentez d'accéder a peut-être été déplacé ou supprimé.</value>
+  </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>Fichier introuvable</value>
+  </data>
+  <data name="FileNotFoundPreviewDialog.Text" xml:space="preserve">
+    <value>Le fichier que vous tentez d'apercevoir a peut-être été déplacé ou supprimé.</value>
+  </data>
+  <data name="FolderNotFoundDialog.Text" xml:space="preserve">
+    <value>Le dossier auquel vous tentez d'accéder a peut-être été déplacé ou supprimé.</value>
   </data>
   <data name="StatusBarControlLayoutMode.ToolTipService.ToolTip" xml:space="preserve">
     <value>Disposition</value>
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Options de sélection</value>
+  </data>
+  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
+    <value>Le fichier que vous essayez de supprimer est actuellement utilisé par une autre application.</value>
   </data>
   <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
     <value>Le fichier en cours d'utilisation</value>
@@ -570,9 +570,6 @@
   <data name="PropertiesOwner.Text" xml:space="preserve">
     <value>Propriétaire :</value>
   </data>
-  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
-    <value>Afficher le propriétaire dans les propriétés</value>
-  </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>Annuler</value>
   </data>
@@ -629,6 +626,9 @@
   </data>
   <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
     <value>Mot de passe</value>
+  </data>
+  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
+    <value>Vérifiez le mot de passe et essayez à nouveau.</value>
   </data>
   <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
     <value>Erreur BitLocker</value>
@@ -759,6 +759,9 @@
   <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
     <value>Ouvrir l'emplacement des logs</value>
   </data>
+  <data name="ExceptionNotificationBody" xml:space="preserve">
+    <value>Files a rencontré un problème auquel les développeurs ne s'attendaient pas.</value>
+  </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
     <value>Quelque chose s'est mal passé !</value>
   </data>
@@ -777,6 +780,9 @@
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
     <value>Découvrez les nouveautés de Files</value>
   </data>
+  <data name="InvalidItemDialogContent" xml:space="preserve">
+    <value>L'élément référencé est invalide ou inaccessible.{0} Message d'erreur : {0}{1}</value>
+  </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Élément invalide</value>
   </data>
@@ -786,11 +792,26 @@
   <data name="ShareDialogFailMessage" xml:space="preserve">
     <value>Il n'y a rien à partager pour le moment...</value>
   </data>
+  <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
+    <value>Les éléments sélectionnés seront partagés</value>
+  </data>
+  <data name="ShareDialogSingleItemDescription" xml:space="preserve">
+    <value>L'élément sélectionné sera partagé</value>
+  </data>
   <data name="ShareDialogTitle" xml:space="preserve">
     <value>Partage de {0}</value>
   </data>
+  <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
+    <value>Partage {0} {1}</value>
+  </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
     <value>L’élément n’existe plus</value>
+  </data>
+  <data name="RenameError.NameInvalid.Title" xml:space="preserve">
+    <value>Nom d'élément invalide</value>
+  </data>
+  <data name="RenameError.TooLong.Title" xml:space="preserve">
+    <value>Le nom de l'élément était trop long</value>
   </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Plus</value>
@@ -805,11 +826,11 @@
     <value>Voulez-vous vraiment supprimer ces éléments {0} ?</value>
   </data>
   <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Adaptif (Recommended)</value>
+    <value>Adaptif (Recommandé)</value>
   </data>
   <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
     <value>Horizontal
-</value>
+        </value>
   </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multitâche</value>
@@ -838,31 +859,82 @@
   <data name="ButtonYes.Content" xml:space="preserve">
     <value>OUI</value>
   </data>
+  <data name="RestartNotificationText.Text" xml:space="preserve">
+    <value>L'application a besoin d'être redémarrée pour appliquer les paramètres de langue, voulez-vous redémarrer l'application ?</value>
+  </data>
+  <data name="AddDialog.Title" xml:space="preserve">
+    <value>Créer un nouvel élément</value>
+  </data>
+  <data name="AddDialogDescription.Text" xml:space="preserve">
+    <value>Choisissez le type d'élément ci-dessous</value>
+  </data>
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
     <value>Annuler</value>
   </data>
   <data name="AddDialogListBitmapHeader" xml:space="preserve">
     <value>Image bitmap</value>
   </data>
+  <data name="AddDialogListBitmapSubHeader" xml:space="preserve">
+    <value>Crée une image bitmap vide</value>
+  </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
-    <value>Dossier :</value>
+    <value>Dossier</value>
+  </data>
+  <data name="AddDialogListFolderSubHeader" xml:space="preserve">
+    <value>Crée un dossier vide</value>
   </data>
   <data name="AddDialogListTextFileHeader" xml:space="preserve">
     <value>Document texte</value>
   </data>
   <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
-    <value>Crée un fichier texte vide.</value>
+    <value>Crée un fichier texte vide</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Disposition</value>
   </data>
   <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Créer un élément</value>
+    <value>Créer un nouvel élément</value>
   </data>
-  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Navigation avant</value>
+  <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Actualiser le dossier</value>
+  </data>
+  <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Remonter d'un dossier</value>
   </data>
   <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Paramètres</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
+    <value>Langue de l'application</value>
+  </data>
+  <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Afficher une option pour copier le chemin de l'élément</value>
+  </data>
+  <data name="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Épingler OneDriver à la barre latérale</value>
+  </data>
+  <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Épingler la Corbeille à la barre latérale</value>
+  </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Demander une confirmation lors de la suppression de fichiers ou dossiers</value>
+  </data>
+  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
+    <value>Éditer les applications de terminal</value>
+  </data>
+  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Éditer les applications de terminal</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
+    <value>Voir des exemples de profils</value>
+  </data>
+  <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
+    <value>Soutenez-nous</value>
+  </data>
+  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
+    <value>Soutenez-nous sur PayPal</value>
+  </data>
+  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+    <value>Accès refusé</value>
   </data>
 </root>

@@ -211,41 +211,13 @@
           <source>Website</source>
           <target state="translated">Site da web</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
-          <source>Acrylic sidebar</source>
-          <target state="translated">Barra lateral em acrílico</target>
-        </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormat.Text" translate="yes" xml:space="preserve">
-          <source>Date format</source>
-          <target state="translated">Formato da data</target>
-        </trans-unit>
-        <trans-unit id="SettingsAppearanceTheme.Text" translate="yes" xml:space="preserve">
-          <source>App theme</source>
-          <target state="translated">Tema do aplicativo</target>
-        </trans-unit>
         <trans-unit id="SettingsAppearanceTitle.Text" translate="yes" xml:space="preserve">
           <source>Appearance</source>
           <target state="translated">Aparência</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowDriveLetters.Text" translate="yes" xml:space="preserve">
-          <source>Show drive letters</source>
-          <target state="translated">Mostrar letras da unidade</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Text" translate="yes" xml:space="preserve">
-          <source>Show extensions for known file types</source>
-          <target state="translated">Mostrar extensões para tipos de arquivos conhecidos</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Text" translate="yes" xml:space="preserve">
-          <source>Show hidden files, folders, and drives</source>
-          <target state="translated">Mostrar arquivos, pastas e unidades ocultas</target>
-        </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
           <source>Files and Folders</source>
           <target state="translated">Arquivos e Pastas</target>
-        </trans-unit>
-        <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Text" translate="yes" xml:space="preserve">
-          <source>Double click to rename files</source>
-          <target state="translated">Clique duas vezes para renomear arquivos</target>
         </trans-unit>
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
@@ -302,10 +274,6 @@
         <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
           <source>On Startup</source>
           <target state="translated">Ao iniciar</target>
-        </trans-unit>
-        <trans-unit id="SettingsShowFileOwnerInProperties.Text" translate="yes" xml:space="preserve">
-          <source>Show Owner in properties</source>
-          <target state="translated">Mostrar proprietário nas propriedades</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
           <source>Terminal Applications</source>
@@ -1374,6 +1342,38 @@
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
           <target state="new">Show a confirmation dialog when deleting files or folders</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowDriveLetters.Header" translate="yes" xml:space="preserve">
+          <source>Show drive letters</source>
+          <target state="new">Show drive letters</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Header" translate="yes" xml:space="preserve">
+          <source>Show extensions for known file types</source>
+          <target state="new">Show extensions for known file types</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Header" translate="yes" xml:space="preserve">
+          <source>Show hidden files, folders, and drives</source>
+          <target state="new">Show hidden files, folders, and drives</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceAcrylicSidebar.Header" translate="yes" xml:space="preserve">
+          <source>Acrylic sidebar</source>
+          <target state="new">Acrylic sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceDateFormat.Header" translate="yes" xml:space="preserve">
+          <source>Date format</source>
+          <target state="new">Date format</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceTheme.Header" translate="yes" xml:space="preserve">
+          <source>App theme</source>
+          <target state="new">App theme</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Header" translate="yes" xml:space="preserve">
+          <source>Double click to rename files</source>
+          <target state="new">Double click to rename files</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowFileOwnerInProperties.Header" translate="yes" xml:space="preserve">
+          <source>Show Owner in properties</source>
+          <target state="new">Show Owner in properties</target>
         </trans-unit>
       </group>
     </body>
