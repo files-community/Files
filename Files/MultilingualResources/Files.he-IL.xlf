@@ -784,11 +784,11 @@
         </trans-unit>
         <trans-unit id="ItemSizeBytes" translate="yes" xml:space="preserve">
           <source>bytes</source>
-          <target state="translated" state-qualifier="tm-suggestion">בתים</target>
+          <target state="needs-review-translation">bytes</target>
         </trans-unit>
         <trans-unit id="KiloByteSymbol" translate="yes" xml:space="preserve">
           <source>KB</source>
-          <target state="translated" state-qualifier="tm-suggestion">קילו-בתים</target>
+          <target state="translated">KB</target>
         </trans-unit>
         <trans-unit id="MegaByteSymbol" translate="yes" xml:space="preserve">
           <source>MB</source>
@@ -796,11 +796,11 @@
         </trans-unit>
         <trans-unit id="GigaByteSymbol" translate="yes" xml:space="preserve">
           <source>GB</source>
-          <target state="translated" state-qualifier="tm-suggestion">ג"ב</target>
+          <target state="needs-review-translation">GB</target>
         </trans-unit>
         <trans-unit id="TeraByteSymbol" translate="yes" xml:space="preserve">
           <source>TB</source>
-          <target state="translated" state-qualifier="tm-suggestion">אנ</target>
+          <target state="needs-review-translation">TB</target>
         </trans-unit>
         <trans-unit id="PetaByteSymbol" translate="yes" xml:space="preserve">
           <source>PB</source>
