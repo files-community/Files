@@ -235,7 +235,7 @@
     <value>Keresés</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Files you've previously accessed will show up here</value>
+    <value>Itt fognak megjelenni az előzőleg elért fájlok</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
     <value>Tartalmazó mappa megnyitása</value>
@@ -352,7 +352,7 @@
     <value>Megerősító párbeszéd fájlok és mappák törlésekor</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Terminal Applications</value>
+    <value>Terminál Applikációk</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Preferenciák</value>
@@ -487,10 +487,10 @@
     <value>Fájl</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>Írjon be egy nevet</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>Írjon be egy nevet</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Név beállítása</value>
@@ -511,7 +511,7 @@
     <value>Sötét</value>
   </data>
   <data name="ApplicationTimeStye" xml:space="preserve">
-    <value>Application</value>
+    <value>Applikációk</value>
   </data>
   <data name="SystemTimeStye" xml:space="preserve">
     <value>Rendszer</value>
@@ -682,13 +682,13 @@
     <value>Társítás</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
-    <value>The item name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
+    <value>A név nem tartalmazhatja a következő karaktereket: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
     <value>OK</value>
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
-    <value>The item name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
+    <value>A név nem tartalmazhatja a következő karaktereket: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
     <value>Eseménynapló helyének megnyitása</value>
@@ -811,7 +811,7 @@
     <value>Legutóbbi</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
-    <value>App Language</value>
+    <value>App Nyelve</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Move tab here</value>
@@ -880,7 +880,7 @@
     <value>Working directory:</value>
   </data>
   <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
-    <value>Application</value>
+    <value>Applikáció</value>
   </data>
   <data name="PropertiesShortcutTypeFile" xml:space="preserve">
     <value>Fájl</value>
@@ -916,7 +916,7 @@
     <value>Eseménynapló helyének megnyitása</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
-    <value>Files ran into a problem that the developers didn't prepare for yet.</value>
+    <value>Files problémába ütközött amire a fejlesztők nem készültek fel.</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
     <value>Valami elromlott!</value>
@@ -997,10 +997,10 @@
     <value>Mégsem</value>
   </data>
   <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
-    <value>Are you sure you want to delete these {0} items?</value>
+    <value>Biztosan szeretne törölni {0} elemet?</value>
   </data>
   <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
-    <value>Are you sure you wantemt to delete this i?</value>
+    <value>Biztosan szeretné törölni az elemet?</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>Lap hozzáadása</value>
@@ -1039,7 +1039,7 @@
     <value>Hely másolása</value>
   </data>
   <data name="SettingsPreferencesCopyLocation.Text" xml:space="preserve">
-    <value>Show an option to copy the location of the selected item</value>
+    <value>Kijelölt elem helyének másolása lehetőség megjelenítése</value>
   </data>
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
     <value>Mégsem</value>
@@ -1069,7 +1069,7 @@
     <value>Új szöveges dokumentum létrehozása</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
-    <value>Layout mode</value>
+    <value>Elrendezés</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Navigate backwards</value>
@@ -1084,7 +1084,7 @@
     <value>Go up one directory</value>
   </data>
   <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Create new item</value>
+    <value>Új elem létrehozása</value>
   </data>
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>Vertical tab strip</value>
@@ -1093,7 +1093,7 @@
     <value>Beállítások</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
-    <value>App Language</value>
+    <value>App Nyelve</value>
   </data>
   <data name="SettingsPreferencesContextMenuSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Show all context menu items</value>
@@ -1111,13 +1111,13 @@
     <value>Show a confirmation dialog when deleting files or folders</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Terminal Applications</value>
+    <value>Terminál Applikációk</value>
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
-    <value>Edit terminal applications</value>
+    <value>Terminál applikáció megváltoztatása</value>
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Edit terminal applications</value>
+    <value>Terminál applikáció megváltoztatása</value>
   </data>
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
     <value>View sample profiles</value>
