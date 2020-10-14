@@ -69,26 +69,8 @@
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
     <value>网站:</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
-    <value>透明效果</value>
-  </data>
-  <data name="SettingsAppearanceDateFormat.Text" xml:space="preserve">
-    <value>日期格式</value>
-  </data>
-  <data name="SettingsAppearanceTheme.Text" xml:space="preserve">
-    <value>主题</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>外观</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
-    <value>显示盘符</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Text" xml:space="preserve">
-    <value>显示已知文件类型的扩展名</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
-    <value>显示隐藏的文件、文件夹和驱动器</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>文件和文件夹</value>
@@ -123,9 +105,6 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>启动时</value>
   </data>
-  <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
-    <value>固定 OneDrive 到侧边栏</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>终端</value>
   </data>
@@ -146,9 +125,6 @@
   </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>永久删除</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
-    <value>删除文件或文件夹时显示确认对话框</value>
   </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>桌面</value>
@@ -438,9 +414,6 @@
   <data name="SettingsNavExperimental.Content" xml:space="preserve">
     <value>实验性</value>
   </data>
-  <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
-    <value>双击重命名</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>默认值</value>
   </data>
@@ -531,9 +504,6 @@
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>撤销</value>
   </data>
-  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
-    <value>启用回收站</value>
-  </data>
   <data name="DaysAgo" xml:space="preserve">
     <value>{0} 天前</value>
   </data>
@@ -602,9 +572,6 @@
   </data>
   <data name="PropertiesOwner.Text" xml:space="preserve">
     <value>所有者:</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
-    <value>在属性中显示所有者</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>取消</value>
@@ -861,9 +828,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>更多</value>
   </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>显示所有上下文菜单项</value>
-  </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>取消</value>
   </data>
@@ -880,7 +844,7 @@
     <value>根据应用窗口的大小自动调整最佳多任务控件大小。当窗口较小时，控件会自动折叠。</value>
   </data>
   <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>评分</value>
+    <value>平分</value>
   </data>
   <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
     <value>始终在导航工具栏隐藏垂直多任务弹出窗口，并在应用窗口中显示水平选项卡栏。</value>
@@ -902,9 +866,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>复制路径</value>
-  </data>
-  <data name="SettingsPreferencesCopyLocation.Text" xml:space="preserve">
-    <value>允许复制选定项目</value>
   </data>
   <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
     <value>添加选项卡</value>

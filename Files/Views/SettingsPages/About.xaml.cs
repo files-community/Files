@@ -31,6 +31,10 @@ namespace Files.SettingsPages
             {
                 await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/files-uwp/graphs/contributors"));
             }
+            else if (FeedbackListView.SelectedIndex == 3)
+            {
+                await Launcher.LaunchUriAsync(new Uri(@"https://paypal.me/yaichenbaum"));
+            }
 
             (FeedbackListView.Items[FeedbackListView.SelectedIndex] as ListViewItem).IsSelected = false;
         }

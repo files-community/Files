@@ -35,7 +35,7 @@ namespace Files.UserControls
         public void SelectionChanged() => TabStrip_SelectionChanged(null, null);
 
         public ObservableCollection<TabItem> Items => MainPage.AppInstances;
-        
+
         public HorizontalMultitaskingControl()
         {
             this.InitializeComponent();

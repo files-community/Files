@@ -45,7 +45,7 @@ namespace Files.Helpers
 
         private Task AddFolder(string path)
         {
-            if (!JumpListItemPaths.Contains(path) && _instance != null)
+            if (_instance != null && !JumpListItemPaths.Contains(path))
             {
                 string displayName;
                 if (path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))

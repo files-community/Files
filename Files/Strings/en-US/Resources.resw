@@ -270,31 +270,31 @@
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
     <value>Website</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
+  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Acrylic sidebar</value>
   </data>
-  <data name="SettingsAppearanceDateFormat.Text" xml:space="preserve">
+  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
     <value>Date format</value>
   </data>
-  <data name="SettingsAppearanceTheme.Text" xml:space="preserve">
+  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
     <value>App theme</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Appearance</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowDriveLetters.Header" xml:space="preserve">
     <value>Show drive letters</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Text" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>Show extensions for known file types</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
+  <data name="SettingsFilesAndFoldersShowHiddenFiles.Header" xml:space="preserve">
     <value>Show hidden files, folders, and drives</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Files and Folders</value>
   </data>
-  <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
+  <data name="SettingsExperimentalDoubleTapToRenameFiles.Header" xml:space="preserve">
     <value>Double click to rename files</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
@@ -339,20 +339,8 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>On Startup</value>
   </data>
-  <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
-    <value>Pin OneDrive to the sidebar</value>
-  </data>
-  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
-    <value>Pin Recycle Bin to the sidebar</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
+  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
     <value>Show Owner in properties</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
-    <value>Show a confirmation dialog when deleting files or folders</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Terminal Applications</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Preferences</value>
@@ -981,9 +969,6 @@
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>More</value>
   </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>Show all context menu items</value>
-  </data>
   <data name="ButtonNo.Content" xml:space="preserve">
     <value>No</value>
   </data>
@@ -992,6 +977,18 @@
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>The application needs to be restarted in order to apply the language setting, would you like to restart the app?</value>
+  </data>
+  <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
+    <value>Support us</value>
+  </data>
+  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
+    <value>Support us on PayPal</value>
+  </data>
+  <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
+    <value>We weren't able to create this item</value>
+  </data>
+  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+    <value>Access Denied</value>
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
     <value>Cancel</value>
@@ -1037,9 +1034,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>Copy location</value>
-  </data>
-  <data name="SettingsPreferencesCopyLocation.Text" xml:space="preserve">
-    <value>Show an option to copy the location of the selected item</value>
   </data>
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
     <value>Cancel</value>
@@ -1122,16 +1116,28 @@
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
     <value>View sample profiles</value>
   </data>
-  <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
-    <value>Support us</value>
+  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
+    <value>App Language</value>
   </data>
-  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>Support us on PayPal</value>
+  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
+    <value>Terminal Applications</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
-    <value>We weren't able to create this item</value>
+  <data name="CopyLocationToggleSwitch.Header" xml:space="preserve">
+    <value>Show an option to copy the location of the selected item</value>
   </data>
-  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
-    <value>Access Denied</value>
+  <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
+    <value>Show all context menu items</value>
+  </data>
+  <data name="SettingsPreferencesPinOneDriveSwitch.Header" xml:space="preserve">
+    <value>Pin OneDrive to the sidebar</value>
+  </data>
+  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+    <value>Pin Recycle Bin to the sidebar</value>
+  </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
+    <value>Show a confirmation dialog when deleting files or folders</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
+    <value>Terminal Applications</value>
   </data>
 </root>
