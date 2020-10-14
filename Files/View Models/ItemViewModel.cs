@@ -72,8 +72,6 @@ namespace Files.Filesystem
                 return;
             }
 
-            App.JumpList.AddFolderToJumpList(value);
-
             INavigationControlItem item = null;
             List<INavigationControlItem> sidebarItems = MainPage.sideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
 
@@ -119,6 +117,10 @@ namespace Files.Filesystem
             if (value == "Home")
             {
                 _currentStorageFolder = null;
+            }
+            else
+            {
+                App.JumpList.AddFolderToJumpList(value);
             }
 
             NotifyPropertyChanged(nameof(WorkingDirectory));

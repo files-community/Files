@@ -23,6 +23,8 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.Core;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Notifications;
@@ -71,8 +73,8 @@ namespace Files
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
             // Initialize NLog
-            Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
-            NLog.LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
+            StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
+            LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
 
             StartAppCenter();
         }
@@ -86,7 +88,7 @@ namespace Files
                 var lines = await FileIO.ReadTextAsync(file);
                 obj = JObject.Parse(lines);
             }
-            catch (Exception e)
+            catch
             {
                 return;
             }
@@ -142,7 +144,7 @@ namespace Files
                 var changeType = (string)args.Request.Message["Type"];
                 var newItem = JsonConvert.DeserializeObject<ShellFileItem>(args.Request.Message.Get("Item", ""));
                 Debug.WriteLine("{0}: {1}", folderPath, changeType);
-                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     // If we are currently displaying the reycle bin lets refresh the items
                     if (CurrentInstance.FilesystemViewModel?.CurrentFolder?.ItemPath == folderPath)
@@ -186,7 +188,7 @@ namespace Files
 
         public static void UnpinItem_Click(object sender, RoutedEventArgs e)
         {
-            if (rightClickedItem.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+            if (rightClickedItem.Path.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
                 AppSettings.PinRecycleBinToSideBar = false;
             }
@@ -212,7 +214,7 @@ namespace Files
 
             Logger.Info("App launched");
 
-            bool canEnablePrelaunch = Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
+            bool canEnablePrelaunch = ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -272,7 +274,7 @@ namespace Files
 
         private void Window_BackRequested(object sender, BackRequestedEventArgs e)
         {
-            if (App.CurrentInstance.ContentFrame.CanGoBack)
+            if (CurrentInstance.ContentFrame.CanGoBack)
             {
                 e.Handled = true;
                 NavigationActions.Back_Click(null, null);
@@ -404,7 +406,7 @@ namespace Files
 
         private void TryEnablePrelaunch()
         {
-            Windows.ApplicationModel.Core.CoreApplication.EnablePrelaunch(true);
+            CoreApplication.EnablePrelaunch(true);
         }
 
         /// <summary>
