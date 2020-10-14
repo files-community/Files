@@ -165,32 +165,11 @@
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
     <value>वेबसाइट:</value>
   </data>
-  <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
-    <value>ऐक्रेलिक साइडबार</value>
-  </data>
-  <data name="SettingsAppearanceDateFormat.Text" xml:space="preserve">
-    <value>तिथि प्रारूप</value>
-  </data>
-  <data name="SettingsAppearanceTheme.Text" xml:space="preserve">
-    <value>ऐप थीम</value>
-  </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>उपस्थिति</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
-    <value>ड्राइव अक्षरों दिखाएं</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowFileExtensions.Text" xml:space="preserve">
-    <value>ज्ञात फ़ाइल प्रकारों के लिए एक्सटेंशन दिखाएं</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
-    <value>छिपी हुई फ़ाइलें, फ़ोल्डर्स और ड्राइव दिखाएं</value>
-  </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>फ़ाइलें और फ़ोल्डर्स</value>
-  </data>
-  <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
-    <value>फ़ाइलों का नाम बदलने के लिए डबल टैप</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>प्रयोगात्मक</value>
@@ -233,18 +212,6 @@
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>शुरू पर</value>
-  </data>
-  <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
-    <value>साइडबार मे वनड्राइव पिन करें</value>
-  </data>
-  <data name="SettingsPreferencesRecycleBin.Text" xml:space="preserve">
-    <value>रीसायकल बिन समर्थन सक्षम करें</value>
-  </data>
-  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
-    <value>गुणों में मालिक दिखाएं</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
-    <value>फ़ाइलों या फ़ोल्डर्स को हटाते समय पुष्टिकरण संवाद दिखाएं</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>टर्मिनल एप्लिकेशन</value>

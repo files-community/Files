@@ -52,8 +52,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutAppName.Text" translate="yes" xml:space="preserve">
           <source>Files</source>
-          <target state="needs-review-translation">Files UWP</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Files</target>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
           <source>License</source>
@@ -83,33 +82,9 @@
           <source>Website</source>
           <target state="translated">Internetseite</target>
         </trans-unit>
-        <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
-          <source>Acrylic sidebar</source>
-          <target state="translated">Acrylic Seitenleiste</target>
-        </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormat.Text" translate="yes" xml:space="preserve">
-          <source>Date format</source>
-          <target state="translated">Datumsformat</target>
-        </trans-unit>
-        <trans-unit id="SettingsAppearanceTheme.Text" translate="yes" xml:space="preserve">
-          <source>App theme</source>
-          <target state="translated">Design</target>
-        </trans-unit>
         <trans-unit id="SettingsAppearanceTitle.Text" translate="yes" xml:space="preserve">
           <source>Appearance</source>
           <target state="translated">Aussehen</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowDriveLetters.Text" translate="yes" xml:space="preserve">
-          <source>Show drive letters</source>
-          <target state="translated">Laufwerksbuchstaben anzeigen</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Text" translate="yes" xml:space="preserve">
-          <source>Show extensions for known file types</source>
-          <target state="translated">Dateierweiterungen bekannter Dateitypen anzeigen</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Text" translate="yes" xml:space="preserve">
-          <source>Show hidden files, folders, and drives</source>
-          <target state="translated">Versteckte Dateien, Ordner und Laufwerke anzeigen</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
           <source>Files and Folders</source>
@@ -155,10 +130,6 @@
           <source>On Startup</source>
           <target state="translated">Beim Start</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesPinOneDrive.Text" translate="yes" xml:space="preserve">
-          <source>Pin OneDrive to the sidebar</source>
-          <target state="translated">OneDrive an die Seitenleiste anheften</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
           <source>Terminal Applications</source>
           <target state="translated">Terminal Anwendungen</target>
@@ -186,10 +157,6 @@
         <trans-unit id="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" translate="yes" xml:space="preserve">
           <source>Permanently delete</source>
           <target state="translated">Endgültig löschen</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Text" translate="yes" xml:space="preserve">
-          <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="translated">Einen Bestätigungsdialog anzeigen, bevor Dateien oder Ordner gelöscht werden</target>
         </trans-unit>
         <trans-unit id="SidebarDesktop" translate="yes" xml:space="preserve">
           <source>Desktop</source>
@@ -577,10 +544,6 @@
           <source>Experimental</source>
           <target state="translated">Experimentell</target>
         </trans-unit>
-        <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Text" translate="yes" xml:space="preserve">
-          <source>Double click to rename files</source>
-          <target state="translated">Doppelclicken, um die Dateien umzubenennen</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>View sample profiles</source>
           <target state="translated">Beispielprofile anzeigen</target>
@@ -701,10 +664,6 @@
           <source>Restore</source>
           <target state="translated">Wiederherstellen</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesRecycleBin.Text" translate="yes" xml:space="preserve">
-          <source>Pin Recycle Bin to the sidebar</source>
-          <target state="translated">Papierkorb an Seitenleiste anheften</target>
-        </trans-unit>
         <trans-unit id="DaysAgo" translate="yes" xml:space="preserve">
           <source>{0} days ago</source>
           <target state="translated">Vor {0} Tagen</target>
@@ -797,10 +756,6 @@
         <trans-unit id="PropertiesOwner.Text" translate="yes" xml:space="preserve">
           <source>Owner:</source>
           <target state="translated">Besitzer:</target>
-        </trans-unit>
-        <trans-unit id="SettingsShowFileOwnerInProperties.Text" translate="yes" xml:space="preserve">
-          <source>Show Owner in properties</source>
-          <target state="translated">Besitzer in Eigenschaftenfenster anzeigen</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
@@ -1092,8 +1047,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutContributorsDescription.Text" translate="yes" xml:space="preserve">
           <source>See who contributed to Files</source>
-          <target state="needs-review-translation">Siehe wer an Files UWP mitgewirkt hat</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Ansehen, wer an Files mitgewirkt hat</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
           <source>Release Notes</source>
@@ -1101,8 +1055,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotesDescription.Text" translate="yes" xml:space="preserve">
           <source>Find out what's new in Files</source>
-          <target state="needs-review-translation">Finde heraus, welche Neuigkeiten es gibt</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Finden Sie heraus, welche Neuigkeiten es in Files gibt</target>
         </trans-unit>
         <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
           <source>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</source>
@@ -1164,10 +1117,6 @@
           <source>More</source>
           <target state="translated">Mehr</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesContextMenu.Text" translate="yes" xml:space="preserve">
-          <source>Show all context menu items</source>
-          <target state="translated">Alle im Kontextmenü verfügbaren Elemente anzeigen</target>
-        </trans-unit>
         <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="translated">Abbrechen</target>
@@ -1220,10 +1169,6 @@
           <source>Copy location</source>
           <target state="translated">Speicherort kopieren</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesCopyLocation.Text" translate="yes" xml:space="preserve">
-          <source>Show an option to copy the location of the selected item</source>
-          <target state="translated">Eine Option anzeigen, um den Speicherort des ausgewählten Elements zu kopieren</target>
-        </trans-unit>
         <trans-unit id="VerticalTabViewAddTab.Text" translate="yes" xml:space="preserve">
           <source>Add tab</source>
           <target state="translated">Tab hinzufügen</target>
@@ -1242,8 +1187,7 @@
         </trans-unit>
         <trans-unit id="RestartNotificationText.Text" translate="yes" xml:space="preserve">
           <source>The application needs to be restarted in order to apply the language setting, would you like to restart the app?</source>
-          <target state="needs-review-translation">Die Anwendung muss neugestartet werden, um die Spracheinstellungen zu übernehmen. Möchten Sie die Anwendung jetzt neustarten?</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Die Anwendung muss neu gestartet werden, um die Spracheinstellungen zu übernehmen. Möchten Sie die Anwendung jetzt neu starten?</target>
         </trans-unit>
         <trans-unit id="AddDialog.Title" translate="yes" xml:space="preserve">
           <source>Create a New Item</source>
@@ -1283,91 +1227,151 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Layoutmodus</target>
+          <target state="translated">Layoutmodus</target>
         </trans-unit>
         <trans-unit id="NewItemButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Create new item</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Neues Element erstellen</target>
+          <target state="translated">Neues Element erstellen</target>
         </trans-unit>
         <trans-unit id="NavBackButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Navigate backwards</source>
-          <target state="new">Navigate backwards</target>
+          <target state="translated">Rückwärts navigieren</target>
         </trans-unit>
         <trans-unit id="NavForwardButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Navigate forward</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Vorwärts navigieren</target>
+          <target state="translated">Vorwärts navigieren</target>
         </trans-unit>
         <trans-unit id="NavResfreshButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Refresh the directory</source>
-          <target state="new">Refresh the directory</target>
+          <target state="translated">Ordner aktualisieren</target>
         </trans-unit>
         <trans-unit id="NavUpButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Go up one directory</source>
-          <target state="new">Go up one directory</target>
+          <target state="translated">Einen Ordner nach oben gehen</target>
         </trans-unit>
         <trans-unit id="VerticalTabStrip.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Vertical tab strip</source>
-          <target state="new">Vertical tab strip</target>
+          <target state="translated">Vertikale Tab-Ansicht</target>
         </trans-unit>
         <trans-unit id="SidebarSettingsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Settings</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Einstellungen</target>
+          <target state="translated">Einstellungen</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>App Language</source>
-          <target state="new">App Language</target>
+          <target state="translated">Sprache</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Terminal Applications</source>
-          <target state="new">Terminal Applications</target>
+          <target state="translated">Terminal-Anwendungen</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesContextMenuSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show all context menu items</source>
-          <target state="new">Show all context menu items</target>
+          <target state="translated">Alle Elemente im Kontextmenü anzeigen</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show an option to copy the location of the selected item</source>
-          <target state="new">Show an option to copy the location of the selected item</target>
+          <target state="translated">Eine Option anzeigen, um den Speicherort des ausgewählten Elements zu kopieren</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Pin OneDrive to the sidebar</source>
-          <target state="new">Pin OneDrive to the sidebar</target>
+          <target state="translated">OneDrive an Seitenleiste anheften</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
-          <target state="new">Pin Recycle Bin to the sidebar</target>
+          <target state="translated">Papierkorb an Seitenleiste anheften</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialogSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="new">Show a confirmation dialog when deleting files or folders</target>
+          <target state="translated">Beim Löschen von Dateien oder Ordnern einen Bestätigungsdialog anzeigen</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Edit terminal applications</source>
-          <target state="new">Edit terminal applications</target>
+          <target state="translated">Terminal-Anwendungen bearbeiten</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Edit terminal applications</source>
-          <target state="new">Edit terminal applications</target>
+          <target state="translated">Terminal-Anwendungen bearbeiten</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>View sample profiles</source>
-          <target state="new">View sample profiles</target>
+          <target state="translated">Beispielprofile ansehen</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesAppLanguage.Header" translate="yes" xml:space="preserve">
+          <source>App Language</source>
+          <target state="translated">Sprache</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesTerminalApplications.Header" translate="yes" xml:space="preserve">
+          <source>Terminal Applications</source>
+          <target state="translated">Terminal-Anwendungen</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUs.Text" translate="yes" xml:space="preserve">
           <source>Support us</source>
-          <target state="new">Support us</target>
+          <target state="translated">Unterstützen Sie uns</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUsDescription.Text" translate="yes" xml:space="preserve">
           <source>Support us on PayPal</source>
-          <target state="new">Support us on PayPal</target>
+          <target state="translated">Unterstützen Sie uns auf PayPal</target>
         </trans-unit>
         <trans-unit id="AccessDeniedCreateDialog.Text" translate="yes" xml:space="preserve">
           <source>We weren't able to create this item</source>
-          <target state="new">We weren't able to create this item</target>
+          <target state="translated">Wir können diese Element nicht erstellen</target>
         </trans-unit>
         <trans-unit id="AccessDeniedCreateDialog.Title" translate="yes" xml:space="preserve">
           <source>Access Denied</source>
-          <target state="new">Access Denied</target>
+          <target state="translated">Zugriff verweigert</target>
+        </trans-unit>
+        <trans-unit id="CopyLocationToggleSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Show an option to copy the location of the selected item</source>
+          <target state="translated">Eine Option anzeigen, um den Speicherort des ausgewählten Elements zu kopieren</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesContextMenuSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Show all context menu items</source>
+          <target state="translated">Alle Elemente im Kontextmenü anzeigen</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesPinOneDriveSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Pin OneDrive to the sidebar</source>
+          <target state="translated">OneDrive an die Seitenleiste anheften</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Pin Recycle Bin to the sidebar</source>
+          <target state="translated">Papierkorb an die Seitenleiste anheften</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Show a confirmation dialog when deleting files or folders</source>
+          <target state="translated">Beim Löschen von Dateien oder Ordnern einen Dialog zur Bestätigung anzeigen</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowDriveLetters.Header" translate="yes" xml:space="preserve">
+          <source>Show drive letters</source>
+          <target state="translated">Laufwerksbuchstaben anzeigen</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Header" translate="yes" xml:space="preserve">
+          <source>Show extensions for known file types</source>
+          <target state="translated">Dateierweiterungen für bekannte Dateiformate anzeigen</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Header" translate="yes" xml:space="preserve">
+          <source>Show hidden files, folders, and drives</source>
+          <target state="translated">Versteckte Dateien, Ordner und Laufwerke anzeigen</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceAcrylicSidebar.Header" translate="yes" xml:space="preserve">
+          <source>Acrylic sidebar</source>
+          <target state="translated">Acrylic-Effekt für die Seitenleiste</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceDateFormat.Header" translate="yes" xml:space="preserve">
+          <source>Date format</source>
+          <target state="translated">Datumsformat</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceTheme.Header" translate="yes" xml:space="preserve">
+          <source>App theme</source>
+          <target state="translated">App-Design</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Header" translate="yes" xml:space="preserve">
+          <source>Double click to rename files</source>
+          <target state="translated">Doppelclicken, um Elemente umzubenennen</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowFileOwnerInProperties.Header" translate="yes" xml:space="preserve">
+          <source>Show Owner in properties</source>
+          <target state="translated">Den Besitzer in den Eigenschaften anzeigen</target>
         </trans-unit>
       </group>
     </body>

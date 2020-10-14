@@ -166,21 +166,73 @@ namespace Files.Filesystem
             return false;
         }
 
-        public ListedItem(string folderRelativeId)
+        /// <summary>
+        /// Create an item object, optionally with an explicitly-specified dateReturnFormat.
+        /// </summary>
+        /// <param name="folderRelativeId"></param>
+        /// <param name="dateReturnFormat">Specify a date return format to reduce redundant checks of this setting.</param>
+        public ListedItem(string folderRelativeId, string dateReturnFormat = null)
         {
             FolderRelativeId = folderRelativeId;
+            if (dateReturnFormat != null)
+            {
+                DateReturnFormat = dateReturnFormat;
+            }
+            else
+            {
+                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+                string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+                DateReturnFormat = returnformat;
+            }
         }
 
-        public static string GetFriendlyDate(DateTimeOffset d)
-        {
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            var elapsed = DateTimeOffset.Now - d;
+        private string DateReturnFormat { get; }
 
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+        private string GetFriendlyDate(DateTimeOffset d)
+        {
+            var elapsed = DateTimeOffset.Now - d;
 
             if (elapsed.TotalDays > 7)
             {
-                return d.ToString(returnformat);
+                return d.ToString(DateReturnFormat);
+            }
+            else if (elapsed.TotalDays > 2)
+            {
+                return string.Format(ResourceController.GetTranslation("DaysAgo"), elapsed.Days);
+            }
+            else if (elapsed.TotalDays > 1)
+            {
+                return string.Format(ResourceController.GetTranslation("DayAgo"), elapsed.Days);
+            }
+            else if (elapsed.TotalHours > 2)
+            {
+                return string.Format(ResourceController.GetTranslation("HoursAgo"), elapsed.Hours);
+            }
+            else if (elapsed.TotalHours > 1)
+            {
+                return string.Format(ResourceController.GetTranslation("HourAgo"), elapsed.Hours);
+            }
+            else if (elapsed.TotalMinutes > 2)
+            {
+                return string.Format(ResourceController.GetTranslation("MinutesAgo"), elapsed.Minutes);
+            }
+            else if (elapsed.TotalMinutes > 1)
+            {
+                return string.Format(ResourceController.GetTranslation("MinuteAgo"), elapsed.Minutes);
+            }
+            else
+            {
+                return string.Format(ResourceController.GetTranslation("SecondsAgo"), elapsed.Seconds);
+            }
+        }
+
+        public static string GetFriendlyDateFromFormat(DateTimeOffset d, string returnFormat)
+        {
+            var elapsed = DateTimeOffset.Now - d;
+
+            if (elapsed.TotalDays > 7)
+            {
+                return d.ToString(returnFormat);
             }
             else if (elapsed.TotalDays > 2)
             {
@@ -219,7 +271,7 @@ namespace Files.Filesystem
 
     public class RecycleBinItem : ListedItem
     {
-        public RecycleBinItem(string folderRelativeId) : base(folderRelativeId)
+        public RecycleBinItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
         {
         }
 
@@ -229,7 +281,7 @@ namespace Files.Filesystem
 
     public class ShortcutItem : ListedItem
     {
-        public ShortcutItem(string folderRelativeId) : base(folderRelativeId)
+        public ShortcutItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
         {
         }
 

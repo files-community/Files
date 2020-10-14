@@ -40,7 +40,7 @@ namespace Files.Filesystem
         private IAsyncAction aWatcherAction;
         public ReadOnlyObservableCollection<ListedItem> FilesAndFolders { get; }
         public SettingsViewModel AppSettings => App.AppSettings;
-
+        private bool shouldDisplayFileExtensions = false;
         public ListedItem CurrentFolder { get; private set; }
         public CollectionViewSource viewSource;
         public BulkObservableCollection<ListedItem> _filesAndFolders;
@@ -71,8 +71,6 @@ namespace Files.Filesystem
             {
                 return;
             }
-
-            App.JumpList.AddFolderToJumpList(value);
 
             INavigationControlItem item = null;
             List<INavigationControlItem> sidebarItems = MainPage.sideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
@@ -119,6 +117,10 @@ namespace Files.Filesystem
             if (value == "Home")
             {
                 _currentStorageFolder = null;
+            }
+            else
+            {
+                App.JumpList.AddFolderToJumpList(value);
             }
 
             NotifyPropertyChanged(nameof(WorkingDirectory));
@@ -306,7 +308,7 @@ namespace Files.Filesystem
             FilesAndFolders = new ReadOnlyObservableCollection<ListedItem>(_filesAndFolders);
             _addFilesCTS = new CancellationTokenSource();
             _semaphoreCTS = new CancellationTokenSource();
-
+            shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
             jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
             jumpTimer.Tick += JumpTimer_Tick;
         }
@@ -701,7 +703,11 @@ namespace Files.Filesystem
 
         public async Task EnumerateItemsFromSpecialFolder(string path)
         {
-            CurrentFolder = new ListedItem(null)
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+            shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
+
+            CurrentFolder = new ListedItem(null, returnformat)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
                 ItemPropertiesInitialized = true,
@@ -737,7 +743,7 @@ namespace Files.Filesystem
                     for (int count = 0; count < folderContentsList.Count; count++)
                     {
                         var item = folderContentsList[count];
-                        AddFileOrFolderFromShellFile(item);
+                        AddFileOrFolderFromShellFile(item, returnformat);
                         if (count % 64 == 0)
                         {
                             await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
@@ -785,21 +791,9 @@ namespace Files.Filesystem
                 }
             }
 
-            CurrentFolder = new ListedItem(_rootFolder.FolderRelativeId)
-            {
-                PrimaryItemAttribute = StorageItemTypes.Folder,
-                ItemPropertiesInitialized = true,
-                ItemName = _rootFolder.Name,
-                ItemDateModifiedReal = (await _rootFolder.GetBasicPropertiesAsync()).DateModified,
-                ItemType = _rootFolder.DisplayType,
-                LoadFolderGlyph = true,
-                FileImage = null,
-                LoadFileIcon = false,
-                ItemPath = string.IsNullOrEmpty(_rootFolder.Path) ? _currentStorageFolder.Path : _rootFolder.Path,
-                LoadUnknownTypeGlyph = false,
-                FileSize = null,
-                FileSizeBytes = 0
-            };
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+            shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
 
             if (await CheckBitlockerStatus(_rootFolder))
             {
@@ -833,6 +827,21 @@ namespace Files.Filesystem
 
             if (enumFromStorageFolder)
             {
+                CurrentFolder = new ListedItem(_rootFolder.FolderRelativeId, returnformat)
+                {
+                    PrimaryItemAttribute = StorageItemTypes.Folder,
+                    ItemPropertiesInitialized = true,
+                    ItemName = _rootFolder.Name,
+                    ItemDateModifiedReal = (await _rootFolder.GetBasicPropertiesAsync()).DateModified,
+                    ItemType = _rootFolder.DisplayType,
+                    LoadFolderGlyph = true,
+                    FileImage = null,
+                    LoadFileIcon = false,
+                    ItemPath = string.IsNullOrEmpty(_rootFolder.Path) ? _currentStorageFolder.Path : _rootFolder.Path,
+                    LoadUnknownTypeGlyph = false,
+                    FileSize = null,
+                    FileSizeBytes = 0
+                };
                 await EnumFromStorageFolder();
             }
             else
@@ -842,6 +851,32 @@ namespace Files.Filesystem
 
                 IntPtr hFile = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
                                                       additionalFlags);
+                FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemTimeOutput);
+                var itemDate = new DateTime(
+                    systemTimeOutput.Year,
+                    systemTimeOutput.Month,
+                    systemTimeOutput.Day,
+                    systemTimeOutput.Hour,
+                    systemTimeOutput.Minute,
+                    systemTimeOutput.Second,
+                    systemTimeOutput.Milliseconds,
+                    DateTimeKind.Utc);
+
+                CurrentFolder = new ListedItem(_rootFolder.FolderRelativeId, returnformat)
+                {
+                    PrimaryItemAttribute = StorageItemTypes.Folder,
+                    ItemPropertiesInitialized = true,
+                    ItemName = _rootFolder.Name,
+                    ItemDateModifiedReal = itemDate,
+                    ItemType = _rootFolder.DisplayType,
+                    LoadFolderGlyph = true,
+                    FileImage = null,
+                    LoadFileIcon = false,
+                    ItemPath = string.IsNullOrEmpty(_rootFolder.Path) ? _currentStorageFolder.Path : _rootFolder.Path,
+                    LoadUnknownTypeGlyph = false,
+                    FileSize = null,
+                    FileSizeBytes = 0
+                };
 
                 var count = 0;
                 if (hFile.ToInt64() == -1)
@@ -856,14 +891,14 @@ namespace Files.Filesystem
                         {
                             if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                             {
-                                AddFile(findData, path);
+                                AddFile(findData, path, returnformat);
                                 ++count;
                             }
                             else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
                             {
                                 if (findData.cFileName != "." && findData.cFileName != "..")
                                 {
-                                    AddFolder(findData, path);
+                                    AddFolder(findData, path, returnformat);
                                     ++count;
                                 }
                             }
@@ -888,6 +923,11 @@ namespace Files.Filesystem
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
+
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+            shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
+
             uint count = 0;
             while (true)
             {
@@ -905,13 +945,13 @@ namespace Files.Filesystem
                 }
                 if (item.IsOfType(StorageItemTypes.Folder))
                 {
-                    await AddFolder(item as StorageFolder);
+                    await AddFolder(item as StorageFolder, returnformat);
                     ++count;
                 }
                 else
                 {
                     var file = item as StorageFile;
-                    await AddFile(file, true);
+                    await AddFile(file, returnformat, true);
                     ++count;
                 }
                 if (_addFilesCTS.IsCancellationRequested)
@@ -961,6 +1001,9 @@ namespace Files.Filesystem
 
         private void WatchForDirectoryChanges(string path)
         {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+
             Debug.WriteLine("WatchForDirectoryChanges: {0}", path);
             hWatchDir = CreateFileFromApp(path, 1, 1 | 2 | 4,
                 IntPtr.Zero, 3, (uint)File_Attributes.BackupSemantics | (uint)File_Attributes.Overlapped, IntPtr.Zero);
@@ -1037,7 +1080,7 @@ namespace Files.Filesystem
                                     {
                                         case FILE_ACTION_ADDED:
                                             Debug.WriteLine("File " + FileName + " added to working directory.");
-                                            AddFileOrFolder(FileName);
+                                            AddFileOrFolder(FileName, returnformat);
                                             break;
 
                                         case FILE_ACTION_REMOVED:
@@ -1057,7 +1100,7 @@ namespace Files.Filesystem
 
                                         case FILE_ACTION_RENAMED_NEW_NAME:
                                             Debug.WriteLine("File " + FileName + " was renamed in the working directory.");
-                                            AddFileOrFolder(FileName);
+                                            AddFileOrFolder(FileName, returnformat);
                                             break;
 
                                         default:
@@ -1085,12 +1128,18 @@ namespace Files.Filesystem
             Debug.WriteLine("Task exiting...");
         }
 
-        public void AddFileOrFolderFromShellFile(ShellFileItem item)
+        public void AddFileOrFolderFromShellFile(ShellFileItem item, string dateReturnFormat = null)
         {
+            if (dateReturnFormat == null)
+            {
+                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+                dateReturnFormat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+            }
+
             if (item.IsFolder)
             {
                 // Folder
-                _filesAndFolders.Add(new RecycleBinItem(null)
+                _filesAndFolders.Add(new RecycleBinItem(null, dateReturnFormat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemName = item.FileName,
@@ -1111,7 +1160,7 @@ namespace Files.Filesystem
             {
                 // File
                 string itemName;
-                if (AppSettings.ShowFileExtensions && !item.FileName.EndsWith(".lnk") && !item.FileName.EndsWith(".url"))
+                if (shouldDisplayFileExtensions && !item.FileName.EndsWith(".lnk") && !item.FileName.EndsWith(".url"))
                 {
                     itemName = item.FileName; // never show extension for shortcuts
                 }
@@ -1133,7 +1182,7 @@ namespace Files.Filesystem
                     itemFileExtension = Path.GetExtension(item.FileName);
                 }
 
-                _filesAndFolders.Add(new RecycleBinItem(null)
+                _filesAndFolders.Add(new RecycleBinItem(null, dateReturnFormat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.File,
                     FileExtension = itemFileExtension,
@@ -1161,7 +1210,7 @@ namespace Files.Filesystem
             IsFolderEmptyTextDisplayed = false;
         }
 
-        private void AddFileOrFolder2(string fileOrFolderPath)
+        private void AddFileOrFolder2(string fileOrFolderPath, string dateReturnFormat)
         {
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
             int additionalFlags = FIND_FIRST_EX_CASE_SENSITIVE;
@@ -1172,22 +1221,22 @@ namespace Files.Filesystem
 
             if ((findData.dwFileAttributes & 0x10) > 0) // FILE_ATTRIBUTE_DIRECTORY
             {
-                AddFolder(findData, Directory.GetParent(fileOrFolderPath).FullName);
+                AddFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat);
             }
             else
             {
-                AddFile(findData, Directory.GetParent(fileOrFolderPath).FullName);
+                AddFile(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat);
             }
         }
 
-        private async void AddFileOrFolder(string path)
+        private async void AddFileOrFolder(string path, string dateReturnFormat)
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                 () =>
                 {
                     try
                     {
-                        AddFileOrFolder2(path);
+                        AddFileOrFolder2(path, dateReturnFormat);
                     }
                     catch (Exception)
                     {
@@ -1260,7 +1309,7 @@ namespace Files.Filesystem
             }
         }
 
-        private void AddFolder(WIN32_FIND_DATA findData, string pathRoot)
+        private void AddFolder(WIN32_FIND_DATA findData, string pathRoot, string dateReturnFormat)
         {
             if (_addFilesCTS.IsCancellationRequested)
             {
@@ -1280,7 +1329,7 @@ namespace Files.Filesystem
                 DateTimeKind.Utc);
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
-            _filesAndFolders.Add(new ListedItem(null)
+            _filesAndFolders.Add(new ListedItem(null, dateReturnFormat)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
                 ItemName = findData.cFileName,
@@ -1300,12 +1349,12 @@ namespace Files.Filesystem
             IsFolderEmptyTextDisplayed = false;
         }
 
-        private void AddFile(WIN32_FIND_DATA findData, string pathRoot)
+        private void AddFile(WIN32_FIND_DATA findData, string pathRoot, string dateReturnFormat)
         {
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
             string itemName;
-            if (AppSettings.ShowFileExtensions && !findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
+            if (shouldDisplayFileExtensions && !findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
             {
                 itemName = findData.cFileName; // never show extension for shortcuts
             }
@@ -1390,7 +1439,7 @@ namespace Files.Filesystem
                             containsFilesOrFolders = CheckForFilesFolders(target);
                         }
 
-                        _filesAndFolders.Add(new ShortcutItem(null)
+                        _filesAndFolders.Add(new ShortcutItem(null, dateReturnFormat)
                         {
                             PrimaryItemAttribute = (bool)response.Message["IsFolder"] ? StorageItemTypes.Folder : StorageItemTypes.File,
                             FileExtension = itemFileExtension,
@@ -1418,7 +1467,7 @@ namespace Files.Filesystem
             }
             else
             {
-                _filesAndFolders.Add(new ListedItem(null)
+                _filesAndFolders.Add(new ListedItem(null, dateReturnFormat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.File,
                     FileExtension = itemFileExtension,
@@ -1445,7 +1494,7 @@ namespace Files.Filesystem
             RapidAddItemsToCollectionAsync(path);
         }
 
-        public async Task AddFolder(StorageFolder folder)
+        public async Task AddFolder(StorageFolder folder, string dateReturnFormat)
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
 
@@ -1457,7 +1506,7 @@ namespace Files.Filesystem
                     return;
                 }
 
-                _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId)
+                _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId, dateReturnFormat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemName = folder.Name,
@@ -1477,12 +1526,12 @@ namespace Files.Filesystem
             }
         }
 
-        public async Task AddFile(StorageFile file, bool suppressThumbnailLoading = false)
+        public async Task AddFile(StorageFile file, string dateReturnFormat, bool suppressThumbnailLoading = false)
         {
             var basicProperties = await file.GetBasicPropertiesAsync();
 
             // Display name does not include extension
-            var itemName = string.IsNullOrEmpty(file.DisplayName) || App.AppSettings.ShowFileExtensions ?
+            var itemName = string.IsNullOrEmpty(file.DisplayName) || shouldDisplayFileExtensions ?
                 file.Name : file.DisplayName;
             var itemDate = basicProperties.DateModified;
             var itemPath = string.IsNullOrEmpty(file.Path) ? Path.Combine(_currentStorageFolder.Path, file.Name) : file.Path;
@@ -1562,7 +1611,7 @@ namespace Files.Filesystem
             }
             else
             {
-                _filesAndFolders.Add(new ListedItem(file.FolderRelativeId)
+                _filesAndFolders.Add(new ListedItem(file.FolderRelativeId, dateReturnFormat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.File,
                     FileExtension = itemFileExtension,
