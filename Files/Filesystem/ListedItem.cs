@@ -119,7 +119,7 @@ namespace Files.Filesystem
             get => _itemDateModifiedReal;
             set
             {
-                ItemDateModified = GetFriendlyDate(value);
+                ItemDateModified = GetFriendlyDateFromFormat(value, DateReturnFormat);
                 _itemDateModifiedReal = value;
             }
         }
@@ -131,7 +131,7 @@ namespace Files.Filesystem
             get => _itemDateCreatedReal;
             set
             {
-                ItemDateCreated = GetFriendlyDate(value);
+                ItemDateCreated = GetFriendlyDateFromFormat(value, DateReturnFormat);
                 _itemDateCreatedReal = value;
             }
         }
@@ -143,7 +143,7 @@ namespace Files.Filesystem
             get => _itemDateAccessedReal;
             set
             {
-                ItemDateAccessed = GetFriendlyDate(value);
+                ItemDateAccessed = GetFriendlyDateFromFormat(value, DateReturnFormat);
                 _itemDateAccessedReal = value;
             }
         }
@@ -181,44 +181,6 @@ namespace Files.Filesystem
         }
 
         private string DateReturnFormat { get; }
-
-        private string GetFriendlyDate(DateTimeOffset d)
-        {
-            var elapsed = DateTimeOffset.Now - d;
-
-            if (elapsed.TotalDays > 7 || DateReturnFormat == "g")
-            {
-                return d.ToString(DateReturnFormat);
-            }
-            else if (elapsed.TotalDays > 2)
-            {
-                return string.Format(ResourceController.GetTranslation("DaysAgo"), elapsed.Days);
-            }
-            else if (elapsed.TotalDays > 1)
-            {
-                return string.Format(ResourceController.GetTranslation("DayAgo"), elapsed.Days);
-            }
-            else if (elapsed.TotalHours > 2)
-            {
-                return string.Format(ResourceController.GetTranslation("HoursAgo"), elapsed.Hours);
-            }
-            else if (elapsed.TotalHours > 1)
-            {
-                return string.Format(ResourceController.GetTranslation("HourAgo"), elapsed.Hours);
-            }
-            else if (elapsed.TotalMinutes > 2)
-            {
-                return string.Format(ResourceController.GetTranslation("MinutesAgo"), elapsed.Minutes);
-            }
-            else if (elapsed.TotalMinutes > 1)
-            {
-                return string.Format(ResourceController.GetTranslation("MinuteAgo"), elapsed.Minutes);
-            }
-            else
-            {
-                return string.Format(ResourceController.GetTranslation("SecondsAgo"), elapsed.Seconds);
-            }
-        }
 
         public static string GetFriendlyDateFromFormat(DateTimeOffset d, string returnFormat)
         {
