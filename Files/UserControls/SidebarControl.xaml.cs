@@ -202,9 +202,10 @@ namespace Files.Controls
                     { "action", "Query" }
                 };
                 var response = await App.Connection.SendMessageAsync(value);
-                if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success && response.Message.TryGetValue("NumItems", out var numItems))
+                var x = response.Message.TryGetValue("NumItems", out var numItems);
+                if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success && x)
                 {
-                    RecycleBinHasItems = (long)numItems > 0;
+                    RecycleBinHasItems = (int)numItems > 0;
                 }
                 else
                 {
@@ -219,6 +220,12 @@ namespace Files.Controls
             {
                 ShowEmptyRecycleBin = false;
                 ShowProperties = true;
+            }
+
+            // Additional check needed because ShowProperties is set to true if not recycle bin
+            if (item.IsDefaultLocation)
+            {
+                ShowProperties = false;
             }
 
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));

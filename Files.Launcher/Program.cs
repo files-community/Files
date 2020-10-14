@@ -484,17 +484,24 @@ namespace FilesFullTrust
 
                 case "Query":
                     var responseQuery = new ValueSet();
-                    Shell32.SHQUERYRBINFO queryBinInfo = new Shell32.SHQUERYRBINFO();
-                    queryBinInfo.cbSize = (uint)Marshal.SizeOf(queryBinInfo);
-                    var res = Shell32.SHQueryRecycleBin("", ref queryBinInfo);
-                    if (res == HRESULT.S_OK)
-                    {
-                        var numItems = queryBinInfo.i64NumItems;
-                        var binSize = queryBinInfo.i64Size;
-                        responseQuery.Add("NumItems", numItems);
-                        responseQuery.Add("BinSize", binSize);
-                        await args.Request.SendResponseAsync(responseQuery);
-                    }
+
+                    var recycleBin = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_RecycleBinFolder);
+                    responseQuery.Add("NumItems", recycleBin.Properties.Count);
+                    await args.Request.SendResponseAsync(responseQuery);
+                    //var items = recycleBin.;
+                    //StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(recycleBin.FileSystemPath);
+                    //folder.Properties.RetrievePropertiesAsync()
+
+
+                    //Logger.Info($"RecycleBin Query Result: {items}");
+                    //if (hresult == HRESULT.S_OK)
+                    //{
+                    //    var numItems = sqrbi.i64NumItems;
+                    //    var binSize = sqrbi.i64Size;
+                    //    responseQuery.Add("NumItems", numItems);
+                    //    responseQuery.Add("BinSize", binSize);
+                    //    await args.Request.SendResponseAsync(responseQuery);
+                    //}
                     break;
 
                 case "Enumerate":

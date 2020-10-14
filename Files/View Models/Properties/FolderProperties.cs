@@ -80,7 +80,17 @@ namespace Files.View_Models.Properties
             }
 
             StorageFolder storageFolder;
-            var isItemSelected = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => App.CurrentInstance.ContentPage.IsItemSelected);
+            bool isItemSelected;
+            
+            try
+            {
+                isItemSelected = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => App.CurrentInstance.ContentPage.IsItemSelected);
+            }
+            catch
+            {
+                isItemSelected = true;
+            }
+            
             if (isItemSelected)
             {
                 storageFolder = await ItemViewModel.GetFolderFromPathAsync(Item.ItemPath);
@@ -103,16 +113,17 @@ namespace Files.View_Models.Properties
                         var response = await App.Connection.SendMessageAsync(value);
                         if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
                         {
-                            if (response.Message.TryGetValue("BinSize", out var binSize))
+                            //if (response.Message.TryGetValue("BinSize", out var binSize))
                             {
-                                ViewModel.ItemSizeBytes = (long)binSize;
-                                ViewModel.ItemSize = ByteSize.FromBytes((long)binSize).ToString();
-                                ViewModel.ItemSizeVisibility = Visibility.Visible;
+                                //ViewModel.ItemSizeBytes = (long)binSize;
+                                //ViewModel.ItemSize = ByteSize.FromBytes((long)binSize).ToString();
+                                storageFolder = await ItemViewModel.GetFolderFromPathAsync(App.AppSettings.RecycleBinPath);
+                                GetFolderSize(storageFolder, TokenSource.Token);
                             }
-                            else
-                            {
-                                ViewModel.ItemSizeVisibility = Visibility.Collapsed;
-                            }
+                            //else
+                            //{
+                            //    ViewModel.ItemSizeVisibility = Visibility.Collapsed;
+                            //}
                             if (response.Message.TryGetValue("NumItems", out var numItems))
                             {
                                 ViewModel.FilesCount = (int)(long)numItems;
