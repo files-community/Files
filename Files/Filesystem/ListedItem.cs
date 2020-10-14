@@ -186,7 +186,7 @@ namespace Files.Filesystem
         {
             var elapsed = DateTimeOffset.Now - d;
 
-            if (elapsed.TotalDays > 7)
+            if (elapsed.TotalDays > 7 || DateReturnFormat == "g")
             {
                 return d.ToString(DateReturnFormat);
             }
@@ -224,7 +224,7 @@ namespace Files.Filesystem
         {
             var elapsed = DateTimeOffset.Now - d;
 
-            if (elapsed.TotalDays > 7)
+            if (elapsed.TotalDays > 7 || returnFormat == "g")
             {
                 return d.ToString(returnFormat);
             }
