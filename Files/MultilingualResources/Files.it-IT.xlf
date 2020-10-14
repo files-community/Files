@@ -1255,14 +1255,6 @@
           <source>Settings</source>
           <target state="translated">Impostazioni</target>
         </trans-unit>
-        <trans-unit id="AccessDeniedCreateDialog.Text" translate="yes" xml:space="preserve">
-          <source>We weren't able to create this item</source>
-          <target state="translated">Non è stato possibile creare questo elemento</target>
-        </trans-unit>
-        <trans-unit id="AccessDeniedCreateDialog.Title" translate="yes" xml:space="preserve">
-          <source>Access Denied</source>
-          <target state="translated">Accesso Negato</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>App Language</source>
           <target state="translated">Lingua dell'App</target>
