@@ -80,8 +80,7 @@ namespace Files.View_Models.Properties
                 return;
             }
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            var dtsetting = localSettings.Values[LocalSettings.DateTimeFormat].ToString();
-            string returnformat = Enum.Parse<TimeStyle>(dtsetting) == TimeStyle.Application ? "D" : "g";
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
 
             StorageFolder storageFolder;
             var isItemSelected = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => App.CurrentInstance.ContentPage.IsItemSelected);
