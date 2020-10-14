@@ -537,7 +537,7 @@
                         x:Name="FolderGlyph"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind LoadFolderGlyph}"
+                        x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
                         Stretch="Uniform">
                         <Image.Source>
                             <SvgImageSource
@@ -682,7 +682,7 @@
                         Height="74"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind LoadFolderGlyph}"
+                        x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
                         Stretch="Uniform">
                         <Image.Source>
                             <SvgImageSource

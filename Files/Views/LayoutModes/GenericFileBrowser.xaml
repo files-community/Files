@@ -701,7 +701,7 @@
                                     x:Name="FolderGlyphElement"
                                     Width="24"
                                     Height="24"
-                                    x:Load="{x:Bind LoadFolderGlyph}">
+                                    x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}">
                                     <Image.Source>
                                         <SvgImageSource
                                             RasterizePixelHeight="128"

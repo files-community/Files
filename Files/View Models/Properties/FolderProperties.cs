@@ -1,4 +1,5 @@
 ﻿using ByteSizeLib;
+using Files.Common;
 using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -10,8 +11,10 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.Storage.FileProperties;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.View_Models.Properties
 {
@@ -79,7 +82,7 @@ namespace Files.View_Models.Properties
                 return;
             }
 
-            StorageFolder storageFolder;
+            StorageFolder storageFolder = null;
             var isItemSelected = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => App.CurrentInstance.ContentPage.IsItemSelected);
             if (isItemSelected)
             {
@@ -137,6 +140,34 @@ namespace Files.View_Models.Properties
                     ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(storageFolder.DateCreated);
                     GetOtherProperties(storageFolder.Properties);
                     GetFolderSize(storageFolder, TokenSource.Token);
+                }
+            }
+
+            if (storageFolder != null)
+            {
+                if (App.Connection != null)
+                {
+                    var value = new ValueSet();
+                    value.Add("Arguments", "CheckCustomIcon");
+                    value.Add("folderPath", Item.ItemPath);
+                    var response = await App.Connection.SendMessageAsync(value);
+                    var hasCustomIcon = (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
+                        && response.Message.Get("HasCustomIcon", false);
+                    if (hasCustomIcon)
+                    {
+                        // Only set folder icon if it's a custom icon
+                        using (var Thumbnail = await storageFolder.GetThumbnailAsync(ThumbnailMode.SingleItem, 80, ThumbnailOptions.UseCurrentScale))
+                        {
+                            BitmapImage icon = new BitmapImage();
+                            if (Thumbnail != null)
+                            {
+                                ViewModel.FileIconSource = icon;
+                                await icon.SetSourceAsync(Thumbnail);
+                                ViewModel.LoadUnknownTypeGlyph = false;
+                                ViewModel.LoadFileIcon = true;
+                            }
+                        }
+                    }
                 }
             }
         }
