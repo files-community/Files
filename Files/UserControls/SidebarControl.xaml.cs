@@ -218,7 +218,14 @@ namespace Files.Controls
             else
             {
                 ShowEmptyRecycleBin = false;
-                ShowProperties = true;
+                // Set to true if properties should be displayed for pinned folders
+                ShowProperties = false;
+            }
+
+            // Additional check needed because ShowProperties is set to true if not recycle bin
+            if (item.IsDefaultLocation)
+            {
+                ShowProperties = false;
             }
 
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
