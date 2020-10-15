@@ -433,19 +433,19 @@
     <value>רוקן את סל המיחזור</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
-    <value>בתים</value>
+    <value>bytes</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
-    <value>קילו-בתים</value>
+    <value>KB</value>
   </data>
   <data name="MegaByteSymbol" xml:space="preserve">
     <value>מ"ב</value>
   </data>
   <data name="GigaByteSymbol" xml:space="preserve">
-    <value>ג"ב</value>
+    <value>GB</value>
   </data>
   <data name="TeraByteSymbol" xml:space="preserve">
-    <value>אנ</value>
+    <value>TB</value>
   </data>
   <data name="PetaByteSymbol" xml:space="preserve">
     <value>PB</value>
