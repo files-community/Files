@@ -54,7 +54,7 @@
                         Height="70"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind ViewModel.LoadFolderGlyph}"
+                        x:Load="{x:Bind ViewModel.LoadFolderGlyph, Mode=OneWay}"
                         Stretch="Uniform">
                         <Image.Source>
                             <SvgImageSource

@@ -290,6 +290,14 @@ namespace FilesFullTrust
                     await parseFileOperation(args);
                     break;
 
+                case "CheckCustomIcon":
+                    var folderPath = (string)args.Request.Message["folderPath"];
+                    var shfi = new Shell32.SHFILEINFO();
+                    var ret = Shell32.SHGetFileInfo(folderPath, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_ICONLOCATION);
+                    var hasCustomIcon = ret != IntPtr.Zero && !shfi.szDisplayName.StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.Windows));
+                    await args.Request.SendResponseAsync(new ValueSet() { { "HasCustomIcon", hasCustomIcon } });
+                    break;
+
                 default:
                     if (args.Request.Message.ContainsKey("Application"))
                     {
