@@ -46,7 +46,7 @@
     <value>Zuletzt verwendete Dateien</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Files UWP</value>
+    <value>Files</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
     <value>Lizenz</value>
@@ -790,13 +790,13 @@
     <value>Mitwirkende</value>
   </data>
   <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
-    <value>Siehe wer an Files UWP mitgewirkt hat</value>
+    <value>Ansehen, wer an Files mitgewirkt hat</value>
   </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>Release Notes</value>
   </data>
   <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
-    <value>Finde heraus, welche Neuigkeiten es gibt</value>
+    <value>Finden Sie heraus, welche Neuigkeiten es in Files gibt</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>Das Element auf das verwiesen wurde ist fehlerhaft oder nicht erreichbar {0}Fehlermeldung:{0}{1}</value>
@@ -895,7 +895,7 @@
     <value>Ja</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>Die Anwendung muss neugestartet werden, um die Spracheinstellungen zu übernehmen. Möchten Sie die Anwendung jetzt neustarten?</value>
+    <value>Die Anwendung muss neu gestartet werden, um die Spracheinstellungen zu übernehmen. Möchten Sie die Anwendung jetzt neu starten?</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
     <value>Neues Element erstellen</value>
@@ -930,10 +930,109 @@
   <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
     <value>Neues Element erstellen</value>
   </data>
+  <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Rückwärts navigieren</value>
+  </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>Vorwärts navigieren</value>
   </data>
+  <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Ordner aktualisieren</value>
+  </data>
+  <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Einen Ordner nach oben gehen</value>
+  </data>
+  <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
+    <value>Vertikale Tab-Ansicht</value>
+  </data>
   <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Einstellungen</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
+    <value>Sprache</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
+    <value>Terminal-Anwendungen</value>
+  </data>
+  <data name="SettingsPreferencesContextMenuSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Alle Elemente im Kontextmenü anzeigen</value>
+  </data>
+  <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Eine Option anzeigen, um den Speicherort des ausgewählten Elements zu kopieren</value>
+  </data>
+  <data name="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>OneDrive an Seitenleiste anheften</value>
+  </data>
+  <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Papierkorb an Seitenleiste anheften</value>
+  </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Beim Löschen von Dateien oder Ordnern einen Bestätigungsdialog anzeigen</value>
+  </data>
+  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
+    <value>Terminal-Anwendungen bearbeiten</value>
+  </data>
+  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Terminal-Anwendungen bearbeiten</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
+    <value>Beispielprofile ansehen</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
+    <value>Sprache</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
+    <value>Terminal-Anwendungen</value>
+  </data>
+  <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
+    <value>Unterstützen Sie uns</value>
+  </data>
+  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
+    <value>Unterstützen Sie uns auf PayPal</value>
+  </data>
+  <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
+    <value>Wir können diese Element nicht erstellen</value>
+  </data>
+  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+    <value>Zugriff verweigert</value>
+  </data>
+  <data name="CopyLocationToggleSwitch.Header" xml:space="preserve">
+    <value>Eine Option anzeigen, um den Speicherort des ausgewählten Elements zu kopieren</value>
+  </data>
+  <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
+    <value>Alle Elemente im Kontextmenü anzeigen</value>
+  </data>
+  <data name="SettingsPreferencesPinOneDriveSwitch.Header" xml:space="preserve">
+    <value>OneDrive an die Seitenleiste anheften</value>
+  </data>
+  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+    <value>Papierkorb an die Seitenleiste anheften</value>
+  </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
+    <value>Beim Löschen von Dateien oder Ordnern einen Dialog zur Bestätigung anzeigen</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowDriveLetters.Header" xml:space="preserve">
+    <value>Laufwerksbuchstaben anzeigen</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
+    <value>Dateierweiterungen für bekannte Dateiformate anzeigen</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenFiles.Header" xml:space="preserve">
+    <value>Versteckte Dateien, Ordner und Laufwerke anzeigen</value>
+  </data>
+  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
+    <value>Acrylic-Effekt für die Seitenleiste</value>
+  </data>
+  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+    <value>Datumsformat</value>
+  </data>
+  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
+    <value>App-Design</value>
+  </data>
+  <data name="SettingsExperimentalDoubleTapToRenameFiles.Header" xml:space="preserve">
+    <value>Doppelclicken, um Elemente umzubenennen</value>
+  </data>
+  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
+    <value>Den Besitzer in den Eigenschaften anzeigen</value>
   </data>
 </root>
