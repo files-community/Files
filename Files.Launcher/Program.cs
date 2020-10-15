@@ -340,7 +340,7 @@ namespace FilesFullTrust
             var knownItems = new List<string>() {
                 "opennew", "openas", "opencontaining", "opennewprocess",
                 "runas", "runasuser", "pintohome", "PinToStartScreen",
-                "cut", "copy", "paste", "delete", "properties", "link",
+                "cut", "copy", "paste", "delete", "properties", "link", "format",
                 "Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
                 Win32API.ExtractStringFromDLL("shell32.dll", 30312), // SendTo menu
                 Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
