@@ -202,6 +202,9 @@
     <Compile Include="UserControls\FileIcon.xaml.cs">
       <DependentUpon>FileIcon.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\MenuFlyoutItemFileTag.xaml.cs">
+      <DependentUpon>MenuFlyoutItemFileTag.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MenuFlyoutItemWithImage.xaml.cs">
       <DependentUpon>MenuFlyoutItemWithImage.xaml</DependentUpon>
     </Compile>
@@ -481,6 +484,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\FileIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\MenuFlyoutItemFileTag.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -10,7 +10,9 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -18,6 +20,7 @@ using Windows.ApplicationModel;
 using Windows.Globalization;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -758,6 +761,14 @@ namespace Files.View_Models
         {
             get => Get<string[]>(null);
             set => Set(value);
+        }
+
+        private List<UserControls.FileTag> _FileTagList = new List<UserControls.FileTag>()
+                { new UserControls.FileTag("Red", Colors.Red), new UserControls.FileTag("Blue", Colors.Blue), new UserControls.FileTag("Green", Colors.Green), new UserControls.FileTag("Orange", Colors.Orange) };
+
+        public IList<UserControls.FileTag> FileTagList
+        {
+            get => _FileTagList;
         }
     }
 }

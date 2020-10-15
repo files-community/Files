@@ -11,6 +11,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
+    xmlns:local3="using:Files.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -456,24 +457,39 @@
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
-            <MenuFlyoutItem
-                x:Name="SidebarPinItem"
-                x:Uid="BaseLayoutItemContextFlyoutPinToSidebar"
-                x:Load="False"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.PinItem_Click}"
-                Tag="PinItem_FlyoutItem"
-                Text="Pin to sidebar">
+            <!--<MenuFlyoutSubItem x:Uid="BaseLayoutItemContextFlyoutTag2"
+                               x:Name="FileTag2"
+                               Text="Set tag">
+                <MenuFlyoutSubItem.Icon>
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}"
+                              Glyph="&#xEBAA;" />
+                </MenuFlyoutSubItem.Icon>
+                <MenuFlyoutItem Text="Work">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}"
+                                  Glyph="&#xEB3C;"
+                                  Foreground="LightCoral" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+            </MenuFlyoutSubItem>-->
+            <MenuFlyoutItem x:Name="SidebarPinItem"
+                            x:Uid="BaseLayoutItemContextFlyoutPinToSidebar"
+                            x:Load="False"
+                            Click="{x:Bind local:App.CurrentInstance.InteractionOperations.PinItem_Click}"
+                            Tag="PinItem_FlyoutItem"
+                            Text="Pin to sidebar">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeb1f;" />
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}"
+                              Glyph="&#xeb1f;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-            <MenuFlyoutItem
-                x:Name="PropertiesItem"
-                x:Uid="BaseLayoutItemContextFlyoutProperties"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShowPropertiesButton_Click}"
-                Text="Properties">
+            <MenuFlyoutItem x:Name="PropertiesItem"
+                            x:Uid="BaseLayoutItemContextFlyoutProperties"
+                            Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShowPropertiesButton_Click}"
+                            Text="Properties">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea8d;" />
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}"
+                              Glyph="&#xea8d;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -486,6 +502,12 @@
                     <BitmapIcon UriSource="ms-appx:///Assets/QuickLook/quicklook_icon_black.png" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+            <MenuFlyoutSeparator />
+            <local3:MenuFlyoutItemFileTag x:Uid="BaseLayoutItemContextFlyoutTag"
+                                          x:Name="FileTag"
+                                          ItemsSource="{x:Bind AppSettings.FileTagList}"
+                                          SelectedItem="{x:Bind GetFileTag(SelectedItems), BindBack=SetFileTag, Mode=TwoWay}">
+            </local3:MenuFlyoutItemFileTag>
         </MenuFlyout>
 
         <MenuFlyout x:Key="BaseLayoutRecycleBinItemContextFlyout">

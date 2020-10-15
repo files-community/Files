@@ -727,5 +727,26 @@ namespace Files
                 e.Handled = true;
             }
         }
+
+        public FileTag GetFileTag(List<ListedItem> selectedItems)
+        {
+            if (selectedItems == null || selectedItems.Count == 0)
+            {
+                return null;
+            }
+            else if (selectedItems.Count == 1)
+            {
+                return selectedItems[0].IsShortcutItem ? AppSettings.FileTagList[3] : AppSettings.FileTagList[1];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public void SetFileTag(FileTag selectedTag)
+        {
+            
+        }
     }
 }
