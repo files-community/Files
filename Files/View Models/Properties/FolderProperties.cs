@@ -91,7 +91,7 @@ namespace Files.View_Models.Properties
             StorageFolder storageFolder = null;
             try
             {
-                var isItemSelected = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => App.CurrentInstance.ContentPage.IsItemSelected);
+                var isItemSelected = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => App.CurrentInstance?.ContentPage?.IsItemSelected ?? true);
                 if (isItemSelected)
                 {
                     storageFolder = await ItemViewModel.GetFolderFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
