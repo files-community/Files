@@ -35,7 +35,7 @@
                                         <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef" />
                                     </ResourceDictionary>
                                     <ResourceDictionary x:Name="Dark">
-                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="Black" />
+                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#161514" />
                                     </ResourceDictionary>
                                     <ResourceDictionary x:Name="HighContrast">
                                         <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="Black" />
