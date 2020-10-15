@@ -59,6 +59,7 @@ namespace Files
         public GenericFileBrowser()
         {
             InitializeComponent();
+            base.BaseLayoutContextFlyout = this.BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
             switch (AppSettings.DirectorySortOption)
             {
