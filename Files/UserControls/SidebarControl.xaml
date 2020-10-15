@@ -201,6 +201,16 @@
                                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB20;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                                x:Name="PropertiesFolder"
+                                x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
+                                x:Load="{x:Bind ShowProperties, Mode=OneWay}"
+                                Click="Properties_Click"
+                                Text="Properties">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea8d;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
                         </MenuFlyout.Items>
                     </MenuFlyout>
                 </ResourceDictionary>
