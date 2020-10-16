@@ -136,7 +136,7 @@
         </trans-unit>
         <trans-unit id="StatusBarControlListView.Text" translate="yes" xml:space="preserve">
           <source>List View</source>
-          <target state="new">List View</target>
+          <target state="translated">Részletek</target>
         </trans-unit>
         <trans-unit id="PropertiesModified.Text" translate="yes" xml:space="preserve">
           <source>Modified:</source>
@@ -164,7 +164,7 @@
         </trans-unit>
         <trans-unit id="RecentItemDescription.Text" translate="yes" xml:space="preserve">
           <source>Files you've previously accessed will show up here</source>
-          <target state="new">Files you've previously accessed will show up here</target>
+          <target state="translated">Előzőleg megtekintett fájlok helye</target>
         </trans-unit>
         <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
@@ -176,7 +176,7 @@
         </trans-unit>
         <trans-unit id="RecentItems.Text" translate="yes" xml:space="preserve">
           <source>Recent items</source>
-          <target state="new">Recent items</target>
+          <target state="translated">Legutóbb megnyitott</target>
         </trans-unit>
         <trans-unit id="SettingsAboutAppName.Text" translate="yes" xml:space="preserve">
           <source>Files</source>
@@ -192,11 +192,11 @@
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
           <source>Submit Feedback</source>
-          <target state="new">Submit Feedback</target>
+          <target state="translated">Feedback küldése</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
           <source>Send the developers an issue report with detailed information</source>
-          <target state="new">Send the developers an issue report with detailed information</target>
+          <target state="translated">Részletesebb információ küldése a hibáról a fejlesztőknek</target>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
           <source>Third Party Licenses</source>
@@ -216,7 +216,7 @@
         </trans-unit>
         <trans-unit id="SettingsAppearanceDateFormat.Header" translate="yes" xml:space="preserve">
           <source>Date format</source>
-          <target state="new">Date format</target>
+          <target state="translated">Dátum formátuma</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceTheme.Header" translate="yes" xml:space="preserve">
           <source>App theme</source>
@@ -284,7 +284,7 @@
         </trans-unit>
         <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
           <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
-          <target state="new">WARNING: EXPERIMENTAL FEATURES AHEAD!</target>
+          <target state="translated">VIGYÁZAT: Kísérleti beállítások!</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupContinueWhereYouLeftOff.Content" translate="yes" xml:space="preserve">
           <source>Continue where you left off</source>
@@ -468,11 +468,11 @@
         </trans-unit>
         <trans-unit id="WelcomeDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Grant Permission</source>
-          <target state="new">Grant Permission</target>
+          <target state="translated">Engedély Biztosítása</target>
         </trans-unit>
         <trans-unit id="WelcomeDialogTextBlock.Text" translate="yes" xml:space="preserve">
           <source>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </source>
-          <target state="new">To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </target>
+          <target state="translated">Kezdésként, engedély kell adnia a fájljai megjelenítéséhez. Ez meg fogja nyitni a Beállításokat ahol engedélyezheti. Amint befelyezte a lépést zárja be és nyissa meg újra a Files-t. </target>
         </trans-unit>
         <trans-unit id="FileFolderListItem" translate="yes" xml:space="preserve">
           <source>File folder</source>
@@ -484,15 +484,15 @@
         </trans-unit>
         <trans-unit id="RenameDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter an item name</source>
-          <target state="new">Enter an item name</target>
+          <target state="translated">Írja be a fájl új nevét</target>
         </trans-unit>
         <trans-unit id="RenameDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter an item name</source>
-          <target state="new">Enter an item name</target>
+          <target state="translated">Írja be az új fájl nevét</target>
         </trans-unit>
         <trans-unit id="RenameDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Set Name</source>
-          <target state="new">Set Name</target>
+          <target state="translated">Név beállítása</target>
         </trans-unit>
         <trans-unit id="RenameDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
@@ -544,7 +544,7 @@
         </trans-unit>
         <trans-unit id="NavForwardButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Forward (Alt + Right Arrow)</source>
-          <target state="translated">Előra (Alt + Jobb nyíl)</target>
+          <target state="translated">Előre (Alt + Jobb nyíl)</target>
         </trans-unit>
         <trans-unit id="NavUpButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Up (Alt + Up Arrow)</source>
@@ -584,39 +584,39 @@
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogContent" translate="yes" xml:space="preserve">
           <source>An item with this name already exists in this directory.</source>
-          <target state="new">An item with this name already exists in this directory.</target>
+          <target state="translated">Fájl ezzel a névvel már létezik ebben a mappában.</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
-          <target state="new">Generate new name</target>
+          <target state="translated">Új név készítése</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Replace existing item</source>
-          <target state="new">Replace existing item</target>
+          <target state="translated">Fájl lecserélése</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogTitle" translate="yes" xml:space="preserve">
           <source>Item already exists</source>
-          <target state="new">Item already exists</target>
+          <target state="translated">A fájl már létezik</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" translate="yes" xml:space="preserve">
           <source>Set as lockscreen background</source>
-          <target state="new">Set as lockscreen background</target>
+          <target state="translated">Beállítás zárolt háttérképként</target>
         </trans-unit>
         <trans-unit id="StatusBarControlGridViewLarge.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Large)</source>
-          <target state="new">Grid View (Large)</target>
+          <target state="translated">Nagy ikonok</target>
         </trans-unit>
         <trans-unit id="StatusBarControlGridViewMedium.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Medium)</source>
-          <target state="new">Grid View (Medium)</target>
+          <target state="translated">Közepes ikonok</target>
         </trans-unit>
         <trans-unit id="StatusBarControlGridViewSmall.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Small)</source>
-          <target state="new">Grid View (Small)</target>
+          <target state="translated">Kis ikonok</target>
         </trans-unit>
         <trans-unit id="StatusBarControlTilesView.Text" translate="yes" xml:space="preserve">
           <source>Tiles View</source>
-          <target state="new">Tiles View</target>
+          <target state="translated">Lista</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogOKButton.Content" translate="yes" xml:space="preserve">
           <source>OK</source>
@@ -624,7 +624,7 @@
         </trans-unit>
         <trans-unit id="AccessDeniedDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>We weren't able to delete this item</source>
-          <target state="new">We weren't able to delete this item</target>
+          <target state="translated">Nem tudtuk törölni a fájlt</target>
         </trans-unit>
         <trans-unit id="AccessDeniedDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Access Denied</source>
@@ -632,7 +632,7 @@
         </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Text" translate="yes" xml:space="preserve">
           <source>Please insert the necessary drive to access this item.</source>
-          <target state="new">Please insert the necessary drive to access this item.</target>
+          <target state="translated">Helyezze be a meghajtót a fájlhoz való hozzáfáráshez.</target>
         </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Title" translate="yes" xml:space="preserve">
           <source>Drive Unplugged</source>
@@ -676,15 +676,15 @@
         </trans-unit>
         <trans-unit id="StatusBarControlLayoutMode.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
-          <target state="new">Layout mode</target>
+          <target state="translated">Elrendezés</target>
         </trans-unit>
         <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
-          <target state="new">Selection options</target>
+          <target state="translated">Kijelölési lehetőségek</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogReadOnly.Content" translate="yes" xml:space="preserve">
           <source>Read-only</source>
-          <target state="new">Read-only</target>
+          <target state="translated">Csak olvasható</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogHidden.Content" translate="yes" xml:space="preserve">
           <source>Hidden</source>
@@ -692,7 +692,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
-          <target state="new">Empty recycle bin</target>
+          <target state="translated">Lomtár ürítése</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutRestore.Text" translate="yes" xml:space="preserve">
           <source>Restore</source>
@@ -732,11 +732,11 @@
         </trans-unit>
         <trans-unit id="ErrorDialogUnsupportedOperation" translate="yes" xml:space="preserve">
           <source>The requested operation is not supported</source>
-          <target state="new">The requested operation is not supported</target>
+          <target state="translated">A kért művelet nem támogatott</target>
         </trans-unit>
         <trans-unit id="DriveFreeSpaceAndCapacity" translate="yes" xml:space="preserve">
           <source>{0} free of {1}</source>
-          <target state="new">{0} free of {1}</target>
+          <target state="translated">{0} szabad a(z) {1}-ból/ből</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenItemWith.Text" translate="yes" xml:space="preserve">
           <source>Open With</source>
@@ -744,7 +744,7 @@
         </trans-unit>
         <trans-unit id="FileNameTeachingTip.Subtitle" translate="yes" xml:space="preserve">
           <source>The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
-          <target state="new">The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
+          <target state="translated">A fájlnév nem tartalmazhatja a következő karaktereket: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
         </trans-unit>
         <trans-unit id="FileNameTeachingTip.CloseButtonContent" translate="yes" xml:space="preserve">
           <source>OK</source>
@@ -752,11 +752,11 @@
         </trans-unit>
         <trans-unit id="RenameDialogSymbolsTip.Text" translate="yes" xml:space="preserve">
           <source>The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
-          <target state="new">The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
+          <target state="translated">A fájlnév nem tartalmazhatja a következő karaktereket: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
         </trans-unit>
         <trans-unit id="SettingsAboutOpenLogLocationButton.Content" translate="yes" xml:space="preserve">
           <source>Open log location</source>
-          <target state="new">Open log location</target>
+          <target state="translated">Naplózás helyének megnyitása</target>
         </trans-unit>
         <trans-unit id="TabStripAddNewTab.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>New tab (Ctrl + T)</source>
@@ -764,11 +764,11 @@
         </trans-unit>
         <trans-unit id="ItemSelected.Text" translate="yes" xml:space="preserve">
           <source>item selected</source>
-          <target state="new">item selected</target>
+          <target state="translated">kijelölt fájl</target>
         </trans-unit>
         <trans-unit id="ItemsSelected.Text" translate="yes" xml:space="preserve">
           <source>items selected</source>
-          <target state="new">items selected</target>
+          <target state="translated">kijelölt fájlok</target>
         </trans-unit>
         <trans-unit id="ItemCount.Text" translate="yes" xml:space="preserve">
           <source>item</source>
@@ -780,19 +780,19 @@
         </trans-unit>
         <trans-unit id="DeleteInProgress.Title" translate="yes" xml:space="preserve">
           <source>Deleting files</source>
-          <target state="new">Deleting files</target>
+          <target state="translated">Fájlok törlése</target>
         </trans-unit>
         <trans-unit id="PasteInProgress.Title" translate="yes" xml:space="preserve">
           <source>Pasting files</source>
-          <target state="new">Pasting files</target>
+          <target state="translated">Fájlok beillesztése</target>
         </trans-unit>
         <trans-unit id="RecycleInProgress.Title" translate="yes" xml:space="preserve">
           <source>Moving files to Recycle Bin</source>
-          <target state="new">Moving files to Recycle Bin</target>
+          <target state="translated">Fájlok áthelyezése a lomtárba</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" translate="yes" xml:space="preserve">
           <source>Pin directory to sidebar</source>
-          <target state="new">Pin directory to sidebar</target>
+          <target state="translated">Mappa kitűzése az oldalsávra</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
@@ -876,7 +876,7 @@
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} Files, {1:#,##0} Folders</source>
-          <target state="new">{0:#,##0} Files, {1:#,##0} Folders</target>
+          <target state="translated">{0:#,##0} Fájl, {1:#,##0} Mappa</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAnotherUser.Text" translate="yes" xml:space="preserve">
           <source>Run as another user</source>
@@ -912,15 +912,15 @@
         </trans-unit>
         <trans-unit id="JumpListRecentGroupHeader" translate="yes" xml:space="preserve">
           <source>Recent</source>
-          <target state="new">Recent</target>
+          <target state="translated">Legutóbbi</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.Text" translate="yes" xml:space="preserve">
           <source>App Language</source>
-          <target state="new">App Language</target>
+          <target state="translated">App Nyelve</target>
         </trans-unit>
         <trans-unit id="TabStripDragAndDropUIOverrideCaption" translate="yes" xml:space="preserve">
           <source>Move tab here</source>
-          <target state="new">Move tab here</target>
+          <target state="translated">Lap áthelyezése ide</target>
         </trans-unit>
         <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
           <source>Status</source>
@@ -948,7 +948,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewTab.Content" translate="yes" xml:space="preserve">
           <source>Open folder in a new tab</source>
-          <target state="new">Open folder in a new tab</target>
+          <target state="translated">Mappa megnyitása új lapon</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
           <source>When launching an item from the jumplist</source>
@@ -984,7 +984,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutShortcut.Text" translate="yes" xml:space="preserve">
           <source>Create shortcut</source>
-          <target state="new">Create shortcut</target>
+          <target state="translated">Gyorsgomb létrehozása</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
           <source>Open file location</source>
@@ -1052,11 +1052,11 @@
         </trans-unit>
         <trans-unit id="ExceptionNotificationAccessLogFileButton" translate="yes" xml:space="preserve">
           <source>Open log location</source>
-          <target state="new">Open log location</target>
+          <target state="translated">Naplózás helyének megnyitása</target>
         </trans-unit>
         <trans-unit id="ExceptionNotificationBody" translate="yes" xml:space="preserve">
           <source>Files ran into a problem that the developers didn't prepare for yet.</source>
-          <target state="new">Files ran into a problem that the developers didn't prepare for yet.</target>
+          <target state="translated">Files egy problémába ütközött, amire a fejlesztők még nem készültek fel.</target>
         </trans-unit>
         <trans-unit id="ExceptionNotificationHeader" translate="yes" xml:space="preserve">
           <source>Something went wrong!</source>
@@ -1088,7 +1088,7 @@
         </trans-unit>
         <trans-unit id="InvalidItemDialogTitle" translate="yes" xml:space="preserve">
           <source>Invalid item</source>
-          <target state="new">Invalid item</target>
+          <target state="translated">Helytelen fájl</target>
         </trans-unit>
         <trans-unit id="SettingsAboutVersionTitle" translate="yes" xml:space="preserve">
           <source>Version:</source>
@@ -1096,15 +1096,15 @@
         </trans-unit>
         <trans-unit id="ShareDialogFailMessage" translate="yes" xml:space="preserve">
           <source>There's nothing to share right now...</source>
-          <target state="new">There's nothing to share right now...</target>
+          <target state="translated">Nincs mit megosztani...</target>
         </trans-unit>
         <trans-unit id="ShareDialogMultipleItemsDescription" translate="yes" xml:space="preserve">
           <source>The items you've selected will be shared</source>
-          <target state="new">The items you've selected will be shared</target>
+          <target state="translated">A kijelölt fájlok meg lesznek osztva</target>
         </trans-unit>
         <trans-unit id="ShareDialogSingleItemDescription" translate="yes" xml:space="preserve">
           <source>The selected item will be shared</source>
-          <target state="new">The selected item will be shared</target>
+          <target state="translated">A kijelölt fájl meg lesz osztva</target>
         </trans-unit>
         <trans-unit id="ShareDialogTitle" translate="yes" xml:space="preserve">
           <source>Sharing {0}</source>
@@ -1180,19 +1180,19 @@
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogDeleteOneItem.Text" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete this item?</source>
-          <target state="new">Are you sure you want to delete this item?</target>
+          <target state="translated">Bizotsan törölné ezt az fájlt?</target>
         </trans-unit>
         <trans-unit id="VerticalTabViewAddTab.Text" translate="yes" xml:space="preserve">
           <source>Add tab</source>
-          <target state="new">Add tab</target>
+          <target state="translated">Lap hozzáadása</target>
         </trans-unit>
         <trans-unit id="VerticalTabViewHeader.Text" translate="yes" xml:space="preserve">
           <source>Open tabs</source>
-          <target state="new">Open tabs</target>
+          <target state="translated">Lapok megnyitása</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingAdaptive.Content" translate="yes" xml:space="preserve">
           <source>Adaptive (Recommended)</source>
-          <target state="new">Adaptive (Ajánlott)</target>
+          <target state="translated">Alkalmazkodó (Ajánlott)</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingAdaptiveDescription.Text" translate="yes" xml:space="preserve">
           <source>Selects the best multitasking control based on how the app window is resized. When the window is small, you'll notice the horizontal tab strip is collapsed into a flyout on the navigation toolbar.</source>
@@ -1240,7 +1240,7 @@
         </trans-unit>
         <trans-unit id="AddDialogDescription.Text" translate="yes" xml:space="preserve">
           <source>Choose a type for this new item below</source>
-          <target state="new">Choose a type for this new item below</target>
+          <target state="translated">Válasszon fájltípust az alábbiak közűl</target>
         </trans-unit>
         <trans-unit id="AddDialogListBitmapHeader" translate="yes" xml:space="preserve">
           <source>Bitmap Image</source>
@@ -1248,7 +1248,7 @@
         </trans-unit>
         <trans-unit id="AddDialogListBitmapSubHeader" translate="yes" xml:space="preserve">
           <source>Creates an empty bitmap image file</source>
-          <target state="new">Creates an empty bitmap image file</target>
+          <target state="translated">Új bitmap kép készítése</target>
         </trans-unit>
         <trans-unit id="AddDialogListFolderHeader" translate="yes" xml:space="preserve">
           <source>Folder</source>
@@ -1256,7 +1256,7 @@
         </trans-unit>
         <trans-unit id="AddDialogListFolderSubHeader" translate="yes" xml:space="preserve">
           <source>Creates an empty folder</source>
-          <target state="new">Creates an empty folder</target>
+          <target state="translated">Új mappa készítése</target>
         </trans-unit>
         <trans-unit id="AddDialogListTextFileHeader" translate="yes" xml:space="preserve">
           <source>Text Document</source>
@@ -1264,11 +1264,11 @@
         </trans-unit>
         <trans-unit id="AddDialogListTextFileSubHeader" translate="yes" xml:space="preserve">
           <source>Creates an empty text file</source>
-          <target state="new">Creates an empty text file</target>
+          <target state="translated">Új szöveges dokumentum készítése</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
-          <target state="new">Layout mode</target>
+          <target state="translated">Elrendezés</target>
         </trans-unit>
         <trans-unit id="NavBackButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Navigate backwards</source>
@@ -1284,11 +1284,11 @@
         </trans-unit>
         <trans-unit id="NavUpButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Go up one directory</source>
-          <target state="new">Go up one directory</target>
+          <target state="translated">Vissza egy mappával</target>
         </trans-unit>
         <trans-unit id="NewItemButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Create new item</source>
-          <target state="new">Create new item</target>
+          <target state="translated">Új fájl készítése</target>
         </trans-unit>
         <trans-unit id="VerticalTabStrip.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Vertical tab strip</source>
@@ -1320,7 +1320,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialogSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="new">Show a confirmation dialog when deleting files or folders</target>
+          <target state="translated">Megerősítő üzenet fájlok vagy mappák törlésekor</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Terminal Applications</source>
@@ -1328,11 +1328,11 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Edit terminal applications</source>
-          <target state="new">Edit terminal applications</target>
+          <target state="translated">Parancssor alkalmazások szerkeztése</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Edit terminal applications</source>
-          <target state="new">Edit terminal applications</target>
+          <target state="translated">Parancssor alkalmazások szerkeztése</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>View sample profiles</source>
@@ -1344,7 +1344,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Header" translate="yes" xml:space="preserve">
           <source>Terminal Applications</source>
-          <target state="new">Terminal Applications</target>
+          <target state="translated">Parancssor Programok</target>
         </trans-unit>
         <trans-unit id="CopyLocationToggleSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show an option to copy the location of the selected item</source>
