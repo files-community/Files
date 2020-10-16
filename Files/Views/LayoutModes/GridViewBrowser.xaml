@@ -776,6 +776,143 @@
             </Grid>
         </DataTemplate>
 
+        <DataTemplate x:Name="ListViewCompactTemplate">
+            <Grid
+                Width="260"
+                Margin="0,0,0,0"
+                Padding="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Background="Transparent"
+                DataContext="{x:Bind}"
+                IsRightTapEnabled="True"
+                PointerPressed="FileListGridItem_PointerPressed"
+                RightTapped="StackPanel_RightTapped"
+                Tag="ItemRoot"
+                ToolTipService.ToolTip="{x:Bind ItemName}">
+                <StackPanel Orientation="Vertical">
+                    <FontIcon
+                        x:Name="CloudDriveSyncStatusGlyph"
+                        Margin="10,0,0,0"
+                        x:Load="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
+                        FontFamily="Segoe MDL2 Assets"
+                        Foreground="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
+                        Glyph="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
+                    <Grid
+                        Height="Auto"
+                        MinHeight="48"
+                        Opacity="{x:Bind IsDimmed, Converter={StaticResource BoolToOpacityConverter}, Mode=OneWay}"
+                        Tag="ItemImage">
+                        <Grid
+                            x:Name="Picture"
+                            Width="74"
+                            Padding="0,12,0,12"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            x:Load="{x:Bind LoadFileIcon, Mode=OneWay}">
+                            <Image Source="{x:Bind FileImage, Mode=OneWay}" Stretch="Uniform" />
+                        </Grid>
+                        <Image
+                            x:Name="FolderGlyph"
+                            Width="74"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            x:Load="{x:Bind LoadFolderGlyph}"
+                            Stretch="Uniform">
+                            <Image.Source>
+                                <SvgImageSource
+                                    RasterizePixelHeight="128"
+                                    RasterizePixelWidth="128"
+                                    UriSource="{x:Bind FolderIconSource}" />
+                            </Image.Source>
+                        </Image>
+                        <Grid
+                            x:Name="TypeUnknownGlyph"
+                            Width="74"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <FontIcon
+                                    FontFamily="{StaticResource FluentUIGlyphs}"
+                                    FontSize="74"
+                                    Glyph="&#xEA00;" />
+                            </Grid>
+                        </Grid>
+                        <Grid
+                            x:Name="WebShortcutGlyph"
+                            Width="74"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
+                            <Viewbox MaxWidth="74">
+                                <FontIcon
+                                    FontFamily="{StaticResource FluentUIGlyphs}"
+                                    FontSize="28"
+                                    Glyph="&#xEAAB;" />
+                            </Viewbox>
+                        </Grid>
+                        <Border
+                            x:Name="ShortcutGlyphElement"
+                            Margin="8,0,0,8"
+                            Padding="2"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            x:Load="{x:Bind IsShortcutItem}"
+                            Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                            BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
+                            BorderThickness="1">
+                            <FontIcon
+                                FontFamily="{StaticResource CustomGlyph}"
+                                FontSize="15"
+                                Glyph="&#xF10A;" />
+                        </Border>
+                    </Grid>
+                    <Grid>
+                        <StackPanel Height="Auto" VerticalAlignment="Center">
+                            <TextBlock
+                                x:Name="ItemName"
+                                Height="Auto"
+                                MaxHeight="50"
+                                Margin="0,0,10,0"
+                                HorizontalAlignment="Left"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                Style="{ThemeResource SubtitleTextBlockStyle}"
+                                Text="{x:Bind ItemName}"
+                                TextAlignment="Left"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="Wrap" />
+                            <TextBox
+                                x:Name="TileViewTextBoxItemName"
+                                Height="Auto"
+                                MaxHeight="50"
+                                Margin="0,0,10,0"
+                                HorizontalAlignment="Left"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                Text="{x:Bind ItemName}"
+                                TextAlignment="Left"
+                                TextWrapping="Wrap"
+                                Visibility="Collapsed" />
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                Opacity="0.6"
+                                Text="{Binding ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                TextAlignment="Left"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap" />
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                Opacity="0.6"
+                                Text="{x:Bind FileSize}"
+                                TextAlignment="Left"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap" />
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
         <Style x:Key="GridViewItemStandardContextFlyout" TargetType="GridViewItem">
             <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutItemContextFlyout}" />
         </Style>

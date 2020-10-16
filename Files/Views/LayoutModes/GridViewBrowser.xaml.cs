@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Enums;
+using Files.Filesystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -33,14 +34,19 @@ namespace Files
 
         private void SetItemTemplate()
         {
-            FileList.ItemTemplate = (App.AppSettings.LayoutMode == 1) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
+            switch (App.AppSettings.LayoutMode)
+            {
+                case LayoutModeType.TilesView: FileList.ItemTemplate = TilesBrowserTemplate; break;
+                case LayoutModeType.GridView: FileList.ItemTemplate = GridViewBrowserTemplate; break;
+                case LayoutModeType.ListViewCompact: FileList.ItemTemplate = ListViewCompactTemplate; break;
+            }
 
             // Set GridViewSize event handlers
-            if (App.AppSettings.LayoutMode == 1)
+            if (App.AppSettings.LayoutMode == LayoutModeType.TilesView)
             {
                 App.AppSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
             }
-            else if (App.AppSettings.LayoutMode == 2)
+            else if (App.AppSettings.LayoutMode == LayoutModeType.GridView)
             {
                 _iconSize = UpdateThumbnailSize(); // Get icon size for jumps from other layouts directly to a grid size
                 App.AppSettings.GridViewSizeChangeRequested += AppSettings_GridViewSizeChangeRequested;
@@ -147,7 +153,7 @@ namespace Files
             TextBox textBox = null;
 
             // Handle layout differences between tiles browser and photo album
-            if (App.AppSettings.LayoutMode == 2)
+            if (App.AppSettings.LayoutMode == LayoutModeType.GridView)
             {
                 Popup popup = (gridViewItem.ContentTemplateRoot as Grid).FindName("EditPopup") as Popup;
                 TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;

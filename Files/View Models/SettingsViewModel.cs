@@ -532,7 +532,7 @@ namespace Files.View_Models
 
         public LayoutModeType LayoutMode
         {
-            get => (LayoutModeType)Get((byte)LayoutModeType.ListView);
+            get => (LayoutModeType)Get((byte)LayoutModeType.ListViewCompact);
             set => Set((byte)value);
         }
 
