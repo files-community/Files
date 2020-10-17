@@ -26,6 +26,10 @@
             x:Key="BoolToOpacityConverter"
             FalseValue="1"
             TrueValue="0.4" />
+        <converters:EmptyObjectToObjectConverter
+            x:Key="EmptyObjectToObjectConverter"
+            EmptyValue="Collapsed"
+            NotEmptyValue="Visible" />
 
         <MenuFlyout x:Key="BaseLayoutContextFlyout">
             <MenuFlyoutSubItem
@@ -457,21 +461,6 @@
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
-            <!--<MenuFlyoutSubItem x:Uid="BaseLayoutItemContextFlyoutTag2"
-                               x:Name="FileTag2"
-                               Text="Set tag">
-                <MenuFlyoutSubItem.Icon>
-                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}"
-                              Glyph="&#xEBAA;" />
-                </MenuFlyoutSubItem.Icon>
-                <MenuFlyoutItem Text="Work">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}"
-                                  Glyph="&#xEB3C;"
-                                  Foreground="LightCoral" />
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>
-            </MenuFlyoutSubItem>-->
             <MenuFlyoutItem x:Name="SidebarPinItem"
                             x:Uid="BaseLayoutItemContextFlyoutPinToSidebar"
                             x:Load="False"
@@ -714,12 +703,26 @@
                                 EffectiveViewportChanged="Icon_EffectiveViewportChanged"
                                 Opacity="{x:Bind IsDimmed, Converter={StaticResource BoolToOpacityConverter}, Mode=OneWay}"
                                 ToolTipService.ToolTip="{x:Bind FolderTooltipText}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="24" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Ellipse
+                                    Grid.Column="0"
+                                    Stroke="Black"
+                                    Fill="{x:Bind FileTagUI.Color, Mode=OneWay}"
+                                    Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}"
+                                    Width="12"
+                                    Height="12"
+                                    Margin="4,0,8,0" />
                                 <Rectangle
+                                    Grid.Column="1"
                                     x:Name="CutIndicator"
                                     Fill="LightGray"
                                     Opacity="0.1"
                                     Visibility="Collapsed" />
                                 <Image
+                                    Grid.Column="1"
                                     x:Name="FolderGlyphElement"
                                     Width="24"
                                     Height="24"
@@ -732,16 +735,19 @@
                                     </Image.Source>
                                 </Image>
                                 <FontIcon
+                                    Grid.Column="1"
                                     x:Name="UnknownFileTypeElement"
                                     x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     Glyph="&#xEA00;" />
                                 <FontIcon
+                                    Grid.Column="1"
                                     x:Name="WebShortcutGlyph"
                                     x:Load="{x:Bind IsLinkItem, Mode=OneWay}"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     Glyph="&#xEAAB;" />
                                 <Image
+                                    Grid.Column="1"
                                     x:Name="FileImageElement"
                                     Width="20"
                                     Height="20"
@@ -749,6 +755,7 @@
                                     Source="{x:Bind FileImage, Mode=OneWay}"
                                     Stretch="UniformToFill" />
                                 <Border
+                                    Grid.Column="1"
                                     x:Name="ShortcutGlyphElement"
                                     Margin="2,18,18,2"
                                     Padding="1"

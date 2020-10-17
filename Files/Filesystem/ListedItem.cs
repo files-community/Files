@@ -2,6 +2,7 @@
 using Files.Enums;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
+using System.Linq;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -61,7 +62,13 @@ namespace Files.Filesystem
                     FileTagsHelper.DbInstance.SetTag(ItemPath, FileFRN, value);
                 }
                 SetProperty(ref _FileTag, value);
+                OnPropertyChanged(nameof(FileTagUI));
             }
+        }
+
+        public FileTag FileTagUI
+        {
+            get => App.AppSettings.FileTagList.SingleOrDefault(x => x.Tag == FileTag);
         }
 
         private bool _IsDimmed;

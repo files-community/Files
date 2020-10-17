@@ -764,7 +764,7 @@ namespace Files.View_Models
         }
 
         private List<FileTag> _FileTagList = new List<FileTag>()
-                { new FileTag("Blue", "#0072BD"), new FileTag("Orange", "#D95319"), new FileTag("Yellow", "#EDB120"), new FileTag("Green", "#77AC30") };
+                { new FileTag("Blue", "#0072BD"), new FileTag("Orange", "#D95319"), new FileTag("Yellow", "#EDB120"), new FileTag("Green", "#77AC30"), new FileTag("Azure", "#4DBEEE") };
 
         public IList<FileTag> FileTagList
         {
