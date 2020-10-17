@@ -8,6 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
+    xmlns:local3="using:Files.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -457,6 +458,11 @@
                     <BitmapIcon UriSource="ms-appx:///Assets/QuickLook/quicklook_icon_black.png" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+            <local3:MenuFlyoutItemFileTag x:Uid="BaseLayoutItemContextFlyoutTag"
+                                          x:Name="FileTag"
+                                          ItemsSource="{x:Bind AppSettings.FileTagList}"
+                                          SelectedItem="{x:Bind GetFileTag(SelectedItems), BindBack=SetFileTag, Mode=TwoWay}">
+            </local3:MenuFlyoutItemFileTag>
         </MenuFlyout>
 
         <MenuFlyout x:Key="BaseLayoutRecycleBinItemContextFlyout">

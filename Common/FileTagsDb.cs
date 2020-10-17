@@ -14,7 +14,7 @@ namespace Common
             db = new LiteDatabase(connection);
         }
 
-        public void SetTag(string filePath, long frn, string tag)
+        public void SetTag(string filePath, ulong? frn, string tag)
         {
             // Get a collection (or create, if doesn't exist)
             var col = db.GetCollection<TaggedFile>("taggedfiles");
@@ -54,7 +54,7 @@ namespace Common
             col.EnsureIndex(x => x.FilePath);
         }
 
-        private TaggedFile _FindTag(string filePath = null, long frn = -1)
+        private TaggedFile _FindTag(string filePath = null, ulong? frn = null)
         {
             // Get a collection (or create, if doesn't exist)
             var col = db.GetCollection<TaggedFile>("taggedfiles");
@@ -63,7 +63,7 @@ namespace Common
                 var tmp = col.FindOne(x => x.FilePath == filePath);
                 if (tmp != null)
                 {
-                    if (frn != -1)
+                    if (frn != null)
                     {
                         // Keep entry updated
                         tmp.Frn = frn;
@@ -72,7 +72,7 @@ namespace Common
                     return tmp;
                 }
             }
-            if (frn != -1)
+            if (frn != null)
             {
                 var tmp = col.FindOne(x => x.Frn == frn);
                 if (tmp != null)
@@ -89,7 +89,7 @@ namespace Common
             return null;
         }
 
-        public string GetTag(string filePath = null, long frn = -1)
+        public string GetTag(string filePath = null, ulong? frn = null)
         {
             return _FindTag(filePath, frn)?.Tag;
         }
@@ -103,7 +103,7 @@ namespace Common
         {
             [BsonId]
             public int Id { get; set; }
-            public long Frn { get; set; }
+            public ulong? Frn { get; set; }
             public string FilePath { get; set; }
             public string Tag { get; set; }
         }

@@ -736,17 +736,21 @@ namespace Files
             }
             else if (selectedItems.Count == 1)
             {
-                return selectedItems[0].IsShortcutItem ? AppSettings.FileTagList[3] : AppSettings.FileTagList[1];
+                return AppSettings.FileTagList.SingleOrDefault(x => x.Tag == selectedItems.First().FileTag);
             }
             else
             {
-                return null;
+                var tag = selectedItems.First().FileTag;
+                return selectedItems.All(x => x.FileTag == tag) ? AppSettings.FileTagList.SingleOrDefault(t => t.Tag == tag) : null;
             }
         }
 
         public void SetFileTag(FileTag selectedTag)
         {
-            
+            foreach (var item in SelectedItems)
+            {
+                item.FileTag = selectedTag?.Tag;
+            }
         }
     }
 }
