@@ -1,11 +1,14 @@
 ﻿using Common;
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.UI;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 
 namespace Files.Filesystem
 {
@@ -29,6 +32,30 @@ namespace Files.Filesystem
         private FileTagsHelper()
         {
 
+        }
+    }
+
+    public class FileTag
+    {
+        public string Tag { get; set; }
+        public SolidColorBrush Color { get; set; }
+
+        public FileTag(string tag = null, SolidColorBrush color = null)
+        {
+            Tag = tag;
+            Color = color ?? new SolidColorBrush(Colors.Transparent);
+        }
+
+        public FileTag(string tag = null, Color? color = null)
+        {
+            Tag = tag;
+            Color = new SolidColorBrush(color ?? Colors.Transparent);
+        }
+
+        public FileTag(string tag = null, string color = null)
+        {
+            Tag = tag;
+            Color = new SolidColorBrush(color?.ToColor() ?? Colors.Transparent);
         }
     }
 }

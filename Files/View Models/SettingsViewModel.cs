@@ -763,10 +763,10 @@ namespace Files.View_Models
             set => Set(value);
         }
 
-        private List<UserControls.FileTag> _FileTagList = new List<UserControls.FileTag>()
-                { new UserControls.FileTag("Red", Colors.Red), new UserControls.FileTag("Blue", Colors.Blue), new UserControls.FileTag("Green", Colors.Green), new UserControls.FileTag("Orange", Colors.Orange) };
+        private List<FileTag> _FileTagList = new List<FileTag>()
+                { new FileTag("Blue", "#0072BD"), new FileTag("Orange", "#D95319"), new FileTag("Yellow", "#EDB120"), new FileTag("Green", "#77AC30") };
 
-        public IList<UserControls.FileTag> FileTagList
+        public IList<FileTag> FileTagList
         {
             get => _FileTagList;
         }

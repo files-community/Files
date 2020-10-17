@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Files.UserControls"
+    xmlns:local2="using:Files.Filesystem"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -60,7 +61,7 @@
                                     </Style>
                                 </ListBox.ItemContainerStyle>
                                 <ListBox.ItemTemplate>
-                                    <DataTemplate x:DataType="local:FileTag">
+                                    <DataTemplate x:DataType="local2:FileTag">
                                         <Ellipse Stroke="Black"
                                                  Fill="{x:Bind Color}"
                                                  Width="12"
