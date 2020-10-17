@@ -60,8 +60,6 @@ namespace Files.Commands
                 return;
             }
 
-            IReadOnlyList<IStorageItem> itemsToPaste = await packageView.GetStorageItemsAsync();
-
             if (AppInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
             {
                 // Do not paste files and folders inside the recycle bin
@@ -69,6 +67,31 @@ namespace Files.Commands
                 return;
             }
 
+            IReadOnlyList<IStorageItem> itemsToPaste = await packageView.GetStorageItemsAsync();
+
+            if (acceptedOperation == DataPackageOperation.Move)
+            {
+                if (!itemsToPaste.Any(x => string.IsNullOrEmpty(x.Path)))
+                {
+                    await MoveItem(itemsToPaste, destinationPath, AppInstance, progress);
+                }
+                else
+                {
+                    // Cannot move these files, only copy
+                    packageView.ReportOperationCompleted(DataPackageOperation.None);
+                    return;
+                }
+            }
+            else
+            {
+                await CopyItem(itemsToPaste, destinationPath, AppInstance, progress);
+            }
+
+            packageView.ReportOperationCompleted(acceptedOperation);
+        }
+
+        private static async Task CopyItem(IReadOnlyList<IStorageItem> itemsToPaste, string destinationPath, IShellPage AppInstance, IProgress<uint> progress)
+        {
             List<IStorageItem> pastedSourceItems = new List<IStorageItem>();
             HashSet<IStorageItem> pastedItems = new HashSet<IStorageItem>();
             var totalItemsSize = CalculateTotalItemsSize(itemsToPaste);
@@ -118,12 +141,12 @@ namespace Files.Commands
 
                         try
                         {
-                            ClonedDirectoryOutput pastedOutput = await CloneDirectoryAsync(
+                            StorageFolder pastedFolder = await CloneDirectoryAsync(
                                 (StorageFolder)item,
                                 await ItemViewModel.GetFolderFromPathAsync(destinationPath),
                                 item.Name);
                             pastedSourceItems.Add(item);
-                            pastedItems.Add(pastedOutput.FolderOutput);
+                            pastedItems.Add(pastedFolder);
                         }
                         catch (FileNotFoundException)
                         {
@@ -181,47 +204,135 @@ namespace Files.Commands
                 progress.Report(100);
             }
 
-            if (acceptedOperation == DataPackageOperation.Move)
+            if (destinationPath == AppInstance.FilesystemViewModel.WorkingDirectory)
             {
-                foreach (IStorageItem item in pastedSourceItems)
+                List<string> pastedItemPaths = pastedItems.Select(item => item.Path).ToList();
+                List<ListedItem> copiedItems = AppInstance.FilesystemViewModel.FilesAndFolders.Where(listedItem => pastedItemPaths.Contains(listedItem.ItemPath)).ToList();
+                if (copiedItems.Any())
                 {
-                    try
+                    AppInstance.ContentPage.SetSelectedItemsOnUi(copiedItems);
+                    AppInstance.ContentPage.FocusSelectedItems();
+                }
+            }
+        }
+
+        private static async Task MoveItem(IReadOnlyList<IStorageItem> itemsToPaste, string destinationPath, IShellPage AppInstance, IProgress<uint> progress)
+        {
+            List<IStorageItem> pastedSourceItems = new List<IStorageItem>();
+            HashSet<IStorageItem> pastedItems = new HashSet<IStorageItem>();
+            var totalItemsSize = CalculateTotalItemsSize(itemsToPaste);
+            bool isItemSizeUnreported = totalItemsSize <= 0;
+
+            foreach (IStorageItem item in itemsToPaste)
+            {
+                if (string.IsNullOrEmpty(item.Path))
+                {
+                    continue;
+                }
+                if (item.IsOfType(StorageItemTypes.Folder))
+                {
+                    if (!string.IsNullOrEmpty(item.Path) && destinationPath.IsSubPathOf(item.Path))
                     {
-                        if (string.IsNullOrEmpty(item.Path))
+                        ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
+
+                        /// Currently following implementation throws exception until it is resolved keep it disabled
+                        /*Binding themeBind = new Binding();
+                        themeBind.Source = ThemeHelper.RootTheme;
+
+                        ContentDialog dialog = new ContentDialog()
                         {
-                            // Can't move (only copy) files from MTP devices because:
-                            // StorageItems returned in DataPackageView are read-only
-                            // The item.Path property will be empty and there's no way of retrieving a new StorageItem with R/W access
+                            Title = ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"),
+                            Content = ResourceController.GetTranslation("ErrorDialogTheDestinationFolder") + " (" + destinationPath.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last() + ") " + ResourceController.GetTranslation("ErrorDialogIsASubfolder") + " (" + item.Name + ")",
+                            PrimaryButtonText = ResourceController.GetTranslation("ErrorDialogSkip"),
+                            CloseButtonText = ResourceController.GetTranslation("ErrorDialogCancel"),
+                            PrimaryButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Skip; }),
+                            CloseButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Abort; }),
+                        };
+                        BindingOperations.SetBinding(dialog, FrameworkElement.RequestedThemeProperty, themeBind);
+
+                        await dialog.ShowAsync();*/
+                        if (responseType == ImpossibleActionResponseTypes.Skip)
+                        {
                             continue;
                         }
-                        if (item.IsOfType(StorageItemTypes.File))
+                        else if (responseType == ImpossibleActionResponseTypes.Abort)
                         {
-                            // If we reached this we are not in an MTP device, using StorageFile.* is ok here
-                            StorageFile file = await StorageFile.GetFileFromPathAsync(item.Path);
-                            await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                            return;
                         }
-                        else if (item.IsOfType(StorageItemTypes.Folder))
+                    }
+                    else
+                    {
+                        if (!isItemSizeUnreported)
                         {
-                            // If we reached this we are not in an MTP device, using StorageFolder.* is ok here
-                            StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(item.Path);
-                            await folder.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                            var pastedItemSize = await Task.Run(() => CalculateTotalItemsSize(pastedSourceItems));
+                            uint progressValue = (uint)(pastedItemSize * 100 / totalItemsSize);
+                            progress.Report(progressValue);
                         }
+
+                        try
+                        {
+                            StorageFolder sourceFolder = await StorageFolder.GetFolderFromPathAsync(item.Path);
+                            var pastedFolder = await MoveDirectoryAsync(
+                                sourceFolder,
+                                await ItemViewModel.GetFolderFromPathAsync(destinationPath),
+                                item.Name);
+                            pastedSourceItems.Add(item);
+                            pastedItems.Add(pastedFolder);
+                        }
+                        catch (FileNotFoundException)
+                        {
+                            // Folder was moved/deleted in the meantime
+                            continue;
+                        }
+                    }
+                }
+                else if (item.IsOfType(StorageItemTypes.File))
+                {
+                    if (!isItemSizeUnreported)
+                    {
+                        var pastedItemSize = await Task.Run(() => CalculateTotalItemsSize(pastedSourceItems));
+                        uint progressValue = (uint)(pastedItemSize * 100 / totalItemsSize);
+                        progress.Report(progressValue);
+                    }
+
+                    try
+                    {
+                        StorageFile sourceFile = await StorageFile.GetFileFromPathAsync(item.Path);
+                        await sourceFile.MoveAsync(
+                            await ItemViewModel.GetFolderFromPathAsync(destinationPath),
+                            item.Name,
+                            NameCollisionOption.GenerateUniqueName);
+                        pastedSourceItems.Add(item);
+                        pastedItems.Add(sourceFile);
                     }
                     catch (UnauthorizedAccessException)
                     {
-                        // Try again with DeleteFileFromApp
-                        if (!NativeDirectoryChangesHelper.DeleteFileFromApp(item.Path))
+                        // Try again with MoveFileFromApp
+                        if (NativeDirectoryChangesHelper.MoveFileFromApp(item.Path, Path.Combine(destinationPath, item.Name)))
+                        {
+                            pastedSourceItems.Add(item);
+                        }
+                        else
                         {
                             Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
                         }
                     }
                     catch (FileNotFoundException)
                     {
-                        // File or Folder was moved/deleted in the meantime
+                        // File was moved/deleted in the meantime
                         continue;
                     }
-                    ListedItem listedItem = AppInstance.FilesystemViewModel.FilesAndFolders.FirstOrDefault(listedItem => listedItem.ItemPath.Equals(item.Path, StringComparison.OrdinalIgnoreCase));
                 }
+            }
+            if (!isItemSizeUnreported)
+            {
+                var finalPastedItemSize = await Task.Run(() => CalculateTotalItemsSize(pastedSourceItems));
+                uint finalProgressValue = (uint)(finalPastedItemSize * 100 / totalItemsSize);
+                progress.Report(finalProgressValue);
+            }
+            else
+            {
+                progress.Report(100);
             }
 
             if (destinationPath == AppInstance.FilesystemViewModel.WorkingDirectory)
@@ -234,16 +345,9 @@ namespace Files.Commands
                     AppInstance.ContentPage.FocusSelectedItems();
                 }
             }
-            packageView.ReportOperationCompleted(acceptedOperation);
         }
 
-        public class ClonedDirectoryOutput
-        {
-            public StorageFolder FolderOutput { get; set; }
-            // TODO: simplify/remove this class
-        }
-
-        public async static Task<ClonedDirectoryOutput> CloneDirectoryAsync(StorageFolder SourceFolder, StorageFolder DestinationFolder, string sourceRootName)
+        public async static Task<StorageFolder> CloneDirectoryAsync(StorageFolder SourceFolder, StorageFolder DestinationFolder, string sourceRootName)
         {
             var createdRoot = await DestinationFolder.CreateFolderAsync(sourceRootName, CreationCollisionOption.GenerateUniqueName);
             DestinationFolder = createdRoot;
@@ -258,10 +362,27 @@ namespace Files.Commands
                 await CloneDirectoryAsync(folderinSourceDir, DestinationFolder, folderinSourceDir.Name);
             }
 
-            return new ClonedDirectoryOutput()
+            return createdRoot;
+        }
+
+        public async static Task<StorageFolder> MoveDirectoryAsync(StorageFolder SourceFolder, StorageFolder DestinationFolder, string sourceRootName)
+        {
+            var createdRoot = await DestinationFolder.CreateFolderAsync(sourceRootName, CreationCollisionOption.GenerateUniqueName);
+            DestinationFolder = createdRoot;
+
+            foreach (StorageFile fileInSourceDir in await SourceFolder.GetFilesAsync())
             {
-                FolderOutput = createdRoot,
-            };
+                await fileInSourceDir.MoveAsync(DestinationFolder, fileInSourceDir.Name, NameCollisionOption.GenerateUniqueName);
+            }
+
+            foreach (StorageFolder folderinSourceDir in await SourceFolder.GetFoldersAsync())
+            {
+                await MoveDirectoryAsync(folderinSourceDir, DestinationFolder, folderinSourceDir.Name);
+            }
+
+            await SourceFolder.DeleteAsync(StorageDeleteOption.PermanentDelete);
+
+            return createdRoot;
         }
 
         public static long CalculateTotalItemsSize(IReadOnlyList<IStorageItem> itemsPasting)
