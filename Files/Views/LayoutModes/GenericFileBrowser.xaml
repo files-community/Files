@@ -711,7 +711,6 @@
                                 </Grid.ColumnDefinitions>
                                 <Ellipse
                                     Grid.Column="0"
-                                    Stroke="Black"
                                     Fill="{x:Bind FileTagUI.Color, Mode=OneWay}"
                                     Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}"
                                     Width="12"

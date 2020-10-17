@@ -620,7 +620,6 @@
                         Glyph="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
                     <Ellipse
                         Grid.Column="1"
-                        Stroke="Black"
                         Fill="{x:Bind FileTagUI.Color, Mode=OneWay}"
                         Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}"
                         Width="12"
@@ -681,7 +680,6 @@
                     VerticalAlignment="Center"
                     Margin="10,0,0,0">
                     <Ellipse
-                        Stroke="Black"
                         Fill="{x:Bind FileTagUI.Color, Mode=OneWay}"
                         Visibility="{x:Bind FileTagUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}"
                         Margin="0,4,0,4"
