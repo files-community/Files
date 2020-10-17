@@ -747,9 +747,24 @@ namespace Files
 
         public void SetFileTag(FileTag selectedTag)
         {
-            foreach (var item in SelectedItems)
+            if (SelectedItems == null || SelectedItems.Count == 0)
             {
-                item.FileTag = selectedTag?.Tag;
+                return;
+            }
+            else if (SelectedItems.Count == 1)
+            {
+                SelectedItems.First().FileTag = selectedTag?.Tag;
+            }
+            else
+            {
+                var tag = SelectedItems.First().FileTag;
+                if (selectedTag != null || SelectedItems.All(x => x.FileTag == tag))
+                {
+                    foreach (var item in SelectedItems)
+                    {
+                        item.FileTag = selectedTag?.Tag;
+                    }
+                }
             }
         }
     }
