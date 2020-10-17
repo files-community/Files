@@ -36,5 +36,14 @@ namespace Files.UserControls
             this.InitializeComponent();
             this.ItemsSource = new List<FileTag>();
         }
+
+        private async void TagList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var listView = sender as ListView;
+            if (e.ClickedItem == listView.SelectedItem)
+            {
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => listView.SelectedItem = null);
+            }
+        }
     }
 }
