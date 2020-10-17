@@ -31,7 +31,9 @@
             EmptyValue="Collapsed"
             NotEmptyValue="Visible" />
 
-        <MenuFlyout x:Key="BaseLayoutContextFlyout">
+        <MenuFlyout x:Key="BaseLayoutContextFlyout"
+                    x:Name="BaseLayoutContextFlyout"
+                    Opening="RightClickContextMenu_Opening">
             <MenuFlyoutSubItem
                 x:Name="SortByEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutSortBy"
@@ -726,7 +728,7 @@
                                     x:Name="FolderGlyphElement"
                                     Width="24"
                                     Height="24"
-                                    x:Load="{x:Bind LoadFolderGlyph}">
+                                    x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}">
                                     <Image.Source>
                                         <SvgImageSource
                                             RasterizePixelHeight="128"

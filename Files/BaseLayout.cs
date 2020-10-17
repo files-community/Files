@@ -37,6 +37,7 @@ namespace Files
         public CurrentInstanceViewModel InstanceViewModel => App.CurrentInstance.InstanceViewModel;
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
         public bool IsQuickLookEnabled { get; set; } = false;
+        public MenuFlyout BaseLayoutContextFlyout { get; set; }
         public MenuFlyout BaseLayoutItemContextFlyout { get; set; }
 
         public ItemViewModel AssociatedViewModel = null;
@@ -155,49 +156,47 @@ namespace Files
 
         public abstract void SetSelectedItemsOnUi(List<ListedItem> selectedItems);
 
-        private void ClearShellContextMenus()
+        private void ClearShellContextMenus(MenuFlyout menuFlyout)
         {
-            var contextMenuItems = BaseLayoutItemContextFlyout.Items.Where(c => c.Tag != null && ParseContextMenuTag(c.Tag).menuHandle != null).ToList();
+            var contextMenuItems = menuFlyout.Items.Where(c => c.Tag != null && ParseContextMenuTag(c.Tag).menuHandle != null).ToList();
             for (int i = 0; i < contextMenuItems.Count; i++)
             {
-                BaseLayoutItemContextFlyout.Items.RemoveAt(BaseLayoutItemContextFlyout.Items.IndexOf(contextMenuItems[i]));
+                menuFlyout.Items.RemoveAt(menuFlyout.Items.IndexOf(contextMenuItems[i]));
             }
-            if (BaseLayoutItemContextFlyout.Items[0] is MenuFlyoutSeparator flyoutSeperator)
+            if (menuFlyout.Items[0] is MenuFlyoutSeparator flyoutSeperator)
             {
-                BaseLayoutItemContextFlyout.Items.RemoveAt(BaseLayoutItemContextFlyout.Items.IndexOf(flyoutSeperator));
+                menuFlyout.Items.RemoveAt(menuFlyout.Items.IndexOf(flyoutSeperator));
             }
         }
 
-        public virtual void SetShellContextmenu(bool shiftPressed, bool showOpenMenu)
+        public virtual void SetShellContextmenu(MenuFlyout menuFlyout, bool shiftPressed, bool showOpenMenu)
         {
-            ClearShellContextMenus();
-            if (_SelectedItems != null && _SelectedItems.Count > 0)
+            ClearShellContextMenus(menuFlyout);
+            var currentBaseLayoutItemCount = menuFlyout.Items.Count;
+            var maxItems = AppSettings.ShowAllContextMenuItems ? int.MaxValue : shiftPressed ? 6 : 4;
+            if (App.Connection != null)
             {
-                var currentBaseLayoutItemCount = BaseLayoutItemContextFlyout.Items.Count;
-                var isDirectory = !_SelectedItems.Any(c => c.PrimaryItemAttribute == StorageItemTypes.File || c.PrimaryItemAttribute == StorageItemTypes.None);
-                var maxItems = AppSettings.ShowAllContextMenuItems ? int.MaxValue : shiftPressed ? 6 : 4;
-                if (App.Connection != null)
-                {
-                    var response = App.Connection.SendMessageAsync(new ValueSet() {
+                var response = App.Connection.SendMessageAsync(new ValueSet() {
                         { "Arguments", "LoadContextMenu" },
-                        { "FilePath", string.Join('|', _SelectedItems.Select(x => x.ItemPath)) },
+                        { "FilePath", IsItemSelected ? 
+                            string.Join('|', _SelectedItems.Select(x => x.ItemPath)) : 
+                            App.CurrentInstance.FilesystemViewModel.CurrentFolder.ItemPath},
                         { "ExtendedMenu", shiftPressed },
                         { "ShowOpenMenu", showOpenMenu }}).AsTask().Result;
-                    if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
-                        && response.Message.ContainsKey("Handle"))
+                if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
+                    && response.Message.ContainsKey("Handle"))
+                {
+                    var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response.Message["ContextMenu"]);
+                    if (contextMenu != null)
                     {
-                        var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response.Message["ContextMenu"]);
-                        if (contextMenu != null)
-                        {
-                            LoadMenuFlyoutItem(BaseLayoutItemContextFlyout.Items, contextMenu.Items, (string)response.Message["Handle"], true, maxItems);
-                        }
+                        LoadMenuFlyoutItem(menuFlyout.Items, contextMenu.Items, (string)response.Message["Handle"], true, maxItems);
                     }
                 }
-                var totalFlyoutItems = BaseLayoutItemContextFlyout.Items.Count - currentBaseLayoutItemCount;
-                if (totalFlyoutItems > 0 && !(BaseLayoutItemContextFlyout.Items[totalFlyoutItems] is MenuFlyoutSeparator))
-                {
-                    BaseLayoutItemContextFlyout.Items.Insert(totalFlyoutItems, new MenuFlyoutSeparator());
-                }
+            }
+            var totalFlyoutItems = menuFlyout.Items.Count - currentBaseLayoutItemCount;
+            if (totalFlyoutItems > 0 && !(menuFlyout.Items[totalFlyoutItems] is MenuFlyoutSeparator))
+            {
+                menuFlyout.Items.Insert(totalFlyoutItems, new MenuFlyoutSeparator());
             }
         }
 
@@ -405,6 +404,12 @@ namespace Files
             }
         }
 
+        public void RightClickContextMenu_Opening(object sender, object e)
+        {
+            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            SetShellContextmenu(BaseLayoutContextFlyout, shiftPressed, false);
+        }
+
         public void RightClickItemContextMenu_Opening(object sender, object e)
         {
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
@@ -412,7 +417,7 @@ namespace Files
                 && SelectedItem.PrimaryItemAttribute == StorageItemTypes.File
                 && !string.IsNullOrEmpty(SelectedItem.FileExtension)
                 && SelectedItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase);
-            SetShellContextmenu(shiftPressed, showOpenMenu);
+            SetShellContextmenu(BaseLayoutItemContextFlyout, shiftPressed, showOpenMenu);
 
             if (!AppSettings.ShowCopyLocationOption)
             {

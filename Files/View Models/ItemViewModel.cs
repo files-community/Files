@@ -467,7 +467,6 @@ namespace Files.Filesystem
             {
                 if (item.PrimaryItemAttribute == StorageItemTypes.File)
                 {
-                    BitmapImage icon = new BitmapImage();
                     var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
                     try
                     {
@@ -478,8 +477,8 @@ namespace Files.Filesystem
                             {
                                 if (Thumbnail != null)
                                 {
-                                    matchingItem.FileImage = icon;
-                                    await icon.SetSourceAsync(Thumbnail);
+                                    matchingItem.FileImage = new BitmapImage();
+                                    await matchingItem.FileImage.SetSourceAsync(Thumbnail);
                                     matchingItem.LoadUnknownTypeGlyph = false;
                                     matchingItem.LoadFileIcon = true;
                                 }
@@ -522,9 +521,33 @@ namespace Files.Filesystem
                     var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
                     try
                     {
-                        StorageFolder matchingStorageItem = await StorageFileExtensions.GetFolderFromPathAsync(item.ItemPath, _workingRoot, _currentStorageFolder);
+                        StorageFolder matchingStorageItem = await StorageFileExtensions.GetFolderFromPathAsync((item as ShortcutItem)?.TargetPath ?? item.ItemPath, _workingRoot, _currentStorageFolder);
                         if (matchingItem != null && matchingStorageItem != null)
                         {
+                            if (App.Connection != null)
+                            {
+                                var value = new ValueSet();
+                                value.Add("Arguments", "CheckCustomIcon");
+                                value.Add("folderPath", matchingItem.ItemPath);
+                                var response = await App.Connection.SendMessageAsync(value);
+                                var hasCustomIcon = (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
+                                    && response.Message.Get("HasCustomIcon", false);
+                                if (hasCustomIcon)
+                                {
+                                    // Only set folder icon if it's a custom icon
+                                    using (var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale))
+                                    {
+                                        if (Thumbnail != null)
+                                        {
+                                            matchingItem.FileImage = new BitmapImage();
+                                            await matchingItem.FileImage.SetSourceAsync(Thumbnail);
+                                            matchingItem.LoadUnknownTypeGlyph = false;
+                                            matchingItem.LoadFolderGlyph = false;
+                                            matchingItem.LoadFileIcon = true;
+                                        }
+                                    }
+                                }
+                            }
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                             matchingItem.ItemType = matchingStorageItem.DisplayType;
                             var syncStatus = await CheckCloudDriveSyncStatus(matchingStorageItem);

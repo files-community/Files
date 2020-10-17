@@ -14,8 +14,8 @@ namespace Files.Filesystem
         public bool ItemPropertiesInitialized { get; set; } = false;
         public string FolderTooltipText { get; set; }
         public string FolderRelativeId { get; set; }
-        public bool LoadFolderGlyph { get; set; }
         public bool ContainsFilesOrFolders { get; set; }
+        private bool _LoadFolderGlyph;
         private bool _LoadFileIcon;
 
         public Uri FolderIconSource
@@ -32,6 +32,12 @@ namespace Files.Filesystem
             {
                 return ContainsFilesOrFolders ? new Uri("ms-appx:///Assets/FolderIcon2Large.svg") : new Uri("ms-appx:///Assets/FolderIconLarge.svg");
             }
+        }
+
+        public bool LoadFolderGlyph
+        {
+            get => _LoadFolderGlyph;
+            set => SetProperty(ref _LoadFolderGlyph, value);
         }
 
         public bool LoadFileIcon

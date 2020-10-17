@@ -27,7 +27,9 @@
             EmptyValue="Collapsed"
             NotEmptyValue="Visible" />
 
-        <MenuFlyout x:Key="BaseLayoutContextFlyout">
+        <MenuFlyout x:Key="BaseLayoutContextFlyout"
+                    x:Name="BaseLayoutContextFlyout"
+                    Opening="RightClickContextMenu_Opening">
             <MenuFlyoutSubItem
                 x:Name="SortByEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutSortBy"
@@ -548,7 +550,7 @@
                         x:Name="FolderGlyph"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind LoadFolderGlyph}"
+                        x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
                         Stretch="Uniform">
                         <Image.Source>
                             <SvgImageSource
@@ -714,7 +716,7 @@
                         Height="74"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind LoadFolderGlyph}"
+                        x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
                         Stretch="Uniform">
                         <Image.Source>
                             <SvgImageSource
