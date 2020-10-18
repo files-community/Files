@@ -5,8 +5,10 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 using Windows.ApplicationModel.Core;
 using Windows.Services.Maps;
+using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -761,6 +763,13 @@ namespace Files.View_Models
         {
             get => _DetailsSectionVisibility_Media;
             set => SetProperty(ref _DetailsSectionVisibility_Media, value);
+        }
+
+        private ImageProperties _ImageProperties;
+        public ImageProperties ImageProperties
+        {
+            get => _ImageProperties;
+            set => SetProperty(ref _ImageProperties, value);
         }
     }
 }

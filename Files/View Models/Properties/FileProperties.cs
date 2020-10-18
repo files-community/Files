@@ -149,6 +149,14 @@ namespace Files.View_Models.Properties
                 "System.Photo.CameraModel",
         };
 
+        private List<PropertiesData> propertyListItems = new List<PropertiesData>()
+        {
+            new PropertiesData()
+            {
+                Name = "Proper"
+            }
+        };
+
         public ListedItem Item { get; }
 
         public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ProgressBar progressBar, ListedItem item)
@@ -301,6 +309,8 @@ namespace Files.View_Models.Properties
             {
                 ViewModel.SystemFileProperties_RO = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RO);
                 ViewModel.SystemFileProperties_RW = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RW);
+
+                ViewModel.ImageProperties = await file.Properties.GetImagePropertiesAsync();
                 //GetPropertiesAsyncDebug(file);
             }
             catch (Exception e)
@@ -310,6 +320,9 @@ namespace Files.View_Models.Properties
             SetVisibilities();
 
             ViewModelProcessing();
+
+            var ImageProperties = ViewModel.ImageProperties;
+            Debug.WriteLine(ImageProperties.ToString());
         }
 
         private void SetLocationInformation()
@@ -413,27 +426,16 @@ namespace Files.View_Models.Properties
         public async void SyncPropertyChanges()
         {
             StorageFile file = null;
-            var CurrentInstance = App.CurrentInstance;
-            PostedStatusBanner banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
-                "Saving properties",
-                CurrentInstance.FilesystemViewModel.WorkingDirectory,
-                0,
-                StatusBanner.StatusBannerSeverity.Ongoing,
-                StatusBanner.StatusBannerOperation.SaveProperties);
-
-            var errors = "";
             //banner.Progress = new Progress<uint>();
             try
             {
                 file = await ItemViewModel.GetFileFromPathAsync(Item.ItemPath);
-                errors = await SavePropertiesAsync(file, banner.Progress);
+                await SavePropertiesAsync(file);
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.ToString());
             }
-
-            Debug.WriteLine($"The following properties failed to save: \n{errors}");
 
         }
 
