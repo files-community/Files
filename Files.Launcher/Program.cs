@@ -109,9 +109,8 @@ namespace FilesFullTrust
 
         private static void UpdateTagsDb()
         {
-            //string FileTagsDbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
-            string FileTagsDbPath = Path.Combine(@"C:\Users\Marco\AppData\Local\Packages\FilesDev_et10x9a9vyk8t\LocalState", "filetags.db");
-            using var dbInstance = new Common.FileTagsDb(FileTagsDbPath);
+            string FileTagsDbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
+            using var dbInstance = new Common.FileTagsDb(FileTagsDbPath, true);
             foreach (var file in dbInstance.GetAll())
             {
                 var pathFromFrn = Win32API.PathFromFileId(file.Frn ?? 0, file.FilePath);

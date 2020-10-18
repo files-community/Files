@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LiteDB" Version="5.0.9" />
+    <PackageReference Include="LiteDB" Version="4.1.4" />
   </ItemGroup>
 
 </Project>

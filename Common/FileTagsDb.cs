@@ -9,9 +9,12 @@ namespace Common
     {
         private readonly LiteDatabase db;
 
-        public FileTagsDb(string connection)
+        public FileTagsDb(string connection, bool shared = false)
         {
-            db = new LiteDatabase(connection);
+            db = new LiteDatabase(new ConnectionString(connection)
+            {
+                Mode = shared ? FileMode.Shared : FileMode.Exclusive
+            });
         }
 
         public void SetTag(string filePath, ulong? frn, string tag)
