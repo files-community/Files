@@ -219,8 +219,11 @@ namespace Files.Views.Pages
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
                 case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
-                    var addItemDialog = new AddItemDialog();
-                    await addItemDialog.ShowAsync();
+                    if (App.CurrentInstance.InstanceViewModel.CanCreateFileInPage)
+                    {
+                        var addItemDialog = new AddItemDialog();
+                        await addItemDialog.ShowAsync();
+                    }
                     break;
 
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
