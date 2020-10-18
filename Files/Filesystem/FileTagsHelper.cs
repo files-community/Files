@@ -1,4 +1,5 @@
 ﻿using Common;
+using Files.Helpers;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,50 @@ namespace Files.Filesystem
                     _DbInstance = new FileTagsDb(FileTagsDbPath);
                 }
                 return _DbInstance;
+            }
+        }
+
+        public static string ReadFileTag(string filePath)
+        {
+            IntPtr hStream = NativeDirectoryChangesHelper.CreateFile2FromApp($"{filePath}:files",
+                NativeDirectoryChangesHelper.GENERIC_READ, 0, NativeDirectoryChangesHelper.OPEN_EXISTING, IntPtr.Zero);
+            if (hStream.ToInt64() == -1) return null;
+            byte[] buff = new byte[4096];
+            int dwBytesRead;
+            string str = null;
+            unsafe
+            {
+                fixed (byte* pBuff = buff)
+                {
+                    NativeDirectoryChangesHelper.ReadFile(hStream, pBuff, 4096 - 1, &dwBytesRead, IntPtr.Zero);
+                    str = Encoding.UTF8.GetString(pBuff, dwBytesRead);
+                }
+            }
+            NativeDirectoryChangesHelper.CloseHandle(hStream);
+            return str;
+        }
+
+        public static void WriteFileTag(string filePath, string tag)
+        {
+            if (tag == null)
+            {
+                NativeDirectoryChangesHelper.DeleteFileFromApp($"{filePath}:files");
+            }
+            else
+            {
+                IntPtr hStream = NativeDirectoryChangesHelper.CreateFile2FromApp($"{filePath}:files",
+                    NativeDirectoryChangesHelper.GENERIC_WRITE, 0, NativeDirectoryChangesHelper.CREATE_ALWAYS, IntPtr.Zero);
+                if (hStream.ToInt64() == -1) return;
+                byte[] buff = Encoding.UTF8.GetBytes(tag);
+                int dwBytesWritten;
+                unsafe
+                {
+                    fixed (byte* pBuff = buff)
+                    {
+                        NativeDirectoryChangesHelper.WriteFile(hStream, pBuff, buff.Length, &dwBytesWritten, IntPtr.Zero);
+                    }
+                }
+                NativeDirectoryChangesHelper.CloseHandle(hStream);
             }
         }
 

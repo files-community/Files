@@ -59,6 +59,13 @@ namespace Files.Helpers
         }
 
         public const uint GENERIC_READ = 0x80000000;
+        public const uint GENERIC_WRITE = 0x40000000;
+
+        public const uint CREATE_ALWAYS = 2;
+        public const uint CREATE_NEW = 1;
+        public const uint OPEN_ALWAYS = 4;
+        public const uint OPEN_EXISTING = 3;
+        public const uint TRUNCATE_EXISTING = 5;
 
         [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
         CallingConvention = CallingConvention.StdCall,
@@ -117,6 +124,28 @@ namespace Files.Helpers
             public uint FileNameLength;
             public fixed char FileName[1];
         }
+
+        [DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto,
+        CallingConvention = CallingConvention.StdCall,
+        SetLastError = true)]
+        public unsafe static extern bool ReadFile(
+            IntPtr hFile,
+            byte* lpBuffer,
+            int nBufferLength,
+            int* lpBytesReturned,
+            IntPtr lpOverlapped
+        );
+
+        [DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto,
+        CallingConvention = CallingConvention.StdCall,
+        SetLastError = true)]
+        public unsafe static extern bool WriteFile(
+            IntPtr hFile,
+            byte* lpBuffer,
+            int nBufferLength,
+            int* lpBytesWritten,
+            IntPtr lpOverlapped
+        );
 
         [DllImport("api-ms-win-core-file-l2-1-0.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public unsafe static extern bool ReadDirectoryChangesW(IntPtr hDirectory, byte* lpBuffer,
