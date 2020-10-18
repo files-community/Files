@@ -111,6 +111,30 @@ namespace FilesFullTrust
                 // If user cancels UAC
             }
         }
+
+        /// <summary>
+        /// Gets file path from file FRN
+        /// </summary>
+        /// <param name="frn">File reference number</param>
+        /// <param name="volumeHint">e.g. "C:\"</param>
+        /// <returns></returns>
+        /// using var si = new ShellItem(@"C:\Users\Marco\Documents\MATLAB\TEST_FOLDER\test1.txt");
+        /// var frn = (ulong)si.Properties["System.FileFRN"];
+        /// Debug.WriteLine(Win32API.PathFromFileId(frn, @"c:\"));
+        public static string PathFromFileId(ulong frn, string volumeHint)
+        {
+            string volumePath = Path.GetPathRoot(volumeHint);
+            using var volumeHandle = Kernel32.CreateFile(volumePath, Kernel32.FileAccess.GENERIC_READ, FileShare.Read, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
+            if (volumeHandle.IsInvalid) return null;
+            var fileId = new Kernel32.FILE_ID_DESCRIPTOR() { Type = 0, Id = new Kernel32.FILE_ID_DESCRIPTOR.DUMMYUNIONNAME() { FileId = (long)frn } };
+            fileId.dwSize = (uint)Marshal.SizeOf(fileId);
+            var tmp = Kernel32.OpenFileById(volumeHandle, fileId, Kernel32.FileAccess.GENERIC_READ, FileShare.Read, null, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS);
+            using var hFile = new Kernel32.SafeHFILE(tmp);
+            if (hFile.IsInvalid) return null;
+            var sb = new StringBuilder(4096);
+            var ret = Kernel32.GetFinalPathNameByHandle(hFile, sb, 4095, 0);
+            return (ret != 0) ? sb.ToString() : null;
+        }
     }
 
     // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.
