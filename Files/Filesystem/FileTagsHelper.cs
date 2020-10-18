@@ -32,8 +32,8 @@ namespace Files.Filesystem
 
         public static string ReadFileTag(string filePath)
         {
-            IntPtr hStream = NativeDirectoryChangesHelper.CreateFile2FromApp($"{filePath}:files",
-                NativeDirectoryChangesHelper.GENERIC_READ, 0, NativeDirectoryChangesHelper.OPEN_EXISTING, IntPtr.Zero);
+            IntPtr hStream = NativeDirectoryChangesHelper.CreateFileFromApp($"{filePath}:files",
+                NativeDirectoryChangesHelper.GENERIC_READ, 0, IntPtr.Zero, NativeDirectoryChangesHelper.OPEN_EXISTING, (uint)NativeDirectoryChangesHelper.File_Attributes.BackupSemantics, IntPtr.Zero);
             if (hStream.ToInt64() == -1) return null;
             byte[] buff = new byte[4096];
             int dwBytesRead;
@@ -58,8 +58,8 @@ namespace Files.Filesystem
             }
             else
             {
-                IntPtr hStream = NativeDirectoryChangesHelper.CreateFile2FromApp($"{filePath}:files",
-                    NativeDirectoryChangesHelper.GENERIC_WRITE, 0, NativeDirectoryChangesHelper.CREATE_ALWAYS, IntPtr.Zero);
+                IntPtr hStream = NativeDirectoryChangesHelper.CreateFileFromApp($"{filePath}:files",
+                    NativeDirectoryChangesHelper.GENERIC_WRITE, 0, IntPtr.Zero, NativeDirectoryChangesHelper.CREATE_ALWAYS, (uint)NativeDirectoryChangesHelper.File_Attributes.BackupSemantics, IntPtr.Zero);
                 if (hStream.ToInt64() == -1) return;
                 byte[] buff = Encoding.UTF8.GetBytes(tag);
                 int dwBytesWritten;
