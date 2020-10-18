@@ -48,10 +48,6 @@ namespace Common
                     col.Delete(tmp.Id);
                 }
             }
-
-            // Index document using frn and path property
-            col.EnsureIndex(x => x.Frn);
-            col.EnsureIndex(x => x.FilePath);
         }
 
         private TaggedFile _FindTag(string filePath = null, ulong? frn = null)
@@ -89,9 +85,55 @@ namespace Common
             return null;
         }
 
+        public void UpdateTag(string oldFilePath, ulong? frn = null, string newFilePath = null)
+        {
+            // Get a collection (or create, if doesn't exist)
+            var col = db.GetCollection<TaggedFile>("taggedfiles");
+            var tmp = col.FindOne(x => x.FilePath == oldFilePath);
+            if (tmp != null)
+            {
+                if (frn != null)
+                {
+                    tmp.Frn = frn;
+                    col.Update(tmp);
+                }
+                if (newFilePath != null)
+                {
+                    tmp.FilePath = newFilePath;
+                    col.Update(tmp);
+                }
+            }
+        }
+
+        public void UpdateTag(ulong oldFrn, ulong? frn = null, string newFilePath = null)
+        {
+            // Get a collection (or create, if doesn't exist)
+            var col = db.GetCollection<TaggedFile>("taggedfiles");
+            var tmp = col.FindOne(x => x.Frn == oldFrn);
+            if (tmp != null)
+            {
+                if (frn != null)
+                {
+                    tmp.Frn = frn;
+                    col.Update(tmp);
+                }
+                if (newFilePath != null)
+                {
+                    tmp.FilePath = newFilePath;
+                    col.Update(tmp);
+                }
+            }
+        }
+
         public string GetTag(string filePath = null, ulong? frn = null)
         {
             return _FindTag(filePath, frn)?.Tag;
+        }
+
+        public IEnumerable<TaggedFile> GetAll()
+        {
+            var col = db.GetCollection<TaggedFile>("taggedfiles");
+            return col.FindAll();
         }
 
         public void Dispose()

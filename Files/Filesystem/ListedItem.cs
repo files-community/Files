@@ -65,8 +65,8 @@ namespace Files.Filesystem
             {
                 if (value != _FileTag)
                 {
-                    //FileTagsHelper.DbInstance.SetTag(ItemPath, FileFRN, value);
-                    FileTagsHelper.WriteFileTag(ItemPath, value);
+                    FileTagsHelper.DbInstance.SetTag(ItemPath, FileFRN, value);
+                    //FileTagsHelper.WriteFileTag(ItemPath, value);
                 }
                 SetProperty(ref _FileTag, value);
                 OnPropertyChanged(nameof(FileTagUI));

@@ -116,11 +116,8 @@ namespace FilesFullTrust
         /// Gets file path from file FRN
         /// </summary>
         /// <param name="frn">File reference number</param>
-        /// <param name="volumeHint">e.g. "C:\"</param>
-        /// <returns></returns>
-        /// using var si = new ShellItem(@"C:\Users\Marco\Documents\MATLAB\TEST_FOLDER\test1.txt");
-        /// var frn = (ulong)si.Properties["System.FileFRN"];
-        /// Debug.WriteLine(Win32API.PathFromFileId(frn, @"c:\"));
+        /// <param name="volumeHint">Drive containing the file (e.g. "C:\")</param>
+        /// <returns>File path or null</returns>
         public static string PathFromFileId(ulong frn, string volumeHint)
         {
             string volumePath = Path.GetPathRoot(volumeHint);

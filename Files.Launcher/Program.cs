@@ -85,6 +85,9 @@ namespace FilesFullTrust
                 var preloadPath = ApplicationData.Current.LocalFolder.Path;
                 using var _ = Win32API.ContextMenu.GetContextMenuForFiles(new string[] { preloadPath }, Shell32.CMF.CMF_NORMAL);
 
+                // Update tags db
+                UpdateTagsDb();
+
                 // Connect to app service and wait until the connection gets closed
                 appServiceExit = new AutoResetEvent(false);
                 InitializeAppServiceConnection();
@@ -101,6 +104,36 @@ namespace FilesFullTrust
                 recycler?.Dispose();
                 appServiceExit?.Dispose();
                 mutex?.ReleaseMutex();
+            }
+        }
+
+        private static void UpdateTagsDb()
+        {
+            //string FileTagsDbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
+            string FileTagsDbPath = Path.Combine(@"C:\Users\Marco\AppData\Local\Packages\FilesDev_et10x9a9vyk8t\LocalState", "filetags.db");
+            using var dbInstance = new Common.FileTagsDb(FileTagsDbPath);
+            foreach (var file in dbInstance.GetAll())
+            {
+                var pathFromFrn = Win32API.PathFromFileId(file.Frn ?? 0, file.FilePath);
+                if (pathFromFrn != null)
+                {
+                    // Frn is valid, update file path
+                    dbInstance.UpdateTag(file.Frn ?? 0, null, pathFromFrn.Replace(@"\\?\", ""));
+                }
+                else
+                {
+                    try
+                    {
+                        using var si = new ShellItem(file.FilePath);
+                        var frn = si.Properties["System.FileFRN"];
+                        dbInstance.UpdateTag(file.FilePath, (ulong)frn, null);
+                    }
+                    catch (Exception ex) when (ex is FileNotFoundException || ex is NullReferenceException)
+                    {
+                        Debug.WriteLine($"File lost: {file.FilePath}");
+                        dbInstance.SetTag(file.FilePath, null, null);
+                    }
+                }
             }
         }
 

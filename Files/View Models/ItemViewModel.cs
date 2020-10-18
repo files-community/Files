@@ -497,10 +497,10 @@ namespace Files.Filesystem
                                 var syncStatus = await CheckCloudDriveSyncStatus(matchingStorageItem);
                                 matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
                                 // Fetch tag and FRN
-                                //IDictionary<string, object> extraProperties = await matchingStorageItem.Properties.RetrievePropertiesAsync(new string[] { "System.FileFRN" });
-                                //matchingItem.FileFRN = (ulong?)extraProperties["System.FileFRN"];
-                                //matchingItem.FileTag = FileTagsHelper.DbInstance.GetTag(matchingItem.ItemPath, matchingItem.FileFRN);
-                                matchingItem.FileTag = FileTagsHelper.ReadFileTag(matchingItem.ItemPath);
+                                IDictionary<string, object> extraProperties = await matchingStorageItem.Properties.RetrievePropertiesAsync(new string[] { "System.FileFRN" });
+                                matchingItem.FileFRN = (ulong?)extraProperties["System.FileFRN"];
+                                matchingItem.FileTag = FileTagsHelper.DbInstance.GetTag(matchingItem.ItemPath, matchingItem.FileFRN);
+                                //matchingItem.FileTag = FileTagsHelper.ReadFileTag(matchingItem.ItemPath);
                             }
                         }
                     }
@@ -554,10 +554,10 @@ namespace Files.Filesystem
                             var syncStatus = await CheckCloudDriveSyncStatus(matchingStorageItem);
                             matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
                             // Fetch tag and FRN
-                            //IDictionary<string, object> extraProperties = await matchingStorageItem.Properties.RetrievePropertiesAsync(new string[] { "System.FileFRN" });
-                            //matchingItem.FileFRN = (ulong?)extraProperties["System.FileFRN"];
-                            //matchingItem.FileTag = FileTagsHelper.DbInstance.GetTag(matchingItem.ItemPath, matchingItem.FileFRN);
-                            matchingItem.FileTag = FileTagsHelper.ReadFileTag(matchingItem.ItemPath);
+                            IDictionary<string, object> extraProperties = await matchingStorageItem.Properties.RetrievePropertiesAsync(new string[] { "System.FileFRN" });
+                            matchingItem.FileFRN = (ulong?)extraProperties["System.FileFRN"];
+                            matchingItem.FileTag = FileTagsHelper.DbInstance.GetTag(matchingItem.ItemPath, matchingItem.FileFRN);
+                            //matchingItem.FileTag = FileTagsHelper.ReadFileTag(matchingItem.ItemPath);
                         }
                     }
                     catch (Exception)
