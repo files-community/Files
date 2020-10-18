@@ -30,9 +30,11 @@
                     <DataTemplate x:Key="LocationNavItem" x:DataType="local2:LocationItem">
                         <muxc:NavigationViewItem
                             AllowDrop="True"
+                            CanDrag="True"
                             BorderThickness="0.8"
                             Content="{x:Bind Text}"
                             DataContext="{x:Bind}"
+                            DragStarting="NavigationViewItem_DragStarting"
                             DragEnter="NavigationViewItem_DragEnter"
                             DragLeave="NavigationViewItem_DragLeave"
                             DragOver="NavigationViewLocationItem_DragOver"
@@ -201,6 +203,36 @@
                                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB20;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
+                            <MenuFlyoutSubItem
+                                x:Name="SidebarSortBy"
+                                x:Uid="SideBarSortSideBarItems"
+                                x:Load="{x:Bind ShowOrderBy, Mode=OneWay}"
+                                Text="Sort by">
+                                <MenuFlyoutSubItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe930;" />
+                                </MenuFlyoutSubItem.Icon>
+                                <muxc:RadioMenuFlyoutItem
+                                    x:Uid="SidebarSortByName"
+                                    GroupName="SidebarSortGroup"
+                                    IsChecked="{x:Bind IsLocationItemSortedByName, Mode=TwoWay}"
+                                    Text="Name" />
+                                <muxc:RadioMenuFlyoutItem
+                                    x:Uid="SidebarSortByDate"
+                                    GroupName="SidebarSortGroup"
+                                    IsChecked="{x:Bind IsLocationItemSortedByDate, Mode=TwoWay}"
+                                    Text="Date modified" />
+                                <MenuFlyoutSeparator />
+                                <muxc:RadioMenuFlyoutItem
+                                    x:Uid="SidebarSortByAscending"
+                                    GroupName="SidebarSortOrderGroup"
+                                    IsChecked="{x:Bind IsLocationItemSortedAscending, Mode=TwoWay}"
+                                    Text="Ascending" />
+                                <muxc:RadioMenuFlyoutItem
+                                    x:Uid="SidebarSortByDescending"
+                                    GroupName="SidebarSortOrderGroup"
+                                    IsChecked="{x:Bind IsLocationItemSortedDescending, Mode=TwoWay}"
+                                    Text="Descending" />
+                            </MenuFlyoutSubItem>
                             <MenuFlyoutItem
                                 x:Name="PropertiesFolder"
                                 x:Uid="BaseLayoutContextFlyoutPropertiesFolder"

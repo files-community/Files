@@ -10,6 +10,8 @@ namespace Files.Filesystem
         public FontFamily Font { get; set; } = new FontFamily("Segoe MDL2 Assets");
         public NavigationControlItemType ItemType => NavigationControlItemType.Location;
         public bool IsDefaultLocation { get; set; }
+        public System.DateTime DateAdded { get; set; }
+
     }
 
     public class HeaderTextItem : INavigationControlItem
