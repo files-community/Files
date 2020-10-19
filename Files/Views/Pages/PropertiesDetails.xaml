@@ -117,7 +117,7 @@
                 <Grid
                     x:Name="OverviewImage"
                     Grid.Row="3"
-                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
                     x:Load="True"
                     Visibility="Collapsed">
                     <Grid.RowDefinitions>
@@ -217,7 +217,7 @@
                         Margin="20,0,0,0"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
-                        Click="Button_Click"
+                        Click="OpenMaps_Click"
                         ToolTipService.ToolTip="Open in Maps"
                         Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}">
                         <FontIcon
