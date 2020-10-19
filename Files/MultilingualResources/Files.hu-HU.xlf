@@ -964,7 +964,7 @@
         </trans-unit>
         <trans-unit id="SubDirectoryAccessDenied" translate="yes" xml:space="preserve">
           <source>Can't access any items to display</source>
-          <target state="instance">Egy megjeleníthető elem sem elérhető</target>
+          <target state="translated">Egy megjeleníthető elem sem elérhető</target>
         </trans-unit>
         <trans-unit id="MoveToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Move to {0}</source>
@@ -1196,7 +1196,7 @@
         </trans-unit>
         <trans-unit id="SettingsMultitaskingAdaptiveDescription.Text" translate="yes" xml:space="preserve">
           <source>Selects the best multitasking control based on how the app window is resized. When the window is small, you'll notice the horizontal tab strip is collapsed into a flyout on the navigation toolbar.</source>
-          <target state="flyout">A legjobb multitaszking kiválasztása az ablak méretétől függően. Amikor az ablak kicsi, a vízszintes lap lánc egy menüvé alakul navigációs sávban.</target>
+          <target state="translated">A legjobb multitaszking kiválasztása az ablak méretétől függően. Amikor az ablak kicsi, a vízszintes lap lánc egy menüvé alakul navigációs sávban.</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingHorizontal.Content" translate="yes" xml:space="preserve">
           <source>Horizontal</source>
