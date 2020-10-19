@@ -242,6 +242,7 @@
     <Compile Include="UserControls\PropertyListItem.xaml.cs">
       <DependentUpon>PropertyListItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\RectangleSelection.cs" />
     <Compile Include="UserControls\SidebarControl.xaml.cs">
       <DependentUpon>SidebarControl.xaml</DependentUpon>
     </Compile>
