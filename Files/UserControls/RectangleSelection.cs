@@ -113,31 +113,28 @@ namespace Files.UserControls
                 var originDragPointShifted = new Point(originDragPoint.X, originDragPoint.Y - verticalOffset);
                 base.DrawRectangle(currentPoint, originDragPointShifted);
                 var rect = new System.Drawing.Rectangle((int)Canvas.GetLeft(selectionRectangle), (int)Math.Min(originDragPoint.Y, currentPoint.Position.Y + verticalOffset), (int)selectionRectangle.Width, (int)Math.Abs(originDragPoint.Y - (currentPoint.Position.Y + verticalOffset)));
-                var dataGrid = uiElement as DataGrid;
                 var dataGridRowsPosition = new Dictionary<DataGridRow, System.Drawing.Rectangle>();
                 foreach (var row in dataGridRows)
                 {
+                    if (row.Visibility != Visibility.Visible) continue;
                     var gt = row.TransformToVisual(uiElement);
                     var itemStartPoint = gt.TransformPoint(new Point(0, verticalOffset));
                     var itemRect = new System.Drawing.Rectangle((int)itemStartPoint.X, (int)itemStartPoint.Y, (int)row.ActualWidth, (int)row.ActualHeight);
-                    if (row.Visibility == Visibility.Visible)
-                    {
-                        itemsPosition[row.DataContext] = itemRect;
-                        dataGridRowsPosition[row] = itemRect;
-                    }
+                    itemsPosition[row.DataContext] = itemRect;
+                    dataGridRowsPosition[row] = itemRect;
                 }
                 foreach (var item in itemsPosition)
                 {
                     if (rect.IntersectsWith(item.Value))
                     {
-                        if (!dataGrid.SelectedItems.Contains(item.Key))
+                        if (!uiElement.SelectedItems.Contains(item.Key))
                         {
-                            dataGrid.SelectedItems.Add(item.Key);
+                            uiElement.SelectedItems.Add(item.Key);
                         }
                     }
                     else
                     {
-                        dataGrid.SelectedItems.Remove(item.Key);
+                        uiElement.SelectedItems.Remove(item.Key);
                     }
                 }
                 if (currentPoint.Position.Y > uiElement.ActualHeight - 20)
@@ -146,12 +143,12 @@ namespace Files.UserControls
                     if (item == null)
                     {
                         var index = dataGridRowsPosition.OrderBy(x => x.Value.Y).Last().Key.GetIndex();
-                        var source = (System.Collections.IList)(uiElement as DataGrid).ItemsSource;
-                        (uiElement as DataGrid).ScrollIntoView(source[Math.Min(Math.Max(index + 1, 0), source.Count - 1)], null);
+                        var source = (System.Collections.IList)uiElement.ItemsSource;
+                        uiElement.ScrollIntoView(source[Math.Min(Math.Max(index + 1, 0), source.Count - 1)], null);
                     }
                     else
                     {
-                        (uiElement as DataGrid).ScrollIntoView(item.DataContext, null);
+                        uiElement.ScrollIntoView(item.DataContext, null);
                     }
                 }
                 else if (currentPoint.Position.Y < 20)
@@ -160,12 +157,12 @@ namespace Files.UserControls
                     if (item == null)
                     {
                         var index = dataGridRowsPosition.OrderBy(x => x.Value.Y).First().Key.GetIndex();
-                        var source = (System.Collections.IList)(uiElement as DataGrid).ItemsSource;
-                        (uiElement as DataGrid).ScrollIntoView(source[Math.Min(Math.Max(index - 1, 0), source.Count - 1)], null);
+                        var source = (System.Collections.IList)uiElement.ItemsSource;
+                        uiElement.ScrollIntoView(source[Math.Min(Math.Max(index - 1, 0), source.Count - 1)], null);
                     }
                     else
                     {
-                        (uiElement as DataGrid).ScrollIntoView(item.DataContext, null);
+                        uiElement.ScrollIntoView(item.DataContext, null);
                     }
                 }
             }
@@ -176,19 +173,33 @@ namespace Files.UserControls
             itemsPosition.Clear();
             dataGridRows.Clear();
             Interaction.FindChildren<DataGridRow>(dataGridRows, uiElement);
+            _prevSelectedItems = uiElement.SelectedItems.Cast<object>().ToList();
             originDragPoint = new Point(e.GetCurrentPoint(uiElement).Position.X, e.GetCurrentPoint(uiElement).Position.Y);
             var verticalOffset = (scrollBar?.Value ?? 0) - 38; // Magic number (header height? to be checked)
             originDragPoint.Y = originDragPoint.Y + verticalOffset;
+            foreach (var row in dataGridRows)
+            {
+                if (row.Visibility != Visibility.Visible) continue;
+                var gt = row.TransformToVisual(uiElement);
+                var itemStartPoint = gt.TransformPoint(new Point(0, verticalOffset));
+                var itemRect = new System.Drawing.Rectangle((int)itemStartPoint.X, (int)itemStartPoint.Y, (int)row.ActualWidth, (int)row.ActualHeight);
+                if (itemRect.Contains((int)originDragPoint.X, (int)originDragPoint.Y))
+                {
+                    if (uiElement.SelectedItems.Contains(row.DataContext))
+                    {
+                        return;
+                    }
+                    break;
+                }
+            }
             uiElement.PointerMoved -= RectangleSelection_PointerMoved;
             uiElement.PointerMoved += RectangleSelection_PointerMoved;
-            var dataGrid = uiElement as DataGrid;
             if (selectionChanged != null)
             {
-                dataGrid.SelectionChanged -= selectionChanged;
+                uiElement.SelectionChanged -= selectionChanged;
             }
-            dataGrid.CapturePointer(e.Pointer);
+            uiElement.CapturePointer(e.Pointer);
             _hasSelectionStarted = true;
-            _prevSelectedItems = uiElement.SelectedItems.Cast<object>().ToList();
         }
 
         private void RectangleSelection_PointerReleased(object sender, PointerRoutedEventArgs e)
@@ -199,11 +210,10 @@ namespace Files.UserControls
             selectionRectangle.Height = 0;
             uiElement.PointerMoved -= RectangleSelection_PointerMoved;
             uiElement.ReleasePointerCapture(e.Pointer);
-            var dataGrid = uiElement as DataGrid;
             if (selectionChanged != null)
             {
-                dataGrid.SelectionChanged -= selectionChanged;
-                dataGrid.SelectionChanged += selectionChanged;
+                uiElement.SelectionChanged -= selectionChanged;
+                uiElement.SelectionChanged += selectionChanged;
                 if (_prevSelectedItems == null || !uiElement.SelectedItems.Cast<object>().ToList().SequenceEqual(_prevSelectedItems))
                 {
                     selectionChanged(sender, null);
@@ -224,8 +234,8 @@ namespace Files.UserControls
                 uiElement.PointerReleased += RectangleSelection_PointerReleased;
                 uiElement.PointerCaptureLost += RectangleSelection_PointerReleased;
                 uiElement.PointerCanceled += RectangleSelection_PointerReleased;
-                (uiElement as DataGrid).LoadingRow += RectangleSelection_LoadingRow;
-                (uiElement as DataGrid).UnloadingRow += RectangleSelection_UnloadingRow;
+                uiElement.LoadingRow += RectangleSelection_LoadingRow;
+                uiElement.UnloadingRow += RectangleSelection_UnloadingRow;
                 scrollBar = Interaction.FindChild<ScrollBar>(uiElement);
             }
         }
