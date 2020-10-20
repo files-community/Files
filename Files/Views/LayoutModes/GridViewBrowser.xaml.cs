@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.UserControls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace Files
             this.InitializeComponent();
             base.BaseLayoutContextFlyout = this.BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
-            this.rectangleSelection = new UserControls.RectangleSelection(FileList, SelectionRectangle, FileList_SelectionChanged);
+            this.rectangleSelection = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             App.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
 
             SetItemTemplate(); // Set ItemTemplate

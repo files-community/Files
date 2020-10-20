@@ -621,9 +621,7 @@
             ScrollViewer.IsScrollInertiaEnabled="True"
             SelectionChanged="AllView_SelectionChanged"
             SelectionMode="Extended"
-            Sorting="AllView_Sorting"
-            VerticalAlignment="Stretch"
-            VerticalContentAlignment="Stretch">
+            Sorting="AllView_Sorting">
             <controls:DataGrid.Resources>
                 <SolidColorBrush x:Key="DataGridCellFocusVisualPrimaryBrush" Color="Transparent" />
                 <SolidColorBrush x:Key="DataGridCellFocusVisualSecondaryBrush" Color="Transparent" />

@@ -1,6 +1,7 @@
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.UserControls;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.UI.Xaml.Controls;
@@ -62,7 +63,7 @@ namespace Files
             InitializeComponent();
             base.BaseLayoutContextFlyout = this.BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
-            this.rectangleSelection = new UserControls.RectangleSelection(AllView, SelectionRectangle, AllView_SelectionChanged);
+            this.rectangleSelection = RectangleSelection.Create(AllView, SelectionRectangle, AllView_SelectionChanged);
             switch (AppSettings.DirectorySortOption)
             {
                 case SortOption.Name:
