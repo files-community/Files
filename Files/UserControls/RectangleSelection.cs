@@ -39,7 +39,7 @@ namespace Files.UserControls
             var currentPoint = e.GetCurrentPoint(uiElement);
             if (currentPoint.Properties.IsLeftButtonPressed)
             {
-                var verticalOffset = scrollViewer?.VerticalOffset ?? scrollBar.Value;
+                var verticalOffset = scrollViewer?.VerticalOffset ?? scrollBar.Value - 38;
                 var originDragPointShifted = new Point(originDragPoint.X, originDragPoint.Y - verticalOffset);
                 if (currentPoint.Position.X >= originDragPointShifted.X)
                 {
@@ -76,6 +76,7 @@ namespace Files.UserControls
                     }
                 }
                 var rect = new System.Drawing.Rectangle((int)Canvas.GetLeft(selectionRectangle), (int)Math.Min(originDragPoint.Y, currentPoint.Position.Y + verticalOffset), (int)selectionRectangle.Width, (int)Math.Abs(originDragPoint.Y - (currentPoint.Position.Y + verticalOffset)));
+                Dictionary<DataGridRow, System.Drawing.Rectangle> dataGridRowsPosition = null;
                 if (uiElement is ListViewBase)
                 {
                     var listViewBase = uiElement as ListViewBase;
@@ -106,12 +107,17 @@ namespace Files.UserControls
                 else //if (uiElement is DataGrid)
                 {
                     var dataGrid = uiElement as DataGrid;
+                    dataGridRowsPosition = new Dictionary<DataGridRow, System.Drawing.Rectangle>();
                     foreach (var row in dataGridRows)
                     {
                         var gt = row.TransformToVisual(uiElement);
                         var itemStartPoint = gt.TransformPoint(new Point(0, verticalOffset));
                         var itemRect = new System.Drawing.Rectangle((int)itemStartPoint.X, (int)itemStartPoint.Y, (int)row.ActualWidth, (int)row.ActualHeight);
-                        itemsPosition[row.DataContext] = itemRect;
+                        if (row.Visibility == Visibility.Visible)
+                        {
+                            itemsPosition[row.DataContext] = itemRect;
+                            dataGridRowsPosition[row] = itemRect;
+                        }
                     }
                     foreach (var item in itemsPosition)
                     {
@@ -130,26 +136,46 @@ namespace Files.UserControls
                 }
                 if (currentPoint.Position.Y > uiElement.ActualHeight - 20)
                 {
-                    var scrollIncrement = Math.Min(currentPoint.Position.Y - (uiElement.ActualHeight - 20), 40);
                     if (scrollViewer != null)
                     {
+                        var scrollIncrement = Math.Min(currentPoint.Position.Y - (uiElement.ActualHeight - 20), 40);
                         scrollViewer.ChangeView(null, verticalOffset + scrollIncrement, null, false);
                     }
                     else // if (scrollBar != null)
                     {
-                        scrollBar.Value = verticalOffset + scrollIncrement;
+                        var item = dataGridRowsPosition.OrderBy(x => x.Value.Y).SkipWhile(x => x.Value.Y <= verticalOffset + uiElement.ActualHeight).Select(x => x.Key).FirstOrDefault();
+                        if (item == null)
+                        {
+                            var index = dataGridRowsPosition.OrderBy(x => x.Value.Y).Last().Key.GetIndex();
+                            var source = (System.Collections.IList)(uiElement as DataGrid).ItemsSource;
+                            (uiElement as DataGrid).ScrollIntoView(source[Math.Min(Math.Max(index + 1, 0), source.Count - 1)], null);
+                        }
+                        else
+                        {
+                            (uiElement as DataGrid).ScrollIntoView(item.DataContext, null);
+                        }
                     }
                 }
                 else if (currentPoint.Position.Y < 20)
                 {
-                    var scrollIncrement = Math.Min(20 - currentPoint.Position.Y, 40);
                     if (scrollViewer != null)
                     {
+                        var scrollIncrement = Math.Min(20 - currentPoint.Position.Y, 40);
                         scrollViewer.ChangeView(null, verticalOffset - scrollIncrement, null, false);
                     }
                     else // if (scrollBar != null)
                     {
-                        scrollBar.Value = verticalOffset - scrollIncrement;
+                        var item = dataGridRowsPosition.OrderBy(x => x.Value.Y).TakeWhile(x => x.Value.Y + x.Value.Height <= scrollBar.Value).Select(x => x.Key).LastOrDefault();
+                        if (item == null)
+                        {
+                            var index = dataGridRowsPosition.OrderBy(x => x.Value.Y).First().Key.GetIndex();
+                            var source = (System.Collections.IList)(uiElement as DataGrid).ItemsSource;
+                            (uiElement as DataGrid).ScrollIntoView(source[Math.Min(Math.Max(index - 1, 0), source.Count - 1)], null);
+                        }
+                        else
+                        {
+                            (uiElement as DataGrid).ScrollIntoView(item.DataContext, null);
+                        }
                     }
                 }
             }
@@ -164,7 +190,7 @@ namespace Files.UserControls
                 Interaction.FindChildren<DataGridRow>(dataGridRows, uiElement);
             }
             originDragPoint = new Point(e.GetCurrentPoint(uiElement).Position.X, e.GetCurrentPoint(uiElement).Position.Y);
-            var verticalOffset = scrollViewer?.VerticalOffset ?? scrollBar.Value;
+            var verticalOffset = scrollViewer?.VerticalOffset ?? scrollBar.Value - 38;
             originDragPoint.Y = originDragPoint.Y + verticalOffset;
             uiElement.PointerMoved -= RectangleSelection_PointerMoved;
             uiElement.PointerMoved += RectangleSelection_PointerMoved;
