@@ -25,7 +25,6 @@ namespace Files
     {
         private string oldItemName;
         private DataGridColumn _sortedColumn;
-        private UserControls.RectangleSelection rectangleSelection;
         private static readonly MethodInfo SelectAllMethod = typeof(DataGrid).GetMethod("SelectAll", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance);
 
         public DataGridColumn SortedColumn
@@ -63,7 +62,7 @@ namespace Files
             InitializeComponent();
             base.BaseLayoutContextFlyout = this.BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
-            this.rectangleSelection = RectangleSelection.Create(AllView, SelectionRectangle, AllView_SelectionChanged);
+            RectangleSelection.Create(AllView, SelectionRectangle, AllView_SelectionChanged);
             switch (AppSettings.DirectorySortOption)
             {
                 case SortOption.Name:

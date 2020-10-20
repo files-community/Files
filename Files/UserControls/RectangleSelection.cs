@@ -86,6 +86,9 @@ namespace Files.UserControls
         private Dictionary<object, System.Drawing.Rectangle> itemsPosition;
         private IList<DataGridRow> dataGridRows;
 
+        private bool _hasSelectionStarted;
+        private List<object> _prevSelectedItems;
+
         public RectangleSelection_DataGrid(DataGrid uiElement, Rectangle selectionRectangle, SelectionChangedEventHandler selectionChanged = null)
         {
             this.uiElement = uiElement;
@@ -98,6 +101,11 @@ namespace Files.UserControls
 
         private void RectangleSelection_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
+            if (_hasSelectionStarted)
+            {
+                uiElement.SelectedItems.Clear();
+                _hasSelectionStarted = false;
+            }
             var currentPoint = e.GetCurrentPoint(uiElement);
             if (currentPoint.Properties.IsLeftButtonPressed && scrollBar != null)
             {
@@ -166,11 +174,8 @@ namespace Files.UserControls
         private void RectangleSelection_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             itemsPosition.Clear();
-            if (uiElement is DataGrid)
-            {
-                dataGridRows.Clear();
-                Interaction.FindChildren<DataGridRow>(dataGridRows, uiElement);
-            }
+            dataGridRows.Clear();
+            Interaction.FindChildren<DataGridRow>(dataGridRows, uiElement);
             originDragPoint = new Point(e.GetCurrentPoint(uiElement).Position.X, e.GetCurrentPoint(uiElement).Position.Y);
             var verticalOffset = (scrollBar?.Value ?? 0) - 38; // Magic number (header height? to be checked)
             originDragPoint.Y = originDragPoint.Y + verticalOffset;
@@ -182,7 +187,8 @@ namespace Files.UserControls
                 dataGrid.SelectionChanged -= selectionChanged;
             }
             dataGrid.CapturePointer(e.Pointer);
-            dataGrid.SelectedItems.Clear();
+            _hasSelectionStarted = true;
+            _prevSelectedItems = uiElement.SelectedItems.Cast<object>().ToList();
         }
 
         private void RectangleSelection_PointerReleased(object sender, PointerRoutedEventArgs e)
@@ -198,8 +204,12 @@ namespace Files.UserControls
             {
                 dataGrid.SelectionChanged -= selectionChanged;
                 dataGrid.SelectionChanged += selectionChanged;
-                selectionChanged(sender, null);
+                if (_prevSelectedItems == null || !uiElement.SelectedItems.Cast<object>().ToList().SequenceEqual(_prevSelectedItems))
+                {
+                    selectionChanged(sender, null);
+                }
             }
+            _hasSelectionStarted = false;
         }
 
         private void InitEvents()

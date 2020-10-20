@@ -20,14 +20,13 @@ namespace Files
     public sealed partial class GridViewBrowser : BaseLayout
     {
         public string oldItemName;
-        private UserControls.RectangleSelection rectangleSelection;
 
         public GridViewBrowser()
         {
             this.InitializeComponent();
             base.BaseLayoutContextFlyout = this.BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
-            this.rectangleSelection = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
+            RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             App.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
 
             SetItemTemplate(); // Set ItemTemplate
