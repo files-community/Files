@@ -1370,6 +1370,10 @@
           <source>Show Owner in properties</source>
           <target state="translated">Mostrar proprietário nas propriedades</target>
         </trans-unit>
+        <trans-unit id="SettingsOpenItemsWithOneclick.Header" translate="yes" xml:space="preserve">
+          <source>Open items with a single click</source>
+          <target state="new">Open items with a single click</target>
+        </trans-unit>
       </group>
     </body>
   </file>

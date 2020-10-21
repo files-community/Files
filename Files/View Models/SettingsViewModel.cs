@@ -276,6 +276,12 @@ namespace Files.View_Models
             get => Get(false);
             set => Set(value);
         }
+        
+        public bool OpenItemsWithOneclick
+        {
+            get => Get(false);
+            set => Set(value);
+        }
 
         private bool _PinOneDriveToSideBar = true;
 

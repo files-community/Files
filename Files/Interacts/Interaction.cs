@@ -58,6 +58,15 @@ namespace Files.Interacts
             OpenSelectedItems(false);
         }
 
+        public async void List_ItemPress(object sender, PointerRoutedEventArgs e)
+        {
+            if (AppSettings.OpenItemsWithOneclick)
+            {
+                await Task.Delay(200); // The delay gives time for the item to be selected
+                OpenSelectedItems(false);
+            }
+        }
+
         public void SetAsDesktopBackgroundItem_Click(object sender, RoutedEventArgs e)
         {
             SetAsBackground(WallpaperType.Desktop);

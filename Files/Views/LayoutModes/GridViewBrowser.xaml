@@ -22,9 +22,10 @@
             FalseValue="1"
             TrueValue="0.4" />
 
-        <MenuFlyout x:Key="BaseLayoutContextFlyout"
-                    x:Name="BaseLayoutContextFlyout"
-                    Opening="RightClickContextMenu_Opening">
+        <MenuFlyout
+            x:Key="BaseLayoutContextFlyout"
+            x:Name="BaseLayoutContextFlyout"
+            Opening="RightClickContextMenu_Opening">
             <MenuFlyoutSubItem
                 x:Name="SortByEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutSortBy"

@@ -26,9 +26,10 @@
             FalseValue="1"
             TrueValue="0.4" />
 
-        <MenuFlyout x:Key="BaseLayoutContextFlyout"
-                    x:Name="BaseLayoutContextFlyout"
-                    Opening="RightClickContextMenu_Opening">
+        <MenuFlyout
+            x:Key="BaseLayoutContextFlyout"
+            x:Name="BaseLayoutContextFlyout"
+            Opening="RightClickContextMenu_Opening">
             <MenuFlyoutSubItem
                 x:Name="SortByEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutSortBy"
@@ -616,6 +617,7 @@
             IsRightTapEnabled="True"
             ItemsSource="{x:Bind AssociatedViewModel.FilesAndFolders, Mode=OneWay}"
             LoadingRow="AllView_LoadingRow"
+            PointerPressed="{x:Bind local:App.CurrentInstance.InteractionOperations.List_ItemPress}"
             PreparingCellForEdit="AllView_PreparingCellForEdit"
             PreviewKeyDown="AllView_PreviewKeyDown"
             RightTapped="AllView_RightTapped"

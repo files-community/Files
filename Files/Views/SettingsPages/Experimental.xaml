@@ -44,6 +44,12 @@
                     Header="Show Owner in properties"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{x:Bind AppSettings.ShowFileOwner, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Uid="SettingsOpenItemsWithOneclick"
+                    Header="Open items with a single click"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind AppSettings.OpenItemsWithOneclick, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
