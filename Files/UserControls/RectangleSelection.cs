@@ -140,20 +140,28 @@ namespace Files.UserControls
                     itemsPosition[row.DataContext] = itemRect; // Update item position
                     dataGridRowsPosition[row] = itemRect; // Update ui row position
                 }
-                foreach (var item in itemsPosition)
+                foreach (var item in itemsPosition.ToList())
                 {
-                    // Update selected items
-                    if (rect.IntersectsWith(item.Value))
+                    try
                     {
-                        // Selection rectangle intersects item, add to selected items
-                        if (!uiElement.SelectedItems.Contains(item.Key))
+                        // Update selected items
+                        if (rect.IntersectsWith(item.Value))
                         {
-                            uiElement.SelectedItems.Add(item.Key);
+                            // Selection rectangle intersects item, add to selected items
+                            if (!uiElement.SelectedItems.Contains(item.Key))
+                            {
+                                uiElement.SelectedItems.Add(item.Key);
+                            }
+                        }
+                        else
+                        {
+                            uiElement.SelectedItems.Remove(item.Key);
                         }
                     }
-                    else
+                    catch (ArgumentException)
                     {
-                        uiElement.SelectedItems.Remove(item.Key);
+                        // Item is not present in the ItemsSource
+                        itemsPosition.Remove(item);
                     }
                 }
                 if (currentPoint.Position.Y > uiElement.ActualHeight - 20)
@@ -202,21 +210,29 @@ namespace Files.UserControls
             originDragPoint = new Point(e.GetCurrentPoint(uiElement).Position.X, e.GetCurrentPoint(uiElement).Position.Y); // Initial drag point relative to the topleft corner
             var verticalOffset = (scrollBar?.Value ?? 0) - 38; // Magic number (header height? to be checked)
             originDragPoint.Y = originDragPoint.Y + verticalOffset; // Initial drag point relative to the top of the list (considering scrolled offset)
+            DataGridRow clickedRow = null;
             foreach (var row in dataGridRows)
             {
                 if (row.Visibility != Visibility.Visible) continue;
                 var gt = row.TransformToVisual(uiElement);
                 var itemStartPoint = gt.TransformPoint(new Point(0, verticalOffset)); // Get item position relative to the top of the list (considering scrolled offset)
                 var itemRect = new System.Drawing.Rectangle((int)itemStartPoint.X, (int)itemStartPoint.Y, (int)row.ActualWidth, (int)row.ActualHeight);
-                // If the item under the pointer is selected do not trigger selection rectangle
+                // Get DataGrid row under the pointer
                 if (itemRect.Contains((int)originDragPoint.X, (int)originDragPoint.Y))
                 {
-                    if (uiElement.SelectedItems.Contains(row.DataContext))
-                    {
-                        return;
-                    }
+                    clickedRow = row;
                     break;
                 }
+            }
+            if (clickedRow == null)
+            {
+                // If user click outside, reset selection
+                uiElement.SelectedItems.Clear();
+            }
+            else if (uiElement.SelectedItems.Contains(clickedRow.DataContext))
+            {
+                // If the item under the pointer is selected do not trigger selection rectangle
+                return;
             }
             uiElement.PointerMoved -= RectangleSelection_PointerMoved;
             uiElement.PointerMoved += RectangleSelection_PointerMoved;
@@ -317,20 +333,28 @@ namespace Files.UserControls
                     var itemRect = new System.Drawing.Rectangle((int)itemStartPoint.X, (int)itemStartPoint.Y, (int)listViewItem.ActualWidth, (int)listViewItem.ActualHeight);
                     itemsPosition[item] = itemRect;
                 }
-                foreach (var item in itemsPosition)
+                foreach (var item in itemsPosition.ToList())
                 {
-                    // Update selected items
-                    if (rect.IntersectsWith(item.Value))
+                    try
                     {
-                        // Selection rectangle intersects item, add to selected items
-                        if (!uiElement.SelectedItems.Contains(item.Key))
+                        // Update selected items
+                        if (rect.IntersectsWith(item.Value))
                         {
-                            uiElement.SelectedItems.Add(item.Key);
+                            // Selection rectangle intersects item, add to selected items
+                            if (!uiElement.SelectedItems.Contains(item.Key))
+                            {
+                                uiElement.SelectedItems.Add(item.Key);
+                            }
+                        }
+                        else
+                        {
+                            uiElement.SelectedItems.Remove(item.Key);
                         }
                     }
-                    else
+                    catch (ArgumentException)
                     {
-                        uiElement.SelectedItems.Remove(item.Key);
+                        // Item is not present in the ItemsSource
+                        itemsPosition.Remove(item);
                     }
                 }
                 if (currentPoint.Position.Y > uiElement.ActualHeight - 20)

@@ -188,7 +188,7 @@ namespace Files.Interacts
             {
                 var value = new ValueSet
                 {
-                    { "WorkingDirectory", string.IsNullOrEmpty(workingDir) ? App.CurrentInstance.FilesystemViewModel.WorkingDirectory : workingDir },
+                    { "WorkingDirectory", string.IsNullOrEmpty(workingDir) ? App.CurrentInstance?.FilesystemViewModel?.WorkingDirectory : workingDir },
                     { "Application", applicationPaths.FirstOrDefault() },
                     { "ApplicationList", JsonConvert.SerializeObject(applicationPaths) },
                 };
