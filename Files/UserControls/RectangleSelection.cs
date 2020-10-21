@@ -210,6 +210,11 @@ namespace Files.UserControls
             originDragPoint = new Point(e.GetCurrentPoint(uiElement).Position.X, e.GetCurrentPoint(uiElement).Position.Y); // Initial drag point relative to the topleft corner
             var verticalOffset = (scrollBar?.Value ?? 0) - 38; // Magic number (header height? to be checked)
             originDragPoint.Y = originDragPoint.Y + verticalOffset; // Initial drag point relative to the top of the list (considering scrolled offset)
+            if (!e.GetCurrentPoint(uiElement).Properties.IsLeftButtonPressed)
+            {
+                // Trigger only on left click
+                return;
+            }
             DataGridRow clickedRow = null;
             foreach (var row in dataGridRows)
             {
@@ -304,6 +309,7 @@ namespace Files.UserControls
 
         private Point originDragPoint;
         private Dictionary<object, System.Drawing.Rectangle> itemsPosition;
+        private bool _hasSelectionStarted;
 
         public RectangleSelection_ListViewBase(ListViewBase uiElement, Rectangle selectionRectangle, SelectionChangedEventHandler selectionChanged = null)
         {
@@ -316,6 +322,12 @@ namespace Files.UserControls
 
         private void RectangleSelection_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
+            if (_hasSelectionStarted)
+            {
+                // Clear selected items once if the pointer is pressed and moved
+                uiElement.SelectedItems.Clear();
+                _hasSelectionStarted = false;
+            }
             var currentPoint = e.GetCurrentPoint(uiElement);
             if (currentPoint.Properties.IsLeftButtonPressed && scrollViewer != null)
             {
@@ -378,6 +390,11 @@ namespace Files.UserControls
             originDragPoint = new Point(e.GetCurrentPoint(uiElement).Position.X, e.GetCurrentPoint(uiElement).Position.Y); // Initial drag point relative to the topleft corner
             var verticalOffset = scrollViewer?.VerticalOffset ?? 0;
             originDragPoint.Y = originDragPoint.Y + verticalOffset; // Initial drag point relative to the top of the list (considering scrolled offset)
+            if (!e.GetCurrentPoint(uiElement).Properties.IsLeftButtonPressed)
+            {
+                // Trigger only on left click
+                return;
+            }
             uiElement.PointerMoved -= RectangleSelection_PointerMoved;
             uiElement.PointerMoved += RectangleSelection_PointerMoved;
             if (selectionChanged != null)
@@ -386,7 +403,7 @@ namespace Files.UserControls
                 uiElement.SelectionChanged -= selectionChanged;
             }
             uiElement.CapturePointer(e.Pointer);
-            uiElement.SelectedItems.Clear();
+            _hasSelectionStarted = true;
         }
 
         private void RectangleSelection_PointerReleased(object sender, PointerRoutedEventArgs e)
@@ -404,6 +421,7 @@ namespace Files.UserControls
                 uiElement.SelectionChanged += selectionChanged;
                 selectionChanged(sender, null);
             }
+            _hasSelectionStarted = false;
         }
 
         private void InitEvents()
