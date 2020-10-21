@@ -8,7 +8,7 @@
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives"
+    xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives" xmlns:converters="using:Files.Converters"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -733,14 +733,34 @@
                     </Style>
                 </ResourceDictionary>
                 <ResourceDictionary>
-                    <AcrylicBrush
-                        x:Key="TabViewBackground"
-                        Windows10version1903:TintLuminosityOpacity="0.75"
-                        AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
-                        BackgroundSource="HostBackdrop"
-                        FallbackColor="{ThemeResource TabViewBackgroundFixed}"
-                        TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
-                        TintOpacity="0.5" />
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Light">
+                            <AcrylicBrush
+                                x:Key="TabViewBackground"
+                                Windows10version1903:TintLuminosityOpacity="0.75"
+                                AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
+                                BackgroundSource="HostBackdrop"
+                                FallbackColor="#FFF3F2F1"
+                                TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
+                                TintOpacity="0.5" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Dark">
+                            <AcrylicBrush
+                                x:Key="TabViewBackground"
+                                Windows10version1903:TintLuminosityOpacity="0.75"
+                                AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
+                                BackgroundSource="HostBackdrop"
+                                FallbackColor="#161514"
+                                TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
+                                TintOpacity="0.5" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="HighContrast">
+                            <SolidColorBrush
+                                x:Key="TabViewBackground"
+                                Color="{ThemeResource SystemColorActiveCaptionColor}"/>
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

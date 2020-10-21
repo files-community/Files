@@ -623,7 +623,11 @@
                                 TargetTheme="Dark"
                                 Color="Transparent" />
                         </ResourceDictionary>
-                        <ResourceDictionary x:Key="HighContrast" />
+                        <ResourceDictionary x:Key="HighContrast">
+                            <SolidColorBrush 
+                                x:Key="TransparentGridRevealBorderBrush"
+                                Color="{ThemeResource SystemColorWindowTextColor}"/>
+                        </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>

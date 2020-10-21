@@ -38,7 +38,7 @@
                                         <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#161514" />
                                     </ResourceDictionary>
                                     <ResourceDictionary x:Name="HighContrast">
-                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="Black" />
+                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="{ThemeResource SystemColorButtonFaceColor}" />
                                     </ResourceDictionary>
                                 </ResourceDictionary.ThemeDictionaries>
                             </ResourceDictionary>
