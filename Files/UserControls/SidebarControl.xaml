@@ -133,7 +133,7 @@
                         HorizontalContentAlignment="Left"
                         AutomationProperties.Name="Settings"
                         Background="Transparent"
-                        BorderBrush="{StaticResource ButtonRevealBorderBrush}"
+                        BorderBrush="{ThemeResource ButtonRevealBorderBrush}"
                         Click="SettingsButton_Click"
                         CornerRadius="0">
                         <Button.Content>
