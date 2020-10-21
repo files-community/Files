@@ -60,10 +60,14 @@ namespace Files.Interacts
 
         public async void List_ItemPress(object sender, PointerRoutedEventArgs e)
         {
-            if (AppSettings.OpenItemsWithOneclick)
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
             {
-                await Task.Delay(200); // The delay gives time for the item to be selected
-                OpenSelectedItems(false);
+                var properties = e.GetCurrentPoint((UIElement)sender).Properties;
+                if (properties.IsLeftButtonPressed && AppSettings.OpenItemsWithOneclick)
+                {
+                    await Task.Delay(200); // The delay gives time for the item to be selected
+                    OpenSelectedItems(false);
+                }
             }
         }
 
