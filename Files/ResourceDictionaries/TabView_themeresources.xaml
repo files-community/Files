@@ -7,7 +7,6 @@
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
             <StaticResource x:Key="TabViewBackground" ResourceKey="SystemControlBackgroundListLowBrush" />
-            <Color x:Key="TabViewBackgroundFixed">#FFF3F2F1</Color>
             <StaticResource x:Key="TabViewItemHeaderBackground" ResourceKey="SystemControlTransparentBrush" />
             <StaticResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="ApplicationPageBackgroundThemeBrush" />
             <StaticResource x:Key="TabViewItemHeaderBackgroundPointerOver" ResourceKey="SystemAltMediumLowColor" />
@@ -55,7 +54,6 @@
 
         <ResourceDictionary x:Key="Dark">
             <StaticResource x:Key="TabViewBackground" ResourceKey="SystemControlBackgroundBaseLowBrush" />
-            <Color x:Key="TabViewBackgroundFixed">#161514</Color>
             <StaticResource x:Key="TabViewItemHeaderBackground" ResourceKey="SystemControlTransparentBrush" />
             <Color x:Key="TabViewItemHeaderBackgroundSelected">#292827</Color>
             <StaticResource x:Key="TabViewItemHeaderBackgroundPointerOver" ResourceKey="SystemAltMediumLowColor" />
