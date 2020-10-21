@@ -245,14 +245,6 @@ namespace Files.Controls
             App.rightClickedItem = sidebarItem.DataContext as DriveItem;
         }
 
-        private void SettingsButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame rootFrame = Window.Current.Content as Frame;
-            rootFrame.Navigate(typeof(Settings));
-
-            return;
-        }
-
         private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
             App.CurrentInstance.InteractionOperations.OpenPathInNewTab(App.rightClickedItem.Path.ToString());
@@ -380,6 +372,14 @@ namespace Files.Controls
                 };
                 await App.CurrentInstance.InteractionOperations.OpenPropertiesWindow(listedItem);
             }
+        }
+
+        private void SettingsButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            rootFrame.Navigate(typeof(Settings));
+
+            return;
         }
     }
 
