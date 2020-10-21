@@ -63,12 +63,21 @@ namespace Files.Interacts
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
             {
                 var properties = e.GetCurrentPoint((UIElement)sender).Properties;
-                if (properties.IsLeftButtonPressed && AppSettings.OpenItemsWithOneclick)
+                if (properties.IsLeftButtonPressed   && AppSettings.OpenItemsWithOneclick)
                 {
                     await Task.Delay(200); // The delay gives time for the item to be selected
                     OpenSelectedItems(false);
                 }
             }
+        }
+        
+        public async void ListItemSingleClick(object sender, ItemClickEventArgs e)
+        { 
+                if (AppSettings.OpenItemsWithOneclick)
+                {
+                    await Task.Delay(200); // The delay gives time for the item to be selected
+                    OpenSelectedItems(false);
+                }
         }
 
         public void SetAsDesktopBackgroundItem_Click(object sender, RoutedEventArgs e)

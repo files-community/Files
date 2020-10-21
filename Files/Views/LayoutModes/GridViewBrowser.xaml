@@ -858,6 +858,8 @@
             DragOver="List_DragOver"
             Drop="List_Drop"
             IsDoubleTapEnabled="True"
+            IsItemClickEnabled="True"
+            ItemClick="{x:Bind local:App.CurrentInstance.InteractionOperations.ListItemSingleClick}"
             ItemsSource="{x:Bind AssociatedViewModel.FilesAndFolders}"
             PreviewKeyDown="FileList_PreviewKeyDown"
             SelectionChanged="FileList_SelectionChanged"
