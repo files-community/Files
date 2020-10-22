@@ -60,7 +60,7 @@ namespace Files.Interacts
 
         public async void List_ItemPress(object sender, PointerRoutedEventArgs e)
         {
-            // Skip code if the user right clicks and item
+            // Skip code if the user right clicks an item
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
             {
                 var properties = e.GetCurrentPoint((UIElement)sender).Properties;
