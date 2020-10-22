@@ -60,24 +60,31 @@ namespace Files.Interacts
 
         public async void List_ItemPress(object sender, PointerRoutedEventArgs e)
         {
+            // Skip code if the user right clicks and item
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
             {
                 var properties = e.GetCurrentPoint((UIElement)sender).Properties;
-                if (properties.IsLeftButtonPressed   && AppSettings.OpenItemsWithOneclick)
+                if (properties.IsRightButtonPressed)
                 {
-                    await Task.Delay(200); // The delay gives time for the item to be selected
-                    OpenSelectedItems(false);
+                    return;
                 }
             }
+
+            // Check if the setting to open items with a single click is turned on
+            if (AppSettings.OpenItemsWithOneclick)
+            {
+                await Task.Delay(200); // The delay gives time for the item to be selected
+                OpenSelectedItems(false);
+            }
         }
-        
+
         public async void ListItemSingleClick(object sender, ItemClickEventArgs e)
-        { 
-                if (AppSettings.OpenItemsWithOneclick)
-                {
-                    await Task.Delay(200); // The delay gives time for the item to be selected
-                    OpenSelectedItems(false);
-                }
+        {
+            if (AppSettings.OpenItemsWithOneclick)
+            {
+                await Task.Delay(200); // The delay gives time for the item to be selected
+                OpenSelectedItems(false);
+            }
         }
 
         public void SetAsDesktopBackgroundItem_Click(object sender, RoutedEventArgs e)
