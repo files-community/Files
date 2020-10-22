@@ -605,6 +605,8 @@
 
         <controls:DataGrid
             x:Name="AllView"
+            Background="Transparent"
+            VerticalAlignment="Stretch"
             Grid.Row="3"
             Margin="12,12,12,0"
             HorizontalAlignment="Stretch"
@@ -870,5 +872,20 @@
                 </controls:DataGridTextColumn>
             </controls:DataGrid.Columns>
         </controls:DataGrid>
+
+        <Canvas
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Margin="12,12,12,0">
+            <Rectangle
+                Name="SelectionRectangle"
+                Fill="#AA0078d7"
+                Stroke="#FF0066cc"
+                StrokeThickness="1"
+                Canvas.Left="0"
+                Canvas.Top="0"
+                Width="0"
+                Height="0" />
+        </Canvas>
     </Grid>
 </local:BaseLayout>

@@ -97,7 +97,15 @@ namespace Files
                 {
                     backgroundBrush.TintLuminosityOpacity = 0.9;
                 }
-                Background = backgroundBrush;
+
+                if (!(new AccessibilitySettings()).HighContrast)
+                {
+                    Background = backgroundBrush;
+                }
+                else
+                {
+                    Background = Application.Current.Resources["ApplicationPageBackgroundThemeBrush"] as SolidColorBrush;
+                }
             });
         }
 
