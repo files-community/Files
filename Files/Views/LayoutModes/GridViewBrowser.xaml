@@ -849,7 +849,7 @@
 
         <GridView
             x:Name="FileList"
-            Margin="14,14,14,0"
+            Padding="14,14,14,0"
             VerticalContentAlignment="Stretch"
             x:FieldModifier="public"
             AllowDrop="True"
@@ -876,5 +876,19 @@
                 </Core:DataTriggerBehavior>
             </Interactivity:Interaction.Behaviors>
         </GridView>
+
+        <Canvas
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+            <Rectangle
+                Name="SelectionRectangle"
+                Fill="#AA0078d7"
+                Stroke="#FF0066cc"
+                StrokeThickness="1"
+                Canvas.Left="0"
+                Canvas.Top="0"
+                Width="0"
+                Height="0"/>
+        </Canvas>
     </Grid>
 </local:BaseLayout>

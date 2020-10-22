@@ -1,14 +1,18 @@
 ﻿using Files.Filesystem;
+using Files.UserControls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Interaction = Files.Interacts.Interaction;
 
 namespace Files
@@ -22,6 +26,7 @@ namespace Files
             this.InitializeComponent();
             base.BaseLayoutContextFlyout = this.BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
+            RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             App.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
 
             SetItemTemplate(); // Set ItemTemplate
