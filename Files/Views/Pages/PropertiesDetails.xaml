@@ -19,6 +19,9 @@
         <ResourceDictionary x:Key="PropertiesStyles">
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+                <ResourceDictionary>
+                    <CollectionViewSource x:Name="PropertiesSource" IsSourceGrouped="True" Source="{x:Bind ViewModel.PropertySections}"/>
+                </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
@@ -27,79 +30,25 @@
             Name="MainGrid"
             Margin="14,0,14,0"
             VerticalAlignment="Top">
-            <Grid
-                x:Name="HeaderGrid"
-                Grid.Row="0"
-                x:Load="True">
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid
-                    x:Name="Icon2"
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Width="110"
-                    Height="80"
-                    Margin="0,7"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch">
-                    <Image
-                        x:Name="FolderGlyphIcon2"
-                        Width="70"
-                        Height="70"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        x:Load="{x:Bind ViewModel.LoadFolderGlyph}"
-                        Stretch="Uniform">
-                        <Image.Source>
-                            <SvgImageSource
-                                RasterizePixelHeight="128"
-                                RasterizePixelWidth="128"
-                                UriSource="{x:Bind ViewModel.FolderIconSource}" />
-                        </Image.Source>
-                    </Image>
-                    <FontIcon
-                        x:Name="EmptyImageIcon2"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Stretch"
-                        x:Load="{x:Bind ViewModel.LoadUnknownTypeGlyph, Mode=OneWay}"
-                        FontFamily="{StaticResource FluentUIGlyphs}"
-                        FontSize="70"
-                        Glyph="&#xea00;" />
-                    <FontIcon
-                        x:Name="WebShortcutGlyph2"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Stretch"
-                        x:Load="{x:Bind ViewModel.LoadLinkIcon, Mode=OneWay}"
-                        FontFamily="{StaticResource FluentUIGlyphs}"
-                        FontSize="70"
-                        Glyph="&#xEAAB;" />
-                    <Image
-                        x:Name="itemIcon2"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        x:Load="{x:Bind ViewModel.LoadFileIcon, Mode=OneWay}"
-                        Source="{x:Bind ViewModel.FileIconSource, Mode=OneWay}" />
-                </Grid>
-                <TextBox
-                    x:Name="itemFileName2"
-                    x:Uid="PropertiesItemFileName"
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Margin="20,0"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Center"
-                    BorderThickness="1"
-                    IsReadOnly="True"
-                    Style="{StaticResource PropertyValueTextBox}"
-                    Text="{x:Bind ViewModel.ItemName, Mode=OneWay}"
-                    Visibility="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}" />
-            </Grid>
+            <ListView SelectionMode="None" Height="500" ItemsSource="{x:Bind PropertiesSource.View, Mode=OneWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="filesystem:PropertiesData">
+                        <usercontrols:PropertyListItem Text="{Binding Name, Mode=OneWay}">
+                            <usercontrols:PropertyListItem.ValueText>
+                                <Binding Path="Value" Converter="{Binding Converter}" Mode="TwoWay"/>
+                            </usercontrols:PropertyListItem.ValueText>
+                        </usercontrols:PropertyListItem>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.HeaderTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Style="{StaticResource SeparatorText}" Text="hello" />
+                            <MenuFlyoutSeparator Style="{StaticResource Separator}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.HeaderTemplate>
+            </ListView>
 
             <TextBlock
                 Grid.Row="1"
@@ -463,18 +412,6 @@
                 <usercontrols:PropertyListItem Text="Writer" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.Writer'], Mode=TwoWay}" />
                 <usercontrols:PropertyListItem Text="Year" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.Year'], Mode=TwoWay, Converter={StaticResource UInt32ToString}}" />
             </StackPanel>
-
-            <ListView SelectionMode="None" ItemsSource="{x:Bind ViewModel.PropertyListItems, Mode=TwoWay}" Height="100">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="filesystem:PropertiesData">
-                        <usercontrols:PropertyListItem Text="{Binding Name, Mode=OneWay}">
-                            <usercontrols:PropertyListItem.ValueText>
-                                <Binding Source="{Binding Value}" Converter="{Binding Converter, Mode=OneWay}" Mode="TwoWay"/>
-                            </usercontrols:PropertyListItem.ValueText>
-                        </usercontrols:PropertyListItem>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
 
             <Button
                 x:Name="ClearPersonalInformation"

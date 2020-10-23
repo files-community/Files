@@ -7,8 +7,10 @@ using Microsoft.UI.Xaml.Controls;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -152,9 +154,9 @@ namespace Files.View_Models.Properties
 
         private List<PropertiesData> PropertyListItemsBase = new List<PropertiesData>()
         {
-            new PropertiesData("System.Title", "Title"),
-            new PropertiesData("System.Comments", "Comments"),
-            new PropertiesData("System.Subject", "Subject"),
+            new PropertiesData("System.Title", "Title") {Section = "section1" },
+            new PropertiesData("System.Comments", "Comments") {Section = "section2" },
+            new PropertiesData("System.Subject", "Subject") {Section = "section3" },
 
         };
 
@@ -320,7 +322,8 @@ namespace Files.View_Models.Properties
             }
             SetVisibilities();
             ViewModelProcessing();
-            ViewModel.PropertyListItems = new List<PropertiesData>();
+            var list = new List<PropertiesData>();
+
             foreach (var item in PropertyListItemsBase)
             {
                 try {
@@ -329,9 +332,11 @@ namespace Files.View_Models.Properties
                     Debug.WriteLine(e.ToString());
                 }
 
-                ViewModel.PropertyListItems.Add(item);
+                list.Add(item);
             }
 
+            var grouping = from item in list group item by item.Section;
+            ViewModel.PropertySections = new ObservableCollection<IGrouping<string, PropertiesData>>(grouping);
         }
 
         private void SetLocationInformation()

@@ -6,11 +6,14 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using Windows.ApplicationModel.Core;
 using Windows.Services.Maps;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
 namespace Files.View_Models
@@ -766,14 +769,20 @@ namespace Files.View_Models
             set => SetProperty(ref _DetailsSectionVisibility_Media, value);
         }
 
-        private List<PropertiesData> _PropertyListItems = new List<PropertiesData>();
-        public List<PropertiesData> PropertyListItems
+        private ObservableCollection<PropertiesData> _PropertyListItems = new ObservableCollection<PropertiesData>();
+        public ObservableCollection<PropertiesData> PropertyListItems
         {
             get => _PropertyListItems;
             set => SetProperty(ref _PropertyListItems, value); 
         }
 
 
+        private ObservableCollection<IGrouping<string, PropertiesData>> _PropertySections = new ObservableCollection<IGrouping<string, PropertiesData>>();
+        public ObservableCollection<IGrouping<string, PropertiesData>> PropertySections
+        {
+            get => _PropertySections;
+            set => SetProperty(ref _PropertySections, value);
+        }
 
     }
 }
