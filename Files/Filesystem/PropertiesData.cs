@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using SQLitePCL;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
@@ -8,7 +9,8 @@ namespace Files.Filesystem
     {
         public string Name { get; set; } = "Test:";
         public string Property { get; set; }
-        public object Data { get; set; }
+        public string Section { get; set; }
+        public object Value { get; set; }
         public IValueConverter Converter { get; set; }
         public bool IsReadOnly { get; set; }
 
@@ -20,13 +22,12 @@ namespace Files.Filesystem
             Name= name;
         }
 
-        public PropertiesData(string property, object data)
+        public PropertiesData(string property)
         {
             Property = property;
-            Data = data;
         }
 
-        public Properties()
+        public PropertiesData()
         {
 
         }

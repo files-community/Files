@@ -28,13 +28,13 @@
         <TextBlock
             Grid.Row="0"
             Style="{StaticResource PropertyName}"
-            Text="{x:Bind Text}" />
+            Text="{x:Bind Text, Mode=OneWay}" />
         <TextBox
             Grid.Row="0"
             Grid.Column="1"
             IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}"
             Style="{StaticResource PropertyValueTextBox}"
-            Text="{x:Bind ValueText, Mode=TwoWay}"
-            TextChanged="TextBox_TextChanged" />
+            TextChanged="TextBox_TextChanged" 
+            Text="{x:Bind ValueText, Mode=TwoWay}"/>
     </Grid>
 </UserControl>

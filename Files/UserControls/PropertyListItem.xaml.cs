@@ -1,5 +1,6 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -15,7 +16,13 @@ namespace Files.UserControls
             set => SetValue(ColumnWidthProperty, (GridLength)value);
         }
 
-        public string Text { get; set; }
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(PropertyListItem), null);
+
+        public string Text
+        {
+            get => GetValue(TextProperty) as string;
+            set => SetValue(TextProperty, value as string);
+        }
 
         public static readonly DependencyProperty ValueTextProperty = DependencyProperty.Register("ValueText", typeof(string), typeof(PropertyListItem), null);
 
@@ -35,5 +42,7 @@ namespace Files.UserControls
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
         }
+
+        
     }
 }

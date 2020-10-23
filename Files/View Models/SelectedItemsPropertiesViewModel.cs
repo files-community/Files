@@ -1,4 +1,5 @@
 using ByteSizeLib;
+using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -765,11 +766,14 @@ namespace Files.View_Models
             set => SetProperty(ref _DetailsSectionVisibility_Media, value);
         }
 
-        private ImageProperties _ImageProperties;
-        public ImageProperties ImageProperties
+        private List<PropertiesData> _PropertyListItems = new List<PropertiesData>();
+        public List<PropertiesData> PropertyListItems
         {
-            get => _ImageProperties;
-            set => SetProperty(ref _ImageProperties, value);
+            get => _PropertyListItems;
+            set => SetProperty(ref _PropertyListItems, value); 
         }
+
+
+
     }
 }

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
@@ -149,12 +150,12 @@ namespace Files.View_Models.Properties
                 "System.Photo.CameraModel",
         };
 
-        private List<PropertiesData> propertyListItems = new List<PropertiesData>()
+        private List<PropertiesData> PropertyListItemsBase = new List<PropertiesData>()
         {
-            new PropertiesData()
-            {
-                Name = "Proper"
-            }
+            new PropertiesData("System.Title", "Title"),
+            new PropertiesData("System.Comments", "Comments"),
+            new PropertiesData("System.Subject", "Subject"),
+
         };
 
         public ListedItem Item { get; }
@@ -169,6 +170,7 @@ namespace Files.View_Models.Properties
 
             GetBaseProperties();
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+
         }
 
         public override void GetBaseProperties()
@@ -302,15 +304,14 @@ namespace Files.View_Models.Properties
                 return;
             }
 
-            //IDictionary<string, object> ViewModel.SystemFileProperties;
+            IDictionary<string, object> props = new Dictionary<string, object>();
 
             //GenerateXAMLCode();
             try
             {
                 ViewModel.SystemFileProperties_RO = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RO);
                 ViewModel.SystemFileProperties_RW = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RW);
-
-                ViewModel.ImageProperties = await file.Properties.GetImagePropertiesAsync();
+                props = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RW);
                 //GetPropertiesAsyncDebug(file);
             }
             catch (Exception e)
@@ -318,11 +319,19 @@ namespace Files.View_Models.Properties
                 Debug.WriteLine(e.ToString());
             }
             SetVisibilities();
-
             ViewModelProcessing();
+            ViewModel.PropertyListItems = new List<PropertiesData>();
+            foreach (var item in PropertyListItemsBase)
+            {
+                try {
+                    item.Value = props[item.Property];
+                } catch (Exception e) {
+                    Debug.WriteLine(e.ToString());
+                }
 
-            var ImageProperties = ViewModel.ImageProperties;
-            Debug.WriteLine(ImageProperties.ToString());
+                ViewModel.PropertyListItems.Add(item);
+            }
+
         }
 
         private void SetLocationInformation()

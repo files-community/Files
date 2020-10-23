@@ -9,7 +9,7 @@
     xmlns:filesystem="using:Files.Filesystem"
     xmlns:local="using:Files.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:usercontrols="using:Files.UserControls"
+    xmlns:usercontrols="using:Files.UserControls" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     Name="Page"
     d:DesignHeight="3000"
     Loaded="Properties_Loaded"
@@ -463,6 +463,18 @@
                 <usercontrols:PropertyListItem Text="Writer" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.Writer'], Mode=TwoWay}" />
                 <usercontrols:PropertyListItem Text="Year" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.Year'], Mode=TwoWay, Converter={StaticResource UInt32ToString}}" />
             </StackPanel>
+
+            <ListView SelectionMode="None" ItemsSource="{x:Bind ViewModel.PropertyListItems, Mode=TwoWay}" Height="100">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="filesystem:PropertiesData">
+                        <usercontrols:PropertyListItem Text="{Binding Name, Mode=OneWay}">
+                            <usercontrols:PropertyListItem.ValueText>
+                                <Binding Source="{Binding Value}" Converter="{Binding Converter, Mode=OneWay}" Mode="TwoWay"/>
+                            </usercontrols:PropertyListItem.ValueText>
+                        </usercontrols:PropertyListItem>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
             <Button
                 x:Name="ClearPersonalInformation"
