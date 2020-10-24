@@ -11,14 +11,33 @@
     NavigationCacheMode="Enabled"
     mc:Ignorable="d">
     <Page.Resources>
-        <AcrylicBrush
-            x:Key="NavigationViewExpandedPaneBackground"
-            Windows10version1903:TintLuminosityOpacity="0.9"
-            AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
-            BackgroundSource="HostBackdrop"
-            FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
-            TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
-            TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <AcrylicBrush
+                        x:Key="NavigationViewExpandedPaneBackground"
+                        Windows10version1903:TintLuminosityOpacity="0.9"
+                        AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
+                        BackgroundSource="HostBackdrop"
+                        FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
+                        TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
+                        TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <AcrylicBrush
+                        x:Key="NavigationViewExpandedPaneBackground"
+                        Windows10version1903:TintLuminosityOpacity="0.9"
+                        AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
+                        BackgroundSource="HostBackdrop"
+                        FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
+                        TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
+                        TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="HighContrast">
+                    <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="{ThemeResource SystemColorWindowColor}" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
     </Page.Resources>
 
     <Grid>

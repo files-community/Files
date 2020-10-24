@@ -1,6 +1,7 @@
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.UserControls;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.UI.Xaml.Controls;
@@ -59,7 +60,9 @@ namespace Files
         public GenericFileBrowser()
         {
             InitializeComponent();
+            base.BaseLayoutContextFlyout = this.BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
+            RectangleSelection.Create(AllView, SelectionRectangle, AllView_SelectionChanged);
             switch (AppSettings.DirectorySortOption)
             {
                 case SortOption.Name:

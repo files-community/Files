@@ -242,6 +242,7 @@
     <Compile Include="UserControls\PropertyListItem.xaml.cs">
       <DependentUpon>PropertyListItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\RectangleSelection.cs" />
     <Compile Include="UserControls\SidebarControl.xaml.cs">
       <DependentUpon>SidebarControl.xaml</DependentUpon>
     </Compile>
@@ -432,6 +433,7 @@
     <Content Include="Assets\WSL\ubuntu.svg" />
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
+    <PRIResource Include="Strings\hu-HU\Resources.resw" />
     <PRIResource Include="Strings\or-IN\Resources.resw" />
     <PRIResource Include="Strings\hi-IN\Resources.resw" />
     <PRIResource Include="Strings\pt-BR\Resources.resw" />
@@ -695,6 +697,7 @@
     <XliffResource Include="MultilingualResources\Files.fr-FR.xlf" />
     <XliffResource Include="MultilingualResources\Files.he-IL.xlf" />
     <XliffResource Include="MultilingualResources\Files.hi-IN.xlf" />
+    <XliffResource Include="MultilingualResources\Files.hu-HU.xlf" />
     <XliffResource Include="MultilingualResources\Files.it-IT.xlf" />
     <XliffResource Include="MultilingualResources\Files.ja-JP.xlf" />
     <XliffResource Include="MultilingualResources\Files.nl-NL.xlf" />
