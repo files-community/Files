@@ -482,10 +482,6 @@ namespace Files.Interacts
                 }
                 else if (selectedItemCount > 1)
                 {
-                    foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder))
-                    {
-                        await MainPage.AddNewTab(typeof(ModernShellPage), (clickedOnItem as ShortcutItem)?.TargetPath ?? clickedOnItem.ItemPath);
-                    }
                     foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File
                         && !x.IsShortcutItem))
                     {
@@ -506,6 +502,10 @@ namespace Files.Interacts
                     {
                         var applicationPath = string.Join('|', CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).Select(x => x.ItemPath));
                         await InvokeWin32Component(applicationPath);
+                    }
+                    foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder))
+                    {
+                        await MainPage.AddNewTab(typeof(ModernShellPage), (clickedOnItem as ShortcutItem)?.TargetPath ?? clickedOnItem.ItemPath);
                     }
                 }
             }
