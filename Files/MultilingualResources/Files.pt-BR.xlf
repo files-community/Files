@@ -1362,10 +1362,6 @@
           <source>App theme</source>
           <target state="translated">Tema do aplicativo</target>
         </trans-unit>
-        <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Header" translate="yes" xml:space="preserve">
-          <source>Double click to rename files</source>
-          <target state="translated">Clique duas vezes para renomear arquivos</target>
-        </trans-unit>
         <trans-unit id="SettingsShowFileOwnerInProperties.Header" translate="yes" xml:space="preserve">
           <source>Show Owner in properties</source>
           <target state="translated">Mostrar proprietário nas propriedades</target>

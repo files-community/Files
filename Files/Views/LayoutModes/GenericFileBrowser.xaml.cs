@@ -4,6 +4,7 @@ using Files.Helpers;
 using Files.UserControls;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections;
@@ -62,6 +63,7 @@ namespace Files
             InitializeComponent();
             base.BaseLayoutContextFlyout = this.BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
+            this.tapDebounceTimer = new DispatcherTimer();
             RectangleSelection.Create(AllView, SelectionRectangle, AllView_SelectionChanged);
             switch (AppSettings.DirectorySortOption)
             {
@@ -240,6 +242,8 @@ namespace Files
 
         private TextBox renamingTextBox;
 
+        private DispatcherTimer tapDebounceTimer;
+
         private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
             if (App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
@@ -249,16 +253,25 @@ namespace Files
                 return;
             }
 
-            if (AppSettings.DoubleTapToRenameFiles == false) // Check if the double tap to rename files setting is off
+            // Only cancel if this event was triggered by a tap
+            // Do not cancel when user presses F2 or context menu
+            if (e.EditingEventArgs is TappedRoutedEventArgs)
             {
-                // Only cancel if this event was triggered by a tap
-                // Do not cancel when user presses F2 or context menu
-                if (e.EditingEventArgs is TappedRoutedEventArgs)
+                if (!tapDebounceTimer.IsEnabled)
                 {
-                    AllView.CancelEdit(); // Cancel the edit operation
-                    App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null); // Open the file instead
-                    return;
+                    tapDebounceTimer.Debounce(() =>
+                    {
+                        tapDebounceTimer.Stop();
+                        AllView.BeginEdit(); // EditingEventArgs will be null
+                    }, TimeSpan.FromMilliseconds(500), false);
                 }
+                else
+                {
+                    tapDebounceTimer.Stop();
+                    App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null); // Open selected files
+                }
+                AllView.CancelEdit(); // Cancel the edit operation
+                return;
             }
 
             int extensionLength = SelectedItem.FileExtension?.Length ?? 0;
