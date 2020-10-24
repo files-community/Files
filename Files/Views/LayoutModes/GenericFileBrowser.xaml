@@ -15,7 +15,6 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Enabled"
-    PointerReleased="GenericItemView_PointerReleased"
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
     mc:Ignorable="d">
 
@@ -608,7 +607,7 @@
             CellEditEnded="AllView_CellEditEnded"
             CellEditEnding="AllView_CellEditEnding"
             ClipboardCopyMode="None"
-            DoubleTapped="{x:Bind local:App.CurrentInstance.InteractionOperations.List_ItemClick}"
+            DoubleTapped="{x:Bind local:App.CurrentInstance.InteractionOperations.List_ItemDoubleClick}"
             DragOver="List_DragOver"
             Drop="List_Drop"
             FocusVisualPrimaryThickness="0"
@@ -617,7 +616,6 @@
             IsRightTapEnabled="True"
             ItemsSource="{x:Bind AssociatedViewModel.FilesAndFolders, Mode=OneWay}"
             LoadingRow="AllView_LoadingRow"
-            PointerPressed="{x:Bind local:App.CurrentInstance.InteractionOperations.List_ItemPress}"
             PreparingCellForEdit="AllView_PreparingCellForEdit"
             PreviewKeyDown="AllView_PreviewKeyDown"
             RightTapped="AllView_RightTapped"
