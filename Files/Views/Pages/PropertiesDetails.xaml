@@ -131,10 +131,8 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition
-                            Width="Auto" />
-                        <ColumnDefinition
-                            Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
                     <TextBlock
@@ -586,7 +584,8 @@
                     Grid.ColumnSpan="2"
                     Margin="0,10,0,0"
                     HorizontalAlignment="Stretch"
-                    Content="Clear All Personal Information">
+                    Content="Clear All Personal Information"
+                    Style="{ThemeResource ButtonRevealStyle}">
                     <Button.Flyout>
                         <Flyout
                             x:Name="ClearPersonalInformationFlyout">
