@@ -53,7 +53,6 @@ namespace Files.View_Models
             Analytics.TrackEvent("ThemeValue " + ThemeHelper.RootTheme.ToString());
             Analytics.TrackEvent("PinOneDriveToSideBar " + PinOneDriveToSideBar.ToString());
             Analytics.TrackEvent("PinRecycleBinToSideBar " + PinRecycleBinToSideBar.ToString());
-            Analytics.TrackEvent("OpenItemsWithOneclick " + OpenItemsWithOneclick.ToString());
             Analytics.TrackEvent("ShowFileExtensions " + ShowFileExtensions.ToString());
             Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
             Analytics.TrackEvent("AcrylicSidebar " + AcrylicEnabled.ToString());
