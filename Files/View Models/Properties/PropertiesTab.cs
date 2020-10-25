@@ -15,7 +15,7 @@ namespace Files.View_Models.Properties
 
         protected Microsoft.UI.Xaml.Controls.ProgressBar ItemMD5HashProgress = null;
 
-        protected void Properties_Loaded(object sender, RoutedEventArgs e)
+        protected virtual void Properties_Loaded(object sender, RoutedEventArgs e)
         {
             if (BaseProperties != null)
             {
