@@ -505,6 +505,7 @@
                         <Grid
                             x:Name="ListViewItemContentGrid"
                             AllowDrop="True"
+                            AutomationProperties.Name="{Binding Title}"
                             Background="Transparent"
                             DragOver="PathBoxItem_DragOver"
                             Drop="PathBoxItem_Drop"
@@ -584,6 +585,7 @@
                         <Grid
                             x:Name="ListViewItemContentGrid"
                             AllowDrop="True"
+                            AutomationProperties.Name="{Binding Title}"
                             Background="Transparent"
                             DragOver="PathBoxItem_DragOver"
                             Drop="PathBoxItem_Drop"
