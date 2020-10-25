@@ -189,9 +189,6 @@
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Fájlok és Mappák</value>
   </data>
-  <data name="SettingsExperimentalDoubleTapToRenameFiles.Header" xml:space="preserve">
-    <value>Dupla kattintás átnevezéshez</value>
-  </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Kísérleti</value>
   </data>
