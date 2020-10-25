@@ -34,7 +34,6 @@
             Grid.Column="1"
             IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}"
             Style="{StaticResource PropertyValueTextBox}"
-            Text="{x:Bind ValueText, Mode=TwoWay}"
-            TextChanged="TextBox_TextChanged" />
+            Text="{x:Bind ValueText, Mode=TwoWay}" />
     </Grid>
 </UserControl>

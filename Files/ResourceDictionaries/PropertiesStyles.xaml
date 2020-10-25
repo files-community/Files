@@ -12,6 +12,8 @@
     <Thickness x:Key="PropertyNameMargin">0,7</Thickness>
     <Thickness x:Key="PropertyValueMargin">20,0,0,0</Thickness>
     <VerticalAlignment x:Key="PropertyValueVerticalAlignment">Center</VerticalAlignment>
+    <!--Might be used for Expander control-->
+    <SolidColorBrush Color="Transparent" x:Key="SystemControlBackgroundBaseHighBrush"/>
 
     <Style x:Key="PropertyName" TargetType="TextBlock">
         <Setter Property="Margin" Value="{StaticResource PropertyNameMargin}" />
@@ -33,7 +35,6 @@
         <Setter Property="Margin" Value="{StaticResource PropertyValueMargin}" />
         <Setter Property="VerticalAlignment" Value="{StaticResource PropertyValueVerticalAlignment}" />
         <Setter Property="IsTextSelectionEnabled" Value="True" />
-        <Setter Property="Margin" Value="20,0,0,0" />
     </Style>
 
     <Style
@@ -44,18 +45,8 @@
         <Setter Property="VerticalAlignment" Value="{StaticResource PropertyValueVerticalAlignment}" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Margin" Value="20,0,0,0" />
-        <Setter Property="BorderBrush">
-            <Setter.Value>
-                <SolidColorBrush Color="Transparent" />
-            </Setter.Value>
-        </Setter>
-
-        <Setter Property="Background">
-            <Setter.Value>
-                <SolidColorBrush Color="Transparent" />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Background" Value="Transparent" />
     </Style>
 
     <converters:StringArrayToString x:Key="StringArrayToString" />

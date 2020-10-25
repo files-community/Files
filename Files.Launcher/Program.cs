@@ -656,6 +656,10 @@ namespace FilesFullTrust
                     }
                 }
             }
+            catch (InvalidOperationException)
+            {
+                // Invalid file path
+            }
         }
 
         private static bool HandleCommandLineArgs()

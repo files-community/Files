@@ -5,6 +5,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -255,7 +256,7 @@ namespace FilesFullTrust
                         }
                         if (mii.hbmpItem != HBITMAP.NULL)
                         {
-                            var bitmap = GetItemBitmap(mii.hbmpItem);
+                            var bitmap = GetBitmapFromHBitmap(mii.hbmpItem);
                             menuItem.Icon = bitmap;
                         }
                         if (mii.hSubMenu != HMENU.NULL)
@@ -317,31 +318,57 @@ namespace FilesFullTrust
                 }
             }
 
-            private static Bitmap GetItemBitmap(HBITMAP hbitmap)
+            private static Bitmap GetBitmapFromHBitmap(HBITMAP hBitmap)
             {
-                var bitmap = GetTransparentBitmap(hbitmap);
-                bitmap.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                return bitmap;
+                Bitmap bmp = hBitmap.ToBitmap();
+
+                if (Bitmap.GetPixelFormatSize(bmp.PixelFormat) < 32)
+                    return bmp;
+
+                if (IsAlphaBitmap(bmp, out var bmpData))
+                    return GetAlphaBitmapFromBitmapData(bmpData);
+
+                return bmp;
             }
 
-            private static Bitmap GetTransparentBitmap(HBITMAP hbitmap)
+            private static Bitmap GetAlphaBitmapFromBitmapData(BitmapData bmpData)
             {
+                return new Bitmap(
+                        bmpData.Width,
+                        bmpData.Height,
+                        bmpData.Stride,
+                        PixelFormat.Format32bppArgb,
+                        bmpData.Scan0);
+            }
+
+            private static bool IsAlphaBitmap(Bitmap bmp, out BitmapData bmpData)
+            {
+                Rectangle bmBounds = new Rectangle(0, 0, bmp.Width, bmp.Height);
+
+                bmpData = bmp.LockBits(bmBounds, ImageLockMode.ReadOnly, bmp.PixelFormat);
+
                 try
                 {
-                    var dibsection = GetObject<BITMAP>(hbitmap);
-                    var bitmap = new Bitmap(dibsection.bmWidth, dibsection.bmHeight, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                    using var mstr = new NativeMemoryStream(dibsection.bmBits, dibsection.bmBitsPixel * dibsection.bmHeight * dibsection.bmWidth);
-                    for (var x = 0; x < dibsection.bmWidth; x++)
-                        for (var y = 0; y < dibsection.bmHeight; y++)
+                    for (int y = 0; y <= bmpData.Height - 1; y++)
+                    {
+                        for (int x = 0; x <= bmpData.Width - 1; x++)
                         {
-                            var rgbquad = mstr.Read<RGBQUAD>();
-                            if (rgbquad.rgbReserved != 0)
-                                bitmap.SetPixel(x, y, rgbquad.Color);
+                            Color pixelColor = Color.FromArgb(
+                                Marshal.ReadInt32(bmpData.Scan0, (bmpData.Stride * y) + (4 * x)));
+
+                            if (pixelColor.A > 0 & pixelColor.A < 255)
+                            {
+                                return true;
+                            }
                         }
-                    return bitmap;
+                    }
                 }
-                catch { }
-                return Image.FromHbitmap((IntPtr)hbitmap);
+                finally
+                {
+                    bmp.UnlockBits(bmpData);
+                }
+
+                return false;
             }
 
             #region IDisposable Support

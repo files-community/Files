@@ -1029,9 +1029,6 @@
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
     <value>Tema dell'app</value>
   </data>
-  <data name="SettingsExperimentalDoubleTapToRenameFiles.Header" xml:space="preserve">
-    <value>Doppio click per rinominare un file</value>
-  </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
     <value>Mostra Proprietario del file nelle proprietà</value>
   </data>
