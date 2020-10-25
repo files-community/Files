@@ -256,7 +256,7 @@ namespace FilesFullTrust
                         }
                         if (mii.hbmpItem != HBITMAP.NULL)
                         {
-                            var bitmap = GetBitmapFromHBitmap((IntPtr)mii.hbmpItem);
+                            var bitmap = GetBitmapFromHBitmap(mii.hbmpItem);
                             menuItem.Icon = bitmap;
                         }
                         if (mii.hSubMenu != HMENU.NULL)
@@ -318,20 +318,20 @@ namespace FilesFullTrust
                 }
             }
 
-            private static Bitmap GetBitmapFromHBitmap(IntPtr nativeHBitmap)
+            private static Bitmap GetBitmapFromHBitmap(HBITMAP hBitmap)
             {
-                Bitmap bmp = Bitmap.FromHbitmap(nativeHBitmap);
+                Bitmap bmp = hBitmap.ToBitmap();
 
                 if (Bitmap.GetPixelFormatSize(bmp.PixelFormat) < 32)
                     return bmp;
 
                 if (IsAlphaBitmap(bmp, out var bmpData))
-                    return GetlAlphaBitmapFromBitmapData(bmpData);
+                    return GetAlphaBitmapFromBitmapData(bmpData);
 
                 return bmp;
             }
 
-            private static Bitmap GetlAlphaBitmapFromBitmapData(BitmapData bmpData)
+            private static Bitmap GetAlphaBitmapFromBitmapData(BitmapData bmpData)
             {
                 return new Bitmap(
                         bmpData.Width,
