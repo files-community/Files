@@ -178,8 +178,8 @@ namespace Files
             {
                 var response = App.Connection.SendMessageAsync(new ValueSet() {
                         { "Arguments", "LoadContextMenu" },
-                        { "FilePath", IsItemSelected ? 
-                            string.Join('|', _SelectedItems.Select(x => x.ItemPath)) : 
+                        { "FilePath", IsItemSelected ?
+                            string.Join('|', _SelectedItems.Select(x => x.ItemPath)) :
                             App.CurrentInstance.FilesystemViewModel.CurrentFolder.ItemPath},
                         { "ExtendedMenu", shiftPressed },
                         { "ShowOpenMenu", showOpenMenu }}).AsTask().Result;

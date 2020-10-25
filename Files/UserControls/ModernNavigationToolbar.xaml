@@ -505,6 +505,7 @@
                         <Grid
                             x:Name="ListViewItemContentGrid"
                             AllowDrop="True"
+                            AutomationProperties.Name="{Binding Title}"
                             Background="Transparent"
                             DragOver="PathBoxItem_DragOver"
                             Drop="PathBoxItem_Drop"
@@ -584,6 +585,7 @@
                         <Grid
                             x:Name="ListViewItemContentGrid"
                             AllowDrop="True"
+                            AutomationProperties.Name="{Binding Title}"
                             Background="Transparent"
                             DragOver="PathBoxItem_DragOver"
                             Drop="PathBoxItem_Drop"
@@ -676,6 +678,7 @@
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="XButton1" />
                     <KeyboardAccelerator Key="Back" />
+                    <KeyboardAccelerator Key="Left" Modifiers="Menu" />
                 </Button.KeyboardAccelerators>
             </Button>
 
@@ -701,6 +704,7 @@
                 </Button.Content>
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="XButton2" />
+                    <KeyboardAccelerator Key="Right" Modifiers="Menu" />
                 </Button.KeyboardAccelerators>
             </Button>
 
@@ -981,6 +985,7 @@
                 Height="30"
                 Margin="0,0,4,0"
                 HorizontalAlignment="Right"
+                AutomationProperties.Name="More options"
                 Background="Transparent"
                 Content=""
                 CornerRadius="2"

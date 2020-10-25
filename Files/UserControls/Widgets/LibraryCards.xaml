@@ -49,6 +49,7 @@
                             VerticalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"
+                            AutomationProperties.Name="{x:Bind AutomationProperties}"
                             Background="{ThemeResource YourHomeCardBackgroundColor}"
                             BorderThickness="1"
                             Click="Button_Click"

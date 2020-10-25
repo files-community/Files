@@ -290,14 +290,6 @@ namespace Files.Views.Pages
                     }
                     break;
 
-                case (false, false, true, true, VirtualKey.Left): // alt + back arrow, backward
-                    NavigationActions.Back_Click(null, null);
-                    break;
-
-                case (false, false, true, true, VirtualKey.Right): // alt + right arrow, forward
-                    NavigationActions.Forward_Click(null, null);
-                    break;
-
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
                     NavigationActions.Refresh_Click(null, null);
                     break;

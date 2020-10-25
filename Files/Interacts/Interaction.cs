@@ -53,9 +53,12 @@ namespace Files.Interacts
             CurrentInstance = App.CurrentInstance;
         }
 
-        public void List_ItemClick(object sender, DoubleTappedRoutedEventArgs e)
+        public void List_ItemDoubleClick(object sender, DoubleTappedRoutedEventArgs e)
         {
-            OpenSelectedItems(false);
+            if (!AppSettings.OpenItemsWithOneclick)
+            {
+                OpenSelectedItems(false);
+            }
         }
 
         public void SetAsDesktopBackgroundItem_Click(object sender, RoutedEventArgs e)
@@ -482,10 +485,6 @@ namespace Files.Interacts
                 }
                 else if (selectedItemCount > 1)
                 {
-                    foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder))
-                    {
-                        await MainPage.AddNewTab(typeof(ModernShellPage), (clickedOnItem as ShortcutItem)?.TargetPath ?? clickedOnItem.ItemPath);
-                    }
                     foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File
                         && !x.IsShortcutItem))
                     {
@@ -506,6 +505,10 @@ namespace Files.Interacts
                     {
                         var applicationPath = string.Join('|', CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).Select(x => x.ItemPath));
                         await InvokeWin32Component(applicationPath);
+                    }
+                    foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder))
+                    {
+                        await MainPage.AddNewTab(typeof(ModernShellPage), (clickedOnItem as ShortcutItem)?.TargetPath ?? clickedOnItem.ItemPath);
                     }
                 }
             }

@@ -1029,9 +1029,6 @@
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
     <value>テーマ</value>
   </data>
-  <data name="SettingsExperimentalDoubleTapToRenameFiles.Header" xml:space="preserve">
-    <value>ダブルクリックしてファイルの名前を変更します</value>
-  </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
     <value>プロパティに所有者を表示する</value>
   </data>
