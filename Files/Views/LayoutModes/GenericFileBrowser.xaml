@@ -730,6 +730,17 @@
                                     x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                                     Source="{x:Bind FileImage, Mode=OneWay}"
                                     Stretch="UniformToFill" />
+                                <Image
+                                    x:Name="IconOverlay"
+                                    Source="{x:Bind IconOverlay, Mode=OneWay}"
+                                    Stretch="Uniform"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Width="22"
+                                    Height="22"
+                                    Margin="2,8,8,2"
+                                    x:Load="True">
+                                </Image>
                                 <Border
                                     x:Name="ShortcutGlyphElement"
                                     Margin="2,18,18,2"

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -110,6 +111,27 @@ namespace FilesFullTrust
             {
                 // If user cancels UAC
             }
+        }
+
+        public static (string icon, bool isCustom) GetFileOverlayIcon(string path)
+        {
+            var shfi = new Shell32.SHFILEINFO();
+            var ret = Shell32.SHGetFileInfo(path, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION);
+            if (ret == IntPtr.Zero) return (null, false);
+            bool isCustom = !shfi.szDisplayName.StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.Windows));
+            User32.DestroyIcon(shfi.hIcon);
+            Shell32.SHGetImageList(Shell32.SHIL.SHIL_EXTRALARGE, typeof(ComCtl32.IImageList).GUID, out var tmp);
+            using var imageList = ComCtl32.SafeHIMAGELIST.FromIImageList(tmp);
+            if (imageList.IsNull || imageList.IsInvalid) return (null, isCustom);
+            var overlay_idx = shfi.iIcon >> 24;
+            //var icon_idx = shfi.iIcon & 0xFFFFFF;
+            if (overlay_idx == 0) return (null, isCustom);
+            var overlay_image = imageList.Interface.GetOverlayImage(overlay_idx);
+            using var hIcon = imageList.Interface.GetIcon(overlay_image, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
+            if (hIcon.IsNull || hIcon.IsInvalid) return (null, isCustom);
+            var image = hIcon.ToIcon().ToBitmap();
+            byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+            return (Convert.ToBase64String(bitmapData, 0, bitmapData.Length), isCustom);
         }
     }
 
