@@ -18,6 +18,18 @@
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="SidebarBorderBrush" Color="Transparent" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="SidebarBorderBrush" Color="Transparent" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="HighContrast">
+                    <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+
             <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
             <Style x:Key="DefaultGridSplitterStyle" TargetType="Custom:GridSplitter">
                 <Setter Property="IsTabStop" Value="True" />
@@ -32,7 +44,11 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Custom:GridSplitter">
-                            <Grid x:Name="RootGrid" Background="Transparent">
+                            <Grid
+                                x:Name="RootGrid"
+                                Background="Transparent"
+                                BorderBrush="{ThemeResource SidebarBorderBrush}"
+                                BorderThickness="1,0,0,0">
                                 <ContentPresenter
                                     HorizontalContentAlignment="Stretch"
                                     VerticalContentAlignment="Stretch"

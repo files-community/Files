@@ -15,8 +15,8 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
                     <AcrylicBrush
                         x:Key="NavigationViewExpandedPaneBackground"
                         Windows10version1903:TintLuminosityOpacity="0.9"
@@ -26,85 +26,96 @@
                         TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
                         TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
                 </ResourceDictionary>
-                <ResourceDictionary>
-                    <DataTemplate x:Key="LocationNavItem" x:DataType="local2:LocationItem">
-                        <muxc:NavigationViewItem
-                            AllowDrop="True"
-                            BorderThickness="0.8"
-                            Content="{x:Bind Text}"
-                            DataContext="{x:Bind}"
-                            DragEnter="NavigationViewItem_DragEnter"
-                            DragLeave="NavigationViewItem_DragLeave"
-                            DragOver="NavigationViewLocationItem_DragOver"
-                            Drop="NavigationViewLocationItem_Drop"
-                            IsRightTapEnabled="True"
-                            RightTapped="NavigationViewLocationItem_RightTapped"
-                            Tag="{x:Bind Path}">
-                            <muxc:NavigationViewItem.Icon>
-                                <FontIcon
-                                    FontFamily="{x:Bind Font}"
-                                    FontSize="18"
-                                    Glyph="{x:Bind Glyph}" />
-                            </muxc:NavigationViewItem.Icon>
-                        </muxc:NavigationViewItem>
-                    </DataTemplate>
-
-                    <DataTemplate x:Key="DriveNavItem" x:DataType="local2:DriveItem">
-                        <muxc:NavigationViewItem
-                            Padding="0"
-                            AllowDrop="True"
-                            BorderThickness="0.8"
-                            Content="{x:Bind Text}"
-                            DataContext="{x:Bind}"
-                            DragEnter="NavigationViewItem_DragEnter"
-                            DragLeave="NavigationViewItem_DragLeave"
-                            DragOver="NavigationViewDriveItem_DragOver"
-                            Drop="NavigationViewDriveItem_Drop"
-                            IsRightTapEnabled="True"
-                            RightTapped="NavigationViewDriveItem_RightTapped"
-                            Tag="{x:Bind Path}"
-                            ToolTipService.ToolTip="{x:Bind SpaceText}"
-                            Visibility="{x:Bind ItemVisibility}">
-                            <muxc:NavigationViewItem.Icon>
-                                <FontIcon
-                                    FontFamily="{StaticResource FluentUIGlyphs}"
-                                    FontSize="18"
-                                    Glyph="{x:Bind Glyph}" />
-                            </muxc:NavigationViewItem.Icon>
-                        </muxc:NavigationViewItem>
-                    </DataTemplate>
-
-                    <DataTemplate x:Key="LinuxNavItem" x:DataType="local1:WSLDistroItem">
-                        <muxc:NavigationViewItem
-                            Padding="0"
-                            BorderThickness="0.8"
-                            Content="{x:Bind Text}"
-                            DataContext="{x:Bind}"
-                            DragEnter="NavigationViewItem_DragEnter"
-                            DragLeave="NavigationViewItem_DragLeave"
-                            Tag="{x:Bind Path}">
-                            <muxc:NavigationViewItem.Icon>
-                                <BitmapIcon
-                                    Width="30"
-                                    Height="30"
-                                    ShowAsMonochrome="False"
-                                    UriSource="{x:Bind Logo}" />
-                            </muxc:NavigationViewItem.Icon>
-                        </muxc:NavigationViewItem>
-                    </DataTemplate>
-
-                    <DataTemplate x:Key="HeaderItem" x:DataType="local2:INavigationControlItem">
-                        <muxc:NavigationViewItemHeader Content="{x:Bind Text}" />
-                    </DataTemplate>
-
-                    <local:NavItemDataTemplateSelector
-                        x:Key="NavItemSelector"
-                        DriveNavItemTemplate="{StaticResource DriveNavItem}"
-                        HeaderNavItemTemplate="{StaticResource HeaderItem}"
-                        LinuxNavItemTemplate="{StaticResource LinuxNavItem}"
-                        LocationNavItemTemplate="{StaticResource LocationNavItem}" />
+                <ResourceDictionary x:Key="Dark">
+                    <AcrylicBrush
+                        x:Key="NavigationViewExpandedPaneBackground"
+                        Windows10version1903:TintLuminosityOpacity="0.9"
+                        AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
+                        BackgroundSource="HostBackdrop"
+                        FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
+                        TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
+                        TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
                 </ResourceDictionary>
-            </ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary x:Key="HighContrast">
+                    <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="{ThemeResource SystemColorWindowColor}" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+            <DataTemplate x:Key="LocationNavItem" x:DataType="local2:LocationItem">
+                <muxc:NavigationViewItem
+                    AllowDrop="True"
+                    BorderThickness="0.8"
+                    Content="{x:Bind Text}"
+                    DataContext="{x:Bind}"
+                    DragEnter="NavigationViewItem_DragEnter"
+                    DragLeave="NavigationViewItem_DragLeave"
+                    DragOver="NavigationViewLocationItem_DragOver"
+                    Drop="NavigationViewLocationItem_Drop"
+                    IsRightTapEnabled="True"
+                    RightTapped="NavigationViewLocationItem_RightTapped"
+                    Tag="{x:Bind Path}">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon
+                            FontFamily="{x:Bind Font}"
+                            FontSize="18"
+                            Glyph="{x:Bind Glyph}" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DriveNavItem" x:DataType="local2:DriveItem">
+                <muxc:NavigationViewItem
+                    Padding="0"
+                    AllowDrop="True"
+                    BorderThickness="0.8"
+                    Content="{x:Bind Text}"
+                    DataContext="{x:Bind}"
+                    DragEnter="NavigationViewItem_DragEnter"
+                    DragLeave="NavigationViewItem_DragLeave"
+                    DragOver="NavigationViewDriveItem_DragOver"
+                    Drop="NavigationViewDriveItem_Drop"
+                    IsRightTapEnabled="True"
+                    RightTapped="NavigationViewDriveItem_RightTapped"
+                    Tag="{x:Bind Path}"
+                    ToolTipService.ToolTip="{x:Bind SpaceText}"
+                    Visibility="{x:Bind ItemVisibility}">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon
+                            FontFamily="{StaticResource FluentUIGlyphs}"
+                            FontSize="18"
+                            Glyph="{x:Bind Glyph}" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+            </DataTemplate>
+
+            <DataTemplate x:Key="LinuxNavItem" x:DataType="local1:WSLDistroItem">
+                <muxc:NavigationViewItem
+                    Padding="0"
+                    BorderThickness="0.8"
+                    Content="{x:Bind Text}"
+                    DataContext="{x:Bind}"
+                    DragEnter="NavigationViewItem_DragEnter"
+                    DragLeave="NavigationViewItem_DragLeave"
+                    Tag="{x:Bind Path}">
+                    <muxc:NavigationViewItem.Icon>
+                        <BitmapIcon
+                            Width="30"
+                            Height="30"
+                            ShowAsMonochrome="False"
+                            UriSource="{x:Bind Logo}" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+            </DataTemplate>
+
+            <DataTemplate x:Key="HeaderItem" x:DataType="local2:INavigationControlItem">
+                <muxc:NavigationViewItemHeader Content="{x:Bind Text}" />
+            </DataTemplate>
+
+            <local:NavItemDataTemplateSelector
+                x:Key="NavItemSelector"
+                DriveNavItemTemplate="{StaticResource DriveNavItem}"
+                HeaderNavItemTemplate="{StaticResource HeaderItem}"
+                LinuxNavItemTemplate="{StaticResource LinuxNavItem}"
+                LocationNavItemTemplate="{StaticResource LocationNavItem}" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -125,37 +136,30 @@
             SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <muxc:NavigationView.PaneFooter>
                 <Grid>
-                    <Button
+                    <muxc:NavigationViewItem
                         x:Name="SettingsButton"
                         x:Uid="SidebarSettingsButton"
-                        Height="40"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Left"
                         AutomationProperties.Name="Settings"
-                        Background="Transparent"
-                        BorderBrush="{StaticResource ButtonRevealBorderBrush}"
-                        Click="SettingsButton_Click"
-                        CornerRadius="0">
-                        <Button.Content>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="34" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <FontIcon
-                                    VerticalAlignment="Center"
-                                    FontFamily="{StaticResource FluentUIGlyphs}"
-                                    FontSize="18"
-                                    Glyph="&#xEB5D;" />
-                                <TextBlock
-                                    x:Uid="SidebarSettings"
-                                    Grid.Column="1"
-                                    Padding="2,0,0,0"
-                                    VerticalAlignment="Center"
-                                    Text="Settings" />
-                            </Grid>
-                        </Button.Content>
-                    </Button>
+                        IsTapEnabled="True"
+                        SelectsOnInvoked="False"
+                        Tapped="SettingsButton_Tapped">
+                        <muxc:NavigationViewItem.Content>
+                            <TextBlock
+                                x:Uid="SidebarSettings"
+                                Grid.Column="1"
+                                Padding="2,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="Settings" />
+                        </muxc:NavigationViewItem.Content>
+                        <muxc:NavigationViewItem.Icon>
+                            <FontIcon
+                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                FontSize="18"
+                                Glyph="&#xEB5D;" />
+                        </muxc:NavigationViewItem.Icon>
+                    </muxc:NavigationViewItem>
                 </Grid>
             </muxc:NavigationView.PaneFooter>
             <muxc:NavigationView.Resources>

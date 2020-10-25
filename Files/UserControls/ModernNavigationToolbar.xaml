@@ -18,6 +18,17 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="PathBoxHoverBrush" Color="{StaticResource SystemRevealListLowColor}" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="PathBoxHoverBrush" Color="{StaticResource SystemRevealListLowColor}" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="HighContrast">
+                    <SolidColorBrush x:Key="PathBoxHoverBrush" Color="{ThemeResource SystemColorWindowColor}" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
 
@@ -623,7 +634,9 @@
                                 TargetTheme="Dark"
                                 Color="Transparent" />
                         </ResourceDictionary>
-                        <ResourceDictionary x:Key="HighContrast" />
+                        <ResourceDictionary x:Key="HighContrast">
+                            <SolidColorBrush x:Key="TransparentGridRevealBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
+                        </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
@@ -787,11 +800,7 @@
                 PointerPressed="ManualPathEntryItem_Click">
                 <Interactivity:Interaction.Behaviors>
                     <Core:EventTriggerBehavior EventName="PointerEntered">
-                        <Core:ChangePropertyAction PropertyName="Background">
-                            <Core:ChangePropertyAction.Value>
-                                <SolidColorBrush Color="{ThemeResource SystemRevealListLowColor}" />
-                            </Core:ChangePropertyAction.Value>
-                        </Core:ChangePropertyAction>
+                        <Core:ChangePropertyAction PropertyName="Background" Value="{ThemeResource PathBoxHoverBrush}" />
                     </Core:EventTriggerBehavior>
 
                     <Core:EventTriggerBehavior EventName="PointerExited">
