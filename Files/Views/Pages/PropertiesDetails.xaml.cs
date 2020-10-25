@@ -18,7 +18,7 @@ namespace Files
             this.InitializeComponent();
         }
 
-        private void Properties_Loaded(object sender, RoutedEventArgs e)
+        protected override void Properties_Loaded(object sender, RoutedEventArgs e)
         {
             base.Properties_Loaded(sender, e);
             
