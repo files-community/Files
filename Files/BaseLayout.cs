@@ -7,6 +7,7 @@ using Files.UserControls;
 using Files.View_Models;
 using Files.Views;
 using Files.Views.Pages;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -636,12 +637,40 @@ namespace Files
             e.DragUI.SetContentFromDataPackage();
         }
 
+        private ListedItem dragOverItem = null;
+        private DispatcherTimer dragOverTimer = new DispatcherTimer();
+
+        private void Item_DragLeave(object sender, DragEventArgs e)
+        {
+            ListedItem item = GetItemFromElement(sender);
+            if (item == dragOverItem)
+            {
+                // Reset dragged over item
+                dragOverItem = null;
+            }
+        }
+
         protected async void Item_DragOver(object sender, DragEventArgs e)
         {
             var deferral = e.GetDeferral();
 
             ListedItem item = GetItemFromElement(sender);
             SetSelectedItemOnUi(item);
+
+            if (dragOverItem != item)
+            {
+                dragOverItem = item;
+                dragOverTimer.Stop();
+                dragOverTimer.Debounce(() =>
+                {
+                    if (dragOverItem != null)
+                    {
+                        dragOverItem = null;
+                        dragOverTimer.Stop();
+                        AssociatedInteractions.OpenItem_Click(null, null);
+                    }
+                }, TimeSpan.FromMilliseconds(1000), false);
+            }
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
@@ -687,11 +716,13 @@ namespace Files
                 element.DragStarting -= Item_DragStarting;
                 element.DragStarting += Item_DragStarting;
                 element.DragOver -= Item_DragOver;
+                element.DragLeave -= Item_DragLeave;
                 element.Drop -= Item_Drop;
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
                     element.AllowDrop = true;
                     element.DragOver += Item_DragOver;
+                    element.DragLeave += Item_DragLeave;
                     element.Drop += Item_Drop;
                 }
             }

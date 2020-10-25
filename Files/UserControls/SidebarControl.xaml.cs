@@ -2,6 +2,7 @@
 using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -123,19 +124,24 @@ namespace Files.Controls
 
         private void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            string navigationPath; // path to navigate
-            Type sourcePageType = null; // type of page to navigate
-
             if (args.InvokedItem == null)
             {
                 return;
             }
 
-            switch ((args.InvokedItemContainer.DataContext as INavigationControlItem).ItemType)
+            OpenSidebarItem(args.InvokedItemContainer);
+        }
+
+        private void OpenSidebarItem(Microsoft.UI.Xaml.Controls.NavigationViewItemBase invokedItemContainer)
+        {
+            string navigationPath; // path to navigate
+            Type sourcePageType = null; // type of page to navigate
+
+            switch ((invokedItemContainer.DataContext as INavigationControlItem).ItemType)
             {
                 case NavigationControlItemType.Location:
                     {
-                        var ItemPath = (args.InvokedItemContainer.DataContext as INavigationControlItem).Path; // Get the path of the invoked item
+                        var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem).Path; // Get the path of the invoked item
 
                         if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
                         {
@@ -146,7 +152,7 @@ namespace Files.Controls
                         }
                         else // Any other item
                         {
-                            navigationPath = args.InvokedItemContainer.Tag.ToString();
+                            navigationPath = invokedItemContainer.Tag.ToString();
                         }
 
                         break;
@@ -158,7 +164,7 @@ namespace Files.Controls
                     }
                 default:
                     {
-                        navigationPath = args.InvokedItemContainer.Tag.ToString();
+                        navigationPath = invokedItemContainer.Tag.ToString();
                         break;
                     }
             }
@@ -255,14 +261,41 @@ namespace Files.Controls
             await Interaction.OpenPathInNewWindow(App.rightClickedItem.Path.ToString());
         }
 
+        private object dragOverItem = null;
+        private DispatcherTimer dragOverTimer = new DispatcherTimer();
+
         private void NavigationViewItem_DragEnter(object sender, DragEventArgs e)
         {
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragEnter", false);
+
+            if ((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is INavigationControlItem)
+            {
+                dragOverItem = sender;
+                dragOverTimer.Stop();
+                dragOverTimer.Debounce(() =>
+                {
+                    if (dragOverItem != null)
+                    {
+                        dragOverTimer.Stop();
+                        OpenSidebarItem(dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItem);
+                        dragOverItem = null;
+                    }
+                }, TimeSpan.FromMilliseconds(1000), false);
+            }
         }
 
         private void NavigationViewItem_DragLeave(object sender, DragEventArgs e)
         {
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragLeave", false);
+
+            if ((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is INavigationControlItem)
+            {
+                if (sender == dragOverItem)
+                {
+                    // Reset dragged over item
+                    dragOverItem = null;
+                }
+            }
         }
 
         private async void NavigationViewLocationItem_DragOver(object sender, DragEventArgs e)
