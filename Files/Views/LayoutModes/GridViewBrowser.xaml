@@ -880,18 +880,16 @@
             </Interactivity:Interaction.Behaviors>
         </GridView>
 
-        <Canvas
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch">
+        <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Rectangle
                 Name="SelectionRectangle"
-                Fill="#AA0078d7"
-                Stroke="#FF0066cc"
-                StrokeThickness="1"
                 Canvas.Left="0"
                 Canvas.Top="0"
                 Width="0"
-                Height="0"/>
+                Height="0"
+                Fill="#AA0078d7"
+                Stroke="#FF0066cc"
+                StrokeThickness="1" />
         </Canvas>
     </Grid>
 </local:BaseLayout>

@@ -759,7 +759,6 @@
                             <SolidColorBrush x:Key="TabViewBackground" Color="{ThemeResource SystemColorActiveCaptionColor}" />
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
-
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

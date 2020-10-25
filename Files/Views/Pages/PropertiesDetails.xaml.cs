@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
@@ -21,7 +20,7 @@ namespace Files
         protected override void Properties_Loaded(object sender, RoutedEventArgs e)
         {
             base.Properties_Loaded(sender, e);
-            
+
             if (BaseProperties != null)
             {
                 Stopwatch stopwatch = Stopwatch.StartNew();

@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 using Vanara.InteropServices;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
-using static Vanara.PInvoke.Gdi32;
 
 namespace FilesFullTrust
 {
