@@ -43,7 +43,7 @@ namespace FilesFullTrust
             }
 
             // Find desktop apps
-            var lpResult = new StringBuilder();
+            var lpResult = new StringBuilder(2048);
             var hResult = Shell32.FindExecutable(filename, null, lpResult);
             if (hResult.ToInt64() > 32)
             {

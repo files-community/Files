@@ -1137,4 +1137,19 @@
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>Terminal Applications</value>
   </data>
+  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.AutomationProperties.Name" xml:space="preserve">
+    <value>Layout mode</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Selection options</value>
+  </data>
+  <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
+    <value>Status center</value>
+  </data>
+  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
+    <value>Open items with a single click</value>
+  </data>
 </root>

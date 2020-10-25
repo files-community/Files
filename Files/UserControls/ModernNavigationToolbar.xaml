@@ -981,6 +981,7 @@
                 Height="30"
                 Margin="0,0,4,0"
                 HorizontalAlignment="Right"
+                AutomationProperties.Name="More options"
                 Background="Transparent"
                 Content=""
                 CornerRadius="2"

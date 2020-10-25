@@ -22,9 +22,10 @@
             FalseValue="1"
             TrueValue="0.4" />
 
-        <MenuFlyout x:Key="BaseLayoutContextFlyout"
-                    x:Name="BaseLayoutContextFlyout"
-                    Opening="RightClickContextMenu_Opening">
+        <MenuFlyout
+            x:Key="BaseLayoutContextFlyout"
+            x:Name="BaseLayoutContextFlyout"
+            Opening="RightClickContextMenu_Opening">
             <MenuFlyoutSubItem
                 x:Name="SortByEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutSortBy"
@@ -853,10 +854,12 @@
             VerticalContentAlignment="Stretch"
             x:FieldModifier="public"
             AllowDrop="True"
-            DoubleTapped="{x:Bind local:App.CurrentInstance.InteractionOperations.List_ItemClick}"
+            DoubleTapped="{x:Bind local:App.CurrentInstance.InteractionOperations.List_ItemDoubleClick}"
             DragOver="List_DragOver"
             Drop="List_Drop"
             IsDoubleTapEnabled="True"
+            IsItemClickEnabled="True"
+            ItemClick="FileList_ItemClick"
             ItemsSource="{x:Bind AssociatedViewModel.FilesAndFolders}"
             PreviewKeyDown="FileList_PreviewKeyDown"
             SelectionChanged="FileList_SelectionChanged"
