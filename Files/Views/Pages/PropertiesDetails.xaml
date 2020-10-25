@@ -96,6 +96,7 @@
                     x:Uid="PropertiesItemFileName"
                     Grid.Row="0"
                     Grid.Column="1"
+                    IsReadOnly="True"
                     Style="{StaticResource PropertyValueTextBox}"
                     Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}"
                     Visibility="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}" />
