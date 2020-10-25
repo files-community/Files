@@ -44,6 +44,12 @@
                     Header="Show drive letters"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsEnabled="False" />
+
+                <ToggleSwitch
+                    x:Uid="SettingsOpenItemsWithOneclick"
+                    Header="Open items with a single click"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind AppSettings.OpenItemsWithOneclick, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

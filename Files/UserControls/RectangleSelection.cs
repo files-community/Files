@@ -21,6 +21,7 @@ namespace Files.UserControls
     public class RectangleSelection
     {
         protected Rectangle selectionRectangle;
+        protected SelectionState selectionState;
 
         protected RectangleSelection() { }
 
@@ -45,6 +46,27 @@ namespace Files.UserControls
             {
                 throw new ArgumentException("uiElement must derive from ListViewBase or DataGrid");
             }
+        }
+
+        public delegate void SelectionStatusHandler(object sender, EventArgs e);
+        public event SelectionStatusHandler SelectionStarted;
+        public event SelectionStatusHandler SelectionEnded;
+
+        protected void OnSelectionStarted()
+        {
+            SelectionStarted?.Invoke(this, new EventArgs());
+        }
+
+        protected void OnSelectionEnded()
+        {
+            SelectionEnded?.Invoke(this, new EventArgs());
+        }
+
+        public enum SelectionState
+        {
+            Inactive,
+            Starting,
+            Active
         }
 
         protected void DrawRectangle(PointerPoint currentPoint, Point originDragPointShifted)
@@ -100,8 +122,6 @@ namespace Files.UserControls
         private Point originDragPoint;
         private Dictionary<object, System.Drawing.Rectangle> itemsPosition;
         private IList<DataGridRow> dataGridRows;
-
-        private bool _hasSelectionStarted;
         private List<object> _prevSelectedItems;
 
         public RectangleSelection_DataGrid(DataGrid uiElement, Rectangle selectionRectangle, SelectionChangedEventHandler selectionChanged = null)
@@ -111,21 +131,22 @@ namespace Files.UserControls
             this.selectionChanged = selectionChanged;
             this.itemsPosition = new Dictionary<object, System.Drawing.Rectangle>();
             this.dataGridRows = new List<DataGridRow>();
-            this.InitEvents();
+            this.InitEvents(null, null);
         }
 
         private void RectangleSelection_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (_hasSelectionStarted)
+            if (selectionState == SelectionState.Starting)
             {
                 // Clear selected items once if the pointer is pressed and moved
                 uiElement.SelectedItems.Clear();
-                _hasSelectionStarted = false;
+                OnSelectionStarted();
+                selectionState = SelectionState.Active;
             }
             var currentPoint = e.GetCurrentPoint(uiElement);
             if (currentPoint.Properties.IsLeftButtonPressed && scrollBar != null)
             {
-                var verticalOffset = scrollBar.Value - 38; // Magic number (header height? to be checked)
+                var verticalOffset = scrollBar.Value - 38; // Header height
                 var originDragPointShifted = new Point(originDragPoint.X, originDragPoint.Y - verticalOffset); // Initial drag point relative to the topleft corner
                 base.DrawRectangle(currentPoint, originDragPointShifted);
                 // Selected area considering scrolled offset
@@ -208,27 +229,14 @@ namespace Files.UserControls
             Interaction.FindChildren<DataGridRow>(dataGridRows, uiElement); // Find visible/loaded rows
             _prevSelectedItems = uiElement.SelectedItems.Cast<object>().ToList(); // Save current selected items
             originDragPoint = new Point(e.GetCurrentPoint(uiElement).Position.X, e.GetCurrentPoint(uiElement).Position.Y); // Initial drag point relative to the topleft corner
-            var verticalOffset = (scrollBar?.Value ?? 0) - 38; // Magic number (header height? to be checked)
+            var verticalOffset = (scrollBar?.Value ?? 0) - 38; // Header height
             originDragPoint.Y = originDragPoint.Y + verticalOffset; // Initial drag point relative to the top of the list (considering scrolled offset)
             if (!e.GetCurrentPoint(uiElement).Properties.IsLeftButtonPressed)
             {
                 // Trigger only on left click
                 return;
             }
-            DataGridRow clickedRow = null;
-            foreach (var row in dataGridRows)
-            {
-                if (row.Visibility != Visibility.Visible) continue;
-                var gt = row.TransformToVisual(uiElement);
-                var itemStartPoint = gt.TransformPoint(new Point(0, verticalOffset)); // Get item position relative to the top of the list (considering scrolled offset)
-                var itemRect = new System.Drawing.Rectangle((int)itemStartPoint.X, (int)itemStartPoint.Y, (int)row.ActualWidth, (int)row.ActualHeight);
-                // Get DataGrid row under the pointer
-                if (itemRect.Contains((int)originDragPoint.X, (int)originDragPoint.Y))
-                {
-                    clickedRow = row;
-                    break;
-                }
-            }
+            var clickedRow = Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
             if (clickedRow == null)
             {
                 // If user click outside, reset selection
@@ -247,7 +255,7 @@ namespace Files.UserControls
                 uiElement.SelectionChanged -= selectionChanged;
             }
             uiElement.CapturePointer(e.Pointer);
-            _hasSelectionStarted = true;
+            selectionState = SelectionState.Starting;
         }
 
         private void RectangleSelection_PointerReleased(object sender, PointerRoutedEventArgs e)
@@ -269,17 +277,22 @@ namespace Files.UserControls
                     selectionChanged(sender, null);
                 }
             }
-            _hasSelectionStarted = false;
+            if (selectionState == SelectionState.Active)
+            {
+                OnSelectionEnded();
+            }
+            selectionState = SelectionState.Inactive;
         }
 
-        private void InitEvents()
+        private void InitEvents(object sender, RoutedEventArgs e)
         {
             if (!uiElement.IsLoaded)
             {
-                uiElement.Loaded += (s, e) => InitEvents();
+                uiElement.Loaded += InitEvents;
             }
             else
             {
+                uiElement.Loaded -= InitEvents;
                 uiElement.PointerPressed += RectangleSelection_PointerPressed;
                 uiElement.PointerReleased += RectangleSelection_PointerReleased;
                 uiElement.PointerCaptureLost += RectangleSelection_PointerReleased;
@@ -309,7 +322,6 @@ namespace Files.UserControls
 
         private Point originDragPoint;
         private Dictionary<object, System.Drawing.Rectangle> itemsPosition;
-        private bool _hasSelectionStarted;
 
         public RectangleSelection_ListViewBase(ListViewBase uiElement, Rectangle selectionRectangle, SelectionChangedEventHandler selectionChanged = null)
         {
@@ -317,16 +329,17 @@ namespace Files.UserControls
             this.selectionRectangle = selectionRectangle;
             this.selectionChanged = selectionChanged;
             this.itemsPosition = new Dictionary<object, System.Drawing.Rectangle>();
-            this.InitEvents();
+            this.InitEvents(null, null);
         }
 
         private void RectangleSelection_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (_hasSelectionStarted)
+            if (selectionState == SelectionState.Starting)
             {
                 // Clear selected items once if the pointer is pressed and moved
                 uiElement.SelectedItems.Clear();
-                _hasSelectionStarted = false;
+                OnSelectionStarted();
+                selectionState = SelectionState.Active;
             }
             var currentPoint = e.GetCurrentPoint(uiElement);
             if (currentPoint.Properties.IsLeftButtonPressed && scrollViewer != null)
@@ -403,7 +416,7 @@ namespace Files.UserControls
                 uiElement.SelectionChanged -= selectionChanged;
             }
             uiElement.CapturePointer(e.Pointer);
-            _hasSelectionStarted = true;
+            selectionState = SelectionState.Starting;
         }
 
         private void RectangleSelection_PointerReleased(object sender, PointerRoutedEventArgs e)
@@ -421,17 +434,22 @@ namespace Files.UserControls
                 uiElement.SelectionChanged += selectionChanged;
                 selectionChanged(sender, null);
             }
-            _hasSelectionStarted = false;
+            if (selectionState == SelectionState.Active)
+            {
+                OnSelectionEnded();
+            }
+            selectionState = SelectionState.Inactive;
         }
 
-        private void InitEvents()
+        private void InitEvents(object sender, RoutedEventArgs e)
         {
             if (!uiElement.IsLoaded)
             {
-                uiElement.Loaded += (s, e) => InitEvents();
+                uiElement.Loaded += InitEvents;
             }
             else
             {
+                uiElement.Loaded -= InitEvents;
                 uiElement.PointerPressed += RectangleSelection_PointerPressed;
                 uiElement.PointerReleased += RectangleSelection_PointerReleased;
                 uiElement.PointerCaptureLost += RectangleSelection_PointerReleased;

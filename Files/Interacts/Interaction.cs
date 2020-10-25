@@ -53,9 +53,12 @@ namespace Files.Interacts
             CurrentInstance = App.CurrentInstance;
         }
 
-        public void List_ItemClick(object sender, DoubleTappedRoutedEventArgs e)
+        public void List_ItemDoubleClick(object sender, DoubleTappedRoutedEventArgs e)
         {
-            OpenSelectedItems(false);
+            if (!AppSettings.OpenItemsWithOneclick)
+            {
+                OpenSelectedItems(false);
+            }
         }
 
         public void SetAsDesktopBackgroundItem_Click(object sender, RoutedEventArgs e)

@@ -1389,6 +1389,10 @@
           <source>Status center</source>
           <target state="new">Status center</target>
         </trans-unit>
+        <trans-unit id="SettingsOpenItemsWithOneclick.Header" translate="yes" xml:space="preserve">
+          <source>Open items with a single click</source>
+          <target state="new">Open items with a single click</target>
+        </trans-unit>
       </group>
     </body>
   </file>
