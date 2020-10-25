@@ -483,6 +483,23 @@ namespace Files.Filesystem
                                     matchingItem.LoadFileIcon = true;
                                 }
                             }
+                            if (App.Connection != null)
+                            {
+                                var value = new ValueSet();
+                                value.Add("Arguments", "GetIconOverlay");
+                                value.Add("filePath", matchingItem.ItemPath);
+                                var response = await App.Connection.SendMessageAsync(value);
+                                var iconOverlay = response.Message.Get("IconOverlay", (string)null);
+                                if (iconOverlay != null)
+                                {
+                                    matchingItem.IconOverlay = new BitmapImage();
+                                    byte[] bitmapData = Convert.FromBase64String(iconOverlay);
+                                    using (var ms = new MemoryStream(bitmapData))
+                                    {
+                                        await matchingItem.IconOverlay.SetSourceAsync(ms.AsRandomAccessStream());
+                                    }
+                                }
+                            }
                             if (item.IsShortcutItem)
                             {
                                 // Reset cloud sync status icon
@@ -519,8 +536,8 @@ namespace Files.Filesystem
                             if (App.Connection != null)
                             {
                                 var value = new ValueSet();
-                                value.Add("Arguments", "CheckCustomIcon");
-                                value.Add("folderPath", matchingItem.ItemPath);
+                                value.Add("Arguments", "GetIconOverlay");
+                                value.Add("filePath", matchingItem.ItemPath);
                                 var response = await App.Connection.SendMessageAsync(value);
                                 var hasCustomIcon = (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
                                     && response.Message.Get("HasCustomIcon", false);
@@ -537,6 +554,16 @@ namespace Files.Filesystem
                                             matchingItem.LoadFolderGlyph = false;
                                             matchingItem.LoadFileIcon = true;
                                         }
+                                    }
+                                }
+                                var iconOverlay = response.Message.Get("IconOverlay", (string)null);
+                                if (iconOverlay != null)
+                                {
+                                    matchingItem.IconOverlay = new BitmapImage();
+                                    byte[] bitmapData = Convert.FromBase64String(iconOverlay);
+                                    using (var ms = new MemoryStream(bitmapData))
+                                    {
+                                        await matchingItem.IconOverlay.SetSourceAsync(ms.AsRandomAccessStream());
                                     }
                                 }
                             }

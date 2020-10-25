@@ -559,6 +559,18 @@
                         </Viewbox>
                     </Grid>
                     <Grid
+                        x:Name="IconOverlay"
+                        Padding="12"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Width="64"
+                        Height="64"
+                        x:Load="True">
+                        <Image
+                            Source="{x:Bind IconOverlay, Mode=OneWay}"
+                            Stretch="Uniform" />
+                    </Grid>
+                    <Grid
                         x:Name="WebShortcutGlyph"
                         Padding="12"
                         HorizontalAlignment="Stretch"
@@ -705,6 +717,18 @@
                                 FontSize="74"
                                 Glyph="&#xEA00;" />
                         </Grid>
+                    </Grid>
+                    <Grid
+                        x:Name="IconOverlay"
+                        Padding="8"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Width="48"
+                        Height="48"
+                        x:Load="True">
+                        <Image
+                            Source="{x:Bind IconOverlay, Mode=OneWay}"
+                            Stretch="Uniform" />
                     </Grid>
                     <Grid
                         x:Name="WebShortcutGlyph"
