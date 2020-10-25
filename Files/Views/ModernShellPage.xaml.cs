@@ -1,8 +1,8 @@
-﻿using Files.Dialogs;
+﻿using Files.Commands;
+using Files.Dialogs;
 using Files.Filesystem;
 using Files.Interacts;
 using Files.UserControls;
-using Files.UserControls.MultiTaskingControl;
 using Files.View_Models;
 using System;
 using System.Linq;
@@ -29,11 +29,8 @@ namespace Files.Views.Pages
         public ModernShellPage()
         {
             this.InitializeComponent();
-            if (AppSettings.DrivesManager.ShowUserConsentOnInit)
-            {
-                AppSettings.DrivesManager.ShowUserConsentOnInit = false;
-                DisplayFilesystemConsentDialog();
-            }
+            AppSettings.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
+            DisplayFilesystemConsentDialog();
 
             var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
 
@@ -46,6 +43,14 @@ namespace Files.Views.Pages
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = ResourceController.GetTranslation("NewTab");
             App.CurrentInstance.NavigationToolbar.CanGoBack = false;
             App.CurrentInstance.NavigationToolbar.CanGoForward = false;
+        }
+
+        private void DrivesManager_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ShowUserConsentOnInit")
+            {
+                DisplayFilesystemConsentDialog();
+            }
         }
 
         Type IShellPage.CurrentPageType => ItemDisplayFrame.SourcePageType;
@@ -61,13 +66,12 @@ namespace Files.Views.Pages
         ItemViewModel IShellPage.FilesystemViewModel => viewModel;
 
         BaseLayout IShellPage.ContentPage => GetContentOrNull();
+
         Control IShellPage.OperationsControl => null;
 
         StatusBarControl IShellPage.StatusBarControl => StatusBarControl;
 
         CurrentInstanceViewModel IShellPage.InstanceViewModel => instanceViewModel;
-
-        IMultitaskingControl IShellPage.MultitaskingControl => NavToolbar.verticalTabs;
 
         private BaseLayout GetContentOrNull()
         {
@@ -83,8 +87,12 @@ namespace Files.Views.Pages
 
         private async void DisplayFilesystemConsentDialog()
         {
-            var consentDialogDisplay = new ConsentDialog();
-            await consentDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
+            if (AppSettings.DrivesManager.ShowUserConsentOnInit)
+            {
+                AppSettings.DrivesManager.ShowUserConsentOnInit = false;
+                var consentDialogDisplay = new ConsentDialog();
+                await consentDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
+            }
         }
 
         private string NavParams = null;
@@ -110,47 +118,47 @@ namespace Files.Views.Pages
             {
                 case "Start":
                     ItemDisplayFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems[0];
+                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault();
                     break;
 
                 case "Desktop":
                     NavigationPath = AppSettings.DesktopPath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.First(x => x.Path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Downloads":
                     NavigationPath = AppSettings.DownloadsPath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.First(x => x.Path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Documents":
                     NavigationPath = AppSettings.DocumentsPath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.First(x => x.Path.Equals(AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Pictures":
                     NavigationPath = AppSettings.PicturesPath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.First(x => x.Path.Equals(AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Music":
                     NavigationPath = AppSettings.MusicPath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.First(x => x.Path.Equals(AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Videos":
                     NavigationPath = AppSettings.VideosPath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.First(x => x.Path.Equals(AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "RecycleBin":
                     NavigationPath = AppSettings.RecycleBinPath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.First(x => x.Path.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "OneDrive":
                     NavigationPath = AppSettings.OneDrivePath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.First(x => x.Path.Equals(AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 default:
@@ -163,12 +171,12 @@ namespace Files.Views.Pages
                         && NavParams[1] == ':')
                     {
                         NavigationPath = NavParams;
-                        SidebarControl.SelectedSidebarItem = AppSettings.DrivesManager.Drives.First(x => x.Path.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
+                        SidebarControl.SelectedSidebarItem = AppSettings.DrivesManager.Drives.FirstOrDefault(x => x.Path.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
                     }
                     else if (NavParams.StartsWith("\\\\?\\"))
                     {
                         NavigationPath = NavParams;
-                        SidebarControl.SelectedSidebarItem = App.AppSettings.DrivesManager.Drives.First(x => x.Path.ToString().Equals($"{System.IO.Path.GetPathRoot(NavParams)}", StringComparison.OrdinalIgnoreCase));
+                        SidebarControl.SelectedSidebarItem = App.AppSettings.DrivesManager.Drives.FirstOrDefault(x => x.Path.ToString().Equals($"{System.IO.Path.GetPathRoot(NavParams)}", StringComparison.OrdinalIgnoreCase));
                     }
                     else if (NavParams.StartsWith(AppSettings.RecycleBinPath))
                     {
@@ -211,32 +219,35 @@ namespace Files.Views.Pages
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
                 case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
-                    var addItemDialog = new AddItemDialog();
-                    await addItemDialog.ShowAsync();
+                    if (App.CurrentInstance.InstanceViewModel.CanCreateFileInPage)
+                    {
+                        var addItemDialog = new AddItemDialog();
+                        await addItemDialog.ShowAsync();
+                    }
                     break;
 
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
                     if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
-                        App.CurrentInstance.InteractionOperations.DeleteItem(StorageDeleteOption.PermanentDelete);
+                        ItemOperations.DeleteItemWithStatus(StorageDeleteOption.PermanentDelete);
                     break;
 
                 case (true, false, false, true, VirtualKey.C): // ctrl + c, copy
-                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled && !App.CurrentInstance.ContentPage.isRenamingItem)
                         App.CurrentInstance.InteractionOperations.CopyItem_ClickAsync(null, null);
                     break;
 
                 case (true, false, false, true, VirtualKey.V): // ctrl + v, paste
-                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled && !App.CurrentInstance.ContentPage.isRenamingItem)
                         App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync(null, null);
                     break;
 
                 case (true, false, false, true, VirtualKey.X): // ctrl + x, cut
-                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled && !App.CurrentInstance.ContentPage.isRenamingItem)
                         App.CurrentInstance.InteractionOperations.CutItem_Click(null, null);
                     break;
 
                 case (true, false, false, true, VirtualKey.A): // ctrl + a, select all
-                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled && !App.CurrentInstance.ContentPage.isRenamingItem)
                         App.CurrentInstance.InteractionOperations.SelectAllItems();
                     break;
 
@@ -266,7 +277,7 @@ namespace Files.Views.Pages
 
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
                     if (App.CurrentInstance.ContentPage.IsItemSelected && !App.CurrentInstance.ContentPage.isRenamingItem)
-                        App.CurrentInstance.InteractionOperations.DeleteItem(StorageDeleteOption.Default);
+                        ItemOperations.DeleteItemWithStatus(StorageDeleteOption.Default);
                     break;
 
                 case (false, false, false, true, VirtualKey.Space): // space, quick look
@@ -305,7 +316,7 @@ namespace Files.Views.Pages
 
         private void SmallWindowTitlebar_Loaded(object sender, RoutedEventArgs e)
         {
-            Window.Current.SetTitleBar(sender as Grid);
+            Window.Current.SetTitleBar(SmallWindowTitlebar);
         }
     }
 

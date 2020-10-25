@@ -6,6 +6,8 @@
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     xmlns:controls="using:Files.Controls"
     xmlns:controls1="using:Files.UserControls"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:converters1="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.Views.Pages"
     xmlns:local1="using:Files"
@@ -16,6 +18,19 @@
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="SidebarBorderBrush" Color="Transparent" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="SidebarBorderBrush" Color="Transparent" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="HighContrast">
+                    <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
             <Style x:Key="DefaultGridSplitterStyle" TargetType="Custom:GridSplitter">
                 <Setter Property="IsTabStop" Value="True" />
                 <Setter Property="UseSystemFocusVisuals" Value="True" />
@@ -29,7 +44,11 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Custom:GridSplitter">
-                            <Grid x:Name="RootGrid" Background="Transparent">
+                            <Grid
+                                x:Name="RootGrid"
+                                Background="Transparent"
+                                BorderBrush="{ThemeResource SidebarBorderBrush}"
+                                BorderThickness="1,0,0,0">
                                 <ContentPresenter
                                     HorizontalContentAlignment="Stretch"
                                     VerticalContentAlignment="Stretch"
@@ -141,20 +160,26 @@
                 Canvas.ZIndex="100"
                 OffsetX="-2"
                 ShadowOpacity=".04">
-                <Grid Padding="0,8,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Grid Height="24" x:Name="SmallWindowTitlebar" Loaded="SmallWindowTitlebar_Loaded" x:Load="{x:Bind AppSettings.IsHorizontalTabStripVisible, Mode=OneWay}"/>
+
+                    <Grid
+                        x:Name="SmallWindowTitlebar"
+                        Height="30"
+                        x:Load="{x:Bind converters1:MultiBooleanConverter.Convert(AppSettings.IsVerticalTabFlyoutEnabled, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible), Mode=OneWay}"
+                        Background="Transparent"
+                        Loaded="SmallWindowTitlebar_Loaded" />
 
                     <Grid Grid.Row="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                         <controls1:ModernNavigationToolbar
                             x:Name="NavToolbar"
                             Grid.Column="0"
-                            Margin="10,0"
+                            Margin="10"
                             x:FieldModifier="public" />
                     </Grid>
 

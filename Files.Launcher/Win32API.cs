@@ -1,20 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Vanara.Windows.Shell;
 using Vanara.PInvoke;
 using Windows.System;
-using System.IO;
 
 namespace FilesFullTrust
 {
-    internal class Win32API
+    internal partial class Win32API
     {
         public static Task<T> StartSTATask<T>(Func<T> func)
         {
@@ -45,7 +43,7 @@ namespace FilesFullTrust
             }
 
             // Find desktop apps
-            var lpResult = new StringBuilder();
+            var lpResult = new StringBuilder(2048);
             var hResult = Shell32.FindExecutable(filename, null, lpResult);
             if (hResult.ToInt64() > 32)
             {
@@ -53,55 +51,6 @@ namespace FilesFullTrust
             }
 
             return null;
-        }
-
-        public enum PropertyReturnType
-        {
-            RAWVALUE,
-            DISPLAYVALUE
-        }
-
-        public static List<(Ole32.PROPERTYKEY propertyKey, PropertyReturnType returnType)> RecyledFileProperties =
-            new List<(Ole32.PROPERTYKEY propertyKey, PropertyReturnType returnType)>
-        {
-            (Ole32.PROPERTYKEY.System.Size, PropertyReturnType.RAWVALUE),
-            (Ole32.PROPERTYKEY.System.Size, PropertyReturnType.DISPLAYVALUE),
-            (Ole32.PROPERTYKEY.System.ItemTypeText, PropertyReturnType.RAWVALUE),
-            (PropertyStore.GetPropertyKeyFromName("System.Recycle.DateDeleted"), PropertyReturnType.RAWVALUE)
-        };
-
-        // A faster method of getting file shell properties (currently non used)
-        public static IList<object> GetFileProperties(ShellItem folderItem, List<(Ole32.PROPERTYKEY propertyKey, PropertyReturnType returnType)> properties)
-        {
-            var propValueList = new List<object>(properties.Count);
-            var flags = PropSys.GETPROPERTYSTOREFLAGS.GPS_DEFAULT | PropSys.GETPROPERTYSTOREFLAGS.GPS_FASTPROPERTIESONLY;
-
-            PropSys.IPropertyStore pStore = null;
-            try
-            {
-                pStore = ((Shell32.IShellItem2)folderItem.IShellItem).GetPropertyStoreForKeys(properties.Select(p => p.propertyKey).ToArray(), (uint)properties.Count, flags, typeof(PropSys.IPropertyStore).GUID);
-                foreach (var prop in properties)
-                {
-                    using var propVariant = new Ole32.PROPVARIANT();
-                    pStore.GetValue(prop.propertyKey, propVariant);
-                    if (prop.returnType == PropertyReturnType.RAWVALUE)
-                    {
-                        propValueList.Add(propVariant.Value);
-                    }
-                    else if (prop.returnType == PropertyReturnType.DISPLAYVALUE)
-                    {
-                        using var pDesc = PropertyDescription.Create(prop.propertyKey);
-                        var pValue = pDesc?.FormatForDisplay(propVariant, PropSys.PROPDESC_FORMAT_FLAGS.PDFF_DEFAULT);
-                        propValueList.Add(pValue);
-                    }
-                }
-            }
-            finally
-            {
-                Marshal.ReleaseComObject(pStore);
-            }
-
-            return propValueList;
         }
 
         public static string ExtractStringFromDLL(string file, int number)
@@ -163,4 +112,8 @@ namespace FilesFullTrust
             }
         }
     }
+
+    // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.
+    // The Vanara library contains the definitions for all members of Shell32.dll, User32.dll and more
+    // The ones below are due to bugs in the current version of the library and can be removed once fixed
 }

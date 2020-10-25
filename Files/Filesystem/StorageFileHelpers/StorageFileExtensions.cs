@@ -1,5 +1,4 @@
 ﻿using Files.Common;
-using Files.Filesystem;
 using Files.Helpers;
 using Files.View_Models;
 using Files.Views;

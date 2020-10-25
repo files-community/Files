@@ -1,13 +1,19 @@
 ﻿using Files.Filesystem;
+using Files.UserControls;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Interaction = Files.Interacts.Interaction;
 
 namespace Files
@@ -19,10 +25,20 @@ namespace Files
         public GridViewBrowser()
         {
             this.InitializeComponent();
+            base.BaseLayoutContextFlyout = this.BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
+
+            var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
+            selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
             App.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
 
             SetItemTemplate(); // Set ItemTemplate
+        }
+
+        private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
+        {
+            await Task.Delay(200);
+            FileList.Focus(FocusState.Programmatic);
         }
 
         private void AppSettings_LayoutModeChangeRequested(object sender, EventArgs e)
@@ -194,27 +210,21 @@ namespace Files
 
         public override void ResetItemOpacity()
         {
-            foreach (ListedItem listedItem in FileList.Items)
+            IEnumerable items = (IEnumerable)FileList.ItemsSource;
+            if (items == null)
             {
-                List<Grid> itemContentGrids = new List<Grid>();
-                GridViewItem gridViewItem = FileList.ContainerFromItem(listedItem) as GridViewItem;
-                if (gridViewItem == null)
-                {
-                    return;
-                }
-                Interaction.FindChildren<Grid>(itemContentGrids, gridViewItem);
-                var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
-                imageOfItem.Opacity = 1;
+                return;
+            }
+
+            foreach (ListedItem listedItem in items)
+            {
+                listedItem.IsDimmed = false;
             }
         }
 
         public override void SetItemOpacity(ListedItem item)
         {
-            GridViewItem itemToDimForCut = (GridViewItem)FileList.ContainerFromItem(item);
-            List<Grid> itemContentGrids = new List<Grid>();
-            Interaction.FindChildren(itemContentGrids, itemToDimForCut);
-            var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
-            imageOfItem.Opacity = 0.4;
+            item.IsDimmed = true;
         }
 
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -281,7 +291,7 @@ namespace Files
             {
                 if (!isRenamingItem)
                 {
-                    App.CurrentInstance.InteractionOperations.List_ItemClick(null, null);
+                    App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null);
                     e.Handled = true;
                 }
             }
@@ -313,8 +323,9 @@ namespace Files
             {
                 if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser) && !isRenamingItem)
                 {
-                    var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
-                    if (focusedElement is TextBox || focusedElement is PasswordBox ||
+                    // Don't block the various uses of enter key (key 13)
+                    var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
+                    if (args.KeyCode == 13 || focusedElement is Button || focusedElement is TextBox || focusedElement is PasswordBox ||
                         Interacts.Interaction.FindParent<ContentDialog>(focusedElement) != null)
                     {
                         return;
@@ -400,6 +411,25 @@ namespace Files
             }
             else
                 _iconSize = iconSize; // Update icon size
+        }
+
+        private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+
+            // Skip code if the control or shift key is pressed
+            if (ctrlPressed || shiftPressed)
+            {
+                return;
+            }
+
+            // Check if the setting to open items with a single click is turned on
+            if (AppSettings.OpenItemsWithOneclick)
+            {
+                await Task.Delay(200); // The delay gives time for the item to be selected
+                App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null);
+            }
         }
     }
 }

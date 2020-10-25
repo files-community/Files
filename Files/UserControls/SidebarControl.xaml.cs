@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Commands;
+using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
 using System;
@@ -6,6 +7,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -35,7 +37,7 @@ namespace Files.Controls
                 if (value != _SelectedSidebarItem)
                 {
                     _SelectedSidebarItem = value;
-                    NotifyPropertyChanged("SelectedSidebarItem");
+                    NotifyPropertyChanged(nameof(SelectedSidebarItem));
                 }
             }
         }
@@ -53,7 +55,25 @@ namespace Files.Controls
                 if (value != _ShowUnpinItem)
                 {
                     _ShowUnpinItem = value;
-                    NotifyPropertyChanged("ShowUnpinItem");
+                    NotifyPropertyChanged(nameof(ShowUnpinItem));
+                }
+            }
+        }
+
+        private bool _ShowProperties;
+
+        public bool ShowProperties
+        {
+            get
+            {
+                return _ShowProperties;
+            }
+            set
+            {
+                if (value != _ShowProperties)
+                {
+                    _ShowProperties = value;
+                    NotifyPropertyChanged(nameof(ShowProperties));
                 }
             }
         }
@@ -71,7 +91,25 @@ namespace Files.Controls
                 if (value != _ShowEmptyRecycleBin)
                 {
                     _ShowEmptyRecycleBin = value;
-                    NotifyPropertyChanged("ShowEmptyRecycleBin");
+                    NotifyPropertyChanged(nameof(ShowEmptyRecycleBin));
+                }
+            }
+        }
+
+        private bool _RecycleBinHasItems;
+
+        public bool RecycleBinHasItems
+        {
+            get
+            {
+                return _RecycleBinHasItems;
+            }
+            set
+            {
+                if (value != _RecycleBinHasItems)
+                {
+                    _RecycleBinHasItems = value;
+                    NotifyPropertyChanged(nameof(RecycleBinHasItems));
                 }
             }
         }
@@ -101,7 +139,7 @@ namespace Files.Controls
 
                         if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
                         {
-                            if (ItemPath.Equals(SelectedSidebarItem.Path, StringComparison.OrdinalIgnoreCase)) return; // return if already selected
+                            if (ItemPath.Equals(SelectedSidebarItem?.Path, StringComparison.OrdinalIgnoreCase)) return; // return if already selected
 
                             navigationPath = ResourceController.GetTranslation("NewTab");
                             sourcePageType = typeof(YourHome);
@@ -142,7 +180,7 @@ namespace Files.Controls
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
         }
 
-        private void NavigationViewLocationItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        private async void NavigationViewLocationItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as LocationItem;
@@ -158,12 +196,36 @@ namespace Files.Controls
 
             if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
+                var value = new ValueSet
+                {
+                    { "Arguments", "RecycleBin" },
+                    { "action", "Query" }
+                };
+                var response = await App.Connection.SendMessageAsync(value);
+                if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success && response.Message.TryGetValue("NumItems", out var numItems))
+                {
+                    RecycleBinHasItems = (long)numItems > 0;
+                }
+                else
+                {
+                    RecycleBinHasItems = false;
+                }
+
                 ShowEmptyRecycleBin = true;
                 ShowUnpinItem = true;
+                ShowProperties = false;
             }
             else
             {
                 ShowEmptyRecycleBin = false;
+                // Set to true if properties should be displayed for pinned folders
+                ShowProperties = false;
+            }
+
+            // Additional check needed because ShowProperties is set to true if not recycle bin
+            if (item.IsDefaultLocation)
+            {
+                ShowProperties = false;
             }
 
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
@@ -176,18 +238,11 @@ namespace Files.Controls
 
             ShowUnpinItem = false;
             ShowEmptyRecycleBin = false;
+            ShowProperties = true;
 
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
 
             App.rightClickedItem = sidebarItem.DataContext as DriveItem;
-        }
-
-        private void SettingsButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame rootFrame = Window.Current.Content as Frame;
-            rootFrame.Navigate(typeof(Settings));
-
-            return;
         }
 
         private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
@@ -224,33 +279,33 @@ namespace Files.Controls
                 locationItem.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
                 storageItems.AreItemsAlreadyInFolder(locationItem.Path))
             {
-                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.None;
+                e.AcceptedOperation = DataPackageOperation.None;
             }
             else
             {
                 e.DragUIOverride.IsCaptionVisible = true;
                 if (storageItems.AreItemsInSameDrive(locationItem.Path))
                 {
-                    e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+                    e.AcceptedOperation = DataPackageOperation.Move;
                     e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), locationItem.Text);
                 }
                 else
                 {
-                    e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy;
+                    e.AcceptedOperation = DataPackageOperation.Copy;
                     e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("CopyToFolderCaptionText"), locationItem.Text);
                 }
             }
             deferral.Complete();
         }
 
-        private async void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
+        private void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
         {
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem)) return;
 
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
             var deferral = e.GetDeferral();
-            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, locationItem.Path, e.AcceptedOperation);
+            ItemOperations.PasteItemWithStatus(e.DataView, locationItem.Path, e.AcceptedOperation);
             deferral.Complete();
         }
 
@@ -267,34 +322,64 @@ namespace Files.Controls
                 "Unknown".Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
                 storageItems.AreItemsAlreadyInFolder(driveItem.Path))
             {
-                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.None;
+                e.AcceptedOperation = DataPackageOperation.None;
             }
             else
             {
                 e.DragUIOverride.IsCaptionVisible = true;
                 if (storageItems.AreItemsInSameDrive(driveItem.Path))
                 {
-                    e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+                    e.AcceptedOperation = DataPackageOperation.Move;
                     e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), driveItem.Text);
                 }
                 else
                 {
-                    e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy;
+                    e.AcceptedOperation = DataPackageOperation.Copy;
                     e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("CopyToFolderCaptionText"), driveItem.Text);
                 }
             }
             deferral.Complete();
         }
 
-        private async void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
+        private void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
         {
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem)) return;
 
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
             var deferral = e.GetDeferral();
-            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, driveItem.Path, e.AcceptedOperation);
+            ItemOperations.PasteItemWithStatus(e.DataView, driveItem.Path, e.AcceptedOperation);
             deferral.Complete();
+        }
+
+        private async void Properties_Click(object sender, RoutedEventArgs e)
+        {
+            var item = (sender as MenuFlyoutItem).DataContext;
+
+            if (item is DriveItem)
+            {
+                await App.CurrentInstance.InteractionOperations.OpenPropertiesWindow(item);
+            }
+            else if (item is LocationItem)
+            {
+                ListedItem listedItem = new ListedItem(null)
+                {
+                    ItemPath = (item as LocationItem).Path,
+                    ItemName = (item as LocationItem).Text,
+                    PrimaryItemAttribute = Windows.Storage.StorageItemTypes.Folder,
+                    ItemType = ResourceController.GetTranslation("FileFolderListItem"),
+                    LoadFolderGlyph = true
+                };
+                await App.CurrentInstance.InteractionOperations.OpenPropertiesWindow(listedItem);
+            }
+        }
+
+        private void SettingsButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            rootFrame.Navigate(typeof(Settings));
+
+            return;
         }
     }
 

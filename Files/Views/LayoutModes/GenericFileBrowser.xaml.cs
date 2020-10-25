@@ -1,8 +1,11 @@
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.UserControls;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +13,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -58,7 +62,9 @@ namespace Files
         public GenericFileBrowser()
         {
             InitializeComponent();
+            base.BaseLayoutContextFlyout = this.BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
+            this.tapDebounceTimer = new DispatcherTimer();
             switch (AppSettings.DirectorySortOption)
             {
                 case SortOption.Name:
@@ -78,7 +84,23 @@ namespace Files
                     break;
             }
 
+            var selectionRectangle = RectangleSelection.Create(AllView, SelectionRectangle, AllView_SelectionChanged);
+            selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
+            selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
+            AllView.PointerCaptureLost += AllView_ItemPress;
             AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
+        }
+
+        private void SelectionRectangle_SelectionStarted(object sender, EventArgs e)
+        {
+            // If drag selection is active do not trigger file open on pointer release
+            AllView.PointerCaptureLost -= AllView_ItemPress;
+        }
+
+        private void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
+        {
+            // Restore file open on pointer release
+            AllView.PointerCaptureLost += AllView_ItemPress;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -175,17 +197,13 @@ namespace Files
 
             foreach (ListedItem listedItem in items)
             {
-                FrameworkElement element = AllView.Columns[0].GetCellContent(listedItem);
-                if (element != null)
-                {
-                    element.Opacity = 1;
-                }
+                listedItem.IsDimmed = false;
             }
         }
 
         public override void SetItemOpacity(ListedItem item)
         {
-            AllView.Columns[0].GetCellContent(item).Opacity = 0.4;
+            item.IsDimmed = true;
         }
 
         private async void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -240,6 +258,8 @@ namespace Files
 
         private TextBox renamingTextBox;
 
+        private DispatcherTimer tapDebounceTimer;
+
         private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
             if (App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
@@ -249,10 +269,29 @@ namespace Files
                 return;
             }
 
-            if (AppSettings.DoubleTapToRenameFiles == false) // Check if the double tap to rename files setting is off
+            // Only cancel if this event was triggered by a tap
+            // Do not cancel when user presses F2 or context menu
+            if (e.EditingEventArgs is TappedRoutedEventArgs)
             {
+                if (AppSettings.OpenItemsWithOneclick)
+                {
+                    AllView.CancelEdit(); // Cancel the edit operation
+                    return;
+                }
+                if (!tapDebounceTimer.IsEnabled)
+                {
+                    tapDebounceTimer.Debounce(() =>
+                    {
+                        tapDebounceTimer.Stop();
+                        AllView.BeginEdit(); // EditingEventArgs will be null
+                    }, TimeSpan.FromMilliseconds(500), false);
+                }
+                else
+                {
+                    tapDebounceTimer.Stop();
+                    App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null); // Open selected files
+                }
                 AllView.CancelEdit(); // Cancel the edit operation
-                App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null); // Open the file instead
                 return;
             }
 
@@ -288,7 +327,7 @@ namespace Files
 
         private async void AllView_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            if (e.EditAction == DataGridEditAction.Cancel)
+            if (e.EditAction == DataGridEditAction.Cancel || renamingTextBox == null)
             {
                 return;
             }
@@ -308,14 +347,34 @@ namespace Files
 
         private void AllView_CellEditEnded(object sender, DataGridCellEditEndedEventArgs e)
         {
-            renamingTextBox.TextChanged -= TextBox_TextChanged;
+            if (renamingTextBox != null)
+            {
+                renamingTextBox.TextChanged -= TextBox_TextChanged;
+            }
             FileNameTeachingTip.IsOpen = false;
             isRenamingItem = false;
         }
 
-        private void GenericItemView_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private async void AllView_ItemPress(object sender, PointerRoutedEventArgs e)
         {
-            ClearSelection();
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+
+            var cp = e.GetCurrentPoint((UIElement)sender);
+            if (cp.Position.Y <= 38 // Return if click is on the header(38 = header height)
+                || cp.Properties.IsLeftButtonPressed // Return if dragging an item
+                || cp.Properties.IsRightButtonPressed // Return if the user right clicks an item
+                || ctrlPressed || shiftPressed) // Allow for Ctrl+Shift selection
+            {
+                return;
+            }
+
+            // Check if the setting to open items with a single click is turned on
+            if (AppSettings.OpenItemsWithOneclick)
+            {
+                await Task.Delay(200); // The delay gives time for the item to be selected
+                App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null);
+            }
         }
 
         private void AllView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -327,9 +386,16 @@ namespace Files
         private async void AllView_Sorting(object sender, DataGridColumnEventArgs e)
         {
             if (e.Column == SortedColumn)
+            {
                 App.CurrentInstance.FilesystemViewModel.IsSortedAscending = !App.CurrentInstance.FilesystemViewModel.IsSortedAscending;
+                e.Column.SortDirection = App.CurrentInstance.FilesystemViewModel.IsSortedAscending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
+            }
             else if (e.Column != iconColumn)
+            {
                 SortedColumn = e.Column;
+                e.Column.SortDirection = DataGridSortDirection.Ascending;
+                App.CurrentInstance.FilesystemViewModel.IsSortedAscending = true;
+            }
 
             if (!AssociatedViewModel.IsLoadingItems && AssociatedViewModel.FilesAndFolders.Count > 0)
             {
@@ -360,7 +426,7 @@ namespace Files
                 }
                 else
                 {
-                    App.CurrentInstance.InteractionOperations.List_ItemClick(null, null);
+                    App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null);
                 }
                 e.Handled = true;
             }
@@ -376,6 +442,16 @@ namespace Files
         }
 
         public void AllView_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            HandleRightClick(sender, e);
+        }
+
+        public void AllView_Holding(object sender, HoldingRoutedEventArgs e)
+        {
+            HandleRightClick(sender, e);
+        }
+
+        private void HandleRightClick(object sender, RoutedEventArgs e)
         {
             var rowPressed = Interacts.Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
             if (rowPressed != null)
@@ -402,8 +478,9 @@ namespace Files
             {
                 if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
                 {
-                    var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
-                    if (focusedElement is TextBox || focusedElement is PasswordBox ||
+                    // Don't block the various uses of enter key (key 13)
+                    var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
+                    if (args.KeyCode == 13 || focusedElement is Button || focusedElement is TextBox || focusedElement is PasswordBox ||
                         Interacts.Interaction.FindParent<ContentDialog>(focusedElement) != null)
                     {
                         return;
@@ -440,6 +517,47 @@ namespace Files
         {
             DataGridRow row = element as DataGridRow;
             return row.DataContext as ListedItem;
+        }
+
+        private void RadioMenuSortColumn_Click(object sender, RoutedEventArgs e)
+        {
+            DataGridColumnEventArgs args = null;
+
+            switch ((sender as RadioMenuFlyoutItem).Tag)
+            {
+                case "nameColumn":
+                    args = new DataGridColumnEventArgs(nameColumn);
+                    break;
+
+                case "dateColumn":
+                    args = new DataGridColumnEventArgs(dateColumn);
+                    break;
+
+                case "typeColumn":
+                    args = new DataGridColumnEventArgs(typeColumn);
+                    break;
+
+                case "sizeColumn":
+                    args = new DataGridColumnEventArgs(sizeColumn);
+                    break;
+            }
+
+            if (args != null)
+            {
+                AllView_Sorting(sender, args);
+            }
+        }
+
+        private void RadioMenuSortDirection_Click(object sender, RoutedEventArgs e)
+        {
+            if (((sender as RadioMenuFlyoutItem).Tag as string) == "sortAscending")
+            {
+                SortedColumn.SortDirection = DataGridSortDirection.Ascending;
+            }
+            else if (((sender as RadioMenuFlyoutItem).Tag as string) == "sortDescending")
+            {
+                SortedColumn.SortDirection = DataGridSortDirection.Descending;
+            }
         }
     }
 }

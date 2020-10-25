@@ -47,7 +47,7 @@
                     Content="Continue where you left off"
                     FontSize="16"
                     GroupName="StartupPageSettingRadioGroup"
-                    IsEnabled="False" />
+                    IsChecked="{x:Bind AppSettings.ContinueLastSessionOnStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <RadioButton
                     x:Name="OpenSpecificPage"
@@ -98,7 +98,7 @@
                 <TextBlock
                     x:Uid="SettingsOnStartupNewInstanceBehavior"
                     FontSize="17"
-                    Text="When launching a pinned folder" />
+                    Text="When launching an item from the jumplist" />
 
                 <RadioButton
                     x:Uid="SettingsOnStartupLaunchNewTab"

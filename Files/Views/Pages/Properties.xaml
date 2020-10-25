@@ -14,6 +14,10 @@
     Unloaded="Properties_Unloaded"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="Transparent" />
+    </Page.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="32" />
@@ -31,8 +35,8 @@
             x:Name="NavigationView"
             Grid.Row="1"
             AllowDrop="False"
-            IsPaneOpen="False"
             IsBackButtonVisible="Collapsed"
+            IsPaneOpen="False"
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
             PaneDisplayMode="Top"
@@ -60,6 +64,17 @@
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
+
+                <muxc:NavigationViewItem
+                    x:Name="TabDetails"
+                    x:Uid="PropertiesDialogTabDetailsImage"
+                    Content="Details"
+                    Tag="Details"
+                    Visibility="Collapsed">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea8d;" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
             </muxc:NavigationView.MenuItems>
             <Frame x:Name="contentFrame" IsNavigationStackEnabled="False" />
         </muxc:NavigationView>
@@ -67,15 +82,26 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Button
                 x:Name="OKButton"
                 x:Uid="PropertiesDialogOKButton"
                 Grid.Column="1"
                 MinWidth="100"
+                Margin="0,0,10,0"
                 HorizontalAlignment="Right"
-                Click="Button_Click"
+                Click="OKButton_Click"
                 Content="OK"
+                Style="{ThemeResource ButtonRevealStyle}" />
+            <Button
+                x:Name="CancelButton"
+                x:Uid="PropertiesDialogCancelButton"
+                Grid.Column="2"
+                MinWidth="100"
+                HorizontalAlignment="Right"
+                Click="CancelButton_Click"
+                Content="Cancel"
                 Style="{ThemeResource ButtonRevealStyle}" />
         </Grid>
     </Grid>

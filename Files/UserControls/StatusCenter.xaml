@@ -120,7 +120,7 @@
             <TextBlock
                 Margin="10,8"
                 FontSize="14"
-                FontWeight="Bold"
+                FontWeight="SemiBold"
                 Text="Ongoing Tasks" />
         </Grid>
 
@@ -134,6 +134,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local:StatusBanner">
                     <Grid
+                        Height="{x:Bind BannerHeight}"
                         Padding="8"
                         Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                         BorderBrush="{x:Bind StrokeColor}"
@@ -144,6 +145,10 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="30" />
                             </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
                             <Grid>
                                 <muxc:ProgressRing
                                     x:Name="ProgressSpinner"
@@ -177,11 +182,33 @@
                                 Padding="0"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"
-                                Background="Transparent">
+                                Background="Transparent"
+                                Click="Button_Click"
+                                DataContext="{x:Bind}">
                                 <Button.Content>
                                     <FontIcon FontSize="11" Glyph="&#xE711;" />
                                 </Button.Content>
                             </Button>
+                            <Grid
+                                x:Name="solutionButtons"
+                                Grid.Row="1"
+                                Grid.ColumnSpan="3"
+                                x:Load="{x:Bind SolutionButtonsVisible}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <Button
+                                    Grid.Column="0"
+                                    Click="Button_Click_1"
+                                    Content="{x:Bind PrimaryButtonText}"
+                                    DataContext="{x:Bind}" />
+                                <Button
+                                    Grid.Column="1"
+                                    Click="Button_Click"
+                                    Content="{x:Bind SecondaryButtonText}"
+                                    DataContext="{x:Bind}" />
+                            </Grid>
                         </Grid>
                     </Grid>
                 </DataTemplate>

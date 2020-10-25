@@ -5,13 +5,11 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Views;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
@@ -19,12 +17,13 @@ using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
 using Windows.Globalization;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
 namespace Files.View_Models
 {
-    public class SettingsViewModel : ViewModelBase
+    public class SettingsViewModel : ObservableObject
     {
         private readonly ApplicationDataContainer _roamingSettings;
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
@@ -54,11 +53,12 @@ namespace Files.View_Models
             Analytics.TrackEvent("ThemeValue " + ThemeHelper.RootTheme.ToString());
             Analytics.TrackEvent("PinOneDriveToSideBar " + PinOneDriveToSideBar.ToString());
             Analytics.TrackEvent("PinRecycleBinToSideBar " + PinRecycleBinToSideBar.ToString());
-            Analytics.TrackEvent("DoubleTapToRenameFiles " + DoubleTapToRenameFiles.ToString());
             Analytics.TrackEvent("ShowFileExtensions " + ShowFileExtensions.ToString());
             Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
             Analytics.TrackEvent("AcrylicSidebar " + AcrylicEnabled.ToString());
             Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
+            Analytics.TrackEvent("IsHorizontalTabStripEnabled " + IsHorizontalTabStripEnabled.ToString());
+            Analytics.TrackEvent("IsVerticalTabFlyoutEnabled " + IsVerticalTabFlyoutEnabled.ToString());
             // Load the supported languages
 
             var supportedLang = ApplicationLanguages.ManifestLanguages;
@@ -67,6 +67,16 @@ namespace Files.View_Models
             {
                 DefaultLanguages.Add(new DefaultLanguageModel(lang));
             }
+        }
+
+        public static async void OpenLogLocation()
+        {
+            await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+        }
+
+        public static async void ReportIssueOnGitHub()
+        {
+            await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/files-uwp/issues/new/choose"));
         }
 
         public DefaultLanguageModel CurrentLanguage { get; set; } = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);
@@ -215,7 +225,7 @@ namespace Files.View_Models
             get => _DisplayedTimeStyle;
             set
             {
-                Set(ref _DisplayedTimeStyle, value);
+                SetProperty(ref _DisplayedTimeStyle, value);
                 if (value.Equals(TimeStyle.Application))
                 {
                     localSettings.Values[LocalSettings.DateTimeFormat] = "Application";
@@ -232,7 +242,7 @@ namespace Files.View_Models
         public FormFactorMode FormFactor
         {
             get => _FormFactor;
-            set => Set(ref _FormFactor, value);
+            set => SetProperty(ref _FormFactor, value);
         }
 
         public string OneDrivePath { get; set; } = Environment.GetEnvironmentVariable("OneDrive");
@@ -265,7 +275,13 @@ namespace Files.View_Models
             get => Get(false);
             set => Set(value);
         }
-                
+        
+        public bool OpenItemsWithOneclick
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         private bool _PinOneDriveToSideBar = true;
 
         public bool PinOneDriveToSideBar
@@ -275,7 +291,7 @@ namespace Files.View_Models
             {
                 if (value != _PinOneDriveToSideBar)
                 {
-                    Set(ref _PinOneDriveToSideBar, value);
+                    SetProperty(ref _PinOneDriveToSideBar, value);
                     if (value == true)
                     {
                         localSettings.Values["PinOneDrive"] = true;
@@ -320,7 +336,7 @@ namespace Files.View_Models
             }
         }
 
-        private bool _PinRecycleBinToSideBar = false;
+        private bool _PinRecycleBinToSideBar;
 
         public bool PinRecycleBinToSideBar
         {
@@ -329,7 +345,7 @@ namespace Files.View_Models
             {
                 if (value != _PinRecycleBinToSideBar)
                 {
-                    Set(ref _PinRecycleBinToSideBar, value);
+                    SetProperty(ref _PinRecycleBinToSideBar, value);
                     if (value == true)
                     {
                         localSettings.Values["PinRecycleBin"] = true;
@@ -372,7 +388,7 @@ namespace Files.View_Models
         public string TempPath
         {
             get => _TempPath;
-            set => Set(ref _TempPath, value);
+            set => SetProperty(ref _TempPath, value);
         }
 
         private string _LocalAppDataPath = UserDataPaths.GetDefault().LocalAppData;
@@ -380,7 +396,7 @@ namespace Files.View_Models
         public string LocalAppDataPath
         {
             get => _LocalAppDataPath;
-            set => Set(ref _LocalAppDataPath, value);
+            set => SetProperty(ref _LocalAppDataPath, value);
         }
 
         private string _HomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
@@ -388,7 +404,7 @@ namespace Files.View_Models
         public string HomePath
         {
             get => _HomePath;
-            set => Set(ref _HomePath, value);
+            set => SetProperty(ref _HomePath, value);
         }
 
         private string _WinDirPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
@@ -396,13 +412,7 @@ namespace Files.View_Models
         public string WinDirPath
         {
             get => _WinDirPath;
-            set => Set(ref _WinDirPath, value);
-        }
-
-        public bool DoubleTapToRenameFiles
-        {
-            get => Get(true);
-            set => Set(value);
+            set => SetProperty(ref _WinDirPath, value);
         }
 
         public bool ShowFileExtensions
@@ -423,15 +433,21 @@ namespace Files.View_Models
             set => Set(value);
         }
 
-        public bool IsMultitaskingControlVisible
+        public bool IsMultitaskingExperienceAdaptive
         {
             get => Get(true);
             set => Set(value);
         }
 
-        public bool IsHorizontalTabStripVisible
+        public bool IsVerticalTabFlyoutEnabled
         {
-            get => Get(true);
+            get => Get(false);
+            set => Set(value);
+        }
+
+        public bool IsHorizontalTabStripEnabled
+        {
+            get => Get(false);
             set => Set(value);
         }
 
@@ -442,6 +458,18 @@ namespace Files.View_Models
         }
 
         public bool OpenASpecificPageOnStartup
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        public bool ContinueLastSessionOnStartUp
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        public bool ResumeAfterRestart
         {
             get => Get(false);
             set => Set(value);
@@ -474,10 +502,22 @@ namespace Files.View_Models
             {
                 if (value != _AcrylicEnabled)
                 {
-                    Set(ref _AcrylicEnabled, value);
+                    SetProperty(ref _AcrylicEnabled, value);
                     localSettings.Values["AcrylicEnabled"] = value;
                 }
             }
+        }
+
+        public bool ShowAllContextMenuItems
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        public bool ShowCopyLocationOption
+        {
+            get => Get(true);
+            set => Set(value);
         }
 
         public event EventHandler ThemeModeChanged;
@@ -634,7 +674,7 @@ namespace Files.View_Models
 
         public void Dispose()
         {
-            DrivesManager.Dispose();
+            DrivesManager?.Dispose();
         }
 
         public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
@@ -650,7 +690,7 @@ namespace Files.View_Models
                 originalValue = Get(originalValue, propertyName);
 
                 _roamingSettings.Values[propertyName] = value;
-                if (!base.Set(ref originalValue, value, propertyName)) return false;
+                if (!base.SetProperty(ref originalValue, value, propertyName)) return false;
             }
             else
             {
@@ -708,6 +748,12 @@ namespace Files.View_Models
         private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
 
         public string[] PagesOnStartupList
+        {
+            get => Get<string[]>(null);
+            set => Set(value);
+        }
+
+        public string[] LastSessionPages
         {
             get => Get<string[]>(null);
             set => Set(value);

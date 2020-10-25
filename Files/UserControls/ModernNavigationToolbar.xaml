@@ -6,6 +6,7 @@
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
+    xmlns:converters="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:helpers="using:Files.Helpers"
@@ -17,6 +18,17 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="PathBoxHoverBrush" Color="{StaticResource SystemRevealListLowColor}" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="PathBoxHoverBrush" Color="{StaticResource SystemRevealListLowColor}" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="HighContrast">
+                    <SolidColorBrush x:Key="PathBoxHoverBrush" Color="{ThemeResource SystemColorWindowColor}" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
 
@@ -526,6 +538,8 @@
 
                                 <FontIcon
                                     x:Name="PathSeaparatorIcon"
+                                    Width="32"
+                                    Margin="-11,0,-11,0"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     FontSize="10"
                                     Glyph="&#xE9A8;"
@@ -620,7 +634,9 @@
                                 TargetTheme="Dark"
                                 Color="Transparent" />
                         </ResourceDictionary>
-                        <ResourceDictionary x:Key="HighContrast" />
+                        <ResourceDictionary x:Key="HighContrast">
+                            <SolidColorBrush x:Key="TransparentGridRevealBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
+                        </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
@@ -645,6 +661,7 @@
                 Margin="4,0,2,0"
                 Padding="0"
                 x:FieldModifier="public"
+                AutomationProperties.Name="Navigate backwards"
                 Background="Transparent"
                 Click="{x:Bind local1:NavigationActions.Back_Click}"
                 CornerRadius="2"
@@ -671,6 +688,7 @@
                 Margin="2,0,2,0"
                 Padding="0"
                 x:FieldModifier="public"
+                AutomationProperties.Name="Navigate forward"
                 Background="Transparent"
                 Click="{x:Bind local1:NavigationActions.Forward_Click}"
                 CornerRadius="2"
@@ -696,6 +714,7 @@
                 Margin="2,0,2,0"
                 Padding="0"
                 x:FieldModifier="public"
+                AutomationProperties.Name="Go up one directory"
                 Background="Transparent"
                 Click="{x:Bind local1:NavigationActions.Up_Click}"
                 CornerRadius="2"
@@ -720,6 +739,7 @@
                 Margin="2,0,0,0"
                 Padding="0"
                 x:FieldModifier="public"
+                AutomationProperties.Name="Refresh the directory"
                 Background="Transparent"
                 Click="{x:Bind local1:NavigationActions.Refresh_Click}"
                 CornerRadius="2"
@@ -782,11 +802,7 @@
                 PointerPressed="ManualPathEntryItem_Click">
                 <Interactivity:Interaction.Behaviors>
                     <Core:EventTriggerBehavior EventName="PointerEntered">
-                        <Core:ChangePropertyAction PropertyName="Background">
-                            <Core:ChangePropertyAction.Value>
-                                <SolidColorBrush Color="{ThemeResource SystemRevealListLowColor}" />
-                            </Core:ChangePropertyAction.Value>
-                        </Core:ChangePropertyAction>
+                        <Core:ChangePropertyAction PropertyName="Background" Value="{ThemeResource PathBoxHoverBrush}" />
                     </Core:EventTriggerBehavior>
 
                     <Core:EventTriggerBehavior EventName="PointerExited">
@@ -841,6 +857,7 @@
                 Padding="0"
                 HorizontalAlignment="Right"
                 x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                AutomationProperties.Name="Create new item"
                 Background="Transparent"
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
@@ -927,8 +944,9 @@
                 Width="34"
                 Height="30"
                 Margin="2,0,2,0"
-                x:Load="{x:Bind AppSettings.IsMultitaskingControlVisible, Mode=OneWay}"
+                x:Load="{x:Bind converters:MultiBooleanConverter.Convert(AppSettings.IsVerticalTabFlyoutEnabled, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible), Mode=OneWay}"
                 AllowDrop="True"
+                AutomationProperties.Name="Vertical tab strip"
                 Background="Transparent"
                 Content="&#xF5ED;"
                 CornerRadius="2"
@@ -936,24 +954,24 @@
                 FontFamily="Segoe MDL2 Assets"
                 FontSize="16"
                 IsTapEnabled="True"
+                Loaded="VerticalTabStripInvokeButton_Loaded"
                 PointerEntered="Button_PointerEntered"
                 PointerExited="VerticalTabStripInvokeButton_PointerExited"
                 Style="{StaticResource ToolBarButtonStyle}"
                 Tapped="Button_Tapped"
-                ToolTipService.ToolTip="Open tabs"
-                Visibility="Visible">
+                ToolTipService.ToolTip="Open tabs">
                 <Button.Flyout>
                     <Flyout
                         x:Name="VerticalTabViewFlyout"
                         Closed="Flyout_Closed"
                         Opened="Flyout_Opened">
-                        <local:VerticalTabView
-                            x:Name="verticalTabs"
+                        <local:VerticalTabViewControl
+                            x:Name="VerticalTabs"
                             Width="275"
                             MaxHeight="300"
                             Margin="-6"
                             x:FieldModifier="public"
-                            PointerExited="verticalTabs_PointerExited" />
+                            PointerExited="VerticalTabs_PointerExited" />
                     </Flyout>
                 </Button.Flyout>
             </Button>
@@ -965,6 +983,7 @@
                 Height="30"
                 Margin="0,0,4,0"
                 HorizontalAlignment="Right"
+                AutomationProperties.Name="More options"
                 Background="Transparent"
                 Content=""
                 CornerRadius="2"
@@ -977,7 +996,6 @@
                         <MenuFlyoutItem
                             x:Name="NavToolbarNewTab"
                             x:Uid="NavigationToolbarNewTab"
-                            x:Load="{x:Bind AppSettings.IsMultitaskingControlVisible, Mode=OneWay}"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.OpenNewTab}"
                             Text="New Tab">
                             <MenuFlyoutItem.Icon>
@@ -997,7 +1015,7 @@
                             x:Uid="NavigationToolbarCopyPath"
                             x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.GetPath_Click}"
-                            Text="Copy Path">
+                            Text="Copy location">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9B1;" />
                             </MenuFlyoutItem.Icon>

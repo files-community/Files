@@ -1,4 +1,5 @@
 ﻿using ByteSizeLib;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Core;
 using static Files.Helpers.NativeFindStorageItemHelper;
@@ -33,8 +35,12 @@ namespace Files.View_Models.Properties
             propertiesName.Add(dateAccessedProperty);
             propertiesName.Add(fileOwnerProperty);
             IDictionary<string, object> extraProperties = await properties.RetrievePropertiesAsync(propertiesName);
+
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+
             // Cannot get date and owner in MTP devices
-            ViewModel.ItemAccessedTimestamp = ListedItem.GetFriendlyDate((DateTimeOffset)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now));
+            ViewModel.ItemAccessedTimestamp = ListedItem.GetFriendlyDateFromFormat((DateTimeOffset)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now), returnformat);
 
             if (App.AppSettings.ShowFileOwner)
             {

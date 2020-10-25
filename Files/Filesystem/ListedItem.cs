@@ -1,8 +1,7 @@
 ﻿using Files.Enums;
-using GalaSoft.MvvmLight;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using Windows.Storage;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem
@@ -13,8 +12,8 @@ namespace Files.Filesystem
         public bool ItemPropertiesInitialized { get; set; } = false;
         public string FolderTooltipText { get; set; }
         public string FolderRelativeId { get; set; }
-        public bool LoadFolderGlyph { get; set; }
         public bool ContainsFilesOrFolders { get; set; }
+        private bool _LoadFolderGlyph;
         private bool _LoadFileIcon;
 
         public Uri FolderIconSource
@@ -33,10 +32,16 @@ namespace Files.Filesystem
             }
         }
 
+        public bool LoadFolderGlyph
+        {
+            get => _LoadFolderGlyph;
+            set => SetProperty(ref _LoadFolderGlyph, value);
+        }
+
         public bool LoadFileIcon
         {
             get => _LoadFileIcon;
-            set => Set(ref _LoadFileIcon, value);
+            set => SetProperty(ref _LoadFileIcon, value);
         }
 
         private bool _LoadUnknownTypeGlyph;
@@ -44,7 +49,15 @@ namespace Files.Filesystem
         public bool LoadUnknownTypeGlyph
         {
             get => _LoadUnknownTypeGlyph;
-            set => Set(ref _LoadUnknownTypeGlyph, value);
+            set => SetProperty(ref _LoadUnknownTypeGlyph, value);
+        }
+
+        private bool _IsDimmed;
+
+        public bool IsDimmed
+        {
+            get => _IsDimmed;
+            set => SetProperty(ref _IsDimmed, value);
         }
 
         private CloudDriveSyncStatusUI _SyncStatusUI;
@@ -52,7 +65,7 @@ namespace Files.Filesystem
         public CloudDriveSyncStatusUI SyncStatusUI
         {
             get => _SyncStatusUI;
-            set => Set(ref _SyncStatusUI, value);
+            set => SetProperty(ref _SyncStatusUI, value);
         }
 
         private BitmapImage _FileImage;
@@ -64,7 +77,7 @@ namespace Files.Filesystem
             {
                 if (value != null)
                 {
-                    Set(ref _FileImage, value);
+                    SetProperty(ref _FileImage, value);
                 }
             }
         }
@@ -74,7 +87,7 @@ namespace Files.Filesystem
         public string ItemPath
         {
             get => _ItemPath;
-            set => Set(ref _ItemPath, value);
+            set => SetProperty(ref _ItemPath, value);
         }
 
         private string _ItemName;
@@ -82,7 +95,7 @@ namespace Files.Filesystem
         public string ItemName
         {
             get => _ItemName;
-            set => Set(ref _ItemName, value);
+            set => SetProperty(ref _ItemName, value);
         }
 
         private string _ItemType;
@@ -94,7 +107,7 @@ namespace Files.Filesystem
             {
                 if (value != null)
                 {
-                    Set(ref _ItemType, value);
+                    SetProperty(ref _ItemType, value);
                 }
             }
         }
@@ -112,7 +125,7 @@ namespace Files.Filesystem
             get => _itemDateModifiedReal;
             set
             {
-                ItemDateModified = GetFriendlyDate(value);
+                ItemDateModified = GetFriendlyDateFromFormat(value, DateReturnFormat);
                 _itemDateModifiedReal = value;
             }
         }
@@ -124,7 +137,7 @@ namespace Files.Filesystem
             get => _itemDateCreatedReal;
             set
             {
-                ItemDateCreated = GetFriendlyDate(value);
+                ItemDateCreated = GetFriendlyDateFromFormat(value, DateReturnFormat);
                 _itemDateCreatedReal = value;
             }
         }
@@ -136,28 +149,52 @@ namespace Files.Filesystem
             get => _itemDateAccessedReal;
             set
             {
-                ItemDateAccessed = GetFriendlyDate(value);
+                ItemDateAccessed = GetFriendlyDateFromFormat(value, DateReturnFormat);
                 _itemDateAccessedReal = value;
             }
         }
 
         private DateTimeOffset _itemDateAccessedReal;
 
-        public ListedItem(string folderRelativeId)
+        public bool IsImage()
         {
-            FolderRelativeId = folderRelativeId;
+            if (FileExtension != null)
+            {
+                string lower = FileExtension.ToLower();
+                return lower.Contains("png") || lower.Contains("jpg") || lower.Contains("gif") || lower.Contains("jpeg");
+            }
+            return false;
         }
 
-        public static string GetFriendlyDate(DateTimeOffset d)
+        /// <summary>
+        /// Create an item object, optionally with an explicitly-specified dateReturnFormat.
+        /// </summary>
+        /// <param name="folderRelativeId"></param>
+        /// <param name="dateReturnFormat">Specify a date return format to reduce redundant checks of this setting.</param>
+        public ListedItem(string folderRelativeId, string dateReturnFormat = null)
         {
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            FolderRelativeId = folderRelativeId;
+            if (dateReturnFormat != null)
+            {
+                DateReturnFormat = dateReturnFormat;
+            }
+            else
+            {
+                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+                string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+                DateReturnFormat = returnformat;
+            }
+        }
+
+        private string DateReturnFormat { get; }
+
+        public static string GetFriendlyDateFromFormat(DateTimeOffset d, string returnFormat)
+        {
             var elapsed = DateTimeOffset.Now - d;
 
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-
-            if (elapsed.TotalDays > 7)
+            if (elapsed.TotalDays > 7 || returnFormat == "g")
             {
-                return d.ToString(returnformat);
+                return d.ToString(returnFormat);
             }
             else if (elapsed.TotalDays > 2)
             {
@@ -196,7 +233,7 @@ namespace Files.Filesystem
 
     public class RecycleBinItem : ListedItem
     {
-        public RecycleBinItem(string folderRelativeId) : base(folderRelativeId)
+        public RecycleBinItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
         {
         }
 
@@ -206,7 +243,7 @@ namespace Files.Filesystem
 
     public class ShortcutItem : ListedItem
     {
-        public ShortcutItem(string folderRelativeId) : base(folderRelativeId)
+        public ShortcutItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
         {
         }
 

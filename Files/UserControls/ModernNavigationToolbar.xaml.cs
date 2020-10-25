@@ -1,5 +1,7 @@
-﻿using Files.Common;
+﻿using Files.Commands;
+using Files.Common;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
 using Files.Views.Pages;
@@ -46,7 +48,7 @@ namespace Files.UserControls
                 if (value != manualEntryBoxLoaded)
                 {
                     manualEntryBoxLoaded = value;
-                    NotifyPropertyChanged("ManualEntryBoxLoaded");
+                    NotifyPropertyChanged(nameof(ManualEntryBoxLoaded));
                 }
             }
         }
@@ -64,7 +66,7 @@ namespace Files.UserControls
                 if (value != clickablePathLoaded)
                 {
                     clickablePathLoaded = value;
-                    NotifyPropertyChanged("ClickablePathLoaded");
+                    NotifyPropertyChanged(nameof(ClickablePathLoaded));
                 }
             }
         }
@@ -187,7 +189,7 @@ namespace Files.UserControls
             set
             {
                 PathText = value;
-                NotifyPropertyChanged("PathText");
+                NotifyPropertyChanged(nameof(PathText));
             }
         }
 
@@ -202,7 +204,7 @@ namespace Files.UserControls
 
         ObservableCollection<PathBoxItem> INavigationToolbar.PathComponents => pathComponents;
 
-        public UserControl MultiTaskingControl => verticalTabs;
+        public UserControl MultiTaskingControl => VerticalTabs;
 
         private void ManualPathEntryItem_Click(object sender, RoutedEventArgs e)
         {
@@ -284,7 +286,8 @@ namespace Files.UserControls
                             }
                             catch
                             {
-                                ShowInvalidAccessDialog(ex.Message);
+                                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("InvalidItemDialogTitle"),
+                                    string.Format(ResourceController.GetTranslation("InvalidItemDialogContent"), Environment.NewLine, ex.Message));
                             }
                         }
                     }
@@ -294,21 +297,14 @@ namespace Files.UserControls
             }
         }
 
-        private async void ShowInvalidAccessDialog(string message)
-        {
-            var dialog = new ContentDialog()
-            {
-                Title = "Invalid item",
-                Content = "The item referenced is either invalid or inaccessible.\nMessage:\n\n" + message,
-                CloseButtonText = "OK"
-            };
-
-            await dialog.ShowAsync();
-        }
-
         private void VisiblePath_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (FocusManager.GetFocusedElement() is FlyoutBase || FocusManager.GetFocusedElement() is AppBarButton || FocusManager.GetFocusedElement() is Popup) { return; }
+            if (FocusManager.GetFocusedElement() is FlyoutBase ||
+                FocusManager.GetFocusedElement() is AppBarButton ||
+                FocusManager.GetFocusedElement() is Popup)
+            {
+                return;
+            }
 
             var element = FocusManager.GetFocusedElement();
             var elementAsControl = element as Control;
@@ -383,15 +379,15 @@ namespace Files.UserControls
 
         private bool cancelFlyoutAutoClose = false;
 
-        private async void verticalTabs_PointerExited(object sender, PointerRoutedEventArgs e)
+        private async void VerticalTabs_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
             {
                 e.Handled = true;
                 cancelFlyoutAutoClose = false;
-                verticalTabs.PointerEntered += verticalTabs_PointerEntered;
+                VerticalTabs.PointerEntered += VerticalTabs_PointerEntered;
                 await Task.Delay(1000);
-                verticalTabs.PointerEntered -= verticalTabs_PointerEntered;
+                VerticalTabs.PointerEntered -= VerticalTabs_PointerEntered;
                 if (!cancelFlyoutAutoClose)
                 {
                     VerticalTabViewFlyout.Hide();
@@ -400,7 +396,7 @@ namespace Files.UserControls
             }
         }
 
-        private void verticalTabs_PointerEntered(object sender, PointerRoutedEventArgs e)
+        private void VerticalTabs_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
             {
@@ -412,12 +408,17 @@ namespace Files.UserControls
         private async void PathBoxItem_DragOver(object sender, DragEventArgs e)
         {
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
-                pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab")) return;
+                pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab"))
+            {
+                return;
+            }
+
             if (!e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 e.AcceptedOperation = DataPackageOperation.None;
                 return;
             }
+
             e.Handled = true;
             var deferral = e.GetDeferral();
 
@@ -439,13 +440,16 @@ namespace Files.UserControls
             deferral.Complete();
         }
 
-        private async void PathBoxItem_Drop(object sender, DragEventArgs e)
+        private void PathBoxItem_Drop(object sender, DragEventArgs e)
         {
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
-                pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab")) return;
+                pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab"))
+            {
+                return;
+            }
 
             var deferral = e.GetDeferral();
-            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, pathBoxItem.Path, e.AcceptedOperation);
+            ItemOperations.PasteItemWithStatus(e.DataView, pathBoxItem.Path, e.AcceptedOperation);
             deferral.Complete();
         }
 
@@ -623,6 +627,11 @@ namespace Files.UserControls
 
                 flyout.Items.Add(flyoutItem);
             }
+        }
+
+        private void VerticalTabStripInvokeButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            App.MultitaskingControl = VerticalTabs;
         }
     }
 }

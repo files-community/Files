@@ -17,8 +17,15 @@
     mc:Ignorable="d">
     <local:BaseLayout.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        <converters:BoolToObjectConverter
+            x:Key="BoolToOpacityConverter"
+            FalseValue="1"
+            TrueValue="0.4" />
 
-        <MenuFlyout x:Key="BaseLayoutContextFlyout">
+        <MenuFlyout
+            x:Key="BaseLayoutContextFlyout"
+            x:Name="BaseLayoutContextFlyout"
+            Opening="RightClickContextMenu_Opening">
             <MenuFlyoutSubItem
                 x:Name="SortByEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutSortBy"
@@ -29,6 +36,7 @@
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByName"
                     GroupName="SortGroup"
+                    IsChecked="{x:Bind AssociatedViewModel.IsSortedByName, Mode=TwoWay}"
                     Text="Name" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByDate"
@@ -56,6 +64,51 @@
                     GroupName="SortOrderGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedDescending, Mode=TwoWay}"
                     Text="Descending" />
+            </MenuFlyoutSubItem>
+            <MenuFlyoutSubItem x:Uid="BaseLayoutContextFlyoutLayoutMode" Text="Layout mode">
+                <MenuFlyoutSubItem.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE152;" />
+                </MenuFlyoutSubItem.Icon>
+                <MenuFlyoutItem
+                    x:Uid="StatusBarControlGridViewLarge"
+                    Command="{x:Bind AppSettings.ToggleLayoutModeGridViewLarge}"
+                    Text="Grid View (Large)">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9A0;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
+                    x:Uid="StatusBarControlGridViewMedium"
+                    Command="{x:Bind AppSettings.ToggleLayoutModeGridViewMedium}"
+                    Text="Grid View (Medium)">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA72;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
+                    x:Uid="StatusBarControlGridViewSmall"
+                    Command="{x:Bind AppSettings.ToggleLayoutModeGridViewSmall}"
+                    Text="Grid View (Small)">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEBA1;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
+                    x:Uid="StatusBarControlTilesView"
+                    Command="{x:Bind AppSettings.ToggleLayoutModeTiles}"
+                    Text="Tiles View">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF100;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
+                    x:Uid="StatusBarControlListView"
+                    Command="{x:Bind AppSettings.ToggleLayoutModeListView}"
+                    Text="List View">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF101;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
             </MenuFlyoutSubItem>
             <MenuFlyoutItem
                 x:Name="RefreshEmptySpace"
@@ -215,17 +268,6 @@
             x:Name="BaseLayoutItemContextFlyout"
             Opening="RightClickItemContextMenu_Opening">
             <MenuFlyoutItem
-                x:Name="UnzipItem"
-                x:Uid="BaseLayoutItemContextFlyoutExtract"
-                x:Load="False"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ExtractItems_Click}"
-                Tag="Extract_FlyoutItem"
-                Text="Extract">
-                <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea5c;" />
-                </MenuFlyoutItem.Icon>
-            </MenuFlyoutItem>
-            <MenuFlyoutItem
                 x:Name="OpenItem"
                 x:Uid="BaseLayoutItemContextFlyoutOpenItem"
                 x:Load="False"
@@ -263,8 +305,7 @@
                 x:Load="False"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenDirectoryInNewTab_Click}"
                 Tag="OpenTab_FlyoutItem"
-                Text="Open in new tab"
-                Visibility="{x:Bind AppSettings.IsMultitaskingControlVisible, Mode=OneWay}">
+                Text="Open in new tab">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
                 </MenuFlyoutItem.Icon>
@@ -280,26 +321,29 @@
                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF107;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-            <MenuFlyoutItem
-                x:Name="SetAsDesktopBackgroundItem"
-                x:Uid="BaseLayoutItemContextFlyoutSetAsDesktopBackground"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SetAsDesktopBackgroundItem_Click}"
-                Text="Set as desktop background"
+            <MenuFlyoutSubItem
+                x:Uid="BaseLayoutItemContextFlyoutSetAs"
+                Text="Set as"
                 Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemImage, Mode=OneWay}">
-                <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEC16;" />
-                </MenuFlyoutItem.Icon>
-            </MenuFlyoutItem>
-            <MenuFlyoutItem
-                x:Name="SetAsLockscreenBackgroundItem"
-                x:Uid="BaseLayoutItemContextFlyoutSetAsLockscreenBackground"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SetAsLockscreenBackgroundItem_Click}"
-                Text="Set as lockscreen background"
-                Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemImage, Mode=OneWay}">
-                <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF103;" />
-                </MenuFlyoutItem.Icon>
-            </MenuFlyoutItem>
+                <MenuFlyoutItem
+                    x:Name="SetAsDesktopBackgroundItem"
+                    x:Uid="BaseLayoutItemContextFlyoutSetAsDesktopBackground"
+                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SetAsDesktopBackgroundItem_Click}"
+                    Text="Set as desktop background">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEC16;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
+                    x:Name="SetAsLockscreenBackgroundItem"
+                    x:Uid="BaseLayoutItemContextFlyoutSetAsLockscreenBackground"
+                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SetAsLockscreenBackgroundItem_Click}"
+                    Text="Set as lockscreen background">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF103;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+            </MenuFlyoutSubItem>
             <MenuFlyoutItem
                 x:Name="RunAsAdmin"
                 x:Uid="BaseLayoutContextFlyoutRunAsAdmin"
@@ -346,6 +390,15 @@
                 Text="Copy">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe9d6;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
+                x:Name="CopyLocationItem"
+                x:Uid="BaseLayoutItemContextFlyoutCopyLocation"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CopyLocation_ClickAsync}"
+                Text="Copy location">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9B1;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
@@ -473,6 +526,7 @@
                     Grid.Row="0"
                     Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
                     Height="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
+                    Opacity="{x:Bind IsDimmed, Converter={StaticResource BoolToOpacityConverter}, Mode=OneWay}"
                     Tag="ItemImage">
                     <Grid
                         x:Name="Picture"
@@ -486,7 +540,7 @@
                         x:Name="FolderGlyph"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind LoadFolderGlyph}"
+                        x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
                         Stretch="Uniform">
                         <Image.Source>
                             <SvgImageSource
@@ -614,6 +668,7 @@
                     Grid.Column="1"
                     Height="Auto"
                     MinHeight="100"
+                    Opacity="{x:Bind IsDimmed, Converter={StaticResource BoolToOpacityConverter}, Mode=OneWay}"
                     Tag="ItemImage">
                     <Grid
                         x:Name="Picture"
@@ -630,7 +685,7 @@
                         Height="74"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind LoadFolderGlyph}"
+                        x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
                         Stretch="Uniform">
                         <Image.Source>
                             <SvgImageSource
@@ -707,12 +762,14 @@
                             Visibility="Collapsed" />
                         <TextBlock
                             HorizontalAlignment="Left"
-                            Text="{x:Bind ItemType}"
+                            Opacity="0.6"
+                            Text="{Binding ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             TextAlignment="Left"
                             TextTrimming="CharacterEllipsis"
                             TextWrapping="NoWrap" />
                         <TextBlock
                             HorizontalAlignment="Left"
+                            Opacity="0.6"
                             Text="{x:Bind FileSize}"
                             TextAlignment="Left"
                             TextTrimming="CharacterEllipsis"
@@ -793,14 +850,16 @@
 
         <GridView
             x:Name="FileList"
-            Margin="14,14,14,0"
+            Padding="14,14,14,0"
             VerticalContentAlignment="Stretch"
             x:FieldModifier="public"
             AllowDrop="True"
-            DoubleTapped="{x:Bind local:App.CurrentInstance.InteractionOperations.List_ItemClick}"
+            DoubleTapped="{x:Bind local:App.CurrentInstance.InteractionOperations.List_ItemDoubleClick}"
             DragOver="List_DragOver"
             Drop="List_Drop"
             IsDoubleTapEnabled="True"
+            IsItemClickEnabled="True"
+            ItemClick="FileList_ItemClick"
             ItemsSource="{x:Bind AssociatedViewModel.FilesAndFolders}"
             PreviewKeyDown="FileList_PreviewKeyDown"
             SelectionChanged="FileList_SelectionChanged"
@@ -820,5 +879,19 @@
                 </Core:DataTriggerBehavior>
             </Interactivity:Interaction.Behaviors>
         </GridView>
+
+        <Canvas
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+            <Rectangle
+                Name="SelectionRectangle"
+                Fill="#AA0078d7"
+                Stroke="#FF0066cc"
+                StrokeThickness="1"
+                Canvas.Left="0"
+                Canvas.Top="0"
+                Width="0"
+                Height="0"/>
+        </Canvas>
     </Grid>
 </local:BaseLayout>

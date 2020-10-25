@@ -1,6 +1,5 @@
 ﻿using System;
 using Windows.ApplicationModel;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -13,17 +12,31 @@ namespace Files.SettingsPages
         {
             InitializeComponent();
             var version = Package.Current.Id.Version;
-            VersionNumber.Text = string.Format($"Version: {version.Major}.{version.Minor}.{version.Build}.{version.Revision}");
+            VersionNumber.Text = string.Format($"{ResourceController.GetTranslation("SettingsAboutVersionTitle")} {version.Major}.{version.Minor}.{version.Build}.{version.Revision}");
         }
 
-        private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/files-uwp/issues/new/choose"));
-        }
+        private void OpenLogLocationButton_Click(object sender, RoutedEventArgs e) => View_Models.SettingsViewModel.OpenLogLocation();
 
-        private async void OpenLogLocationButton_Click(object sender, RoutedEventArgs e)
+        private async void FeedbackListView_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+            if (FeedbackListView.SelectedIndex == 0)
+            {
+                View_Models.SettingsViewModel.ReportIssueOnGitHub();
+            }
+            else if (FeedbackListView.SelectedIndex == 1)
+            {
+                await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/files-uwp/releases"));
+            }
+            else if (FeedbackListView.SelectedIndex == 2)
+            {
+                await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/files-uwp/graphs/contributors"));
+            }
+            else if (FeedbackListView.SelectedIndex == 3)
+            {
+                await Launcher.LaunchUriAsync(new Uri(@"https://paypal.me/yaichenbaum"));
+            }
+
+            (FeedbackListView.Items[FeedbackListView.SelectedIndex] as ListViewItem).IsSelected = false;
         }
     }
 }

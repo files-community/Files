@@ -49,20 +49,27 @@ namespace Files.Filesystem
                 return await root.Properties.RetrievePropertiesAsync(new[] { "System.FreeSpace", "System.Capacity" });
             }).Result;
 
-            try
+            if (properties.ContainsKey("System.Capacity") && properties.ContainsKey("System.FreeSpace"))
             {
-                MaxSpace = ByteSize.FromBytes((ulong)properties["System.Capacity"]);
-                FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
+                try
+                {
+                    MaxSpace = ByteSize.FromBytes((ulong)properties["System.Capacity"]);
+                    FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
 
-                SpaceUsed = MaxSpace - FreeSpace;
-                SpaceText = string.Format(
-                    ResourceController.GetTranslation("DriveFreeSpaceAndCapacity"),
-                    FreeSpace.ToBinaryString().ConvertSizeAbbreviation(),
-                    MaxSpace.ToBinaryString().ConvertSizeAbbreviation());
+                    SpaceUsed = MaxSpace - FreeSpace;
+                    SpaceText = string.Format(
+                        ResourceController.GetTranslation("DriveFreeSpaceAndCapacity"),
+                        FreeSpace.ToBinaryString().ConvertSizeAbbreviation(),
+                        MaxSpace.ToBinaryString().ConvertSizeAbbreviation());
+                }
+                catch (NullReferenceException)
+                {
+                    SpaceText = ResourceController.GetTranslation("DriveCapacityUnknown");
+                }
             }
-            catch (NullReferenceException)
+            else
             {
-                SpaceText = "Unknown";
+                SpaceText = ResourceController.GetTranslation("DriveCapacityUnknown");
             }
         }
 

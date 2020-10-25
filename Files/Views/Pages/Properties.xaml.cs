@@ -24,20 +24,26 @@ namespace Files
         private static ApplicationViewTitleBar TitleBar;
 
         private CancellationTokenSource tokenSource = new CancellationTokenSource();
+        private ContentDialog propertiesDialog;
 
         private object navParameter;
+
+        private ListedItem listedItem;
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public Properties()
         {
             InitializeComponent();
+            propertiesDialog = Interaction.FindParent<ContentDialog>(this);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this.navParameter = e.Parameter;
             this.TabShorcut.Visibility = e.Parameter is ShortcutItem ? Visibility.Visible : Visibility.Collapsed;
+            this.listedItem = e.Parameter as ListedItem;
+            this.TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null && !listedItem.IsShortcutItem ? Visibility.Visible : Visibility.Collapsed;
             this.SetBackground();
             base.OnNavigatedTo(e);
         }
@@ -58,7 +64,6 @@ namespace Files
             }
             else
             {
-                var propertiesDialog = Interaction.FindParent<ContentDialog>(this);
                 propertiesDialog.Closed += PropertiesDialog_Closed;
             }
         }
@@ -88,11 +93,19 @@ namespace Files
                     TintColor = AppSettings.AcrylicTheme.TintColor,
                     TintOpacity = AppSettings.AcrylicTheme.TintOpacity,
                 };
-                if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+                if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 9))
                 {
                     backgroundBrush.TintLuminosityOpacity = 0.9;
                 }
-                Background = backgroundBrush;
+
+                if (!(new AccessibilitySettings()).HighContrast)
+                {
+                    Background = backgroundBrush;
+                }
+                else
+                {
+                    Background = Application.Current.Resources["ApplicationPageBackgroundThemeBrush"] as SolidColorBrush;
+                }
             });
         }
 
@@ -120,6 +133,7 @@ namespace Files
                 tokenSource.Dispose();
                 tokenSource = null;
             }
+            propertiesDialog.Hide();
         }
 
         private void Properties_Unloaded(object sender, RoutedEventArgs e)
@@ -157,7 +171,28 @@ namespace Files
             });
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private async void OKButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (contentFrame.Content is PropertiesGeneral)
+            {
+                await (contentFrame.Content as PropertiesGeneral).SaveChanges(listedItem);
+            }
+            else if (contentFrame.Content is PropertiesDetails)
+            {
+                await (contentFrame.Content as PropertiesDetails).SaveChanges(listedItem);
+            }
+
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+            }
+            else
+            {
+                propertiesDialog.Hide();
+            }
+        }
+
+        private async void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
@@ -165,7 +200,6 @@ namespace Files
             }
             else
             {
-                var propertiesDialog = Interaction.FindParent<ContentDialog>(this);
                 propertiesDialog.Hide();
             }
         }
@@ -180,7 +214,6 @@ namespace Files
                 }
                 else
                 {
-                    var propertiesDialog = Interaction.FindParent<ContentDialog>(this);
                     propertiesDialog.Hide();
                 }
             }
@@ -198,6 +231,10 @@ namespace Files
 
                 case "Shortcut":
                     contentFrame.Navigate(typeof(PropertiesShortcut), navParam, args.RecommendedNavigationTransitionInfo);
+                    break;
+
+                case "Details":
+                    contentFrame.Navigate(typeof(PropertiesDetails), navParam, args.RecommendedNavigationTransitionInfo);
                     break;
             }
         }
