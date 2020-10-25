@@ -346,10 +346,11 @@ namespace Files
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
-            // Skip code if the user right clicks an item
-            // Skip code if the control or shift key is pressed
-            var properties = e.GetCurrentPoint((UIElement)sender).Properties;
-            if (properties.IsRightButtonPressed || ctrlPressed || shiftPressed)
+            var cp = e.GetCurrentPoint((UIElement)sender);
+            if (cp.Position.Y <= 38 // Return if click is on the header(38 = header height)
+                || cp.Properties.IsLeftButtonPressed // Return if dragging an item
+                || cp.Properties.IsRightButtonPressed // Return if the user right clicks an item
+                || ctrlPressed || shiftPressed) // Allow for Ctrl+Shift selection
             {
                 return;
             }
