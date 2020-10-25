@@ -12,8 +12,8 @@
     <Thickness x:Key="PropertyNameMargin">0,7</Thickness>
     <Thickness x:Key="PropertyValueMargin">20,0,0,0</Thickness>
     <VerticalAlignment x:Key="PropertyValueVerticalAlignment">Center</VerticalAlignment>
-    <!--Might be used for Expander control-->
-    <SolidColorBrush Color="Transparent" x:Key="SystemControlBackgroundBaseHighBrush"/>
+    <!--  Might be used for Expander control  -->
+    <SolidColorBrush x:Key="SystemControlBackgroundBaseHighBrush" Color="Transparent" />
 
     <Style x:Key="PropertyName" TargetType="TextBlock">
         <Setter Property="Margin" Value="{StaticResource PropertyNameMargin}" />

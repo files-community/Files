@@ -594,14 +594,14 @@
 
         <controls:DataGrid
             x:Name="AllView"
-            Background="Transparent"
-            VerticalAlignment="Stretch"
             Grid.Row="3"
             Margin="12,12,12,0"
             HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
             x:FieldModifier="public"
             AllowDrop="True"
             AutoGenerateColumns="False"
+            Background="Transparent"
             CanUserReorderColumns="False"
             CanUserSortColumns="True"
             CellEditEnded="AllView_CellEditEnded"
@@ -846,18 +846,18 @@
         </controls:DataGrid>
 
         <Canvas
+            Margin="12,12,12,0"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Margin="12,12,12,0">
+            VerticalAlignment="Stretch">
             <Rectangle
                 Name="SelectionRectangle"
-                Fill="#AA0078d7"
-                Stroke="#FF0066cc"
-                StrokeThickness="1"
                 Canvas.Left="0"
                 Canvas.Top="0"
                 Width="0"
-                Height="0" />
+                Height="0"
+                Fill="#AA0078d7"
+                Stroke="#FF0066cc"
+                StrokeThickness="1" />
         </Canvas>
     </Grid>
 </local:BaseLayout>

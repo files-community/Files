@@ -3,8 +3,6 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
@@ -23,7 +21,9 @@ namespace Files.UserControls
         protected Rectangle selectionRectangle;
         protected SelectionState selectionState;
 
-        protected RectangleSelection() { }
+        protected RectangleSelection()
+        {
+        }
 
         /// <summary>
         /// Adds drag selection to a ListView, GridView or DataGrid
@@ -49,7 +49,9 @@ namespace Files.UserControls
         }
 
         public delegate void SelectionStatusHandler(object sender, EventArgs e);
+
         public event SelectionStatusHandler SelectionStarted;
+
         public event SelectionStatusHandler SelectionEnded;
 
         protected void OnSelectionStarted()
