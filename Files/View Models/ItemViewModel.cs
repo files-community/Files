@@ -499,8 +499,8 @@ namespace Files.Filesystem
                                 // Fetch tag and FRN
                                 IDictionary<string, object> extraProperties = await matchingStorageItem.Properties.RetrievePropertiesAsync(new string[] { "System.FileFRN" });
                                 matchingItem.FileFRN = (ulong?)extraProperties["System.FileFRN"];
-                                matchingItem.FileTag = FileTagsHelper.DbInstance.GetTag(matchingItem.ItemPath, matchingItem.FileFRN);
-                                //matchingItem.FileTag = FileTagsHelper.ReadFileTag(matchingItem.ItemPath);
+                                matchingItem.FileTag = FileTagsHelper.ReadFileTag(matchingItem.ItemPath);
+                                FileTagsHelper.DbInstance.SetTag(matchingItem.ItemPath, matchingItem.FileFRN, matchingItem.FileTag);
                             }
                         }
                     }
@@ -556,8 +556,8 @@ namespace Files.Filesystem
                             // Fetch tag and FRN
                             IDictionary<string, object> extraProperties = await matchingStorageItem.Properties.RetrievePropertiesAsync(new string[] { "System.FileFRN" });
                             matchingItem.FileFRN = (ulong?)extraProperties["System.FileFRN"];
-                            matchingItem.FileTag = FileTagsHelper.DbInstance.GetTag(matchingItem.ItemPath, matchingItem.FileFRN);
-                            //matchingItem.FileTag = FileTagsHelper.ReadFileTag(matchingItem.ItemPath);
+                            matchingItem.FileTag = FileTagsHelper.ReadFileTag(matchingItem.ItemPath);
+                            FileTagsHelper.DbInstance.SetTag(matchingItem.ItemPath, matchingItem.FileFRN, matchingItem.FileTag);
                         }
                     }
                     catch (Exception)

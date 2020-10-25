@@ -107,6 +107,17 @@ namespace FilesFullTrust
             }
         }
 
+        public static string ReadFileTag(string filePath)
+        {
+            using var hStream = Kernel32.CreateFile($"{filePath}:files",
+                Kernel32.FileAccess.GENERIC_READ, 0, null, FileMode.Open, FileFlagsAndAttributes.FILE_FLAG_BACKUP_SEMANTICS, IntPtr.Zero);
+            if (hStream.IsInvalid) return null;
+            var bytes = new byte[4096];
+            var ret = Kernel32.ReadFile(hStream, bytes, (uint)bytes.Length, out var read, IntPtr.Zero);
+            if (!ret) return null;
+            return System.Text.Encoding.UTF8.GetString(bytes, 0, (int)read);
+        }
+
         private static void UpdateTagsDb()
         {
             string FileTagsDbPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "filetags.db");
@@ -117,19 +128,29 @@ namespace FilesFullTrust
                 if (pathFromFrn != null)
                 {
                     // Frn is valid, update file path
-                    dbInstance.UpdateTag(file.Frn ?? 0, null, pathFromFrn.Replace(@"\\?\", ""));
+                    var tag = ReadFileTag(pathFromFrn.Replace(@"\\?\", ""));
+                    if (tag != null)
+                    {
+                        dbInstance.UpdateTag(file.Frn ?? 0, null, pathFromFrn.Replace(@"\\?\", ""));
+                        dbInstance.SetTag(pathFromFrn.Replace(@"\\?\", ""), file.Frn, tag);
+                    }
+                    else
+                    {
+                        dbInstance.SetTag(null, file.Frn, null);
+                    }
                 }
                 else
                 {
-                    try
+                    var tag = ReadFileTag(file.FilePath);
+                    if (tag != null)
                     {
                         using var si = new ShellItem(file.FilePath);
                         var frn = si.Properties["System.FileFRN"];
                         dbInstance.UpdateTag(file.FilePath, (ulong)frn, null);
+                        dbInstance.SetTag(file.FilePath, (ulong)frn, tag);
                     }
-                    catch (Exception ex) when (ex is FileNotFoundException || ex is NullReferenceException)
+                    else
                     {
-                        Debug.WriteLine($"File lost: {file.FilePath}");
                         dbInstance.SetTag(file.FilePath, null, null);
                     }
                 }
