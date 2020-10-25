@@ -434,6 +434,11 @@ namespace Files
             {
                 AssociatedInteractions.ShowPropertiesButton_Click(null, null);
             }
+            else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
+            {
+                // Unfocus the GridView so keyboard shortcut can be handled
+                this.Focus(FocusState.Programmatic);
+            }
         }
 
         public void AllView_RightTapped(object sender, RightTappedRoutedEventArgs e)

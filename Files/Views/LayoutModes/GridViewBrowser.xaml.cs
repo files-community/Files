@@ -307,6 +307,11 @@ namespace Files
                     e.Handled = true;
                 }
             }
+            else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
+            {
+                // Unfocus the GridView so keyboard shortcut can be handled
+                this.Focus(FocusState.Programmatic);
+            }
         }
 
         protected override void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
