@@ -1,5 +1,6 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using SQLitePCL;
+using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
@@ -31,5 +32,15 @@ namespace Files.Filesystem
         {
 
         }
+    }
+
+    public class PropertiesDataGroup : List<object>
+    {
+        public PropertiesDataGroup(IEnumerable<PropertiesData> items) : base(items)
+        {
+
+        }
+
+        public string Key { get; set; }
     }
 }

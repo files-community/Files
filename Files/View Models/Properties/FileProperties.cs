@@ -335,8 +335,11 @@ namespace Files.View_Models.Properties
                 list.Add(item);
             }
 
-            var grouping = from item in list group item by item.Section;
-            ViewModel.PropertySections = new ObservableCollection<IGrouping<string, PropertiesData>>(grouping);
+            var query = from item in list group item by item.Section into g orderby g.Key select new PropertiesDataGroup(g) { Key = g.Key };
+            ViewModel.PropertySections = new ObservableCollection<PropertiesDataGroup>(query);
+            //var query = from item in list group item by item.Section;
+            //ViewModel.PropertySections = new ObservableCollection<IGrouping<string, PropertiesData>>(query);
+
         }
 
         private void SetLocationInformation()

@@ -777,12 +777,19 @@ namespace Files.View_Models
         }
 
 
-        private ObservableCollection<IGrouping<string, PropertiesData>> _PropertySections = new ObservableCollection<IGrouping<string, PropertiesData>>();
-        public ObservableCollection<IGrouping<string, PropertiesData>> PropertySections
+        private ObservableCollection<PropertiesDataGroup> _PropertySections = new ObservableCollection<PropertiesDataGroup>();
+        public ObservableCollection<PropertiesDataGroup> PropertySections
         {
             get => _PropertySections;
             set => SetProperty(ref _PropertySections, value);
         }
+
+        //private ObservableCollection<IGrouping<string, PropertiesData>> _PropertySections = new ObservableCollection<IGrouping<string, PropertiesData>>();
+        //public ObservableCollection<IGrouping<string, PropertiesData>> PropertySections
+        //{
+        //    get => _PropertySections;
+        //    set => SetProperty(ref _PropertySections, value);
+        //}
 
     }
 }

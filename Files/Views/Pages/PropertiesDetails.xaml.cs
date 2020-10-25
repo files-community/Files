@@ -46,8 +46,8 @@ namespace Files
             var name = ViewModel.ItemName.Split(".");
             var extension = name[name.Length - 1].ToLower();
 
-            if (extension.Contains("png") || extension.Contains("jpg") || extension.Contains("png") || extension.Contains("gif") || extension.Contains("jpeg"))
-                OverviewImage.Visibility = Visibility.Visible;
+            //if (extension.Contains("png") || extension.Contains("jpg") || extension.Contains("png") || extension.Contains("gif") || extension.Contains("jpeg"))
+            //    OverviewImage.Visibility = Visibility.Visible;
         }
 
         private string GetStringArray(object array)
