@@ -758,6 +758,7 @@
                                     Source="{x:Bind FileImage, Mode=OneWay}"
                                     Stretch="UniformToFill" />
                                 <Image
+                                    Grid.Column="1"
                                     x:Name="IconOverlay"
                                     Source="{x:Bind IconOverlay, Mode=OneWay}"
                                     Stretch="Uniform"
