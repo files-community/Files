@@ -60,7 +60,16 @@ namespace Files.Commands
                 return;
             }
 
-            IReadOnlyList<IStorageItem> itemsToPaste = await packageView.GetStorageItemsAsync();
+            IReadOnlyList<IStorageItem> itemsToPaste;
+            try
+            {
+                itemsToPaste = await packageView.GetStorageItemsAsync();
+            }
+            catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+            {
+                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"), ResourceController.GetTranslation("ErrorDialogUnsupportedOperation"));
+                return;
+            }
 
             if (AppInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
             {

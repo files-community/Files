@@ -568,8 +568,18 @@ namespace Files
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 e.Handled = true;
-                IReadOnlyList<IStorageItem> draggedItems = await e.DataView.GetStorageItemsAsync();
                 e.DragUIOverride.IsCaptionVisible = true;
+                IReadOnlyList<IStorageItem> draggedItems;
+                try
+                {
+                    draggedItems = await e.DataView.GetStorageItemsAsync();
+                }
+                catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
+                    deferral.Complete();
+                    return;
+                }
 
                 var folderName = Path.GetFileName(App.CurrentInstance.FilesystemViewModel.WorkingDirectory);
                 // As long as one file doesn't already belong to this folder
@@ -646,7 +656,18 @@ namespace Files
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 e.Handled = true;
-                IReadOnlyList<IStorageItem> draggedItems = await e.DataView.GetStorageItemsAsync();
+                e.DragUIOverride.IsCaptionVisible = true;
+                IReadOnlyList<IStorageItem> draggedItems;
+                try
+                {
+                    draggedItems = await e.DataView.GetStorageItemsAsync();
+                }
+                catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
+                    deferral.Complete();
+                    return;
+                }
 
                 if (draggedItems.AreItemsAlreadyInFolder(item.ItemPath) || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
                 {

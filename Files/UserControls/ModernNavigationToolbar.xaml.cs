@@ -15,6 +15,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
@@ -421,20 +422,30 @@ namespace Files.UserControls
 
             e.Handled = true;
             var deferral = e.GetDeferral();
+            IReadOnlyList<IStorageItem> storageItems;
+            try
+            {
+                storageItems = await e.DataView.GetStorageItemsAsync();
+            }
+            catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+            {
+                e.AcceptedOperation = DataPackageOperation.None;
+                deferral.Complete();
+                return;
+            }
 
-            var storageItems = await e.DataView.GetStorageItemsAsync();
             if (!storageItems.Any(storageItem =>
             storageItem.Path.Replace(pathBoxItem.Path, string.Empty).
             Trim(Path.DirectorySeparatorChar).
             Contains(Path.DirectorySeparatorChar)))
             {
-                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.None;
+                e.AcceptedOperation = DataPackageOperation.None;
             }
             else
             {
                 e.DragUIOverride.IsCaptionVisible = true;
                 e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), pathBoxItem.Title);
-                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+                e.AcceptedOperation = DataPackageOperation.Move;
             }
 
             deferral.Complete();

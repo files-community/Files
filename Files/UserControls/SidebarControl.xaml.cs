@@ -3,11 +3,13 @@ using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -272,7 +274,17 @@ namespace Files.Controls
 
             var deferral = e.GetDeferral();
             e.Handled = true;
-            var storageItems = await e.DataView.GetStorageItemsAsync();
+            IReadOnlyList<IStorageItem> storageItems;
+            try
+            {
+                storageItems = await e.DataView.GetStorageItemsAsync();
+            }
+            catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+            {
+                e.AcceptedOperation = DataPackageOperation.None;
+                deferral.Complete();
+                return;
+            }
 
             if (storageItems.Count == 0 ||
                 locationItem.IsDefaultLocation ||
@@ -316,7 +328,17 @@ namespace Files.Controls
 
             var deferral = e.GetDeferral();
             e.Handled = true;
-            var storageItems = await e.DataView.GetStorageItemsAsync();
+            IReadOnlyList<IStorageItem> storageItems;
+            try
+            {
+                storageItems = await e.DataView.GetStorageItemsAsync();
+            }
+            catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+            {
+                e.AcceptedOperation = DataPackageOperation.None;
+                deferral.Complete();
+                return;
+            }
 
             if (storageItems.Count == 0 ||
                 "Unknown".Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
