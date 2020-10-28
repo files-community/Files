@@ -365,14 +365,22 @@ namespace Files.Interacts
                         var childFolder = await ItemViewModel.GetFolderWithPathFromPathAsync(
                             (clickedOnItem as ShortcutItem)?.TargetPath ?? clickedOnItem.ItemPath);
 
+
                         // Add location to MRU List
                         mostRecentlyUsed.Add(childFolder.Folder, childFolder.Path);
 
-                        await App.CurrentInstance.FilesystemViewModel.SetWorkingDirectory(childFolder.Path);
-                        CurrentInstance.NavigationToolbar.PathControlDisplayText = childFolder.Path;
+                        if (Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down))
+                        {
+                            await MainPage.AddNewTab(typeof(ModernShellPage), childFolder.Path);
+                        }
+                        else
+                        {
+                            await App.CurrentInstance.FilesystemViewModel.SetWorkingDirectory(childFolder.Path);
+                            CurrentInstance.NavigationToolbar.PathControlDisplayText = childFolder.Path;
 
-                        CurrentInstance.ContentPage.AssociatedViewModel.IsFolderEmptyTextDisplayed = false;
-                        CurrentInstance.ContentFrame.Navigate(sourcePageType, childFolder.Path, new SuppressNavigationTransitionInfo());
+                            CurrentInstance.ContentPage.AssociatedViewModel.IsFolderEmptyTextDisplayed = false;
+                            CurrentInstance.ContentFrame.Navigate(sourcePageType, childFolder.Path, new SuppressNavigationTransitionInfo());
+                        }
                     }
                     else if (clickedOnItem.IsShortcutItem)
                     {
