@@ -407,6 +407,7 @@ namespace Files
 
         public void RightClickContextMenu_Opening(object sender, object e)
         {
+            ClearSelection();
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             SetShellContextmenu(BaseLayoutContextFlyout, shiftPressed, false);
         }
