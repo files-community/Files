@@ -85,6 +85,9 @@ namespace FilesFullTrust
                 var preloadPath = ApplicationData.Current.LocalFolder.Path;
                 using var _ = Win32API.ContextMenu.GetContextMenuForFiles(new string[] { preloadPath }, Shell32.CMF.CMF_NORMAL);
 
+                // Create cancellation token for drop window
+                cancellation = new CancellationTokenSource();
+
                 // Connect to app service and wait until the connection gets closed
                 appServiceExit = new AutoResetEvent(false);
                 InitializeAppServiceConnection();
@@ -99,6 +102,8 @@ namespace FilesFullTrust
                 }
                 handleTable?.Dispose();
                 recycler?.Dispose();
+                cancellation?.Cancel();
+                cancellation?.Dispose();
                 appServiceExit?.Dispose();
                 mutex?.ReleaseMutex();
             }
@@ -137,6 +142,7 @@ namespace FilesFullTrust
 
         private static AppServiceConnection connection;
         private static AutoResetEvent appServiceExit;
+        private static CancellationTokenSource cancellation;
         private static ShellFolder recycler;
         private static Win32API.DisposableDictionary handleTable;
         private static IList<FileSystemWatcher> watchers;
@@ -392,6 +398,19 @@ namespace FilesFullTrust
                             System.Windows.Forms.Clipboard.SetDataObject(data, true);
                         }
                         return true;
+                    });
+                    break;
+
+                case "DragDrop":
+                    cancellation.Cancel();
+                    cancellation.Dispose();
+                    cancellation = new CancellationTokenSource();
+                    var dropPath = (string)args.Request.Message["droppath"];
+                    var drops = Win32API.StartSTATask<List<string>>(() =>
+                    {
+                        var form = new DragDropForm(dropPath, cancellation.Token);
+                        System.Windows.Forms.Application.Run(form);
+                        return form.DropTargets;
                     });
                     break;
 
