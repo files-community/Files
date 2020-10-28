@@ -5,6 +5,7 @@ using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
 using Files.Views.Pages;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -405,12 +406,48 @@ namespace Files.UserControls
             }
         }
 
+        private string dragOverPath = null;
+        private DispatcherTimer dragOverTimer = new DispatcherTimer();
+
+        private void PathBoxItem_DragLeave(object sender, DragEventArgs e)
+        {
+            if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
+                pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab"))
+            {
+                return;
+            }
+
+            if (pathBoxItem.Path == dragOverPath)
+            {
+                // Reset dragged over pathbox item
+                dragOverPath = null;
+            }
+        }
+
         private async void PathBoxItem_DragOver(object sender, DragEventArgs e)
         {
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
                 pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab"))
             {
                 return;
+            }
+
+            if (dragOverPath != pathBoxItem.Path)
+            {
+                dragOverPath = pathBoxItem.Path;
+                dragOverTimer.Stop();
+                if (dragOverPath != App.CurrentInstance.NavigationToolbar.PathComponents.LastOrDefault()?.Path)
+                {
+                    dragOverTimer.Debounce(() =>
+                    {
+                        if (dragOverPath != null)
+                        {
+                            dragOverTimer.Stop();
+                            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), dragOverPath); // navigate to folder
+                            dragOverPath = null;
+                        }
+                    }, TimeSpan.FromMilliseconds(1000), false);
+                }
             }
 
             if (!e.DataView.Contains(StandardDataFormats.StorageItems))
@@ -428,13 +465,13 @@ namespace Files.UserControls
             Trim(Path.DirectorySeparatorChar).
             Contains(Path.DirectorySeparatorChar)))
             {
-                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.None;
+                e.AcceptedOperation = DataPackageOperation.None;
             }
             else
             {
                 e.DragUIOverride.IsCaptionVisible = true;
                 e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), pathBoxItem.Title);
-                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+                e.AcceptedOperation = DataPackageOperation.Move;
             }
 
             deferral.Complete();

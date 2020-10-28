@@ -508,6 +508,7 @@
                             AutomationProperties.Name="{Binding Title}"
                             Background="Transparent"
                             DragOver="PathBoxItem_DragOver"
+                            DragLeave="PathBoxItem_DragLeave"
                             Drop="PathBoxItem_Drop"
                             Tag="{Binding Path}">
 
@@ -588,6 +589,7 @@
                             AutomationProperties.Name="{Binding Title}"
                             Background="Transparent"
                             DragOver="PathBoxItem_DragOver"
+                            DragLeave="PathBoxItem_DragLeave"
                             Drop="PathBoxItem_Drop"
                             Tag="{Binding Path}">
                             <Interactivity:Interaction.Behaviors>
