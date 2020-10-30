@@ -7,11 +7,4 @@
         Size,
         FileType
     }
-
-    public enum SidebarSortOption : byte
-    {
-        Name,
-        DateAdded,
-        Custom
-    }
 }

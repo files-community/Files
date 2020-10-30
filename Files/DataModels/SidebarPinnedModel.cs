@@ -24,36 +24,6 @@ namespace Files.DataModels
         [JsonProperty("items")]
         public List<string> Items { get; set; } = new List<string>();
 
-        private SidebarSortOption _sidebarSortOption;
-
-        /// <summary>
-        /// The sort option for the sidebar items
-        /// </summary>
-        public SidebarSortOption SidebarSortOption
-        {
-            get => (SidebarSortOption)_sidebarSortOption;
-            set
-            {
-                _sidebarSortOption = value;
-                SortItemsAsync();
-            }
-        }
-
-        private SortDirection _sidebarSortDirection;
-
-        /// <summary>
-        /// The sort direction for the sidebar items
-        /// </summary>
-        public SortDirection SidebarSortDirection
-        {
-            get => (SortDirection)_sidebarSortDirection;
-            set
-            {
-                _sidebarSortDirection = value;
-                SortItemsAsync();
-            }
-        }
-
         /// <summary>
         /// Adds the default items to the navigation page
         /// </summary>
@@ -68,7 +38,7 @@ namespace Files.DataModels
         }
 
         /// <summary>
-        /// Gets the item sfrom the navigation page
+        /// Gets the items from the navigation page
         /// </summary>
         public List<string> GetItems()
         {
@@ -104,119 +74,78 @@ namespace Files.DataModels
         }
 
         /// <summary>
-        /// Moves the location item to the index position
-        /// </summary>
-        /// <param name="item">Location item text to move</param>
-        /// <param name="newIndex">New index for the location item</param>
-        public void MoveItem(string item, int newIndex)
-        {
-            var locationItem = MainPage.sideBarItems.FirstOrDefault(x => x.Text == item);
-            MoveItem(locationItem, newIndex);
-        }
-
-        /// <summary>
-        /// Moves the location item to the index position
+        /// Moves the location item in the navigation sidebar from the old position to the new position
         /// </summary>
         /// <param name="locationItem">Location item to move</param>
-        /// <param name="newIndex">New index for the location item</param>
-        public void MoveItem(INavigationControlItem locationItem, int newIndex)
+        /// <param name="oldIndex">The old position index of the location item</param>
+        /// <param name="newIndex">The new position index of the location item</param>
+        /// <returns>True if the move was successful</returns>
+        public bool MoveItem(INavigationControlItem locationItem, int oldIndex, int newIndex)
         {
-            if (locationItem == null || newIndex < 0)
+            if (locationItem == null)
             {
-                return;
+                return false;
             }
 
-            var oldIndex = IndexOfItem(locationItem);
-            if (oldIndex >= 0)
+            if (oldIndex >= 0 && newIndex >=0)
             {
                 MainPage.sideBarItems.RemoveAt(oldIndex);
                 MainPage.sideBarItems.Insert(newIndex, locationItem);
-                Save();
+                return true;
             }
+
+            return false;
         }
 
         /// <summary>
-        /// Sorts all items in the navigation bar async
+        /// Swaps two location items in the navigation sidebar
         /// </summary>
-        /// <returns>Task</returns>
-        public async Task SortItemsAsync()
+        /// <param name="firstLocationItem">The first location item</param>
+        /// <param name="secondLocationItem">The second location item</param>
+        public void SwapItems(INavigationControlItem firstLocationItem,  INavigationControlItem secondLocationItem)
         {
-            await SortSidebarLocationItems();
-        }
-
-        /// <summary>
-        /// Sorts the location items in the navigation bar
-        /// </summary>
-        /// <returns>Task</returns>
-        public async Task SortSidebarLocationItems()
-        {
-            static object orderByFunc(LocationItem item) => item;
-            Func<LocationItem, object> orderFunc = orderByFunc;
-            IOrderedEnumerable<LocationItem> ordered;
-            List<LocationItem> orderedList;
-
-            switch (this.SidebarSortOption)
-            {
-                case Enums.SidebarSortOption.Name:
-                    orderFunc = item => item.Text;
-                    break;
-
-                case Enums.SidebarSortOption.DateAdded:
-                    orderFunc = item => item.DateAdded;
-                    break;
-
-                case Enums.SidebarSortOption.Custom:
-                    orderFunc = item => item;
-                    break;
-            }
-
-            var originalSideBarLocationItems = new List<LocationItem>();
-            var originalSideBarItems = MainPage.sideBarItems.ToList();
-
-            // Selects only the location items from the navigation bar
-            for (var i = 0; i < MainPage.sideBarItems.Count; i++)
-            {
-                var sideBarItem = MainPage.sideBarItems[i];
-                if (sideBarItem is LocationItem locationItem && locationItem.IsDefaultLocation == false)
-                {
-                    originalSideBarLocationItems.Add(locationItem);
-                }
-            }
-
-            if(originalSideBarLocationItems.Count <= 0)
+            if (firstLocationItem == null || secondLocationItem == null)
             {
                 return;
             }
 
-            var sideBarItemsToOrder = new List<LocationItem>(originalSideBarLocationItems);
+            // A backup of the items, because the swapping of items requires removing and inserting them in the corrent position
+            var sidebarItemsBackup = new List<string>(this.Items);
 
-            // Orders the location items from the navigation bar with the sort option and direction
-
-            if (this.SidebarSortDirection == SortDirection.Ascending)
+            try
             {
-                ordered = sideBarItemsToOrder.OrderBy(orderFunc);
-            }
-            else
-            {
-                ordered = sideBarItemsToOrder.OrderByDescending(orderFunc);
-            }
+                var indexOfFirstItemInMainPage = IndexOfItem(firstLocationItem);
+                var indexOfSecondItemInMainPage = IndexOfItem(secondLocationItem);
 
-            orderedList = ordered.ToList();
+                // Moves the items in the MainPage
+                var result = MoveItem(firstLocationItem, indexOfFirstItemInMainPage, indexOfSecondItemInMainPage);
 
-            // Swaps the location items in the navigation bar
-            for (var i = 0; i < originalSideBarLocationItems.Count; i++)
-            {
-                var locationItem = originalSideBarLocationItems[i];
-
-                var index = IndexOfItem(locationItem, originalSideBarItems);
-                if (index >= 0)
+                // Moves the items in this model and saves the model
+                if(result == true)
                 {
-                    MainPage.sideBarItems.RemoveAt(index);
-                    MainPage.sideBarItems.Insert(index, orderedList[i]);
+                    var indexOfFirstItemInModel = this.Items.IndexOf(firstLocationItem.Path);
+                    var indexOfSecondItemInModel = this.Items.IndexOf(secondLocationItem.Path);
+                    if (indexOfFirstItemInModel >= 0 && indexOfSecondItemInModel >= 0)
+                    {
+                        this.Items.RemoveAt(indexOfFirstItemInModel);
+                        this.Items.Insert(indexOfSecondItemInModel, firstLocationItem.Path);
+                    }
+
+                    Save();
                 }
             }
-
-            Save();
+            catch (Exception ex) when (
+                ex is ArgumentException // Pinned item was invalid
+                || ex is FileNotFoundException // Pinned item was deleted
+                || ex is System.Runtime.InteropServices.COMException // Pinned item's drive was ejected
+                || (uint)ex.HResult == 0x8007000F // The system cannot find the drive specified
+                || (uint)ex.HResult == 0x800700A1) // The specified path is invalid (usually an mtp device was disconnected)
+            {
+                Debug.WriteLine("An error occured while swapping pinned items in the navigation sidebar. " + ex.Message);
+                this.Items = sidebarItemsBackup;
+                this.RemoveStaleSidebarItems();
+                this.AddAllItemsToSidebar();
+            }
         }
 
         /// <summary>
@@ -227,7 +156,6 @@ namespace Files.DataModels
         public int IndexOfItem(INavigationControlItem locationItem)
         {
             return MainPage.sideBarItems.IndexOf(locationItem);
-
         }
 
         /// <summary>
@@ -239,9 +167,11 @@ namespace Files.DataModels
         public int IndexOfItem(INavigationControlItem locationItem, List<INavigationControlItem> collection)
         {
             return collection.IndexOf(locationItem);
-
         }
 
+        /// <summary>
+        /// Saves the model
+        /// </summary>
         public void Save() => App.SidebarPinnedController.SaveModel();
 
         /// <summary>
@@ -263,10 +193,13 @@ namespace Files.DataModels
                     Path = path,
                     Glyph = GetItemIcon(path),
                     IsDefaultLocation = false,
-                    Text = folder.DisplayName,
-                    DateAdded = DateTime.UtcNow
+                    Text = folder.DisplayName
                 };
-                MainPage.sideBarItems.Insert(insertIndex, locationItem);
+
+                if (!MainPage.sideBarItems.Contains(locationItem))
+                {
+                    MainPage.sideBarItems.Insert(insertIndex, locationItem);
+                }
             }
             catch (UnauthorizedAccessException ex)
             {

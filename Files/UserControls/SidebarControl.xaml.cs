@@ -1,10 +1,10 @@
 ﻿using Files.Commands;
+using Files.Controllers;
 using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
-using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -74,30 +74,6 @@ namespace Files.Controls
             }
         }
 
-        /// <summary>
-        /// ShowOrderBy property indicating whether the Sort by button should by displayed when right-clicking an item in the navigation bar
-        /// </summary>
-        private bool _ShowOrderBy;
-
-        /// <summary>
-        /// Binding property for the MenuFlyoutItem SideBarSortSideBarItems
-        /// </summary>
-        public bool ShowOrderBy
-        {
-            get
-            {
-                return _ShowOrderBy;
-            }
-            set
-            {
-                if (value != _ShowOrderBy)
-                {
-                    _ShowOrderBy = value;
-                    NotifyPropertyChanged(nameof(ShowOrderBy));
-                }
-            }
-        }
-
         private bool _ShowProperties;
 
         public bool ShowProperties
@@ -152,109 +128,6 @@ namespace Files.Controls
             }
         }
 
-        /// <summary>
-        /// IsLocationItemSortedByName property indicating whether the location items in the navigation bar should be sorted by name
-        /// </summary>
-        private bool _IsLocationItemSortedByName = false;
-
-        /// <summary>
-        /// Binding property for the RadioMenuFlyoutItem IsLocationItemSortedByName
-        /// </summary>
-        public bool IsLocationItemSortedByName
-        {
-            get => SidebarPinnedModel.SidebarSortOption == SidebarSortOption.Name;
-            set
-            {
-                if (value && SidebarPinnedModel.SidebarSortOption != SidebarSortOption.Name)
-                {
-                    SidebarPinnedModel.SidebarSortOption = SidebarSortOption.Name;
-                }
-
-                if (_IsLocationItemSortedByName != value)
-                {
-                    _IsLocationItemSortedByName = value;
-                    NotifyPropertyChanged(nameof(IsLocationItemSortedByName));
-                }
-            }
-        }
-
-        /// <summary>
-        /// IsLocationItemSortedAscending property indicating whether the sorting of location items in the navigation bar should be ascending
-        /// </summary>
-        private bool _IsLocationItemSortedByDate = false;
-
-        /// <summary>
-        /// Binding property for the RadioMenuFlyoutItem SidebarSortByDate
-        /// </summary>
-        public bool IsLocationItemSortedByDate
-        {
-            get => SidebarPinnedModel.SidebarSortOption == SidebarSortOption.DateAdded;
-            set
-            {
-                if (value && SidebarPinnedModel.SidebarSortOption != SidebarSortOption.DateAdded)
-                {
-                    SidebarPinnedModel.SidebarSortOption = SidebarSortOption.DateAdded;
-                }
-
-                if (_IsLocationItemSortedByDate != value)
-                {
-                    _IsLocationItemSortedByDate = value;
-                    NotifyPropertyChanged(nameof(IsLocationItemSortedByDate));
-                }
-            }
-        }
-
-        /// <summary>
-        /// IsLocationItemSortedAscending property indicating whether the sorting of location items in the navigation bar should be ascending
-        /// </summary>
-        private bool _IsLocationItemSortedAscending;
-
-        /// <summary>
-        /// Binding property for the RadioMenuFlyoutItem IsLocationItemSortedAscending
-        /// </summary>
-        public bool IsLocationItemSortedAscending
-        {
-            get => SidebarPinnedModel.SidebarSortDirection == SortDirection.Ascending;
-            set
-            {
-                if(value && SidebarPinnedModel.SidebarSortDirection != SortDirection.Ascending)
-                {
-                    SidebarPinnedModel.SidebarSortDirection = SortDirection.Ascending;
-                }
-
-                if (_IsLocationItemSortedAscending != value)
-                {
-                    _IsLocationItemSortedAscending = value;
-                    NotifyPropertyChanged(nameof(IsLocationItemSortedAscending));
-                }
-            }
-        }
-
-        /// <summary>
-        /// IsLocationItemSortedDescending property indicating whether the sorting of location items in the navigation bar should be descending
-        /// </summary>
-        private bool _IsLocationItemSortedDescending;
-
-        /// <summary>
-        /// Binding property for the RadioMenuFlyoutItem IsLocationItemSortedDescending
-        /// </summary>
-        public bool IsLocationItemSortedDescending
-        {
-            get => !IsLocationItemSortedAscending;
-            set
-            {
-                if (value && SidebarPinnedModel.SidebarSortDirection != SortDirection.Descending)
-                {
-                    SidebarPinnedModel.SidebarSortDirection = SortDirection.Descending;
-                }
-
-                if (_IsLocationItemSortedDescending != value)
-                {
-                    _IsLocationItemSortedDescending = value;
-                    NotifyPropertyChanged(nameof(IsLocationItemSortedDescending));
-                }
-            }
-        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -330,12 +203,10 @@ namespace Files.Controls
             if (item.IsDefaultLocation)
             {
                 ShowUnpinItem = false;
-                ShowOrderBy = false;
             }
             else
             {
                 ShowUnpinItem = true;
-                ShowOrderBy = true;
             }
 
             if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
@@ -357,7 +228,6 @@ namespace Files.Controls
 
                 ShowEmptyRecycleBin = true;
                 ShowUnpinItem = true;
-                ShowOrderBy = true;
                 ShowProperties = false;
             }
             else
@@ -382,7 +252,6 @@ namespace Files.Controls
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
 
             ShowUnpinItem = false;
-            ShowOrderBy = false;
             ShowEmptyRecycleBin = false;
             ShowProperties = true;
 
@@ -416,8 +285,14 @@ namespace Files.Controls
                 return;
             }
 
+            if(AppSettings.SortPinnedItemsByDragging == false)
+            {
+                args.Cancel = true;
+            }
+
             // Adding the original Location item dragged to the DragEvents data view
-            args.Data.Properties.Add("sourceLocationItem", sender);
+            var navItem = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem);
+            args.Data.Properties.Add("sourceLocationItem", navItem);
         }
 
         private void NavigationViewItem_DragEnter(object sender, DragEventArgs e)
@@ -465,30 +340,36 @@ namespace Files.Controls
                         e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("CopyToFolderCaptionText"), locationItem.Text);
                     }
                 }
+
                 deferral.Complete();
             }
             else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem sourceLocationItem)
             {
                 // else if the drag over event is called over a location item
 
-                var deferral = e.GetDeferral();
-                e.Handled = true;
+                NavigationViewLocationItem_DragOver_SetCaptions(locationItem, sourceLocationItem, e);
+            }
+        }
 
-                // If the location item is the same as the original dragged item or the default location (home button), the dragging should be disabled
-                if (sourceLocationItem.Equals(locationItem) || locationItem.IsDefaultLocation == true)
-                {
-                    e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.None;
-                    e.DragUIOverride.IsCaptionVisible = false;
-                }
-                else
-                {
-                    e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
-                    e.DragUIOverride.IsCaptionVisible = true;
-                    e.DragUIOverride.Caption = string.Format("Pin to Quick access");
-                }
-
-                e.Data = new DataPackage();
-                deferral.Complete();
+        /// <summary>
+        /// Sets the captions when dragging a location item over another location item
+        /// </summary>
+        /// <param name="senderLocationItem">The location item which fired the DragOver event</param>
+        /// <param name="sourceLocationItem">The source location item</param>
+        /// <param name="e">DragEvent args</param>
+        private void NavigationViewLocationItem_DragOver_SetCaptions(LocationItem senderLocationItem, LocationItem sourceLocationItem, DragEventArgs e)
+        {
+            // If the location item is the same as the original dragged item or the default location (home button), the dragging should be disabled
+            if (sourceLocationItem.Equals(senderLocationItem) || senderLocationItem.IsDefaultLocation == true)
+            {
+                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.None;
+                e.DragUIOverride.IsCaptionVisible = false;
+            }
+            else
+            {
+                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+                e.DragUIOverride.IsCaptionVisible = true;
+                e.DragUIOverride.Caption = string.Format("Pin to Quick access");
             }
         }
 
@@ -512,13 +393,9 @@ namespace Files.Controls
             {
                 // Else if the dropped item is a location item
 
-                var deferral = e.GetDeferral();
-                e.Handled = true;
-
-                // Get the new index for the dropped item
-                var newIndex = App.SidebarPinnedController.Model.IndexOfItem(locationItem);
-                SidebarPinnedModel.MoveItem(sourceLocationItem, newIndex);
-                deferral.Complete();
+                // Swap the two items
+                SidebarPinnedModel.SwapItems(sourceLocationItem, locationItem);
+                App.SidebarPinnedController.Model = new SidebarPinnedModel();
             }
         }
 
@@ -551,6 +428,7 @@ namespace Files.Controls
                     e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("CopyToFolderCaptionText"), driveItem.Text);
                 }
             }
+
             deferral.Complete();
         }
 
@@ -586,7 +464,20 @@ namespace Files.Controls
                 await App.CurrentInstance.InteractionOperations.OpenPropertiesWindow(listedItem);
             }
         }
+
+        private void NavigationViewItem_DropCompleted(UIElement sender, DropCompletedEventArgs args)
+        {
+            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem))
+            {
+                return;
+            }
+
+            this.SidebarPinnedModel.RemoveItem(locationItem.Text);
+            this.SidebarPinnedModel.AddItem(locationItem.Text);
+
+        }
     }
+
 
     public class NavItemDataTemplateSelector : DataTemplateSelector
     {
