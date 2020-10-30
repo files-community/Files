@@ -1397,8 +1397,8 @@
           <target state="new">Move here</target>
         </trans-unit>
         <trans-unit id="SettingsExperimentalSortPinnedFiItemsByDragging.Header" translate="yes" xml:space="preserve">
-          <source>Sort pinned items by dragging</source>
-          <target state="new">Sort pinned items by dragging</target>
+          <source>Enable reordering items on the sidebar</source>
+          <target state="new">Enable reordering items on the sidebar</target>
         </trans-unit>
       </group>
     </body>

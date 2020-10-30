@@ -1156,6 +1156,6 @@
     <value>Move here</value>
   </data>
   <data name="SettingsExperimentalSortPinnedFiItemsByDragging.Header" xml:space="preserve">
-    <value>Sort pinned items by dragging</value>
+    <value>Enable reordering items on the sidebar</value>
   </data>
 </root>
