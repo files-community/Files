@@ -1153,15 +1153,15 @@
     <value>Open items with a single click</value>
   </data>
   <data name="FileItemAutomation" xml:space="preserve">
-    <value>file</value>
+    <value>File</value>
   </data>
   <data name="FolderItemAutomation" xml:space="preserve">
-    <value>folder</value>
+    <value>Folder</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
-    <value>recycle bin item</value>
+    <value>Recycle bin item</value>
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
-    <value>shortcut item</value>
+    <value>Shortcut item</value>
   </data>
 </root>
