@@ -1391,6 +1391,14 @@
           <source>Open items with a single click</source>
           <target state="new">Open items with a single click</target>
         </trans-unit>
+        <trans-unit id="PinToSidebarByDraggingCaptionText" translate="yes" xml:space="preserve">
+          <source>Move here</source>
+          <target state="new">Move here</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalSortPinnedFiItemsByDragging.Header" translate="yes" xml:space="preserve">
+          <source>Sort pinned items by dragging</source>
+          <target state="new">Sort pinned items by dragging</target>
+        </trans-unit>
       </group>
     </body>
   </file>
