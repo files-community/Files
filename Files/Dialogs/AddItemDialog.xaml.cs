@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using Windows.Storage;
@@ -23,8 +24,8 @@ namespace Files.Dialogs
 
             AddItemsList.Add(new AddListItem
             {
-                Header = ResourceController.GetTranslation("AddDialogListFolderHeader"),
-                SubHeader = ResourceController.GetTranslation("AddDialogListFolderSubHeader"),
+                Header = "AddDialogListFolderHeader".GetLocalized(),
+                SubHeader = "AddDialogListFolderSubHeader".GetLocalized(),
                 Icon = "\xE838",
                 IsItemEnabled = true,
                 ItemType = AddItemType.Folder
@@ -32,16 +33,16 @@ namespace Files.Dialogs
 
             AddItemsList.Add(new AddListItem
             {
-                Header = ResourceController.GetTranslation("AddDialogListTextFileHeader"),
-                SubHeader = ResourceController.GetTranslation("AddDialogListTextFileSubHeader"),
+                Header = "AddDialogListTextFileHeader".GetLocalized(),
+                SubHeader = "AddDialogListTextFileSubHeader".GetLocalized(),
                 Icon = "\xE8A5",
                 IsItemEnabled = true,
                 ItemType = AddItemType.TextDocument
             });
             AddItemsList.Add(new AddListItem
             {
-                Header = ResourceController.GetTranslation("AddDialogListBitmapHeader"),
-                SubHeader = ResourceController.GetTranslation("AddDialogListBitmapSubHeader"),
+                Header = "AddDialogListBitmapHeader".GetLocalized(),
+                SubHeader = "AddDialogListBitmapSubHeader".GetLocalized(),
                 Icon = "\xEB9F",
                 IsItemEnabled = true,
                 ItemType = AddItemType.BitmapImage
@@ -80,24 +81,24 @@ namespace Files.Dialogs
                 switch (itemType)
                 {
                     case AddItemType.Folder:
-                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : ResourceController.GetTranslation("NewFolder");
+                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalized();
                         await folderToCreateItem.CreateFolderAsync(userInput, CreationCollisionOption.GenerateUniqueName);
                         break;
 
                     case AddItemType.TextDocument:
-                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : ResourceController.GetTranslation("NewTextDocument");
+                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewTextDocument".GetLocalized();
                         await folderToCreateItem.CreateFileAsync(userInput + ".txt", CreationCollisionOption.GenerateUniqueName);
                         break;
 
                     case AddItemType.BitmapImage:
-                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : ResourceController.GetTranslation("NewBitmapImage");
+                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewBitmapImage".GetLocalized();
                         await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.GenerateUniqueName);
                         break;
                 }
             }
             catch (UnauthorizedAccessException)
             {
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("AccessDeniedCreateDialog/Title"), ResourceController.GetTranslation("AccessDeniedCreateDialog/Text"));
+                await DialogDisplayHelper.ShowDialog("AccessDeniedCreateDialog/Title".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
             }
         }
     }
