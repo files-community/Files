@@ -1152,4 +1152,10 @@
   <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
     <value>Open items with a single click</value>
   </data>
+  <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
+    <value>Move here</value>
+  </data>
+  <data name="SettingsExperimentalSortPinnedFiItemsByDragging.Header" xml:space="preserve">
+    <value>Enable reordering items on the sidebar</value>
+  </data>
 </root>
