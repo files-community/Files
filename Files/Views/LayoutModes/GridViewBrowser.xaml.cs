@@ -412,11 +412,10 @@ namespace Files
 
         private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
-            // Skip code if the control or shift key is pressed
-            if (ctrlPressed || shiftPressed)
+            // Skip code if the shift key is pressed
+            if (shiftPressed)
             {
                 return;
             }
