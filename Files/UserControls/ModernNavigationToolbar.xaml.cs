@@ -5,6 +5,7 @@ using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
 using Files.Views.Pages;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.Collections.Generic;
@@ -229,10 +230,10 @@ namespace Files.UserControls
                 //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
                 //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
 
-                if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || currentInput.Equals(ResourceController.GetTranslation("NewTab"), StringComparison.OrdinalIgnoreCase))
+                if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || currentInput.Equals("NewTab".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                 {
-                    await App.CurrentInstance.FilesystemViewModel.SetWorkingDirectory(ResourceController.GetTranslation("NewTab"));
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), ResourceController.GetTranslation("NewTab"), new SuppressNavigationTransitionInfo());
+                    await App.CurrentInstance.FilesystemViewModel.SetWorkingDirectory("NewTab".GetLocalized());
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), "NewTab".GetLocalized(), new SuppressNavigationTransitionInfo());
                 }
                 else
                 {
@@ -287,8 +288,8 @@ namespace Files.UserControls
                             }
                             catch
                             {
-                                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("InvalidItemDialogTitle"),
-                                    string.Format(ResourceController.GetTranslation("InvalidItemDialogContent"), Environment.NewLine, ex.Message));
+                                await DialogDisplayHelper.ShowDialog("InvalidItemDialogTitle".GetLocalized(),
+                                    string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, ex.Message));
                             }
                         }
                     }
@@ -412,7 +413,7 @@ namespace Files.UserControls
         private void PathBoxItem_DragLeave(object sender, DragEventArgs e)
         {
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
-                pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab"))
+                pathBoxItem.Path == "Home" || pathBoxItem.Path == "NewTab".GetLocalized())
             {
                 return;
             }
@@ -427,7 +428,7 @@ namespace Files.UserControls
         private async void PathBoxItem_DragOver(object sender, DragEventArgs e)
         {
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
-                pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab"))
+                pathBoxItem.Path == "Home" || pathBoxItem.Path == "NewTab".GetLocalized())
             {
                 return;
             }
@@ -470,7 +471,7 @@ namespace Files.UserControls
             else
             {
                 e.DragUIOverride.IsCaptionVisible = true;
-                e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), pathBoxItem.Title);
+                e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), pathBoxItem.Title);
                 e.AcceptedOperation = DataPackageOperation.Move;
             }
 
@@ -480,7 +481,7 @@ namespace Files.UserControls
         private void PathBoxItem_Drop(object sender, DragEventArgs e)
         {
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
-                pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab"))
+                pathBoxItem.Path == "Home" || pathBoxItem.Path == "NewTab".GetLocalized())
             {
                 return;
             }
@@ -521,7 +522,7 @@ namespace Files.UserControls
                 {
                     suggestions = new List<ListedItem>() { new ListedItem(null) {
                         ItemPath = App.CurrentInstance.FilesystemViewModel.WorkingDirectory,
-                        ItemName = ResourceController.GetTranslation("NavigationToolbarVisiblePathNoResults") } };
+                        ItemName = "NavigationToolbarVisiblePathNoResults".GetLocalized() } };
                 }
 
                 // NavigationBarSuggestions becoming empty causes flickering of the suggestion box
@@ -565,7 +566,7 @@ namespace Files.UserControls
                 NavigationBarSuggestions.Add(new ListedItem(null)
                 {
                     ItemPath = App.CurrentInstance.FilesystemViewModel.WorkingDirectory,
-                    ItemName = ResourceController.GetTranslation("NavigationToolbarVisiblePathNoResults")
+                    ItemName = "NavigationToolbarVisiblePathNoResults".GetLocalized()
                 });
             }
         }
@@ -625,7 +626,7 @@ namespace Files.UserControls
                 var flyoutItem = new MenuFlyoutItem
                 {
                     Icon = new FontIcon { FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily, Glyph = "\uEC17" },
-                    Text = ResourceController.GetTranslation("SubDirectoryAccessDenied"),
+                    Text = "SubDirectoryAccessDenied".GetLocalized(),
                     //Foreground = (SolidColorBrush)Application.Current.Resources["SystemControlErrorTextForegroundBrush"],
                     FontSize = 12
                 };

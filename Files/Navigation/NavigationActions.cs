@@ -1,4 +1,5 @@
 ﻿using Files.Views;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Linq;
 using Windows.UI.Core;
@@ -77,7 +78,7 @@ namespace Files
             if (incomingSourcePageType == typeof(YourHome) && incomingSourcePageType != null)
             {
                 App.CurrentInstance.SidebarSelectedItem = MainPage.sideBarItems.First(x => x.Path.Equals("Home"));
-                App.CurrentInstance.NavigationToolbar.PathControlDisplayText = ResourceController.GetTranslation("NewTab");
+                App.CurrentInstance.NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
             }
         }
     }

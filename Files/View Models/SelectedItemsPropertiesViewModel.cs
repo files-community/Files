@@ -2,6 +2,7 @@ using ByteSizeLib;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
@@ -281,7 +282,7 @@ namespace Files.View_Models
             {
                 SetProperty(ref _DriveUsedSpaceValue, value);
                 DriveUsedSpace = ByteSize.FromBytes(DriveUsedSpaceValue).ToBinaryString().ConvertSizeAbbreviation()
-                    + " (" + ByteSize.FromBytes(DriveUsedSpaceValue).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
+                    + " (" + ByteSize.FromBytes(DriveUsedSpaceValue).Bytes.ToString("#,##0") + " " + "ItemSizeBytes".GetLocalized() + ")";
                 DriveUsedSpaceDoubleValue = Convert.ToDouble(DriveUsedSpaceValue);
             }
         }
@@ -315,7 +316,7 @@ namespace Files.View_Models
             {
                 SetProperty(ref _DriveFreeSpaceValue, value);
                 DriveFreeSpace = ByteSize.FromBytes(DriveFreeSpaceValue).ToBinaryString().ConvertSizeAbbreviation()
-                    + " (" + ByteSize.FromBytes(DriveFreeSpaceValue).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
+                    + " (" + ByteSize.FromBytes(DriveFreeSpaceValue).Bytes.ToString("#,##0") + " " + "ItemSizeBytes".GetLocalized() + ")";
             }
         }
 
@@ -436,7 +437,7 @@ namespace Files.View_Models
             {
                 SetProperty(ref _DriveCapacityValue, value);
                 DriveCapacity = ByteSize.FromBytes(DriveCapacityValue).ToBinaryString().ConvertSizeAbbreviation()
-                    + " (" + ByteSize.FromBytes(DriveCapacityValue).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
+                    + " (" + ByteSize.FromBytes(DriveCapacityValue).Bytes.ToString("#,##0") + " " + "ItemSizeBytes".GetLocalized() + ")";
                 DriveCapacityDoubleValue = Convert.ToDouble(DriveCapacityValue);
             }
         }

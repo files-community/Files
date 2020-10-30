@@ -1,5 +1,6 @@
 ﻿using ByteSizeLib;
 using Files.Helpers;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -58,18 +59,18 @@ namespace Files.Filesystem
 
                     SpaceUsed = MaxSpace - FreeSpace;
                     SpaceText = string.Format(
-                        ResourceController.GetTranslation("DriveFreeSpaceAndCapacity"),
+                        "DriveFreeSpaceAndCapacity".GetLocalized(),
                         FreeSpace.ToBinaryString().ConvertSizeAbbreviation(),
                         MaxSpace.ToBinaryString().ConvertSizeAbbreviation());
                 }
                 catch (NullReferenceException)
                 {
-                    SpaceText = ResourceController.GetTranslation("DriveCapacityUnknown");
+                    SpaceText = "DriveCapacityUnknown".GetLocalized();
                 }
             }
             else
             {
-                SpaceText = ResourceController.GetTranslation("DriveCapacityUnknown");
+                SpaceText = "DriveCapacityUnknown".GetLocalized();
             }
         }
 

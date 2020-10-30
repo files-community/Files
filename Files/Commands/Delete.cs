@@ -2,6 +2,7 @@
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -83,18 +84,18 @@ namespace Files.Commands
             {
                 bannerResult.Remove();
                 App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
-                    ResourceController.GetTranslation("AccessDeniedDeleteDialog/Title"),
-                    ResourceController.GetTranslation("AccessDeniedDeleteDialog/Text"),
-                    0,
-                    StatusBanner.StatusBannerSeverity.Error,
+                    "AccessDeniedDeleteDialog/Title".GetLocalized(), 
+                    "AccessDeniedDeleteDialog/Text".GetLocalized(),
+                    0, 
+                    StatusBanner.StatusBannerSeverity.Error, 
                     StatusBanner.StatusBannerOperation.Delete);
             }
             catch (FileNotFoundException)
             {
                 bannerResult.Remove();
                 App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
-                    ResourceController.GetTranslation("FileNotFoundDialog/Title"),
-                    ResourceController.GetTranslation("FileNotFoundDialog/Text"),
+                    "FileNotFoundDialog/Title".GetLocalized(),
+                    "FileNotFoundDialog/Text".GetLocalized(),
                     0,
                     StatusBanner.StatusBannerSeverity.Error,
                     StatusBanner.StatusBannerOperation.Delete);
@@ -103,10 +104,10 @@ namespace Files.Commands
             {
                 bannerResult.Remove();
                 App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostActionBanner(
-                    ResourceController.GetTranslation("FileInUseDeleteDialog/Title"),
-                    ResourceController.GetTranslation("FileInUseDeleteDialog/Text"),
-                    ResourceController.GetTranslation("FileInUseDeleteDialog/PrimaryButtonText"),
-                    ResourceController.GetTranslation("FileInUseDeleteDialog/SecondaryButtonText"), () => { DeleteItemWithStatus(deleteOption); });
+                    "FileInUseDeleteDialog/Title".GetLocalized(),
+                    "FileInUseDeleteDialog/Text".GetLocalized(),
+                    "FileInUseDeleteDialog/PrimaryButtonText".GetLocalized(),
+                    "FileInUseDeleteDialog/SecondaryButtonText".GetLocalized(), () => { DeleteItemWithStatus(deleteOption); });
             }
         }
 
