@@ -5,6 +5,7 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.ComponentModel;
@@ -395,7 +396,7 @@ namespace Files.Controls
             {
                 e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
                 e.DragUIOverride.IsCaptionVisible = true;
-                e.DragUIOverride.Caption = string.Format("Pin to Quick access");
+                e.DragUIOverride.Caption = "PinToSidebarByDraggingCaptionText".GetLocalized();
             }
         }
 
