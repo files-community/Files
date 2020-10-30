@@ -1029,10 +1029,22 @@
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
     <value>Tema do aplicativo</value>
   </data>
-  <data name="SettingsExperimentalDoubleTapToRenameFiles.Header" xml:space="preserve">
-    <value>Clique duas vezes para renomear arquivos</value>
-  </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
     <value>Mostrar proprietário nas propriedades</value>
+  </data>
+    <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Mais opções</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.AutomationProperties.Name" xml:space="preserve">
+    <value>Modo de layout</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Opções de seleção</value>
+  </data>
+  <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
+    <value>Centro de status</value>
+  </data>
+  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
+    <value>Abra os itens com um único clique</value>
   </data>
 </root>

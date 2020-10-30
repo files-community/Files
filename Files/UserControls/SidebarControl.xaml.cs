@@ -5,6 +5,7 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -137,19 +138,24 @@ namespace Files.Controls
 
         private void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            string navigationPath; // path to navigate
-            Type sourcePageType = null; // type of page to navigate
-
             if (args.InvokedItem == null)
             {
                 return;
             }
 
-            switch ((args.InvokedItemContainer.DataContext as INavigationControlItem).ItemType)
+            OpenSidebarItem(args.InvokedItemContainer);
+        }
+
+        private void OpenSidebarItem(Microsoft.UI.Xaml.Controls.NavigationViewItemBase invokedItemContainer)
+        {
+            string navigationPath; // path to navigate
+            Type sourcePageType = null; // type of page to navigate
+
+            switch ((invokedItemContainer.DataContext as INavigationControlItem).ItemType)
             {
                 case NavigationControlItemType.Location:
                     {
-                        var ItemPath = (args.InvokedItemContainer.DataContext as INavigationControlItem).Path; // Get the path of the invoked item
+                        var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem).Path; // Get the path of the invoked item
 
                         if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
                         {
@@ -160,7 +166,7 @@ namespace Files.Controls
                         }
                         else // Any other item
                         {
-                            navigationPath = args.InvokedItemContainer.Tag.ToString();
+                            navigationPath = invokedItemContainer.Tag.ToString();
                         }
 
                         break;
@@ -172,7 +178,7 @@ namespace Files.Controls
                     }
                 default:
                     {
-                        navigationPath = args.InvokedItemContainer.Tag.ToString();
+                        navigationPath = invokedItemContainer.Tag.ToString();
                         break;
                     }
             }
@@ -259,14 +265,6 @@ namespace Files.Controls
             App.rightClickedItem = sidebarItem.DataContext as DriveItem;
         }
 
-        private void SettingsButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame rootFrame = Window.Current.Content as Frame;
-            rootFrame.Navigate(typeof(Settings));
-
-            return;
-        }
-
         private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
             App.CurrentInstance.InteractionOperations.OpenPathInNewTab(App.rightClickedItem.Path.ToString());
@@ -294,15 +292,43 @@ namespace Files.Controls
             var navItem = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem);
             args.Data.Properties.Add("sourceLocationItem", navItem);
         }
+        
+        private object dragOverItem = null;
+        
+        private DispatcherTimer dragOverTimer = new DispatcherTimer();
 
         private void NavigationViewItem_DragEnter(object sender, DragEventArgs e)
         {
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragEnter", false);
+
+            if ((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is INavigationControlItem)
+            {
+                dragOverItem = sender;
+                dragOverTimer.Stop();
+                dragOverTimer.Debounce(() =>
+                {
+                    if (dragOverItem != null)
+                    {
+                        dragOverTimer.Stop();
+                        OpenSidebarItem(dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItem);
+                        dragOverItem = null;
+                    }
+                }, TimeSpan.FromMilliseconds(1000), false);
+            }
         }
 
         private void NavigationViewItem_DragLeave(object sender, DragEventArgs e)
         {
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragLeave", false);
+
+            if ((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is INavigationControlItem)
+            {
+                if (sender == dragOverItem)
+                {
+                    // Reset dragged over item
+                    dragOverItem = null;
+                }
+            }
         }
 
         private async void NavigationViewLocationItem_DragOver(object sender, DragEventArgs e)
@@ -463,8 +489,15 @@ namespace Files.Controls
                 await App.CurrentInstance.InteractionOperations.OpenPropertiesWindow(listedItem);
             }
         }
-    }
 
+        private void SettingsButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            rootFrame.Navigate(typeof(Settings));
+
+            return;
+        }
+    }
 
     public class NavItemDataTemplateSelector : DataTemplateSelector
     {

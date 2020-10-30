@@ -1,6 +1,6 @@
 ﻿using ByteSizeLib;
-using Files.Enums;
 using Files.Common;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;

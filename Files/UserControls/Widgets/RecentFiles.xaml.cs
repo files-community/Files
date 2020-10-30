@@ -149,7 +149,8 @@ namespace Files
             var path = (e.ClickedItem as RecentItem).RecentPath;
             try
             {
-                await Interaction.InvokeWin32Component(path);
+                var directoryName = Path.GetDirectoryName(path);
+                await Interaction.InvokeWin32Component(path, workingDir: directoryName);
             }
             catch (UnauthorizedAccessException)
             {

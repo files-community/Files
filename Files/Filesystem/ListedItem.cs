@@ -82,6 +82,20 @@ namespace Files.Filesystem
             }
         }
 
+        private BitmapImage _IconOverlay;
+
+        public BitmapImage IconOverlay
+        {
+            get => _IconOverlay;
+            set
+            {
+                if (value != null)
+                {
+                    SetProperty(ref _IconOverlay, value);
+                }
+            }
+        }
+
         private string _ItemPath;
 
         public string ItemPath

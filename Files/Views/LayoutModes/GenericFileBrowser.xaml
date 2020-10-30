@@ -15,7 +15,6 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Enabled"
-    PointerReleased="GenericItemView_PointerReleased"
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
     mc:Ignorable="d">
 
@@ -26,9 +25,10 @@
             FalseValue="1"
             TrueValue="0.4" />
 
-        <MenuFlyout x:Key="BaseLayoutContextFlyout"
-                    x:Name="BaseLayoutContextFlyout"
-                    Opening="RightClickContextMenu_Opening">
+        <MenuFlyout
+            x:Key="BaseLayoutContextFlyout"
+            x:Name="BaseLayoutContextFlyout"
+            Opening="RightClickContextMenu_Opening">
             <MenuFlyoutSubItem
                 x:Name="SortByEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutSortBy"
@@ -597,15 +597,17 @@
             Grid.Row="3"
             Margin="12,12,12,0"
             HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
             x:FieldModifier="public"
             AllowDrop="True"
             AutoGenerateColumns="False"
+            Background="Transparent"
             CanUserReorderColumns="False"
             CanUserSortColumns="True"
             CellEditEnded="AllView_CellEditEnded"
             CellEditEnding="AllView_CellEditEnding"
             ClipboardCopyMode="None"
-            DoubleTapped="{x:Bind local:App.CurrentInstance.InteractionOperations.List_ItemClick}"
+            DoubleTapped="{x:Bind local:App.CurrentInstance.InteractionOperations.List_ItemDoubleClick}"
             DragOver="List_DragOver"
             Drop="List_Drop"
             FocusVisualPrimaryThickness="0"
@@ -728,6 +730,17 @@
                                     x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                                     Source="{x:Bind FileImage, Mode=OneWay}"
                                     Stretch="UniformToFill" />
+                                <Image
+                                    x:Name="IconOverlay"
+                                    Source="{x:Bind IconOverlay, Mode=OneWay}"
+                                    Stretch="Uniform"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Width="22"
+                                    Height="22"
+                                    Margin="2,8,8,2"
+                                    x:Load="True">
+                                </Image>
                                 <Border
                                     x:Name="ShortcutGlyphElement"
                                     Margin="2,18,18,2"
@@ -842,5 +855,20 @@
                 </controls:DataGridTextColumn>
             </controls:DataGrid.Columns>
         </controls:DataGrid>
+
+        <Canvas
+            Margin="12,12,12,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+            <Rectangle
+                Name="SelectionRectangle"
+                Canvas.Left="0"
+                Canvas.Top="0"
+                Width="0"
+                Height="0"
+                Fill="#AA0078d7"
+                Stroke="#FF0066cc"
+                StrokeThickness="1" />
+        </Canvas>
     </Grid>
 </local:BaseLayout>

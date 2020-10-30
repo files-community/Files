@@ -18,6 +18,17 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="PathBoxHoverBrush" Color="{StaticResource SystemRevealListLowColor}" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="PathBoxHoverBrush" Color="{StaticResource SystemRevealListLowColor}" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="HighContrast">
+                    <SolidColorBrush x:Key="PathBoxHoverBrush" Color="{ThemeResource SystemColorWindowColor}" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
 
@@ -494,8 +505,10 @@
                         <Grid
                             x:Name="ListViewItemContentGrid"
                             AllowDrop="True"
+                            AutomationProperties.Name="{Binding Title}"
                             Background="Transparent"
                             DragOver="PathBoxItem_DragOver"
+                            DragLeave="PathBoxItem_DragLeave"
                             Drop="PathBoxItem_Drop"
                             Tag="{Binding Path}">
 
@@ -573,8 +586,10 @@
                         <Grid
                             x:Name="ListViewItemContentGrid"
                             AllowDrop="True"
+                            AutomationProperties.Name="{Binding Title}"
                             Background="Transparent"
                             DragOver="PathBoxItem_DragOver"
+                            DragLeave="PathBoxItem_DragLeave"
                             Drop="PathBoxItem_Drop"
                             Tag="{Binding Path}">
                             <Interactivity:Interaction.Behaviors>
@@ -623,7 +638,9 @@
                                 TargetTheme="Dark"
                                 Color="Transparent" />
                         </ResourceDictionary>
-                        <ResourceDictionary x:Key="HighContrast" />
+                        <ResourceDictionary x:Key="HighContrast">
+                            <SolidColorBrush x:Key="TransparentGridRevealBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
+                        </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
@@ -663,6 +680,7 @@
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="XButton1" />
                     <KeyboardAccelerator Key="Back" />
+                    <KeyboardAccelerator Key="Left" Modifiers="Menu" />
                 </Button.KeyboardAccelerators>
             </Button>
 
@@ -688,6 +706,7 @@
                 </Button.Content>
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="XButton2" />
+                    <KeyboardAccelerator Key="Right" Modifiers="Menu" />
                 </Button.KeyboardAccelerators>
             </Button>
 
@@ -787,11 +806,7 @@
                 PointerPressed="ManualPathEntryItem_Click">
                 <Interactivity:Interaction.Behaviors>
                     <Core:EventTriggerBehavior EventName="PointerEntered">
-                        <Core:ChangePropertyAction PropertyName="Background">
-                            <Core:ChangePropertyAction.Value>
-                                <SolidColorBrush Color="{ThemeResource SystemRevealListLowColor}" />
-                            </Core:ChangePropertyAction.Value>
-                        </Core:ChangePropertyAction>
+                        <Core:ChangePropertyAction PropertyName="Background" Value="{ThemeResource PathBoxHoverBrush}" />
                     </Core:EventTriggerBehavior>
 
                     <Core:EventTriggerBehavior EventName="PointerExited">
@@ -972,6 +987,7 @@
                 Height="30"
                 Margin="0,0,4,0"
                 HorizontalAlignment="Right"
+                AutomationProperties.Name="More options"
                 Background="Transparent"
                 Content=""
                 CornerRadius="2"

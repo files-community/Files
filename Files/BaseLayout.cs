@@ -7,6 +7,7 @@ using Files.UserControls;
 using Files.View_Models;
 using Files.Views;
 using Files.Views.Pages;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -178,8 +179,8 @@ namespace Files
             {
                 var response = App.Connection.SendMessageAsync(new ValueSet() {
                         { "Arguments", "LoadContextMenu" },
-                        { "FilePath", IsItemSelected ? 
-                            string.Join('|', _SelectedItems.Select(x => x.ItemPath)) : 
+                        { "FilePath", IsItemSelected ?
+                            string.Join('|', _SelectedItems.Select(x => x.ItemPath)) :
                             App.CurrentInstance.FilesystemViewModel.CurrentFolder.ItemPath},
                         { "ExtendedMenu", shiftPressed },
                         { "ShowOpenMenu", showOpenMenu }}).AsTask().Result;
@@ -406,6 +407,7 @@ namespace Files
 
         public void RightClickContextMenu_Opening(object sender, object e)
         {
+            ClearSelection();
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             SetShellContextmenu(BaseLayoutContextFlyout, shiftPressed, false);
         }
@@ -636,12 +638,40 @@ namespace Files
             e.DragUI.SetContentFromDataPackage();
         }
 
+        private ListedItem dragOverItem = null;
+        private DispatcherTimer dragOverTimer = new DispatcherTimer();
+
+        private void Item_DragLeave(object sender, DragEventArgs e)
+        {
+            ListedItem item = GetItemFromElement(sender);
+            if (item == dragOverItem)
+            {
+                // Reset dragged over item
+                dragOverItem = null;
+            }
+        }
+
         protected async void Item_DragOver(object sender, DragEventArgs e)
         {
             var deferral = e.GetDeferral();
 
             ListedItem item = GetItemFromElement(sender);
             SetSelectedItemOnUi(item);
+
+            if (dragOverItem != item)
+            {
+                dragOverItem = item;
+                dragOverTimer.Stop();
+                dragOverTimer.Debounce(() =>
+                {
+                    if (dragOverItem != null)
+                    {
+                        dragOverItem = null;
+                        dragOverTimer.Stop();
+                        AssociatedInteractions.OpenItem_Click(null, null);
+                    }
+                }, TimeSpan.FromMilliseconds(1000), false);
+            }
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
@@ -687,11 +717,13 @@ namespace Files
                 element.DragStarting -= Item_DragStarting;
                 element.DragStarting += Item_DragStarting;
                 element.DragOver -= Item_DragOver;
+                element.DragLeave -= Item_DragLeave;
                 element.Drop -= Item_Drop;
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
                     element.AllowDrop = true;
                     element.DragOver += Item_DragOver;
+                    element.DragLeave += Item_DragLeave;
                     element.Drop += Item_Drop;
                 }
             }

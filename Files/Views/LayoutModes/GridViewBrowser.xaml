@@ -22,9 +22,10 @@
             FalseValue="1"
             TrueValue="0.4" />
 
-        <MenuFlyout x:Key="BaseLayoutContextFlyout"
-                    x:Name="BaseLayoutContextFlyout"
-                    Opening="RightClickContextMenu_Opening">
+        <MenuFlyout
+            x:Key="BaseLayoutContextFlyout"
+            x:Name="BaseLayoutContextFlyout"
+            Opening="RightClickContextMenu_Opening">
             <MenuFlyoutSubItem
                 x:Name="SortByEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutSortBy"
@@ -559,6 +560,18 @@
                         </Viewbox>
                     </Grid>
                     <Grid
+                        x:Name="IconOverlay"
+                        Padding="12"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Width="64"
+                        Height="64"
+                        x:Load="True">
+                        <Image
+                            Source="{x:Bind IconOverlay, Mode=OneWay}"
+                            Stretch="Uniform" />
+                    </Grid>
+                    <Grid
                         x:Name="WebShortcutGlyph"
                         Padding="12"
                         HorizontalAlignment="Stretch"
@@ -707,6 +720,18 @@
                         </Grid>
                     </Grid>
                     <Grid
+                        x:Name="IconOverlay"
+                        Padding="8"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Width="48"
+                        Height="48"
+                        x:Load="True">
+                        <Image
+                            Source="{x:Bind IconOverlay, Mode=OneWay}"
+                            Stretch="Uniform" />
+                    </Grid>
+                    <Grid
                         x:Name="WebShortcutGlyph"
                         Width="74"
                         HorizontalAlignment="Stretch"
@@ -849,14 +874,16 @@
 
         <GridView
             x:Name="FileList"
-            Margin="14,14,14,0"
+            Padding="14,14,14,0"
             VerticalContentAlignment="Stretch"
             x:FieldModifier="public"
             AllowDrop="True"
-            DoubleTapped="{x:Bind local:App.CurrentInstance.InteractionOperations.List_ItemClick}"
+            DoubleTapped="{x:Bind local:App.CurrentInstance.InteractionOperations.List_ItemDoubleClick}"
             DragOver="List_DragOver"
             Drop="List_Drop"
             IsDoubleTapEnabled="True"
+            IsItemClickEnabled="True"
+            ItemClick="FileList_ItemClick"
             ItemsSource="{x:Bind AssociatedViewModel.FilesAndFolders}"
             PreviewKeyDown="FileList_PreviewKeyDown"
             SelectionChanged="FileList_SelectionChanged"
@@ -876,5 +903,17 @@
                 </Core:DataTriggerBehavior>
             </Interactivity:Interaction.Behaviors>
         </GridView>
+
+        <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Rectangle
+                Name="SelectionRectangle"
+                Canvas.Left="0"
+                Canvas.Top="0"
+                Width="0"
+                Height="0"
+                Fill="#AA0078d7"
+                Stroke="#FF0066cc"
+                StrokeThickness="1" />
+        </Canvas>
     </Grid>
 </local:BaseLayout>

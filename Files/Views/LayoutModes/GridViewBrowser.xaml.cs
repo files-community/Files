@@ -1,8 +1,10 @@
 ﻿using Files.Filesystem;
+using Files.UserControls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -22,9 +24,18 @@ namespace Files
             this.InitializeComponent();
             base.BaseLayoutContextFlyout = this.BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
+
+            var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
+            selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
             App.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
 
             SetItemTemplate(); // Set ItemTemplate
+        }
+
+        private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
+        {
+            await Task.Delay(200);
+            FileList.Focus(FocusState.Programmatic);
         }
 
         private void AppSettings_LayoutModeChangeRequested(object sender, EventArgs e)
@@ -277,7 +288,7 @@ namespace Files
             {
                 if (!isRenamingItem)
                 {
-                    App.CurrentInstance.InteractionOperations.List_ItemClick(null, null);
+                    App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null);
                     e.Handled = true;
                 }
             }
@@ -295,6 +306,11 @@ namespace Files
                     }
                     e.Handled = true;
                 }
+            }
+            else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
+            {
+                // Unfocus the GridView so keyboard shortcut can be handled
+                this.Focus(FocusState.Programmatic);
             }
         }
 
@@ -392,6 +408,25 @@ namespace Files
             }
             else
                 _iconSize = iconSize; // Update icon size
+        }
+
+        private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+
+            // Skip code if the control or shift key is pressed
+            if (ctrlPressed || shiftPressed)
+            {
+                return;
+            }
+
+            // Check if the setting to open items with a single click is turned on
+            if (AppSettings.OpenItemsWithOneclick)
+            {
+                await Task.Delay(200); // The delay gives time for the item to be selected
+                App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null);
+            }
         }
     }
 }

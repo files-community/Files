@@ -34,12 +34,6 @@
                     Text="WARNING: EXPERIMENTAL FEATURES AHEAD!" />
 
                 <ToggleSwitch
-                    x:Uid="SettingsExperimentalDoubleTapToRenameFiles"
-                    Header="Double tap to rename files"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{x:Bind AppSettings.DoubleTapToRenameFiles, Mode=TwoWay}" />
-
-                <ToggleSwitch
                     x:Uid="SettingsShowFileOwnerInProperties"
                     Header="Show Owner in properties"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"

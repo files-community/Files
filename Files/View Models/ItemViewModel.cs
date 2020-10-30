@@ -494,6 +494,7 @@ namespace Files.Filesystem
                                 matchingItem.ItemType = matchingStorageItem.DisplayType;
                                 var syncStatus = await CheckCloudDriveSyncStatus(matchingStorageItem);
                                 matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+                                matchingItem.IconOverlay = (await LoadIconOverlay(matchingItem.ItemPath)).Icon;
                             }
                         }
                     }
@@ -516,34 +517,35 @@ namespace Files.Filesystem
                         StorageFolder matchingStorageItem = await StorageFileExtensions.GetFolderFromPathAsync((item as ShortcutItem)?.TargetPath ?? item.ItemPath, _workingRoot, _currentStorageFolder);
                         if (matchingItem != null && matchingStorageItem != null)
                         {
-                            if (App.Connection != null)
+                            var iconOverlay = await LoadIconOverlay(matchingItem.ItemPath);
+                            if (iconOverlay.IsCustom)
                             {
-                                var value = new ValueSet();
-                                value.Add("Arguments", "CheckCustomIcon");
-                                value.Add("folderPath", matchingItem.ItemPath);
-                                var response = await App.Connection.SendMessageAsync(value);
-                                var hasCustomIcon = (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
-                                    && response.Message.Get("HasCustomIcon", false);
-                                if (hasCustomIcon)
+                                // Only set folder icon if it's a custom icon
+                                using (var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale))
                                 {
-                                    // Only set folder icon if it's a custom icon
-                                    using (var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale))
+                                    if (Thumbnail != null)
                                     {
-                                        if (Thumbnail != null)
-                                        {
-                                            matchingItem.FileImage = new BitmapImage();
-                                            await matchingItem.FileImage.SetSourceAsync(Thumbnail);
-                                            matchingItem.LoadUnknownTypeGlyph = false;
-                                            matchingItem.LoadFolderGlyph = false;
-                                            matchingItem.LoadFileIcon = true;
-                                        }
+                                        matchingItem.FileImage = new BitmapImage();
+                                        await matchingItem.FileImage.SetSourceAsync(Thumbnail);
+                                        matchingItem.LoadUnknownTypeGlyph = false;
+                                        matchingItem.LoadFolderGlyph = false;
+                                        matchingItem.LoadFileIcon = true;
                                     }
                                 }
                             }
-                            matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
-                            matchingItem.ItemType = matchingStorageItem.DisplayType;
-                            var syncStatus = await CheckCloudDriveSyncStatus(matchingStorageItem);
-                            matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+                            if (item.IsShortcutItem)
+                            {
+                                // Reset cloud sync status icon
+                                matchingItem.SyncStatusUI = new CloudDriveSyncStatusUI() { LoadSyncStatus = false };
+                            }
+                            else
+                            {
+                                matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
+                                matchingItem.ItemType = matchingStorageItem.DisplayType;
+                                var syncStatus = await CheckCloudDriveSyncStatus(matchingStorageItem);
+                                matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+                                matchingItem.IconOverlay = iconOverlay.Icon;
+                            }
                         }
                     }
                     catch (Exception)
@@ -560,6 +562,32 @@ namespace Files.Filesystem
 
                 item.ItemPropertiesInitialized = true;
             }
+        }
+
+        private async Task<(BitmapImage Icon, bool IsCustom)> LoadIconOverlay(string filePath)
+        {
+            if (App.Connection != null)
+            {
+                var value = new ValueSet();
+                value.Add("Arguments", "GetIconOverlay");
+                value.Add("filePath", filePath);
+                var response = await App.Connection.SendMessageAsync(value);
+                var hasCustomIcon = (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
+                    && response.Message.Get("HasCustomIcon", false);
+                var iconOverlay = response.Message.Get("IconOverlay", (string)null);
+                if (iconOverlay != null)
+                {
+                    var image = new BitmapImage();
+                    byte[] bitmapData = Convert.FromBase64String(iconOverlay);
+                    using (var ms = new MemoryStream(bitmapData))
+                    {
+                        await image.SetSourceAsync(ms.AsRandomAccessStream());
+                    }
+                    return (image, hasCustomIcon);
+                }
+                return (null, hasCustomIcon);
+            }
+            return (null, false);
         }
 
         public void RefreshItems()
