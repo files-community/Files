@@ -1,0 +1,502 @@
+﻿<local:PropertiesTab
+    x:Class="Files.PropertiesDetails"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files.View_Models.Properties"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:usercontrols="using:Files.UserControls"
+    Name="Page"
+    d:DesignHeight="3000"
+    Loaded="Properties_Loaded"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary x:Key="PropertiesStyles">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <ScrollViewer Name="ScrollViewer" Height="{Binding Height, ElementName=Page, Mode=OneWay}">
+        <StackPanel Style="{StaticResource PropertiesTab}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="TextColumn" Width="Auto" />
+                    <ColumnDefinition x:Name="ValueColumn" Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid
+                    x:Name="Icon"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Width="80"
+                    Height="80"
+                    Margin="{StaticResource PropertyNameMargin}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
+                    <usercontrols:FileIcon ItemSize="70" ViewModel="{x:Bind ViewModel}" />
+                </Grid>
+                <TextBox
+                    x:Name="ItemFileName"
+                    x:Uid="PropertiesItemFileName"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    IsReadOnly="True"
+                    Style="{StaticResource PropertyValueTextBox}"
+                    Text="{x:Bind ViewModel.ItemName, Mode=TwoWay}"
+                    Visibility="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}" />
+
+                <TextBlock
+                    Grid.Row="1"
+                    Style="{StaticResource SeparatorText}"
+                    Text="Overview"
+                    Visibility="{Binding ElementName=OverviewImage, Path=Visibility, Mode=OneWay}" />
+                <MenuFlyoutSeparator
+                    Grid.Row="2"
+                    Style="{StaticResource Separator}"
+                    Visibility="{Binding ElementName=OverviewImage, Path=Visibility, Mode=OneWay}" />
+
+                <Grid
+                    x:Name="OverviewImage"
+                    Grid.Row="3"
+                    Grid.ColumnSpan="2"
+                    x:Load="True"
+                    Visibility="Collapsed">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Row="3"
+                        Style="{StaticResource PropertyName}"
+                        Text="Image Type:"
+                        Visibility="Visible" />
+                    <TextBlock
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Style="{StaticResource PropertyValueTextBlock}"
+                        Text="{x:Bind ViewModel.ItemType, Mode=OneWay}" />
+
+                    <TextBlock
+                        Grid.Row="4"
+                        Style="{StaticResource PropertyName}"
+                        Text="Date Taken:"
+                        Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}" />
+                    <TextBlock
+                        Grid.Row="4"
+                        Grid.Column="1"
+                        Style="{StaticResource PropertyValueTextBlock}"
+                        Text="{x:Bind ViewModel.SystemFileProperties_RO['System.Photo.DateTaken'].ToString(), Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}" />
+
+                    <TextBlock
+                        Grid.Row="5"
+                        Style="{StaticResource PropertyName}"
+                        Text="Dimensions:"
+                        Visibility="Visible" />
+                    <TextBlock
+                        Grid.Row="5"
+                        Grid.Column="1"
+                        Style="{StaticResource PropertyValueTextBlock}"
+                        Text="{x:Bind ViewModel.SystemFileProperties_RO['System.Image.Dimensions'].ToString(), Mode=OneWay}"
+                        Visibility="Visible" />
+
+                    <TextBlock
+                        Grid.Row="7"
+                        Style="{StaticResource PropertyName}"
+                        Text="Camera:"
+                        Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}" />
+                    <TextBlock
+                        Grid.Row="7"
+                        Grid.Column="1"
+                        Style="{StaticResource PropertyValueTextBlock}"
+                        Text="{x:Bind ViewModel.CameraNameString, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}" />
+
+                    <TextBlock
+                        Grid.Row="8"
+                        Style="{StaticResource PropertyName}"
+                        Text="Shot:"
+                        Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo}" />
+                    <TextBlock
+                        Grid.Row="8"
+                        Grid.Column="1"
+                        Style="{StaticResource PropertyValueTextBlock}"
+                        Text="{x:Bind ViewModel.ShotString, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo}" />
+
+                    <TextBlock
+                        Grid.Row="9"
+                        Style="{StaticResource PropertyName}"
+                        Text="Location:"
+                        Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}" />
+                    <TextBlock
+                        Grid.Row="9"
+                        Grid.Column="1"
+                        Style="{StaticResource PropertyValueTextBlock}"
+                        Text="{x:Bind ViewModel.GeopointString, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}" />
+
+                    <Button
+                        Grid.Row="9"
+                        Grid.Column="1"
+                        Margin="20,0,0,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Click="OpenMaps_Click"
+                        ToolTipService.ToolTip="Open in Maps"
+                        Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}">
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeae8;" />
+                    </Button>
+                </Grid>
+
+                <TextBlock
+                    Grid.Row="4"
+                    Style="{StaticResource SeparatorText}"
+                    Text="Core" />
+                <MenuFlyoutSeparator Grid.Row="5" Style="{StaticResource Separator}" />
+
+                <StackPanel
+                    x:Name="CoreGrid"
+                    Grid.Row="6"
+                    Grid.ColumnSpan="2"
+                    x:Load="True">
+                    <usercontrols:PropertyListItem Text="Title" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Title'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Subject" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Subject'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Comment" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Comment'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Copyright" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Copyright'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="DateCreated" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.DateCreated'], Mode=TwoWay, Converter={StaticResource DateTimeOffsetToString}}" />
+                    <usercontrols:PropertyListItem Text="DateModified" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.DateModified'], Mode=TwoWay, Converter={StaticResource DateTimeOffsetToString}}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Rating"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.RatingText'], Mode=OneWay}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="ItemFolderPathDisplay"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.ItemFolderPathDisplay'], Mode=OneWay}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="ItemTypeText"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.ItemTypeText'], Mode=OneWay}" />
+                </StackPanel>
+
+                <TextBlock
+                    Grid.Row="10"
+                    Style="{StaticResource SeparatorText}"
+                    Text="Image"
+                    Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Image, Mode=OneWay}" />
+                <MenuFlyoutSeparator
+                    Grid.Row="11"
+                    Style="{StaticResource Separator}"
+                    Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Image, Mode=OneWay}" />
+
+                <StackPanel
+                    x:Name="ImageGrid"
+                    Grid.Row="12"
+                    Grid.ColumnSpan="2"
+                    x:Load="True"
+                    Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Image, Mode=OneWay}">
+
+                    <usercontrols:PropertyListItem Text="Image ID" ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.Image.ImageID'], Mode=OneWay}" />
+                    <usercontrols:PropertyListItem Text="Compressed Bits Per Pixel" ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.Image.CompressedBitsPerPixel'], Mode=OneWay, Converter={StaticResource DoubleToString}}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Bit Depth"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.Image.BitDepth'], Mode=OneWay, Converter={StaticResource UInt32ToString}}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Compression"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.Image.CompressionText'], Mode=OneWay}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Dimensions"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.Image.Dimensions'], Mode=OneWay}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Horizontal Size"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.Image.HorizontalSize'], Mode=OneWay, Converter={StaticResource UInt32ToString}}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Vertical Size"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.Image.VerticalSize'], Mode=OneWay, Converter={StaticResource UInt32ToString}}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Horizontal Resolution"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.Image.HorizontalResolution'], Converter={StaticResource UInt32ToString}, Mode=OneWay}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Vertical Resolution"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.Image.VerticalResolution'], Converter={StaticResource UInt32ToString}, Mode=OneWay}" />
+                </StackPanel>
+
+                <TextBlock
+                    Grid.Row="13"
+                    Style="{StaticResource SeparatorText}"
+                    Text="Photo"
+                    Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}" />
+                <MenuFlyoutSeparator
+                    Grid.Row="14"
+                    Style="{StaticResource Separator}"
+                    Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}" />
+                <StackPanel
+                    x:Name="PhotoGrid"
+                    Grid.Row="15"
+                    Grid.ColumnSpan="2"
+                    x:Load="True"
+                    Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Photo, Mode=OneWay}">
+
+                    <usercontrols:PropertyListItem Text="Camera Manufacturer" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Photo.CameraManufacturer'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Camera Model" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Photo.CameraModel'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Date Taken" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Photo.DateTaken'], Mode=TwoWay, Converter={StaticResource DateTimeOffsetToString}}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Exposure Time"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.Photo.ExposureTime'], Mode=OneWay, Converter={StaticResource DoubleToString}}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Focal Length"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.Photo.FocalLength'], Mode=OneWay, Converter={StaticResource DoubleToString}}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Aperture"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.Photo.Aperture'], Mode=OneWay, Converter={StaticResource DoubleToString}}" />
+                </StackPanel>
+
+                <TextBlock
+                    Grid.Row="16"
+                    Style="{StaticResource SeparatorText}"
+                    Text="GPS"
+                    Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}" />
+                <MenuFlyoutSeparator
+                    Grid.Row="20"
+                    Style="{StaticResource Separator}"
+                    Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}" />
+                <StackPanel
+                    x:Name="GPSGrid"
+                    Grid.Row="21"
+                    Grid.ColumnSpan="2"
+                    x:Load="True"
+                    Visibility="{x:Bind ViewModel.DetailsSectionVisibility_GPS, Mode=OneWay}">
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Latitude"
+                        ValueText="{x:Bind ViewModel.Latitude, Mode=OneWay}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Longitude"
+                        ValueText="{x:Bind ViewModel.Longitude, Mode=OneWay}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Altitude"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.GPS.Altitude'], Mode=OneWay, Converter={StaticResource DoubleToString}}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Address"
+                        ValueText="{x:Bind ViewModel.Geopoint.Address.FormattedAddress, Mode=OneWay}" />
+                </StackPanel>
+
+                <TextBlock
+                    Grid.Row="22"
+                    Style="{StaticResource SeparatorText}"
+                    Text="Audio"
+                    Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Audio, Mode=OneWay}" />
+                <MenuFlyoutSeparator
+                    Grid.Row="23"
+                    Style="{StaticResource Separator}"
+                    Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Audio, Mode=OneWay}" />
+                <StackPanel
+                    x:Name="AudioGrid"
+                    Grid.Row="24"
+                    Grid.ColumnSpan="2"
+                    x:Load="True"
+                    Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Audio, Mode=OneWay}">
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Encoding Bitrate"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.Audio.EncodingBitrate'], Mode=OneWay, Converter={StaticResource UInt32ToString}}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Compression"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.Audio.Compression'], Mode=OneWay}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Format"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.Audio.Format'], Mode=OneWay}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Sample Rate"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.Audio.SampleRate'], Mode=OneWay, Converter={StaticResource UInt32ToString}}" />
+                </StackPanel>
+
+                <TextBlock
+                    Grid.Row="25"
+                    Style="{StaticResource SeparatorText}"
+                    Text="Music"
+                    Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Music, Mode=OneWay}" />
+                <MenuFlyoutSeparator
+                    Grid.Row="26"
+                    Style="{StaticResource Separator}"
+                    Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Music, Mode=OneWay}" />
+                <StackPanel
+                    x:Name="MusicGrid"
+                    Grid.Row="27"
+                    Grid.ColumnSpan="2"
+                    x:Load="True"
+                    Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Music, Mode=OneWay}">
+                    <usercontrols:PropertyListItem Text="Album Artist" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.AlbumArtist'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Album Title" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.AlbumTitle'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Album ID"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.AlbumID'], Mode=OneWay}" />
+                    <usercontrols:PropertyListItem Text="Artist" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.Artist'], Mode=TwoWay, Converter={StaticResource StringArrayToString}}" />
+                    <usercontrols:PropertyListItem Text="Beats Per Minute" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.BeatsPerMinute'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Composer" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.Composer'], Mode=TwoWay, Converter={StaticResource StringArrayToString}}" />
+                    <usercontrols:PropertyListItem Text="Conductor" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.Conductor'], Mode=TwoWay, Converter={StaticResource StringArrayToString}}" />
+                    <usercontrols:PropertyListItem Text="DiscNumber" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.DiscNumber'], Mode=TwoWay, Converter={StaticResource UInt32ToString}}" />
+                    <usercontrols:PropertyListItem Text="Genre" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.Genre'], Mode=TwoWay, Converter={StaticResource StringArrayToString}}" />
+                    <usercontrols:PropertyListItem Text="TrackNumber" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Music.TrackNumber'], Mode=TwoWay, Converter={StaticResource UInt32ToString}}" />
+                </StackPanel>
+
+                <TextBlock
+                    Grid.Row="28"
+                    Style="{StaticResource SeparatorText}"
+                    Text="Media"
+                    Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Media, Mode=OneWay}" />
+                <MenuFlyoutSeparator
+                    Grid.Row="29"
+                    Style="{StaticResource Separator}"
+                    Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Media, Mode=OneWay}" />
+                <StackPanel
+                    x:Name="MediaGrid"
+                    Grid.Row="30"
+                    Grid.ColumnSpan="2"
+                    x:Load="True"
+                    Visibility="{x:Bind ViewModel.DetailsSectionVisibility_Media, Mode=OneWay}">
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Duration"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.Media.Duration'], Mode=OneWay, Converter={StaticResource UInt32ToString}}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Average Level"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.Media.AverageLevel'], Mode=OneWay, Converter={StaticResource UInt32ToString}}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Frame Count"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.Media.FrameCount'], Mode=OneWay, Converter={StaticResource UInt32ToString}}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Protection Type"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.Media.ProtectionType'], Mode=OneWay}" />
+                    <usercontrols:PropertyListItem Text="Author Url" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.AuthorUrl'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Content Distributor" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.ContentDistributor'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem
+                        IsReadOnly="True"
+                        Text="Creator Application"
+                        ValueText="{x:Bind ViewModel.SystemFileProperties_RO['System.Media.CreatorApplication'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Date Released" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.DateReleased'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Dlna ProfileID" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.DlnaProfileID'], Mode=TwoWay, Converter={StaticResource StringArrayToString}}" />
+                    <usercontrols:PropertyListItem Text="DVD ID" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.DVDID'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Encoded By" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.EncodedBy'], Mode=TwoWay, Converter={StaticResource StringArrayToString}}" />
+                    <usercontrols:PropertyListItem Text="Encoding Settings" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.EncodingSettings'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Series Name" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.SeriesName'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Season Number" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.SeasonNumber'], Mode=TwoWay, Converter={StaticResource UInt32ToString}}" />
+                    <usercontrols:PropertyListItem Text="Episode Number" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.EpisodeNumber'], Mode=TwoWay, Converter={StaticResource UInt32ToString}}" />
+                    <usercontrols:PropertyListItem Text="MCDI" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.MCDI'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Producer" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.Producer'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Promotion Url" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.PromotionUrl'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Provider Style" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.ProviderStyle'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Publisher" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.Publisher'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Thumbnail Large Path" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.ThumbnailLargePath'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Thumbnail Large Uri" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.ThumbnailLargeUri'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Thumbnail Small Path" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.ThumbnailSmallPath'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Thumbnail Small Uri" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.ThumbnailSmallUri'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Unique File Identifier" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.UniqueFileIdentifier'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="User Web Url" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.UserWebUrl'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Writer" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.Writer'], Mode=TwoWay}" />
+                    <usercontrols:PropertyListItem Text="Year" ValueText="{x:Bind ViewModel.SystemFileProperties_RW['System.Media.Year'], Mode=TwoWay, Converter={StaticResource UInt32ToString}}" />
+                </StackPanel>
+
+                <Button
+                    x:Name="ClearPersonalInformation"
+                    Grid.Row="31"
+                    Grid.ColumnSpan="2"
+                    Margin="0,10,0,0"
+                    HorizontalAlignment="Stretch"
+                    Content="Clear All Personal Information"
+                    Style="{ThemeResource ButtonRevealStyle}">
+                    <Button.Flyout>
+                        <Flyout x:Name="ClearPersonalInformationFlyout">
+                            <StackPanel Orientation="Vertical" Spacing="5">
+                                <TextBlock Text="Confirm?" />
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <Button Click="ClearPersonalInformation_Click" Content="Clear" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</local:PropertiesTab>

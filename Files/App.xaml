@@ -1,0 +1,41 @@
+<Application
+    x:Class="Files.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <FontFamily x:Key="FluentUIGlyphs">/Assets/Custom Glyphs/fluentui.ttf#fluentui</FontFamily>
+            <FontFamily x:Key="CustomGlyph">/Assets/Custom Glyphs/Custom-Glyphs.ttf#Custom-Glyphs</FontFamily>
+            <FontFamily x:Key="RecycleBinIcons">/Assets/Custom Glyphs/recyclebin-fabric-glyph.ttf#Fabric MDL2 Assets</FontFamily>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <ResourceDictionary Source="/ResourceDictionaries/CustomHeaderStyle.xaml" />
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Light">
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusOfflineColor" Color="#30BB03" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
+                            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="White" />
+                            <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Dark">
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusOfflineColor" Color="#30BB03" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
+                            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#201F1E" />
+                            <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="HighContrast">
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusOfflineColor" Color="#30BB03" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
+                            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{ThemeResource SystemColorWindowColor}" />
+                            <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="{ThemeResource SystemColorWindowColor}" />
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

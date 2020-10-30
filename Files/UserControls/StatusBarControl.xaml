@@ -1,0 +1,169 @@
+﻿<UserControl
+    x:Class="Files.UserControls.StatusBarControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files.UserControls"
+    xmlns:local1="using:Files"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="40"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
+    </UserControl.Resources>
+
+    <Grid
+        Height="40"
+        HorizontalAlignment="Stretch"
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel
+            Margin="8,0"
+            VerticalAlignment="Center"
+            Orientation="Horizontal"
+            Spacing="12">
+            <TextBlock Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCountString, Mode=OneWay}" Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}" Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Column="1"
+            Padding="2"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                x:Uid="StatusBarControlSelectionOptions"
+                Width="34"
+                Height="30"
+                Margin="2,0,2,0"
+                AutomationProperties.Name="Selection options"
+                Background="Transparent"
+                Content="&#xEAD3;"
+                CornerRadius="2"
+                FontFamily="{StaticResource FluentUIGlyphs}"
+                FontSize="16"
+                Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="Selection options">
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            x:Uid="StatusBarControlSelectAll"
+                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.SelectAllItems}"
+                            Text="Select All">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB54;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Uid="StatusBarControlInvertSelection"
+                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.InvertAllItems}"
+                            Text="Invert Selection">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xf102;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Uid="StatusBarControlClearSelection"
+                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.ClearAllItems}"
+                            Text="Clear Selection">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB55;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+
+            <Button
+                x:Uid="StatusBarControlLayoutMode"
+                Width="34"
+                Height="30"
+                Margin="2,0,2,0"
+                AutomationProperties.Name="Layout mode"
+                Background="Transparent"
+                Content="&#xE152;"
+                CornerRadius="2"
+                FontFamily="Segoe MDL2 Assets"
+                FontSize="16"
+                Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="Layout mode">
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            x:Uid="StatusBarControlGridViewLarge"
+                            Command="{x:Bind AppSettings.ToggleLayoutModeGridViewLarge}"
+                            Text="Grid View (Large)">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9A0;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Uid="StatusBarControlGridViewMedium"
+                            Command="{x:Bind AppSettings.ToggleLayoutModeGridViewMedium}"
+                            Text="Grid View (Medium)">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA72;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Uid="StatusBarControlGridViewSmall"
+                            Command="{x:Bind AppSettings.ToggleLayoutModeGridViewSmall}"
+                            Text="Grid View (Small)">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEBA1;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Uid="StatusBarControlTilesView"
+                            Command="{x:Bind AppSettings.ToggleLayoutModeTiles}"
+                            Text="Tiles View">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF100;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Uid="StatusBarControlListView"
+                            Command="{x:Bind AppSettings.ToggleLayoutModeListView}"
+                            Text="List View">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF101;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+
+            <Button
+                x:Uid="StatusCenter"
+                Width="34"
+                Height="30"
+                Margin="2,0,2,0"
+                AutomationProperties.Name="Status center"
+                Background="Transparent"
+                Content="&#xF16A;"
+                CornerRadius="2"
+                FontFamily="Segoe MDL2 Assets"
+                FontSize="16"
+                Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="Ongoing tasks"
+                Visibility="Visible">
+                <Button.Flyout>
+                    <Flyout>
+                        <local:StatusCenter
+                            x:Name="OngoingTasksControl"
+                            Width="300"
+                            MinHeight="300"
+                            MaxHeight="400"
+                            x:FieldModifier="public" />
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

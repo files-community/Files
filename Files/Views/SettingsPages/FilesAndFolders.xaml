@@ -1,0 +1,56 @@
+﻿<Page
+    x:Class="Files.SettingsPages.FilesAndFolders"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+    <Grid>
+
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <StackPanel
+                Margin="12,12,8,8"
+                Orientation="Vertical"
+                Spacing="14">
+                <StackPanel.ChildrenTransitions>
+                    <TransitionCollection>
+                        <RepositionThemeTransition />
+                    </TransitionCollection>
+                </StackPanel.ChildrenTransitions>
+
+                <TextBlock
+                    x:Uid="SettingsFilesAndFoldersTitle"
+                    FontSize="22"
+                    FontWeight="Medium"
+                    Text="Files and Folders" />
+
+                <ToggleSwitch
+                    x:Uid="SettingsFilesAndFoldersShowHiddenFiles"
+                    Header="Show hidden files, folders, and drives"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsEnabled="False" />
+
+                <ToggleSwitch
+                    x:Name="FileExtensionsToggle"
+                    x:Uid="SettingsFilesAndFoldersShowFileExtensions"
+                    Header="Show extensions for known file types"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Uid="SettingsFilesAndFoldersShowDriveLetters"
+                    Header="Show drive letters"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsEnabled="False" />
+
+                <ToggleSwitch
+                    x:Uid="SettingsOpenItemsWithOneclick"
+                    Header="Open items with a single click"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind AppSettings.OpenItemsWithOneclick, Mode=TwoWay}" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

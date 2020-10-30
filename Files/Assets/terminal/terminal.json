@@ -1,0 +1,18 @@
+﻿{
+  "version": 1,
+  "defaultTerminalPath": "cmd.exe",
+  "terminals": [
+    {
+      "name": "CMD",
+      "path": "cmd.exe",
+      "arguments": "",
+      "icon": ""
+    },
+    {
+      "name": "PowerShell",
+      "path": "powershell.exe",
+      "arguments": "-noexit -command \"cd '{0}'\"",
+      "icon": ""
+      }
+  ]
+}
