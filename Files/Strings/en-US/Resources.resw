@@ -1155,7 +1155,7 @@
    <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>Pin to Sidebar</value>
   </data>
-  <data name="SettingsExperimentalSortPinnedFiItemsByDragging" xml:space="preserve">
+  <data name="SettingsExperimentalSortPinnedFiItemsByDragging.Header" xml:space="preserve">
     <value>Sort pinned items by dragging</value>
   </data>
 </root>
