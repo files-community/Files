@@ -1,5 +1,6 @@
 ﻿using Files.Enums;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
@@ -238,6 +239,19 @@ namespace Files.Filesystem
             {
                 return string.Format(ResourceController.GetTranslation("SecondsAgo"), elapsed.Seconds);
             }
+        }
+
+        public override string ToString()
+        {
+            string suffix;
+            if (IsRecycleBinItem) suffix = "RecycleBinItemAutomation".GetLocalized();
+            else if (IsShortcutItem) suffix = "ShortcutItemAutomation".GetLocalized();
+            else
+            {
+                if (PrimaryItemAttribute == StorageItemTypes.File) suffix = "FileItemAutomation".GetLocalized();
+                else suffix = "FolderItemAutomation".GetLocalized();
+            }
+            return $"{ItemName}, {ItemPath}, {suffix}";
         }
 
         public bool IsRecycleBinItem => this is RecycleBinItem;

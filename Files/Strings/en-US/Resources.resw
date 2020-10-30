@@ -1152,4 +1152,16 @@
   <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
     <value>Open items with a single click</value>
   </data>
+  <data name="FileItemAutomation" xml:space="preserve">
+    <value>file</value>
+  </data>
+  <data name="FolderItemAutomation" xml:space="preserve">
+    <value>folder</value>
+  </data>
+  <data name="RecycleBinItemAutomation" xml:space="preserve">
+    <value>recycle bin item</value>
+  </data>
+  <data name="ShortcutItemAutomation" xml:space="preserve">
+    <value>shortcut item</value>
+  </data>
 </root>
