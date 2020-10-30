@@ -18,6 +18,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -57,6 +58,7 @@ namespace Files.Views
         public MainPage()
         {
             this.InitializeComponent();
+
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
@@ -69,6 +71,22 @@ namespace Files.Views
             }
             AllowDrop = true;
             AppInstances.CollectionChanged += AppInstances_CollectionChanged;
+            App.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
+        }
+
+        private void MultitaskingControl_CurrentInstanceChanged(object sender, UserControls.MultiTaskingControl.CurrentInstanceChangedEventArgs e)
+        {
+            foreach (IShellPage instance in e.ShellPageInstances)
+            {
+                if (instance == e.CurrentInstance)
+                {
+                    instance.IsCurrentInstance = true;
+                }
+                else
+                {
+                    instance.IsCurrentInstance = false;
+                }
+            }
         }
 
         private void AppInstances_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -93,8 +111,6 @@ namespace Files.Views
                 App.SidebarPinnedController = new SidebarPinnedController();
 
                 Helpers.ThemeHelper.Initialize();
-                Clipboard.ContentChanged += Clipboard_ContentChanged;
-                Clipboard_ContentChanged(null, null);
 
                 if (string.IsNullOrEmpty(navArgs))
                 {
@@ -322,34 +338,7 @@ namespace Files.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public static void Clipboard_ContentChanged(object sender, object e)
-        {
-            try
-            {
-                if (App.CurrentInstance != null)
-                {
-                    DataPackageView packageView = Clipboard.GetContent();
-                    if (packageView.Contains(StandardDataFormats.StorageItems)
-                        && App.CurrentInstance.CurrentPageType != typeof(YourHome)
-                        && !App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
-                    {
-                        App.InteractionViewModel.IsPasteEnabled = true;
-                    }
-                    else
-                    {
-                        App.InteractionViewModel.IsPasteEnabled = false;
-                    }
-                }
-                else
-                {
-                    App.InteractionViewModel.IsPasteEnabled = false;
-                }
-            }
-            catch (Exception)
-            {
-                App.InteractionViewModel.IsPasteEnabled = false;
-            }
-        }
+        
 
         private void NavigateToNumberedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {

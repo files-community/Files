@@ -43,6 +43,7 @@ namespace Files
         private static IShellPage currentInstance;
         private static bool ShowErrorNotification = false;
 
+        [Obsolete("Accessing the current app instance via the static variable is deprecated and will be removed.", true)]
         public static IShellPage CurrentInstance
         {
             get
@@ -72,6 +73,7 @@ namespace Files
             InitializeComponent();
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
+
             // Initialize NLog
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
             LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
@@ -98,91 +100,14 @@ namespace Files
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
         {
-            // Need to reinitialize AppService when app is resuming
-            InitializeAppServiceConnection();
             AppSettings?.DrivesManager?.ResumeDeviceWatcher();
         }
 
-        public static AppServiceConnection Connection;
 
-        private async void InitializeAppServiceConnection()
-        {
-            Connection = new AppServiceConnection();
-            Connection.AppServiceName = "FilesInteropService";
-            Connection.PackageFamilyName = Package.Current.Id.FamilyName;
-            Connection.RequestReceived += Connection_RequestReceived;
-            Connection.ServiceClosed += Connection_ServiceClosed;
 
-            AppServiceConnectionStatus status = await Connection.OpenAsync();
-            if (status != AppServiceConnectionStatus.Success)
-            {
-                // TODO: error handling
-                Connection.Dispose();
-                Connection = null;
-            }
 
-            // Launch fulltrust process
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-        }
 
-        private void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
-        {
-            Connection = null;
-        }
 
-        private async void Connection_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
-        {
-            // Get a deferral because we use an awaitable API below to respond to the message
-            // and we don't want this call to get cancelled while we are waiting.
-            var messageDeferral = args.GetDeferral();
-
-            // The fulltrust process signaled that something in the recycle bin folder has changed
-            if (args.Request.Message.ContainsKey("FileSystem"))
-            {
-                var folderPath = (string)args.Request.Message["FileSystem"];
-                var itemPath = (string)args.Request.Message["Path"];
-                var changeType = (string)args.Request.Message["Type"];
-                var newItem = JsonConvert.DeserializeObject<ShellFileItem>(args.Request.Message.Get("Item", ""));
-                Debug.WriteLine("{0}: {1}", folderPath, changeType);
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    // If we are currently displaying the reycle bin lets refresh the items
-                    if (CurrentInstance.FilesystemViewModel?.CurrentFolder?.ItemPath == folderPath)
-                    {
-                        switch (changeType)
-                        {
-                            case "Created":
-                                CurrentInstance.FilesystemViewModel.AddFileOrFolderFromShellFile(newItem);
-                                break;
-
-                            case "Deleted":
-                                CurrentInstance.FilesystemViewModel.RemoveFileOrFolder(itemPath);
-                                break;
-
-                            default:
-                                CurrentInstance.FilesystemViewModel.RefreshItems();
-                                break;
-                        }
-                    }
-                });
-            }
-
-            // Complete the deferral so that the platform knows that we're done responding to the app service call.
-            // Note for error handling: this must be called even if SendResponseAsync() throws an exception.
-            messageDeferral.Complete();
-        }
-
-        private void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
-        {
-            if (args.CurrentPoint.Properties.IsXButton1Pressed)
-            {
-                NavigationActions.Back_Click(null, null);
-            }
-            else if (args.CurrentPoint.Properties.IsXButton2Pressed)
-            {
-                NavigationActions.Forward_Click(null, null);
-            }
-        }
 
         public static INavigationControlItem rightClickedItem;
 
@@ -255,10 +180,7 @@ namespace Files
 
                 // Ensure the current window is active
                 Window.Current.Activate();
-                Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
                 Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-                var currentView = SystemNavigationManager.GetForCurrentView();
-                currentView.BackRequested += Window_BackRequested;
             }
         }
 
@@ -269,19 +191,6 @@ namespace Files
             {
                 ShowErrorNotification = true;
                 ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
-            }
-        }
-
-        private void Window_BackRequested(object sender, BackRequestedEventArgs e)
-        {
-            if (CurrentInstance.ContentFrame.CanGoBack)
-            {
-                e.Handled = true;
-                NavigationActions.Back_Click(null, null);
-            }
-            else
-            {
-                e.Handled = false;
             }
         }
 
@@ -315,9 +224,7 @@ namespace Files
 
                     // Ensure the current window is active.
                     Window.Current.Activate();
-                    Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
                     Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-                    currentView.BackRequested += Window_BackRequested;
                     return;
 
                 case ActivationKind.CommandLineLaunch:
@@ -339,9 +246,7 @@ namespace Files
 
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
-                                    Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
                                     Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-                                    currentView.BackRequested += Window_BackRequested;
                                     return;
 
                                 case ParsedCommandType.OpenPath:
@@ -354,9 +259,7 @@ namespace Files
 
                                         // Ensure the current window is active.
                                         Window.Current.Activate();
-                                        Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
                                         Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-                                        currentView.BackRequested += Window_BackRequested;
 
                                         return;
                                     }
@@ -376,9 +279,8 @@ namespace Files
                                     rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
-                                    Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
                                     Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-                                    currentView.BackRequested += Window_BackRequested;
+
                                     return;
                             }
                         }
@@ -400,7 +302,6 @@ namespace Files
 
             // Ensure the current window is active.
             Window.Current.Activate();
-            Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
             Window.Current.CoreWindow.Activated += CoreWindow_Activated;
         }
 
@@ -432,11 +333,7 @@ namespace Files
 
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
-            if (Connection != null)
-            {
-                Connection.Dispose();
-                Connection = null;
-            }
+
             AppSettings?.Dispose();
             deferral.Complete();
         }

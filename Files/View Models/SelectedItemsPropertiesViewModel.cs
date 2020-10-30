@@ -509,8 +509,11 @@ namespace Files.View_Models
             set => SetProperty(ref _IsItemSelected, value);
         }
 
-        public SelectedItemsPropertiesViewModel()
+        private BaseLayout ContentPage = null;
+
+        public SelectedItemsPropertiesViewModel(BaseLayout contentPageParam)
         {
+            ContentPage = contentPageParam;
         }
 
         private bool _IsSelectedItemImage = false;
@@ -536,7 +539,7 @@ namespace Files.View_Models
             IsSelectedItemShortcut = false;
 
             //check if the selected item is an image file
-            string ItemExtension = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => App.CurrentInstance.ContentPage.SelectedItem.FileExtension);
+            string ItemExtension = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => ContentPage.SelectedItem.FileExtension);
             if (!string.IsNullOrEmpty(ItemExtension) && SelectedItemsCount == 1)
             {
                 if (ItemExtension.Equals(".png", StringComparison.OrdinalIgnoreCase)

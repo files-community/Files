@@ -22,12 +22,11 @@ namespace Files.Commands
             Abort
         }
 
-        public static async void PasteItemWithStatus(DataPackageView packageView, string destinationPath, DataPackageOperation acceptedOperation)
+        public async void PasteItemWithStatus(DataPackageView packageView, string destinationPath, DataPackageOperation acceptedOperation)
         {
-            var CurrentInstance = App.CurrentInstance;
-            PostedStatusBanner banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+            PostedStatusBanner banner = AppInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                 null,
-                CurrentInstance.FilesystemViewModel.WorkingDirectory,
+                AppInstance.FilesystemViewModel.WorkingDirectory,
                 0,
                 StatusBanner.StatusBannerSeverity.Ongoing,
                 StatusBanner.StatusBannerOperation.Paste);
@@ -35,14 +34,14 @@ namespace Files.Commands
             Stopwatch sw = new Stopwatch();
             sw.Start();
 
-            await PasteItem(packageView, destinationPath, acceptedOperation, CurrentInstance, banner.Progress);
+            await PasteItem(packageView, destinationPath, acceptedOperation, AppInstance, banner.Progress);
             banner.Remove();
 
             sw.Stop();
 
             if (sw.Elapsed.TotalSeconds >= 10)
             {
-                App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                AppInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                     "Paste Complete",
                     "The operation has completed.",
                     0,
@@ -51,7 +50,7 @@ namespace Files.Commands
             }
         }
 
-        private static async Task PasteItem(DataPackageView packageView, string destinationPath, DataPackageOperation acceptedOperation, IShellPage AppInstance, IProgress<uint> progress)
+        private async Task PasteItem(DataPackageView packageView, string destinationPath, DataPackageOperation acceptedOperation, IShellPage AppInstance, IProgress<uint> progress)
         {
             if (!packageView.Contains(StandardDataFormats.StorageItems))
             {
@@ -120,7 +119,7 @@ namespace Files.Commands
                         {
                             ClonedDirectoryOutput pastedOutput = await CloneDirectoryAsync(
                                 (StorageFolder)item,
-                                await ItemViewModel.GetFolderFromPathAsync(destinationPath),
+                                await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(destinationPath),
                                 item.Name);
                             pastedSourceItems.Add(item);
                             pastedItems.Add(pastedOutput.FolderOutput);
@@ -145,7 +144,7 @@ namespace Files.Commands
                     {
                         StorageFile clipboardFile = (StorageFile)item;
                         StorageFile pastedFile = await clipboardFile.CopyAsync(
-                            await ItemViewModel.GetFolderFromPathAsync(destinationPath),
+                            await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(destinationPath),
                             item.Name,
                             NameCollisionOption.GenerateUniqueName);
                         pastedSourceItems.Add(item);

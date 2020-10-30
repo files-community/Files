@@ -26,7 +26,8 @@ namespace Files
         private CancellationTokenSource tokenSource = new CancellationTokenSource();
         private ContentDialog propertiesDialog;
 
-        private object navParameter;
+        private object navParameterItem;
+        private IShellPage AppInstance;
 
         private ListedItem listedItem;
 
@@ -40,9 +41,11 @@ namespace Files
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.navParameter = e.Parameter;
-            this.TabShorcut.Visibility = e.Parameter is ShortcutItem ? Visibility.Visible : Visibility.Collapsed;
-            this.listedItem = e.Parameter as ListedItem;
+            var args = e.Parameter as PropertiesPageNavigationArguments;
+            AppInstance = args.AppInstanceArgument;
+            this.navParameterItem = args.Item;
+            this.TabShorcut.Visibility = args.Item is ShortcutItem ? Visibility.Visible : Visibility.Collapsed;
+            this.listedItem = args.Item as ListedItem;
             this.TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null && !listedItem.IsShortcutItem ? Visibility.Visible : Visibility.Collapsed;
             this.SetBackground();
             base.OnNavigatedTo(e);
@@ -221,7 +224,7 @@ namespace Files
 
         private void NavigationView_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
         {
-            var navParam = new PropertyNavParam() { tokenSource = tokenSource, navParameter = navParameter };
+            var navParam = new PropertyNavParam() { tokenSource = tokenSource, navParameter = navParameterItem, AppInstanceArgument = AppInstance };
 
             switch (args.SelectedItemContainer.Tag)
             {
@@ -239,10 +242,17 @@ namespace Files
             }
         }
 
+        public class PropertiesPageNavigationArguments
+        {
+            public object Item { get; set; }
+            public IShellPage AppInstanceArgument { get; set; }
+        }
+
         public class PropertyNavParam
         {
             public CancellationTokenSource tokenSource;
             public object navParameter;
+            public IShellPage AppInstanceArgument { get; set; }
         }
     }
 }

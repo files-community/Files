@@ -194,7 +194,9 @@
                     <controls1:StatusBarControl
                         x:Name="StatusBarControl"
                         Grid.Row="3"
-                        x:Load="{x:Bind instanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
+                        DirectoryPropertiesViewModel="{x:Bind ContentPage.DirectoryPropertiesViewModel}"
+                        SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel}"
+                        x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
                 </Grid>
             </Custom:DropShadowPanel>
         </Grid>

@@ -14,8 +14,8 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <local:LibraryCards />
+        <local:LibraryCards x:Name="LibraryLocationCardsWidget" />
 
-        <local:RecentFiles Grid.Row="1" />
+        <local:RecentFiles x:Name="RecentFilesWidget" Grid.Row="1" />
     </Grid>
 </Page>

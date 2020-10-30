@@ -7,9 +7,9 @@ using Windows.UI.Xaml.Controls;
 
 namespace Files
 {
-    public interface IShellPage
+    public interface IShellPage : IDisposable
     {
-        public StatusBarControl StatusBarControl { get; }
+        public StatusBarControl BottomStatusStripControl { get; }
         public Frame ContentFrame { get; }
         public Interaction InteractionOperations { get; }
         public ItemViewModel FilesystemViewModel { get; }
@@ -19,5 +19,7 @@ namespace Files
         public Type CurrentPageType { get; }
         public INavigationControlItem SidebarSelectedItem { get; set; }
         public INavigationToolbar NavigationToolbar { get; }
+        public bool IsCurrentInstance { get; set; }
+        public abstract void Clipboard_ContentChanged(object sender, object e);
     }
 }

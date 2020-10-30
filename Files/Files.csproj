@@ -155,6 +155,7 @@
     <Compile Include="CommandLine\ParsedCommands.cs" />
     <Compile Include="CommandLine\ParsedCommandType.cs" />
     <Compile Include="Commands\Delete.cs" />
+    <Compile Include="Commands\ItemOperations.cs" />
     <Compile Include="Commands\Paste.cs" />
     <Compile Include="Controllers\IJson.cs" />
     <Compile Include="Controllers\SidebarPinnedController.cs" />

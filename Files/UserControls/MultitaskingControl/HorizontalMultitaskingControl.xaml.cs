@@ -7,6 +7,7 @@ using Files.Views;
 using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
@@ -27,8 +28,10 @@ namespace Files.UserControls
         private const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
         private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
         private TabViewItem hoveredTabViewItem = null;
-
+        private ModernShellPage CurrentSelectedAppInstance;
         public const string TabPathIdentifier = "FilesTabViewItemPath";
+
+        public event IMultitaskingControl.CurrentInstanceChangedEventHandler CurrentInstanceChanged;
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -46,7 +49,7 @@ namespace Files.UserControls
         public async Task SetSelectedTabInfo(string text, string currentPathForTabIcon)
         {
             var selectedTabItem = MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
-            selectedTabItem.AllowStorageItemDrop = App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome;
+            selectedTabItem.AllowStorageItemDrop = CurrentSelectedAppInstance.InstanceViewModel.IsPageTypeNotHome;
 
             MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex].Path = currentPathForTabIcon;
 
@@ -154,7 +157,7 @@ namespace Files.UserControls
                 if (Items[App.InteractionViewModel.TabStripSelectedIndex].Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text")
                     && Items[App.InteractionViewModel.TabStripSelectedIndex].IconSource != icon)
                 {
-                    App.CurrentInstance = GetCurrentSelectedTabInstance<ModernShellPage>();
+                    CurrentSelectedAppInstance = GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
 
                 if (Items[App.InteractionViewModel.TabStripSelectedIndex].Header.ToString() == ResourceController.GetTranslation("SidebarSettings/Text"))
@@ -164,26 +167,28 @@ namespace Files.UserControls
                 }
                 else
                 {
-                    if (App.CurrentInstance != null)
+                    if (CurrentSelectedAppInstance != null)
                     {
                         if (Items[App.InteractionViewModel.TabStripSelectedIndex].Header.ToString() == ResourceController.GetTranslation("NewTab"))
                         {
-                            App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = false;
+                            CurrentSelectedAppInstance.InstanceViewModel.IsPageTypeNotHome = false;
                         }
                         else
                         {
-                            App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = true;
+                            CurrentSelectedAppInstance.InstanceViewModel.IsPageTypeNotHome = true;
                         }
 
-                        App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin =
-                            App.CurrentInstance?.FilesystemViewModel?.WorkingDirectory?.StartsWith(App.AppSettings.RecycleBinPath) ?? false;
-                        App.CurrentInstance.InstanceViewModel.IsPageTypeMtpDevice =
-                            App.CurrentInstance?.FilesystemViewModel?.WorkingDirectory?.StartsWith("\\\\?\\") ?? false;
+                        CurrentSelectedAppInstance.InstanceViewModel.IsPageTypeRecycleBin =
+                            CurrentSelectedAppInstance?.FilesystemViewModel?.WorkingDirectory?.StartsWith(App.AppSettings.RecycleBinPath) ?? false;
+                        CurrentSelectedAppInstance.InstanceViewModel.IsPageTypeMtpDevice =
+                            CurrentSelectedAppInstance?.FilesystemViewModel?.WorkingDirectory?.StartsWith("\\\\?\\") ?? false;
                     }
 
                     App.InteractionViewModel.TabsLeftMargin = new Thickness(0, 0, 0, 0);
                     App.InteractionViewModel.LeftMarginLoaded = true;
                 }
+
+                CurrentInstanceChanged?.Invoke(this, new CurrentInstanceChangedEventArgs() { CurrentInstance = CurrentSelectedAppInstance, ShellPageInstances = GetAllTabInstances<IShellPage>() });
             }
         }
 
@@ -203,6 +208,16 @@ namespace Files.UserControls
                 }
             }
             return default;
+        }
+
+        public List<T> GetAllTabInstances<T>()
+        {
+            var instances = new List<T>();
+            foreach (TabItem ti in MainPage.AppInstances)
+            {
+                instances.Add((T)((ti.Content as Grid).Children.First(element => element.GetType() == typeof(Frame)) as Frame).Content);
+            }
+            return instances;
         }
 
         private void DragArea_Loaded(object sender, RoutedEventArgs e)
@@ -242,7 +257,7 @@ namespace Files.UserControls
                     .FilesystemViewModel
                     .WorkingDirectory;
 
-                ItemOperations.PasteItemWithStatus(e.DataView, tabViewItemWorkingDir, DataPackageOperation.Move);
+                CurrentSelectedAppInstance.InteractionOperations.ItemOperationCommands.PasteItemWithStatus(e.DataView, tabViewItemWorkingDir, DataPackageOperation.Move);
             }
             else
             {
