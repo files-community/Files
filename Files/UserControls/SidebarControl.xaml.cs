@@ -128,7 +128,6 @@ namespace Files.Controls
             }
         }
 
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -288,6 +287,7 @@ namespace Files.Controls
             if(AppSettings.SortPinnedItemsByDragging == false)
             {
                 args.Cancel = true;
+                return;
             }
 
             // Adding the original Location item dragged to the DragEvents data view
@@ -395,7 +395,6 @@ namespace Files.Controls
 
                 // Swap the two items
                 SidebarPinnedModel.SwapItems(sourceLocationItem, locationItem);
-                App.SidebarPinnedController.Model = new SidebarPinnedModel();
             }
         }
 
@@ -463,18 +462,6 @@ namespace Files.Controls
                 };
                 await App.CurrentInstance.InteractionOperations.OpenPropertiesWindow(listedItem);
             }
-        }
-
-        private void NavigationViewItem_DropCompleted(UIElement sender, DropCompletedEventArgs args)
-        {
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem))
-            {
-                return;
-            }
-
-            this.SidebarPinnedModel.RemoveItem(locationItem.Text);
-            this.SidebarPinnedModel.AddItem(locationItem.Text);
-
         }
     }
 
