@@ -64,7 +64,7 @@ namespace FilesFullTrust
                 foreach (var drive in DriveInfo.GetDrives())
                 {
                     var recycle_path = Path.Combine(drive.Name, "$Recycle.Bin", sid);
-                    if (!Directory.Exists(recycle_path))
+                    if (drive.DriveType == DriveType.Network || !Directory.Exists(recycle_path))
                     {
                         continue;
                     }

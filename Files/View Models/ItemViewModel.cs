@@ -678,8 +678,10 @@ namespace Files.Filesystem
                 }
                 else
                 {
-                    await EnumerateItemsFromStandardFolder(path);
-                    WatchForDirectoryChanges(path);
+                    if (await EnumerateItemsFromStandardFolder(path))
+                    {
+                        WatchForDirectoryChanges(path);
+                    }
                 }
 
                 if (FilesAndFolders.Count == 0)
@@ -782,7 +784,7 @@ namespace Files.Filesystem
             }
         }
 
-        public async Task EnumerateItemsFromStandardFolder(string path)
+        public async Task<bool> EnumerateItemsFromStandardFolder(string path)
         {
             // Flag to use FindFirstFileExFromApp or StorageFolder enumeration
             bool enumFromStorageFolder = false;
@@ -795,7 +797,7 @@ namespace Files.Filesystem
             {
                 var consentDialogDisplay = new ConsentDialog();
                 await consentDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
-                return;
+                return false;
             }
             catch (FileNotFoundException)
             {
@@ -803,7 +805,7 @@ namespace Files.Filesystem
                     "FolderNotFoundDialog/Title".GetLocalized(),
                     "FolderNotFoundDialog/Text".GetLocalized());
                 IsLoadingItems = false;
-                return;
+                return false;
             }
             catch (Exception e)
             {
@@ -816,7 +818,7 @@ namespace Files.Filesystem
                 {
                     await DialogDisplayHelper.ShowDialog("DriveUnpluggedDialog/Title".GetLocalized(), e.Message);
                     IsLoadingItems = false;
-                    return;
+                    return false;
                 }
             }
 
@@ -872,14 +874,19 @@ namespace Files.Filesystem
                     FileSizeBytes = 0
                 };
                 await EnumFromStorageFolder();
+                return true;
             }
             else
             {
-                FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-                int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+                (IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
+                {
+                    FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+                    int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+                    IntPtr hFileTsk = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
+                        additionalFlags);
+                    return (hFileTsk, findDataTsk);
+                }).WithTimeout(TimeSpan.FromSeconds(5));
 
-                IntPtr hFile = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
-                                                      additionalFlags);
                 FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemTimeOutput);
                 var itemDate = new DateTime(
                     systemTimeOutput.Year,
@@ -908,7 +915,13 @@ namespace Files.Filesystem
                 };
 
                 var count = 0;
-                if (hFile.ToInt64() == -1)
+                if (hFile == IntPtr.Zero)
+                {
+                    await DialogDisplayHelper.ShowDialog("DriveUnpluggedDialog/Title".GetLocalized(), "");
+                    IsLoadingItems = false;
+                    return false;
+                }
+                else if (hFile.ToInt64() == -1)
                 {
                     await EnumFromStorageFolder();
                 }
@@ -945,6 +958,7 @@ namespace Files.Filesystem
 
                     FindClose(hFile);
                 }
+                return true;
             }
         }
 

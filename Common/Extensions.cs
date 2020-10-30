@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Files.Common
 {
@@ -47,6 +49,25 @@ namespace Files.Common
             {
                 return DateTime.FromFileTimeUtc(0xFFFFFFFF);
             }
+        }
+
+        public static async Task WithTimeout(this Task task,
+            TimeSpan timeout)
+        {
+            if (task == await Task.WhenAny(task, Task.Delay(timeout)))
+            {
+                await task;
+            }
+        }
+
+        public static async Task<T> WithTimeout<T>(this Task<T> task,
+            TimeSpan timeout)
+        {
+            if (task == await Task.WhenAny(task, Task.Delay(timeout)))
+            {
+                return await task;
+            }
+            return default(T);
         }
     }
 }
