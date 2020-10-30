@@ -197,7 +197,6 @@
     <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Helpers\Win32FindDataExtensions.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="ResourceController.cs" />
     <Compile Include="INavigationToolbar.cs" />
     <Compile Include="UserControls\FileIcon.xaml.cs">
       <DependentUpon>FileIcon.xaml</DependentUpon>

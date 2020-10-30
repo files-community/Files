@@ -5,6 +5,7 @@ using Files.Enums;
 using Files.Helpers;
 using Files.View_Models;
 using Files.Views;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
@@ -741,7 +742,7 @@ namespace Files.Filesystem
                 ItemPropertiesInitialized = true,
                 ItemName = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                 ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
-                ItemType = ResourceController.GetTranslation("FileFolderListItem"),
+                ItemType = "FileFolderListItem".GetLocalized(),
                 LoadFolderGlyph = true,
                 FileImage = null,
                 LoadFileIcon = false,
@@ -799,8 +800,8 @@ namespace Files.Filesystem
             catch (FileNotFoundException)
             {
                 await DialogDisplayHelper.ShowDialog(
-                    ResourceController.GetTranslation("FolderNotFoundDialog/Title"),
-                    ResourceController.GetTranslation("FolderNotFoundDialog/Text"));
+                    "FolderNotFoundDialog/Title".GetLocalized(),
+                    "FolderNotFoundDialog/Text".GetLocalized());
                 IsLoadingItems = false;
                 return;
             }
@@ -813,7 +814,7 @@ namespace Files.Filesystem
                 }
                 else
                 {
-                    await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("DriveUnpluggedDialog/Title"), e.Message);
+                    await DialogDisplayHelper.ShowDialog("DriveUnpluggedDialog/Title".GetLocalized(), e.Message);
                     IsLoadingItems = false;
                     return;
                 }
@@ -842,7 +843,7 @@ namespace Files.Filesystem
                         if (await CheckBitlockerStatus(_rootFolder))
                         {
                             // Drive is still locked
-                            await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("BitlockerInvalidPwDialog/Title"), ResourceController.GetTranslation("BitlockerInvalidPwDialog/Text"));
+                            await DialogDisplayHelper.ShowDialog("BitlockerInvalidPwDialog/Title".GetLocalized(), "BitlockerInvalidPwDialog/Text".GetLocalized());
                         }
                     }
                 }
@@ -1281,11 +1282,11 @@ namespace Files.Filesystem
             {
                 if (_filesAndFolders.Count == 1)
                 {
-                    App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemCount/Text");
+                    App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + "ItemCount/Text".GetLocalized();
                 }
                 else
                 {
-                    App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemsCount/Text");
+                    App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + "ItemsCount/Text".GetLocalized();
                 }
             }
         }
@@ -1362,7 +1363,7 @@ namespace Files.Filesystem
                 PrimaryItemAttribute = StorageItemTypes.Folder,
                 ItemName = findData.cFileName,
                 ItemDateModifiedReal = itemDate,
-                ItemType = ResourceController.GetTranslation("FileFolderListItem"),
+                ItemType = "FileFolderListItem".GetLocalized(),
                 LoadFolderGlyph = true,
                 FileImage = null,
                 LoadFileIcon = false,
@@ -1418,7 +1419,7 @@ namespace Files.Filesystem
 
             long itemSizeBytes = findData.GetSize();
             var itemSize = ByteSize.FromBytes(itemSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
-            string itemType = ResourceController.GetTranslation("ItemTypeFile");
+            string itemType = "ItemTypeFile".GetLocalized();
             string itemFileExtension = null;
 
             if (findData.cFileName.Contains('.'))
@@ -1479,7 +1480,7 @@ namespace Files.Filesystem
                             ItemDateModifiedReal = itemModifiedDate,
                             ItemDateAccessedReal = itemLastAccessDate,
                             ItemDateCreatedReal = itemCreatedDate,
-                            ItemType = ResourceController.GetTranslation(isUrl ? "ShortcutWebLinkFileType" : "ShortcutFileType"),
+                            ItemType = isUrl ? "ShortcutWebLinkFileType" : "ShortcutFileType".GetLocalized(),
                             ItemPath = itemPath,
                             FileSize = itemSize,
                             FileSizeBytes = itemSizeBytes,

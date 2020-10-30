@@ -5,6 +5,7 @@ using Files.Filesystem;
 using Files.UserControls;
 using Files.View_Models;
 using Files.Views.Pages;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -125,7 +126,7 @@ namespace Files.Views
                             }
                             else
                             {
-                                await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+                                await AddNewTab(typeof(ModernShellPage), "NewTab".GetLocalized());
                             }
                         }
                         else if (App.AppSettings.ContinueLastSessionOnStartUp)
@@ -136,26 +137,26 @@ namespace Files.Views
                                 {
                                     await AddNewTab(typeof(ModernShellPage), path);
                                 }
-                                App.AppSettings.LastSessionPages = new string[] { ResourceController.GetTranslation("NewTab") };
+                                App.AppSettings.LastSessionPages = new string[] { "NewTab".GetLocalized() };
                             }
                             else
                             {
-                                await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+                                await AddNewTab(typeof(ModernShellPage), "NewTab".GetLocalized());
                             }
                         }
                         else
                         {
-                            await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+                            await AddNewTab(typeof(ModernShellPage), "NewTab".GetLocalized());
                         }
                     }
                     catch (Exception)
                     {
-                        await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+                        await AddNewTab(typeof(ModernShellPage), "NewTab".GetLocalized());
                     }
                 }
                 else if (string.IsNullOrEmpty(navArgs))
                 {
-                    await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+                    await AddNewTab(typeof(ModernShellPage), "NewTab".GetLocalized());
                 }
                 else
                 {
@@ -179,37 +180,37 @@ namespace Files.Views
             {
                 if (path == "Settings")
                 {
-                    tabLocationHeader = ResourceController.GetTranslation("SidebarSettings/Text");
+                    tabLocationHeader = "SidebarSettings/Text".GetLocalized();
                     fontIconSource.Glyph = "\xeb5d";
                 }
                 else if (path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
                 {
-                    tabLocationHeader = ResourceController.GetTranslation("SidebarDesktop");
+                    tabLocationHeader = "SidebarDesktop".GetLocalized();
                     fontIconSource.Glyph = "\xe9f1";
                 }
                 else if (path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
                 {
-                    tabLocationHeader = ResourceController.GetTranslation("SidebarDownloads");
+                    tabLocationHeader = "SidebarDownloads".GetLocalized();
                     fontIconSource.Glyph = "\xe91c";
                 }
                 else if (path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
                 {
-                    tabLocationHeader = ResourceController.GetTranslation("SidebarDocuments");
+                    tabLocationHeader = "SidebarDocuments".GetLocalized();
                     fontIconSource.Glyph = "\xEA11";
                 }
                 else if (path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
                 {
-                    tabLocationHeader = ResourceController.GetTranslation("SidebarPictures");
+                    tabLocationHeader = "SidebarPictures".GetLocalized();
                     fontIconSource.Glyph = "\xEA83";
                 }
                 else if (path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
                 {
-                    tabLocationHeader = ResourceController.GetTranslation("SidebarMusic");
+                    tabLocationHeader = "SidebarMusic".GetLocalized();
                     fontIconSource.Glyph = "\xead4";
                 }
                 else if (path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
                 {
-                    tabLocationHeader = ResourceController.GetTranslation("SidebarVideos");
+                    tabLocationHeader = "SidebarVideos".GetLocalized();
                     fontIconSource.Glyph = "\xec0d";
                 }
                 else if (path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
@@ -224,9 +225,9 @@ namespace Files.Views
                     tabLocationHeader = "OneDrive";
                     fontIconSource.Glyph = "\xe9b7";
                 }
-                else if (path == ResourceController.GetTranslation("NewTab"))
+                else if (path == "NewTab".GetLocalized())
                 {
-                    tabLocationHeader = ResourceController.GetTranslation("NewTab");
+                    tabLocationHeader = path;
                     fontIconSource.Glyph = "\xe90c";
                 }
                 else
@@ -269,8 +270,8 @@ namespace Files.Views
                         // Invalid path, open new tab instead (explorer opens Documents when it fails)
                         Debug.WriteLine($"Invalid path \"{path}\" in InstanceTabsView.xaml.cs\\AddNewTab");
 
-                        path = ResourceController.GetTranslation("NewTab");
-                        tabLocationHeader = ResourceController.GetTranslation("NewTab");
+                        path = "NewTab".GetLocalized();
+                        tabLocationHeader = "NewTab".GetLocalized();
                         fontIconSource.Glyph = "\xe90c";
                     }
                 }
@@ -425,7 +426,7 @@ namespace Files.Views
 
         private async void AddNewInstanceAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+            await AddNewTab(typeof(ModernShellPage),"NewTab".GetLocalized());
             args.Handled = true;
         }
 

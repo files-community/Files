@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -157,7 +158,7 @@ namespace Files.UserControls
                         switch (Operation)
                         {
                             case StatusBannerOperation.Extract:
-                                Title = ResourceController.GetTranslation("ExtractInProgress/Title");
+                                Title = "ExtractInProgress/Title".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
                                     FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily,
@@ -166,7 +167,7 @@ namespace Files.UserControls
                                 break;
 
                             case StatusBannerOperation.Paste:
-                                Title = ResourceController.GetTranslation("PasteInProgress/Title");
+                                Title = "PasteInProgress/Title".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
                                     FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily,
@@ -175,7 +176,7 @@ namespace Files.UserControls
                                 break;
 
                             case StatusBannerOperation.Delete:
-                                Title = ResourceController.GetTranslation("DeleteInProgress/Title");
+                                Title = "DeleteInProgress/Title".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
                                     FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily,
@@ -184,7 +185,7 @@ namespace Files.UserControls
                                 break;
 
                             case StatusBannerOperation.Recycle:
-                                Title = ResourceController.GetTranslation("RecycleInProgress/Title");
+                                Title = "RecycleInProgress/Title".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
                                     FontFamily = Application.Current.Resources["RecycleBinIcons"] as FontFamily,

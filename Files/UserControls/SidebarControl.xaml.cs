@@ -162,7 +162,7 @@ namespace Files.Controls
                         {
                             if (ItemPath.Equals(SelectedSidebarItem?.Path, StringComparison.OrdinalIgnoreCase)) return; // return if already selected
 
-                            navigationPath = ResourceController.GetTranslation("NewTab");
+                            navigationPath = "NewTab".GetLocalized();
                             sourcePageType = typeof(YourHome);
                         }
                         else // Any other item
@@ -359,12 +359,12 @@ namespace Files.Controls
                     if (storageItems.AreItemsInSameDrive(locationItem.Path))
                     {
                         e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
-                        e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), locationItem.Text);
+                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), locationItem.Text);
                     }
                     else
                     {
                         e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy;
-                        e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("CopyToFolderCaptionText"), locationItem.Text);
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
                     }
                 }
 
@@ -446,12 +446,12 @@ namespace Files.Controls
                 if (storageItems.AreItemsInSameDrive(driveItem.Path))
                 {
                     e.AcceptedOperation = DataPackageOperation.Move;
-                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), driveItem.Text);
+                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), driveItem.Text);
                 }
                 else
                 {
                     e.AcceptedOperation = DataPackageOperation.Copy;
-                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("CopyToFolderCaptionText"), driveItem.Text);
+                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), driveItem.Text);
                 }
             }
 
@@ -484,7 +484,7 @@ namespace Files.Controls
                     ItemPath = (item as LocationItem).Path,
                     ItemName = (item as LocationItem).Text,
                     PrimaryItemAttribute = Windows.Storage.StorageItemTypes.Folder,
-                    ItemType = ResourceController.GetTranslation("FileFolderListItem"),
+                    ItemType = "FileFolderListItem".GetLocalized(),
                     LoadFolderGlyph = true
                 };
                 await App.CurrentInstance.InteractionOperations.OpenPropertiesWindow(listedItem);

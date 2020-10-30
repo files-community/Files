@@ -1032,7 +1032,7 @@
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
     <value>Mostrar proprietário nas propriedades</value>
   </data>
-    <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
+  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Mais opções</value>
   </data>
   <data name="StatusBarControlLayoutMode.AutomationProperties.Name" xml:space="preserve">
