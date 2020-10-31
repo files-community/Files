@@ -133,9 +133,22 @@ namespace FilesFullTrust
             byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
             return (Convert.ToBase64String(bitmapData, 0, bitmapData.Length), isCustom);
         }
-    }
 
-    // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.
-    // The Vanara library contains the definitions for all members of Shell32.dll, User32.dll and more
-    // The ones below are due to bugs in the current version of the library and can be removed once fixed
+        // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.
+        // The Vanara library contains the definitions for all members of Shell32.dll, User32.dll and more
+        // The ones below are due to bugs in the current version of the library and can be removed once fixed
+        // Structure used by SHQueryRecycleBin.
+        [StructLayout(LayoutKind.Sequential, Pack = 0)]
+        public struct SHQUERYRBINFO
+        {
+            public int cbSize;
+            public long i64Size;
+            public long i64NumItems;
+        }
+
+        // Get information from recycle bin.
+        [DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Auto)]
+        public static extern int SHQueryRecycleBin(string pszRootPath,
+            ref SHQUERYRBINFO pSHQueryRBInfo);
+    }
 }
