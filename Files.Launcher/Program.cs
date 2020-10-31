@@ -492,9 +492,9 @@ namespace FilesFullTrust
 
                 case "Query":
                     var responseQuery = new ValueSet();
-                    Shell32.SHQUERYRBINFO queryBinInfo = new Shell32.SHQUERYRBINFO();
-                    queryBinInfo.cbSize = (uint)Marshal.SizeOf(queryBinInfo);
-                    var res = Shell32.SHQueryRecycleBin("", ref queryBinInfo);
+                    Win32API.SHQUERYRBINFO queryBinInfo = new Win32API.SHQUERYRBINFO();
+                    queryBinInfo.cbSize = Marshal.SizeOf(queryBinInfo);
+                    var res = Win32API.SHQueryRecycleBin("", ref queryBinInfo);
                     if (res == HRESULT.S_OK)
                     {
                         var numItems = queryBinInfo.i64NumItems;
