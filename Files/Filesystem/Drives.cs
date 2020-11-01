@@ -89,7 +89,7 @@ namespace Files.Filesystem
                         if (item is DriveItem && !Drives.Contains(item))
                         {
                             MainPage.sideBarItems.Remove(item);
-                            DrivesWidget.itemsAdded.Add(item);
+                            DrivesWidget.itemsAdded.Remove(item);
                         }
                     }
                 });
