@@ -8,10 +8,10 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <StackPanel Margin="14" Spacing="18">
+    <StackPanel Margin="14" Spacing="24">
         <local:LibraryCards />
 
-        <local:DrivesWidget />
+        <local:DrivesWidget x:Load="False" />
 
         <local:RecentFiles />
     </StackPanel>
