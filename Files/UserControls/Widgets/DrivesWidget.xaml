@@ -83,6 +83,7 @@
                                 <StackPanel
                                     Grid.Column="1"
                                     Orientation="Vertical"
+                                    VerticalAlignment="Center"
                                     Margin="12,0,0,0"
                                     Spacing="8">
                                     <TextBlock
