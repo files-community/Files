@@ -1395,9 +1395,13 @@
           <source>Open items with a single click</source>
           <target state="new">Open items with a single click</target>
         </trans-unit>
-        <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
-          <source>Drives</source>
-          <target state="new">Drives</target>
+        <trans-unit id="PinToSidebarByDraggingCaptionText" translate="yes" xml:space="preserve">
+          <source>Move here</source>
+          <target state="new">Move here</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalSortPinnedFiItemsByDragging.Header" translate="yes" xml:space="preserve">
+          <source>Enable reordering items on the sidebar</source>
+          <target state="new">Enable reordering items on the sidebar</target>
         </trans-unit>
       </group>
     </body>
