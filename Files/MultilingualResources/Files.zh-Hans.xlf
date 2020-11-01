@@ -1391,6 +1391,10 @@
           <source>Open items with a single click</source>
           <target state="new">Open items with a single click</target>
         </trans-unit>
+        <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
+          <source>Drives</source>
+          <target state="new">Drives</target>
+        </trans-unit>
       </group>
     </body>
   </file>
