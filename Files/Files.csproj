@@ -258,6 +258,9 @@
     <Compile Include="UserControls\MultitaskingControl\VerticalTabViewControl.xaml.cs">
       <DependentUpon>VerticalTabViewControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Widgets\DrivesWidget.xaml.cs">
+      <DependentUpon>DrivesWidget.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Widgets\LibraryCards.xaml.cs">
       <DependentUpon>LibraryCards.xaml</DependentUpon>
     </Compile>
@@ -535,6 +538,10 @@
     <Page Include="UserControls\MultitaskingControl\VerticalTabViewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Widgets\DrivesWidget.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\Widgets\LibraryCards.xaml">
       <Generator>MSBuild:Compile</Generator>

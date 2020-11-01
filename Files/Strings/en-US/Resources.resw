@@ -1152,4 +1152,7 @@
   <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
     <value>Open items with a single click</value>
   </data>
+  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+    <value>Drives</value>
+  </data>
 </root>

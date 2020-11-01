@@ -8,14 +8,11 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <Grid Margin="14,14,14,0" RowSpacing="18">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-
+    <StackPanel Margin="14" Spacing="18">
         <local:LibraryCards />
 
-        <local:RecentFiles Grid.Row="1" />
-    </Grid>
+        <local:DrivesWidget />
+
+        <local:RecentFiles />
+    </StackPanel>
 </Page>
