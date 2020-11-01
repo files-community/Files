@@ -81,7 +81,7 @@ namespace Files.Filesystem
                         if (!MainPage.sideBarItems.Contains(drive))
                         {
                             MainPage.sideBarItems.Add(drive);
-                            DrivesWidget.itemsAdded.Add(new DrivesLocationItem() { Text = drive.Text, Icon = drive.Glyph, Tag = drive.Path, SpaceText = drive.SpaceText });
+                            DrivesWidget.itemsAdded.Add(drive);
                         }
                     }
                     foreach (INavigationControlItem item in MainPage.sideBarItems.ToList())
@@ -89,6 +89,7 @@ namespace Files.Filesystem
                         if (item is DriveItem && !Drives.Contains(item))
                         {
                             MainPage.sideBarItems.Remove(item);
+                            DrivesWidget.itemsAdded.Add(item);
                         }
                     }
                 });
@@ -113,7 +114,7 @@ namespace Files.Filesystem
                     if (!MainPage.sideBarItems.Contains(drive))
                     {
                         MainPage.sideBarItems.Add(drive);
-                        DrivesWidget.itemsAdded.Add(new DrivesLocationItem() { Text = drive.Text, Icon = drive.Glyph, Tag = drive.Path, SpaceText = drive.SpaceText });
+                        DrivesWidget.itemsAdded.Add(drive);
                     }
                 }
                 foreach (INavigationControlItem item in MainPage.sideBarItems.ToList())
@@ -121,6 +122,7 @@ namespace Files.Filesystem
                     if (item is DriveItem && !Drives.Contains(item))
                     {
                         MainPage.sideBarItems.Remove(item);
+                        DrivesWidget.itemsAdded.Remove(item);
                     }
                 }
             });
