@@ -11,7 +11,7 @@
     <StackPanel Margin="14" Spacing="24">
         <local:LibraryCards />
 
-        <local:DrivesWidget x:Load="False" />
+        <local:DrivesWidget x:Name="DrivesWidget" x:Load="False" />
 
         <local:RecentFiles />
     </StackPanel>
