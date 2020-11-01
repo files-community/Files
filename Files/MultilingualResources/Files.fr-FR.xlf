@@ -1395,6 +1395,10 @@
           <source>Enable reordering items on the sidebar</source>
           <target state="new">Enable reordering items on the sidebar</target>
         </trans-unit>
+        <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
+          <source>Drives</source>
+          <target state="new">Drives</target>
+        </trans-unit>
       </group>
     </body>
   </file>
