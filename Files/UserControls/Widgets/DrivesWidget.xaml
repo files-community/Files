@@ -5,6 +5,7 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
+    xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -35,7 +36,7 @@
                     Orientation="Horizontal" />
             </muxc:ItemsRepeater.Layout>
             <muxc:ItemsRepeater.ItemTemplate>
-                <DataTemplate x:DataType="local:DrivesLocationItem">
+                <DataTemplate x:DataType="local2:DriveItem">
                     <Grid>
                         <Grid.Resources>
                             <ResourceDictionary>
@@ -58,13 +59,13 @@
                             VerticalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"
-                            AutomationProperties.Name="{x:Bind AutomationProperties}"
+                            AutomationProperties.Name="{x:Bind Text}"
                             Background="{ThemeResource YourHomeCardBackgroundColor}"
                             BorderThickness="1"
                             Click="Button_Click"
                             CornerRadius="4"
                             Style="{StaticResource ButtonRevealStyle}"
-                            Tag="{x:Bind Tag}">
+                            Tag="{x:Bind Path}">
 
                             <Grid
                                 Margin="8"
@@ -77,7 +78,7 @@
                                     <FontIcon
                                         FontFamily="{StaticResource FluentUIGlyphs}"
                                         FontSize="28"
-                                        Glyph="{x:Bind Icon}" />
+                                        Glyph="{x:Bind Glyph}" />
                                     <StackPanel Orientation="Vertical" Spacing="8">
                                         <TextBlock
                                             x:Name="ItemLocationName"
@@ -87,9 +88,9 @@
                                             TextWrapping="WrapWholeWords" />
                                         <muxc:ProgressBar
                                             MinWidth="160"
-                                            Maximum="{x:Bind DriveCapacityDoubleValue, Mode=OneWay}"
-                                            Value="{x:Bind DriveUsedSpaceDoubleValue, Mode=OneWay}" />
-                                        <TextBlock Text="{x:Bind SpaceText}" />
+                                            Maximum="{x:Bind MaxSpace.GigaBytes, Mode=OneWay}"
+                                            Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}" />
+                                        <TextBlock Text="{x:Bind SpaceText, Mode=OneWay}" />
                                     </StackPanel>
                                 </StackPanel>
                             </Grid>
