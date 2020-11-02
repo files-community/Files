@@ -128,8 +128,9 @@ namespace Files.Filesystem
                 {
                     return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(value));
                 }
-                catch (UnauthorizedAccessException)
+                catch (Exception ex)
                 {
+                    NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                     return await GetFolderWithPathFromPathAsync(Directory.GetParent(value).FullName, rootFolder, parentFolder).ConfigureAwait(false);
                 }
             }
