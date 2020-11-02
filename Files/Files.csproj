@@ -258,6 +258,9 @@
     <Compile Include="UserControls\MultitaskingControl\VerticalTabViewControl.xaml.cs">
       <DependentUpon>VerticalTabViewControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Widgets\DrivesWidget.xaml.cs">
+      <DependentUpon>DrivesWidget.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Widgets\LibraryCards.xaml.cs">
       <DependentUpon>LibraryCards.xaml</DependentUpon>
     </Compile>
@@ -315,6 +318,9 @@
     </Compile>
     <Compile Include="Views\SettingsPages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsPages\Widgets.xaml.cs">
+      <DependentUpon>Widgets.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPages\OnStartup.xaml.cs">
       <DependentUpon>OnStartup.xaml</DependentUpon>
@@ -536,6 +542,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\Widgets\DrivesWidget.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UserControls\Widgets\LibraryCards.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -595,6 +605,10 @@
     <Page Include="Views\SettingsPages\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsPages\Widgets.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SettingsPages\OnStartup.xaml">
       <Generator>MSBuild:Compile</Generator>

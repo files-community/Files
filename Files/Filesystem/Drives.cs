@@ -1,3 +1,4 @@
+using ByteSizeLib;
 using Files.View_Models;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -80,6 +81,7 @@ namespace Files.Filesystem
                         if (!MainPage.sideBarItems.Contains(drive))
                         {
                             MainPage.sideBarItems.Add(drive);
+                            DrivesWidget.itemsAdded.Add(drive);
                         }
                     }
                     foreach (INavigationControlItem item in MainPage.sideBarItems.ToList())
@@ -87,6 +89,7 @@ namespace Files.Filesystem
                         if (item is DriveItem && !Drives.Contains(item))
                         {
                             MainPage.sideBarItems.Remove(item);
+                            DrivesWidget.itemsAdded.Remove(item);
                         }
                     }
                 });
@@ -111,6 +114,7 @@ namespace Files.Filesystem
                     if (!MainPage.sideBarItems.Contains(drive))
                     {
                         MainPage.sideBarItems.Add(drive);
+                        DrivesWidget.itemsAdded.Add(drive);
                     }
                 }
                 foreach (INavigationControlItem item in MainPage.sideBarItems.ToList())
@@ -118,6 +122,7 @@ namespace Files.Filesystem
                     if (item is DriveItem && !Drives.Contains(item))
                     {
                         MainPage.sideBarItems.Remove(item);
+                        DrivesWidget.itemsAdded.Remove(item);
                     }
                 }
             });
