@@ -38,14 +38,14 @@
                     AutomationProperties.Name="Show drives on the home page"
                     Header="Show drives on the home page"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{x:Bind AppSettings.ShowDrivesWidget, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}}" />
+                    IsOn="{x:Bind AppSettings.ShowDrivesWidget, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <ToggleSwitch
                     x:Uid="SettingsWidgetsShowRecentFiles"
                     AutomationProperties.Name="Show recent files on the home page"
                     Header="Show recent files on the home page"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{x:Bind AppSettings.ShowRecentFilesWidget, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}}" />
+                    IsOn="{x:Bind AppSettings.ShowRecentFilesWidget, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
