@@ -38,11 +38,6 @@
                     Header="Show Owner in properties"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{x:Bind AppSettings.ShowFileOwner, Mode=TwoWay}" />
-                <ToggleSwitch
-                    x:Uid="SettingsExperimentalSortPinnedFiItemsByDragging"
-                    Header="Sort pinned items by dragging"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{x:Bind AppSettings.SortPinnedItemsByDragging, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
