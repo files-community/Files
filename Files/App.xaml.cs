@@ -38,26 +38,7 @@ namespace Files
 {
     sealed partial class App : Application
     {
-        public static IMultitaskingControl MultitaskingControl = null;
-
-        private static IShellPage currentInstance;
         private static bool ShowErrorNotification = false;
-
-        [Obsolete("Accessing the current app instance via the static variable is deprecated and will be removed.", true)]
-        public static IShellPage CurrentInstance
-        {
-            get
-            {
-                return currentInstance;
-            }
-            set
-            {
-                if (value != currentInstance && value != null)
-                {
-                    currentInstance = value;
-                }
-            }
-        }
 
         public static SettingsViewModel AppSettings { get; set; }
         public static InteractionViewModel InteractionViewModel { get; set; }

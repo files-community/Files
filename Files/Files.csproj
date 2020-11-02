@@ -285,7 +285,6 @@
     <Compile Include="View Models\SelectedItemsPropertiesViewModel.cs" />
     <Compile Include="Interacts\Interaction.cs" />
     <Compile Include="IShellPage.cs" />
-    <Compile Include="Navigation\NavigationActions.cs" />
     <Compile Include="Views\LayoutModes\GridViewBrowser.xaml.cs">
       <DependentUpon>GridViewBrowser.xaml</DependentUpon>
     </Compile>

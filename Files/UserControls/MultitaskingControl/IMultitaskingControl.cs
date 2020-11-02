@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
 
 namespace Files.UserControls.MultiTaskingControl
 {
@@ -16,6 +17,8 @@ namespace Files.UserControls.MultiTaskingControl
         event CurrentInstanceChangedEventHandler CurrentInstanceChanged;
 
         ObservableCollection<TabItem> Items { get; }
+
+        void MultitaskingControl_Loaded(object sender, RoutedEventArgs e);
     }
 
     public class CurrentInstanceChangedEventArgs : EventArgs

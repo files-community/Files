@@ -44,6 +44,27 @@ namespace Files.UserControls
             this.InitializeComponent();
             tabHoverTimer.Interval = TimeSpan.FromMilliseconds(500);
             tabHoverTimer.Tick += TabHoverSelected;
+            this.Loaded += MultitaskingControl_Loaded;
+        }
+
+        public void MultitaskingControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
+        }
+
+        private void MultitaskingControl_CurrentInstanceChanged(object sender, UserControls.MultiTaskingControl.CurrentInstanceChangedEventArgs e)
+        {
+            foreach (IShellPage instance in e.ShellPageInstances)
+            {
+                if (instance == e.CurrentInstance)
+                {
+                    instance.IsCurrentInstance = true;
+                }
+                else
+                {
+                    instance.IsCurrentInstance = false;
+                }
+            }
         }
 
         public async Task SetSelectedTabInfo(string text, string currentPathForTabIcon)
@@ -182,13 +203,13 @@ namespace Files.UserControls
                             CurrentSelectedAppInstance?.FilesystemViewModel?.WorkingDirectory?.StartsWith(App.AppSettings.RecycleBinPath) ?? false;
                         CurrentSelectedAppInstance.InstanceViewModel.IsPageTypeMtpDevice =
                             CurrentSelectedAppInstance?.FilesystemViewModel?.WorkingDirectory?.StartsWith("\\\\?\\") ?? false;
+
+                        CurrentInstanceChanged?.Invoke(this, new CurrentInstanceChangedEventArgs() { CurrentInstance = CurrentSelectedAppInstance, ShellPageInstances = GetAllTabInstances<IShellPage>() });
                     }
 
                     App.InteractionViewModel.TabsLeftMargin = new Thickness(0, 0, 0, 0);
                     App.InteractionViewModel.LeftMarginLoaded = true;
                 }
-
-                CurrentInstanceChanged?.Invoke(this, new CurrentInstanceChangedEventArgs() { CurrentInstance = CurrentSelectedAppInstance, ShellPageInstances = GetAllTabInstances<IShellPage>() });
             }
         }
 

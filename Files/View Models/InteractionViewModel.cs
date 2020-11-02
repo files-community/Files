@@ -59,7 +59,7 @@ namespace Files.Controls
                     SetProperty(ref _TabStripSelectedIndex, value);
                     Frame rootFrame = Window.Current.Content as Frame;
                     var mainView = rootFrame.Content as MainPage;
-                    mainView.SelectedTabItem = App.MultitaskingControl.Items[value];
+                    mainView.SelectedTabItem = MainPage.MultitaskingControl.Items[value];
                 }
             }
         }

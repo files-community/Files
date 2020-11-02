@@ -3,6 +3,7 @@ using Files.Controllers;
 using Files.Controls;
 using Files.Filesystem;
 using Files.UserControls;
+using Files.UserControls.MultiTaskingControl;
 using Files.View_Models;
 using Files.Views.Pages;
 using System;
@@ -36,9 +37,9 @@ namespace Files.Views
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+        public static IMultitaskingControl MultitaskingControl { get; set; }
 
         private TabItem _SelectedTabItem;
-
         public TabItem SelectedTabItem
         {
             get
@@ -71,23 +72,9 @@ namespace Files.Views
             }
             AllowDrop = true;
             AppInstances.CollectionChanged += AppInstances_CollectionChanged;
-            App.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
         }
 
-        private void MultitaskingControl_CurrentInstanceChanged(object sender, UserControls.MultiTaskingControl.CurrentInstanceChangedEventArgs e)
-        {
-            foreach (IShellPage instance in e.ShellPageInstances)
-            {
-                if (instance == e.CurrentInstance)
-                {
-                    instance.IsCurrentInstance = true;
-                }
-                else
-                {
-                    instance.IsCurrentInstance = false;
-                }
-            }
-        }
+
 
         private void AppInstances_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
@@ -338,8 +325,6 @@ namespace Files.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        
-
         private void NavigateToNumberedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
             int indexToSelect = 0;
@@ -420,7 +405,7 @@ namespace Files.Views
 
         private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
         {
-            App.MultitaskingControl = HorizontalMultitaskingControl;
+            MainPage.MultitaskingControl = HorizontalMultitaskingControl;
         }
     }
 }

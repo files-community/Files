@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.Devices.Geolocation;
 using Windows.Foundation.Collections;
 using Windows.Security.Cryptography.Core;
@@ -151,13 +152,14 @@ namespace Files.View_Models.Properties
 
         public ListedItem Item { get; }
 
-        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ProgressBar progressBar, ListedItem item)
+        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ProgressBar progressBar, ListedItem item, IShellPage instance)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;
             ProgressBar = progressBar;
             Dispatcher = coreDispatcher;
             Item = item;
+            AppInstance = instance;
 
             GetBaseProperties();
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
@@ -199,7 +201,7 @@ namespace Files.View_Models.Properties
                         if (Item.IsLinkItem)
                         {
                             var tmpItem = (ShortcutItem)Item;
-                            await Interacts.Interaction.InvokeWin32Component(ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, tmpItem.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
+                            await AppInstance.InteractionOperations.InvokeWin32Component(ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, tmpItem.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
                         }
                         else
                         {
@@ -235,7 +237,7 @@ namespace Files.View_Models.Properties
             StorageFile file = null;
             try
             {
-                file = await ItemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+                file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
             }
             catch (Exception ex)
             {
@@ -274,7 +276,7 @@ namespace Files.View_Models.Properties
             ViewModel.ItemMD5HashVisibility = Visibility.Visible;
             try
             {
-                ViewModel.ItemMD5Hash = await App.CurrentInstance.InteractionOperations
+                ViewModel.ItemMD5Hash = await AppInstance.InteractionOperations
                     .GetHashForFile(Item, hashAlgTypeName, TokenSource.Token, ProgressBar);
             }
             catch (Exception ex)
@@ -289,7 +291,7 @@ namespace Files.View_Models.Properties
             StorageFile file = null;
             try
             {
-                file = await ItemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+                file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
             }
             catch (Exception ex)
             {
@@ -397,7 +399,7 @@ namespace Files.View_Models.Properties
                 var lines = await FileIO.ReadTextAsync(file);
                 obj = JObject.Parse(lines);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
@@ -420,7 +422,7 @@ namespace Files.View_Models.Properties
 
             try
             {
-                file = await ItemViewModel.GetFileFromPathAsync(Item.ItemPath);
+                file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(Item.ItemPath);
                 SavePropertiesAsync(file);
             }
             catch (Exception e)
@@ -456,7 +458,7 @@ namespace Files.View_Models.Properties
             StorageFile file = null;
             try
             {
-                file = await ItemViewModel.GetFileFromPathAsync(Item.ItemPath);
+                file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(Item.ItemPath);
             }
             catch
             {
@@ -482,7 +484,7 @@ namespace Files.View_Models.Properties
                     var tmpItem = (ShortcutItem)Item;
                     if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
                         return;
-                    if (App.Connection != null)
+                    if (AppInstance.FilesystemViewModel.Connection != null)
                     {
                         var value = new ValueSet()
                         {
@@ -494,7 +496,7 @@ namespace Files.View_Models.Properties
                             { "workingdir", ViewModel.ShortcutItemWorkingDir },
                             { "runasadmin", tmpItem.RunAsAdmin },
                         };
-                        await App.Connection.SendMessageAsync(value);
+                        await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(value);
                     }
                     break;
             }

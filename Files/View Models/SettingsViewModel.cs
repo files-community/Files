@@ -28,6 +28,9 @@ namespace Files.View_Models
         private readonly ApplicationDataContainer _roamingSettings;
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
+        public event EventHandler SortOptionPreferenceUpdated;
+        public event EventHandler SortDirectionPreferenceUpdated;
+
         public DrivesManager DrivesManager { get; }
 
         public TerminalController TerminalController { get; set; }
@@ -108,7 +111,7 @@ namespace Files.View_Models
             set
             {
                 SortOptionByte = (byte)value;
-                App.CurrentInstance?.FilesystemViewModel?.UpdateSortOptionStatus();
+                SortOptionPreferenceUpdated?.Invoke(this, new EventArgs());
             }
         }
 
@@ -118,7 +121,7 @@ namespace Files.View_Models
             set
             {
                 SortDirectionByte = (byte)value;
-                App.CurrentInstance?.FilesystemViewModel?.UpdateSortDirectionStatus();
+                SortDirectionPreferenceUpdated?.Invoke(this, new EventArgs());
             }
         }
 

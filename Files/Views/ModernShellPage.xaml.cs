@@ -68,9 +68,22 @@ namespace Files.Views.Pages
                 (NavigationToolbar as ModernNavigationToolbar).ToolbarPathItemLoaded += ModernShellPage_ToolbarPathItemLoaded;
                 (NavigationToolbar as ModernNavigationToolbar).AddressBarTextEntered += ModernShellPage_AddressBarTextEntered;
                 (NavigationToolbar as ModernNavigationToolbar).PathBoxItemDropped += ModernShellPage_PathBoxItemDropped;
+
+                (NavigationToolbar as ModernNavigationToolbar).BackRequested += ModernShellPage_BackNavRequested;
+                (NavigationToolbar as ModernNavigationToolbar).ForwardRequested += ModernShellPage_ForwardNavRequested;
+                (NavigationToolbar as ModernNavigationToolbar).UpRequested += ModernShellPage_UpNavRequested;
+                (NavigationToolbar as ModernNavigationToolbar).RefreshRequested += ModernShellPage_RefreshRequested;
+
             }
 
+            SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
+            SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
+            SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
+            SidebarControl.RecycleBinItemRightTapped += SidebarControl_RecycleBinItemRightTapped;
             NavigationToolbar.ItemDraggedOverPathItem += ModernShellPage_NavigationRequested;
+            AppSettings.SortDirectionPreferenceUpdated += AppSettings_SortDirectionPreferenceUpdated;
+            AppSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
+
             NavigationToolbar.PathControlDisplayText = ResourceController.GetTranslation("NewTab");
             NavigationToolbar.CanGoBack = false;
             NavigationToolbar.CanGoForward = false;
@@ -81,15 +94,145 @@ namespace Files.Views.Pages
             Clipboard_ContentChanged(null, null);
         }
 
+        private void ModernShellPage_RefreshRequested(object sender, EventArgs e)
+        {
+            Refresh_Click();
+        }
+
+        private void ModernShellPage_UpNavRequested(object sender, EventArgs e)
+        {
+            Up_Click();
+        }
+
+        private void ModernShellPage_ForwardNavRequested(object sender, EventArgs e)
+        {
+            Forward_Click();
+        }
+
+        private void ModernShellPage_BackNavRequested(object sender, EventArgs e)
+        {
+            Back_Click();
+        }
+
+        private async void SidebarControl_RecycleBinItemRightTapped(object sender, EventArgs e)
+        {
+            var value = new ValueSet
+                {
+                    { "Arguments", "RecycleBin" },
+                    { "action", "Query" }
+                };
+
+            var response = await Connection.SendMessageAsync(value);
+            if (response.Status == AppServiceResponseStatus.Success && response.Message.TryGetValue("NumItems", out var numItems))
+            {
+                SidebarControl.RecycleBinHasItems = (long)numItems > 0;
+            }
+            else
+            {
+                SidebarControl.RecycleBinHasItems = false;
+            }
+        }
+
+        private void SidebarControl_SidebarItemDropped(object sender, Controls.SidebarItemDroppedEventArgs e)
+        {
+            InteractionOperations.ItemOperationCommands.PasteItemWithStatus(e.Package, e.ItemPath, e.AcceptedOperation);
+        }
+
+        private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, Controls.SidebarItemPropertiesInvokedEventArgs e)
+        {
+            if (e.InvokedItemDataContext is DriveItem)
+            {
+                await InteractionOperations.OpenPropertiesWindow(e.InvokedItemDataContext);
+            }
+            else if (e.InvokedItemDataContext is LocationItem)
+            {
+                ListedItem listedItem = new ListedItem(null)
+                {
+                    ItemPath = (e.InvokedItemDataContext as LocationItem).Path,
+                    ItemName = (e.InvokedItemDataContext as LocationItem).Text,
+                    PrimaryItemAttribute = Windows.Storage.StorageItemTypes.Folder,
+                    ItemType = ResourceController.GetTranslation("FileFolderListItem"),
+                    LoadFolderGlyph = true
+                };
+                await InteractionOperations.OpenPropertiesWindow(listedItem);
+            }
+        }
+
+        private void SidebarControl_SidebarItemInvoked(object sender, Controls.SidebarItemInvokedEventArgs e)
+        {
+            var invokedItemContainer = e.InvokedItemContainer;
+
+            string navigationPath; // path to navigate
+            Type sourcePageType = null; // type of page to navigate
+
+            switch ((invokedItemContainer.DataContext as INavigationControlItem).ItemType)
+            {
+                case NavigationControlItemType.Location:
+                    {
+                        var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem).Path; // Get the path of the invoked item
+
+                        if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
+                        {
+                            if (ItemPath.Equals(SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase)) return; // return if already selected
+
+                            navigationPath = ResourceController.GetTranslation("NewTab");
+                            sourcePageType = typeof(YourHome);
+                        }
+                        else // Any other item
+                        {
+                            navigationPath = invokedItemContainer.Tag.ToString();
+                        }
+
+                        break;
+                    }
+                case NavigationControlItemType.OneDrive:
+                    {
+                        navigationPath = App.AppSettings.OneDrivePath;
+                        break;
+                    }
+                default:
+                    {
+                        navigationPath = invokedItemContainer.Tag.ToString();
+                        break;
+                    }
+            }
+
+            if (string.IsNullOrEmpty(navigationPath) ||
+                (!string.IsNullOrEmpty(FilesystemViewModel.WorkingDirectory) &&
+                navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
+                    FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
+                    StringComparison.OrdinalIgnoreCase))) // return if already selected
+            {
+                return;
+            }
+
+            ContentFrame.Navigate(
+                sourcePageType == null ? App.AppSettings.GetLayoutType() : sourcePageType,
+                navigationPath,
+                new SuppressNavigationTransitionInfo());
+
+            NavigationToolbar.PathControlDisplayText = FilesystemViewModel.WorkingDirectory;
+        }
+
+        private void AppSettings_SortDirectionPreferenceUpdated(object sender, EventArgs e)
+        {
+            FilesystemViewModel?.UpdateSortDirectionStatus();
+        }
+
+        private void AppSettings_SortOptionPreferenceUpdated(object sender, EventArgs e)
+        {
+            FilesystemViewModel?.UpdateSortOptionStatus();
+        }
+
         private void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
         {
             if (args.CurrentPoint.Properties.IsXButton1Pressed)
             {
-                Back_Click(null, null);
+                Back_Click();
             }
             else if (args.CurrentPoint.Properties.IsXButton2Pressed)
             {
-                Forward_Click(null, null);
+                Forward_Click();
             }
         }
 
@@ -364,7 +507,7 @@ namespace Files.Views.Pages
                 if (ContentFrame.CanGoBack)
                 {
                     e.Handled = true;
-                    Back_Click(null, null);
+                    Back_Click();
                 }
                 else
                 {
@@ -668,7 +811,7 @@ namespace Files.Views.Pages
                     break;
 
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
-                    Refresh_Click(null, null);
+                    Refresh_Click();
                     break;
 
                 case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
@@ -691,7 +834,7 @@ namespace Files.Views.Pages
             }
         }
 
-        public async void Refresh_Click(object sender, RoutedEventArgs e)
+        public async void Refresh_Click()
         {
             NavigationToolbar.CanRefresh = false;
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
@@ -701,7 +844,7 @@ namespace Files.Views.Pages
             });
         }
 
-        public void Back_Click(object sender, RoutedEventArgs e)
+        public void Back_Click()
         {
             NavigationToolbar.CanGoBack = false;
             Frame instanceContentFrame = ContentFrame;
@@ -715,7 +858,7 @@ namespace Files.Views.Pages
             }
         }
 
-        public async void Forward_Click(object sender, RoutedEventArgs e)
+        public async void Forward_Click()
         {
             NavigationToolbar.CanGoForward = false;
             Frame instanceContentFrame = ContentFrame;
@@ -731,7 +874,7 @@ namespace Files.Views.Pages
             }
         }
 
-        public void Up_Click(object sender, RoutedEventArgs e)
+        public void Up_Click()
         {
             NavigationToolbar.CanNavigateToParent = false;
             Frame instanceContentFrame = ContentFrame;
@@ -777,6 +920,10 @@ namespace Files.Views.Pages
             AppSettings.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
             NavigationToolbar.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
             NavigationToolbar.QuerySubmitted -= NavigationToolbar_QuerySubmitted;
+            SidebarControl.SidebarItemInvoked -= SidebarControl_SidebarItemInvoked;
+            SidebarControl.SidebarItemPropertiesInvoked -= SidebarControl_SidebarItemPropertiesInvoked;
+            SidebarControl.SidebarItemDropped -= SidebarControl_SidebarItemDropped;
+            SidebarControl.RecycleBinItemRightTapped -= SidebarControl_RecycleBinItemRightTapped;
 
             if ((NavigationToolbar as ModernNavigationToolbar) != null)
             {
@@ -788,6 +935,8 @@ namespace Files.Views.Pages
                 (NavigationToolbar as ModernNavigationToolbar).PathBoxItemDropped -= ModernShellPage_PathBoxItemDropped;
             }
 
+            AppSettings.SortDirectionPreferenceUpdated -= AppSettings_SortDirectionPreferenceUpdated;
+            AppSettings.SortOptionPreferenceUpdated -= AppSettings_SortOptionPreferenceUpdated;
             NavigationToolbar.ItemDraggedOverPathItem -= ModernShellPage_NavigationRequested;
         }
     }

@@ -170,7 +170,7 @@
                                 x:Name="EmptyRecycleBin"
                                 x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
                                 x:Load="{x:Bind ShowEmptyRecycleBin, Mode=OneWay}"
-                                Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.EmptyRecycleBin_ClickAsync}"
+                                Click="EmptyRecycleBin_Click"
                                 IsEnabled="{x:Bind RecycleBinHasItems, Mode=OneWay}"
                                 Text="Empty recycle bin">
                                 <MenuFlyoutItem.Icon>

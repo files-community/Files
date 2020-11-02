@@ -4,6 +4,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
+using Files.Views;
 using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
@@ -17,6 +18,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.System;
+using Windows.UI.Composition.Interactions;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -47,12 +49,38 @@ namespace Files.UserControls
         public event ToolbarQuerySubmittedEventHandler QuerySubmitted;
         public event AddressBarTextEnteredEventHandler AddressBarTextEntered;
         public event PathBoxItemDroppedEventHandler PathBoxItemDropped;
+        public event EventHandler BackRequested;
+        public event EventHandler ForwardRequested;
+        public event EventHandler UpRequested;
+        public event EventHandler RefreshRequested;
+
+        public bool IsPageTypeNotHome { get; set; }
+        public bool IsCreateButtonEnabledInPage { get; set; }
+        public bool CanCreateFileInPage { get; set; }
+        public bool CanOpenTerminalInPage { get; set; }
+
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public ModernNavigationToolbar()
         {
             this.InitializeComponent();
+            InteractionOperations = (this.DataContext as Interaction);
+            this.Loaded += ModernNavigationToolbar_Loaded;
         }
+
+        private void ModernNavigationToolbar_Loaded(object sender, RoutedEventArgs e)
+        {
+            ToolbarNewFolderItem.Click += ToolbarNewFolderItem_Click;
+            ToolbarNewImageItem.Click += ToolbarNewImageItem_Click;
+            ToolbarNewDocumentItem.Click += ToolbarNewDocumentItem_Click;
+            this.Loaded -= ModernNavigationToolbar_Loaded;
+        }
+
+        private void ToolbarNewDocumentItem_Click(object sender, RoutedEventArgs e) => InteractionOperations.NewTextDocument();
+
+        private void ToolbarNewImageItem_Click(object sender, RoutedEventArgs e) => InteractionOperations.NewBitmapImage();
+
+        private void ToolbarNewFolderItem_Click(object sender, RoutedEventArgs e) => InteractionOperations.NewFolder();
 
         private bool manualEntryBoxLoaded = false;
 
@@ -147,7 +175,7 @@ namespace Files.UserControls
             Interaction.FindChild<TextBox>(VisiblePath)?.SelectAll();
         }
 
-        bool INavigationToolbar.CanRefresh
+        public bool CanRefresh
         {
             get
             {
@@ -159,7 +187,7 @@ namespace Files.UserControls
             }
         }
 
-        bool INavigationToolbar.CanNavigateToParent
+        public bool CanNavigateToParent
         {
             get
             {
@@ -171,7 +199,7 @@ namespace Files.UserControls
             }
         }
 
-        bool INavigationToolbar.CanGoBack
+        public bool CanGoBack
         {
             get
             {
@@ -183,7 +211,7 @@ namespace Files.UserControls
             }
         }
 
-        bool INavigationToolbar.CanGoForward
+        public bool CanGoForward
         {
             get
             {
@@ -208,16 +236,12 @@ namespace Files.UserControls
             }
         }
 
-        private readonly ObservableCollection<PathBoxItem> pathComponents = new ObservableCollection<PathBoxItem>();
-
-
-
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        ObservableCollection<PathBoxItem> INavigationToolbar.PathComponents => pathComponents;
+        public ObservableCollection<PathBoxItem> PathComponents { get; } = new ObservableCollection<PathBoxItem>();
 
         public UserControl MultiTaskingControl => VerticalTabs;
 
@@ -464,8 +488,39 @@ namespace Files.UserControls
 
         private void VerticalTabStripInvokeButton_Loaded(object sender, RoutedEventArgs e)
         {
-            App.MultitaskingControl = VerticalTabs;
+            MainPage.MultitaskingControl = VerticalTabs;
         }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            BackRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void Forward_Click(object sender, RoutedEventArgs e)
+        {
+            ForwardRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void Up_Click(object sender, RoutedEventArgs e)
+        {
+            UpRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        private Interaction InteractionOperations;
+        private void NavToolbarNewTab_Click(object sender, RoutedEventArgs e) => InteractionOperations.OpenNewTab();
+
+        private void CopyPathButton_Click(object sender, RoutedEventArgs e) => InteractionOperations.CopyLocation_ClickAsync();
+
+        private void PasteButton_Click(object sender, RoutedEventArgs e) => InteractionOperations.PasteItem();
+
+        private void OpenInTerminalButton_Click(object sender, RoutedEventArgs e) => InteractionOperations.OpenDirectoryInTerminal();
+
+        private void NavToolbarNewWindow_Click(object sender, RoutedEventArgs e) => InteractionOperations.LaunchNewWindow();
     }
 
 }

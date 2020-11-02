@@ -3,6 +3,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
+using Files.Views;
 using Files.Views.Pages;
 using System;
 using System.IO;
@@ -85,8 +86,8 @@ namespace Files
             AppInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
             AppInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
             AppInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
-            App.MultitaskingControl?.SetSelectedTabInfo(parameters.NavPathParam, null);
-            App.MultitaskingControl?.SelectionChanged();
+            MainPage.MultitaskingControl?.SetSelectedTabInfo(parameters.NavPathParam, null);
+            MainPage.MultitaskingControl?.SelectionChanged();
             AppInstance.NavigationToolbar.CanRefresh = false;
             AppInstance.NavigationToolbar.CanGoBack = AppInstance.ContentFrame.CanGoBack;
             AppInstance.NavigationToolbar.CanGoForward = AppInstance.ContentFrame.CanGoForward;

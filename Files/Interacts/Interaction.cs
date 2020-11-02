@@ -109,7 +109,7 @@ namespace Files.Interacts
             await MainPage.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
         }
 
-        public async void OpenInNewWindowItem_Click(object sender, RoutedEventArgs e)
+        public async void OpenInNewWindowItem_Click()
         {
             var items = AssociatedInstance.ContentPage.SelectedItems;
             foreach (ListedItem listedItem in items)
@@ -120,7 +120,7 @@ namespace Files.Interacts
             }
         }
 
-        public async void OpenDirectoryInNewTab_Click(object sender, RoutedEventArgs e)
+        public async void OpenDirectoryInNewTab_Click()
         {
             foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
             {
@@ -131,7 +131,7 @@ namespace Files.Interacts
             }
         }
 
-        public async void OpenPathInNewTab(string path)
+        public static async void OpenPathInNewTab(string path)
         {
             await MainPage.AddNewTab(typeof(ModernShellPage), path);
         }
@@ -142,7 +142,7 @@ namespace Files.Interacts
             return await Launcher.LaunchUriAsync(folderUri);
         }
 
-        public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
+        public async void OpenDirectoryInTerminal()
         {
             var terminal = AppSettings.TerminalController.Model.GetDefaultTerminal();
 
@@ -529,13 +529,13 @@ namespace Files.Interacts
 
         public void CloseTab()
         {
-            if (App.MultitaskingControl.Items.Count == 1)
+            if (MainPage.MultitaskingControl.Items.Count == 1)
             {
                 App.CloseApp();
             }
-            else if (App.MultitaskingControl.Items.Count > 1)
+            else if (MainPage.MultitaskingControl.Items.Count > 1)
             {
-                App.MultitaskingControl.Items.RemoveAt(App.InteractionViewModel.TabStripSelectedIndex);
+                MainPage.MultitaskingControl.Items.RemoveAt(App.InteractionViewModel.TabStripSelectedIndex);
             }
         }
 
@@ -1062,7 +1062,7 @@ namespace Files.Interacts
             }
         }
 
-        public void CopyLocation_ClickAsync(object sender, RoutedEventArgs e)
+        public void CopyLocation_ClickAsync()
         {
             if (AssociatedInstance.ContentPage != null)
             {
@@ -1080,7 +1080,7 @@ namespace Files.Interacts
             Abort
         }
 
-        public async void EmptyRecycleBin_ClickAsync(object sender, RoutedEventArgs e)
+        public async void EmptyRecycleBin_ClickAsync()
         {
             var ConfirmEmptyBinDialog = new ContentDialog()
             {
@@ -1106,6 +1106,14 @@ namespace Files.Interacts
         }
 
         public void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            DataPackageView packageView = Clipboard.GetContent();
+            string destinationPath = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
+
+            ItemOperationCommands.PasteItemWithStatus(packageView, destinationPath, packageView.RequestedOperation);
+        }
+
+        public void PasteItem()
         {
             DataPackageView packageView = Clipboard.GetContent();
             string destinationPath = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
@@ -1171,6 +1179,21 @@ namespace Files.Interacts
         }
 
         public void NewBitmapImage_Click(object sender, RoutedEventArgs e)
+        {
+            CreateFileFromDialogResultType(AddItemType.BitmapImage);
+        }
+
+        public void NewFolder()
+        {
+            CreateFileFromDialogResultType(AddItemType.Folder);
+        }
+
+        public void NewTextDocument()
+        {
+            CreateFileFromDialogResultType(AddItemType.TextDocument);
+        }
+
+        public void NewBitmapImage()
         {
             CreateFileFromDialogResultType(AddItemType.BitmapImage);
         }

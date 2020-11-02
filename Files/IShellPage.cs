@@ -3,6 +3,7 @@ using Files.Interacts;
 using Files.UserControls;
 using Files.View_Models;
 using System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Files
@@ -21,5 +22,6 @@ namespace Files
         public INavigationToolbar NavigationToolbar { get; }
         public bool IsCurrentInstance { get; set; }
         public abstract void Clipboard_ContentChanged(object sender, object e);
+        public abstract void Refresh_Click();
     }
 }

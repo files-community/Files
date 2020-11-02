@@ -258,13 +258,13 @@ namespace Files
             ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
             ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
 
-            if (App.MultitaskingControl != null)
+            if (MainPage.MultitaskingControl != null)
             {
-                await App.MultitaskingControl.SetSelectedTabInfo(new DirectoryInfo(workingDir).Name, workingDir);
+                await MainPage.MultitaskingControl.SetSelectedTabInfo(new DirectoryInfo(workingDir).Name, workingDir);
             }
             ParentShellPageInstance.FilesystemViewModel.RefreshItems();
 
-            App.MultitaskingControl?.SelectionChanged();
+            MainPage.MultitaskingControl?.SelectionChanged();
             ParentShellPageInstance.Clipboard_ContentChanged(null, null);
             ParentShellPageInstance.NavigationToolbar.PathControlDisplayText = parameters.NavPathParam;
         }
