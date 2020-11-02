@@ -194,10 +194,13 @@ namespace Files.UserControls
                     var item = dataGridRowsPosition.OrderBy(x => x.Value.Y).SkipWhile(x => x.Value.Y <= verticalOffset + uiElement.ActualHeight).Select(x => x.Key).FirstOrDefault();
                     if (item == null)
                     {
-                        // Last loaded item is fully visible, ge thet next one from bound item source
-                        var index = dataGridRowsPosition.OrderBy(x => x.Value.Y).Last().Key.GetIndex();
-                        var source = (System.Collections.IList)uiElement.ItemsSource;
-                        uiElement.ScrollIntoView(source[Math.Min(Math.Max(index + 1, 0), source.Count - 1)], null);
+                        if (dataGridRowsPosition.Any())
+                        {
+                            // Last loaded item is fully visible, ge thet next one from bound item source
+                            var index = dataGridRowsPosition.OrderBy(x => x.Value.Y).Last().Key.GetIndex();
+                            var source = (System.Collections.IList)uiElement.ItemsSource;
+                            uiElement.ScrollIntoView(source[Math.Min(Math.Max(index + 1, 0), source.Count - 1)], null);
+                        }
                     }
                     else
                     {
@@ -211,10 +214,13 @@ namespace Files.UserControls
                     var item = dataGridRowsPosition.OrderBy(x => x.Value.Y).TakeWhile(x => x.Value.Y + x.Value.Height <= scrollBar.Value).Select(x => x.Key).LastOrDefault();
                     if (item == null)
                     {
-                        // First loaded item is fully visible, ge thet previous one from bound item source
-                        var index = dataGridRowsPosition.OrderBy(x => x.Value.Y).First().Key.GetIndex();
-                        var source = (System.Collections.IList)uiElement.ItemsSource;
-                        uiElement.ScrollIntoView(source[Math.Min(Math.Max(index - 1, 0), source.Count - 1)], null);
+                        if (dataGridRowsPosition.Any())
+                        {
+                            // First loaded item is fully visible, ge thet previous one from bound item source
+                            var index = dataGridRowsPosition.OrderBy(x => x.Value.Y).First().Key.GetIndex();
+                            var source = (System.Collections.IList)uiElement.ItemsSource;
+                            uiElement.ScrollIntoView(source[Math.Min(Math.Max(index - 1, 0), source.Count - 1)], null);
+                        }
                     }
                     else
                     {

@@ -4,6 +4,7 @@ using Files.Filesystem;
 using Files.Interacts;
 using Files.UserControls;
 using Files.View_Models;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Linq;
 using Windows.ApplicationModel.Resources.Core;
@@ -40,7 +41,7 @@ namespace Files.Views.Pages
             }
 
             App.CurrentInstance = this as IShellPage;
-            App.CurrentInstance.NavigationToolbar.PathControlDisplayText = ResourceController.GetTranslation("NewTab");
+            App.CurrentInstance.NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
             App.CurrentInstance.NavigationToolbar.CanGoBack = false;
             App.CurrentInstance.NavigationToolbar.CanGoForward = false;
         }
@@ -162,7 +163,7 @@ namespace Files.Views.Pages
                     break;
 
                 default:
-                    if (NavParams == ResourceController.GetTranslation("NewTab"))
+                    if (NavParams == "NewTab".GetLocalized())
                     {
                         ItemDisplayFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
                         SidebarControl.SelectedSidebarItem = MainPage.sideBarItems[0];

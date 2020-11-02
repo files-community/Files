@@ -7,20 +7,12 @@
       "path": "cmd.exe",
       "arguments": "",
       "icon": ""
-    }
-    /*
-    {
-      "name": "PowerShell Core 6",
-      "path": "pwsh.exe",
-      "arguments": "",
-      "icon": ""
     },
     {
-      "name": "Windows Terminal",
-      "path": "wt.exe",
-      "arguments": "-d .",
+      "name": "PowerShell",
+      "path": "powershell.exe",
+      "arguments": "-noexit -command \"cd '{0}'\"",
       "icon": ""
-    }
-    */
+      }
   ]
 }

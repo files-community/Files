@@ -4,6 +4,7 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.IO;
@@ -52,7 +53,7 @@ namespace Files.View_Models.Properties
                 if (Item.IsShortcutItem)
                 {
                     var shortcutItem = (ShortcutItem)Item;
-                    ViewModel.ShortcutItemType = ResourceController.GetTranslation("PropertiesShortcutTypeFolder");
+                    ViewModel.ShortcutItemType = "PropertiesShortcutTypeFolder".GetLocalized();
                     ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
                     ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
                     ViewModel.ShortcutItemWorkingDirVisibility = Visibility.Collapsed;
@@ -76,7 +77,7 @@ namespace Files.View_Models.Properties
             {
                 ViewModel.ItemSizeVisibility = Visibility.Visible;
                 ViewModel.ItemSize = ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()
-                    + " (" + ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
+                    + " (" + ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + "ItemSizeBytes".GetLocalized() + ")";
                 ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
                 ViewModel.ItemAccessedTimestamp = Item.ItemDateAccessed;
                 if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
@@ -210,7 +211,7 @@ namespace Files.View_Models.Properties
                 var folderSize = await fileSizeTask;
                 ViewModel.ItemSizeBytes = folderSize;
                 ViewModel.ItemSize = ByteSize.FromBytes(folderSize).ToBinaryString().ConvertSizeAbbreviation()
-                    + " (" + ByteSize.FromBytes(folderSize).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
+                    + " (" + ByteSize.FromBytes(folderSize).Bytes.ToString("#,##0") + " " + "ItemSizeBytes".GetLocalized() + ")";
             }
             catch (Exception ex)
             {

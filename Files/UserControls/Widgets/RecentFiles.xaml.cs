@@ -3,6 +3,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -149,7 +150,8 @@ namespace Files
             var path = (e.ClickedItem as RecentItem).RecentPath;
             try
             {
-                await Interaction.InvokeWin32Component(path);
+                var directoryName = Path.GetDirectoryName(path);
+                await Interaction.InvokeWin32Component(path, workingDir: directoryName);
             }
             catch (UnauthorizedAccessException)
             {
@@ -177,8 +179,8 @@ namespace Files
             catch (COMException)
             {
                 await DialogDisplayHelper.ShowDialog(
-                    ResourceController.GetTranslation("DriveUnpluggedDialog/Title"),
-                    ResourceController.GetTranslation("DriveUnpluggedDialog/Text"));
+                    "DriveUnpluggedDialog/Title".GetLocalized(),
+                    "DriveUnpluggedDialog/Text".GetLocalized());
             }
         }
 

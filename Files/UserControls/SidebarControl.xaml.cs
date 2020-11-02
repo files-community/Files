@@ -1,7 +1,12 @@
 ﻿using Files.Commands;
+using Files.Controllers;
+using Files.DataModels;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
+using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,6 +25,11 @@ namespace Files.Controls
     public sealed partial class SidebarControl : UserControl, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+
+        /// <summary>
+        /// The Model for the pinned sidebar items
+        /// </summary>
+        public SidebarPinnedModel SidebarPinnedModel => App.SidebarPinnedController.Model;
 
         public SidebarControl()
         {
@@ -44,8 +54,14 @@ namespace Files.Controls
             }
         }
 
+        /// <summary>
+        /// ShowUnpinItem property indicating whether the unpin button should by displayed when right-clicking an item in the navigation bar
+        /// </summary>
         private bool _ShowUnpinItem;
 
+        /// <summary>
+        /// Binding property for the MenuFlyoutItem SideBarUnpinFromSideBar
+        /// </summary>
         public bool ShowUnpinItem
         {
             get
@@ -125,30 +141,35 @@ namespace Files.Controls
 
         private void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            string navigationPath; // path to navigate
-            Type sourcePageType = null; // type of page to navigate
-
             if (args.InvokedItem == null)
             {
                 return;
             }
 
-            switch ((args.InvokedItemContainer.DataContext as INavigationControlItem).ItemType)
+            OpenSidebarItem(args.InvokedItemContainer);
+        }
+
+        private void OpenSidebarItem(Microsoft.UI.Xaml.Controls.NavigationViewItemBase invokedItemContainer)
+        {
+            string navigationPath; // path to navigate
+            Type sourcePageType = null; // type of page to navigate
+
+            switch ((invokedItemContainer.DataContext as INavigationControlItem).ItemType)
             {
                 case NavigationControlItemType.Location:
                     {
-                        var ItemPath = (args.InvokedItemContainer.DataContext as INavigationControlItem).Path; // Get the path of the invoked item
+                        var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem).Path; // Get the path of the invoked item
 
                         if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
                         {
                             if (ItemPath.Equals(SelectedSidebarItem?.Path, StringComparison.OrdinalIgnoreCase)) return; // return if already selected
 
-                            navigationPath = ResourceController.GetTranslation("NewTab");
+                            navigationPath = "NewTab".GetLocalized();
                             sourcePageType = typeof(YourHome);
                         }
                         else // Any other item
                         {
-                            navigationPath = args.InvokedItemContainer.Tag.ToString();
+                            navigationPath = invokedItemContainer.Tag.ToString();
                         }
 
                         break;
@@ -160,7 +181,7 @@ namespace Files.Controls
                     }
                 default:
                     {
-                        navigationPath = args.InvokedItemContainer.Tag.ToString();
+                        navigationPath = invokedItemContainer.Tag.ToString();
                         break;
                     }
             }
@@ -257,68 +278,163 @@ namespace Files.Controls
             await Interaction.OpenPathInNewWindow(App.rightClickedItem.Path.ToString());
         }
 
+        private void NavigationViewItem_DragStarting(UIElement sender, DragStartingEventArgs args)
+        {
+            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem))
+            {
+                return;
+            }
+
+            if(AppSettings.SortPinnedItemsByDragging == false)
+            {
+                args.Cancel = true;
+                return;
+            }
+
+            // Adding the original Location item dragged to the DragEvents data view
+            var navItem = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem);
+            args.Data.Properties.Add("sourceLocationItem", navItem);
+        }
+        
+        private object dragOverItem = null;
+        
+        private DispatcherTimer dragOverTimer = new DispatcherTimer();
+
         private void NavigationViewItem_DragEnter(object sender, DragEventArgs e)
         {
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragEnter", false);
+
+            if ((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is INavigationControlItem)
+            {
+                dragOverItem = sender;
+                dragOverTimer.Stop();
+                dragOverTimer.Debounce(() =>
+                {
+                    if (dragOverItem != null)
+                    {
+                        dragOverTimer.Stop();
+                        OpenSidebarItem(dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItem);
+                        dragOverItem = null;
+                    }
+                }, TimeSpan.FromMilliseconds(1000), false);
+            }
         }
 
         private void NavigationViewItem_DragLeave(object sender, DragEventArgs e)
         {
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "DragLeave", false);
+
+            if ((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is INavigationControlItem)
+            {
+                if (sender == dragOverItem)
+                {
+                    // Reset dragged over item
+                    dragOverItem = null;
+                }
+            }
         }
 
         private async void NavigationViewLocationItem_DragOver(object sender, DragEventArgs e)
         {
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem) ||
-                !e.DataView.Contains(StandardDataFormats.StorageItems)) return;
-
-            var deferral = e.GetDeferral();
-            e.Handled = true;
-            IReadOnlyList<IStorageItem> storageItems;
-            try
+            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem))
             {
-                storageItems = await e.DataView.GetStorageItemsAsync();
-            }
-            catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
-            {
-                e.AcceptedOperation = DataPackageOperation.None;
-                deferral.Complete();
                 return;
             }
 
-            if (storageItems.Count == 0 ||
-                locationItem.IsDefaultLocation ||
-                locationItem.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
-                storageItems.AreItemsAlreadyInFolder(locationItem.Path))
+            // If the dragged item is a folder or file from a file system
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                e.AcceptedOperation = DataPackageOperation.None;
-            }
-            else
-            {
-                e.DragUIOverride.IsCaptionVisible = true;
-                if (storageItems.AreItemsInSameDrive(locationItem.Path))
+                var deferral = e.GetDeferral();
+                e.Handled = true;
+                IReadOnlyList<IStorageItem> storageItems;
+                try
                 {
-                    e.AcceptedOperation = DataPackageOperation.Move;
-                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), locationItem.Text);
+                    storageItems = await e.DataView.GetStorageItemsAsync();
+                }
+                catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
+                    deferral.Complete();
+                    return;
+                }
+
+                if (storageItems.Count == 0 ||
+                    locationItem.IsDefaultLocation ||
+                    locationItem.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
+                    storageItems.AreItemsAlreadyInFolder(locationItem.Path))
+                {
+                    e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.None;
                 }
                 else
                 {
-                    e.AcceptedOperation = DataPackageOperation.Copy;
-                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("CopyToFolderCaptionText"), locationItem.Text);
+                    e.DragUIOverride.IsCaptionVisible = true;
+                    if (storageItems.AreItemsInSameDrive(locationItem.Path))
+                    {
+                        e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+                        e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), locationItem.Text);
+                    }
+                    else
+                    {
+                        e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy;
+                        e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
+                    }
                 }
+
+                deferral.Complete();
             }
-            deferral.Complete();
+            else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem sourceLocationItem)
+            {
+                // else if the drag over event is called over a location item
+
+                NavigationViewLocationItem_DragOver_SetCaptions(locationItem, sourceLocationItem, e);
+            }
+        }
+
+        /// <summary>
+        /// Sets the captions when dragging a location item over another location item
+        /// </summary>
+        /// <param name="senderLocationItem">The location item which fired the DragOver event</param>
+        /// <param name="sourceLocationItem">The source location item</param>
+        /// <param name="e">DragEvent args</param>
+        private void NavigationViewLocationItem_DragOver_SetCaptions(LocationItem senderLocationItem, LocationItem sourceLocationItem, DragEventArgs e)
+        {
+            // If the location item is the same as the original dragged item or the default location (home button), the dragging should be disabled
+            if (sourceLocationItem.Equals(senderLocationItem) || senderLocationItem.IsDefaultLocation == true)
+            {
+                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.None;
+                e.DragUIOverride.IsCaptionVisible = false;
+            }
+            else
+            {
+                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+                e.DragUIOverride.IsCaptionVisible = true;
+                e.DragUIOverride.Caption = "PinToSidebarByDraggingCaptionText".GetLocalized();
+            }
         }
 
         private void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
         {
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem)) return;
+            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem))
+            {
+                return;
+            }
 
-            VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
+            // If the dropped item is a folder or file from a file system
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
-            var deferral = e.GetDeferral();
-            ItemOperations.PasteItemWithStatus(e.DataView, locationItem.Path, e.AcceptedOperation);
-            deferral.Complete();
+                var deferral = e.GetDeferral();
+                ItemOperations.PasteItemWithStatus(e.DataView, locationItem.Path, e.AcceptedOperation);
+                deferral.Complete();
+            }
+            else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem sourceLocationItem)
+            {
+                // Else if the dropped item is a location item
+
+                // Swap the two items
+                SidebarPinnedModel.SwapItems(sourceLocationItem, locationItem);
+            }
         }
 
         private async void NavigationViewDriveItem_DragOver(object sender, DragEventArgs e)
@@ -352,14 +468,15 @@ namespace Files.Controls
                 if (storageItems.AreItemsInSameDrive(driveItem.Path))
                 {
                     e.AcceptedOperation = DataPackageOperation.Move;
-                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), driveItem.Text);
+                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), driveItem.Text);
                 }
                 else
                 {
                     e.AcceptedOperation = DataPackageOperation.Copy;
-                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("CopyToFolderCaptionText"), driveItem.Text);
+                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), driveItem.Text);
                 }
             }
+
             deferral.Complete();
         }
 
@@ -389,7 +506,7 @@ namespace Files.Controls
                     ItemPath = (item as LocationItem).Path,
                     ItemName = (item as LocationItem).Text,
                     PrimaryItemAttribute = Windows.Storage.StorageItemTypes.Folder,
-                    ItemType = ResourceController.GetTranslation("FileFolderListItem"),
+                    ItemType = "FileFolderListItem".GetLocalized(),
                     LoadFolderGlyph = true
                 };
                 await App.CurrentInstance.InteractionOperations.OpenPropertiesWindow(listedItem);

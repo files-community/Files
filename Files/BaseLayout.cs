@@ -7,6 +7,8 @@ using Files.UserControls;
 using Files.View_Models;
 using Files.Views;
 using Files.Views.Pages;
+using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -95,12 +97,12 @@ namespace Files
 
                         if (SelectedItems.Count == 1)
                         {
-                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = SelectedItems.Count.ToString() + " " + ResourceController.GetTranslation("ItemSelected/Text");
+                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = SelectedItems.Count.ToString() + " " + "ItemSelected/Text".GetLocalized();
                             SelectedItemsPropertiesViewModel.ItemSize = SelectedItem.FileSize;
                         }
                         else
                         {
-                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = SelectedItems.Count.ToString() + " " + ResourceController.GetTranslation("ItemsSelected/Text");
+                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = SelectedItems.Count.ToString() + " " + "ItemsSelected/Text".GetLocalized();
 
                             if (SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File))
                             {
@@ -295,7 +297,7 @@ namespace Files
             {
                 var menuLayoutSubItem = new MenuFlyoutSubItem()
                 {
-                    Text = ResourceController.GetTranslation("ContextMenuMoreItemsLabel"),
+                    Text = "ContextMenuMoreItemsLabel".GetLocalized(),
                     Tag = ((Win32ContextMenuItem)null, menuHandle),
                     Icon = new FontIcon()
                     {
@@ -407,6 +409,7 @@ namespace Files
 
         public void RightClickContextMenu_Opening(object sender, object e)
         {
+            ClearSelection();
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             SetShellContextmenu(BaseLayoutContextFlyout, shiftPressed, false);
         }
@@ -600,12 +603,12 @@ namespace Files
                 }
                 else if (draggedItems.AreItemsInSameDrive(App.CurrentInstance.FilesystemViewModel.WorkingDirectory))
                 {
-                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), folderName);
+                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
                     e.AcceptedOperation = DataPackageOperation.Move;
                 }
                 else
                 {
-                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("CopyToFolderCaptionText"), folderName);
+                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
                     e.AcceptedOperation = DataPackageOperation.Copy;
                 }
             }
@@ -657,12 +660,40 @@ namespace Files
             e.DragUI.SetContentFromDataPackage();
         }
 
+        private ListedItem dragOverItem = null;
+        private DispatcherTimer dragOverTimer = new DispatcherTimer();
+
+        private void Item_DragLeave(object sender, DragEventArgs e)
+        {
+            ListedItem item = GetItemFromElement(sender);
+            if (item == dragOverItem)
+            {
+                // Reset dragged over item
+                dragOverItem = null;
+            }
+        }
+
         protected async void Item_DragOver(object sender, DragEventArgs e)
         {
             var deferral = e.GetDeferral();
 
             ListedItem item = GetItemFromElement(sender);
             SetSelectedItemOnUi(item);
+
+            if (dragOverItem != item)
+            {
+                dragOverItem = item;
+                dragOverTimer.Stop();
+                dragOverTimer.Debounce(() =>
+                {
+                    if (dragOverItem != null)
+                    {
+                        dragOverItem = null;
+                        dragOverTimer.Stop();
+                        AssociatedInteractions.OpenItem_Click(null, null);
+                    }
+                }, TimeSpan.FromMilliseconds(1000), false);
+            }
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
@@ -688,12 +719,12 @@ namespace Files
                 // Items from the same drive as this folder are dragged into this folder, so we move the items instead of copy
                 else if (draggedItems.AreItemsInSameDrive(item.ItemPath))
                 {
-                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), item.ItemName);
+                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), item.ItemName);
                     e.AcceptedOperation = DataPackageOperation.Move;
                 }
                 else
                 {
-                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("CopyToFolderCaptionText"), item.ItemName);
+                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
                     e.AcceptedOperation = DataPackageOperation.Copy;
                 }
             }
@@ -720,11 +751,13 @@ namespace Files
                 element.DragStarting -= Item_DragStarting;
                 element.DragStarting += Item_DragStarting;
                 element.DragOver -= Item_DragOver;
+                element.DragLeave -= Item_DragLeave;
                 element.Drop -= Item_Drop;
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
                     element.AllowDrop = true;
                     element.DragOver += Item_DragOver;
+                    element.DragLeave += Item_DragLeave;
                     element.Drop += Item_Drop;
                 }
             }

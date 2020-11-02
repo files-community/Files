@@ -124,7 +124,14 @@ namespace Files.Filesystem
             }
             else
             {
-                return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(value));
+                try
+                {
+                    return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(value));
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    return await GetFolderWithPathFromPathAsync(Directory.GetParent(value).FullName, rootFolder, parentFolder).ConfigureAwait(false);
+                }
             }
         }
 

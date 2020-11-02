@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.Extensions;
+using System;
 using Windows.ApplicationModel;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -12,7 +13,7 @@ namespace Files.SettingsPages
         {
             InitializeComponent();
             var version = Package.Current.Id.Version;
-            VersionNumber.Text = string.Format($"{ResourceController.GetTranslation("SettingsAboutVersionTitle")} {version.Major}.{version.Minor}.{version.Build}.{version.Revision}");
+            VersionNumber.Text = string.Format($"{"SettingsAboutVersionTitle".GetLocalized()} {version.Major}.{version.Minor}.{version.Build}.{version.Revision}");
         }
 
         private void OpenLogLocationButton_Click(object sender, RoutedEventArgs e) => View_Models.SettingsViewModel.OpenLogLocation();

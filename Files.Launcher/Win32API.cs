@@ -120,7 +120,7 @@ namespace FilesFullTrust
             if (ret == IntPtr.Zero) return (null, false);
             bool isCustom = !shfi.szDisplayName.StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.Windows));
             User32.DestroyIcon(shfi.hIcon);
-            Shell32.SHGetImageList(Shell32.SHIL.SHIL_EXTRALARGE, typeof(ComCtl32.IImageList).GUID, out var tmp);
+            Shell32.SHGetImageList(Shell32.SHIL.SHIL_LARGE, typeof(ComCtl32.IImageList).GUID, out var tmp);
             using var imageList = ComCtl32.SafeHIMAGELIST.FromIImageList(tmp);
             if (imageList.IsNull || imageList.IsInvalid) return (null, isCustom);
             var overlay_idx = shfi.iIcon >> 24;
@@ -129,13 +129,26 @@ namespace FilesFullTrust
             var overlay_image = imageList.Interface.GetOverlayImage(overlay_idx);
             using var hIcon = imageList.Interface.GetIcon(overlay_image, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
             if (hIcon.IsNull || hIcon.IsInvalid) return (null, isCustom);
-            var image = hIcon.ToIcon().ToBitmap();
+            using var image = hIcon.ToIcon().ToBitmap();
             byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
             return (Convert.ToBase64String(bitmapData, 0, bitmapData.Length), isCustom);
         }
-    }
 
-    // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.
-    // The Vanara library contains the definitions for all members of Shell32.dll, User32.dll and more
-    // The ones below are due to bugs in the current version of the library and can be removed once fixed
+        // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.
+        // The Vanara library contains the definitions for all members of Shell32.dll, User32.dll and more
+        // The ones below are due to bugs in the current version of the library and can be removed once fixed
+        // Structure used by SHQueryRecycleBin.
+        [StructLayout(LayoutKind.Sequential, Pack = 0)]
+        public struct SHQUERYRBINFO
+        {
+            public int cbSize;
+            public long i64Size;
+            public long i64NumItems;
+        }
+
+        // Get information from recycle bin.
+        [DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Auto)]
+        public static extern int SHQueryRecycleBin(string pszRootPath,
+            ref SHQUERYRBINFO pSHQueryRBInfo);
+    }
 }
