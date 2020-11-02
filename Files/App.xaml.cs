@@ -145,7 +145,7 @@ namespace Files
                 var changeType = (string)args.Request.Message["Type"];
                 var newItem = JsonConvert.DeserializeObject<ShellFileItem>(args.Request.Message.Get("Item", ""));
                 Debug.WriteLine("{0}: {1}", folderPath, changeType);
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                await CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
                 {
                     // If we are currently displaying the reycle bin lets refresh the items
                     if (CurrentInstance.FilesystemViewModel?.CurrentFolder?.ItemPath == folderPath)
@@ -157,7 +157,7 @@ namespace Files
                                 break;
 
                             case "Deleted":
-                                CurrentInstance.FilesystemViewModel.RemoveFileOrFolder(itemPath);
+                                await CurrentInstance.FilesystemViewModel.RemoveFileOrFolder(itemPath);
                                 break;
 
                             default:

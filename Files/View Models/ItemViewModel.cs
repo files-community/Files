@@ -6,6 +6,7 @@ using Files.Helpers;
 using Files.View_Models;
 using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
@@ -610,7 +611,7 @@ namespace Files.Filesystem
                 // simply drop this instance
                 await semaphoreSlim.WaitAsync(_semaphoreCTS.Token);
             }
-            catch (OperationCanceledException)
+            catch (Exception ex) when (ex is OperationCanceledException || ex is ObjectDisposedException)
             {
                 return;
             }
@@ -887,16 +888,16 @@ namespace Files.Filesystem
                     return (hFileTsk, findDataTsk);
                 }).WithTimeout(TimeSpan.FromSeconds(5));
 
-                FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemTimeOutput);
-                var itemDate = new DateTime(
-                    systemTimeOutput.Year,
-                    systemTimeOutput.Month,
-                    systemTimeOutput.Day,
-                    systemTimeOutput.Hour,
-                    systemTimeOutput.Minute,
-                    systemTimeOutput.Second,
-                    systemTimeOutput.Milliseconds,
-                    DateTimeKind.Utc);
+                DateTime itemDate = DateTime.UtcNow;
+                try
+                {
+                    FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemTimeOutput);
+                    itemDate = new DateTime(
+                        systemTimeOutput.Year, systemTimeOutput.Month, systemTimeOutput.Day,
+                        systemTimeOutput.Hour, systemTimeOutput.Minute, systemTimeOutput.Second, systemTimeOutput.Milliseconds,
+                        DateTimeKind.Utc);
+                }
+                catch (ArgumentException) { }
 
                 CurrentFolder = new ListedItem(_rootFolder.FolderRelativeId, returnformat)
                 {
@@ -1124,27 +1125,27 @@ namespace Files.Filesystem
                                     {
                                         case FILE_ACTION_ADDED:
                                             Debug.WriteLine("File " + FileName + " added to working directory.");
-                                            AddFileOrFolder(FileName, returnformat);
+                                            AddFileOrFolder(FileName, returnformat).GetAwaiter().GetResult();
                                             break;
 
                                         case FILE_ACTION_REMOVED:
                                             Debug.WriteLine("File " + FileName + " removed from working directory.");
-                                            RemoveFileOrFolder(FileName);
+                                            RemoveFileOrFolder(FileName).GetAwaiter().GetResult();
                                             break;
 
                                         case FILE_ACTION_MODIFIED:
                                             Debug.WriteLine("File " + FileName + " had attributes modified in the working directory.");
-                                            UpdateFileOrFolder(FilesAndFolders.ToList().First(x => x.ItemPath.Equals(FileName)));
+                                            UpdateFileOrFolder(FileName).GetAwaiter().GetResult();
                                             break;
 
                                         case FILE_ACTION_RENAMED_OLD_NAME:
                                             Debug.WriteLine("File " + FileName + " will be renamed in the working directory.");
-                                            RemoveFileOrFolder(FileName);
+                                            RemoveFileOrFolder(FileName).GetAwaiter().GetResult();
                                             break;
 
                                         case FILE_ACTION_RENAMED_NEW_NAME:
                                             Debug.WriteLine("File " + FileName + " was renamed in the working directory.");
-                                            AddFileOrFolder(FileName, returnformat);
+                                            AddFileOrFolder(FileName, returnformat).GetAwaiter().GetResult();
                                             break;
 
                                         default:
@@ -1248,13 +1249,13 @@ namespace Files.Filesystem
             UpdateDirectoryInfo();
         }
 
-        public void AddFileOrFolder(ListedItem item)
+        private void AddFileOrFolder(ListedItem item)
         {
             _filesAndFolders.Add(item);
             IsFolderEmptyTextDisplayed = false;
         }
 
-        private void AddFileOrFolder2(string fileOrFolderPath, string dateReturnFormat)
+        private async Task AddFileOrFolder(string fileOrFolderPath, string dateReturnFormat)
         {
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
             int additionalFlags = FIND_FIRST_EX_CASE_SENSITIVE;
@@ -1263,32 +1264,18 @@ namespace Files.Filesystem
                                                   additionalFlags);
             FindClose(hFile);
 
-            if ((findData.dwFileAttributes & 0x10) > 0) // FILE_ATTRIBUTE_DIRECTORY
+            await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
             {
-                AddFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat);
-            }
-            else
-            {
-                AddFile(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat);
-            }
-        }
-
-        private async void AddFileOrFolder(string path, string dateReturnFormat)
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                () =>
+                if ((findData.dwFileAttributes & 0x10) > 0) // FILE_ATTRIBUTE_DIRECTORY
                 {
-                    try
-                    {
-                        AddFileOrFolder2(path, dateReturnFormat);
-                    }
-                    catch (Exception)
-                    {
-                        // Ignore this..
-                    }
-
-                    UpdateDirectoryInfo();
-                });
+                    AddFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat);
+                }
+                else
+                {
+                    AddFile(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat);
+                }
+                UpdateDirectoryInfo();
+            });
         }
 
         private void UpdateDirectoryInfo()
@@ -1306,7 +1293,7 @@ namespace Files.Filesystem
             }
         }
 
-        public async void UpdateFileOrFolder(ListedItem item)
+        private async Task UpdateFileOrFolder(ListedItem item)
         {
             IStorageItem storageItem = null;
             if (item.PrimaryItemAttribute == StorageItemTypes.File)
@@ -1320,36 +1307,43 @@ namespace Files.Filesystem
             if (storageItem != null)
             {
                 var syncStatus = await CheckCloudDriveSyncStatus(storageItem);
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                    () =>
-                    {
-                        item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
-                    });
+                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                {
+                    item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+                });
             }
         }
 
-        public async void RemoveFileOrFolder(ListedItem item)
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                () =>
-                {
-                    _filesAndFolders.Remove(item);
-                    if (_filesAndFolders.Count == 0)
-                    {
-                        IsFolderEmptyTextDisplayed = true;
-                    }
-                    App.JumpList.RemoveFolder(item.ItemPath);
-
-                    UpdateDirectoryInfo();
-                });
-        }
-
-        public void RemoveFileOrFolder(string path)
+        private async Task UpdateFileOrFolder(string path)
         {
             var matchingItem = FilesAndFolders.ToList().FirstOrDefault(x => x.ItemPath.Equals(path));
             if (matchingItem != null)
             {
-                RemoveFileOrFolder(matchingItem);
+                await UpdateFileOrFolder(matchingItem);
+            }
+        }
+
+        public async Task RemoveFileOrFolder(ListedItem item)
+        {
+            await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+            {
+                _filesAndFolders.Remove(item);
+                if (_filesAndFolders.Count == 0)
+                {
+                    IsFolderEmptyTextDisplayed = true;
+                }
+                App.JumpList.RemoveFolder(item.ItemPath);
+
+                UpdateDirectoryInfo();
+            });
+        }
+
+        public async Task RemoveFileOrFolder(string path)
+        {
+            var matchingItem = FilesAndFolders.ToList().FirstOrDefault(x => x.ItemPath.Equals(path));
+            if (matchingItem != null)
+            {
+                await RemoveFileOrFolder(matchingItem);
             }
         }
 
@@ -1361,16 +1355,20 @@ namespace Files.Filesystem
                 return;
             }
 
-            FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemTimeOutput);
-            var itemDate = new DateTime(
-                systemTimeOutput.Year,
-                systemTimeOutput.Month,
-                systemTimeOutput.Day,
-                systemTimeOutput.Hour,
-                systemTimeOutput.Minute,
-                systemTimeOutput.Second,
-                systemTimeOutput.Milliseconds,
-                DateTimeKind.Utc);
+            DateTime itemDate;
+            try
+            {
+                FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemTimeOutput);
+                itemDate = new DateTime(
+                    systemTimeOutput.Year, systemTimeOutput.Month, systemTimeOutput.Day,
+                    systemTimeOutput.Hour, systemTimeOutput.Minute, systemTimeOutput.Second, systemTimeOutput.Milliseconds,
+                    DateTimeKind.Utc);
+            }
+            catch (ArgumentException)
+            {
+                // Invalid date means invalid findData, do not add to list
+                return;
+            }
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
             _filesAndFolders.Add(new ListedItem(null, dateReturnFormat)
@@ -1414,23 +1412,32 @@ namespace Files.Filesystem
                 }
             }
 
-            FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemModifiedDateOutput);
-            var itemModifiedDate = new DateTime(
-                systemModifiedDateOutput.Year, systemModifiedDateOutput.Month, systemModifiedDateOutput.Day,
-                systemModifiedDateOutput.Hour, systemModifiedDateOutput.Minute, systemModifiedDateOutput.Second, systemModifiedDateOutput.Milliseconds,
-                DateTimeKind.Utc);
+            DateTime itemModifiedDate, itemCreatedDate, itemLastAccessDate;
+            try
+            {
+                FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemModifiedDateOutput);
+                itemModifiedDate = new DateTime(
+                    systemModifiedDateOutput.Year, systemModifiedDateOutput.Month, systemModifiedDateOutput.Day,
+                    systemModifiedDateOutput.Hour, systemModifiedDateOutput.Minute, systemModifiedDateOutput.Second, systemModifiedDateOutput.Milliseconds,
+                    DateTimeKind.Utc);
 
-            FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedDateOutput);
-            var itemCreatedDate = new DateTime(
-                systemCreatedDateOutput.Year, systemCreatedDateOutput.Month, systemCreatedDateOutput.Day,
-                systemCreatedDateOutput.Hour, systemCreatedDateOutput.Minute, systemCreatedDateOutput.Second, systemCreatedDateOutput.Milliseconds,
-                DateTimeKind.Utc);
+                FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedDateOutput);
+                itemCreatedDate = new DateTime(
+                    systemCreatedDateOutput.Year, systemCreatedDateOutput.Month, systemCreatedDateOutput.Day,
+                    systemCreatedDateOutput.Hour, systemCreatedDateOutput.Minute, systemCreatedDateOutput.Second, systemCreatedDateOutput.Milliseconds,
+                    DateTimeKind.Utc);
 
-            FileTimeToSystemTime(ref findData.ftLastAccessTime, out SYSTEMTIME systemLastAccessOutput);
-            var itemLastAccessDate = new DateTime(
-                systemLastAccessOutput.Year, systemLastAccessOutput.Month, systemLastAccessOutput.Day,
-                systemLastAccessOutput.Hour, systemLastAccessOutput.Minute, systemLastAccessOutput.Second, systemLastAccessOutput.Milliseconds,
-                DateTimeKind.Utc);
+                FileTimeToSystemTime(ref findData.ftLastAccessTime, out SYSTEMTIME systemLastAccessOutput);
+                itemLastAccessDate = new DateTime(
+                    systemLastAccessOutput.Year, systemLastAccessOutput.Month, systemLastAccessOutput.Day,
+                    systemLastAccessOutput.Hour, systemLastAccessOutput.Minute, systemLastAccessOutput.Second, systemLastAccessOutput.Milliseconds,
+                    DateTimeKind.Utc);
+            }
+            catch (ArgumentException)
+            {
+                // Invalid date means invalid findData, do not add to list
+                return;
+            }
 
             long itemSizeBytes = findData.GetSize();
             var itemSize = ByteSize.FromBytes(itemSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
