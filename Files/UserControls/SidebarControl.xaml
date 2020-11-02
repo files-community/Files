@@ -40,18 +40,18 @@
                     <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="{ThemeResource SystemColorWindowColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
-          
+
             <DataTemplate x:Key="LocationNavItem" x:DataType="local2:LocationItem">
                 <muxc:NavigationViewItem
                     AllowDrop="True"
-                    CanDrag="True"                                         
                     BorderThickness="0.8"
+                    CanDrag="False"
                     Content="{x:Bind Text}"
                     DataContext="{x:Bind}"
-                    DragStarting="NavigationViewItem_DragStarting"
                     DragEnter="NavigationViewItem_DragEnter"
                     DragLeave="NavigationViewItem_DragLeave"
                     DragOver="NavigationViewLocationItem_DragOver"
+                    DragStarting="NavigationViewItem_DragStarting"
                     Drop="NavigationViewLocationItem_Drop"
                     IsRightTapEnabled="True"
                     RightTapped="NavigationViewLocationItem_RightTapped"
@@ -64,7 +64,7 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
-          
+
             <DataTemplate x:Key="DriveNavItem" x:DataType="local2:DriveItem">
                 <muxc:NavigationViewItem
                     Padding="0"

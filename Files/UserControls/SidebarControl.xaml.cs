@@ -283,12 +283,6 @@ namespace Files.Controls
                 return;
             }
 
-            if(AppSettings.SortPinnedItemsByDragging == false)
-            {
-                args.Cancel = true;
-                return;
-            }
-
             // Adding the original Location item dragged to the DragEvents data view
             var navItem = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem);
             args.Data.Properties.Add("sourceLocationItem", navItem);
