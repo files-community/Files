@@ -924,6 +924,7 @@ namespace Files.Filesystem
                 else if (hFile.ToInt64() == -1)
                 {
                     await EnumFromStorageFolder();
+                    return false;
                 }
                 else
                 {
@@ -957,8 +958,8 @@ namespace Files.Filesystem
                     } while (FindNextFile(hFile, out findData));
 
                     FindClose(hFile);
+                    return true;
                 }
-                return true;
             }
         }
 
