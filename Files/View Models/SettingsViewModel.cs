@@ -288,7 +288,25 @@ namespace Files.View_Models
             get => Get(false);
             set => Set(value);
         }
+        
+        public bool ShowLibraryCardsWidget
+        {
+            get => Get(true);
+            set => Set(value);
+        }
 
+        public bool ShowRecentFilesWidget
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        public bool ShowDrivesWidget
+        {
+            get => Get(false);
+            set => Set(value);
+        } 
+        
         private bool _PinOneDriveToSideBar = true;
 
         public bool PinOneDriveToSideBar
