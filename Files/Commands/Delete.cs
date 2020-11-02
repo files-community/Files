@@ -197,7 +197,7 @@ namespace Files.Commands
                     await (await ItemViewModel.GetFileFromPathAsync(iFilePath)).DeleteAsync(StorageDeleteOption.PermanentDelete);
                 }
 
-                AppInstance.FilesystemViewModel.RemoveFileOrFolder(storItem);
+                await AppInstance.FilesystemViewModel.RemoveFileOrFolder(storItem);
                 itemsDeleted++;
             }
         }
