@@ -68,7 +68,7 @@
                             Tag="{x:Bind Path}">
 
                             <Grid
-                                Margin="8"
+                                Margin="12"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch">
                                 <Grid.ColumnDefinitions>
