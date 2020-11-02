@@ -9,10 +9,10 @@
     mc:Ignorable="d">
 
     <StackPanel Margin="14" Spacing="24">
-        <local:LibraryCards x:Name="LibraryWidget" x:Load="{x:Bind AppSettings.ShowLibraryCardsWidget, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+        <local:LibraryCards x:Name="LibraryWidget" x:Load="{x:Bind AppSettings.ShowLibraryCardsWidget, Mode=OneWay}" />
 
-        <local:DrivesWidget x:Name="DrivesWidget" x:Load="{x:Bind AppSettings.ShowDrivesWidget, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+        <local:DrivesWidget x:Name="DrivesWidget" x:Load="{x:Bind AppSettings.ShowDrivesWidget, Mode=OneWay}" />
 
-        <local:RecentFiles x:Name="RecentFilesWidget" x:Load="{x:Bind AppSettings.ShowRecentFilesWidget, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+        <local:RecentFiles x:Name="RecentFilesWidget" x:Load="{x:Bind AppSettings.ShowRecentFilesWidget, Mode=OneWay}" />
     </StackPanel>
 </Page>
