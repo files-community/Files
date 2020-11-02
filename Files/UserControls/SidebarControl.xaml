@@ -79,7 +79,7 @@
                     IsRightTapEnabled="True"
                     RightTapped="NavigationViewDriveItem_RightTapped"
                     Tag="{x:Bind Path}"
-                    ToolTipService.ToolTip="{x:Bind SpaceText}"
+                    ToolTipService.ToolTip="{x:Bind SpaceText, Mode=OneWay}"
                     Visibility="{x:Bind ItemVisibility}">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon

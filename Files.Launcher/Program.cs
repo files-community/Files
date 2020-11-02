@@ -64,7 +64,7 @@ namespace FilesFullTrust
                 foreach (var drive in DriveInfo.GetDrives())
                 {
                     var recycle_path = Path.Combine(drive.Name, "$Recycle.Bin", sid);
-                    if (!Directory.Exists(recycle_path))
+                    if (drive.DriveType == DriveType.Network || !Directory.Exists(recycle_path))
                     {
                         continue;
                     }
@@ -83,7 +83,7 @@ namespace FilesFullTrust
                 // Preload context menu for better performace
                 // We query the context menu for the app's local folder
                 var preloadPath = ApplicationData.Current.LocalFolder.Path;
-                using var _ = Win32API.ContextMenu.GetContextMenuForFiles(new string[] { preloadPath }, Shell32.CMF.CMF_NORMAL);
+                using var _ = Win32API.ContextMenu.GetContextMenuForFiles(new string[] { preloadPath }, Shell32.CMF.CMF_NORMAL | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(false));
 
                 // Connect to app service and wait until the connection gets closed
                 appServiceExit = new AutoResetEvent(false);
@@ -324,7 +324,7 @@ namespace FilesFullTrust
                     var showOpenMenu = (bool)message["ShowOpenMenu"];
                     var split = filePath.Split('|').Where(x => !string.IsNullOrWhiteSpace(x));
                     var cMenuLoad = Win32API.ContextMenu.GetContextMenuForFiles(split.ToArray(),
-                        extendedMenu ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL, FilterMenuItems(showOpenMenu));
+                        (extendedMenu ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL) | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(showOpenMenu));
                     table.SetValue("MENU", cMenuLoad);
                     return cMenuLoad;
 
