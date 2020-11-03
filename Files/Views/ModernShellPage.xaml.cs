@@ -81,7 +81,6 @@ namespace Files.Views.Pages
 
             if ((NavigationToolbar as ModernNavigationToolbar) != null)
             {
-                (NavigationToolbar as ModernNavigationToolbar).ToolbarFlyoutItemInvoked += ModernShellPage_NavigationRequested;
                 (NavigationToolbar as ModernNavigationToolbar).ToolbarPathItemInvoked += ModernShellPage_NavigationRequested;
                 (NavigationToolbar as ModernNavigationToolbar).ToolbarFlyoutOpened += ModernShellPage_ToolbarFlyoutOpened;
                 (NavigationToolbar as ModernNavigationToolbar).ToolbarPathItemLoaded += ModernShellPage_ToolbarPathItemLoaded;
@@ -711,6 +710,7 @@ namespace Files.Views.Pages
 
         private void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
         {
+            NotifyPropertyChanged("ContentPage");
             if (ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser)
                 || ItemDisplayFrame.CurrentSourcePageType == typeof(GridViewBrowser))
             {
@@ -952,7 +952,6 @@ namespace Files.Views.Pages
 
             if ((NavigationToolbar as ModernNavigationToolbar) != null)
             {
-                (NavigationToolbar as ModernNavigationToolbar).ToolbarFlyoutItemInvoked -= ModernShellPage_NavigationRequested;
                 (NavigationToolbar as ModernNavigationToolbar).ToolbarPathItemInvoked -= ModernShellPage_NavigationRequested;
                 (NavigationToolbar as ModernNavigationToolbar).ToolbarFlyoutOpened -= ModernShellPage_ToolbarFlyoutOpened;
                 (NavigationToolbar as ModernNavigationToolbar).ToolbarPathItemLoaded -= ModernShellPage_ToolbarPathItemLoaded;
