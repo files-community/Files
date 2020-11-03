@@ -6,7 +6,7 @@ pool:
 
 variables:
   solution: '**/*.sln'
-  buildPlatform: 'x86|x64'
+  buildPlatform: 'ARM64'
   buildConfiguration: 'Release'
   appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
 
@@ -56,17 +56,7 @@ steps:
 
 - task: MSBuild@1
   inputs:
-    platform: 'x86'
+    platform: 'ARM64'
     solution: '**/*.wapproj'
     configuration: '$(buildConfiguration)'
     msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
-
-- task: store-flight@0
-  timeoutInMinutes: 90
-  inputs:
-    serviceEndpoint: 'Files'
-    appId: '9NGHP3DX8HDX'
-    flightName: 'Files UWP Fast Ring'
-    packagePath: '$(appxPackageDir)\**\*.msixupload'
-    force: false
-    skipPolling: false
