@@ -184,7 +184,7 @@
                             x:FieldModifier="public"
                             CanCreateFileInPage="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                             CanOpenTerminalInPage="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
-                            CopyPathInvokedCommand="{x:Bind InteractionOperations.CopyPathOfSelectedItem, Mode=OneWay}"
+                            CopyPathInvokedCommand="{x:Bind InteractionOperations.CopyPathOfWorkingDirectory, Mode=OneWay}"
                             IsCreateButtonEnabledInPage="{x:Bind InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
                             IsPageTypeNotHome="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                             NewDocumentInvokedCommand="{x:Bind InteractionOperations.CreateNewTextDocument, Mode=OneWay}"

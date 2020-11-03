@@ -1077,6 +1077,19 @@ namespace Files.Interacts
             }
         }
 
+        public RelayCommand CopyPathOfWorkingDirectory => new RelayCommand(() => CopyWorkingLocation());
+        private void CopyWorkingLocation()
+        {
+            if (AssociatedInstance.ContentPage != null)
+            {
+                Clipboard.Clear();
+                DataPackage data = new DataPackage();
+                data.SetText(AssociatedInstance.FilesystemViewModel.WorkingDirectory);
+                Clipboard.SetContent(data);
+                Clipboard.Flush();
+            }
+        }
+
         private enum ImpossibleActionResponseTypes
         {
             Skip,

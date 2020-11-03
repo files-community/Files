@@ -880,7 +880,7 @@
                         <MenuFlyoutItem
                             x:Name="ToolbarNewFolderItem"
                             x:Uid="ModernNavigationToolbaNewFolder"
-                            Command="{x:Bind NewFolderInvokedCommand}"
+                            Command="{x:Bind NewFolderInvokedCommand, Mode=OneWay}"
                             Text="Folder">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA55;" />
@@ -890,7 +890,7 @@
                         <MenuFlyoutItem
                             x:Name="ToolbarNewImageItem"
                             x:Uid="ModernNavigationToolbaNewBitmapImage"
-                            Command="{x:Bind NewImageInvokedCommand}"
+                            Command="{x:Bind NewImageInvokedCommand, Mode=OneWay}"
                             IsEnabled="{x:Bind CanCreateFileInPage, Mode=OneWay}"
                             Text="Bitmap Image">
                             <MenuFlyoutItem.Icon>
@@ -900,7 +900,7 @@
                         <MenuFlyoutItem
                             x:Name="ToolbarNewDocumentItem"
                             x:Uid="ModernNavigationToolbaNewTextDocument"
-                            Command="{x:Bind NewDocumentInvokedCommand}"
+                            Command="{x:Bind NewDocumentInvokedCommand, Mode=OneWay}"
                             IsEnabled="{x:Bind CanCreateFileInPage, Mode=OneWay}"
                             Text="Text Document">
                             <MenuFlyoutItem.Icon>
@@ -1012,7 +1012,7 @@
                         <MenuFlyoutItem
                             x:Name="NavToolbarNewWindow"
                             x:Uid="NavigationToolbarNewWindow"
-                            Command="{x:Bind NewWindowInvokedCommand}"
+                            Command="{x:Bind NewWindowInvokedCommand, Mode=OneWay}"
                             Text="New Window">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE973;" />
@@ -1022,7 +1022,7 @@
                             x:Name="CopyPathButton"
                             x:Uid="NavigationToolbarCopyPath"
                             x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                            Command="{x:Bind CopyPathInvokedCommand}"
+                            Command="{x:Bind CopyPathInvokedCommand, Mode=OneWay}"
                             Text="Copy location">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9B1;" />
@@ -1033,7 +1033,7 @@
                             x:Name="PasteButton"
                             x:Uid="NavigationToolbarPaste"
                             x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                            Command="{x:Bind PasteInvokedCommand}"
+                            Command="{x:Bind PasteInvokedCommand, Mode=OneWay}"
                             IsEnabled="{x:Bind local1:App.InteractionViewModel.IsPasteEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Text="Paste">
                             <MenuFlyoutItem.Icon>
@@ -1044,7 +1044,7 @@
                             x:Name="OpenInTerminalButton"
                             x:Uid="NavigationToolbarOpenInTerminal"
                             x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                            Command="{x:Bind OpenInTerminalInvokedCommand}"
+                            Command="{x:Bind OpenInTerminalInvokedCommand, Mode=OneWay}"
                             IsEnabled="{x:Bind CanOpenTerminalInPage, Mode=OneWay}"
                             Text="Open in Terminal...">
                             <MenuFlyoutItem.Icon>

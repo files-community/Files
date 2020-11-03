@@ -24,6 +24,7 @@ using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -33,14 +34,12 @@ namespace Files.UserControls
 {
     public sealed partial class ModernNavigationToolbar : UserControl, INavigationToolbar, INotifyPropertyChanged
     {
-        public delegate void ToolbarFlyoutItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
         public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
         public delegate void ToolbarFlyoutOpenedEventHandler(object sender, ToolbarFlyoutOpenedEventArgs e);
         public delegate void ToolbarPathItemLoadedEventHandler(object sender, ToolbarPathItemLoadedEventArgs e);
         public delegate void AddressBarTextEnteredEventHandler(object sender, AddressBarTextEnteredEventArgs e);
         public delegate void PathBoxItemDroppedEventHandler(object sender, PathBoxItemDroppedEventArgs e);
 
-        public event ToolbarFlyoutItemInvokedEventHandler ToolbarFlyoutItemInvoked;
         public event ToolbarPathItemInvokedEventHandler ToolbarPathItemInvoked;
         public event ToolbarFlyoutOpenedEventHandler ToolbarFlyoutOpened;
         public event ToolbarPathItemLoadedEventHandler ToolbarPathItemLoaded;
@@ -55,15 +54,149 @@ namespace Files.UserControls
         public event EventHandler UpRequested;
         public event EventHandler RefreshRequested;
 
-        public bool IsPageTypeNotHome { get; set; }
-        public bool IsCreateButtonEnabledInPage { get; set; }
-        public bool CanCreateFileInPage { get; set; }
-        public bool CanOpenTerminalInPage { get; set; }
+        public static readonly DependencyProperty IsPageTypeNotHomeProperty = DependencyProperty.Register(
+          "IsPageTypeNotHome",
+          typeof(bool),
+          typeof(ModernNavigationToolbar),
+          new PropertyMetadata(null)
+        );
+        public bool IsPageTypeNotHome
+        {
+            get
+            {
+                return (bool)GetValue(IsPageTypeNotHomeProperty);
+            }
+            set
+            {
+                SetValue(IsPageTypeNotHomeProperty, value);
+            }
+        }
 
-        public ICommand NewDocumentInvokedCommand { get; set; }
-        public ICommand NewImageInvokedCommand { get; set; }
-        public ICommand NewFolderInvokedCommand { get; set; }
-        public ICommand CopyPathInvokedCommand { get; set; }
+        public static readonly DependencyProperty IsCreateButtonEnabledInPageProperty = DependencyProperty.Register(
+          "IsCreateButtonEnabledInPage",
+          typeof(bool),
+          typeof(ModernNavigationToolbar),
+          new PropertyMetadata(null)
+        );
+        public bool IsCreateButtonEnabledInPage
+        {
+            get
+            {
+                return (bool)GetValue(IsCreateButtonEnabledInPageProperty);
+            }
+            set
+            {
+                SetValue(IsCreateButtonEnabledInPageProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty CanCreateFileInPageProperty = DependencyProperty.Register(
+          "CanCreateFileInPage",
+          typeof(bool),
+          typeof(ModernNavigationToolbar),
+          new PropertyMetadata(null)
+        );
+        public bool CanCreateFileInPage
+        {
+            get
+            {
+                return (bool)GetValue(CanCreateFileInPageProperty);
+            }
+            set
+            {
+                SetValue(CanCreateFileInPageProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty CanOpenTerminalInPageProperty = DependencyProperty.Register(
+          "CanOpenTerminalInPage",
+          typeof(bool),
+          typeof(ModernNavigationToolbar),
+          new PropertyMetadata(null)
+        );
+        public bool CanOpenTerminalInPage
+        {
+            get
+            {
+                return (bool)GetValue(CanOpenTerminalInPageProperty);
+            }
+            set
+            {
+                SetValue(CanOpenTerminalInPageProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty NewDocumentInvokedCommandProperty = DependencyProperty.Register(
+          "NewDocumentInvokedCommand",
+          typeof(ICommand),
+          typeof(ModernNavigationToolbar),
+          new PropertyMetadata(null)
+        );
+        public ICommand NewDocumentInvokedCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(NewDocumentInvokedCommandProperty);
+            }
+            set
+            {
+                SetValue(NewDocumentInvokedCommandProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty NewImageInvokedCommandProperty = DependencyProperty.Register(
+          "NewImageInvokedCommand",
+          typeof(ICommand),
+          typeof(ModernNavigationToolbar),
+          new PropertyMetadata(null)
+        );
+        public ICommand NewImageInvokedCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(NewImageInvokedCommandProperty);
+            }
+            set
+            {
+                SetValue(NewImageInvokedCommandProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty NewFolderInvokedCommandProperty = DependencyProperty.Register(
+          "NewFolderInvokedCommand",
+          typeof(ICommand),
+          typeof(ModernNavigationToolbar),
+          new PropertyMetadata(null)
+        );
+        public ICommand NewFolderInvokedCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(NewFolderInvokedCommandProperty);
+            }
+            set
+            {
+                SetValue(NewFolderInvokedCommandProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty CopyPathInvokedCommandProperty = DependencyProperty.Register(
+          "CopyPathInvokedCommand",
+          typeof(ICommand),
+          typeof(ModernNavigationToolbar),
+          new PropertyMetadata(null)
+        );
+        public ICommand CopyPathInvokedCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(CopyPathInvokedCommandProperty);
+            }
+            set
+            {
+                SetValue(CopyPathInvokedCommandProperty, value);
+            }
+        }
 
         public static readonly DependencyProperty NewTabInvokedCommandProperty = DependencyProperty.Register(
           "NewTabInvokedCommand",
@@ -82,9 +215,60 @@ namespace Files.UserControls
                 SetValue(NewTabInvokedCommandProperty, value);
             }
         }
-        public ICommand NewWindowInvokedCommand { get; set; }
-        public ICommand PasteInvokedCommand { get; set; }
-        public ICommand OpenInTerminalInvokedCommand { get; set; }
+
+        public static readonly DependencyProperty NewWindowInvokedCommandProperty = DependencyProperty.Register(
+          "NewWindowInvokedCommand",
+          typeof(ICommand),
+          typeof(ModernNavigationToolbar),
+          new PropertyMetadata(null)
+        );
+        public ICommand NewWindowInvokedCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(NewWindowInvokedCommandProperty);
+            }
+            set
+            {
+                SetValue(NewWindowInvokedCommandProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty PasteInvokedCommandProperty = DependencyProperty.Register(
+          "PasteInvokedCommand",
+          typeof(ICommand),
+          typeof(ModernNavigationToolbar),
+          new PropertyMetadata(null)
+        );
+        public ICommand PasteInvokedCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(PasteInvokedCommandProperty);
+            }
+            set
+            {
+                SetValue(PasteInvokedCommandProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty OpenInTerminalInvokedCommandProperty = DependencyProperty.Register(
+          "OpenInTerminalInvokedCommand",
+          typeof(ICommand),
+          typeof(ModernNavigationToolbar),
+          new PropertyMetadata(null)
+        );
+        public ICommand OpenInTerminalInvokedCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(OpenInTerminalInvokedCommandProperty);
+            }
+            set
+            {
+                SetValue(OpenInTerminalInvokedCommandProperty, value);
+            }
+        }
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
