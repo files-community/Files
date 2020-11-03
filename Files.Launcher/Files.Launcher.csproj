@@ -8,6 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>FilesFullTrust</RootNamespace>
     <AssemblyName>FilesFullTrust</AssemblyName>
+    <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
