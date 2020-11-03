@@ -1,0 +1,52 @@
+﻿<Page
+    x:Class="Files.SettingsPages.Widgets"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+    <Grid>
+
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <StackPanel
+                Margin="12,12,8,8"
+                Orientation="Vertical"
+                Spacing="14">
+                <StackPanel.ChildrenTransitions>
+                    <TransitionCollection>
+                        <RepositionThemeTransition />
+                    </TransitionCollection>
+                </StackPanel.ChildrenTransitions>
+
+                <TextBlock
+                    x:Uid="SettingsWidgetsTitle"
+                    FontSize="22"
+                    FontWeight="Medium"
+                    Text="Widgets" />
+
+                <ToggleSwitch
+                    x:Uid="SettingsWidgetsShowLibraryCards"
+                    AutomationProperties.Name="Show library cards on the home page"
+                    Header="Show library cards on the home page"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind AppSettings.ShowLibraryCardsWidget, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <ToggleSwitch
+                    x:Uid="SettingsWidgetsShowDrives"
+                    AutomationProperties.Name="Show drives on the home page"
+                    Header="Show drives on the home page"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind AppSettings.ShowDrivesWidget, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <ToggleSwitch
+                    x:Uid="SettingsWidgetsShowRecentFiles"
+                    AutomationProperties.Name="Show recent files on the home page"
+                    Header="Show recent files on the home page"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind AppSettings.ShowRecentFilesWidget, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
