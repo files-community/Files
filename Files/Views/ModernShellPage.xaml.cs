@@ -8,8 +8,10 @@ using Files.UserControls;
 using Files.View_Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
@@ -30,13 +32,28 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views.Pages
 {
-    public sealed partial class ModernShellPage : Page, IShellPage
+    public sealed partial class ModernShellPage : Page, IShellPage, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
         public bool IsCurrentInstance { get; set; } = false;
         public StatusBarControl BottomStatusStripControl => StatusBarControl;
         public Frame ContentFrame => ItemDisplayFrame;
-        public Interaction InteractionOperations { get; private set; } = null;
+        private Interaction _InteractionOperations = null;
+        public Interaction InteractionOperations
+        {
+            get
+            {
+                return _InteractionOperations;
+            }
+            private set
+            {
+                if (_InteractionOperations != value)
+                {
+                    _InteractionOperations = value;
+                    NotifyPropertyChanged("InteractionOperations");
+                }
+            }
+        }
         public ItemViewModel FilesystemViewModel { get; private set; } = null;
         public CurrentInstanceViewModel InstanceViewModel { get; } = new CurrentInstanceViewModel();
         public BaseLayout ContentPage => GetContentOrNull();
@@ -556,6 +573,13 @@ namespace Files.Views.Pages
         }
 
         AppServiceConnection Connection = null;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             Connection = new AppServiceConnection();
@@ -759,7 +783,7 @@ namespace Files.Views.Pages
 
                 case (true, false, false, true, VirtualKey.V): // ctrl + v, paste
                     if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.isRenamingItem)
-                        InteractionOperations.PasteItem_ClickAsync(null, null);
+                        InteractionOperations.PasteItem();
                     break;
 
                 case (true, false, false, true, VirtualKey.X): // ctrl + x, cut
@@ -870,7 +894,7 @@ namespace Files.Views.Pages
                 var incomingSourcePageType = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].SourcePageType;
                 var Parameter = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].Parameter;
                 SelectSidebarItemFromPath(incomingSourcePageType);
-                await FilesystemViewModel.SetWorkingDirectory(Parameter.ToString());
+                await FilesystemViewModel.SetWorkingDirectory((Parameter as NavigationArguments).NavPathParam);
                 instanceContentFrame.GoForward();
             }
         }

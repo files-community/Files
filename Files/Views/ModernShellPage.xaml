@@ -184,9 +184,16 @@
                             x:FieldModifier="public"
                             CanCreateFileInPage="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                             CanOpenTerminalInPage="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
-                            DataContext="{x:Bind InteractionOperations}"
+                            CopyPathInvokedCommand="{x:Bind InteractionOperations.CopyPathOfSelectedItem, Mode=OneWay}"
                             IsCreateButtonEnabledInPage="{x:Bind InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
-                            IsPageTypeNotHome="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
+                            IsPageTypeNotHome="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                            NewDocumentInvokedCommand="{x:Bind InteractionOperations.CreateNewTextDocument, Mode=OneWay}"
+                            NewFolderInvokedCommand="{x:Bind InteractionOperations.CreateNewFolder, Mode=OneWay}"
+                            NewImageInvokedCommand="{x:Bind InteractionOperations.CreateNewBitmapImage, Mode=OneWay}"
+                            NewTabInvokedCommand="{x:Bind InteractionOperations.AddNewTabToMultitaskingControl, Mode=OneWay}"
+                            NewWindowInvokedCommand="{x:Bind InteractionOperations.OpenNewWindow, Mode=OneWay}"
+                            OpenInTerminalInvokedCommand="{x:Bind InteractionOperations.OpenDirectoryInDefaultTerminal, Mode=OneWay}"
+                            PasteInvokedCommand="{x:Bind InteractionOperations.PasteItemsFromClipboard, Mode=OneWay}" />
                     </Grid>
 
                     <Frame
@@ -201,8 +208,10 @@
                         x:Name="StatusBarControl"
                         Grid.Row="3"
                         x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-                        DataContext="{x:Bind InteractionOperations}"
+                        ClearSelectionInvokedCommand="{x:Bind InteractionOperations.ClearContentPageSelection, Mode=OneWay}"
                         DirectoryPropertiesViewModel="{x:Bind ContentPage.DirectoryPropertiesViewModel}"
+                        InvertSelectionInvokedCommand="{x:Bind InteractionOperations.InvertContentPageSelction, Mode=OneWay}"
+                        SelectAllInvokedCommand="{x:Bind InteractionOperations.SelectAllContentPageItems, Mode=OneWay}"
                         SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel}" />
                 </Grid>
             </Custom:DropShadowPanel>

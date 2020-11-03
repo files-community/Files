@@ -53,27 +53,27 @@
                 <Button.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem
-                            x:Uid="StatusBarControlSelectAll"
                             x:Name="SelectAllMFI"
-                            Click="SelectAllMFI_Click"
+                            x:Uid="StatusBarControlSelectAll"
+                            Command="{x:Bind SelectAllInvokedCommand}"
                             Text="Select All">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB54;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
-                            x:Uid="StatusBarControlInvertSelection"
                             x:Name="InvertSelectionMFI"
-                            Click="InvertSelectionMFI_Click"
+                            x:Uid="StatusBarControlInvertSelection"
+                            Command="{x:Bind InvertSelectionInvokedCommand}"
                             Text="Invert Selection">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xf102;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
-                            x:Uid="StatusBarControlClearSelection"
                             x:Name="ClearSelectionMFI"
-                            Click="ClearSelectionMFI_Click"
+                            x:Uid="StatusBarControlClearSelection"
+                            Command="{x:Bind ClearSelectionInvokedCommand}"
                             Text="Clear Selection">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB55;" />

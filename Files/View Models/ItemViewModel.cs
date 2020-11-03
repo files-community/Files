@@ -300,8 +300,12 @@ namespace Files.Filesystem
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
         {
-            // Need to reinitialize AppService when app is resuming
-            InitializeAppServiceConnection();
+            if (this.Connection == null)
+            {
+                Connection = new AppServiceConnection();
+                // Need to reinitialize AppService when app is resuming
+                InitializeAppServiceConnection();
+            }
         }
 
         public async void InitializeAppServiceConnection()

@@ -183,20 +183,6 @@ namespace Files.UserControls
 
                 if (CurrentSelectedAppInstance != null)
                 {
-                    if (Items[App.InteractionViewModel.TabStripSelectedIndex].Header.ToString() == ResourceController.GetTranslation("NewTab"))
-                    {
-                        CurrentSelectedAppInstance.InstanceViewModel.IsPageTypeNotHome = false;
-                    }
-                    else
-                    {
-                        CurrentSelectedAppInstance.InstanceViewModel.IsPageTypeNotHome = true;
-                    }
-
-                    CurrentSelectedAppInstance.InstanceViewModel.IsPageTypeRecycleBin =
-                        CurrentSelectedAppInstance?.FilesystemViewModel?.WorkingDirectory?.StartsWith(App.AppSettings.RecycleBinPath) ?? false;
-                    CurrentSelectedAppInstance.InstanceViewModel.IsPageTypeMtpDevice =
-                        CurrentSelectedAppInstance?.FilesystemViewModel?.WorkingDirectory?.StartsWith("\\\\?\\") ?? false;
-
                     CurrentInstanceChanged?.Invoke(this, new CurrentInstanceChangedEventArgs() { CurrentInstance = CurrentSelectedAppInstance, ShellPageInstances = GetAllTabInstances<IShellPage>() });
                 }
             }

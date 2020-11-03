@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.System;
@@ -59,19 +60,38 @@ namespace Files.UserControls
         public bool CanCreateFileInPage { get; set; }
         public bool CanOpenTerminalInPage { get; set; }
 
+        public ICommand NewDocumentInvokedCommand { get; set; }
+        public ICommand NewImageInvokedCommand { get; set; }
+        public ICommand NewFolderInvokedCommand { get; set; }
+        public ICommand CopyPathInvokedCommand { get; set; }
+
+        public static readonly DependencyProperty NewTabInvokedCommandProperty = DependencyProperty.Register(
+          "NewTabInvokedCommand",
+          typeof(ICommand),
+          typeof(ModernNavigationToolbar),
+          new PropertyMetadata(null)
+        ); 
+        public ICommand NewTabInvokedCommand
+        {
+            get 
+            {
+                return (ICommand)GetValue(NewTabInvokedCommandProperty);
+            }
+            set
+            {
+                SetValue(NewTabInvokedCommandProperty, value);
+            }
+        }
+        public ICommand NewWindowInvokedCommand { get; set; }
+        public ICommand PasteInvokedCommand { get; set; }
+        public ICommand OpenInTerminalInvokedCommand { get; set; }
+
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public ModernNavigationToolbar()
         {
             this.InitializeComponent();
-            InteractionOperations = (this.DataContext as Interaction);
         }
-
-        private void ToolbarNewDocumentItem_Click(object sender, RoutedEventArgs e) => InteractionOperations.NewTextDocument();
-
-        private void ToolbarNewImageItem_Click(object sender, RoutedEventArgs e) => InteractionOperations.NewBitmapImage();
-
-        private void ToolbarNewFolderItem_Click(object sender, RoutedEventArgs e) => InteractionOperations.NewFolder();
 
         private bool manualEntryBoxLoaded = false;
 
@@ -501,17 +521,6 @@ namespace Files.UserControls
         {
             RefreshRequested?.Invoke(this, EventArgs.Empty);
         }
-
-        private Interaction InteractionOperations;
-        private void NavToolbarNewTab_Click(object sender, RoutedEventArgs e) => InteractionOperations.OpenNewTab();
-
-        private void CopyPathButton_Click(object sender, RoutedEventArgs e) => InteractionOperations.CopyLocation_ClickAsync();
-
-        private void PasteButton_Click(object sender, RoutedEventArgs e) => InteractionOperations.PasteItem();
-
-        private void OpenInTerminalButton_Click(object sender, RoutedEventArgs e) => InteractionOperations.OpenDirectoryInTerminal();
-
-        private void NavToolbarNewWindow_Click(object sender, RoutedEventArgs e) => InteractionOperations.LaunchNewWindow();
     }
 
 }

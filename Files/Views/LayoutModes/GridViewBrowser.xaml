@@ -123,7 +123,7 @@
             <MenuFlyoutItem
                 x:Name="PasteEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutPaste"
-                Click="{x:Bind ParentShellPageInstance.InteractionOperations.PasteItem_ClickAsync}"
+                Command="{x:Bind ParentShellPageInstance.InteractionOperations.PasteItemsFromClipboard}"
                 IsEnabled="{x:Bind local:App.InteractionViewModel.IsPasteEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Text="Paste">
                 <MenuFlyoutItem.Icon>
@@ -134,7 +134,7 @@
             <MenuFlyoutItem
                 x:Name="OpenTerminal"
                 x:Uid="BaseLayoutContextFlyoutOpenInTerminal"
-                Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenDirectoryInTerminal}"
+                Command="{x:Bind ParentShellPageInstance.InteractionOperations.OpenDirectoryInDefaultTerminal}"
                 IsEnabled="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
                 Text="Open in Terminal...">
                 <MenuFlyoutItem.Icon>
@@ -152,7 +152,7 @@
                 <MenuFlyoutItem
                     x:Name="NewFolder"
                     x:Uid="BaseLayoutContextFlyoutNewFolder"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.NewFolder_Click}"
+                    Command="{x:Bind ParentShellPageInstance.InteractionOperations.CreateNewFolder}"
                     Text="Folder">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea55;" />
@@ -162,7 +162,7 @@
                 <MenuFlyoutItem
                     x:Name="NewBitmapImage"
                     x:Uid="BaseLayoutContextFlyoutNewBitmapImage"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.NewBitmapImage_Click}"
+                    Command="{x:Bind ParentShellPageInstance.InteractionOperations.CreateNewBitmapImage}"
                     IsEnabled="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                     Text="Bitmap Image">
                     <MenuFlyoutItem.Icon>
@@ -172,7 +172,7 @@
                 <MenuFlyoutItem
                     x:Name="NewTextDocument"
                     x:Uid="BaseLayoutContextFlyoutNewTextDocument"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.NewTextDocument_Click}"
+                    Command="{x:Bind ParentShellPageInstance.InteractionOperations.CreateNewTextDocument}"
                     IsEnabled="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                     Text="Text Document">
                     <MenuFlyoutItem.Icon>
@@ -395,7 +395,7 @@
             <MenuFlyoutItem
                 x:Name="CopyLocationItem"
                 x:Uid="BaseLayoutItemContextFlyoutCopyLocation"
-                Click="{x:Bind ParentShellPageInstance.InteractionOperations.CopyLocation_ClickAsync}"
+                Command="{x:Bind ParentShellPageInstance.InteractionOperations.CopyPathOfSelectedItem}"
                 Text="Copy location">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9B1;" />
@@ -561,15 +561,13 @@
                     </Grid>
                     <Grid
                         x:Name="IconOverlay"
+                        Width="64"
+                        Height="64"
                         Padding="12"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
-                        Width="64"
-                        Height="64"
                         x:Load="True">
-                        <Image
-                            Source="{x:Bind IconOverlay, Mode=OneWay}"
-                            Stretch="Uniform" />
+                        <Image Source="{x:Bind IconOverlay, Mode=OneWay}" Stretch="Uniform" />
                     </Grid>
                     <Grid
                         x:Name="WebShortcutGlyph"
@@ -721,15 +719,13 @@
                     </Grid>
                     <Grid
                         x:Name="IconOverlay"
+                        Width="48"
+                        Height="48"
                         Padding="8"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
-                        Width="48"
-                        Height="48"
                         x:Load="True">
-                        <Image
-                            Source="{x:Bind IconOverlay, Mode=OneWay}"
-                            Stretch="Uniform" />
+                        <Image Source="{x:Bind IconOverlay, Mode=OneWay}" Stretch="Uniform" />
                     </Grid>
                     <Grid
                         x:Name="WebShortcutGlyph"

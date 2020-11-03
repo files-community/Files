@@ -6,6 +6,7 @@ using Files.Helpers;
 using Files.View_Models;
 using Files.Views;
 using Files.Views.Pages;
+using Microsoft.Toolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using NLog;
 using System;
@@ -103,8 +104,8 @@ namespace Files.Interacts
                 }
             }
         }
-
-        public async void OpenNewTab()
+        public RelayCommand AddNewTabToMultitaskingControl => new RelayCommand(() => OpenNewTab());
+        private async void OpenNewTab()
         {
             await MainPage.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
         }
@@ -142,7 +143,9 @@ namespace Files.Interacts
             return await Launcher.LaunchUriAsync(folderUri);
         }
 
-        public async void OpenDirectoryInTerminal()
+        public RelayCommand OpenDirectoryInDefaultTerminal => new RelayCommand(() => OpenDirectoryInTerminal());
+
+        private async void OpenDirectoryInTerminal()
         {
             var terminal = AppSettings.TerminalController.Model.GetDefaultTerminal();
 
@@ -538,7 +541,7 @@ namespace Files.Interacts
                 MainPage.MultitaskingControl.Items.RemoveAt(App.InteractionViewModel.TabStripSelectedIndex);
             }
         }
-
+        public RelayCommand OpenNewWindow => new RelayCommand(() => LaunchNewWindow());
         public async void LaunchNewWindow()
         {
             var filesUWPUri = new Uri("files-uwp:");
@@ -1061,8 +1064,8 @@ namespace Files.Interacts
                 }
             }
         }
-
-        public void CopyLocation_ClickAsync()
+        public RelayCommand CopyPathOfSelectedItem => new RelayCommand(() => CopyLocation());
+        private void CopyLocation()
         {
             if (AssociatedInstance.ContentPage != null)
             {
@@ -1105,14 +1108,7 @@ namespace Files.Interacts
             }
         }
 
-        public void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
-        {
-            DataPackageView packageView = Clipboard.GetContent();
-            string destinationPath = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
-
-            ItemOperationCommands.PasteItemWithStatus(packageView, destinationPath, packageView.RequestedOperation);
-        }
-
+        public RelayCommand PasteItemsFromClipboard => new RelayCommand(() => PasteItem());
         public void PasteItem()
         {
             DataPackageView packageView = Clipboard.GetContent();
@@ -1168,40 +1164,32 @@ namespace Files.Interacts
             }
         }
 
-        public void NewFolder_Click(object sender, RoutedEventArgs e)
+        public RelayCommand CreateNewFolder => new RelayCommand(() => NewFolder());
+        public RelayCommand CreateNewTextDocument => new RelayCommand(() => NewTextDocument());
+        public RelayCommand CreateNewBitmapImage => new RelayCommand(() => NewBitmapImage());
+
+        private void NewFolder()
         {
             CreateFileFromDialogResultType(AddItemType.Folder);
         }
 
-        public void NewTextDocument_Click(object sender, RoutedEventArgs e)
+        private void NewTextDocument()
         {
             CreateFileFromDialogResultType(AddItemType.TextDocument);
         }
 
-        public void NewBitmapImage_Click(object sender, RoutedEventArgs e)
+        private void NewBitmapImage()
         {
             CreateFileFromDialogResultType(AddItemType.BitmapImage);
         }
 
-        public void NewFolder()
-        {
-            CreateFileFromDialogResultType(AddItemType.Folder);
-        }
-
-        public void NewTextDocument()
-        {
-            CreateFileFromDialogResultType(AddItemType.TextDocument);
-        }
-
-        public void NewBitmapImage()
-        {
-            CreateFileFromDialogResultType(AddItemType.BitmapImage);
-        }
-
+        public RelayCommand SelectAllContentPageItems => new RelayCommand(() => SelectAllItems());
         public void SelectAllItems() => AssociatedInstance.ContentPage.SelectAllItems();
 
+        public RelayCommand InvertContentPageSelction => new RelayCommand(() => InvertAllItems());
         public void InvertAllItems() => AssociatedInstance.ContentPage.InvertSelection();
 
+        public RelayCommand ClearContentPageSelection => new RelayCommand(() => ClearAllItems());
         public void ClearAllItems() => AssociatedInstance.ContentPage.ClearSelection();
 
         public async void ToggleQuickLook()
