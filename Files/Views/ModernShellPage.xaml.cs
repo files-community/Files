@@ -710,6 +710,7 @@ namespace Files.Views.Pages
 
         private void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
         {
+            NotifyPropertyChanged("ContentPage");
             if (ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser)
                 || ItemDisplayFrame.CurrentSourcePageType == typeof(GridViewBrowser))
             {
