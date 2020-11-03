@@ -1,6 +1,8 @@
+using ByteSizeLib;
 using Files.View_Models;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Uwp.Extensions;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -70,15 +72,16 @@ namespace Files.Filesystem
             {
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
-                    if (MainPage.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
+                    if (MainPage.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarDrives".GetLocalized()) == null)
                     {
-                        MainPage.sideBarItems.Add(new HeaderTextItem() { Text = ResourceController.GetTranslation("SidebarDrives") });
+                        MainPage.sideBarItems.Add(new HeaderTextItem() { Text = "SidebarDrives".GetLocalized() });
                     }
                     foreach (DriveItem drive in Drives)
                     {
                         if (!MainPage.sideBarItems.Contains(drive))
                         {
                             MainPage.sideBarItems.Add(drive);
+                            DrivesWidget.itemsAdded.Add(drive);
                         }
                     }
                     foreach (INavigationControlItem item in MainPage.sideBarItems.ToList())
@@ -86,6 +89,7 @@ namespace Files.Filesystem
                         if (item is DriveItem && !Drives.Contains(item))
                         {
                             MainPage.sideBarItems.Remove(item);
+                            DrivesWidget.itemsAdded.Remove(item);
                         }
                     }
                 });
@@ -101,15 +105,16 @@ namespace Files.Filesystem
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
-                if (MainPage.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
+                if (MainPage.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarDrives".GetLocalized()) == null)
                 {
-                    MainPage.sideBarItems.Add(new HeaderTextItem() { Text = ResourceController.GetTranslation("SidebarDrives") });
+                    MainPage.sideBarItems.Add(new HeaderTextItem() { Text = "SidebarDrives".GetLocalized() });
                 }
                 foreach (DriveItem drive in Drives)
                 {
                     if (!MainPage.sideBarItems.Contains(drive))
                     {
                         MainPage.sideBarItems.Add(drive);
+                        DrivesWidget.itemsAdded.Add(drive);
                     }
                 }
                 foreach (INavigationControlItem item in MainPage.sideBarItems.ToList())
@@ -117,6 +122,7 @@ namespace Files.Filesystem
                     if (item is DriveItem && !Drives.Contains(item))
                     {
                         MainPage.sideBarItems.Remove(item);
+                        DrivesWidget.itemsAdded.Remove(item);
                     }
                 }
             });

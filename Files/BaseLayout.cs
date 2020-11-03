@@ -7,6 +7,7 @@ using Files.UserControls;
 using Files.View_Models;
 using Files.Views;
 using Files.Views.Pages;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Newtonsoft.Json;
 using System;
@@ -96,12 +97,12 @@ namespace Files
 
                         if (SelectedItems.Count == 1)
                         {
-                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = SelectedItems.Count.ToString() + " " + ResourceController.GetTranslation("ItemSelected/Text");
+                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = SelectedItems.Count.ToString() + " " + "ItemSelected/Text".GetLocalized();
                             SelectedItemsPropertiesViewModel.ItemSize = SelectedItem.FileSize;
                         }
                         else
                         {
-                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = SelectedItems.Count.ToString() + " " + ResourceController.GetTranslation("ItemsSelected/Text");
+                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = SelectedItems.Count.ToString() + " " + "ItemsSelected/Text".GetLocalized();
 
                             if (SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File))
                             {
@@ -292,7 +293,7 @@ namespace Files
             {
                 var menuLayoutSubItem = new MenuFlyoutSubItem()
                 {
-                    Text = ResourceController.GetTranslation("ContextMenuMoreItemsLabel"),
+                    Text = "ContextMenuMoreItemsLabel".GetLocalized(),
                     Tag = ((Win32ContextMenuItem)null, menuHandle),
                     Icon = new FontIcon()
                     {
@@ -565,12 +566,12 @@ namespace Files
                 }
                 else if (draggedItems.AreItemsInSameDrive(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory))
                 {
-                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), folderName);
+                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
                     e.AcceptedOperation = DataPackageOperation.Move;
                 }
                 else
                 {
-                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("CopyToFolderCaptionText"), folderName);
+                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), folderName);
                     e.AcceptedOperation = DataPackageOperation.Copy;
                 }
             }
@@ -669,12 +670,12 @@ namespace Files
                 // Items from the same drive as this folder are dragged into this folder, so we move the items instead of copy
                 else if (draggedItems.AreItemsInSameDrive(item.ItemPath))
                 {
-                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), item.ItemName);
+                    e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), item.ItemName);
                     e.AcceptedOperation = DataPackageOperation.Move;
                 }
                 else
                 {
-                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("CopyToFolderCaptionText"), item.ItemName);
+                    e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), item.ItemName);
                     e.AcceptedOperation = DataPackageOperation.Copy;
                 }
             }

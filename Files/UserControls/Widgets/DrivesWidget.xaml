@@ -1,0 +1,106 @@
+﻿<UserControl
+    x:Class="Files.DrivesWidget"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files"
+    xmlns:local2="using:Files.Filesystem"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+    <StackPanel Spacing="12">
+        <TextBlock
+            x:Uid="DrivesWidgetDescription"
+            HorizontalAlignment="Left"
+            FontFamily="Segoe UI"
+            FontSize="14"
+            FontWeight="Medium"
+            Opacity=".8"
+            Text="Drives" />
+
+        <muxc:ItemsRepeater
+            x:Name="CardsList"
+            Grid.Row="0"
+            HorizontalAlignment="Stretch"
+            ItemsSource="{x:Bind local:DrivesWidget.itemsAdded}">
+            <muxc:ItemsRepeater.Layout>
+                <muxc:UniformGridLayout
+                    ItemsStretch="Fill"
+                    MaximumRowsOrColumns="4"
+                    MinColumnSpacing="8"
+                    MinItemHeight="90"
+                    MinItemWidth="160"
+                    MinRowSpacing="8"
+                    Orientation="Horizontal" />
+            </muxc:ItemsRepeater.Layout>
+            <muxc:ItemsRepeater.ItemTemplate>
+                <DataTemplate x:DataType="local2:DriveItem">
+                    <Grid>
+                        <Grid.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.ThemeDictionaries>
+                                    <ResourceDictionary x:Name="Light">
+                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef" />
+                                    </ResourceDictionary>
+                                    <ResourceDictionary x:Name="Dark">
+                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#161514" />
+                                    </ResourceDictionary>
+                                    <ResourceDictionary x:Name="HighContrast">
+                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="{ThemeResource SystemColorButtonFaceColor}" />
+                                    </ResourceDictionary>
+                                </ResourceDictionary.ThemeDictionaries>
+                            </ResourceDictionary>
+                        </Grid.Resources>
+                        <Button
+                            Padding="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            AutomationProperties.Name="{x:Bind Text}"
+                            Background="{ThemeResource YourHomeCardBackgroundColor}"
+                            BorderThickness="1"
+                            Click="Button_Click"
+                            CornerRadius="4"
+                            Style="{StaticResource ButtonRevealStyle}"
+                            Tag="{x:Bind Path}"
+                            ToolTipService.ToolTip="{x:Bind Text}">
+
+                            <Grid
+                                Margin="12"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <FontIcon
+                                    Grid.Column="0"
+                                    FontFamily="{StaticResource FluentUIGlyphs}"
+                                    FontSize="28"
+                                    Glyph="{x:Bind Glyph}" />
+                                <StackPanel
+                                    Grid.Column="1"
+                                    Margin="12,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Orientation="Vertical"
+                                    Spacing="8">
+                                    <TextBlock
+                                        x:Name="ItemLocationName"
+                                        FontSize="14"
+                                        FontWeight="Medium"
+                                        Text="{x:Bind Text}"
+                                        TextWrapping="NoWrap" />
+                                    <muxc:ProgressBar Maximum="{x:Bind MaxSpace.GigaBytes, Mode=OneWay}" Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}" />
+                                    <TextBlock Text="{x:Bind SpaceText, Mode=OneWay}" ToolTipService.ToolTip="{x:Bind SpaceText, Mode=OneWay}" />
+                                </StackPanel>
+                            </Grid>
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+            </muxc:ItemsRepeater.ItemTemplate>
+        </muxc:ItemsRepeater>
+    </StackPanel>
+</UserControl>

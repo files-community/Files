@@ -1,4 +1,5 @@
 ﻿using Files.View_Models;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -32,11 +33,11 @@ namespace Files.Dialogs
 
             if (SelectedItemsPropertiesViewModel.SelectedItemsCount == 1)
             {
-                Description = ResourceController.GetTranslation("ConfirmDeleteDialogDeleteOneItem/Text");
+                Description = "ConfirmDeleteDialogDeleteOneItem/Text".GetLocalized();
             }
             else
             {
-                Description = string.Format(ResourceController.GetTranslation("ConfirmDeleteDialogDeleteMultipleItems/Text"), SelectedItemsPropertiesViewModel.SelectedItemsCount);
+                Description = string.Format("ConfirmDeleteDialogDeleteMultipleItems/Text".GetLocalized(), SelectedItemsPropertiesViewModel.SelectedItemsCount);
             }
         }
 

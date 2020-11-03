@@ -2,6 +2,7 @@
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -116,7 +117,7 @@ namespace Files.View_Models.Properties
         public void SetItemsCountString()
         {
             ViewModel.FilesAndFoldersCountString = string.Format(
-                ResourceController.GetTranslation("PropertiesFilesAndFoldersCountString"), ViewModel.FilesCount, ViewModel.FoldersCount);
+                "PropertiesFilesAndFoldersCountString".GetLocalized(), ViewModel.FilesCount, ViewModel.FoldersCount);
         }
     }
 }

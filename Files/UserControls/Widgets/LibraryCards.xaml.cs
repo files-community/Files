@@ -1,6 +1,7 @@
 ﻿using Files.View_Models;
 using Files.Views.Pages;
 using System;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -19,11 +20,12 @@ namespace Files
         {
             InitializeComponent();
             itemsAdded.Clear();
-            itemsAdded.Add(new FavoriteLocationItem() { Icon = "\xe91c", Text = ResourceController.GetTranslation("SidebarDownloads"), Tag = "Downloads", AutomationProperties = ResourceController.GetTranslation("SidebarDownloads") });
-            itemsAdded.Add(new FavoriteLocationItem() { Icon = "\xea11", Text = ResourceController.GetTranslation("SidebarDocuments"), Tag = "Documents", AutomationProperties = ResourceController.GetTranslation("SidebarDocuments") });
-            itemsAdded.Add(new FavoriteLocationItem() { Icon = "\xea83", Text = ResourceController.GetTranslation("SidebarPictures"), Tag = "Pictures", AutomationProperties = ResourceController.GetTranslation("SidebarPictures") });
-            itemsAdded.Add(new FavoriteLocationItem() { Icon = "\xead4", Text = ResourceController.GetTranslation("SidebarMusic"), Tag = "Music", AutomationProperties = ResourceController.GetTranslation("SidebarMusic") });
-            itemsAdded.Add(new FavoriteLocationItem() { Icon = "\xec0d", Text = ResourceController.GetTranslation("SidebarVideos"), Tag = "Videos", AutomationProperties = ResourceController.GetTranslation("SidebarVideos") });
+            itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Blue.png", Icon = "\xe91c", Text = "SidebarDownloads".GetLocalized(), Tag = "Downloads" });
+            itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Green.png", Icon = "\xea11", Text = "SidebarDocuments".GetLocalized(), Tag = "Documents" });
+            itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Orange.png", Icon = "\xea83", Text = "SidebarPictures".GetLocalized(), Tag = "Pictures" });
+            itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Pink.png", Icon = "\xead4", Text = "SidebarMusic".GetLocalized(), Tag = "Music" });
+            itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Red.png", Icon = "\xec0d", Text = "SidebarVideos".GetLocalized(), Tag = "Videos" });
+            foreach (var item in itemsAdded) { item.AutomationProperties = item.Text; }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

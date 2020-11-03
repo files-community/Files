@@ -1,6 +1,7 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -64,7 +65,7 @@ namespace Files.Commands
             if (AppInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
             {
                 // Do not paste files and folders inside the recycle bin
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"), ResourceController.GetTranslation("ErrorDialogUnsupportedOperation"));
+                await DialogDisplayHelper.ShowDialog("ErrorDialogThisActionCannotBeDone".GetLocalized(), "ErrorDialogUnsupportedOperation".GetLocalized());
                 return;
             }
 

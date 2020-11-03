@@ -6,6 +6,7 @@ using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
 using Files.View_Models;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -91,7 +92,6 @@ namespace Files.Views.Pages
                 (NavigationToolbar as ModernNavigationToolbar).ForwardRequested += ModernShellPage_ForwardNavRequested;
                 (NavigationToolbar as ModernNavigationToolbar).UpRequested += ModernShellPage_UpNavRequested;
                 (NavigationToolbar as ModernNavigationToolbar).RefreshRequested += ModernShellPage_RefreshRequested;
-
             }
 
             SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
@@ -102,7 +102,7 @@ namespace Files.Views.Pages
             AppSettings.SortDirectionPreferenceUpdated += AppSettings_SortDirectionPreferenceUpdated;
             AppSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
 
-            NavigationToolbar.PathControlDisplayText = ResourceController.GetTranslation("NewTab");
+            NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
             NavigationToolbar.CanGoBack = false;
             NavigationToolbar.CanGoForward = false;
 
@@ -169,7 +169,7 @@ namespace Files.Views.Pages
                     ItemPath = (e.InvokedItemDataContext as LocationItem).Path,
                     ItemName = (e.InvokedItemDataContext as LocationItem).Text,
                     PrimaryItemAttribute = Windows.Storage.StorageItemTypes.Folder,
-                    ItemType = ResourceController.GetTranslation("FileFolderListItem"),
+                    ItemType = "FileFolderListItem".GetLocalized(),
                     LoadFolderGlyph = true
                 };
                 await InteractionOperations.OpenPropertiesWindow(listedItem);
@@ -193,7 +193,7 @@ namespace Files.Views.Pages
                         {
                             if (ItemPath.Equals(SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase)) return; // return if already selected
 
-                            navigationPath = ResourceController.GetTranslation("NewTab");
+                            navigationPath = "NewTab".GetLocalized();
                             sourcePageType = typeof(YourHome);
                         }
                         else // Any other item
@@ -290,7 +290,7 @@ namespace Files.Views.Pages
                     {
                         suggestions = new List<ListedItem>() { new ListedItem(null) {
                         ItemPath = FilesystemViewModel.WorkingDirectory,
-                        ItemName = ResourceController.GetTranslation("NavigationToolbarVisiblePathNoResults") } };
+                        ItemName = "NavigationToolbarVisiblePathNoResults".GetLocalized() } };
                     }
 
 
@@ -335,7 +335,7 @@ namespace Files.Views.Pages
                     mNavToolbar.NavigationBarSuggestions.Add(new ListedItem(null)
                     {
                         ItemPath = FilesystemViewModel.WorkingDirectory,
-                        ItemName = ResourceController.GetTranslation("NavigationToolbarVisiblePathNoResults")
+                        ItemName = "NavigationToolbarVisiblePathNoResults".GetLocalized()
                     });
                 }
             }
@@ -376,7 +376,7 @@ namespace Files.Views.Pages
                 var flyoutItem = new MenuFlyoutItem
                 {
                     Icon = new FontIcon { FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily, Glyph = "\uEC17" },
-                    Text = ResourceController.GetTranslation("SubDirectoryAccessDenied"),
+                    Text = "SubDirectoryAccessDenied".GetLocalized(),
                     //Foreground = (SolidColorBrush)Application.Current.Resources["SystemControlErrorTextForegroundBrush"],
                     FontSize = 12
                 };
@@ -436,10 +436,10 @@ namespace Files.Views.Pages
 
             if (currentInput != instance.WorkingDirectory || ContentFrame.CurrentSourcePageType == typeof(YourHome))
             {
-                if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || currentInput.Equals(ResourceController.GetTranslation("NewTab"), StringComparison.OrdinalIgnoreCase))
+                if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || currentInput.Equals("NewTab".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                 {
-                    await FilesystemViewModel.SetWorkingDirectory(ResourceController.GetTranslation("NewTab"));
-                    ContentFrame.Navigate(typeof(YourHome), new NavigationArguments(ref Connection) { NavPathParam = ResourceController.GetTranslation("NewTab"), AssociatedTabInstance = this }, new SuppressNavigationTransitionInfo());
+                    await FilesystemViewModel.SetWorkingDirectory("NewTab".GetLocalized());
+                    ContentFrame.Navigate(typeof(YourHome), new NavigationArguments(ref Connection) { NavPathParam = "NewTab".GetLocalized(), AssociatedTabInstance = this }, new SuppressNavigationTransitionInfo());
                 }
                 else
                 {
@@ -494,8 +494,8 @@ namespace Files.Views.Pages
                             }
                             catch
                             {
-                                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("InvalidItemDialogTitle"),
-                                    string.Format(ResourceController.GetTranslation("InvalidItemDialogContent"), Environment.NewLine, ex.Message));
+                                await DialogDisplayHelper.ShowDialog("InvalidItemDialogTitle".GetLocalized(),
+                                    string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, ex.Message));
                             }
                         }
                     }
@@ -638,7 +638,7 @@ namespace Files.Views.Pages
                     break;
 
                 default:
-                    if (NavParams == ResourceController.GetTranslation("NewTab"))
+                    if (NavParams == "NewTab".GetLocalized())
                     {
                         ItemDisplayFrame.Navigate(typeof(YourHome), new NavigationArguments(ref Connection) { NavPathParam = NavParams, AssociatedTabInstance = this}, new SuppressNavigationTransitionInfo());
                         SidebarControl.SelectedSidebarItem = MainPage.sideBarItems[0];
@@ -926,7 +926,7 @@ namespace Files.Views.Pages
             if (incomingSourcePageType == typeof(YourHome) && incomingSourcePageType != null)
             {
                 SidebarSelectedItem = MainPage.sideBarItems.First(x => x.Path.Equals("Home"));
-                NavigationToolbar.PathControlDisplayText = ResourceController.GetTranslation("NewTab");
+                NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
             }
         }
 

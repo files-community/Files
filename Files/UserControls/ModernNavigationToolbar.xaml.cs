@@ -6,6 +6,7 @@ using Files.Interacts;
 using Files.View_Models;
 using Files.Views;
 using Files.Views.Pages;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.Collections.Generic;
@@ -383,7 +384,7 @@ namespace Files.UserControls
         private void PathBoxItem_DragLeave(object sender, DragEventArgs e)
         {
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
-                pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab"))
+                pathBoxItem.Path == "Home" || pathBoxItem.Path == "NewTab".GetLocalized())
             {
                 return;
             }
@@ -398,7 +399,7 @@ namespace Files.UserControls
         private async void PathBoxItem_DragOver(object sender, DragEventArgs e)
         {
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
-                pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab"))
+                pathBoxItem.Path == "Home" || pathBoxItem.Path == "NewTab".GetLocalized())
             {
                 return;
             }
@@ -441,7 +442,7 @@ namespace Files.UserControls
             else
             {
                 e.DragUIOverride.IsCaptionVisible = true;
-                e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), pathBoxItem.Title);
+                e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), pathBoxItem.Title);
                 e.AcceptedOperation = DataPackageOperation.Move;
             }
 
@@ -451,7 +452,7 @@ namespace Files.UserControls
         private void PathBoxItem_Drop(object sender, DragEventArgs e)
         {
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
-                pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab"))
+                pathBoxItem.Path == "Home" || pathBoxItem.Path == "NewTab".GetLocalized())
             {
                 return;
             }

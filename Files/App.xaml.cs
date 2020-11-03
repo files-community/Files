@@ -10,6 +10,7 @@ using Files.Views;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
@@ -321,7 +322,7 @@ namespace Files
 
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
         {
-            AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab => tab != null ? tab.Path ?? ResourceController.GetTranslation("NewTab") : ResourceController.GetTranslation("NewTab")).ToArray();
+            AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab => tab != null ? tab.Path ?? "NewTab".GetLocalized() : "NewTab".GetLocalized()).ToArray();
         }
 
         // Occurs when an exception is not handled on the UI thread.
@@ -346,11 +347,11 @@ namespace Files
                             {
                                 new AdaptiveText()
                                 {
-                                    Text = ResourceController.GetTranslation("ExceptionNotificationHeader")
+                                    Text = "ExceptionNotificationHeader".GetLocalized()
                                 },
                                 new AdaptiveText()
                                 {
-                                    Text = ResourceController.GetTranslation("ExceptionNotificationBody")
+                                    Text = "ExceptionNotificationBody".GetLocalized()
                                 }
                             },
                             AppLogoOverride = new ToastGenericAppLogo()
@@ -363,7 +364,7 @@ namespace Files
                     {
                         Buttons =
                         {
-                            new ToastButton(ResourceController.GetTranslation("ExceptionNotificationReportButton"), "report")
+                            new ToastButton("ExceptionNotificationReportButton".GetLocalized(), "report")
                             {
                                 ActivationType = ToastActivationType.Foreground
                             }

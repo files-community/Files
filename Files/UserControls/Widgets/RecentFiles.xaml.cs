@@ -4,6 +4,7 @@ using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
 using Files.View_Models;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;

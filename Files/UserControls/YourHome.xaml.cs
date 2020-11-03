@@ -5,6 +5,7 @@ using Files.Interacts;
 using Files.View_Models;
 using Files.Views;
 using Files.Views.Pages;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -22,6 +23,7 @@ namespace Files
         public YourHome()
         {
             InitializeComponent();
+            DrivesWidget.DrivesWidgetInvoked += DrivesWidget_DrivesWidgetInvoked;
             LibraryLocationCardsWidget.LibraryCardInvoked += LibraryLocationCardsWidget_LibraryCardInvoked;
             RecentFilesWidget.RecentFilesOpenLocationInvoked += RecentFilesWidget_RecentFilesOpenLocationInvoked;
             RecentFilesWidget.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
@@ -60,8 +62,8 @@ namespace Files
             catch (COMException)
             {
                 await DialogDisplayHelper.ShowDialog(
-                    ResourceController.GetTranslation("DriveUnpluggedDialog/Title"),
-                    ResourceController.GetTranslation("DriveUnpluggedDialog/Text"));
+                    "DriveUnpluggedDialog/Title".GetLocalized(),
+                    "DriveUnpluggedDialog/Text".GetLocalized());
             }
         }
 
@@ -71,6 +73,12 @@ namespace Files
         }
 
         private void LibraryLocationCardsWidget_LibraryCardInvoked(object sender, LibraryCardInvokedEventArgs e)
+        {
+            AppInstance.ContentFrame.Navigate(e.LayoutType, new NavigationArguments(ref Connection) { NavPathParam = e.Path, AssociatedTabInstance = AppInstance });
+            AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page        
+        }
+
+        private void DrivesWidget_DrivesWidgetInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)
         {
             AppInstance.ContentFrame.Navigate(e.LayoutType, new NavigationArguments(ref Connection) { NavPathParam = e.Path, AssociatedTabInstance = AppInstance });
             AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page        
