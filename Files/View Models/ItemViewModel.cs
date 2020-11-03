@@ -73,11 +73,12 @@ namespace Files.Filesystem
         public delegate void WorkingDirectoryModifiedEventHandler(object sender, WorkingDirectoryModifiedEventArgs e);
         public event WorkingDirectoryModifiedEventHandler WorkingDirectoryModified;
 
-        public async Task SetWorkingDirectory(string value)
+        public async Task<FilesystemResult> SetWorkingDirectory(string value)
         {
+            var navigated = (FilesystemResult)true;
             if (string.IsNullOrWhiteSpace(value))
             {
-                return;
+                return new FilesystemResult(FilesystemErrorCode.ERROR_NOTAFOLDER);
             }
 
             WorkingDirectoryModified?.Invoke(this, new WorkingDirectoryModifiedEventArgs() { Path = value });
@@ -95,8 +96,18 @@ namespace Files.Filesystem
 
             if (Path.IsPathRooted(value))
             {
-                _currentStorageFolder = await StorageFileExtensions.GetFolderWithPathFromPathAsync(value, _workingRoot, _currentStorageFolder);
-                _customPath = null;
+                var res = await StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(value, _workingRoot, _currentStorageFolder).Wrap();
+                if (res)
+                {
+                    _currentStorageFolder = res.Result;
+                    _customPath = null;
+                }
+                else
+                {
+                    _currentStorageFolder = null;
+                    _customPath = value;
+                }
+                navigated = res;
             }
 
             if (value == "Home")
@@ -109,26 +120,27 @@ namespace Files.Filesystem
             }
 
             NotifyPropertyChanged(nameof(WorkingDirectory));
+            return navigated;
         }
 
-        public async Task<StorageFolder> GetFolderFromPathAsync(string value)
+        public async Task<FilesystemResult<StorageFolder>> GetFolderFromPathAsync(string value)
         {
-            return await StorageFileExtensions.GetFolderFromPathAsync(value, _workingRoot, _currentStorageFolder);
+            return await StorageFileExtensions.DangerousGetFolderFromPathAsync(value, _workingRoot, _currentStorageFolder).Wrap();
         }
 
-        public async Task<StorageFile> GetFileFromPathAsync(string value)
+        public async Task<FilesystemResult<StorageFile>> GetFileFromPathAsync(string value)
         {
-            return await StorageFileExtensions.GetFileFromPathAsync(value, _workingRoot, _currentStorageFolder);
+            return await StorageFileExtensions.DangerousGetFileFromPathAsync(value, _workingRoot, _currentStorageFolder).Wrap();
         }
 
-        public async Task<StorageFolderWithPath> GetFolderWithPathFromPathAsync(string value)
+        public async Task<FilesystemResult<StorageFolderWithPath>> GetFolderWithPathFromPathAsync(string value)
         {
-            return await StorageFileExtensions.GetFolderWithPathFromPathAsync(value, _workingRoot, _currentStorageFolder);
+            return await StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(value, _workingRoot, _currentStorageFolder).Wrap();
         }
 
-        public async Task<StorageFileWithPath> GetFileWithPathFromPathAsync(string value)
+        public async Task<FilesystemResult<StorageFileWithPath>> GetFileWithPathFromPathAsync(string value)
         {
-            return await StorageFileExtensions.GetFileWithPathFromPathAsync(value, _workingRoot, _currentStorageFolder);
+            return await StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(value, _workingRoot, _currentStorageFolder).Wrap();
         }
 
         private bool _IsFolderEmptyTextDisplayed;
@@ -504,7 +516,7 @@ namespace Files.Filesystem
                     var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
                     try
                     {
-                        StorageFile matchingStorageItem = await StorageFileExtensions.GetFileFromPathAsync((item as ShortcutItem)?.TargetPath ?? item.ItemPath, _workingRoot, _currentStorageFolder);
+                        StorageFile matchingStorageItem = await StorageFileExtensions.DangerousGetFileFromPathAsync((item as ShortcutItem)?.TargetPath ?? item.ItemPath, _workingRoot, _currentStorageFolder);
                         if (matchingItem != null && matchingStorageItem != null)
                         {
                             using (var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale))
@@ -548,7 +560,7 @@ namespace Files.Filesystem
                     var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
                     try
                     {
-                        StorageFolder matchingStorageItem = await StorageFileExtensions.GetFolderFromPathAsync((item as ShortcutItem)?.TargetPath ?? item.ItemPath, _workingRoot, _currentStorageFolder);
+                        StorageFolder matchingStorageItem = await StorageFileExtensions.DangerousGetFolderFromPathAsync((item as ShortcutItem)?.TargetPath ?? item.ItemPath, _workingRoot, _currentStorageFolder);
                         if (matchingItem != null && matchingStorageItem != null)
                         {
                             var iconOverlay = await LoadIconOverlay(matchingItem.ItemPath);
@@ -661,41 +673,6 @@ namespace Files.Filesystem
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
                 App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
-
-                switch (path)
-                {
-                    case "Desktop":
-                        await SetWorkingDirectory(App.AppSettings.DesktopPath);
-                        break;
-
-                    case "Downloads":
-                        await SetWorkingDirectory(App.AppSettings.DownloadsPath);
-                        break;
-
-                    case "Documents":
-                        await SetWorkingDirectory(App.AppSettings.DocumentsPath);
-                        break;
-
-                    case "Pictures":
-                        await SetWorkingDirectory(App.AppSettings.PicturesPath);
-                        break;
-
-                    case "Music":
-                        await SetWorkingDirectory(App.AppSettings.MusicPath);
-                        break;
-
-                    case "Videos":
-                        await SetWorkingDirectory(App.AppSettings.VideosPath);
-                        break;
-
-                    case "RecycleBin":
-                        await SetWorkingDirectory(App.AppSettings.RecycleBinPath);
-                        break;
-
-                    default:
-                        await SetWorkingDirectory(path);
-                        break;
-                }
 
                 AssociatedInstance.NavigationToolbar.CanGoBack = AssociatedInstance.ContentFrame.CanGoBack;
                 AssociatedInstance.NavigationToolbar.CanGoForward = AssociatedInstance.ContentFrame.CanGoForward;
@@ -818,17 +795,21 @@ namespace Files.Filesystem
             // Flag to use FindFirstFileExFromApp or StorageFolder enumeration
             bool enumFromStorageFolder = false;
 
-            try
+            var res = await StorageFolder.GetFolderFromPathAsync(path).AsTask().Wrap();
+            if (res)
             {
-                _rootFolder = await StorageFolder.GetFolderFromPathAsync(path);
+                _rootFolder = res.Result;
             }
-            catch (UnauthorizedAccessException)
+            else if (res == FilesystemErrorCode.ERROR_UNAUTHORIZED)
             {
-                var consentDialogDisplay = new ConsentDialog();
-                await consentDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
+                // TODO: proper dialog
+                await DialogDisplayHelper.ShowDialog(
+                    "AccessDeniedDeleteDialog/Title".GetLocalized(),
+                    "SubDirectoryAccessDenied".GetLocalized());
+                IsLoadingItems = false;
                 return false;
             }
-            catch (FileNotFoundException)
+            else if (res == FilesystemErrorCode.ERROR_NOTFOUND)
             {
                 await DialogDisplayHelper.ShowDialog(
                     "FolderNotFoundDialog/Title".GetLocalized(),
@@ -836,7 +817,7 @@ namespace Files.Filesystem
                 IsLoadingItems = false;
                 return false;
             }
-            catch (Exception e)
+            else
             {
                 if (_workingRoot != null)
                 {
@@ -845,7 +826,7 @@ namespace Files.Filesystem
                 }
                 else
                 {
-                    await DialogDisplayHelper.ShowDialog("DriveUnpluggedDialog/Title".GetLocalized(), e.Message);
+                    await DialogDisplayHelper.ShowDialog("DriveUnpluggedDialog/Title".GetLocalized(), res.ErrorCode.ToString());
                     IsLoadingItems = false;
                     return false;
                 }

@@ -604,11 +604,13 @@ namespace Files
                 }
                 else if (item.PrimaryItemAttribute == StorageItemTypes.File)
                 {
-                    selectedStorageItems.Add(await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath));
+                    await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
+                        .OnSuccess(t => selectedStorageItems.Add(t));
                 }
                 else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    selectedStorageItems.Add(await ParentShellPageInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath));
+                    await ParentShellPageInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
+                        .OnSuccess(t => selectedStorageItems.Add(t));
                 }
             }
 

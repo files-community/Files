@@ -244,20 +244,16 @@ namespace Files.Filesystem
                     continue;
                 }
 
-                StorageFolder folder = null;
-                try
-                {
-                    folder = await StorageFolder.GetFolderFromPathAsync(drive.Name);
-                }
-                catch (UnauthorizedAccessException ex)
+                var res = await StorageFolder.GetFolderFromPathAsync(drive.Name).AsTask().Wrap();
+                if (res == FilesystemErrorCode.ERROR_UNAUTHORIZED)
                 {
                     unauthorizedAccessDetected = true;
-                    Logger.Warn($"{ex.GetType()}: Attemting to add the device, {drive.Name}, failed at the StorageFolder initialization step. This device will be ignored.");
+                    Logger.Warn($"{res.ErrorCode.ToString()}: Attemting to add the device, {drive.Name}, failed at the StorageFolder initialization step. This device will be ignored.");
                     continue;
                 }
-                catch (ArgumentException ex)
+                else if (!res)
                 {
-                    Logger.Warn($"{ex.GetType()}: Attemting to add the device, {drive.Name}, failed at the StorageFolder initialization step. This device will be ignored.");
+                    Logger.Warn($"{res.ErrorCode.ToString()}: Attemting to add the device, {drive.Name}, failed at the StorageFolder initialization step. This device will be ignored.");
                     continue;
                 }
 
@@ -307,7 +303,7 @@ namespace Files.Filesystem
                         break;
                 }
 
-                var driveItem = new DriveItem(folder, type);
+                var driveItem = new DriveItem(res.Result, type);
 
                 Logger.Info($"Drive added: {driveItem.Path}, {driveItem.Type}");
 

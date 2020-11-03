@@ -42,10 +42,7 @@ namespace Files.View_Models.Properties
             {
                 var properties = Task.Run(async () =>
                 {
-                    return await diskRoot.Properties.RetrievePropertiesAsync(new[] {
-                    freeSpace,
-                    capacity,
-                    fileSystem });
+                    return await diskRoot.Properties.RetrievePropertiesAsync(new[] { freeSpace, capacity, fileSystem });
                 }).Result;
 
                 ViewModel.DriveCapacityValue = (ulong)properties[capacity];

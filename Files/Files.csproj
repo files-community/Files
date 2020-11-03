@@ -179,6 +179,7 @@
     </Compile>
     <Compile Include="Filesystem\CloudDriveSyncStatus.cs" />
     <Compile Include="Filesystem\PropertiesData.cs" />
+    <Compile Include="Filesystem\StorageFileHelpers\FilesystemResult.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\StorageFileExtensions.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\IStorageItemWithPath.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\StorageFileWithPath.cs" />

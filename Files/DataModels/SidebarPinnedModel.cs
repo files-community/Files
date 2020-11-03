@@ -181,19 +181,19 @@ namespace Files.DataModels
         /// <returns>Task</returns>
         public async Task AddItemToSidebar(string path)
         {
-            try
+            var item = await DrivesManager.GetRootFromPath(path);
+            var res = await StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item).Wrap();
+            if (res)
             {
-                var item = await DrivesManager.GetRootFromPath(path);
-                StorageFolder folder = await StorageFileExtensions.GetFolderFromPathAsync(path, item);
                 int insertIndex = MainPage.sideBarItems.IndexOf(MainPage.sideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
-                    && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;
+                && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;
                 var locationItem = new LocationItem
                 {
                     Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
                     Path = path,
                     Glyph = GetItemIcon(path),
                     IsDefaultLocation = false,
-                    Text = folder.DisplayName
+                    Text = res.Result.DisplayName
                 };
 
                 if (!MainPage.sideBarItems.Contains(locationItem))
@@ -201,18 +201,9 @@ namespace Files.DataModels
                     MainPage.sideBarItems.Insert(insertIndex, locationItem);
                 }
             }
-            catch (UnauthorizedAccessException ex)
+            else
             {
-                Debug.WriteLine(ex.Message);
-            }
-            catch (Exception ex) when (
-                ex is ArgumentException // Pinned item was invalid
-                || ex is FileNotFoundException // Pinned item was deleted
-                || ex is System.Runtime.InteropServices.COMException // Pinned item's drive was ejected
-                || (uint)ex.HResult == 0x8007000F // The system cannot find the drive specified
-                || (uint)ex.HResult == 0x800700A1) // The specified path is invalid (usually an mtp device was disconnected)
-            {
-                Debug.WriteLine("Pinned item was invalid and will be removed from the file lines list soon: " + ex.Message);
+                Debug.WriteLine("Pinned item was invalid and will be removed from the file lines list soon: " + res.ErrorCode.ToString());
                 RemoveItem(path);
             }
         }

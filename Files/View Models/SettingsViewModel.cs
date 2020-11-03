@@ -265,11 +265,7 @@ namespace Files.View_Models
                 PinOneDriveToSideBar = false;
             }
 
-            try
-            {
-                await StorageFolder.GetFolderFromPathAsync(OneDrivePath);
-            }
-            catch (Exception)
+            if (!await StorageFolder.GetFolderFromPathAsync(OneDrivePath).AsTask().Wrap())
             {
                 PinOneDriveToSideBar = false;
             }
