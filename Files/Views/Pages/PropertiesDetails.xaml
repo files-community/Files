@@ -26,14 +26,30 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <ListView SelectionMode="None" ItemsSource="{x:Bind PropertiesSource.View, Mode=OneWay}">
+    <ListView x:Name="MainList" SelectionMode="None" ItemsSource="{x:Bind PropertiesSource.View, Mode=OneWay}">
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="filesystem:PropertiesData">
-                <usercontrols:PropertyListItem Text="{Binding Name, Mode=OneWay}">
-                    <usercontrols:PropertyListItem.ValueText>
-                        <Binding Path="Value" Converter="{Binding Converter}" Mode="TwoWay"/>
-                    </usercontrols:PropertyListItem.ValueText>
-                </usercontrols:PropertyListItem>
+                <Grid Width="{Binding Width, ElementName=MainList, Mode=OneWay}" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Style="{StaticResource PropertyName}"
+                        Text="{Binding Name, Mode=OneWay}" 
+                        HorizontalAlignment="Left"/>
+
+                    <TextBox
+                        Grid.Column="1"
+                        IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}"
+                        Style="{StaticResource PropertyValueTextBox}"
+                        HorizontalAlignment="Right">
+                        <TextBox.Text>
+                                <Binding Path="Value" Converter="{Binding Converter, Mode=OneWay}" Mode="TwoWay"/>
+                        </TextBox.Text>
+                    </TextBox>
+                </Grid>
             </DataTemplate>
         </ListView.ItemTemplate>
         <ListView.GroupStyle>

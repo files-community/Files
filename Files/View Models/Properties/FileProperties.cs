@@ -154,9 +154,91 @@ namespace Files.View_Models.Properties
 
         private List<PropertiesData> PropertyListItemsBase = new List<PropertiesData>()
         {
-            new PropertiesData("System.Title", "Title") {Section = "section1" },
-            new PropertiesData("System.Comments", "Comments") {Section = "section2" },
-            new PropertiesData("System.Subject", "Subject") {Section = "section3" },
+		    new PropertiesData() {
+			    Name = "Latitude",
+			    Property = "System.GPS.Latitude",
+			    Section = "GPS",
+		    },
+		    new PropertiesData() {
+			    Name = "Latitude Ref",
+			    Property = "System.GPS.LatitudeRef",
+			    Section = "GPS",
+		    },
+		    new PropertiesData() {
+			    Name = "Longitude",
+			    Property = "System.GPS.Longitude",
+			    Section = "GPS",
+		    },
+		    new PropertiesData() {
+			    Name = "Longitude Ref",
+			    Property = "System.GPS.LongitudeRef",
+			    Section = "GPS",
+		    },
+		    new PropertiesData() {
+			    Name = "Altitude",
+			    Property = "System.GPS.Altitude",
+			    Section = "GPS",
+		    },
+		    new PropertiesData() {
+			    Name = "Exposure Time",
+			    Property = "System.Photo.ExposureTime",
+			    Section = "Photo",
+		    },
+		    new PropertiesData() {
+			    Name = "Focal Length",
+			    Property = "System.Photo.FocalLength",
+			    Section = "Photo",
+		    },
+		    new PropertiesData() {
+			    Name = "Aperture",
+			    Property = "System.Photo.Aperture",
+			    Section = "Photo",
+		    },
+		    new PropertiesData() {
+			    Name = "Date Taken",
+			    Property = "System.Photo.DateTaken",
+			    Section = "Photo",
+		    },
+		    new PropertiesData() {
+			    Name = "Channel Count",
+			    Property = "System.Audio.ChannelCount",
+			    Section = "Audio",
+		    },
+		    new PropertiesData() {
+			    Name = "Encoding Bitrate",
+			    Property = "System.Audio.EncodingBitrate",
+			    Section = "Audio",
+		    },
+		    new PropertiesData() {
+			    Name = "Compression",
+			    Property = "System.Audio.Compression",
+			    Section = "Audio",
+		    },
+		    new PropertiesData() {
+			    Name = "Format",
+			    Property = "System.Audio.Format",
+			    Section = "Audio",
+		    },
+		    new PropertiesData() {
+			    Name = "Sample Rate",
+			    Property = "System.Audio.SampleRate",
+			    Section = "Audio",
+		    },
+		    new PropertiesData() {
+			    Name = "Album I D",
+			    Property = "System.Music.AlbumID",
+			    Section = "Music",
+		    },
+		    new PropertiesData() {
+			    Name = "Display Artist",
+			    Property = "System.Music.DisplayArtist",
+			    Section = "Music",
+		    },
+		    new PropertiesData() {
+			    Name = "Creator Application",
+			    Property = "System.Media.CreatorApplication",
+			    Section = "Media",
+		    },
 
         };
 
@@ -306,32 +388,27 @@ namespace Files.View_Models.Properties
                 return;
             }
 
-            IDictionary<string, object> props = new Dictionary<string, object>();
+            //IDictionary<string, object> props = new Dictionary<string, object>();
 
             //GenerateXAMLCode();
             try
             {
-                ViewModel.SystemFileProperties_RO = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RO);
-                ViewModel.SystemFileProperties_RW = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RW);
-                props = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RW);
+                //ViewModel.SystemFileProperties_RO = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RO);
+                //ViewModel.SystemFileProperties_RW = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RW);
                 //GetPropertiesAsyncDebug(file);
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.ToString());
             }
-            SetVisibilities();
-            ViewModelProcessing();
+            //SetVisibilities();
+            //ViewModelProcessing();
             var list = new List<PropertiesData>();
 
             foreach (var item in PropertyListItemsBase)
             {
-                try {
-                    item.Value = props[item.Property];
-                } catch (Exception e) {
-                    Debug.WriteLine(e.ToString());
-                }
-
+                var props = await file.Properties.RetrievePropertiesAsync(new List<string>() { item.Property });
+                item.Value = props[item.Property];
                 list.Add(item);
             }
 
@@ -486,18 +563,22 @@ namespace Files.View_Models.Properties
 
         private async Task SavePropertiesAsync(StorageFile file)
         {
-            foreach (KeyValuePair<string, object> valuePair in ViewModel.SystemFileProperties_RW)
+            //foreach (var valuePair in ViewModel.SystemFileProperties_RW)
+            foreach (var group in ViewModel.PropertySections)
             {
-                var newDict = new Dictionary<string, object>();
-                newDict.Add(valuePair.Key, valuePair.Value);
+                foreach (PropertiesData prop in group)
+                {
+                    var newDict = new Dictionary<string, object>();
+                    newDict.Add(prop.Property, prop.Value);
 
-                try
-                {
-                    await file.Properties.SavePropertiesAsync(newDict);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(string.Format("{0}\n{1}", valuePair.Key, e.ToString()));
+                    try
+                    {
+                        await file.Properties.SavePropertiesAsync(newDict);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.WriteLine(string.Format("{0}\n{1}", prop.Property, e.ToString()));
+                    }
                 }
             }
         }

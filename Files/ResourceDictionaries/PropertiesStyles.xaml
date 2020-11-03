@@ -74,8 +74,4 @@
         <Setter Property="Grid.Column" Value="0" />
         <Setter Property="FontSize" Value="22" />
     </Style>
-
-    <Style TargetType="usercontrols:PropertyListItem">
-        <Setter Property="ColumnWidth" Value="110" />
-    </Style>
 </ResourceDictionary>

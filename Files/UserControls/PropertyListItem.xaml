@@ -21,20 +21,23 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{x:Bind ColumnWidth}" />
+            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <TextBlock
             Grid.Row="0"
             Style="{StaticResource PropertyName}"
-            Text="{x:Bind Text, Mode=OneWay}" />
+            Text="{x:Bind Text, Mode=OneWay}" 
+            HorizontalAlignment="Left"/>
         <TextBox
             Grid.Row="0"
             Grid.Column="1"
             IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}"
             Style="{StaticResource PropertyValueTextBox}"
             TextChanged="TextBox_TextChanged" 
+            HorizontalAlignment="Right"
+            Width="Auto"
             Text="{x:Bind ValueText, Mode=TwoWay}"/>
     </Grid>
 </UserControl>
