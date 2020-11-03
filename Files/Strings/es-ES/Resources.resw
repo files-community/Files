@@ -475,7 +475,7 @@
     <value>¿Has eliminado esta carpeta?</value>
   </data>
   <data name="StatusBarControlLayoutMode.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Tipo de vista</value>
+    <value>Modo de vista</value>
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Opciones de selección</value>
@@ -883,7 +883,7 @@
     <value>Crea un archivo de texto vacío.</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
-    <value>Tipo de vista</value>
+    <value>Modo de vista</value>
   </data>
   <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
     <value>Crear nuevo elemento</value>
@@ -989,5 +989,50 @@
   </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
     <value>Mostrar propietario de archivo en la ventana de propiedades</value>
+  </data>
+  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Más opciones</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.AutomationProperties.Name" xml:space="preserve">
+    <value>Modo de vista</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Opciones de selección</value>
+  </data>
+  <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
+    <value>Centro de actividades</value>
+  </data>
+  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
+    <value>Abrir elementos con un solo click</value>
+  </data>
+  <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
+    <value>Mover aquí</value>
+  </data>
+  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+    <value>Dispositivos y Unidades</value>
+  </data>
+  <data name="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar bibliotecas en la página de inicio</value>
+  </data>
+  <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
+    <value>Mostrar bibliotecas en la página de inicio</value>
+  </data>
+  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
+    <value>Widgets</value>
+  </data>
+  <data name="SettingsWidgets.Content" xml:space="preserve">
+    <value>Widgets</value>
+  </data>
+  <data name="SettingsWidgetsShowDrives.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar unidades en la página de inicio</value>
+  </data>
+  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
+    <value>Mostrar unidades en la página de inicio</value>
+  </data>
+  <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar archivos recientes en la página de inicio</value>
+  </data>
+  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
+    <value>Mostrar archivos recientes en la página de inicio</value>
   </data>
 </root>

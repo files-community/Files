@@ -624,7 +624,7 @@
         </trans-unit>
         <trans-unit id="StatusBarControlLayoutMode.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
-          <target state="translated">Tipo de vista</target>
+          <target state="translated">Modo de vista</target>
         </trans-unit>
         <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
@@ -1224,7 +1224,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
-          <target state="translated">Tipo de vista</target>
+          <target state="translated">Modo de vista</target>
         </trans-unit>
         <trans-unit id="NewItemButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Create new item</source>
@@ -1368,63 +1368,63 @@
         </trans-unit>
         <trans-unit id="NavMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More options</source>
-          <target state="new">More options</target>
+          <target state="translated">Más opciones</target>
         </trans-unit>
         <trans-unit id="StatusBarControlLayoutMode.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
-          <target state="new">Layout mode</target>
+          <target state="translated">Modo de vista</target>
         </trans-unit>
         <trans-unit id="StatusBarControlSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selection options</source>
-          <target state="new">Selection options</target>
+          <target state="translated">Opciones de selección</target>
         </trans-unit>
         <trans-unit id="StatusCenter.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Status center</source>
-          <target state="new">Status center</target>
+          <target state="translated">Centro de actividades</target>
         </trans-unit>
         <trans-unit id="SettingsOpenItemsWithOneclick.Header" translate="yes" xml:space="preserve">
           <source>Open items with a single click</source>
-          <target state="new">Open items with a single click</target>
+          <target state="translated">Abrir elementos con un solo click</target>
         </trans-unit>
         <trans-unit id="PinToSidebarByDraggingCaptionText" translate="yes" xml:space="preserve">
           <source>Move here</source>
-          <target state="new">Move here</target>
+          <target state="translated">Mover aquí</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
           <source>Drives</source>
-          <target state="new">Drives</target>
+          <target state="translated">Dispositivos y Unidades</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show library cards on the home page</source>
-          <target state="new">Show library cards on the home page</target>
+          <target state="translated">Mostrar bibliotecas en la página de inicio</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowLibraryCards.Header" translate="yes" xml:space="preserve">
           <source>Show library cards on the home page</source>
-          <target state="new">Show library cards on the home page</target>
+          <target state="translated">Mostrar bibliotecas en la página de inicio</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsTitle.Text" translate="yes" xml:space="preserve">
           <source>Widgets</source>
-          <target state="new">Widgets</target>
+          <target state="translated">Widgets</target>
         </trans-unit>
         <trans-unit id="SettingsWidgets.Content" translate="yes" xml:space="preserve">
           <source>Widgets</source>
-          <target state="new">Widgets</target>
+          <target state="translated">Widgets</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowDrives.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show drives on the home page</source>
-          <target state="new">Show drives on the home page</target>
+          <target state="translated">Mostrar unidades en la página de inicio</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowDrives.Header" translate="yes" xml:space="preserve">
           <source>Show drives on the home page</source>
-          <target state="new">Show drives on the home page</target>
+          <target state="translated">Mostrar unidades en la página de inicio</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show recent files on the home page</source>
-          <target state="new">Show recent files on the home page</target>
+          <target state="translated">Mostrar archivos recientes en la página de inicio</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowRecentFiles.Header" translate="yes" xml:space="preserve">
           <source>Show recent files on the home page</source>
-          <target state="new">Show recent files on the home page</target>
+          <target state="translated">Mostrar archivos recientes en la página de inicio</target>
         </trans-unit>
       </group>
     </body>
