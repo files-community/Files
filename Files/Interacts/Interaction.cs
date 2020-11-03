@@ -49,7 +49,7 @@ namespace Files.Interacts
         private readonly IShellPage AssociatedInstance;
         public SettingsViewModel AppSettings => App.AppSettings;
         private AppServiceConnection Connection = null;
-        public Interaction(IShellPage appInstance, AppServiceConnection connection)
+        public Interaction(IShellPage appInstance, ref AppServiceConnection connection)
         {
             AssociatedInstance = appInstance;
             Connection = connection;
@@ -329,7 +329,7 @@ namespace Files.Interacts
                 var folderPath = Path.GetDirectoryName(item.TargetPath);
                 // Check if destination path exists
                 var destFolder = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
-                AssociatedInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), folderPath);
+                AssociatedInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments(ref Connection) { NavPathParam = folderPath, AssociatedTabInstance = AssociatedInstance });
             }
             catch (FileNotFoundException)
             {
@@ -375,7 +375,7 @@ namespace Files.Interacts
                         AssociatedInstance.NavigationToolbar.PathControlDisplayText = childFolder.Path;
 
                         AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
-                        AssociatedInstance.ContentFrame.Navigate(sourcePageType, childFolder.Path, new SuppressNavigationTransitionInfo());
+                        AssociatedInstance.ContentFrame.Navigate(sourcePageType, new NavigationArguments(ref Connection) { NavPathParam = childFolder.Path, AssociatedTabInstance = AssociatedInstance }, new SuppressNavigationTransitionInfo());
                     }
                     else if (clickedOnItem.IsShortcutItem)
                     {

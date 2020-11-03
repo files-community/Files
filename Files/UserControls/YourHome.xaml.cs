@@ -43,7 +43,7 @@ namespace Files
             {
                 if (new DirectoryInfo(e.ItemPath).Root.ToString().Contains(@"C:\"))
                 {
-                    AppInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments() { AssociatedTabInstance = AppInstance, NavPathParam = e.ItemPath, ServiceConnection = Connection });
+                    AppInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments(ref Connection) { AssociatedTabInstance = AppInstance, NavPathParam = e.ItemPath });
                 }
                 else
                 {
@@ -51,7 +51,7 @@ namespace Files
                     {
                         if (drive.Path.ToString() == new DirectoryInfo(e.ItemPath).Root.ToString())
                         {
-                            AppInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments() { AssociatedTabInstance = AppInstance, NavPathParam = e.ItemPath, ServiceConnection = Connection });
+                            AppInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments(ref Connection) { AssociatedTabInstance = AppInstance, NavPathParam = e.ItemPath });
                             return;
                         }
                     }
@@ -67,12 +67,12 @@ namespace Files
 
         private void RecentFilesWidget_RecentFilesOpenLocationInvoked(object sender, UserControls.PathNavigationEventArgs e)
         {
-            AppInstance.ContentFrame.Navigate(e.LayoutType, new NavigationArguments() { NavPathParam = e.ItemPath, AssociatedTabInstance = AppInstance, ServiceConnection = Connection });
+            AppInstance.ContentFrame.Navigate(e.LayoutType, new NavigationArguments(ref Connection) { NavPathParam = e.ItemPath, AssociatedTabInstance = AppInstance });
         }
 
         private void LibraryLocationCardsWidget_LibraryCardInvoked(object sender, LibraryCardInvokedEventArgs e)
         {
-            AppInstance.ContentFrame.Navigate(e.LayoutType, new NavigationArguments() { NavPathParam = e.Path, AssociatedTabInstance = AppInstance, ServiceConnection = Connection });
+            AppInstance.ContentFrame.Navigate(e.LayoutType, new NavigationArguments(ref Connection) { NavPathParam = e.Path, AssociatedTabInstance = AppInstance });
             AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page        
         }
 
@@ -86,8 +86,7 @@ namespace Files
             AppInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
             AppInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
             AppInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
-            MainPage.MultitaskingControl?.SetSelectedTabInfo(parameters.NavPathParam, null);
-            MainPage.MultitaskingControl?.SelectionChanged();
+            MainPage.MultitaskingControl?.UpdateSelectedTab(parameters.NavPathParam, null);
             AppInstance.NavigationToolbar.CanRefresh = false;
             AppInstance.NavigationToolbar.CanGoBack = AppInstance.ContentFrame.CanGoBack;
             AppInstance.NavigationToolbar.CanGoForward = AppInstance.ContentFrame.CanGoForward;

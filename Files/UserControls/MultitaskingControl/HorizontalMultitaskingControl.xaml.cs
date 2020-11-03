@@ -28,7 +28,7 @@ namespace Files.UserControls
         private const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
         private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
         private TabViewItem hoveredTabViewItem = null;
-        private ModernShellPage CurrentSelectedAppInstance;
+        private IShellPage CurrentSelectedAppInstance;
         public const string TabPathIdentifier = "FilesTabViewItemPath";
 
         public event IMultitaskingControl.CurrentInstanceChangedEventHandler CurrentInstanceChanged;
@@ -67,66 +67,72 @@ namespace Files.UserControls
             }
         }
 
-        public async Task SetSelectedTabInfo(string text, string currentPathForTabIcon)
+        public async void UpdateSelectedTab(string tabHeader, string workingDirectoryPath)
+        {
+            SelectionChanged();
+            await SetSelectedTabInfo(tabHeader, workingDirectoryPath);
+        }
+
+        private async Task SetSelectedTabInfo(string tabHeader, string currentPath)
         {
             var selectedTabItem = MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
             selectedTabItem.AllowStorageItemDrop = CurrentSelectedAppInstance.InstanceViewModel.IsPageTypeNotHome;
 
-            MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex].Path = currentPathForTabIcon;
+            MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex].Path = currentPath;
 
             string tabLocationHeader;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
             Microsoft.UI.Xaml.Controls.IconSource tabIcon;
             fontIconSource.FontFamily = App.Current.Resources["FluentUIGlyphs"] as FontFamily;
 
-            if (currentPathForTabIcon == null && text == ResourceController.GetTranslation("SidebarSettings/Text"))
+            if (currentPath == null && tabHeader == ResourceController.GetTranslation("SidebarSettings/Text"))
             {
                 tabLocationHeader = ResourceController.GetTranslation("SidebarSettings/Text");
                 fontIconSource.Glyph = "\xeb5d";
             }
-            else if (currentPathForTabIcon == null && text == ResourceController.GetTranslation("NewTab"))
+            else if (currentPath == null && tabHeader == ResourceController.GetTranslation("NewTab"))
             {
                 tabLocationHeader = ResourceController.GetTranslation("NewTab");
                 fontIconSource.Glyph = "\xe90c";
             }
-            else if (currentPathForTabIcon.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = ResourceController.GetTranslation("SidebarDesktop");
                 fontIconSource.Glyph = "\xe9f1";
             }
-            else if (currentPathForTabIcon.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = ResourceController.GetTranslation("SidebarDownloads");
                 fontIconSource.Glyph = "\xe91c";
             }
-            else if (currentPathForTabIcon.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = ResourceController.GetTranslation("SidebarDocuments");
                 fontIconSource.Glyph = "\xEA11";
             }
-            else if (currentPathForTabIcon.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = ResourceController.GetTranslation("SidebarPictures");
                 fontIconSource.Glyph = "\xEA83";
             }
-            else if (currentPathForTabIcon.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = ResourceController.GetTranslation("SidebarMusic");
                 fontIconSource.Glyph = "\xead4";
             }
-            else if (currentPathForTabIcon.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = ResourceController.GetTranslation("SidebarVideos");
                 fontIconSource.Glyph = "\xec0d";
             }
-            else if (currentPathForTabIcon.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
                 var localSettings = ApplicationData.Current.LocalSettings;
                 tabLocationHeader = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
                 fontIconSource.FontFamily = Application.Current.Resources["RecycleBinIcons"] as FontFamily;
                 fontIconSource.Glyph = "\xEF87";
             }
-            else if (App.AppSettings.OneDrivePath != null && currentPathForTabIcon.Equals(App.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase))
+            else if (App.AppSettings.OneDrivePath != null && currentPath.Equals(App.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "OneDrive";
                 fontIconSource.Glyph = "\xe9b7";
@@ -134,17 +140,17 @@ namespace Files.UserControls
             else
             {
                 // If path is a drive's root
-                if (NormalizePath(Path.GetPathRoot(currentPathForTabIcon)) == NormalizePath(currentPathForTabIcon))
+                if (NormalizePath(Path.GetPathRoot(currentPath)) == NormalizePath(currentPath))
                 {
-                    if (NormalizePath(currentPathForTabIcon) != NormalizePath("A:") && NormalizePath(currentPathForTabIcon) != NormalizePath("B:"))
+                    if (NormalizePath(currentPath) != NormalizePath("A:") && NormalizePath(currentPath) != NormalizePath("B:"))
                     {
                         var remDriveNames = (await KnownFolders.RemovableDevices.GetFoldersAsync()).Select(x => x.DisplayName);
-                        var matchingDriveName = remDriveNames.FirstOrDefault(x => NormalizePath(currentPathForTabIcon).Contains(x.ToUpperInvariant()));
+                        var matchingDriveName = remDriveNames.FirstOrDefault(x => NormalizePath(currentPath).Contains(x.ToUpperInvariant()));
 
                         if (matchingDriveName == null)
                         {
                             fontIconSource.Glyph = "\xeb8b";
-                            tabLocationHeader = NormalizePath(currentPathForTabIcon);
+                            tabLocationHeader = NormalizePath(currentPath);
                         }
                         else
                         {
@@ -155,13 +161,13 @@ namespace Files.UserControls
                     else
                     {
                         fontIconSource.Glyph = "\xeb4a";
-                        tabLocationHeader = NormalizePath(currentPathForTabIcon);
+                        tabLocationHeader = NormalizePath(currentPath);
                     }
                 }
                 else
                 {
                     fontIconSource.Glyph = "\xea55";
-                    tabLocationHeader = currentPathForTabIcon.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
+                    tabLocationHeader = currentPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
                 }
             }
             tabIcon = fontIconSource;
@@ -169,46 +175,29 @@ namespace Files.UserControls
             selectedTabItem.IconSource = tabIcon;
         }
 
-        public void TabStrip_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void TabStrip_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (App.InteractionViewModel.TabStripSelectedIndex >= 0 && App.InteractionViewModel.TabStripSelectedIndex < Items.Count)
             {
-                Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
-                icon.Glyph = "\xE713";
-                if (Items[App.InteractionViewModel.TabStripSelectedIndex].Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text")
-                    && Items[App.InteractionViewModel.TabStripSelectedIndex].IconSource != icon)
-                {
-                    CurrentSelectedAppInstance = GetCurrentSelectedTabInstance<ModernShellPage>();
-                }
+                CurrentSelectedAppInstance = GetCurrentSelectedTabInstance<IShellPage>();
 
-                if (Items[App.InteractionViewModel.TabStripSelectedIndex].Header.ToString() == ResourceController.GetTranslation("SidebarSettings/Text"))
+                if (CurrentSelectedAppInstance != null)
                 {
-                    App.InteractionViewModel.TabsLeftMargin = new Thickness(0, 0, 0, 0);
-                    App.InteractionViewModel.LeftMarginLoaded = false;
-                }
-                else
-                {
-                    if (CurrentSelectedAppInstance != null)
+                    if (Items[App.InteractionViewModel.TabStripSelectedIndex].Header.ToString() == ResourceController.GetTranslation("NewTab"))
                     {
-                        if (Items[App.InteractionViewModel.TabStripSelectedIndex].Header.ToString() == ResourceController.GetTranslation("NewTab"))
-                        {
-                            CurrentSelectedAppInstance.InstanceViewModel.IsPageTypeNotHome = false;
-                        }
-                        else
-                        {
-                            CurrentSelectedAppInstance.InstanceViewModel.IsPageTypeNotHome = true;
-                        }
-
-                        CurrentSelectedAppInstance.InstanceViewModel.IsPageTypeRecycleBin =
-                            CurrentSelectedAppInstance?.FilesystemViewModel?.WorkingDirectory?.StartsWith(App.AppSettings.RecycleBinPath) ?? false;
-                        CurrentSelectedAppInstance.InstanceViewModel.IsPageTypeMtpDevice =
-                            CurrentSelectedAppInstance?.FilesystemViewModel?.WorkingDirectory?.StartsWith("\\\\?\\") ?? false;
-
-                        CurrentInstanceChanged?.Invoke(this, new CurrentInstanceChangedEventArgs() { CurrentInstance = CurrentSelectedAppInstance, ShellPageInstances = GetAllTabInstances<IShellPage>() });
+                        CurrentSelectedAppInstance.InstanceViewModel.IsPageTypeNotHome = false;
+                    }
+                    else
+                    {
+                        CurrentSelectedAppInstance.InstanceViewModel.IsPageTypeNotHome = true;
                     }
 
-                    App.InteractionViewModel.TabsLeftMargin = new Thickness(0, 0, 0, 0);
-                    App.InteractionViewModel.LeftMarginLoaded = true;
+                    CurrentSelectedAppInstance.InstanceViewModel.IsPageTypeRecycleBin =
+                        CurrentSelectedAppInstance?.FilesystemViewModel?.WorkingDirectory?.StartsWith(App.AppSettings.RecycleBinPath) ?? false;
+                    CurrentSelectedAppInstance.InstanceViewModel.IsPageTypeMtpDevice =
+                        CurrentSelectedAppInstance?.FilesystemViewModel?.WorkingDirectory?.StartsWith("\\\\?\\") ?? false;
+
+                    CurrentInstanceChanged?.Invoke(this, new CurrentInstanceChangedEventArgs() { CurrentInstance = CurrentSelectedAppInstance, ShellPageInstances = GetAllTabInstances<IShellPage>() });
                 }
             }
         }

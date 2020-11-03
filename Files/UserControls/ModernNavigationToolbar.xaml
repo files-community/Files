@@ -507,8 +507,8 @@
                             AllowDrop="True"
                             AutomationProperties.Name="{Binding Title}"
                             Background="Transparent"
-                            DragOver="PathBoxItem_DragOver"
                             DragLeave="PathBoxItem_DragLeave"
+                            DragOver="PathBoxItem_DragOver"
                             Drop="PathBoxItem_Drop"
                             Tag="{Binding Path}">
 
@@ -588,8 +588,8 @@
                             AllowDrop="True"
                             AutomationProperties.Name="{Binding Title}"
                             Background="Transparent"
-                            DragOver="PathBoxItem_DragOver"
                             DragLeave="PathBoxItem_DragLeave"
+                            DragOver="PathBoxItem_DragOver"
                             Drop="PathBoxItem_Drop"
                             Tag="{Binding Path}">
                             <Interactivity:Interaction.Behaviors>
@@ -878,8 +878,9 @@
                 <Button.Flyout>
                     <MenuFlyout Placement="BottomEdgeAlignedRight">
                         <MenuFlyoutItem
-                            x:Uid="ModernNavigationToolbaNewFolder"
                             x:Name="ToolbarNewFolderItem"
+                            x:Uid="ModernNavigationToolbaNewFolder"
+                            Click="ToolbarNewFolderItem_Click"
                             Text="Folder">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA55;" />
@@ -887,8 +888,9 @@
                         </MenuFlyoutItem>
                         <MenuFlyoutSeparator />
                         <MenuFlyoutItem
-                            x:Uid="ModernNavigationToolbaNewBitmapImage"
                             x:Name="ToolbarNewImageItem"
+                            x:Uid="ModernNavigationToolbaNewBitmapImage"
+                            Click="ToolbarNewImageItem_Click"
                             IsEnabled="{x:Bind CanCreateFileInPage, Mode=OneWay}"
                             Text="Bitmap Image">
                             <MenuFlyoutItem.Icon>
@@ -896,8 +898,9 @@
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
-                            x:Uid="ModernNavigationToolbaNewTextDocument"
                             x:Name="ToolbarNewDocumentItem"
+                            x:Uid="ModernNavigationToolbaNewTextDocument"
+                            Click="ToolbarNewDocumentItem_Click"
                             IsEnabled="{x:Bind CanCreateFileInPage, Mode=OneWay}"
                             Text="Text Document">
                             <MenuFlyoutItem.Icon>
@@ -1007,8 +1010,8 @@
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
-                            x:Uid="NavigationToolbarNewWindow"
                             x:Name="NavToolbarNewWindow"
+                            x:Uid="NavigationToolbarNewWindow"
                             Click="NavToolbarNewWindow_Click"
                             Text="New Window">
                             <MenuFlyoutItem.Icon>

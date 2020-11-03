@@ -283,7 +283,7 @@ namespace Files.Filesystem
 
         public AppServiceConnection Connection = null;
 
-        public ItemViewModel(IShellPage appInstance, AppServiceConnection connection)
+        public ItemViewModel(IShellPage appInstance, ref AppServiceConnection connection)
         {
             AssociatedInstance = appInstance;
             _filesAndFolders = new BulkObservableCollection<ListedItem>();
@@ -304,7 +304,7 @@ namespace Files.Filesystem
             InitializeAppServiceConnection();
         }
 
-        private async void InitializeAppServiceConnection()
+        public async void InitializeAppServiceConnection()
         {
             Connection.AppServiceName = "FilesInteropService";
             Connection.PackageFamilyName = Package.Current.Id.FamilyName;

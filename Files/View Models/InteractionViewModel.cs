@@ -64,22 +64,6 @@ namespace Files.Controls
             }
         }
 
-        private Thickness _TabsLeftMargin = new Thickness(0, 0, 0, 0);
-
-        public Thickness TabsLeftMargin
-        {
-            get => _TabsLeftMargin;
-            set => SetProperty(ref _TabsLeftMargin, value);
-        }
-
-        private bool _LeftMarginLoaded = true;
-
-        public bool LeftMarginLoaded
-        {
-            get => _LeftMarginLoaded;
-            set => SetProperty(ref _LeftMarginLoaded, value);
-        }
-
         private bool _IsPasteEnabled = false;
 
         public bool IsPasteEnabled

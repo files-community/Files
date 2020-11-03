@@ -84,6 +84,7 @@ namespace Files.Views
                 {
                     // Cleanup resources for the closed tab
                     ((((removedTab as TabItem).Content as Grid).Children[0] as Frame).Content as IShellPage)?.FilesystemViewModel?.Dispose();
+                    ((((removedTab as TabItem).Content as Grid).Children[0] as Frame).Content as IShellPage)?.Dispose();
                 }
             }
         }

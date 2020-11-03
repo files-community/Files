@@ -179,14 +179,14 @@
                     <Grid Grid.Row="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                         <controls1:ModernNavigationToolbar
                             x:Name="NavToolbar"
-                            DataContext="{x:Bind InteractionOperations}"
                             Grid.Column="0"
                             Margin="10"
-                            IsPageTypeNotHome="{x:Bind InstanceViewModel.IsPageTypeNotHome,Mode=OneWay}"
-                            IsCreateButtonEnabledInPage="{x:Bind InstanceViewModel.IsCreateButtonEnabledInPage,Mode=OneWay}"
-                            CanCreateFileInPage="{x:Bind InstanceViewModel.CanCreateFileInPage,Mode=OneWay}"
+                            x:FieldModifier="public"
+                            CanCreateFileInPage="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                             CanOpenTerminalInPage="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
-                            x:FieldModifier="public" />
+                            DataContext="{x:Bind InteractionOperations}"
+                            IsCreateButtonEnabledInPage="{x:Bind InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
+                            IsPageTypeNotHome="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
                     </Grid>
 
                     <Frame
@@ -200,10 +200,10 @@
                     <controls1:StatusBarControl
                         x:Name="StatusBarControl"
                         Grid.Row="3"
+                        x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                         DataContext="{x:Bind InteractionOperations}"
                         DirectoryPropertiesViewModel="{x:Bind ContentPage.DirectoryPropertiesViewModel}"
-                        SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel}"
-                        x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"/>
+                        SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel}" />
                 </Grid>
             </Custom:DropShadowPanel>
         </Grid>

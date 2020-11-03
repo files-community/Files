@@ -218,7 +218,7 @@ namespace Files
                 ParentShellPageInstance.FilesystemViewModel.IsLoadingItems = true;
                 ParentShellPageInstance.FilesystemViewModel.IsLoadingItems = false;
 
-                ParentShellPageInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, null);
+                ParentShellPageInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments(ref Connection) { NavPathParam = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, AssociatedTabInstance = ParentShellPageInstance }, null);
             }
         }
 
@@ -236,6 +236,7 @@ namespace Files
             AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
             Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
             var parameters = (NavigationArguments)eventArgs.Parameter;
+            ParentShellPageInstance = parameters.AssociatedTabInstance;
             Connection = parameters.ServiceConnection;
             ParentShellPageInstance.NavigationToolbar.CanRefresh = true;
             IsItemSelected = false;
@@ -258,13 +259,9 @@ namespace Files
             ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
             ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
 
-            if (MainPage.MultitaskingControl != null)
-            {
-                await MainPage.MultitaskingControl.SetSelectedTabInfo(new DirectoryInfo(workingDir).Name, workingDir);
-            }
+            MainPage.MultitaskingControl?.UpdateSelectedTab(new DirectoryInfo(workingDir).Name, workingDir);
             ParentShellPageInstance.FilesystemViewModel.RefreshItems();
 
-            MainPage.MultitaskingControl?.SelectionChanged();
             ParentShellPageInstance.Clipboard_ContentChanged(null, null);
             ParentShellPageInstance.NavigationToolbar.PathControlDisplayText = parameters.NavPathParam;
         }

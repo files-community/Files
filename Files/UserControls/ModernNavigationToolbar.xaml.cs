@@ -65,15 +65,6 @@ namespace Files.UserControls
         {
             this.InitializeComponent();
             InteractionOperations = (this.DataContext as Interaction);
-            this.Loaded += ModernNavigationToolbar_Loaded;
-        }
-
-        private void ModernNavigationToolbar_Loaded(object sender, RoutedEventArgs e)
-        {
-            ToolbarNewFolderItem.Click += ToolbarNewFolderItem_Click;
-            ToolbarNewImageItem.Click += ToolbarNewImageItem_Click;
-            ToolbarNewDocumentItem.Click += ToolbarNewDocumentItem_Click;
-            this.Loaded -= ModernNavigationToolbar_Loaded;
         }
 
         private void ToolbarNewDocumentItem_Click(object sender, RoutedEventArgs e) => InteractionOperations.NewTextDocument();
