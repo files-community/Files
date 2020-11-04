@@ -23,6 +23,7 @@ namespace Files
         public YourHome()
         {
             InitializeComponent();
+            this.Loaded += YourHome_Loaded;
         }
 
         private void YourHome_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -40,6 +41,7 @@ namespace Files
                 RecentFilesWidget.RecentFilesOpenLocationInvoked += RecentFilesWidget_RecentFilesOpenLocationInvoked;
                 RecentFilesWidget.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
             }
+            this.Loaded -= YourHome_Loaded;
         }
 
         private async void RecentFilesWidget_RecentFileInvoked(object sender, UserControls.PathNavigationEventArgs e)
