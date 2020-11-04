@@ -347,9 +347,22 @@ namespace Files.Controls
                 return;
             }
 
-            var deferral = e.GetDeferral();
-            SidebarItemDropped?.Invoke(this, new SidebarItemDroppedEventArgs() { Package = e.DataView, ItemPath = locationItem.Path, AcceptedOperation = e.AcceptedOperation });
-            deferral.Complete();
+            // If the dropped item is a folder or file from a file system
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
+
+                var deferral = e.GetDeferral();
+                SidebarItemDropped?.Invoke(this, new SidebarItemDroppedEventArgs() { Package = e.DataView, ItemPath = locationItem.Path, AcceptedOperation = e.AcceptedOperation });
+                deferral.Complete();
+            }
+            else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem sourceLocationItem)
+            {
+                // Else if the dropped item is a location item
+
+                // Swap the two items
+                SidebarPinnedModel.SwapItems(sourceLocationItem, locationItem);
+            }
         }
 
         private async void NavigationViewDriveItem_DragOver(object sender, DragEventArgs e)
@@ -400,7 +413,6 @@ namespace Files.Controls
         {
             var item = (sender as MenuFlyoutItem).DataContext;
             SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(item));
-            
         }
 
         private void SettingsButton_Tapped(object sender, TappedRoutedEventArgs e)
