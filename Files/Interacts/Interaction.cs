@@ -50,11 +50,10 @@ namespace Files.Interacts
         public ItemOperations ItemOperationCommands { get; private set; } = null;
         private readonly IShellPage AssociatedInstance;
         public SettingsViewModel AppSettings => App.AppSettings;
-        private AppServiceConnection Connection = null;
-        public Interaction(IShellPage appInstance, ref AppServiceConnection connection)
+        private AppServiceConnection Connection => AssociatedInstance?.ServiceConnection;
+        public Interaction(IShellPage appInstance)
         {
             AssociatedInstance = appInstance;
-            Connection = connection;
             ItemOperationCommands = new ItemOperations(appInstance);
         }
 
@@ -333,7 +332,7 @@ namespace Files.Interacts
                 var folderPath = Path.GetDirectoryName(item.TargetPath);
                 // Check if destination path exists
                 var destFolder = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
-                AssociatedInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments(ref Connection) { NavPathParam = folderPath, AssociatedTabInstance = AssociatedInstance });
+                AssociatedInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments() { NavPathParam = folderPath, AssociatedTabInstance = AssociatedInstance });
             }
             catch (FileNotFoundException)
             {
@@ -379,7 +378,7 @@ namespace Files.Interacts
                         AssociatedInstance.NavigationToolbar.PathControlDisplayText = childFolder.Path;
 
                         AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
-                        AssociatedInstance.ContentFrame.Navigate(sourcePageType, new NavigationArguments(ref Connection) { NavPathParam = childFolder.Path, AssociatedTabInstance = AssociatedInstance }, new SuppressNavigationTransitionInfo());
+                        AssociatedInstance.ContentFrame.Navigate(sourcePageType, new NavigationArguments() { NavPathParam = childFolder.Path, AssociatedTabInstance = AssociatedInstance }, new SuppressNavigationTransitionInfo());
                     }
                     else if (clickedOnItem.IsShortcutItem)
                     {

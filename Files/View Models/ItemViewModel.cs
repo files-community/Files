@@ -94,7 +94,7 @@ namespace Files.Filesystem
             }
 
             if (Path.IsPathRooted(value))
-            { 
+            {
                 _currentStorageFolder = await StorageFileExtensions.GetFolderWithPathFromPathAsync(value, _workingRoot, _currentStorageFolder);
                 _customPath = null;
             }
@@ -283,9 +283,9 @@ namespace Files.Filesystem
             }
         }
 
-        public AppServiceConnection Connection = null;
+        public AppServiceConnection Connection => AssociatedInstance?.ServiceConnection;
 
-        public ItemViewModel(IShellPage appInstance, ref AppServiceConnection connection)
+        public ItemViewModel(IShellPage appInstance)
         {
             AssociatedInstance = appInstance;
             _filesAndFolders = new BulkObservableCollection<ListedItem>();
@@ -295,38 +295,14 @@ namespace Files.Filesystem
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
             jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
             jumpTimer.Tick += JumpTimer_Tick;
-
-            Connection = connection;
-            App.Current.LeavingBackground += OnLeavingBackground;
         }
 
-        private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
+        public void OnAppServiceConnectionChanged()
         {
-            if (this.Connection == null)
+            if (Connection != null)
             {
-                Connection = new AppServiceConnection();
-                // Need to reinitialize AppService when app is resuming
-                InitializeAppServiceConnection();
+                Connection.RequestReceived += Connection_RequestReceived;
             }
-        }
-
-        public async void InitializeAppServiceConnection()
-        {
-            Connection.AppServiceName = "FilesInteropService";
-            Connection.PackageFamilyName = Package.Current.Id.FamilyName;
-            Connection.RequestReceived += Connection_RequestReceived;
-            Connection.ServiceClosed += Connection_ServiceClosed;
-
-            AppServiceConnectionStatus status = await Connection.OpenAsync();
-            if (status != AppServiceConnectionStatus.Success)
-            {
-                // TODO: error handling
-                Connection.Dispose();
-                Connection = null;
-            }
-
-            // Launch fulltrust process
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
         private async void Connection_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
@@ -343,7 +319,7 @@ namespace Files.Filesystem
                 var changeType = (string)args.Request.Message["Type"];
                 var newItem = JsonConvert.DeserializeObject<ShellFileItem>(args.Request.Message.Get("Item", ""));
                 Debug.WriteLine("{0}: {1}", folderPath, changeType);
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
                     // If we are currently displaying the reycle bin lets refresh the items
                     if (CurrentFolder?.ItemPath == folderPath)
@@ -355,7 +331,7 @@ namespace Files.Filesystem
                                 break;
 
                             case "Deleted":
-                                RemoveFileOrFolder(itemPath);
+                                await RemoveFileOrFolder(itemPath);
                                 break;
 
                             default:
@@ -369,11 +345,6 @@ namespace Files.Filesystem
             // Complete the deferral so that the platform knows that we're done responding to the app service call.
             // Note for error handling: this must be called even if SendResponseAsync() throws an exception.
             messageDeferral.Complete();
-        }
-
-        private void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
-        {
-            Connection = null;
         }
 
         private void JumpTimer_Tick(object sender, object e)

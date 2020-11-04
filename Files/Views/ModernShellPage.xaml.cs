@@ -139,7 +139,7 @@ namespace Files.Views.Pages
                     { "action", "Query" }
                 };
 
-            var response = await Connection.SendMessageAsync(value);
+            var response = await ServiceConnection.SendMessageAsync(value);
             if (response.Status == AppServiceResponseStatus.Success && response.Message.TryGetValue("NumItems", out var numItems))
             {
                 SidebarControl.RecycleBinHasItems = (long)numItems > 0;
@@ -225,7 +225,7 @@ namespace Files.Views.Pages
 
             ContentFrame.Navigate(
                 sourcePageType == null ? App.AppSettings.GetLayoutType() : sourcePageType,
-                new NavigationArguments(ref Connection) { NavPathParam = navigationPath, AssociatedTabInstance = this },
+                new NavigationArguments() { NavPathParam = navigationPath, AssociatedTabInstance = this },
                 new SuppressNavigationTransitionInfo());
 
             NavigationToolbar.PathControlDisplayText = FilesystemViewModel.WorkingDirectory;
@@ -410,7 +410,7 @@ namespace Files.Views.Pages
                 if (workingPath != childFolder.Path)
                 {
                     flyoutItem.Click += (sender, args) => {
-                        ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments(ref Connection) { NavPathParam = childFolder.Path, AssociatedTabInstance = this });
+                        ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments() { NavPathParam = childFolder.Path, AssociatedTabInstance = this });
                     };
                 }
 
@@ -420,7 +420,7 @@ namespace Files.Views.Pages
 
         private void ModernShellPage_NavigationRequested(object sender, PathNavigationEventArgs e)
         {
-            ContentFrame.Navigate(e.LayoutType, new NavigationArguments(ref Connection) { NavPathParam = e.ItemPath, AssociatedTabInstance = this });
+            ContentFrame.Navigate(e.LayoutType, new NavigationArguments() { NavPathParam = e.ItemPath, AssociatedTabInstance = this });
         }
 
         private void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
@@ -438,7 +438,7 @@ namespace Files.Views.Pages
                 if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || currentInput.Equals("NewTab".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                 {
                     await FilesystemViewModel.SetWorkingDirectory("NewTab".GetLocalized());
-                    ContentFrame.Navigate(typeof(YourHome), new NavigationArguments(ref Connection) { NavPathParam = "NewTab".GetLocalized(), AssociatedTabInstance = this }, new SuppressNavigationTransitionInfo());
+                    ContentFrame.Navigate(typeof(YourHome), new NavigationArguments() { NavPathParam = "NewTab".GetLocalized(), AssociatedTabInstance = this }, new SuppressNavigationTransitionInfo());
                 }
                 else
                 {
@@ -453,7 +453,7 @@ namespace Files.Views.Pages
                     try
                     {
                         var pathToNavigate = (await StorageFileExtensions.GetFolderWithPathFromPathAsync(currentInput, item)).Path;
-                        ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments(ref Connection) { NavPathParam = pathToNavigate, AssociatedTabInstance = this }); // navigate to folder
+                        ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments() { NavPathParam = pathToNavigate, AssociatedTabInstance = this }); // navigate to folder
                     }
                     catch (Exception) // Not a folder or inaccessible
                     {
@@ -469,7 +469,7 @@ namespace Files.Views.Pages
                             {
                                 if (terminal.Path.Equals(currentInput, StringComparison.OrdinalIgnoreCase) || terminal.Path.Equals(currentInput + ".exe", StringComparison.OrdinalIgnoreCase))
                                 {
-                                    if (Connection != null)
+                                    if (ServiceConnection != null)
                                     {
                                         var value = new ValueSet
                                         {
@@ -478,7 +478,7 @@ namespace Files.Views.Pages
                                             { "Arguments", string.Format(terminal.Arguments,
                                             Helpers.PathNormalization.NormalizePath(FilesystemViewModel.WorkingDirectory)) }
                                         };
-                                        await Connection.SendMessageAsync(value);
+                                        await ServiceConnection.SendMessageAsync(value);
                                     }
                                     return;
                                 }
@@ -571,7 +571,7 @@ namespace Files.Views.Pages
             NavParams = eventArgs.Parameter.ToString();
         }
 
-        AppServiceConnection Connection = null;
+        public AppServiceConnection ServiceConnection { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -581,18 +581,20 @@ namespace Files.Views.Pages
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            Connection = new AppServiceConnection();
-            FilesystemViewModel = new ItemViewModel(this, ref Connection);
-            FilesystemViewModel.InitializeAppServiceConnection();
-            InteractionOperations = new Interaction(this, ref Connection);
+            ServiceConnection = new AppServiceConnection();
+            InitializeAppServiceConnection();
+            FilesystemViewModel = new ItemViewModel(this);
+            FilesystemViewModel.OnAppServiceConnectionChanged();
+            InteractionOperations = new Interaction(this);
             App.Current.Suspending += Current_Suspending;
+            App.Current.LeavingBackground += OnLeavingBackground;
             FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
             string NavigationPath = ""; // path to navigate
 
             switch (NavParams)
             {
                 case "Start":
-                    ItemDisplayFrame.Navigate(typeof(YourHome), new NavigationArguments(ref Connection) { NavPathParam = NavParams, AssociatedTabInstance = this }, new SuppressNavigationTransitionInfo());
+                    ItemDisplayFrame.Navigate(typeof(YourHome), new NavigationArguments() { NavPathParam = NavParams, AssociatedTabInstance = this }, new SuppressNavigationTransitionInfo());
                     SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault();
                     break;
 
@@ -639,7 +641,7 @@ namespace Files.Views.Pages
                 default:
                     if (NavParams == "NewTab".GetLocalized())
                     {
-                        ItemDisplayFrame.Navigate(typeof(YourHome), new NavigationArguments(ref Connection) { NavPathParam = NavParams, AssociatedTabInstance = this}, new SuppressNavigationTransitionInfo());
+                        ItemDisplayFrame.Navigate(typeof(YourHome), new NavigationArguments() { NavPathParam = NavParams, AssociatedTabInstance = this}, new SuppressNavigationTransitionInfo());
                         SidebarControl.SelectedSidebarItem = MainPage.sideBarItems[0];
                     }
                     else if (((NavParams[0] >= 'A' && NavParams[0] <= 'Z') || (NavParams[0] >= 'a' && NavParams[0] <= 'z'))
@@ -666,19 +668,51 @@ namespace Files.Views.Pages
 
             if (NavigationPath != "")
             {
-                ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments(ref Connection) { NavPathParam = NavigationPath, AssociatedTabInstance = this}, new SuppressNavigationTransitionInfo());
+                ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments() { NavPathParam = NavigationPath, AssociatedTabInstance = this}, new SuppressNavigationTransitionInfo());
             }
 
             this.Loaded -= Page_Loaded;
         }
 
+        private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
+        {
+            if (this.ServiceConnection == null)
+            {
+                ServiceConnection = new AppServiceConnection();
+                // Need to reinitialize AppService when app is resuming
+                InitializeAppServiceConnection();
+                FilesystemViewModel?.OnAppServiceConnectionChanged();
+            }
+        }
+
+        private void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
+        {
+            ServiceConnection?.Dispose();
+            ServiceConnection = null;
+        }
+
+        public async void InitializeAppServiceConnection()
+        {
+            ServiceConnection.AppServiceName = "FilesInteropService";
+            ServiceConnection.PackageFamilyName = Package.Current.Id.FamilyName;
+            ServiceConnection.ServiceClosed += Connection_ServiceClosed;
+
+            AppServiceConnectionStatus status = await ServiceConnection.OpenAsync();
+            if (status != AppServiceConnectionStatus.Success)
+            {
+                // TODO: error handling
+                ServiceConnection?.Dispose();
+                ServiceConnection = null;
+            }
+
+            // Launch fulltrust process
+            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+        }
+
         private void Current_Suspending(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
         {
-            if (Connection != null)
-            {
-                Connection.Dispose();
-                Connection = null;
-            }
+            ServiceConnection?.Dispose();
+            ServiceConnection = null;
         }
 
         private void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
@@ -918,7 +952,7 @@ namespace Files.Views.Pages
             }
 
             SelectSidebarItemFromPath();
-            instanceContentFrame.Navigate(CurrentPageType, new NavigationArguments(ref Connection) { NavPathParam = parentDirectoryOfPath, AssociatedTabInstance = this}, new SuppressNavigationTransitionInfo());
+            instanceContentFrame.Navigate(CurrentPageType, new NavigationArguments() { NavPathParam = parentDirectoryOfPath, AssociatedTabInstance = this}, new SuppressNavigationTransitionInfo());
         }
 
         private void SelectSidebarItemFromPath(Type incomingSourcePageType = null)
@@ -979,12 +1013,7 @@ namespace Files.Views.Pages
 
     public class NavigationArguments
     {
-        public NavigationArguments(ref AppServiceConnection serviceConnection)
-        {
-            ServiceConnection = serviceConnection;
-        }
         public string NavPathParam { get; set; } = null;
         public IShellPage AssociatedTabInstance { get; set; }
-        public AppServiceConnection ServiceConnection { get; }
     }
 }
