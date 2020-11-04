@@ -35,7 +35,7 @@ namespace Files
     /// </summary>
     public abstract class BaseLayout : Page, INotifyPropertyChanged
     {
-        private AppServiceConnection Connection = null;
+        private AppServiceConnection Connection => ParentShellPageInstance?.ServiceConnection;
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
         public SettingsViewModel AppSettings => App.AppSettings;
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
@@ -219,7 +219,7 @@ namespace Files
                 ParentShellPageInstance.FilesystemViewModel.IsLoadingItems = true;
                 ParentShellPageInstance.FilesystemViewModel.IsLoadingItems = false;
 
-                ParentShellPageInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments(ref Connection) { NavPathParam = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, AssociatedTabInstance = ParentShellPageInstance }, null);
+                ParentShellPageInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments() { NavPathParam = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, AssociatedTabInstance = ParentShellPageInstance }, null);
             }
         }
 
@@ -238,7 +238,6 @@ namespace Files
             Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
             var parameters = (NavigationArguments)eventArgs.Parameter;
             ParentShellPageInstance = parameters.AssociatedTabInstance;
-            Connection = parameters.ServiceConnection;
             ParentShellPageInstance.NavigationToolbar.CanRefresh = true;
             IsItemSelected = false;
             ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;

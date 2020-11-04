@@ -3,6 +3,7 @@ using Files.Interacts;
 using Files.UserControls;
 using Files.View_Models;
 using System;
+using Windows.ApplicationModel.AppService;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -15,6 +16,7 @@ namespace Files
         public Interaction InteractionOperations { get; }
         public ItemViewModel FilesystemViewModel { get; }
         public CurrentInstanceViewModel InstanceViewModel { get; }
+        public AppServiceConnection ServiceConnection { get; }
         public BaseLayout ContentPage { get; }
         public Control OperationsControl { get; }
         public Type CurrentPageType { get; }
