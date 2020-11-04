@@ -6,7 +6,8 @@
     xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Loaded="YourHome_Loaded">
 
     <StackPanel Margin="14" Spacing="24">
         <local:LibraryCards x:Name="LibraryLocationCardsWidget" x:Load="{x:Bind AppSettings.ShowLibraryCardsWidget, Mode=OneWay}" />

@@ -23,10 +23,23 @@ namespace Files
         public YourHome()
         {
             InitializeComponent();
-            DrivesWidget.DrivesWidgetInvoked += DrivesWidget_DrivesWidgetInvoked;
-            LibraryLocationCardsWidget.LibraryCardInvoked += LibraryLocationCardsWidget_LibraryCardInvoked;
-            RecentFilesWidget.RecentFilesOpenLocationInvoked += RecentFilesWidget_RecentFilesOpenLocationInvoked;
-            RecentFilesWidget.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
+        }
+
+        private void YourHome_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            if (DrivesWidget != null)
+            {
+                DrivesWidget.DrivesWidgetInvoked += DrivesWidget_DrivesWidgetInvoked;
+            }
+            if (LibraryLocationCardsWidget != null)
+            {
+                LibraryLocationCardsWidget.LibraryCardInvoked += LibraryLocationCardsWidget_LibraryCardInvoked;
+            }
+            if (RecentFilesWidget != null)
+            {
+                RecentFilesWidget.RecentFilesOpenLocationInvoked += RecentFilesWidget_RecentFilesOpenLocationInvoked;
+                RecentFilesWidget.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
+            }
         }
 
         private async void RecentFilesWidget_RecentFileInvoked(object sender, UserControls.PathNavigationEventArgs e)
