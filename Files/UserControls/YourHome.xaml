@@ -8,11 +8,13 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <StackPanel Margin="14" Spacing="24">
-        <local:LibraryCards x:Name="LibraryWidget" x:Load="{x:Bind AppSettings.ShowLibraryCardsWidget, Mode=OneWay}" />
+    <ScrollViewer>
+        <StackPanel Margin="14" Spacing="24">
+            <local:LibraryCards x:Name="LibraryWidget" x:Load="{x:Bind AppSettings.ShowLibraryCardsWidget, Mode=OneWay}" />
 
-        <local:DrivesWidget x:Name="DrivesWidget" x:Load="{x:Bind AppSettings.ShowDrivesWidget, Mode=OneWay}" />
+            <local:DrivesWidget x:Name="DrivesWidget" x:Load="{x:Bind AppSettings.ShowDrivesWidget, Mode=OneWay}" />
 
-        <local:RecentFiles x:Name="RecentFilesWidget" x:Load="{x:Bind AppSettings.ShowRecentFilesWidget, Mode=OneWay}" />
-    </StackPanel>
+            <local:RecentFiles x:Name="RecentFilesWidget" x:Load="{x:Bind AppSettings.ShowRecentFilesWidget, Mode=OneWay}" />
+        </StackPanel>
+    </ScrollViewer>
 </Page>
