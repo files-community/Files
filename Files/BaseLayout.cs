@@ -180,8 +180,8 @@ namespace Files
             {
                 var response = App.Connection.SendMessageAsync(new ValueSet() {
                         { "Arguments", "LoadContextMenu" },
-                        { "FilePath", IsItemSelected ?
-                            string.Join('|', _SelectedItems.Select(x => x.ItemPath)) :
+                        { "FilePath", IsItemSelected ? 
+                            string.Join('|', _SelectedItems.Select(x => x.ItemPath)) : 
                             App.CurrentInstance.FilesystemViewModel.CurrentFolder.ItemPath},
                         { "ExtendedMenu", shiftPressed },
                         { "ShowOpenMenu", showOpenMenu }}).AsTask().Result;
@@ -386,10 +386,23 @@ namespace Files
                 var (menuItem, menuHandle) = ParseContextMenuTag(currentMenuLayoutItem.Tag);
                 if (App.Connection != null)
                 {
-                    await App.Connection.SendMessageAsync(new ValueSet() {
-                        { "Arguments", "ExecAndCloseContextMenu" },
-                        { "Handle", menuHandle },
-                        { "ItemID", menuItem.ID } });
+                    switch (menuItem.CommandString)
+                    {
+                        case "format":
+                            await App.Connection.SendMessageAsync(new ValueSet() {
+                                { "Arguments", "ExecAndCloseContextMenu" },
+                                { "Handle", menuHandle } });
+                            await App.Connection.SendMessageAsync(new ValueSet() {
+                                { "Arguments", "OpenFormatDriveDialog" },
+                                { "drivepath", App.CurrentInstance.FilesystemViewModel.WorkingDirectory } });
+                            break;
+                        default:
+                            await App.Connection.SendMessageAsync(new ValueSet() {
+                                { "Arguments", "ExecAndCloseContextMenu" },
+                                { "Handle", menuHandle },
+                                { "ItemID", menuItem.ID } });
+                            break;
+                    }
                 }
             }
         }

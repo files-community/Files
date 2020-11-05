@@ -134,6 +134,27 @@ namespace FilesFullTrust
             return (Convert.ToBase64String(bitmapData, 0, bitmapData.Length), isCustom);
         }
 
+        public static void OpenFormatDriveDialog(string drive)
+        {
+            // format requires elevation
+            int driveIndex = drive.ToUpperInvariant()[0] - 'A';
+            try
+            {
+                Process process = new Process();
+                process.StartInfo.UseShellExecute = true;
+                process.StartInfo.Verb = "runas";
+                process.StartInfo.FileName = "powershell.exe";
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                process.StartInfo.Arguments = $"-command \"$Signature = '[DllImport(\\\"shell32.dll\\\", SetLastError = false, ExactSpelling = true)]public static extern uint SHFormatDrive(IntPtr hwnd, uint drive, uint fmtID, uint options);'; $SHFormatDrive = Add-Type -MemberDefinition $Signature -Name \"Win32SHFormatDrive\" -Namespace Win32Functions -PassThru; $SHFormatDrive::SHFormatDrive(0, {driveIndex}, 0xFFFF, 0x0001)\"";
+                process.Start();
+            }
+            catch (Win32Exception)
+            {
+                // If user cancels UAC
+            }
+        }
+
         // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.
         // The Vanara library contains the definitions for all members of Shell32.dll, User32.dll and more
         // The ones below are due to bugs in the current version of the library and can be removed once fixed

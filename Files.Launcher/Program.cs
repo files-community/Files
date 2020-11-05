@@ -243,6 +243,11 @@ namespace FilesFullTrust
                     process.Start();
                     break;
 
+                case "OpenFormatDriveDialog":
+                    var drivePath = (string)args.Request.Message["drivepath"];
+                    Win32API.OpenFormatDriveDialog(drivePath);
+                    break;
+
                 case "LoadContextMenu":
                     var contextMenuResponse = new ValueSet();
                     var loadThreadWithMessageQueue = new Win32API.ThreadWithMessageQueue<ValueSet>(HandleMenuMessage);
@@ -348,7 +353,7 @@ namespace FilesFullTrust
             var knownItems = new List<string>() {
                 "opennew", "openas", "opencontaining", "opennewprocess",
                 "runas", "runasuser", "pintohome", "PinToStartScreen",
-                "cut", "copy", "paste", "delete", "properties", "link", "format",
+                "cut", "copy", "paste", "delete", "properties", "link",
                 "Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
                 Win32API.ExtractStringFromDLL("shell32.dll", 30312), // SendTo menu
                 Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
