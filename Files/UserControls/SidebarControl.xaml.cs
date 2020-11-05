@@ -429,7 +429,7 @@ namespace Files.Controls
             var storageItems = await e.DataView.GetStorageItemsAsync();
 
             if (storageItems.Count == 0 ||
-                "Unknown".Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
+                "DriveCapacityUnknown".GetLocalized().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
                 storageItems.AreItemsAlreadyInFolder(driveItem.Path))
             {
                 e.AcceptedOperation = DataPackageOperation.None;

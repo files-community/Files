@@ -21,14 +21,20 @@ namespace Files
         {
             if (BaseProperties is DriveProperties)
             {
+                var drive = (BaseProperties as DriveProperties).Drive;
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
                     if (App.Connection != null)
                     {
                         await App.Connection.SendMessageAsync(new ValueSet() {
                             { "Arguments", "SetVolumeLabel" },
-                            { "drivename", (BaseProperties as DriveProperties).Drive.Path },
+                            { "drivename", drive.Path },
                             { "newlabel", ViewModel.ItemName }});
+                        _ = CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
+                        {
+                            await drive.Update();
+                            App.CurrentInstance.FilesystemViewModel.RefreshItems();
+                        });
                     }
                 }
             }

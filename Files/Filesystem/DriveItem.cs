@@ -15,7 +15,6 @@ namespace Files.Filesystem
     public class DriveItem : ObservableObject, INavigationControlItem
     {
         public string Glyph { get; set; }
-        public string Text { get; set; }
         public string Path { get; set; }
         public StorageFolder Root { get; set; }
         public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
@@ -34,6 +33,13 @@ namespace Files.Filesystem
                 _type = value;
                 SetGlyph(_type);
             }
+        }
+
+        private string _text;
+        public string Text
+        {
+            get => _text;
+            set => SetProperty(ref _text, value);
         }
 
         private string _spaceText;
@@ -55,6 +61,22 @@ namespace Files.Filesystem
             Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
             Root = root;
             GetDriveItemProperties();
+        }
+
+        public async Task Update()
+        {
+            try
+            {
+                // Delay is needed to apply the new name
+                var properties = await Task.Delay(TimeSpan.FromSeconds(2)).ContinueWith(
+                    _ => Root.Properties.RetrievePropertiesAsync(new[] { "System.ItemNameDisplay" }).AsTask().WithTimeout(TimeSpan.FromSeconds(5)), 
+                    TaskContinuationOptions.OnlyOnRanToCompletion).Unwrap();
+                Text = (string)properties["System.ItemNameDisplay"];
+            }
+            catch (NullReferenceException)
+            {
+
+            }
         }
 
         private async void GetDriveItemProperties()
