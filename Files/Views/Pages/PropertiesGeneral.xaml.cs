@@ -33,7 +33,7 @@ namespace Files
                         _ = CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
                         {
                             await drive.Update();
-                            App.CurrentInstance.FilesystemViewModel.RefreshItems();
+                            await App.CurrentInstance.FilesystemViewModel.SetWorkingDirectory(drive.Path);
                         });
                     }
                 }
