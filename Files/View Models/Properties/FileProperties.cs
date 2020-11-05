@@ -152,89 +152,94 @@ namespace Files.View_Models.Properties
                 "System.Photo.CameraModel",
         };
 
-        private List<PropertiesData> PropertyListItemsBase = new List<PropertiesData>()
+        private List<FileProperty> PropertyListItemsBase = new List<FileProperty>()
         {
-		    new PropertiesData() {
-			    Name = "Latitude",
-			    Property = "System.GPS.Latitude",
-			    Section = "GPS",
+            new FileProperty() {
+                Name = "Latitude",
+                Property = "System.GPS.Latitude",
+                Section = "GPS",
+                IsPersonalProperty = true,
+            },
+            new FileProperty() {
+                Name = "Latitude Ref",
+                Property = "System.GPS.LatitudeRef",
+                Section = "GPS",
+                IsPersonalProperty = true,
 		    },
-		    new PropertiesData() {
-			    Name = "Latitude Ref",
-			    Property = "System.GPS.LatitudeRef",
-			    Section = "GPS",
-		    },
-		    new PropertiesData() {
+		    new FileProperty() {
 			    Name = "Longitude",
 			    Property = "System.GPS.Longitude",
 			    Section = "GPS",
-		    },
-		    new PropertiesData() {
+                IsPersonalProperty = true,
+            },
+		    new FileProperty() {
 			    Name = "Longitude Ref",
 			    Property = "System.GPS.LongitudeRef",
 			    Section = "GPS",
-		    },
-		    new PropertiesData() {
+                IsPersonalProperty = true,
+            },
+		    new FileProperty() {
 			    Name = "Altitude",
 			    Property = "System.GPS.Altitude",
 			    Section = "GPS",
-		    },
-		    new PropertiesData() {
+                IsPersonalProperty = true,
+            },
+		    new FileProperty() {
 			    Name = "Exposure Time",
 			    Property = "System.Photo.ExposureTime",
 			    Section = "Photo",
 		    },
-		    new PropertiesData() {
+		    new FileProperty() {
 			    Name = "Focal Length",
 			    Property = "System.Photo.FocalLength",
 			    Section = "Photo",
 		    },
-		    new PropertiesData() {
+		    new FileProperty() {
 			    Name = "Aperture",
 			    Property = "System.Photo.Aperture",
 			    Section = "Photo",
 		    },
-		    new PropertiesData() {
+		    new FileProperty() {
 			    Name = "Date Taken",
 			    Property = "System.Photo.DateTaken",
 			    Section = "Photo",
 		    },
-		    new PropertiesData() {
+		    new FileProperty() {
 			    Name = "Channel Count",
 			    Property = "System.Audio.ChannelCount",
 			    Section = "Audio",
 		    },
-		    new PropertiesData() {
+		    new FileProperty() {
 			    Name = "Encoding Bitrate",
 			    Property = "System.Audio.EncodingBitrate",
 			    Section = "Audio",
 		    },
-		    new PropertiesData() {
+		    new FileProperty() {
 			    Name = "Compression",
 			    Property = "System.Audio.Compression",
 			    Section = "Audio",
 		    },
-		    new PropertiesData() {
+		    new FileProperty() {
 			    Name = "Format",
 			    Property = "System.Audio.Format",
 			    Section = "Audio",
 		    },
-		    new PropertiesData() {
+		    new FileProperty() {
 			    Name = "Sample Rate",
 			    Property = "System.Audio.SampleRate",
 			    Section = "Audio",
 		    },
-		    new PropertiesData() {
+		    new FileProperty() {
 			    Name = "Album I D",
 			    Property = "System.Music.AlbumID",
 			    Section = "Music",
 		    },
-		    new PropertiesData() {
+		    new FileProperty() {
 			    Name = "Display Artist",
 			    Property = "System.Music.DisplayArtist",
 			    Section = "Music",
 		    },
-		    new PropertiesData() {
+		    new FileProperty() {
 			    Name = "Creator Application",
 			    Property = "System.Media.CreatorApplication",
 			    Section = "Media",
@@ -403,7 +408,7 @@ namespace Files.View_Models.Properties
             }
             //SetVisibilities();
             //ViewModelProcessing();
-            var list = new List<PropertiesData>();
+            var list = new List<FileProperty>();
 
             foreach (var item in PropertyListItemsBase)
             {
@@ -412,8 +417,8 @@ namespace Files.View_Models.Properties
                 list.Add(item);
             }
 
-            var query = from item in list group item by item.Section into g orderby g.Key select new PropertiesDataGroup(g) { Key = g.Key };
-            ViewModel.PropertySections = new ObservableCollection<PropertiesDataGroup>(query);
+            var query = from item in list group item by item.Section into g orderby g.Key select new FilePropertySection(g) { Key = g.Key };
+            ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
             //var query = from item in list group item by item.Section;
             //ViewModel.PropertySections = new ObservableCollection<IGrouping<string, PropertiesData>>(query);
 
@@ -566,18 +571,21 @@ namespace Files.View_Models.Properties
             //foreach (var valuePair in ViewModel.SystemFileProperties_RW)
             foreach (var group in ViewModel.PropertySections)
             {
-                foreach (PropertiesData prop in group)
+                foreach (FileProperty prop in group)
                 {
-                    var newDict = new Dictionary<string, object>();
-                    newDict.Add(prop.Property, prop.Value);
+                    if (!prop.IsReadOnly)
+                    {
+                        var newDict = new Dictionary<string, object>();
+                        newDict.Add(prop.Property, prop.Value);
 
-                    try
-                    {
-                        await file.Properties.SavePropertiesAsync(newDict);
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.WriteLine(string.Format("{0}\n{1}", prop.Property, e.ToString()));
+                        try
+                        {
+                            await file.Properties.SavePropertiesAsync(newDict);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.WriteLine(string.Format("{0}\n{1}", prop.Property, e.ToString()));
+                        }
                     }
                 }
             }

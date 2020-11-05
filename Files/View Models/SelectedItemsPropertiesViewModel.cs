@@ -769,16 +769,16 @@ namespace Files.View_Models
             set => SetProperty(ref _DetailsSectionVisibility_Media, value);
         }
 
-        private ObservableCollection<PropertiesData> _PropertyListItems = new ObservableCollection<PropertiesData>();
-        public ObservableCollection<PropertiesData> PropertyListItems
+        private ObservableCollection<FileProperty> _PropertyListItems = new ObservableCollection<FileProperty>();
+        public ObservableCollection<FileProperty> PropertyListItems
         {
             get => _PropertyListItems;
             set => SetProperty(ref _PropertyListItems, value); 
         }
 
 
-        private ObservableCollection<PropertiesDataGroup> _PropertySections = new ObservableCollection<PropertiesDataGroup>();
-        public ObservableCollection<PropertiesDataGroup> PropertySections
+        private ObservableCollection<FilePropertySection> _PropertySections = new ObservableCollection<FilePropertySection>();
+        public ObservableCollection<FilePropertySection> PropertySections
         {
             get => _PropertySections;
             set => SetProperty(ref _PropertySections, value);

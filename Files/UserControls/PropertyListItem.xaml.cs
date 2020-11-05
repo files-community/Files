@@ -34,6 +34,8 @@ namespace Files.UserControls
 
         public bool IsReadOnly { get; set; }
 
+        
+
         public PropertyListItem()
         {
             this.InitializeComponent();

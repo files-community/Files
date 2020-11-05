@@ -23,6 +23,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <TextBlock
@@ -39,5 +40,6 @@
             HorizontalAlignment="Right"
             Width="Auto"
             Text="{x:Bind ValueText, Mode=TwoWay}"/>
+        
     </Grid>
 </UserControl>
