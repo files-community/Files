@@ -1452,7 +1452,7 @@
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowRecentFiles.Header" translate="yes" xml:space="preserve">
           <source>Show recent files on the home page</source>
-          <target state="new">Show recent files on the home page</targe
+          <target state="new">Show recent files on the home page</target>
         </trans-unit>
       </group>
     </body>
