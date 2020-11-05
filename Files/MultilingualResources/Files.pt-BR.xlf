@@ -1410,7 +1410,7 @@
           <source>Drives</source>
           <target state="new">Drives</target>
         </trans-unit>
-        <trans-unit id="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" translate="yes" xml:space="preserve">11
+        <trans-unit id="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show library cards on the home page</source>
           <target state="new">Show library cards on the home page</target>
         </trans-unit>
