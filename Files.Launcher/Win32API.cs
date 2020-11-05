@@ -93,26 +93,6 @@ namespace FilesFullTrust
             }
         }
 
-        public static void UnlockBitlockerDrive(string drive, string password)
-        {
-            try
-            {
-                Process process = new Process();
-                process.StartInfo.UseShellExecute = true;
-                process.StartInfo.Verb = "runas";
-                process.StartInfo.FileName = "powershell.exe";
-                process.StartInfo.CreateNoWindow = true;
-                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                process.StartInfo.Arguments = $"-command \"$SecureString = ConvertTo-SecureString '{password}' -AsPlainText -Force; Unlock-BitLocker -MountPoint '{drive}' -Password $SecureString\"";
-                process.Start();
-                process.WaitForExit(30 * 1000);
-            }
-            catch (Win32Exception)
-            {
-                // If user cancels UAC
-            }
-        }
-
         public static (string icon, bool isCustom) GetFileOverlayIcon(string path)
         {
             var shfi = new Shell32.SHFILEINFO();
@@ -149,11 +129,17 @@ namespace FilesFullTrust
                 process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
                 process.StartInfo.Arguments = command;
                 process.Start();
+                process.WaitForExit(30 * 1000);
             }
             catch (Win32Exception)
             {
                 // If user cancels UAC
             }
+        }
+
+        public static void UnlockBitlockerDrive(string drive, string password)
+        {
+            RunPowershellCommand($"-command \"$SecureString = ConvertTo-SecureString '{password}' -AsPlainText -Force; Unlock-BitLocker -MountPoint '{drive}' -Password $SecureString\"", true);
         }
 
         public static void OpenFormatDriveDialog(string drive)

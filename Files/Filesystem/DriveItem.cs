@@ -68,14 +68,12 @@ namespace Files.Filesystem
             try
             {
                 // Delay is needed to apply the new name
-                var properties = await Task.Delay(TimeSpan.FromSeconds(2)).ContinueWith(
-                    _ => Root.Properties.RetrievePropertiesAsync(new[] { "System.ItemNameDisplay" }).AsTask().WithTimeout(TimeSpan.FromSeconds(5)), 
-                    TaskContinuationOptions.OnlyOnRanToCompletion).Unwrap();
+                var properties = await Root.Properties.RetrievePropertiesAsync(new[] { "System.ItemNameDisplay" })
+                    .AsTask().WithTimeout(TimeSpan.FromSeconds(5));
                 Text = (string)properties["System.ItemNameDisplay"];
             }
             catch (NullReferenceException)
             {
-
             }
         }
 
