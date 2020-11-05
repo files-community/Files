@@ -1,8 +1,11 @@
 using Files.Filesystem;
+using Files.Helpers;
 using Files.View_Models.Properties;
 using Microsoft.Toolkit.Uwp.Helpers;
+using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation.Collections;
 
 namespace Files
 {
@@ -16,11 +19,27 @@ namespace Files
 
         public async Task SaveChanges(ListedItem item)
         {
-            if (ViewModel.OriginalItemName != null)
+            if (BaseProperties is DriveProperties)
             {
-                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => App.CurrentInstance.InteractionOperations.RenameFileItem(item,
-                      ViewModel.OriginalItemName,
-                      ViewModel.ItemName));
+                if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
+                {
+                    if (App.Connection != null)
+                    {
+                        await App.Connection.SendMessageAsync(new ValueSet() {
+                            { "Arguments", "SetVolumeLabel" },
+                            { "drivename", (BaseProperties as DriveProperties).Drive.Path },
+                            { "newlabel", ViewModel.ItemName }});
+                    }
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
+                {
+                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => App.CurrentInstance.InteractionOperations.RenameFileItem(item,
+                          ViewModel.OriginalItemName,
+                          ViewModel.ItemName));
+                }
             }
         }
     }

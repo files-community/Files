@@ -386,23 +386,11 @@ namespace Files
                 var (menuItem, menuHandle) = ParseContextMenuTag(currentMenuLayoutItem.Tag);
                 if (App.Connection != null)
                 {
-                    switch (menuItem.CommandString)
-                    {
-                        case "format":
-                            await App.Connection.SendMessageAsync(new ValueSet() {
-                                { "Arguments", "ExecAndCloseContextMenu" },
-                                { "Handle", menuHandle } });
-                            await App.Connection.SendMessageAsync(new ValueSet() {
-                                { "Arguments", "OpenFormatDriveDialog" },
-                                { "drivepath", App.CurrentInstance.FilesystemViewModel.WorkingDirectory } });
-                            break;
-                        default:
-                            await App.Connection.SendMessageAsync(new ValueSet() {
-                                { "Arguments", "ExecAndCloseContextMenu" },
-                                { "Handle", menuHandle },
-                                { "ItemID", menuItem.ID } });
-                            break;
-                    }
+                    await App.Connection.SendMessageAsync(new ValueSet() {
+                        { "Arguments", "ExecAndCloseContextMenu" },
+                        { "Handle", menuHandle },
+                        { "ItemID", menuItem.ID },
+                        { "CommandString", menuItem.CommandString }});
                 }
             }
         }
