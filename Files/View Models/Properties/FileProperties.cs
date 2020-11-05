@@ -393,9 +393,6 @@ namespace Files.View_Models.Properties
                 return;
             }
 
-            //IDictionary<string, object> props = new Dictionary<string, object>();
-
-            //GenerateXAMLCode();
             try
             {
                 //ViewModel.SystemFileProperties_RO = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RO);
@@ -406,6 +403,7 @@ namespace Files.View_Models.Properties
             {
                 Debug.WriteLine(e.ToString());
             }
+
             //SetVisibilities();
             //ViewModelProcessing();
             var list = new List<FileProperty>();
@@ -568,7 +566,6 @@ namespace Files.View_Models.Properties
 
         private async Task SavePropertiesAsync(StorageFile file)
         {
-            //foreach (var valuePair in ViewModel.SystemFileProperties_RW)
             foreach (var group in ViewModel.PropertySections)
             {
                 foreach (FileProperty prop in group)
@@ -604,14 +601,28 @@ namespace Files.View_Models.Properties
             }
             catch
             {
-                //return;
+                return;
             }
-            var dict = new Dictionary<string, object>();
 
-            foreach (string str in PersonalProperties)
-                dict.Add(str, null);
+            foreach (var group in ViewModel.PropertySections)
+            {
+                foreach (FileProperty prop in group)
+                {
+                    if (prop.IsPersonalProperty)
+                    {
+                        var newDict = new Dictionary<string, object>();
+                        newDict.Add(prop.Property, null);
 
-            await file.Properties.SavePropertiesAsync(dict);
+                        try
+                        {
+                            await file.Properties.SavePropertiesAsync(newDict);
+                        }
+                        catch (Exception e)
+                        {
+                        }
+                    }
+                }
+            }
 
             GetSpecialProperties();
         }
