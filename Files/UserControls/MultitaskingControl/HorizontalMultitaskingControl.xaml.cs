@@ -138,6 +138,11 @@ namespace Files.UserControls
                 tabLocationHeader = "OneDrive";
                 fontIconSource.Glyph = "\xe9b7";
             }
+            else if (App.AppSettings.OneDriveCommercialPath != null && currentPath.Equals(App.AppSettings.OneDriveCommercialPath, StringComparison.OrdinalIgnoreCase))
+            {
+                tabLocationHeader = "OneDrive Commercial";
+                fontIconSource.Glyph = "\xe9b7";
+            }
             else
             {
                 // If path is a drive's root

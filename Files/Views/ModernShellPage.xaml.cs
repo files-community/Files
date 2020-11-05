@@ -202,11 +202,6 @@ namespace Files.Views.Pages
 
                         break;
                     }
-                case NavigationControlItemType.OneDrive:
-                    {
-                        navigationPath = App.AppSettings.OneDrivePath;
-                        break;
-                    }
                 default:
                     {
                         navigationPath = invokedItemContainer.Tag.ToString();
@@ -631,11 +626,6 @@ namespace Files.Views.Pages
                 case "RecycleBin":
                     NavigationPath = AppSettings.RecycleBinPath;
                     SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase));
-                    break;
-
-                case "OneDrive":
-                    NavigationPath = AppSettings.OneDrivePath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 default:

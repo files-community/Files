@@ -692,10 +692,6 @@ namespace Files.Filesystem
                         await SetWorkingDirectory(App.AppSettings.RecycleBinPath);
                         break;
 
-                    case "OneDrive":
-                        await SetWorkingDirectory(App.AppSettings.OneDrivePath);
-                        break;
-
                     default:
                         await SetWorkingDirectory(path);
                         break;

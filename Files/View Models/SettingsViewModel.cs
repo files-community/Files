@@ -249,7 +249,8 @@ namespace Files.View_Models
             set => SetProperty(ref _FormFactor, value);
         }
 
-        public string OneDrivePath { get; set; } = Environment.GetEnvironmentVariable("OneDrive");
+        public string OneDriveCommercialPath { get; set; } = Environment.GetEnvironmentVariable("OneDriveCommercial");
+        public string OneDrivePath { get; set; } = Environment.GetEnvironmentVariable("OneDriveConsumer");
 
         private async void DetectOneDrivePreference()
         {
@@ -324,6 +325,17 @@ namespace Files.View_Models
                             Type = Filesystem.DriveType.VirtualDrive,
                         };
                         MainPage.sideBarItems.Add(oneDriveItem);
+
+                        if (OneDriveCommercialPath != null)
+                        {
+                            var oneDriveItem1 = new DriveItem()
+                            {
+                                Text = "OneDrive Commercial",
+                                Path = OneDriveCommercialPath,
+                                Type = Filesystem.DriveType.VirtualDrive,
+                            };
+                            MainPage.sideBarItems.Add(oneDriveItem1);
+                        }
                     }
                     else
                     {
@@ -335,7 +347,7 @@ namespace Files.View_Models
                                 MainPage.sideBarItems.Remove(item);
                             }
                         }
-                    }
+                    }                  
                 }
             }
         }
