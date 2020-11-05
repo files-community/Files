@@ -1397,7 +1397,7 @@
         <trans-unit id="SettingsOpenItemsWithOneclick.Header" translate="yes" xml:space="preserve">
           <source>Open items with a single click</source>
           <target state="new">Open items with a single click</target>
-        </tra
+        </trans-unit>
         <trans-unit id="FileItemAutomation" translate="yes" xml:space="preserve">
           <source>file</source>
           <target state="new">file</target>
@@ -1413,7 +1413,7 @@
         <trans-unit id="ShortcutItemAutomation" translate="yes" xml:space="preserve">
           <source>shortcut item</source>
           <target state="new">shortcut item</target>
-           </trans-unit>
+        </trans-unit>
         <trans-unit id="PinToSidebarByDraggingCaptionText" translate="yes" xml:space="preserve">
           <source>Move here</source>
           <target state="new">Move here</target>
