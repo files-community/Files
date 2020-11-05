@@ -1,6 +1,7 @@
 ﻿using ByteSizeLib;
 using Files.Filesystem;
 using Files.Helpers;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,14 +36,14 @@ namespace Files.View_Models.Properties
                 ViewModel.LoadCombinedItemsGlyph = true;
                 if (List.All(x => x.ItemType.Equals(List.First().ItemType)))
                 {
-                    ViewModel.ItemType = string.Format(ResourceController.GetTranslation("PropertiesDriveItemTypesEquals"), List.First().ItemType);
+                    ViewModel.ItemType = string.Format("PropertiesDriveItemTypesEquals".GetLocalized(), List.First().ItemType);
                 }
                 else
                 {
-                    ViewModel.ItemType = ResourceController.GetTranslation("PropertiesDriveItemTypeDifferent");
+                    ViewModel.ItemType = "PropertiesDriveItemTypeDifferent".GetLocalized();
                 }
                 ViewModel.ItemPath = string.Format(
-                    ResourceController.GetTranslation("PropertiesCombinedItemPath"), Path.GetDirectoryName(List.First().ItemPath));
+                    "PropertiesCombinedItemPath".GetLocalized(), Path.GetDirectoryName(List.First().ItemPath));
             }
         }
 
@@ -82,7 +83,7 @@ namespace Files.View_Models.Properties
 
             totalSize = filesSize + foldersSize;
             ViewModel.ItemSize = ByteSize.FromBytes(totalSize).ToBinaryString().ConvertSizeAbbreviation()
-                + " (" + ByteSize.FromBytes(totalSize).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
+                + " (" + ByteSize.FromBytes(totalSize).Bytes.ToString("#,##0") + " " + "ItemSizeBytes".GetLocalized() + ")";
             SetItemsCountString();
         }
     }

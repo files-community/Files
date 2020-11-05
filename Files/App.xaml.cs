@@ -10,6 +10,7 @@ using Files.Views;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
@@ -144,7 +145,7 @@ namespace Files
                 var changeType = (string)args.Request.Message["Type"];
                 var newItem = JsonConvert.DeserializeObject<ShellFileItem>(args.Request.Message.Get("Item", ""));
                 Debug.WriteLine("{0}: {1}", folderPath, changeType);
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                await CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
                 {
                     // If we are currently displaying the reycle bin lets refresh the items
                     if (CurrentInstance.FilesystemViewModel?.CurrentFolder?.ItemPath == folderPath)
@@ -156,7 +157,7 @@ namespace Files
                                 break;
 
                             case "Deleted":
-                                CurrentInstance.FilesystemViewModel.RemoveFileOrFolder(itemPath);
+                                await CurrentInstance.FilesystemViewModel.RemoveFileOrFolder(itemPath);
                                 break;
 
                             default:
@@ -443,7 +444,7 @@ namespace Files
 
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
         {
-            AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab => tab != null ? tab.Path ?? ResourceController.GetTranslation("NewTab") : ResourceController.GetTranslation("NewTab")).ToArray();
+            AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab => tab != null ? tab.Path ?? "NewTab".GetLocalized() : "NewTab".GetLocalized()).ToArray();
         }
 
         // Occurs when an exception is not handled on the UI thread.
@@ -468,11 +469,11 @@ namespace Files
                             {
                                 new AdaptiveText()
                                 {
-                                    Text = ResourceController.GetTranslation("ExceptionNotificationHeader")
+                                    Text = "ExceptionNotificationHeader".GetLocalized()
                                 },
                                 new AdaptiveText()
                                 {
-                                    Text = ResourceController.GetTranslation("ExceptionNotificationBody")
+                                    Text = "ExceptionNotificationBody".GetLocalized()
                                 }
                             },
                             AppLogoOverride = new ToastGenericAppLogo()
@@ -485,7 +486,7 @@ namespace Files
                     {
                         Buttons =
                         {
-                            new ToastButton(ResourceController.GetTranslation("ExceptionNotificationReportButton"), "report")
+                            new ToastButton("ExceptionNotificationReportButton".GetLocalized(), "report")
                             {
                                 ActivationType = ToastActivationType.Foreground
                             }

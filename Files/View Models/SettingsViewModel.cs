@@ -8,6 +8,7 @@ using Files.Views;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.ObjectModel;
@@ -148,7 +149,7 @@ namespace Files.View_Models
 
         private void AddDefaultLocations()
         {
-            MainPage.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarHome"), Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily, Glyph = "\uea80", IsDefaultLocation = true, Path = "Home" });
+            MainPage.sideBarItems.Add(new LocationItem { Text = "SidebarHome".GetLocalized(), Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily, Glyph = "\uea80", IsDefaultLocation = true, Path = "Home" });
         }
 
         private async void DetectWSLDistros()
@@ -275,13 +276,31 @@ namespace Files.View_Models
             get => Get(false);
             set => Set(value);
         }
-
+        
         public bool OpenItemsWithOneclick
         {
             get => Get(false);
             set => Set(value);
         }
+        
+        public bool ShowLibraryCardsWidget
+        {
+            get => Get(true);
+            set => Set(value);
+        }
 
+        public bool ShowRecentFilesWidget
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        public bool ShowDrivesWidget
+        {
+            get => Get(false);
+            set => Set(value);
+        } 
+        
         private bool _PinOneDriveToSideBar = true;
 
         public bool PinOneDriveToSideBar

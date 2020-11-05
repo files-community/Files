@@ -6,6 +6,7 @@ using Files.Helpers;
 using Files.View_Models;
 using Files.Views;
 using Files.Views.Pages;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Newtonsoft.Json;
 using NLog;
 using System;
@@ -103,7 +104,7 @@ namespace Files.Interacts
 
         public async void OpenNewTab()
         {
-            await MainPage.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+            await MainPage.AddNewTab(typeof(ModernShellPage), "NewTab".GetLocalized());
         }
 
         public async void OpenInNewWindowItem_Click(object sender, RoutedEventArgs e)
@@ -330,12 +331,12 @@ namespace Files.Interacts
             }
             catch (FileNotFoundException)
             {
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FileNotFoundDialog/Title"), ResourceController.GetTranslation("FileNotFoundDialog/Text"));
+                await DialogDisplayHelper.ShowDialog("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
             }
             catch (Exception ex)
             {
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("InvalidItemDialogTitle"),
-                    string.Format(ResourceController.GetTranslation("InvalidItemDialogContent"), Environment.NewLine, ex.Message));
+                await DialogDisplayHelper.ShowDialog("InvalidItemDialogTitle".GetLocalized(),
+                    string.Format("InvalidItemDialogContent".GetLocalized()), Environment.NewLine, ex.Message);
             }
         }
 
@@ -514,7 +515,7 @@ namespace Files.Interacts
             }
             catch (FileNotFoundException)
             {
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FileNotFoundDialog/Title"), ResourceController.GetTranslation("FileNotFoundDialog/Text"));
+                await DialogDisplayHelper.ShowDialog("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 NavigationActions.Refresh_Click(null, null);
             }
         }
@@ -588,7 +589,7 @@ namespace Files.Interacts
 
                     newView = ApplicationView.GetForCurrentView();
                     newWindow.TitleBar.ExtendViewIntoTitleBar = true;
-                    newView.Title = ResourceController.GetTranslation("PropertiesTitle");
+                    newView.Title = "PropertiesTitle".GetLocalized();
                     newView.SetPreferredMinSize(new Size(400, 550));
                     newView.Consolidated += delegate
                     {
@@ -638,8 +639,8 @@ namespace Files.Interacts
                 {
                     if (item.IsLinkItem)
                     {
-                        dataRequest.Data.Properties.Title = string.Format(ResourceController.GetTranslation("ShareDialogTitle"), items.First().Name);
-                        dataRequest.Data.Properties.Description = ResourceController.GetTranslation("ShareDialogSingleItemDescription");
+                        dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalized(), items.First().Name);
+                        dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalized();
                         dataRequest.Data.SetWebLink(new Uri(((ShortcutItem)item).TargetPath));
                         dataRequestDeferral.Complete();
                         return;
@@ -659,20 +660,20 @@ namespace Files.Interacts
 
             if (items.Count == 1)
             {
-                dataRequest.Data.Properties.Title = string.Format(ResourceController.GetTranslation("ShareDialogTitle"), items.First().Name);
-                dataRequest.Data.Properties.Description = ResourceController.GetTranslation("ShareDialogSingleItemDescription");
+                dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalized(), items.First().Name);
+                dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalized();
             }
             else if (items.Count == 0)
             {
-                dataRequest.FailWithDisplayText(ResourceController.GetTranslation("ShareDialogFailMessage"));
+                dataRequest.FailWithDisplayText("ShareDialogFailMessage".GetLocalized());
                 dataRequestDeferral.Complete();
                 return;
             }
             else
             {
-                dataRequest.Data.Properties.Title = string.Format(ResourceController.GetTranslation("ShareDialogTitleMultipleItems"), items.Count,
-                    ResourceController.GetTranslation("ItemsCount.Text"));
-                dataRequest.Data.Properties.Description = ResourceController.GetTranslation("ShareDialogMultipleItemsDescription");
+                dataRequest.Data.Properties.Title = string.Format("ShareDialogTitleMultipleItems".GetLocalized(), items.Count,
+                    "ItemsCount.Text".GetLocalized());
+                dataRequest.Data.Properties.Description = "ShareDialogMultipleItemsDescription".GetLocalized();
             }
 
             dataRequest.Data.SetStorageItems(items);
@@ -696,7 +697,7 @@ namespace Files.Interacts
                         {
                             "filepath",
                             Path.Combine(CurrentInstance.FilesystemViewModel.WorkingDirectory,
-                                string.Format(ResourceController.GetTranslation("ShortcutCreateNewSuffix"), selectedItem.ItemName) + ".lnk")
+                                string.Format("ShortcutCreateNewSuffix".GetLocalized(), selectedItem.ItemName) + ".lnk")
                         }
                     };
                     await App.Connection.SendMessageAsync(value);
@@ -791,24 +792,24 @@ namespace Files.Interacts
                 {
                     if (ex is ArgumentException)
                     {
-                        await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("RenameError.NameInvalid.Title"), ResourceController.GetTranslation("RenameError.NameInvalid.Text"));
+                        await DialogDisplayHelper.ShowDialog("RenameError.NameInvalid.Title".GetLocalized(), "RenameError.NameInvalid.Text".GetLocalized());
                     }
                     else if (ex is PathTooLongException)
                     {
-                        await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("RenameError.TooLong.Title"), ResourceController.GetTranslation("RenameError.TooLong.Text"));
+                        await DialogDisplayHelper.ShowDialog("RenameError.TooLong.Title".GetLocalized(), "RenameError.TooLong.Text".GetLocalized());
                     }
                     else if (ex is FileNotFoundException)
                     {
-                        await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("RenameError.ItemDeleted.Title"), ResourceController.GetTranslation("RenameError.ItemDeleted.Text"));
+                        await DialogDisplayHelper.ShowDialog("RenameError.ItemDeleted.Title".GetLocalized(), "RenameError.ItemDeleted.Text".GetLocalized());
                     }
                     else
                     {
                         var ItemAlreadyExistsDialog = new ContentDialog()
                         {
-                            Title = ResourceController.GetTranslation("ItemAlreadyExistsDialogTitle"),
-                            Content = ResourceController.GetTranslation("ItemAlreadyExistsDialogContent"),
-                            PrimaryButtonText = ResourceController.GetTranslation("ItemAlreadyExistsDialogPrimaryButtonText"),
-                            SecondaryButtonText = ResourceController.GetTranslation("ItemAlreadyExistsDialogSecondaryButtonText")
+                            Title = "ItemAlreadyExistsDialogTitle".GetLocalized(),
+                            Content = "ItemAlreadyExistsDialogContent".GetLocalized(),
+                            PrimaryButtonText = "ItemAlreadyExistsDialogPrimaryButtonText".GetLocalized(),
+                            SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized()
                         };
 
                         ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
@@ -887,15 +888,15 @@ namespace Files.Interacts
                     }
                     catch (UnauthorizedAccessException)
                     {
-                        await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("AccessDeniedDeleteDialog/Title"), ResourceController.GetTranslation("AccessDeniedDeleteDialog/Text"));
+                        await DialogDisplayHelper.ShowDialog("AccessDeniedDeleteDialog/Title".GetLocalized(), "AccessDeniedDeleteDialog/Text".GetLocalized());
                     }
                     catch (FileNotFoundException)
                     {
-                        await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FileNotFoundDialog/Title"), ResourceController.GetTranslation("FileNotFoundDialog/Text"));
+                        await DialogDisplayHelper.ShowDialog("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                     }
                     catch (Exception)
                     {
-                        await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("ItemAlreadyExistsDialogTitle"), ResourceController.GetTranslation("ItemAlreadyExistsDialogContent"));
+                        await DialogDisplayHelper.ShowDialog("ItemAlreadyExistsDialogTitle".GetLocalized(), "ItemAlreadyExistsDialogContent".GetLocalized());
                     }
                 }
             }
@@ -1076,10 +1077,10 @@ namespace Files.Interacts
         {
             var ConfirmEmptyBinDialog = new ContentDialog()
             {
-                Title = ResourceController.GetTranslation("ConfirmEmptyBinDialogTitle"),
-                Content = ResourceController.GetTranslation("ConfirmEmptyBinDialogContent"),
-                PrimaryButtonText = ResourceController.GetTranslation("ConfirmEmptyBinDialog/PrimaryButtonText"),
-                SecondaryButtonText = ResourceController.GetTranslation("ConfirmEmptyBinDialog/SecondaryButtonText")
+                Title = "ConfirmEmptyBinDialogTitle".GetLocalized(),
+                Content = "ConfirmEmptyBinDialogContent".GetLocalized(),
+                PrimaryButtonText = "ConfirmEmptyBinDialog/PrimaryButtonText".GetLocalized(),
+                SecondaryButtonText = "ConfirmEmptyBinDialog/SecondaryButtonText".GetLocalized()
             };
 
             ContentDialogResult result = await ConfirmEmptyBinDialog.ShowAsync();
@@ -1147,7 +1148,7 @@ namespace Files.Interacts
             }
             catch (FileNotFoundException)
             {
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FileNotFoundDialog/Title"), ResourceController.GetTranslation("FileNotFoundPreviewDialog/Text"));
+                await DialogDisplayHelper.ShowDialog("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundPreviewDialog/Text".GetLocalized());
                 NavigationActions.Refresh_Click(null, null);
             }
         }

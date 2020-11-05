@@ -4,6 +4,7 @@ using Files.Interacts;
 using Files.UserControls.MultiTaskingControl;
 using Files.Views;
 using Files.Views.Pages;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.ObjectModel;
@@ -50,44 +51,44 @@ namespace Files.UserControls
             Microsoft.UI.Xaml.Controls.IconSource tabIcon;
             fontIconSource.FontFamily = App.Current.Resources["FluentUIGlyphs"] as FontFamily;
 
-            if (currentPathForTabIcon == null && text == ResourceController.GetTranslation("SidebarSettings/Text"))
+            if (currentPathForTabIcon == null && text == "SidebarSettings/Text".GetLocalized())
             {
-                tabLocationHeader = ResourceController.GetTranslation("SidebarSettings/Text");
+                tabLocationHeader = "SidebarSettings/Text".GetLocalized();
                 fontIconSource.Glyph = "\xeb5d";
             }
-            else if (currentPathForTabIcon == null && text == ResourceController.GetTranslation("NewTab"))
+            else if (currentPathForTabIcon == null && text == "NewTab".GetLocalized())
             {
-                tabLocationHeader = ResourceController.GetTranslation("NewTab");
+                tabLocationHeader = "NewTab".GetLocalized();
                 fontIconSource.Glyph = "\xe90c";
             }
             else if (currentPathForTabIcon.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
             {
-                tabLocationHeader = ResourceController.GetTranslation("SidebarDesktop");
+                tabLocationHeader = "SidebarDesktop".GetLocalized();
                 fontIconSource.Glyph = "\xe9f1";
             }
             else if (currentPathForTabIcon.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
             {
-                tabLocationHeader = ResourceController.GetTranslation("SidebarDownloads");
+                tabLocationHeader = "SidebarDownloads".GetLocalized();
                 fontIconSource.Glyph = "\xe91c";
             }
             else if (currentPathForTabIcon.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
             {
-                tabLocationHeader = ResourceController.GetTranslation("SidebarDocuments");
+                tabLocationHeader = "SidebarDocuments".GetLocalized();
                 fontIconSource.Glyph = "\xEA11";
             }
             else if (currentPathForTabIcon.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
             {
-                tabLocationHeader = ResourceController.GetTranslation("SidebarPictures");
+                tabLocationHeader = "SidebarPictures".GetLocalized();
                 fontIconSource.Glyph = "\xEA83";
             }
             else if (currentPathForTabIcon.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
             {
-                tabLocationHeader = ResourceController.GetTranslation("SidebarMusic");
+                tabLocationHeader = "SidebarMusic".GetLocalized();
                 fontIconSource.Glyph = "\xead4";
             }
             else if (currentPathForTabIcon.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
             {
-                tabLocationHeader = ResourceController.GetTranslation("SidebarVideos");
+                tabLocationHeader = "SidebarVideos".GetLocalized();
                 fontIconSource.Glyph = "\xec0d";
             }
             else if (currentPathForTabIcon.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
@@ -146,13 +147,13 @@ namespace Files.UserControls
             {
                 Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
                 icon.Glyph = "\xE713";
-                if (Items[App.InteractionViewModel.TabStripSelectedIndex].Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text")
+                if (Items[App.InteractionViewModel.TabStripSelectedIndex].Header.ToString() != "SidebarSettings/Text".GetLocalized()
                     && Items[App.InteractionViewModel.TabStripSelectedIndex].IconSource != icon)
                 {
                     App.CurrentInstance = GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
 
-                if (Items[App.InteractionViewModel.TabStripSelectedIndex].Header.ToString() == ResourceController.GetTranslation("SidebarSettings/Text"))
+                if (Items[App.InteractionViewModel.TabStripSelectedIndex].Header.ToString() == "SidebarSettings/Text".GetLocalized())
                 {
                     App.InteractionViewModel.TabsLeftMargin = new Thickness(0, 0, 0, 0);
                     App.InteractionViewModel.LeftMarginLoaded = false;
@@ -161,7 +162,7 @@ namespace Files.UserControls
                 {
                     if (App.CurrentInstance != null)
                     {
-                        if (Items[App.InteractionViewModel.TabStripSelectedIndex].Header.ToString() == ResourceController.GetTranslation("NewTab"))
+                        if (Items[App.InteractionViewModel.TabStripSelectedIndex].Header.ToString() == "NewTab".GetLocalized())
                         {
                             App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = false;
                         }
@@ -202,7 +203,7 @@ namespace Files.UserControls
 
         private async void VerticalTabView_AddTabButtonClick(TabView sender, object args)
         {
-            await MainPage.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+            await MainPage.AddNewTab(typeof(ModernShellPage), "NewTab".GetLocalized());
         }
 
         private void VerticalTabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
@@ -286,7 +287,7 @@ namespace Files.UserControls
             {
                 VerticalTabView.CanReorderTabs = true;
                 e.AcceptedOperation = DataPackageOperation.Move;
-                e.DragUIOverride.Caption = ResourceController.GetTranslation("TabStripDragAndDropUIOverrideCaption");
+                e.DragUIOverride.Caption = "TabStripDragAndDropUIOverrideCaption".GetLocalized();
                 e.DragUIOverride.IsCaptionVisible = true;
                 e.DragUIOverride.IsGlyphVisible = false;
             }
