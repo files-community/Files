@@ -1427,6 +1427,22 @@
           <source>Show recent files on the home page</source>
           <target state="new">Show recent files on the home page</target>
         </trans-unit>
+        <trans-unit id="FileItemAutomation" translate="yes" xml:space="preserve">
+          <source>File</source>
+          <target state="new">File</target>
+        </trans-unit>
+        <trans-unit id="FolderItemAutomation" translate="yes" xml:space="preserve">
+          <source>Folder</source>
+          <target state="new">Folder</target>
+        </trans-unit>
+        <trans-unit id="RecycleBinItemAutomation" translate="yes" xml:space="preserve">
+          <source>Recycle bin item</source>
+          <target state="new">Recycle bin item</target>
+        </trans-unit>
+        <trans-unit id="ShortcutItemAutomation" translate="yes" xml:space="preserve">
+          <source>Shortcut item</source>
+          <target state="new">Shortcut item</target>
+        </trans-unit>
         <trans-unit id="SettingsPreferencesCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show an option to copy the location of the selected item</source>
           <target state="translated">தேர்வுசெய்யப்பட்ட உருப்படியின் இருப்பிடத்தை நகலெடுக்க ஒரு பொத்தானைக் காண்பி</target>
