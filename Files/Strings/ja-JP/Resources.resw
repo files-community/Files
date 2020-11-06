@@ -996,9 +996,6 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>アクセスが拒否されました</value>
   </data>
-  <data name="CopyLocationToggleSwitch.Header" xml:space="preserve">
-    <value>選択したアイテムの場所をコピーするオプションを表示する</value>
-  </data>
   <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
     <value>すべてのコンテキストメニュー項目を表示する</value>
   </data>
@@ -1031,5 +1028,8 @@
   </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
     <value>プロパティに所有者を表示する</value>
+  </data>
+  <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
+    <value>選択したアイテムの場所をコピーするオプションを表示する</value>
   </data>
 </root>
