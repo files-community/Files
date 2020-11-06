@@ -63,6 +63,7 @@
 
                 <ToggleSwitch
                     x:Name="AcrylicSidebarSwitch"
+                    x:Uid="SettingsAppearanceAcrylicSidebar"
                     Header="Acrylic sidebar"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{x:Bind AppSettings.AcrylicEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}" />

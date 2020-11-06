@@ -1014,9 +1014,6 @@
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Parancssor Programok</value>
   </data>
-  <data name="CopyLocationToggleSwitch.Header" xml:space="preserve">
-    <value>Kijelölt elem helyének másolása lehetőség megjelenítése</value>
-  </data>
   <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
     <value>Összes menü lehetőség megjelenítése</value>
   </data>
@@ -1076,5 +1073,8 @@
   </data>
   <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
     <value>Legutóbbi megnyitottak megjelenítése a fő oldalon</value>
+  </data>
+  <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
+    <value>Kijelölt elem helyének másolása lehetőség megjelenítése</value>
   </data>
 </root>
