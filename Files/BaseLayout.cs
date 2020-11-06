@@ -1,6 +1,6 @@
-﻿using Files.Commands;
-using Files.Common;
+﻿using Files.Common;
 using Files.Filesystem;
+using Files.Filesystem.FilesystemOperations;
 using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
@@ -595,17 +595,17 @@ namespace Files
             deferral.Complete();
         }
 
-        protected void List_Drop(object sender, DragEventArgs e)
+        protected async void List_Drop(object sender, DragEventArgs e)
         {
-            var deferral = e.GetDeferral();
-
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                ItemOperations.PasteItemWithStatus(e.DataView, App.CurrentInstance.FilesystemViewModel.WorkingDirectory, e.AcceptedOperation);
+                await new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken)
+                    .PerformPasteType(e.AcceptedOperation, e.DataView, await App.CurrentInstance.FilesystemViewModel.WorkingDirectory.ToStorageItem());
+
                 e.Handled = true;
             }
 
-            deferral.Complete();
+            e.GetDeferral().Complete();
         }
 
         protected async void Item_DragStarting(object sender, DragStartingEventArgs e)
@@ -699,14 +699,15 @@ namespace Files
             deferral.Complete();
         }
 
-        protected void Item_Drop(object sender, DragEventArgs e)
+        protected async void Item_Drop(object sender, DragEventArgs e)
         {
-            var deferral = e.GetDeferral();
+            ListedItem rowItem = GetItemFromElement(sender);
+
+            await new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken)
+                .PerformPasteType(e.AcceptedOperation, e.DataView, await (rowItem as ShortcutItem)?.TargetPath.ToStorageItem() ?? await rowItem.ItemPath.ToStorageItem());
 
             e.Handled = true;
-            ListedItem rowItem = GetItemFromElement(sender);
-            ItemOperations.PasteItemWithStatus(e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, e.AcceptedOperation);
-            deferral.Complete();
+            e.GetDeferral().Complete();
         }
 
         protected void InitializeDrag(UIElement element)

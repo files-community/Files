@@ -3,6 +3,7 @@ using Files.Common;
 using Files.Controllers;
 using Files.Controls;
 using Files.Filesystem;
+using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Files.UserControls.MultiTaskingControl;
 using Files.View_Models;
@@ -20,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -43,6 +45,12 @@ namespace Files
 
         private static IShellPage currentInstance;
         private static bool ShowErrorNotification = false;
+
+        private readonly static CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+        public static CancellationToken CancellationToken = _cancellationTokenSource.Token;
+
+        public static readonly List<IStorageHistory> StorageHistory = new List<IStorageHistory>();
+        public static int StorageHistoryIndex = 0;
 
         public static IShellPage CurrentInstance
         {
@@ -78,6 +86,12 @@ namespace Files
             LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
 
             StartAppCenter();
+        }
+
+        public static void AddHistory(IStorageHistory storageHistory)
+        {
+            StorageHistory.Insert(StorageHistoryIndex, storageHistory);
+            StorageHistoryIndex++;
         }
 
         private async void StartAppCenter()

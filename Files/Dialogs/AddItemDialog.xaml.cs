@@ -1,8 +1,10 @@
 ﻿using Files.Filesystem;
+using Files.Filesystem.FilesystemOperations;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 
@@ -82,17 +84,23 @@ namespace Files.Dialogs
                 {
                     case AddItemType.Folder:
                         userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalized();
-                        await folderToCreateItem.CreateFolderAsync(userInput, CreationCollisionOption.GenerateUniqueName);
+
+                        await new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken)
+                            .CreateAsync(Path.Combine(folderToCreateItem.Path, userInput), FilesystemItemType.Directory, null, true);
                         break;
 
                     case AddItemType.TextDocument:
                         userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewTextDocument".GetLocalized();
-                        await folderToCreateItem.CreateFileAsync(userInput + ".txt", CreationCollisionOption.GenerateUniqueName);
+
+                        await new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken)
+                            .CreateAsync(Path.Combine(folderToCreateItem.Path, (userInput + ".txt")), FilesystemItemType.File, null, true);
                         break;
 
                     case AddItemType.BitmapImage:
                         userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewBitmapImage".GetLocalized();
-                        await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.GenerateUniqueName);
+
+                        await new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken)
+                            .CreateAsync(Path.Combine(folderToCreateItem.Path, (userInput + ".bmp")), FilesystemItemType.File, null, true);
                         break;
                 }
             }

@@ -154,8 +154,6 @@
     <Compile Include="CommandLine\ParsedCommand.cs" />
     <Compile Include="CommandLine\ParsedCommands.cs" />
     <Compile Include="CommandLine\ParsedCommandType.cs" />
-    <Compile Include="Commands\Delete.cs" />
-    <Compile Include="Commands\Paste.cs" />
     <Compile Include="Controllers\IJson.cs" />
     <Compile Include="Controllers\SidebarPinnedController.cs" />
     <Compile Include="Converters\DateTimeOffsetToString.cs" />
@@ -165,8 +163,10 @@
     <Compile Include="Converters\StringArrayToString.cs" />
     <Compile Include="Converters\UInt32ToString.cs" />
     <Compile Include="DataModels\DefaultLanguageModel.cs" />
+    <Compile Include="DataModels\FileOperationType.cs" />
     <Compile Include="DataModels\SidebarPinnedModel.cs" />
     <Compile Include="Controllers\TerminalController.cs" />
+    <Compile Include="DataModels\Status.cs" />
     <Compile Include="Dialogs\BitlockerDialog.xaml.cs">
       <DependentUpon>BitlockerDialog.xaml</DependentUpon>
     </Compile>
@@ -176,20 +176,32 @@
     <Compile Include="Dialogs\RestartDialog.xaml.cs">
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\Linq.cs" />
     <Compile Include="Filesystem\CloudDriveSyncStatus.cs" />
+    <Compile Include="Filesystem\FilesystemOperations\FilesystemItemType.cs" />
+    <Compile Include="Filesystem\FilesystemOperations\FilesystemOperations.cs" />
+    <Compile Include="Filesystem\FilesystemOperations\IFilesystemOperations.cs" />
     <Compile Include="Filesystem\PropertiesData.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\StorageFileExtensions.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\IStorageItemWithPath.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\StorageFileWithPath.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\StorageFolderWithPath.cs" />
+    <Compile Include="Filesystem\StorageHistory\IStorageHistory.cs" />
+    <Compile Include="Filesystem\StorageHistory\IStorageHistoryOperations.cs" />
+    <Compile Include="Filesystem\StorageHistory\StorageHistory.cs" />
+    <Compile Include="Filesystem\StorageHistory\StorageHistoryOperations.cs" />
     <Compile Include="Helpers\AcrylicTheme.cs" />
+    <Compile Include="Helpers\Convert\StorageItemHelpers.cs" />
     <Compile Include="Helpers\DialogDisplayHelper.cs" />
     <Compile Include="Helpers\DispatcherHelper.cs" />
+    <Compile Include="Helpers\FileSystemHelpers.cs" />
+    <Compile Include="Helpers\FileSystemHistoryHelpers.cs" />
     <Compile Include="Helpers\ItemsDataTemplateSelector.cs" />
     <Compile Include="Helpers\JumpListManager.cs" />
     <Compile Include="Helpers\NativeDirectoryChangesHelper.cs" />
     <Compile Include="Helpers\NativeFindStorageItemHelper.cs" />
     <Compile Include="Helpers\NaturalStringComparer.cs" />
+    <Compile Include="Helpers\OutOfRange.cs" />
     <Compile Include="Helpers\PackageHelper.cs" />
     <Compile Include="Helpers\PathNormalization.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />

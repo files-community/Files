@@ -154,7 +154,7 @@
                                     x:Name="ProgressSpinner"
                                     Width="30"
                                     Height="30"
-                                    x:Load="{x:Bind IsProgressing, Mode=OneWay}"
+                                    x:Load="{x:Bind InProgress, Mode=OneWay}"
                                     IsActive="True" />
                                 <FontIcon
                                     FontFamily="{x:Bind ((FontIconSource)GlyphSource).FontFamily}"

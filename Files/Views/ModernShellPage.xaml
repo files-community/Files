@@ -78,6 +78,14 @@
 
     <Page.KeyboardAccelerators>
         <KeyboardAccelerator
+            Key="Z"
+            Invoked="KeyboardAccelerator_Invoked"
+            Modifiers="Control"/>
+        <KeyboardAccelerator
+            Key="Y"
+            Invoked="KeyboardAccelerator_Invoked"
+            Modifiers="Control"/>
+        <KeyboardAccelerator
             Key="N"
             Invoked="KeyboardAccelerator_Invoked"
             Modifiers="Control,Shift" />

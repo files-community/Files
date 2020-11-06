@@ -1,6 +1,6 @@
-﻿using Files.Commands;
-using Files.Common;
+﻿using Files.Common;
 using Files.Filesystem;
+using Files.Filesystem.FilesystemOperations;
 using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
@@ -478,17 +478,15 @@ namespace Files.UserControls
             deferral.Complete();
         }
 
-        private void PathBoxItem_Drop(object sender, DragEventArgs e)
+        private async void PathBoxItem_Drop(object sender, DragEventArgs e)
         {
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
                 pathBoxItem.Path == "Home" || pathBoxItem.Path == "NewTab".GetLocalized())
-            {
                 return;
-            }
 
-            var deferral = e.GetDeferral();
-            ItemOperations.PasteItemWithStatus(e.DataView, pathBoxItem.Path, e.AcceptedOperation);
-            deferral.Complete();
+            FilesystemHelpers fsHelpers = new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken);
+            await fsHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await pathBoxItem.Path.ToStorageItem());
+            e.GetDeferral().Complete();
         }
 
         private void VisiblePath_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)

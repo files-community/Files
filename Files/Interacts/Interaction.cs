@@ -1,7 +1,7 @@
-using Files.Commands;
 using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
+using Files.Filesystem.FilesystemOperations;
 using Files.Helpers;
 using Files.View_Models;
 using Files.Views;
@@ -705,9 +705,10 @@ namespace Files.Interacts
             }
         }
 
-        public void DeleteItem_Click(object sender, RoutedEventArgs e)
+        public async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-            ItemOperations.DeleteItemWithStatus(StorageDeleteOption.Default);
+            await new FilesystemHelpers(CurrentInstance, new FilesystemOperations(CurrentInstance), App.CancellationToken)
+                .DeleteAsync(await App.CurrentInstance.ContentPage.SelectedItems.ToStorageItemCollection(), true, false, true);
         }
 
         public void RenameItem_Click(object sender, RoutedEventArgs e)
@@ -770,13 +771,15 @@ namespace Files.Interacts
                 {
                     if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
-                        var folder = await ItemViewModel.GetFolderFromPathAsync(item.ItemPath);
-                        await folder.RenameAsync(newName, NameCollisionOption.FailIfExists);
+                        IStorageFolder folder = await ItemViewModel.GetFolderFromPathAsync(item.ItemPath);
+                        await new FilesystemHelpers(CurrentInstance, new FilesystemOperations(CurrentInstance), App.CancellationToken)
+                            .RenameAsync(folder, newName, false, true);
                     }
                     else
                     {
-                        var file = await ItemViewModel.GetFileFromPathAsync(item.ItemPath);
-                        await file.RenameAsync(newName, NameCollisionOption.FailIfExists);
+                        IStorageFile file = await ItemViewModel.GetFileFromPathAsync(item.ItemPath);
+                        await new FilesystemHelpers(CurrentInstance, new FilesystemOperations(CurrentInstance), App.CancellationToken)
+                            .RenameAsync(file, newName, false, true);
                     }
                 }
                 catch (UnauthorizedAccessException)
@@ -818,34 +821,34 @@ namespace Files.Interacts
                         {
                             if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                             {
-                                var folder = await ItemViewModel.GetFolderFromPathAsync(item.ItemPath);
-
-                                await folder.RenameAsync(newName, NameCollisionOption.GenerateUniqueName);
+                                IStorageFolder folder = await ItemViewModel.GetFolderFromPathAsync(item.ItemPath);
+                                await new FilesystemHelpers(CurrentInstance, new FilesystemOperations(CurrentInstance), App.CancellationToken)
+                                    .RenameAsync(folder, newName, true, true);
 
                                 App.JumpList.RemoveFolder(folder.Path);
                             }
                             else
                             {
-                                var file = await ItemViewModel.GetFileFromPathAsync(item.ItemPath);
-
-                                await file.RenameAsync(newName, NameCollisionOption.GenerateUniqueName);
+                                IStorageFile file = await ItemViewModel.GetFileFromPathAsync(item.ItemPath);
+                                await new FilesystemHelpers(CurrentInstance, new FilesystemOperations(CurrentInstance), App.CancellationToken)
+                                    .RenameAsync(file, newName, true, true);
                             }
                         }
                         else if (result == ContentDialogResult.Secondary)
                         {
                             if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                             {
-                                var folder = await ItemViewModel.GetFolderFromPathAsync(item.ItemPath);
-
-                                await folder.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+                                IStorageFolder folder = await ItemViewModel.GetFolderFromPathAsync(item.ItemPath);
+                                await new FilesystemHelpers(CurrentInstance, new FilesystemOperations(CurrentInstance), App.CancellationToken)
+                                    .RenameAsync(folder, newName, true, true);
 
                                 App.JumpList.RemoveFolder(folder.Path);
                             }
                             else
                             {
-                                var file = await ItemViewModel.GetFileFromPathAsync(item.ItemPath);
-
-                                await file.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+                                IStorageFile file = await ItemViewModel.GetFileFromPathAsync(item.ItemPath);
+                                await new FilesystemHelpers(CurrentInstance, new FilesystemOperations(CurrentInstance), App.CancellationToken)
+                                    .RenameAsync(file, newName, true, true);
                             }
                         }
                     }
@@ -860,7 +863,7 @@ namespace Files.Interacts
             return true;
         }
 
-        public async void RestoreItem_Click(object sender, RoutedEventArgs e)
+        public async void RestoreItem_Click(object sender, RoutedEventArgs e) // TODO: Move to FilesystemOperations
         {
             if (App.CurrentInstance.ContentPage.IsItemSelected)
             {
@@ -1098,12 +1101,12 @@ namespace Files.Interacts
             }
         }
 
-        public void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
+        public async void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
         {
             DataPackageView packageView = Clipboard.GetContent();
-            string destinationPath = CurrentInstance.FilesystemViewModel.WorkingDirectory;
 
-            ItemOperations.PasteItemWithStatus(packageView, destinationPath, packageView.RequestedOperation);
+            await new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken)
+                .PerformPasteType(packageView.RequestedOperation, packageView, await CurrentInstance.FilesystemViewModel.WorkingDirectory.ToStorageItem());
         }
 
         public void NewFolder_Click(object sender, RoutedEventArgs e)

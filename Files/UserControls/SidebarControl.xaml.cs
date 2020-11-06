@@ -1,8 +1,9 @@
-﻿using Files.Commands;
-using Files.Controllers;
+﻿using Files.Controllers;
 using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
+using Files.Filesystem.FilesystemOperations;
+using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -394,21 +395,20 @@ namespace Files.Controls
             }
         }
 
-        private void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
+        private async void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
         {
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem))
-            {
                 return;
-            }
 
             // If the dropped item is a folder or file from a file system
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
-                var deferral = e.GetDeferral();
-                ItemOperations.PasteItemWithStatus(e.DataView, locationItem.Path, e.AcceptedOperation);
-                deferral.Complete();
+                FilesystemHelpers fsHelpers = new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken);
+                await fsHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await locationItem.Path.ToStorageItem());
+
+                e.GetDeferral().Complete();
             }
             else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem sourceLocationItem)
             {
@@ -452,15 +452,16 @@ namespace Files.Controls
             deferral.Complete();
         }
 
-        private void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
+        private async void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
         {
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem)) return;
 
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
-            var deferral = e.GetDeferral();
-            ItemOperations.PasteItemWithStatus(e.DataView, driveItem.Path, e.AcceptedOperation);
-            deferral.Complete();
+            FilesystemHelpers fsHelpers = new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken);
+            await fsHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await driveItem.Path.ToStorageItem());
+
+            e.GetDeferral().Complete();
         }
 
         private async void Properties_Click(object sender, RoutedEventArgs e)

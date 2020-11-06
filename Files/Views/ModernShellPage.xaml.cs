@@ -1,6 +1,8 @@
-﻿using Files.Commands;
-using Files.Dialogs;
+﻿using Files.Dialogs;
 using Files.Filesystem;
+using Files.Filesystem.FilesystemHistory;
+using Files.Filesystem.FilesystemOperations;
+using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
 using Files.View_Models;
@@ -219,6 +221,14 @@ namespace Files.Views.Pages
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
+                case (true, false, false, true, VirtualKey.Z): // ctrl + z, undo
+                    await new FilesystemHistoryHelpers(App.CurrentInstance, new StorageHistoryOperations(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken)).Undo();
+                    break;
+
+                case (true, false, false, true, VirtualKey.Y): // ctrl + y, redo
+                    await new FilesystemHistoryHelpers(App.CurrentInstance, new StorageHistoryOperations(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken)).Redo();
+                    break;
+
                 case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
                     if (App.CurrentInstance.InstanceViewModel.CanCreateFileInPage)
                     {
@@ -229,7 +239,10 @@ namespace Files.Views.Pages
 
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
                     if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
-                        ItemOperations.DeleteItemWithStatus(StorageDeleteOption.PermanentDelete);
+                    {
+                        FilesystemHelpers fsHelpers = new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken);
+                        await fsHelpers.DeleteAsync(await App.CurrentInstance.ContentPage.SelectedItems.ToStorageItemCollection(), true, true, true);
+                    }
                     break;
 
                 case (true, false, false, true, VirtualKey.C): // ctrl + c, copy
@@ -278,7 +291,10 @@ namespace Files.Views.Pages
 
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
                     if (App.CurrentInstance.ContentPage.IsItemSelected && !App.CurrentInstance.ContentPage.isRenamingItem)
-                        ItemOperations.DeleteItemWithStatus(StorageDeleteOption.Default);
+                    {
+                        FilesystemHelpers fsHelpers = new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken);
+                        await fsHelpers.DeleteAsync(await App.CurrentInstance.ContentPage.SelectedItems.ToStorageItemCollection(), true, false, true);
+                    }
                     break;
 
                 case (false, false, false, true, VirtualKey.Space): // space, quick look

@@ -2,6 +2,7 @@
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -31,7 +32,7 @@ namespace Files.UserControls
         /// <param name="severity"></param>
         /// <param name="operation"></param>
         /// <returns>A StatusBanner object which may be used to track/update the progress of an operation.</returns>
-        public PostedStatusBanner PostBanner(string title, string message, uint initialProgress, StatusBanner.StatusBannerSeverity severity, StatusBanner.StatusBannerOperation operation)
+        public PostedStatusBanner PostBanner(string title, string message, float initialProgress, Status severity, FileOperationType operation)
         {
             var item = new StatusBanner(message, title, initialProgress, severity, operation);
             StatusBannersSource.Add(item);
@@ -74,17 +75,19 @@ namespace Files.UserControls
     public class PostedStatusBanner
     {
         internal StatusBanner Banner;
-        public Progress<uint> Progress;
+        public Progress<float> Progress;
+        public Progress<Status> Status;
 
         public PostedStatusBanner(StatusBanner bannerArg)
         {
             Banner = bannerArg;
-            Progress = new Progress<uint>(ReportProgressToBanner);
+            Progress = new Progress<float>(ReportProgressToBanner);
+            Status = new Progress<Status>(ReportProgressToBanner);
         }
 
-        private void ReportProgressToBanner(uint value)
+        private void ReportProgressToBanner(float value)
         {
-            if (value <= 100)
+            if (value <= 100.0f)
             {
                 Banner.FullTitle = Banner.Title + " (" + value + "%)";
             }
@@ -92,6 +95,11 @@ namespace Files.UserControls
             {
                 throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void ReportProgressToBanner(Status status)
+        {
+
         }
 
         public void Remove()
@@ -105,20 +113,39 @@ namespace Files.UserControls
 
     public class StatusBanner : ObservableObject
     {
-        private uint InitialProgress = 0;
+        #region Private Members
+
+        private readonly float InitialProgress = 0f;
+
         private string _FullTitle;
-        public bool IsProgressing { get; } = false;
-        public string Title { get; }
-        public StatusBannerSeverity Severity { get; } = StatusBannerSeverity.Ongoing;
-        public StatusBannerOperation Operation { get; }
-        public string Message { get; }
-        public SolidColorBrush StrokeColor { get; } = new SolidColorBrush(Colors.DeepSkyBlue);
-        public IconSource GlyphSource { get; }
+
+        #endregion
+
+        #region Public Properties
+
+        public bool InProgress { get; private set; } = false;
+
+        public string Title { get; private set; }
+
+        public Status Status { get; private set; } = Status.InProgress;
+
+        public FileOperationType Operation { get; private set; }
+
+        public string Message { get; private set; }
+
+        public SolidColorBrush StrokeColor { get; private set; } = new SolidColorBrush(Colors.DeepSkyBlue);
+
+        public IconSource GlyphSource { get; private set; }
+
         public int BannerHeight { get; set; } = 55;
+
         public string PrimaryButtonText { get; set; }
+
         public string SecondaryButtonText { get; set; } = "Cancel";
-        public Action PrimaryButtonClick { get; }
-        public bool SolutionButtonsVisible { get; } = false;
+
+        public Action PrimaryButtonClick { get; private set; }
+
+        public bool SolutionButtonsVisible { get; private set; } = false;
 
         public string FullTitle
         {
@@ -126,38 +153,25 @@ namespace Files.UserControls
             set => SetProperty(ref _FullTitle, value);
         }
 
-        public enum StatusBannerSeverity
-        {
-            Ongoing,
-            Success,
-            Error
-        }
+        #endregion
 
-        public enum StatusBannerOperation
-        {
-            Recycle,
-            Delete,
-            Paste,
-            Extract
-        }
-
-        public StatusBanner(string message, string title, uint progress, StatusBannerSeverity severity, StatusBannerOperation operation)
+        public StatusBanner(string message, string title, float progress, Status status, FileOperationType operation)
         {
             Message = message;
             Title = title;
             InitialProgress = progress;
-            Severity = severity;
+            Status = status;
             Operation = operation;
 
-            switch (Severity)
+            switch (Status)
             {
-                case StatusBannerSeverity.Ongoing:
-                    IsProgressing = true;
+                case Status.InProgress:
+                    InProgress = true;
                     if (string.IsNullOrWhiteSpace(Title))
                     {
                         switch (Operation)
                         {
-                            case StatusBannerOperation.Extract:
+                            case FileOperationType.Extract:
                                 Title = "ExtractInProgress/Title".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
@@ -166,8 +180,8 @@ namespace Files.UserControls
                                 };
                                 break;
 
-                            case StatusBannerOperation.Paste:
-                                Title = "PasteInProgress/Title".GetLocalized();
+                            case FileOperationType.Copy:
+                                Title = "CopyInProgress/Title".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
                                     FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily,
@@ -175,7 +189,16 @@ namespace Files.UserControls
                                 };
                                 break;
 
-                            case StatusBannerOperation.Delete:
+                            case FileOperationType.Move:
+                                Title = "MoveInProgress/Title".GetLocalized();
+                                GlyphSource = new FontIconSource()
+                                {
+                                    FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                                    Glyph = "\xE9B2"    // Paste glyph
+                                };
+                                break;
+
+                            case FileOperationType.Delete:
                                 Title = "DeleteInProgress/Title".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
@@ -184,7 +207,7 @@ namespace Files.UserControls
                                 };
                                 break;
 
-                            case StatusBannerOperation.Recycle:
+                            case FileOperationType.Recycle:
                                 Title = "RecycleInProgress/Title".GetLocalized();
                                 GlyphSource = new FontIconSource()
                                 {
@@ -197,7 +220,7 @@ namespace Files.UserControls
                     FullTitle = Title + " (" + InitialProgress + "%)";
                     break;
 
-                case StatusBannerSeverity.Success:
+                case Status.Success:
                     if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
                     {
                         throw new NotImplementedException();
@@ -214,9 +237,10 @@ namespace Files.UserControls
                     }
                     break;
 
-                case StatusBannerSeverity.Error:
+                case Status.Failed | Status.NullException | Status.IntegrityCheckFailed | Status.IllegalArgumentException | Status.UnknownException | Status.AccessUnauthorized:
                     if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
                     {
+                        Debugger.Break();
                         throw new NotImplementedException();
                     }
                     else
@@ -249,7 +273,7 @@ namespace Files.UserControls
             PrimaryButtonText = primaryButtonText;
             SecondaryButtonText = secondaryButtonText;
             PrimaryButtonClick = primaryButtonClicked;
-            Severity = StatusBannerSeverity.Error;
+            Status = Status.Failed;
 
             if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
             {

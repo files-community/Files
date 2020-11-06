@@ -10,8 +10,10 @@ namespace Files.Dialogs
 {
     public sealed partial class ConfirmDeleteDialog : ContentDialog
     {
-        public StorageDeleteOption PermanentlyDelete { get; set; }
+        public bool PermanentlyDelete { get; set; }
+
         public string Description { get; set; }
+
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel => App.CurrentInstance.ContentPage.SelectedItemsPropertiesViewModel;
         public MyResult Result { get; set; }
 
@@ -22,12 +24,12 @@ namespace Files.Dialogs
             Nothing
         }
 
-        public ConfirmDeleteDialog(bool deleteFromRecycleBin, StorageDeleteOption deleteOption)
+        public ConfirmDeleteDialog(bool deleteFromRecycleBin, bool pernamently)
         {
             this.InitializeComponent();
 
             this.Result = MyResult.Nothing; //clear the result in case the value is set from last time
-            this.PermanentlyDelete = deleteOption;
+            this.PermanentlyDelete = pernamently;
 
             // If deleting from recycle bin disable "permanently delete" option
             this.chkPermanentlyDelete.IsEnabled = !deleteFromRecycleBin;
