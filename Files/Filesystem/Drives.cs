@@ -340,7 +340,7 @@ namespace Files.Filesystem
                 return null;
             }
             var rootPath = Path.GetPathRoot(devicePath);
-            if (devicePath.StartsWith("\\\\?\\"))
+            if (devicePath.StartsWith("\\\\?\\")) // USB device
             {
                 // Check among already discovered drives
                 StorageFolder matchingDrive = App.AppSettings.DrivesManager.Drives.FirstOrDefault(x =>
@@ -371,11 +371,12 @@ namespace Files.Filesystem
                     return new StorageFolderWithPath(matchingDrive, rootPath);
                 }
             }
+            else if (devicePath.StartsWith("\\\\")) // Network share
+            {
+                rootPath = rootPath.LastIndexOf("\\") > 1 ? rootPath.Substring(0, rootPath.LastIndexOf("\\")) : rootPath; // Remove share name
+                return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(rootPath), rootPath);
+            }
             // It's ok to return null here, on normal drives StorageFolder.GetFolderFromPathAsync works
-            //else
-            //{
-            //    return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(rootPath), rootPath);
-            //}
             return null;
         }
 

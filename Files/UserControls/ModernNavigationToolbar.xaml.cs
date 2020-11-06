@@ -243,10 +243,10 @@ namespace Files.UserControls
 
                     currentInput = StorageFileExtensions.GetPathWithoutEnvironmentVariable(currentInput);
                     if (currentSelectedPath == currentInput) return;
-                    var item = await DrivesManager.GetRootFromPath(currentInput);
 
                     try
                     {
+                        var item = await DrivesManager.GetRootFromPath(currentInput);
                         var pathToNavigate = (await StorageFileExtensions.GetFolderWithPathFromPathAsync(currentInput, item)).Path;
                         App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), pathToNavigate); // navigate to folder
                     }
@@ -254,6 +254,7 @@ namespace Files.UserControls
                     {
                         try
                         {
+                            var item = await DrivesManager.GetRootFromPath(currentInput);
                             var pathToInvoke = (await StorageFileExtensions.GetFileWithPathFromPathAsync(currentInput, item)).Path;
                             await Interaction.InvokeWin32Component(pathToInvoke);
                         }
