@@ -15,4 +15,4 @@
     <Namespace Name="DataClasses.ViewModels" Serialize="All" />
 -->
 
-<Directives xmlns="http://schemas.microsoft.com/netfx/2013/01/metadata"/
+<Directives xmlns="http://schemas.microsoft.com/netfx/2013/01/metadata"/>
