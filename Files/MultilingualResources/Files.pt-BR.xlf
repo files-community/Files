@@ -1387,21 +1387,21 @@
           <target state="translated">Abra os itens com um único clique</target>
         </trans-unit>
         <trans-unit id="FileItemAutomation" translate="yes" xml:space="preserve">
-          <source>file</source>
-          <target state="new">file</target>
+          <source>File</source>
+          <target state="new">File</target>
         </trans-unit>
         <trans-unit id="FolderItemAutomation" translate="yes" xml:space="preserve">
-          <source>folder</source>
-          <target state="new">folder</target>
+          <source>Folder</source>
+          <target state="new">Folder</target>
         </trans-unit>
         <trans-unit id="RecycleBinItemAutomation" translate="yes" xml:space="preserve">
-          <source>recycle bin item</source>
-          <target state="new">recycle bin item</target>
+          <source>Recycle bin item</source>
+          <target state="new">Recycle bin item</target>
         </trans-unit>
         <trans-unit id="ShortcutItemAutomation" translate="yes" xml:space="preserve">
-          <source>shortcut item</source>
-          <target state="new">shortcut item</target>
-           </trans-unit>
+          <source>Shortcut item</source>
+          <target state="new">Shortcut item</target>
+        </trans-unit>
         <trans-unit id="PinToSidebarByDraggingCaptionText" translate="yes" xml:space="preserve">
           <source>Move here</source>
           <target state="new">Move here</target>
