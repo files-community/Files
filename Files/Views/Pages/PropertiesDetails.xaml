@@ -63,10 +63,9 @@
             </GroupStyle>
         </ListView.GroupStyle>
         <ListView.Footer>
-            <Grid Margin="10,5,10,5">
+            <StackPanel Margin="10,5,10,5" Spacing="5">
                 <Button
                 x:Name="ClearPersonalInformation"
-                Grid.Row="25"
                 Margin="0,10,0,0"
                 HorizontalAlignment="Stretch"
                 Content="Clear All Personal Information">
@@ -81,7 +80,7 @@
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-            </Grid>
+            </StackPanel>
         </ListView.Footer>
     </ListView>
 </Page>

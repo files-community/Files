@@ -83,13 +83,6 @@ namespace Files.View_Models.Properties
 
         private readonly List<string> PropertiesToGet_RW = new List<string>()
         {
-            //Core
-            "System.Title",
-            "System.Subject",
-            "System.Comment",
-            "System.Copyright",
-            "System.DateCreated",
-            "System.DateModified",
 
             //Photo
             "System.Photo.CameraManufacturer",
