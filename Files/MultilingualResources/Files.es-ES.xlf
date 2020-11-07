@@ -1437,7 +1437,7 @@
         <trans-unit id="ShortcutItemAutomation" translate="yes" xml:space="preserve">
           <source>Shortcut item</source>
           <target state="new">Shortcut item</target>
-      </trans-unit>
+        </trans-unit>
         <trans-unit id="SettingsPreferencesCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show an option to copy the location of the selected item</source>
           <target state="translated">Mostrar en el menú contextual una opción para copiar la ubicación del archivo seleccionado</target>

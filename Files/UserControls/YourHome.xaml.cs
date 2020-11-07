@@ -32,9 +32,9 @@ namespace Files
             {
                 DrivesWidget.DrivesWidgetInvoked += DrivesWidget_DrivesWidgetInvoked;
             }
-            if (LibraryLocationCardsWidget != null)
+            if (LibraryWidget != null)
             {
-                LibraryLocationCardsWidget.LibraryCardInvoked += LibraryLocationCardsWidget_LibraryCardInvoked;
+                LibraryWidget.LibraryCardInvoked += LibraryLocationCardsWidget_LibraryCardInvoked;
             }
             if (RecentFilesWidget != null)
             {
