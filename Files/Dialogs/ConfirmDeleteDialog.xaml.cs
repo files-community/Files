@@ -4,7 +4,6 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-
 namespace Files.Dialogs
 {
     public sealed partial class ConfirmDeleteDialog : ContentDialog

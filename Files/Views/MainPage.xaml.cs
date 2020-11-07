@@ -75,8 +75,6 @@ namespace Files.Views
             AppInstances.CollectionChanged += AppInstances_CollectionChanged;
         }
 
-
-
         private void AppInstances_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (e.OldItems != null)

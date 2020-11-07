@@ -85,12 +85,6 @@ namespace Files
             AppSettings?.DrivesManager?.ResumeDeviceWatcher();
         }
 
-
-
-
-
-
-
         public static INavigationControlItem rightClickedItem;
 
         public static void UnpinItem_Click(object sender, RoutedEventArgs e)

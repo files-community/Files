@@ -438,7 +438,6 @@ namespace Files.UserControls
         }
 
         public ObservableCollection<PathBoxItem> PathComponents { get; } = new ObservableCollection<PathBoxItem>();
-
         public UserControl MultiTaskingControl => VerticalTabs;
 
         private void ManualPathEntryItem_Click(object sender, RoutedEventArgs e)
