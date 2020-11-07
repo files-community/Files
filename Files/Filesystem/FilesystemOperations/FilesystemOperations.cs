@@ -1,18 +1,14 @@
 ﻿using Files.Helpers;
-using Files.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.ApplicationModel;
 using Files.Dialogs;
 using static Files.Dialogs.ConfirmDeleteDialog;
 using Windows.Foundation.Collections;
@@ -20,17 +16,21 @@ using Windows.ApplicationModel.AppService;
 using Files.Filesystem.FilesystemHistory;
 using Microsoft.Toolkit.Uwp.Extensions;
 
-namespace Files.Filesystem.FilesystemOperations
+namespace Files.Filesystem
 {
     public class FilesystemOperations : IFilesystemOperations
     {
-        private readonly IShellPage _appInstance;
+        #region Private Members
+
+        private readonly IShellPage _associatedInstance;
+
+        #endregion
 
         #region Constructor
 
-        public FilesystemOperations(IShellPage appInstance)
+        public FilesystemOperations(IShellPage associatedInstance)
         {
-            this._appInstance = appInstance;
+            this._associatedInstance = associatedInstance;
         }
 
         #endregion
@@ -41,7 +41,7 @@ namespace Files.Filesystem.FilesystemOperations
 
         public async Task<IStorageHistory> CopyAsync(IStorageItem source, IStorageItem destination, IProgress<float> progress, IProgress<Status> status, CancellationToken cancellationToken)
         {
-            if (_appInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            if (_associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
             {
                 // Do not paste files and folders inside the recycle bin
                 await DialogDisplayHelper.ShowDialog("ErrorDialogThisActionCannotBeDone".GetLocalized(), "ErrorDialogUnsupportedOperation".GetLocalized());
@@ -167,14 +167,14 @@ namespace Files.Filesystem.FilesystemOperations
                 progress?.Report(100.0f);
 
 
-            if (destination.Path == _appInstance.FilesystemViewModel.WorkingDirectory)
+            if (destination.Path == _associatedInstance.FilesystemViewModel.WorkingDirectory)
             {
                 List<string> pastedItemPaths = pastedItems.Select(item => item.Path).ToList();
-                List<ListedItem> copiedItems = _appInstance.FilesystemViewModel.FilesAndFolders.Where(listedItem => pastedItemPaths.Contains(listedItem.ItemPath)).ToList();
+                List<ListedItem> copiedItems = _associatedInstance.FilesystemViewModel.FilesAndFolders.Where(listedItem => pastedItemPaths.Contains(listedItem.ItemPath)).ToList();
                 if (copiedItems.Any())
                 {
-                    _appInstance.ContentPage.SetSelectedItemsOnUi(copiedItems);
-                    _appInstance.ContentPage.FocusSelectedItems();
+                    _associatedInstance.ContentPage.SetSelectedItemsOnUi(copiedItems);
+                    _associatedInstance.ContentPage.FocusSelectedItems();
                 }
             }
 
@@ -231,7 +231,7 @@ namespace Files.Filesystem.FilesystemOperations
                 status?.Report(Status.IntegrityCheckFailed);
                 return null;
             }
-            ListedItem listedItem = _appInstance.FilesystemViewModel.FilesAndFolders.FirstOrDefault(listedItem => listedItem.ItemPath.Equals(source.Path, StringComparison.OrdinalIgnoreCase));
+            ListedItem listedItem = _associatedInstance.FilesystemViewModel.FilesAndFolders.FirstOrDefault(listedItem => listedItem.ItemPath.Equals(source.Path, StringComparison.OrdinalIgnoreCase));
 
             progress?.Report(100.0f);
             status?.Report(Status.Success);
@@ -286,13 +286,13 @@ namespace Files.Filesystem.FilesystemOperations
 
         #region Trash/Delete
 
-        public async Task<IStorageHistory> DeleteAsync(IStorageItem source, IProgress<float> progress, IProgress<Status> status, bool showDialog, bool pernamently, CancellationToken cancellationToken)
+        public async Task<IStorageHistory> DeleteAsync(IStorageItem source, IProgress<float> progress, IProgress<Status> status, bool showDialog, bool permanently, CancellationToken cancellationToken)
         {
-            bool deleteFromRecycleBin = _appInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
+            bool deleteFromRecycleBin = _associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
 
             if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
             {
-                ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(deleteFromRecycleBin, pernamently);
+                ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(deleteFromRecycleBin, permanently);
                 await dialog.ShowAsync();
 
                 if (dialog.Result != MyResult.Delete) // Delete selected item(s) if the result is yes
@@ -300,7 +300,7 @@ namespace Files.Filesystem.FilesystemOperations
                     status?.Report(Status.Cancelled);
                     return null; // Return if the result isn't delete
                 }
-                pernamently = dialog.PermanentlyDelete;
+                permanently = dialog.PermanentlyDelete;
             }
 
             //int itemsDeleted = 0;
@@ -311,18 +311,18 @@ namespace Files.Filesystem.FilesystemOperations
             {
                 if (source.IsOfType(StorageItemTypes.File))
                 {
-                    item = await ItemViewModel.GetFileFromPathAsync(source.Path, _appInstance);
+                    item = await ItemViewModel.GetFileFromPathAsync(source.Path, _associatedInstance);
                 }
                 else
                 {
-                    item = await ItemViewModel.GetFolderFromPathAsync(source.Path, _appInstance);
+                    item = await ItemViewModel.GetFolderFromPathAsync(source.Path, _associatedInstance);
                 }
 
-                await item.DeleteAsync(pernamently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default);
+                await item.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default);
             }
             catch (UnauthorizedAccessException)
             {
-                if (!pernamently)
+                if (!permanently)
                 {
                     // Try again with fulltrust process
                     if (App.Connection != null)
@@ -347,14 +347,14 @@ namespace Files.Filesystem.FilesystemOperations
                 // try again
                 if (source.IsOfType(StorageItemTypes.File))
                 {
-                    item = await ItemViewModel.GetFileFromPathAsync(source.Path, _appInstance);
+                    item = await ItemViewModel.GetFileFromPathAsync(source.Path, _associatedInstance);
                 }
                 else
                 {
-                    item = await ItemViewModel.GetFolderFromPathAsync(source.Path, _appInstance);
+                    item = await ItemViewModel.GetFolderFromPathAsync(source.Path, _associatedInstance);
                 }
 
-                await item.DeleteAsync(pernamently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default);
+                await item.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default);
             }
 
             if (deleteFromRecycleBin)
@@ -364,12 +364,11 @@ namespace Files.Filesystem.FilesystemOperations
                 await (await ItemViewModel.GetFileFromPathAsync(iFilePath)).DeleteAsync(StorageDeleteOption.PermanentDelete);
             }
 
-            await _appInstance.FilesystemViewModel.RemoveFileOrFolder(source.Path);
-            //itemsDeleted++;
+            await _associatedInstance.FilesystemViewModel.RemoveFileOrFolder(source.Path);
 
             status?.Report(Status.Success);
-            return new StorageHistory(pernamently ? FileOperationType.Delete : FileOperationType.Recycle,
-                new List<IStorageItem>() { source }, null);
+            return new StorageHistory(permanently ? FileOperationType.Delete : FileOperationType.Recycle,
+                new List<IStorageItem>() { source }, null); // TODO: Return destination here as RecycleBinItem?
         }
 
         public async Task<IStorageHistory> RestoreFromTrashAsync(RecycleBinItem source, IStorageItem destination, IProgress<float> progress, IProgress<Status> status, CancellationToken cancellationToken)

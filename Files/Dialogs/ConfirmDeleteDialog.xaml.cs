@@ -24,12 +24,12 @@ namespace Files.Dialogs
             Nothing
         }
 
-        public ConfirmDeleteDialog(bool deleteFromRecycleBin, bool pernamently)
+        public ConfirmDeleteDialog(bool deleteFromRecycleBin, bool permanently)
         {
             this.InitializeComponent();
 
             this.Result = MyResult.Nothing; //clear the result in case the value is set from last time
-            this.PermanentlyDelete = pernamently;
+            this.PermanentlyDelete = permanently;
 
             // If deleting from recycle bin disable "permanently delete" option
             this.chkPermanentlyDelete.IsEnabled = !deleteFromRecycleBin;

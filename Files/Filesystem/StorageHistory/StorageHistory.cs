@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 
-
 namespace Files.Filesystem.FilesystemHistory
 {
     public class StorageHistory : IStorageHistory

@@ -1071,7 +1071,7 @@ namespace Files.Interacts
         {
             DataPackageView packageView = Clipboard.GetContent();
 
-            await this._filesystemHelpers.PerformPasteType(packageView.RequestedOperation, packageView, await CurrentInstance.FilesystemViewModel.WorkingDirectory.ToStorageItem());
+            await this._filesystemHelpers.PerformPasteTypeAsync(packageView.RequestedOperation, packageView, await CurrentInstance.FilesystemViewModel.WorkingDirectory.ToStorageItem());
         }
 
         public void NewFolder_Click(object sender, RoutedEventArgs e)

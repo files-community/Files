@@ -410,7 +410,7 @@ namespace Files.Controls
             {
                 VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
-                await this._filesystemHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await locationItem.Path.ToStorageItem());
+                await this._filesystemHelpers.PerformPasteTypeAsync(e.AcceptedOperation, e.DataView, await locationItem.Path.ToStorageItem());
 
                 deferral.Complete();
             }
@@ -464,7 +464,7 @@ namespace Files.Controls
 
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
-            await this._filesystemHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await driveItem.Path.ToStorageItem());
+            await this._filesystemHelpers.PerformPasteTypeAsync(e.AcceptedOperation, e.DataView, await driveItem.Path.ToStorageItem());
 
             deferral.Complete();
         }

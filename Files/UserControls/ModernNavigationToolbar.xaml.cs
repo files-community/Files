@@ -490,7 +490,7 @@ namespace Files.UserControls
                 pathBoxItem.Path == "Home" || pathBoxItem.Path == "NewTab".GetLocalized())
                 return;
 
-            await this._filesystemHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await pathBoxItem.Path.ToStorageItem());
+            await this._filesystemHelpers.PerformPasteTypeAsync(e.AcceptedOperation, e.DataView, await pathBoxItem.Path.ToStorageItem());
             deferral.Complete();
         }
 

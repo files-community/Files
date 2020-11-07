@@ -16,8 +16,6 @@ namespace Files.Filesystem.FilesystemHistory
     {
         #region Private Members
 
-        private readonly IShellPage _associatedInstance;
-
         private readonly IFilesystemOperations _filesystemOperations;
 
         private readonly FilesystemHelpers _filesystemHelpers;
@@ -28,11 +26,10 @@ namespace Files.Filesystem.FilesystemHistory
 
         #region Constructor
 
-        public StorageHistoryOperations(IShellPage associatedInstance, IFilesystemOperations filesystemOperations, CancellationToken cancellationToken)
+        public StorageHistoryOperations(IShellPage associatedInstance, CancellationToken cancellationToken)
         {
-            this._associatedInstance = associatedInstance;
-            this._filesystemOperations = filesystemOperations;
             this._cancellationToken = cancellationToken;
+            this._filesystemOperations = new FilesystemOperations(associatedInstance);
             this._filesystemHelpers = new FilesystemHelpers(associatedInstance, _cancellationToken);
         }
 
@@ -40,7 +37,7 @@ namespace Files.Filesystem.FilesystemHistory
 
         #region FilesystemHistory
 
-        public async Task Redo(IStorageHistory history) // TODO: Return Task<Stauts>
+        public async Task Redo(IStorageHistory history) 
         {
             switch (history.OperationType)
             {
@@ -59,7 +56,7 @@ namespace Files.Filesystem.FilesystemHistory
 
                 case FileOperationType.Rename: // Rename
                     {
-                        for (int i = 0; i < history.Destination.Count(); i++)
+                        for (int i = 0; i < history.Source.Count(); i++)
                         {
                             await this._filesystemOperations.RenameAsync(await (history.Source.ElementAt(i) as string).ToStorageItem(), Path.GetFileName(history.Destination.ElementAt(i) as string), true, null, this._cancellationToken);
                         }
@@ -67,25 +64,25 @@ namespace Files.Filesystem.FilesystemHistory
                     }
 
                 case FileOperationType.Copy: // Copy
-                    await this._filesystemHelpers.CopyItems(history.Source as IEnumerable<IStorageItem>, history.Destination.ElementAt(0) as IStorageItem, false);
+                    await this._filesystemHelpers.CopyItemsAsync(history.Source as IEnumerable<IStorageItem>, history.Destination.ElementAt(0) as IStorageItem, false);
                     break;
 
                 case FileOperationType.Move: // Move
-                    await this._filesystemHelpers.MoveItems(history.Source as IEnumerable<IStorageItem>, history.Destination.ElementAt(0) as IStorageItem, false);
+                    await this._filesystemHelpers.MoveItemsAsync(history.Source as IEnumerable<IStorageItem>, history.Destination.ElementAt(0) as IStorageItem, false);
                     break;
 
                 case FileOperationType.Extract: // Extract
-                    // TODO: Extract
-                    throw new NotImplementedException();
+
+                    // Cannot commpress items
+                    Debugger.Break();
                     break;
 
-                case FileOperationType.Recycle: // Recycle COMPLETED ?
+                case FileOperationType.Recycle: // Recycle
                     {
-
-                        for (int i = 0; i < history.Destination.Count(); i++)
+                        for (int i = 0; i < history.Source.Count(); i++)
                         {
                             await this._filesystemOperations.DeleteAsync(
-                                await Path.Combine((history.Destination.ElementAt(i) as IStorageItem).Path,
+                                await Path.Combine((history.Destination.ElementAt(0) as IStorageItem).Path,
                                     Path.GetFileName((history.Source.ElementAt(i) as RecycleBinItem).ItemOriginalPath)).ToStorageItem(),
                                 null, null, false, false, this._cancellationToken);
                         }
@@ -111,11 +108,14 @@ namespace Files.Filesystem.FilesystemHistory
             }
         }
 
-        public async Task Undo(IStorageHistory history) // TODO: Return Task<Stauts>
+        public async Task Undo(IStorageHistory history)
         {
+            Debug.WriteLine($"Source: {history.Source}, Count: {history.Source.Count()}" );
+            Debug.WriteLine($"Destination: {history.Destination}, Count: {history.Destination.Count()}");
+
             switch (history.OperationType)
             {
-                case FileOperationType.CreateNew: // CreateNew COMPLETED
+                case FileOperationType.CreateNew: // CreateNew
                     {
                         // Opposite: Delete created items
 
@@ -123,25 +123,25 @@ namespace Files.Filesystem.FilesystemHistory
                         break;
                     }
 
-                case FileOperationType.Rename: // Rename COMPLETED
+                case FileOperationType.Rename: // Rename
                     {
                         // Opposite: Restore original item names
 
                         for (int i = 0; i < history.Destination.Count(); i++)
                         {
-                            await this._filesystemOperations.RenameAsync(await (history.Destination.ElementAt(i) as string).ToStorageItem(), Path.GetFileName(history.Source.ElementAt(i) as string), true, null, this._cancellationToken);
+                            await this._filesystemOperations.RenameAsync(await (history.Destination.ElementAt(0) as string).ToStorageItem(), Path.GetFileName(history.Source.ElementAt(i) as string), true, null, this._cancellationToken);
                         }
                         break;
                     }
 
-                case FileOperationType.Copy: // Copy COMPLETED
+                case FileOperationType.Copy: // Copy
                     {
-                        // Opposite: Delete the copied items
+                        // Opposite: Delete copied items
 
                         List<IStorageItem> itemsToDelete = new List<IStorageItem>();
-                        for (int i = 0; i < history.Destination.Count(); i++)
+                        for (int i = 0; i < history.Source.Count(); i++)
                         {
-                            itemsToDelete.Add(await Path.Combine((history.Destination.ElementAt(i) as IStorageItem).Path, 
+                            itemsToDelete.Add(await Path.Combine((history.Destination.ElementAt(0) as IStorageItem).Path, 
                                 Path.GetFileName((history.Source.ElementAt(i) as IStorageItem).Path)).ToStorageItem());
                         }
 
@@ -149,52 +149,49 @@ namespace Files.Filesystem.FilesystemHistory
                         break;
                     }
                     
-                case FileOperationType.Move: // Move COMPLETED
+                case FileOperationType.Move: // Move
                     {
                         // Opposite: Move the items to original directory
 
                         List<IStorageItem> sourceItems = new List<IStorageItem>();
                         IStorageItem destinationItem = null;
 
-                        for (int i = 0; i < history.Destination.Count(); i++)
+                        for (int i = 0; i < history.Source.Count(); i++)
                         {
-                            string item1 = (history.Source.ElementAt(i) as IStorageItem).Path;
-                            string item2 = (history.Destination.ElementAt(i) as IStorageItem).Path;
-
-                            sourceItems.Add(await Path.Combine(item2, Path.GetFileName(item1)).ToStorageItem());
-                            destinationItem = await Path.GetDirectoryName(item1).ToStorageItem();
+                            sourceItems.Add(await Path.Combine((history.Destination.ElementAt(0) as IStorageItem).Path, Path.GetFileName((history.Source.ElementAt(i) as IStorageItem).Path)).ToStorageItem());
+                            destinationItem = await Path.GetDirectoryName((history.Source.ElementAt(i) as IStorageItem).Path).ToStorageItem();
                         }
 
-                        await this._filesystemHelpers.MoveItems(sourceItems, destinationItem, false);
+                        await this._filesystemHelpers.MoveItemsAsync(sourceItems, destinationItem, false);
                         break;
                     }
 
                 case FileOperationType.Extract: // Extract
-                    { 
-                        // Opposite: TODO Create opposite for Extraction
-
-                        throw new NotImplementedException();
+                    {
+                        // No opposite for file archive extraction
+                        Debugger.Break();
                         break;
                     }
 
-                case FileOperationType.Recycle: // Recycle COMPLETED ?
+                case FileOperationType.Recycle: // Recycle
                     {
                         // Opposite: Restore recycled items
 
-                        for (int i = 0; i < history.Destination.Count(); i++)
+                        for (int i = 0; i < history.Source.Count(); i++)
                         {
-                            await _filesystemOperations.RestoreFromTrashAsync(history.Source.ElementAt(i) as RecycleBinItem, history.Destination.ElementAt(i) as IStorageItem, null, null, this._cancellationToken);
+                            // history.Destination is null
+                            await _filesystemOperations.RestoreFromTrashAsync(history.Source.ElementAt(i) as RecycleBinItem, history.Destination.ElementAt(0) as IStorageItem, null, null, this._cancellationToken);
                         }
                         break;
                     }
 
-                case FileOperationType.Restore: // Restore COMPLETED ?
+                case FileOperationType.Restore: // Restore
                     {
                         // Opposite: Delete restored items
-                        for (int i = 0; i < history.Destination.Count(); i++)
+                        for (int i = 0; i < history.Source.Count(); i++)
                         {
                             await this._filesystemOperations.DeleteAsync(
-                            await Path.Combine((history.Destination.ElementAt(i) as IStorageItem).Path,
+                            await Path.Combine((history.Destination.ElementAt(0) as IStorageItem).Path,
                                 Path.GetFileName((history.Source.ElementAt(i) as RecycleBinItem).ItemOriginalPath)).ToStorageItem(),
                             null, null, false, false, this._cancellationToken);
                         }
@@ -204,7 +201,6 @@ namespace Files.Filesystem.FilesystemHistory
                 case FileOperationType.Delete: // Delete
                     {
                         // Opposite: No opposite for pernament deletion
-
                         break;
                     }
             }

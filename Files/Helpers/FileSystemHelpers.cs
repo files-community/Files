@@ -1,5 +1,4 @@
-﻿using Files.Extensions;
-using Files.Filesystem;
+﻿using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Filesystem.FilesystemOperations;
 using Files.UserControls;
@@ -50,20 +49,22 @@ namespace Files.Helpers
 
         #endregion
 
-        #region Delete/Restore
+        #region Delete, Restore
 
-        public async Task<Status> DeleteAsync(IEnumerable<IStorageItem> source, bool showDialog, bool pernamently, bool registerHistory)
+        #region Delete
+
+        public async Task<Status> DeleteAsync(IEnumerable<IStorageItem> source, bool showDialog, bool permanently, bool registerHistory)
         {
             try
             {
                 if (_associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
                 {
                     // Permanently delete if deleting from recycle bin
-                    pernamently = true;
+                    permanently = true;
                 }
 
                 PostedStatusBanner banner;
-                if (pernamently)
+                if (permanently)
                 {
                     banner = _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
                         string.Empty,
@@ -92,13 +93,13 @@ namespace Files.Helpers
 
                     foreach (IStorageItem item in source)
                     {
-                        // TODO: I managed to break Pernamently checkbox - when it's selected the Files crash
-                        IStorageHistory history = await this._filesystemOperations.DeleteAsync(item, banner.Progress, banner.Status, showDialog, pernamently, this._cancellationToken);
+                        // TODO: I've managed to break permanently checkbox - when it's selected the Files crash
+                        IStorageHistory history = await this._filesystemOperations.DeleteAsync(item, banner.Progress, banner.Status, showDialog, permanently, this._cancellationToken);
                         rawStorageHistory.Add(history);
                     }
 
-                    storageHistory = new StorageHistory(rawStorageHistory[0].OperationType, source, null); // Is rawStorageHistory[0] - [0] indexing smart here?
-                    if (!pernamently && registerHistory) // TODO: Don't add pernamently, or skip it in Undo() ?
+                    storageHistory = new StorageHistory(rawStorageHistory[0].OperationType, source, null);
+                    if (!permanently && registerHistory)
                         App.AddHistory(storageHistory);
 
                     banner.Remove();
@@ -106,7 +107,7 @@ namespace Files.Helpers
 
                     if (sw.Elapsed.TotalSeconds >= 10)
                     {
-                        if (pernamently)
+                        if (permanently)
                         {
                             _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
                             "Deletion Complete",
@@ -155,7 +156,7 @@ namespace Files.Helpers
                         "FileInUseDeleteDialog/Title".GetLocalized(),
                         "FileInUseDeleteDialog/Text".GetLocalized(),
                         "FileInUseDeleteDialog/PrimaryButtonText".GetLocalized(),
-                        "FileInUseDeleteDialog/SecondaryButtonText".GetLocalized(), async () => { await DeleteAsync(source, showDialog, pernamently, registerHistory); });
+                        "FileInUseDeleteDialog/SecondaryButtonText".GetLocalized(), async () => { await DeleteAsync(source, showDialog, permanently, registerHistory); });
                 }
 
                 return Status.Success;
@@ -166,6 +167,117 @@ namespace Files.Helpers
                 return Status.UnknownException;
             }
         }
+
+        public async Task<Status> DeleteAsync(IStorageItem source, bool showDialog, bool permanently, bool registerHistory)
+        {
+            try
+            {
+                if (_associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+                {
+                    // Permanently delete if deleting from recycle bin
+                    permanently = true;
+                }
+
+                PostedStatusBanner banner;
+                if (permanently)
+                {
+                    banner = _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                        string.Empty,
+                        this._associatedInstance.FilesystemViewModel.WorkingDirectory,
+                        0,
+                        Status.InProgress,
+                        FileOperationType.Delete);
+                }
+                else
+                {
+                    banner = _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                        string.Empty,
+                        this._associatedInstance.FilesystemViewModel.WorkingDirectory,
+                        0,
+                        Status.InProgress,
+                        FileOperationType.Recycle);
+                }
+
+                try
+                {
+                    Stopwatch sw = new Stopwatch();
+                    sw.Start();
+
+                    // TODO: I've managed to break permanently checkbox - when it's selected the Files crash
+                    IStorageHistory storageHistory = await this._filesystemOperations.DeleteAsync(source, banner.Progress, banner.Status, showDialog, permanently, this._cancellationToken);
+
+                    if (!permanently && registerHistory)
+                        App.AddHistory(storageHistory);
+
+                    banner.Remove();
+                    sw.Stop();
+
+                    if (sw.Elapsed.TotalSeconds >= 10)
+                    {
+                        if (permanently)
+                        {
+                            _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                            "Deletion Complete",
+                            "The operation has completed.",
+                            0,
+                            Status.Success,
+                            FileOperationType.Delete);
+                        }
+                        else
+                        {
+                            _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                            "Recycle Complete",
+                            "The operation has completed.",
+                            0,
+                            Status.Success,
+                            FileOperationType.Recycle);
+                        }
+                    }
+
+                    _associatedInstance.NavigationToolbar.CanGoForward = false;
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    banner.Remove();
+                    _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                        "AccessDeniedDeleteDialog/Title".GetLocalized(),
+                        "AccessDeniedDeleteDialog/Text".GetLocalized(),
+                        0,
+                        Status.Failed,
+                        FileOperationType.Delete);
+                }
+                catch (FileNotFoundException)
+                {
+                    banner.Remove();
+                    _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                        "FileNotFoundDialog/Title".GetLocalized(),
+                        "FileNotFoundDialog/Text".GetLocalized(),
+                        0,
+                        Status.Failed,
+                        FileOperationType.Delete);
+                }
+                catch (IOException)
+                {
+                    banner.Remove();
+                    _associatedInstance.StatusBarControl.OngoingTasksControl.PostActionBanner(
+                        "FileInUseDeleteDialog/Title".GetLocalized(),
+                        "FileInUseDeleteDialog/Text".GetLocalized(),
+                        "FileInUseDeleteDialog/PrimaryButtonText".GetLocalized(),
+                        "FileInUseDeleteDialog/SecondaryButtonText".GetLocalized(), async () => { await DeleteAsync(source, showDialog, permanently, registerHistory); });
+                }
+
+                return Status.Success;
+            }
+            catch (Exception e)
+            {
+                // TODO: Log the exception here
+                return Status.UnknownException;
+            }
+        }
+
+        #endregion
+
+        #region Restore
 
         public async Task<Status> RestoreFromTrashAsync(RecycleBinItem source, IStorageItem destination, bool registerHistory)
         {
@@ -179,9 +291,11 @@ namespace Files.Helpers
 
         #endregion
 
-        #region Clone
+        #endregion
 
-        public async static Task<StorageFolder> CloneDirectoryAsync(StorageFolder SourceFolder, StorageFolder DestinationFolder, string sourceRootName)
+        #region Clone Directory
+
+        public async static Task<StorageFolder> CloneDirectoryAsync(IStorageFolder SourceFolder, IStorageFolder DestinationFolder, string sourceRootName)
         {
             StorageFolder createdRoot = await DestinationFolder.CreateFolderAsync(sourceRootName, CreationCollisionOption.GenerateUniqueName);
             DestinationFolder = createdRoot;
@@ -201,9 +315,9 @@ namespace Files.Helpers
 
         #endregion
 
-        #region Copy/Move
+        #region Copy, Move
 
-        public async Task<Status> PerformPasteType(DataPackageOperation operation, DataPackageView packageView, IStorageItem destination)
+        public async Task<Status> PerformPasteTypeAsync(DataPackageOperation operation, DataPackageView packageView, IStorageItem destination)
         {
             switch (operation)
             {
@@ -218,7 +332,9 @@ namespace Files.Helpers
             }
         }
 
-        public async Task<Status> CopyItems(IEnumerable<IStorageItem> source, IStorageItem destination, bool registerHistory)
+        #region Copy
+
+        public async Task<Status> CopyItemsAsync(IEnumerable<IStorageItem> source, IStorageItem destination, bool registerHistory)
         {
             try
             {
@@ -240,8 +356,6 @@ namespace Files.Helpers
                     IStorageHistory history = await this._filesystemOperations.CopyAsync(item, destination, banner.Progress, banner.Status, this._cancellationToken);
                     rawStorageHistory.Add(history);
                 }
-                //source.ForEach<IStorageItem>(async (item) =>
-                //    rawStorageHistory.Add(await this._filesystemOperations.CopyAsync(item, destination, banner.Progress, banner.Status, this._cancellationToken)));
 
                 storageHistory = new StorageHistory(rawStorageHistory[0].OperationType, source, new List<IStorageItem>() { destination });
                 if (registerHistory)
@@ -270,7 +384,7 @@ namespace Files.Helpers
             }
         }
 
-        public async Task<Status> MoveItems(IEnumerable<IStorageItem> source, IStorageItem destination, bool registerHistory)
+        public async Task<Status> CopyItemAsync(IStorageItem source, IStorageItem destination, bool registerHistory)
         {
             try
             {
@@ -284,18 +398,8 @@ namespace Files.Helpers
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
 
-                IStorageHistory storageHistory;
-                List<IStorageHistory> rawStorageHistory = new List<IStorageHistory>();
+                IStorageHistory storageHistory = await this._filesystemOperations.CopyAsync(source, destination, banner.Progress, banner.Status, this._cancellationToken);
 
-                foreach (IStorageItem item in source)
-                {
-                    IStorageHistory history = await this._filesystemOperations.MoveAsync(item, destination, banner.Progress, banner.Status, this._cancellationToken);
-                    rawStorageHistory.Add(history);
-                }
-                //source.ForEach<IStorageItem>(async (item) =>
-                //    rawStorageHistory.Add(await this._filesystemOperations.MoveAsync(item, destination, banner.Progress, banner.Status, this._cancellationToken)));
-
-                storageHistory = new StorageHistory(rawStorageHistory[0].OperationType, source, new List<IStorageItem>() { destination });
                 if (registerHistory)
                     App.AddHistory(storageHistory);
 
@@ -327,7 +431,107 @@ namespace Files.Helpers
             try
             {
                 IReadOnlyList<IStorageItem> source = await packageView.GetStorageItemsAsync();
-                await CopyItems(source, destination, registerHistory);
+                await CopyItemsAsync(source, destination, registerHistory);
+
+                return Status.Success;
+            }
+            catch (Exception e)
+            {
+                // TODO: Log the exception here
+                return Status.UnknownException;
+            }
+            finally
+            {
+                packageView.ReportOperationCompleted(DataPackageOperation.Copy);
+            }
+        }
+
+        #endregion
+
+        #region Move
+
+        public async Task<Status> MoveItemsAsync(IEnumerable<IStorageItem> source, IStorageItem destination, bool registerHistory)
+        {
+            try
+            {
+                PostedStatusBanner banner = _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    string.Empty,
+                    _associatedInstance.FilesystemViewModel.WorkingDirectory,
+                    0,
+                    Status.InProgress,
+                    FileOperationType.Copy);
+
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+
+                IStorageHistory storageHistory;
+                List<IStorageHistory> rawStorageHistory = new List<IStorageHistory>();
+
+                foreach (IStorageItem item in source)
+                {
+                    IStorageHistory history = await this._filesystemOperations.MoveAsync(item, destination, banner.Progress, banner.Status, this._cancellationToken);
+                    rawStorageHistory.Add(history);
+                }
+
+                storageHistory = new StorageHistory(rawStorageHistory[0].OperationType, source, new List<IStorageItem>() { destination });
+                if (registerHistory)
+                    App.AddHistory(storageHistory);
+
+                banner.Remove();
+
+                sw.Stop();
+
+                if (sw.Elapsed.TotalSeconds >= 10)
+                {
+                    _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                        "Paste Complete",
+                        "The operation has completed.",
+                        0,
+                        Status.Success,
+                        FileOperationType.Copy);
+                }
+
+                return Status.Success;
+            }
+            catch (Exception e)
+            {
+                // TODO: Log the exception here
+                return Status.UnknownException;
+            }
+        }
+
+        public async Task<Status> MoveItemAsync(IStorageItem source, IStorageItem destination, bool registerHistory)
+        {
+            try
+            {
+                PostedStatusBanner banner = _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    string.Empty,
+                    _associatedInstance.FilesystemViewModel.WorkingDirectory,
+                    0,
+                    Status.InProgress,
+                    FileOperationType.Copy);
+
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+
+                IStorageHistory storageHistory = await this._filesystemOperations.MoveAsync(source, destination, banner.Progress, banner.Status, this._cancellationToken);
+
+                if (registerHistory)
+                    App.AddHistory(storageHistory);
+
+                banner.Remove();
+
+                sw.Stop();
+
+                if (sw.Elapsed.TotalSeconds >= 10)
+                {
+                    _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                        "Paste Complete",
+                        "The operation has completed.",
+                        0,
+                        Status.Success,
+                        FileOperationType.Copy);
+                }
 
                 return Status.Success;
             }
@@ -343,7 +547,7 @@ namespace Files.Helpers
             try
             {
                 IReadOnlyList<IStorageItem> source = await packageView.GetStorageItemsAsync();
-                await MoveItems(source, destination, registerHistory);
+                await MoveItemsAsync(source, destination, registerHistory);
 
                 return Status.Success;
             }
@@ -352,7 +556,13 @@ namespace Files.Helpers
                 // TODO: Log the exception here
                 return Status.UnknownException;
             }
+            finally
+            {
+                packageView.ReportOperationCompleted(DataPackageOperation.Move);
+            }
         }
+
+        #endregion
 
         #endregion
 

@@ -4,6 +4,9 @@ namespace Files.Filesystem.FilesystemHistory
 {
     public interface IStorageHistory
     {
+        // TODO: Is this better?:
+        // Tuple<FileOperationType, IEnumerable<object>, IEnumerable<object>> History { get; } 
+
         /// <summary>
         /// Type of operation that took place
         /// </summary>

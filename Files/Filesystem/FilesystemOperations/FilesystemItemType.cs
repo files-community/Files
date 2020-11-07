@@ -17,7 +17,7 @@ namespace Files.Filesystem
         /// <summary>
         /// The item is a symlink
         /// </summary>
-        [Obsolete("The Symlink is never used")]
+        [Obsolete("The symlink has no use for now here")]
         Symlink = 2
     }
 }

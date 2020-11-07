@@ -237,7 +237,7 @@ namespace Files.UserControls
                     .FilesystemViewModel
                     .WorkingDirectory;
 
-                await this._filesystemHelpers.PerformPasteType(DataPackageOperation.Move, e.DataView, await tabViewItemWorkingDir.ToStorageItem());
+                await this._filesystemHelpers.PerformPasteTypeAsync(DataPackageOperation.Move, e.DataView, await tabViewItemWorkingDir.ToStorageItem());
             }
             else
             {

@@ -612,7 +612,7 @@ namespace Files
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                await this._filesystemHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await App.CurrentInstance.FilesystemViewModel.WorkingDirectory.ToStorageItem());
+                await this._filesystemHelpers.PerformPasteTypeAsync(e.AcceptedOperation, e.DataView, await App.CurrentInstance.FilesystemViewModel.WorkingDirectory.ToStorageItem());
 
                 e.Handled = true;
             }
@@ -716,7 +716,7 @@ namespace Files
             var deferral = e.GetDeferral();
             ListedItem rowItem = GetItemFromElement(sender);
 
-            await this._filesystemHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await ((rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath).ToStorageItem());
+            await this._filesystemHelpers.PerformPasteTypeAsync(e.AcceptedOperation, e.DataView, await ((rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath).ToStorageItem());
 
             e.Handled = true;
             deferral.Complete();
