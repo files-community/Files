@@ -608,6 +608,8 @@ namespace Files
 
         protected async void List_Drop(object sender, DragEventArgs e)
         {
+            var deferral = e.GetDeferral();
+
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 await this._filesystemHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await App.CurrentInstance.FilesystemViewModel.WorkingDirectory.ToStorageItem());
@@ -615,7 +617,7 @@ namespace Files
                 e.Handled = true;
             }
 
-            e.GetDeferral().Complete();
+            deferral.Complete();
         }
 
         protected async void Item_DragStarting(object sender, DragStartingEventArgs e)
@@ -711,12 +713,13 @@ namespace Files
 
         protected async void Item_Drop(object sender, DragEventArgs e)
         {
+            var deferral = e.GetDeferral();
             ListedItem rowItem = GetItemFromElement(sender);
 
-            await this._filesystemHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await (rowItem as ShortcutItem)?.TargetPath.ToStorageItem() ?? await rowItem.ItemPath.ToStorageItem());
+            await this._filesystemHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await ((rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath).ToStorageItem());
 
             e.Handled = true;
-            e.GetDeferral().Complete();
+            deferral.Complete();
         }
 
         protected void InitializeDrag(UIElement element)

@@ -401,6 +401,7 @@ namespace Files.Controls
 
         private async void NavigationViewLocationItem_Drop(object sender, DragEventArgs e)
         {
+            var deferral = e.GetDeferral();
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem))
                 return;
 
@@ -411,7 +412,7 @@ namespace Files.Controls
 
                 await this._filesystemHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await locationItem.Path.ToStorageItem());
 
-                e.GetDeferral().Complete();
+                deferral.Complete();
             }
             else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem sourceLocationItem)
             {
@@ -457,13 +458,15 @@ namespace Files.Controls
 
         private async void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
         {
+            var deferral = e.GetDeferral();
+
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem)) return;
 
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
             await this._filesystemHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await driveItem.Path.ToStorageItem());
 
-            e.GetDeferral().Complete();
+            deferral.Complete();
         }
 
         private async void Properties_Click(object sender, RoutedEventArgs e)

@@ -484,12 +484,14 @@ namespace Files.UserControls
 
         private async void PathBoxItem_Drop(object sender, DragEventArgs e)
         {
+            var deferral = e.GetDeferral();
+
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
                 pathBoxItem.Path == "Home" || pathBoxItem.Path == "NewTab".GetLocalized())
                 return;
 
             await this._filesystemHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await pathBoxItem.Path.ToStorageItem());
-            e.GetDeferral().Complete();
+            deferral.Complete();
         }
 
         private void VisiblePath_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
