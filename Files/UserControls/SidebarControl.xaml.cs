@@ -12,6 +12,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -23,7 +24,6 @@ namespace Files.Controls
 {
     public sealed partial class SidebarControl : UserControl, INotifyPropertyChanged
     {
-        private Interaction InteractionOperations;
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
@@ -42,10 +42,27 @@ namespace Files.Controls
         /// </summary>
         public SidebarPinnedModel SidebarPinnedModel => App.SidebarPinnedController.Model;
 
+        public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(
+          "EmptyRecycleBinCommand",
+          typeof(ICommand),
+          typeof(SidebarControl),
+          new PropertyMetadata(null)
+        );
+        public ICommand EmptyRecycleBinCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(EmptyRecycleBinCommandProperty);
+            }
+            set
+            {
+                SetValue(EmptyRecycleBinCommandProperty, value);
+            }
+        }
+
         public SidebarControl()
         {
             this.InitializeComponent();
-            InteractionOperations = DataContext as Interaction;
         }
 
         private INavigationControlItem _SelectedSidebarItem;
@@ -422,8 +439,6 @@ namespace Files.Controls
 
             return;
         }
-
-        private void EmptyRecycleBin_Click(object sender, RoutedEventArgs e) => InteractionOperations.EmptyRecycleBin_ClickAsync();
     }
 
     public class SidebarItemDroppedEventArgs : EventArgs

@@ -1096,6 +1096,7 @@ namespace Files.Interacts
             Abort
         }
 
+        public RelayCommand EmptyRecycleBin => new RelayCommand(() => EmptyRecycleBin_ClickAsync());
         public async void EmptyRecycleBin_ClickAsync()
         {
             var ConfirmEmptyBinDialog = new ContentDialog()

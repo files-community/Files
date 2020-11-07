@@ -150,7 +150,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid>
-            <controls:SidebarControl x:Name="SidebarControl" DataContext="{x:Bind InteractionOperations}" />
+            <controls:SidebarControl x:Name="SidebarControl" EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}" />
         </Grid>
 
         <Grid Grid.Column="1">
