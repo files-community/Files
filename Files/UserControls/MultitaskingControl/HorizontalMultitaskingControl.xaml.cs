@@ -26,6 +26,7 @@ namespace Files.UserControls
 {
     public sealed partial class HorizontalMultitaskingControl : UserControl, IMultitaskingControl
     {
+        private readonly FilesystemHelpers _filesystemHelpers;
         private const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
         private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
         private TabViewItem hoveredTabViewItem = null;
@@ -40,7 +41,9 @@ namespace Files.UserControls
 
         public HorizontalMultitaskingControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+
+            this._filesystemHelpers = new FilesystemHelpers(App.CurrentInstance, App.CancellationToken);
             tabHoverTimer.Interval = TimeSpan.FromMilliseconds(500);
             tabHoverTimer.Tick += TabHoverSelected;
         }
@@ -244,8 +247,7 @@ namespace Files.UserControls
                     .FilesystemViewModel
                     .WorkingDirectory;
 
-                await new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken)
-                    .PerformPasteType(DataPackageOperation.Move, e.DataView, await tabViewItemWorkingDir.ToStorageItem());
+                await this._filesystemHelpers.PerformPasteType(DataPackageOperation.Move, e.DataView, await tabViewItemWorkingDir.ToStorageItem());
             }
             else
             {

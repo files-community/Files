@@ -30,11 +30,15 @@ namespace Files.UserControls
 {
     public sealed partial class ModernNavigationToolbar : UserControl, INavigationToolbar, INotifyPropertyChanged
     {
+        private readonly FilesystemHelpers _filesystemHelpers;
+
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public ModernNavigationToolbar()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+
+            this._filesystemHelpers = new FilesystemHelpers(App.CurrentInstance, App.CancellationToken);
         }
 
         private bool manualEntryBoxLoaded = false;
@@ -484,8 +488,7 @@ namespace Files.UserControls
                 pathBoxItem.Path == "Home" || pathBoxItem.Path == "NewTab".GetLocalized())
                 return;
 
-            FilesystemHelpers fsHelpers = new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken);
-            await fsHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await pathBoxItem.Path.ToStorageItem());
+            await this._filesystemHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await pathBoxItem.Path.ToStorageItem());
             e.GetDeferral().Complete();
         }
 

@@ -23,6 +23,8 @@ namespace Files.Controls
 {
     public sealed partial class SidebarControl : UserControl, INotifyPropertyChanged
     {
+        private readonly FilesystemHelpers _filesystemHelpers;
+
         public SettingsViewModel AppSettings => App.AppSettings;
 
         /// <summary>
@@ -32,7 +34,9 @@ namespace Files.Controls
 
         public SidebarControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+
+            this._filesystemHelpers = new FilesystemHelpers(App.CurrentInstance, App.CancellationToken);
         }
 
         private INavigationControlItem _SelectedSidebarItem;
@@ -405,8 +409,7 @@ namespace Files.Controls
             {
                 VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
-                FilesystemHelpers fsHelpers = new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken);
-                await fsHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await locationItem.Path.ToStorageItem());
+                await this._filesystemHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await locationItem.Path.ToStorageItem());
 
                 e.GetDeferral().Complete();
             }
@@ -458,8 +461,7 @@ namespace Files.Controls
 
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
-            FilesystemHelpers fsHelpers = new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken);
-            await fsHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await driveItem.Path.ToStorageItem());
+            await this._filesystemHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await driveItem.Path.ToStorageItem());
 
             e.GetDeferral().Complete();
         }

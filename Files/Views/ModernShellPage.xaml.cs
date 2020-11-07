@@ -27,11 +27,16 @@ namespace Files.Views.Pages
     /// </summary>
     public sealed partial class ModernShellPage : Page, IShellPage
     {
+        private readonly FilesystemHelpers _filesystemHelpers;
+
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public ModernShellPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+
+            this._filesystemHelpers = new FilesystemHelpers(this, App.CancellationToken);
+
             AppSettings.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
             DisplayFilesystemConsentDialog();
 
@@ -222,11 +227,11 @@ namespace Files.Views.Pages
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
                 case (true, false, false, true, VirtualKey.Z): // ctrl + z, undo
-                    await new FilesystemHistoryHelpers(App.CurrentInstance, new StorageHistoryOperations(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken)).Undo();
+                    await new FilesystemHistoryHelpers(new StorageHistoryOperations(this, new FilesystemOperations(App.CurrentInstance), App.CancellationToken)).Undo();
                     break;
 
                 case (true, false, false, true, VirtualKey.Y): // ctrl + y, redo
-                    await new FilesystemHistoryHelpers(App.CurrentInstance, new StorageHistoryOperations(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken)).Redo();
+                    await new FilesystemHistoryHelpers(new StorageHistoryOperations(this, new FilesystemOperations(App.CurrentInstance), App.CancellationToken)).Redo();
                     break;
 
                 case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
@@ -240,8 +245,7 @@ namespace Files.Views.Pages
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
                     if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
                     {
-                        FilesystemHelpers fsHelpers = new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken);
-                        await fsHelpers.DeleteAsync(await App.CurrentInstance.ContentPage.SelectedItems.ToStorageItemCollection(), true, true, true);
+                        await this._filesystemHelpers.DeleteAsync(await App.CurrentInstance.ContentPage.SelectedItems.ToStorageItemCollection(), true, true, true);
                     }
                     break;
 
@@ -292,8 +296,7 @@ namespace Files.Views.Pages
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
                     if (App.CurrentInstance.ContentPage.IsItemSelected && !App.CurrentInstance.ContentPage.isRenamingItem)
                     {
-                        FilesystemHelpers fsHelpers = new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken);
-                        await fsHelpers.DeleteAsync(await App.CurrentInstance.ContentPage.SelectedItems.ToStorageItemCollection(), true, false, true);
+                        await this._filesystemHelpers.DeleteAsync(await App.CurrentInstance.ContentPage.SelectedItems.ToStorageItemCollection(), true, false, true);
                     }
                     break;
 

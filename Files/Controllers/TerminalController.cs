@@ -70,8 +70,8 @@ namespace Files.Controllers
 
         public async void Init()
         {
-            await Load();
-            await GetInstalledTerminals();
+            //await Load();
+            //await GetInstalledTerminals();
         }
 
         public async Task GetInstalledTerminals()

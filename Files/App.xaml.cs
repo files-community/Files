@@ -90,8 +90,11 @@ namespace Files
 
         public static void AddHistory(IStorageHistory storageHistory)
         {
-            StorageHistory.Insert(StorageHistoryIndex, storageHistory);
-            StorageHistoryIndex++;
+            if (storageHistory != null)
+            {
+                StorageHistory.Insert(StorageHistoryIndex, storageHistory);
+                StorageHistoryIndex++;
+            }
         }
 
         private async void StartAppCenter()

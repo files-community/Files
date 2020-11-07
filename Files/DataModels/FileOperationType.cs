@@ -36,7 +36,7 @@
         Recycle = 6,
 
         /// <summary>
-        /// A file/folder has been restored
+        /// A file/folder has been restored from recycle bin
         /// </summary>
         Restore = 7,
 

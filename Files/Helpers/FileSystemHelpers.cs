@@ -19,7 +19,7 @@ namespace Files.Helpers
     {
         #region Private Members
 
-        private readonly IShellPage _appInstance;
+        private readonly IShellPage _associatedInstance;
 
         private readonly IFilesystemOperations _filesystemOperations;
 
@@ -29,11 +29,11 @@ namespace Files.Helpers
 
         #region Constructor
 
-        public FilesystemHelpers(IShellPage appInstance, IFilesystemOperations filesystemOperations, CancellationToken cancellationToken) // IFilesystemOperations interface as a parameter?
+        public FilesystemHelpers(IShellPage associatedInstance, CancellationToken cancellationToken)
         {
-            this._appInstance = appInstance;
-            this._filesystemOperations = filesystemOperations;
+            this._associatedInstance = associatedInstance;
             this._cancellationToken = cancellationToken;
+            this._filesystemOperations = new FilesystemOperations(this._associatedInstance);
         }
 
         #endregion
@@ -50,13 +50,13 @@ namespace Files.Helpers
 
         #endregion
 
-        #region Delete
+        #region Delete/Restore
 
         public async Task<Status> DeleteAsync(IEnumerable<IStorageItem> source, bool showDialog, bool pernamently, bool registerHistory)
         {
             try
             {
-                if (App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+                if (_associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
                 {
                     // Permanently delete if deleting from recycle bin
                     pernamently = true;
@@ -65,18 +65,18 @@ namespace Files.Helpers
                 PostedStatusBanner banner;
                 if (pernamently)
                 {
-                    banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    banner = _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
                         string.Empty,
-                        this._appInstance.FilesystemViewModel.WorkingDirectory,
+                        this._associatedInstance.FilesystemViewModel.WorkingDirectory,
                         0,
                         Status.InProgress,
                         FileOperationType.Delete);
                 }
                 else
                 {
-                    banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    banner = _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
                         string.Empty,
-                        this._appInstance.FilesystemViewModel.WorkingDirectory,
+                        this._associatedInstance.FilesystemViewModel.WorkingDirectory,
                         0,
                         Status.InProgress,
                         FileOperationType.Recycle);
@@ -96,8 +96,6 @@ namespace Files.Helpers
                         IStorageHistory history = await this._filesystemOperations.DeleteAsync(item, banner.Progress, banner.Status, showDialog, pernamently, this._cancellationToken);
                         rawStorageHistory.Add(history);
                     }
-                    //source.ForEach<IStorageItem>(async (item) =>
-                    //rawStorageHistory.Add(await this._filesystemOperations.DeleteAsync(item, banner.Progress, banner.Status, pernamently, this._cancellationToken)));
 
                     storageHistory = new StorageHistory(rawStorageHistory[0].OperationType, source, null); // Is rawStorageHistory[0] - [0] indexing smart here?
                     if (!pernamently && registerHistory) // TODO: Don't add pernamently, or skip it in Undo() ?
@@ -110,7 +108,7 @@ namespace Files.Helpers
                     {
                         if (pernamently)
                         {
-                            App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                            _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
                             "Deletion Complete",
                             "The operation has completed.",
                             0,
@@ -119,7 +117,7 @@ namespace Files.Helpers
                         }
                         else
                         {
-                            App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                            _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
                             "Recycle Complete",
                             "The operation has completed.",
                             0,
@@ -128,12 +126,12 @@ namespace Files.Helpers
                         }
                     }
 
-                    App.CurrentInstance.NavigationToolbar.CanGoForward = false;
+                    _associatedInstance.NavigationToolbar.CanGoForward = false;
                 }
                 catch (UnauthorizedAccessException)
                 {
                     banner.Remove();
-                    App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
                         "AccessDeniedDeleteDialog/Title".GetLocalized(),
                         "AccessDeniedDeleteDialog/Text".GetLocalized(),
                         0,
@@ -143,7 +141,7 @@ namespace Files.Helpers
                 catch (FileNotFoundException)
                 {
                     banner.Remove();
-                    App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
                         "FileNotFoundDialog/Title".GetLocalized(),
                         "FileNotFoundDialog/Text".GetLocalized(),
                         0,
@@ -153,7 +151,7 @@ namespace Files.Helpers
                 catch (IOException)
                 {
                     banner.Remove();
-                    App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostActionBanner(
+                    _associatedInstance.StatusBarControl.OngoingTasksControl.PostActionBanner(
                         "FileInUseDeleteDialog/Title".GetLocalized(),
                         "FileInUseDeleteDialog/Text".GetLocalized(),
                         "FileInUseDeleteDialog/PrimaryButtonText".GetLocalized(),
@@ -167,6 +165,16 @@ namespace Files.Helpers
                 // TODO: Log the exception here
                 return Status.UnknownException;
             }
+        }
+
+        public async Task<Status> RestoreFromTrashAsync(RecycleBinItem source, IStorageItem destination, bool registerHistory)
+        {
+            IStorageHistory history = await this._filesystemOperations.RestoreFromTrashAsync(source, destination, null, null, this._cancellationToken);
+
+            if (registerHistory)
+                App.AddHistory(history);
+
+            return Status.Success;
         }
 
         #endregion
@@ -214,9 +222,9 @@ namespace Files.Helpers
         {
             try
             {
-                PostedStatusBanner banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                PostedStatusBanner banner = _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
                     string.Empty,
-                    App.CurrentInstance.FilesystemViewModel.WorkingDirectory,
+                    _associatedInstance.FilesystemViewModel.WorkingDirectory,
                     0,
                     Status.InProgress,
                     FileOperationType.Copy);
@@ -245,7 +253,7 @@ namespace Files.Helpers
 
                 if (sw.Elapsed.TotalSeconds >= 10)
                 {
-                    App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
                         "Paste Complete",
                         "The operation has completed.",
                         0,
@@ -266,9 +274,9 @@ namespace Files.Helpers
         {
             try
             {
-                PostedStatusBanner banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                PostedStatusBanner banner = _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
                     string.Empty,
-                    App.CurrentInstance.FilesystemViewModel.WorkingDirectory,
+                    _associatedInstance.FilesystemViewModel.WorkingDirectory,
                     0,
                     Status.InProgress,
                     FileOperationType.Copy);
@@ -297,7 +305,7 @@ namespace Files.Helpers
 
                 if (sw.Elapsed.TotalSeconds >= 10)
                 {
-                    App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
                         "Paste Complete",
                         "The operation has completed.",
                         0,

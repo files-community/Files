@@ -34,16 +34,26 @@ namespace Files
     /// </summary>
     public abstract class BaseLayout : Page, INotifyPropertyChanged
     {
+        private readonly FilesystemHelpers _filesystemHelpers;
+
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
+
         public SettingsViewModel AppSettings => App.AppSettings;
+
         public CurrentInstanceViewModel InstanceViewModel => App.CurrentInstance.InstanceViewModel;
+
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
+
         public bool IsQuickLookEnabled { get; set; } = false;
+
         public MenuFlyout BaseLayoutContextFlyout { get; set; }
+
         public MenuFlyout BaseLayoutItemContextFlyout { get; set; }
 
         public ItemViewModel AssociatedViewModel = null;
+
         public Interaction AssociatedInteractions = null;
+
         public bool isRenamingItem = false;
 
         private bool isItemSelected = false;
@@ -128,6 +138,7 @@ namespace Files
 
         public BaseLayout()
         {
+            this._filesystemHelpers = new FilesystemHelpers(App.CurrentInstance, App.CancellationToken);
             this.Loaded += Page_Loaded;
             Page_Loaded(null, null);
             SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
@@ -599,8 +610,7 @@ namespace Files
         {
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                await new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken)
-                    .PerformPasteType(e.AcceptedOperation, e.DataView, await App.CurrentInstance.FilesystemViewModel.WorkingDirectory.ToStorageItem());
+                await this._filesystemHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await App.CurrentInstance.FilesystemViewModel.WorkingDirectory.ToStorageItem());
 
                 e.Handled = true;
             }
@@ -703,8 +713,7 @@ namespace Files
         {
             ListedItem rowItem = GetItemFromElement(sender);
 
-            await new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken)
-                .PerformPasteType(e.AcceptedOperation, e.DataView, await (rowItem as ShortcutItem)?.TargetPath.ToStorageItem() ?? await rowItem.ItemPath.ToStorageItem());
+            await this._filesystemHelpers.PerformPasteType(e.AcceptedOperation, e.DataView, await (rowItem as ShortcutItem)?.TargetPath.ToStorageItem() ?? await rowItem.ItemPath.ToStorageItem());
 
             e.Handled = true;
             e.GetDeferral().Complete();

@@ -12,13 +12,15 @@ namespace Files.Dialogs
 {
     public sealed partial class AddItemDialog : ContentDialog
     {
+        private static readonly FilesystemHelpers _filesystemHelpers = new FilesystemHelpers(App.CurrentInstance, App.CancellationToken);
+
+        public List<AddListItem> AddItemsList = new List<AddListItem>();
+
         public AddItemDialog()
         {
             InitializeComponent();
             AddItemsToList();
         }
-
-        public List<AddListItem> AddItemsList = new List<AddListItem>();
 
         public void AddItemsToList()
         {
@@ -85,22 +87,19 @@ namespace Files.Dialogs
                     case AddItemType.Folder:
                         userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalized();
 
-                        await new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken)
-                            .CreateAsync(Path.Combine(folderToCreateItem.Path, userInput), FilesystemItemType.Directory, null, true);
+                        await _filesystemHelpers.CreateAsync(Path.Combine(folderToCreateItem.Path, userInput), FilesystemItemType.Directory, null, true);
                         break;
 
                     case AddItemType.TextDocument:
                         userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewTextDocument".GetLocalized();
 
-                        await new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken)
-                            .CreateAsync(Path.Combine(folderToCreateItem.Path, (userInput + ".txt")), FilesystemItemType.File, null, true);
+                        await _filesystemHelpers.CreateAsync(Path.Combine(folderToCreateItem.Path, (userInput + ".txt")), FilesystemItemType.File, null, true);
                         break;
 
                     case AddItemType.BitmapImage:
                         userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewBitmapImage".GetLocalized();
 
-                        await new FilesystemHelpers(App.CurrentInstance, new FilesystemOperations(App.CurrentInstance), App.CancellationToken)
-                            .CreateAsync(Path.Combine(folderToCreateItem.Path, (userInput + ".bmp")), FilesystemItemType.File, null, true);
+                        await _filesystemHelpers.CreateAsync(Path.Combine(folderToCreateItem.Path, (userInput + ".bmp")), FilesystemItemType.File, null, true);
                         break;
                 }
             }

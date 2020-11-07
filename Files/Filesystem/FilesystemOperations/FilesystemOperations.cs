@@ -46,7 +46,7 @@ namespace Files.Filesystem.FilesystemOperations
                 // Do not paste files and folders inside the recycle bin
                 await DialogDisplayHelper.ShowDialog("ErrorDialogThisActionCannotBeDone".GetLocalized(), "ErrorDialogUnsupportedOperation".GetLocalized());
 
-                status.Report(Status.Failed | Status.IllegalArgumentException);
+                status?.Report(Status.Failed | Status.IllegalArgumentException);
                 return null;
             }
 
@@ -55,7 +55,7 @@ namespace Files.Filesystem.FilesystemOperations
             long totalItemsSize = CalculateTotalItemsSize(new List<IStorageItem>() { source });
             bool isItemSizeUnreported = true;
 
-            progress.Report(0.0f);
+            progress?.Report(0.0f);
             if (source.IsOfType(StorageItemTypes.Folder))
             {
                 if (!string.IsNullOrEmpty(source.Path) && destination.Path.IsSubPathOf(source.Path))
@@ -80,12 +80,12 @@ namespace Files.Filesystem.FilesystemOperations
                     await dialog.ShowAsync();*/
                     if (responseType == ImpossibleActionResponseTypes.Skip)
                     {
-                        status.Report(Status.Cancelled);
+                        status?.Report(Status.Cancelled);
                         return null;
                     }
                     else if (responseType == ImpossibleActionResponseTypes.Abort)
                     {
-                        status.Report(Status.Failed | Status.Cancelled);
+                        status?.Report(Status.Failed | Status.Cancelled);
                         return null;
                     }
                 }
@@ -94,8 +94,8 @@ namespace Files.Filesystem.FilesystemOperations
                     if (!isItemSizeUnreported)
                     {
                         long pastedItemSize = await Task.Run(() => CalculateTotalItemsSize(pastedSourceItems));
-                        float progressValue = (uint)(pastedItemSize * 100.0f / totalItemsSize);
-                        progress.Report(progressValue);
+                        float progressValue = (float)(pastedItemSize * 100.0f / totalItemsSize);
+                        progress?.Report(progressValue);
                     }
 
                     try
@@ -110,7 +110,7 @@ namespace Files.Filesystem.FilesystemOperations
                     catch (FileNotFoundException)
                     {
                         // Folder was moved/deleted in the meantime
-                        status.Report(Status.Failed | Status.IntegrityCheckFailed);
+                        status?.Report(Status.Failed | Status.IntegrityCheckFailed);
                         return null;
                     }
                 }
@@ -121,7 +121,7 @@ namespace Files.Filesystem.FilesystemOperations
                 {
                     long pastedItemSize = await Task.Run(() => CalculateTotalItemsSize(pastedSourceItems));
                     float progressValue = (uint)(pastedItemSize * 100.0f / totalItemsSize);
-                    progress.Report(progressValue);
+                    progress?.Report(progressValue);
                 }
 
                 try
@@ -136,7 +136,7 @@ namespace Files.Filesystem.FilesystemOperations
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    status.Report(Status.AccessUnauthorized);
+                    status?.Report(Status.AccessUnauthorized);
 
                     // Try again with CopyFileFromApp
                     if (NativeDirectoryChangesHelper.CopyFileFromApp(source.Path, Path.Combine(destination.Path, source.Name), true))
@@ -145,14 +145,14 @@ namespace Files.Filesystem.FilesystemOperations
                     }
                     else
                     {
-                        status.Report(Status.Failed | Status.AccessUnauthorized);
+                        status?.Report(Status.Failed | Status.AccessUnauthorized);
                         Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
                     }
                 }
                 catch (FileNotFoundException)
                 {
                     // File was moved/deleted in the meantime
-                    status.Report(Status.Failed | Status.IntegrityCheckFailed);
+                    status?.Report(Status.Failed | Status.IntegrityCheckFailed);
                     return null;
                 }
             }
@@ -161,10 +161,10 @@ namespace Files.Filesystem.FilesystemOperations
             {
                 long finalPastedItemSize = await Task.Run(() => CalculateTotalItemsSize(pastedSourceItems));
                 float finalProgressValue = (uint)(finalPastedItemSize * 100.0f / totalItemsSize);
-                progress.Report(finalProgressValue);
+                progress?.Report(finalProgressValue);
             }
             else
-                progress.Report(100.0f);
+                progress?.Report(100.0f);
 
 
             if (destination.Path == _appInstance.FilesystemViewModel.WorkingDirectory)
@@ -178,7 +178,7 @@ namespace Files.Filesystem.FilesystemOperations
                 }
             }
 
-            status.Report(Status.Success);
+            status?.Report(Status.Success);
 
             return new StorageHistory(FileOperationType.Copy, new List<IStorageItem>() { source }, new List<IStorageItem>() { destination });
         }
@@ -198,7 +198,7 @@ namespace Files.Filesystem.FilesystemOperations
                     // StorageItems returned in DataPackageView are read-only
                     // The item.Path property will be empty and there's no way of retrieving a new StorageItem with R/W access
 
-                    status.Report(Status.Failed | Status.IllegalArgumentException);
+                    status?.Report(Status.Failed | Status.IllegalArgumentException);
                     return null;
                 }
                 if (source.IsOfType(StorageItemTypes.File))
@@ -216,11 +216,11 @@ namespace Files.Filesystem.FilesystemOperations
             }
             catch (UnauthorizedAccessException)
             {
-                status.Report(Status.AccessUnauthorized);
+                status?.Report(Status.AccessUnauthorized);
                 // Try again with DeleteFileFromApp
                 if (!NativeDirectoryChangesHelper.DeleteFileFromApp(source.Path))
                 {
-                    status.Report(Status.Failed | Status.AccessUnauthorized);
+                    status?.Report(Status.Failed | Status.AccessUnauthorized);
                     Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
                     return null;
                 }
@@ -228,13 +228,13 @@ namespace Files.Filesystem.FilesystemOperations
             catch (FileNotFoundException)
             {
                 // File or Folder was moved/deleted in the meantime
-                status.Report(Status.IntegrityCheckFailed);
+                status?.Report(Status.IntegrityCheckFailed);
                 return null;
             }
             ListedItem listedItem = _appInstance.FilesystemViewModel.FilesAndFolders.FirstOrDefault(listedItem => listedItem.ItemPath.Equals(source.Path, StringComparison.OrdinalIgnoreCase));
 
-            progress.Report(100f);
-            status.Report(Status.Success);
+            progress?.Report(100.0f);
+            status?.Report(Status.Success);
 
             return new StorageHistory(FileOperationType.Move, new List<IStorageItem>() { source }, new List<IStorageItem>() { destination });
         }
@@ -275,6 +275,17 @@ namespace Files.Filesystem.FilesystemOperations
             return new StorageHistory(FileOperationType.CreateNew, new List<IStorageItem>() { await fullPath.ToStorageItem() }, null);
         }
 
+
+        public async Task<IStorageHistory> RenameAsync(IStorageItem source, string newName, bool replace, IProgress<Status> status, CancellationToken cancellationToken)
+        {
+            string originalSource = source.Path;
+            await source.RenameAsync(newName, replace ? NameCollisionOption.ReplaceExisting : NameCollisionOption.GenerateUniqueName);
+
+            return new StorageHistory(FileOperationType.Rename, new List<string>() { originalSource }, new List<string>() { source.Path });
+        }
+
+        #region Trash/Delete
+
         public async Task<IStorageHistory> DeleteAsync(IStorageItem source, IProgress<float> progress, IProgress<Status> status, bool showDialog, bool pernamently, CancellationToken cancellationToken)
         {
             bool deleteFromRecycleBin = _appInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
@@ -286,7 +297,7 @@ namespace Files.Filesystem.FilesystemOperations
 
                 if (dialog.Result != MyResult.Delete) // Delete selected item(s) if the result is yes
                 {
-                    status.Report(Status.Cancelled);
+                    status?.Report(Status.Cancelled);
                     return null; // Return if the result isn't delete
                 }
                 pernamently = dialog.PermanentlyDelete;
@@ -353,26 +364,58 @@ namespace Files.Filesystem.FilesystemOperations
                 await (await ItemViewModel.GetFileFromPathAsync(iFilePath)).DeleteAsync(StorageDeleteOption.PermanentDelete);
             }
 
-            _appInstance.FilesystemViewModel.RemoveFileOrFolder(source.Path);
+            await _appInstance.FilesystemViewModel.RemoveFileOrFolder(source.Path);
             //itemsDeleted++;
 
-            status.Report(Status.Success);
+            status?.Report(Status.Success);
             return new StorageHistory(pernamently ? FileOperationType.Delete : FileOperationType.Recycle,
                 new List<IStorageItem>() { source }, null);
         }
 
-        public async Task<IStorageHistory> RenameAsync(IStorageItem source, string newName, bool replace, IProgress<Status> status, CancellationToken cancellationToken)
+        public async Task<IStorageHistory> RestoreFromTrashAsync(RecycleBinItem source, IStorageItem destination, IProgress<float> progress, IProgress<Status> status, CancellationToken cancellationToken)
         {
-            string originalSource = source.Path;
+            try
+            {
+                if (source.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    StorageFolder sourceFolder = await ItemViewModel.GetFolderFromPathAsync(source.ItemPath);
+                    await MoveAsync(sourceFolder, destination, progress, status, cancellationToken);
+                    await sourceFolder.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                }
+                else if (source.PrimaryItemAttribute == StorageItemTypes.File)
+                {
+                    StorageFile file = await ItemViewModel.GetFileFromPathAsync(source.ItemPath);
+                    await file.MoveAsync((IStorageFolder)destination, Path.GetFileName(source.ItemOriginalPath), NameCollisionOption.GenerateUniqueName);
+                }
 
-            await source.RenameAsync(newName, replace ? NameCollisionOption.ReplaceExisting : NameCollisionOption.GenerateUniqueName);
+                // Recycle bin also stores a file starting with $I for each item
+                string iFilePath = Path.Combine(Path.GetDirectoryName(source.ItemPath), Path.GetFileName(source.ItemPath).Replace("$R", "$I"));
+                await (await ItemViewModel.GetFileFromPathAsync(iFilePath)).DeleteAsync(StorageDeleteOption.PermanentDelete);
 
-            // Source: source path (original name)
-            // Destination: destination path (new name)
-            return new StorageHistory(FileOperationType.Rename, new List<string>() { originalSource }, new List<string>() { source.Path });
+                status?.Report(Status.Success);
+                return new StorageHistory(FileOperationType.Restore, new List<RecycleBinItem>() { source }, new List<IStorageItem>() { destination });
+            }
+            catch (UnauthorizedAccessException)
+            {
+                status?.Report(Status.AccessUnauthorized);
+                await DialogDisplayHelper.ShowDialog("AccessDeniedDeleteDialog/Title".GetLocalized(), "AccessDeniedDeleteDialog/Text".GetLocalized());
+                return null;
+            }
+            catch (FileNotFoundException)
+            {
+                status?.Report(Status.IntegrityCheckFailed);
+                await DialogDisplayHelper.ShowDialog("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
+                return null;
+            }
+            catch (Exception)
+            {
+                status?.Report(Status.UnknownException);
+                await DialogDisplayHelper.ShowDialog("ItemAlreadyExistsDialogTitle".GetLocalized(), "ItemAlreadyExistsDialogContent".GetLocalized());
+                return null;
+            }
         }
 
-
+        #endregion
 
         #endregion
 
@@ -461,52 +504,7 @@ namespace Files.Filesystem.FilesystemOperations
             }
         }
 
-        public async Task<IStorageHistory> RestoreFromTrashAsync(IStorageItem source, IStorageItem destination, IProgress<Status> status, CancellationToken cancellationToken)
-        {
-            Debugger.Break();
-            throw new NotImplementedException();
-
-            //try
-            //{
-            //    if (source.IsOfType(StorageItemTypes.Folder))
-            //    {
-            //        StorageFolder sourceFolder = await ItemViewModel.GetFolderFromPathAsync(source.Path);
-            //        StorageFolder destFolder = await ItemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination.Path));
-            //        await new FilesystemHelpers(_appInstance, this, cancellationToken).MoveItems(new List<IStorageItem>() { source }, destination, false);
-            //        await sourceFolder.DeleteAsync(StorageDeleteOption.PermanentDelete);
-            //    }
-            //    else if (source.IsOfType(StorageItemTypes.File))
-            //    {
-            //        var file = await ItemViewModel.GetFileFromPathAsync(source.Path);
-            //        var destinationFolder = await ItemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination.Path));
-            //        await file.MoveAsync(destinationFolder, Path.GetFileName(destination.Path), NameCollisionOption.GenerateUniqueName);
-            //    }
-            //    // Recycle bin also stores a file starting with $I for each item
-            //    string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I"));
-            //    await (await ItemViewModel.GetFileFromPathAsync(iFilePath)).DeleteAsync(StorageDeleteOption.PermanentDelete);
-
-            //    status.Report(Status.Success);
-            //    return new StorageHistory(FileOperationType.Restore, new List<IStorageItem>() { source }, new List<IStorageItem>() { destination });
-            //}
-            //catch (UnauthorizedAccessException)
-            //{
-            //    status.Report(Status.AccessUnauthorized);
-            //    await DialogDisplayHelper.ShowDialog("AccessDeniedDeleteDialog/Title".GetLocalized(), "AccessDeniedDeleteDialog/Text".GetLocalized());
-            //    return null;
-            //}
-            //catch (FileNotFoundException)
-            //{
-            //    status.Report(Status.IntegrityCheckFailed);
-            //    await DialogDisplayHelper.ShowDialog("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
-            //    return null;
-            //}
-            //catch (Exception)
-            //{
-            //    status.Report(Status.UnknownException);
-            //    await DialogDisplayHelper.ShowDialog("ItemAlreadyExistsDialogTitle".GetLocalized(), "ItemAlreadyExistsDialogContent".GetLocalized());
-            //    return null;
-            //}
-        }
+        
 
         #region Private
 

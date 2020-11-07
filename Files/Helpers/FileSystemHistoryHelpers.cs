@@ -7,17 +7,14 @@ namespace Files.Helpers
     {
         #region Private Members
 
-        private readonly IShellPage _appInstance;
-
         private readonly IStorageHistoryOperations _storageHistoryOperations;
 
         #endregion
 
         #region Constructor
 
-        public FilesystemHistoryHelpers(IShellPage appInstance, IStorageHistoryOperations storageHistoryOperations)
+        public FilesystemHistoryHelpers(IStorageHistoryOperations storageHistoryOperations)
         {
-            this._appInstance = appInstance;
             this._storageHistoryOperations = storageHistoryOperations;
         }
 
