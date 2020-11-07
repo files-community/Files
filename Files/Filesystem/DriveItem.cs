@@ -3,10 +3,12 @@ using Files.Common;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Xaml;
 
@@ -64,18 +66,24 @@ namespace Files.Filesystem
                 var properties = await Root.Properties.RetrievePropertiesAsync(new[] { "System.FreeSpace", "System.Capacity" })
                     .AsTask().WithTimeout(TimeSpan.FromSeconds(5));
 
-                MaxSpace = ByteSize.FromBytes((ulong)properties["System.Capacity"]);
-                FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
+                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                {
+                    MaxSpace = ByteSize.FromBytes((ulong)properties["System.Capacity"]);
+                    FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
+                    SpaceUsed = MaxSpace - FreeSpace;
 
-                SpaceUsed = MaxSpace - FreeSpace;
-                SpaceText = string.Format(
-                    "DriveFreeSpaceAndCapacity".GetLocalized(),
-                    FreeSpace.ToBinaryString().ConvertSizeAbbreviation(),
-                    MaxSpace.ToBinaryString().ConvertSizeAbbreviation());
+                    SpaceText = string.Format(
+                        "DriveFreeSpaceAndCapacity".GetLocalized(),
+                        FreeSpace.ToBinaryString().ConvertSizeAbbreviation(),
+                        MaxSpace.ToBinaryString().ConvertSizeAbbreviation());
+                });
             }
             catch (NullReferenceException)
             {
-                SpaceText = "DriveCapacityUnknown".GetLocalized();
+                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                {
+                    SpaceText = "DriveCapacityUnknown".GetLocalized();
+                });
             }
         }
 
