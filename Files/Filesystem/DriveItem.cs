@@ -56,34 +56,29 @@ namespace Files.Filesystem
             Type = type;
             Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
             Root = root;
-            GetDriveItemProperties();
+
+            CoreApplication.MainView.ExecuteOnUIThreadAsync(() => GetDriveItemProperties());
         }
 
-        private async void GetDriveItemProperties()
+        private async Task GetDriveItemProperties()
         {
             try
             {
                 var properties = await Root.Properties.RetrievePropertiesAsync(new[] { "System.FreeSpace", "System.Capacity" })
                     .AsTask().WithTimeout(TimeSpan.FromSeconds(5));
 
-                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
-                {
-                    MaxSpace = ByteSize.FromBytes((ulong)properties["System.Capacity"]);
-                    FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
-                    SpaceUsed = MaxSpace - FreeSpace;
+                MaxSpace = ByteSize.FromBytes((ulong)properties["System.Capacity"]);
+                FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
+                SpaceUsed = MaxSpace - FreeSpace;
 
-                    SpaceText = string.Format(
-                        "DriveFreeSpaceAndCapacity".GetLocalized(),
-                        FreeSpace.ToBinaryString().ConvertSizeAbbreviation(),
-                        MaxSpace.ToBinaryString().ConvertSizeAbbreviation());
-                });
+                SpaceText = string.Format(
+                    "DriveFreeSpaceAndCapacity".GetLocalized(),
+                    FreeSpace.ToBinaryString().ConvertSizeAbbreviation(),
+                    MaxSpace.ToBinaryString().ConvertSizeAbbreviation());
             }
             catch (NullReferenceException)
             {
-                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
-                {
-                    SpaceText = "DriveCapacityUnknown".GetLocalized();
-                });
+                SpaceText = "DriveCapacityUnknown".GetLocalized();
             }
         }
 
