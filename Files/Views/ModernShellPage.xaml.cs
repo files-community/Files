@@ -1011,6 +1011,7 @@ namespace Files.Views.Pages
             if (FilesystemViewModel != null)    // Prevent weird case of this being null when many tabs are opened/closed quickly
             {
                 FilesystemViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
+                FilesystemViewModel.Dispose();
             }
 
             ServiceConnection?.Dispose();
