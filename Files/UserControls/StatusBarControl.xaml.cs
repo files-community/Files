@@ -1,15 +1,19 @@
-﻿using Files.View_Models;
+﻿using Files.Interacts;
+using Files.View_Models;
+using System;
+using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
-
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Files.UserControls
 {
     public sealed partial class StatusBarControl : UserControl
     {
         public SettingsViewModel AppSettings => App.AppSettings;
-        public DirectoryPropertiesViewModel DirectoryPropertiesViewModel => App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel;
-        public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel => App.CurrentInstance.ContentPage.SelectedItemsPropertiesViewModel;
+        public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; set; } = null;
+        public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; set; } = null;
+        public ICommand SelectAllInvokedCommand { get; set; }
+        public ICommand InvertSelectionInvokedCommand { get; set; }
+        public ICommand ClearSelectionInvokedCommand { get; set; }
 
         public StatusBarControl()
         {

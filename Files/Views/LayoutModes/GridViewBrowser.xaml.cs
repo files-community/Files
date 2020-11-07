@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.UserControls;
+using Files.Views.Pages;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -195,7 +196,7 @@ namespace Files
         {
             var textBox = sender as TextBox;
 
-            if (App.CurrentInstance.InteractionOperations.ContainsRestrictedCharacters(textBox.Text))
+            if (Interaction.ContainsRestrictedCharacters(textBox.Text))
             {
                 FileNameTeachingTip.IsOpen = true;
             }
@@ -253,7 +254,7 @@ namespace Files
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');
 
-            bool successful = await App.CurrentInstance.InteractionOperations.RenameFileItem(renamingItem, oldItemName, newItemName);
+            bool successful = await ParentShellPageInstance.InteractionOperations.RenameFileItem(renamingItem, oldItemName, newItemName);
             if (!successful)
             {
                 renamingItem.ItemName = oldItemName;
@@ -288,21 +289,21 @@ namespace Files
             {
                 if (!isRenamingItem)
                 {
-                    App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null);
+                    ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
                     e.Handled = true;
                 }
             }
             else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
             {
-                AssociatedInteractions.ShowPropertiesButton_Click(null, null);
+                ParentShellPageInstance.InteractionOperations.ShowPropertiesButton_Click(null, null);
             }
             else if (e.Key == VirtualKey.Space)
             {
-                if (!isRenamingItem && !App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                if (!isRenamingItem && !ParentShellPageInstance.NavigationToolbar.IsEditModeEnabled)
                 {
-                    if ((App.CurrentInstance.ContentPage).IsQuickLookEnabled)
+                    if (IsQuickLookEnabled)
                     {
-                        App.CurrentInstance.InteractionOperations.ToggleQuickLook();
+                        ParentShellPageInstance.InteractionOperations.ToggleQuickLook();
                     }
                     e.Handled = true;
                 }
@@ -316,9 +317,9 @@ namespace Files
 
         protected override void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
-            if (App.CurrentInstance != null)
+            if (ParentShellPageInstance != null)
             {
-                if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser) && !isRenamingItem)
+                if (ParentShellPageInstance.CurrentPageType == typeof(GridViewBrowser) && !isRenamingItem)
                 {
                     // Don't block the various uses of enter key (key 13)
                     var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
@@ -340,7 +341,7 @@ namespace Files
             {
                 await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
                 {
-                    App.CurrentInstance.FilesystemViewModel.LoadExtendedItemProperties(sender.DataContext as ListedItem, _iconSize);
+                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(sender.DataContext as ListedItem, _iconSize);
                     (sender.DataContext as ListedItem).ItemPropertiesInitialized = true;
                 });
 
@@ -404,7 +405,7 @@ namespace Files
             if (iconSize != _iconSize)
             {
                 _iconSize = iconSize; // Update icon size before refreshing
-                NavigationActions.Refresh_Click(null, null); // Refresh icons
+                ParentShellPageInstance.Refresh_Click(); // Refresh icons
             }
             else
                 _iconSize = iconSize; // Update icon size
@@ -425,7 +426,7 @@ namespace Files
             if (AppSettings.OpenItemsWithOneclick)
             {
                 await Task.Delay(200); // The delay gives time for the item to be selected
-                App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null);
+                ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
             }
         }
     }

@@ -2,6 +2,7 @@
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
+using Files.UserControls;
 using Files.View_Models;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
@@ -20,6 +21,11 @@ namespace Files
 {
     public sealed partial class RecentFiles : UserControl
     {
+        public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
+        public event RecentFilesOpenLocationInvokedEventHandler RecentFilesOpenLocationInvoked;
+        public delegate void RecentFileInvokedEventHandler(object sender, PathNavigationEventArgs e);
+        public event RecentFileInvokedEventHandler RecentFileInvoked;
+
         private ObservableCollection<RecentItem> recentItemsCollection = new ObservableCollection<RecentItem>();
         private EmptyRecentsText Empty { get; set; } = new EmptyRecentsText();
         public SettingsViewModel AppSettings => App.AppSettings;
@@ -40,7 +46,7 @@ namespace Files
             {
                 var filePath = clickedOnItem.RecentPath;
                 var folderPath = filePath.Substring(0, filePath.Length - clickedOnItem.Name.Length);
-                App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), folderPath);
+                RecentFilesOpenLocationInvoked?.Invoke(this, new PathNavigationEventArgs() { ItemPath = folderPath, LayoutType = AppSettings.GetLayoutType() });
             }
         }
 
@@ -145,43 +151,10 @@ namespace Files
             }
         }
 
-        private async void RecentsView_ItemClick(object sender, ItemClickEventArgs e)
+        private void RecentsView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var path = (e.ClickedItem as RecentItem).RecentPath;
-            try
-            {
-                var directoryName = Path.GetDirectoryName(path);
-                await Interaction.InvokeWin32Component(path, workingDir: directoryName);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                var consentDialog = new ConsentDialog();
-                await consentDialog.ShowAsync();
-            }
-            catch (ArgumentException)
-            {
-                if (new DirectoryInfo(path).Root.ToString().Contains(@"C:\"))
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), path);
-                }
-                else
-                {
-                    foreach (DriveItem drive in AppSettings.DrivesManager.Drives)
-                    {
-                        if (drive.Path.ToString() == new DirectoryInfo(path).Root.ToString())
-                        {
-                            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), path);
-                            return;
-                        }
-                    }
-                }
-            }
-            catch (COMException)
-            {
-                await DialogDisplayHelper.ShowDialog(
-                    "DriveUnpluggedDialog/Title".GetLocalized(),
-                    "DriveUnpluggedDialog/Text".GetLocalized());
-            }
+            RecentFileInvoked?.Invoke(this, new PathNavigationEventArgs() { ItemPath = path, LayoutType = AppSettings.GetLayoutType() });
         }
 
         private async void RemoveOneFrequentItem(object sender, RoutedEventArgs e)

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using static Files.Dialogs.ConfirmDeleteDialog;
@@ -16,31 +17,28 @@ namespace Files.Commands
 {
     public partial class ItemOperations
     {
-        public static async void DeleteItemWithStatus(StorageDeleteOption deleteOption)
+        public async void DeleteItemWithStatus(StorageDeleteOption deleteOption)
         {
-            var deleteFromRecycleBin = App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
+            var deleteFromRecycleBin = AppInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
             if (deleteFromRecycleBin)
             {
                 // Permanently delete if deleting from recycle bin
                 deleteOption = StorageDeleteOption.PermanentDelete;
             }
 
-            // Get selected items before showing the prompt to prevent deleting items selected after the prompt
-            var CurrentInstance = App.CurrentInstance;
-
             PostedStatusBanner bannerResult = null;
             if (deleteOption == StorageDeleteOption.PermanentDelete)
             {
-                bannerResult = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(null,
-                CurrentInstance.FilesystemViewModel.WorkingDirectory,
+                bannerResult = AppInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(null,
+                AppInstance.FilesystemViewModel.WorkingDirectory,
                 0,
                 StatusBanner.StatusBannerSeverity.Ongoing,
                 StatusBanner.StatusBannerOperation.Delete);
             }
             else
             {
-                bannerResult = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(null,
-                CurrentInstance.FilesystemViewModel.WorkingDirectory,
+                bannerResult = AppInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(null,
+                AppInstance.FilesystemViewModel.WorkingDirectory,
                 0,
                 StatusBanner.StatusBannerSeverity.Ongoing,
                 StatusBanner.StatusBannerOperation.Recycle);
@@ -51,7 +49,7 @@ namespace Files.Commands
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
 
-                await DeleteItem(deleteOption, CurrentInstance, bannerResult.Progress);
+                await DeleteItem(deleteOption, AppInstance, bannerResult.Progress);
                 bannerResult.Remove();
 
                 sw.Stop();
@@ -60,7 +58,7 @@ namespace Files.Commands
                 {
                     if (deleteOption == StorageDeleteOption.PermanentDelete)
                     {
-                        App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                        AppInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                         "Deletion Complete",
                         "The operation has completed.",
                         0,
@@ -69,7 +67,7 @@ namespace Files.Commands
                     }
                     else
                     {
-                        App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                        AppInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                         "Recycle Complete",
                         "The operation has completed.",
                         0,
@@ -78,12 +76,12 @@ namespace Files.Commands
                     }
                 }
 
-                App.CurrentInstance.NavigationToolbar.CanGoForward = false;
+                AppInstance.NavigationToolbar.CanGoForward = false;
             }
             catch (UnauthorizedAccessException)
             {
                 bannerResult.Remove();
-                App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                AppInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                     "AccessDeniedDeleteDialog/Title".GetLocalized(), 
                     "AccessDeniedDeleteDialog/Text".GetLocalized(),
                     0, 
@@ -93,7 +91,7 @@ namespace Files.Commands
             catch (FileNotFoundException)
             {
                 bannerResult.Remove();
-                App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                AppInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                     "FileNotFoundDialog/Title".GetLocalized(),
                     "FileNotFoundDialog/Text".GetLocalized(),
                     0,
@@ -103,7 +101,7 @@ namespace Files.Commands
             catch (IOException)
             {
                 bannerResult.Remove();
-                App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostActionBanner(
+                AppInstance.BottomStatusStripControl.OngoingTasksControl.PostActionBanner(
                     "FileInUseDeleteDialog/Title".GetLocalized(),
                     "FileInUseDeleteDialog/Text".GetLocalized(),
                     "FileInUseDeleteDialog/PrimaryButtonText".GetLocalized(),
@@ -111,7 +109,7 @@ namespace Files.Commands
             }
         }
 
-        private static async Task DeleteItem(StorageDeleteOption deleteOption, IShellPage AppInstance, IProgress<uint> progress)
+        private async Task DeleteItem(StorageDeleteOption deleteOption, IShellPage AppInstance, IProgress<uint> progress)
         {
             var deleteFromRecycleBin = AppInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
 
@@ -123,7 +121,7 @@ namespace Files.Commands
 
             if (App.AppSettings.ShowConfirmDeleteDialog == true) //check if the setting to show a confirmation dialog is on
             {
-                var dialog = new ConfirmDeleteDialog(deleteFromRecycleBin, deleteOption);
+                var dialog = new ConfirmDeleteDialog(deleteFromRecycleBin, deleteOption, AppInstance.ContentPage.SelectedItemsPropertiesViewModel);
                 await dialog.ShowAsync();
 
                 if (dialog.Result != MyResult.Delete) //delete selected  item(s) if the result is yes
@@ -144,11 +142,11 @@ namespace Files.Commands
                 {
                     if (storItem.PrimaryItemAttribute == StorageItemTypes.File)
                     {
-                        item = await ItemViewModel.GetFileFromPathAsync(storItem.ItemPath, AppInstance);
+                        item = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(storItem.ItemPath);
                     }
                     else
                     {
-                        item = await ItemViewModel.GetFolderFromPathAsync(storItem.ItemPath, AppInstance);
+                        item = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(storItem.ItemPath);
                     }
 
                     await item.DeleteAsync(deleteOption);
@@ -158,9 +156,9 @@ namespace Files.Commands
                     if (deleteOption == StorageDeleteOption.Default)
                     {
                         // Try again with fulltrust process
-                        if (App.Connection != null)
+                        if (AppInstance.FilesystemViewModel.Connection != null)
                         {
-                            var result = await App.Connection.SendMessageAsync(new ValueSet() {
+                            var result = await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet() {
                             { "Arguments", "FileOperation" },
                             { "fileop", "MoveToBin" },
                             { "filepath", storItem.ItemPath } });
@@ -180,11 +178,11 @@ namespace Files.Commands
                     // try again
                     if (storItem.PrimaryItemAttribute == StorageItemTypes.File)
                     {
-                        item = await ItemViewModel.GetFileFromPathAsync(storItem.ItemPath, AppInstance);
+                        item = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(storItem.ItemPath);
                     }
                     else
                     {
-                        item = await ItemViewModel.GetFolderFromPathAsync(storItem.ItemPath, AppInstance);
+                        item = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(storItem.ItemPath);
                     }
 
                     await item.DeleteAsync(deleteOption);
@@ -194,7 +192,7 @@ namespace Files.Commands
                 {
                     // Recycle bin also stores a file starting with $I for each item
                     var iFilePath = Path.Combine(Path.GetDirectoryName(storItem.ItemPath), Path.GetFileName(storItem.ItemPath).Replace("$R", "$I"));
-                    await (await ItemViewModel.GetFileFromPathAsync(iFilePath)).DeleteAsync(StorageDeleteOption.PermanentDelete);
+                    await (await AppInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)).DeleteAsync(StorageDeleteOption.PermanentDelete);
                 }
 
                 await AppInstance.FilesystemViewModel.RemoveFileOrFolder(storItem);
