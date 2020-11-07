@@ -121,8 +121,7 @@ namespace Files.Commands
 
             if (App.AppSettings.ShowConfirmDeleteDialog == true) //check if the setting to show a confirmation dialog is on
             {
-                var dialog = new ConfirmDeleteDialog(deleteFromRecycleBin, deleteOption);
-                dialog.SelectedItemsPropertiesViewModel = AppInstance.ContentPage.SelectedItemsPropertiesViewModel;
+                var dialog = new ConfirmDeleteDialog(deleteFromRecycleBin, deleteOption, AppInstance.ContentPage.SelectedItemsPropertiesViewModel);
                 await dialog.ShowAsync();
 
                 if (dialog.Result != MyResult.Delete) //delete selected  item(s) if the result is yes

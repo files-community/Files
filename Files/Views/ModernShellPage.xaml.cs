@@ -16,6 +16,7 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Foundation.Collections;
@@ -57,7 +58,23 @@ namespace Files.Views.Pages
         }
         public ItemViewModel FilesystemViewModel { get; private set; } = null;
         public CurrentInstanceViewModel InstanceViewModel { get; } = new CurrentInstanceViewModel();
-        public BaseLayout ContentPage => GetContentOrNull();
+        private BaseLayout _ContentPage = null;
+        public BaseLayout ContentPage 
+        {
+            get
+            {
+                return _ContentPage;
+            }
+            set
+            {
+                if (value != _ContentPage)
+                {
+                    _ContentPage = value;
+                    NotifyPropertyChanged("ContentPage");
+                }
+            }
+        }
+
         public Control OperationsControl => null;
         public Type CurrentPageType => ItemDisplayFrame.SourcePageType;
         public INavigationControlItem SidebarSelectedItem { get => SidebarControl.SelectedSidebarItem; set => SidebarControl.SelectedSidebarItem = value; }
@@ -536,16 +553,15 @@ namespace Files.Views.Pages
             }
         }
 
-        private BaseLayout GetContentOrNull()
+        private async Task<BaseLayout> GetContentOrNullAsync()
         {
-            if ((ItemDisplayFrame.Content as BaseLayout) != null)
+            BaseLayout FrameContent = null;
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            () =>
             {
-                return ItemDisplayFrame.Content as BaseLayout;
-            }
-            else
-            {
-                return null;
-            }
+                FrameContent = (ItemDisplayFrame.Content as BaseLayout);
+            });
+            return FrameContent;
         }
 
         private async void DisplayFilesystemConsentDialog()
@@ -732,9 +748,9 @@ namespace Files.Views.Pages
             }
         }
 
-        private void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
+        private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
         {
-            NotifyPropertyChanged("ContentPage");
+            ContentPage = await GetContentOrNullAsync();
             if (ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser)
                 || ItemDisplayFrame.CurrentSourcePageType == typeof(GridViewBrowser))
             {

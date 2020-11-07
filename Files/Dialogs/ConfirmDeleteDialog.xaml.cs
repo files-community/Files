@@ -11,7 +11,7 @@ namespace Files.Dialogs
     {
         public StorageDeleteOption PermanentlyDelete { get; set; }
         public string Description { get; set; }
-        public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; set; } = null;
+        private SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; set; } = null;
         public MyResult Result { get; set; }
 
         public enum MyResult
@@ -21,15 +21,15 @@ namespace Files.Dialogs
             Nothing
         }
 
-        public ConfirmDeleteDialog(bool deleteFromRecycleBin, StorageDeleteOption deleteOption)
+        public ConfirmDeleteDialog(bool deleteFromRecycleBin, StorageDeleteOption deleteOption, SelectedItemsPropertiesViewModel propertiesViewModel)
         {
             this.InitializeComponent();
 
-            this.Result = MyResult.Nothing; //clear the result in case the value is set from last time
-            this.PermanentlyDelete = deleteOption;
-
+            Result = MyResult.Nothing; //clear the result in case the value is set from last time
+            PermanentlyDelete = deleteOption;
+            SelectedItemsPropertiesViewModel = propertiesViewModel;
             // If deleting from recycle bin disable "permanently delete" option
-            this.chkPermanentlyDelete.IsEnabled = !deleteFromRecycleBin;
+            chkPermanentlyDelete.IsEnabled = !deleteFromRecycleBin;
 
             if (SelectedItemsPropertiesViewModel.SelectedItemsCount == 1)
             {

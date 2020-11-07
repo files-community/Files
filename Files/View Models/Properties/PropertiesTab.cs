@@ -1,6 +1,9 @@
 ﻿using Files.Filesystem;
+using System;
 using System.Collections.Generic;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -28,10 +31,10 @@ namespace Files.View_Models.Properties
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             var np = e.Parameter as Files.Properties.PropertyNavParam;
-
+            
             AppInstance = np.AppInstanceArgument;
             ViewModel = new SelectedItemsPropertiesViewModel(AppInstance.ContentPage);
-
+            
             if (np.navParameter is ListedItem)
             {
                 var listedItem = np.navParameter as ListedItem;
