@@ -56,10 +56,13 @@ namespace Files.Controls
             {
                 if (value >= 0)
                 {
-                    SetProperty(ref _TabStripSelectedIndex, value);
-                    Frame rootFrame = Window.Current.Content as Frame;
-                    var mainView = rootFrame.Content as MainPage;
-                    mainView.SelectedTabItem = MainPage.MultitaskingControl.Items[value];
+                    if (_TabStripSelectedIndex != value)
+                    {
+                        SetProperty(ref _TabStripSelectedIndex, value);
+                        Frame rootFrame = Window.Current.Content as Frame;
+                        var mainView = rootFrame.Content as MainPage;
+                        mainView.SelectedTabItem = MainPage.MultitaskingControl.Items[value];
+                    }
                 }
             }
         }

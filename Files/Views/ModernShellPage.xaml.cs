@@ -978,7 +978,10 @@ namespace Files.Views.Pages
         public void Dispose()
         {
             Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
-            FilesystemViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
+            if (FilesystemViewModel != null)    // Prevent weird case of this being null when many tabs are opened/closed quickly
+            {
+                FilesystemViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
+            }
             SystemNavigationManager.GetForCurrentView().BackRequested -= ModernShellPage_BackRequested;
             Clipboard.ContentChanged -= Clipboard_ContentChanged;
             App.Current.Suspending -= Current_Suspending;

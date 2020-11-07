@@ -53,17 +53,20 @@ namespace Files.UserControls
             this.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
         }
 
-        private void MultitaskingControl_CurrentInstanceChanged(object sender, UserControls.MultiTaskingControl.CurrentInstanceChangedEventArgs e)
+        private void MultitaskingControl_CurrentInstanceChanged(object sender, CurrentInstanceChangedEventArgs e)
         {
             foreach (IShellPage instance in e.ShellPageInstances)
             {
-                if (instance == e.CurrentInstance)
+                if (instance != null)
                 {
-                    instance.IsCurrentInstance = true;
-                }
-                else
-                {
-                    instance.IsCurrentInstance = false;
+                    if (instance == e.CurrentInstance)
+                    {
+                        instance.IsCurrentInstance = true;
+                    }
+                    else
+                    {
+                        instance.IsCurrentInstance = false;
+                    }
                 }
             }
         }

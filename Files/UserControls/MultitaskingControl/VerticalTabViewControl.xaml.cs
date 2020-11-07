@@ -52,13 +52,16 @@ namespace Files.UserControls
         {
             foreach (IShellPage instance in e.ShellPageInstances)
             {
-                if (instance == e.CurrentInstance)
+                if (instance != null)
                 {
-                    instance.IsCurrentInstance = true;
-                }
-                else
-                {
-                    instance.IsCurrentInstance = false;
+                    if (instance == e.CurrentInstance)
+                    {
+                        instance.IsCurrentInstance = true;
+                    }
+                    else
+                    {
+                        instance.IsCurrentInstance = false;
+                    }
                 }
             }
         }
