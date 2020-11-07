@@ -592,7 +592,6 @@ namespace Files.Views.Pages
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            ServiceConnection = new AppServiceConnection();
             InitializeAppServiceConnection();
             FilesystemViewModel = new ItemViewModel(this);
             FilesystemViewModel.OnAppServiceConnectionChanged();
@@ -699,6 +698,7 @@ namespace Files.Views.Pages
 
         public async void InitializeAppServiceConnection()
         {
+            ServiceConnection = new AppServiceConnection();
             ServiceConnection.AppServiceName = "FilesInteropService";
             ServiceConnection.PackageFamilyName = Package.Current.Id.FamilyName;
             ServiceConnection.ServiceClosed += Connection_ServiceClosed;
@@ -978,13 +978,10 @@ namespace Files.Views.Pages
         public void Dispose()
         {
             Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
-            if (FilesystemViewModel != null)    // Prevent weird case of this being null when many tabs are opened/closed quickly
-            {
-                FilesystemViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
-            }
             SystemNavigationManager.GetForCurrentView().BackRequested -= ModernShellPage_BackRequested;
             Clipboard.ContentChanged -= Clipboard_ContentChanged;
             App.Current.Suspending -= Current_Suspending;
+            App.Current.LeavingBackground -= OnLeavingBackground;
             AppSettings.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
             NavigationToolbar.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
             NavigationToolbar.QuerySubmitted -= NavigationToolbar_QuerySubmitted;
@@ -1000,11 +997,24 @@ namespace Files.Views.Pages
                 (NavigationToolbar as ModernNavigationToolbar).ToolbarPathItemLoaded -= ModernShellPage_ToolbarPathItemLoaded;
                 (NavigationToolbar as ModernNavigationToolbar).AddressBarTextEntered -= ModernShellPage_AddressBarTextEntered;
                 (NavigationToolbar as ModernNavigationToolbar).PathBoxItemDropped -= ModernShellPage_PathBoxItemDropped;
+
+                (NavigationToolbar as ModernNavigationToolbar).BackRequested -= ModernShellPage_BackNavRequested;
+                (NavigationToolbar as ModernNavigationToolbar).ForwardRequested -= ModernShellPage_ForwardNavRequested;
+                (NavigationToolbar as ModernNavigationToolbar).UpRequested -= ModernShellPage_UpNavRequested;
+                (NavigationToolbar as ModernNavigationToolbar).RefreshRequested -= ModernShellPage_RefreshRequested;
             }
 
             AppSettings.SortDirectionPreferenceUpdated -= AppSettings_SortDirectionPreferenceUpdated;
             AppSettings.SortOptionPreferenceUpdated -= AppSettings_SortOptionPreferenceUpdated;
             NavigationToolbar.ItemDraggedOverPathItem -= ModernShellPage_NavigationRequested;
+
+            if (FilesystemViewModel != null)    // Prevent weird case of this being null when many tabs are opened/closed quickly
+            {
+                FilesystemViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
+            }
+
+            ServiceConnection?.Dispose();
+            ServiceConnection = null;
         }
     }
 
