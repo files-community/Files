@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 
-
 namespace Files.Filesystem.FilesystemHistory
 {
     public interface IStorageHistoryOperations

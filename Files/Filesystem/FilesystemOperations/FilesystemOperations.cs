@@ -7,17 +7,23 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using static Files.Helpers.NativeFindStorageItemHelper;
-using FileAttributes = System.IO.FileAttributes;
 using Files.Dialogs;
-using static Files.Dialogs.ConfirmDeleteDialog;
 using Windows.Foundation.Collections;
 using Windows.ApplicationModel.AppService;
 using Files.Filesystem.FilesystemHistory;
 using Microsoft.Toolkit.Uwp.Extensions;
+using FileAttributes = System.IO.FileAttributes;
+using static Files.Dialogs.ConfirmDeleteDialog;
+using static Files.Helpers.NativeFindStorageItemHelper;
 
 namespace Files.Filesystem
 {
+    public enum ImpossibleActionResponseTypes
+    {
+        Skip = 0,
+        Abort = 1
+    }
+
     public class FilesystemOperations : IFilesystemOperations
     {
         #region Private Members
@@ -37,7 +43,7 @@ namespace Files.Filesystem
 
         #region IFilesystemOperations
 
-        #region Copy/Move
+        #region Copy, Move
 
         public async Task<IStorageHistory> CopyAsync(IStorageItem source, IStorageItem destination, IProgress<float> progress, IProgress<Status> status, CancellationToken cancellationToken)
         {
@@ -166,7 +172,6 @@ namespace Files.Filesystem
             else
                 progress?.Report(100.0f);
 
-
             if (destination.Path == _associatedInstance.FilesystemViewModel.WorkingDirectory)
             {
                 List<string> pastedItemPaths = pastedItems.Select(item => item.Path).ToList();
@@ -185,9 +190,6 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> MoveAsync(IStorageItem source, IStorageItem destination, IProgress<float> progress, IProgress<Status> status, CancellationToken cancellationToken)
         {
-            List<IStorageItem> pastedSourceItems = new List<IStorageItem>();
-            HashSet<IStorageItem> pastedItems = new HashSet<IStorageItem>();
-
             await CopyAsync(source, destination, progress, status, cancellationToken);
 
             try
@@ -275,7 +277,6 @@ namespace Files.Filesystem
             return new StorageHistory(FileOperationType.CreateNew, new List<IStorageItem>() { await fullPath.ToStorageItem() }, null);
         }
 
-
         public async Task<IStorageHistory> RenameAsync(IStorageItem source, string newName, bool replace, IProgress<Status> status, CancellationToken cancellationToken)
         {
             string originalSource = source.Path;
@@ -302,9 +303,6 @@ namespace Files.Filesystem
                 }
                 permanently = dialog.PermanentlyDelete;
             }
-
-            //int itemsDeleted = 0;
-            //float progressValue = (float)(itemsDeleted * 100.0 / CalculateFileSize(source));
 
             IStorageItem item;
             try
@@ -502,21 +500,5 @@ namespace Files.Filesystem
                 return 0;
             }
         }
-
-        
-
-        #region Private
-
-        #endregion
-
-        #region Enum
-
-        private enum ImpossibleActionResponseTypes
-        {
-            Skip,
-            Abort
-        }
-
-        #endregion
     }
 }

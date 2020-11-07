@@ -1,6 +1,5 @@
 ﻿using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
-using Files.Filesystem.FilesystemOperations;
 using Files.UserControls;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;

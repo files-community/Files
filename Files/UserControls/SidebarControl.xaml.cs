@@ -2,7 +2,6 @@
 using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
-using Files.Filesystem.FilesystemOperations;
 using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;

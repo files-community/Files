@@ -1,11 +1,9 @@
-﻿using Files.Filesystem.FilesystemOperations;
-using Files.Helpers;
+﻿using Files.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -73,7 +71,7 @@ namespace Files.Filesystem.FilesystemHistory
 
                 case FileOperationType.Extract: // Extract
 
-                    // Cannot commpress items
+                    // Cannot compress items
                     Debugger.Break();
                     break;
 
@@ -101,7 +99,6 @@ namespace Files.Filesystem.FilesystemHistory
                         break;
                     }
 
-
                 case FileOperationType.Delete: // Delete
                     // Items cannot be deleted if they havent been undo-deleted
                     break;
@@ -110,9 +107,6 @@ namespace Files.Filesystem.FilesystemHistory
 
         public async Task Undo(IStorageHistory history)
         {
-            Debug.WriteLine($"Source: {history.Source}, Count: {history.Source.Count()}" );
-            Debug.WriteLine($"Destination: {history.Destination}, Count: {history.Destination.Count()}");
-
             switch (history.OperationType)
             {
                 case FileOperationType.CreateNew: // CreateNew

@@ -1,5 +1,4 @@
 ﻿using Files.Filesystem;
-using Files.Filesystem.FilesystemOperations;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;

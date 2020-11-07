@@ -99,7 +99,6 @@ namespace Files.UserControls
 
         private void ReportProgressToBanner(Status status)
         {
-
         }
 
         public void Remove()

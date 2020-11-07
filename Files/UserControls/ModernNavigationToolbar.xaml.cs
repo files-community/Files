@@ -1,6 +1,5 @@
 ﻿using Files.Common;
 using Files.Filesystem;
-using Files.Filesystem.FilesystemOperations;
 using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;

@@ -1,5 +1,4 @@
 ﻿using Files.Common;
-using Files.Filesystem.FilesystemOperations;
 using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls.MultiTaskingControl;

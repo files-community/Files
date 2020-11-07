@@ -1,7 +1,6 @@
 using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
-using Files.Filesystem.FilesystemOperations;
 using Files.Helpers;
 using Files.View_Models;
 using Files.Views;

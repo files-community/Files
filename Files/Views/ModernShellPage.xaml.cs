@@ -1,7 +1,6 @@
 ﻿using Files.Dialogs;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
-using Files.Filesystem.FilesystemOperations;
 using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
@@ -227,11 +226,11 @@ namespace Files.Views.Pages
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
                 case (true, false, false, true, VirtualKey.Z): // ctrl + z, undo
-                    await new FilesystemHistoryHelpers(new StorageHistoryOperations(new FilesystemOperations(this), App.CancellationToken)).Undo();
+                    await new FilesystemHistoryHelpers(new StorageHistoryOperations(this, App.CancellationToken)).Undo();
                     break;
 
                 case (true, false, false, true, VirtualKey.Y): // ctrl + y, redo
-                    await new FilesystemHistoryHelpers(this, new StorageHistoryOperations(new FilesystemOperations(this), App.CancellationToken)).Redo();
+                    await new FilesystemHistoryHelpers(new StorageHistoryOperations(this, App.CancellationToken)).Redo();
                     break;
 
                 case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
