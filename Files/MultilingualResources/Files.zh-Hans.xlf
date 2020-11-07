@@ -1092,7 +1092,7 @@
         </trans-unit>
         <trans-unit id="RenameError.ItemDeleted.Text" translate="yes" xml:space="preserve">
           <source>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</source>
-          <target state="new">The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</target>
+          <target state="new">尝试命名的文件可能不存在或被移动，请检查文件的正确位置</target>
         </trans-unit>
         <trans-unit id="RenameError.ItemDeleted.Title" translate="yes" xml:space="preserve">
           <source>Item no longer exists</source>
@@ -1100,19 +1100,19 @@
         </trans-unit>
         <trans-unit id="RenameError.NameInvalid.Text" translate="yes" xml:space="preserve">
           <source>The name specified was invalid. Please check the desired item name and try again.</source>
-          <target state="new">The name specified was invalid. Please check the desired item name and try again.</target>
+          <target state="new">命名的名称不可用，请检查名称后重试</target>
         </trans-unit>
         <trans-unit id="RenameError.NameInvalid.Title" translate="yes" xml:space="preserve">
           <source>Invalid item name</source>
-          <target state="new">Invalid item name</target>
+          <target state="new">项目名称不可用</target>
         </trans-unit>
         <trans-unit id="RenameError.TooLong.Text" translate="yes" xml:space="preserve">
           <source>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</source>
-          <target state="new">The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</target>
+          <target state="new">命名的名称过长，请检查名称后重试</target>
         </trans-unit>
         <trans-unit id="RenameError.TooLong.Title" translate="yes" xml:space="preserve">
           <source>Item name was too long</source>
-          <target state="new">Item name was too long</target>
+          <target state="new">项目名称过长</target>
         </trans-unit>
         <trans-unit id="ContextMenuMoreItemsLabel" translate="yes" xml:space="preserve">
           <source>More</source>
@@ -1193,7 +1193,7 @@
         </trans-unit>
         <trans-unit id="AddDialog.Title" translate="yes" xml:space="preserve">
           <source>Create a New Item</source>
-          <target state="new">Create a New Item</target>
+          <target state="new">新建</target>
         </trans-unit>
         <trans-unit id="AddDialogDescription.Text" translate="yes" xml:space="preserve">
           <source>Choose a type for this new item below</source>
@@ -1237,7 +1237,7 @@
         </trans-unit>
         <trans-unit id="NavBackButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Navigate backwards</source>
-          <target state="new">Navigate backwards</target>
+          <target state="new">向后导航</target>
         </trans-unit>
         <trans-unit id="NavForwardButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Navigate forward</source>
@@ -1245,7 +1245,7 @@
         </trans-unit>
         <trans-unit id="NavResfreshButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Refresh the directory</source>
-          <target state="new">Refresh the directory</target>
+          <target state="new">刷新</target>
         </trans-unit>
         <trans-unit id="NavUpButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Go up one directory</source>
@@ -1261,15 +1261,15 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>App Language</source>
-          <target state="new">App Language</target>
+          <target state="new">应用语言</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Terminal Applications</source>
-          <target state="new">Terminal Applications</target>
+          <target state="new">终端应用</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesContextMenuSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show all context menu items</source>
-          <target state="new">Show all context menu items</target>
+          <target state="new">显示所有上下文菜单项</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show an option to copy the location of the selected item</source>
@@ -1277,23 +1277,23 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Pin OneDrive to the sidebar</source>
-          <target state="new">Pin OneDrive to the sidebar</target>
+          <target state="new">将 OneDrive 固定到侧边栏</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
-          <target state="new">Pin Recycle Bin to the sidebar</target>
+          <target state="new">将 回收站 固定到侧边栏</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialogSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="new">Show a confirmation dialog when deleting files or folders</target>
+          <target state="new">删除文件或文件夹时显示确认对话框</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Edit terminal applications</source>
-          <target state="new">Edit terminal applications</target>
+          <target state="new">编辑终端应用</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Edit terminal applications</source>
-          <target state="new">Edit terminal applications</target>
+          <target state="new">编辑终端应用</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>View sample profiles</source>
@@ -1301,19 +1301,19 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.Header" translate="yes" xml:space="preserve">
           <source>App Language</source>
-          <target state="new">App Language</target>
+          <target state="new">应用语言</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Header" translate="yes" xml:space="preserve">
           <source>Terminal Applications</source>
-          <target state="new">Terminal Applications</target>
+          <target state="new">终端应用</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUs.Text" translate="yes" xml:space="preserve">
           <source>Support us</source>
-          <target state="new">Support us</target>
+          <target state="new">支持我们</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUsDescription.Text" translate="yes" xml:space="preserve">
           <source>Support us on PayPal</source>
-          <target state="new">Support us on PayPal</target>
+          <target state="new">在 PayPal 支持我们</target>
         </trans-unit>
         <trans-unit id="AccessDeniedCreateDialog.Text" translate="yes" xml:space="preserve">
           <source>We weren't able to create this item</source>
@@ -1321,63 +1321,63 @@
         </trans-unit>
         <trans-unit id="AccessDeniedCreateDialog.Title" translate="yes" xml:space="preserve">
           <source>Access Denied</source>
-          <target state="new">Access Denied</target>
+          <target state="new">拒绝访问</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesContextMenuSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show all context menu items</source>
-          <target state="new">Show all context menu items</target>
+          <target state="new">显示所有上下文菜单项</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesPinOneDriveSwitch.Header" translate="yes" xml:space="preserve">
           <source>Pin OneDrive to the sidebar</source>
-          <target state="new">Pin OneDrive to the sidebar</target>
+          <target state="new">将 OneDrive 固定到侧边栏</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
-          <target state="new">Pin Recycle Bin to the sidebar</target>
+          <target state="new">将 回收站 固定到侧边栏</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="new">Show a confirmation dialog when deleting files or folders</target>
+          <target state="new">删除文件或文件夹时显示确认对话框</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowDriveLetters.Header" translate="yes" xml:space="preserve">
           <source>Show drive letters</source>
-          <target state="new">Show drive letters</target>
+          <target state="new">显示盘符</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Header" translate="yes" xml:space="preserve">
           <source>Show extensions for known file types</source>
-          <target state="new">Show extensions for known file types</target>
+          <target state="new">显示已知文件扩展名</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Header" translate="yes" xml:space="preserve">
           <source>Show hidden files, folders, and drives</source>
-          <target state="new">Show hidden files, folders, and drives</target>
+          <target state="new">显示隐藏的文件、文件夹和驱动器</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Header" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>
-          <target state="new">Acrylic sidebar</target>
+          <target state="new">亚克力效果</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceDateFormat.Header" translate="yes" xml:space="preserve">
           <source>Date format</source>
-          <target state="new">Date format</target>
+          <target state="new">日期样式</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceTheme.Header" translate="yes" xml:space="preserve">
           <source>App theme</source>
-          <target state="new">App theme</target>
+          <target state="new">应用主题</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileOwnerInProperties.Header" translate="yes" xml:space="preserve">
           <source>Show Owner in properties</source>
-          <target state="new">Show Owner in properties</target>
+          <target state="new">在属性中显示所有者</target>
         </trans-unit>
         <trans-unit id="NavMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More options</source>
-          <target state="new">More options</target>
+          <target state="new">更多选项</target>
         </trans-unit>
         <trans-unit id="StatusBarControlLayoutMode.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
-          <target state="new">Layout mode</target>
+          <target state="new">布局模式</target>
         </trans-unit>
         <trans-unit id="StatusBarControlSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selection options</source>
-          <target state="new">Selection options</target>
+          <target state="new">选项</target>
         </trans-unit>
         <trans-unit id="StatusCenter.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Status center</source>
