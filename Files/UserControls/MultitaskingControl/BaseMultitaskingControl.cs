@@ -210,7 +210,6 @@ namespace Files.UserControls.MultitaskingControl
             return instances;
         }
 
-
         public void RemoveTab(TabItem tabItem, bool closeApp = true)
         {
             if (Items.Count == 1)
