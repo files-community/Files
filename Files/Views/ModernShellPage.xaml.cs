@@ -460,10 +460,10 @@ namespace Files.Views.Pages
 
                     currentInput = StorageFileExtensions.GetPathWithoutEnvironmentVariable(currentInput);
                     if (currentSelectedPath == currentInput) return;
-                    var item = await DrivesManager.GetRootFromPath(currentInput);
 
                     try
                     {
+                        var item = await DrivesManager.GetRootFromPath(currentInput);
                         var pathToNavigate = (await StorageFileExtensions.GetFolderWithPathFromPathAsync(currentInput, item)).Path;
                         ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments() { NavPathParam = pathToNavigate, AssociatedTabInstance = this }); // navigate to folder
                     }
@@ -471,6 +471,7 @@ namespace Files.Views.Pages
                     {
                         try
                         {
+                            var item = await DrivesManager.GetRootFromPath(currentInput);
                             var pathToInvoke = (await StorageFileExtensions.GetFileWithPathFromPathAsync(currentInput, item)).Path;
                             await InteractionOperations.InvokeWin32Component(pathToInvoke);
                         }
