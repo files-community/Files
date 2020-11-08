@@ -3,10 +3,12 @@ using Files.Common;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Xaml;
 
@@ -54,10 +56,11 @@ namespace Files.Filesystem
             Type = type;
             Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
             Root = root;
-            GetDriveItemProperties();
+
+            CoreApplication.MainView.ExecuteOnUIThreadAsync(() => GetDriveItemProperties());
         }
 
-        private async void GetDriveItemProperties()
+        private async Task GetDriveItemProperties()
         {
             try
             {
@@ -66,8 +69,8 @@ namespace Files.Filesystem
 
                 MaxSpace = ByteSize.FromBytes((ulong)properties["System.Capacity"]);
                 FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
-
                 SpaceUsed = MaxSpace - FreeSpace;
+
                 SpaceText = string.Format(
                     "DriveFreeSpaceAndCapacity".GetLocalized(),
                     FreeSpace.ToBinaryString().ConvertSizeAbbreviation(),

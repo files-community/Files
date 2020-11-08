@@ -1,4 +1,6 @@
 ﻿using Files.View_Models;
+using Files.Views.Pages;
+using System;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System.Collections.Generic;
 using System.Numerics;
@@ -11,6 +13,9 @@ namespace Files
     public sealed partial class LibraryCards : UserControl
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+        public delegate void LibraryCardInvokedEventHandler(object sender, LibraryCardInvokedEventArgs e);
+
+        public event LibraryCardInvokedEventHandler LibraryCardInvoked;
         public static List<FavoriteLocationItem> itemsAdded = new List<FavoriteLocationItem>();
 
         public LibraryCards()
@@ -72,11 +77,14 @@ namespace Files
                     NavigationPath = AppSettings.RecycleBinPath;
                     break;
             }
-
-            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), NavigationPath);
-
-            App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
+            LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs() { Path = NavigationPath, LayoutType = AppSettings.GetLayoutType() });
         }
+    }
+
+    public class LibraryCardInvokedEventArgs : EventArgs
+    {
+        public Type LayoutType { get; set; }
+        public string Path { get; set; }
     }
 
     public class FavoriteLocationItem

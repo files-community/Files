@@ -583,7 +583,7 @@
     <value>kijelölt elem</value>
   </data>
   <data name="ItemCount.Text" xml:space="preserve">
-    <value>Fájl</value>
+    <value>Elem</value>
   </data>
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>Elem</value>
@@ -718,7 +718,7 @@
     <value>Mappa megnyitása új lapon</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Fájl megnyitásakor a listáról</value>
+    <value>Elem megnyitásakor a listáról</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Rendszer</value>
@@ -1042,7 +1042,7 @@
     <value>Állapot központ</value>
   </data>
   <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>Fájlok megnyitása egy kattintással</value>
+    <value>Elemek megnyitása egy kattintással</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>Ide</value>
@@ -1073,6 +1073,18 @@
   </data>
   <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
     <value>Legutóbbi megnyitottak megjelenítése a fő oldalon</value>
+  </data>
+  <data name="FileItemAutomation" xml:space="preserve">
+    <value>Fájl</value>
+  </data>
+  <data name="FolderItemAutomation" xml:space="preserve">
+    <value>Mappa</value>
+  </data>
+  <data name="RecycleBinItemAutomation" xml:space="preserve">
+    <value>Lomtár elem</value>
+  </data>
+  <data name="ShortcutItemAutomation" xml:space="preserve">
+    <value>Gyorsgom elem</value>
   </data>
   <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
     <value>Kijelölt elem helyének másolása lehetőség megjelenítése</value>

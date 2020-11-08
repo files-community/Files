@@ -7,10 +7,12 @@ using Files.Interacts;
 using Files.View_Models;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -24,10 +26,39 @@ namespace Files.Controls
     {
         public SettingsViewModel AppSettings => App.AppSettings;
 
+        public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
+        public event SidebarItemInvokedEventHandler SidebarItemInvoked;
+
+        public delegate void SidebarItemPropertiesInvokedEventHandler(object sender, SidebarItemPropertiesInvokedEventArgs e);
+        public event SidebarItemPropertiesInvokedEventHandler SidebarItemPropertiesInvoked;
+
+        public delegate void SidebarItemDroppedEventHandler(object sender, SidebarItemDroppedEventArgs e);
+        public event SidebarItemDroppedEventHandler SidebarItemDropped;
+
+        public event EventHandler RecycleBinItemRightTapped;
+
         /// <summary>
         /// The Model for the pinned sidebar items
         /// </summary>
         public SidebarPinnedModel SidebarPinnedModel => App.SidebarPinnedController.Model;
+
+        public static readonly DependencyProperty EmptyRecycleBinCommandProperty = DependencyProperty.Register(
+          "EmptyRecycleBinCommand",
+          typeof(ICommand),
+          typeof(SidebarControl),
+          new PropertyMetadata(null)
+        );
+        public ICommand EmptyRecycleBinCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(EmptyRecycleBinCommandProperty);
+            }
+            set
+            {
+                SetValue(EmptyRecycleBinCommandProperty, value);
+            }
+        }
 
         public SidebarControl()
         {
@@ -143,65 +174,10 @@ namespace Files.Controls
             {
                 return;
             }
-
-            OpenSidebarItem(args.InvokedItemContainer);
+            SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(args.InvokedItemContainer));
         }
 
-        private void OpenSidebarItem(Microsoft.UI.Xaml.Controls.NavigationViewItemBase invokedItemContainer)
-        {
-            string navigationPath; // path to navigate
-            Type sourcePageType = null; // type of page to navigate
-
-            switch ((invokedItemContainer.DataContext as INavigationControlItem).ItemType)
-            {
-                case NavigationControlItemType.Location:
-                    {
-                        var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem).Path; // Get the path of the invoked item
-
-                        if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
-                        {
-                            if (ItemPath.Equals(SelectedSidebarItem?.Path, StringComparison.OrdinalIgnoreCase)) return; // return if already selected
-
-                            navigationPath = "NewTab".GetLocalized();
-                            sourcePageType = typeof(YourHome);
-                        }
-                        else // Any other item
-                        {
-                            navigationPath = invokedItemContainer.Tag.ToString();
-                        }
-
-                        break;
-                    }
-                case NavigationControlItemType.OneDrive:
-                    {
-                        navigationPath = App.AppSettings.OneDrivePath;
-                        break;
-                    }
-                default:
-                    {
-                        navigationPath = invokedItemContainer.Tag.ToString();
-                        break;
-                    }
-            }
-
-            if (string.IsNullOrEmpty(navigationPath) ||
-                (!string.IsNullOrEmpty(App.CurrentInstance.FilesystemViewModel.WorkingDirectory) &&
-                navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
-                    App.CurrentInstance.FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
-                    StringComparison.OrdinalIgnoreCase))) // return if already selected
-            {
-                return;
-            }
-
-            App.CurrentInstance.ContentFrame.Navigate(
-                sourcePageType == null ? App.AppSettings.GetLayoutType() : sourcePageType,
-                navigationPath,
-                new SuppressNavigationTransitionInfo());
-
-            App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
-        }
-
-        private async void NavigationViewLocationItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        private void NavigationViewLocationItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as LocationItem;
@@ -217,20 +193,7 @@ namespace Files.Controls
 
             if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
-                var value = new ValueSet
-                {
-                    { "Arguments", "RecycleBin" },
-                    { "action", "Query" }
-                };
-                var response = await App.Connection.SendMessageAsync(value);
-                if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success && response.Message.TryGetValue("NumItems", out var numItems))
-                {
-                    RecycleBinHasItems = (long)numItems > 0;
-                }
-                else
-                {
-                    RecycleBinHasItems = false;
-                }
+                RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
 
                 ShowEmptyRecycleBin = true;
                 ShowUnpinItem = true;
@@ -268,7 +231,7 @@ namespace Files.Controls
 
         private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
-            App.CurrentInstance.InteractionOperations.OpenPathInNewTab(App.rightClickedItem.Path.ToString());
+            Interaction.OpenPathInNewTab(App.rightClickedItem.Path.ToString());
         }
 
         private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
@@ -305,7 +268,7 @@ namespace Files.Controls
                     if (dragOverItem != null)
                     {
                         dragOverTimer.Stop();
-                        OpenSidebarItem(dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItem);
+                        SidebarItemInvoked?.Invoke(this, new SidebarItemInvokedEventArgs(dragOverItem as Microsoft.UI.Xaml.Controls.NavigationViewItem));
                         dragOverItem = null;
                     }
                 }, TimeSpan.FromMilliseconds(1000), false);
@@ -407,7 +370,7 @@ namespace Files.Controls
                 VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
                 var deferral = e.GetDeferral();
-                ItemOperations.PasteItemWithStatus(e.DataView, locationItem.Path, e.AcceptedOperation);
+                SidebarItemDropped?.Invoke(this, new SidebarItemDroppedEventArgs() { Package = e.DataView, ItemPath = locationItem.Path, AcceptedOperation = e.AcceptedOperation });
                 deferral.Complete();
             }
             else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem sourceLocationItem)
@@ -459,30 +422,14 @@ namespace Files.Controls
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
             var deferral = e.GetDeferral();
-            ItemOperations.PasteItemWithStatus(e.DataView, driveItem.Path, e.AcceptedOperation);
+            SidebarItemDropped?.Invoke(this, new SidebarItemDroppedEventArgs() { Package = e.DataView, ItemPath = driveItem.Path, AcceptedOperation = e.AcceptedOperation });
             deferral.Complete();
         }
 
-        private async void Properties_Click(object sender, RoutedEventArgs e)
+        private void Properties_Click(object sender, RoutedEventArgs e)
         {
             var item = (sender as MenuFlyoutItem).DataContext;
-
-            if (item is DriveItem)
-            {
-                await App.CurrentInstance.InteractionOperations.OpenPropertiesWindow(item);
-            }
-            else if (item is LocationItem)
-            {
-                ListedItem listedItem = new ListedItem(null)
-                {
-                    ItemPath = (item as LocationItem).Path,
-                    ItemName = (item as LocationItem).Text,
-                    PrimaryItemAttribute = Windows.Storage.StorageItemTypes.Folder,
-                    ItemType = "FileFolderListItem".GetLocalized(),
-                    LoadFolderGlyph = true
-                };
-                await App.CurrentInstance.InteractionOperations.OpenPropertiesWindow(listedItem);
-            }
+            SidebarItemPropertiesInvoked?.Invoke(this, new SidebarItemPropertiesInvokedEventArgs(item));
         }
 
         private void SettingsButton_Tapped(object sender, TappedRoutedEventArgs e)
@@ -491,6 +438,31 @@ namespace Files.Controls
             rootFrame.Navigate(typeof(Settings));
 
             return;
+        }
+    }
+
+    public class SidebarItemDroppedEventArgs : EventArgs
+    {
+        public DataPackageView Package { get; set; }
+        public string ItemPath { get; set; }
+        public DataPackageOperation AcceptedOperation { get; set; }
+    }
+
+    public class SidebarItemInvokedEventArgs : EventArgs
+    {
+        public Microsoft.UI.Xaml.Controls.NavigationViewItemBase InvokedItemContainer { get; set; }
+        public SidebarItemInvokedEventArgs(Microsoft.UI.Xaml.Controls.NavigationViewItemBase ItemContainer)
+        {
+            InvokedItemContainer = ItemContainer;
+        }
+    }
+
+    public class SidebarItemPropertiesInvokedEventArgs : EventArgs
+    {
+        public object InvokedItemDataContext { get; set; }
+        public SidebarItemPropertiesInvokedEventArgs(object invokedItemDataContext)
+        {
+            InvokedItemDataContext = invokedItemDataContext;
         }
     }
 
