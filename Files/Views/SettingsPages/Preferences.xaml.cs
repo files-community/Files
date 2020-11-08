@@ -1,4 +1,5 @@
 ﻿using Files.DataModels;
+using Files.Filesystem;
 using Files.View_Models;
 using System;
 using Windows.Storage;
@@ -22,11 +23,7 @@ namespace Files.SettingsPages
 
         private async void TryGetOneDriveFolder()
         {
-            try
-            {
-                await StorageFolder.GetFolderFromPathAsync(AppSettings.OneDrivePath);
-            }
-            catch
+            if (!await StorageFolder.GetFolderFromPathAsync(AppSettings.OneDrivePath).AsTask().Wrap())
             {
                 AppSettings.PinOneDriveToSideBar = false;
                 OneDrivePin.IsEnabled = false;

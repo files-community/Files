@@ -286,7 +286,7 @@ namespace Files.Views.Pages
                     var expandedPath = StorageFileExtensions.GetPathWithoutEnvironmentVariable(sender.Text);
                     var folderPath = Path.GetDirectoryName(expandedPath) ?? expandedPath;
                     var folder = await FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
-                    var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
+                    var currPath = await folder.Result.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
                     if (currPath.Count() >= maxSuggestions)
                     {
                         suggestions = currPath.Select(x => new ListedItem(null) { ItemPath = x.Path, ItemName = x.Folder.Name }).ToList();
@@ -368,19 +368,12 @@ namespace Files.Views.Pages
                 [NavigationToolbar.PathComponents.IndexOf(pathItem) + 1].Title;
             IList<StorageFolderWithPath> childFolders = new List<StorageFolderWithPath>();
 
-            try
+            StorageFolderWithPath folder = await FilesystemViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
+            if (folder != null)
             {
-                var folder = await FilesystemViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
                 childFolders = await folder.GetFoldersWithPathAsync(string.Empty);
             }
-            catch
-            {
-                // Do nothing.
-            }
-            finally
-            {
-                flyout.Items?.Clear();
-            }
+            flyout.Items?.Clear();
 
             if (childFolders.Count == 0)
             {
@@ -460,22 +453,23 @@ namespace Files.Views.Pages
 
                     currentInput = StorageFileExtensions.GetPathWithoutEnvironmentVariable(currentInput);
                     if (currentSelectedPath == currentInput) return;
+                    var item = await DrivesManager.GetRootFromPath(currentInput).Wrap();
 
-                    try
+                    var resFolder = await StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item).Wrap();
+                    if (resFolder)
                     {
-                        var item = await DrivesManager.GetRootFromPath(currentInput);
-                        var pathToNavigate = (await StorageFileExtensions.GetFolderWithPathFromPathAsync(currentInput, item)).Path;
+                        var pathToNavigate = resFolder.Result.Path;
                         ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments() { NavPathParam = pathToNavigate, AssociatedTabInstance = this }); // navigate to folder
                     }
-                    catch (Exception) // Not a folder or inaccessible
+                    else // Not a folder or inaccessible
                     {
-                        try
+                        var resFile = await StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(currentInput, item).Wrap();
+                        if (resFile)
                         {
-                            var item = await DrivesManager.GetRootFromPath(currentInput);
-                            var pathToInvoke = (await StorageFileExtensions.GetFileWithPathFromPathAsync(currentInput, item)).Path;
+                            var pathToInvoke = resFile.Result.Path;
                             await InteractionOperations.InvokeWin32Component(pathToInvoke);
                         }
-                        catch (Exception ex) // Not a file or not accessible
+                        else // Not a file or not accessible
                         {
                             // Launch terminal application if possible
                             foreach (var terminal in AppSettings.TerminalController.Model.Terminals)
@@ -501,13 +495,14 @@ namespace Files.Views.Pages
                             {
                                 if (!await Launcher.LaunchUriAsync(new Uri(currentInput)))
                                 {
-                                    throw new Exception();
+                                    await DialogDisplayHelper.ShowDialog("InvalidItemDialogTitle".GetLocalized(),
+                                        string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, resFolder.ErrorCode.ToString()));
                                 }
                             }
-                            catch
+                            catch (UriFormatException)
                             {
                                 await DialogDisplayHelper.ShowDialog("InvalidItemDialogTitle".GetLocalized(),
-                                    string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, ex.Message));
+                                    string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, resFolder.ErrorCode.ToString()));
                             }
                         }
                     }

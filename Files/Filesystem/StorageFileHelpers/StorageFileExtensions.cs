@@ -81,7 +81,7 @@ namespace Files.Filesystem
             return pathBoxItems;
         }
 
-        public async static Task<StorageFolderWithPath> GetFolderWithPathFromPathAsync(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
+        public async static Task<StorageFolderWithPath> DangerousGetFolderWithPathFromPathAsync(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
         {
             if (rootFolder != null)
             {
@@ -124,23 +124,16 @@ namespace Files.Filesystem
             }
             else
             {
-                try
-                {
-                    return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(value));
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    return await GetFolderWithPathFromPathAsync(Directory.GetParent(value).FullName, rootFolder, parentFolder).ConfigureAwait(false);
-                }
+                return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(value));
             }
         }
 
-        public async static Task<StorageFolder> GetFolderFromPathAsync(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
+        public async static Task<StorageFolder> DangerousGetFolderFromPathAsync(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
         {
-            return (await GetFolderWithPathFromPathAsync(value, rootFolder, parentFolder)).Folder;
+            return (await DangerousGetFolderWithPathFromPathAsync(value, rootFolder, parentFolder)).Folder;
         }
 
-        public async static Task<StorageFileWithPath> GetFileWithPathFromPathAsync(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
+        public async static Task<StorageFileWithPath> DangerousGetFileWithPathFromPathAsync(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
         {
             if (rootFolder != null)
             {
@@ -187,9 +180,9 @@ namespace Files.Filesystem
             }
         }
 
-        public async static Task<StorageFile> GetFileFromPathAsync(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
+        public async static Task<StorageFile> DangerousGetFileFromPathAsync(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
         {
-            return (await GetFileWithPathFromPathAsync(value, rootFolder, parentFolder)).File;
+            return (await DangerousGetFileWithPathFromPathAsync(value, rootFolder, parentFolder)).File;
         }
 
         public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync(this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
