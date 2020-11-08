@@ -11,6 +11,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.Views.Pages"
     xmlns:local1="using:Files"
+    xmlns:local2="using:Files.Interacts"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
@@ -149,7 +150,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid>
-            <controls:SidebarControl x:Name="SidebarControl" />
+            <controls:SidebarControl x:Name="SidebarControl" EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}" />
         </Grid>
 
         <Grid Grid.Column="1">
@@ -180,7 +181,19 @@
                             x:Name="NavToolbar"
                             Grid.Column="0"
                             Margin="10"
-                            x:FieldModifier="public" />
+                            x:FieldModifier="public"
+                            CanCreateFileInPage="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
+                            CanOpenTerminalInPage="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
+                            CopyPathInvokedCommand="{x:Bind InteractionOperations.CopyPathOfWorkingDirectory, Mode=OneWay}"
+                            IsCreateButtonEnabledInPage="{x:Bind InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
+                            IsPageTypeNotHome="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                            NewDocumentInvokedCommand="{x:Bind InteractionOperations.CreateNewTextDocument, Mode=OneWay}"
+                            NewFolderInvokedCommand="{x:Bind InteractionOperations.CreateNewFolder, Mode=OneWay}"
+                            NewImageInvokedCommand="{x:Bind InteractionOperations.CreateNewBitmapImage, Mode=OneWay}"
+                            NewTabInvokedCommand="{x:Bind InteractionOperations.AddNewTabToMultitaskingControl, Mode=OneWay}"
+                            NewWindowInvokedCommand="{x:Bind InteractionOperations.OpenNewWindow, Mode=OneWay}"
+                            OpenInTerminalInvokedCommand="{x:Bind InteractionOperations.OpenDirectoryInDefaultTerminal, Mode=OneWay}"
+                            PasteInvokedCommand="{x:Bind InteractionOperations.PasteItemsFromClipboard, Mode=OneWay}" />
                     </Grid>
 
                     <Frame
@@ -194,7 +207,12 @@
                     <controls1:StatusBarControl
                         x:Name="StatusBarControl"
                         Grid.Row="3"
-                        x:Load="{x:Bind instanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
+                        x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                        ClearSelectionInvokedCommand="{x:Bind InteractionOperations.ClearContentPageSelection, Mode=OneWay}"
+                        DirectoryPropertiesViewModel="{x:Bind ContentPage.DirectoryPropertiesViewModel, Mode=OneWay}"
+                        InvertSelectionInvokedCommand="{x:Bind InteractionOperations.InvertContentPageSelction, Mode=OneWay}"
+                        SelectAllInvokedCommand="{x:Bind InteractionOperations.SelectAllContentPageItems, Mode=OneWay}"
+                        SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel, Mode=OneWay}" />
                 </Grid>
             </Custom:DropShadowPanel>
         </Grid>

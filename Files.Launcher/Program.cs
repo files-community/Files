@@ -153,7 +153,7 @@ namespace FilesFullTrust
             if (status != AppServiceConnectionStatus.Success)
             {
                 // TODO: error handling
-                connection.Dispose();
+                connection?.Dispose();
                 connection = null;
             }
         }

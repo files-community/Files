@@ -4,6 +4,7 @@ using Files.View_Models.Properties;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 
@@ -42,7 +43,7 @@ namespace Files
             {
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
-                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => App.CurrentInstance.InteractionOperations.RenameFileItem(item,
+                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance.InteractionOperations.RenameFileItem(item,
                           ViewModel.OriginalItemName,
                           ViewModel.ItemName));
                 }

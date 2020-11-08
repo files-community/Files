@@ -1,4 +1,5 @@
-﻿using Windows.System;
+﻿using Files.Interacts;
+using Windows.System;
 using Windows.UI.Xaml.Controls;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -25,7 +26,7 @@ namespace Files.Dialogs
         {
             var textBox = sender as TextBox;
 
-            if (App.CurrentInstance.InteractionOperations.ContainsRestrictedCharacters(textBox.Text))
+            if (Interaction.ContainsRestrictedCharacters(textBox.Text))
             {
                 RenameDialogSymbolsTip.Opacity = 1;
                 IsPrimaryButtonEnabled = false;
@@ -37,7 +38,7 @@ namespace Files.Dialogs
                 IsPrimaryButtonEnabled = true;
             }
 
-            if (App.CurrentInstance.InteractionOperations.ContainsRestrictedFileName(textBox.Text))
+            if (Interaction.ContainsRestrictedFileName(textBox.Text))
             {
                 IsPrimaryButtonEnabled = false;
             }

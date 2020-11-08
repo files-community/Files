@@ -3,6 +3,7 @@ using Files.Controllers;
 using Files.Controls;
 using Files.Filesystem;
 using Files.UserControls;
+using Files.UserControls.MultiTaskingControl;
 using Files.View_Models;
 using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -19,6 +20,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -36,9 +38,9 @@ namespace Files.Views
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+        public static IMultitaskingControl MultitaskingControl { get; set; }
 
         private TabItem _SelectedTabItem;
-
         public TabItem SelectedTabItem
         {
             get
@@ -58,6 +60,7 @@ namespace Files.Views
         public MainPage()
         {
             this.InitializeComponent();
+
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
@@ -79,7 +82,7 @@ namespace Files.Views
                 foreach (var removedTab in e.OldItems)
                 {
                     // Cleanup resources for the closed tab
-                    ((((removedTab as TabItem).Content as Grid).Children[0] as Frame).Content as IShellPage)?.FilesystemViewModel?.Dispose();
+                    ((((removedTab as TabItem).Content as Grid).Children[0] as Frame).Content as IShellPage)?.Dispose();
                 }
             }
         }
@@ -94,8 +97,6 @@ namespace Files.Views
                 App.SidebarPinnedController = new SidebarPinnedController();
 
                 Helpers.ThemeHelper.Initialize();
-                Clipboard.ContentChanged += Clipboard_ContentChanged;
-                Clipboard_ContentChanged(null, null);
 
                 if (string.IsNullOrEmpty(navArgs))
                 {
@@ -225,6 +226,11 @@ namespace Files.Views
                     tabLocationHeader = "OneDrive";
                     fontIconSource.Glyph = "\xe9b7";
                 }
+                else if (App.AppSettings.OneDriveCommercialPath != null && path.Equals(App.AppSettings.OneDriveCommercialPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    tabLocationHeader = "OneDrive Commercial";
+                    fontIconSource.Glyph = "\xe9b7";
+                }
                 else if (path == "NewTab".GetLocalized())
                 {
                     tabLocationHeader = path;
@@ -323,35 +329,6 @@ namespace Files.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public static void Clipboard_ContentChanged(object sender, object e)
-        {
-            try
-            {
-                if (App.CurrentInstance != null)
-                {
-                    DataPackageView packageView = Clipboard.GetContent();
-                    if (packageView.Contains(StandardDataFormats.StorageItems)
-                        && App.CurrentInstance.CurrentPageType != typeof(YourHome)
-                        && !App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
-                    {
-                        App.InteractionViewModel.IsPasteEnabled = true;
-                    }
-                    else
-                    {
-                        App.InteractionViewModel.IsPasteEnabled = false;
-                    }
-                }
-                else
-                {
-                    App.InteractionViewModel.IsPasteEnabled = false;
-                }
-            }
-            catch (Exception)
-            {
-                App.InteractionViewModel.IsPasteEnabled = false;
-            }
-        }
-
         private void NavigateToNumberedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
             int indexToSelect = 0;
@@ -432,7 +409,7 @@ namespace Files.Views
 
         private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
         {
-            App.MultitaskingControl = HorizontalMultitaskingControl;
+            MainPage.MultitaskingControl = HorizontalMultitaskingControl;
         }
     }
 }

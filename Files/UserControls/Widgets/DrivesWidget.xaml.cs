@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.View_Models;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Numerics;
@@ -12,6 +13,9 @@ namespace Files
     public sealed partial class DrivesWidget : UserControl
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+        public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
+
+        public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
         public static ObservableCollection<INavigationControlItem> itemsAdded = new ObservableCollection<INavigationControlItem>();
 
         public DrivesWidget()
@@ -26,9 +30,13 @@ namespace Files
 
             NavigationPath = ClickedCard;
 
-            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), NavigationPath);
+            DrivesWidgetInvoked?.Invoke(this, new DrivesWidgetInvokedEventArgs() { Path = NavigationPath, LayoutType = AppSettings.GetLayoutType() });
+        }
 
-            App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
+        public class DrivesWidgetInvokedEventArgs : EventArgs
+        {
+            public Type LayoutType { get; set; }
+            public string Path { get; set; }
         }
 
         private void GridScaleUp(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
