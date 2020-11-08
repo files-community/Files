@@ -15,4 +15,15 @@
     <Namespace Name="DataClasses.ViewModels" Serialize="All" />
 -->
 
-<Directives xmlns="http://schemas.microsoft.com/netfx/2013/01/metadata"/>
+<Directives xmlns="http://schemas.microsoft.com/netfx/2013/01/metadata">
+  <Application>
+    <!--
+      An Assembly element with Name="*Application*" applies to all assemblies in
+      the application package. The asterisks are not wildcards.
+    -->
+    <Namespace Name="Microsoft.Xaml.Interactivity" Dynamic="Required All" />
+    <Namespace Name="Microsoft.Xaml.Interactions.Core" Dynamic="Required All" />
+
+    <!-- Add your application specific runtime directives here. -->
+  </Application>
+</Directives>
