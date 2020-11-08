@@ -18,6 +18,20 @@ namespace Files.UserControls
         public StatusBarControl()
         {
             this.InitializeComponent();
+            OngoingTasksControl.ProgressBannerPosted += OngoingTasksControl_ProgressBannerPosted;
+        }
+
+        private void OngoingTasksControl_ProgressBannerPosted(object sender, EventArgs e)
+        {
+            PlayBannerAddedVisualAnimation();
+        }
+
+        public async void PlayBannerAddedVisualAnimation()
+        {
+            StatusCenterPulseVisualPlayer.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            await StatusCenterPulseVisualPlayer.PlayAsync(0, 1, false);
+            await StatusCenterPulseVisualPlayer.PlayAsync(0, 1, false);
+            StatusCenterPulseVisualPlayer.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
     }
 }
