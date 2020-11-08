@@ -61,7 +61,7 @@ namespace Files.Filesystem
 
     public static class TaskExtensions
     {
-        private static FilesystemErrorCode GetErrorCode(Exception ex)
+        private static FilesystemErrorCode GetErrorCode(Exception ex, Type T = null)
         {
             if (ex is UnauthorizedAccessException)
             {
@@ -83,7 +83,8 @@ namespace Files.Filesystem
             }
             else if (ex is ArgumentException) // Item was invalid
             {
-                return FilesystemErrorCode.ERROR_NOTAFOLDER;
+                return (T == typeof(StorageFolder) || T == typeof(StorageFolderWithPath)) ?
+                    FilesystemErrorCode.ERROR_NOTAFOLDER : FilesystemErrorCode.ERROR_NOTAFILE;
             }
             else if ((uint)ex.HResult == 0x800700A1 // The specified path is invalid (usually an mtp device was disconnected)
                 || (uint)ex.HResult == 0x8007016A // The cloud file provider is not running
@@ -105,7 +106,7 @@ namespace Files.Filesystem
             }
             catch (Exception ex)
             {
-                return new FilesystemResult<T>(default(T), GetErrorCode(ex));
+                return new FilesystemResult<T>(default(T), GetErrorCode(ex, typeof(T)));
             }
         }
 

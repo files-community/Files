@@ -667,19 +667,13 @@ namespace Files.Interacts
                 }
                 else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    StorageFolder folderAsItem = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath);
-                    if (folderAsItem != null)
-                    {
-                        items.Add(folderAsItem);
-                    }
+                    await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
+                        .OnSuccess(folderAsItem => items.Add(folderAsItem));
                 }
                 else
                 {
-                    StorageFile fileAsItem = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath);
-                    if (fileAsItem != null)
-                    {
-                        items.Add(fileAsItem);
-                    }
+                    await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
+                        .OnSuccess(fileAsItem => items.Add(fileAsItem));
                 }
             }
 
