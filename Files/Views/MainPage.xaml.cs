@@ -179,65 +179,6 @@ namespace Files.Views
 
             if (path != null)
             {
-                if (path == "Settings")
-                {
-                    tabLocationHeader = "SidebarSettings/Text".GetLocalized();
-                    fontIconSource.Glyph = "\xeb5d";
-                }
-                else if (path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    tabLocationHeader = "SidebarDesktop".GetLocalized();
-                    fontIconSource.Glyph = "\xe9f1";
-                }
-                else if (path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    tabLocationHeader = "SidebarDownloads".GetLocalized();
-                    fontIconSource.Glyph = "\xe91c";
-                }
-                else if (path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    tabLocationHeader = "SidebarDocuments".GetLocalized();
-                    fontIconSource.Glyph = "\xEA11";
-                }
-                else if (path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    tabLocationHeader = "SidebarPictures".GetLocalized();
-                    fontIconSource.Glyph = "\xEA83";
-                }
-                else if (path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    tabLocationHeader = "SidebarMusic".GetLocalized();
-                    fontIconSource.Glyph = "\xead4";
-                }
-                else if (path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    tabLocationHeader = "SidebarVideos".GetLocalized();
-                    fontIconSource.Glyph = "\xec0d";
-                }
-                else if (path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    var localSettings = ApplicationData.Current.LocalSettings;
-                    tabLocationHeader = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
-                    fontIconSource.FontFamily = Application.Current.Resources["RecycleBinIcons"] as FontFamily;
-                    fontIconSource.Glyph = "\xEF87";
-                }
-                else if (App.AppSettings.OneDrivePath != null && path.Equals(App.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase))
-                {
-                    tabLocationHeader = "OneDrive";
-                    fontIconSource.Glyph = "\xe9b7";
-                }
-                else if (App.AppSettings.OneDriveCommercialPath != null && path.Equals(App.AppSettings.OneDriveCommercialPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    tabLocationHeader = "OneDrive Commercial";
-                    fontIconSource.Glyph = "\xe9b7";
-                }
-                else if (path == "NewTab".GetLocalized())
-                {
-                    tabLocationHeader = path;
-                    fontIconSource.Glyph = "\xe90c";
-                }
-                else
-                {
                     var isRoot = Path.GetPathRoot(path) == path;
 
                     if (Path.IsPathRooted(path) || isRoot) // Or is a directory or a root (drive)
@@ -280,7 +221,6 @@ namespace Files.Views
                         tabLocationHeader = "NewTab".GetLocalized();
                         fontIconSource.Glyph = "\xe90c";
                     }
-                }
             }
 
             TabItem tvi = new TabItem()
