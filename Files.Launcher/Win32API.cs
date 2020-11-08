@@ -93,26 +93,6 @@ namespace FilesFullTrust
             }
         }
 
-        public static void UnlockBitlockerDrive(string drive, string password)
-        {
-            try
-            {
-                Process process = new Process();
-                process.StartInfo.UseShellExecute = true;
-                process.StartInfo.Verb = "runas";
-                process.StartInfo.FileName = "powershell.exe";
-                process.StartInfo.CreateNoWindow = true;
-                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                process.StartInfo.Arguments = $"-command \"$SecureString = ConvertTo-SecureString '{password}' -AsPlainText -Force; Unlock-BitLocker -MountPoint '{drive}' -Password $SecureString\"";
-                process.Start();
-                process.WaitForExit(30 * 1000);
-            }
-            catch (Win32Exception)
-            {
-                // If user cancels UAC
-            }
-        }
-
         public static (string icon, bool isCustom) GetFileOverlayIcon(string path)
         {
             var shfi = new Shell32.SHFILEINFO();
@@ -132,6 +112,47 @@ namespace FilesFullTrust
             using var image = hIcon.ToIcon().ToBitmap();
             byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
             return (Convert.ToBase64String(bitmapData, 0, bitmapData.Length), isCustom);
+        }
+
+        private static void RunPowershellCommand(string command, bool runAsAdmin)
+        {
+            try
+            {
+                Process process = new Process();
+                if (runAsAdmin)
+                {
+                    process.StartInfo.UseShellExecute = true;
+                    process.StartInfo.Verb = "runas";
+                }
+                process.StartInfo.FileName = "powershell.exe";
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                process.StartInfo.Arguments = command;
+                process.Start();
+                process.WaitForExit(30 * 1000);
+            }
+            catch (Win32Exception)
+            {
+                // If user cancels UAC
+            }
+        }
+
+        public static void UnlockBitlockerDrive(string drive, string password)
+        {
+            RunPowershellCommand($"-command \"$SecureString = ConvertTo-SecureString '{password}' -AsPlainText -Force; Unlock-BitLocker -MountPoint '{drive}' -Password $SecureString\"", true);
+        }
+
+        public static void OpenFormatDriveDialog(string drive)
+        {
+            // format requires elevation
+            int driveIndex = drive.ToUpperInvariant()[0] - 'A';
+            RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"shell32.dll\\\", SetLastError = false)]public static extern uint SHFormatDrive(IntPtr hwnd, uint drive, uint fmtID, uint options);'; $SHFormatDrive = Add-Type -MemberDefinition $Signature -Name \"Win32SHFormatDrive\" -Namespace Win32Functions -PassThru; $SHFormatDrive::SHFormatDrive(0, {driveIndex}, 0xFFFF, 0x0001)\"", true);
+        }
+
+        public static void SetVolumeLabel(string driveName, string newLabel)
+        {
+            // rename requires elevation
+            RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"kernel32.dll\\\", SetLastError = false)]public static extern bool SetVolumeLabel(string lpRootPathName, string lpVolumeName);'; $SetVolumeLabel = Add-Type -MemberDefinition $Signature -Name \"Win32SetVolumeLabel\" -Namespace Win32Functions -PassThru; $SetVolumeLabel::SetVolumeLabel('{driveName}', '{newLabel}')\"", true);
         }
 
         // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.

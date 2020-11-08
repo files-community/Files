@@ -286,6 +286,12 @@ namespace FilesFullTrust
                     }
                     break;
 
+                case "SetVolumeLabel":
+                    var driveName = (string)args.Request.Message["drivename"];
+                    var newLabel = (string)args.Request.Message["newlabel"];
+                    Win32API.SetVolumeLabel(driveName, newLabel);
+                    break;
+
                 case "FileOperation":
                     await parseFileOperation(args);
                     break;
@@ -330,7 +336,19 @@ namespace FilesFullTrust
 
                 case "ExecAndCloseContextMenu":
                     var cMenuExec = table.GetValue<Win32API.ContextMenu>("MENU");
-                    cMenuExec?.InvokeItem(message.Get("ItemID", -1));
+                    if (message.TryGetValue("ItemID", out var menuId))
+                    {
+                        switch (message.Get("CommandString", (string)null))
+                        {
+                            case "format":
+                                var drivePath = cMenuExec.ItemsPath.First();
+                                Win32API.OpenFormatDriveDialog(drivePath);
+                                break;
+                            default:
+                                cMenuExec?.InvokeItem((int)menuId);
+                                break;
+                        }
+                    }
                     // The following line is needed to cleanup resources when menu is closed.
                     // Unfortunately if you uncomment it some menu items will randomly stop working.
                     // Resource cleanup is currently done on app closing,
@@ -348,7 +366,7 @@ namespace FilesFullTrust
             var knownItems = new List<string>() {
                 "opennew", "openas", "opencontaining", "opennewprocess",
                 "runas", "runasuser", "pintohome", "PinToStartScreen",
-                "cut", "copy", "paste", "delete", "properties", "link", "format",
+                "cut", "copy", "paste", "delete", "properties", "link",
                 "Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
                 Win32API.ExtractStringFromDLL("shell32.dll", 30312), // SendTo menu
                 Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection

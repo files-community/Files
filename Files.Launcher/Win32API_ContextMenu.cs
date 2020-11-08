@@ -130,11 +130,13 @@ namespace FilesFullTrust
         {
             private Shell32.IContextMenu cMenu;
             private User32.SafeHMENU hMenu;
+            public List<string> ItemsPath { get; }
 
-            public ContextMenu(Shell32.IContextMenu cMenu, User32.SafeHMENU hMenu)
+            public ContextMenu(Shell32.IContextMenu cMenu, User32.SafeHMENU hMenu, IEnumerable<string> itemsPath)
             {
                 this.cMenu = cMenu;
                 this.hMenu = hMenu;
+                this.ItemsPath = itemsPath.ToList();
                 this.Items = new List<Win32ContextMenuItem>();
             }
 
@@ -199,7 +201,7 @@ namespace FilesFullTrust
                 }
             }
 
-            public static ContextMenu GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, Func<string, bool> itemFilter = null)
+            private static ContextMenu GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, Func<string, bool> itemFilter = null)
             {
                 if (shellItems == null || !shellItems.Any())
                     return null;
@@ -207,7 +209,7 @@ namespace FilesFullTrust
                 Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(null, shellItems);
                 var hMenu = User32.CreatePopupMenu();
                 menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
-                var contextMenu = new ContextMenu(menu, hMenu);
+                var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName));
                 ContextMenu.EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
                 return contextMenu;
             }

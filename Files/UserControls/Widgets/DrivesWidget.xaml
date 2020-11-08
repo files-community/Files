@@ -67,14 +67,14 @@
                             VerticalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"
-                            AutomationProperties.Name="{x:Bind Text}"
+                            AutomationProperties.Name="{x:Bind Text, Mode=OneWay}"
                             Background="{ThemeResource YourHomeCardBackgroundColor}"
                             BorderThickness="1"
                             Click="Button_Click"
                             CornerRadius="4"
                             Style="{StaticResource ButtonRevealStyle}"
                             Tag="{x:Bind Path}"
-                            ToolTipService.ToolTip="{x:Bind Text}">
+                            ToolTipService.ToolTip="{x:Bind Text, Mode=OneWay}">
                             <Grid
                                 Margin="12"
                                 HorizontalAlignment="Stretch"
@@ -98,7 +98,7 @@
                                         x:Name="ItemLocationName"
                                         FontSize="14"
                                         FontWeight="Medium"
-                                        Text="{x:Bind Text}"
+                                        Text="{x:Bind Text, Mode=OneWay}"
                                         TextWrapping="NoWrap" />
                                     <muxc:ProgressBar Maximum="{x:Bind MaxSpace.GigaBytes, Mode=OneWay}" Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}" />
                                     <TextBlock Text="{x:Bind SpaceText, Mode=OneWay}" ToolTipService.ToolTip="{x:Bind SpaceText, Mode=OneWay}" />

@@ -1,9 +1,12 @@
 using Files.Filesystem;
+using Files.Helpers;
 using Files.View_Models.Properties;
 using Microsoft.Toolkit.Uwp.Helpers;
+using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation.Collections;
 
 namespace Files
 {
@@ -17,11 +20,33 @@ namespace Files
 
         public async Task SaveChanges(ListedItem item)
         {
-            if (ViewModel.OriginalItemName != null)
+            if (BaseProperties is DriveProperties)
             {
-                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance.InteractionOperations.RenameFileItem(item,
-                      ViewModel.OriginalItemName,
-                      ViewModel.ItemName));
+                var drive = (BaseProperties as DriveProperties).Drive;
+                if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
+                {
+                    if (AppInstance.FilesystemViewModel != null)
+                    {
+                        await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet() {
+                            { "Arguments", "SetVolumeLabel" },
+                            { "drivename", drive.Path },
+                            { "newlabel", ViewModel.ItemName }});
+                        _ = CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
+                        {
+                            await drive.Update();
+                            await AppInstance.FilesystemViewModel.SetWorkingDirectory(drive.Path);
+                        });
+                    }
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
+                {
+                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance.InteractionOperations.RenameFileItem(item,
+                          ViewModel.OriginalItemName,
+                          ViewModel.ItemName));
+                }
             }
         }
     }
