@@ -65,7 +65,7 @@ namespace Files.Helpers
                 PostedStatusBanner banner;
                 if (permanently)
                 {
-                    banner = _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    banner = _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                         string.Empty,
                         this._associatedInstance.FilesystemViewModel.WorkingDirectory,
                         0,
@@ -74,7 +74,7 @@ namespace Files.Helpers
                 }
                 else
                 {
-                    banner = _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    banner = _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                         string.Empty,
                         this._associatedInstance.FilesystemViewModel.WorkingDirectory,
                         0,
@@ -108,7 +108,7 @@ namespace Files.Helpers
                     {
                         if (permanently)
                         {
-                            _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                            _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                             "Deletion Complete",
                             "The operation has completed.",
                             0,
@@ -117,7 +117,7 @@ namespace Files.Helpers
                         }
                         else
                         {
-                            _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                            _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                             "Recycle Complete",
                             "The operation has completed.",
                             0,
@@ -131,7 +131,7 @@ namespace Files.Helpers
                 catch (UnauthorizedAccessException)
                 {
                     banner.Remove();
-                    _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                         "AccessDeniedDeleteDialog/Title".GetLocalized(),
                         "AccessDeniedDeleteDialog/Text".GetLocalized(),
                         0,
@@ -141,7 +141,7 @@ namespace Files.Helpers
                 catch (FileNotFoundException)
                 {
                     banner.Remove();
-                    _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                         "FileNotFoundDialog/Title".GetLocalized(),
                         "FileNotFoundDialog/Text".GetLocalized(),
                         0,
@@ -151,7 +151,7 @@ namespace Files.Helpers
                 catch (IOException)
                 {
                     banner.Remove();
-                    _associatedInstance.StatusBarControl.OngoingTasksControl.PostActionBanner(
+                    _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostActionBanner(
                         "FileInUseDeleteDialog/Title".GetLocalized(),
                         "FileInUseDeleteDialog/Text".GetLocalized(),
                         "FileInUseDeleteDialog/PrimaryButtonText".GetLocalized(),
@@ -180,7 +180,7 @@ namespace Files.Helpers
                 PostedStatusBanner banner;
                 if (permanently)
                 {
-                    banner = _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    banner = _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                         string.Empty,
                         this._associatedInstance.FilesystemViewModel.WorkingDirectory,
                         0,
@@ -189,7 +189,7 @@ namespace Files.Helpers
                 }
                 else
                 {
-                    banner = _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    banner = _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                         string.Empty,
                         this._associatedInstance.FilesystemViewModel.WorkingDirectory,
                         0,
@@ -215,7 +215,7 @@ namespace Files.Helpers
                     {
                         if (permanently)
                         {
-                            _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                            _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                             "Deletion Complete",
                             "The operation has completed.",
                             0,
@@ -224,7 +224,7 @@ namespace Files.Helpers
                         }
                         else
                         {
-                            _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                            _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                             "Recycle Complete",
                             "The operation has completed.",
                             0,
@@ -238,7 +238,7 @@ namespace Files.Helpers
                 catch (UnauthorizedAccessException)
                 {
                     banner.Remove();
-                    _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                         "AccessDeniedDeleteDialog/Title".GetLocalized(),
                         "AccessDeniedDeleteDialog/Text".GetLocalized(),
                         0,
@@ -248,7 +248,7 @@ namespace Files.Helpers
                 catch (FileNotFoundException)
                 {
                     banner.Remove();
-                    _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                         "FileNotFoundDialog/Title".GetLocalized(),
                         "FileNotFoundDialog/Text".GetLocalized(),
                         0,
@@ -258,7 +258,7 @@ namespace Files.Helpers
                 catch (IOException)
                 {
                     banner.Remove();
-                    _associatedInstance.StatusBarControl.OngoingTasksControl.PostActionBanner(
+                    _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostActionBanner(
                         "FileInUseDeleteDialog/Title".GetLocalized(),
                         "FileInUseDeleteDialog/Text".GetLocalized(),
                         "FileInUseDeleteDialog/PrimaryButtonText".GetLocalized(),
@@ -337,7 +337,7 @@ namespace Files.Helpers
         {
             try
             {
-                PostedStatusBanner banner = _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                PostedStatusBanner banner = _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                     string.Empty,
                     _associatedInstance.FilesystemViewModel.WorkingDirectory,
                     0,
@@ -366,7 +366,7 @@ namespace Files.Helpers
 
                 if (sw.Elapsed.TotalSeconds >= 10)
                 {
-                    _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                         "Paste Complete",
                         "The operation has completed.",
                         0,
@@ -387,7 +387,7 @@ namespace Files.Helpers
         {
             try
             {
-                PostedStatusBanner banner = _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                PostedStatusBanner banner = _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                     string.Empty,
                     _associatedInstance.FilesystemViewModel.WorkingDirectory,
                     0,
@@ -408,7 +408,7 @@ namespace Files.Helpers
 
                 if (sw.Elapsed.TotalSeconds >= 10)
                 {
-                    _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                         "Paste Complete",
                         "The operation has completed.",
                         0,
@@ -453,7 +453,7 @@ namespace Files.Helpers
         {
             try
             {
-                PostedStatusBanner banner = _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                PostedStatusBanner banner = _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                     string.Empty,
                     _associatedInstance.FilesystemViewModel.WorkingDirectory,
                     0,
@@ -482,7 +482,7 @@ namespace Files.Helpers
 
                 if (sw.Elapsed.TotalSeconds >= 10)
                 {
-                    _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                         "Paste Complete",
                         "The operation has completed.",
                         0,
@@ -503,7 +503,7 @@ namespace Files.Helpers
         {
             try
             {
-                PostedStatusBanner banner = _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                PostedStatusBanner banner = _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                     string.Empty,
                     _associatedInstance.FilesystemViewModel.WorkingDirectory,
                     0,
@@ -524,7 +524,7 @@ namespace Files.Helpers
 
                 if (sw.Elapsed.TotalSeconds >= 10)
                 {
-                    _associatedInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                         "Paste Complete",
                         "The operation has completed.",
                         0,

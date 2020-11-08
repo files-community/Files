@@ -24,8 +24,6 @@ namespace Files.Controls
 {
     public sealed partial class SidebarControl : UserControl, INotifyPropertyChanged
     {
-        private readonly FilesystemHelpers _filesystemHelpers;
-
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
@@ -65,8 +63,6 @@ namespace Files.Controls
         public SidebarControl()
         {
             InitializeComponent();
-
-            this._filesystemHelpers = new FilesystemHelpers(App.CurrentInstance, App.CancellationToken);
         }
 
         private INavigationControlItem _SelectedSidebarItem;

@@ -11,9 +11,9 @@ namespace Files.Dialogs
 {
     public sealed partial class AddItemDialog : ContentDialog
     {
-        private static readonly FilesystemHelpers _filesystemHelpers = new FilesystemHelpers(App.CurrentInstance, App.CancellationToken);
-
         public List<AddListItem> AddItemsList = new List<AddListItem>();
+
+        public AddItemType ResultType { get; private set; } = AddItemType.Cancel;
 
         public AddItemDialog()
         {

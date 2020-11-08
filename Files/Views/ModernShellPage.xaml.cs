@@ -1,4 +1,5 @@
 ﻿using Files.Dialogs;
+using Files.Common;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
@@ -28,7 +29,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-
+using Files.Filesystem.FilesystemHistory;
 
 namespace Files.Views.Pages
 {
@@ -170,9 +171,9 @@ namespace Files.Views.Pages
             }
         }
 
-        private void SidebarControl_SidebarItemDropped(object sender, Controls.SidebarItemDroppedEventArgs e)
+        private async void SidebarControl_SidebarItemDropped(object sender, Controls.SidebarItemDroppedEventArgs e)
         {
-            InteractionOperations.ItemOperationCommands.PasteItemWithStatus(e.Package, e.ItemPath, e.AcceptedOperation);
+            await this._filesystemHelpers.PerformPasteTypeAsync(e.AcceptedOperation, e.Package, await e.ItemPath.ToStorageItem());
         }
 
         private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, Controls.SidebarItemPropertiesInvokedEventArgs e)
@@ -268,9 +269,9 @@ namespace Files.Views.Pages
             }
         }
 
-        private void ModernShellPage_PathBoxItemDropped(object sender, PathBoxItemDroppedEventArgs e)
+        private async void ModernShellPage_PathBoxItemDropped(object sender, PathBoxItemDroppedEventArgs e)
         {
-            InteractionOperations.ItemOperationCommands.PasteItemWithStatus(e.Package, e.Path, e.AcceptedOperation);
+            await this._filesystemHelpers.PerformPasteTypeAsync(e.AcceptedOperation, e.Package, await e.Path.ToStorageItem());
         }
 
         private void ModernShellPage_AddressBarTextEntered(object sender, AddressBarTextEnteredEventArgs e)
@@ -874,7 +875,7 @@ namespace Files.Views.Pages
                     break;
 
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
-                    if (this.ContentPage.IsItemSelected && !App.CurrentInstance.ContentPage.isRenamingItem)
+                    if (this.ContentPage.IsItemSelected && !this.ContentPage.isRenamingItem)
                     {
                         await this._filesystemHelpers.DeleteAsync(await this.ContentPage.SelectedItems.ToStorageItemCollection(), true, false, true);
                     }

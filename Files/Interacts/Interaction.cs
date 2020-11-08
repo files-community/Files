@@ -1089,7 +1089,7 @@ namespace Files.Interacts
         }
 
         public RelayCommand PasteItemsFromClipboard => new RelayCommand(() => PasteItem());
-        public void PasteItem()
+        public async void PasteItem()
         {
             DataPackageView packageView = Clipboard.GetContent();
 
