@@ -108,7 +108,7 @@ namespace Files.Filesystem
                     {
                         StorageFolder pastedOutput = await FilesystemHelpers.CloneDirectoryAsync(
                             (StorageFolder)source,
-                            await ItemViewModel.GetFolderFromPathAsync(destination.Path),
+                            await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(destination.Path),
                             source.Name);
                         pastedSourceItems.Add(source);
                         pastedItems.Add(pastedOutput);
@@ -134,7 +134,7 @@ namespace Files.Filesystem
                 {
                     StorageFile clipboardFile = (StorageFile)source;
                     StorageFile pastedFile = await clipboardFile.CopyAsync(
-                        await ItemViewModel.GetFolderFromPathAsync(destination.Path),
+                        await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(destination.Path),
                         source.Name,
                         NameCollisionOption.GenerateUniqueName);
                     pastedSourceItems.Add(source);
@@ -293,7 +293,7 @@ namespace Files.Filesystem
 
             if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
             {
-                ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(deleteFromRecycleBin, permanently);
+                ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(deleteFromRecycleBin, permanently, _associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
                 await dialog.ShowAsync();
 
                 if (dialog.Result != MyResult.Delete) // Delete selected item(s) if the result is yes
@@ -309,11 +309,11 @@ namespace Files.Filesystem
             {
                 if (source.IsOfType(StorageItemTypes.File))
                 {
-                    item = await ItemViewModel.GetFileFromPathAsync(source.Path, _associatedInstance);
+                    item = await _associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source.Path);
                 }
                 else
                 {
-                    item = await ItemViewModel.GetFolderFromPathAsync(source.Path, _associatedInstance);
+                    item = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.Path);
                 }
 
                 await item.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default);
@@ -323,9 +323,9 @@ namespace Files.Filesystem
                 if (!permanently)
                 {
                     // Try again with fulltrust process
-                    if (App.Connection != null)
+                    if (_associatedInstance.FilesystemViewModel.Connection != null)
                     {
-                        AppServiceResponse result = await App.Connection.SendMessageAsync(new ValueSet() {
+                        AppServiceResponse result = await _associatedInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet() {
                             { "Arguments", "FileOperation" },
                             { "fileop", "MoveToBin" },
                             { "filepath", source.Path } });
@@ -345,11 +345,11 @@ namespace Files.Filesystem
                 // try again
                 if (source.IsOfType(StorageItemTypes.File))
                 {
-                    item = await ItemViewModel.GetFileFromPathAsync(source.Path, _associatedInstance);
+                    item = await _associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source.Path);
                 }
                 else
                 {
-                    item = await ItemViewModel.GetFolderFromPathAsync(source.Path, _associatedInstance);
+                    item = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.Path);
                 }
 
                 await item.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default);
@@ -359,7 +359,7 @@ namespace Files.Filesystem
             {
                 // Recycle bin also stores a file starting with $I for each item
                 string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I"));
-                await (await ItemViewModel.GetFileFromPathAsync(iFilePath)).DeleteAsync(StorageDeleteOption.PermanentDelete);
+                await (await _associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)).DeleteAsync(StorageDeleteOption.PermanentDelete);
             }
 
             await _associatedInstance.FilesystemViewModel.RemoveFileOrFolder(source.Path);
@@ -375,19 +375,19 @@ namespace Files.Filesystem
             {
                 if (source.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    StorageFolder sourceFolder = await ItemViewModel.GetFolderFromPathAsync(source.ItemPath);
+                    StorageFolder sourceFolder = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.ItemPath);
                     await MoveAsync(sourceFolder, destination, progress, status, cancellationToken);
                     await sourceFolder.DeleteAsync(StorageDeleteOption.PermanentDelete);
                 }
                 else if (source.PrimaryItemAttribute == StorageItemTypes.File)
                 {
-                    StorageFile file = await ItemViewModel.GetFileFromPathAsync(source.ItemPath);
+                    StorageFile file = await _associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source.ItemPath);
                     await file.MoveAsync((IStorageFolder)destination, Path.GetFileName(source.ItemOriginalPath), NameCollisionOption.GenerateUniqueName);
                 }
 
                 // Recycle bin also stores a file starting with $I for each item
                 string iFilePath = Path.Combine(Path.GetDirectoryName(source.ItemPath), Path.GetFileName(source.ItemPath).Replace("$R", "$I"));
-                await (await ItemViewModel.GetFileFromPathAsync(iFilePath)).DeleteAsync(StorageDeleteOption.PermanentDelete);
+                await (await _associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)).DeleteAsync(StorageDeleteOption.PermanentDelete);
 
                 status?.Report(Status.Success);
                 return new StorageHistory(FileOperationType.Restore, new List<RecycleBinItem>() { source }, new List<IStorageItem>() { destination });
