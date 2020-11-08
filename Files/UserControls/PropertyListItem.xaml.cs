@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 
@@ -34,6 +35,21 @@ namespace Files.UserControls
 
         public bool IsReadOnly { get; set; }
 
+        private Button _ActionButton;
+        public Button ActionButton
+        {
+            get => _ActionButton;
+            set
+            {
+                _ActionButton = value;
+                if(value != null)
+                {
+                    value.SetValue(Grid.ColumnProperty, 2);
+                    MainGrid.Children.Add(value);
+                }
+            }
+
+        }
         
 
         public PropertyListItem()
@@ -44,7 +60,5 @@ namespace Files.UserControls
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
         }
-
-        
     }
 }

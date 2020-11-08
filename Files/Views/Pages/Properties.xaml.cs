@@ -33,6 +33,8 @@ namespace Files
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
+        public SelectedItemsPropertiesViewModel ViewModel;
+
         public Properties()
         {
             InitializeComponent();

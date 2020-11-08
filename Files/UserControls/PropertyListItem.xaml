@@ -16,13 +16,13 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
+    <Grid x:Name="MainGrid" HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
@@ -37,9 +37,7 @@
             IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}"
             Style="{StaticResource PropertyValueTextBox}"
             TextChanged="TextBox_TextChanged" 
-            HorizontalAlignment="Right"
-            Width="Auto"
+            HorizontalAlignment="Stretch"
             Text="{x:Bind ValueText, Mode=TwoWay}"/>
-        
     </Grid>
 </UserControl>

@@ -3,6 +3,7 @@ using SQLitePCL;
 using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 
 namespace Files.Filesystem
@@ -28,7 +29,7 @@ namespace Files.Filesystem
         /// <summary>
         /// If a property has an action to run on a button press, eg "Open in maps", define it's action here
         /// </summary>
-        public Action ActionButton { get; set; }
+        public Button ActionButton { get; set; }
 
         public Visibility Visibility { get; set; } = Visibility.Visible;
 

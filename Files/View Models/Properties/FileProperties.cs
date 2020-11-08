@@ -30,101 +30,6 @@ namespace Files.View_Models.Properties
     {
         private ProgressBar ProgressBar;
 
-        private readonly List<string> PropertiesToGet_RO = new List<string>()
-        {
-            //Core
-            "System.RatingText",
-            "System.ItemFolderPathDisplay",
-            "System.ItemTypeText",
-
-            //Image
-            "System.Image.ImageID",
-            "System.Image.CompressedBitsPerPixel",
-            "System.Image.BitDepth",
-            "System.Image.Dimensions",
-            "System.Image.HorizontalResolution",
-            "System.Image.VerticalResolution",
-            "System.Image.CompressionText",
-            "System.Image.ResolutionUnit",
-            "System.Image.HorizontalSize",
-            "System.Image.VerticalSize",
-
-            //GPS
-            "System.GPS.Latitude",
-            "System.GPS.LatitudeRef",
-            "System.GPS.Longitude",
-            "System.GPS.LongitudeRef",
-            "System.GPS.Altitude",
-
-            //Photo
-            "System.Photo.ExposureTime",
-            "System.Photo.FocalLength",
-            "System.Photo.Aperture",
-            "System.Photo.DateTaken",
-
-            //Audio
-            "System.Audio.ChannelCount",
-            "System.Audio.EncodingBitrate",
-            "System.Audio.Compression",
-            "System.Audio.Format",
-            "System.Audio.SampleRate",
-
-            //Music
-            "System.Music.AlbumID",
-            "System.Music.DisplayArtist",
-            "System.Media.CreatorApplication",
-
-            //Media
-            "System.Media.AverageLevel",
-            "System.Media.Duration",
-            "System.Media.FrameCount",
-            "System.Media.ProtectionType",
-        };
-
-        private readonly List<string> PropertiesToGet_RW = new List<string>()
-        {
-
-            //Photo
-            "System.Photo.CameraManufacturer",
-            "System.Photo.CameraModel",
-
-            //Music
-            "System.Music.AlbumArtist",
-            "System.Music.AlbumTitle",
-            "System.Music.Artist",
-            "System.Music.BeatsPerMinute",
-            "System.Music.Composer",
-            "System.Music.Conductor",
-            "System.Music.DiscNumber",
-            "System.Music.Genre",
-            "System.Music.TrackNumber",
-
-            //Media
-            "System.Media.AuthorUrl",
-            "System.Media.ContentDistributor",
-            "System.Media.DateReleased",
-            "System.Media.DlnaProfileID",
-            "System.Media.DVDID",
-            "System.Media.EncodedBy",
-            "System.Media.EncodingSettings",
-            "System.Media.SeriesName",
-            "System.Media.SeasonNumber",
-            "System.Media.EpisodeNumber",
-            "System.Media.MCDI",
-            "System.Media.Producer",
-            "System.Media.PromotionUrl",
-            "System.Media.ProviderStyle",
-            "System.Media.Publisher",
-            "System.Media.ThumbnailLargePath",
-            "System.Media.ThumbnailLargeUri",
-            "System.Media.ThumbnailSmallPath",
-            "System.Media.ThumbnailSmallUri",
-            "System.Media.UniqueFileIdentifier",
-            "System.Media.UserWebUrl",
-            "System.Media.Writer",
-            "System.Media.Year",
-        };
-
         /// <summary>
         /// This list stores all properties to be cleared when clear personal properties is called
         /// </summary>
@@ -386,17 +291,6 @@ namespace Files.View_Models.Properties
                 return;
             }
 
-            try
-            {
-                //ViewModel.SystemFileProperties_RO = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RO);
-                //ViewModel.SystemFileProperties_RW = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RW);
-                //GetPropertiesAsyncDebug(file);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.ToString());
-            }
-
             //SetVisibilities();
             //ViewModelProcessing();
             var list = new List<FileProperty>();
@@ -407,6 +301,8 @@ namespace Files.View_Models.Properties
                 item.Value = props[item.Property];
                 list.Add(item);
             }
+
+
 
             var query = from item in list group item by item.Section into g orderby g.Key select new FilePropertySection(g) { Key = g.Key };
             ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
