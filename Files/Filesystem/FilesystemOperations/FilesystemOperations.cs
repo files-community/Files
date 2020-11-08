@@ -287,22 +287,9 @@ namespace Files.Filesystem
 
         #region Trash/Delete
 
-        public async Task<IStorageHistory> DeleteAsync(IStorageItem source, IProgress<float> progress, IProgress<Status> status, bool showDialog, bool permanently, CancellationToken cancellationToken)
+        public async Task<IStorageHistory> DeleteAsync(IStorageItem source, IProgress<float> progress, IProgress<Status> status, bool permanently, CancellationToken cancellationToken)
         {
             bool deleteFromRecycleBin = _associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
-
-            if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
-            {
-                ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(deleteFromRecycleBin, permanently, _associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
-                await dialog.ShowAsync();
-
-                if (dialog.Result != MyResult.Delete) // Delete selected item(s) if the result is yes
-                {
-                    status?.Report(Status.Cancelled);
-                    return null; // Return if the result isn't delete
-                }
-                permanently = dialog.PermanentlyDelete;
-            }
 
             IStorageItem item;
             try

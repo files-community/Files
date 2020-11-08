@@ -69,7 +69,6 @@ namespace Files.Filesystem
         /// <param name="source">The source to delete</param>
         /// <param name="progress">Progress of the operation</param>
         /// <param name="status">Status of the operation</param>
-        /// <param name="showDialog">Determines whether the delete warning dialog should be shown</param>
         /// <param name="permanently">Determines whether an item is deleted permanently</param>
         /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
         /// <returns><see cref="IStorageHistory"/>
@@ -78,7 +77,7 @@ namespace Files.Filesystem
         /// <br/>
         /// Destination: null  // TODO: Return destination here as RecycleBinItem?
         /// </returns>
-        Task<IStorageHistory> DeleteAsync(IStorageItem source, IProgress<float> progress, IProgress<Status> status, bool showDialog, bool permanently, CancellationToken cancellationToken);
+        Task<IStorageHistory> DeleteAsync(IStorageItem source, IProgress<float> progress, IProgress<Status> status, bool permanently, CancellationToken cancellationToken);
 
         /// <summary>
         /// Renames <paramref name="source"/> with <paramref name="newName"/>

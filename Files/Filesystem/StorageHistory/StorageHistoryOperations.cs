@@ -82,7 +82,7 @@ namespace Files.Filesystem.FilesystemHistory
                             await this._filesystemOperations.DeleteAsync(
                                 await Path.Combine((history.Destination.ElementAt(0) as IStorageItem).Path,
                                     Path.GetFileName((history.Source.ElementAt(i) as RecycleBinItem).ItemOriginalPath)).ToStorageItem(),
-                                null, null, false, false, this._cancellationToken);
+                                null, null, false, this._cancellationToken);
                         }
                         break;
                     }
@@ -187,7 +187,7 @@ namespace Files.Filesystem.FilesystemHistory
                             await this._filesystemOperations.DeleteAsync(
                             await Path.Combine((history.Destination.ElementAt(0) as IStorageItem).Path,
                                 Path.GetFileName((history.Source.ElementAt(i) as RecycleBinItem).ItemOriginalPath)).ToStorageItem(),
-                            null, null, false, false, this._cancellationToken);
+                            null, null, false, this._cancellationToken);
                         }
                         break;
                     }

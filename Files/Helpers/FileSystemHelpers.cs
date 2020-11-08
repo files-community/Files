@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Dialogs;
+using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.UserControls;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -10,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using static Files.Dialogs.ConfirmDeleteDialog;
 
 namespace Files.Helpers
 {
@@ -87,13 +89,27 @@ namespace Files.Helpers
                     Stopwatch sw = new Stopwatch();
                     sw.Start();
 
+                    bool deleteFromRecycleBin = _associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
+
+                    if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
+                    {
+                        ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(deleteFromRecycleBin, permanently, _associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
+                        await dialog.ShowAsync();
+
+                        if (dialog.Result != MyResult.Delete) // Delete selected item(s) if the result is yes
+                        {
+                            return Status.Cancelled; // Return if the result isn't delete
+                        }
+                        permanently = dialog.PermanentlyDelete;
+                    }
+
                     IStorageHistory storageHistory;
                     List<IStorageHistory> rawStorageHistory = new List<IStorageHistory>();
 
                     foreach (IStorageItem item in source)
                     {
                         // TODO: I've managed to break permanently checkbox - when it's selected the Files crash
-                        IStorageHistory history = await this._filesystemOperations.DeleteAsync(item, banner.Progress, banner.Status, showDialog, permanently, this._cancellationToken);
+                        IStorageHistory history = await this._filesystemOperations.DeleteAsync(item, banner.Progress, banner.Status, permanently, this._cancellationToken);
                         rawStorageHistory.Add(history);
                     }
 
@@ -202,8 +218,22 @@ namespace Files.Helpers
                     Stopwatch sw = new Stopwatch();
                     sw.Start();
 
+                    bool deleteFromRecycleBin = _associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
+
+                    if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
+                    {
+                        ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(deleteFromRecycleBin, permanently, _associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
+                        await dialog.ShowAsync();
+
+                        if (dialog.Result != MyResult.Delete) // Delete selected item(s) if the result is yes
+                        {
+                            return Status.Cancelled; // Return if the result isn't delete
+                        }
+                        permanently = dialog.PermanentlyDelete;
+                    }
+
                     // TODO: I've managed to break permanently checkbox - when it's selected the Files crash
-                    IStorageHistory storageHistory = await this._filesystemOperations.DeleteAsync(source, banner.Progress, banner.Status, showDialog, permanently, this._cancellationToken);
+                    IStorageHistory storageHistory = await this._filesystemOperations.DeleteAsync(source, banner.Progress, banner.Status, permanently, this._cancellationToken);
 
                     if (!permanently && registerHistory)
                         App.AddHistory(storageHistory);
