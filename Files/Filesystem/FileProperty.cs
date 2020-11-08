@@ -31,6 +31,11 @@ namespace Files.Filesystem
         /// </summary>
         public Button ActionButton { get; set; }
 
+        /// <summary>
+        /// Should be used in instances where a property does not have a "Property" value, but needs to be idenitfiable in a list of properties
+        /// </summary>
+        public string ID { get; set; }
+
         public Visibility Visibility { get; set; } = Visibility.Visible;
 
         public FileProperty()

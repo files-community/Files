@@ -52,6 +52,22 @@ namespace Files.View_Models.Properties
 
         private List<FileProperty> PropertyListItemsBase = new List<FileProperty>()
         {
+            new FileProperty()
+            {
+                Name = "Address",
+                Section = "GPS",
+                ID = "address",
+            },
+            new FileProperty() {
+                Name = "Latitude Decimal",
+                Property = "System.GPS.LatitudeDecimal",
+                Section = "GPS",
+            },
+            new FileProperty() {
+                Name = "Longitude Decimal",
+                Property = "System.GPS.LongitudeDecimal",
+                Section = "GPS",
+            },
             new FileProperty() {
                 Name = "Latitude",
                 Property = "System.GPS.Latitude",
@@ -295,68 +311,24 @@ namespace Files.View_Models.Properties
             //ViewModelProcessing();
             var list = new List<FileProperty>();
 
+            // Get all the properties from the base, get their values (if needed), and add them to the ViewModel list.
             foreach (var item in PropertyListItemsBase)
             {
-                var props = await file.Properties.RetrievePropertiesAsync(new List<string>() { item.Property });
-                item.Value = props[item.Property];
+                if(item.Property != null)
+                {
+                    var props = await file.Properties.RetrievePropertiesAsync(new List<string>() { item.Property });
+                    item.Value = props[item.Property];
+                }
                 list.Add(item);
             }
 
-
+            list.Find(x => x.ID == "address").Value = await GetAddressFromCoordinates((double)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value, (double)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 
             var query = from item in list group item by item.Section into g orderby g.Key select new FilePropertySection(g) { Key = g.Key };
             ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
             //var query = from item in list group item by item.Section;
             //ViewModel.PropertySections = new ObservableCollection<IGrouping<string, PropertiesData>>(query);
 
-        }
-
-        private void SetLocationInformation()
-        {
-            double[] latitude = ViewModel.SystemFileProperties_RO["System.GPS.Latitude"] as double[];
-            double[] longitude = ViewModel.SystemFileProperties_RO["System.GPS.Longitude"] as double[];
-            ViewModel.Latitude = (latitude[0] + (latitude[1] / 60) + (latitude[2] / 3600));
-            ViewModel.Longitude = longitude[0] + (longitude[1] / 60) + (longitude[2] / 3600);
-            ViewModel.Latitude *= (ViewModel.SystemFileProperties_RO["System.GPS.LatitudeRef"] as string).ToLower().Equals("s") ? -1 : 1;
-            ViewModel.Longitude *= (ViewModel.SystemFileProperties_RO["System.GPS.LongitudeRef"] as string).ToLower().Equals("w") ? -1 : 1;
-        }
-
-        /// <summary>
-        /// Use this function to process any information for the view model
-        /// </summary>
-        private async void ViewModelProcessing()
-        {
-            if (ViewModel.DetailsSectionVisibility_Photo.Equals(Visibility.Visible))
-                ViewModel.CameraNameString = string.Format("{0} {1}", ViewModel.SystemFileProperties_RW["System.Photo.CameraManufacturer"], ViewModel.SystemFileProperties_RW["System.Photo.CameraModel"]);
-
-            if (ViewModel.DetailsSectionVisibility_GPS == Visibility.Visible)
-                SetLocationInformation();
-
-            if (ViewModel.DetailsSectionVisibility_GPS.Equals(Visibility.Visible))
-            {
-                MapLocationFinderResult result = null;
-                try
-                {
-                    result = await GetAddressFromCoordinates((double)ViewModel.Latitude, (double)ViewModel.Longitude);
-                    if (result != null)
-                    {
-                        ViewModel.Geopoint = result.Locations[0];
-                        ViewModel.GeopointString = string.Format("{0}, {1}", result.Locations[0].Address.Town.ToString(), result.Locations[0].Address.Region.ToString());
-                    }
-                    else
-                    {
-                        ViewModel.GeopointString = string.Format("{0}, {1}", ViewModel.Latitude, ViewModel.Longitude);
-                    }
-                }
-                catch
-                {
-                }
-            }
-
-            if (ViewModel.DetailsSectionVisibility_Photo.Equals(Visibility.Visible))
-            {
-                ViewModel.ShotString = string.Format("{0} sec. f/{1} {2}mm", ViewModel.SystemFileProperties_RO["System.Photo.ExposureTime"], ViewModel.SystemFileProperties_RO["System.Photo.Aperture"], ViewModel.SystemFileProperties_RO["System.Photo.FocalLength"]);
-            }
         }
 
         private void SetVisibilities()
@@ -383,7 +355,7 @@ namespace Files.View_Models.Properties
             return false;
         }
 
-        private async Task<MapLocationFinderResult> GetAddressFromCoordinates(double Lat, double Lon)
+        private async Task<string> GetAddressFromCoordinates(double Lat, double Lon)
         {
             JObject obj;
             try
@@ -396,6 +368,7 @@ namespace Files.View_Models.Properties
             {
                 return null;
             }
+
             MapService.ServiceToken = (string)obj.SelectToken("key");
 
             BasicGeoposition location = new BasicGeoposition();
@@ -404,9 +377,9 @@ namespace Files.View_Models.Properties
             Geopoint pointToReverseGeocode = new Geopoint(location);
 
             // Reverse geocode the specified geographic location.
-            return await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
-            // If the query returns results, display the name of the town
-            // contained in the address of the first result.
+
+            var result = await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
+            return result != null ? result.Locations[0].DisplayName : null;
         }
 
         public async void SyncPropertyChanges()
