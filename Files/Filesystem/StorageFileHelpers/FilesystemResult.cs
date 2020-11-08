@@ -17,8 +17,9 @@ namespace Files.Filesystem
         ERROR_NOTFOUND = 4,
         ERROR_INUSE = 8,
         ERROR_NAMETOOLONG = 16,
-        ERROR_NOTAFOLDER = 32,
-        ERROR_NOTAFILE = 64
+        ERROR_ALREADYEXIST = 32,
+        ERROR_NOTAFOLDER = 64,
+        ERROR_NOTAFILE = 128
     }
 
     public static class FilesystemErrorCodeExtensions
@@ -85,6 +86,10 @@ namespace Files.Filesystem
             {
                 return (T == typeof(StorageFolder) || T == typeof(StorageFolderWithPath)) ?
                     FilesystemErrorCode.ERROR_NOTAFOLDER : FilesystemErrorCode.ERROR_NOTAFILE;
+            }
+            else if ((uint)ex.HResult == 0x800700B7)
+            {
+                return FilesystemErrorCode.ERROR_ALREADYEXIST;
             }
             else if ((uint)ex.HResult == 0x800700A1 // The specified path is invalid (usually an mtp device was disconnected)
                 || (uint)ex.HResult == 0x8007016A // The cloud file provider is not running

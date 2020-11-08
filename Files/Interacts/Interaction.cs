@@ -796,7 +796,7 @@ namespace Files.Interacts
                     renamed = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
                         .OnSuccess(t => t.RenameAsync(newName, NameCollisionOption.FailIfExists).AsTask());
                 }
-                if (renamed.ErrorCode == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+                if (renamed == FilesystemErrorCode.ERROR_UNAUTHORIZED)
                 {
                     // Try again with MoveFileFromApp
                     if (!NativeDirectoryChangesHelper.MoveFileFromApp(item.ItemPath, Path.Combine(Path.GetDirectoryName(item.ItemPath), newName)))
@@ -805,24 +805,24 @@ namespace Files.Interacts
                         return false;
                     }
                 }
-                else if (renamed.ErrorCode == FilesystemErrorCode.ERROR_NOTAFILE || renamed.ErrorCode == FilesystemErrorCode.ERROR_NOTAFOLDER)
+                else if (renamed == FilesystemErrorCode.ERROR_NOTAFILE || renamed == FilesystemErrorCode.ERROR_NOTAFOLDER)
                 {
                     await DialogDisplayHelper.ShowDialog("RenameError.NameInvalid.Title".GetLocalized(), "RenameError.NameInvalid.Text".GetLocalized());
                 }
-                else if (renamed.ErrorCode == FilesystemErrorCode.ERROR_NAMETOOLONG)
+                else if (renamed == FilesystemErrorCode.ERROR_NAMETOOLONG)
                 {
                     await DialogDisplayHelper.ShowDialog("RenameError.TooLong.Title".GetLocalized(), "RenameError.TooLong.Text".GetLocalized());
                 }
-                else if (renamed.ErrorCode == FilesystemErrorCode.ERROR_INUSE)
+                else if (renamed == FilesystemErrorCode.ERROR_INUSE)
                 {
                     // TODO: proper dialog, retry
                     await DialogDisplayHelper.ShowDialog("FileInUseDeleteDialog/Title".GetLocalized(), "");
                 }
-                else if (renamed.ErrorCode == FilesystemErrorCode.ERROR_NOTFOUND)
+                else if (renamed == FilesystemErrorCode.ERROR_NOTFOUND)
                 {
                     await DialogDisplayHelper.ShowDialog("RenameError.ItemDeleted.Title".GetLocalized(), "RenameError.ItemDeleted.Text".GetLocalized());
                 }
-                else if (!renamed)
+                else if (renamed == FilesystemErrorCode.ERROR_ALREADYEXIST)
                 {
                     var ItemAlreadyExistsDialog = new ContentDialog()
                     {
@@ -913,7 +913,7 @@ namespace Files.Interacts
                         {
                             await DialogDisplayHelper.ShowDialog("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                         }
-                        else
+                        else if (restored.HasFlag(FilesystemErrorCode.ERROR_ALREADYEXIST))
                         {
                             await DialogDisplayHelper.ShowDialog("ItemAlreadyExistsDialogTitle".GetLocalized(), "ItemAlreadyExistsDialogContent".GetLocalized());
                         }
