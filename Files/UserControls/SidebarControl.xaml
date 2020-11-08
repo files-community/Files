@@ -70,7 +70,7 @@
                     Padding="0"
                     AllowDrop="True"
                     BorderThickness="0.8"
-                    Content="{x:Bind Text}"
+                    Content="{x:Bind Text, Mode=OneWay}"
                     DataContext="{x:Bind}"
                     DragEnter="NavigationViewItem_DragEnter"
                     DragLeave="NavigationViewItem_DragLeave"

@@ -385,7 +385,8 @@ namespace Files
                     await Connection.SendMessageAsync(new ValueSet() {
                         { "Arguments", "ExecAndCloseContextMenu" },
                         { "Handle", menuHandle },
-                        { "ItemID", menuItem.ID } });
+                        { "ItemID", menuItem.ID },
+                        { "CommandString", menuItem.CommandString }});
                 }
             }
         }

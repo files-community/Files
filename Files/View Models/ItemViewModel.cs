@@ -91,7 +91,7 @@ namespace Files.Filesystem
             }
             else if (!Path.IsPathRooted(WorkingDirectory) || Path.GetPathRoot(WorkingDirectory) != Path.GetPathRoot(value))
             {
-                _workingRoot = await DrivesManager.GetRootFromPath(value);
+                _workingRoot = await DrivesManager.GetRootFromPath(value).Wrap();
             }
 
             if (Path.IsPathRooted(value))

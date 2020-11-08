@@ -453,7 +453,7 @@ namespace Files.Views.Pages
 
                     currentInput = StorageFileExtensions.GetPathWithoutEnvironmentVariable(currentInput);
                     if (currentSelectedPath == currentInput) return;
-                    var item = await DrivesManager.GetRootFromPath(currentInput);
+                    var item = await DrivesManager.GetRootFromPath(currentInput).Wrap();
 
                     var resFolder = await StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item).Wrap();
                     if (resFolder)

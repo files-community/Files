@@ -181,7 +181,7 @@ namespace Files.DataModels
         /// <returns>Task</returns>
         public async Task AddItemToSidebar(string path)
         {
-            var item = await DrivesManager.GetRootFromPath(path);
+            var item = await DrivesManager.GetRootFromPath(path).Wrap();
             var res = await StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item).Wrap();
             if (res)
             {
