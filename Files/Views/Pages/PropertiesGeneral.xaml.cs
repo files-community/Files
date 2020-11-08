@@ -25,16 +25,16 @@ namespace Files
                 var drive = (BaseProperties as DriveProperties).Drive;
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
-                    if (App.Connection != null)
+                    if (AppInstance.FilesystemViewModel != null)
                     {
-                        await App.Connection.SendMessageAsync(new ValueSet() {
+                        await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet() {
                             { "Arguments", "SetVolumeLabel" },
                             { "drivename", drive.Path },
                             { "newlabel", ViewModel.ItemName }});
                         _ = CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
                         {
                             await drive.Update();
-                            await App.CurrentInstance.FilesystemViewModel.SetWorkingDirectory(drive.Path);
+                            await AppInstance.FilesystemViewModel.SetWorkingDirectory(drive.Path);
                         });
                     }
                 }
