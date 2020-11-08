@@ -265,7 +265,7 @@ namespace Files.View_Models
                 PinOneDriveToSideBar = false;
             }
 
-            if (!await StorageFolder.GetFolderFromPathAsync(OneDrivePath).AsTask().Wrap())
+            if (!await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(OneDrivePath).AsTask()))
             {
                 PinOneDriveToSideBar = false;
             }

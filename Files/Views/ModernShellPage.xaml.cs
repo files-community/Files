@@ -453,9 +453,9 @@ namespace Files.Views.Pages
 
                     currentInput = StorageFileExtensions.GetPathWithoutEnvironmentVariable(currentInput);
                     if (currentSelectedPath == currentInput) return;
-                    var item = await DrivesManager.GetRootFromPath(currentInput).Wrap();
+                    var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPath(currentInput));
 
-                    var resFolder = await StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item).Wrap();
+                    var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
                     if (resFolder)
                     {
                         var pathToNavigate = resFolder.Result.Path;
@@ -463,7 +463,7 @@ namespace Files.Views.Pages
                     }
                     else // Not a folder or inaccessible
                     {
-                        var resFile = await StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(currentInput, item).Wrap();
+                        var resFile = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(currentInput, item));
                         if (resFile)
                         {
                             var pathToInvoke = resFile.Result.Path;
