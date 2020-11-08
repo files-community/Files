@@ -241,6 +241,19 @@ namespace Files.Filesystem
             }
         }
 
+        public override string ToString()
+        {
+            string suffix;
+            if (IsRecycleBinItem) suffix = "RecycleBinItemAutomation".GetLocalized();
+            else if (IsShortcutItem) suffix = "ShortcutItemAutomation".GetLocalized();
+            else
+            {
+                if (PrimaryItemAttribute == StorageItemTypes.File) suffix = "FileItemAutomation".GetLocalized();
+                else suffix = "FolderItemAutomation".GetLocalized();
+            }
+            return $"{ItemName}, {ItemPath}, {suffix}";
+        }
+
         public bool IsRecycleBinItem => this is RecycleBinItem;
         public bool IsShortcutItem => this is ShortcutItem;
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;

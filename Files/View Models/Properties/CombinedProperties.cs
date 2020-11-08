@@ -19,13 +19,13 @@ namespace Files.View_Models.Properties
         public List<ListedItem> List { get; }
 
         public CombinedProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource,
-            CoreDispatcher coreDispatcher, List<ListedItem> listedItems)
+            CoreDispatcher coreDispatcher, List<ListedItem> listedItems, IShellPage instance)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;
             Dispatcher = coreDispatcher;
             List = listedItems;
-
+            AppInstance = instance;
             GetBaseProperties();
         }
 

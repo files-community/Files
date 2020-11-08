@@ -29,6 +29,9 @@ namespace Files.View_Models
         private readonly ApplicationDataContainer _roamingSettings;
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
+        public event EventHandler SortOptionPreferenceUpdated;
+        public event EventHandler SortDirectionPreferenceUpdated;
+
         public DrivesManager DrivesManager { get; }
 
         public TerminalController TerminalController { get; set; }
@@ -109,7 +112,7 @@ namespace Files.View_Models
             set
             {
                 SortOptionByte = (byte)value;
-                App.CurrentInstance?.FilesystemViewModel?.UpdateSortOptionStatus();
+                SortOptionPreferenceUpdated?.Invoke(this, new EventArgs());
             }
         }
 
@@ -119,7 +122,7 @@ namespace Files.View_Models
             set
             {
                 SortDirectionByte = (byte)value;
-                App.CurrentInstance?.FilesystemViewModel?.UpdateSortDirectionStatus();
+                SortDirectionPreferenceUpdated?.Invoke(this, new EventArgs());
             }
         }
 
@@ -246,7 +249,8 @@ namespace Files.View_Models
             set => SetProperty(ref _FormFactor, value);
         }
 
-        public string OneDrivePath { get; set; } = Environment.GetEnvironmentVariable("OneDrive");
+        public string OneDriveCommercialPath { get; set; } = Environment.GetEnvironmentVariable("OneDriveCommercial");
+        public string OneDrivePath { get; set; } = Environment.GetEnvironmentVariable("OneDriveConsumer");
 
         private async void DetectOneDrivePreference()
         {
@@ -321,6 +325,17 @@ namespace Files.View_Models
                             Type = Filesystem.DriveType.VirtualDrive,
                         };
                         MainPage.sideBarItems.Add(oneDriveItem);
+
+                        if (OneDriveCommercialPath != null)
+                        {
+                            var oneDriveItem1 = new DriveItem()
+                            {
+                                Text = "OneDrive Commercial",
+                                Path = OneDriveCommercialPath,
+                                Type = Filesystem.DriveType.VirtualDrive,
+                            };
+                            MainPage.sideBarItems.Add(oneDriveItem1);
+                        }
                     }
                     else
                     {
@@ -332,7 +347,7 @@ namespace Files.View_Models
                                 MainPage.sideBarItems.Remove(item);
                             }
                         }
-                    }
+                    }                  
                 }
             }
         }

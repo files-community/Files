@@ -996,9 +996,6 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Accesso Negato</value>
   </data>
-  <data name="CopyLocationToggleSwitch.Header" xml:space="preserve">
-    <value>Mostra un'opzione per copiare il percorso dell'elemento selezionato</value>
-  </data>
   <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
     <value>Mostra tutti gli elementi nel menu contestuale</value>
   </data>
@@ -1031,5 +1028,8 @@
   </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
     <value>Mostra Proprietario del file nelle proprietà</value>
+  </data>
+  <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
+    <value>Mostra un'opzione per copiare il percorso dell'elemento selezionato</value>
   </data>
 </root>

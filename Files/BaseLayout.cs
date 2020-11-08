@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -33,14 +34,13 @@ namespace Files
     /// </summary>
     public abstract class BaseLayout : Page, INotifyPropertyChanged
     {
+        private AppServiceConnection Connection => ParentShellPageInstance?.ServiceConnection;
         private readonly FilesystemHelpers _filesystemHelpers;
 
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
         public SettingsViewModel AppSettings => App.AppSettings;
-
-        public CurrentInstanceViewModel InstanceViewModel => App.CurrentInstance.InstanceViewModel;
-
+        public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
 
         public bool IsQuickLookEnabled { get; set; } = false;
@@ -49,10 +49,7 @@ namespace Files
 
         public MenuFlyout BaseLayoutItemContextFlyout { get; set; }
 
-        public ItemViewModel AssociatedViewModel = null;
-
-        public Interaction AssociatedInteractions = null;
-
+        public IShellPage ParentShellPageInstance { get; private set; } = null;
         public bool isRenamingItem = false;
 
         private bool isItemSelected = false;
@@ -137,10 +134,8 @@ namespace Files
 
         public BaseLayout()
         {
-            this._filesystemHelpers = new FilesystemHelpers(App.CurrentInstance, App.CancellationToken);
-            this.Loaded += Page_Loaded;
-            Page_Loaded(null, null);
-            SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
+            this._filesystemHelpers = new FilesystemHelpers(ParentShellPageInstance, App.CancellationToken);
+            SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel(this);
             DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
             // QuickLook Integration
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
@@ -186,13 +181,13 @@ namespace Files
             ClearShellContextMenus(menuFlyout);
             var currentBaseLayoutItemCount = menuFlyout.Items.Count;
             var maxItems = AppSettings.ShowAllContextMenuItems ? int.MaxValue : shiftPressed ? 6 : 4;
-            if (App.Connection != null)
+            if (Connection != null)
             {
-                var response = App.Connection.SendMessageAsync(new ValueSet() {
+                var response = Connection.SendMessageAsync(new ValueSet() {
                         { "Arguments", "LoadContextMenu" },
                         { "FilePath", IsItemSelected ?
                             string.Join('|', _SelectedItems.Select(x => x.ItemPath)) :
-                            App.CurrentInstance.FilesystemViewModel.CurrentFolder.ItemPath},
+                            ParentShellPageInstance.FilesystemViewModel.CurrentFolder.ItemPath},
                         { "ExtendedMenu", shiftPressed },
                         { "ShowOpenMenu", showOpenMenu }}).AsTask().Result;
                 if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
@@ -224,13 +219,13 @@ namespace Files
 
         private void AppSettings_LayoutModeChangeRequested(object sender, EventArgs e)
         {
-            if (App.CurrentInstance.ContentPage != null)
+            if (ParentShellPageInstance.ContentPage != null)
             {
-                App.CurrentInstance.FilesystemViewModel.CancelLoadAndClearFiles();
-                App.CurrentInstance.FilesystemViewModel.IsLoadingItems = true;
-                App.CurrentInstance.FilesystemViewModel.IsLoadingItems = false;
+                ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles();
+                ParentShellPageInstance.FilesystemViewModel.IsLoadingItems = true;
+                ParentShellPageInstance.FilesystemViewModel.IsLoadingItems = false;
 
-                App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), App.CurrentInstance.FilesystemViewModel.WorkingDirectory, null);
+                ParentShellPageInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments() { NavPathParam = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, AssociatedTabInstance = ParentShellPageInstance }, null);
             }
         }
 
@@ -247,43 +242,40 @@ namespace Files
             // Add item jumping handler
             AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
             Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
-            var parameters = (string)eventArgs.Parameter;
-            App.CurrentInstance.NavigationToolbar.CanRefresh = true;
+            var parameters = (NavigationArguments)eventArgs.Parameter;
+            ParentShellPageInstance = parameters.AssociatedTabInstance;
+            ParentShellPageInstance.NavigationToolbar.CanRefresh = true;
             IsItemSelected = false;
-            AssociatedViewModel.IsFolderEmptyTextDisplayed = false;
-            await App.CurrentInstance.FilesystemViewModel.SetWorkingDirectory(parameters);
+            ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
+            await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectory(parameters.NavPathParam);
 
             // pathRoot will be empty on recycle bin path
-            var workingDir = App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
+            var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
             string pathRoot = Path.GetPathRoot(workingDir);
             if (string.IsNullOrEmpty(pathRoot) || workingDir == pathRoot)
             {
-                App.CurrentInstance.NavigationToolbar.CanNavigateToParent = false;
+                ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
             }
             else
             {
-                App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
+                ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = true;
             }
 
-            App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
-            App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
-            App.CurrentInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
+            ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
+            ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
+            ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
 
-            if (App.MultitaskingControl != null)
-            {
-                await App.MultitaskingControl.SetSelectedTabInfo(new DirectoryInfo(workingDir).Name, workingDir);
-            }
-            App.CurrentInstance.FilesystemViewModel.RefreshItems();
+            MainPage.MultitaskingControl?.UpdateSelectedTab(new DirectoryInfo(workingDir).Name, workingDir);
+            ParentShellPageInstance.FilesystemViewModel.RefreshItems();
 
-            App.MultitaskingControl?.SelectionChanged();
-            MainPage.Clipboard_ContentChanged(null, null);
-            App.CurrentInstance.NavigationToolbar.PathControlDisplayText = parameters;
+            ParentShellPageInstance.Clipboard_ContentChanged(null, null);
+            ParentShellPageInstance.NavigationToolbar.PathControlDisplayText = parameters.NavPathParam;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            App.CurrentInstance.FilesystemViewModel.CancelLoadAndClearFiles();
+            ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles();
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
             AppSettings.LayoutModeChangeRequested -= AppSettings_LayoutModeChangeRequested;
@@ -394,9 +386,9 @@ namespace Files
             if (currentMenuLayoutItem != null)
             {
                 var (menuItem, menuHandle) = ParseContextMenuTag(currentMenuLayoutItem.Tag);
-                if (App.Connection != null)
+                if (Connection != null)
                 {
-                    await App.Connection.SendMessageAsync(new ValueSet() {
+                    await Connection.SendMessageAsync(new ValueSet() {
                         { "Arguments", "ExecAndCloseContextMenu" },
                         { "Handle", menuHandle },
                         { "ItemID", menuItem.ID } });
@@ -408,9 +400,9 @@ namespace Files
         {
             var shellContextMenuTag = (sender as MenuFlyout).Items.Where(x => x.Tag != null)
                 .Select(x => ParseContextMenuTag(x.Tag)).FirstOrDefault(x => x.menuItem != null);
-            if (shellContextMenuTag.menuItem != null && App.Connection != null)
+            if (shellContextMenuTag.menuItem != null && Connection != null)
             {
-                await App.Connection.SendMessageAsync(new ValueSet() {
+                await Connection.SendMessageAsync(new ValueSet() {
                     { "Arguments", "ExecAndCloseContextMenu" },
                     { "Handle", shellContextMenuTag.menuHandle } });
             }
@@ -551,26 +543,13 @@ namespace Files
             }
 
             //check the file extension of the selected item
-            App.CurrentInstance.ContentPage.SelectedItemsPropertiesViewModel.CheckFileExtension();
-        }
-
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (AssociatedViewModel == null && AssociatedInteractions == null)
-            {
-                AssociatedViewModel = App.CurrentInstance.FilesystemViewModel;
-                AssociatedInteractions = App.CurrentInstance.InteractionOperations;
-                if (App.CurrentInstance == null)
-                {
-                    App.CurrentInstance = VerticalTabViewControl.GetCurrentSelectedTabInstance<ModernShellPage>();
-                }
-            }
+            ParentShellPageInstance.ContentPage.SelectedItemsPropertiesViewModel.CheckFileExtension();
         }
 
         protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
             char letterPressed = Convert.ToChar(args.KeyCode);
-            App.CurrentInstance.InteractionOperations.PushJumpChar(letterPressed);
+            ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
         }
 
         protected async void List_DragOver(object sender, DragEventArgs e)
@@ -584,13 +563,13 @@ namespace Files
                 IReadOnlyList<IStorageItem> draggedItems = await e.DataView.GetStorageItemsAsync();
                 e.DragUIOverride.IsCaptionVisible = true;
 
-                var folderName = Path.GetFileName(App.CurrentInstance.FilesystemViewModel.WorkingDirectory);
+                var folderName = Path.GetFileName(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
                 // As long as one file doesn't already belong to this folder
-                if (draggedItems.AreItemsAlreadyInFolder(App.CurrentInstance.FilesystemViewModel.WorkingDirectory))
+                if (draggedItems.AreItemsAlreadyInFolder(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
-                else if (draggedItems.AreItemsInSameDrive(App.CurrentInstance.FilesystemViewModel.WorkingDirectory))
+                else if (draggedItems.AreItemsInSameDrive(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory))
                 {
                     e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), folderName);
                     e.AcceptedOperation = DataPackageOperation.Move;
@@ -611,7 +590,7 @@ namespace Files
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                await this._filesystemHelpers.PerformPasteTypeAsync(e.AcceptedOperation, e.DataView, await App.CurrentInstance.FilesystemViewModel.WorkingDirectory.ToStorageItem());
+                await this._filesystemHelpers.PerformPasteTypeAsync(e.AcceptedOperation, e.DataView, await ParentShellPageInstance.FilesystemViewModel.WorkingDirectory.ToStorageItem());
 
                 e.Handled = true;
             }
@@ -623,7 +602,7 @@ namespace Files
         {
             List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
 
-            foreach (ListedItem item in App.CurrentInstance.ContentPage.SelectedItems)
+            foreach (ListedItem item in ParentShellPageInstance.ContentPage.SelectedItems)
             {
                 if (item is ShortcutItem)
                 {
@@ -632,11 +611,11 @@ namespace Files
                 }
                 else if (item.PrimaryItemAttribute == StorageItemTypes.File)
                 {
-                    selectedStorageItems.Add(await ItemViewModel.GetFileFromPathAsync(item.ItemPath));
+                    selectedStorageItems.Add(await ParentShellPageInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath));
                 }
                 else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    selectedStorageItems.Add(await ItemViewModel.GetFolderFromPathAsync(item.ItemPath));
+                    selectedStorageItems.Add(await ParentShellPageInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath));
                 }
             }
 
@@ -680,7 +659,7 @@ namespace Files
                     {
                         dragOverItem = null;
                         dragOverTimer.Stop();
-                        AssociatedInteractions.OpenItem_Click(null, null);
+                        ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
                     }
                 }, TimeSpan.FromMilliseconds(1000), false);
             }

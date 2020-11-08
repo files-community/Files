@@ -319,17 +319,30 @@ namespace Files.Filesystem
 
         private void GetVirtualDrivesList(IList<DriveItem> list)
         {
-            var oneDriveItem = new DriveItem()
-            {
-                Text = "OneDrive",
-                Path = AppSettings.OneDrivePath,
-                Type = DriveType.VirtualDrive,
-            };
-
             var setting = ApplicationData.Current.LocalSettings.Values["PinOneDrive"];
             if (setting == null || (bool)setting == true)
             {
-                list.Add(oneDriveItem);
+               if (AppSettings.OneDrivePath != null)
+                {
+                    var oneDriveItem = new DriveItem()
+                    {
+                        Text = "OneDrive",
+                        Path = AppSettings.OneDrivePath,
+                        Type = DriveType.VirtualDrive,
+                    };
+                    list.Add(oneDriveItem);
+                }
+
+                if (AppSettings.OneDriveCommercialPath != null)
+                {
+                    var oneDriveItem = new DriveItem()
+                    {
+                        Text = "OneDrive Commercial",
+                        Path = AppSettings.OneDriveCommercialPath,
+                        Type = Filesystem.DriveType.VirtualDrive,
+                    };
+                    list.Add(oneDriveItem);
+                }
             }
         }
 
