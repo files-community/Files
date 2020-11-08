@@ -236,7 +236,7 @@ namespace Files.Controls
 
         private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
         {
-            await Interaction.OpenPathInNewWindow(App.rightClickedItem.Path.ToString());
+            await Interaction.OpenPathInNewWindowAsync(App.rightClickedItem.Path.ToString());
         }
 
         private void NavigationViewItem_DragStarting(UIElement sender, DragStartingEventArgs args)

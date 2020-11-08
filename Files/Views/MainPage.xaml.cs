@@ -2,8 +2,7 @@
 using Files.Controllers;
 using Files.Controls;
 using Files.Filesystem;
-using Files.UserControls;
-using Files.UserControls.MultiTaskingControl;
+using Files.UserControls.MultitaskingControl;
 using Files.View_Models;
 using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -16,11 +15,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.System;
-using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -108,7 +105,7 @@ namespace Files.Views
 
                             foreach (string path in App.AppSettings.LastSessionPages)
                             {
-                                await AddNewTab(typeof(ModernShellPage), path);
+                                await AddNewTabByPathAsync(typeof(ModernShellPage), path);
                             }
 
                             if (!App.AppSettings.ContinueLastSessionOnStartUp)
@@ -122,12 +119,12 @@ namespace Files.Views
                             {
                                 foreach (string path in App.AppSettings.PagesOnStartupList)
                                 {
-                                    await AddNewTab(typeof(ModernShellPage), path);
+                                    await AddNewTabByPathAsync(typeof(ModernShellPage), path);
                                 }
                             }
                             else
                             {
-                                await AddNewTab(typeof(ModernShellPage), "NewTab".GetLocalized());
+                                AddNewTab();
                             }
                         }
                         else if (App.AppSettings.ContinueLastSessionOnStartUp)
@@ -136,32 +133,32 @@ namespace Files.Views
                             {
                                 foreach (string path in App.AppSettings.LastSessionPages)
                                 {
-                                    await AddNewTab(typeof(ModernShellPage), path);
+                                    await AddNewTabByPathAsync(typeof(ModernShellPage), path);
                                 }
                                 App.AppSettings.LastSessionPages = new string[] { "NewTab".GetLocalized() };
                             }
                             else
                             {
-                                await AddNewTab(typeof(ModernShellPage), "NewTab".GetLocalized());
+                                AddNewTab();
                             }
                         }
                         else
                         {
-                            await AddNewTab(typeof(ModernShellPage), "NewTab".GetLocalized());
+                            AddNewTab();
                         }
                     }
                     catch (Exception)
                     {
-                        await AddNewTab(typeof(ModernShellPage), "NewTab".GetLocalized());
+                        AddNewTab();
                     }
                 }
                 else if (string.IsNullOrEmpty(navArgs))
                 {
-                    await AddNewTab(typeof(ModernShellPage), "NewTab".GetLocalized());
+                    AddNewTab();
                 }
                 else
                 {
-                    await AddNewTab(typeof(ModernShellPage), navArgs);
+                    await AddNewTabByPathAsync(typeof(ModernShellPage), navArgs);
                 }
 
                 // Initial setting of SelectedTabItem
@@ -171,7 +168,12 @@ namespace Files.Views
             }
         }
 
-        public static async Task AddNewTab(Type t, string path, int atIndex = -1)
+        public static async void AddNewTab()
+        {
+            await AddNewTabByPathAsync(typeof(ModernShellPage), "NewTab".GetLocalized());
+        }
+
+        public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
         {
             string tabLocationHeader = null;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
@@ -223,7 +225,7 @@ namespace Files.Views
                     }
             }
 
-            TabItem tvi = new TabItem()
+            TabItem tabItem = new TabItem()
             {
                 Header = tabLocationHeader,
                 Path = path,
@@ -236,7 +238,7 @@ namespace Files.Views
                             CacheSize = 0,
                             Tag = new TabItemContent()
                             {
-                                InitialPageType = t,
+                                InitialPageType = type,
                                 NavigationArg = path
                             }
                         }
@@ -247,8 +249,8 @@ namespace Files.Views
                 IconSource = fontIconSource,
                 Description = null
             };
-            MainPage.AppInstances.Insert(atIndex == -1 ? AppInstances.Count : atIndex, tvi);
-            var tabViewItemFrame = (tvi.Content as Grid).Children[0] as Frame;
+            AppInstances.Insert(atIndex == -1 ? AppInstances.Count : atIndex, tabItem);
+            var tabViewItemFrame = (tabItem.Content as Grid).Children[0] as Frame;
             tabViewItemFrame.Loaded += TabViewItemFrame_Loaded;
         }
 
@@ -343,13 +345,13 @@ namespace Files.Views
 
         private async void AddNewInstanceAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            await AddNewTab(typeof(ModernShellPage),"NewTab".GetLocalized());
+            await AddNewTabByPathAsync(typeof(ModernShellPage),"NewTab".GetLocalized());
             args.Handled = true;
         }
 
         private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
         {
-            MainPage.MultitaskingControl = HorizontalMultitaskingControl;
+            MultitaskingControl = HorizontalMultitaskingControl;
         }
     }
 }

@@ -34,7 +34,7 @@ namespace FilesFullTrust
             return tcs.Task;
         }
 
-        public static async Task<string> GetFileAssociation(string filename)
+        public static async Task<string> GetFileAssociationAsync(string filename)
         {
             // Find UWP apps
             var uwp_apps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));

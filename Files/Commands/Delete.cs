@@ -47,7 +47,7 @@ namespace Files.Commands
             Stopwatch sw = new Stopwatch();
             sw.Start();
 
-            var res = await DeleteItem(deleteOption, AppInstance, bannerResult.Progress);
+            var res = await DeleteItemAsync(deleteOption, AppInstance, bannerResult.Progress);
             bannerResult.Remove();
             sw.Stop();
             if (!res)
@@ -107,7 +107,7 @@ namespace Files.Commands
             AppInstance.NavigationToolbar.CanGoForward = false;
         }
 
-        private async Task<FilesystemResult> DeleteItem(StorageDeleteOption deleteOption, IShellPage AppInstance, IProgress<uint> progress)
+        private async Task<FilesystemResult> DeleteItemAsync(StorageDeleteOption deleteOption, IShellPage AppInstance, IProgress<uint> progress)
         {
             var deleted = (FilesystemResult)false;
             var deleteFromRecycleBin = AppInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
@@ -177,7 +177,7 @@ namespace Files.Commands
                 else if (deleted.ErrorCode == FilesystemErrorCode.ERROR_INUSE)
                 {
                     // TODO: retry or show dialog
-                    await DialogDisplayHelper.ShowDialog("FileInUseDeleteDialog/Title".GetLocalized(), "FileInUseDeleteDialog/Text".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), "FileInUseDeleteDialog/Text".GetLocalized());
                 }
 
                 if (deleteFromRecycleBin)
@@ -190,7 +190,7 @@ namespace Files.Commands
 
                 if (deleted)
                 {
-                    await AppInstance.FilesystemViewModel.RemoveFileOrFolder(storItem);
+                    await AppInstance.FilesystemViewModel.RemoveFileOrFolderAsync(storItem);
                     itemsDeleted++;
                 }
                 else

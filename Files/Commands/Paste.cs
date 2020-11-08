@@ -35,7 +35,7 @@ namespace Files.Commands
             Stopwatch sw = new Stopwatch();
             sw.Start();
 
-            await PasteItem(packageView, destinationPath, acceptedOperation, AppInstance, banner.Progress);
+            await PasteItemAsync(packageView, destinationPath, acceptedOperation, AppInstance, banner.Progress);
             banner.Remove();
 
             sw.Stop();
@@ -51,7 +51,7 @@ namespace Files.Commands
             }
         }
 
-        private async Task PasteItem(DataPackageView packageView, string destinationPath, DataPackageOperation acceptedOperation, IShellPage AppInstance, IProgress<uint> progress)
+        private async Task PasteItemAsync(DataPackageView packageView, string destinationPath, DataPackageOperation acceptedOperation, IShellPage AppInstance, IProgress<uint> progress)
         {
             if (!packageView.Contains(StandardDataFormats.StorageItems))
             {
@@ -65,7 +65,7 @@ namespace Files.Commands
             if (AppInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
             {
                 // Do not paste files and folders inside the recycle bin
-                await DialogDisplayHelper.ShowDialog("ErrorDialogThisActionCannotBeDone".GetLocalized(), "ErrorDialogUnsupportedOperation".GetLocalized());
+                await DialogDisplayHelper.ShowDialogAsync("ErrorDialogThisActionCannotBeDone".GetLocalized(), "ErrorDialogUnsupportedOperation".GetLocalized());
                 return;
             }
 

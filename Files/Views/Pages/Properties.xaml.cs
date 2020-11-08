@@ -178,11 +178,11 @@ namespace Files
         {
             if (contentFrame.Content is PropertiesGeneral)
             {
-                await (contentFrame.Content as PropertiesGeneral).SaveChanges(listedItem);
+                await (contentFrame.Content as PropertiesGeneral).SaveChangesAsync(listedItem);
             }
             else if (contentFrame.Content is PropertiesDetails)
             {
-                await (contentFrame.Content as PropertiesDetails).SaveChanges(listedItem);
+                await (contentFrame.Content as PropertiesDetails).SaveChangesAsync(listedItem);
             }
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))

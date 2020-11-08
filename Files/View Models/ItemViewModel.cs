@@ -73,7 +73,7 @@ namespace Files.Filesystem
         public delegate void WorkingDirectoryModifiedEventHandler(object sender, WorkingDirectoryModifiedEventArgs e);
         public event WorkingDirectoryModifiedEventHandler WorkingDirectoryModified;
 
-        public async Task<FilesystemResult> SetWorkingDirectory(string value)
+        public async Task<FilesystemResult> SetWorkingDirectoryAsync(string value)
         {
             var navigated = (FilesystemResult)true;
             if (string.IsNullOrWhiteSpace(value))
@@ -91,7 +91,7 @@ namespace Files.Filesystem
             }
             else if (!Path.IsPathRooted(WorkingDirectory) || Path.GetPathRoot(WorkingDirectory) != Path.GetPathRoot(value))
             {
-                _workingRoot = await DrivesManager.GetRootFromPath(value).Wrap();
+                _workingRoot = await DrivesManager.GetRootFromPathAsync(value).Wrap();
             }
 
             if (Path.IsPathRooted(value))
@@ -343,7 +343,7 @@ namespace Files.Filesystem
                                 break;
 
                             case "Deleted":
-                                await RemoveFileOrFolder(itemPath);
+                                await RemoveFileOrFolderAsync(itemPath);
                                 break;
 
                             default:
@@ -538,9 +538,9 @@ namespace Files.Filesystem
                             {
                                 matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                                 matchingItem.ItemType = matchingStorageItem.DisplayType;
-                                var syncStatus = await CheckCloudDriveSyncStatus(matchingStorageItem);
+                                var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
                                 matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
-                                matchingItem.IconOverlay = (await LoadIconOverlay(matchingItem.ItemPath)).Icon;
+                                matchingItem.IconOverlay = (await LoadIconOverlayAsync(matchingItem.ItemPath)).Icon;
                             }
                         }
                     }
@@ -563,7 +563,7 @@ namespace Files.Filesystem
                         StorageFolder matchingStorageItem = await StorageFileExtensions.DangerousGetFolderFromPathAsync((item as ShortcutItem)?.TargetPath ?? item.ItemPath, _workingRoot, _currentStorageFolder);
                         if (matchingItem != null && matchingStorageItem != null)
                         {
-                            var iconOverlay = await LoadIconOverlay(matchingItem.ItemPath);
+                            var iconOverlay = await LoadIconOverlayAsync(matchingItem.ItemPath);
                             if (iconOverlay.IsCustom)
                             {
                                 // Only set folder icon if it's a custom icon
@@ -588,7 +588,7 @@ namespace Files.Filesystem
                             {
                                 matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                                 matchingItem.ItemType = matchingStorageItem.DisplayType;
-                                var syncStatus = await CheckCloudDriveSyncStatus(matchingStorageItem);
+                                var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
                                 matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
                                 matchingItem.IconOverlay = iconOverlay.Icon;
                             }
@@ -610,7 +610,7 @@ namespace Files.Filesystem
             }
         }
 
-        private async Task<(BitmapImage Icon, bool IsCustom)> LoadIconOverlay(string filePath)
+        private async Task<(BitmapImage Icon, bool IsCustom)> LoadIconOverlayAsync(string filePath)
         {
             if (Connection != null)
             {
@@ -680,11 +680,11 @@ namespace Files.Filesystem
                 if (path.StartsWith(AppSettings.RecycleBinPath))
                 {
                     // Recycle bin is special as files are enumerated by the fulltrust process
-                    await EnumerateItemsFromSpecialFolder(path);
+                    await EnumerateItemsFromSpecialFolderAsync(path);
                 }
                 else
                 {
-                    if (await EnumerateItemsFromStandardFolder(path))
+                    if (await EnumerateItemsFromStandardFolderAsync(path))
                     {
                         WatchForDirectoryChanges(path);
                     }
@@ -738,7 +738,7 @@ namespace Files.Filesystem
             }
         }
 
-        public async Task EnumerateItemsFromSpecialFolder(string path)
+        public async Task EnumerateItemsFromSpecialFolderAsync(string path)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
@@ -790,7 +790,7 @@ namespace Files.Filesystem
             }
         }
 
-        public async Task<bool> EnumerateItemsFromStandardFolder(string path)
+        public async Task<bool> EnumerateItemsFromStandardFolderAsync(string path)
         {
             // Flag to use FindFirstFileExFromApp or StorageFolder enumeration
             bool enumFromStorageFolder = false;
@@ -803,7 +803,7 @@ namespace Files.Filesystem
             else if (res == FilesystemErrorCode.ERROR_UNAUTHORIZED)
             {
                 // TODO: proper dialog
-                await DialogDisplayHelper.ShowDialog(
+                await DialogDisplayHelper.ShowDialogAsync(
                     "AccessDeniedDeleteDialog/Title".GetLocalized(),
                     "SubDirectoryAccessDenied".GetLocalized());
                 IsLoadingItems = false;
@@ -811,7 +811,7 @@ namespace Files.Filesystem
             }
             else if (res == FilesystemErrorCode.ERROR_NOTFOUND)
             {
-                await DialogDisplayHelper.ShowDialog(
+                await DialogDisplayHelper.ShowDialogAsync(
                     "FolderNotFoundDialog/Title".GetLocalized(),
                     "FolderNotFoundDialog/Text".GetLocalized());
                 IsLoadingItems = false;
@@ -826,7 +826,7 @@ namespace Files.Filesystem
                 }
                 else
                 {
-                    await DialogDisplayHelper.ShowDialog("DriveUnpluggedDialog/Title".GetLocalized(), res.ErrorCode.ToString());
+                    await DialogDisplayHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalized(), res.ErrorCode.ToString());
                     IsLoadingItems = false;
                     return false;
                 }
@@ -836,7 +836,7 @@ namespace Files.Filesystem
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
 
-            if (await CheckBitlockerStatus(_rootFolder))
+            if (await CheckBitlockerStatusAsync(_rootFolder))
             {
                 var bitlockerDialog = new Dialogs.BitlockerDialog(Path.GetPathRoot(WorkingDirectory));
                 var bitlockerResult = await bitlockerDialog.ShowAsync();
@@ -852,17 +852,17 @@ namespace Files.Filesystem
                         value.Add("password", userInput);
                         await Connection.SendMessageAsync(value);
 
-                        if (await CheckBitlockerStatus(_rootFolder))
+                        if (await CheckBitlockerStatusAsync(_rootFolder))
                         {
                             // Drive is still locked
-                            await DialogDisplayHelper.ShowDialog("BitlockerInvalidPwDialog/Title".GetLocalized(), "BitlockerInvalidPwDialog/Text".GetLocalized());
+                            await DialogDisplayHelper.ShowDialogAsync("BitlockerInvalidPwDialog/Title".GetLocalized(), "BitlockerInvalidPwDialog/Text".GetLocalized());
                         }
                     }
                 }
             }
 
             // Is folder synced to cloud storage?
-            var syncStatus = await CheckCloudDriveSyncStatus(_rootFolder);
+            var syncStatus = await CheckCloudDriveSyncStatusAsync(_rootFolder);
             AssociatedInstance.InstanceViewModel.IsPageTypeCloudDrive =
                 syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown;
 
@@ -883,7 +883,7 @@ namespace Files.Filesystem
                     FileSize = null,
                     FileSizeBytes = 0
                 };
-                await EnumFromStorageFolder();
+                await EnumFromStorageFolderAsync();
                 return true;
             }
             else
@@ -895,7 +895,7 @@ namespace Files.Filesystem
                     IntPtr hFileTsk = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
                         additionalFlags);
                     return (hFileTsk, findDataTsk);
-                }).WithTimeout(TimeSpan.FromSeconds(5));
+                }).WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
                 DateTime itemDate = DateTime.UtcNow;
                 try
@@ -927,13 +927,13 @@ namespace Files.Filesystem
                 var count = 0;
                 if (hFile == IntPtr.Zero)
                 {
-                    await DialogDisplayHelper.ShowDialog("DriveUnpluggedDialog/Title".GetLocalized(), "");
+                    await DialogDisplayHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalized(), "");
                     IsLoadingItems = false;
                     return false;
                 }
                 else if (hFile.ToInt64() == -1)
                 {
-                    await EnumFromStorageFolder();
+                    await EnumFromStorageFolderAsync();
                     return false;
                 }
                 else
@@ -973,7 +973,7 @@ namespace Files.Filesystem
             }
         }
 
-        private async Task EnumFromStorageFolder()
+        private async Task EnumFromStorageFolderAsync()
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -999,13 +999,13 @@ namespace Files.Filesystem
                 }
                 if (item.IsOfType(StorageItemTypes.Folder))
                 {
-                    await AddFolder(item as StorageFolder, returnformat);
+                    await AddFolderAsync(item as StorageFolder, returnformat);
                     ++count;
                 }
                 else
                 {
                     var file = item as StorageFile;
-                    await AddFile(file, returnformat, true);
+                    await AddFileAsync(file, returnformat, true);
                     ++count;
                 }
                 if (_addFilesCTS.IsCancellationRequested)
@@ -1021,7 +1021,7 @@ namespace Files.Filesystem
             Debug.WriteLine($"Enumerating items in {WorkingDirectory} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
         }
 
-        private async Task<bool> CheckBitlockerStatus(StorageFolder rootFolder)
+        private async Task<bool> CheckBitlockerStatusAsync(StorageFolder rootFolder)
         {
             if (Path.IsPathRooted(WorkingDirectory) && Path.GetPathRoot(WorkingDirectory) == WorkingDirectory)
             {
@@ -1031,7 +1031,7 @@ namespace Files.Filesystem
             return false;
         }
 
-        private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatus(IStorageItem item)
+        private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
         {
             int? syncStatus = null;
             if (item is StorageFile)
@@ -1134,27 +1134,27 @@ namespace Files.Filesystem
                                     {
                                         case FILE_ACTION_ADDED:
                                             Debug.WriteLine("File " + FileName + " added to working directory.");
-                                            AddFileOrFolder(FileName, returnformat).GetAwaiter().GetResult();
+                                            AddFileOrFolderAsync(FileName, returnformat).GetAwaiter().GetResult();
                                             break;
 
                                         case FILE_ACTION_REMOVED:
                                             Debug.WriteLine("File " + FileName + " removed from working directory.");
-                                            RemoveFileOrFolder(FileName).GetAwaiter().GetResult();
+                                            RemoveFileOrFolderAsync(FileName).GetAwaiter().GetResult();
                                             break;
 
                                         case FILE_ACTION_MODIFIED:
                                             Debug.WriteLine("File " + FileName + " had attributes modified in the working directory.");
-                                            UpdateFileOrFolder(FileName).GetAwaiter().GetResult();
+                                            UpdateFileOrFolderAsync(FileName).GetAwaiter().GetResult();
                                             break;
 
                                         case FILE_ACTION_RENAMED_OLD_NAME:
                                             Debug.WriteLine("File " + FileName + " will be renamed in the working directory.");
-                                            RemoveFileOrFolder(FileName).GetAwaiter().GetResult();
+                                            RemoveFileOrFolderAsync(FileName).GetAwaiter().GetResult();
                                             break;
 
                                         case FILE_ACTION_RENAMED_NEW_NAME:
                                             Debug.WriteLine("File " + FileName + " was renamed in the working directory.");
-                                            AddFileOrFolder(FileName, returnformat).GetAwaiter().GetResult();
+                                            AddFileOrFolderAsync(FileName, returnformat).GetAwaiter().GetResult();
                                             break;
 
                                         default:
@@ -1264,7 +1264,7 @@ namespace Files.Filesystem
             IsFolderEmptyTextDisplayed = false;
         }
 
-        private async Task AddFileOrFolder(string fileOrFolderPath, string dateReturnFormat)
+        private async Task AddFileOrFolderAsync(string fileOrFolderPath, string dateReturnFormat)
         {
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
             int additionalFlags = FIND_FIRST_EX_CASE_SENSITIVE;
@@ -1302,7 +1302,7 @@ namespace Files.Filesystem
             }
         }
 
-        private async Task UpdateFileOrFolder(ListedItem item)
+        private async Task UpdateFileOrFolderAsync(ListedItem item)
         {
             IStorageItem storageItem = null;
             if (item.PrimaryItemAttribute == StorageItemTypes.File)
@@ -1315,7 +1315,7 @@ namespace Files.Filesystem
             }
             if (storageItem != null)
             {
-                var syncStatus = await CheckCloudDriveSyncStatus(storageItem);
+                var syncStatus = await CheckCloudDriveSyncStatusAsync(storageItem);
                 await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                 {
                     item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
@@ -1323,16 +1323,16 @@ namespace Files.Filesystem
             }
         }
 
-        private async Task UpdateFileOrFolder(string path)
+        private async Task UpdateFileOrFolderAsync(string path)
         {
             var matchingItem = FilesAndFolders.ToList().FirstOrDefault(x => x.ItemPath.Equals(path));
             if (matchingItem != null)
             {
-                await UpdateFileOrFolder(matchingItem);
+                await UpdateFileOrFolderAsync(matchingItem);
             }
         }
 
-        public async Task RemoveFileOrFolder(ListedItem item)
+        public async Task RemoveFileOrFolderAsync(ListedItem item)
         {
             await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
             {
@@ -1347,12 +1347,12 @@ namespace Files.Filesystem
             });
         }
 
-        public async Task RemoveFileOrFolder(string path)
+        public async Task RemoveFileOrFolderAsync(string path)
         {
             var matchingItem = FilesAndFolders.ToList().FirstOrDefault(x => x.ItemPath.Equals(path));
             if (matchingItem != null)
             {
-                await RemoveFileOrFolder(matchingItem);
+                await RemoveFileOrFolderAsync(matchingItem);
             }
         }
 
@@ -1554,7 +1554,7 @@ namespace Files.Filesystem
             RapidAddItemsToCollectionAsync(path);
         }
 
-        public async Task AddFolder(StorageFolder folder, string dateReturnFormat)
+        public async Task AddFolderAsync(StorageFolder folder, string dateReturnFormat)
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
 
@@ -1586,7 +1586,7 @@ namespace Files.Filesystem
             }
         }
 
-        public async Task AddFile(StorageFile file, string dateReturnFormat, bool suppressThumbnailLoading = false)
+        public async Task AddFileAsync(StorageFile file, string dateReturnFormat, bool suppressThumbnailLoading = false)
         {
             var basicProperties = await file.GetBasicPropertiesAsync();
 

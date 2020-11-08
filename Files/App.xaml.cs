@@ -4,7 +4,7 @@ using Files.Controllers;
 using Files.Controls;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.UserControls.MultiTaskingControl;
+using Files.UserControls.MultitaskingControl;
 using Files.View_Models;
 using Files.Views;
 using Microsoft.AppCenter;
@@ -151,7 +151,7 @@ namespace Files
                 }
                 else
                 {
-                    await MainPage.AddNewTab(typeof(Views.Pages.ModernShellPage), e.Arguments);
+                    await MainPage.AddNewTabByPathAsync(typeof(Views.Pages.ModernShellPage), e.Arguments);
                 }
 
                 // Ensure the current window is active

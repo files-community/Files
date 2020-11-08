@@ -1,8 +1,6 @@
-﻿using Files.Commands;
-using Files.Common;
+﻿using Files.Common;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Interacts;
 using Files.UserControls;
 using Files.View_Models;
 using Files.Views;
@@ -45,7 +43,8 @@ namespace Files
         public MenuFlyout BaseLayoutItemContextFlyout { get; set; }
 
         public IShellPage ParentShellPageInstance { get; private set; } = null;
-        public bool isRenamingItem = false;
+
+        public bool IsRenamingItem { get; set; } = false;
 
         private bool isItemSelected = false;
 
@@ -241,7 +240,7 @@ namespace Files
             ParentShellPageInstance.NavigationToolbar.CanRefresh = true;
             IsItemSelected = false;
             ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
-            await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectory(parameters.NavPathParam);
+            await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(parameters.NavPathParam);
 
             // pathRoot will be empty on recycle bin path
             var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;

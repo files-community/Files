@@ -82,7 +82,7 @@ namespace Files
                 try
                 {
                     IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken);
-                    await AddItemToRecentList(item, entry);
+                    await AddItemToRecentListAsync(item, entry);
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -106,7 +106,7 @@ namespace Files
             }
         }
 
-        private async Task AddItemToRecentList(IStorageItem item, Windows.Storage.AccessCache.AccessListEntry entry)
+        private async Task AddItemToRecentListAsync(IStorageItem item, Windows.Storage.AccessCache.AccessListEntry entry)
         {
             BitmapImage ItemImage;
             string ItemPath;
@@ -167,7 +167,7 @@ namespace Files
 
                 if (fe.DataContext is RecentItem vm)
                 {
-                    if (await DialogDisplayHelper.ShowDialog("Remove item from Recents List", "Do you wish to remove " + vm.Name + " from the list?", "Yes", "No"))
+                    if (await DialogDisplayHelper.ShowDialogAsync("Remove item from Recents List", "Do you wish to remove " + vm.Name + " from the list?", "Yes", "No"))
                     {
                         // remove it from the visible collection
                         recentItemsCollection.Remove(vm);

@@ -66,13 +66,13 @@ namespace Files.Filesystem
             CoreApplication.MainView.ExecuteOnUIThreadAsync(() => GetDriveItemProperties());
         }
 
-        public async Task Update()
+        public async Task UpdateAsync()
         {
             try
             {
                 // Delay is needed to apply the new name
                 var properties = await Root.Properties.RetrievePropertiesAsync(new[] { "System.ItemNameDisplay" })
-                    .AsTask().WithTimeout(TimeSpan.FromSeconds(5));
+                    .AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
                 Text = (string)properties["System.ItemNameDisplay"];
             }
             catch (NullReferenceException)
@@ -85,7 +85,7 @@ namespace Files.Filesystem
             try
             {
                 var properties = await Root.Properties.RetrievePropertiesAsync(new[] { "System.FreeSpace", "System.Capacity" })
-                    .AsTask().WithTimeout(TimeSpan.FromSeconds(5));
+                    .AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
                 MaxSpace = ByteSize.FromBytes((ulong)properties["System.Capacity"]);
                 FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);

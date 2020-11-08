@@ -202,7 +202,7 @@ namespace Files.View_Models.Properties
                         if (Item.IsLinkItem)
                         {
                             var tmpItem = (ShortcutItem)Item;
-                            await AppInstance.InteractionOperations.InvokeWin32Component(ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, tmpItem.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
+                            await AppInstance.InteractionOperations.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, tmpItem.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
                         }
                         else
                         {
@@ -273,7 +273,7 @@ namespace Files.View_Models.Properties
             try
             {
                 ViewModel.ItemMD5Hash = await AppInstance.InteractionOperations
-                    .GetHashForFile(Item, hashAlgTypeName, TokenSource.Token, ProgressBar);
+                    .GetHashForFileAsync(Item, hashAlgTypeName, TokenSource.Token, ProgressBar);
             }
             catch (Exception ex)
             {
@@ -335,7 +335,7 @@ namespace Files.View_Models.Properties
                 MapLocationFinderResult result = null;
                 try
                 {
-                    result = await GetAddressFromCoordinates((double)ViewModel.Latitude, (double)ViewModel.Longitude);
+                    result = await GetAddressFromCoordinatesAsync((double)ViewModel.Latitude, (double)ViewModel.Longitude);
                     if (result != null)
                     {
                         ViewModel.Geopoint = result.Locations[0];
@@ -381,7 +381,7 @@ namespace Files.View_Models.Properties
             return false;
         }
 
-        private async Task<MapLocationFinderResult> GetAddressFromCoordinates(double Lat, double Lon)
+        private async Task<MapLocationFinderResult> GetAddressFromCoordinatesAsync(double Lat, double Lon)
         {
             JObject obj;
             try
@@ -434,7 +434,7 @@ namespace Files.View_Models.Properties
         /// This function goes through ever read-write property saved, then syncs it
         /// </summary>
         /// <returns></returns>
-        public async Task ClearPersonalInformation()
+        public async Task ClearPersonalInformationAsync()
         {
             StorageFile file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(Item.ItemPath);
             if (file != null)

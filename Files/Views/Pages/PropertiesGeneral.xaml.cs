@@ -18,7 +18,7 @@ namespace Files
             base.ItemMD5HashProgress = ItemMD5HashProgress;
         }
 
-        public async Task SaveChanges(ListedItem item)
+        public async Task SaveChangesAsync(ListedItem item)
         {
             if (BaseProperties is DriveProperties)
             {
@@ -33,8 +33,8 @@ namespace Files
                             { "newlabel", ViewModel.ItemName }});
                         _ = CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
                         {
-                            await drive.Update();
-                            await AppInstance.FilesystemViewModel.SetWorkingDirectory(drive.Path);
+                            await drive.UpdateAsync();
+                            await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync(drive.Path);
                         });
                     }
                 }
@@ -43,7 +43,7 @@ namespace Files
             {
                 if (!string.IsNullOrWhiteSpace(ViewModel.ItemName) && ViewModel.OriginalItemName != ViewModel.ItemName)
                 {
-                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance.InteractionOperations.RenameFileItem(item,
+                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance.InteractionOperations.RenameFileItemAsync(item,
                           ViewModel.OriginalItemName,
                           ViewModel.ItemName));
                 }

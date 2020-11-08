@@ -189,7 +189,7 @@ namespace Files
                 selectedTextLength -= extensionLength;
             }
             textBox.Select(0, selectedTextLength);
-            isRenamingItem = true;
+            IsRenamingItem = true;
         }
 
         private void GridViewTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
@@ -254,7 +254,7 @@ namespace Files
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');
 
-            bool successful = await ParentShellPageInstance.InteractionOperations.RenameFileItem(renamingItem, oldItemName, newItemName);
+            bool successful = await ParentShellPageInstance.InteractionOperations.RenameFileItemAsync(renamingItem, oldItemName, newItemName);
             if (!successful)
             {
                 renamingItem.ItemName = oldItemName;
@@ -280,14 +280,14 @@ namespace Files
             textBox.LostFocus -= RenameTextBox_LostFocus;
             textBox.KeyDown -= RenameTextBox_KeyDown;
             FileNameTeachingTip.IsOpen = false;
-            isRenamingItem = false;
+            IsRenamingItem = false;
         }
 
         private void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
             {
-                if (!isRenamingItem)
+                if (!IsRenamingItem)
                 {
                     ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
                     e.Handled = true;
@@ -299,7 +299,7 @@ namespace Files
             }
             else if (e.Key == VirtualKey.Space)
             {
-                if (!isRenamingItem && !ParentShellPageInstance.NavigationToolbar.IsEditModeEnabled)
+                if (!IsRenamingItem && !ParentShellPageInstance.NavigationToolbar.IsEditModeEnabled)
                 {
                     if (IsQuickLookEnabled)
                     {
@@ -319,7 +319,7 @@ namespace Files
         {
             if (ParentShellPageInstance != null)
             {
-                if (ParentShellPageInstance.CurrentPageType == typeof(GridViewBrowser) && !isRenamingItem)
+                if (ParentShellPageInstance.CurrentPageType == typeof(GridViewBrowser) && !IsRenamingItem)
                 {
                     // Don't block the various uses of enter key (key 13)
                     var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
