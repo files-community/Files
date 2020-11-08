@@ -307,7 +307,6 @@ namespace Files.View_Models.Properties
                 return;
             }
 
-            //SetVisibilities();
             //ViewModelProcessing();
             var list = new List<FileProperty>();
 
@@ -326,33 +325,30 @@ namespace Files.View_Models.Properties
 
             var query = from item in list group item by item.Section into g orderby g.Key select new FilePropertySection(g) { Key = g.Key };
             ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
-            //var query = from item in list group item by item.Section;
-            //ViewModel.PropertySections = new ObservableCollection<IGrouping<string, PropertiesData>>(query);
+
+            SetVisibilities();
 
         }
 
         private void SetVisibilities()
         {
-            ViewModel.DetailsSectionVisibility_GPS = CheckVisibility("System.GPS");
-            ViewModel.DetailsSectionVisibility_Photo = CheckVisibility("System.Photo");
-            ViewModel.DetailsSectionVisibility_Image = CheckVisibility("System.Image");
-            ViewModel.DetailsSectionVisibility_Audio = CheckVisibility("System.Audio");
-            ViewModel.DetailsSectionVisibility_Music = CheckVisibility("System.Music");
-            ViewModel.DetailsSectionVisibility_Media = CheckVisibility("System.Media");
+            var propertySections = new List<FilePropertySection>(ViewModel.PropertySections);
+            foreach (var group in propertySections)
+            {
+                if (CheckSectionNull(group))
+                    ViewModel.PropertySections.Remove(group);
+            }
         }
 
-        private Visibility CheckVisibility(string endpoint)
+        private bool CheckSectionNull(FilePropertySection fileProperties)
         {
-            return CheckVisibilityHelper(endpoint, ViewModel.SystemFileProperties_RO) || CheckVisibilityHelper(endpoint, ViewModel.SystemFileProperties_RW) ? Visibility.Visible : Visibility.Collapsed;
-        }
+            foreach (var prop in fileProperties)
+            {
+                if (prop.Value != null)
+                    return false;
+            }
 
-        private bool CheckVisibilityHelper(string endpoint, IDictionary<string, object> dict)
-        {
-            foreach (KeyValuePair<string, object> pair in dict)
-                if (pair.Key.Contains(endpoint) && pair.Value != null)
-                    return true;
-
-            return false;
+            return true;
         }
 
         private async Task<string> GetAddressFromCoordinates(double Lat, double Lon)
