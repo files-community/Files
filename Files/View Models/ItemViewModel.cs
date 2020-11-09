@@ -492,7 +492,6 @@ namespace Files.Filesystem
                                 matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                                 matchingItem.ItemType = matchingStorageItem.DisplayType;
                                 var syncStatus = await CheckCloudDriveSyncStatus(matchingStorageItem);
-                                var imageProperties = await matchingStorageItem.Properties.GetImagePropertiesAsync();
                                 matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
                             }
                         }
@@ -1505,7 +1504,6 @@ namespace Files.Filesystem
         public async Task AddFile(StorageFile file, string dateReturnFormat, bool suppressThumbnailLoading = false)
         {
             var basicProperties = await file.GetBasicPropertiesAsync();
-            var imageProperties = await file.Properties.GetImagePropertiesAsync();
             // Display name does not include extension
             var itemName = string.IsNullOrEmpty(file.DisplayName) || shouldDisplayFileExtensions ?
                 file.Name : file.DisplayName;
