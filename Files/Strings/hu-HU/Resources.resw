@@ -184,7 +184,7 @@
     <value>Kiterjesztés mutatása ismert fájlformátumoknál</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenFiles.Header" xml:space="preserve">
-    <value>Rejtett fájlok mappák meghajtók mutatása</value>
+    <value>Rejtett fájlok, mappák és meghajtók mutatása</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Fájlok és Mappák</value>
@@ -286,7 +286,7 @@
     <value>Csökkenő</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
-    <value>Újratöltés</value>
+    <value>Frissítés</value>
   </data>
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
     <value>Beillesztés</value>
@@ -418,7 +418,7 @@
     <value>Fel (Alt + Felfelé nyíl)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Újratöltés (F5)</value>
+    <value>Frissítés (F5)</value>
   </data>
   <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Új (Ctrl + Shift + N)</value>
@@ -898,7 +898,7 @@
     <value>Lapok megnyitása</value>
   </data>
   <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Autómatikus (Ajánlott)</value>
+    <value>Automatikus (Ajánlott)</value>
   </data>
   <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
     <value>A legjobb lehetőség kiválasztása az ablak méretétől függően. Amikor az ablak kicsi, a vízszintes lap lánc egy menüvé alakul navigációs sávban.</value>
@@ -1084,7 +1084,7 @@
     <value>Lomtár elem</value>
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
-    <value>Gyorsgom elem</value>
+    <value>Gyorsgomb elem</value>
   </data>
   <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
     <value>Kijelölt elem helyének másolása lehetőség megjelenítése</value>
