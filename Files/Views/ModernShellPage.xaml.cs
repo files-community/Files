@@ -520,7 +520,7 @@ namespace Files.Views.Pages
                 var mNavToolbar = NavigationToolbar as ModernNavigationToolbar;
                 mNavToolbar.ManualEntryBoxLoaded = true;
                 mNavToolbar.ClickablePathLoaded = false;
-                mNavToolbar.PathText = string.IsNullOrEmpty(FilesystemViewModel.WorkingDirectory)
+                mNavToolbar.PathText = string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory)
                     ? AppSettings.HomePath
                     : FilesystemViewModel.WorkingDirectory;
             }
