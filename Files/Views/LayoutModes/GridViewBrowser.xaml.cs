@@ -1,6 +1,5 @@
 ﻿using Files.Filesystem;
 using Files.UserControls;
-using Files.Views.Pages;
 using System;
 using System.Collections;
 using System.Collections.Generic;

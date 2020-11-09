@@ -1,5 +1,4 @@
-﻿using Files.Interacts;
-using Files.View_Models;
+﻿using Files.View_Models;
 using System;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;

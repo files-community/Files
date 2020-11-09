@@ -15,6 +15,7 @@ namespace Files.UserControls
     public sealed partial class StatusCenter : UserControl
     {
         public static ObservableCollection<StatusBanner> StatusBannersSource { get; set; } = new ObservableCollection<StatusBanner>();
+
         public event EventHandler ProgressBannerPosted;
 
         public StatusCenter()

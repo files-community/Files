@@ -1,5 +1,4 @@
-﻿using Files.Common;
-using Files.Controllers;
+﻿using Files.Controllers;
 using Files.Controls;
 using Files.Filesystem;
 using Files.UserControls.MultitaskingControl;
@@ -38,6 +37,7 @@ namespace Files.Views
         public static IMultitaskingControl MultitaskingControl { get; set; }
 
         private TabItem _SelectedTabItem;
+
         public TabItem SelectedTabItem
         {
             get
@@ -181,48 +181,48 @@ namespace Files.Views
 
             if (path != null)
             {
-                    var isRoot = Path.GetPathRoot(path) == path;
+                var isRoot = Path.GetPathRoot(path) == path;
 
-                    if (Path.IsPathRooted(path) || isRoot) // Or is a directory or a root (drive)
+                if (Path.IsPathRooted(path) || isRoot) // Or is a directory or a root (drive)
+                {
+                    var normalizedPath = NormalizePath(path);
+
+                    var dirName = Path.GetDirectoryName(normalizedPath);
+                    if (dirName != null)
                     {
-                        var normalizedPath = NormalizePath(path);
-
-                        var dirName = Path.GetDirectoryName(normalizedPath);
-                        if (dirName != null)
-                        {
-                            tabLocationHeader = Path.GetFileName(path);
-                            fontIconSource.Glyph = "\xea55";
-                        }
-                        else
-                        {
-                            // Pick the best icon for this tab
-                            var remDriveNames = (await KnownFolders.RemovableDevices.GetFoldersAsync()).Select(x => x.DisplayName);
-
-                            if (!remDriveNames.Contains(normalizedPath))
-                            {
-                                if (path != "A:" && path != "B:") // Check if it's using (generally) floppy-reserved letters.
-                                    fontIconSource.Glyph = "\xeb4a"; // Floppy Disk icon
-                                else
-                                    fontIconSource.Glyph = "\xeb8b"; // Hard Disk icon
-
-                                tabLocationHeader = normalizedPath;
-                            }
-                            else
-                            {
-                                fontIconSource.Glyph = "\xec0a";
-                                tabLocationHeader = (await KnownFolders.RemovableDevices.GetFolderAsync(path)).DisplayName;
-                            }
-                        }
+                        tabLocationHeader = Path.GetFileName(path);
+                        fontIconSource.Glyph = "\xea55";
                     }
                     else
                     {
-                        // Invalid path, open new tab instead (explorer opens Documents when it fails)
-                        Debug.WriteLine($"Invalid path \"{path}\" in InstanceTabsView.xaml.cs\\AddNewTab");
+                        // Pick the best icon for this tab
+                        var remDriveNames = (await KnownFolders.RemovableDevices.GetFoldersAsync()).Select(x => x.DisplayName);
 
-                        path = "NewTab".GetLocalized();
-                        tabLocationHeader = "NewTab".GetLocalized();
-                        fontIconSource.Glyph = "\xe90c";
+                        if (!remDriveNames.Contains(normalizedPath))
+                        {
+                            if (path != "A:" && path != "B:") // Check if it's using (generally) floppy-reserved letters.
+                                fontIconSource.Glyph = "\xeb4a"; // Floppy Disk icon
+                            else
+                                fontIconSource.Glyph = "\xeb8b"; // Hard Disk icon
+
+                            tabLocationHeader = normalizedPath;
+                        }
+                        else
+                        {
+                            fontIconSource.Glyph = "\xec0a";
+                            tabLocationHeader = (await KnownFolders.RemovableDevices.GetFolderAsync(path)).DisplayName;
+                        }
                     }
+                }
+                else
+                {
+                    // Invalid path, open new tab instead (explorer opens Documents when it fails)
+                    Debug.WriteLine($"Invalid path \"{path}\" in InstanceTabsView.xaml.cs\\AddNewTab");
+
+                    path = "NewTab".GetLocalized();
+                    tabLocationHeader = "NewTab".GetLocalized();
+                    fontIconSource.Glyph = "\xe90c";
+                }
             }
 
             TabItem tabItem = new TabItem()
@@ -345,7 +345,7 @@ namespace Files.Views
 
         private async void AddNewInstanceAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            await AddNewTabByPathAsync(typeof(ModernShellPage),"NewTab".GetLocalized());
+            await AddNewTabByPathAsync(typeof(ModernShellPage), "NewTab".GetLocalized());
             args.Handled = true;
         }
 

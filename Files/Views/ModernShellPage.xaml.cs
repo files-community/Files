@@ -1,5 +1,4 @@
-﻿using Files.Commands;
-using Files.Common;
+﻿using Files.Common;
 using Files.Dialogs;
 using Files.Filesystem;
 using Files.Helpers;
@@ -31,7 +30,6 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
-
 namespace Files.Views.Pages
 {
     public sealed partial class ModernShellPage : Page, IShellPage, INotifyPropertyChanged
@@ -41,6 +39,7 @@ namespace Files.Views.Pages
         public StatusBarControl BottomStatusStripControl => StatusBarControl;
         public Frame ContentFrame => ItemDisplayFrame;
         private Interaction _InteractionOperations = null;
+
         public Interaction InteractionOperations
         {
             get
@@ -56,10 +55,12 @@ namespace Files.Views.Pages
                 }
             }
         }
+
         public ItemViewModel FilesystemViewModel { get; private set; } = null;
         public CurrentInstanceViewModel InstanceViewModel { get; } = new CurrentInstanceViewModel();
         private BaseLayout _ContentPage = null;
-        public BaseLayout ContentPage 
+
+        public BaseLayout ContentPage
         {
             get
             {
@@ -304,7 +305,6 @@ namespace Files.Views.Pages
                         ItemName = "NavigationToolbarVisiblePathNoResults".GetLocalized() } };
                     }
 
-
                     // NavigationBarSuggestions becoming empty causes flickering of the suggestion box
                     // Here we check whether at least an element is in common between old and new list
                     if (!mNavToolbar.NavigationBarSuggestions.IntersectBy(suggestions, x => x.ItemName).Any())
@@ -414,7 +414,8 @@ namespace Files.Views.Pages
 
                 if (workingPath != childFolder.Path)
                 {
-                    flyoutItem.Click += (sender, args) => {
+                    flyoutItem.Click += (sender, args) =>
+                    {
                         ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments() { NavPathParam = childFolder.Path, AssociatedTabInstance = this });
                     };
                 }
@@ -581,6 +582,7 @@ namespace Files.Views.Pages
         public AppServiceConnection ServiceConnection { get; private set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -642,7 +644,7 @@ namespace Files.Views.Pages
                 default:
                     if (NavParams == "NewTab".GetLocalized())
                     {
-                        ItemDisplayFrame.Navigate(typeof(YourHome), new NavigationArguments() { NavPathParam = NavParams, AssociatedTabInstance = this}, new SuppressNavigationTransitionInfo());
+                        ItemDisplayFrame.Navigate(typeof(YourHome), new NavigationArguments() { NavPathParam = NavParams, AssociatedTabInstance = this }, new SuppressNavigationTransitionInfo());
                         SidebarControl.SelectedSidebarItem = MainPage.sideBarItems[0];
                     }
                     else if (((NavParams[0] >= 'A' && NavParams[0] <= 'Z') || (NavParams[0] >= 'a' && NavParams[0] <= 'z'))
@@ -669,7 +671,7 @@ namespace Files.Views.Pages
 
             if (NavigationPath != "")
             {
-                ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments() { NavPathParam = NavigationPath, AssociatedTabInstance = this}, new SuppressNavigationTransitionInfo());
+                ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments() { NavPathParam = NavigationPath, AssociatedTabInstance = this }, new SuppressNavigationTransitionInfo());
             }
 
             this.Loaded -= Page_Loaded;
@@ -954,7 +956,7 @@ namespace Files.Views.Pages
             }
 
             SelectSidebarItemFromPath();
-            instanceContentFrame.Navigate(CurrentPageType, new NavigationArguments() { NavPathParam = parentDirectoryOfPath, AssociatedTabInstance = this}, new SuppressNavigationTransitionInfo());
+            instanceContentFrame.Navigate(CurrentPageType, new NavigationArguments() { NavPathParam = parentDirectoryOfPath, AssociatedTabInstance = this }, new SuppressNavigationTransitionInfo());
         }
 
         private void SelectSidebarItemFromPath(Type incomingSourcePageType = null)

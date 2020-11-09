@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using static Files.Dialogs.ConfirmDeleteDialog;

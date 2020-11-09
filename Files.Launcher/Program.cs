@@ -344,6 +344,7 @@ namespace FilesFullTrust
                                 var drivePath = cMenuExec.ItemsPath.First();
                                 Win32API.OpenFormatDriveDialog(drivePath);
                                 break;
+
                             default:
                                 cMenuExec?.InvokeItem((int)menuId);
                                 break;

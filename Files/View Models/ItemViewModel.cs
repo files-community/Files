@@ -1,10 +1,8 @@
 using ByteSizeLib;
 using Files.Common;
-using Files.Dialogs;
 using Files.Enums;
 using Files.Helpers;
 using Files.View_Models;
-using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
@@ -19,7 +17,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
@@ -70,7 +67,9 @@ namespace Files.Filesystem
 
         private StorageFolderWithPath _currentStorageFolder;
         private StorageFolderWithPath _workingRoot;
+
         public delegate void WorkingDirectoryModifiedEventHandler(object sender, WorkingDirectoryModifiedEventArgs e);
+
         public event WorkingDirectoryModifiedEventHandler WorkingDirectoryModified;
 
         public async Task<FilesystemResult> SetWorkingDirectoryAsync(string value)

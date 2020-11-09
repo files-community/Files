@@ -30,6 +30,7 @@ namespace Files.View_Models
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
         public event EventHandler SortOptionPreferenceUpdated;
+
         public event EventHandler SortDirectionPreferenceUpdated;
 
         public DrivesManager DrivesManager { get; }
@@ -276,13 +277,13 @@ namespace Files.View_Models
             get => Get(false);
             set => Set(value);
         }
-        
+
         public bool OpenItemsWithOneclick
         {
             get => Get(false);
             set => Set(value);
         }
-        
+
         public bool ShowLibraryCardsWidget
         {
             get => Get(true);
@@ -299,8 +300,8 @@ namespace Files.View_Models
         {
             get => Get(false);
             set => Set(value);
-        } 
-        
+        }
+
         private bool _PinOneDriveToSideBar = true;
 
         public bool PinOneDriveToSideBar
@@ -343,7 +344,7 @@ namespace Files.View_Models
                                 MainPage.sideBarItems.Remove(item);
                             }
                         }
-                    }                  
+                    }
                 }
             }
         }

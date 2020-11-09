@@ -1,17 +1,13 @@
-﻿using Files.Enums;
-using Files.Filesystem;
+﻿using Files.Filesystem;
 using Files.View_Models;
 using Files.Views;
-using Microsoft.Toolkit.Uwp.UI;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.Storage;
 using Windows.UI.Xaml.Media;
 
 namespace Files.DataModels
@@ -87,7 +83,7 @@ namespace Files.DataModels
                 return false;
             }
 
-            if (oldIndex >= 0 && newIndex >=0)
+            if (oldIndex >= 0 && newIndex >= 0)
             {
                 MainPage.sideBarItems.RemoveAt(oldIndex);
                 MainPage.sideBarItems.Insert(newIndex, locationItem);
@@ -102,7 +98,7 @@ namespace Files.DataModels
         /// </summary>
         /// <param name="firstLocationItem">The first location item</param>
         /// <param name="secondLocationItem">The second location item</param>
-        public void SwapItems(INavigationControlItem firstLocationItem,  INavigationControlItem secondLocationItem)
+        public void SwapItems(INavigationControlItem firstLocationItem, INavigationControlItem secondLocationItem)
         {
             if (firstLocationItem == null || secondLocationItem == null)
             {
@@ -121,7 +117,7 @@ namespace Files.DataModels
                 var result = MoveItem(firstLocationItem, indexOfFirstItemInMainPage, indexOfSecondItemInMainPage);
 
                 // Moves the items in this model and saves the model
-                if(result == true)
+                if (result == true)
                 {
                     var indexOfFirstItemInModel = this.Items.IndexOf(firstLocationItem.Path);
                     var indexOfSecondItemInModel = this.Items.IndexOf(secondLocationItem.Path);

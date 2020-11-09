@@ -1,7 +1,6 @@
 ﻿using Files.Dialogs;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Interacts;
 using Files.View_Models;
 using Files.Views;
 using Files.Views.Pages;
@@ -20,6 +19,7 @@ namespace Files
         public SettingsViewModel AppSettings => App.AppSettings;
         public IShellPage AppInstance = null;
         public AppServiceConnection Connection => AppInstance?.ServiceConnection;
+
         public YourHome()
         {
             InitializeComponent();
@@ -90,13 +90,13 @@ namespace Files
         private void LibraryLocationCardsWidget_LibraryCardInvoked(object sender, LibraryCardInvokedEventArgs e)
         {
             AppInstance.ContentFrame.Navigate(e.LayoutType, new NavigationArguments() { NavPathParam = e.Path, AssociatedTabInstance = AppInstance });
-            AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page        
+            AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page
         }
 
         private void DrivesWidget_DrivesWidgetInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)
         {
             AppInstance.ContentFrame.Navigate(e.LayoutType, new NavigationArguments() { NavPathParam = e.Path, AssociatedTabInstance = AppInstance });
-            AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page        
+            AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)

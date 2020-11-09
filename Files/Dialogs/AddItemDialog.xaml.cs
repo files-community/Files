@@ -1,9 +1,5 @@
-﻿using Files.Filesystem;
-using Files.Helpers;
-using Microsoft.Toolkit.Uwp.Extensions;
-using System;
+﻿using Microsoft.Toolkit.Uwp.Extensions;
 using System.Collections.Generic;
-using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.Dialogs
