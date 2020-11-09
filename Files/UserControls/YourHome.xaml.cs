@@ -49,7 +49,7 @@ namespace Files
             try
             {
                 var directoryName = Path.GetDirectoryName(e.ItemPath);
-                await AppInstance.InteractionOperations.InvokeWin32Component(e.ItemPath, workingDir: directoryName);
+                await AppInstance.InteractionOperations.InvokeWin32ComponentAsync(e.ItemPath, workingDir: directoryName);
             }
             catch (UnauthorizedAccessException)
             {
@@ -76,7 +76,7 @@ namespace Files
             }
             catch (COMException)
             {
-                await DialogDisplayHelper.ShowDialog(
+                await DialogDisplayHelper.ShowDialogAsync(
                     "DriveUnpluggedDialog/Title".GetLocalized(),
                     "DriveUnpluggedDialog/Text".GetLocalized());
             }
@@ -115,7 +115,7 @@ namespace Files
             AppInstance.NavigationToolbar.CanNavigateToParent = false;
 
             // Set path of working directory empty
-            await AppInstance.FilesystemViewModel.SetWorkingDirectory("Home");
+            await AppInstance.FilesystemViewModel.SetWorkingDirectoryAsync("Home");
 
             // Clear the path UI and replace with Favorites
             AppInstance.NavigationToolbar.PathComponents.Clear();

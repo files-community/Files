@@ -42,7 +42,7 @@ namespace Files.Filesystem
         private async void EnumerateDrives()
         {
             _driveEnumInProgress = true;
-            if (await GetDrives(Drives))
+            if (await GetDrivesAsync(Drives))
             {
                 if (!Drives.Any(d => d.Type != DriveType.Removable))
                 {
@@ -207,7 +207,7 @@ namespace Files.Filesystem
             Debug.WriteLine("Devices updated");
         }
 
-        private async Task<bool> GetDrives(IList<DriveItem> list)
+        private async Task<bool> GetDrivesAsync(IList<DriveItem> list)
         {
             // Flag set if any drive throws UnauthorizedAccessException
             bool unauthorizedAccessDetected = false;
@@ -342,7 +342,7 @@ namespace Files.Filesystem
             }
         }
 
-        public static async Task<StorageFolderWithPath> GetRootFromPath(string devicePath)
+        public static async Task<StorageFolderWithPath> GetRootFromPathAsync(string devicePath)
         {
             if (!Path.IsPathRooted(devicePath))
             {

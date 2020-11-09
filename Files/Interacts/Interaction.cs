@@ -109,7 +109,7 @@ namespace Files.Interacts
         public RelayCommand AddNewTabToMultitaskingControl => new RelayCommand(() => OpenNewTab());
         private async void OpenNewTab()
         {
-            await MainPage.AddNewTab(typeof(ModernShellPage), "NewTab".GetLocalized());
+            await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), "NewTab".GetLocalized());
         }
 
         public async void OpenInNewWindowItem_Click()
@@ -129,17 +129,17 @@ namespace Files.Interacts
             {
                 await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
                 {
-                    await MainPage.AddNewTab(typeof(ModernShellPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+                    await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
                 });
             }
         }
 
         public static async void OpenPathInNewTab(string path)
         {
-            await MainPage.AddNewTab(typeof(ModernShellPage), path);
+            await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), path);
         }
 
-        public static async Task<bool> OpenPathInNewWindow(string path)
+        public static async Task<bool> OpenPathInNewWindowAsync(string path)
         {
             var folderUri = new Uri("files-uwp:" + "?folder=" + path);
             return await Launcher.LaunchUriAsync(folderUri);
@@ -187,12 +187,12 @@ namespace Files.Interacts
             }
         }
 
-        public async Task InvokeWin32Component(string applicationPath, string arguments = null, bool runAsAdmin = false, string workingDir = null)
+        public async Task InvokeWin32ComponentAsync(string applicationPath, string arguments = null, bool runAsAdmin = false, string workingDir = null)
         {
-            await InvokeWin32Components(new List<string>() { applicationPath }, arguments, runAsAdmin, workingDir);
+            await InvokeWin32ComponentsAsync(new List<string>() { applicationPath }, arguments, runAsAdmin, workingDir);
         }
 
-        public async Task InvokeWin32Components(List<string> applicationPaths, string arguments = null, bool runAsAdmin = false, string workingDir = null)
+        public async Task InvokeWin32ComponentsAsync(List<string> applicationPaths, string arguments = null, bool runAsAdmin = false, string workingDir = null)
         {
             Debug.WriteLine("Launching EXE in FullTrustProcess");
             if (Connection != null)
@@ -217,7 +217,7 @@ namespace Files.Interacts
             }
         }
 
-        public async Task OpenShellCommandInExplorer(string shellCommand)
+        public async Task OpenShellCommandInExplorerAsync(string shellCommand)
         {
             Debug.WriteLine("Launching shell command in FullTrustProcess");
             if (Connection != null)
@@ -338,11 +338,11 @@ namespace Files.Interacts
             }
             else if (destFolder == FilesystemErrorCode.ERROR_NOTFOUND)
             {
-                await DialogDisplayHelper.ShowDialog("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
+                await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
             }
             else
             {
-                await DialogDisplayHelper.ShowDialog("InvalidItemDialogTitle".GetLocalized(),
+                await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalized(),
                     string.Format("InvalidItemDialogContent".GetLocalized()), Environment.NewLine, destFolder.ErrorCode.ToString());
             }
         }
@@ -376,7 +376,7 @@ namespace Files.Interacts
                             // Add location to MRU List
                             mostRecentlyUsed.Add(childFolder.Folder, childFolder.Path);
 
-                            await AssociatedInstance.FilesystemViewModel.SetWorkingDirectory(childFolder.Path);
+                            await AssociatedInstance.FilesystemViewModel.SetWorkingDirectoryAsync(childFolder.Path);
                             AssociatedInstance.NavigationToolbar.PathControlDisplayText = childFolder.Path;
 
                             AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
@@ -388,7 +388,7 @@ namespace Files.Interacts
                     var shortcutItem = (ShortcutItem)clickedOnItem;
                     if (string.IsNullOrEmpty(shortcutItem.TargetPath))
                     {
-                        await InvokeWin32Component(shortcutItem.ItemPath);
+                        await InvokeWin32ComponentAsync(shortcutItem.ItemPath);
                     }
                     else
                     {
@@ -401,7 +401,7 @@ namespace Files.Interacts
                                 mostRecentlyUsed.Add(childFile.File, childFile.Path);
                             }
                         }
-                        await InvokeWin32Component(shortcutItem.TargetPath, shortcutItem.Arguments, shortcutItem.RunAsAdmin, shortcutItem.WorkingDirectory);
+                        await InvokeWin32ComponentAsync(shortcutItem.TargetPath, shortcutItem.Arguments, shortcutItem.RunAsAdmin, shortcutItem.WorkingDirectory);
                     }
                     opened = (FilesystemResult)true;
                 }
@@ -489,7 +489,7 @@ namespace Files.Interacts
                                 }
 
                                 if (!launchSuccess)
-                                    await InvokeWin32Component(clickedOnItem.ItemPath);
+                                    await InvokeWin32ComponentAsync(clickedOnItem.ItemPath);
                             }
                         });
                 }
@@ -518,18 +518,18 @@ namespace Files.Interacts
                 if (!displayApplicationPicker)
                 {
                     var applicationPath = string.Join('|', AssociatedInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).Select(x => x.ItemPath));
-                    await InvokeWin32Component(applicationPath);
+                    await InvokeWin32ComponentAsync(applicationPath);
                 }
                 foreach (ListedItem clickedOnItem in AssociatedInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder))
                 {
-                    await MainPage.AddNewTab(typeof(ModernShellPage), (clickedOnItem as ShortcutItem)?.TargetPath ?? clickedOnItem.ItemPath);
+                    await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), (clickedOnItem as ShortcutItem)?.TargetPath ?? clickedOnItem.ItemPath);
                 }
                 opened = (FilesystemResult)true;
             }
 
             if (opened.ErrorCode == FilesystemErrorCode.ERROR_NOTFOUND)
             {
-                await DialogDisplayHelper.ShowDialog("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
+                await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 AssociatedInstance.NavigationToolbar.CanRefresh = false;
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
@@ -570,11 +570,11 @@ namespace Files.Interacts
             {
                 if (AssociatedInstance.ContentPage.SelectedItems.Count > 1)
                 {
-                    await OpenPropertiesWindow(AssociatedInstance.ContentPage.SelectedItems);
+                    await OpenPropertiesWindowAsync(AssociatedInstance.ContentPage.SelectedItems);
                 }
                 else
                 {
-                    await OpenPropertiesWindow(AssociatedInstance.ContentPage.SelectedItem);
+                    await OpenPropertiesWindowAsync(AssociatedInstance.ContentPage.SelectedItem);
                 }
             }
             else
@@ -582,17 +582,17 @@ namespace Files.Interacts
                 if (!Path.GetPathRoot(AssociatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)
                     .Equals(AssociatedInstance.FilesystemViewModel.CurrentFolder.ItemPath, StringComparison.OrdinalIgnoreCase))
                 {
-                    await OpenPropertiesWindow(AssociatedInstance.FilesystemViewModel.CurrentFolder);
+                    await OpenPropertiesWindowAsync(AssociatedInstance.FilesystemViewModel.CurrentFolder);
                 }
                 else
                 {
-                    await OpenPropertiesWindow(App.AppSettings.DrivesManager.Drives
+                    await OpenPropertiesWindowAsync(App.AppSettings.DrivesManager.Drives
                         .Single(x => x.Path.Equals(AssociatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)));
                 }
             }
         }
 
-        public async Task OpenPropertiesWindow(object item)
+        public async Task OpenPropertiesWindowAsync(object item)
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
@@ -774,7 +774,7 @@ namespace Files.Interacts
             return false;
         }
 
-        public async Task<bool> RenameFileItem(ListedItem item, string oldName, string newName)
+        public async Task<bool> RenameFileItemAsync(ListedItem item, string oldName, string newName)
         {
             if (oldName == newName)
             {
@@ -807,20 +807,20 @@ namespace Files.Interacts
                 }
                 else if (renamed == FilesystemErrorCode.ERROR_NOTAFILE || renamed == FilesystemErrorCode.ERROR_NOTAFOLDER)
                 {
-                    await DialogDisplayHelper.ShowDialog("RenameError.NameInvalid.Title".GetLocalized(), "RenameError.NameInvalid.Text".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync("RenameError.NameInvalid.Title".GetLocalized(), "RenameError.NameInvalid.Text".GetLocalized());
                 }
                 else if (renamed == FilesystemErrorCode.ERROR_NAMETOOLONG)
                 {
-                    await DialogDisplayHelper.ShowDialog("RenameError.TooLong.Title".GetLocalized(), "RenameError.TooLong.Text".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync("RenameError.TooLong.Title".GetLocalized(), "RenameError.TooLong.Text".GetLocalized());
                 }
                 else if (renamed == FilesystemErrorCode.ERROR_INUSE)
                 {
                     // TODO: proper dialog, retry
-                    await DialogDisplayHelper.ShowDialog("FileInUseDeleteDialog/Title".GetLocalized(), "");
+                    await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), "");
                 }
                 else if (renamed == FilesystemErrorCode.ERROR_NOTFOUND)
                 {
-                    await DialogDisplayHelper.ShowDialog("RenameError.ItemDeleted.Title".GetLocalized(), "RenameError.ItemDeleted.Text".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync("RenameError.ItemDeleted.Title".GetLocalized(), "RenameError.ItemDeleted.Text".GetLocalized());
                 }
                 else if (renamed == FilesystemErrorCode.ERROR_ALREADYEXIST)
                 {
@@ -907,15 +907,15 @@ namespace Files.Interacts
                     {
                         if (restored.HasFlag(FilesystemErrorCode.ERROR_UNAUTHORIZED))
                         {
-                            await DialogDisplayHelper.ShowDialog("AccessDeniedDeleteDialog/Title".GetLocalized(), "AccessDeniedDeleteDialog/Text".GetLocalized());
+                            await DialogDisplayHelper.ShowDialogAsync("AccessDeniedDeleteDialog/Title".GetLocalized(), "AccessDeniedDeleteDialog/Text".GetLocalized());
                         }
                         else if (restored.HasFlag(FilesystemErrorCode.ERROR_UNAUTHORIZED))
                         {
-                            await DialogDisplayHelper.ShowDialog("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
+                            await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                         }
                         else if (restored.HasFlag(FilesystemErrorCode.ERROR_ALREADYEXIST))
                         {
-                            await DialogDisplayHelper.ShowDialog("ItemAlreadyExistsDialogTitle".GetLocalized(), "ItemAlreadyExistsDialogContent".GetLocalized());
+                            await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalized(), "ItemAlreadyExistsDialogContent".GetLocalized());
                         }
                     }
                 }
@@ -1182,7 +1182,7 @@ namespace Files.Interacts
             }
             if (created == FilesystemErrorCode.ERROR_UNAUTHORIZED)
             {
-                await DialogDisplayHelper.ShowDialog("AccessDeniedCreateDialog/Title".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
+                await DialogDisplayHelper.ShowDialogAsync("AccessDeniedCreateDialog/Title".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
             }
         }
 
@@ -1218,7 +1218,7 @@ namespace Files.Interacts
         {
             try
             {
-                if (AssociatedInstance.ContentPage.IsItemSelected && !AssociatedInstance.ContentPage.isRenamingItem)
+                if (AssociatedInstance.ContentPage.IsItemSelected && !AssociatedInstance.ContentPage.IsRenamingItem)
                 {
                     var clickedOnItem = AssociatedInstance.ContentPage.SelectedItem;
 
@@ -1235,7 +1235,7 @@ namespace Files.Interacts
             }
             catch (FileNotFoundException)
             {
-                await DialogDisplayHelper.ShowDialog("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundPreviewDialog/Text".GetLocalized());
+                await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundPreviewDialog/Text".GetLocalized());
                 AssociatedInstance.NavigationToolbar.CanRefresh = false;
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
@@ -1250,7 +1250,7 @@ namespace Files.Interacts
             AssociatedInstance.FilesystemViewModel.JumpString += letter.ToString().ToLower();
         }
 
-        public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg, CancellationToken token, Microsoft.UI.Xaml.Controls.ProgressBar progress)
+        public async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, Microsoft.UI.Xaml.Controls.ProgressBar progress)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
             StorageFile itemFromPath = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath);

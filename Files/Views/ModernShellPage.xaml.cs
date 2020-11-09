@@ -176,7 +176,7 @@ namespace Files.Views.Pages
         {
             if (e.InvokedItemDataContext is DriveItem)
             {
-                await InteractionOperations.OpenPropertiesWindow(e.InvokedItemDataContext);
+                await InteractionOperations.OpenPropertiesWindowAsync(e.InvokedItemDataContext);
             }
             else if (e.InvokedItemDataContext is LocationItem)
             {
@@ -188,7 +188,7 @@ namespace Files.Views.Pages
                     ItemType = "FileFolderListItem".GetLocalized(),
                     LoadFolderGlyph = true
                 };
-                await InteractionOperations.OpenPropertiesWindow(listedItem);
+                await InteractionOperations.OpenPropertiesWindowAsync(listedItem);
             }
         }
 
@@ -354,15 +354,15 @@ namespace Files.Views.Pages
 
         private async void ModernShellPage_ToolbarPathItemLoaded(object sender, ToolbarPathItemLoadedEventArgs e)
         {
-            await SetPathBoxDropDownFlyout(e.OpenedFlyout, e.Item);
+            await SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, e.Item);
         }
 
         private async void ModernShellPage_ToolbarFlyoutOpened(object sender, ToolbarFlyoutOpenedEventArgs e)
         {
-            await SetPathBoxDropDownFlyout(e.OpenedFlyout, (e.OpenedFlyout.Target as FontIcon).DataContext as PathBoxItem);
+            await SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, (e.OpenedFlyout.Target as FontIcon).DataContext as PathBoxItem);
         }
 
-        private async Task SetPathBoxDropDownFlyout(MenuFlyout flyout, PathBoxItem pathItem)
+        private async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem)
         {
             var nextPathItemTitle = NavigationToolbar.PathComponents
                 [NavigationToolbar.PathComponents.IndexOf(pathItem) + 1].Title;
@@ -442,7 +442,7 @@ namespace Files.Views.Pages
             {
                 if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || currentInput.Equals("NewTab".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                 {
-                    await FilesystemViewModel.SetWorkingDirectory("NewTab".GetLocalized());
+                    await FilesystemViewModel.SetWorkingDirectoryAsync("NewTab".GetLocalized());
                     ContentFrame.Navigate(typeof(YourHome), new NavigationArguments() { NavPathParam = "NewTab".GetLocalized(), AssociatedTabInstance = this }, new SuppressNavigationTransitionInfo());
                 }
                 else
@@ -453,7 +453,7 @@ namespace Files.Views.Pages
 
                     currentInput = StorageFileExtensions.GetPathWithoutEnvironmentVariable(currentInput);
                     if (currentSelectedPath == currentInput) return;
-                    var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPath(currentInput));
+                    var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentInput));
 
                     var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
                     if (resFolder)
@@ -467,7 +467,7 @@ namespace Files.Views.Pages
                         if (resFile)
                         {
                             var pathToInvoke = resFile.Result.Path;
-                            await InteractionOperations.InvokeWin32Component(pathToInvoke);
+                            await InteractionOperations.InvokeWin32ComponentAsync(pathToInvoke);
                         }
                         else // Not a file or not accessible
                         {
@@ -495,13 +495,13 @@ namespace Files.Views.Pages
                             {
                                 if (!await Launcher.LaunchUriAsync(new Uri(currentInput)))
                                 {
-                                    await DialogDisplayHelper.ShowDialog("InvalidItemDialogTitle".GetLocalized(),
+                                    await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalized(),
                                         string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, resFolder.ErrorCode.ToString()));
                                 }
                             }
                             catch (UriFormatException)
                             {
-                                await DialogDisplayHelper.ShowDialog("InvalidItemDialogTitle".GetLocalized(),
+                                await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalized(),
                                     string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, resFolder.ErrorCode.ToString()));
                             }
                         }
@@ -813,22 +813,22 @@ namespace Files.Views.Pages
                     break;
 
                 case (true, false, false, true, VirtualKey.C): // ctrl + c, copy
-                    if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.isRenamingItem)
+                    if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem)
                         InteractionOperations.CopyItem_ClickAsync(null, null);
                     break;
 
                 case (true, false, false, true, VirtualKey.V): // ctrl + v, paste
-                    if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.isRenamingItem)
+                    if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem)
                         InteractionOperations.PasteItem();
                     break;
 
                 case (true, false, false, true, VirtualKey.X): // ctrl + x, cut
-                    if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.isRenamingItem)
+                    if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem)
                         InteractionOperations.CutItem_Click(null, null);
                     break;
 
                 case (true, false, false, true, VirtualKey.A): // ctrl + a, select all
-                    if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.isRenamingItem)
+                    if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem)
                         InteractionOperations.SelectAllItems();
                     break;
 
@@ -857,7 +857,7 @@ namespace Files.Views.Pages
                     break;
 
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
-                    if (ContentPage.IsItemSelected && !ContentPage.isRenamingItem)
+                    if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem)
                         InteractionOperations.ItemOperationCommands.DeleteItemWithStatus(StorageDeleteOption.Default);
                     break;
 
@@ -930,7 +930,7 @@ namespace Files.Views.Pages
                 var incomingSourcePageType = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].SourcePageType;
                 var Parameter = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].Parameter;
                 SelectSidebarItemFromPath(incomingSourcePageType);
-                await FilesystemViewModel.SetWorkingDirectory((Parameter as NavigationArguments).NavPathParam);
+                await FilesystemViewModel.SetWorkingDirectoryAsync((Parameter as NavigationArguments).NavPathParam);
                 instanceContentFrame.GoForward();
             }
         }

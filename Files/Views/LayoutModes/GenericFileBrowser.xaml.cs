@@ -309,7 +309,7 @@ namespace Files
             }
             renamingTextBox.Select(0, selectedTextLength);
             renamingTextBox.TextChanged += TextBox_TextChanged;
-            isRenamingItem = true;
+            IsRenamingItem = true;
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -338,7 +338,7 @@ namespace Files
             var selectedItem = e.Row.DataContext as ListedItem;
             string newItemName = renamingTextBox.Text;
 
-            bool successful = await ParentShellPageInstance.InteractionOperations.RenameFileItem(selectedItem, oldItemName, newItemName);
+            bool successful = await ParentShellPageInstance.InteractionOperations.RenameFileItemAsync(selectedItem, oldItemName, newItemName);
             if (!successful)
             {
                 selectedItem.ItemName = oldItemName;
@@ -353,7 +353,7 @@ namespace Files
                 renamingTextBox.TextChanged -= TextBox_TextChanged;
             }
             FileNameTeachingTip.IsOpen = false;
-            isRenamingItem = false;
+            IsRenamingItem = false;
         }
 
         private async void AllView_ItemPress(object sender, PointerRoutedEventArgs e)
@@ -421,7 +421,7 @@ namespace Files
         {
             if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
             {
-                if (isRenamingItem)
+                if (IsRenamingItem)
                 {
                     AllView.CommitEdit();
                 }

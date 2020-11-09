@@ -54,7 +54,7 @@ namespace Files.DataModels
             if (!Items.Contains(item))
             {
                 Items.Add(item);
-                await AddItemToSidebar(item);
+                await AddItemToSidebarAsync(item);
                 Save();
             }
         }
@@ -179,9 +179,9 @@ namespace Files.DataModels
         /// </summary>
         /// <param name="path">The path which to save</param>
         /// <returns>Task</returns>
-        public async Task AddItemToSidebar(string path)
+        public async Task AddItemToSidebarAsync(string path)
         {
-            var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPath(path));
+            var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
             var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
             if (res)
             {
@@ -216,7 +216,7 @@ namespace Files.DataModels
             for (int i = 0; i < Items.Count(); i++)
             {
                 string path = Items[i];
-                await AddItemToSidebar(path);
+                await AddItemToSidebarAsync(path);
             }
         }
 

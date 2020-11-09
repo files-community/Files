@@ -180,7 +180,7 @@ namespace FilesFullTrust
                     var localSettings = ApplicationData.Current.LocalSettings;
                     Logger.Info($"Argument: {arguments}");
 
-                    await parseArguments(args, messageDeferral, arguments, localSettings);
+                    await ParseArgumentsAsync(args, messageDeferral, arguments, localSettings);
                 }
                 else if (args.Request.Message.ContainsKey("Application"))
                 {
@@ -201,7 +201,7 @@ namespace FilesFullTrust
             }
         }
 
-        private static async Task parseArguments(AppServiceRequestReceivedEventArgs args, AppServiceDeferral messageDeferral, string arguments, ApplicationDataContainer localSettings)
+        private static async Task ParseArgumentsAsync(AppServiceRequestReceivedEventArgs args, AppServiceDeferral messageDeferral, string arguments, ApplicationDataContainer localSettings)
         {
             switch (arguments)
             {
@@ -213,7 +213,7 @@ namespace FilesFullTrust
 
                 case "RecycleBin":
                     var binAction = (string)args.Request.Message["action"];
-                    await parseRecycleBinAction(args, binAction);
+                    await ParseRecycleBinActionAsync(args, binAction);
                     break;
 
                 case "StartupTasks":
@@ -246,7 +246,7 @@ namespace FilesFullTrust
                 case "LoadContextMenu":
                     var contextMenuResponse = new ValueSet();
                     var loadThreadWithMessageQueue = new Win32API.ThreadWithMessageQueue<ValueSet>(HandleMenuMessage);
-                    var cMenuLoad = await loadThreadWithMessageQueue.PostMessage<Win32API.ContextMenu>(args.Request.Message);
+                    var cMenuLoad = await loadThreadWithMessageQueue.PostMessageAsync<Win32API.ContextMenu>(args.Request.Message);
                     contextMenuResponse.Add("Handle", handleTable.AddValue(loadThreadWithMessageQueue));
                     contextMenuResponse.Add("ContextMenu", JsonConvert.SerializeObject(cMenuLoad));
                     await args.Request.SendResponseAsync(contextMenuResponse);
@@ -293,7 +293,7 @@ namespace FilesFullTrust
                     break;
 
                 case "FileOperation":
-                    await parseFileOperation(args);
+                    await ParseFileOperationAsync(args);
                     break;
 
                 case "GetIconOverlay":
@@ -381,7 +381,7 @@ namespace FilesFullTrust
             return filterMenuItemsImpl;
         }
 
-        private static async Task parseFileOperation(AppServiceRequestReceivedEventArgs args)
+        private static async Task ParseFileOperationAsync(AppServiceRequestReceivedEventArgs args)
         {
             var fileOp = (string)args.Request.Message["fileop"];
 
@@ -499,7 +499,7 @@ namespace FilesFullTrust
             }
         }
 
-        private static async Task parseRecycleBinAction(AppServiceRequestReceivedEventArgs args, string action)
+        private static async Task ParseRecycleBinActionAsync(AppServiceRequestReceivedEventArgs args, string action)
         {
             switch (action)
             {
@@ -649,7 +649,7 @@ namespace FilesFullTrust
                                 var groups = split.GroupBy(x => new
                                 {
                                     Dir = Path.GetDirectoryName(x),
-                                    Prog = Win32API.GetFileAssociation(x).Result ?? Path.GetExtension(x)
+                                    Prog = Win32API.GetFileAssociationAsync(x).Result ?? Path.GetExtension(x)
                                 });
                                 foreach (var group in groups)
                                 {

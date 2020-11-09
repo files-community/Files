@@ -1,11 +1,9 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
-namespace Files.UserControls.MultiTaskingControl
+namespace Files.UserControls.MultitaskingControl
 {
     public interface IMultitaskingControl
     {

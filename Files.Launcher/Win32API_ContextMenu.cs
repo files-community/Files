@@ -31,7 +31,7 @@ namespace FilesFullTrust
                 state.Dispose();
             }
 
-            public async Task<V> PostMessage<V>(T payload)
+            public async Task<V> PostMessageAsync<V>(T payload)
             {
                 var message = new Internal(payload);
                 messageQueue.TryAdd(message);

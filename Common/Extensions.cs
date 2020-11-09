@@ -51,7 +51,7 @@ namespace Files.Common
             }
         }
 
-        public static async Task WithTimeout(this Task task,
+        public static async Task WithTimeoutAsync(this Task task,
             TimeSpan timeout)
         {
             if (task == await Task.WhenAny(task, Task.Delay(timeout)))
@@ -60,7 +60,7 @@ namespace Files.Common
             }
         }
 
-        public static async Task<T> WithTimeout<T>(this Task<T> task,
+        public static async Task<T> WithTimeoutAsync<T>(this Task<T> task,
             TimeSpan timeout)
         {
             if (task == await Task.WhenAny(task, Task.Delay(timeout)))

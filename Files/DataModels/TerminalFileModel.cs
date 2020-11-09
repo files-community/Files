@@ -38,7 +38,7 @@ namespace Files.DataModels
             DefaultTerminalPath = "cmd.exe";
         }
 
-        public async Task<bool> AddOrRemoveTerminal(Terminal terminal, string packageName)
+        public async Task<bool> AddOrRemoveTerminalAsync(Terminal terminal, string packageName)
         {
             bool isChanged = false;
             bool isInstalled = await PackageHelper.IsAppInstalledAsync(packageName);
