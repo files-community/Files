@@ -304,7 +304,7 @@ namespace Files.View_Models.Properties
                 list.Add(item);
             }
 
-            list.Find(x => x.ID == "address").Value = await GetAddressFromCoordinates((double)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value, (double)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+            list.Find(x => x.ID == "address").Value = await GetAddressFromCoordinates((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value, (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 
             var query = from item in list group item by item.Section into g orderby g.Key select new FilePropertySection(g) { Key = g.Key };
             ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
@@ -334,8 +334,11 @@ namespace Files.View_Models.Properties
             return true;
         }
 
-        private async Task<string> GetAddressFromCoordinates(double Lat, double Lon)
+        private async Task<string> GetAddressFromCoordinates(double? Lat, double? Lon)
         {
+            if (!Lat.HasValue || !Lon.HasValue)
+                return null;
+
             JObject obj;
             try
             {
@@ -351,8 +354,8 @@ namespace Files.View_Models.Properties
             MapService.ServiceToken = (string)obj.SelectToken("key");
 
             BasicGeoposition location = new BasicGeoposition();
-            location.Latitude = Lat;
-            location.Longitude = Lon;
+            location.Latitude = Lat.Value;
+            location.Longitude = Lon.Value;
             Geopoint pointToReverseGeocode = new Geopoint(location);
 
             // Reverse geocode the specified geographic location.
@@ -437,7 +440,59 @@ namespace Files.View_Models.Properties
                         }
                     }
                 }
-            }            
+            }
+
+            //if (failedProperties.Count > 0)
+            //{
+            //    var text = "The following properties failed to save";
+
+            //    foreach (var error in failedProperties)
+            //    {
+            //        text += $"{error}, ";
+            //    }
+            //    text.Remove(text.LastIndexOf(','));
+            //    var toastContent = new ToastContent()
+            //    {
+            //        Visual = new ToastVisual()
+            //        {
+            //            BindingGeneric = new ToastBindingGeneric()
+            //            {
+            //                Children =
+            //                {
+            //                    new AdaptiveText()
+            //                    {
+            //                        Text = "Some properties failed to clear"
+            //                    },
+            //                    new AdaptiveText()
+            //                    {
+            //                        Text = text
+            //                    }
+            //                },
+            //                AppLogoOverride = new ToastGenericAppLogo()
+            //                {
+            //                    Source = "ms-appx:///Assets/error.png"
+            //                }
+            //            }
+            //        },
+            //        Actions = new ToastActionsCustom()
+            //        {
+            //            Buttons =
+            //            {
+            //                new ToastButton(ResourceController.GetTranslation("ExceptionNotificationReportButton"), "report")
+            //                {
+            //                    ActivationType = ToastActivationType.Foreground
+            //                }
+            //            }
+            //        }
+            //    };
+
+            //    // Create the toast notification
+            //    var toastNotif = new ToastNotification(toastContent.GetXml());
+
+            //    // And send the notification
+            //    ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+            //}
+            
 
             GetSpecialProperties();
         }
