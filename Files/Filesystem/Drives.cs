@@ -244,7 +244,7 @@ namespace Files.Filesystem
                     continue;
                 }
 
-                var res = await StorageFolder.GetFolderFromPathAsync(drive.Name).AsTask().Wrap();
+                var res = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Name).AsTask());
                 if (res == FilesystemErrorCode.ERROR_UNAUTHORIZED)
                 {
                     unauthorizedAccessDetected = true;

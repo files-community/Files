@@ -422,7 +422,7 @@ namespace Files.View_Models.Properties
             {
                 var newDict = new Dictionary<string, object>();
                 newDict.Add(valuePair.Key, valuePair.Value);
-                var res = await file.Properties.SavePropertiesAsync(newDict).AsTask().Wrap();
+                var res = await FilesystemTasks.Wrap(() => file.Properties.SavePropertiesAsync(newDict).AsTask());
                 if (!res)
                 {
                     Debug.WriteLine(string.Format("{0}\n{1}", valuePair.Key, res.ErrorCode.ToString()));
@@ -444,7 +444,7 @@ namespace Files.View_Models.Properties
                 foreach (string str in PersonalProperties)
                     dict.Add(str, null);
 
-                await file.Properties.SavePropertiesAsync(dict).AsTask().Wrap();
+                await FilesystemTasks.Wrap(() => file.Properties.SavePropertiesAsync(dict).AsTask());
 
                 GetSpecialProperties();
             }

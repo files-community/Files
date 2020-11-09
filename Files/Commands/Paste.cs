@@ -138,7 +138,7 @@ namespace Files.Commands
                     if (res)
                     {
                         StorageFile clipboardFile = (StorageFile)item;
-                        var pasted = await clipboardFile.CopyAsync(res.Result, item.Name, NameCollisionOption.GenerateUniqueName).AsTask().Wrap();
+                        var pasted = await FilesystemTasks.Wrap(() => clipboardFile.CopyAsync(res.Result, item.Name, NameCollisionOption.GenerateUniqueName).AsTask());
                         if (pasted)
                         {
                             pastedSourceItems.Add(item);

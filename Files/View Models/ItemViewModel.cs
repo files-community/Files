@@ -91,12 +91,12 @@ namespace Files.Filesystem
             }
             else if (!Path.IsPathRooted(WorkingDirectory) || Path.GetPathRoot(WorkingDirectory) != Path.GetPathRoot(value))
             {
-                _workingRoot = await DrivesManager.GetRootFromPathAsync(value).Wrap();
+                _workingRoot = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(value));
             }
 
             if (Path.IsPathRooted(value))
             {
-                var res = await StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(value, _workingRoot, _currentStorageFolder).Wrap();
+                var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(value, _workingRoot, _currentStorageFolder));
                 if (res)
                 {
                     _currentStorageFolder = res.Result;
@@ -125,22 +125,22 @@ namespace Files.Filesystem
 
         public async Task<FilesystemResult<StorageFolder>> GetFolderFromPathAsync(string value)
         {
-            return await StorageFileExtensions.DangerousGetFolderFromPathAsync(value, _workingRoot, _currentStorageFolder).Wrap();
+            return await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(value, _workingRoot, _currentStorageFolder));
         }
 
         public async Task<FilesystemResult<StorageFile>> GetFileFromPathAsync(string value)
         {
-            return await StorageFileExtensions.DangerousGetFileFromPathAsync(value, _workingRoot, _currentStorageFolder).Wrap();
+            return await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(value, _workingRoot, _currentStorageFolder));
         }
 
         public async Task<FilesystemResult<StorageFolderWithPath>> GetFolderWithPathFromPathAsync(string value)
         {
-            return await StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(value, _workingRoot, _currentStorageFolder).Wrap();
+            return await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(value, _workingRoot, _currentStorageFolder));
         }
 
         public async Task<FilesystemResult<StorageFileWithPath>> GetFileWithPathFromPathAsync(string value)
         {
-            return await StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(value, _workingRoot, _currentStorageFolder).Wrap();
+            return await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(value, _workingRoot, _currentStorageFolder));
         }
 
         private bool _IsFolderEmptyTextDisplayed;
@@ -795,7 +795,7 @@ namespace Files.Filesystem
             // Flag to use FindFirstFileExFromApp or StorageFolder enumeration
             bool enumFromStorageFolder = false;
 
-            var res = await StorageFolder.GetFolderFromPathAsync(path).AsTask().Wrap();
+            var res = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(path).AsTask());
             if (res)
             {
                 _rootFolder = res.Result;

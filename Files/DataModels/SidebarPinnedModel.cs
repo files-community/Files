@@ -181,8 +181,8 @@ namespace Files.DataModels
         /// <returns>Task</returns>
         public async Task AddItemToSidebarAsync(string path)
         {
-            var item = await DrivesManager.GetRootFromPathAsync(path).Wrap();
-            var res = await StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item).Wrap();
+            var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+            var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
             if (res)
             {
                 int insertIndex = MainPage.sideBarItems.IndexOf(MainPage.sideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
