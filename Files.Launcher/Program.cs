@@ -28,9 +28,6 @@ namespace FilesFullTrust
         [STAThread]
         private static void Main(string[] args)
         {
-            var providers = CloudProvider.GetInstalledCloudProviders();
-            return;
-
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
             LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NLog.config"));
             LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
@@ -305,6 +302,12 @@ namespace FilesFullTrust
                     await args.Request.SendResponseAsync(new ValueSet() {
                         { "IconOverlay", iconOverlay.icon },
                         { "HasCustomIcon", iconOverlay.isCustom } });
+                    break;
+
+                case "CloudProviders":
+                    var providers = CloudProviders.GetInstalledCloudProviders();
+                    await args.Request.SendResponseAsync(new ValueSet() {
+                        { "DetectedCloudProviders", JsonConvert.SerializeObject(providers) } });
                     break;
 
                 default:

@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using Files.Common;
+using Microsoft.Data.Sqlite;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -13,20 +14,8 @@ using Vanara.Windows.Shell;
 
 namespace FilesFullTrust
 {
-    public enum KnownCloudProviders
+    public class CloudProviders
     {
-        ONEDRIVE,
-        ONEDRIVE_BUSINESS,
-        MEGASYNC,
-        GOOGLEDRIVE,
-        DROPBOX
-    }
-
-    public class CloudProvider
-    {
-        public KnownCloudProviders ID { get; set; }
-        public string SyncFolder { get; set; }
-
         public static List<CloudProvider> GetInstalledCloudProviders()
         {
             var ret = new List<CloudProvider>();
@@ -48,7 +37,7 @@ namespace FilesFullTrust
                 if (!File.Exists(jsonPath)) return;
                 var jsonObj = JObject.Parse(File.ReadAllText(jsonPath));
                 var dropboxPath = (string)(jsonObj["personal"]["path"]);
-                ret.Add(new CloudProvider() { ID = KnownCloudProviders.DROPBOX, SyncFolder = dropboxPath });
+                ret.Add(new CloudProvider() { ID = KnownCloudProviders.DROPBOX, SyncFolder = dropboxPath, Name = "Dropbox" });
             }
             catch
             {
@@ -99,7 +88,7 @@ namespace FilesFullTrust
                     var localFolderKey = hash("localFolder", currentGroup, encryptionKey);
                     var localFolderStr = currentAccountSection.Keys.First(s => s.KeyName == string.Join("\\", syncKey, sync, localFolderKey));
                     var localFolderDecrypted = decrypt(localFolderKey, localFolderStr.Value.Replace("\"", ""), currentGroup);
-                    ret.Add(new CloudProvider() { ID = KnownCloudProviders.MEGASYNC, SyncFolder = localFolderDecrypted });
+                    ret.Add(new CloudProvider() { ID = KnownCloudProviders.MEGASYNC, SyncFolder = localFolderDecrypted, Name = $"MEGA ({syncNameDecrypted})" });
                 }
             }
             catch
@@ -199,15 +188,15 @@ namespace FilesFullTrust
         {
             try
             {
-                var onedrive_personal = Environment.GetEnvironmentVariable("OneDrive");
+                var onedrive_personal = Environment.GetEnvironmentVariable("OneDriveConsumer");
                 if (!string.IsNullOrEmpty(onedrive_personal))
                 {
-                    ret.Add(new CloudProvider() { ID = KnownCloudProviders.ONEDRIVE, SyncFolder = onedrive_personal });
+                    ret.Add(new CloudProvider() { ID = KnownCloudProviders.ONEDRIVE, SyncFolder = onedrive_personal, Name = $"OneDrive" });
                 }
                 var onedrive_commercial = Environment.GetEnvironmentVariable("OneDriveCommercial");
                 if (!string.IsNullOrEmpty(onedrive_commercial))
                 {
-                    ret.Add(new CloudProvider() { ID = KnownCloudProviders.ONEDRIVE_BUSINESS, SyncFolder = onedrive_commercial });
+                    ret.Add(new CloudProvider() { ID = KnownCloudProviders.ONEDRIVE_BUSINESS, SyncFolder = onedrive_commercial, Name = $"OneDrive Commercial" });
                 }
             }
             catch
@@ -252,7 +241,7 @@ namespace FilesFullTrust
                     if (path.StartsWith(@"\\?\"))
                         path = path.Substring(@"\\?\".Length);
 
-                    ret.Add(new CloudProvider() { ID = KnownCloudProviders.GOOGLEDRIVE, SyncFolder = path });
+                    ret.Add(new CloudProvider() { ID = KnownCloudProviders.GOOGLEDRIVE, SyncFolder = path, Name = $"Google Drive" });
                 }
             }
             catch

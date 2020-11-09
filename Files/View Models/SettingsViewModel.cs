@@ -265,11 +265,6 @@ namespace Files.View_Models
             {
                 PinOneDriveToSideBar = false;
             }
-
-            if (!await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(OneDrivePath).AsTask()))
-            {
-                PinOneDriveToSideBar = false;
-            }
         }
 
         public bool ShowFileOwner
@@ -315,23 +310,12 @@ namespace Files.View_Models
                     if (value == true)
                     {
                         localSettings.Values["PinOneDrive"] = true;
-                        var oneDriveItem = new DriveItem()
+                        foreach (DriveItem item in DrivesManager.Drives.ToList())
                         {
-                            Text = "OneDrive",
-                            Path = OneDrivePath,
-                            Type = Filesystem.DriveType.VirtualDrive,
-                        };
-                        MainPage.sideBarItems.Add(oneDriveItem);
-
-                        if (OneDriveCommercialPath != null)
-                        {
-                            var oneDriveItem1 = new DriveItem()
+                            if (item.ItemType == NavigationControlItemType.OneDrive)
                             {
-                                Text = "OneDrive Commercial",
-                                Path = OneDriveCommercialPath,
-                                Type = Filesystem.DriveType.VirtualDrive,
-                            };
-                            MainPage.sideBarItems.Add(oneDriveItem1);
+                                MainPage.sideBarItems.Add(item);
+                            }
                         }
                     }
                     else
