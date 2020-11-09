@@ -12,7 +12,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.Devices.Geolocation;
 using Windows.Foundation.Collections;
 using Windows.Security.Cryptography.Core;

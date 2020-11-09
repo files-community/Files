@@ -1,7 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.View_Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Numerics;
 using Windows.UI.Xaml;
@@ -13,9 +12,11 @@ namespace Files
     public sealed partial class DrivesWidget : UserControl
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+
         public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 
         public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
+
         public static ObservableCollection<INavigationControlItem> itemsAdded = new ObservableCollection<INavigationControlItem>();
 
         public DrivesWidget()

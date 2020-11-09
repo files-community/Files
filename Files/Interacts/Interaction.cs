@@ -51,6 +51,7 @@ namespace Files.Interacts
         private readonly IShellPage AssociatedInstance;
         public SettingsViewModel AppSettings => App.AppSettings;
         private AppServiceConnection Connection => AssociatedInstance?.ServiceConnection;
+
         public Interaction(IShellPage appInstance)
         {
             AssociatedInstance = appInstance;
@@ -106,7 +107,9 @@ namespace Files.Interacts
                 }
             }
         }
+
         public RelayCommand AddNewTabToMultitaskingControl => new RelayCommand(() => OpenNewTab());
+
         private async void OpenNewTab()
         {
             await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), "NewTab".GetLocalized());
@@ -550,7 +553,9 @@ namespace Files.Interacts
                 MainPage.MultitaskingControl.Items.RemoveAt(App.InteractionViewModel.TabStripSelectedIndex);
             }
         }
+
         public RelayCommand OpenNewWindow => new RelayCommand(() => LaunchNewWindow());
+
         public async void LaunchNewWindow()
         {
             var filesUWPUri = new Uri("files-uwp:");
@@ -1073,7 +1078,9 @@ namespace Files.Interacts
                 }
             }
         }
+
         public RelayCommand CopyPathOfSelectedItem => new RelayCommand(() => CopyLocation());
+
         private void CopyLocation()
         {
             if (AssociatedInstance.ContentPage != null)
@@ -1087,6 +1094,7 @@ namespace Files.Interacts
         }
 
         public RelayCommand CopyPathOfWorkingDirectory => new RelayCommand(() => CopyWorkingLocation());
+
         private void CopyWorkingLocation()
         {
             if (AssociatedInstance.ContentPage != null)
@@ -1106,6 +1114,7 @@ namespace Files.Interacts
         }
 
         public RelayCommand EmptyRecycleBin => new RelayCommand(() => EmptyRecycleBin_ClickAsync());
+
         public async void EmptyRecycleBin_ClickAsync()
         {
             var ConfirmEmptyBinDialog = new ContentDialog()
@@ -1132,6 +1141,7 @@ namespace Files.Interacts
         }
 
         public RelayCommand PasteItemsFromClipboard => new RelayCommand(() => PasteItem());
+
         public void PasteItem()
         {
             DataPackageView packageView = Clipboard.GetContent();
@@ -1206,12 +1216,15 @@ namespace Files.Interacts
         }
 
         public RelayCommand SelectAllContentPageItems => new RelayCommand(() => SelectAllItems());
+
         public void SelectAllItems() => AssociatedInstance.ContentPage.SelectAllItems();
 
         public RelayCommand InvertContentPageSelction => new RelayCommand(() => InvertAllItems());
+
         public void InvertAllItems() => AssociatedInstance.ContentPage.InvertSelection();
 
         public RelayCommand ClearContentPageSelection => new RelayCommand(() => ClearAllItems());
+
         public void ClearAllItems() => AssociatedInstance.ContentPage.ClearSelection();
 
         public async void ToggleQuickLook()

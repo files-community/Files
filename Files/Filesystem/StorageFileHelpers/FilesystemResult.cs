@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -52,10 +49,12 @@ namespace Files.Filesystem
         public FilesystemErrorCode ErrorCode { get; private set; }
 
         public static implicit operator FilesystemErrorCode(FilesystemResult res) => res.ErrorCode;
+
         public static explicit operator FilesystemResult(FilesystemErrorCode res) => new FilesystemResult(res);
 
-        public static implicit operator bool(FilesystemResult res) => 
+        public static implicit operator bool(FilesystemResult res) =>
             res.ErrorCode == FilesystemErrorCode.ERROR_OK;
+
         public static explicit operator FilesystemResult(bool res) =>
             new FilesystemResult(res ? FilesystemErrorCode.ERROR_OK : FilesystemErrorCode.ERROR_GENERIC);
     }

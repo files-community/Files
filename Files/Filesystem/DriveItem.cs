@@ -5,8 +5,6 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
@@ -38,6 +36,7 @@ namespace Files.Filesystem
         }
 
         private string _text;
+
         public string Text
         {
             get => _text;
@@ -45,6 +44,7 @@ namespace Files.Filesystem
         }
 
         private string _spaceText;
+
         public string SpaceText
         {
             get => _spaceText;

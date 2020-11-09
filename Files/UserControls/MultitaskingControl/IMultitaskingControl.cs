@@ -8,6 +8,7 @@ namespace Files.UserControls.MultitaskingControl
     public interface IMultitaskingControl
     {
         public delegate void CurrentInstanceChangedEventHandler(object sender, CurrentInstanceChangedEventArgs e);
+
         public void UpdateSelectedTab(string tabHeader, string workingDirectoryPath);
 
         event CurrentInstanceChangedEventHandler CurrentInstanceChanged;

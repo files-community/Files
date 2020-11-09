@@ -1,7 +1,6 @@
 ﻿using Files.View_Models;
-using Files.Views.Pages;
-using System;
 using Microsoft.Toolkit.Uwp.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Numerics;
 using Windows.UI.Xaml;
@@ -13,9 +12,11 @@ namespace Files
     public sealed partial class LibraryCards : UserControl
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+
         public delegate void LibraryCardInvokedEventHandler(object sender, LibraryCardInvokedEventArgs e);
 
         public event LibraryCardInvokedEventHandler LibraryCardInvoked;
+
         public static List<FavoriteLocationItem> itemsAdded = new List<FavoriteLocationItem>();
 
         public LibraryCards()

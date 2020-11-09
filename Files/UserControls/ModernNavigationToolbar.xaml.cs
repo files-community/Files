@@ -1,7 +1,4 @@
-﻿using Files.Commands;
-using Files.Common;
-using Files.Filesystem;
-using Files.Helpers;
+﻿using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
 using Files.Views;
@@ -9,7 +6,6 @@ using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -18,17 +14,11 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation.Collections;
 using Windows.System;
-using Windows.UI.Composition.Interactions;
-using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
 using static Files.UserControls.INavigationToolbar;
 
 namespace Files.UserControls
@@ -36,23 +26,39 @@ namespace Files.UserControls
     public sealed partial class ModernNavigationToolbar : UserControl, INavigationToolbar, INotifyPropertyChanged
     {
         public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
+
         public delegate void ToolbarFlyoutOpenedEventHandler(object sender, ToolbarFlyoutOpenedEventArgs e);
+
         public delegate void ToolbarPathItemLoadedEventHandler(object sender, ToolbarPathItemLoadedEventArgs e);
+
         public delegate void AddressBarTextEnteredEventHandler(object sender, AddressBarTextEnteredEventArgs e);
+
         public delegate void PathBoxItemDroppedEventHandler(object sender, PathBoxItemDroppedEventArgs e);
 
         public event ToolbarPathItemInvokedEventHandler ToolbarPathItemInvoked;
+
         public event ToolbarFlyoutOpenedEventHandler ToolbarFlyoutOpened;
+
         public event ToolbarPathItemLoadedEventHandler ToolbarPathItemLoaded;
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         public event ItemDraggedOverPathItemEventHandler ItemDraggedOverPathItem;
+
         public event EventHandler EditModeEnabled;
+
         public event ToolbarQuerySubmittedEventHandler QuerySubmitted;
+
         public event AddressBarTextEnteredEventHandler AddressBarTextEntered;
+
         public event PathBoxItemDroppedEventHandler PathBoxItemDropped;
+
         public event EventHandler BackRequested;
+
         public event EventHandler ForwardRequested;
+
         public event EventHandler UpRequested;
+
         public event EventHandler RefreshRequested;
 
         public static readonly DependencyProperty IsPageTypeNotHomeProperty = DependencyProperty.Register(
@@ -61,6 +67,7 @@ namespace Files.UserControls
           typeof(ModernNavigationToolbar),
           new PropertyMetadata(null)
         );
+
         public bool IsPageTypeNotHome
         {
             get
@@ -79,6 +86,7 @@ namespace Files.UserControls
           typeof(ModernNavigationToolbar),
           new PropertyMetadata(null)
         );
+
         public bool IsCreateButtonEnabledInPage
         {
             get
@@ -97,6 +105,7 @@ namespace Files.UserControls
           typeof(ModernNavigationToolbar),
           new PropertyMetadata(null)
         );
+
         public bool CanCreateFileInPage
         {
             get
@@ -115,6 +124,7 @@ namespace Files.UserControls
           typeof(ModernNavigationToolbar),
           new PropertyMetadata(null)
         );
+
         public bool CanOpenTerminalInPage
         {
             get
@@ -133,6 +143,7 @@ namespace Files.UserControls
           typeof(ModernNavigationToolbar),
           new PropertyMetadata(null)
         );
+
         public ICommand NewDocumentInvokedCommand
         {
             get
@@ -151,6 +162,7 @@ namespace Files.UserControls
           typeof(ModernNavigationToolbar),
           new PropertyMetadata(null)
         );
+
         public ICommand NewImageInvokedCommand
         {
             get
@@ -169,6 +181,7 @@ namespace Files.UserControls
           typeof(ModernNavigationToolbar),
           new PropertyMetadata(null)
         );
+
         public ICommand NewFolderInvokedCommand
         {
             get
@@ -187,6 +200,7 @@ namespace Files.UserControls
           typeof(ModernNavigationToolbar),
           new PropertyMetadata(null)
         );
+
         public ICommand CopyPathInvokedCommand
         {
             get
@@ -204,10 +218,11 @@ namespace Files.UserControls
           typeof(ICommand),
           typeof(ModernNavigationToolbar),
           new PropertyMetadata(null)
-        ); 
+        );
+
         public ICommand NewTabInvokedCommand
         {
-            get 
+            get
             {
                 return (ICommand)GetValue(NewTabInvokedCommandProperty);
             }
@@ -223,6 +238,7 @@ namespace Files.UserControls
           typeof(ModernNavigationToolbar),
           new PropertyMetadata(null)
         );
+
         public ICommand NewWindowInvokedCommand
         {
             get
@@ -241,6 +257,7 @@ namespace Files.UserControls
           typeof(ModernNavigationToolbar),
           new PropertyMetadata(null)
         );
+
         public ICommand PasteInvokedCommand
         {
             get
@@ -259,6 +276,7 @@ namespace Files.UserControls
           typeof(ModernNavigationToolbar),
           new PropertyMetadata(null)
         );
+
         public ICommand OpenInTerminalInvokedCommand
         {
             get
@@ -655,8 +673,8 @@ namespace Files.UserControls
 
         private void VisiblePath_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            QuerySubmitted?.Invoke(this, new ToolbarQuerySubmittedEventArgs() { QueryText = args.QueryText});
-            
+            QuerySubmitted?.Invoke(this, new ToolbarQuerySubmittedEventArgs() { QueryText = args.QueryText });
+
             (this as INavigationToolbar).IsEditModeEnabled = false;
         }
 
@@ -706,5 +724,4 @@ namespace Files.UserControls
             RefreshRequested?.Invoke(this, EventArgs.Empty);
         }
     }
-
 }

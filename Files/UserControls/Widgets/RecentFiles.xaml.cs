@@ -1,10 +1,6 @@
-﻿using Files.Dialogs;
-using Files.Filesystem;
-using Files.Helpers;
-using Files.Interacts;
+﻿using Files.Helpers;
 using Files.UserControls;
 using Files.View_Models;
-using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -22,8 +18,11 @@ namespace Files
     public sealed partial class RecentFiles : UserControl
     {
         public delegate void RecentFilesOpenLocationInvokedEventHandler(object sender, PathNavigationEventArgs e);
+
         public event RecentFilesOpenLocationInvokedEventHandler RecentFilesOpenLocationInvoked;
+
         public delegate void RecentFileInvokedEventHandler(object sender, PathNavigationEventArgs e);
+
         public event RecentFileInvokedEventHandler RecentFileInvoked;
 
         private ObservableCollection<RecentItem> recentItemsCollection = new ObservableCollection<RecentItem>();

@@ -1,4 +1,3 @@
-using ByteSizeLib;
 using Files.View_Models;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -318,7 +317,7 @@ namespace Files.Filesystem
             var setting = ApplicationData.Current.LocalSettings.Values["PinOneDrive"];
             if (setting == null || (bool)setting == true)
             {
-               if (AppSettings.OneDrivePath != null)
+                if (AppSettings.OneDrivePath != null)
                 {
                     var oneDriveItem = new DriveItem()
                     {

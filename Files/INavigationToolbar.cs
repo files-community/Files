@@ -18,11 +18,14 @@ namespace Files.UserControls
         public ObservableCollection<PathBoxItem> PathComponents { get; }
 
         public delegate void ToolbarQuerySubmittedEventHandler(object sender, ToolbarQuerySubmittedEventArgs e);
-        public delegate void ItemDraggedOverPathItemEventHandler(object sender, PathNavigationEventArgs e);
-        public event ToolbarQuerySubmittedEventHandler QuerySubmitted;
-        public event EventHandler EditModeEnabled;
-        public event ItemDraggedOverPathItemEventHandler ItemDraggedOverPathItem;
 
+        public delegate void ItemDraggedOverPathItemEventHandler(object sender, PathNavigationEventArgs e);
+
+        public event ToolbarQuerySubmittedEventHandler QuerySubmitted;
+
+        public event EventHandler EditModeEnabled;
+
+        public event ItemDraggedOverPathItemEventHandler ItemDraggedOverPathItem;
     }
 
     public class ToolbarQuerySubmittedEventArgs
@@ -46,7 +49,6 @@ namespace Files.UserControls
         public MenuFlyout OpenedFlyout { get; set; }
         public PathBoxItem Item { get; set; }
     }
-
 
     public class AddressBarTextEnteredEventArgs
     {

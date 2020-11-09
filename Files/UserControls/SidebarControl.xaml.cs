@@ -1,24 +1,17 @@
-﻿using Files.Commands;
-using Files.Controllers;
-using Files.DataModels;
-using Files.Enums;
+﻿using Files.DataModels;
 using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Microsoft.UI.Xaml.Controls;
 using System;
 using System.ComponentModel;
-using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Animation;
 
 namespace Files.Controls
 {
@@ -27,12 +20,15 @@ namespace Files.Controls
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
+
         public event SidebarItemInvokedEventHandler SidebarItemInvoked;
 
         public delegate void SidebarItemPropertiesInvokedEventHandler(object sender, SidebarItemPropertiesInvokedEventArgs e);
+
         public event SidebarItemPropertiesInvokedEventHandler SidebarItemPropertiesInvoked;
 
         public delegate void SidebarItemDroppedEventHandler(object sender, SidebarItemDroppedEventArgs e);
+
         public event SidebarItemDroppedEventHandler SidebarItemDropped;
 
         public event EventHandler RecycleBinItemRightTapped;
@@ -48,6 +44,7 @@ namespace Files.Controls
           typeof(SidebarControl),
           new PropertyMetadata(null)
         );
+
         public ICommand EmptyRecycleBinCommand
         {
             get
@@ -250,9 +247,9 @@ namespace Files.Controls
             var navItem = (sender as Microsoft.UI.Xaml.Controls.NavigationViewItem);
             args.Data.Properties.Add("sourceLocationItem", navItem);
         }
-        
+
         private object dragOverItem = null;
-        
+
         private DispatcherTimer dragOverTimer = new DispatcherTimer();
 
         private void NavigationViewItem_DragEnter(object sender, DragEventArgs e)
@@ -451,6 +448,7 @@ namespace Files.Controls
     public class SidebarItemInvokedEventArgs : EventArgs
     {
         public Microsoft.UI.Xaml.Controls.NavigationViewItemBase InvokedItemContainer { get; set; }
+
         public SidebarItemInvokedEventArgs(Microsoft.UI.Xaml.Controls.NavigationViewItemBase ItemContainer)
         {
             InvokedItemContainer = ItemContainer;
@@ -460,6 +458,7 @@ namespace Files.Controls
     public class SidebarItemPropertiesInvokedEventArgs : EventArgs
     {
         public object InvokedItemDataContext { get; set; }
+
         public SidebarItemPropertiesInvokedEventArgs(object invokedItemDataContext)
         {
             InvokedItemDataContext = invokedItemDataContext;
