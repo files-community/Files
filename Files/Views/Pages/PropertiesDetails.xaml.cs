@@ -62,11 +62,6 @@ namespace Files
             return str;
         }
 
-        private void SetStringArray(string val, string key)
-        {
-            ViewModel.SystemFileProperties_RW[key] = val.Split("; ");
-        }
-
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel = new SelectedItemsPropertiesViewModel();
@@ -84,8 +79,8 @@ namespace Files
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            await Windows.System.Launcher.LaunchUriAsync(ViewModel.Geopoint != null ? new Uri(String.Format(@"bingmaps:?where={0}", ViewModel.Geopoint.Address.FormattedAddress)) : new Uri(String.Format(@"bingmaps:?cp={0}~{1}", ViewModel.Latitude, ViewModel.Longitude)),
-                new Windows.System.LauncherOptions() { TargetApplicationPackageFamilyName = "Microsoft.WindowsMaps_8wekyb3d8bbwe" });
+            //await Windows.System.Launcher.LaunchUriAsync(ViewModel.Geopoint != null ? new Uri(String.Format(@"bingmaps:?where={0}", ViewModel.Geopoint.Address.FormattedAddress)) : new Uri(String.Format(@"bingmaps:?cp={0}~{1}", ViewModel.Latitude, ViewModel.Longitude)),
+            //    new Windows.System.LauncherOptions() { TargetApplicationPackageFamilyName = "Microsoft.WindowsMaps_8wekyb3d8bbwe" });
         }
 
         public async Task SaveChanges(ListedItem item)

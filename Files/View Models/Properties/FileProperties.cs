@@ -3,6 +3,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.UI.Xaml.Controls;
 using Newtonsoft.Json.Linq;
 using System;
@@ -21,6 +22,7 @@ using Windows.Services.Maps;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Core;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -29,26 +31,6 @@ namespace Files.View_Models.Properties
     public class FileProperties : BaseProperties
     {
         private ProgressBar ProgressBar;
-
-        /// <summary>
-        /// This list stores all properties to be cleared when clear personal properties is called
-        /// </summary>
-        private readonly List<string> PersonalProperties = new List<string>()
-        {
-                "System.GPS.LatitudeNumerator",
-                "System.GPS.LatitudeDenominator",
-                "System.GPS.LongitudeNumerator",
-                "System.GPS.LongitudeDenominator",
-                "System.GPS.AltitudeNumerator",
-                "System.GPS.AltitudeDenominator",
-                "System.GPS.AltitudeRef",
-                "System.Title",
-                "System.Subject",
-                "System.Comment",
-                "System.Copyright",
-                "System.Photo.CameraManufacturer",
-                "System.Photo.CameraModel",
-        };
 
         private List<FileProperty> PropertyListItemsBase = new List<FileProperty>()
         {
@@ -62,6 +44,7 @@ namespace Files.View_Models.Properties
                 Name = "Latitude Decimal",
                 Property = "System.GPS.LatitudeDecimal",
                 Section = "GPS",
+                IsPersonalProperty = true,
             },
             new FileProperty() {
                 Name = "Longitude Decimal",
@@ -394,34 +377,6 @@ namespace Files.View_Models.Properties
 
         }
 
-        private async Task<string> SavePropertiesAsync(StorageFile file, IProgress<uint> progress)
-        {
-            var progressVal = (uint)0;
-            var errors = "";
-
-            foreach (KeyValuePair<string, object> valuePair in ViewModel.SystemFileProperties_RW)
-            {
-                var newDict = new Dictionary<string, object>();
-                newDict.Add(valuePair.Key, valuePair.Value);
-
-                try
-                {
-                    await file.Properties.SavePropertiesAsync(newDict);
-                }
-                catch (Exception e)
-                {
-                    //Debug.WriteLine(string.Format("{0}\n{1}", valuePair.Key, e.ToString()));
-                    errors += $"{valuePair.Key}\n";
-                }
-
-                progressVal += (uint)(100/ViewModel.SystemFileProperties_RW.Count);
-                progress.Report(progressVal);
-            }
-            progress.Report((uint) 100);
-
-            return errors;
-        }
-
         private async Task SavePropertiesAsync(StorageFile file)
         {
             foreach (var group in ViewModel.PropertySections)
@@ -452,6 +407,7 @@ namespace Files.View_Models.Properties
         /// <returns></returns>
         public async Task ClearPersonalInformation()
         {
+            var failedProperties = new List<string>();
             StorageFile file = null;
             try
             {
@@ -475,12 +431,13 @@ namespace Files.View_Models.Properties
                         {
                             await file.Properties.SavePropertiesAsync(newDict);
                         }
-                        catch (Exception e)
+                        catch
                         {
+                            failedProperties.Add(prop.Name);
                         }
                     }
                 }
-            }
+            }            
 
             GetSpecialProperties();
         }
