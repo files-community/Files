@@ -291,7 +291,7 @@ namespace Files.Controls
 
         private async void NavigationViewLocationItem_DragOver(object sender, DragEventArgs e)
         {
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem locationItem))
+            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem)?.DataContext is LocationItem locationItem))
             {
                 return;
             }
@@ -327,7 +327,7 @@ namespace Files.Controls
 
                 deferral.Complete();
             }
-            else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem sourceLocationItem)
+            else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem)?.DataContext is LocationItem sourceLocationItem)
             {
                 // else if the drag over event is called over a location item
 
