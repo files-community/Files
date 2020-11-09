@@ -23,7 +23,7 @@ namespace Files.SettingsPages
 
         private async void TryGetOneDriveFolder()
         {
-            if (!await StorageFolder.GetFolderFromPathAsync(AppSettings.OneDrivePath).AsTask().Wrap())
+            if (!await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(AppSettings.OneDrivePath).AsTask()))
             {
                 AppSettings.PinOneDriveToSideBar = false;
                 OneDrivePin.IsEnabled = false;

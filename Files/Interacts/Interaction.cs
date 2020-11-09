@@ -90,7 +90,7 @@ namespace Files.Interacts
                 // Generate unique name if the file already exists.
                 // If the file you are trying to set as the wallpaper has the same name as the current wallpaper,
                 // the system will ignore the request and no-op the operation
-                var file = (StorageFile)await sourceFile.CopyAsync(localFolder, sourceFile.Name, NameCollisionOption.GenerateUniqueName).AsTask().Wrap();
+                var file = (StorageFile)await FilesystemTasks.Wrap(() => sourceFile.CopyAsync(localFolder, sourceFile.Name, NameCollisionOption.GenerateUniqueName).AsTask());
                 if (file == null) return;
 
                 UserProfilePersonalizationSettings profileSettings = UserProfilePersonalizationSettings.Current;
@@ -885,7 +885,7 @@ namespace Files.Interacts
                         restored = sourceFolder.ErrorCode | destFolder.ErrorCode;
                         if (sourceFolder && destFolder)
                         {
-                            restored = await MoveDirectoryAsync(sourceFolder.Result, destFolder.Result, recycleBinItem.ItemName).Wrap()
+                            restored = await FilesystemTasks.Wrap(() => MoveDirectoryAsync(sourceFolder.Result, destFolder.Result, recycleBinItem.ItemName))
                                 .OnSuccess(t => sourceFolder.Result.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
                         }
                     }
@@ -896,7 +896,7 @@ namespace Files.Interacts
                         restored = sourceFile.ErrorCode | destFolder.ErrorCode;
                         if (sourceFile && destFolder)
                         {
-                            restored = await sourceFile.Result.MoveAsync(destFolder.Result, Path.GetFileName(recycleBinItem.ItemOriginalPath), NameCollisionOption.GenerateUniqueName).AsTask().Wrap();
+                            restored = await FilesystemTasks.Wrap(() => sourceFile.Result.MoveAsync(destFolder.Result, Path.GetFileName(recycleBinItem.ItemOriginalPath), NameCollisionOption.GenerateUniqueName).AsTask());
                         }
                     }
                     // Recycle bin also stores a file starting with $I for each item
@@ -1166,17 +1166,17 @@ namespace Files.Interacts
                 {
                     case AddItemType.Folder:
                         userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalized();
-                        created = await folderRes.Result.CreateFolderAsync(userInput, CreationCollisionOption.GenerateUniqueName).AsTask().Wrap();
+                        created = await FilesystemTasks.Wrap(() => folderRes.Result.CreateFolderAsync(userInput, CreationCollisionOption.GenerateUniqueName).AsTask());
                         break;
 
                     case AddItemType.TextDocument:
                         userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewTextDocument".GetLocalized();
-                        created = await folderRes.Result.CreateFileAsync(userInput + ".txt", CreationCollisionOption.GenerateUniqueName).AsTask().Wrap();
+                        created = await FilesystemTasks.Wrap(() => folderRes.Result.CreateFileAsync(userInput + ".txt", CreationCollisionOption.GenerateUniqueName).AsTask());
                         break;
 
                     case AddItemType.BitmapImage:
                         userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewBitmapImage".GetLocalized();
-                        created = await folderRes.Result.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.GenerateUniqueName).AsTask().Wrap();
+                        created = await FilesystemTasks.Wrap(() => folderRes.Result.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.GenerateUniqueName).AsTask());
                         break;
                 }
             }
@@ -1255,7 +1255,7 @@ namespace Files.Interacts
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
             StorageFile itemFromPath = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath);
             if (itemFromPath == null) return "";
-            Stream stream = await itemFromPath.OpenStreamForReadAsync().Wrap();
+            Stream stream = await FilesystemTasks.Wrap(() => itemFromPath.OpenStreamForReadAsync());
             if (stream == null) return "";
             var inputStream = stream.AsInputStream();
             var str = inputStream.AsStreamForRead();

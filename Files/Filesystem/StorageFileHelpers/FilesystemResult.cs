@@ -60,7 +60,7 @@ namespace Files.Filesystem
             new FilesystemResult(res ? FilesystemErrorCode.ERROR_OK : FilesystemErrorCode.ERROR_GENERIC);
     }
 
-    public static class TaskExtensions
+    public static class FilesystemTasks
     {
         private static FilesystemErrorCode GetErrorCode(Exception ex, Type T = null)
         {
@@ -103,11 +103,11 @@ namespace Files.Filesystem
             }
         }
 
-        public async static Task<FilesystemResult<T>> Wrap<T>(this Task<T> wrapped)
+        public async static Task<FilesystemResult<T>> Wrap<T>(Func<Task<T>> wrapped)
         {
             try
             {
-                return new FilesystemResult<T>(await wrapped, FilesystemErrorCode.ERROR_OK);
+                return new FilesystemResult<T>(await wrapped(), FilesystemErrorCode.ERROR_OK);
             }
             catch (Exception ex)
             {
@@ -115,11 +115,11 @@ namespace Files.Filesystem
             }
         }
 
-        public async static Task<FilesystemResult> Wrap(this Task wrapped)
+        public async static Task<FilesystemResult> Wrap(Func<Task> wrapped)
         {
             try
             {
-                await wrapped;
+                await wrapped();
                 return new FilesystemResult(FilesystemErrorCode.ERROR_OK);
             }
             catch (Exception ex)
@@ -133,7 +133,7 @@ namespace Files.Filesystem
             var res = await wrapped;
             if (res)
             {
-                return await func(res.Result).Wrap();
+                return await Wrap(() => func(res.Result));
             }
             return res;
         }
@@ -143,7 +143,7 @@ namespace Files.Filesystem
             var res = await wrapped;
             if (res)
             {
-                return await func(res.Result).Wrap();
+                return await Wrap(() => func(res.Result));
             }
             return res;
         }
