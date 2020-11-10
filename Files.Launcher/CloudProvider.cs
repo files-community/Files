@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -35,6 +37,7 @@ namespace FilesFullTrust
             return ret;
         }
 
+        # region DROPBOX
         private static void DetectDropbox(List<CloudProvider> ret)
         {
             try
@@ -52,31 +55,51 @@ namespace FilesFullTrust
                 // Not detected
             }
         }
+        #endregion
 
+        #region MEGASYNC
         private static void DetectMegaSync(List<CloudProvider> ret)
         {
             try
             {
-                string progName = @"MEGAsync\MEGAsync.exe";
-                var progPath = Path.Combine(Environment.GetEnvironmentVariable("LocalAppData"), progName);
-                if (!File.Exists(progPath)) return;
-                foreach (var si in ShellFolder.Desktop)
+                var sidstring = System.Security.Principal.WindowsIdentity.GetCurrent().User.ToString();
+                using var sid = AdvApi32.ConvertStringSidToSid(sidstring);
+                var infoPath = @"Mega Limited\MEGAsync\MEGAsync.cfg";
+                var configPath = Path.Combine(Environment.GetEnvironmentVariable("LocalAppData"), infoPath);
+                if (!File.Exists(configPath)) configPath = Path.Combine(Environment.GetEnvironmentVariable("AppData"), infoPath);
+                if (!File.Exists(configPath)) return;
+                var parser = new IniParser.FileIniDataParser();
+                var data = parser.ReadFile(configPath);
+                byte[] fixedSeed = Encoding.UTF8.GetBytes("$JY/X?o=h·&%v/M(");
+                byte[] localKey = sid.GetBinaryForm();
+                byte[] xLocalKey = XOR(fixedSeed, localKey);
+                var sh = SHA1.Create();
+                byte[] hLocalKey = sh.ComputeHash(xLocalKey);
+                var encryptionKey = hLocalKey;
+
+                var mainSection = data.Sections.First(s => s.SectionName == "General");
+                string currentGroup = "";
+
+                var currentAccountKey = hash("currentAccount", currentGroup, encryptionKey);
+                var currentAccountStr = mainSection.Keys.First(s => s.KeyName == currentAccountKey);
+                var currentAccountDecrypted = decrypt(currentAccountKey, currentAccountStr.Value.Replace("\"", ""), currentGroup);
+
+                var currentAccountSectionKey = hash(currentAccountDecrypted, "", encryptionKey);
+                var currentAccountSection = data.Sections.First(s => s.SectionName == currentAccountSectionKey);
+
+                var syncKey = hash("Syncs", currentAccountSectionKey, encryptionKey);
+                var syncGroups = currentAccountSection.Keys.Where(s => s.KeyName.StartsWith(syncKey)).Select(x => x.KeyName.Split('\\')[1]).Distinct();
+                foreach (var sync in syncGroups)
                 {
-                    try
-                    {
-                        if (!si.IsFileSystem) continue;
-                        var shfi = new Shell32.SHFILEINFO();
-                        var res = Shell32.SHGetFileInfo(si.FileSystemPath, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_ICONLOCATION);
-                        if (res == IntPtr.Zero) continue;
-                        if (shfi.szDisplayName == progPath)
-                        {
-                            ret.Add(new CloudProvider() { ID = KnownCloudProviders.MEGASYNC, SyncFolder = si.ParsingName });
-                        }
-                    }
-                    finally
-                    {
-                        si.Dispose();
-                    }
+                    currentGroup = string.Join("/", currentAccountSectionKey, syncKey, sync);
+                    // var tmp = hash("0", string.Join("/", currentAccountSectionKey, syncKey), encryptionKey);
+                    var syncNameKey = hash("syncName", currentGroup, encryptionKey);
+                    var syncNameStr = currentAccountSection.Keys.First(s => s.KeyName == string.Join("\\", syncKey, sync, syncNameKey));
+                    var syncNameDecrypted = decrypt(syncNameKey, syncNameStr.Value.Replace("\"", ""), currentGroup);
+                    var localFolderKey = hash("localFolder", currentGroup, encryptionKey);
+                    var localFolderStr = currentAccountSection.Keys.First(s => s.KeyName == string.Join("\\", syncKey, sync, localFolderKey));
+                    var localFolderDecrypted = decrypt(localFolderKey, localFolderStr.Value.Replace("\"", ""), currentGroup);
+                    ret.Add(new CloudProvider() { ID = KnownCloudProviders.MEGASYNC, SyncFolder = localFolderDecrypted });
                 }
             }
             catch
@@ -85,6 +108,93 @@ namespace FilesFullTrust
             }
         }
 
+        [DllImport("Crypt32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool CryptUnprotectData(
+            in Crypt32.CRYPTOAPI_BLOB pDataIn,
+            StringBuilder szDataDescr,
+            in Crypt32.CRYPTOAPI_BLOB pOptionalEntropy,
+            IntPtr pvReserved,
+            IntPtr pPromptStruct,
+            Crypt32.CryptProtectFlags dwFlags,
+            out Crypt32.CRYPTOAPI_BLOB pDataOut);
+
+        private static string decrypt(string key, string value, string group)
+        {
+            byte[] k = Encoding.ASCII.GetBytes(key);
+            byte[] xValue = XOR(k, Convert.FromBase64String(value));
+            byte[] xKey = XOR(k, Encoding.ASCII.GetBytes(group));
+
+            IntPtr xValuePtr = Marshal.AllocHGlobal(xValue.Length);
+            Marshal.Copy(xValue, 0, xValuePtr, xValue.Length);
+            IntPtr xKeyPtr = Marshal.AllocHGlobal(xKey.Length);
+            Marshal.Copy(xKey, 0, xKeyPtr, xKey.Length);
+
+            Crypt32.CRYPTOAPI_BLOB dataIn = new Crypt32.CRYPTOAPI_BLOB();
+            Crypt32.CRYPTOAPI_BLOB entropy = new Crypt32.CRYPTOAPI_BLOB();
+            dataIn.pbData = xValuePtr;
+            dataIn.cbData = (uint)xValue.Length;
+            entropy.pbData = xKeyPtr;
+            entropy.cbData = (uint)xKey.Length;
+
+            if (!CryptUnprotectData(dataIn, null, entropy, IntPtr.Zero, IntPtr.Zero, 0, out var dataOut))
+            {
+                Marshal.FreeHGlobal(xValuePtr);
+                Marshal.FreeHGlobal(xKeyPtr);
+                return null;
+            }
+
+            byte[] managedArray = new byte[dataOut.cbData];
+            Marshal.Copy(dataOut.pbData, managedArray, 0, (int)dataOut.cbData);
+            byte[] xDecrypted = XOR(k, managedArray);
+            Kernel32.LocalFree(dataOut.pbData);
+            Marshal.FreeHGlobal(xValuePtr);
+            Marshal.FreeHGlobal(xKeyPtr);
+            return Encoding.UTF8.GetString(xDecrypted);
+        }
+
+        private static string hash(string key, string group, byte[] encryptionKey)
+        {
+            var sh = SHA1.Create();
+            byte[] xPath = XOR(encryptionKey, Encoding.UTF8.GetBytes(key + group));
+            byte[] keyHash = sh.ComputeHash(xPath);
+            byte[] xKeyHash = XOR(Encoding.UTF8.GetBytes(key), keyHash);
+            return ByteArrayToString(xKeyHash);
+        }
+
+        public static string ByteArrayToString(byte[] ba)
+        {
+            return BitConverter.ToString(ba).Replace("-", "").ToLowerInvariant();
+        }
+
+        private static byte[] XOR(byte[] key, byte[] data)
+        {
+            int keyLen = key.Length;
+            if (keyLen == 0)
+            {
+                return data;
+            }
+
+            var result = new List<byte>();
+            var k3 = key[keyLen / 3] >= 128 ? key[keyLen / 3] - 256 : key[keyLen / 3];
+            var k5 = key[keyLen / 5] >= 128 ? key[keyLen / 5] - 256 : key[keyLen / 5];
+            var k2 = key[keyLen / 2] >= 128 ? key[keyLen / 2] - 256 : key[keyLen / 2];
+            var k7 = key[keyLen / 7] >= 128 ? key[keyLen / 7] - 256 : key[keyLen / 7];
+            int rotation = Math.Abs(k3 * k5) % keyLen;
+            int increment = Math.Abs(k2 * k7) % keyLen;
+            for (int i = 0, j = rotation; i < data.Length; i++, j -= increment)
+            {
+                if (j < 0)
+                {
+                    j += keyLen;
+                }
+                result.Add((byte)(data[i] ^ key[j]));
+            }
+            return result.ToArray();
+        }
+        #endregion
+
+        #region ONEDRIVE
         private static void DetectOneDrive(List<CloudProvider> ret)
         {
             try
@@ -105,7 +215,9 @@ namespace FilesFullTrust
                 // Not detected
             }
         }
+        #endregion
 
+        #region GOOGLEDRIVE
         private static void DetectGoogleDrive(List<CloudProvider> ret)
         {
             try
@@ -148,5 +260,6 @@ namespace FilesFullTrust
                 // Not detected
             }
         }
+        #endregion
     }
 }

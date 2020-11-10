@@ -144,6 +144,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="ini-parser">
+      <Version>2.5.2</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.Data.Sqlite.Core">
       <Version>3.1.9</Version>
     </PackageReference>

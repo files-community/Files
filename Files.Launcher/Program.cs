@@ -28,6 +28,9 @@ namespace FilesFullTrust
         [STAThread]
         private static void Main(string[] args)
         {
+            var providers = CloudProvider.GetInstalledCloudProviders();
+            return;
+
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
             LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NLog.config"));
             LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
