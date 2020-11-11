@@ -1115,11 +1115,13 @@ namespace Files.Interacts
                     if (Connection != null)
                     {
                         var filePaths = string.Join('|', AssociatedInstance.ContentPage.SelectedItems.Select(x => x.ItemPath));
-                        var result = await Connection.SendMessageAsync(new ValueSet() {
+                        var result = await Connection.SendMessageAsync(new ValueSet()
+                        {
                             { "Arguments", "FileOperation" },
                             { "fileop", "Clipboard" },
                             { "filepath", filePaths },
-                            { "operation", (int)DataPackageOperation.Copy } });
+                            { "operation", (int)DataPackageOperation.Copy }
+                        });
                     }
                     return;
                 }
