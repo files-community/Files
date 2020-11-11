@@ -1014,9 +1014,6 @@
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>Mostrar extensões para tipos de arquivo conhecidos</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Header" xml:space="preserve">
-    <value>Mostrar arquivos, pastas e unidades ocultas</value>
-  </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Barra lateral em acrílico</value>
   </data>

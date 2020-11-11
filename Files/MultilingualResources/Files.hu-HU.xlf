@@ -234,10 +234,6 @@
           <source>Show extensions for known file types</source>
           <target state="translated">Kiterjesztés mutatása ismert fájlformátumoknál</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Header" translate="yes" xml:space="preserve">
-          <source>Show hidden files, folders, and drives</source>
-          <target state="translated">Rejtett, fájlok és mappák meghajtók mutatása</target>
-        </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
           <source>Files and Folders</source>
           <target state="translated">Fájlok és Mappák</target>
@@ -1441,6 +1437,14 @@
         <trans-unit id="SettingsPreferencesCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show an option to copy the location of the selected item</source>
           <target state="translated">Kijelölt elem helyének másolása lehetőség megjelenítése</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Header" translate="yes" xml:space="preserve">
+          <source>Show hidden files and folders</source>
+          <target state="new">Show hidden files and folders</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show hidden files and folders</source>
+          <target state="new">Show hidden files and folders</target>
         </trans-unit>
       </group>
     </body>

@@ -1014,9 +1014,6 @@
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>Dateierweiterungen für bekannte Dateiformate anzeigen</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Header" xml:space="preserve">
-    <value>Versteckte Dateien, Ordner und Laufwerke anzeigen</value>
-  </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Acrylic-Effekt für die Seitenleiste</value>
   </data>

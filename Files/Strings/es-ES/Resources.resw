@@ -993,9 +993,6 @@
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>Mostrar extensiones de archivos conocidos</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Header" xml:space="preserve">
-    <value>Mostrar archivos, carpetas y unidades ocultos</value>
-  </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Barra lateral acrílica</value>
   </data>

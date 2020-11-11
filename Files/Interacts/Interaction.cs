@@ -370,7 +370,7 @@ namespace Files.Interacts
             {
                 var clickedOnItem = AssociatedInstance.ContentPage.SelectedItem;
                 var clickedOnItemPath = clickedOnItem.ItemPath;
-                if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.Folder && !clickedOnItem.IsHiddenItem)
                 {
                     opened = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(
                         (clickedOnItem as ShortcutItem)?.TargetPath ?? clickedOnItem.ItemPath)
@@ -385,6 +385,21 @@ namespace Files.Interacts
                             AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
                             AssociatedInstance.ContentFrame.Navigate(sourcePageType, new NavigationArguments() { NavPathParam = childFolder.Path, AssociatedTabInstance = AssociatedInstance }, new SuppressNavigationTransitionInfo());
                         });
+                }
+                else if (clickedOnItem.IsHiddenItem)
+                {
+                    if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                    {
+                        await AssociatedInstance.FilesystemViewModel.SetWorkingDirectoryAsync(clickedOnItemPath);
+                        AssociatedInstance.NavigationToolbar.PathControlDisplayText = clickedOnItemPath;
+
+                        AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
+                        AssociatedInstance.ContentFrame.Navigate(sourcePageType, new NavigationArguments() { NavPathParam = clickedOnItemPath, AssociatedTabInstance = AssociatedInstance }, new SuppressNavigationTransitionInfo());
+                    }
+                    else if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.File)
+                    {
+                        await InvokeWin32ComponentAsync(clickedOnItemPath);
+                    }
                 }
                 else if (clickedOnItem.IsShortcutItem)
                 {
