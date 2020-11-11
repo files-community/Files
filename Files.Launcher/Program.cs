@@ -304,12 +304,6 @@ namespace FilesFullTrust
                         { "HasCustomIcon", iconOverlay.isCustom } });
                     break;
 
-                case "CloudProviders":
-                    var providers = CloudProviders.GetInstalledCloudProviders();
-                    await args.Request.SendResponseAsync(new ValueSet() {
-                        { "DetectedCloudProviders", JsonConvert.SerializeObject(providers) } });
-                    break;
-
                 default:
                     if (args.Request.Message.ContainsKey("Application"))
                     {

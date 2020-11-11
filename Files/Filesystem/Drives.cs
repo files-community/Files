@@ -56,8 +56,8 @@ namespace Files.Filesystem
                     ShowUserConsentOnInit = true;
                 }
             }
+            await GetVirtualDrivesListAsync(_Drives);
             StartDeviceWatcher();
-            await GetVirtualDrivesListAsync();
             _driveEnumInProgress = false;
         }
 
@@ -296,51 +296,18 @@ namespace Files.Filesystem
             return unauthorizedAccessDetected;
         }
 
-        public async Task GetVirtualDrivesListAsync()
+        public async Task GetVirtualDrivesListAsync(IList<DriveItem> list)
         {
-            var connection = await InitializeAppServiceConnection();
-            if (connection != null)
+            foreach (var provider in await CloudProvider.GetInstalledCloudProviders())
             {
-                var response = await connection.SendMessageAsync(new ValueSet() {
-                        { "Arguments", "CloudProviders" } });
-                if (response.Status == AppServiceResponseStatus.Success && response.Message.ContainsKey("DetectedCloudProviders"))
+                var cloudProviderItem = new DriveItem()
                 {
-                    var providers = Newtonsoft.Json.JsonConvert.DeserializeObject<List<CloudProvider>>((string)response.Message["DetectedCloudProviders"]);
-                    foreach (var provider in providers)
-                    {
-                        var cloudProviderItem = new DriveItem()
-                        {
-                            Text = provider.Name,
-                            Path = provider.SyncFolder,
-                            Type = Filesystem.DriveType.VirtualDrive,
-                        };
-                        _Drives.Add(cloudProviderItem);
-                    }
-                }
-                connection.Dispose();
-                DeviceWatcher_EnumerationCompleted(null, null);
+                    Text = provider.Name,
+                    Path = provider.SyncFolder,
+                    Type = Filesystem.DriveType.VirtualDrive,
+                };
+                list.Add(cloudProviderItem);
             }
-        }
-
-        public async Task<AppServiceConnection> InitializeAppServiceConnection()
-        {
-            var ServiceConnection = new AppServiceConnection();
-            ServiceConnection.AppServiceName = "FilesInteropService";
-            ServiceConnection.PackageFamilyName = Package.Current.Id.FamilyName;
-
-            AppServiceConnectionStatus status = await ServiceConnection.OpenAsync();
-            if (status != AppServiceConnectionStatus.Success)
-            {
-                // TODO: error handling
-                ServiceConnection?.Dispose();
-                return null;
-            }
-            ServiceConnection.RequestReceived += (s, e) => { };
-
-            // Launch fulltrust process
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-            await Task.Delay(TimeSpan.FromSeconds(2));
-            return ServiceConnection;
         }
 
         public static async Task<StorageFolderWithPath> GetRootFromPathAsync(string devicePath)

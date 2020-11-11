@@ -1,4 +1,6 @@
 ﻿using Files.Common;
+using Files.Helpers;
+using IniParser.Parser;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json.Linq;
 using System;
@@ -9,33 +11,45 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
-using Vanara.PInvoke;
-using Vanara.Windows.Shell;
+using System.Threading.Tasks;
+using Windows.Storage;
 
-namespace FilesFullTrust
+namespace Files.Filesystem
 {
-    public class CloudProviders
+    public enum KnownCloudProviders
     {
-        public static List<CloudProvider> GetInstalledCloudProviders()
+        ONEDRIVE,
+        ONEDRIVE_BUSINESS,
+        MEGASYNC,
+        GOOGLEDRIVE,
+        DROPBOX
+    }
+
+    public class CloudProvider
+    {
+        public KnownCloudProviders ID { get; set; }
+        public string SyncFolder { get; set; }
+        public string Name { get; set; }
+
+        public static async Task<List<CloudProvider>> GetInstalledCloudProviders()
         {
             var ret = new List<CloudProvider>();
             DetectOneDrive(ret);
-            DetectGoogleDrive(ret);
-            DetectDropbox(ret);
-            DetectMegaSync(ret);
+            await DetectGoogleDrive(ret);
+            await DetectDropbox(ret);
+            await DetectMegaSync(ret);
             return ret;
         }
 
         # region DROPBOX
-        private static void DetectDropbox(List<CloudProvider> ret)
+        private static async Task DetectDropbox(List<CloudProvider> ret)
         {
             try
             {
                 var infoPath = @"Dropbox\info.json";
-                var jsonPath = Path.Combine(Environment.GetEnvironmentVariable("LocalAppData"), infoPath);
-                if (!File.Exists(jsonPath)) jsonPath = Path.Combine(Environment.GetEnvironmentVariable("AppData"), infoPath);
-                if (!File.Exists(jsonPath)) return;
-                var jsonObj = JObject.Parse(File.ReadAllText(jsonPath));
+                var jsonPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, infoPath);
+                var configFile = await StorageFile.GetFileFromPathAsync(jsonPath);
+                var jsonObj = JObject.Parse(await FileIO.ReadTextAsync(configFile));
                 var dropboxPath = (string)(jsonObj["personal"]["path"]);
                 ret.Add(new CloudProvider() { ID = KnownCloudProviders.DROPBOX, SyncFolder = dropboxPath, Name = "Dropbox" });
             }
@@ -47,20 +61,19 @@ namespace FilesFullTrust
         #endregion
 
         #region MEGASYNC
-        private static void DetectMegaSync(List<CloudProvider> ret)
+        private static async Task DetectMegaSync(List<CloudProvider> ret)
         {
             try
             {
-                var sidstring = System.Security.Principal.WindowsIdentity.GetCurrent().User.ToString();
-                using var sid = AdvApi32.ConvertStringSidToSid(sidstring);
+                //var sidstring = System.Security.Principal.WindowsIdentity.GetCurrent().User.ToString();
+                //using var sid = AdvApi32.ConvertStringSidToSid(sidstring);
                 var infoPath = @"Mega Limited\MEGAsync\MEGAsync.cfg";
-                var configPath = Path.Combine(Environment.GetEnvironmentVariable("LocalAppData"), infoPath);
-                if (!File.Exists(configPath)) configPath = Path.Combine(Environment.GetEnvironmentVariable("AppData"), infoPath);
-                if (!File.Exists(configPath)) return;
-                var parser = new IniParser.FileIniDataParser();
-                var data = parser.ReadFile(configPath);
+                var configPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, infoPath);
+                var configFile = await StorageFile.GetFileFromPathAsync(configPath);
+                var parser = new IniDataParser();
+                var data = parser.Parse(await FileIO.ReadTextAsync(configFile));
                 byte[] fixedSeed = Encoding.UTF8.GetBytes("$JY/X?o=h·&%v/M(");
-                byte[] localKey = sid.GetBinaryForm();
+                byte[] localKey = getLocalStorageKey(); /*sid.GetBinaryForm()*/;
                 byte[] xLocalKey = XOR(fixedSeed, localKey);
                 var sh = SHA1.Create();
                 byte[] hLocalKey = sh.ComputeHash(xLocalKey);
@@ -81,7 +94,6 @@ namespace FilesFullTrust
                 foreach (var sync in syncGroups)
                 {
                     currentGroup = string.Join("/", currentAccountSectionKey, syncKey, sync);
-                    // var tmp = hash("0", string.Join("/", currentAccountSectionKey, syncKey), encryptionKey);
                     var syncNameKey = hash("syncName", currentGroup, encryptionKey);
                     var syncNameStr = currentAccountSection.Keys.First(s => s.KeyName == string.Join("\\", syncKey, sync, syncNameKey));
                     var syncNameDecrypted = decrypt(syncNameKey, syncNameStr.Value.Replace("\"", ""), currentGroup);
@@ -97,16 +109,43 @@ namespace FilesFullTrust
             }
         }
 
-        [DllImport("Crypt32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool CryptUnprotectData(
-            in Crypt32.CRYPTOAPI_BLOB pDataIn,
-            StringBuilder szDataDescr,
-            in Crypt32.CRYPTOAPI_BLOB pOptionalEntropy,
-            IntPtr pvReserved,
-            IntPtr pPromptStruct,
-            Crypt32.CryptProtectFlags dwFlags,
-            out Crypt32.CRYPTOAPI_BLOB pDataOut);
+        private static byte[] getLocalStorageKey()
+        {
+            if (!NativeWinApiHelper.OpenProcessToken(NativeWinApiHelper.GetCurrentProcess(), NativeWinApiHelper.TokenAccess.TOKEN_QUERY, out var hToken))
+            {
+                return null;
+            }
+
+            NativeWinApiHelper.GetTokenInformation(hToken, NativeWinApiHelper.TOKEN_INFORMATION_CLASS.TokenUser, IntPtr.Zero, 0, out int dwBufferSize);
+            if (dwBufferSize == 0)
+            {
+                NativeWinApiHelper.CloseHandle(hToken);
+                return null;
+            }
+
+            IntPtr userToken = Marshal.AllocHGlobal(dwBufferSize);
+            if (!NativeWinApiHelper.GetTokenInformation(hToken, NativeWinApiHelper.TOKEN_INFORMATION_CLASS.TokenUser, userToken, dwBufferSize, out var dwInfoBufferSize))
+            {
+                NativeWinApiHelper.CloseHandle(hToken);
+                Marshal.FreeHGlobal(userToken);
+                return null;
+            }
+
+            var userStruct = (NativeWinApiHelper.TOKEN_USER)Marshal.PtrToStructure(userToken, typeof(NativeWinApiHelper.TOKEN_USER));
+            /*if (!userStruct.User.Sid.IsValidSid())
+            {
+                NativeWinApiHelper.CloseHandle(hToken);
+                Marshal.FreeHGlobal(userToken);
+                return null;
+            }*/
+
+            int dwLength = NativeWinApiHelper.GetLengthSid(userStruct.User.Sid);
+            byte[] result = new byte[dwLength];
+            Marshal.Copy((IntPtr)userStruct.User.Sid, result, 0, dwLength);
+            NativeWinApiHelper.CloseHandle(hToken);
+            Marshal.FreeHGlobal(userToken);
+            return result;
+        }
 
         private static string decrypt(string key, string value, string group)
         {
@@ -119,14 +158,14 @@ namespace FilesFullTrust
             IntPtr xKeyPtr = Marshal.AllocHGlobal(xKey.Length);
             Marshal.Copy(xKey, 0, xKeyPtr, xKey.Length);
 
-            Crypt32.CRYPTOAPI_BLOB dataIn = new Crypt32.CRYPTOAPI_BLOB();
-            Crypt32.CRYPTOAPI_BLOB entropy = new Crypt32.CRYPTOAPI_BLOB();
+            NativeWinApiHelper.CRYPTOAPI_BLOB dataIn = new NativeWinApiHelper.CRYPTOAPI_BLOB();
+            NativeWinApiHelper.CRYPTOAPI_BLOB entropy = new NativeWinApiHelper.CRYPTOAPI_BLOB();
             dataIn.pbData = xValuePtr;
             dataIn.cbData = (uint)xValue.Length;
             entropy.pbData = xKeyPtr;
             entropy.cbData = (uint)xKey.Length;
 
-            if (!CryptUnprotectData(dataIn, null, entropy, IntPtr.Zero, IntPtr.Zero, 0, out var dataOut))
+            if (!NativeWinApiHelper.CryptUnprotectData(dataIn, null, entropy, IntPtr.Zero, IntPtr.Zero, 0, out var dataOut))
             {
                 Marshal.FreeHGlobal(xValuePtr);
                 Marshal.FreeHGlobal(xKeyPtr);
@@ -136,7 +175,7 @@ namespace FilesFullTrust
             byte[] managedArray = new byte[dataOut.cbData];
             Marshal.Copy(dataOut.pbData, managedArray, 0, (int)dataOut.cbData);
             byte[] xDecrypted = XOR(k, managedArray);
-            Kernel32.LocalFree(dataOut.pbData);
+            Marshal.FreeHGlobal(dataOut.pbData);
             Marshal.FreeHGlobal(xValuePtr);
             Marshal.FreeHGlobal(xKeyPtr);
             return Encoding.UTF8.GetString(xDecrypted);
@@ -207,20 +246,16 @@ namespace FilesFullTrust
         #endregion
 
         #region GOOGLEDRIVE
-        private static void DetectGoogleDrive(List<CloudProvider> ret)
+        private static async Task DetectGoogleDrive(List<CloudProvider> ret)
         {
             try
             {
                 // Google Drive's sync database can be in a couple different locations. Go find it. 
-                string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                string dbName = "sync_config.db";
-                var pathsToTry = new[] { @"Google\Drive\" + dbName, @"Google\Drive\user_default\" + dbName };
-
-                string syncDbPath = (from p in pathsToTry
-                                     where File.Exists(Path.Combine(appDataPath, p))
-                                     select Path.Combine(appDataPath, p))
-                                    .FirstOrDefault();
-                if (syncDbPath == null) return;
+                string appDataPath = UserDataPaths.GetDefault().LocalAppData;
+                string dbPath = @"Google\Drive\user_default\sync_config.db";
+                var configFile = await StorageFile.GetFileFromPathAsync(Path.Combine(appDataPath, dbPath));
+                await configFile.CopyAsync(ApplicationData.Current.TemporaryFolder, "google_drive.db", NameCollisionOption.ReplaceExisting);
+                var syncDbPath = Path.Combine(ApplicationData.Current.TemporaryFolder.Path, "google_drive.db");
 
                 // Build the connection and sql command
                 using (var con = new SqliteConnection($"Data Source='{syncDbPath}'"))
