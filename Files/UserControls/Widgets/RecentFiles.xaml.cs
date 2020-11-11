@@ -45,7 +45,11 @@ namespace Files
             {
                 var filePath = clickedOnItem.RecentPath;
                 var folderPath = filePath.Substring(0, filePath.Length - clickedOnItem.Name.Length);
-                RecentFilesOpenLocationInvoked?.Invoke(this, new PathNavigationEventArgs() { ItemPath = folderPath, LayoutType = AppSettings.GetLayoutType() });
+                RecentFilesOpenLocationInvoked?.Invoke(this, new PathNavigationEventArgs()
+                {
+                    ItemPath = folderPath,
+                    LayoutType = AppSettings.GetLayoutType()
+                });
             }
         }
 
@@ -146,14 +150,27 @@ namespace Files
                 }
                 ItemFolderImgVis = Visibility.Collapsed;
                 ItemFileIconVis = Visibility.Visible;
-                recentItemsCollection.Add(new RecentItem() { RecentPath = ItemPath, Name = ItemName, Type = ItemType, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
+                recentItemsCollection.Add(new RecentItem()
+                {
+                    RecentPath = ItemPath,
+                    Name = ItemName,
+                    Type = ItemType,
+                    FolderImg = ItemFolderImgVis,
+                    EmptyImgVis = ItemEmptyImgVis,
+                    FileImg = ItemImage,
+                    FileIconVis = ItemFileIconVis
+                });
             }
         }
 
         private void RecentsView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var path = (e.ClickedItem as RecentItem).RecentPath;
-            RecentFileInvoked?.Invoke(this, new PathNavigationEventArgs() { ItemPath = path, LayoutType = AppSettings.GetLayoutType() });
+            RecentFileInvoked?.Invoke(this, new PathNavigationEventArgs()
+            {
+                ItemPath = path,
+                LayoutType = AppSettings.GetLayoutType()
+            });
         }
 
         private async void RemoveOneFrequentItem(object sender, RoutedEventArgs e)

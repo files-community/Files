@@ -324,10 +324,14 @@ namespace Files.View_Models.Properties
         private async void ViewModelProcessing()
         {
             if (ViewModel.DetailsSectionVisibility_Photo.Equals(Visibility.Visible))
+            {
                 ViewModel.CameraNameString = string.Format("{0} {1}", ViewModel.SystemFileProperties_RW["System.Photo.CameraManufacturer"], ViewModel.SystemFileProperties_RW["System.Photo.CameraModel"]);
+            }
 
             if (ViewModel.DetailsSectionVisibility_GPS == Visibility.Visible)
+            {
                 SetLocationInformation();
+            }
 
             if (ViewModel.DetailsSectionVisibility_GPS.Equals(Visibility.Visible))
             {
@@ -374,8 +378,12 @@ namespace Files.View_Models.Properties
         private bool CheckVisibilityHelper(string endpoint, IDictionary<string, object> dict)
         {
             foreach (KeyValuePair<string, object> pair in dict)
+            {
                 if (pair.Key.Contains(endpoint) && pair.Value != null)
+                {
                     return true;
+                }
+            }
 
             return false;
         }
@@ -441,7 +449,9 @@ namespace Files.View_Models.Properties
                 var dict = new Dictionary<string, object>();
 
                 foreach (string str in PersonalProperties)
+                {
                     dict.Add(str, null);
+                }
 
                 await FilesystemTasks.Wrap(() => file.Properties.SavePropertiesAsync(dict).AsTask());
 

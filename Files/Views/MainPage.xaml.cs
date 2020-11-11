@@ -52,7 +52,7 @@ namespace Files.Views
         }
 
         public static ObservableCollection<TabItem> AppInstances = new ObservableCollection<TabItem>();
-        public static ObservableCollection<INavigationControlItem> sideBarItems = new ObservableCollection<INavigationControlItem>();
+        public static ObservableCollection<INavigationControlItem> SideBarItems = new ObservableCollection<INavigationControlItem>();
 
         public MainPage()
         {
@@ -201,9 +201,13 @@ namespace Files.Views
                         if (!remDriveNames.Contains(normalizedPath))
                         {
                             if (path != "A:" && path != "B:") // Check if it's using (generally) floppy-reserved letters.
+                            {
                                 fontIconSource.Glyph = "\xeb4a"; // Floppy Disk icon
+                            }
                             else
+                            {
                                 fontIconSource.Glyph = "\xeb8b"; // Hard Disk icon
+                            }
 
                             tabLocationHeader = normalizedPath;
                         }

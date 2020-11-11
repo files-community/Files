@@ -31,7 +31,11 @@ namespace Files
 
             NavigationPath = ClickedCard;
 
-            DrivesWidgetInvoked?.Invoke(this, new DrivesWidgetInvokedEventArgs() { Path = NavigationPath, LayoutType = AppSettings.GetLayoutType() });
+            DrivesWidgetInvoked?.Invoke(this, new DrivesWidgetInvokedEventArgs()
+            {
+                Path = NavigationPath,
+                LayoutType = AppSettings.GetLayoutType()
+            });
         }
 
         public class DrivesWidgetInvokedEventArgs : EventArgs

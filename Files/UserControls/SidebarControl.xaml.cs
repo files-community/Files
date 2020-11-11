@@ -305,19 +305,19 @@ namespace Files.Controls
                     locationItem.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
                     storageItems.AreItemsAlreadyInFolder(locationItem.Path))
                 {
-                    e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.None;
+                    e.AcceptedOperation = DataPackageOperation.None;
                 }
                 else
                 {
                     e.DragUIOverride.IsCaptionVisible = true;
                     if (storageItems.AreItemsInSameDrive(locationItem.Path))
                     {
-                        e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+                        e.AcceptedOperation = DataPackageOperation.Move;
                         e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), locationItem.Text);
                     }
                     else
                     {
-                        e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy;
+                        e.AcceptedOperation = DataPackageOperation.Copy;
                         e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalized(), locationItem.Text);
                     }
                 }
@@ -367,7 +367,12 @@ namespace Files.Controls
                 VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
                 var deferral = e.GetDeferral();
-                SidebarItemDropped?.Invoke(this, new SidebarItemDroppedEventArgs() { Package = e.DataView, ItemPath = locationItem.Path, AcceptedOperation = e.AcceptedOperation });
+                SidebarItemDropped?.Invoke(this, new SidebarItemDroppedEventArgs()
+                {
+                    Package = e.DataView,
+                    ItemPath = locationItem.Path,
+                    AcceptedOperation = e.AcceptedOperation
+                });
                 deferral.Complete();
             }
             else if ((e.DataView.Properties["sourceLocationItem"] as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is LocationItem sourceLocationItem)
@@ -382,7 +387,10 @@ namespace Files.Controls
         private async void NavigationViewDriveItem_DragOver(object sender, DragEventArgs e)
         {
             if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem) ||
-                !e.DataView.Contains(StandardDataFormats.StorageItems)) return;
+                !e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                return;
+            }
 
             var deferral = e.GetDeferral();
             e.Handled = true;
@@ -414,12 +422,20 @@ namespace Files.Controls
 
         private void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
         {
-            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem)) return;
+            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem))
+            {
+                return;
+            }
 
             VisualStateManager.GoToState(sender as Microsoft.UI.Xaml.Controls.NavigationViewItem, "Drop", false);
 
             var deferral = e.GetDeferral();
-            SidebarItemDropped?.Invoke(this, new SidebarItemDroppedEventArgs() { Package = e.DataView, ItemPath = driveItem.Path, AcceptedOperation = e.AcceptedOperation });
+            SidebarItemDropped?.Invoke(this, new SidebarItemDroppedEventArgs()
+            {
+                Package = e.DataView,
+                ItemPath = driveItem.Path,
+                AcceptedOperation = e.AcceptedOperation
+            });
             deferral.Complete();
         }
 

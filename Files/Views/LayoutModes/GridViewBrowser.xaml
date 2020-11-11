@@ -813,11 +813,11 @@
         VerticalAlignment="Stretch">
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
-                Key="{x:Bind plusKey}"
+                Key="{x:Bind PlusKey}"
                 Invoked="{x:Bind ParentShellPageInstance.ContentPage.GridViewSizeIncrease}"
                 Modifiers="Control" />
             <KeyboardAccelerator
-                Key="{x:Bind minusKey}"
+                Key="{x:Bind MinusKey}"
                 Invoked="{x:Bind ParentShellPageInstance.ContentPage.GridViewSizeDecrease}"
                 Modifiers="Control" />
             <KeyboardAccelerator

@@ -183,7 +183,7 @@ namespace Files.Filesystem
         }
 
         /// <summary>
-        /// Create an item object, optionally with an explicitly-specified dateReturnFormat.
+        /// Initializes a new instance of the <see cref="ListedItem" /> class, optionally with an explicitly-specified dateReturnFormat.
         /// </summary>
         /// <param name="folderRelativeId"></param>
         /// <param name="dateReturnFormat">Specify a date return format to reduce redundant checks of this setting.</param>
@@ -245,12 +245,17 @@ namespace Files.Filesystem
         public override string ToString()
         {
             string suffix;
-            if (IsRecycleBinItem) suffix = "RecycleBinItemAutomation".GetLocalized();
-            else if (IsShortcutItem) suffix = "ShortcutItemAutomation".GetLocalized();
+            if (IsRecycleBinItem)
+            {
+                suffix = "RecycleBinItemAutomation".GetLocalized();
+            }
+            else if (IsShortcutItem)
+            {
+                suffix = "ShortcutItemAutomation".GetLocalized();
+            }
             else
             {
-                if (PrimaryItemAttribute == StorageItemTypes.File) suffix = "FileItemAutomation".GetLocalized();
-                else suffix = "FolderItemAutomation".GetLocalized();
+                suffix = PrimaryItemAttribute == StorageItemTypes.File ? "FileItemAutomation".GetLocalized() : "FolderItemAutomation".GetLocalized();
             }
             return $"{ItemName}, {ItemPath}, {suffix}";
         }

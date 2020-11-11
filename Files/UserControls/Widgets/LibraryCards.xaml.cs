@@ -23,12 +23,45 @@ namespace Files
         {
             InitializeComponent();
             itemsAdded.Clear();
-            itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Blue.png", Icon = "\xe91c", Text = "SidebarDownloads".GetLocalized(), Tag = "Downloads" });
-            itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Green.png", Icon = "\xea11", Text = "SidebarDocuments".GetLocalized(), Tag = "Documents" });
-            itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Orange.png", Icon = "\xea83", Text = "SidebarPictures".GetLocalized(), Tag = "Pictures" });
-            itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Pink.png", Icon = "\xead4", Text = "SidebarMusic".GetLocalized(), Tag = "Music" });
-            itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Red.png", Icon = "\xec0d", Text = "SidebarVideos".GetLocalized(), Tag = "Videos" });
-            foreach (var item in itemsAdded) { item.AutomationProperties = item.Text; }
+            itemsAdded.Add(new FavoriteLocationItem()
+            {
+                ImageSource = "Assets/Cards/Gradients/Blue.png",
+                Icon = "\xe91c",
+                Text = "SidebarDownloads".GetLocalized(),
+                Tag = "Downloads"
+            });
+            itemsAdded.Add(new FavoriteLocationItem()
+            {
+                ImageSource = "Assets/Cards/Gradients/Green.png",
+                Icon = "\xea11",
+                Text = "SidebarDocuments".GetLocalized(),
+                Tag = "Documents"
+            });
+            itemsAdded.Add(new FavoriteLocationItem()
+            {
+                ImageSource = "Assets/Cards/Gradients/Orange.png",
+                Icon = "\xea83",
+                Text = "SidebarPictures".GetLocalized(),
+                Tag = "Pictures"
+            });
+            itemsAdded.Add(new FavoriteLocationItem()
+            {
+                ImageSource = "Assets/Cards/Gradients/Pink.png",
+                Icon = "\xead4",
+                Text = "SidebarMusic".GetLocalized(),
+                Tag = "Music"
+            });
+            itemsAdded.Add(new FavoriteLocationItem()
+            {
+                ImageSource = "Assets/Cards/Gradients/Red.png",
+                Icon = "\xec0d",
+                Text = "SidebarVideos".GetLocalized(),
+                Tag = "Videos"
+            });
+            foreach (var item in itemsAdded)
+            {
+                item.AutomationProperties = item.Text;
+            }
         }
 
         private void GridScaleUp(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -78,7 +111,11 @@ namespace Files
                     NavigationPath = AppSettings.RecycleBinPath;
                     break;
             }
-            LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs() { Path = NavigationPath, LayoutType = AppSettings.GetLayoutType() });
+            LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs()
+            {
+                Path = NavigationPath,
+                LayoutType = AppSettings.GetLayoutType()
+            });
         }
     }
 

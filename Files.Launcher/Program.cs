@@ -120,10 +120,12 @@ namespace FilesFullTrust
             }
             if (connection != null)
             {
-                var response = new ValueSet() {
+                var response = new ValueSet()
+                {
                     { "FileSystem", @"Shell:RecycleBinFolder" },
                     { "Path", e.FullPath },
-                    { "Type", e.ChangeType.ToString() } };
+                    { "Type", e.ChangeType.ToString() }
+                };
                 if (e.ChangeType == WatcherChangeTypes.Created)
                 {
                     using var folderItem = new ShellItem(e.FullPath);
@@ -299,9 +301,11 @@ namespace FilesFullTrust
                 case "GetIconOverlay":
                     var fileIconPath = (string)args.Request.Message["filePath"];
                     var iconOverlay = Win32API.GetFileOverlayIcon(fileIconPath);
-                    await args.Request.SendResponseAsync(new ValueSet() {
+                    await args.Request.SendResponseAsync(new ValueSet()
+                    {
                         { "IconOverlay", iconOverlay.icon },
-                        { "HasCustomIcon", iconOverlay.isCustom } });
+                        { "HasCustomIcon", iconOverlay.isCustom }
+                    });
                     break;
 
                 default:
@@ -364,7 +368,8 @@ namespace FilesFullTrust
 
         private static Func<string, bool> FilterMenuItems(bool showOpenMenu)
         {
-            var knownItems = new List<string>() {
+            var knownItems = new List<string>()
+            {
                 "opennew", "openas", "opencontaining", "opennewprocess",
                 "runas", "runasuser", "pintohome", "PinToStartScreen",
                 "cut", "copy", "paste", "delete", "properties", "link",
@@ -433,7 +438,8 @@ namespace FilesFullTrust
                         if (linkPath.EndsWith(".lnk"))
                         {
                             using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
-                            await args.Request.SendResponseAsync(new ValueSet() {
+                            await args.Request.SendResponseAsync(new ValueSet()
+                            {
                                 { "TargetPath", link.TargetPath },
                                 { "Arguments", link.Arguments },
                                 { "WorkingDirectory", link.WorkingDirectory },
@@ -450,7 +456,8 @@ namespace FilesFullTrust
                                 ipf.GetUrl(out var retVal);
                                 return retVal;
                             });
-                            await args.Request.SendResponseAsync(new ValueSet() {
+                            await args.Request.SendResponseAsync(new ValueSet()
+                            {
                                 { "TargetPath", linkUrl },
                                 { "Arguments", null },
                                 { "WorkingDirectory", null },
@@ -463,7 +470,8 @@ namespace FilesFullTrust
                     {
                         // Could not parse shortcut
                         Logger.Warn(ex, ex.Message);
-                        await args.Request.SendResponseAsync(new ValueSet() {
+                        await args.Request.SendResponseAsync(new ValueSet()
+                        {
                             { "TargetPath", null },
                             { "Arguments", null },
                             { "WorkingDirectory", null },

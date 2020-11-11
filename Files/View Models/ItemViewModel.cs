@@ -279,7 +279,9 @@ namespace Files.Filesystem
                         jumpedToItem = candidateItems.FirstOrDefault(f => f.ItemName.CompareTo(previouslySelectedItem.ItemName) > 0);
                     }
                     if (jumpedToItem == null)
+                    {
                         jumpedToItem = candidateItems.FirstOrDefault();
+                    }
 
                     if (jumpedToItem != null)
                     {
@@ -391,7 +393,10 @@ namespace Files.Filesystem
             CloseWatcher();
 
             AssociatedInstance.NavigationToolbar.CanRefresh = true;
-            if (IsLoadingItems == false) { return; }
+            if (IsLoadingItems == false)
+            {
+                return;
+            }
 
             _addFilesCTS.Cancel();
             _filesAndFolders.Clear();
@@ -407,7 +412,9 @@ namespace Files.Filesystem
         public void OrderFiles()
         {
             if (_filesAndFolders.Count == 0)
+            {
                 return;
+            }
 
             static object orderByNameFunc(ListedItem item) => item.ItemName;
             Func<ListedItem, object> orderFunc = orderByNameFunc;
@@ -440,25 +447,37 @@ namespace Files.Filesystem
             if (AppSettings.DirectorySortDirection == SortDirection.Ascending)
             {
                 if (AppSettings.DirectorySortOption == SortOption.Name)
+                {
                     ordered = _filesAndFolders.OrderBy(folderThenFileAsync).ThenBy(orderFunc, naturalStringComparer);
+                }
                 else
+                {
                     ordered = _filesAndFolders.OrderBy(folderThenFileAsync).ThenBy(orderFunc);
+                }
             }
             else
             {
                 if (AppSettings.DirectorySortOption == SortOption.FileType)
                 {
                     if (AppSettings.DirectorySortOption == SortOption.Name)
+                    {
                         ordered = _filesAndFolders.OrderBy(folderThenFileAsync).ThenByDescending(orderFunc, naturalStringComparer);
+                    }
                     else
+                    {
                         ordered = _filesAndFolders.OrderBy(folderThenFileAsync).ThenByDescending(orderFunc);
+                    }
                 }
                 else
                 {
                     if (AppSettings.DirectorySortOption == SortOption.Name)
+                    {
                         ordered = _filesAndFolders.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc, naturalStringComparer);
+                    }
                     else
+                    {
                         ordered = _filesAndFolders.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc);
+                    }
                 }
             }
 
@@ -466,9 +485,13 @@ namespace Files.Filesystem
             if (AppSettings.DirectorySortOption != SortOption.Name)
             {
                 if (AppSettings.DirectorySortDirection == SortDirection.Ascending)
+                {
                     ordered = ordered.ThenBy(orderByNameFunc, naturalStringComparer);
+                }
                 else
+                {
                     ordered = ordered.ThenByDescending(orderByNameFunc, naturalStringComparer);
+                }
             }
             orderedList = ordered.ToList();
 
@@ -772,10 +795,10 @@ namespace Files.Filesystem
                     IsLoadingItems = false;
                     return;
                 }
-                if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
+                if (response.Status == AppServiceResponseStatus.Success
                     && response.Message.ContainsKey("Enumerate"))
                 {
-                    var folderContentsList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response.Message["Enumerate"]);
+                    var folderContentsList = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response.Message["Enumerate"]);
                     for (int count = 0; count < folderContentsList.Count; count++)
                     {
                         var item = folderContentsList[count];
@@ -919,7 +942,7 @@ namespace Files.Filesystem
                     ItemType = _rootFolder.DisplayType,
                     LoadFolderGlyph = true,
                     FileImage = null,
-                    IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden ? true : false,
+                    IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden,
                     LoadFileIcon = false,
                     ItemPath = string.IsNullOrEmpty(_rootFolder.Path) ? _currentStorageFolder.Path : _rootFolder.Path,
                     LoadUnknownTypeGlyph = false,
@@ -947,7 +970,9 @@ namespace Files.Filesystem
                         {
                             var itemPath = Path.Combine(path, findData.cFileName);
                             if (CheckFolderForHiddenAttribute(itemPath) && !AppSettings.AreHiddenItemsVisible)
+                            {
                                 continue;
+                            }
 
                             if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                             {
@@ -997,7 +1022,10 @@ namespace Files.Filesystem
                 {
                     var results = await _rootFolder.GetItemsAsync(count, 1);
                     item = results?.FirstOrDefault();
-                    if (item == null) break;
+                    if (item == null)
+                    {
+                        break;
+                    }
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -1077,7 +1105,10 @@ namespace Files.Filesystem
             Debug.WriteLine("WatchForDirectoryChanges: {0}", path);
             hWatchDir = CreateFileFromApp(path, 1, 1 | 2 | 4,
                 IntPtr.Zero, 3, (uint)File_Attributes.BackupSemantics | (uint)File_Attributes.Overlapped, IntPtr.Zero);
-            if (hWatchDir.ToInt64() == -1) return;
+            if (hWatchDir.ToInt64() == -1)
+            {
+                return;
+            }
 
             byte[] buff = new byte[4096];
 
@@ -1115,7 +1146,10 @@ namespace Files.Filesystem
                             }
 
                             Debug.WriteLine("waiting: {0}", rand);
-                            if (x.Status == AsyncStatus.Canceled) { break; }
+                            if (x.Status == AsyncStatus.Canceled)
+                            {
+                                break;
+                            }
                             var rc = WaitForSingleObjectEx(overlapped.hEvent, INFINITE, true);
                             Debug.WriteLine("wait done: {0}", rand);
 
@@ -1127,7 +1161,10 @@ namespace Files.Filesystem
 
                             uint offset = 0;
                             ref var notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
-                            if (x.Status == AsyncStatus.Canceled) { break; }
+                            if (x.Status == AsyncStatus.Canceled)
+                            {
+                                break;
+                            }
 
                             do
                             {
@@ -1404,7 +1441,7 @@ namespace Files.Filesystem
                 ItemType = "FileFolderListItem".GetLocalized(),
                 LoadFolderGlyph = true,
                 FileImage = null,
-                IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden ? true : false,
+                IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden,
                 LoadFileIcon = false,
                 ItemPath = itemPath,
                 LoadUnknownTypeGlyph = false,
@@ -1494,17 +1531,19 @@ namespace Files.Filesystem
             {
                 if (Connection != null)
                 {
-                    var response = Connection.SendMessageAsync(new ValueSet() {
+                    var response = Connection.SendMessageAsync(new ValueSet()
+                    {
                         { "Arguments", "FileOperation" },
                         { "fileop", "ParseLink" },
-                        { "filepath", itemPath } }).AsTask().Result;
+                        { "filepath", itemPath }
+                    }).AsTask().Result;
                     // If the request was canceled return now
                     if (_addFilesCTS.IsCancellationRequested)
                     {
                         IsLoadingItems = false;
                         return;
                     }
-                    if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
+                    if (response.Status == AppServiceResponseStatus.Success
                         && response.Message.ContainsKey("TargetPath"))
                     {
                         var isUrl = findData.cFileName.EndsWith(".url");
@@ -1520,7 +1559,7 @@ namespace Files.Filesystem
                         {
                             PrimaryItemAttribute = (bool)response.Message["IsFolder"] ? StorageItemTypes.Folder : StorageItemTypes.File,
                             FileExtension = itemFileExtension,
-                            IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden ? true : false,
+                            IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden,
                             FileImage = !(bool)response.Message["IsFolder"] ? icon : null,
                             LoadFileIcon = !(bool)response.Message["IsFolder"] && itemThumbnailImgVis,
                             LoadUnknownTypeGlyph = !(bool)response.Message["IsFolder"] && !isUrl && itemEmptyImgVis,
@@ -1554,7 +1593,7 @@ namespace Files.Filesystem
                     LoadFileIcon = itemThumbnailImgVis,
                     LoadFolderGlyph = itemFolderImgVis,
                     ItemName = itemName,
-                    IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden ? true : false,
+                    IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden,
                     ItemDateModifiedReal = itemModifiedDate,
                     ItemDateAccessedReal = itemLastAccessDate,
                     ItemDateCreatedReal = itemCreatedDate,

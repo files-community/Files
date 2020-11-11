@@ -102,7 +102,10 @@ namespace Files.Controllers
 
         public void SaveModel()
         {
-            if (JsonFile == null) return;
+            if (JsonFile == null)
+            {
+                return;
+            }
 
             using (var file = File.CreateText(Folder.Path + Path.DirectorySeparatorChar + JsonFileName))
             {

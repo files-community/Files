@@ -95,7 +95,7 @@ namespace Files.Controls
 
         public static bool IsWindowResizedToCompactWidth()
         {
-            return Window.Current.Bounds.Width <= 750 ? true : false;
+            return Window.Current.Bounds.Width <= 750;
         }
 
         public bool IsWindowCompactSize

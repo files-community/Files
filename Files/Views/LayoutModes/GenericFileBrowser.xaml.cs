@@ -2,7 +2,7 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
-using Files.UserControls;
+using Files.UserControls.Selection;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
@@ -40,21 +40,33 @@ namespace Files
             set
             {
                 if (value == nameColumn)
+                {
                     AppSettings.DirectorySortOption = SortOption.Name;
+                }
                 else if (value == dateColumn)
+                {
                     AppSettings.DirectorySortOption = SortOption.DateModified;
+                }
                 else if (value == typeColumn)
+                {
                     AppSettings.DirectorySortOption = SortOption.FileType;
+                }
                 else if (value == sizeColumn)
+                {
                     AppSettings.DirectorySortOption = SortOption.Size;
+                }
                 else
+                {
                     AppSettings.DirectorySortOption = SortOption.Name;
+                }
 
                 if (value != _sortedColumn)
                 {
                     // Remove arrow on previous sorted column
                     if (_sortedColumn != null)
+                    {
                         _sortedColumn.SortDirection = null;
+                    }
                 }
                 value.SortDirection = AppSettings.DirectorySortDirection == SortDirection.Ascending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
                 _sortedColumn = value;
@@ -458,7 +470,9 @@ namespace Files
         public void AllView_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             if (!IsRenamingItem)
+            {
                 HandleRightClick(sender, e);
+            }
         }
 
         public void AllView_Holding(object sender, HoldingRoutedEventArgs e)
