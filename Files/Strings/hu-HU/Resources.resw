@@ -16,7 +16,7 @@
     <value>Elem(ek) törlése</value>
   </data>
   <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>Mégsem</value>
+    <value>Mégse</value>
   </data>
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
     <value>Törlés</value>
@@ -94,10 +94,10 @@
     <value>Tovább</value>
   </data>
   <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>Mégsem</value>
+    <value>Mégse</value>
   </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Fájl típusa:</value>
+    <value>Elem típusa:</value>
   </data>
   <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
     <value>Mind kijelölése</value>
@@ -154,7 +154,7 @@
     <value>Visszajelzés küldése</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Részletesebb információ küldése a hibáról a fejlesztőknek</value>
+    <value>Visszajelzés küldése a fejlesztőknek</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Harmadik személytől származó licenc-ek</value>
@@ -373,7 +373,7 @@
     <value>Név beállítása</value>
   </data>
   <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Mégsem</value>
+    <value>Mégse</value>
   </data>
   <data name="NewTab" xml:space="preserve">
     <value>Új lap</value>
@@ -601,7 +601,7 @@
     <value>OK</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Mégsem</value>
+    <value>Mégse</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Biztosan törölne minden elemet?</value>
@@ -640,7 +640,7 @@
     <value>Feloldás</value>
   </data>
   <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Mégsem</value>
+    <value>Mégse</value>
   </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
     <value>Írja be a jelszót a meghajtó feloldásához</value>
@@ -880,7 +880,7 @@
     <value>Hozzáférés Megtagadva</value>
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>Mégsem</value>
+    <value>Mégse</value>
   </data>
   <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
     <value>Biztosan szeretné törölni ezt a(z) {0} fájlt?</value>
@@ -925,7 +925,7 @@
     <value>Hely másolása</value>
   </data>
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Mégsem</value>
+    <value>Mégse</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
     <value>Új elem készítése</value>
@@ -1085,5 +1085,11 @@
   </data>
   <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
     <value>Kijelölt elem helyének másolása lehetőség megjelenítése</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
+    <value>Rejtett fájlok és mappák mutatása</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Rejtett fájlok és mappák mutatása</value>
   </data>
 </root>
