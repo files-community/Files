@@ -1092,9 +1092,6 @@
   <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Show an option to copy the location of the selected item</value>
   </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Pin OneDrive to the sidebar</value>
-  </data>
   <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Pin Recycle Bin to the sidebar</value>
   </data>
@@ -1124,9 +1121,6 @@
   </data>
   <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
     <value>Show all context menu items</value>
-  </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.Header" xml:space="preserve">
-    <value>Pin OneDrive to the sidebar</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Pin Recycle Bin to the sidebar</value>

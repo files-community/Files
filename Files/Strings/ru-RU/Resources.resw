@@ -957,9 +957,6 @@
   <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Показать возможность копирования местоположения выбранного элемента</value>
   </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Закрепить OneDrive на боковой панели</value>
-  </data>
   <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Закрепить Корзину на боковой панели</value>
   </data>

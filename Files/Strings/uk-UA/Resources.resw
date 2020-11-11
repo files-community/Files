@@ -957,9 +957,6 @@
   <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Показати опцію копіювання розташування вибраного елемента</value>
   </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Закріпити OneDrive на бічній панелі</value>
-  </data>
   <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Закріпити Кошик на бічній панелі</value>
   </data>

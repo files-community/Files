@@ -41,7 +41,6 @@ namespace Files.View_Models
         {
             _roamingSettings = ApplicationData.Current.RoamingSettings;
 
-            DetectOneDrivePreference();
             DetectAcrylicPreference();
             DetectDateTimeFormat();
             PinSidebarLocationItems();
@@ -56,7 +55,6 @@ namespace Files.View_Models
             // Send analytics
             Analytics.TrackEvent("DisplayedTimeStyle " + DisplayedTimeStyle.ToString());
             Analytics.TrackEvent("ThemeValue " + ThemeHelper.RootTheme.ToString());
-            Analytics.TrackEvent("PinOneDriveToSideBar " + PinOneDriveToSideBar.ToString());
             Analytics.TrackEvent("PinRecycleBinToSideBar " + PinRecycleBinToSideBar.ToString());
             Analytics.TrackEvent("ShowFileExtensions " + ShowFileExtensions.ToString());
             Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
@@ -253,20 +251,6 @@ namespace Files.View_Models
         public string OneDriveCommercialPath { get; set; } = Environment.GetEnvironmentVariable("OneDriveCommercial");
         public string OneDrivePath { get; set; } = Environment.GetEnvironmentVariable("OneDriveConsumer");
 
-        private async void DetectOneDrivePreference()
-        {
-            if (localSettings.Values["PinOneDrive"] == null) { localSettings.Values["PinOneDrive"] = true; }
-
-            if ((bool)localSettings.Values["PinOneDrive"] == true)
-            {
-                PinOneDriveToSideBar = true;
-            }
-            else
-            {
-                PinOneDriveToSideBar = false;
-            }
-        }
-
         public bool ShowFileOwner
         {
             get => Get(false);
@@ -295,42 +279,6 @@ namespace Files.View_Models
         {
             get => Get(false);
             set => Set(value);
-        }
-
-        private bool _PinOneDriveToSideBar = true;
-
-        public bool PinOneDriveToSideBar
-        {
-            get => _PinOneDriveToSideBar;
-            set
-            {
-                if (value != _PinOneDriveToSideBar)
-                {
-                    SetProperty(ref _PinOneDriveToSideBar, value);
-                    if (value == true)
-                    {
-                        localSettings.Values["PinOneDrive"] = true;
-                        foreach (DriveItem item in DrivesManager.Drives.ToList())
-                        {
-                            if (item.ItemType == NavigationControlItemType.OneDrive)
-                            {
-                                MainPage.sideBarItems.Add(item);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        localSettings.Values["PinOneDrive"] = false;
-                        foreach (INavigationControlItem item in MainPage.sideBarItems.ToList())
-                        {
-                            if (item is DriveItem && item.ItemType == NavigationControlItemType.OneDrive)
-                            {
-                                MainPage.sideBarItems.Remove(item);
-                            }
-                        }
-                    }
-                }
-            }
         }
 
         // Any distinguishable path here is fine

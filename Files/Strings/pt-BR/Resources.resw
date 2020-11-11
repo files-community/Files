@@ -960,9 +960,6 @@
   <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostra uma opção para copiar a localização do item selecionado</value>
   </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Fixar OneDrive na barra lateral</value>
-  </data>
   <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Fixar a lixeira na barra lateral</value>
   </data>
@@ -998,9 +995,6 @@
   </data>
   <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
     <value>Mostrar todos os itens do menu de contexto</value>
-  </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.Header" xml:space="preserve">
-    <value>Fixar OneDrive na barra lateral</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Fixar a lixeira na barra lateral</value>

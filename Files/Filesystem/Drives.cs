@@ -298,31 +298,27 @@ namespace Files.Filesystem
 
         public async Task GetVirtualDrivesListAsync()
         {
-            var setting = ApplicationData.Current.LocalSettings.Values["PinOneDrive"];
-            if (setting == null || (bool)setting == true)
+            var connection = await InitializeAppServiceConnection();
+            if (connection != null)
             {
-                var connection = await InitializeAppServiceConnection();
-                if (connection != null)
-                {
-                    var response = await connection.SendMessageAsync(new ValueSet() {
+                var response = await connection.SendMessageAsync(new ValueSet() {
                         { "Arguments", "CloudProviders" } });
-                    if (response.Status == AppServiceResponseStatus.Success && response.Message.ContainsKey("DetectedCloudProviders"))
+                if (response.Status == AppServiceResponseStatus.Success && response.Message.ContainsKey("DetectedCloudProviders"))
+                {
+                    var providers = Newtonsoft.Json.JsonConvert.DeserializeObject<List<CloudProvider>>((string)response.Message["DetectedCloudProviders"]);
+                    foreach (var provider in providers)
                     {
-                        var providers = Newtonsoft.Json.JsonConvert.DeserializeObject<List<CloudProvider>>((string)response.Message["DetectedCloudProviders"]);
-                        foreach (var provider in providers)
+                        var cloudProviderItem = new DriveItem()
                         {
-                            var cloudProviderItem = new DriveItem()
-                            {
-                                Text = provider.Name,
-                                Path = provider.SyncFolder,
-                                Type = Filesystem.DriveType.VirtualDrive,
-                            };
-                            _Drives.Add(cloudProviderItem);
-                        }
+                            Text = provider.Name,
+                            Path = provider.SyncFolder,
+                            Type = Filesystem.DriveType.VirtualDrive,
+                        };
+                        _Drives.Add(cloudProviderItem);
                     }
-                    connection.Dispose();
-                    DeviceWatcher_EnumerationCompleted(null, null);
                 }
+                connection.Dispose();
+                DeviceWatcher_EnumerationCompleted(null, null);
             }
         }
 
@@ -343,7 +339,7 @@ namespace Files.Filesystem
 
             // Launch fulltrust process
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-            await Task.Delay(TimeSpan.FromSeconds(5));
+            await Task.Delay(TimeSpan.FromSeconds(2));
             return ServiceConnection;
         }
 
