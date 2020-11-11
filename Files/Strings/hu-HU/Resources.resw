@@ -183,9 +183,6 @@
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>Kiterjesztés mutatása ismert fájlformátumoknál</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Header" xml:space="preserve">
-    <value>Rejtett, fájlok és mappák meghajtók mutatása</value>
-  </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Fájlok és Mappák</value>
   </data>

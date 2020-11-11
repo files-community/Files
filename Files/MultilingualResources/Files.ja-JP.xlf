@@ -1342,10 +1342,6 @@
           <source>Show extensions for known file types</source>
           <target state="translated">既知のファイルタイプの拡張子を表示する</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Header" translate="yes" xml:space="preserve">
-          <source>Show hidden files, folders, and drives</source>
-          <target state="translated">隠しファイル、フォルダ、およびドライブを表示する</target>
-        </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Header" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>
           <target state="translated">アクリルサイドバー</target>
@@ -1441,6 +1437,14 @@
         <trans-unit id="SettingsPreferencesCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show an option to copy the location of the selected item</source>
           <target state="translated">選択したアイテムの場所をコピーするオプションを表示する</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Header" translate="yes" xml:space="preserve">
+          <source>Show hidden files and folders</source>
+          <target state="new">Show hidden files and folders</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show hidden files and folders</source>
+          <target state="new">Show hidden files and folders</target>
         </trans-unit>
       </group>
     </body>

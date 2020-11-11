@@ -1345,10 +1345,6 @@
           <source>Show extensions for known file types</source>
           <target state="translated">Dateierweiterungen für bekannte Dateiformate anzeigen</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Header" translate="yes" xml:space="preserve">
-          <source>Show hidden files, folders, and drives</source>
-          <target state="translated">Versteckte Dateien, Ordner und Laufwerke anzeigen</target>
-        </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Header" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>
           <target state="translated">Acrylic-Effekt für die Seitenleiste</target>
@@ -1444,6 +1440,14 @@
         <trans-unit id="SettingsPreferencesCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show an option to copy the location of the selected item</source>
           <target state="translated">Eine Option anzeigen, um den Speicherort des ausgewählten Elements zu kopieren</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Header" translate="yes" xml:space="preserve">
+          <source>Show hidden files and folders</source>
+          <target state="new">Show hidden files and folders</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show hidden files and folders</source>
+          <target state="new">Show hidden files and folders</target>
         </trans-unit>
       </group>
     </body>

@@ -645,9 +645,6 @@
   <data name="SettingsFilesAndFoldersShowDriveLetters.Header" xml:space="preserve">
     <value>‏‏הצג אותיות כונן</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Header" xml:space="preserve">
-    <value>‏‏הצג קבצים, תיקיות וכוננים מוסתרים</value>
-  </data>
   <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
     <value>תבנית תאריך.</value>
   </data>

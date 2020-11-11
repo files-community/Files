@@ -64,8 +64,9 @@ namespace Files.View_Models
             Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
             Analytics.TrackEvent("IsHorizontalTabStripEnabled " + IsHorizontalTabStripEnabled.ToString());
             Analytics.TrackEvent("IsVerticalTabFlyoutEnabled " + IsVerticalTabFlyoutEnabled.ToString());
+            Analytics.TrackEvent("AreHiddenItemsVisible " + AreHiddenItemsVisible.ToString());
+            
             // Load the supported languages
-
             var supportedLang = ApplicationLanguages.ManifestLanguages;
             DefaultLanguages = new ObservableCollection<DefaultLanguageModel> { new DefaultLanguageModel(null) };
             foreach (var lang in supportedLang)
@@ -513,6 +514,12 @@ namespace Files.View_Models
         }
 
         public bool AlwaysOpenANewInstance
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        public bool AreHiddenItemsVisible
         {
             get => Get(false);
             set => Set(value);
