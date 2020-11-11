@@ -41,7 +41,7 @@ namespace Files.Filesystem
             return ret;
         }
 
-        # region DROPBOX
+        #region DROPBOX
         private static async Task DetectDropbox(List<CloudProvider> ret)
         {
             try
@@ -73,7 +73,7 @@ namespace Files.Filesystem
                 var parser = new IniDataParser();
                 var data = parser.Parse(await FileIO.ReadTextAsync(configFile));
                 byte[] fixedSeed = Encoding.UTF8.GetBytes("$JY/X?o=h·&%v/M(");
-                byte[] localKey = getLocalStorageKey(); /*sid.GetBinaryForm()*/;
+                byte[] localKey = getLocalStorageKey(); /*sid.GetBinaryForm()*/
                 byte[] xLocalKey = XOR(fixedSeed, localKey);
                 var sh = SHA1.Create();
                 byte[] hLocalKey = sh.ComputeHash(xLocalKey);

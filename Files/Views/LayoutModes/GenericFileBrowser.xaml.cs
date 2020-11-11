@@ -19,6 +19,7 @@ using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
@@ -309,7 +310,18 @@ namespace Files
             }
             renamingTextBox.Select(0, selectedTextLength);
             renamingTextBox.TextChanged += TextBox_TextChanged;
+            e.EditingElement.LosingFocus += EditingElement_LosingFocus;
             IsRenamingItem = true;
+        }
+
+        private void EditingElement_LosingFocus(UIElement sender, LosingFocusEventArgs args)
+        {
+            if (args.NewFocusedElement is Popup)
+            {
+                args.Cancel = true;
+                args.TryCancel();
+                args.TrySetNewFocusedElement(args.OldFocusedElement);
+            }
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -328,6 +340,7 @@ namespace Files
 
         private async void AllView_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
+            e.EditingElement.LosingFocus -= EditingElement_LosingFocus;
             if (e.EditAction == DataGridEditAction.Cancel || renamingTextBox == null)
             {
                 return;
@@ -444,7 +457,8 @@ namespace Files
 
         public void AllView_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            HandleRightClick(sender, e);
+            if (!IsRenamingItem)
+                HandleRightClick(sender, e);
         }
 
         public void AllView_Holding(object sender, HoldingRoutedEventArgs e)

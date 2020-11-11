@@ -9,6 +9,7 @@ namespace Files.Filesystem
 {
     public class ListedItem : ObservableObject
     {
+        public bool IsHiddenItem { get; set; } = false;
         public StorageItemTypes PrimaryItemAttribute { get; set; }
         public bool ItemPropertiesInitialized { get; set; } = false;
         public string FolderTooltipText { get; set; }

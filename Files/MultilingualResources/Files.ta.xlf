@@ -1339,10 +1339,6 @@
           <source>Show extensions for known file types</source>
           <target state="translated">அறிந்த கோப்பு வகைகளுக்கு நீட்டிப்பைக் காண்பி</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Header" translate="yes" xml:space="preserve">
-          <source>Show hidden files, folders, and drives</source>
-          <target state="new">Show hidden files, folders, and drives</target>
-        </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Header" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>
           <target state="translated">Acrylic பக்கப்பட்டி</target>
@@ -1438,6 +1434,14 @@
         <trans-unit id="SettingsPreferencesCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show an option to copy the location of the selected item</source>
           <target state="translated">தேர்வுசெய்யப்பட்ட உருப்படியின் இருப்பிடத்தை நகலெடுக்க ஒரு பொத்தானைக் காண்பி</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Header" translate="yes" xml:space="preserve">
+          <source>Show hidden files and folders</source>
+          <target state="new">Show hidden files and folders</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show hidden files and folders</source>
+          <target state="new">Show hidden files and folders</target>
         </trans-unit>
       </group>
     </body>

@@ -1008,9 +1008,6 @@
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>既知のファイルタイプの拡張子を表示する</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Header" xml:space="preserve">
-    <value>隠しファイル、フォルダ、およびドライブを表示する</value>
-  </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>アクリルサイドバー</value>
   </data>

@@ -1008,9 +1008,6 @@
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>Mostra estensione per i tipi di file conosciuti</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Header" xml:space="preserve">
-    <value>Mostra file, cartelle, unità nascosti</value>
-  </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Barra laterale acrilica</value>
   </data>

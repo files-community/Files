@@ -678,7 +678,7 @@
             <controls:DataGrid.CellStyle>
                 <Style TargetType="controls:DataGridCell">
                     <Setter Property="BorderThickness" Value="0" />
-                    <Setter Property="AllowFocusOnInteraction" Value="False" />
+                    <Setter Property="AllowFocusOnInteraction" Value="True" />
                     <Setter Property="FocusVisualPrimaryThickness" Value="0" />
                     <Setter Property="FocusVisualSecondaryThickness" Value="0" />
                 </Style>

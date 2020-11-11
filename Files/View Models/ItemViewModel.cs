@@ -801,12 +801,15 @@ namespace Files.Filesystem
             }
             else if (res == FilesystemErrorCode.ERROR_UNAUTHORIZED)
             {
-                // TODO: proper dialog
-                await DialogDisplayHelper.ShowDialogAsync(
-                    "AccessDeniedDeleteDialog/Title".GetLocalized(),
-                    "SubDirectoryAccessDenied".GetLocalized());
-                IsLoadingItems = false;
-                return false;
+                if (!CheckFolderForHiddenAttribute(path))    // Is a standard location
+                {
+                    //TODO: proper dialog
+                    await DialogDisplayHelper.ShowDialogAsync(
+                       "AccessDeniedDeleteDialog/Title".GetLocalized(),
+                       "SubDirectoryAccessDenied".GetLocalized());
+                    IsLoadingItems = false;
+                    return false;
+                }
             }
             else if (res == FilesystemErrorCode.ERROR_NOTFOUND)
             {
@@ -916,6 +919,7 @@ namespace Files.Filesystem
                     ItemType = _rootFolder.DisplayType,
                     LoadFolderGlyph = true,
                     FileImage = null,
+                    IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden ? true : false,
                     LoadFileIcon = false,
                     ItemPath = string.IsNullOrEmpty(_rootFolder.Path) ? _currentStorageFolder.Path : _rootFolder.Path,
                     LoadUnknownTypeGlyph = false,
@@ -939,8 +943,12 @@ namespace Files.Filesystem
                 {
                     do
                     {
-                        if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) != FileAttributes.Hidden && ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System)
+                        if (((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System)
                         {
+                            var itemPath = Path.Combine(path, findData.cFileName);
+                            if (CheckFolderForHiddenAttribute(itemPath) && !AppSettings.AreHiddenItemsVisible)
+                                continue;
+
                             if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                             {
                                 AddFile(findData, path, returnformat);
@@ -1018,6 +1026,15 @@ namespace Files.Filesystem
             }
             stopwatch.Stop();
             Debug.WriteLine($"Enumerating items in {WorkingDirectory} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
+        }
+
+        private bool CheckFolderForHiddenAttribute(string path)
+        {
+            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+            IntPtr hFileTsk = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
+                additionalFlags);
+            return ((FileAttributes)findDataTsk.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
         }
 
         private async Task<bool> CheckBitlockerStatusAsync(StorageFolder rootFolder)
@@ -1387,6 +1404,7 @@ namespace Files.Filesystem
                 ItemType = "FileFolderListItem".GetLocalized(),
                 LoadFolderGlyph = true,
                 FileImage = null,
+                IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden ? true : false,
                 LoadFileIcon = false,
                 ItemPath = itemPath,
                 LoadUnknownTypeGlyph = false,
@@ -1502,6 +1520,7 @@ namespace Files.Filesystem
                         {
                             PrimaryItemAttribute = (bool)response.Message["IsFolder"] ? StorageItemTypes.Folder : StorageItemTypes.File,
                             FileExtension = itemFileExtension,
+                            IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden ? true : false,
                             FileImage = !(bool)response.Message["IsFolder"] ? icon : null,
                             LoadFileIcon = !(bool)response.Message["IsFolder"] && itemThumbnailImgVis,
                             LoadUnknownTypeGlyph = !(bool)response.Message["IsFolder"] && !isUrl && itemEmptyImgVis,
@@ -1535,6 +1554,7 @@ namespace Files.Filesystem
                     LoadFileIcon = itemThumbnailImgVis,
                     LoadFolderGlyph = itemFolderImgVis,
                     ItemName = itemName,
+                    IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden ? true : false,
                     ItemDateModifiedReal = itemModifiedDate,
                     ItemDateAccessedReal = itemLastAccessDate,
                     ItemDateCreatedReal = itemCreatedDate,
