@@ -712,6 +712,9 @@
     <PackageReference Include="NLog.Schema">
       <Version>4.7.5</Version>
     </PackageReference>
+    <PackageReference Include="SQLitePCLRaw.bundle_green">
+      <Version>2.0.4</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="..\Files.Package\Package.appxmanifest">

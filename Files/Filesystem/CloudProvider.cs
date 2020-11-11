@@ -258,6 +258,7 @@ namespace Files.Filesystem
                 var syncDbPath = Path.Combine(ApplicationData.Current.TemporaryFolder.Path, "google_drive.db");
 
                 // Build the connection and sql command
+                SQLitePCL.Batteries_V2.Init();
                 using (var con = new SqliteConnection($"Data Source='{syncDbPath}'"))
                 using (var cmd = new SqliteCommand("select * from data where entry_key='local_sync_root_path'", con))
                 {
