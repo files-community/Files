@@ -12,7 +12,7 @@
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogCancelButton.Content" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="translated">Mégsem</target>
+          <target state="translated">Mégse</target>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogDeleteButton.Content" translate="yes" xml:space="preserve">
           <source>Delete</source>
@@ -116,11 +116,11 @@
         </trans-unit>
         <trans-unit id="ErrorDialogCancel" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="translated">Mégsem</target>
+          <target state="translated">Mégse</target>
         </trans-unit>
         <trans-unit id="PropertiesItemType.Text" translate="yes" xml:space="preserve">
           <source>Item type:</source>
-          <target state="translated">Fájl típusa:</target>
+          <target state="translated">Elem típusa:</target>
         </trans-unit>
         <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
@@ -196,7 +196,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
           <source>Send the developers an issue report with detailed information</source>
-          <target state="translated">Részletesebb információ küldése a hibáról a fejlesztőknek</target>
+          <target state="translated">Visszajelzés küldése a fejlesztőknek</target>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
           <source>Third Party Licenses</source>
@@ -488,7 +488,7 @@
         </trans-unit>
         <trans-unit id="RenameDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="translated">Mégsem</target>
+          <target state="translated">Mégse</target>
         </trans-unit>
         <trans-unit id="NewTab" translate="yes" xml:space="preserve">
           <source>New tab</source>
@@ -792,7 +792,7 @@
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="translated">Mégsem</target>
+          <target state="translated">Mégse</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete all items?</source>
@@ -844,7 +844,7 @@
         </trans-unit>
         <trans-unit id="BitlockerDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="translated">Mégsem</target>
+          <target state="translated">Mégse</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter password to unlock the drive</source>
@@ -1164,7 +1164,7 @@
         </trans-unit>
         <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="translated">Mégsem</target>
+          <target state="translated">Mégse</target>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogDeleteMultipleItems.Text" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete these {0} items?</source>
@@ -1224,7 +1224,7 @@
         </trans-unit>
         <trans-unit id="AddDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="translated">Mégsem</target>
+          <target state="translated">Mégse</target>
         </trans-unit>
         <trans-unit id="AddDialog.Title" translate="yes" xml:space="preserve">
           <source>Create a New Item</source>
@@ -1440,11 +1440,11 @@
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Header" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
-          <target state="new">Show hidden files and folders</target>
+          <target state="translated">Rejtett fájlok és mappák mutatása</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
-          <target state="new">Show hidden files and folders</target>
+          <target state="translated">Rejtett fájlok és mappák mutatása</target>
         </trans-unit>
       </group>
     </body>
