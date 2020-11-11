@@ -172,7 +172,23 @@ namespace Files
             }
             else if (contentFrame.Content is PropertiesDetails)
             {
-                await (contentFrame.Content as PropertiesDetails).SaveChanges(listedItem);
+                var contentDialog = new ContentDialog()
+                {
+                    PrimaryButtonText = "Close anyway",
+                    CloseButtonText = "Cancel",
+                    SecondaryButtonText = "Retry",
+                    Content = new TextBlock() { Text = "Properties failed to save" },
+                };
+
+                if (!(await (contentFrame.Content as PropertiesDetails).SaveChanges(listedItem)))
+                    switch (await contentDialog.ShowAsync())
+                    {
+                        case ContentDialogResult.Primary:
+                            break;
+
+                        default:
+                            return;
+                    }
             }
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))

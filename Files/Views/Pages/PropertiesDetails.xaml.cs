@@ -83,9 +83,9 @@ namespace Files
             //    new Windows.System.LauncherOptions() { TargetApplicationPackageFamilyName = "Microsoft.WindowsMaps_8wekyb3d8bbwe" });
         }
 
-        public async Task SaveChanges(ListedItem item)
+        public async Task<bool> SaveChanges(ListedItem item)
         {
-            await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => (BaseProperties as FileProperties).SyncPropertyChanges());
+            return await (BaseProperties as FileProperties).SyncPropertyChanges();
         }
 
         private async void ClearPersonalInformation_Click(object sender, RoutedEventArgs e)

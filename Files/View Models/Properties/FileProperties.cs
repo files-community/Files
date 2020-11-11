@@ -306,6 +306,7 @@ namespace Files.View_Models.Properties
 
             list.Find(x => x.ID == "address").Value = await GetAddressFromCoordinates((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value, (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 
+            // This code groups the properties by their "section" property. The code is derived from the XAML Controls Gallery ListView with grouped headers sample.
             var query = from item in list group item by item.Section into g orderby g.Key select new FilePropertySection(g) { Key = g.Key };
             ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
 
@@ -364,24 +365,20 @@ namespace Files.View_Models.Properties
             return result != null ? result.Locations[0].DisplayName : null;
         }
 
-        public async void SyncPropertyChanges()
+
+        public async Task<bool> SyncPropertyChanges()
         {
             StorageFile file = null;
-            //banner.Progress = new Progress<uint>();
             try
             {
                 file = await ItemViewModel.GetFileFromPathAsync(Item.ItemPath);
-                await SavePropertiesAsync(file);
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.ToString());
             }
 
-        }
-
-        private async Task SavePropertiesAsync(StorageFile file)
-        {
+            var failedProperties = new List<string>();
             foreach (var group in ViewModel.PropertySections)
             {
                 foreach (FileProperty prop in group)
@@ -397,11 +394,14 @@ namespace Files.View_Models.Properties
                         }
                         catch (Exception e)
                         {
-                            Debug.WriteLine(string.Format("{0}\n{1}", prop.Property, e.ToString()));
+                            failedProperties.Add(prop.Name);
                         }
                     }
                 }
             }
+
+            return failedProperties.Count < 1;
+
         }
 
         /// <summary>
