@@ -993,9 +993,6 @@
   <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
     <value>Показать все пункты контекстного меню</value>
   </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.Header" xml:space="preserve">
-    <value>Закрепить OneDrive в боковой панели</value>
-  </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Закрепить Корзину в боковой панели</value>
   </data>
