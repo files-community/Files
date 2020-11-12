@@ -1,3 +1,5 @@
+using ByteSizeLib;
+using Files.Common;
 using Files.View_Models;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -9,9 +11,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Core;
 
@@ -21,7 +26,8 @@ namespace Files.Filesystem
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public SettingsViewModel AppSettings => App.AppSettings;
-        public IList<DriveItem> Drives { get; } = new List<DriveItem>();
+        private List<DriveItem> _Drives = new List<DriveItem>();
+        public IReadOnlyList<DriveItem> Drives => _Drives.AsReadOnly();
         private bool _ShowUserConsentOnInit = false;
 
         public bool ShowUserConsentOnInit
@@ -41,16 +47,16 @@ namespace Files.Filesystem
         private async void EnumerateDrives()
         {
             _driveEnumInProgress = true;
-            if (await GetDrivesAsync(Drives))
+            if (await GetDrivesAsync(_Drives))
             {
-                if (!Drives.Any(d => d.Type != DriveType.Removable))
+                if (!_Drives.Any(d => d.Type != DriveType.Removable))
                 {
                     // Only show consent dialog if the exception is UnauthorizedAccessException
                     // and the drives list is empty (except for Removable drives which don't require FileSystem access)
                     ShowUserConsentOnInit = true;
                 }
             }
-            GetVirtualDrivesList(Drives);
+            await GetVirtualDrivesListAsync(_Drives);
             StartDeviceWatcher();
             _driveEnumInProgress = false;
         }
@@ -75,7 +81,7 @@ namespace Files.Filesystem
                     {
                         MainPage.sideBarItems.Add(new HeaderTextItem() { Text = "SidebarDrives".GetLocalized() });
                     }
-                    foreach (DriveItem drive in Drives)
+                    foreach (DriveItem drive in _Drives)
                     {
                         if (!MainPage.sideBarItems.Contains(drive))
                         {
@@ -85,7 +91,7 @@ namespace Files.Filesystem
                     }
                     foreach (INavigationControlItem item in MainPage.sideBarItems.ToList())
                     {
-                        if (item is DriveItem && !Drives.Contains(item))
+                        if (item is DriveItem && !_Drives.Contains(item))
                         {
                             MainPage.sideBarItems.Remove(item);
                             DrivesWidget.itemsAdded.Remove(item);
@@ -108,7 +114,7 @@ namespace Files.Filesystem
                 {
                     MainPage.sideBarItems.Add(new HeaderTextItem() { Text = "SidebarDrives".GetLocalized() });
                 }
-                foreach (DriveItem drive in Drives)
+                foreach (DriveItem drive in _Drives)
                 {
                     if (!MainPage.sideBarItems.Contains(drive))
                     {
@@ -118,7 +124,7 @@ namespace Files.Filesystem
                 }
                 foreach (INavigationControlItem item in MainPage.sideBarItems.ToList())
                 {
-                    if (item is DriveItem && !Drives.Contains(item))
+                    if (item is DriveItem && !_Drives.Contains(item))
                     {
                         MainPage.sideBarItems.Remove(item);
                         DrivesWidget.itemsAdded.Remove(item);
@@ -128,7 +134,7 @@ namespace Files.Filesystem
             CoreApplication.MainView.Activated -= MainView_Activated;
         }
 
-        private async void DeviceAdded(DeviceWatcher sender, DeviceInformation args)
+        private void DeviceAdded(DeviceWatcher sender, DeviceInformation args)
         {
             var deviceId = args.Id;
             StorageFolder root = null;
@@ -145,7 +151,7 @@ namespace Files.Filesystem
             }
 
             // If drive already in list, skip.
-            if (Drives.Any(x => string.IsNullOrEmpty(root.Path) ? x.Path.Contains(root.Name) : x.Path == root.Path))
+            if (_Drives.Any(x => string.IsNullOrEmpty(root.Path) ? x.Path.Contains(root.Name) : x.Path == root.Path))
             {
                 return;
             }
@@ -155,26 +161,15 @@ namespace Files.Filesystem
             Logger.Info($"Drive added: {driveItem.Path}, {driveItem.Type}");
 
             // Update the collection on the ui-thread.
-            try
-            {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                {
-                    Drives.Add(driveItem);
-                    DeviceWatcher_EnumerationCompleted(null, null);
-                });
-            }
-            catch (Exception)
-            {
-                // Ui-Thread not yet created.
-                Drives.Add(driveItem);
-            }
+            _Drives.Add(driveItem);
+            DeviceWatcher_EnumerationCompleted(null, null);
         }
 
-        private async void DeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate args)
+        private void DeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate args)
         {
             var drives = DriveInfo.GetDrives().Select(x => x.Name);
 
-            foreach (var drive in Drives)
+            foreach (var drive in _Drives)
             {
                 if (drive.Type == DriveType.VirtualDrive || drives.Contains(drive.Path))
                 {
@@ -184,19 +179,8 @@ namespace Files.Filesystem
                 Logger.Info($"Drive removed: {drive.Path}");
 
                 // Update the collection on the ui-thread.
-                try
-                {
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                    {
-                        Drives.Remove(drive);
-                        DeviceWatcher_EnumerationCompleted(null, null);
-                    });
-                }
-                catch (Exception)
-                {
-                    // Ui-Thread not yet created.
-                    Drives.Remove(drive);
-                }
+                _Drives.Remove(drive);
+                DeviceWatcher_EnumerationCompleted(null, null);
                 return;
             }
         }
@@ -312,32 +296,17 @@ namespace Files.Filesystem
             return unauthorizedAccessDetected;
         }
 
-        private void GetVirtualDrivesList(IList<DriveItem> list)
+        public async Task GetVirtualDrivesListAsync(IList<DriveItem> list)
         {
-            var setting = ApplicationData.Current.LocalSettings.Values["PinOneDrive"];
-            if (setting == null || (bool)setting == true)
+            foreach (var provider in await CloudProvider.GetInstalledCloudProviders())
             {
-                if (AppSettings.OneDrivePath != null)
+                var cloudProviderItem = new DriveItem()
                 {
-                    var oneDriveItem = new DriveItem()
-                    {
-                        Text = "OneDrive",
-                        Path = AppSettings.OneDrivePath,
-                        Type = DriveType.VirtualDrive,
-                    };
-                    list.Add(oneDriveItem);
-                }
-
-                if (AppSettings.OneDriveCommercialPath != null)
-                {
-                    var oneDriveItem = new DriveItem()
-                    {
-                        Text = "OneDrive Commercial",
-                        Path = AppSettings.OneDriveCommercialPath,
-                        Type = Filesystem.DriveType.VirtualDrive,
-                    };
-                    list.Add(oneDriveItem);
-                }
+                    Text = provider.Name,
+                    Path = provider.SyncFolder,
+                    Type = Filesystem.DriveType.VirtualDrive,
+                };
+                list.Add(cloudProviderItem);
             }
         }
 

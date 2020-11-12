@@ -960,9 +960,6 @@
   <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Eine Option anzeigen, um den Speicherort des ausgewählten Elements zu kopieren</value>
   </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>OneDrive an Seitenleiste anheften</value>
-  </data>
   <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Papierkorb an Seitenleiste anheften</value>
   </data>
@@ -998,9 +995,6 @@
   </data>
   <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
     <value>Alle Elemente im Kontextmenü anzeigen</value>
-  </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.Header" xml:space="preserve">
-    <value>OneDrive an die Seitenleiste anheften</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Papierkorb an die Seitenleiste anheften</value>

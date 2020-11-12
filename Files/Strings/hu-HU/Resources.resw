@@ -984,9 +984,6 @@
   <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Kijelölt elem helyének másolása lehetőség megjelenítése</value>
   </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>OneDrive kitűzése az oldalsávra</value>
-  </data>
   <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Lomtár kitűzése az oldalsávra</value>
   </data>
@@ -1013,9 +1010,6 @@
   </data>
   <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
     <value>Összes menü lehetőség megjelenítése</value>
-  </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.Header" xml:space="preserve">
-    <value>OneDrive kitűzése az oldalsávra</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Lomtár kitűzése az oldalsávra</value>

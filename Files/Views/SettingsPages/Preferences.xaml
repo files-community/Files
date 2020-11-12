@@ -97,14 +97,6 @@
                 </StackPanel>
 
                 <ToggleSwitch
-                    x:Name="OneDrivePin"
-                    x:Uid="SettingsPreferencesPinOneDriveSwitch"
-                    AutomationProperties.Name="Pin OneDrive to the sidebar"
-                    Header="Pin OneDrive to the sidebar"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{x:Bind AppSettings.PinOneDriveToSideBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
-                <ToggleSwitch
                     x:Uid="SettingsPreferencesRecycleBinSwitch"
                     AutomationProperties.Name="Pin Recycle Bin to the sidebar"
                     Header="Pin Recycle Bin to the sidebar"
