@@ -24,6 +24,8 @@ namespace FilesFullTrust
     internal class Program
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        [DllImport("user32.dll")]
+        static extern bool SetForegroundWindow(IntPtr hWnd);
 
         [STAThread]
         private static void Main(string[] args)
@@ -682,8 +684,7 @@ namespace FilesFullTrust
                 // Invalid file path
             }
         }
-        [DllImport("user32.dll")]
-        static extern bool SetForegroundWindow(IntPtr hWnd);
+
         private static bool HandleCommandLineArgs()
         {
             var localSettings = ApplicationData.Current.LocalSettings;
