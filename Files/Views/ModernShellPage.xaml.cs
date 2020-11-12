@@ -760,7 +760,6 @@ namespace Files.Views.Pages
         {
             if (this.ServiceConnection == null)
             {
-                ServiceConnection = new AppServiceConnection();
                 // Need to reinitialize AppService when app is resuming
                 InitializeAppServiceConnection();
                 FilesystemViewModel?.OnAppServiceConnectionChanged();
