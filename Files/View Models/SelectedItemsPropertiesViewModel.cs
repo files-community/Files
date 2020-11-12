@@ -15,475 +15,475 @@ namespace Files.View_Models
 {
     public class SelectedItemsPropertiesViewModel : ObservableObject
     {
-        private bool _LoadFolderGlyph;
+        private bool loadFolderGlyph;
 
         public bool LoadFolderGlyph
         {
-            get => _LoadFolderGlyph;
-            set => SetProperty(ref _LoadFolderGlyph, value);
+            get => loadFolderGlyph;
+            set => SetProperty(ref loadFolderGlyph, value);
         }
 
-        private bool _LoadUnknownTypeGlyph;
+        private bool loadUnknownTypeGlyph;
 
         public bool LoadUnknownTypeGlyph
         {
-            get => _LoadUnknownTypeGlyph;
-            set => SetProperty(ref _LoadUnknownTypeGlyph, value);
+            get => loadUnknownTypeGlyph;
+            set => SetProperty(ref loadUnknownTypeGlyph, value);
         }
 
-        private bool _LoadCombinedItemsGlyph;
+        private bool loadCombinedItemsGlyph;
 
         public bool LoadCombinedItemsGlyph
         {
-            get => _LoadCombinedItemsGlyph;
-            set => SetProperty(ref _LoadCombinedItemsGlyph, value);
+            get => loadCombinedItemsGlyph;
+            set => SetProperty(ref loadCombinedItemsGlyph, value);
         }
 
-        private string _DriveItemGlyphSource;
+        private string driveItemGlyphSource;
 
         public string DriveItemGlyphSource
         {
-            get => _DriveItemGlyphSource;
-            set => SetProperty(ref _DriveItemGlyphSource, value);
+            get => driveItemGlyphSource;
+            set => SetProperty(ref driveItemGlyphSource, value);
         }
 
-        private bool _LoadDriveItemGlyph;
+        private bool loadDriveItemGlyph;
 
         public bool LoadDriveItemGlyph
         {
-            get => _LoadDriveItemGlyph;
-            set => SetProperty(ref _LoadDriveItemGlyph, value);
+            get => loadDriveItemGlyph;
+            set => SetProperty(ref loadDriveItemGlyph, value);
         }
 
-        private bool _LoadFileIcon;
+        private bool loadFileIcon;
 
         public bool LoadFileIcon
         {
-            get => _LoadFileIcon;
-            set => SetProperty(ref _LoadFileIcon, value);
+            get => loadFileIcon;
+            set => SetProperty(ref loadFileIcon, value);
         }
 
-        private ImageSource _FileIconSource;
+        private ImageSource fileIconSource;
 
         public ImageSource FileIconSource
         {
-            get => _FileIconSource;
-            set => SetProperty(ref _FileIconSource, value);
+            get => fileIconSource;
+            set => SetProperty(ref fileIconSource, value);
         }
 
-        private string _ItemName;
+        private string itemName;
 
         public string ItemName
         {
-            get => _ItemName;
+            get => itemName;
             set
             {
                 ItemNameVisibility = Visibility.Visible;
-                SetProperty(ref _ItemName, value);
+                SetProperty(ref itemName, value);
             }
         }
 
-        private string _OriginalItemName;
+        private string originalItemName;
 
         public string OriginalItemName
         {
-            get => _OriginalItemName;
+            get => originalItemName;
             set
             {
                 ItemNameVisibility = Visibility.Visible;
-                SetProperty(ref _OriginalItemName, value);
+                SetProperty(ref originalItemName, value);
             }
         }
 
-        private Visibility _ItemNameVisibility = Visibility.Collapsed;
+        private Visibility itemNameVisibility = Visibility.Collapsed;
 
         public Visibility ItemNameVisibility
         {
-            get => _ItemNameVisibility;
-            set => SetProperty(ref _ItemNameVisibility, value);
+            get => itemNameVisibility;
+            set => SetProperty(ref itemNameVisibility, value);
         }
 
-        private string _ItemType;
+        private string itemType;
 
         public string ItemType
         {
-            get => _ItemType;
+            get => itemType;
             set
             {
                 ItemTypeVisibility = Visibility.Visible;
-                SetProperty(ref _ItemType, value);
+                SetProperty(ref itemType, value);
             }
         }
 
-        private Visibility _ItemTypeVisibility = Visibility.Collapsed;
+        private Visibility itemTypeVisibility = Visibility.Collapsed;
 
         public Visibility ItemTypeVisibility
         {
-            get => _ItemTypeVisibility;
-            set => SetProperty(ref _ItemTypeVisibility, value);
+            get => itemTypeVisibility;
+            set => SetProperty(ref itemTypeVisibility, value);
         }
 
-        private string _DriveFileSystem;
+        private string driveFileSystem;
 
         public string DriveFileSystem
         {
-            get => _DriveFileSystem;
+            get => driveFileSystem;
             set
             {
                 DriveFileSystemVisibility = Visibility.Visible;
-                SetProperty(ref _DriveFileSystem, value);
+                SetProperty(ref driveFileSystem, value);
             }
         }
 
-        private Visibility _DriveFileSystemVisibility = Visibility.Collapsed;
+        private Visibility driveFileSystemVisibility = Visibility.Collapsed;
 
         public Visibility DriveFileSystemVisibility
         {
-            get => _DriveFileSystemVisibility;
-            set => SetProperty(ref _DriveFileSystemVisibility, value);
+            get => driveFileSystemVisibility;
+            set => SetProperty(ref driveFileSystemVisibility, value);
         }
 
-        private string _ItemPath;
+        private string itemPath;
 
         public string ItemPath
         {
-            get => _ItemPath;
+            get => itemPath;
             set
             {
                 ItemPathVisibility = Visibility.Visible;
-                SetProperty(ref _ItemPath, value);
+                SetProperty(ref itemPath, value);
             }
         }
 
-        private Visibility _ItemPathVisibility = Visibility.Collapsed;
+        private Visibility itemPathVisibility = Visibility.Collapsed;
 
         public Visibility ItemPathVisibility
         {
-            get => _ItemPathVisibility;
-            set => SetProperty(ref _ItemPathVisibility, value);
+            get => itemPathVisibility;
+            set => SetProperty(ref itemPathVisibility, value);
         }
 
-        private string _ItemSize;
+        private string itemSize;
 
         public string ItemSize
         {
-            get => _ItemSize;
-            set => SetProperty(ref _ItemSize, value);
+            get => itemSize;
+            set => SetProperty(ref itemSize, value);
         }
 
-        private Visibility _ItemSizeVisibility = Visibility.Collapsed;
+        private Visibility itemSizeVisibility = Visibility.Collapsed;
 
         public Visibility ItemSizeVisibility
         {
-            get => _ItemSizeVisibility;
-            set => SetProperty(ref _ItemSizeVisibility, value);
+            get => itemSizeVisibility;
+            set => SetProperty(ref itemSizeVisibility, value);
         }
 
-        private long _ItemSizeBytes;
+        private long itemSizeBytes;
 
         public long ItemSizeBytes
         {
-            get => _ItemSizeBytes;
-            set => SetProperty(ref _ItemSizeBytes, value);
+            get => itemSizeBytes;
+            set => SetProperty(ref itemSizeBytes, value);
         }
 
-        private Visibility _ItemSizeProgressVisibility = Visibility.Collapsed;
+        private Visibility itemSizeProgressVisibility = Visibility.Collapsed;
 
         public Visibility ItemSizeProgressVisibility
         {
-            get => _ItemSizeProgressVisibility;
-            set => SetProperty(ref _ItemSizeProgressVisibility, value);
+            get => itemSizeProgressVisibility;
+            set => SetProperty(ref itemSizeProgressVisibility, value);
         }
 
-        public string _ItemMD5Hash;
+        public string itemMD5Hash;
 
         public string ItemMD5Hash
         {
-            get => _ItemMD5Hash;
+            get => itemMD5Hash;
             set
             {
-                if (!string.IsNullOrEmpty(value) && value != _ItemMD5Hash)
+                if (!string.IsNullOrEmpty(value) && value != itemMD5Hash)
                 {
-                    SetProperty(ref _ItemMD5Hash, value);
+                    SetProperty(ref itemMD5Hash, value);
                     ItemMD5HashProgressVisibility = Visibility.Collapsed;
                 }
             }
         }
 
-        private bool _ItemMD5HashCalcError;
+        private bool itemMD5HashCalcError;
 
         public bool ItemMD5HashCalcError
         {
-            get => _ItemMD5HashCalcError;
-            set => SetProperty(ref _ItemMD5HashCalcError, value);
+            get => itemMD5HashCalcError;
+            set => SetProperty(ref itemMD5HashCalcError, value);
         }
 
-        public Visibility _ItemMD5HashVisibility = Visibility.Collapsed;
+        public Visibility itemMD5HashVisibility = Visibility.Collapsed;
 
         public Visibility ItemMD5HashVisibility
         {
-            get => _ItemMD5HashVisibility;
-            set => SetProperty(ref _ItemMD5HashVisibility, value);
+            get => itemMD5HashVisibility;
+            set => SetProperty(ref itemMD5HashVisibility, value);
         }
 
-        public Visibility _ItemMD5HashProgressVisibiity = Visibility.Collapsed;
+        public Visibility itemMD5HashProgressVisibiity = Visibility.Collapsed;
 
         public Visibility ItemMD5HashProgressVisibility
         {
-            get => _ItemMD5HashProgressVisibiity;
-            set => SetProperty(ref _ItemMD5HashProgressVisibiity, value);
+            get => itemMD5HashProgressVisibiity;
+            set => SetProperty(ref itemMD5HashProgressVisibiity, value);
         }
 
-        public int _FoldersCount;
+        public int foldersCount;
 
         public int FoldersCount
         {
-            get => _FoldersCount;
-            set => SetProperty(ref _FoldersCount, value);
+            get => foldersCount;
+            set => SetProperty(ref foldersCount, value);
         }
 
-        public int _FilesCount;
+        public int filesCount;
 
         public int FilesCount
         {
-            get => _FilesCount;
-            set => SetProperty(ref _FilesCount, value);
+            get => filesCount;
+            set => SetProperty(ref filesCount, value);
         }
 
-        public string _FilesAndFoldersCountString;
+        public string filesAndFoldersCountString;
 
         public string FilesAndFoldersCountString
         {
-            get => _FilesAndFoldersCountString;
+            get => filesAndFoldersCountString;
             set
             {
                 if (FilesAndFoldersCountVisibility == Visibility.Collapsed)
                 {
                     FilesAndFoldersCountVisibility = Visibility.Visible;
                 }
-                SetProperty(ref _FilesAndFoldersCountString, value);
+                SetProperty(ref filesAndFoldersCountString, value);
             }
         }
 
-        public Visibility _FilesAndFoldersCountVisibility = Visibility.Collapsed;
+        public Visibility filesAndFoldersCountVisibility = Visibility.Collapsed;
 
         public Visibility FilesAndFoldersCountVisibility
         {
-            get => _FilesAndFoldersCountVisibility;
-            set => SetProperty(ref _FilesAndFoldersCountVisibility, value);
+            get => filesAndFoldersCountVisibility;
+            set => SetProperty(ref filesAndFoldersCountVisibility, value);
         }
 
-        private ulong _DriveUsedSpaceValue;
+        private ulong driveUsedSpaceValue;
 
         public ulong DriveUsedSpaceValue
         {
-            get => _DriveUsedSpaceValue;
+            get => driveUsedSpaceValue;
             set
             {
-                SetProperty(ref _DriveUsedSpaceValue, value);
+                SetProperty(ref driveUsedSpaceValue, value);
                 DriveUsedSpace = ByteSize.FromBytes(DriveUsedSpaceValue).ToBinaryString().ConvertSizeAbbreviation()
                     + " (" + ByteSize.FromBytes(DriveUsedSpaceValue).Bytes.ToString("#,##0") + " " + "ItemSizeBytes".GetLocalized() + ")";
                 DriveUsedSpaceDoubleValue = Convert.ToDouble(DriveUsedSpaceValue);
             }
         }
 
-        private string _DriveUsedSpace;
+        private string driveUsedSpace;
 
         public string DriveUsedSpace
         {
-            get => _DriveUsedSpace;
+            get => driveUsedSpace;
             set
             {
                 DriveUsedSpaceVisibiity = Visibility.Visible;
-                SetProperty(ref _DriveUsedSpace, value);
+                SetProperty(ref driveUsedSpace, value);
             }
         }
 
-        public Visibility _DriveUsedSpaceVisibiity = Visibility.Collapsed;
+        public Visibility driveUsedSpaceVisibiity = Visibility.Collapsed;
 
         public Visibility DriveUsedSpaceVisibiity
         {
-            get => _DriveUsedSpaceVisibiity;
-            set => SetProperty(ref _DriveUsedSpaceVisibiity, value);
+            get => driveUsedSpaceVisibiity;
+            set => SetProperty(ref driveUsedSpaceVisibiity, value);
         }
 
-        private ulong _DriveFreeSpaceValue;
+        private ulong driveFreeSpaceValue;
 
         public ulong DriveFreeSpaceValue
         {
-            get => _DriveFreeSpaceValue;
+            get => driveFreeSpaceValue;
             set
             {
-                SetProperty(ref _DriveFreeSpaceValue, value);
+                SetProperty(ref driveFreeSpaceValue, value);
                 DriveFreeSpace = ByteSize.FromBytes(DriveFreeSpaceValue).ToBinaryString().ConvertSizeAbbreviation()
                     + " (" + ByteSize.FromBytes(DriveFreeSpaceValue).Bytes.ToString("#,##0") + " " + "ItemSizeBytes".GetLocalized() + ")";
             }
         }
 
-        private string _DriveFreeSpace;
+        private string driveFreeSpace;
 
         public string DriveFreeSpace
         {
-            get => _DriveFreeSpace;
+            get => driveFreeSpace;
             set
             {
                 DriveFreeSpaceVisibiity = Visibility.Visible;
-                SetProperty(ref _DriveFreeSpace, value);
+                SetProperty(ref driveFreeSpace, value);
             }
         }
 
-        public Visibility _DriveFreeSpaceVisibiity = Visibility.Collapsed;
+        public Visibility driveFreeSpaceVisibiity = Visibility.Collapsed;
 
         public Visibility DriveFreeSpaceVisibiity
         {
-            get => _DriveFreeSpaceVisibiity;
-            set => SetProperty(ref _DriveFreeSpaceVisibiity, value);
+            get => driveFreeSpaceVisibiity;
+            set => SetProperty(ref driveFreeSpaceVisibiity, value);
         }
 
-        private string _ItemCreatedTimestamp;
+        private string itemCreatedTimestamp;
 
         public string ItemCreatedTimestamp
         {
-            get => _ItemCreatedTimestamp;
+            get => itemCreatedTimestamp;
             set
             {
                 ItemCreatedTimestampVisibiity = Visibility.Visible;
-                SetProperty(ref _ItemCreatedTimestamp, value);
+                SetProperty(ref itemCreatedTimestamp, value);
             }
         }
 
-        public Visibility _ItemCreatedTimestampVisibiity = Visibility.Collapsed;
+        public Visibility itemCreatedTimestampVisibiity = Visibility.Collapsed;
 
         public Visibility ItemCreatedTimestampVisibiity
         {
-            get => _ItemCreatedTimestampVisibiity;
-            set => SetProperty(ref _ItemCreatedTimestampVisibiity, value);
+            get => itemCreatedTimestampVisibiity;
+            set => SetProperty(ref itemCreatedTimestampVisibiity, value);
         }
 
-        private string _ItemModifiedTimestamp;
+        private string itemModifiedTimestamp;
 
         public string ItemModifiedTimestamp
         {
-            get => _ItemModifiedTimestamp;
+            get => itemModifiedTimestamp;
             set
             {
                 ItemModifiedTimestampVisibility = Visibility.Visible;
-                SetProperty(ref _ItemModifiedTimestamp, value);
+                SetProperty(ref itemModifiedTimestamp, value);
             }
         }
 
-        private Visibility _ItemModifiedTimestampVisibility = Visibility.Collapsed;
+        private Visibility itemModifiedTimestampVisibility = Visibility.Collapsed;
 
         public Visibility ItemModifiedTimestampVisibility
         {
-            get => _ItemModifiedTimestampVisibility;
-            set => SetProperty(ref _ItemModifiedTimestampVisibility, value);
+            get => itemModifiedTimestampVisibility;
+            set => SetProperty(ref itemModifiedTimestampVisibility, value);
         }
 
-        public string _ItemAccessedTimestamp;
+        public string itemAccessedTimestamp;
 
         public string ItemAccessedTimestamp
         {
-            get => _ItemAccessedTimestamp;
+            get => itemAccessedTimestamp;
             set
             {
                 ItemAccessedTimestampVisibility = Visibility.Visible;
-                SetProperty(ref _ItemAccessedTimestamp, value);
+                SetProperty(ref itemAccessedTimestamp, value);
             }
         }
 
-        private Visibility _ItemAccessedTimestampVisibility = Visibility.Collapsed;
+        private Visibility itemAccessedTimestampVisibility = Visibility.Collapsed;
 
         public Visibility ItemAccessedTimestampVisibility
         {
-            get => _ItemAccessedTimestampVisibility;
-            set => SetProperty(ref _ItemAccessedTimestampVisibility, value);
+            get => itemAccessedTimestampVisibility;
+            set => SetProperty(ref itemAccessedTimestampVisibility, value);
         }
 
-        public string _ItemFileOwner;
+        public string itemFileOwner;
 
         public string ItemFileOwner
         {
-            get => _ItemFileOwner;
+            get => itemFileOwner;
             set
             {
                 ItemFileOwnerVisibility = Visibility.Visible;
-                SetProperty(ref _ItemFileOwner, value);
+                SetProperty(ref itemFileOwner, value);
             }
         }
 
-        private Visibility _ItemFileOwnerVisibility = Visibility.Collapsed;
+        private Visibility itemFileOwnerVisibility = Visibility.Collapsed;
 
         public Visibility ItemFileOwnerVisibility
         {
-            get => _ItemFileOwnerVisibility;
-            set => SetProperty(ref _ItemFileOwnerVisibility, value);
+            get => itemFileOwnerVisibility;
+            set => SetProperty(ref itemFileOwnerVisibility, value);
         }
 
-        private Visibility _LastSeparatorVisibility = Visibility.Visible;
+        private Visibility lastSeparatorVisibility = Visibility.Visible;
 
         public Visibility LastSeparatorVisibility
         {
-            get => _LastSeparatorVisibility;
-            set => SetProperty(ref _LastSeparatorVisibility, value);
+            get => lastSeparatorVisibility;
+            set => SetProperty(ref lastSeparatorVisibility, value);
         }
 
-        private ulong _DriveCapacityValue;
+        private ulong driveCapacityValue;
 
         public ulong DriveCapacityValue
         {
-            get => _DriveCapacityValue;
+            get => driveCapacityValue;
             set
             {
-                SetProperty(ref _DriveCapacityValue, value);
+                SetProperty(ref driveCapacityValue, value);
                 DriveCapacity = ByteSize.FromBytes(DriveCapacityValue).ToBinaryString().ConvertSizeAbbreviation()
                     + " (" + ByteSize.FromBytes(DriveCapacityValue).Bytes.ToString("#,##0") + " " + "ItemSizeBytes".GetLocalized() + ")";
                 DriveCapacityDoubleValue = Convert.ToDouble(DriveCapacityValue);
             }
         }
 
-        private string _DriveCapacity;
+        private string driveCapacity;
 
         public string DriveCapacity
         {
-            get => _DriveCapacity;
+            get => driveCapacity;
             set
             {
                 DriveCapacityVisibiity = Visibility.Visible;
-                SetProperty(ref _DriveCapacity, value);
+                SetProperty(ref driveCapacity, value);
             }
         }
 
-        public Visibility _DriveCapacityVisibiity = Visibility.Collapsed;
+        public Visibility driveCapacityVisibiity = Visibility.Collapsed;
 
         public Visibility DriveCapacityVisibiity
         {
-            get => _DriveCapacityVisibiity;
-            set => SetProperty(ref _DriveCapacityVisibiity, value);
+            get => driveCapacityVisibiity;
+            set => SetProperty(ref driveCapacityVisibiity, value);
         }
 
-        private double _DriveCapacityDoubleValue;
+        private double driveCapacityDoubleValue;
 
         public double DriveCapacityDoubleValue
         {
-            get => _DriveCapacityDoubleValue;
-            set => SetProperty(ref _DriveCapacityDoubleValue, value);
+            get => driveCapacityDoubleValue;
+            set => SetProperty(ref driveCapacityDoubleValue, value);
         }
 
-        private double _DriveUsedSpaceDoubleValue;
+        private double driveUsedSpaceDoubleValue;
 
         public double DriveUsedSpaceDoubleValue
         {
-            get => _DriveUsedSpaceDoubleValue;
-            set => SetProperty(ref _DriveUsedSpaceDoubleValue, value);
+            get => driveUsedSpaceDoubleValue;
+            set => SetProperty(ref driveUsedSpaceDoubleValue, value);
         }
 
-        private Visibility _ItemAttributesVisibility = Visibility.Visible;
+        private Visibility itemAttributesVisibility = Visibility.Visible;
 
         public Visibility ItemAttributesVisibility
         {
-            get => _ItemAttributesVisibility;
-            set => SetProperty(ref _ItemAttributesVisibility, value);
+            get => itemAttributesVisibility;
+            set => SetProperty(ref itemAttributesVisibility, value);
         }
 
         private string _SelectedItemsCountString;
@@ -502,35 +502,35 @@ namespace Files.View_Models
             set => SetProperty(ref _SelectedItemsCount, value);
         }
 
-        private bool _IsItemSelected;
+        private bool isItemSelected;
 
         public bool IsItemSelected
         {
-            get => _IsItemSelected;
-            set => SetProperty(ref _IsItemSelected, value);
+            get => isItemSelected;
+            set => SetProperty(ref isItemSelected, value);
         }
 
-        private BaseLayout ContentPage = null;
+        private BaseLayout contentPage = null;
 
         public SelectedItemsPropertiesViewModel(BaseLayout contentPageParam)
         {
-            ContentPage = contentPageParam;
+            contentPage = contentPageParam;
         }
 
-        private bool _IsSelectedItemImage = false;
+        private bool isSelectedItemImage = false;
 
         public bool IsSelectedItemImage
         {
-            get => _IsSelectedItemImage;
-            set => SetProperty(ref _IsSelectedItemImage, value);
+            get => isSelectedItemImage;
+            set => SetProperty(ref isSelectedItemImage, value);
         }
 
-        private bool _IsSelectedItemShortcut = false;
+        private bool isSelectedItemShortcut = false;
 
         public bool IsSelectedItemShortcut
         {
-            get => _IsSelectedItemShortcut;
-            set => SetProperty(ref _IsSelectedItemShortcut, value);
+            get => isSelectedItemShortcut;
+            set => SetProperty(ref isSelectedItemShortcut, value);
         }
 
         public async void CheckFileExtension()
@@ -540,7 +540,7 @@ namespace Files.View_Models
             IsSelectedItemShortcut = false;
 
             //check if the selected item is an image file
-            string ItemExtension = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => ContentPage.SelectedItem.FileExtension);
+            string ItemExtension = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => contentPage.SelectedItem.FileExtension);
             if (!string.IsNullOrEmpty(ItemExtension) && SelectedItemsCount == 1)
             {
                 if (ItemExtension.Equals(".png", StringComparison.OrdinalIgnoreCase)
@@ -559,73 +559,73 @@ namespace Files.View_Models
             }
         }
 
-        private string _ShortcutItemType;
+        private string shortcutItemType;
 
         public string ShortcutItemType
         {
-            get => _ShortcutItemType;
-            set => SetProperty(ref _ShortcutItemType, value);
+            get => shortcutItemType;
+            set => SetProperty(ref shortcutItemType, value);
         }
 
-        private string _ShortcutItemPath;
+        private string shortcutItemPath;
 
         public string ShortcutItemPath
         {
-            get => _ShortcutItemPath;
-            set => SetProperty(ref _ShortcutItemPath, value);
+            get => shortcutItemPath;
+            set => SetProperty(ref shortcutItemPath, value);
         }
 
-        private string _ShortcutItemWorkingDir;
+        private string shortcutItemWorkingDir;
 
         public string ShortcutItemWorkingDir
         {
-            get => _ShortcutItemWorkingDir;
-            set => SetProperty(ref _ShortcutItemWorkingDir, value);
+            get => shortcutItemWorkingDir;
+            set => SetProperty(ref shortcutItemWorkingDir, value);
         }
 
-        private Visibility _ShortcutItemWorkingDirVisibility = Visibility.Collapsed;
+        private Visibility shortcutItemWorkingDirVisibility = Visibility.Collapsed;
 
         public Visibility ShortcutItemWorkingDirVisibility
         {
-            get => _ShortcutItemWorkingDirVisibility;
-            set => SetProperty(ref _ShortcutItemWorkingDirVisibility, value);
+            get => shortcutItemWorkingDirVisibility;
+            set => SetProperty(ref shortcutItemWorkingDirVisibility, value);
         }
 
-        private string _ShortcutItemArguments;
+        private string shortcutItemArguments;
 
         public string ShortcutItemArguments
         {
-            get => _ShortcutItemArguments;
+            get => shortcutItemArguments;
             set
             {
-                SetProperty(ref _ShortcutItemArguments, value);
+                SetProperty(ref shortcutItemArguments, value);
             }
         }
 
-        private Visibility _ShortcutItemArgumentsVisibility = Visibility.Collapsed;
+        private Visibility shortcutItemArgumentsVisibility = Visibility.Collapsed;
 
         public Visibility ShortcutItemArgumentsVisibility
         {
-            get => _ShortcutItemArgumentsVisibility;
-            set => SetProperty(ref _ShortcutItemArgumentsVisibility, value);
+            get => shortcutItemArgumentsVisibility;
+            set => SetProperty(ref shortcutItemArgumentsVisibility, value);
         }
 
-        private bool _LoadLinkIcon;
+        private bool loadLinkIcon;
 
         public bool LoadLinkIcon
         {
-            get => _LoadLinkIcon;
-            set => SetProperty(ref _LoadLinkIcon, value);
+            get => loadLinkIcon;
+            set => SetProperty(ref loadLinkIcon, value);
         }
 
-        private RelayCommand _ShortcutItemOpenLinkCommand;
+        private RelayCommand shortcutItemOpenLinkCommand;
 
         public RelayCommand ShortcutItemOpenLinkCommand
         {
-            get => _ShortcutItemOpenLinkCommand;
+            get => shortcutItemOpenLinkCommand;
             set
             {
-                SetProperty(ref _ShortcutItemOpenLinkCommand, value);
+                SetProperty(ref shortcutItemOpenLinkCommand, value);
             }
         }
 
@@ -639,132 +639,132 @@ namespace Files.View_Models
             }
         }
 
-        private DateTimeOffset _DateTaken;
+        private DateTimeOffset dateTaken;
 
         public DateTimeOffset DateTaken
         {
-            get => _DateTaken;
-            set => SetProperty(ref _DateTaken, value);
+            get => dateTaken;
+            set => SetProperty(ref dateTaken, value);
         }
 
-        private System.Nullable<double> _Longitude;
+        private double? longitude;
 
-        public System.Nullable<double> Longitude
+        public double? Longitude
         {
-            get => _Longitude;
-            set => SetProperty(ref _Longitude, value);
+            get => longitude;
+            set => SetProperty(ref longitude, value);
         }
 
-        private System.Nullable<double> _Latitude;
+        private double? latitude;
 
-        public System.Nullable<double> Latitude
+        public double? Latitude
         {
-            get => _Latitude;
-            set => SetProperty(ref _Latitude, value);
+            get => latitude;
+            set => SetProperty(ref latitude, value);
         }
 
-        private int _Rating;
+        private int rating;
 
         public int Rating
         {
-            get => _Rating;
-            set => SetProperty(ref _Rating, value);
+            get => rating;
+            set => SetProperty(ref rating, value);
         }
 
-        private MapLocation _Geopoint;
+        private MapLocation geopoint;
 
         public MapLocation Geopoint
         {
-            get => _Geopoint;
-            set => SetProperty(ref _Geopoint, value);
+            get => geopoint;
+            set => SetProperty(ref geopoint, value);
         }
 
-        private string _GeopointString;
+        private string geopointString;
 
         public string GeopointString
         {
-            get => _GeopointString;
-            set => SetProperty(ref _GeopointString, value);
+            get => geopointString;
+            set => SetProperty(ref geopointString, value);
         }
 
-        private string _CameraNameString;
+        private string cameraNameString;
 
         public string CameraNameString
         {
-            get => _CameraNameString;
-            set => SetProperty(ref _CameraNameString, value);
+            get => cameraNameString;
+            set => SetProperty(ref cameraNameString, value);
         }
 
-        private string _ShotString;
+        private string shotString;
 
         public string ShotString
         {
-            get => _ShotString;
-            set => SetProperty(ref _ShotString, value);
+            get => shotString;
+            set => SetProperty(ref shotString, value);
         }
 
-        private IDictionary<string, object> _SystemFileProperties_RO;
+        private IDictionary<string, object> systemFileProperties_RO;
 
         public IDictionary<string, object> SystemFileProperties_RO
         {
-            get => _SystemFileProperties_RO;
-            set => SetProperty(ref _SystemFileProperties_RO, value);
+            get => systemFileProperties_RO;
+            set => SetProperty(ref systemFileProperties_RO, value);
         }
 
-        private IDictionary<string, object> _SystemFileProperties_RW;
+        private IDictionary<string, object> systemFileProperties_RW;
 
         public IDictionary<string, object> SystemFileProperties_RW
         {
-            get => _SystemFileProperties_RW;
-            set => SetProperty(ref _SystemFileProperties_RW, value);
+            get => systemFileProperties_RW;
+            set => SetProperty(ref systemFileProperties_RW, value);
         }
 
-        private Visibility _DetailsSectionVisibility_Image;
+        private Visibility detailsSectionVisibility_Image;
 
         public Visibility DetailsSectionVisibility_Image
         {
-            get => _DetailsSectionVisibility_Image;
-            set => SetProperty(ref _DetailsSectionVisibility_Image, value);
+            get => detailsSectionVisibility_Image;
+            set => SetProperty(ref detailsSectionVisibility_Image, value);
         }
 
-        private Visibility _DetailsSectionVisibility_GPS;
+        private Visibility detailsSectionVisibility_GPS;
 
         public Visibility DetailsSectionVisibility_GPS
         {
-            get => _DetailsSectionVisibility_GPS;
-            set => SetProperty(ref _DetailsSectionVisibility_GPS, value);
+            get => detailsSectionVisibility_GPS;
+            set => SetProperty(ref detailsSectionVisibility_GPS, value);
         }
 
-        private Visibility _DetailsSectionVisibility_Photo;
+        private Visibility detailsSectionVisibility_Photo;
 
         public Visibility DetailsSectionVisibility_Photo
         {
-            get => _DetailsSectionVisibility_Photo;
-            set => SetProperty(ref _DetailsSectionVisibility_Photo, value);
+            get => detailsSectionVisibility_Photo;
+            set => SetProperty(ref detailsSectionVisibility_Photo, value);
         }
 
-        private Visibility _DetailsSectionVisibility_Audio;
+        private Visibility detailsSectionVisibility_Audio;
 
         public Visibility DetailsSectionVisibility_Audio
         {
-            get => _DetailsSectionVisibility_Audio;
-            set => SetProperty(ref _DetailsSectionVisibility_Audio, value);
+            get => detailsSectionVisibility_Audio;
+            set => SetProperty(ref detailsSectionVisibility_Audio, value);
         }
 
-        private Visibility _DetailsSectionVisibility_Music;
+        private Visibility detailsSectionVisibility_Music;
 
         public Visibility DetailsSectionVisibility_Music
         {
-            get => _DetailsSectionVisibility_Music;
-            set => SetProperty(ref _DetailsSectionVisibility_Music, value);
+            get => detailsSectionVisibility_Music;
+            set => SetProperty(ref detailsSectionVisibility_Music, value);
         }
 
-        private Visibility _DetailsSectionVisibility_Media;
+        private Visibility detailsSectionVisibility_Media;
 
         public Visibility DetailsSectionVisibility_Media
         {
-            get => _DetailsSectionVisibility_Media;
-            set => SetProperty(ref _DetailsSectionVisibility_Media, value);
+            get => detailsSectionVisibility_Media;
+            set => SetProperty(ref detailsSectionVisibility_Media, value);
         }
     }
 }

@@ -5,6 +5,7 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
 
@@ -36,17 +37,23 @@ namespace Files
             var extension = name[name.Length - 1].ToLower();
 
             if (extension.Contains("png") || extension.Contains("jpg") || extension.Contains("gif") || extension.Contains("jpeg"))
+            {
                 OverviewImage.Visibility = Visibility.Visible;
+            }
         }
 
         private string GetStringArray(object array)
         {
             if (array == null || !(array is string[]))
+            {
                 return "";
+            }
 
             var str = "";
             foreach (var i in array as string[])
+            {
                 str += string.Format("{0}; ", i);
+            }
 
             return str;
         }
@@ -64,8 +71,20 @@ namespace Files
 
         private async void OpenMaps_Click(object sender, RoutedEventArgs e)
         {
-            await Windows.System.Launcher.LaunchUriAsync(ViewModel.Geopoint != null ? new Uri(String.Format(@"bingmaps:?where={0}", ViewModel.Geopoint.Address.FormattedAddress)) : new Uri(String.Format(@"bingmaps:?cp={0}~{1}", ViewModel.Latitude, ViewModel.Longitude)),
-                new Windows.System.LauncherOptions() { TargetApplicationPackageFamilyName = "Microsoft.WindowsMaps_8wekyb3d8bbwe" });
+            Uri uri;
+            if (ViewModel.Geopoint != null)
+            {
+                uri = new Uri($"bingmaps:?where={ViewModel.Geopoint.Address.FormattedAddress}");
+            }
+            else
+            {
+                uri = new Uri($"bingmaps:?cp={ViewModel.Latitude}~{ViewModel.Longitude}");
+            }
+            await Launcher.LaunchUriAsync(uri,
+                new LauncherOptions()
+                {
+                    TargetApplicationPackageFamilyName = "Microsoft.WindowsMaps_8wekyb3d8bbwe"
+                });
         }
 
         public async Task SaveChangesAsync(ListedItem item)

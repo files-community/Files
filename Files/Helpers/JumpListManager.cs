@@ -11,7 +11,7 @@ namespace Files.Helpers
 {
     public sealed class JumpListManager
     {
-        private JumpList _instance = null;
+        private JumpList instance = null;
         private List<string> JumpListItemPaths { get; set; }
 
         public JumpListManager()
@@ -23,11 +23,11 @@ namespace Files.Helpers
         {
             if (JumpList.IsSupported())
             {
-                _instance = await JumpList.LoadCurrentAsync();
+                instance = await JumpList.LoadCurrentAsync();
 
                 // Disable automatic jumplist. It doesn't work with Files UWP.
-                _instance.SystemGroupKind = JumpListSystemGroupKind.None;
-                JumpListItemPaths = _instance.Items.Select(item => item.Arguments).ToList();
+                instance.SystemGroupKind = JumpListSystemGroupKind.None;
+                JumpListItemPaths = instance.Items.Select(item => item.Arguments).ToList();
             }
         }
 
@@ -38,14 +38,14 @@ namespace Files.Helpers
             try
             {
                 await AddFolder(path);
-                await _instance?.SaveAsync();
+                await instance?.SaveAsync();
             }
             catch { }
         }
 
         private Task AddFolder(string path)
         {
-            if (_instance != null && !JumpListItemPaths.Contains(path))
+            if (instance != null && !JumpListItemPaths.Contains(path))
             {
                 string displayName;
                 if (path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
@@ -86,7 +86,7 @@ namespace Files.Helpers
                 jumplistItem.Description = jumplistItem.Arguments;
                 jumplistItem.GroupName = "ms-resource:///Resources/JumpListRecentGroupHeader";
                 jumplistItem.Logo = new Uri("ms-appx:///Assets/FolderIcon.png");
-                _instance.Items.Add(jumplistItem);
+                instance.Items.Add(jumplistItem);
                 JumpListItemPaths.Add(path);
             }
 
@@ -104,17 +104,17 @@ namespace Files.Helpers
 
         private async Task UpdateAsync()
         {
-            if (_instance != null)
+            if (instance != null)
             {
                 // Clear all items to avoid localization issues
-                _instance?.Items.Clear();
+                instance?.Items.Clear();
 
                 foreach (string path in JumpListItemPaths)
                 {
                     await AddFolder(path);
                 }
 
-                await _instance.SaveAsync();
+                await instance.SaveAsync();
             }
         }
     }

@@ -60,7 +60,11 @@ namespace Files
             {
                 if (new DirectoryInfo(e.ItemPath).Root.ToString().Contains(@"C:\"))
                 {
-                    AppInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments() { AssociatedTabInstance = AppInstance, NavPathParam = e.ItemPath });
+                    AppInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments()
+                    {
+                        AssociatedTabInstance = AppInstance,
+                        NavPathParam = e.ItemPath
+                    });
                 }
                 else
                 {
@@ -68,7 +72,11 @@ namespace Files
                     {
                         if (drive.Path.ToString() == new DirectoryInfo(e.ItemPath).Root.ToString())
                         {
-                            AppInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments() { AssociatedTabInstance = AppInstance, NavPathParam = e.ItemPath });
+                            AppInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments()
+                            {
+                                AssociatedTabInstance = AppInstance,
+                                NavPathParam = e.ItemPath
+                            });
                             return;
                         }
                     }
@@ -84,18 +92,30 @@ namespace Files
 
         private void RecentFilesWidget_RecentFilesOpenLocationInvoked(object sender, UserControls.PathNavigationEventArgs e)
         {
-            AppInstance.ContentFrame.Navigate(e.LayoutType, new NavigationArguments() { NavPathParam = e.ItemPath, AssociatedTabInstance = AppInstance });
+            AppInstance.ContentFrame.Navigate(e.LayoutType, new NavigationArguments()
+            {
+                NavPathParam = e.ItemPath,
+                AssociatedTabInstance = AppInstance
+            });
         }
 
         private void LibraryLocationCardsWidget_LibraryCardInvoked(object sender, LibraryCardInvokedEventArgs e)
         {
-            AppInstance.ContentFrame.Navigate(e.LayoutType, new NavigationArguments() { NavPathParam = e.Path, AssociatedTabInstance = AppInstance });
+            AppInstance.ContentFrame.Navigate(e.LayoutType, new NavigationArguments()
+            {
+                NavPathParam = e.Path,
+                AssociatedTabInstance = AppInstance
+            });
             AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page
         }
 
         private void DrivesWidget_DrivesWidgetInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)
         {
-            AppInstance.ContentFrame.Navigate(e.LayoutType, new NavigationArguments() { NavPathParam = e.Path, AssociatedTabInstance = AppInstance });
+            AppInstance.ContentFrame.Navigate(e.LayoutType, new NavigationArguments()
+            {
+                NavPathParam = e.Path,
+                AssociatedTabInstance = AppInstance
+            });
             AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page
         }
 

@@ -21,28 +21,28 @@ namespace Files.Filesystem
 
     public class CloudDriveSyncStatusUI : ObservableObject
     {
-        private bool _LoadSyncStatus;
+        private bool loadSyncStatus;
 
         public bool LoadSyncStatus
         {
-            get => _LoadSyncStatus;
-            set => SetProperty(ref _LoadSyncStatus, value);
+            get => loadSyncStatus;
+            set => SetProperty(ref loadSyncStatus, value);
         }
 
-        private string _Glyph;
+        private string glyph;
 
         public string Glyph
         {
-            get => _Glyph;
-            set => SetProperty(ref _Glyph, value);
+            get => glyph;
+            set => SetProperty(ref glyph, value);
         }
 
-        private SolidColorBrush _Foreground;
+        private SolidColorBrush foreground;
 
         public SolidColorBrush Foreground
         {
-            get => _Foreground;
-            set => SetProperty(ref _Foreground, value);
+            get => foreground;
+            set => SetProperty(ref foreground, value);
         }
 
         public static CloudDriveSyncStatusUI FromCloudDriveSyncStatus(CloudDriveSyncStatus syncStatus)

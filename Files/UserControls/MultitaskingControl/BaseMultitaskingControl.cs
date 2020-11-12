@@ -161,7 +161,11 @@ namespace Files.UserControls.MultitaskingControl
 
                 if (CurrentSelectedAppInstance != null)
                 {
-                    CurrentInstanceChanged?.Invoke(this, new CurrentInstanceChangedEventArgs() { CurrentInstance = CurrentSelectedAppInstance, ShellPageInstances = GetAllTabInstances<IShellPage>() });
+                    CurrentInstanceChanged?.Invoke(this, new CurrentInstanceChangedEventArgs()
+                    {
+                        CurrentInstance = CurrentSelectedAppInstance,
+                        ShellPageInstances = GetAllTabInstances<IShellPage>()
+                    });
                 }
             }
         }

@@ -547,7 +547,7 @@
     <Grid x:Name="RootGrid" Background="Transparent">
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
-                Key="{x:Bind plusKey}"
+                Key="{x:Bind PlusKey}"
                 Invoked="{x:Bind ParentShellPageInstance.ContentPage.GridViewSizeIncrease}"
                 Modifiers="Control" />
             <KeyboardAccelerator

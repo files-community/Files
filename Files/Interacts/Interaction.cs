@@ -82,7 +82,10 @@ namespace Files.Interacts
             {
                 // Get the path of the selected file
                 var sourceFile = (StorageFile)await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(AssociatedInstance.ContentPage.SelectedItem.ItemPath);
-                if (sourceFile == null) return;
+                if (sourceFile == null)
+                {
+                    return;
+                }
 
                 // Get the app's local folder to use as the destination folder.
                 StorageFolder localFolder = ApplicationData.Current.LocalFolder;
@@ -92,7 +95,10 @@ namespace Files.Interacts
                 // If the file you are trying to set as the wallpaper has the same name as the current wallpaper,
                 // the system will ignore the request and no-op the operation
                 var file = (StorageFile)await FilesystemTasks.Wrap(() => sourceFile.CopyAsync(localFolder, sourceFile.Name, NameCollisionOption.GenerateUniqueName).AsTask());
-                if (file == null) return;
+                if (file == null)
+                {
+                    return;
+                }
 
                 UserProfilePersonalizationSettings profileSettings = UserProfilePersonalizationSettings.Current;
                 if (type == WallpaperType.Desktop)
@@ -263,7 +269,7 @@ namespace Files.Interacts
             for (int i = 0; i < count; i++)
             {
                 DependencyObject current = VisualTreeHelper.GetChild(startNode, i);
-                if ((current.GetType()).Equals(typeof(T)) || (current.GetType().GetTypeInfo().IsSubclassOf(typeof(T))))
+                if (current.GetType().Equals(typeof(T)) || (current.GetType().GetTypeInfo().IsSubclassOf(typeof(T))))
                 {
                     T asType = (T)current;
                     results.Add(asType);
@@ -301,10 +307,12 @@ namespace Files.Interacts
         {
             if (Connection != null)
             {
-                await Connection.SendMessageAsync(new ValueSet() {
+                await Connection.SendMessageAsync(new ValueSet()
+                {
                     { "Arguments", "InvokeVerb" },
                     { "FilePath", AssociatedInstance.ContentPage.SelectedItem.ItemPath },
-                    { "Verb", "runas" } });
+                    { "Verb", "runas" }
+                });
             }
         }
 
@@ -312,10 +320,12 @@ namespace Files.Interacts
         {
             if (Connection != null)
             {
-                await Connection.SendMessageAsync(new ValueSet() {
+                await Connection.SendMessageAsync(new ValueSet()
+                {
                     { "Arguments", "InvokeVerb" },
                     { "FilePath", AssociatedInstance.ContentPage.SelectedItem.ItemPath },
-                    { "Verb", "runasuser" } });
+                    { "Verb", "runasuser" }
+                });
             }
         }
 
@@ -337,7 +347,11 @@ namespace Files.Interacts
             var destFolder = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
             if (destFolder)
             {
-                AssociatedInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments() { NavPathParam = folderPath, AssociatedTabInstance = AssociatedInstance });
+                AssociatedInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments()
+                {
+                    NavPathParam = folderPath,
+                    AssociatedTabInstance = AssociatedInstance
+                });
             }
             else if (destFolder == FilesystemErrorCode.ERROR_NOTFOUND)
             {
@@ -383,7 +397,11 @@ namespace Files.Interacts
                             AssociatedInstance.NavigationToolbar.PathControlDisplayText = childFolder.Path;
 
                             AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
-                            AssociatedInstance.ContentFrame.Navigate(sourcePageType, new NavigationArguments() { NavPathParam = childFolder.Path, AssociatedTabInstance = AssociatedInstance }, new SuppressNavigationTransitionInfo());
+                            AssociatedInstance.ContentFrame.Navigate(sourcePageType, new NavigationArguments()
+                            {
+                                NavPathParam = childFolder.Path,
+                                AssociatedTabInstance = AssociatedInstance
+                            }, new SuppressNavigationTransitionInfo());
                         });
                 }
                 else if (clickedOnItem.IsHiddenItem)
@@ -394,7 +412,11 @@ namespace Files.Interacts
                         AssociatedInstance.NavigationToolbar.PathControlDisplayText = clickedOnItemPath;
 
                         AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
-                        AssociatedInstance.ContentFrame.Navigate(sourcePageType, new NavigationArguments() { NavPathParam = clickedOnItemPath, AssociatedTabInstance = AssociatedInstance }, new SuppressNavigationTransitionInfo());
+                        AssociatedInstance.ContentFrame.Navigate(sourcePageType, new NavigationArguments()
+                        {
+                            NavPathParam = clickedOnItemPath,
+                            AssociatedTabInstance = AssociatedInstance
+                        }, new SuppressNavigationTransitionInfo());
                     }
                     else if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.File)
                     {
@@ -507,7 +529,9 @@ namespace Files.Interacts
                                 }
 
                                 if (!launchSuccess)
+                                {
                                     await InvokeWin32ComponentAsync(clickedOnItem.ItemPath);
+                                }
                             }
                         });
                 }
@@ -622,7 +646,11 @@ namespace Files.Interacts
                 await newWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     Frame frame = new Frame();
-                    frame.Navigate(typeof(Properties), new PropertiesPageNavigationArguments() { Item = item, AppInstanceArgument = AssociatedInstance }, new SuppressNavigationTransitionInfo());
+                    frame.Navigate(typeof(Properties), new PropertiesPageNavigationArguments()
+                    {
+                        Item = item,
+                        AppInstanceArgument = AssociatedInstance
+                    }, new SuppressNavigationTransitionInfo());
                     Window.Current.Content = frame;
                     Window.Current.Activate();
 
@@ -643,7 +671,11 @@ namespace Files.Interacts
             {
                 var propertiesDialog = new PropertiesDialog();
                 propertiesDialog.propertiesFrame.Tag = propertiesDialog;
-                propertiesDialog.propertiesFrame.Navigate(typeof(Properties), new PropertiesPageNavigationArguments() { Item = item, AppInstanceArgument = AssociatedInstance }, new SuppressNavigationTransitionInfo());
+                propertiesDialog.propertiesFrame.Navigate(typeof(Properties), new PropertiesPageNavigationArguments()
+                {
+                    Item = item,
+                    AppInstanceArgument = AssociatedInstance
+                }, new SuppressNavigationTransitionInfo());
                 await propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
             }
         }
@@ -983,13 +1015,19 @@ namespace Files.Interacts
                     {
                         cut = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
                             .OnSuccess(t => items.Add(t));
-                        if (!cut) break;
+                        if (!cut)
+                        {
+                            break;
+                        }
                     }
                     else
                     {
                         cut = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
                             .OnSuccess(t => items.Add(t));
-                        if (!cut) break;
+                        if (!cut)
+                        {
+                            break;
+                        }
                     }
                 }
                 if (cut.ErrorCode == FilesystemErrorCode.ERROR_NOTFOUND)
@@ -1003,11 +1041,13 @@ namespace Files.Interacts
                     if (Connection != null)
                     {
                         var filePaths = string.Join('|', AssociatedInstance.ContentPage.SelectedItems.Select(x => x.ItemPath));
-                        var result = await Connection.SendMessageAsync(new ValueSet() {
+                        var result = await Connection.SendMessageAsync(new ValueSet()
+                        {
                             { "Arguments", "FileOperation" },
                             { "fileop", "Clipboard" },
                             { "filepath", filePaths },
-                            { "operation", (int)DataPackageOperation.Move } });
+                            { "operation", (int)DataPackageOperation.Move }
+                        });
                         if (result.Status == AppServiceResponseStatus.Success)
                         {
                             return;
@@ -1054,13 +1094,19 @@ namespace Files.Interacts
                     {
                         copied = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(listedItem.ItemPath)
                             .OnSuccess(t => items.Add(t));
-                        if (!copied) break;
+                        if (!copied)
+                        {
+                            break;
+                        }
                     }
                     else
                     {
                         copied = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(listedItem.ItemPath)
                             .OnSuccess(t => items.Add(t));
-                        if (!copied) break;
+                        if (!copied)
+                        {
+                            break;
+                        }
                     }
                 }
                 if (copied.ErrorCode == FilesystemErrorCode.ERROR_UNAUTHORIZED)
@@ -1069,11 +1115,13 @@ namespace Files.Interacts
                     if (Connection != null)
                     {
                         var filePaths = string.Join('|', AssociatedInstance.ContentPage.SelectedItems.Select(x => x.ItemPath));
-                        var result = await Connection.SendMessageAsync(new ValueSet() {
+                        var result = await Connection.SendMessageAsync(new ValueSet()
+                        {
                             { "Arguments", "FileOperation" },
                             { "fileop", "Clipboard" },
                             { "filepath", filePaths },
-                            { "operation", (int)DataPackageOperation.Copy } });
+                            { "operation", (int)DataPackageOperation.Copy }
+                        });
                     }
                     return;
                 }
@@ -1282,9 +1330,17 @@ namespace Files.Interacts
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
             StorageFile itemFromPath = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath);
-            if (itemFromPath == null) return "";
+            if (itemFromPath == null)
+            {
+                return "";
+            }
+
             Stream stream = await FilesystemTasks.Wrap(() => itemFromPath.OpenStreamForReadAsync());
-            if (stream == null) return "";
+            if (stream == null)
+            {
+                return "";
+            }
+
             var inputStream = stream.AsInputStream();
             var str = inputStream.AsStreamForRead();
             var cap = (long)(0.5 * str.Length) / 100;

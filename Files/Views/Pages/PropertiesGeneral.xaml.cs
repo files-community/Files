@@ -25,10 +25,12 @@ namespace Files
                 {
                     if (AppInstance.FilesystemViewModel != null)
                     {
-                        await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet() {
+                        await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet()
+                        {
                             { "Arguments", "SetVolumeLabel" },
                             { "drivename", drive.Path },
-                            { "newlabel", ViewModel.ItemName }});
+                            { "newlabel", ViewModel.ItemName }
+                        });
                         _ = CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
                         {
                             await drive.UpdateAsync();

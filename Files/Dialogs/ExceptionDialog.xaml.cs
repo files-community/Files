@@ -55,14 +55,22 @@ namespace Files.Dialogs
         {
             message = App.ExceptionInfo.Exception.Message;
             if (!string.IsNullOrWhiteSpace(App.ExceptionStackTrace))
+            {
                 stackTrace = App.ExceptionStackTrace;
+            }
             else
+            {
                 stackTrace = "No stack trace found.";
+            }
 
             if (!string.IsNullOrWhiteSpace(App.ExceptionInfo.Exception.TargetSite?.ReflectedType.FullName))
+            {
                 offendingMethod = App.ExceptionInfo.Exception.TargetSite.ReflectedType.FullName;
+            }
             else
+            {
                 offendingMethod = "(Method name unknown)";
+            }
 
             Summary.Text = message + " within method " + offendingMethod;
             ErrorInfo.Text = stackTrace;

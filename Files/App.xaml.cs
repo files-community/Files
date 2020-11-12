@@ -372,7 +372,10 @@ namespace Files
 
         public static async void CloseApp()
         {
-            if (!await ApplicationView.GetForCurrentView().TryConsolidateAsync()) Application.Current.Exit();
+            if (!await ApplicationView.GetForCurrentView().TryConsolidateAsync())
+            {
+                Application.Current.Exit();
+            }
         }
     }
 

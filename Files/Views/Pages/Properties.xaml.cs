@@ -224,7 +224,12 @@ namespace Files
 
         private void NavigationView_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
         {
-            var navParam = new PropertyNavParam() { tokenSource = tokenSource, navParameter = navParameterItem, AppInstanceArgument = AppInstance };
+            var navParam = new PropertyNavParam()
+            {
+                tokenSource = tokenSource,
+                navParameter = navParameterItem,
+                AppInstanceArgument = AppInstance
+            };
 
             switch (args.SelectedItemContainer.Tag)
             {

@@ -616,7 +616,11 @@ namespace Files.UserControls
                         if (dragOverPath != null)
                         {
                             dragOverTimer.Stop();
-                            ItemDraggedOverPathItem?.Invoke(this, new PathNavigationEventArgs() { ItemPath = dragOverPath, LayoutType = AppSettings.GetLayoutType() });
+                            ItemDraggedOverPathItem?.Invoke(this, new PathNavigationEventArgs()
+                            {
+                                ItemPath = dragOverPath,
+                                LayoutType = AppSettings.GetLayoutType()
+                            });
                             dragOverPath = null;
                         }
                     }, TimeSpan.FromMilliseconds(1000), false);
@@ -659,7 +663,12 @@ namespace Files.UserControls
             }
 
             var deferral = e.GetDeferral();
-            PathBoxItemDropped?.Invoke(this, new PathBoxItemDroppedEventArgs() { AcceptedOperation = e.AcceptedOperation, Package = e.DataView, Path = pathBoxItem.Path });
+            PathBoxItemDropped?.Invoke(this, new PathBoxItemDroppedEventArgs()
+            {
+                AcceptedOperation = e.AcceptedOperation,
+                Package = e.DataView,
+                Path = pathBoxItem.Path
+            });
             deferral.Complete();
         }
 
@@ -681,13 +690,21 @@ namespace Files.UserControls
         private void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
         {
             var itemTappedPath = ((sender as TextBlock).DataContext as PathBoxItem).Path;
-            ToolbarPathItemInvoked?.Invoke(this, new PathNavigationEventArgs() { ItemPath = itemTappedPath, LayoutType = AppSettings.GetLayoutType() });
+            ToolbarPathItemInvoked?.Invoke(this, new PathNavigationEventArgs()
+            {
+                ItemPath = itemTappedPath,
+                LayoutType = AppSettings.GetLayoutType()
+            });
         }
 
         private void PathItemSeparator_Loaded(object sender, RoutedEventArgs e)
         {
             var pathSeparatorIcon = sender as FontIcon;
-            ToolbarPathItemLoaded?.Invoke(pathSeparatorIcon, new ToolbarPathItemLoadedEventArgs() { Item = pathSeparatorIcon.DataContext as PathBoxItem, OpenedFlyout = pathSeparatorIcon.ContextFlyout as MenuFlyout });
+            ToolbarPathItemLoaded?.Invoke(pathSeparatorIcon, new ToolbarPathItemLoadedEventArgs()
+            {
+                Item = pathSeparatorIcon.DataContext as PathBoxItem,
+                OpenedFlyout = pathSeparatorIcon.ContextFlyout as MenuFlyout
+            });
 
             pathSeparatorIcon.Tapped += (s, e) => pathSeparatorIcon.ContextFlyout.ShowAt(pathSeparatorIcon);
             pathSeparatorIcon.ContextFlyout.Opened += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A5"; };

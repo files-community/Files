@@ -17,7 +17,7 @@ namespace Files
 
         public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
 
-        public static ObservableCollection<INavigationControlItem> itemsAdded = new ObservableCollection<INavigationControlItem>();
+        public static ObservableCollection<INavigationControlItem> ItemsAdded = new ObservableCollection<INavigationControlItem>();
 
         public DrivesWidget()
         {
@@ -31,7 +31,11 @@ namespace Files
 
             NavigationPath = ClickedCard;
 
-            DrivesWidgetInvoked?.Invoke(this, new DrivesWidgetInvokedEventArgs() { Path = NavigationPath, LayoutType = AppSettings.GetLayoutType() });
+            DrivesWidgetInvoked?.Invoke(this, new DrivesWidgetInvokedEventArgs()
+            {
+                Path = NavigationPath,
+                LayoutType = AppSettings.GetLayoutType()
+            });
         }
 
         public class DrivesWidgetInvokedEventArgs : EventArgs

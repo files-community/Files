@@ -63,7 +63,7 @@ namespace Files.View_Models
             Analytics.TrackEvent("IsHorizontalTabStripEnabled " + IsHorizontalTabStripEnabled.ToString());
             Analytics.TrackEvent("IsVerticalTabFlyoutEnabled " + IsVerticalTabFlyoutEnabled.ToString());
             Analytics.TrackEvent("AreHiddenItemsVisible " + AreHiddenItemsVisible.ToString());
-            
+
             // Load the supported languages
             var supportedLang = ApplicationLanguages.ManifestLanguages;
             DefaultLanguages = new ObservableCollection<DefaultLanguageModel> { new DefaultLanguageModel(null) };
@@ -152,7 +152,14 @@ namespace Files.View_Models
 
         private void AddDefaultLocations()
         {
-            MainPage.sideBarItems.Add(new LocationItem { Text = "SidebarHome".GetLocalized(), Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily, Glyph = "\uea80", IsDefaultLocation = true, Path = "Home" });
+            MainPage.SideBarItems.Add(new LocationItem
+            {
+                Text = "SidebarHome".GetLocalized(),
+                Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                Glyph = "\uea80",
+                IsDefaultLocation = true,
+                Path = "Home"
+            });
         }
 
         private async void DetectWSLDistros()
@@ -193,7 +200,12 @@ namespace Files.View_Models
                         logoURI = new Uri("ms-appx:///Assets/WSL/genericpng.png");
                     }
 
-                    MainPage.sideBarItems.Add(new WSLDistroItem() { Text = folder.DisplayName, Path = folder.Path, Logo = logoURI });
+                    MainPage.SideBarItems.Add(new WSLDistroItem()
+                    {
+                        Text = folder.DisplayName,
+                        Path = folder.Path,
+                        Logo = logoURI
+                    });
                 }
             }
             catch (Exception)
@@ -288,7 +300,10 @@ namespace Files.View_Models
 
         private void DetectRecycleBinPreference()
         {
-            if (localSettings.Values["PinRecycleBin"] == null) { localSettings.Values["PinRecycleBin"] = true; }
+            if (localSettings.Values["PinRecycleBin"] == null)
+            {
+                localSettings.Values["PinRecycleBin"] = true;
+            }
 
             if ((bool)localSettings.Values["PinRecycleBin"] == true)
             {
@@ -323,16 +338,16 @@ namespace Files.View_Models
                         };
                         // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
                         // TODO: the very first time the app is launched localized name not available
-                        MainPage.sideBarItems.Insert(MainPage.sideBarItems.Where(item => item is LocationItem).Count(), recycleBinItem);
+                        MainPage.SideBarItems.Insert(MainPage.SideBarItems.Where(item => item is LocationItem).Count(), recycleBinItem);
                     }
                     else
                     {
                         localSettings.Values["PinRecycleBin"] = false;
-                        foreach (INavigationControlItem item in MainPage.sideBarItems.ToList())
+                        foreach (INavigationControlItem item in MainPage.SideBarItems.ToList())
                         {
                             if (item is LocationItem && item.Path == RecycleBinPath)
                             {
-                                MainPage.sideBarItems.Remove(item);
+                                MainPage.SideBarItems.Remove(item);
                             }
                         }
                     }
@@ -459,7 +474,10 @@ namespace Files.View_Models
 
         private void DetectAcrylicPreference()
         {
-            if (localSettings.Values["AcrylicEnabled"] == null) { localSettings.Values["AcrylicEnabled"] = true; }
+            if (localSettings.Values["AcrylicEnabled"] == null)
+            {
+                localSettings.Values["AcrylicEnabled"] = true;
+            }
             AcrylicEnabled = (bool)localSettings.Values["AcrylicEnabled"];
         }
 
@@ -634,7 +652,9 @@ namespace Files.View_Models
                         }
 
                         if (value < 375) // Don't request a grid resize if it is already at the max size (375)
+                        {
                             GridViewSizeChangeRequested?.Invoke(this, EventArgs.Empty);
+                        }
                     }
                 }
             }
@@ -660,7 +680,10 @@ namespace Files.View_Models
                 originalValue = Get(originalValue, propertyName);
 
                 _roamingSettings.Values[propertyName] = value;
-                if (!base.SetProperty(ref originalValue, value, propertyName)) return false;
+                if (!base.SetProperty(ref originalValue, value, propertyName))
+                {
+                    return false;
+                }
             }
             else
             {
@@ -694,7 +717,10 @@ namespace Files.View_Models
                         var valueType = value.GetType();
                         var tryParse = typeof(TValue).GetMethod("TryParse", BindingFlags.Instance | BindingFlags.Public);
 
-                        if (tryParse == null) return default;
+                        if (tryParse == null)
+                        {
+                            return default;
+                        }
 
                         var stringValue = value.ToString();
                         tValue = default;

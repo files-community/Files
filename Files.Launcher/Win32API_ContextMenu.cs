@@ -87,7 +87,10 @@ namespace FilesFullTrust
             {
                 string key = Guid.NewGuid().ToString();
                 if (!_dict.TryAdd(key, obj))
+                {
                     throw new ArgumentException("Could not create handle: key exists");
+                }
+
                 return key;
             }
 
@@ -95,7 +98,9 @@ namespace FilesFullTrust
             {
                 RemoveValue(key);
                 if (!_dict.TryAdd(key, obj))
+                {
                     throw new ArgumentException("Could not create handle: key exists");
+                }
             }
 
             public object GetValue(string key)
@@ -142,7 +147,11 @@ namespace FilesFullTrust
 
             public void InvokeVerb(string verb)
             {
-                if (string.IsNullOrEmpty(verb)) return;
+                if (string.IsNullOrEmpty(verb))
+                {
+                    return;
+                }
+
                 try
                 {
                     var pici = new Shell32.CMINVOKECOMMANDINFOEX();
@@ -161,7 +170,11 @@ namespace FilesFullTrust
 
             public void InvokeItem(int itemID)
             {
-                if (itemID < 0) return;
+                if (itemID < 0)
+                {
+                    return;
+                }
+
                 try
                 {
                     var pici = new Shell32.CMINVOKECOMMANDINFOEX();
@@ -186,7 +199,10 @@ namespace FilesFullTrust
                 try
                 {
                     foreach (var fp in filePathList.Where(x => !string.IsNullOrEmpty(x)))
+                    {
                         shellItems.Add(new ShellItem(fp));
+                    }
+
                     return GetContextMenuForFiles(shellItems.ToArray(), flags, itemFilter);
                 }
                 catch (ArgumentException)
@@ -197,14 +213,19 @@ namespace FilesFullTrust
                 finally
                 {
                     foreach (var si in shellItems)
+                    {
                         si.Dispose();
+                    }
                 }
             }
 
             private static ContextMenu GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, Func<string, bool> itemFilter = null)
             {
                 if (shellItems == null || !shellItems.Any())
+                {
                     return null;
+                }
+
                 using var sf = shellItems.First().Parent; // HP: the items are all in the same folder
                 Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(null, shellItems);
                 var hMenu = User32.CreatePopupMenu();
@@ -324,10 +345,14 @@ namespace FilesFullTrust
                 Bitmap bmp = hBitmap.ToBitmap();
 
                 if (Bitmap.GetPixelFormatSize(bmp.PixelFormat) < 32)
+                {
                     return bmp;
+                }
 
                 if (IsAlphaBitmap(bmp, out var bmpData))
+                {
                     return GetAlphaBitmapFromBitmapData(bmpData);
+                }
 
                 return bmp;
             }
@@ -386,7 +411,10 @@ namespace FilesFullTrust
                         if (Items != null)
                         {
                             foreach (var si in Items)
+                            {
                                 (si as IDisposable)?.Dispose();
+                            }
+
                             Items = null;
                         }
                     }
@@ -451,7 +479,10 @@ namespace FilesFullTrust
                 if (SubItems != null)
                 {
                     foreach (var si in SubItems)
+                    {
                         (si as IDisposable)?.Dispose();
+                    }
+
                     SubItems = null;
                 }
             }

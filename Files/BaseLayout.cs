@@ -34,12 +34,19 @@ namespace Files
     public abstract class BaseLayout : Page, INotifyPropertyChanged
     {
         private AppServiceConnection Connection => ParentShellPageInstance?.ServiceConnection;
+
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
+
         public SettingsViewModel AppSettings => App.AppSettings;
+
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
+
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
+
         public bool IsQuickLookEnabled { get; set; } = false;
+
         public MenuFlyout BaseLayoutContextFlyout { get; set; }
+
         public MenuFlyout BaseLayoutItemContextFlyout { get; set; }
 
         public IShellPage ParentShellPageInstance { get; private set; } = null;
@@ -64,20 +71,20 @@ namespace Files
             }
         }
 
-        private List<ListedItem> _SelectedItems = new List<ListedItem>();
+        private List<ListedItem> selectedItems = new List<ListedItem>();
 
         public List<ListedItem> SelectedItems
         {
             get
             {
-                return _SelectedItems;
+                return selectedItems;
             }
             internal set
             {
-                if (value != _SelectedItems)
+                if (value != selectedItems)
                 {
-                    _SelectedItems = value;
-                    if (_SelectedItems.Count == 0)
+                    selectedItems = value;
+                    if (selectedItems.Count == 0)
                     {
                         IsItemSelected = false;
                         SelectedItem = null;
@@ -86,7 +93,7 @@ namespace Files
                     else
                     {
                         IsItemSelected = true;
-                        SelectedItem = _SelectedItems.First();
+                        SelectedItem = selectedItems.First();
                         SelectedItemsPropertiesViewModel.IsItemSelected = true;
 
                         if (SelectedItems.Count >= 1)
@@ -176,14 +183,16 @@ namespace Files
             var maxItems = AppSettings.ShowAllContextMenuItems ? int.MaxValue : shiftPressed ? 6 : 4;
             if (Connection != null)
             {
-                var response = Connection.SendMessageAsync(new ValueSet() {
+                var response = Connection.SendMessageAsync(new ValueSet()
+                {
                         { "Arguments", "LoadContextMenu" },
                         { "FilePath", IsItemSelected ?
-                            string.Join('|', _SelectedItems.Select(x => x.ItemPath)) :
+                            string.Join('|', selectedItems.Select(x => x.ItemPath)) :
                             ParentShellPageInstance.FilesystemViewModel.CurrentFolder.ItemPath},
                         { "ExtendedMenu", shiftPressed },
-                        { "ShowOpenMenu", showOpenMenu }}).AsTask().Result;
-                if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
+                        { "ShowOpenMenu", showOpenMenu }
+                }).AsTask().Result;
+                if (response.Status == AppServiceResponseStatus.Success
                     && response.Message.ContainsKey("Handle"))
                 {
                     var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response.Message["ContextMenu"]);
@@ -218,7 +227,11 @@ namespace Files
                 ParentShellPageInstance.FilesystemViewModel.IsLoadingItems = true;
                 ParentShellPageInstance.FilesystemViewModel.IsLoadingItems = false;
 
-                ParentShellPageInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments() { NavPathParam = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, AssociatedTabInstance = ParentShellPageInstance }, null);
+                ParentShellPageInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments()
+                {
+                    NavPathParam = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory,
+                    AssociatedTabInstance = ParentShellPageInstance
+                }, null);
             }
         }
 
@@ -278,7 +291,9 @@ namespace Files
         {
             var menuItem = this.FindName(nameToUnload) as DependencyObject;
             if (menuItem != null) // Prevent crash if the MenuFlyoutItem is missing
+            {
                 (menuItem as MenuFlyoutItemBase).Visibility = Visibility.Collapsed;
+            }
         }
 
         private void LoadMenuFlyoutItem(IList<MenuFlyoutItemBase> MenuItemsList, IEnumerable<Win32ContextMenuItem> menuFlyoutItems, string menuHandle, bool showIcons = true, int itemsBeforeOverflow = int.MaxValue)
@@ -381,11 +396,13 @@ namespace Files
                 var (menuItem, menuHandle) = ParseContextMenuTag(currentMenuLayoutItem.Tag);
                 if (Connection != null)
                 {
-                    await Connection.SendMessageAsync(new ValueSet() {
+                    await Connection.SendMessageAsync(new ValueSet()
+                    {
                         { "Arguments", "ExecAndCloseContextMenu" },
                         { "Handle", menuHandle },
                         { "ItemID", menuItem.ID },
-                        { "CommandString", menuItem.CommandString }});
+                        { "CommandString", menuItem.CommandString }
+                    });
                 }
             }
         }
@@ -396,9 +413,11 @@ namespace Files
                 .Select(x => ParseContextMenuTag(x.Tag)).FirstOrDefault(x => x.menuItem != null);
             if (shellContextMenuTag.menuItem != null && Connection != null)
             {
-                await Connection.SendMessageAsync(new ValueSet() {
+                await Connection.SendMessageAsync(new ValueSet()
+                {
                     { "Arguments", "ExecAndCloseContextMenu" },
-                    { "Handle", shellContextMenuTag.menuHandle } });
+                    { "Handle", shellContextMenuTag.menuHandle }
+                });
             }
         }
 
@@ -716,22 +735,26 @@ namespace Files
         }
 
         // VirtualKey doesn't support / accept plus and minus by default.
-        public readonly VirtualKey plusKey = (VirtualKey)187;
+        public readonly VirtualKey PlusKey = (VirtualKey)187;
 
-        public readonly VirtualKey minusKey = (VirtualKey)189;
+        public readonly VirtualKey MinusKey = (VirtualKey)189;
 
         public void GridViewSizeIncrease(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
             AppSettings.GridViewSize = AppSettings.GridViewSize + 25; // Make Larger
             if (args != null)
+            {
                 args.Handled = true;
+            }
         }
 
         public void GridViewSizeDecrease(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
             AppSettings.GridViewSize = AppSettings.GridViewSize - 25; // Make Smaller
             if (args != null)
+            {
                 args.Handled = true;
+            }
         }
 
         public void BaseLayout_PointerWheelChanged(object sender, PointerRoutedEventArgs e)

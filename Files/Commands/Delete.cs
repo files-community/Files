@@ -133,7 +133,10 @@ namespace Files.Commands
             foreach (ListedItem storItem in selectedItems)
             {
                 uint progressValue = (uint)(itemsDeleted * 100.0 / selectedItems.Count);
-                if (selectedItems.Count > 3) { progress.Report((uint)progressValue); }
+                if (selectedItems.Count > 3)
+                {
+                    progress.Report(progressValue);
+                }
 
                 if (storItem.PrimaryItemAttribute == StorageItemTypes.File)
                 {
@@ -153,10 +156,12 @@ namespace Files.Commands
                         // Try again with fulltrust process
                         if (AppInstance.FilesystemViewModel.Connection != null)
                         {
-                            var response = await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet() {
+                            var response = await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet()
+                            {
                                 { "Arguments", "FileOperation" },
                                 { "fileop", "MoveToBin" },
-                                { "filepath", storItem.ItemPath } });
+                                { "filepath", storItem.ItemPath }
+                            });
                             deleted = (FilesystemResult)(response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success);
                         }
                     }

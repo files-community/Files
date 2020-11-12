@@ -1,5 +1,5 @@
 ﻿using Files.Filesystem;
-using Files.UserControls;
+using Files.UserControls.Selection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -387,13 +387,21 @@ namespace Files
         private static uint UpdateThumbnailSize()
         {
             if (App.AppSettings.LayoutMode == 1 || App.AppSettings.GridViewSize < 200)
+            {
                 return 80; // Small thumbnail
+            }
             else if (App.AppSettings.GridViewSize < 275)
+            {
                 return 120; // Medium thumbnail
+            }
             else if (App.AppSettings.GridViewSize < 325)
+            {
                 return 160; // Large thumbnail
+            }
             else
+            {
                 return 240; // Extra large thumbnail
+            }
         }
 
         private void AppSettings_GridViewSizeChangeRequested(object sender, EventArgs e)

@@ -23,32 +23,32 @@ namespace Files.Filesystem
         public ByteSize SpaceUsed { get; set; }
         public Visibility ItemVisibility { get; set; } = Visibility.Visible;
 
-        private DriveType _type;
+        private DriveType type;
 
         public DriveType Type
         {
-            get => _type;
+            get => type;
             set
             {
-                _type = value;
-                SetGlyph(_type);
+                type = value;
+                SetGlyph(type);
             }
         }
 
-        private string _text;
+        private string text;
 
         public string Text
         {
-            get => _text;
-            set => SetProperty(ref _text, value);
+            get => text;
+            set => SetProperty(ref text, value);
         }
 
-        private string _spaceText;
+        private string spaceText;
 
         public string SpaceText
         {
-            get => _spaceText;
-            set => SetProperty(ref _spaceText, value);
+            get => spaceText;
+            set => SetProperty(ref spaceText, value);
         }
 
         public DriveItem()

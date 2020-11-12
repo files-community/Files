@@ -110,7 +110,7 @@ namespace Files.Filesystem
             }
             catch (Exception ex)
             {
-                return new FilesystemResult<T>(default(T), GetErrorCode(ex, typeof(T)));
+                return new FilesystemResult<T>(default, GetErrorCode(ex, typeof(T)));
             }
         }
 

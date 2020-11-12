@@ -208,7 +208,10 @@ namespace Files.Views.Pages
 
                         if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
                         {
-                            if (ItemPath.Equals(SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase)) return; // return if already selected
+                            if (ItemPath.Equals(SidebarSelectedItem?.Path, StringComparison.OrdinalIgnoreCase))
+                            {
+                                return; // return if already selected
+                            }
 
                             navigationPath = "NewTab".GetLocalized();
                             sourcePageType = typeof(YourHome);
@@ -238,7 +241,11 @@ namespace Files.Views.Pages
 
             ContentFrame.Navigate(
                 sourcePageType == null ? App.AppSettings.GetLayoutType() : sourcePageType,
-                new NavigationArguments() { NavPathParam = navigationPath, AssociatedTabInstance = this },
+                new NavigationArguments()
+                {
+                    NavPathParam = navigationPath,
+                    AssociatedTabInstance = this
+                },
                 new SuppressNavigationTransitionInfo());
 
             NavigationToolbar.PathControlDisplayText = FilesystemViewModel.WorkingDirectory;
@@ -290,13 +297,25 @@ namespace Files.Views.Pages
                     var currPath = await folder.Result.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
                     if (currPath.Count() >= maxSuggestions)
                     {
-                        suggestions = currPath.Select(x => new ListedItem(null) { ItemPath = x.Path, ItemName = x.Folder.Name }).ToList();
+                        suggestions = currPath.Select(x => new ListedItem(null)
+                        {
+                            ItemPath = x.Path,
+                            ItemName = x.Folder.Name
+                        }).ToList();
                     }
                     else if (currPath.Any())
                     {
                         var subPath = await currPath.First().GetFoldersWithPathAsync((uint)(maxSuggestions - currPath.Count()));
-                        suggestions = currPath.Select(x => new ListedItem(null) { ItemPath = x.Path, ItemName = x.Folder.Name }).Concat(
-                            subPath.Select(x => new ListedItem(null) { ItemPath = x.Path, ItemName = Path.Combine(currPath.First().Folder.Name, x.Folder.Name) })).ToList();
+                        suggestions = currPath.Select(x => new ListedItem(null)
+                        {
+                            ItemPath = x.Path,
+                            ItemName = x.Folder.Name
+                        }).Concat(
+                            subPath.Select(x => new ListedItem(null)
+                            {
+                                ItemPath = x.Path,
+                                ItemName = Path.Combine(currPath.First().Folder.Name, x.Folder.Name)
+                            })).ToList();
                     }
                     else
                     {
@@ -416,7 +435,12 @@ namespace Files.Views.Pages
                 {
                     flyoutItem.Click += (sender, args) =>
                     {
-                        ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments() { NavPathParam = childFolder.Path, AssociatedTabInstance = this });
+                        ContentFrame.Navigate(AppSettings.GetLayoutType(),
+                                              new NavigationArguments()
+                                              {
+                                                  NavPathParam = childFolder.Path,
+                                                  AssociatedTabInstance = this
+                                              });
                     };
                 }
 
@@ -426,7 +450,11 @@ namespace Files.Views.Pages
 
         private void ModernShellPage_NavigationRequested(object sender, PathNavigationEventArgs e)
         {
-            ContentFrame.Navigate(e.LayoutType, new NavigationArguments() { NavPathParam = e.ItemPath, AssociatedTabInstance = this });
+            ContentFrame.Navigate(e.LayoutType, new NavigationArguments()
+            {
+                NavPathParam = e.ItemPath,
+                AssociatedTabInstance = this
+            });
         }
 
         private void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
@@ -437,14 +465,24 @@ namespace Files.Views.Pages
 
         public async void CheckPathInput(ItemViewModel instance, string currentInput, string currentSelectedPath)
         {
-            if (currentSelectedPath == currentInput) return;
+            if (currentSelectedPath == currentInput)
+            {
+                return;
+            }
 
             if (currentInput != instance.WorkingDirectory || ContentFrame.CurrentSourcePageType == typeof(YourHome))
             {
-                if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || currentInput.Equals("NewTab".GetLocalized(), StringComparison.OrdinalIgnoreCase))
+                if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase)
+                    || currentInput.Equals("NewTab".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                 {
                     await FilesystemViewModel.SetWorkingDirectoryAsync("NewTab".GetLocalized());
-                    ContentFrame.Navigate(typeof(YourHome), new NavigationArguments() { NavPathParam = "NewTab".GetLocalized(), AssociatedTabInstance = this }, new SuppressNavigationTransitionInfo());
+                    ContentFrame.Navigate(typeof(YourHome),
+                                          new NavigationArguments()
+                                          {
+                                              NavPathParam = "NewTab".GetLocalized(),
+                                              AssociatedTabInstance = this
+                                          },
+                                          new SuppressNavigationTransitionInfo());
                 }
                 else
                 {
@@ -453,14 +491,23 @@ namespace Files.Views.Pages
                         : FilesystemViewModel.WorkingDirectory;
 
                     currentInput = StorageFileExtensions.GetPathWithoutEnvironmentVariable(currentInput);
-                    if (currentSelectedPath == currentInput) return;
+                    if (currentSelectedPath == currentInput)
+                    {
+                        return;
+                    }
+
                     var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentInput));
 
                     var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
                     if (resFolder)
                     {
                         var pathToNavigate = resFolder.Result.Path;
-                        ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments() { NavPathParam = pathToNavigate, AssociatedTabInstance = this }); // navigate to folder
+                        ContentFrame.Navigate(AppSettings.GetLayoutType(),
+                                              new NavigationArguments()
+                                              {
+                                                  NavPathParam = pathToNavigate,
+                                                  AssociatedTabInstance = this
+                                              }); // navigate to folder
                     }
                     else // Not a folder or inaccessible
                     {
@@ -475,7 +522,8 @@ namespace Files.Views.Pages
                             // Launch terminal application if possible
                             foreach (var terminal in AppSettings.TerminalController.Model.Terminals)
                             {
-                                if (terminal.Path.Equals(currentInput, StringComparison.OrdinalIgnoreCase) || terminal.Path.Equals(currentInput + ".exe", StringComparison.OrdinalIgnoreCase))
+                                if (terminal.Path.Equals(currentInput, StringComparison.OrdinalIgnoreCase)
+                                    || terminal.Path.Equals(currentInput + ".exe", StringComparison.OrdinalIgnoreCase))
                                 {
                                     if (ServiceConnection != null)
                                     {
@@ -602,61 +650,82 @@ namespace Files.Views.Pages
             switch (NavParams)
             {
                 case "Start":
-                    ItemDisplayFrame.Navigate(typeof(YourHome), new NavigationArguments() { NavPathParam = NavParams, AssociatedTabInstance = this }, new SuppressNavigationTransitionInfo());
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault();
+                    ItemDisplayFrame.Navigate(typeof(YourHome),
+                                              new NavigationArguments()
+                                              {
+                                                  NavPathParam = NavParams,
+                                                  AssociatedTabInstance = this
+                                              },
+                                              new SuppressNavigationTransitionInfo());
+                    SidebarControl.SelectedSidebarItem = MainPage.SideBarItems.FirstOrDefault();
                     break;
 
                 case "Desktop":
                     NavigationPath = AppSettings.DesktopPath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem =
+                        MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Downloads":
                     NavigationPath = AppSettings.DownloadsPath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem =
+                        MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Documents":
                     NavigationPath = AppSettings.DocumentsPath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem =
+                        MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Pictures":
                     NavigationPath = AppSettings.PicturesPath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem =
+                        MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Music":
                     NavigationPath = AppSettings.MusicPath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem =
+                        MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Videos":
                     NavigationPath = AppSettings.VideosPath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem =
+                        MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "RecycleBin":
                     NavigationPath = AppSettings.RecycleBinPath;
-                    SidebarControl.SelectedSidebarItem = MainPage.sideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem =
+                        MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 default:
                     if (NavParams == "NewTab".GetLocalized())
                     {
-                        ItemDisplayFrame.Navigate(typeof(YourHome), new NavigationArguments() { NavPathParam = NavParams, AssociatedTabInstance = this }, new SuppressNavigationTransitionInfo());
-                        SidebarControl.SelectedSidebarItem = MainPage.sideBarItems[0];
+                        ItemDisplayFrame.Navigate(typeof(YourHome),
+                                                  new NavigationArguments()
+                                                  {
+                                                      NavPathParam = NavParams,
+                                                      AssociatedTabInstance = this
+                                                  },
+                                                  new SuppressNavigationTransitionInfo());
+                        SidebarControl.SelectedSidebarItem = MainPage.SideBarItems[0];
                     }
                     else if (((NavParams[0] >= 'A' && NavParams[0] <= 'Z') || (NavParams[0] >= 'a' && NavParams[0] <= 'z'))
                         && NavParams[1] == ':')
                     {
                         NavigationPath = NavParams;
-                        SidebarControl.SelectedSidebarItem = AppSettings.DrivesManager.Drives.FirstOrDefault(x => x.Path.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
+                        SidebarControl.SelectedSidebarItem = AppSettings.DrivesManager.Drives
+                            .FirstOrDefault(x => x.Path.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
                     }
                     else if (NavParams.StartsWith("\\\\?\\")) // USB device
                     {
                         NavigationPath = NavParams;
-                        SidebarControl.SelectedSidebarItem = App.AppSettings.DrivesManager.Drives.FirstOrDefault(x => x.Path.ToString().Equals($"{System.IO.Path.GetPathRoot(NavParams)}", StringComparison.OrdinalIgnoreCase));
+                        SidebarControl.SelectedSidebarItem = App.AppSettings.DrivesManager.Drives
+                            .FirstOrDefault(x => x.Path.ToString().Equals($"{Path.GetPathRoot(NavParams)}", StringComparison.OrdinalIgnoreCase));
                     }
                     else if (NavParams.StartsWith("\\\\")) // Network share
                     {
@@ -675,7 +744,13 @@ namespace Files.Views.Pages
 
             if (NavigationPath != "")
             {
-                ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments() { NavPathParam = NavigationPath, AssociatedTabInstance = this }, new SuppressNavigationTransitionInfo());
+                ContentFrame.Navigate(AppSettings.GetLayoutType(),
+                                      new NavigationArguments()
+                                      {
+                                          NavPathParam = NavigationPath,
+                                          AssociatedTabInstance = this
+                                      },
+                                      new SuppressNavigationTransitionInfo());
             }
 
             this.Loaded -= Page_Loaded;
@@ -727,7 +802,7 @@ namespace Files.Views.Pages
             string value = e.Path;
 
             INavigationControlItem item = null;
-            List<INavigationControlItem> sidebarItems = MainPage.sideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
+            List<INavigationControlItem> sidebarItems = MainPage.SideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
 
             item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
             if (item == null)
@@ -814,27 +889,42 @@ namespace Files.Views.Pages
 
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
                     if (!NavigationToolbar.IsEditModeEnabled)
+                    {
                         InteractionOperations.ItemOperationCommands.DeleteItemWithStatus(StorageDeleteOption.PermanentDelete);
+                    }
+
                     break;
 
                 case (true, false, false, true, VirtualKey.C): // ctrl + c, copy
                     if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem)
+                    {
                         InteractionOperations.CopyItem_ClickAsync(null, null);
+                    }
+
                     break;
 
                 case (true, false, false, true, VirtualKey.V): // ctrl + v, paste
                     if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem)
+                    {
                         InteractionOperations.PasteItem();
+                    }
+
                     break;
 
                 case (true, false, false, true, VirtualKey.X): // ctrl + x, cut
                     if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem)
+                    {
                         InteractionOperations.CutItem_Click(null, null);
+                    }
+
                     break;
 
                 case (true, false, false, true, VirtualKey.A): // ctrl + a, select all
                     if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem)
+                    {
                         InteractionOperations.SelectAllItems();
+                    }
+
                     break;
 
                 case (true, false, false, false, VirtualKey.N): // ctrl + n, new window
@@ -863,7 +953,10 @@ namespace Files.Views.Pages
 
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
                     if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem)
+                    {
                         InteractionOperations.ItemOperationCommands.DeleteItemWithStatus(StorageDeleteOption.Default);
+                    }
+
                     break;
 
                 case (false, false, false, true, VirtualKey.Space): // space, quick look
@@ -959,14 +1052,20 @@ namespace Files.Views.Pages
             }
 
             SelectSidebarItemFromPath();
-            instanceContentFrame.Navigate(CurrentPageType, new NavigationArguments() { NavPathParam = parentDirectoryOfPath, AssociatedTabInstance = this }, new SuppressNavigationTransitionInfo());
+            instanceContentFrame.Navigate(CurrentPageType,
+                                          new NavigationArguments()
+                                          {
+                                              NavPathParam = parentDirectoryOfPath,
+                                              AssociatedTabInstance = this
+                                          },
+                                          new SuppressNavigationTransitionInfo());
         }
 
         private void SelectSidebarItemFromPath(Type incomingSourcePageType = null)
         {
             if (incomingSourcePageType == typeof(YourHome) && incomingSourcePageType != null)
             {
-                SidebarSelectedItem = MainPage.sideBarItems.First(x => x.Path.Equals("Home"));
+                SidebarSelectedItem = MainPage.SideBarItems.First(x => x.Path.Equals("Home"));
                 NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
             }
         }

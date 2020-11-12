@@ -232,7 +232,10 @@ namespace Files.View_Models.Properties
                 case "ShortcutItemArguments":
                     var tmpItem = (ShortcutItem)Item;
                     if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
+                    {
                         return;
+                    }
+
                     if (AppInstance.FilesystemViewModel.Connection != null)
                     {
                         var value = new ValueSet()
