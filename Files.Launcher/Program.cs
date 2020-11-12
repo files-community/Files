@@ -620,6 +620,8 @@ namespace FilesFullTrust
                 }
                 process.StartInfo.WorkingDirectory = workingDirectory;
                 process.Start();
+                IntPtr handle = process.MainWindowHandle;
+                SetForegroundWindow(handle);
             }
             catch (Win32Exception)
             {
@@ -680,7 +682,8 @@ namespace FilesFullTrust
                 // Invalid file path
             }
         }
-
+        [DllImport("user32.dll")]
+        static extern bool SetForegroundWindow(IntPtr hWnd);
         private static bool HandleCommandLineArgs()
         {
             var localSettings = ApplicationData.Current.LocalSettings;
