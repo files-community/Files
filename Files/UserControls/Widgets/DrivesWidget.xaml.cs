@@ -17,7 +17,7 @@ namespace Files
 
         public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
 
-        public static ObservableCollection<INavigationControlItem> itemsAdded = new ObservableCollection<INavigationControlItem>();
+        public static ObservableCollection<INavigationControlItem> ItemsAdded = new ObservableCollection<INavigationControlItem>();
 
         public DrivesWidget()
         {

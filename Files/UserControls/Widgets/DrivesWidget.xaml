@@ -26,7 +26,7 @@
             x:Name="CardsList"
             Grid.Row="0"
             HorizontalAlignment="Stretch"
-            ItemsSource="{x:Bind local:DrivesWidget.itemsAdded}">
+            ItemsSource="{x:Bind local:DrivesWidget.ItemsAdded}">
             <muxc:ItemsRepeater.Layout>
                 <muxc:UniformGridLayout
                     ItemsStretch="Fill"

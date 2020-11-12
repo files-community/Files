@@ -26,9 +26,9 @@ namespace Files.Filesystem
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public SettingsViewModel AppSettings => App.AppSettings;
-        private List<DriveItem> _Drives = new List<DriveItem>();
-        public IReadOnlyList<DriveItem> Drives => _Drives.AsReadOnly();
-        private bool _ShowUserConsentOnInit = false;
+        private List<DriveItem> drivesList = new List<DriveItem>();
+        public IReadOnlyList<DriveItem> Drives => drivesList.AsReadOnly();
+        private bool showUserConsentOnInit = false;
 
         public bool ShowUserConsentOnInit
         {
@@ -46,17 +46,17 @@ namespace Files.Filesystem
 
         private async void EnumerateDrives()
         {
-            _driveEnumInProgress = true;
-            if (await GetDrivesAsync(_Drives))
+            driveEnumInProgress = true;
+            if (await GetDrivesAsync(drivesList))
             {
-                if (!_Drives.Any(d => d.Type != DriveType.Removable))
+                if (!drivesList.Any(d => d.Type != DriveType.Removable))
                 {
                     // Only show consent dialog if the exception is UnauthorizedAccessException
                     // and the drives list is empty (except for Removable drives which don't require FileSystem access)
                     ShowUserConsentOnInit = true;
                 }
             }
-            await GetVirtualDrivesListAsync(_Drives);
+            await GetVirtualDrivesListAsync(drivesList);
             StartDeviceWatcher();
             driveEnumInProgress = false;
         }
@@ -84,20 +84,20 @@ namespace Files.Filesystem
                             Text = "SidebarDrives".GetLocalized()
                         });
                     }
-                    foreach (DriveItem drive in _Drives)
+                    foreach (DriveItem drive in drivesList)
                     {
                         if (!MainPage.SideBarItems.Contains(drive))
                         {
                             MainPage.SideBarItems.Add(drive);
-                            DrivesWidget.itemsAdded.Add(drive);
+                            DrivesWidget.ItemsAdded.Add(drive);
                         }
                     }
                     foreach (INavigationControlItem item in MainPage.SideBarItems.ToList())
                     {
-                        if (item is DriveItem && !_Drives.Contains(item))
+                        if (item is DriveItem && !drivesList.Contains(item))
                         {
                             MainPage.SideBarItems.Remove(item);
-                            DrivesWidget.itemsAdded.Remove(item);
+                            DrivesWidget.ItemsAdded.Remove(item);
                         }
                     }
                 });
@@ -120,20 +120,20 @@ namespace Files.Filesystem
                         Text = "SidebarDrives".GetLocalized()
                     });
                 }
-                foreach (DriveItem drive in _Drives)
+                foreach (DriveItem drive in drivesList)
                 {
                     if (!MainPage.SideBarItems.Contains(drive))
                     {
                         MainPage.SideBarItems.Add(drive);
-                        DrivesWidget.itemsAdded.Add(drive);
+                        DrivesWidget.ItemsAdded.Add(drive);
                     }
                 }
                 foreach (INavigationControlItem item in MainPage.SideBarItems.ToList())
                 {
-                    if (item is DriveItem && !_Drives.Contains(item))
+                    if (item is DriveItem && !drivesList.Contains(item))
                     {
                         MainPage.SideBarItems.Remove(item);
-                        DrivesWidget.itemsAdded.Remove(item);
+                        DrivesWidget.ItemsAdded.Remove(item);
                     }
                 }
             });
@@ -157,7 +157,7 @@ namespace Files.Filesystem
             }
 
             // If drive already in list, skip.
-            if (_Drives.Any(x => string.IsNullOrEmpty(root.Path) ? x.Path.Contains(root.Name) : x.Path == root.Path))
+            if (drivesList.Any(x => string.IsNullOrEmpty(root.Path) ? x.Path.Contains(root.Name) : x.Path == root.Path))
             {
                 return;
             }
@@ -167,7 +167,7 @@ namespace Files.Filesystem
             Logger.Info($"Drive added: {driveItem.Path}, {driveItem.Type}");
 
             // Update the collection on the ui-thread.
-            _Drives.Add(driveItem);
+            drivesList.Add(driveItem);
             DeviceWatcher_EnumerationCompleted(null, null);
         }
 
@@ -175,7 +175,7 @@ namespace Files.Filesystem
         {
             var drives = DriveInfo.GetDrives().Select(x => x.Name);
 
-            foreach (var drive in _Drives)
+            foreach (var drive in drivesList)
             {
                 if (drive.Type == DriveType.VirtualDrive || drives.Contains(drive.Path))
                 {
@@ -185,7 +185,7 @@ namespace Files.Filesystem
                 Logger.Info($"Drive removed: {drive.Path}");
 
                 // Update the collection on the ui-thread.
-                _Drives.Remove(drive);
+                drivesList.Remove(drive);
                 DeviceWatcher_EnumerationCompleted(null, null);
                 return;
             }

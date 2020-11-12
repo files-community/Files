@@ -1,11 +1,9 @@
-﻿using Files.Common;
-using Files.Helpers;
+﻿using Files.Helpers;
 using IniParser.Parser;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -18,11 +16,11 @@ namespace Files.Filesystem
 {
     public enum KnownCloudProviders
     {
-        ONEDRIVE,
-        ONEDRIVE_BUSINESS,
-        MEGASYNC,
-        GOOGLEDRIVE,
-        DROPBOX
+        OneDrive,
+        OneDriveBusiness,
+        Mega,
+        GoogleDrive,
+        DropBox
     }
 
     public class CloudProvider
@@ -33,16 +31,16 @@ namespace Files.Filesystem
 
         public static async Task<List<CloudProvider>> GetInstalledCloudProviders()
         {
-            var ret = new List<CloudProvider>();
-            DetectOneDrive(ret);
-            await DetectGoogleDrive(ret);
-            await DetectDropbox(ret);
-            await DetectMegaSync(ret);
-            return ret;
+            var providerList = new List<CloudProvider>();
+            DetectOneDrive(providerList);
+            await DetectGoogleDriveAsync(providerList);
+            await DetectDropboxAsync(providerList);
+            await DetectMegaAsync(providerList);
+            return providerList;
         }
 
-        #region DROPBOX
-        private static async Task DetectDropbox(List<CloudProvider> ret)
+        #region DropBox
+        private static async Task DetectDropboxAsync(List<CloudProvider> providerList)
         {
             try
             {
@@ -51,7 +49,12 @@ namespace Files.Filesystem
                 var configFile = await StorageFile.GetFileFromPathAsync(jsonPath);
                 var jsonObj = JObject.Parse(await FileIO.ReadTextAsync(configFile));
                 var dropboxPath = (string)(jsonObj["personal"]["path"]);
-                ret.Add(new CloudProvider() { ID = KnownCloudProviders.DROPBOX, SyncFolder = dropboxPath, Name = "Dropbox" });
+                providerList.Add(new CloudProvider()
+                {
+                    ID = KnownCloudProviders.DropBox,
+                    SyncFolder = dropboxPath,
+                    Name = "Dropbox"
+                });
             }
             catch
             {
@@ -60,8 +63,8 @@ namespace Files.Filesystem
         }
         #endregion
 
-        #region MEGASYNC
-        private static async Task DetectMegaSync(List<CloudProvider> ret)
+        #region Mega
+        private static async Task DetectMegaAsync(List<CloudProvider> providerList)
         {
             try
             {
@@ -73,7 +76,7 @@ namespace Files.Filesystem
                 var parser = new IniDataParser();
                 var data = parser.Parse(await FileIO.ReadTextAsync(configFile));
                 byte[] fixedSeed = Encoding.UTF8.GetBytes("$JY/X?o=h·&%v/M(");
-                byte[] localKey = getLocalStorageKey(); /*sid.GetBinaryForm()*/
+                byte[] localKey = GetLocalStorageKey(); /*sid.GetBinaryForm()*/
                 byte[] xLocalKey = XOR(fixedSeed, localKey);
                 var sh = SHA1.Create();
                 byte[] hLocalKey = sh.ComputeHash(xLocalKey);
@@ -82,25 +85,30 @@ namespace Files.Filesystem
                 var mainSection = data.Sections.First(s => s.SectionName == "General");
                 string currentGroup = "";
 
-                var currentAccountKey = hash("currentAccount", currentGroup, encryptionKey);
+                var currentAccountKey = Hash("currentAccount", currentGroup, encryptionKey);
                 var currentAccountStr = mainSection.Keys.First(s => s.KeyName == currentAccountKey);
-                var currentAccountDecrypted = decrypt(currentAccountKey, currentAccountStr.Value.Replace("\"", ""), currentGroup);
+                var currentAccountDecrypted = Decrypt(currentAccountKey, currentAccountStr.Value.Replace("\"", ""), currentGroup);
 
-                var currentAccountSectionKey = hash(currentAccountDecrypted, "", encryptionKey);
+                var currentAccountSectionKey = Hash(currentAccountDecrypted, "", encryptionKey);
                 var currentAccountSection = data.Sections.First(s => s.SectionName == currentAccountSectionKey);
 
-                var syncKey = hash("Syncs", currentAccountSectionKey, encryptionKey);
+                var syncKey = Hash("Syncs", currentAccountSectionKey, encryptionKey);
                 var syncGroups = currentAccountSection.Keys.Where(s => s.KeyName.StartsWith(syncKey)).Select(x => x.KeyName.Split('\\')[1]).Distinct();
                 foreach (var sync in syncGroups)
                 {
                     currentGroup = string.Join("/", currentAccountSectionKey, syncKey, sync);
-                    var syncNameKey = hash("syncName", currentGroup, encryptionKey);
+                    var syncNameKey = Hash("syncName", currentGroup, encryptionKey);
                     var syncNameStr = currentAccountSection.Keys.First(s => s.KeyName == string.Join("\\", syncKey, sync, syncNameKey));
-                    var syncNameDecrypted = decrypt(syncNameKey, syncNameStr.Value.Replace("\"", ""), currentGroup);
-                    var localFolderKey = hash("localFolder", currentGroup, encryptionKey);
+                    var syncNameDecrypted = Decrypt(syncNameKey, syncNameStr.Value.Replace("\"", ""), currentGroup);
+                    var localFolderKey = Hash("localFolder", currentGroup, encryptionKey);
                     var localFolderStr = currentAccountSection.Keys.First(s => s.KeyName == string.Join("\\", syncKey, sync, localFolderKey));
-                    var localFolderDecrypted = decrypt(localFolderKey, localFolderStr.Value.Replace("\"", ""), currentGroup);
-                    ret.Add(new CloudProvider() { ID = KnownCloudProviders.MEGASYNC, SyncFolder = localFolderDecrypted, Name = $"MEGA ({syncNameDecrypted})" });
+                    var localFolderDecrypted = Decrypt(localFolderKey, localFolderStr.Value.Replace("\"", ""), currentGroup);
+                    providerList.Add(new CloudProvider()
+                    {
+                        ID = KnownCloudProviders.Mega,
+                        SyncFolder = localFolderDecrypted,
+                        Name = $"MEGA ({syncNameDecrypted})"
+                    });
                 }
             }
             catch
@@ -109,7 +117,7 @@ namespace Files.Filesystem
             }
         }
 
-        private static byte[] getLocalStorageKey()
+        private static byte[] GetLocalStorageKey()
         {
             if (!NativeWinApiHelper.OpenProcessToken(NativeWinApiHelper.GetCurrentProcess(), NativeWinApiHelper.TokenAccess.TOKEN_QUERY, out var hToken))
             {
@@ -141,13 +149,13 @@ namespace Files.Filesystem
 
             int dwLength = NativeWinApiHelper.GetLengthSid(userStruct.User.Sid);
             byte[] result = new byte[dwLength];
-            Marshal.Copy((IntPtr)userStruct.User.Sid, result, 0, dwLength);
+            Marshal.Copy(userStruct.User.Sid, result, 0, dwLength);
             NativeWinApiHelper.CloseHandle(hToken);
             Marshal.FreeHGlobal(userToken);
             return result;
         }
 
-        private static string decrypt(string key, string value, string group)
+        private static string Decrypt(string key, string value, string group)
         {
             byte[] k = Encoding.ASCII.GetBytes(key);
             byte[] xValue = XOR(k, Convert.FromBase64String(value));
@@ -181,7 +189,7 @@ namespace Files.Filesystem
             return Encoding.UTF8.GetString(xDecrypted);
         }
 
-        private static string hash(string key, string group, byte[] encryptionKey)
+        private static string Hash(string key, string group, byte[] encryptionKey)
         {
             var sh = SHA1.Create();
             byte[] xPath = XOR(encryptionKey, Encoding.UTF8.GetBytes(key + group));
@@ -222,20 +230,30 @@ namespace Files.Filesystem
         }
         #endregion
 
-        #region ONEDRIVE
-        private static void DetectOneDrive(List<CloudProvider> ret)
+        #region OneDrive
+        private static void DetectOneDrive(List<CloudProvider> providerList)
         {
             try
             {
                 var onedrive_personal = Environment.GetEnvironmentVariable("OneDriveConsumer");
                 if (!string.IsNullOrEmpty(onedrive_personal))
                 {
-                    ret.Add(new CloudProvider() { ID = KnownCloudProviders.ONEDRIVE, SyncFolder = onedrive_personal, Name = $"OneDrive" });
+                    providerList.Add(new CloudProvider()
+                    {
+                        ID = KnownCloudProviders.OneDrive,
+                        SyncFolder = onedrive_personal,
+                        Name = $"OneDrive"
+                    });
                 }
                 var onedrive_commercial = Environment.GetEnvironmentVariable("OneDriveCommercial");
                 if (!string.IsNullOrEmpty(onedrive_commercial))
                 {
-                    ret.Add(new CloudProvider() { ID = KnownCloudProviders.ONEDRIVE_BUSINESS, SyncFolder = onedrive_commercial, Name = $"OneDrive Commercial" });
+                    providerList.Add(new CloudProvider()
+                    {
+                        ID = KnownCloudProviders.OneDriveBusiness,
+                        SyncFolder = onedrive_commercial,
+                        Name = $"OneDrive Commercial"
+                    });
                 }
             }
             catch
@@ -245,8 +263,8 @@ namespace Files.Filesystem
         }
         #endregion
 
-        #region GOOGLEDRIVE
-        private static async Task DetectGoogleDrive(List<CloudProvider> ret)
+        #region GoogleDrive
+        private static async Task DetectGoogleDriveAsync(List<CloudProvider> providerList)
         {
             try
             {
@@ -269,15 +287,25 @@ namespace Files.Filesystem
 
                     // Extract the data from the reader
                     string path = reader["data_value"]?.ToString();
-                    if (string.IsNullOrWhiteSpace(path)) return;
+                    if (string.IsNullOrWhiteSpace(path))
+                    {
+                        return;
+                    }
 
                     // By default, the path will be prefixed with "\\?\" (unless another app has explicitly changed it).
                     // \\?\ indicates to Win32 that the filename may be longer than MAX_PATH (see MSDN).
                     // Parts of .NET (e.g. the File class) don't handle this very well, so remove this prefix.
                     if (path.StartsWith(@"\\?\"))
+                    {
                         path = path.Substring(@"\\?\".Length);
+                    }
 
-                    ret.Add(new CloudProvider() { ID = KnownCloudProviders.GOOGLEDRIVE, SyncFolder = path, Name = $"Google Drive" });
+                    providerList.Add(new CloudProvider()
+                    {
+                        ID = KnownCloudProviders.GoogleDrive,
+                        SyncFolder = path,
+                        Name = $"Google Drive"
+                    });
                 }
             }
             catch
