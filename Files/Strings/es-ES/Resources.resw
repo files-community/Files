@@ -939,9 +939,6 @@
   <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar en el menú contextual una opción para copiar la ubicación del archivo seleccionado</value>
   </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar OneDrive en la barra lateral</value>
-  </data>
   <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar la papelera de reciclaje en la barra lateral</value>
   </data>
@@ -978,9 +975,6 @@
   <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
     <value>Mostrar todos los elementos del menú contextual</value>
   </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.Header" xml:space="preserve">
-    <value>Mostrar OneDrive en la barra lateral</value>
-  </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Mostrar la papelera de reciclaje en la barra lateral</value>
   </data>
@@ -992,9 +986,6 @@
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>Mostrar extensiones de archivos conocidos</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Header" xml:space="preserve">
-    <value>Mostrar archivos, carpetas y unidades ocultos</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Barra lateral acrílica</value>

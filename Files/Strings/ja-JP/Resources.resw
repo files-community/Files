@@ -960,9 +960,6 @@
   <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>選択したアイテムの場所をコピーするオプションを表示する</value>
   </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>OneDriveをサイドバーに固定する</value>
-  </data>
   <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>ごみ箱をサイドバーに固定する</value>
   </data>
@@ -999,9 +996,6 @@
   <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
     <value>すべてのコンテキストメニュー項目を表示する</value>
   </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.Header" xml:space="preserve">
-    <value>OneDriveをサイドバーに固定する</value>
-  </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>ごみ箱をサイドバーに固定する</value>
   </data>
@@ -1013,9 +1007,6 @@
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>既知のファイルタイプの拡張子を表示する</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Header" xml:space="preserve">
-    <value>隠しファイル、フォルダ、およびドライブを表示する</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>アクリルサイドバー</value>
