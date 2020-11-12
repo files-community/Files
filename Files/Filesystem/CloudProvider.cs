@@ -20,7 +20,9 @@ namespace Files.Filesystem
         OneDriveBusiness,
         Mega,
         GoogleDrive,
-        DropBox
+        DropBox,
+        iCloud,
+        Box
     }
 
     public class CloudProvider
@@ -36,8 +38,58 @@ namespace Files.Filesystem
             await DetectGoogleDriveAsync(providerList);
             await DetectDropboxAsync(providerList);
             await DetectMegaAsync(providerList);
+            await DetectBoxAsync(providerList);
+            await DetectiCloudAsync(providerList);
             return providerList;
         }
+
+        #region Box
+        private static async Task DetectBoxAsync(List<CloudProvider> providerList)
+        {
+            try
+            {
+                var infoPath = @"Box\Box\data\shell\sync_root_folder.txt";
+                var configPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, infoPath);
+                var configFile = await StorageFile.GetFileFromPathAsync(configPath);
+                var syncPath = await FileIO.ReadTextAsync(configFile);
+                if (!string.IsNullOrEmpty(syncPath))
+                {
+                    providerList.Add(new CloudProvider()
+                    {
+                        ID = KnownCloudProviders.Box,
+                        SyncFolder = syncPath,
+                        Name = "Box"
+                    });
+                }
+            }
+            catch
+            {
+                // Not detected
+            }
+        }
+        #endregion
+
+        #region iCloud
+        private static async Task DetectiCloudAsync(List<CloudProvider> providerList)
+        {
+            try
+            {
+                var userPath = UserDataPaths.GetDefault().Profile;
+                var iCloudPath = "iCloudDrive";
+                var driveFolder = await StorageFolder.GetFolderFromPathAsync(Path.Combine(userPath, iCloudPath));
+                providerList.Add(new CloudProvider()
+                {
+                    ID = KnownCloudProviders.iCloud,
+                    SyncFolder = driveFolder.Path,
+                    Name = "iCloud"
+                });
+            }
+            catch
+            {
+                // Not detected
+            }
+        }
+        #endregion
 
         #region DropBox
         private static async Task DetectDropboxAsync(List<CloudProvider> providerList)
