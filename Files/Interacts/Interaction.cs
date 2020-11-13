@@ -1401,16 +1401,16 @@ namespace Files.Interacts
                             {
                                 new AdaptiveText()
                                 {
-                                    Text = "Safe to remove hardware"
+                                    Text = "EjectNotificationHeader".GetLocalized()
                                 },
                                 new AdaptiveText()
                                 {
-                                    Text = "The device can now be safely removed from the computer."
+                                    Text = "EjectNotificationBody".GetLocalized()
                                 }
                             },
                             Attribution = new ToastGenericAttributionText()
                             {
-                                Text = "Files"
+                                Text = "SettingsAboutAppName".GetLocalized()
                             }
                         }
                     },
@@ -1427,8 +1427,9 @@ namespace Files.Interacts
             {
                 Debug.WriteLine("Can't eject device");
 
-                await DialogDisplayHelper.ShowDialogAsync("Problem Ejecting Device",
-                    "This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.");
+                await DialogDisplayHelper.ShowDialogAsync(
+                    "EjectNotificationErrorDialogHeader".GetLocalized(),
+                    "EjectNotificationErrorDialogBody".GetLocalized());
             }
         }
     }

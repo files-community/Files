@@ -1083,4 +1083,19 @@
   <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
     <value>Показывать скрытые файлы и папки</value>
   </data>
+  <data name="EjectNotificationHeader" xml:space="preserve">
+    <value>Оборудование может быть извлечено</value>
+  </data>
+  <data name="EjectNotificationBody" xml:space="preserve">
+    <value>Теперь устройство может быть безопасно извлечено из компьютера.</value>
+  </data>
+  <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
+    <value>Проблема с извлечением устройства</value>
+  </data>
+  <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
+    <value>Устройство в данный момент используется. Закройте все программы, окна или вкладки, которые могут использовать устройство, а затем повторите попытку.</value>
+  </data>
+  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+    <value>Извлечь</value>
+  </data>
 </root>
