@@ -51,7 +51,6 @@ namespace Files.Filesystem.Cloud.Providers
                             ID = CloudProviders.GoogleDrive,
                             SyncFolder = path
                         };
-                        
 
                         if (!folder.Name.Contains("Google"))
                         {
