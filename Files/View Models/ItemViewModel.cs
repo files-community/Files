@@ -640,7 +640,7 @@ namespace Files.Filesystem
                 value.Add("Arguments", "GetIconOverlay");
                 value.Add("filePath", filePath);
                 var response = await Connection.SendMessageAsync(value);
-                var hasCustomIcon = (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
+                var hasCustomIcon = (response.Status == AppServiceResponseStatus.Success)
                     && response.Message.Get("HasCustomIcon", false);
                 var iconOverlay = response.Message.Get("IconOverlay", (string)null);
                 if (iconOverlay != null)

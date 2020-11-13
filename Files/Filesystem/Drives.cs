@@ -310,7 +310,7 @@ namespace Files.Filesystem
                 {
                     Text = provider.Name,
                     Path = provider.SyncFolder,
-                    Type = Filesystem.DriveType.VirtualDrive,
+                    Type = DriveType.VirtualDrive,
                 };
                 list.Add(cloudProviderItem);
             }

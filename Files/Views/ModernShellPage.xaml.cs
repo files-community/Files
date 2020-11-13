@@ -185,7 +185,7 @@ namespace Files.Views.Pages
                 {
                     ItemPath = (e.InvokedItemDataContext as LocationItem).Path,
                     ItemName = (e.InvokedItemDataContext as LocationItem).Text,
-                    PrimaryItemAttribute = Windows.Storage.StorageItemTypes.Folder,
+                    PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemType = "FileFolderListItem".GetLocalized(),
                     LoadFolderGlyph = true
                 };

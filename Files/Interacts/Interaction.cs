@@ -8,6 +8,7 @@ using Files.Views;
 using Files.Views.Pages;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Newtonsoft.Json;
 using NLog;
 using System;
@@ -33,6 +34,7 @@ using Windows.Storage.Streams;
 using Windows.System;
 using Windows.System.UserProfile;
 using Windows.UI.Core;
+using Windows.UI.Notifications;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -1379,6 +1381,55 @@ namespace Files.Interacts
                 return "";
             }
             return CryptographicBuffer.EncodeToHexString(hash.GetValueAndReset()).ToLower();
+        }
+
+        public static async Task EjectDeviceAsync(string path)
+        {
+            var removableDevice = new RemovableDevice(path);
+            bool result = await removableDevice.EjectAsync();
+            if (result)
+            {
+                Debug.WriteLine("Device successfully ejected");
+
+                var toastContent = new ToastContent()
+                {
+                    Visual = new ToastVisual()
+                    {
+                        BindingGeneric = new ToastBindingGeneric()
+                        {
+                            Children =
+                            {
+                                new AdaptiveText()
+                                {
+                                    Text = "Safe to remove hardware"
+                                },
+                                new AdaptiveText()
+                                {
+                                    Text = "The device can now be safely removed from the computer."
+                                }
+                            },
+                            Attribution = new ToastGenericAttributionText()
+                            {
+                                Text = "Files"
+                            }
+                        }
+                    },
+                    ActivationType = ToastActivationType.Protocol
+                };
+
+                // Create the toast notification
+                var toastNotif = new ToastNotification(toastContent.GetXml());
+
+                // And send the notification
+                ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+            }
+            else
+            {
+                Debug.WriteLine("Can't eject device");
+
+                await DialogDisplayHelper.ShowDialogAsync("Problem Ejecting Device",
+                    "This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.");
+            }
         }
     }
 }
