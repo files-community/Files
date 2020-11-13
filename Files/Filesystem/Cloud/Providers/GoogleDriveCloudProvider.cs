@@ -46,12 +46,23 @@ namespace Files.Filesystem.Cloud.Providers
                         }
 
                         var folder = await StorageFolder.GetFolderFromPathAsync(path);
-                        cloudProviders.Add(new CloudProvider()
+                        var googleCloud = new CloudProvider()
                         {
                             ID = CloudProviders.GoogleDrive,
-                            Name = $"Google Drive ({folder.Name})",
                             SyncFolder = path
-                        });
+                        };
+                        
+
+                        if (!folder.Name.Contains("Google"))
+                        {
+                            googleCloud.Name = $"Google Drive ({folder.Name})";
+                        }
+                        else
+                        {
+                            googleCloud.Name = "Google Drive";
+                        }
+
+                        cloudProviders.Add(googleCloud);
                     }
                 }
             }
