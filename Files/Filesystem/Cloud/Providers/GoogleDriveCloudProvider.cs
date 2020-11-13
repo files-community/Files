@@ -28,29 +28,31 @@ namespace Files.Filesystem.Cloud.Providers
                     // Open the connection and execute the command
                     con.Open();
                     var reader = cmd.ExecuteReader();
-                    reader.Read();
+                    while (reader.Read())
+                    {
+                        // Extract the data from the reader
+                        string path = reader["data_value"]?.ToString();
+                        if (string.IsNullOrWhiteSpace(path))
+                        {
+                            return;
+                        }
 
-                    // Extract the data from the reader
-                    string path = reader["data_value"]?.ToString();
-                    if (string.IsNullOrWhiteSpace(path))
-                    {
-                        return;
-                    }
+                        // By default, the path will be prefixed with "\\?\" (unless another app has explicitly changed it).
+                        // \\?\ indicates to Win32 that the filename may be longer than MAX_PATH (see MSDN).
+                        // Parts of .NET (e.g. the File class) don't handle this very well, so remove this prefix.
+                        if (path.StartsWith(@"\\?\"))
+                        {
+                            path = path.Substring(@"\\?\".Length);
+                        }
 
-                    // By default, the path will be prefixed with "\\?\" (unless another app has explicitly changed it).
-                    // \\?\ indicates to Win32 that the filename may be longer than MAX_PATH (see MSDN).
-                    // Parts of .NET (e.g. the File class) don't handle this very well, so remove this prefix.
-                    if (path.StartsWith(@"\\?\"))
-                    {
-                        path = path.Substring(@"\\?\".Length);
+                        var folder = await StorageFolder.GetFolderFromPathAsync(path);
+                        cloudProviders.Add(new CloudProvider()
+                        {
+                            ID = CloudProviders.GoogleDrive,
+                            Name = $"Google Drive ({folder.Name})",
+                            SyncFolder = path
+                        });
                     }
-                    
-                    cloudProviders.Add(new CloudProvider()
-                    {
-                        ID = CloudProviders.GoogleDrive,
-                        Name = "Google Drive",
-                        SyncFolder = path
-                    });
                 }
             }
             catch
