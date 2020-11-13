@@ -209,6 +209,16 @@
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
+                                x:Name="EjectDevice"
+                                x:Uid="SideBarEjectDevice"
+                                x:Load="{x:Bind ShowEjectDevice, Mode=OneWay}"
+                                Click="EjectDevice_Click"
+                                Text="Eject">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10B;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
                                 x:Name="PropertiesFolder"
                                 x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
                                 x:Load="{x:Bind ShowProperties, Mode=OneWay}"
@@ -216,16 +226,6 @@
                                 Text="Properties">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea8d;" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem
-                                x:Name="EjectDevice"
-                                x:Uid="SideBarEjectDevice"
-                                x:Load="{x:Bind ShowEjectDevice, Mode=OneWay}"
-                                Click="EjectDevice_Click"
-                                Text="Eject">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xF847;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                         </MenuFlyout.Items>
