@@ -39,9 +39,9 @@ namespace Files.Filesystem
 
         public DrivesManager()
         {
-            EnumerateDrives();
-
             cloudProviderController = new CloudProviderController();
+
+            EnumerateDrives();
         }
 
         private async void EnumerateDrives()
