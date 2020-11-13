@@ -1,6 +1,7 @@
 using ByteSizeLib;
 using Files.Common;
 using Files.Enums;
+using Files.Filesystem.Cloud;
 using Files.Helpers;
 using Files.View_Models;
 using Microsoft.Toolkit.Uwp.Extensions;

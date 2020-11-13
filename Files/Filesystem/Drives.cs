@@ -1,5 +1,4 @@
-using ByteSizeLib;
-using Files.Common;
+using Files.Filesystem.Cloud;
 using Files.View_Models;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -11,12 +10,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Core;
 
@@ -30,6 +26,8 @@ namespace Files.Filesystem
         public IReadOnlyList<DriveItem> Drives => drivesList.AsReadOnly();
         private bool showUserConsentOnInit = false;
 
+        private CloudProviderController cloudProviderController;
+
         public bool ShowUserConsentOnInit
         {
             get => showUserConsentOnInit;
@@ -42,6 +40,8 @@ namespace Files.Filesystem
         public DrivesManager()
         {
             EnumerateDrives();
+
+            cloudProviderController = new CloudProviderController();
         }
 
         private async void EnumerateDrives()
@@ -56,6 +56,7 @@ namespace Files.Filesystem
                     ShowUserConsentOnInit = true;
                 }
             }
+
             await GetVirtualDrivesListAsync(drivesList);
             StartDeviceWatcher();
             driveEnumInProgress = false;
@@ -304,13 +305,15 @@ namespace Files.Filesystem
 
         public async Task GetVirtualDrivesListAsync(IList<DriveItem> list)
         {
-            foreach (var provider in await CloudProvider.GetInstalledCloudProviders())
+            await cloudProviderController.DetectInstalledCloudProvidersAsync();
+
+            foreach (var provider in cloudProviderController.CloudProviders)
             {
                 var cloudProviderItem = new DriveItem()
                 {
                     Text = provider.Name,
                     Path = provider.SyncFolder,
-                    Type = Filesystem.DriveType.VirtualDrive,
+                    Type = DriveType.VirtualDrive,
                 };
                 list.Add(cloudProviderItem);
             }

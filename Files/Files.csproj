@@ -177,8 +177,18 @@
     <Compile Include="Dialogs\RestartDialog.xaml.cs">
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Filesystem\CloudDriveSyncStatus.cs" />
-    <Compile Include="Filesystem\CloudProvider.cs" />
+    <Compile Include="Filesystem\Cloud\CloudProvider.cs" />
+    <Compile Include="Filesystem\Cloud\Providers\AppleCloudProvider.cs" />
+    <Compile Include="Filesystem\Cloud\Providers\BoxCloudProvider.cs" />
+    <Compile Include="Filesystem\Cloud\CloudDriveSyncStatus.cs" />
+    <Compile Include="Filesystem\Cloud\CloudProviderController.cs" />
+    <Compile Include="Enums\CloudProviders.cs" />
+    <Compile Include="Filesystem\Cloud\Providers\DropBoxCloudProvider.cs" />
+    <Compile Include="Filesystem\Cloud\Providers\GoogleDriveCloudProvider.cs" />
+    <Compile Include="Filesystem\Cloud\ICloudProviderDetector.cs" />
+    <Compile Include="Filesystem\Cloud\Providers\MegaCloudProvider.cs" />
+    <Compile Include="Filesystem\Cloud\Providers\OneDriveCloudProvider.cs" />
+    <Compile Include="Filesystem\Cloud\Providers\OneDriveCommercialCloudProvider.cs" />
     <Compile Include="Filesystem\PropertiesData.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\FilesystemResult.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\StorageFileExtensions.cs" />

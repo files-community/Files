@@ -1,4 +1,5 @@
 ﻿using Files.Enums;
+using Files.Filesystem.Cloud;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;

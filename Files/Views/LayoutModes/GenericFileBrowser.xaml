@@ -11,6 +11,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
+    xmlns:local3="using:Files.Filesystem.Cloud"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -789,8 +790,8 @@
                                 HorizontalAlignment="Left"
                                 FontFamily="Segoe MDL2 Assets"
                                 FontSize="14"
-                                Foreground="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
-                                Glyph="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
+                                Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
+                                Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>
                 </controls:DataGridTemplateColumn>
