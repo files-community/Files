@@ -772,33 +772,21 @@ namespace Files.View_Models
         {
             get
             {
-                if (NativeDirectoryChangesHelper.GetFileAttributesExFromApp(
-                    Path.Combine(ItemPath, ItemName),
-                    NativeDirectoryChangesHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard,
-                    out var lpFileInfo))
-                {
-                    return (lpFileInfo.dwFileAttributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly;
-                }
-                return false;
+                return NativeFileOperationsHelper.HasFileAttribute(
+                    Path.Combine(ItemPath, ItemName), FileAttributes.ReadOnly);
             }
 
             set
             {
-                if (!NativeDirectoryChangesHelper.GetFileAttributesExFromApp(
-                    Path.Combine(ItemPath, ItemName),
-                    NativeDirectoryChangesHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard,
-                    out var lpFileInfo)) return;
                 if (value)
                 {
-                    NativeDirectoryChangesHelper.SetFileAttributesFromApp(
-                        Path.Combine(ItemPath, ItemName),
-                        lpFileInfo.dwFileAttributes | FileAttributes.ReadOnly);
+                    NativeFileOperationsHelper.SetFileAttribute(
+                        Path.Combine(ItemPath, ItemName), FileAttributes.ReadOnly);
                 }
                 else
                 {
-                    NativeDirectoryChangesHelper.SetFileAttributesFromApp(
-                        Path.Combine(ItemPath, ItemName),
-                        lpFileInfo.dwFileAttributes & ~FileAttributes.ReadOnly);
+                    NativeFileOperationsHelper.UnsetFileAttribute(
+                        Path.Combine(ItemPath, ItemName), FileAttributes.ReadOnly);
                 }
                 base.OnPropertyChanged(nameof(IsReadOnly));
             }
@@ -808,33 +796,21 @@ namespace Files.View_Models
         {
             get
             {
-                if (NativeDirectoryChangesHelper.GetFileAttributesExFromApp(
-                    Path.Combine(ItemPath, ItemName),
-                    NativeDirectoryChangesHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard,
-                    out var lpFileInfo))
-                {
-                    return (lpFileInfo.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-                }
-                return false;
+                return NativeFileOperationsHelper.HasFileAttribute(
+                    Path.Combine(ItemPath, ItemName), FileAttributes.Hidden);
             }
 
             set
             {
-                if (!NativeDirectoryChangesHelper.GetFileAttributesExFromApp(
-                    Path.Combine(ItemPath, ItemName),
-                    NativeDirectoryChangesHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard,
-                    out var lpFileInfo)) return;
                 if (value)
                 {
-                    NativeDirectoryChangesHelper.SetFileAttributesFromApp(
-                        Path.Combine(ItemPath, ItemName),
-                        lpFileInfo.dwFileAttributes | FileAttributes.Hidden);
+                    NativeFileOperationsHelper.SetFileAttribute(
+                        Path.Combine(ItemPath, ItemName), FileAttributes.Hidden);
                 }
                 else
                 {
-                    NativeDirectoryChangesHelper.SetFileAttributesFromApp(
-                        Path.Combine(ItemPath, ItemName),
-                        lpFileInfo.dwFileAttributes & ~FileAttributes.Hidden);
+                    NativeFileOperationsHelper.UnsetFileAttribute(
+                        Path.Combine(ItemPath, ItemName), FileAttributes.Hidden);
                 }
                 base.OnPropertyChanged(nameof(IsHidden));
             }

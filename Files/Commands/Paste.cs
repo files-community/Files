@@ -147,7 +147,7 @@ namespace Files.Commands
                         else if (pasted.ErrorCode == FilesystemErrorCode.ERROR_UNAUTHORIZED)
                         {
                             // Try again with CopyFileFromApp
-                            if (NativeDirectoryChangesHelper.CopyFileFromApp(item.Path, Path.Combine(destinationPath, item.Name), true))
+                            if (NativeFileOperationsHelper.CopyFileFromApp(item.Path, Path.Combine(destinationPath, item.Name), true))
                             {
                                 pastedSourceItems.Add(item);
                             }
@@ -203,7 +203,7 @@ namespace Files.Commands
                     if (deleted == FilesystemErrorCode.ERROR_UNAUTHORIZED)
                     {
                         // Try again with DeleteFileFromApp
-                        if (!NativeDirectoryChangesHelper.DeleteFileFromApp(item.Path))
+                        if (!NativeFileOperationsHelper.DeleteFileFromApp(item.Path))
                         {
                             Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
                         }

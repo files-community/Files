@@ -31,6 +31,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
 using static Files.Helpers.NativeDirectoryChangesHelper;
 using static Files.Helpers.NativeFindStorageItemHelper;
+using static Files.Helpers.NativeFileOperationsHelper;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Filesystem

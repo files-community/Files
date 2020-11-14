@@ -168,7 +168,7 @@ namespace Files.Commands
                     else
                     {
                         // Try again with DeleteFileFromApp
-                        if (!NativeDirectoryChangesHelper.DeleteFileFromApp(storItem.ItemPath))
+                        if (!NativeFileOperationsHelper.DeleteFileFromApp(storItem.ItemPath))
                         {
                             Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
                         }
