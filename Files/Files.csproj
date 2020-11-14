@@ -471,6 +471,7 @@
     <PRIResource Include="Strings\pl-PL\Resources.resw" />
     <PRIResource Include="Strings\nl-NL\Resources.resw" />
     <PRIResource Include="Strings\zh-Hans\Resources.resw" />
+    <PRIResource Include="Strings\zh-Hant\Resources.resw" />
     <PRIResource Include="Strings\de-DE\Resources.resw" />
     <PRIResource Include="Strings\es-ES\Resources.resw" />
     <PRIResource Include="Strings\fr-FR\Resources.resw" />
