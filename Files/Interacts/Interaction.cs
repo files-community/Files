@@ -851,7 +851,7 @@ namespace Files.Interacts
                 if (renamed == FilesystemErrorCode.ERROR_UNAUTHORIZED)
                 {
                     // Try again with MoveFileFromApp
-                    if (!NativeDirectoryChangesHelper.MoveFileFromApp(item.ItemPath, Path.Combine(Path.GetDirectoryName(item.ItemPath), newName)))
+                    if (!NativeFileOperationsHelper.MoveFileFromApp(item.ItemPath, Path.Combine(Path.GetDirectoryName(item.ItemPath), newName)))
                     {
                         Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
                         return false;

@@ -31,6 +31,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
 using static Files.Helpers.NativeDirectoryChangesHelper;
 using static Files.Helpers.NativeFindStorageItemHelper;
+using static Files.Helpers.NativeFileOperationsHelper;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Filesystem
@@ -1062,7 +1063,9 @@ namespace Files.Filesystem
             int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
             IntPtr hFileTsk = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
                 additionalFlags);
-            return ((FileAttributes)findDataTsk.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+            var isHidden = ((FileAttributes)findDataTsk.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+            FindClose(hFileTsk);
+            return isHidden;
         }
 
         private async Task<bool> CheckBitlockerStatusAsync(StorageFolder rootFolder)

@@ -362,11 +362,11 @@
                 <CheckBox
                     x:Uid="PropertiesDialogReadOnly"
                     Content="Read-only"
-                    IsEnabled="False" />
+                    IsChecked="{x:Bind ViewModel.IsReadOnly, Mode=TwoWay}"/>
                 <CheckBox
                     x:Uid="PropertiesDialogHidden"
                     Content="Hidden"
-                    IsEnabled="False" />
+                    IsChecked="{x:Bind ViewModel.IsHidden, Mode=TwoWay}" />
             </StackPanel>
         </Grid>
     </StackPanel>

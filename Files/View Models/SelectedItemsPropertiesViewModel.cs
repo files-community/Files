@@ -6,6 +6,7 @@ using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Windows.ApplicationModel.Core;
 using Windows.Services.Maps;
 using Windows.UI.Xaml;
@@ -765,6 +766,54 @@ namespace Files.View_Models
         {
             get => detailsSectionVisibility_Media;
             set => SetProperty(ref detailsSectionVisibility_Media, value);
+        }
+
+        public bool IsReadOnly
+        {
+            get
+            {
+                return NativeFileOperationsHelper.HasFileAttribute(
+                    Path.Combine(ItemPath, ItemName), FileAttributes.ReadOnly);
+            }
+
+            set
+            {
+                if (value)
+                {
+                    NativeFileOperationsHelper.SetFileAttribute(
+                        Path.Combine(ItemPath, ItemName), FileAttributes.ReadOnly);
+                }
+                else
+                {
+                    NativeFileOperationsHelper.UnsetFileAttribute(
+                        Path.Combine(ItemPath, ItemName), FileAttributes.ReadOnly);
+                }
+                base.OnPropertyChanged(nameof(IsReadOnly));
+            }
+        }
+
+        public bool IsHidden
+        {
+            get
+            {
+                return NativeFileOperationsHelper.HasFileAttribute(
+                    Path.Combine(ItemPath, ItemName), FileAttributes.Hidden);
+            }
+
+            set
+            {
+                if (value)
+                {
+                    NativeFileOperationsHelper.SetFileAttribute(
+                        Path.Combine(ItemPath, ItemName), FileAttributes.Hidden);
+                }
+                else
+                {
+                    NativeFileOperationsHelper.UnsetFileAttribute(
+                        Path.Combine(ItemPath, ItemName), FileAttributes.Hidden);
+                }
+                base.OnPropertyChanged(nameof(IsHidden));
+            }
         }
     }
 }
