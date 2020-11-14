@@ -1062,7 +1062,9 @@ namespace Files.Filesystem
             int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
             IntPtr hFileTsk = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
                 additionalFlags);
-            return ((FileAttributes)findDataTsk.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+            var isHidden = ((FileAttributes)findDataTsk.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+            FindClose(hFileTsk);
+            return isHidden;
         }
 
         private async Task<bool> CheckBitlockerStatusAsync(StorageFolder rootFolder)

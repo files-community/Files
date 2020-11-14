@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace Files.Helpers
 {
@@ -154,5 +155,34 @@ namespace Files.Helpers
         public static extern bool RemoveDirectoryFromApp(
             string lpPathName
         );
+
+        [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetFileAttributesExFromApp(
+            string lpFileName,
+            GET_FILEEX_INFO_LEVELS fInfoLevelId,
+            out WIN32_FILE_ATTRIBUTE_DATA lpFileInformation);
+
+        [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool SetFileAttributesFromApp(
+            string lpFileName,
+            System.IO.FileAttributes dwFileAttributes);
+
+        public enum GET_FILEEX_INFO_LEVELS
+        {
+            GetFileExInfoStandard,
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct WIN32_FILE_ATTRIBUTE_DATA
+        {
+            public System.IO.FileAttributes dwFileAttributes;
+            public FILETIME ftCreationTime;
+            public FILETIME ftLastAccessTime;
+            public FILETIME ftLastWriteTime;
+            public uint nFileSizeHigh;
+            public uint nFileSizeLow;
+        }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Windows.ApplicationModel.Core;
 using Windows.Services.Maps;
 using Windows.UI.Xaml;
@@ -765,6 +766,78 @@ namespace Files.View_Models
         {
             get => detailsSectionVisibility_Media;
             set => SetProperty(ref detailsSectionVisibility_Media, value);
+        }
+
+        public bool IsReadOnly
+        {
+            get
+            {
+                if (NativeDirectoryChangesHelper.GetFileAttributesExFromApp(
+                    Path.Combine(ItemPath, ItemName),
+                    NativeDirectoryChangesHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard,
+                    out var lpFileInfo))
+                {
+                    return (lpFileInfo.dwFileAttributes & FileAttributes.ReadOnly) == FileAttributes.ReadOnly;
+                }
+                return false;
+            }
+
+            set
+            {
+                if (!NativeDirectoryChangesHelper.GetFileAttributesExFromApp(
+                    Path.Combine(ItemPath, ItemName),
+                    NativeDirectoryChangesHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard,
+                    out var lpFileInfo)) return;
+                if (value)
+                {
+                    NativeDirectoryChangesHelper.SetFileAttributesFromApp(
+                        Path.Combine(ItemPath, ItemName),
+                        lpFileInfo.dwFileAttributes | FileAttributes.ReadOnly);
+                }
+                else
+                {
+                    NativeDirectoryChangesHelper.SetFileAttributesFromApp(
+                        Path.Combine(ItemPath, ItemName),
+                        lpFileInfo.dwFileAttributes & ~FileAttributes.ReadOnly);
+                }
+                base.OnPropertyChanged(nameof(IsReadOnly));
+            }
+        }
+
+        public bool IsHidden
+        {
+            get
+            {
+                if (NativeDirectoryChangesHelper.GetFileAttributesExFromApp(
+                    Path.Combine(ItemPath, ItemName),
+                    NativeDirectoryChangesHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard,
+                    out var lpFileInfo))
+                {
+                    return (lpFileInfo.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+                }
+                return false;
+            }
+
+            set
+            {
+                if (!NativeDirectoryChangesHelper.GetFileAttributesExFromApp(
+                    Path.Combine(ItemPath, ItemName),
+                    NativeDirectoryChangesHelper.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard,
+                    out var lpFileInfo)) return;
+                if (value)
+                {
+                    NativeDirectoryChangesHelper.SetFileAttributesFromApp(
+                        Path.Combine(ItemPath, ItemName),
+                        lpFileInfo.dwFileAttributes | FileAttributes.Hidden);
+                }
+                else
+                {
+                    NativeDirectoryChangesHelper.SetFileAttributesFromApp(
+                        Path.Combine(ItemPath, ItemName),
+                        lpFileInfo.dwFileAttributes & ~FileAttributes.Hidden);
+                }
+                base.OnPropertyChanged(nameof(IsHidden));
+            }
         }
     }
 }
