@@ -27,8 +27,7 @@ namespace Files.Filesystem.Cloud.Providers
                 byte[] localKey = GetLocalStorageKey();
                 byte[] xLocalKey = XOR(fixedSeed, localKey);
                 var sh = SHA1.Create();
-                byte[] hLocalKey = sh.ComputeHash(xLocalKey);
-                var encryptionKey = hLocalKey;
+                byte[] encryptionKey = sh.ComputeHash(xLocalKey);
 
                 var mainSection = data.Sections.First(s => s.SectionName == "General");
                 string currentGroup = "";
