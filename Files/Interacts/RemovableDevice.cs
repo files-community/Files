@@ -8,11 +8,11 @@ namespace Files.Interacts
     public class RemovableDevice
     {
         private IntPtr handle;
-        private string driveLetter;
+        private char driveLetter;
 
         public RemovableDevice(string letter)
         {
-            driveLetter = letter[0].ToString();
+            driveLetter = letter[0];
             string filename = @"\\.\" + driveLetter + ":";
             handle = CreateFileFromAppW(filename,
                 GENERIC_READ | GENERIC_WRITE,
