@@ -66,7 +66,7 @@ namespace Files.Filesystem.Cloud.Providers
             }
         }
 
-        private static byte[] GetLocalStorageKey()
+        private byte[] GetLocalStorageKey()
         {
             if (!NativeWinApiHelper.OpenProcessToken(NativeWinApiHelper.GetCurrentProcess(), NativeWinApiHelper.TokenAccess.TOKEN_QUERY, out var hToken))
             {
@@ -98,7 +98,7 @@ namespace Files.Filesystem.Cloud.Providers
             return result;
         }
 
-        private static byte[] XOR(byte[] key, byte[] data)
+        private byte[] XOR(byte[] key, byte[] data)
         {
             int keyLen = key.Length;
             if (keyLen == 0)
@@ -124,7 +124,7 @@ namespace Files.Filesystem.Cloud.Providers
             return result.ToArray();
         }
 
-        private static string Hash(string key, string group, byte[] encryptionKey)
+        private string Hash(string key, string group, byte[] encryptionKey)
         {
             var sh = SHA1.Create();
             byte[] xPath = XOR(encryptionKey, Encoding.UTF8.GetBytes(key + group));
@@ -133,7 +133,7 @@ namespace Files.Filesystem.Cloud.Providers
             return ByteArrayToString(xKeyHash);
         }
 
-        private static string Decrypt(string key, string value, string group)
+        private string Decrypt(string key, string value, string group)
         {
             byte[] k = Encoding.ASCII.GetBytes(key);
             byte[] xValue = XOR(k, Convert.FromBase64String(value));
@@ -167,7 +167,7 @@ namespace Files.Filesystem.Cloud.Providers
             return Encoding.UTF8.GetString(xDecrypted);
         }
 
-        public static string ByteArrayToString(byte[] ba)
+        private string ByteArrayToString(byte[] ba)
         {
             return BitConverter.ToString(ba).Replace("-", "").ToLowerInvariant();
         }
