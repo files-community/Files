@@ -3,9 +3,11 @@ using Files.View_Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Numerics;
+using Files.Interacts;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using System.Linq;
 
 namespace Files
 {
@@ -24,6 +26,11 @@ namespace Files
             InitializeComponent();
         }
 
+        private async void EjectDevice_Click(object sender, RoutedEventArgs e)
+        {
+            await Interaction.EjectDeviceAsync(((MenuFlyoutItem)sender).Tag.ToString());
+        }
+        
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string NavigationPath = ""; // path to navigate

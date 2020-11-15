@@ -22,6 +22,7 @@ namespace Files.Filesystem
         public ByteSize FreeSpace { get; set; }
         public ByteSize SpaceUsed { get; set; }
         public Visibility ItemVisibility { get; set; } = Visibility.Visible;
+        public bool IsRemovable { get; set; }
 
         private DriveType type;
 
@@ -62,6 +63,11 @@ namespace Files.Filesystem
             Type = type;
             Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
             Root = root;
+
+            if (Type == DriveType.Removable || Type == DriveType.CDRom)
+            {
+                IsRemovable = true;
+            }
 
             CoreApplication.MainView.ExecuteOnUIThreadAsync(() => GetDriveItemProperties());
         }

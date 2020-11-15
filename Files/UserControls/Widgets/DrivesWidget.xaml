@@ -75,6 +75,23 @@
                             Style="{StaticResource ButtonRevealStyle}"
                             Tag="{x:Bind Path}"
                             ToolTipService.ToolTip="{x:Bind Text, Mode=OneWay}">
+                            <Button.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyout.Items>
+                                        <MenuFlyoutItem
+                                            x:Name="EjectDevice"
+                                            Tag="{x:Bind Path}"
+                                            x:Uid="SideBarEjectDevice"
+                                            x:Load="{x:Bind IsRemovable, Mode=OneWay}"
+                                            Click="EjectDevice_Click"
+                                            Text="Eject">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10B;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                    </MenuFlyout.Items>
+                                </MenuFlyout>
+                            </Button.ContextFlyout>
                             <Grid
                                 Margin="12"
                                 HorizontalAlignment="Stretch"
