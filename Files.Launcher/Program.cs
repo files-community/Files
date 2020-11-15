@@ -300,10 +300,12 @@ namespace FilesFullTrust
 
                 case "GetIconOverlay":
                     var fileIconPath = (string)args.Request.Message["filePath"];
-                    var iconOverlay = Win32API.GetFileOverlayIcon(fileIconPath);
+                    var thumbnailSize = (int)args.Request.Message["thumbnailSize"];
+                    var iconOverlay = Win32API.GetFileIconAndOverlay(fileIconPath, thumbnailSize);
                     await args.Request.SendResponseAsync(new ValueSet()
                     {
-                        { "IconOverlay", iconOverlay.icon },
+                        { "Icon", iconOverlay.icon },
+                        { "Overlay", iconOverlay.overlay },
                         { "HasCustomIcon", iconOverlay.isCustom }
                     });
                     break;

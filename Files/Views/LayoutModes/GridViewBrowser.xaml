@@ -609,19 +609,6 @@
                         x:Load="True">
                         <Image Source="{x:Bind IconOverlay, Mode=OneWay}" Stretch="Uniform" />
                     </Grid>
-                    <Grid
-                        x:Name="WebShortcutGlyph"
-                        Padding="12"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
-                        <Viewbox MaxWidth="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}" MaxHeight="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}">
-                            <FontIcon
-                                FontFamily="{StaticResource FluentUIGlyphs}"
-                                FontSize="28"
-                                Glyph="&#xEAAB;" />
-                        </Viewbox>
-                    </Grid>
                     <Border
                         x:Name="ShortcutGlyphElement"
                         Margin="8,0,0,8"
@@ -766,19 +753,6 @@
                         VerticalAlignment="Bottom"
                         x:Load="True">
                         <Image Source="{x:Bind IconOverlay, Mode=OneWay}" Stretch="Uniform" />
-                    </Grid>
-                    <Grid
-                        x:Name="WebShortcutGlyph"
-                        Width="74"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
-                        <Viewbox MaxWidth="74">
-                            <FontIcon
-                                FontFamily="{StaticResource FluentUIGlyphs}"
-                                FontSize="28"
-                                Glyph="&#xEAAB;" />
-                        </Viewbox>
                     </Grid>
                     <Border
                         x:Name="ShortcutGlyphElement"
