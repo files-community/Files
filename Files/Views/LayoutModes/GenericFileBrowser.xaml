@@ -135,7 +135,6 @@
                 </MenuFlyoutItem.Icon>
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator Key="F5" />
-                    <KeyboardAccelerator Modifiers="Control" Key="R" />
                 </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
@@ -288,7 +287,6 @@
                 </MenuFlyoutItem.Icon>
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator Key="F5" />
-                    <KeyboardAccelerator Modifiers="Control" Key="R" />
                 </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
