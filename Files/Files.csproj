@@ -214,6 +214,9 @@
     <Compile Include="Helpers\Win32FindDataExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="INavigationToolbar.cs" />
+    <Compile Include="UserControls\AppBarSubItemsButton.xaml.cs">
+      <DependentUpon>AppBarSubItemsButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\FileIcon.xaml.cs">
       <DependentUpon>FileIcon.xaml</DependentUpon>
     </Compile>
@@ -505,6 +508,10 @@
     <Page Include="ResourceDictionaries\TabView_themeresources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\AppBarSubItemsButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\FileIcon.xaml">
       <SubType>Designer</SubType>

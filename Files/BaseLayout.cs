@@ -45,9 +45,9 @@ namespace Files
 
         public bool IsQuickLookEnabled { get; set; } = false;
 
-        public MenuFlyout BaseLayoutContextFlyout { get; set; }
+        public CommandBarFlyout BaseLayoutContextFlyout { get; set; }
 
-        public MenuFlyout BaseLayoutItemContextFlyout { get; set; }
+        public CommandBarFlyout BaseLayoutItemContextFlyout { get; set; }
 
         public IShellPage ParentShellPageInstance { get; private set; } = null;
 
@@ -163,23 +163,23 @@ namespace Files
 
         public abstract void SetSelectedItemsOnUi(List<ListedItem> selectedItems);
 
-        private void ClearShellContextMenus(MenuFlyout menuFlyout)
+        private void ClearShellContextMenus(CommandBarFlyout menuFlyout)
         {
-            var contextMenuItems = menuFlyout.Items.Where(c => c.Tag != null && ParseContextMenuTag(c.Tag).menuHandle != null).ToList();
+            var contextMenuItems = menuFlyout.SecondaryCommands.Where(c => (c as Control).Tag != null && ParseContextMenuTag((c as Control).Tag).menuHandle != null).ToList();
             for (int i = 0; i < contextMenuItems.Count; i++)
             {
-                menuFlyout.Items.RemoveAt(menuFlyout.Items.IndexOf(contextMenuItems[i]));
+                menuFlyout.SecondaryCommands.RemoveAt(menuFlyout.SecondaryCommands.IndexOf(contextMenuItems[i]));
             }
-            if (menuFlyout.Items[0] is MenuFlyoutSeparator flyoutSeperator)
+            if (menuFlyout.SecondaryCommands[0] is AppBarSeparator flyoutSeperator)
             {
-                menuFlyout.Items.RemoveAt(menuFlyout.Items.IndexOf(flyoutSeperator));
+                menuFlyout.SecondaryCommands.RemoveAt(menuFlyout.SecondaryCommands.IndexOf(flyoutSeperator));
             }
         }
 
-        public virtual void SetShellContextmenu(MenuFlyout menuFlyout, bool shiftPressed, bool showOpenMenu)
+        public virtual void SetShellContextmenu(CommandBarFlyout menuFlyout, bool shiftPressed, bool showOpenMenu)
         {
             ClearShellContextMenus(menuFlyout);
-            var currentBaseLayoutItemCount = menuFlyout.Items.Count;
+            var currentBaseLayoutItemCount = menuFlyout.SecondaryCommands.Count;
             var maxItems = AppSettings.ShowAllContextMenuItems ? int.MaxValue : shiftPressed ? 6 : 4;
             if (Connection != null)
             {
@@ -198,14 +198,14 @@ namespace Files
                     var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response.Message["ContextMenu"]);
                     if (contextMenu != null)
                     {
-                        LoadMenuFlyoutItem(menuFlyout.Items, contextMenu.Items, (string)response.Message["Handle"], true, maxItems);
+                        LoadMenuFlyoutItem(menuFlyout.SecondaryCommands, contextMenu.Items, (string)response.Message["Handle"], true, maxItems);
                     }
                 }
             }
-            var totalFlyoutItems = menuFlyout.Items.Count - currentBaseLayoutItemCount;
-            if (totalFlyoutItems > 0 && !(menuFlyout.Items[totalFlyoutItems] is MenuFlyoutSeparator))
+            var totalFlyoutItems = menuFlyout.SecondaryCommands.Count - currentBaseLayoutItemCount;
+            if (totalFlyoutItems > 0 && !(menuFlyout.SecondaryCommands[totalFlyoutItems] is MenuFlyoutSeparator))
             {
-                menuFlyout.Items.Insert(totalFlyoutItems, new MenuFlyoutSeparator());
+                menuFlyout.SecondaryCommands.Insert(totalFlyoutItems, new AppBarSeparator());
             }
         }
 
@@ -296,7 +296,7 @@ namespace Files
             }
         }
 
-        private void LoadMenuFlyoutItem(IList<MenuFlyoutItemBase> MenuItemsList, IEnumerable<Win32ContextMenuItem> menuFlyoutItems, string menuHandle, bool showIcons = true, int itemsBeforeOverflow = int.MaxValue)
+        private void LoadMenuFlyoutSubItem(IList<MenuFlyoutItemBase> MenuItemsList, IEnumerable<Win32ContextMenuItem> menuFlyoutItems, string menuHandle, bool showIcons = true, int itemsBeforeOverflow = int.MaxValue)
         {
             var items_count = 0; // Separators do not count for reaching the overflow threshold
             var menu_items = menuFlyoutItems.TakeWhile(x => x.Type == MenuItemType.MFT_SEPARATOR || ++items_count <= itemsBeforeOverflow).ToList();
@@ -314,7 +314,7 @@ namespace Files
                         Glyph = "\xEAD0"
                     }
                 };
-                LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflow_items, menuHandle, false);
+                LoadMenuFlyoutSubItem(menuLayoutSubItem.Items, overflow_items, menuHandle, false);
                 MenuItemsList.Insert(0, menuLayoutSubItem);
             }
             foreach (var menuFlyoutItem in menu_items
@@ -360,7 +360,7 @@ namespace Files
                         Text = menuFlyoutItem.Label.Replace("&", ""),
                         Tag = (menuFlyoutItem, menuHandle),
                     };
-                    LoadMenuFlyoutItem(menuLayoutSubItem.Items, menuFlyoutItem.SubItems, menuHandle, false);
+                    LoadMenuFlyoutSubItem(menuLayoutSubItem.Items, menuFlyoutItem.SubItems, menuHandle, false);
                     MenuItemsList.Insert(0, menuLayoutSubItem);
                 }
                 else if (!string.IsNullOrEmpty(menuFlyoutItem.Label))
@@ -370,6 +370,85 @@ namespace Files
                         Text = menuFlyoutItem.Label.Replace("&", ""),
                         Tag = (menuFlyoutItem, menuHandle),
                         BitmapIcon = image
+                    };
+                    menuLayoutItem.Click += MenuLayoutItem_Click;
+                    MenuItemsList.Insert(0, menuLayoutItem);
+                }
+            }
+        }
+        private void LoadMenuFlyoutItem(IList<ICommandBarElement> MenuItemsList, IEnumerable<Win32ContextMenuItem> menuFlyoutItems, string menuHandle, bool showIcons = true, int itemsBeforeOverflow = int.MaxValue)
+        {
+            var items_count = 0; // Separators do not count for reaching the overflow threshold
+            var menu_items = menuFlyoutItems.TakeWhile(x => x.Type == MenuItemType.MFT_SEPARATOR || ++items_count <= itemsBeforeOverflow).ToList();
+            var overflow_items = menuFlyoutItems.Except(menu_items).ToList();
+
+            if (overflow_items.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any())
+            {
+                var menuLayoutSubItem = new AppBarSubItemsButton()
+                {
+                    Label = "ContextMenuMoreItemsLabel".GetLocalized(),
+                    Tag = ((Win32ContextMenuItem)null, menuHandle),
+                    Icon = new FontIcon()
+                    {
+                        FontFamily = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
+                        Glyph = "\xEAD0"
+                    }
+                };
+                MenuItemsList.Insert(0, menuLayoutSubItem);
+            }
+            foreach (var menuFlyoutItem in menu_items
+                .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR) // Remove leading seperators
+                .Reverse()
+                .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR)) // Remove trailing separators
+            {
+                if ((menuFlyoutItem.Type == MenuItemType.MFT_SEPARATOR) && (MenuItemsList.FirstOrDefault() is MenuFlyoutSeparator))
+                {
+                    // Avoid duplicate separators
+                    continue;
+                }
+
+                BitmapImage image = null;
+                if (showIcons)
+                {
+                    image = new BitmapImage();
+                    if (!string.IsNullOrEmpty(menuFlyoutItem.IconBase64))
+                    {
+                        byte[] bitmapData = Convert.FromBase64String(menuFlyoutItem.IconBase64);
+                        using (var ms = new MemoryStream(bitmapData))
+                        {
+#pragma warning disable CS4014
+                            image.SetSourceAsync(ms.AsRandomAccessStream());
+#pragma warning restore CS4014
+                        }
+                    }
+                }
+
+                if (menuFlyoutItem.Type == MenuItemType.MFT_SEPARATOR)
+                {
+                    var menuLayoutItem = new AppBarSeparator()
+                    {
+                        Tag = (menuFlyoutItem, menuHandle)
+                    };
+                    MenuItemsList.Insert(0, menuLayoutItem);
+                }
+                else if (menuFlyoutItem.SubItems.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any()
+                    && !string.IsNullOrEmpty(menuFlyoutItem.Label))
+                {
+                    var menuLayoutSubItem = new AppBarSubItemsButton()
+                    {
+                        Label = menuFlyoutItem.Label.Replace("&", ""),
+                        Tag = (menuFlyoutItem, menuHandle),
+                    };
+                    LoadMenuFlyoutSubItem(menuLayoutSubItem.Items, menuFlyoutItem.SubItems, menuHandle, false);
+                    MenuItemsList.Insert(0, menuLayoutSubItem);
+                }
+                else if (!string.IsNullOrEmpty(menuFlyoutItem.Label))
+                {
+                    var menuLayoutItem = new AppBarButton()
+                    {
+                        Label = menuFlyoutItem.Label.Replace("&", ""),
+                        Tag = (menuFlyoutItem, menuHandle)
+                       // Icon = image
                     };
                     menuLayoutItem.Click += MenuLayoutItem_Click;
                     MenuItemsList.Insert(0, menuLayoutItem);
