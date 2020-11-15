@@ -1,14 +1,19 @@
 ﻿using Files.DataModels;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
+using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -140,6 +145,24 @@ namespace Files.Controls
             }
         }
 
+        private bool _ShowEjectDevice;
+
+        public bool ShowEjectDevice
+        {
+            get
+            {
+                return _ShowEjectDevice;
+            }
+            set
+            {
+                if (value != _ShowEjectDevice)
+                {
+                    _ShowEjectDevice = value;
+                    NotifyPropertyChanged(nameof(ShowEjectDevice));
+                }
+            }
+        }
+
         private bool _RecycleBinHasItems;
 
         public bool RecycleBinHasItems
@@ -210,12 +233,22 @@ namespace Files.Controls
             }
 
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
-            App.rightClickedItem = item;
+            App.RightClickedItem = item;
         }
 
         private void NavigationViewDriveItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
+            var item = sidebarItem.DataContext as DriveItem;
+
+            if (item.Type == DriveType.Removable || item.Type == DriveType.CDRom)
+            {
+                ShowEjectDevice = true;
+            }
+            else
+            {
+                ShowEjectDevice = false;
+            }
 
             ShowUnpinItem = false;
             ShowEmptyRecycleBin = false;
@@ -223,17 +256,17 @@ namespace Files.Controls
 
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
 
-            App.rightClickedItem = sidebarItem.DataContext as DriveItem;
+            App.RightClickedItem = item;
         }
 
         private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
         {
-            Interaction.OpenPathInNewTab(App.rightClickedItem.Path.ToString());
+            Interaction.OpenPathInNewTab(App.RightClickedItem.Path);
         }
 
         private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
         {
-            await Interaction.OpenPathInNewWindowAsync(App.rightClickedItem.Path.ToString());
+            await Interaction.OpenPathInNewWindowAsync(App.RightClickedItem.Path);
         }
 
         private void NavigationViewItem_DragStarting(UIElement sender, DragStartingEventArgs args)
@@ -343,12 +376,12 @@ namespace Files.Controls
             // If the location item is the same as the original dragged item or the default location (home button), the dragging should be disabled
             if (sourceLocationItem.Equals(senderLocationItem) || senderLocationItem.IsDefaultLocation == true)
             {
-                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.None;
+                e.AcceptedOperation = DataPackageOperation.None;
                 e.DragUIOverride.IsCaptionVisible = false;
             }
             else
             {
-                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+                e.AcceptedOperation = DataPackageOperation.Move;
                 e.DragUIOverride.IsCaptionVisible = true;
                 e.DragUIOverride.Caption = "PinToSidebarByDraggingCaptionText".GetLocalized();
             }
@@ -451,6 +484,11 @@ namespace Files.Controls
             rootFrame.Navigate(typeof(Settings));
 
             return;
+        }
+
+        private async void EjectDevice_Click(object sender, RoutedEventArgs e)
+        {
+            await Interaction.EjectDeviceAsync(App.RightClickedItem.Path);
         }
     }
 

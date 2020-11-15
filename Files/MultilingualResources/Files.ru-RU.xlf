@@ -1438,6 +1438,26 @@
           <source>Show hidden files and folders</source>
           <target state="translated">Показывать скрытые файлы и папки</target>
         </trans-unit>
+        <trans-unit id="EjectNotificationHeader" translate="yes" xml:space="preserve">
+          <source>Safe to remove hardware</source>
+          <target state="translated">Оборудование может быть извлечено</target>
+        </trans-unit>
+        <trans-unit id="EjectNotificationBody" translate="yes" xml:space="preserve">
+          <source>The device can now be safely removed from the computer.</source>
+          <target state="translated">Теперь устройство может быть безопасно извлечено из компьютера.</target>
+        </trans-unit>
+        <trans-unit id="EjectNotificationErrorDialogHeader" translate="yes" xml:space="preserve">
+          <source>Problem Ejecting Device</source>
+          <target state="translated">Проблема с извлечением устройства</target>
+        </trans-unit>
+        <trans-unit id="EjectNotificationErrorDialogBody" translate="yes" xml:space="preserve">
+          <source>This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</source>
+          <target state="translated">Устройство в данный момент используется. Закройте все программы, окна или вкладки, которые могут использовать устройство, а затем повторите попытку.</target>
+        </trans-unit>
+        <trans-unit id="SideBarEjectDevice.Text" translate="yes" xml:space="preserve">
+          <source>Eject</source>
+          <target state="translated">Извлечь</target>
+        </trans-unit>
       </group>
     </body>
   </file>

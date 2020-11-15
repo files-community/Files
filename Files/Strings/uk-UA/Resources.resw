@@ -1083,4 +1083,19 @@
   <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
     <value>Показуквати приховані файли і папки</value>
   </data>
+  <data name="EjectNotificationHeader" xml:space="preserve">
+    <value>Пристрій безпечно вилучено</value>
+  </data>
+  <data name="EjectNotificationBody" xml:space="preserve">
+    <value>Тепер пристрій може бути безпечно вилучено з комп'ютера.</value>
+  </data>
+  <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
+    <value>Проблема з вийманням пристрою</value>
+  </data>
+  <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
+    <value>Пристрій в даний момент використовується. Закрийте всі програми, вікна або вкладки, які можуть використовувати пристрій, а потім спробуйте ще раз.</value>
+  </data>
+  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+    <value>Вилучити</value>
+  </data>
 </root>

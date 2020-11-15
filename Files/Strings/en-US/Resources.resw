@@ -1191,4 +1191,19 @@
   <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
     <value>Widgets</value>
   </data>
+  <data name="EjectNotificationHeader" xml:space="preserve">
+    <value>Safe to remove hardware</value>
+  </data>
+  <data name="EjectNotificationBody" xml:space="preserve">
+    <value>The device can now be safely removed from the computer.</value>
+  </data>
+  <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
+    <value>Problem Ejecting Device</value>
+  </data>
+  <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
+    <value>This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</value>
+  </data>
+  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+    <value>Eject</value>
+  </data>
 </root>

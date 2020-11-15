@@ -81,17 +81,17 @@ namespace Files
             AppSettings?.DrivesManager?.ResumeDeviceWatcher();
         }
 
-        public static INavigationControlItem rightClickedItem;
+        public static INavigationControlItem RightClickedItem;
 
         public static void UnpinItem_Click(object sender, RoutedEventArgs e)
         {
-            if (rightClickedItem.Path.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+            if (RightClickedItem.Path.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
                 AppSettings.PinRecycleBinToSideBar = false;
             }
             else
             {
-                SidebarPinnedController.Model.RemoveItem(rightClickedItem.Path.ToString());
+                SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
             }
         }
 
