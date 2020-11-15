@@ -3,9 +3,11 @@ using Files.View_Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Numerics;
+using Files.Interacts;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
+using System.Linq;
 
 namespace Files
 {
@@ -22,6 +24,24 @@ namespace Files
         public DrivesWidget()
         {
             InitializeComponent();
+        }
+
+        private async void EjectDevice_Click(object sender, RoutedEventArgs e)
+        {
+            var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            await Interaction.EjectDeviceAsync(item.Path);
+        }
+
+        private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
+        {
+            var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            Interaction.OpenPathInNewTab(item.Path);
+        }
+
+        private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
+        {
+            var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            await Interaction.OpenPathInNewWindowAsync(item.Path);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

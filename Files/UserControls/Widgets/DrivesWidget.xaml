@@ -75,6 +75,43 @@
                             Style="{StaticResource ButtonRevealStyle}"
                             Tag="{x:Bind Path}"
                             ToolTipService.ToolTip="{x:Bind Text, Mode=OneWay}">
+                            <Button.ContextFlyout>
+                                <MenuFlyout>
+                                    <MenuFlyout.Items>
+                                        <MenuFlyoutItem
+                                            x:Name="OpenInNewTab"
+                                            x:Uid="SideBarOpenInNewTab"
+                                            Click="OpenInNewTab_Click"
+                                            DataContext="{x:Bind}"
+                                            Text="Open in new tab">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem
+                                            x:Name="OpenInNewWindow"
+                                            x:Uid="SideBarOpenInNewWindow"
+                                            Click="OpenInNewWindow_Click"
+                                            DataContext="{x:Bind}"
+                                            Text="Open in new window">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF107;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem
+                                            x:Name="EjectDevice"
+                                            x:Uid="SideBarEjectDevice"
+                                            x:Load="{x:Bind IsRemovable, Mode=OneWay}"
+                                            Click="EjectDevice_Click"
+                                            DataContext="{x:Bind}"
+                                            Text="Eject">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10B;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                    </MenuFlyout.Items>
+                                </MenuFlyout>
+                            </Button.ContextFlyout>
                             <Grid
                                 Margin="12"
                                 HorizontalAlignment="Stretch"

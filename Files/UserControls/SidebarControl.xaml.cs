@@ -241,15 +241,7 @@ namespace Files.Controls
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as DriveItem;
 
-            if (item.Type == DriveType.Removable || item.Type == DriveType.CDRom)
-            {
-                ShowEjectDevice = true;
-            }
-            else
-            {
-                ShowEjectDevice = false;
-            }
-
+            ShowEjectDevice = item.IsRemovable;
             ShowUnpinItem = false;
             ShowEmptyRecycleBin = false;
             ShowProperties = true;
