@@ -74,6 +74,9 @@ namespace Files.View_Models.Properties
 
         public async override void GetSpecialProperties()
         {
+            ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
+                Item.ItemPath, System.IO.FileAttributes.Hidden);
+
             if (Item.IsShortcutItem)
             {
                 ViewModel.ItemSizeVisibility = Visibility.Visible;
@@ -227,6 +230,18 @@ namespace Files.View_Models.Properties
         {
             switch (e.PropertyName)
             {
+                case "IsHidden":
+                    if (ViewModel.IsHidden)
+                    {
+                        NativeFileOperationsHelper.SetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.Hidden);
+                    }
+                    else
+                    {
+                        NativeFileOperationsHelper.UnsetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.Hidden);
+                    }
+                    break;
                 case "ShortcutItemPath":
                 case "ShortcutItemWorkingDir":
                 case "ShortcutItemArguments":

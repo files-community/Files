@@ -768,52 +768,32 @@ namespace Files.View_Models
             set => SetProperty(ref detailsSectionVisibility_Media, value);
         }
 
+        private bool isReadOnly;
+
         public bool IsReadOnly
         {
-            get
-            {
-                return NativeFileOperationsHelper.HasFileAttribute(
-                    Path.Combine(ItemPath, ItemName), FileAttributes.ReadOnly);
-            }
-
+            get => isReadOnly;
             set
             {
-                if (value)
-                {
-                    NativeFileOperationsHelper.SetFileAttribute(
-                        Path.Combine(ItemPath, ItemName), FileAttributes.ReadOnly);
-                }
-                else
-                {
-                    NativeFileOperationsHelper.UnsetFileAttribute(
-                        Path.Combine(ItemPath, ItemName), FileAttributes.ReadOnly);
-                }
-                base.OnPropertyChanged(nameof(IsReadOnly));
+                IsReadOnlyEnabled = true;
+                SetProperty(ref isReadOnly, value);
             }
         }
 
+        private bool isReadOnlyEnabled;
+
+        public bool IsReadOnlyEnabled
+        {
+            get => isReadOnlyEnabled;
+            set => SetProperty(ref isReadOnlyEnabled, value);
+        }
+
+        private bool isHidden;
+
         public bool IsHidden
         {
-            get
-            {
-                return NativeFileOperationsHelper.HasFileAttribute(
-                    Path.Combine(ItemPath, ItemName), FileAttributes.Hidden);
-            }
-
-            set
-            {
-                if (value)
-                {
-                    NativeFileOperationsHelper.SetFileAttribute(
-                        Path.Combine(ItemPath, ItemName), FileAttributes.Hidden);
-                }
-                else
-                {
-                    NativeFileOperationsHelper.UnsetFileAttribute(
-                        Path.Combine(ItemPath, ItemName), FileAttributes.Hidden);
-                }
-                base.OnPropertyChanged(nameof(IsHidden));
-            }
+            get => isHidden;
+            set => SetProperty(ref isHidden, value);
         }
     }
 }
