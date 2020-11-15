@@ -1044,7 +1044,40 @@
   <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
     <value>Mostrar archivos recientes en la página de inicio</value>
   </data>
+  <data name="FileItemAutomation" xml:space="preserve">
+    <value>Archivo</value>
+  </data>
+  <data name="FolderItemAutomation" xml:space="preserve">
+    <value>Carpeta</value>
+  </data>
+  <data name="RecycleBinItemAutomation" xml:space="preserve">
+    <value>Elemento de papelera de reciclaje</value>
+  </data>
+  <data name="ShortcutItemAutomation" xml:space="preserve">
+    <value>Elemento de acceso directo</value>
+  </data>
   <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
     <value>Mostrar en el menú contextual una opción para copiar la ubicación del archivo seleccionado</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
+    <value>Mostrar archivos y carpetas ocultos</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar archivos y carpetas ocultos</value>
+  </data>
+  <data name="EjectNotificationHeader" xml:space="preserve">
+    <value>Es seguro quitar el hardware</value>
+  </data>
+  <data name="EjectNotificationBody" xml:space="preserve">
+    <value>Ahora se puede quitar el dispositivo de forma segura del equipo.</value>
+  </data>
+  <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
+    <value>Problema al expulsar el dispositivo</value>
+  </data>
+  <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
+    <value>El dispositivo está en uso. Cierre cualquier programa o ventana que pueda estar usando el dispositivo e inténtelo de nuevo.</value>
+  </data>
+  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+    <value>Expulsar</value>
   </data>
 </root>
