@@ -541,7 +541,7 @@ namespace Files.Filesystem
                     item.ItemPropertiesInitialized = true;
                     return;
                 }
-                matchingItem.SyncStatusUI = new CloudDriveSyncStatusUI() { LoadSyncStatus = false }; // Reset cloud sync status icon
+                var wasSyncStatusLoaded = false;
                 try
                 {
                     if (item.PrimaryItemAttribute == StorageItemTypes.File)
@@ -563,6 +563,7 @@ namespace Files.Filesystem
                                 matchingItem.ItemType = matchingStorageItem.DisplayType;
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
                                 matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+                                wasSyncStatusLoaded = true;
                             }
                         }
                     }
@@ -586,6 +587,7 @@ namespace Files.Filesystem
                                 matchingItem.ItemType = matchingStorageItem.DisplayType;
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
                                 matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+                                wasSyncStatusLoaded = true;
                             }
                         }
                     }
@@ -595,6 +597,10 @@ namespace Files.Filesystem
                 }
                 finally
                 {
+                    if (!wasSyncStatusLoaded)
+                    {
+                        matchingItem.SyncStatusUI = new CloudDriveSyncStatusUI() { LoadSyncStatus = false }; // Reset cloud sync status icon
+                    }
                     item.ItemPropertiesInitialized = true;
                 }
             }
