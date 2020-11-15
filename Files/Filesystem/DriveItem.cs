@@ -63,11 +63,7 @@ namespace Files.Filesystem
             Type = type;
             Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
             Root = root;
-
-            if (Type == DriveType.Removable || Type == DriveType.CDRom)
-            {
-                IsRemovable = true;
-            }
+            IsRemovable = (Type == DriveType.Removable || Type == DriveType.CDRom);
 
             CoreApplication.MainView.ExecuteOnUIThreadAsync(() => GetDriveItemProperties());
         }

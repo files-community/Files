@@ -28,7 +28,8 @@ namespace Files
 
         private async void EjectDevice_Click(object sender, RoutedEventArgs e)
         {
-            await Interaction.EjectDeviceAsync(((MenuFlyoutItem)sender).Tag.ToString());
+            var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            await Interaction.EjectDeviceAsync(item.Path);
         }
         
         private void Button_Click(object sender, RoutedEventArgs e)

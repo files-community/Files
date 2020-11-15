@@ -80,7 +80,7 @@
                                     <MenuFlyout.Items>
                                         <MenuFlyoutItem
                                             x:Name="EjectDevice"
-                                            Tag="{x:Bind Path}"
+                                            DataContext="{x:Bind}"
                                             x:Uid="SideBarEjectDevice"
                                             x:Load="{x:Bind IsRemovable, Mode=OneWay}"
                                             Click="EjectDevice_Click"
