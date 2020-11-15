@@ -218,6 +218,11 @@ namespace Files.View_Models.Properties
 
         public override async void GetSpecialProperties()
         {
+            ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(
+                Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+            ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
+                Item.ItemPath, System.IO.FileAttributes.Hidden);
+
             ViewModel.ItemSizeVisibility = Visibility.Visible;
             ViewModel.ItemSize = ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()
                 + " (" + ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + "ItemSizeBytes".GetLocalized() + ")";
@@ -463,6 +468,30 @@ namespace Files.View_Models.Properties
         {
             switch (e.PropertyName)
             {
+                case "IsReadOnly":
+                    if (ViewModel.IsReadOnly)
+                    {
+                        NativeFileOperationsHelper.SetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+                    }
+                    else
+                    {
+                        NativeFileOperationsHelper.UnsetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+                    }
+                    break;
+                case "IsHidden":
+                    if (ViewModel.IsHidden)
+                    {
+                        NativeFileOperationsHelper.SetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.Hidden);
+                    }
+                    else
+                    {
+                        NativeFileOperationsHelper.UnsetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.Hidden);
+                    }
+                    break;
                 case "ShortcutItemPath":
                 case "ShortcutItemWorkingDir":
                 case "ShortcutItemArguments":
