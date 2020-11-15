@@ -1412,19 +1412,19 @@
         </trans-unit>
         <trans-unit id="FileItemAutomation" translate="yes" xml:space="preserve">
           <source>File</source>
-          <target state="new">File</target>
+          <target state="translated">Archivo</target>
         </trans-unit>
         <trans-unit id="FolderItemAutomation" translate="yes" xml:space="preserve">
           <source>Folder</source>
-          <target state="new">Folder</target>
+          <target state="translated">Carpeta</target>
         </trans-unit>
         <trans-unit id="RecycleBinItemAutomation" translate="yes" xml:space="preserve">
           <source>Recycle bin item</source>
-          <target state="new">Recycle bin item</target>
+          <target state="translated">Elemento de papelera de reciclaje</target>
         </trans-unit>
         <trans-unit id="ShortcutItemAutomation" translate="yes" xml:space="preserve">
           <source>Shortcut item</source>
-          <target state="new">Shortcut item</target>
+          <target state="translated">Elemento de acceso directo</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show an option to copy the location of the selected item</source>
@@ -1432,31 +1432,31 @@
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Header" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
-          <target state="new">Show hidden files and folders</target>
+          <target state="translated">Mostrar archivos y carpetas ocultos</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
-          <target state="new">Show hidden files and folders</target>
+          <target state="translated">Mostrar archivos y carpetas ocultos</target>
         </trans-unit>
         <trans-unit id="EjectNotificationHeader" translate="yes" xml:space="preserve">
           <source>Safe to remove hardware</source>
-          <target state="new">Safe to remove hardware</target>
+          <target state="translated">Es seguro quitar el hardware</target>
         </trans-unit>
         <trans-unit id="EjectNotificationBody" translate="yes" xml:space="preserve">
           <source>The device can now be safely removed from the computer.</source>
-          <target state="new">The device can now be safely removed from the computer.</target>
+          <target state="translated">Ahora se puede quitar el dispositivo de forma segura del equipo.</target>
         </trans-unit>
         <trans-unit id="EjectNotificationErrorDialogHeader" translate="yes" xml:space="preserve">
           <source>Problem Ejecting Device</source>
-          <target state="new">Problem Ejecting Device</target>
+          <target state="translated">Problema al expulsar el dispositivo</target>
         </trans-unit>
         <trans-unit id="EjectNotificationErrorDialogBody" translate="yes" xml:space="preserve">
           <source>This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</source>
-          <target state="new">This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</target>
+          <target state="translated">El dispositivo está en uso. Cierre cualquier programa o ventana que pueda estar usando el dispositivo e inténtelo de nuevo.</target>
         </trans-unit>
         <trans-unit id="SideBarEjectDevice.Text" translate="yes" xml:space="preserve">
           <source>Eject</source>
-          <target state="new">Eject</target>
+          <target state="translated">Expulsar</target>
         </trans-unit>
       </group>
     </body>
