@@ -44,7 +44,6 @@ namespace Files
             await Interaction.OpenPathInNewWindowAsync(item.Path);
         }
 
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string NavigationPath = ""; // path to navigate
