@@ -31,7 +31,20 @@ namespace Files
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
             await Interaction.EjectDeviceAsync(item.Path);
         }
-        
+
+        private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
+        {
+            var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            Interaction.OpenPathInNewTab(item.Path);
+        }
+
+        private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
+        {
+            var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            await Interaction.OpenPathInNewWindowAsync(item.Path);
+        }
+
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string NavigationPath = ""; // path to navigate
