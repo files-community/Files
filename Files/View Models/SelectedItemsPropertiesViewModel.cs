@@ -611,14 +611,6 @@ namespace Files.View_Models
             set => SetProperty(ref shortcutItemArgumentsVisibility, value);
         }
 
-        private bool loadLinkIcon;
-
-        public bool LoadLinkIcon
-        {
-            get => loadLinkIcon;
-            set => SetProperty(ref loadLinkIcon, value);
-        }
-
         private RelayCommand shortcutItemOpenLinkCommand;
 
         public RelayCommand ShortcutItemOpenLinkCommand

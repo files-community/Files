@@ -126,7 +126,7 @@ namespace FilesFullTrust
                 }
             }
 
-            // The following only returns the icon (not thumbnail) and it's difficult to get a high-res icon as well
+            // The following only returns the icon (not thumbnail) and it's difficult to get a high-res icon
             //var icon_idx = shfi.iIcon & 0xFFFFFF;
             //using var hIcon = imageList.Interface.GetIcon(icon_idx, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
 

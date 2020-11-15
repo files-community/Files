@@ -600,7 +600,7 @@ namespace Files.Filesystem
             }
         }
 
-        private async Task<(BitmapImage Icon, BitmapImage Overlay, bool IsCustom)> LoadIconOverlayAsync(string filePath, uint thumbnailSize)
+        public async Task<(BitmapImage Icon, BitmapImage Overlay, bool IsCustom)> LoadIconOverlayAsync(string filePath, uint thumbnailSize)
         {
             if (Connection != null)
             {

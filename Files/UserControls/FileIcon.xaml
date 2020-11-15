@@ -49,14 +49,6 @@
             FontFamily="{StaticResource FluentUIGlyphs}"
             FontSize="{x:Bind LargerItemSize}"
             Glyph="{x:Bind ViewModel.DriveItemGlyphSource, Mode=OneWay}" />
-        <FontIcon
-            x:Name="WebShortcutGlyph"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Stretch"
-            x:Load="{x:Bind ViewModel.LoadLinkIcon, Mode=OneWay}"
-            FontFamily="{StaticResource FluentUIGlyphs}"
-            FontSize="{x:Bind ItemSize}"
-            Glyph="&#xEAAB;" />
         <Image
             x:Name="ItemIcon"
             HorizontalAlignment="Stretch"
