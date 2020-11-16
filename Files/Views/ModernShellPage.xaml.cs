@@ -951,14 +951,6 @@ namespace Files.Views.Pages
                     InteractionOperations.CloseTab();
                     break;
 
-                case (false, false, false, true, VirtualKey.Delete): // delete, delete item
-                    if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem)
-                    {
-                        InteractionOperations.ItemOperationCommands.DeleteItemWithStatus(StorageDeleteOption.Default);
-                    }
-
-                    break;
-
                 case (false, false, false, true, VirtualKey.Space): // space, quick look
                     if (!NavigationToolbar.IsEditModeEnabled)
                     {
