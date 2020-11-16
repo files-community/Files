@@ -10,14 +10,26 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives"
+    xmlns:views="using:Files.Views"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <MenuFlyout x:Key="TabFlyout">
+                        <MenuFlyoutItem
+                            x:Uid="NavigationToolbarNewTab"
+                            Click="{x:Bind views:MainPage.AddNewTab}"
+                            Text="New tab">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF104;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </ResourceDictionary>
                 <ResourceDictionary Source="/ResourceDictionaries/TabView_themeresources.xaml" />
-
                 <ResourceDictionary>
                     <Style x:Key="DefaultTabViewStyle" TargetType="muxc:TabView">
                         <Setter Property="VerticalAlignment" Value="Top" />
@@ -795,6 +807,7 @@
                     <muxc:TabViewItem
                         Margin="2,0,2,0"
                         AllowDrop="True"
+                        ContextFlyout="{StaticResource TabFlyout}"
                         DragEnter="TabViewItem_DragEnter"
                         DragLeave="TabViewItem_DragLeave"
                         Drop="TabViewItem_Drop"
