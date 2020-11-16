@@ -775,6 +775,10 @@ namespace Files.Interacts
                     else
                     {
                         var file = await ItemViewModel.GetFileFromPathAsync(item.ItemPath);
+                        
+                        if (!AppSettings.ShowFileExtensions)
+                            newName += item.FileExtension;
+
                         await file.RenameAsync(newName, NameCollisionOption.FailIfExists);
                     }
                 }
@@ -810,7 +814,8 @@ namespace Files.Interacts
                             PrimaryButtonText = ResourceController.GetTranslation("ItemAlreadyExistsDialogPrimaryButtonText"),
                             SecondaryButtonText = ResourceController.GetTranslation("ItemAlreadyExistsDialogSecondaryButtonText")
                         };
-
+                        Type GetStaticType<T>(T x) { return typeof(T); }
+                        Debug.WriteLine(GetStaticType(ex));
                         ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
 
                         if (result == ContentDialogResult.Primary)
