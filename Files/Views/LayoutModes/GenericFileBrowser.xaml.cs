@@ -149,6 +149,14 @@ namespace Files
             }
         }
 
+        public override void AddSelectedItemsOnUi(List<ListedItem> selectedItems)
+        {
+            foreach (ListedItem selectedItem in selectedItems)
+            {
+                AllView.SelectedItems.Add(selectedItem);
+            }
+        }
+
         public override void SelectAllItems()
         {
             SelectAllMethod.Invoke(AllView, null);

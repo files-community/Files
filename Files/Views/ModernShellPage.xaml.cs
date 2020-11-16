@@ -1,6 +1,7 @@
 ﻿using Files.Common;
 using Files.Dialogs;
 using Files.Filesystem;
+using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
@@ -34,6 +35,7 @@ namespace Files.Views.Pages
 {
     public sealed partial class ModernShellPage : Page, IShellPage, INotifyPropertyChanged
     {
+        private readonly IFilesystemHelpers _filesystemHelpers;
         public SettingsViewModel AppSettings => App.AppSettings;
         public bool IsCurrentInstance { get; set; } = false;
         public StatusBarControl BottomStatusStripControl => StatusBarControl;
@@ -84,6 +86,7 @@ namespace Files.Views.Pages
         public ModernShellPage()
         {
             this.InitializeComponent();
+            this._filesystemHelpers = new FilesystemHelpers(this, App.CancellationToken);
             AppSettings.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
             DisplayFilesystemConsentDialog();
 
@@ -168,9 +171,9 @@ namespace Files.Views.Pages
             }
         }
 
-        private void SidebarControl_SidebarItemDropped(object sender, Controls.SidebarItemDroppedEventArgs e)
+        private async void SidebarControl_SidebarItemDropped(object sender, Controls.SidebarItemDroppedEventArgs e)
         {
-            InteractionOperations.ItemOperationCommands.PasteItemWithStatus(e.Package, e.ItemPath, e.AcceptedOperation);
+            await this._filesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.ItemPath, true);
         }
 
         private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, Controls.SidebarItemPropertiesInvokedEventArgs e)
@@ -273,9 +276,9 @@ namespace Files.Views.Pages
             }
         }
 
-        private void ModernShellPage_PathBoxItemDropped(object sender, PathBoxItemDroppedEventArgs e)
+        private async void ModernShellPage_PathBoxItemDropped(object sender, PathBoxItemDroppedEventArgs e)
         {
-            InteractionOperations.ItemOperationCommands.PasteItemWithStatus(e.Package, e.Path, e.AcceptedOperation);
+            await this._filesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.Path, true);
         }
 
         private void ModernShellPage_AddressBarTextEntered(object sender, AddressBarTextEnteredEventArgs e)
@@ -875,6 +878,14 @@ namespace Files.Views.Pages
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
+                case (true, false, false, true, VirtualKey.Z): // ctrl + z, undo
+                    await new StorageHistoryHelpers(new StorageHistoryOperations(this, App.CancellationToken)).Undo();
+                    break;
+
+                case (true, false, false, true, VirtualKey.Y): // ctrl + y, redo
+                    await new StorageHistoryHelpers(new StorageHistoryOperations(this, App.CancellationToken)).Redo();
+                    break;
+
                 case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
                     if (InstanceViewModel.CanCreateFileInPage)
                     {
@@ -890,7 +901,7 @@ namespace Files.Views.Pages
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
                     if (!NavigationToolbar.IsEditModeEnabled)
                     {
-                        InteractionOperations.ItemOperationCommands.DeleteItemWithStatus(StorageDeleteOption.PermanentDelete);
+                        await this._filesystemHelpers.DeleteItemsAsync(await this.ContentPage.SelectedItems.ToStorageItemCollection(), true, true, true);
                     }
 
                     break;
@@ -954,7 +965,7 @@ namespace Files.Views.Pages
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
                     if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem)
                     {
-                        InteractionOperations.ItemOperationCommands.DeleteItemWithStatus(StorageDeleteOption.Default);
+                        await this._filesystemHelpers.DeleteItemsAsync(await this.ContentPage.SelectedItems.ToStorageItemCollection(), true, false, true);
                     }
 
                     break;

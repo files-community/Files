@@ -1,0 +1,22 @@
+﻿using System;
+using System.Threading.Tasks;
+
+namespace Files.Filesystem.FilesystemHistory
+{
+    public interface IStorageHistoryOperations : IDisposable
+    {
+        /// <summary>
+        /// Redo an action with given <paramref name="history"/>
+        /// </summary>
+        /// <param name="history"></param>
+        /// <returns></returns>
+        Task<Status> Undo(IStorageHistory history);
+
+        /// <summary>
+        /// Redo an action with given <paramref name="history"/>
+        /// </summary>
+        /// <param name="history"></param>
+        /// <returns></returns>
+        Task<Status> Redo(IStorageHistory history);
+    }
+}

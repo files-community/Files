@@ -1,4 +1,5 @@
-﻿using Files.Interacts;
+﻿using Files.Filesystem;
+using Files.Interacts;
 using Files.View_Models;
 using Files.Views;
 using Files.Views.Pages;
@@ -17,6 +18,7 @@ namespace Files.UserControls.MultitaskingControl
 {
     public sealed partial class HorizontalMultitaskingControl : BaseMultitaskingControl
     {
+        private readonly IFilesystemHelpers _filesystemHelpers;
         private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
         private TabViewItem hoveredTabViewItem = null;
 
@@ -25,6 +27,7 @@ namespace Files.UserControls.MultitaskingControl
         public HorizontalMultitaskingControl()
         {
             InitializeComponent();
+            this._filesystemHelpers = new FilesystemHelpers(CurrentSelectedAppInstance, App.CancellationToken);
             tabHoverTimer.Interval = TimeSpan.FromMilliseconds(500);
             tabHoverTimer.Tick += TabHoverSelected;
         }
@@ -48,7 +51,7 @@ namespace Files.UserControls.MultitaskingControl
             }
         }
 
-        private void TabViewItem_Drop(object sender, DragEventArgs e)
+        private async void TabViewItem_Drop(object sender, DragEventArgs e)
         {
             if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
             {
@@ -61,7 +64,7 @@ namespace Files.UserControls.MultitaskingControl
                     .FilesystemViewModel
                     .WorkingDirectory;
 
-                CurrentSelectedAppInstance.InteractionOperations.ItemOperationCommands.PasteItemWithStatus(e.DataView, tabViewItemWorkingDir, DataPackageOperation.Move);
+                await this._filesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Move, e.DataView, tabViewItemWorkingDir, true);
             }
             else
             {
