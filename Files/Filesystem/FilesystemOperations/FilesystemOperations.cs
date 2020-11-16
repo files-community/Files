@@ -1,4 +1,5 @@
-﻿using Files.Extensions;
+﻿using Files.Common;
+using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -7,16 +8,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using FileAttributes = System.IO.FileAttributes;
 using static Files.Helpers.NativeFindStorageItemHelper;
-using Files.Common;
 
 namespace Files.Filesystem
 {

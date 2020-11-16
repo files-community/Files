@@ -152,4 +152,3 @@ namespace Files.Filesystem
         Task<Status> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory);
     }
 }
-
