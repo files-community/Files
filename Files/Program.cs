@@ -27,7 +27,7 @@ namespace Files
                         switch (command.Type)
                         {
                             case ParsedCommandType.ExplorerShellCommand:
-                                OpenShellCommandInExplorer(command.Payload, proc.Id).GetAwaiter().GetResult();
+                                OpenShellCommandInExplorerAsync(command.Payload, proc.Id).GetAwaiter().GetResult();
                                 //Exit..
 
                                 return;
@@ -67,7 +67,7 @@ namespace Files
             Application.Start(_ => new App());
         }
 
-        public static async Task OpenShellCommandInExplorer(string shellCommand, int pid)
+        public static async Task OpenShellCommandInExplorerAsync(string shellCommand, int pid)
         {
             System.Diagnostics.Debug.WriteLine("Launching shell command in FullTrustProcess");
             ApplicationData.Current.LocalSettings.Values["ShellCommand"] = shellCommand;

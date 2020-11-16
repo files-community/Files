@@ -136,7 +136,7 @@
     <value>சமீபத்திய உருப்படிகள்</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>உரிமம்:</value>
+    <value>உரிமம்</value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>சிறப்பு நன்றிகள்:</value>
@@ -154,7 +154,7 @@
     <value>பற்றி</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>வலைத்தளம்:</value>
+    <value>வலைத்தளம்</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>தோற்றம்</value>
@@ -328,7 +328,7 @@
     <value>அனுமதியை வழங்கு</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>தொடங்க, நீங்கள் உங்கள் கோப்புகளைக் காண்பிக்க அனுமதியை வழங்கவும். இது ஒரு அமைப்புகள் பக்கத்தை திறக்கும், அங்கு நீங்கள் இந்த அனுமதியை எங்களுக்கு வழங்கலாம். நிறைவடைந்தவுடன் பயன்பாட்டை நீங்கள் மீண்டும் திறக்க வேண்டும். </value>
+    <value>தொடங்க, நீங்கள் உங்கள் கோப்புகளைக் காண்பிக்க அனுமதியை வழங்கவும். இது ஒரு அமைப்புகள் பக்கத்தை திறக்கும், அங்கு நீங்கள் இந்த அனுமதியை எங்களுக்கு வழங்கலாம். நிறைவடைந்தவுடன் பயன்பாட்டை நீங்கள் மீண்டும் திறக்க வேண்டும்.</value>
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>கோப்புக் கோப்புறை</value>
@@ -340,7 +340,7 @@
     <value>ஒரு உருப்படி பெயரை உள்ளிடுக</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>நீட்டிப்பு இல்லாமல் ஒரு உருப்படி பெயரை உள்ளிடுக</value>
+    <value>ஒரு உருப்படி பெயரை உள்ளிடுக</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>பெயரை அமை</value>
@@ -502,7 +502,7 @@
     <value>{0} நாட்கள் முன்பு</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0} மணிநேரங்கள் முன்பு</value>
+    <value>Pin OneDrive to the sidebar</value>
   </data>
   <data name="DayAgo" xml:space="preserve">
     <value>{0} நாள் முன்பு</value>
@@ -718,7 +718,7 @@
     <value>{0} இற்கு நகலெடு</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
-    <value>குறுக்குவழி உருவாக்கு</value>
+    <value>குறுக்குவழியை உருவாக்கு</value>
   </data>
   <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
     <value>கோப்பு இருப்பிடத்தைத் திற</value>
@@ -729,8 +729,12 @@
   <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
     <value>இலக்கு:</value>
   </data>
+  <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
+    <value>குறுக்குவழி வகை:</value>
+  </data>
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
-    <value>பணிக் கோப்பகம்:</value>
+    <value>பணிக் கோப்பகம்:
+தற்போதய கோப்புறை</value>
   </data>
   <data name="PropertiesShortcutTypeApplication" xml:space="preserve">
     <value>பயன்பாடு</value>
@@ -753,50 +757,95 @@
   <data name="ShortcutFileType" xml:space="preserve">
     <value>குறுக்குவழி</value>
   </data>
+  <data name="ShortcutWebLinkFileType" xml:space="preserve">
+    <value>இணைய குறுக்குவழி</value>
+  </data>
+  <data name="ShortcutCreateNewSuffix" xml:space="preserve">
+    <value>{0} - குறுக்குவழி</value>
+  </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
     <value>கோப்பு இருப்பிடத்தைத் திற</value>
   </data>
   <data name="DriveCapacityUnknown" xml:space="preserve">
-    <value>அறியாதது</value>
+    <value>தெரியாதவை</value>
+  </data>
+  <data name="ExceptionNotificationAccessLogFileButton" xml:space="preserve">
+    <value>பதிவு கோப்பின் இருப்பிடத்தைத் திற</value>
+  </data>
+  <data name="ExceptionNotificationBody" xml:space="preserve">
+    <value>Files ran into a problem that the developers didn't prepare for yet.</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
-    <value>ஏதோ தவறாகிவிட்டது</value>
+    <value>ஏதோ தவறாகிவிட்டது!</value>
+  </data>
+  <data name="ExceptionNotificationReportButton" xml:space="preserve">
+    <value>இந்த சிக்கலை தெரிவியுங்கள்</value>
   </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>பங்களிப்பாளர்கள்</value>
   </data>
+  <data name="SettingsAboutContributorsDescription.Text" xml:space="preserve">
+    <value>யார் Files இற்கு உதவி செய்தது என்று பார்</value>
+  </data>
   <data name="SettingsAboutReleaseNotes.Text" xml:space="preserve">
     <value>வெளியீட்டுக் குறிப்புகள்</value>
   </data>
+  <data name="SettingsAboutReleaseNotesDescription.Text" xml:space="preserve">
+    <value>Find out what's new in Files</value>
+  </data>
+  <data name="InvalidItemDialogTitle" xml:space="preserve">
+    <value>செல்லாத உருப்படி</value>
+  </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
-    <value>பதிப்பு</value>
+    <value>பதிப்பு:</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
     <value>இப்போது பகிர ஒன்றுமில்லை.</value>
   </data>
+  <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
+    <value>நீங்கள் தேர்வுசெய்த உருப்படிகள் பகிரப்படும்</value>
+  </data>
+  <data name="ShareDialogSingleItemDescription" xml:space="preserve">
+    <value>தேர்வுசெய்யப்பட்ட உருப்படி பகிரப்படும்</value>
+  </data>
   <data name="ShareDialogTitle" xml:space="preserve">
-    <value>{0} பகிரப்படுகிறது</value>
+    <value>பகிர்தல் {0}</value>
+  </data>
+  <data name="RenameError.NameInvalid.Text" xml:space="preserve">
+    <value>கொடுக்கப்பட்ட பெயர் செல்லத பெயர்களில் ஒன்றாகும். தயவுசெய்து பெயரை சரிப்பார்த்து மீண்டும் முயலவும். </value>
+  </data>
+  <data name="RenameError.NameInvalid.Title" xml:space="preserve">
+    <value>செல்லாத உருப்படி பெயர்</value>
+  </data>
+  <data name="RenameError.TooLong.Title" xml:space="preserve">
+    <value>உருப்படி பெயர் மிகவும் நீளமாக இருந்தது</value>
   </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>மேலும்</value>
   </data>
   <data name="PropertiesDialogCancelButton.Content" xml:space="preserve">
-    <value>ரத்து</value>
+    <value>இரத்து</value>
   </data>
   <data name="ConfirmDeleteDialogDeleteOneItem.Text" xml:space="preserve">
     <value>இந்த உருப்படியை உறுதியாக நீக்க விரும்புகிறீர்களா?</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteMultipleItems.Text" xml:space="preserve">
+    <value>இந்த {0} உருப்படிகளை நீங்கள் நீக்க விரும்புகிறீர்களா?</value>
+  </data>
+  <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
+    <value>தானியங்கு (பரிந்துரைக்கப்பட்டவை)</value>
   </data>
   <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
     <value>கிடைமட்ட</value>
   </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
-    <value>மல்டிடாஸ்க்கிங்</value>
+    <value>பல்பணியாக்கம்</value>
   </data>
   <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
     <value>செங்குத்து</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
-    <value>மல்டிடாஸ்க்கிங்</value>
+    <value>பல்பணியாக்கம்</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>இவ்வாறு அமை</value>
@@ -804,28 +853,134 @@
   <data name="BaseLayoutItemContextFlyoutCopyLocation.Text" xml:space="preserve">
     <value>இருப்பிடத்தை நகலெடு</value>
   </data>
+  <data name="VerticalTabViewAddTab.Text" xml:space="preserve">
+    <value>தாவலை சேர்</value>
+  </data>
+  <data name="VerticalTabViewHeader.Text" xml:space="preserve">
+    <value>திறந்துள்ள தாவல்கள்</value>
+  </data>
   <data name="ButtonNo.Content" xml:space="preserve">
     <value>இல்லை</value>
   </data>
   <data name="ButtonYes.Content" xml:space="preserve">
     <value>ஆம்</value>
   </data>
+  <data name="RestartNotificationText.Text" xml:space="preserve">
+    <value>மொழி மாற்றத்தை செயற்படுத்த இந்த பயன்பாடு மறுதொடங்க வேண்டும். இப்போது மறுதொடக்கம் செய்ய விரும்புகிறீர்களா?</value>
+  </data>
+  <data name="AddDialog.Title" xml:space="preserve">
+    <value>pudhiya</value>
+  </data>
+  <data name="AddDialogDescription.Text" xml:space="preserve">
+    <value>இந்த புதிய உருப்படியின் வகையை கீழே தேர்வுசெய்க</value>
+  </data>
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
-    <value>ரத்து</value>
+    <value>இரத்து</value>
   </data>
   <data name="AddDialogListBitmapHeader" xml:space="preserve">
     <value>பிட் வரைபடப் படிமம்</value>
   </data>
+  <data name="AddDialogListBitmapSubHeader" xml:space="preserve">
+    <value>ஒரு வெறுமை பிட் வரைபடப் படிம கோப்பை உருவாக்கும்</value>
+  </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>கோப்புறை</value>
+  </data>
+  <data name="AddDialogListFolderSubHeader" xml:space="preserve">
+    <value>ஒரு வெறுமை கோப்புறையை உருவாக்கும்</value>
   </data>
   <data name="AddDialogListTextFileHeader" xml:space="preserve">
     <value>உரை ஆவணம்</value>
   </data>
+  <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
+    <value>ஒரு வெறுமை உரை ஆவணத்தை உருவாக்கும்</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
+    <value>தளவமைப்பு முறை</value>
+  </data>
+  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
+    <value>புதிய உருப்படியை உருவாக்கு</value>
+  </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>முன்னோக்கி வழிசெலுத்து</value>
   </data>
+  <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
+    <value>கோப்புறையை புதுப்பி</value>
+  </data>
+  <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
+    <value>ஒரு கோப்புறை மேல் செல்</value>
+  </data>
   <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
     <value>அமைப்புகள்</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
+    <value>பயன்பாட்டு மொழி</value>
+  </data>
+  <data name="SettingsPreferencesContextMenuSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>அனைத்து சூழல் மெனு உருப்படிகளையும் காண்பி</value>
+  </data>
+  <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>தேர்வுசெய்யப்பட்ட உருப்படியின் இருப்பிடத்தை நகலெடுக்க ஒரு பொத்தானைக் காண்பி</value>
+  </data>
+  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
+    <value>Edit terminal applications</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
+    <value>மாதிரி சுயவிவரங்களைப் பார்</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
+    <value>பயன்பாட்டு மொழி</value>
+  </data>
+  <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
+    <value>எங்களை ஆதரவளி</value>
+  </data>
+  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
+    <value>எங்களை PayPal இல் ஆதரவளி</value>
+  </data>
+  <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
+    <value>இந்த உருப்படியை எங்களால் உருவாக்க இயலவில்லை</value>
+  </data>
+  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+    <value>Access Denied
+அணுகல் மறுக்கப்பட்டது</value>
+  </data>
+  <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
+    <value>அனைத்து சூழல் மெனு உருப்படிகளையும் காண்பி</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowDriveLetters.Header" xml:space="preserve">
+    <value>இயக்கக எழுத்துக்களைக் காண்பி</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
+    <value>அறிந்த கோப்பு வகைகளுக்கு நீட்டிப்பைக் காண்பி</value>
+  </data>
+  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
+    <value>Acrylic பக்கப்பட்டி</value>
+  </data>
+  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+    <value>தேதி வடிவம்</value>
+  </data>
+  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
+    <value>பயன்பாட்டுக் கருப்பொருள்</value>
+  </data>
+  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
+    <value>பண்புகளில் உரிமையாளரை காண்பி</value>
+  </data>
+  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>மேலும் விருப்பங்கள்</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.AutomationProperties.Name" xml:space="preserve">
+    <value>தளவமைப்பு முறை</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>தேர்வு விருப்பங்கள்</value>
+  </data>
+  <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
+    <value>செயல் மையம்</value>
+  </data>
+  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
+    <value>Open items with a single click</value>
+  </data>
+  <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
+    <value>தேர்வுசெய்யப்பட்ட உருப்படியின் இருப்பிடத்தை நகலெடுக்க ஒரு பொத்தானைக் காண்பி</value>
   </data>
 </root>

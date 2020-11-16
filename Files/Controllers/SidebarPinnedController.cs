@@ -22,7 +22,7 @@ namespace Files.Controllers
             Init();
         }
 
-        private async Task Load()
+        private async Task LoadAsync()
         {
             Folder = ApplicationData.Current.LocalCacheFolder;
 
@@ -76,7 +76,7 @@ namespace Files.Controllers
 
         public async void Init()
         {
-            await Load();
+            await LoadAsync();
         }
 
         public void SaveModel()

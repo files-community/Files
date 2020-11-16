@@ -84,7 +84,7 @@
                         Grid.Column="1"
                         HorizontalAlignment="Right"
                         BorderThickness="2,2,2,2"
-                        Click="btnAddPage_Click"
+                        Click="ButtonAddPage_Click"
                         Content="Add a new page" />
 
                     <StackPanel

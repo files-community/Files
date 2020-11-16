@@ -24,7 +24,7 @@ namespace Files.Controllers
             Init();
         }
 
-        private async Task Load()
+        private async Task LoadAsync()
         {
             Folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists);
             try
@@ -70,11 +70,11 @@ namespace Files.Controllers
 
         public async void Init()
         {
-            await Load();
-            await GetInstalledTerminals();
+            await LoadAsync();
+            await GetInstalledTerminalsAsync();
         }
 
-        public async Task GetInstalledTerminals()
+        public async Task GetInstalledTerminalsAsync()
         {
             var windowsTerminal = new Terminal()
             {
@@ -92,8 +92,8 @@ namespace Files.Controllers
                 Icon = ""
             };
 
-            bool isWindowsTerminalAddedOrRemoved = await Model.AddOrRemoveTerminal(windowsTerminal, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
-            bool isFluentTerminalAddedOrRemoved = await Model.AddOrRemoveTerminal(fluentTerminal, "53621FSApps.FluentTerminal_87x1pks76srcp");
+            bool isWindowsTerminalAddedOrRemoved = await Model.AddOrRemoveTerminalAsync(windowsTerminal, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
+            bool isFluentTerminalAddedOrRemoved = await Model.AddOrRemoveTerminalAsync(fluentTerminal, "53621FSApps.FluentTerminal_87x1pks76srcp");
             if (isWindowsTerminalAddedOrRemoved || isFluentTerminalAddedOrRemoved)
             {
                 SaveModel();
@@ -102,7 +102,10 @@ namespace Files.Controllers
 
         public void SaveModel()
         {
-            if (JsonFile == null) return;
+            if (JsonFile == null)
+            {
+                return;
+            }
 
             using (var file = File.CreateText(Folder.Path + Path.DirectorySeparatorChar + JsonFileName))
             {

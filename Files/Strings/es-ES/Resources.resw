@@ -475,7 +475,7 @@
     <value>¿Has eliminado esta carpeta?</value>
   </data>
   <data name="StatusBarControlLayoutMode.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Tipo de vista</value>
+    <value>Modo de vista</value>
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Opciones de selección</value>
@@ -801,8 +801,23 @@
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
     <value>Compartiendo {0} {1}</value>
   </data>
+  <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
+    <value>El elemento que estás intentando renombrar ya no existe. Verifique la ubicación correcta del elemento que necesitas renombrar.</value>
+  </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
     <value>El elemento ya no existe</value>
+  </data>
+  <data name="RenameError.NameInvalid.Text" xml:space="preserve">
+    <value>El nombre especificado no es válido. Compruebe el nombre del elemento deseado y vuelva a intentarlo.</value>
+  </data>
+  <data name="RenameError.NameInvalid.Title" xml:space="preserve">
+    <value>Nombre de elemento inválido</value>
+  </data>
+  <data name="RenameError.TooLong.Text" xml:space="preserve">
+    <value>La longitud del nombre del elemento especificado supera el límite máximo. Compruebe el nombre deseado y vuelva a intentarlo.</value>
+  </data>
+  <data name="RenameError.TooLong.Title" xml:space="preserve">
+    <value>El nombre del elemento es demasiado largo</value>
   </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Más</value>
@@ -873,8 +888,14 @@
   <data name="AddDialogListBitmapHeader" xml:space="preserve">
     <value>Imagen de mapa de bits</value>
   </data>
+  <data name="AddDialogListBitmapSubHeader" xml:space="preserve">
+    <value>Crea un archivo de imagen de mapa de bits vacío</value>
+  </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>Carpeta</value>
+  </data>
+  <data name="AddDialogListFolderSubHeader" xml:space="preserve">
+    <value>Crea una carpeta vacía</value>
   </data>
   <data name="AddDialogListTextFileHeader" xml:space="preserve">
     <value>Documento de texto</value>
@@ -883,7 +904,7 @@
     <value>Crea un archivo de texto vacío.</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
-    <value>Tipo de vista</value>
+    <value>Modo de vista</value>
   </data>
   <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
     <value>Crear nuevo elemento</value>
@@ -918,9 +939,6 @@
   <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar en el menú contextual una opción para copiar la ubicación del archivo seleccionado</value>
   </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar OneDrive en la barra lateral</value>
-  </data>
   <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar la papelera de reciclaje en la barra lateral</value>
   </data>
@@ -954,14 +972,8 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Acceso Denegado</value>
   </data>
-  <data name="CopyLocationToggleSwitch.Header" xml:space="preserve">
-    <value>Mostrar en el menú contextual una opción para copiar la ubicación del archivo seleccionado</value>
-  </data>
   <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
     <value>Mostrar todos los elementos del menú contextual</value>
-  </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.Header" xml:space="preserve">
-    <value>Mostrar OneDrive en la barra lateral</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Mostrar la papelera de reciclaje en la barra lateral</value>
@@ -975,9 +987,6 @@
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>Mostrar extensiones de archivos conocidos</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Header" xml:space="preserve">
-    <value>Mostrar archivos, carpetas y unidades ocultos</value>
-  </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Barra lateral acrílica</value>
   </data>
@@ -989,5 +998,86 @@
   </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
     <value>Mostrar propietario de archivo en la ventana de propiedades</value>
+  </data>
+  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Más opciones</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.AutomationProperties.Name" xml:space="preserve">
+    <value>Modo de vista</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Opciones de selección</value>
+  </data>
+  <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
+    <value>Centro de actividades</value>
+  </data>
+  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
+    <value>Abrir elementos con un solo click</value>
+  </data>
+  <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
+    <value>Mover aquí</value>
+  </data>
+  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+    <value>Dispositivos y Unidades</value>
+  </data>
+  <data name="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar bibliotecas en la página de inicio</value>
+  </data>
+  <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
+    <value>Mostrar bibliotecas en la página de inicio</value>
+  </data>
+  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
+    <value>Widgets</value>
+  </data>
+  <data name="SettingsWidgets.Content" xml:space="preserve">
+    <value>Widgets</value>
+  </data>
+  <data name="SettingsWidgetsShowDrives.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar unidades en la página de inicio</value>
+  </data>
+  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
+    <value>Mostrar unidades en la página de inicio</value>
+  </data>
+  <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar archivos recientes en la página de inicio</value>
+  </data>
+  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
+    <value>Mostrar archivos recientes en la página de inicio</value>
+  </data>
+  <data name="FileItemAutomation" xml:space="preserve">
+    <value>Archivo</value>
+  </data>
+  <data name="FolderItemAutomation" xml:space="preserve">
+    <value>Carpeta</value>
+  </data>
+  <data name="RecycleBinItemAutomation" xml:space="preserve">
+    <value>Elemento de papelera de reciclaje</value>
+  </data>
+  <data name="ShortcutItemAutomation" xml:space="preserve">
+    <value>Elemento de acceso directo</value>
+  </data>
+  <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
+    <value>Mostrar en el menú contextual una opción para copiar la ubicación del archivo seleccionado</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
+    <value>Mostrar archivos y carpetas ocultos</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar archivos y carpetas ocultos</value>
+  </data>
+  <data name="EjectNotificationHeader" xml:space="preserve">
+    <value>Es seguro quitar el hardware</value>
+  </data>
+  <data name="EjectNotificationBody" xml:space="preserve">
+    <value>Ahora se puede quitar el dispositivo de forma segura del equipo.</value>
+  </data>
+  <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
+    <value>Problema al expulsar el dispositivo</value>
+  </data>
+  <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
+    <value>El dispositivo está en uso. Cierre cualquier programa o ventana que pueda estar usando el dispositivo e inténtelo de nuevo.</value>
+  </data>
+  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+    <value>Expulsar</value>
   </data>
 </root>

@@ -1,6 +1,7 @@
 ﻿using Files.Enums;
 using Files.Helpers;
 using Files.View_Models;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
@@ -17,9 +18,9 @@ namespace Files.SettingsPages
             InitializeComponent();
 
             List<string> _themeval = new List<string>();
-            _themeval.Add(ResourceController.GetTranslation("SystemTheme"));
-            _themeval.Add(ResourceController.GetTranslation("LightTheme"));
-            _themeval.Add(ResourceController.GetTranslation("DarkTheme"));
+            _themeval.Add("SystemTheme".GetLocalized());
+            _themeval.Add("LightTheme".GetLocalized());
+            _themeval.Add("DarkTheme".GetLocalized());
             ThemeChooser.ItemsSource = _themeval;
 
             ThemeChooser.SelectedIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
@@ -48,8 +49,8 @@ namespace Files.SettingsPages
 
             //Load App Time Style
             List<string> _dateformatval = new List<string>();
-            _dateformatval.Add(ResourceController.GetTranslation("ApplicationTimeStye"));
-            _dateformatval.Add(ResourceController.GetTranslation("SystemTimeStye"));
+            _dateformatval.Add("ApplicationTimeStye".GetLocalized());
+            _dateformatval.Add("SystemTimeStye".GetLocalized());
             DateFormatChooser.ItemsSource = _dateformatval;
 
             TimeStyle _selectedFormat = AppSettings.DisplayedTimeStyle;

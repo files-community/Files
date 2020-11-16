@@ -10,7 +10,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:helpers="using:Files.Helpers"
-    xmlns:local="using:Files.UserControls"
+    xmlns:local="using:Files.UserControls.MultitaskingControl"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="80"
@@ -507,6 +507,7 @@
                             AllowDrop="True"
                             AutomationProperties.Name="{Binding Title}"
                             Background="Transparent"
+                            DragLeave="PathBoxItem_DragLeave"
                             DragOver="PathBoxItem_DragOver"
                             Drop="PathBoxItem_Drop"
                             Tag="{Binding Path}">
@@ -587,6 +588,7 @@
                             AllowDrop="True"
                             AutomationProperties.Name="{Binding Title}"
                             Background="Transparent"
+                            DragLeave="PathBoxItem_DragLeave"
                             DragOver="PathBoxItem_DragOver"
                             Drop="PathBoxItem_Drop"
                             Tag="{Binding Path}">
@@ -665,11 +667,11 @@
                 x:FieldModifier="public"
                 AutomationProperties.Name="Navigate backwards"
                 Background="Transparent"
-                Click="{x:Bind local1:NavigationActions.Back_Click}"
+                Click="Back_Click"
                 CornerRadius="2"
                 FontFamily="{StaticResource FluentUIGlyphs}"
                 FontSize="18"
-                IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationToolbar.CanGoBack}"
+                IsEnabled="{x:Bind CanGoBack}"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Back (Alt + Left Arrow)">
                 <Button.Content>
@@ -692,11 +694,11 @@
                 x:FieldModifier="public"
                 AutomationProperties.Name="Navigate forward"
                 Background="Transparent"
-                Click="{x:Bind local1:NavigationActions.Forward_Click}"
+                Click="Forward_Click"
                 CornerRadius="2"
                 FontFamily="{StaticResource FluentUIGlyphs}"
                 FontSize="18"
-                IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationToolbar.CanGoForward}"
+                IsEnabled="{x:Bind CanGoForward}"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Forward (Alt + Right Arrow)">
                 <Button.Content>
@@ -718,7 +720,7 @@
                 x:FieldModifier="public"
                 AutomationProperties.Name="Go up one directory"
                 Background="Transparent"
-                Click="{x:Bind local1:NavigationActions.Up_Click}"
+                Click="Up_Click"
                 CornerRadius="2"
                 FontFamily="{StaticResource FluentUIGlyphs}"
                 FontSize="18"
@@ -743,7 +745,7 @@
                 x:FieldModifier="public"
                 AutomationProperties.Name="Refresh the directory"
                 Background="Transparent"
-                Click="{x:Bind local1:NavigationActions.Refresh_Click}"
+                Click="Refresh_Click"
                 CornerRadius="2"
                 FontFamily="{StaticResource FluentUIGlyphs}"
                 FontSize="18"
@@ -825,7 +827,7 @@
                     CanReorderItems="False"
                     IsItemClickEnabled="True"
                     ItemContainerStyle="{StaticResource ListViewItemContainerStyle_NoRevealBorder}"
-                    ItemsSource="{x:Bind local1:App.CurrentInstance.NavigationToolbar.PathComponents, Mode=OneWay}"
+                    ItemsSource="{x:Bind PathComponents, Mode=OneWay}"
                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                     ScrollViewer.HorizontalScrollMode="Enabled"
                     ScrollViewer.VerticalScrollBarVisibility="Disabled"
@@ -858,12 +860,12 @@
                 Margin="0,0,4,0"
                 Padding="0"
                 HorizontalAlignment="Right"
-                x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                 AutomationProperties.Name="Create new item"
                 Background="Transparent"
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
-                IsEnabled="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
+                IsEnabled="{x:Bind IsCreateButtonEnabledInPage, Mode=OneWay}"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Create a new item (Ctrl + Shift + N)"
                 Visibility="Visible">
@@ -876,8 +878,9 @@
                 <Button.Flyout>
                     <MenuFlyout Placement="BottomEdgeAlignedRight">
                         <MenuFlyoutItem
+                            x:Name="ToolbarNewFolderItem"
                             x:Uid="ModernNavigationToolbaNewFolder"
-                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.NewFolder_Click}"
+                            Command="{x:Bind NewFolderInvokedCommand, Mode=OneWay}"
                             Text="Folder">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA55;" />
@@ -885,18 +888,20 @@
                         </MenuFlyoutItem>
                         <MenuFlyoutSeparator />
                         <MenuFlyoutItem
+                            x:Name="ToolbarNewImageItem"
                             x:Uid="ModernNavigationToolbaNewBitmapImage"
-                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.NewBitmapImage_Click}"
-                            IsEnabled="{x:Bind local1:App.CurrentInstance.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
+                            Command="{x:Bind NewImageInvokedCommand, Mode=OneWay}"
+                            IsEnabled="{x:Bind CanCreateFileInPage, Mode=OneWay}"
                             Text="Bitmap Image">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA83;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
+                            x:Name="ToolbarNewDocumentItem"
                             x:Uid="ModernNavigationToolbaNewTextDocument"
-                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.NewTextDocument_Click}"
-                            IsEnabled="{x:Bind local1:App.CurrentInstance.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
+                            Command="{x:Bind NewDocumentInvokedCommand, Mode=OneWay}"
+                            IsEnabled="{x:Bind CanCreateFileInPage, Mode=OneWay}"
                             Text="Text Document">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA00;" />
@@ -998,7 +1003,7 @@
                         <MenuFlyoutItem
                             x:Name="NavToolbarNewTab"
                             x:Uid="NavigationToolbarNewTab"
-                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.OpenNewTab}"
+                            Command="{x:Bind NewTabInvokedCommand, Mode=OneWay}"
                             Text="New Tab">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF104;" />
@@ -1008,8 +1013,9 @@
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
+                            x:Name="NavToolbarNewWindow"
                             x:Uid="NavigationToolbarNewWindow"
-                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.LaunchNewWindow}"
+                            Command="{x:Bind NewWindowInvokedCommand, Mode=OneWay}"
                             Text="New Window">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE973;" />
@@ -1021,19 +1027,19 @@
                         <MenuFlyoutItem
                             x:Name="CopyPathButton"
                             x:Uid="NavigationToolbarCopyPath"
-                            x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.GetPath_Click}"
+                            x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                            Command="{x:Bind CopyPathInvokedCommand, Mode=OneWay}"
                             Text="Copy location">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9B1;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
-                        <MenuFlyoutSeparator x:Name="SeparatorBar" x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
+                        <MenuFlyoutSeparator x:Name="SeparatorBar" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
                         <MenuFlyoutItem
                             x:Name="PasteButton"
                             x:Uid="NavigationToolbarPaste"
-                            x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync}"
+                            x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                            Command="{x:Bind PasteInvokedCommand, Mode=OneWay}"
                             IsEnabled="{x:Bind local1:App.InteractionViewModel.IsPasteEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Text="Paste">
                             <MenuFlyoutItem.Icon>
@@ -1046,9 +1052,9 @@
                         <MenuFlyoutItem
                             x:Name="OpenInTerminalButton"
                             x:Uid="NavigationToolbarOpenInTerminal"
-                            x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.OpenDirectoryInTerminal}"
-                            IsEnabled="{x:Bind local1:App.CurrentInstance.InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
+                            x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                            Command="{x:Bind OpenInTerminalInvokedCommand, Mode=OneWay}"
+                            IsEnabled="{x:Bind CanOpenTerminalInPage, Mode=OneWay}"
                             Text="Open in Terminal...">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE756;" />

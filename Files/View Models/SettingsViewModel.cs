@@ -8,6 +8,7 @@ using Files.Views;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.ObjectModel;
@@ -28,6 +29,10 @@ namespace Files.View_Models
         private readonly ApplicationDataContainer _roamingSettings;
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
+        public event EventHandler SortOptionPreferenceUpdated;
+
+        public event EventHandler SortDirectionPreferenceUpdated;
+
         public DrivesManager DrivesManager { get; }
 
         public TerminalController TerminalController { get; set; }
@@ -36,7 +41,6 @@ namespace Files.View_Models
         {
             _roamingSettings = ApplicationData.Current.RoamingSettings;
 
-            DetectOneDrivePreference();
             DetectAcrylicPreference();
             DetectDateTimeFormat();
             PinSidebarLocationItems();
@@ -51,7 +55,6 @@ namespace Files.View_Models
             // Send analytics
             Analytics.TrackEvent("DisplayedTimeStyle " + DisplayedTimeStyle.ToString());
             Analytics.TrackEvent("ThemeValue " + ThemeHelper.RootTheme.ToString());
-            Analytics.TrackEvent("PinOneDriveToSideBar " + PinOneDriveToSideBar.ToString());
             Analytics.TrackEvent("PinRecycleBinToSideBar " + PinRecycleBinToSideBar.ToString());
             Analytics.TrackEvent("ShowFileExtensions " + ShowFileExtensions.ToString());
             Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
@@ -59,8 +62,9 @@ namespace Files.View_Models
             Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
             Analytics.TrackEvent("IsHorizontalTabStripEnabled " + IsHorizontalTabStripEnabled.ToString());
             Analytics.TrackEvent("IsVerticalTabFlyoutEnabled " + IsVerticalTabFlyoutEnabled.ToString());
-            // Load the supported languages
+            Analytics.TrackEvent("AreHiddenItemsVisible " + AreHiddenItemsVisible.ToString());
 
+            // Load the supported languages
             var supportedLang = ApplicationLanguages.ManifestLanguages;
             DefaultLanguages = new ObservableCollection<DefaultLanguageModel> { new DefaultLanguageModel(null) };
             foreach (var lang in supportedLang)
@@ -108,7 +112,7 @@ namespace Files.View_Models
             set
             {
                 SortOptionByte = (byte)value;
-                App.CurrentInstance?.FilesystemViewModel?.UpdateSortOptionStatus();
+                SortOptionPreferenceUpdated?.Invoke(this, new EventArgs());
             }
         }
 
@@ -118,7 +122,7 @@ namespace Files.View_Models
             set
             {
                 SortDirectionByte = (byte)value;
-                App.CurrentInstance?.FilesystemViewModel?.UpdateSortDirectionStatus();
+                SortDirectionPreferenceUpdated?.Invoke(this, new EventArgs());
             }
         }
 
@@ -148,7 +152,14 @@ namespace Files.View_Models
 
         private void AddDefaultLocations()
         {
-            MainPage.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarHome"), Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily, Glyph = "\uea80", IsDefaultLocation = true, Path = "Home" });
+            MainPage.SideBarItems.Add(new LocationItem
+            {
+                Text = "SidebarHome".GetLocalized(),
+                Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                Glyph = "\uea80",
+                IsDefaultLocation = true,
+                Path = "Home"
+            });
         }
 
         private async void DetectWSLDistros()
@@ -189,7 +200,12 @@ namespace Files.View_Models
                         logoURI = new Uri("ms-appx:///Assets/WSL/genericpng.png");
                     }
 
-                    MainPage.sideBarItems.Add(new WSLDistroItem() { Text = folder.DisplayName, Path = folder.Path, Logo = logoURI });
+                    MainPage.SideBarItems.Add(new WSLDistroItem()
+                    {
+                        Text = folder.DisplayName,
+                        Path = folder.Path,
+                        Logo = logoURI
+                    });
                 }
             }
             catch (Exception)
@@ -245,30 +261,8 @@ namespace Files.View_Models
             set => SetProperty(ref _FormFactor, value);
         }
 
-        public string OneDrivePath { get; set; } = Environment.GetEnvironmentVariable("OneDrive");
-
-        private async void DetectOneDrivePreference()
-        {
-            if (localSettings.Values["PinOneDrive"] == null) { localSettings.Values["PinOneDrive"] = true; }
-
-            if ((bool)localSettings.Values["PinOneDrive"] == true)
-            {
-                PinOneDriveToSideBar = true;
-            }
-            else
-            {
-                PinOneDriveToSideBar = false;
-            }
-
-            try
-            {
-                await StorageFolder.GetFolderFromPathAsync(OneDrivePath);
-            }
-            catch (Exception)
-            {
-                PinOneDriveToSideBar = false;
-            }
-        }
+        public string OneDriveCommercialPath { get; set; } = Environment.GetEnvironmentVariable("OneDriveCommercial");
+        public string OneDrivePath { get; set; } = Environment.GetEnvironmentVariable("OneDriveConsumer");
 
         public bool ShowFileOwner
         {
@@ -282,40 +276,22 @@ namespace Files.View_Models
             set => Set(value);
         }
 
-        private bool _PinOneDriveToSideBar = true;
-
-        public bool PinOneDriveToSideBar
+        public bool ShowLibraryCardsWidget
         {
-            get => _PinOneDriveToSideBar;
-            set
-            {
-                if (value != _PinOneDriveToSideBar)
-                {
-                    SetProperty(ref _PinOneDriveToSideBar, value);
-                    if (value == true)
-                    {
-                        localSettings.Values["PinOneDrive"] = true;
-                        var oneDriveItem = new DriveItem()
-                        {
-                            Text = "OneDrive",
-                            Path = OneDrivePath,
-                            Type = Filesystem.DriveType.VirtualDrive,
-                        };
-                        MainPage.sideBarItems.Add(oneDriveItem);
-                    }
-                    else
-                    {
-                        localSettings.Values["PinOneDrive"] = false;
-                        foreach (INavigationControlItem item in MainPage.sideBarItems.ToList())
-                        {
-                            if (item is DriveItem && item.ItemType == NavigationControlItemType.OneDrive)
-                            {
-                                MainPage.sideBarItems.Remove(item);
-                            }
-                        }
-                    }
-                }
-            }
+            get => Get(true);
+            set => Set(value);
+        }
+
+        public bool ShowRecentFilesWidget
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        public bool ShowDrivesWidget
+        {
+            get => Get(false);
+            set => Set(value);
         }
 
         // Any distinguishable path here is fine
@@ -324,7 +300,10 @@ namespace Files.View_Models
 
         private void DetectRecycleBinPreference()
         {
-            if (localSettings.Values["PinRecycleBin"] == null) { localSettings.Values["PinRecycleBin"] = true; }
+            if (localSettings.Values["PinRecycleBin"] == null)
+            {
+                localSettings.Values["PinRecycleBin"] = true;
+            }
 
             if ((bool)localSettings.Values["PinRecycleBin"] == true)
             {
@@ -359,16 +338,16 @@ namespace Files.View_Models
                         };
                         // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
                         // TODO: the very first time the app is launched localized name not available
-                        MainPage.sideBarItems.Insert(MainPage.sideBarItems.Where(item => item is LocationItem).Count(), recycleBinItem);
+                        MainPage.SideBarItems.Insert(MainPage.SideBarItems.Where(item => item is LocationItem).Count(), recycleBinItem);
                     }
                     else
                     {
                         localSettings.Values["PinRecycleBin"] = false;
-                        foreach (INavigationControlItem item in MainPage.sideBarItems.ToList())
+                        foreach (INavigationControlItem item in MainPage.SideBarItems.ToList())
                         {
                             if (item is LocationItem && item.Path == RecycleBinPath)
                             {
-                                MainPage.sideBarItems.Remove(item);
+                                MainPage.SideBarItems.Remove(item);
                             }
                         }
                     }
@@ -487,9 +466,18 @@ namespace Files.View_Models
             set => Set(value);
         }
 
+        public bool AreHiddenItemsVisible
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         private void DetectAcrylicPreference()
         {
-            if (localSettings.Values["AcrylicEnabled"] == null) { localSettings.Values["AcrylicEnabled"] = true; }
+            if (localSettings.Values["AcrylicEnabled"] == null)
+            {
+                localSettings.Values["AcrylicEnabled"] = true;
+            }
             AcrylicEnabled = (bool)localSettings.Values["AcrylicEnabled"];
         }
 
@@ -664,7 +652,9 @@ namespace Files.View_Models
                         }
 
                         if (value < 375) // Don't request a grid resize if it is already at the max size (375)
+                        {
                             GridViewSizeChangeRequested?.Invoke(this, EventArgs.Empty);
+                        }
                     }
                 }
             }
@@ -690,7 +680,10 @@ namespace Files.View_Models
                 originalValue = Get(originalValue, propertyName);
 
                 _roamingSettings.Values[propertyName] = value;
-                if (!base.SetProperty(ref originalValue, value, propertyName)) return false;
+                if (!base.SetProperty(ref originalValue, value, propertyName))
+                {
+                    return false;
+                }
             }
             else
             {
@@ -724,7 +717,10 @@ namespace Files.View_Models
                         var valueType = value.GetType();
                         var tryParse = typeof(TValue).GetMethod("TryParse", BindingFlags.Instance | BindingFlags.Public);
 
-                        if (tryParse == null) return default;
+                        if (tryParse == null)
+                        {
+                            return default;
+                        }
 
                         var stringValue = value.ToString();
                         tValue = default;

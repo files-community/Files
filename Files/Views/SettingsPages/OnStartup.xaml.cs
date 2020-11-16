@@ -26,7 +26,7 @@ namespace Files.SettingsPages
             }
         }
 
-        private async void btnAddPage_Click(object sender, RoutedEventArgs e)
+        private async void ButtonAddPage_Click(object sender, RoutedEventArgs e)
         {
             var folderPicker = new FolderPicker();
             folderPicker.FileTypeFilter.Add("*");

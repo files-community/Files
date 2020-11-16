@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using Files.Views;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -18,13 +19,13 @@ namespace Files.Dialogs
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            if (App.MultitaskingControl.Items.Count == 1)
+            if (MainPage.MultitaskingControl.Items.Count == 1)
             {
                 App.CloseApp();
             }
-            else if (App.MultitaskingControl.Items.Count > 1)
+            else if (MainPage.MultitaskingControl.Items.Count > 1)
             {
-                App.MultitaskingControl.Items.RemoveAt(App.InteractionViewModel.TabStripSelectedIndex);
+                MainPage.MultitaskingControl.Items.RemoveAt(App.InteractionViewModel.TabStripSelectedIndex);
             }
         }
 
@@ -54,14 +55,22 @@ namespace Files.Dialogs
         {
             message = App.ExceptionInfo.Exception.Message;
             if (!string.IsNullOrWhiteSpace(App.ExceptionStackTrace))
+            {
                 stackTrace = App.ExceptionStackTrace;
+            }
             else
+            {
                 stackTrace = "No stack trace found.";
+            }
 
             if (!string.IsNullOrWhiteSpace(App.ExceptionInfo.Exception.TargetSite?.ReflectedType.FullName))
+            {
                 offendingMethod = App.ExceptionInfo.Exception.TargetSite.ReflectedType.FullName;
+            }
             else
+            {
                 offendingMethod = "(Method name unknown)";
+            }
 
             Summary.Text = message + " within method " + offendingMethod;
             ErrorInfo.Text = stackTrace;

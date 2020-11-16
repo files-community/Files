@@ -1,4 +1,5 @@
 ﻿using JetBrains.Annotations;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,7 +32,9 @@ namespace Files.Helpers
         public static string WithEnding([CanBeNull] this string str, string ending)
         {
             if (str == null)
+            {
                 return ending;
+            }
 
             string result = str;
 
@@ -42,7 +45,9 @@ namespace Files.Helpers
             {
                 string tmp = result + ending.Right(i);
                 if (tmp.EndsWith(ending))
+                {
                     return tmp;
+                }
             }
 
             return result;
@@ -68,13 +73,13 @@ namespace Files.Helpers
 
         private static readonly Dictionary<string, string> abbreviations = new Dictionary<string, string>()
         {
-            { "KiB", ResourceController.GetTranslation("KiloByteSymbol") },
-            { "MiB", ResourceController.GetTranslation("MegaByteSymbol") },
-            { "GiB", ResourceController.GetTranslation("GigaByteSymbol") },
-            { "TiB", ResourceController.GetTranslation("TeraByteSymbol") },
-            { "PiB", ResourceController.GetTranslation("PetaByteSymbol") },
-            { "B", ResourceController.GetTranslation("ByteSymbol") },
-            { "b", ResourceController.GetTranslation("ByteSymbol") }
+            { "KiB", "KiloByteSymbol".GetLocalized() },
+            { "MiB", "MegaByteSymbol".GetLocalized() },
+            { "GiB", "GigaByteSymbol".GetLocalized() },
+            { "TiB", "TeraByteSymbol".GetLocalized() },
+            { "PiB", "PetaByteSymbol".GetLocalized() },
+            { "B", "ByteSymbol".GetLocalized() },
+            { "b", "ByteSymbol".GetLocalized() }
         };
 
         public static string ConvertSizeAbbreviation(this string value)

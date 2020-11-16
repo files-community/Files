@@ -1,5 +1,7 @@
 ﻿using Files.Enums;
+using Files.Filesystem.Cloud;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
@@ -8,6 +10,7 @@ namespace Files.Filesystem
 {
     public class ListedItem : ObservableObject
     {
+        public bool IsHiddenItem { get; set; } = false;
         public StorageItemTypes PrimaryItemAttribute { get; set; }
         public bool ItemPropertiesInitialized { get; set; } = false;
         public string FolderTooltipText { get; set; }
@@ -181,7 +184,7 @@ namespace Files.Filesystem
         }
 
         /// <summary>
-        /// Create an item object, optionally with an explicitly-specified dateReturnFormat.
+        /// Initializes a new instance of the <see cref="ListedItem" /> class, optionally with an explicitly-specified dateReturnFormat.
         /// </summary>
         /// <param name="folderRelativeId"></param>
         /// <param name="dateReturnFormat">Specify a date return format to reduce redundant checks of this setting.</param>
@@ -212,32 +215,50 @@ namespace Files.Filesystem
             }
             else if (elapsed.TotalDays > 2)
             {
-                return string.Format(ResourceController.GetTranslation("DaysAgo"), elapsed.Days);
+                return string.Format("DaysAgo".GetLocalized(), elapsed.Days);
             }
             else if (elapsed.TotalDays > 1)
             {
-                return string.Format(ResourceController.GetTranslation("DayAgo"), elapsed.Days);
+                return string.Format("DayAgo".GetLocalized(), elapsed.Days);
             }
             else if (elapsed.TotalHours > 2)
             {
-                return string.Format(ResourceController.GetTranslation("HoursAgo"), elapsed.Hours);
+                return string.Format("HoursAgo".GetLocalized(), elapsed.Hours);
             }
             else if (elapsed.TotalHours > 1)
             {
-                return string.Format(ResourceController.GetTranslation("HourAgo"), elapsed.Hours);
+                return string.Format("HoursAgo".GetLocalized(), elapsed.Hours);
             }
             else if (elapsed.TotalMinutes > 2)
             {
-                return string.Format(ResourceController.GetTranslation("MinutesAgo"), elapsed.Minutes);
+                return string.Format("MinutesAgo".GetLocalized(), elapsed.Minutes);
             }
             else if (elapsed.TotalMinutes > 1)
             {
-                return string.Format(ResourceController.GetTranslation("MinuteAgo"), elapsed.Minutes);
+                return string.Format("MinutesAgo".GetLocalized(), elapsed.Minutes);
             }
             else
             {
-                return string.Format(ResourceController.GetTranslation("SecondsAgo"), elapsed.Seconds);
+                return string.Format("SecondsAgo".GetLocalized(), elapsed.Seconds);
             }
+        }
+
+        public override string ToString()
+        {
+            string suffix;
+            if (IsRecycleBinItem)
+            {
+                suffix = "RecycleBinItemAutomation".GetLocalized();
+            }
+            else if (IsShortcutItem)
+            {
+                suffix = "ShortcutItemAutomation".GetLocalized();
+            }
+            else
+            {
+                suffix = PrimaryItemAttribute == StorageItemTypes.File ? "FileItemAutomation".GetLocalized() : "FolderItemAutomation".GetLocalized();
+            }
+            return $"{ItemName}, {ItemPath}, {suffix}";
         }
 
         public bool IsRecycleBinItem => this is RecycleBinItem;

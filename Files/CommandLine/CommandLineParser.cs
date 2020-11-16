@@ -41,11 +41,17 @@ namespace Files.CommandLine
                         try
                         {
                             if (kvp.Value.StartsWith("::{") || kvp.Value.StartsWith("shell:"))
+                            {
                                 command.Type = ParsedCommandType.ExplorerShellCommand;
+                            }
                             else if (Path.IsPathRooted(kvp.Value))
+                            {
                                 command.Type = ParsedCommandType.OpenPath;
+                            }
                             else
+                            {
                                 command.Type = ParsedCommandType.Unknown;
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -70,10 +76,14 @@ namespace Files.CommandLine
             for (int i = 0; i < commandLineCharArray.Length; i++)
             {
                 if (commandLineCharArray[i] == '"')
+                {
                     isInQuote = !isInQuote;
+                }
 
                 if (!isInQuote && commandLineCharArray[i] == ' ')
+                {
                     commandLineCharArray[i] = '\n';
+                }
             }
 
             return new string(commandLineCharArray).Replace("\"", "").Split('\n');
@@ -114,7 +124,9 @@ namespace Files.CommandLine
             }
 
             if (parsedArgs.Count == 0 && args.Length >= 2)
+            {
                 parsedArgs.Add(new KeyValuePair<string, string>("-Cmdless", string.Join(" ", args.Skip(1)).TrimStart()));
+            }
 
             return parsedArgs;
         }
@@ -149,7 +161,7 @@ namespace Files.CommandLine
                 }
             }
 
-            return key != null ? new KeyValuePair<string, string>(key, val) : default(KeyValuePair<string, string>);
+            return key != null ? new KeyValuePair<string, string>(key, val) : default;
         }
     }
 }

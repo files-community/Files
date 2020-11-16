@@ -5,7 +5,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.UserControls"
     xmlns:local1="using:Files"
+    xmlns:lottie="using:Microsoft.Toolkit.Uwp.UI.Lottie"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="40"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -53,8 +55,9 @@
                 <Button.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem
+                            x:Name="SelectAllMFI"
                             x:Uid="StatusBarControlSelectAll"
-                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.SelectAllItems}"
+                            Command="{x:Bind SelectAllInvokedCommand}"
                             Text="Select All">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB54;" />
@@ -66,16 +69,18 @@
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
+                            x:Name="InvertSelectionMFI"
                             x:Uid="StatusBarControlInvertSelection"
-                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.InvertAllItems}"
+                            Command="{x:Bind InvertSelectionInvokedCommand}"
                             Text="Invert Selection">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xf102;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
+                            x:Name="ClearSelectionMFI"
                             x:Uid="StatusBarControlClearSelection"
-                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.ClearAllItems}"
+                            Command="{x:Bind ClearSelectionInvokedCommand}"
                             Text="Clear Selection">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB55;" />
@@ -143,32 +148,39 @@
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
-
-            <Button
-                x:Uid="StatusCenter"
-                Width="34"
-                Height="30"
-                Margin="2,0,2,0"
-                AutomationProperties.Name="Status center"
-                Background="Transparent"
-                Content="&#xF16A;"
-                CornerRadius="2"
-                FontFamily="Segoe MDL2 Assets"
-                FontSize="16"
-                Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Ongoing tasks"
-                Visibility="Visible">
-                <Button.Flyout>
-                    <Flyout>
-                        <local:StatusCenter
-                            x:Name="OngoingTasksControl"
-                            Width="300"
-                            MinHeight="300"
-                            MaxHeight="400"
-                            x:FieldModifier="public" />
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
+            <Grid>
+                <muxc:AnimatedVisualPlayer
+                    x:Name="StatusCenterPulseVisualPlayer"
+                    AutoPlay="False"
+                    Visibility="Collapsed">
+                    <lottie:LottieVisualSource x:Name="StatusCenterPulseVisualSource" UriSource="ms-appx:///Assets/AnimatedVisuals/LottiePulseStatusCenter.json" />
+                </muxc:AnimatedVisualPlayer>
+                <Button
+                    x:Uid="StatusCenter"
+                    Width="34"
+                    Height="30"
+                    Margin="2,0,2,0"
+                    AutomationProperties.Name="Status center"
+                    Background="Transparent"
+                    Content="&#xF16A;"
+                    CornerRadius="2"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontSize="16"
+                    Style="{StaticResource ToolBarButtonStyle}"
+                    ToolTipService.ToolTip="Ongoing tasks"
+                    Visibility="Visible">
+                    <Button.Flyout>
+                        <Flyout>
+                            <local:StatusCenter
+                                x:Name="OngoingTasksControl"
+                                Width="300"
+                                MinHeight="300"
+                                MaxHeight="400"
+                                x:FieldModifier="public" />
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+            </Grid>
         </StackPanel>
     </Grid>
 </UserControl>

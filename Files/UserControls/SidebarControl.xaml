@@ -40,15 +40,18 @@
                     <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="{ThemeResource SystemColorWindowColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
+
             <DataTemplate x:Key="LocationNavItem" x:DataType="local2:LocationItem">
                 <muxc:NavigationViewItem
                     AllowDrop="True"
                     BorderThickness="0.8"
+                    CanDrag="False"
                     Content="{x:Bind Text}"
                     DataContext="{x:Bind}"
                     DragEnter="NavigationViewItem_DragEnter"
                     DragLeave="NavigationViewItem_DragLeave"
                     DragOver="NavigationViewLocationItem_DragOver"
+                    DragStarting="NavigationViewItem_DragStarting"
                     Drop="NavigationViewLocationItem_Drop"
                     IsRightTapEnabled="True"
                     RightTapped="NavigationViewLocationItem_RightTapped"
@@ -67,7 +70,7 @@
                     Padding="0"
                     AllowDrop="True"
                     BorderThickness="0.8"
-                    Content="{x:Bind Text}"
+                    Content="{x:Bind Text, Mode=OneWay}"
                     DataContext="{x:Bind}"
                     DragEnter="NavigationViewItem_DragEnter"
                     DragLeave="NavigationViewItem_DragLeave"
@@ -76,7 +79,7 @@
                     IsRightTapEnabled="True"
                     RightTapped="NavigationViewDriveItem_RightTapped"
                     Tag="{x:Bind Path}"
-                    ToolTipService.ToolTip="{x:Bind SpaceText}"
+                    ToolTipService.ToolTip="{x:Bind SpaceText, Mode=OneWay}"
                     Visibility="{x:Bind ItemVisibility}">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon
@@ -130,7 +133,7 @@
             IsTitleBarAutoPaddingEnabled="False"
             ItemInvoked="Sidebar_ItemInvoked"
             MenuItemTemplateSelector="{StaticResource NavItemSelector}"
-            MenuItemsSource="{x:Bind local3:MainPage.sideBarItems, Mode=OneWay}"
+            MenuItemsSource="{x:Bind local3:MainPage.SideBarItems, Mode=OneWay}"
             OpenPaneLength="500"
             PaneDisplayMode="Left"
             SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -170,7 +173,7 @@
                                 x:Name="EmptyRecycleBin"
                                 x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
                                 x:Load="{x:Bind ShowEmptyRecycleBin, Mode=OneWay}"
-                                Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.EmptyRecycleBin_ClickAsync}"
+                                Command="{x:Bind EmptyRecycleBinCommand, Mode=OneWay}"
                                 IsEnabled="{x:Bind RecycleBinHasItems, Mode=OneWay}"
                                 Text="Empty recycle bin">
                                 <MenuFlyoutItem.Icon>
@@ -203,6 +206,16 @@
                                 Text="Unpin from Sidebar">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB20;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                                x:Name="EjectDevice"
+                                x:Uid="SideBarEjectDevice"
+                                x:Load="{x:Bind ShowEjectDevice, Mode=OneWay}"
+                                Click="EjectDevice_Click"
+                                Text="Eject">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10B;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem

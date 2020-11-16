@@ -25,14 +25,14 @@
             x:Name="RecentsListGrid"
             Grid.Row="1"
             Grid.Column="0">
-            <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Vertical" Spacing="4">
                 <TextBlock
                     x:Uid="RecentItems"
-                    Margin="0,0,0,0"
                     HorizontalAlignment="Left"
                     FontFamily="Segoe UI"
                     FontSize="14"
                     FontWeight="Medium"
+                    Opacity=".8"
                     Text="Recent files" />
                 <TextBlock
                     x:Uid="RecentItemDescription"

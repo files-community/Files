@@ -34,7 +34,7 @@ namespace FilesFullTrust
             return tcs.Task;
         }
 
-        public static async Task<string> GetFileAssociation(string filename)
+        public static async Task<string> GetFileAssociationAsync(string filename)
         {
             // Find UWP apps
             var uwp_apps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
@@ -93,17 +93,57 @@ namespace FilesFullTrust
             }
         }
 
-        public static void UnlockBitlockerDrive(string drive, string password)
+        public static (string icon, bool isCustom) GetFileOverlayIcon(string path)
+        {
+            var shfi = new Shell32.SHFILEINFO();
+            var ret = Shell32.SHGetFileInfo(path, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION);
+            if (ret == IntPtr.Zero)
+            {
+                return (null, false);
+            }
+
+            bool isCustom = !shfi.szDisplayName.StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.Windows));
+            User32.DestroyIcon(shfi.hIcon);
+            Shell32.SHGetImageList(Shell32.SHIL.SHIL_LARGE, typeof(ComCtl32.IImageList).GUID, out var tmp);
+            using var imageList = ComCtl32.SafeHIMAGELIST.FromIImageList(tmp);
+            if (imageList.IsNull || imageList.IsInvalid)
+            {
+                return (null, isCustom);
+            }
+
+            var overlay_idx = shfi.iIcon >> 24;
+            //var icon_idx = shfi.iIcon & 0xFFFFFF;
+            if (overlay_idx == 0)
+            {
+                return (null, isCustom);
+            }
+
+            var overlay_image = imageList.Interface.GetOverlayImage(overlay_idx);
+            using var hIcon = imageList.Interface.GetIcon(overlay_image, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
+            if (hIcon.IsNull || hIcon.IsInvalid)
+            {
+                return (null, isCustom);
+            }
+
+            using var image = hIcon.ToIcon().ToBitmap();
+            byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+            return (Convert.ToBase64String(bitmapData, 0, bitmapData.Length), isCustom);
+        }
+
+        private static void RunPowershellCommand(string command, bool runAsAdmin)
         {
             try
             {
                 Process process = new Process();
-                process.StartInfo.UseShellExecute = true;
-                process.StartInfo.Verb = "runas";
+                if (runAsAdmin)
+                {
+                    process.StartInfo.UseShellExecute = true;
+                    process.StartInfo.Verb = "runas";
+                }
                 process.StartInfo.FileName = "powershell.exe";
                 process.StartInfo.CreateNoWindow = true;
                 process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                process.StartInfo.Arguments = $"-command \"$SecureString = ConvertTo-SecureString '{password}' -AsPlainText -Force; Unlock-BitLocker -MountPoint '{drive}' -Password $SecureString\"";
+                process.StartInfo.Arguments = command;
                 process.Start();
                 process.WaitForExit(30 * 1000);
             }
@@ -113,29 +153,39 @@ namespace FilesFullTrust
             }
         }
 
-        public static (string icon, bool isCustom) GetFileOverlayIcon(string path)
+        public static void UnlockBitlockerDrive(string drive, string password)
         {
-            var shfi = new Shell32.SHFILEINFO();
-            var ret = Shell32.SHGetFileInfo(path, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION);
-            if (ret == IntPtr.Zero) return (null, false);
-            bool isCustom = !shfi.szDisplayName.StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.Windows));
-            User32.DestroyIcon(shfi.hIcon);
-            Shell32.SHGetImageList(Shell32.SHIL.SHIL_LARGE, typeof(ComCtl32.IImageList).GUID, out var tmp);
-            using var imageList = ComCtl32.SafeHIMAGELIST.FromIImageList(tmp);
-            if (imageList.IsNull || imageList.IsInvalid) return (null, isCustom);
-            var overlay_idx = shfi.iIcon >> 24;
-            //var icon_idx = shfi.iIcon & 0xFFFFFF;
-            if (overlay_idx == 0) return (null, isCustom);
-            var overlay_image = imageList.Interface.GetOverlayImage(overlay_idx);
-            using var hIcon = imageList.Interface.GetIcon(overlay_image, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
-            if (hIcon.IsNull || hIcon.IsInvalid) return (null, isCustom);
-            using var image = hIcon.ToIcon().ToBitmap();
-            byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-            return (Convert.ToBase64String(bitmapData, 0, bitmapData.Length), isCustom);
+            RunPowershellCommand($"-command \"$SecureString = ConvertTo-SecureString '{password}' -AsPlainText -Force; Unlock-BitLocker -MountPoint '{drive}' -Password $SecureString\"", true);
         }
-    }
 
-    // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.
-    // The Vanara library contains the definitions for all members of Shell32.dll, User32.dll and more
-    // The ones below are due to bugs in the current version of the library and can be removed once fixed
+        public static void OpenFormatDriveDialog(string drive)
+        {
+            // format requires elevation
+            int driveIndex = drive.ToUpperInvariant()[0] - 'A';
+            RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"shell32.dll\\\", SetLastError = false)]public static extern uint SHFormatDrive(IntPtr hwnd, uint drive, uint fmtID, uint options);'; $SHFormatDrive = Add-Type -MemberDefinition $Signature -Name \"Win32SHFormatDrive\" -Namespace Win32Functions -PassThru; $SHFormatDrive::SHFormatDrive(0, {driveIndex}, 0xFFFF, 0x0001)\"", true);
+        }
+
+        public static void SetVolumeLabel(string driveName, string newLabel)
+        {
+            // rename requires elevation
+            RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"kernel32.dll\\\", SetLastError = false)]public static extern bool SetVolumeLabel(string lpRootPathName, string lpVolumeName);'; $SetVolumeLabel = Add-Type -MemberDefinition $Signature -Name \"Win32SetVolumeLabel\" -Namespace Win32Functions -PassThru; $SetVolumeLabel::SetVolumeLabel('{driveName}', '{newLabel}')\"", true);
+        }
+
+        // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.
+        // The Vanara library contains the definitions for all members of Shell32.dll, User32.dll and more
+        // The ones below are due to bugs in the current version of the library and can be removed once fixed
+        // Structure used by SHQueryRecycleBin.
+        [StructLayout(LayoutKind.Sequential, Pack = 0)]
+        public struct SHQUERYRBINFO
+        {
+            public int cbSize;
+            public long i64Size;
+            public long i64NumItems;
+        }
+
+        // Get information from recycle bin.
+        [DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Auto)]
+        public static extern int SHQueryRecycleBin(string pszRootPath,
+            ref SHQUERYRBINFO pSHQueryRBInfo);
+    }
 }

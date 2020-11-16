@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.IO;
 
 namespace Files.Helpers
@@ -22,9 +23,17 @@ namespace Files.Helpers
                     path += Path.DirectorySeparatorChar;
                 }
 
-                return Path.GetFullPath(new Uri(path).LocalPath)
-                .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
-                .ToUpperInvariant();
+                try
+                {
+                    return Path.GetFullPath(new Uri(path).LocalPath)
+                        .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+                        .ToUpperInvariant();
+                }
+                catch (UriFormatException ex)
+                {
+                    LogManager.GetCurrentClassLogger().Error(ex, path);
+                    throw;
+                }
             }
         }
     }

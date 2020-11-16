@@ -1,5 +1,5 @@
-﻿<UserControl
-    x:Class="Files.UserControls.VerticalTabViewControl"
+﻿<local:BaseMultitaskingControl
+    x:Class="Files.UserControls.MultitaskingControl.VerticalTabViewControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:contract4Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,4)"
@@ -7,7 +7,7 @@
     xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)"
     xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Files.UserControls"
+    xmlns:local="using:Files.UserControls.MultitaskingControl"
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
@@ -623,7 +623,7 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             x:FieldModifier="public"
-            AddTabButtonClick="VerticalTabView_AddTabButtonClick"
+            AddTabButtonClick="TabView_AddTabButtonClick"
             AllowDropTabs="True"
             Background="Transparent"
             CanDragTabs="True"
@@ -670,4 +670,4 @@
             </muxc:TabView.TabStripHeader>
         </muxc:TabView>
     </Grid>
-</UserControl>
+</local:BaseMultitaskingControl>

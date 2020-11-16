@@ -1,5 +1,5 @@
 ﻿using Files.Filesystem;
-using Files.UserControls;
+using Files.UserControls.Selection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -188,14 +188,14 @@ namespace Files
                 selectedTextLength -= extensionLength;
             }
             textBox.Select(0, selectedTextLength);
-            isRenamingItem = true;
+            IsRenamingItem = true;
         }
 
         private void GridViewTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
         {
             var textBox = sender as TextBox;
 
-            if (App.CurrentInstance.InteractionOperations.ContainsRestrictedCharacters(textBox.Text))
+            if (Interaction.ContainsRestrictedCharacters(textBox.Text))
             {
                 FileNameTeachingTip.IsOpen = true;
             }
@@ -254,7 +254,7 @@ namespace Files
             EndRename(textBox);
             string newItemName = textBox.Text.Trim().TrimEnd('.');
 
-            bool successful = await App.CurrentInstance.InteractionOperations.RenameFileItem(renamingItem, oldItemName, newItemName);
+            bool successful = await ParentShellPageInstance.InteractionOperations.RenameFileItemAsync(renamingItem, oldItemName, newItemName);
             if (!successful)
             {
                 renamingItem.ItemName = oldItemName;
@@ -280,30 +280,30 @@ namespace Files
             textBox.LostFocus -= RenameTextBox_LostFocus;
             textBox.KeyDown -= RenameTextBox_KeyDown;
             FileNameTeachingTip.IsOpen = false;
-            isRenamingItem = false;
+            IsRenamingItem = false;
         }
 
         private void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
             {
-                if (!isRenamingItem)
+                if (!IsRenamingItem)
                 {
-                    App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null);
+                    ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
                     e.Handled = true;
                 }
             }
             else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
             {
-                AssociatedInteractions.ShowPropertiesButton_Click(null, null);
+                ParentShellPageInstance.InteractionOperations.ShowPropertiesButton_Click(null, null);
             }
             else if (e.Key == VirtualKey.Space)
             {
-                if (!isRenamingItem && !App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                if (!IsRenamingItem && !ParentShellPageInstance.NavigationToolbar.IsEditModeEnabled)
                 {
-                    if ((App.CurrentInstance.ContentPage).IsQuickLookEnabled)
+                    if (IsQuickLookEnabled)
                     {
-                        App.CurrentInstance.InteractionOperations.ToggleQuickLook();
+                        ParentShellPageInstance.InteractionOperations.ToggleQuickLook();
                     }
                     e.Handled = true;
                 }
@@ -317,9 +317,9 @@ namespace Files
 
         protected override void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
-            if (App.CurrentInstance != null)
+            if (ParentShellPageInstance != null)
             {
-                if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser) && !isRenamingItem)
+                if (ParentShellPageInstance.CurrentPageType == typeof(GridViewBrowser) && !IsRenamingItem)
                 {
                     // Don't block the various uses of enter key (key 13)
                     var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
@@ -341,7 +341,7 @@ namespace Files
             {
                 await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
                 {
-                    App.CurrentInstance.FilesystemViewModel.LoadExtendedItemProperties(sender.DataContext as ListedItem, _iconSize);
+                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(sender.DataContext as ListedItem, _iconSize);
                     (sender.DataContext as ListedItem).ItemPropertiesInitialized = true;
                 });
 
@@ -388,13 +388,21 @@ namespace Files
         private static uint UpdateThumbnailSize()
         {
             if (App.AppSettings.LayoutMode == 1 || App.AppSettings.GridViewSize < 200)
+            {
                 return 80; // Small thumbnail
+            }
             else if (App.AppSettings.GridViewSize < 275)
+            {
                 return 120; // Medium thumbnail
+            }
             else if (App.AppSettings.GridViewSize < 325)
+            {
                 return 160; // Large thumbnail
+            }
             else
+            {
                 return 240; // Extra large thumbnail
+            }
         }
 
         private void AppSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
@@ -405,7 +413,7 @@ namespace Files
             if (iconSize != _iconSize)
             {
                 _iconSize = iconSize; // Update icon size before refreshing
-                NavigationActions.Refresh_Click(null, null); // Refresh icons
+                ParentShellPageInstance.Refresh_Click(); // Refresh icons
             }
             else
                 _iconSize = iconSize; // Update icon size
@@ -426,7 +434,7 @@ namespace Files
             if (AppSettings.OpenItemsWithOneclick)
             {
                 await Task.Delay(200); // The delay gives time for the item to be selected
-                App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null);
+                ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
             }
         }
     }

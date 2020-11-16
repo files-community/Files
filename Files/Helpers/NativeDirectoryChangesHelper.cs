@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace Files.Helpers
 {
@@ -28,61 +29,6 @@ namespace Files.Helpers
 
         [DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError = true)]
         public static extern UInt32 WaitForSingleObjectEx(IntPtr hHandle, UInt32 dwMilliseconds, bool bAlertable);
-
-        public enum File_Attributes : uint
-        {
-            Readonly = 0x00000001,
-            Hidden = 0x00000002,
-            System = 0x00000004,
-            Directory = 0x00000010,
-            Archive = 0x00000020,
-            Device = 0x00000040,
-            Normal = 0x00000080,
-            Temporary = 0x00000100,
-            SparseFile = 0x00000200,
-            ReparsePoint = 0x00000400,
-            Compressed = 0x00000800,
-            Offline = 0x00001000,
-            NotContentIndexed = 0x00002000,
-            Encrypted = 0x00004000,
-            Write_Through = 0x80000000,
-            Overlapped = 0x40000000,
-            NoBuffering = 0x20000000,
-            RandomAccess = 0x10000000,
-            SequentialScan = 0x08000000,
-            DeleteOnClose = 0x04000000,
-            BackupSemantics = 0x02000000,
-            PosixSemantics = 0x01000000,
-            OpenReparsePoint = 0x00200000,
-            OpenNoRecall = 0x00100000,
-            FirstPipeInstance = 0x00080000
-        }
-
-        public const uint GENERIC_READ = 0x80000000;
-
-        [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-        CallingConvention = CallingConvention.StdCall,
-        SetLastError = true)]
-        public static extern IntPtr CreateFileFromApp(
-            string lpFileName,
-            uint dwDesiredAccess,
-            uint dwShareMode,
-            IntPtr SecurityAttributes,
-            uint dwCreationDisposition,
-            uint dwFlagsAndAttributes,
-            IntPtr hTemplateFile
-        );
-
-        [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-        CallingConvention = CallingConvention.StdCall,
-        SetLastError = true)]
-        public static extern IntPtr CreateFile2FromApp(
-            string lpFileName,
-            uint dwDesiredAccess,
-            uint dwShareMode,
-            uint dwCreationDisposition,
-            IntPtr pCreateExParams
-        );
 
         public delegate void LpoverlappedCompletionRoutine(uint dwErrorCode,
             uint dwNumberOfBytesTransfered,
@@ -123,36 +69,5 @@ namespace Files.Helpers
             int nBufferLength, bool bWatchSubtree, int dwNotifyFilter, int*
             lpBytesReturned, ref OVERLAPPED lpOverlapped,
             LpoverlappedCompletionRoutine lpCompletionRoutine);
-
-        [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-        CallingConvention = CallingConvention.StdCall,
-        SetLastError = true)]
-        public static extern bool MoveFileFromApp(
-            string lpExistingFileName,
-            string lpNewFileName
-        );
-
-        [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-        CallingConvention = CallingConvention.StdCall,
-        SetLastError = true)]
-        public static extern bool CopyFileFromApp(
-            string lpExistingFileName,
-            string lpNewFileName,
-            bool bFailIfExists
-        );
-
-        [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-        CallingConvention = CallingConvention.StdCall,
-        SetLastError = true)]
-        public static extern bool DeleteFileFromApp(
-            string lpFileName
-        );
-
-        [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
-        CallingConvention = CallingConvention.StdCall,
-        SetLastError = true)]
-        public static extern bool RemoveDirectoryFromApp(
-            string lpPathName
-        );
     }
 }

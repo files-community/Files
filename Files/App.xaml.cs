@@ -1,18 +1,16 @@
 using Files.CommandLine;
-using Files.Common;
 using Files.Controllers;
 using Files.Controls;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.UserControls.MultiTaskingControl;
 using Files.View_Models;
 using Files.Views;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NLog;
 using System;
@@ -22,7 +20,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
@@ -38,25 +35,7 @@ namespace Files
 {
     sealed partial class App : Application
     {
-        public static IMultitaskingControl MultitaskingControl = null;
-
-        private static IShellPage currentInstance;
         private static bool ShowErrorNotification = false;
-
-        public static IShellPage CurrentInstance
-        {
-            get
-            {
-                return currentInstance;
-            }
-            set
-            {
-                if (value != currentInstance && value != null)
-                {
-                    currentInstance = value;
-                }
-            }
-        }
 
         public static SettingsViewModel AppSettings { get; set; }
         public static InteractionViewModel InteractionViewModel { get; set; }
@@ -72,6 +51,7 @@ namespace Files
             InitializeComponent();
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
+
             // Initialize NLog
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
             LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
@@ -98,103 +78,20 @@ namespace Files
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
         {
-            // Need to reinitialize AppService when app is resuming
-            InitializeAppServiceConnection();
             AppSettings?.DrivesManager?.ResumeDeviceWatcher();
         }
 
-        public static AppServiceConnection Connection;
-
-        private async void InitializeAppServiceConnection()
-        {
-            Connection = new AppServiceConnection();
-            Connection.AppServiceName = "FilesInteropService";
-            Connection.PackageFamilyName = Package.Current.Id.FamilyName;
-            Connection.RequestReceived += Connection_RequestReceived;
-            Connection.ServiceClosed += Connection_ServiceClosed;
-
-            AppServiceConnectionStatus status = await Connection.OpenAsync();
-            if (status != AppServiceConnectionStatus.Success)
-            {
-                // TODO: error handling
-                Connection.Dispose();
-                Connection = null;
-            }
-
-            // Launch fulltrust process
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-        }
-
-        private void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
-        {
-            Connection = null;
-        }
-
-        private async void Connection_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
-        {
-            // Get a deferral because we use an awaitable API below to respond to the message
-            // and we don't want this call to get cancelled while we are waiting.
-            var messageDeferral = args.GetDeferral();
-
-            // The fulltrust process signaled that something in the recycle bin folder has changed
-            if (args.Request.Message.ContainsKey("FileSystem"))
-            {
-                var folderPath = (string)args.Request.Message["FileSystem"];
-                var itemPath = (string)args.Request.Message["Path"];
-                var changeType = (string)args.Request.Message["Type"];
-                var newItem = JsonConvert.DeserializeObject<ShellFileItem>(args.Request.Message.Get("Item", ""));
-                Debug.WriteLine("{0}: {1}", folderPath, changeType);
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    // If we are currently displaying the reycle bin lets refresh the items
-                    if (CurrentInstance.FilesystemViewModel?.CurrentFolder?.ItemPath == folderPath)
-                    {
-                        switch (changeType)
-                        {
-                            case "Created":
-                                CurrentInstance.FilesystemViewModel.AddFileOrFolderFromShellFile(newItem);
-                                break;
-
-                            case "Deleted":
-                                CurrentInstance.FilesystemViewModel.RemoveFileOrFolder(itemPath);
-                                break;
-
-                            default:
-                                CurrentInstance.FilesystemViewModel.RefreshItems();
-                                break;
-                        }
-                    }
-                });
-            }
-
-            // Complete the deferral so that the platform knows that we're done responding to the app service call.
-            // Note for error handling: this must be called even if SendResponseAsync() throws an exception.
-            messageDeferral.Complete();
-        }
-
-        private void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
-        {
-            if (args.CurrentPoint.Properties.IsXButton1Pressed)
-            {
-                NavigationActions.Back_Click(null, null);
-            }
-            else if (args.CurrentPoint.Properties.IsXButton2Pressed)
-            {
-                NavigationActions.Forward_Click(null, null);
-            }
-        }
-
-        public static INavigationControlItem rightClickedItem;
+        public static INavigationControlItem RightClickedItem;
 
         public static void UnpinItem_Click(object sender, RoutedEventArgs e)
         {
-            if (rightClickedItem.Path.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+            if (RightClickedItem.Path.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
                 AppSettings.PinRecycleBinToSideBar = false;
             }
             else
             {
-                SidebarPinnedController.Model.RemoveItem(rightClickedItem.Path.ToString());
+                SidebarPinnedController.Model.RemoveItem(RightClickedItem.Path.ToString());
             }
         }
 
@@ -250,15 +147,12 @@ namespace Files
                 }
                 else
                 {
-                    await MainPage.AddNewTab(typeof(Views.Pages.ModernShellPage), e.Arguments);
+                    await MainPage.AddNewTabByPathAsync(typeof(Views.Pages.ModernShellPage), e.Arguments);
                 }
 
                 // Ensure the current window is active
                 Window.Current.Activate();
-                Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
                 Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-                var currentView = SystemNavigationManager.GetForCurrentView();
-                currentView.BackRequested += Window_BackRequested;
             }
         }
 
@@ -269,19 +163,6 @@ namespace Files
             {
                 ShowErrorNotification = true;
                 ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
-            }
-        }
-
-        private void Window_BackRequested(object sender, BackRequestedEventArgs e)
-        {
-            if (CurrentInstance.ContentFrame.CanGoBack)
-            {
-                e.Handled = true;
-                NavigationActions.Back_Click(null, null);
-            }
-            else
-            {
-                e.Handled = false;
             }
         }
 
@@ -315,9 +196,7 @@ namespace Files
 
                     // Ensure the current window is active.
                     Window.Current.Activate();
-                    Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
                     Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-                    currentView.BackRequested += Window_BackRequested;
                     return;
 
                 case ActivationKind.CommandLineLaunch:
@@ -339,9 +218,7 @@ namespace Files
 
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
-                                    Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
                                     Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-                                    currentView.BackRequested += Window_BackRequested;
                                     return;
 
                                 case ParsedCommandType.OpenPath:
@@ -354,9 +231,7 @@ namespace Files
 
                                         // Ensure the current window is active.
                                         Window.Current.Activate();
-                                        Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
                                         Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-                                        currentView.BackRequested += Window_BackRequested;
 
                                         return;
                                     }
@@ -376,9 +251,8 @@ namespace Files
                                     rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
-                                    Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
                                     Window.Current.CoreWindow.Activated += CoreWindow_Activated;
-                                    currentView.BackRequested += Window_BackRequested;
+
                                     return;
                             }
                         }
@@ -400,7 +274,6 @@ namespace Files
 
             // Ensure the current window is active.
             Window.Current.Activate();
-            Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
             Window.Current.CoreWindow.Activated += CoreWindow_Activated;
         }
 
@@ -432,18 +305,14 @@ namespace Files
 
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
-            if (Connection != null)
-            {
-                Connection.Dispose();
-                Connection = null;
-            }
+
             AppSettings?.Dispose();
             deferral.Complete();
         }
 
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
         {
-            AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab => tab != null ? tab.Path ?? ResourceController.GetTranslation("NewTab") : ResourceController.GetTranslation("NewTab")).ToArray();
+            AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab => tab != null ? tab.Path ?? "NewTab".GetLocalized() : "NewTab".GetLocalized()).ToArray();
         }
 
         // Occurs when an exception is not handled on the UI thread.
@@ -468,11 +337,11 @@ namespace Files
                             {
                                 new AdaptiveText()
                                 {
-                                    Text = ResourceController.GetTranslation("ExceptionNotificationHeader")
+                                    Text = "ExceptionNotificationHeader".GetLocalized()
                                 },
                                 new AdaptiveText()
                                 {
-                                    Text = ResourceController.GetTranslation("ExceptionNotificationBody")
+                                    Text = "ExceptionNotificationBody".GetLocalized()
                                 }
                             },
                             AppLogoOverride = new ToastGenericAppLogo()
@@ -485,7 +354,7 @@ namespace Files
                     {
                         Buttons =
                         {
-                            new ToastButton(ResourceController.GetTranslation("ExceptionNotificationReportButton"), "report")
+                            new ToastButton("ExceptionNotificationReportButton".GetLocalized(), "report")
                             {
                                 ActivationType = ToastActivationType.Foreground
                             }
@@ -503,7 +372,10 @@ namespace Files
 
         public static async void CloseApp()
         {
-            if (!await ApplicationView.GetForCurrentView().TryConsolidateAsync()) Application.Current.Exit();
+            if (!await ApplicationView.GetForCurrentView().TryConsolidateAsync())
+            {
+                Application.Current.Exit();
+            }
         }
     }
 

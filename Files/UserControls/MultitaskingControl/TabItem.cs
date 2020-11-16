@@ -2,7 +2,7 @@
 using Microsoft.UI.Xaml.Controls;
 using System;
 
-namespace Files.UserControls
+namespace Files.UserControls.MultitaskingControl
 {
     public class TabItem : ObservableObject
     {

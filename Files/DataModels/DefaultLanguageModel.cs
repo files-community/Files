@@ -1,11 +1,13 @@
-﻿using System.Globalization;
+﻿using Microsoft.Toolkit.Uwp.Extensions;
+using System.Globalization;
 
 namespace Files.DataModels
 {
     public class DefaultLanguageModel
     {
-        public string ID;
-        public string Name;
+        public string ID { get; set; }
+
+        public string Name { get; set; }
 
         public DefaultLanguageModel(string id)
         {
@@ -18,7 +20,7 @@ namespace Files.DataModels
             else
             {
                 ID = string.Empty;
-                var systemDefaultLanguageOptionStr = ResourceController.GetTranslation("SettingsPreferencesSystemDefaultLanguageOption");
+                var systemDefaultLanguageOptionStr = "SettingsPreferencesSystemDefaultLanguageOption".GetLocalized();
                 Name = string.IsNullOrEmpty(systemDefaultLanguageOptionStr) ? "System Default" : systemDefaultLanguageOptionStr;
             }
         }
