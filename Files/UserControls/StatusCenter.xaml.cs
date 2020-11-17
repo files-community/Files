@@ -35,7 +35,7 @@ namespace Files.UserControls
         /// <param name="status"></param>
         /// <param name="operation"></param>
         /// <returns>A StatusBanner object which may be used to track/update the progress of an operation.</returns>
-        public PostedStatusBanner PostBanner(string title, string message, uint initialProgress, Status status, FileOperationType operation)
+        public PostedStatusBanner PostBanner(string title, string message, uint initialProgress, ReturnResult status, FileOperationType operation)
         {
             StatusBanner item = new StatusBanner(message, title, initialProgress, status, operation);
             StatusBannersSource.Add(item);
@@ -101,7 +101,7 @@ namespace Files.UserControls
             }
         }
 
-        private void ReportProgressToBanner(Status value)
+        private void ReportProgressToBanner(ReturnResult value)
         {
         }
 
@@ -130,7 +130,7 @@ namespace Files.UserControls
 
         public string Title { get; private set; }
 
-        public Status Status { get; private set; } = Status.InProgress;
+        public ReturnResult Status { get; private set; } = ReturnResult.InProgress;
 
         public FileOperationType Operation { get; private set; }
 
@@ -157,7 +157,7 @@ namespace Files.UserControls
 
         #endregion
 
-        public StatusBanner(string message, string title, uint progress, Status status, FileOperationType operation)
+        public StatusBanner(string message, string title, uint progress, ReturnResult status, FileOperationType operation)
         {
             Message = message;
             Title = title;
@@ -167,7 +167,7 @@ namespace Files.UserControls
 
             switch (Status)
             {
-                case Status.InProgress:
+                case ReturnResult.InProgress:
                     IsProgressing = true;
                     if (string.IsNullOrWhiteSpace(Title))
                     {
@@ -222,7 +222,7 @@ namespace Files.UserControls
                     FullTitle = Title + " (" + InitialProgress + "%)";
                     break;
 
-                case Status.Success:
+                case ReturnResult.Success:
                     if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
                     {
                         throw new NotImplementedException();
@@ -239,7 +239,7 @@ namespace Files.UserControls
                     }
                     break;
 
-                case Status.Failed:
+                case ReturnResult.Failed:
                     if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
                     {
                         throw new NotImplementedException();
@@ -274,7 +274,7 @@ namespace Files.UserControls
             PrimaryButtonText = primaryButtonText;
             SecondaryButtonText = secondaryButtonText;
             PrimaryButtonClick = primaryButtonClicked;
-            Status = Status.Failed;
+            Status = ReturnResult.Failed;
 
             if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
             {

@@ -166,7 +166,7 @@
     <Compile Include="DataModels\FileOperationType.cs" />
     <Compile Include="DataModels\SidebarPinnedModel.cs" />
     <Compile Include="Controllers\TerminalController.cs" />
-    <Compile Include="DataModels\Status.cs" />
+    <Compile Include="DataModels\ReturnResult.cs" />
     <Compile Include="Dialogs\BitlockerDialog.xaml.cs">
       <DependentUpon>BitlockerDialog.xaml</DependentUpon>
     </Compile>

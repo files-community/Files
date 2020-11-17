@@ -23,7 +23,7 @@ namespace Files.Filesystem.FilesystemHistory
 
         #region Undo, Redo
 
-        public async Task<Status> Undo()
+        public async Task<ReturnResult> Undo()
         {
             if (CanUndo())
             {
@@ -31,10 +31,10 @@ namespace Files.Filesystem.FilesystemHistory
                 int index = EnumerableHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count);
                 return await this._storageHistoryOperations.Undo(App.StorageHistory[index]);
             }
-            return Status.InProgress;
+            return ReturnResult.InProgress;
         }
 
-        public async Task<Status> Redo()
+        public async Task<ReturnResult> Redo()
         {
             if (CanRedo())
             {
@@ -42,7 +42,7 @@ namespace Files.Filesystem.FilesystemHistory
                 int index = EnumerableHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count);
                 return await this._storageHistoryOperations.Redo(App.StorageHistory[index]);
             }
-            return Status.InProgress;
+            return ReturnResult.InProgress;
         }
 
         #endregion

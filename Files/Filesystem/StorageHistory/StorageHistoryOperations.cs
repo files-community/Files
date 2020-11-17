@@ -37,9 +37,9 @@ namespace Files.Filesystem.FilesystemHistory
 
         #region IStorageHistoryOperations
 
-        public async Task<Status> Redo(IStorageHistory history)
+        public async Task<ReturnResult> Redo(IStorageHistory history)
         {
-            Status returnStatus = Status.InProgress;
+            ReturnResult returnStatus = ReturnResult.InProgress;
             Progress<FilesystemErrorCode> errorCode = new Progress<FilesystemErrorCode>();
 
             errorCode.ProgressChanged += (s, e) => { returnStatus = e.ToStatus(); };
@@ -91,7 +91,7 @@ namespace Files.Filesystem.FilesystemHistory
 
                 case FileOperationType.Extract: // Extract PASS
                     {
-                        returnStatus = Status.Success;
+                        returnStatus = ReturnResult.Success;
                         Debugger.Break();
 
                         break;
@@ -127,7 +127,7 @@ namespace Files.Filesystem.FilesystemHistory
 
                 case FileOperationType.Delete: // Delete PASS
                     {
-                        returnStatus = Status.Success;
+                        returnStatus = ReturnResult.Success;
 
                         break;
                     }
@@ -136,9 +136,9 @@ namespace Files.Filesystem.FilesystemHistory
             return returnStatus;
         }
 
-        public async Task<Status> Undo(IStorageHistory history)
+        public async Task<ReturnResult> Undo(IStorageHistory history)
         {
-            Status returnStatus = Status.InProgress;
+            ReturnResult returnStatus = ReturnResult.InProgress;
             Progress<FilesystemErrorCode> errorCode = new Progress<FilesystemErrorCode>();
 
             errorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
@@ -188,7 +188,7 @@ namespace Files.Filesystem.FilesystemHistory
                     {
                         // Opposite: No opposite for archive extraction
 
-                        returnStatus = Status.Success;
+                        returnStatus = ReturnResult.Success;
                         Debugger.Break();
 
                         break;
@@ -230,7 +230,7 @@ namespace Files.Filesystem.FilesystemHistory
                     {
                         // Opposite: No opposite for pernament deletion
 
-                        returnStatus = Status.Success;
+                        returnStatus = ReturnResult.Success;
                         break;
                     }
             }

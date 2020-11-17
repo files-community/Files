@@ -4,71 +4,71 @@ namespace Files.Helpers
 {
     public static class ErrorCodeHelpers
     {
-        public static Status ToStatus(this FilesystemErrorCode errorCode)
+        public static ReturnResult ToStatus(this FilesystemErrorCode errorCode)
         {
             switch (errorCode)
             {
                 case FilesystemErrorCode.ERROR_SUCCESS:
-                    return Status.Success;
+                    return ReturnResult.Success;
 
                 case FilesystemErrorCode.ERROR_GENERIC:
-                    return Status.InProgress | Status.Cancelled;
+                    return ReturnResult.InProgress | ReturnResult.Cancelled;
 
                 case FilesystemErrorCode.ERROR_UNAUTHORIZED:
-                    return Status.AccessUnauthorized;
+                    return ReturnResult.AccessUnauthorized;
 
                 case FilesystemErrorCode.ERROR_NOTFOUND:
-                    return Status.IntegrityCheckFailed;
+                    return ReturnResult.IntegrityCheckFailed;
 
                 case FilesystemErrorCode.ERROR_INUSE:
-                    return Status.AccessUnauthorized;
+                    return ReturnResult.AccessUnauthorized;
 
                 case FilesystemErrorCode.ERROR_NAMETOOLONG:
-                    return Status.UnknownException;
+                    return ReturnResult.UnknownException;
 
                 case FilesystemErrorCode.ERROR_ALREADYEXIST:
-                    return Status.Failed | Status.UnknownException;
+                    return ReturnResult.Failed | ReturnResult.UnknownException;
 
                 case FilesystemErrorCode.ERROR_NOTAFOLDER:
-                    return Status.BadArgumentException | Status.IntegrityCheckFailed;
+                    return ReturnResult.BadArgumentException | ReturnResult.IntegrityCheckFailed;
 
                 case FilesystemErrorCode.ERROR_NOTAFILE:
-                    return Status.BadArgumentException | Status.IntegrityCheckFailed;
+                    return ReturnResult.BadArgumentException | ReturnResult.IntegrityCheckFailed;
 
                 case FilesystemErrorCode.ERROR_INPROGRESS:
-                    return Status.InProgress;
+                    return ReturnResult.InProgress;
 
                 default: return default;
             }
         }
 
-        public static FilesystemErrorCode ToFilesystemErrorCode(this Status status)
+        public static FilesystemErrorCode ToFilesystemErrorCode(this ReturnResult status)
         {
             switch (status)
             {
-                case Status.InProgress:
+                case ReturnResult.InProgress:
                     return FilesystemErrorCode.ERROR_INPROGRESS;
 
-                case Status.Success:
+                case ReturnResult.Success:
                     return FilesystemErrorCode.ERROR_SUCCESS;
 
-                case Status.Failed:
+                case ReturnResult.Failed:
                     return FilesystemErrorCode.ERROR_UNAUTHORIZED | FilesystemErrorCode.ERROR_NOTFOUND |
                         FilesystemErrorCode.ERROR_NOTAFILE | FilesystemErrorCode.ERROR_NOTAFOLDER;
 
-                case Status.IntegrityCheckFailed:
+                case ReturnResult.IntegrityCheckFailed:
                     return FilesystemErrorCode.ERROR_NOTAFILE | FilesystemErrorCode.ERROR_NOTAFOLDER | FilesystemErrorCode.ERROR_NOTFOUND;
 
-                case Status.UnknownException:
+                case ReturnResult.UnknownException:
                     return FilesystemErrorCode.ERROR_ALREADYEXIST | FilesystemErrorCode.ERROR_NAMETOOLONG;
 
-                case Status.NullException:
+                case ReturnResult.NullException:
                     return FilesystemErrorCode.ERROR_NOTFOUND | FilesystemErrorCode.ERROR_NOTAFILE | FilesystemErrorCode.ERROR_NOTAFOLDER;
 
-                case Status.AccessUnauthorized:
+                case ReturnResult.AccessUnauthorized:
                     return FilesystemErrorCode.ERROR_UNAUTHORIZED;
 
-                case Status.Cancelled:
+                case ReturnResult.Cancelled:
                     return FilesystemErrorCode.ERROR_GENERIC | FilesystemErrorCode.ERROR_INPROGRESS;
 
                 default: return default;

@@ -2,24 +2,39 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 
 namespace Files.Helpers
 {
-    public static class RecycleBinHelpers
+    public class RecycleBinHelpers : IDisposable
     {
-        public static async Task<List<ShellFileItem>> EnumerateRecycleBin(AppServiceConnection connection)
+        #region Private Members
+
+        private IShellPage _associatedInstance;
+
+        private AppServiceConnection Connection => _associatedInstance?.ServiceConnection;
+
+        #endregion
+
+        public RecycleBinHelpers(IShellPage associatedInstance)
         {
-            if (connection != null)
+            this._associatedInstance = associatedInstance;
+        }
+
+        public async Task<List<ShellFileItem>> EnumerateRecycleBin()
+        {
+            if (this.Connection != null)
             {
                 ValueSet value = new ValueSet
                 {
                     { "Arguments", "RecycleBin" },
                     { "action", "Enumerate" }
                 };
-                AppServiceResponse response = await connection.SendMessageAsync(value);
+                AppServiceResponse response = await this.Connection.SendMessageAsync(value);
 
                 if (response.Status == AppServiceResponseStatus.Success
                     && response.Message.ContainsKey("Enumerate"))
@@ -31,5 +46,37 @@ namespace Files.Helpers
 
             return null;
         }
+
+        public async Task<bool> IsRecycleBinItem(IStorageItem item)
+        {
+            List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();
+
+            if (recycleBinItems == null)
+                return false;
+
+            return recycleBinItems.Any((shellItem) => shellItem.RecyclePath == item.Path);
+        }
+
+        public async Task<bool> IsRecycleBinItem(string path)
+        {
+            List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();
+
+            if (recycleBinItems == null)
+                return false;
+
+            return recycleBinItems.Any((shellItem) => shellItem.RecyclePath == path);
+        }
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            this.Connection?.Dispose();
+            this._associatedInstance?.Dispose();
+
+            this._associatedInstance = null;
+        }
+
+        #endregion
     }
 }

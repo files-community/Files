@@ -6,7 +6,7 @@ namespace Files
     /// Contains all kinds of return status
     /// </summary>
     [Flags]
-    public enum Status : byte
+    public enum ReturnResult : byte
     {
         /// <summary>
         /// Informs that operation is still in progress

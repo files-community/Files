@@ -30,7 +30,7 @@ namespace Files.Filesystem
 
         private IShellPage _associatedInstance;
 
-        private AppServiceConnection _connection => _associatedInstance?.ServiceConnection;
+        private RecycleBinHelpers _recycleBinHelpers;
 
         #endregion
 
@@ -39,6 +39,7 @@ namespace Files.Filesystem
         public FilesystemOperations(IShellPage associatedInstance)
         {
             this._associatedInstance = associatedInstance;
+            this._recycleBinHelpers = new RecycleBinHelpers(this._associatedInstance);
         }
 
         #endregion
@@ -273,7 +274,7 @@ namespace Files.Filesystem
 
             if (fsResult == FilesystemErrorCode.ERROR_UNAUTHORIZED)
             {
-                if (permanently)
+                if (!permanently)
                 {
                     // Try again with fulltrust process
                     if (_associatedInstance.FilesystemViewModel.Connection != null)
@@ -323,7 +324,7 @@ namespace Files.Filesystem
                 if (!permanently)
                 {
                     // Enumerate Recycle Bin
-                    List<ShellFileItem> items = await RecycleBinHelpers.EnumerateRecycleBin(this._connection);
+                    List<ShellFileItem> items = await this._recycleBinHelpers.EnumerateRecycleBin();
 
                     // Get name matching files
                     List<ShellFileItem> nameMatchItems = items.Where((item) => item.FileName == source.Name).ToList();
@@ -535,9 +536,10 @@ namespace Files.Filesystem
 
         public void Dispose()
         {
-            this._connection?.Dispose();
             this._associatedInstance?.Dispose();
+            this._recycleBinHelpers?.Dispose();
 
+            this._recycleBinHelpers = null;
             this._associatedInstance = null;
         }
 

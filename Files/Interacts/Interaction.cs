@@ -783,7 +783,7 @@ namespace Files.Interacts
 
         public async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-            await this._filesystemHelpers.DeleteItemsAsync(await AssociatedInstance.ContentPage.SelectedItems.ToStorageItemCollection(), true, false, true);
+            await this._filesystemHelpers.DeleteItemsAsync(await AssociatedInstance.ContentPage.SelectedItems.ToSafeStorageItemCollection(AssociatedInstance), true, false, true);
         }
 
         public void RenameItem_Click(object sender, RoutedEventArgs e)

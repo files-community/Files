@@ -5,14 +5,14 @@ namespace Files.Helpers
 {
     public static class PostBannerHelpers
     {
-        public static void PostBanner_Delete(Status status, FileOperationType operation, Stopwatch sw, IShellPage associatedInstance)
+        public static void PostBanner_Delete(ReturnResult status, FileOperationType operation, Stopwatch sw, IShellPage associatedInstance)
         {
-            if (status == Status.Failed ||
-                status == Status.UnknownException ||
-                status == Status.IntegrityCheckFailed ||
-                status == Status.AccessUnauthorized)
+            if (status == ReturnResult.Failed ||
+                status == ReturnResult.UnknownException ||
+                status == ReturnResult.IntegrityCheckFailed ||
+                status == ReturnResult.AccessUnauthorized)
             {
-                if (status == Status.AccessUnauthorized)
+                if (status == ReturnResult.AccessUnauthorized)
                 {
                     associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                         "AccessDeniedDeleteDialog/Title".GetLocalized(),
@@ -21,7 +21,7 @@ namespace Files.Helpers
                         status,
                         operation);
                 }
-                else if (status == Status.IntegrityCheckFailed)
+                else if (status == ReturnResult.IntegrityCheckFailed)
                 {
                     associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                         "FileNotFoundDialog/Title".GetLocalized(),
@@ -30,7 +30,7 @@ namespace Files.Helpers
                         status,
                         operation);
                 }
-                else if (status == Status.Failed || status == Status.UnknownException)
+                else if (status == ReturnResult.Failed || status == ReturnResult.UnknownException)
                 {
                     associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                         "Deletion Failed",
@@ -47,7 +47,7 @@ namespace Files.Helpers
                         "Deletion Complete",
                         "The operation has completed.",
                         0,
-                        Status.Success,
+                        ReturnResult.Success,
                         operation);
                     }
                     else if (operation == FileOperationType.Recycle)
@@ -56,7 +56,7 @@ namespace Files.Helpers
                         "Recycle Complete",
                         "The operation has completed.",
                         0,
-                        Status.Success,
+                        ReturnResult.Success,
                         operation);
                     }
                 }
