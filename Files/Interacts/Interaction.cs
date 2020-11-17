@@ -848,7 +848,9 @@ namespace Files.Interacts
                 else
                 {
                     if (!AppSettings.ShowFileExtensions)
+                    {
                         newName += item.FileExtension;
+                    }
 
                     renamed = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
                         .OnSuccess(t => t.RenameAsync(newName, NameCollisionOption.FailIfExists).AsTask());
