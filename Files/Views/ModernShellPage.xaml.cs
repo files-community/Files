@@ -978,6 +978,19 @@ namespace Files.Views.Pages
                     NavigationToolbar.IsEditModeEnabled = true;
                     break;
             };
+
+            if (CurrentPageType == typeof(GridViewBrowser))
+            {
+                switch (args.KeyboardAccelerator.Key)
+                {
+                    case VirtualKey.F2: //F2, rename	
+                        if (ContentPage.IsItemSelected)
+                        {
+                            InteractionOperations.RenameItem_Click(null, null);
+                        }
+                        break;
+                }
+            }
         }
 
         public async void Refresh_Click()
