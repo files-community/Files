@@ -191,5 +191,17 @@ namespace Files.UserControls.MultitaskingControl
                 sender.SelectedIndex = selectedTabViewItemIndex;
             }
         }
+
+        private void TabItemContextMenu_Opening(object sender, object e)
+        {
+            if (MainPage.MultitaskingControl.Items.Count == 1)
+            {
+                MenuItemMoveTabToNewWindow.IsEnabled = false;
+            }
+            else
+            {
+                MenuItemMoveTabToNewWindow.IsEnabled = true;
+            }
+        }
     }
 }

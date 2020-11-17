@@ -173,6 +173,48 @@ namespace Files.Views
             await AddNewTabByPathAsync(typeof(ModernShellPage), "NewTab".GetLocalized());
         }
 
+        public static async void AddNewTabAtIndex(object sender, RoutedEventArgs e)
+        {
+            var tabItem = ((FrameworkElement)sender).DataContext as TabItem;
+            var index = MainPage.AppInstances.IndexOf(tabItem);
+            await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), "NewTab".GetLocalized(), index + 1);
+        }
+        
+        public static async void DuplicateTabAtIndex(object sender, RoutedEventArgs e)
+        {
+            var tabItem = ((FrameworkElement)sender).DataContext as TabItem;
+            var index = MainPage.AppInstances.IndexOf(tabItem);
+
+            if (MainPage.AppInstances[index].Path != null)
+            {
+                await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), MainPage.AppInstances[index].Path, index + 1);
+            }
+            else
+            {
+                await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), "NewTab".GetLocalized(), index + 1);
+            }
+        }
+        
+        public static async void MoveTabToNewWindow(object sender, RoutedEventArgs e)
+        {
+            var tabItem = ((FrameworkElement)sender).DataContext as TabItem;
+            var index = MainPage.AppInstances.IndexOf(tabItem);
+            var path = MainPage.AppInstances[index].Path;
+
+            MainPage.MultitaskingControl.Items.RemoveAt(index);
+
+            if (path != null)
+            {
+                var folderUri = new Uri("files-uwp:" + "?folder=" + path);
+                await Launcher.LaunchUriAsync(folderUri);
+            }
+            else
+            {
+                var folderUri = new Uri("files-uwp:" + "?folder=" + "NewTab".GetLocalized());
+                await Launcher.LaunchUriAsync(folderUri);
+            }
+        }
+
         public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
         {
             string tabLocationHeader = null;
