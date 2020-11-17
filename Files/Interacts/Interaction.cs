@@ -783,7 +783,7 @@ namespace Files.Interacts
 
         public async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-            await this._filesystemHelpers.DeleteItemsAsync(await AssociatedInstance.ContentPage.SelectedItems.ToSafeStorageItemCollection(AssociatedInstance), true, false, true);
+            await this._filesystemHelpers.DeleteItemsAsync(await AssociatedInstance.ContentPage.SelectedItems.ToStorageItemCollection(), true, false, true);
         }
 
         public void RenameItem_Click(object sender, RoutedEventArgs e)
@@ -937,25 +937,6 @@ namespace Files.Interacts
                     await this._filesystemHelpers.RestoreFromTrashAsync($"{(listedItem as RecycleBinItem).ItemPath}|{itemType.ToString()}", (listedItem as RecycleBinItem).ItemOriginalPath, true);
                 }
             }
-        }
-
-        public async Task<StorageFolder> MoveDirectoryAsync(StorageFolder SourceFolder, StorageFolder DestinationFolder, string sourceRootName)
-        {
-            var createdRoot = await DestinationFolder.CreateFolderAsync(sourceRootName, CreationCollisionOption.FailIfExists);
-            DestinationFolder = createdRoot;
-
-            foreach (StorageFile fileInSourceDir in await SourceFolder.GetFilesAsync())
-            {
-                await fileInSourceDir.MoveAsync(DestinationFolder, fileInSourceDir.Name, NameCollisionOption.FailIfExists);
-            }
-            foreach (StorageFolder folderinSourceDir in await SourceFolder.GetFoldersAsync())
-            {
-                await MoveDirectoryAsync(folderinSourceDir, DestinationFolder, folderinSourceDir.Name);
-            }
-
-            App.JumpList.RemoveFolder(SourceFolder.Path);
-
-            return createdRoot;
         }
 
         public async void CutItem_Click(object sender, RoutedEventArgs e)

@@ -67,7 +67,11 @@ namespace Files.Filesystem
         {
             bool deleteFromRecycleBin = false;
             foreach (IStorageItem item in source) /*_associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);*/
-                if (await this._recycleBinHelpers.IsRecycleBinItem(item)) deleteFromRecycleBin = true;
+                if (await this._recycleBinHelpers.IsRecycleBinItem(item)) 
+                { 
+                    deleteFromRecycleBin = true; 
+                    break; 
+                }
 
             PostedStatusBanner banner;
             if (permanently)

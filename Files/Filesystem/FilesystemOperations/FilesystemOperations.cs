@@ -376,7 +376,7 @@ namespace Files.Filesystem
 
                 if (sourceFolder)
                 {
-                    fsResult = await FilesystemTasks.Wrap(() => MoveAsync(sourceFolder.Result, destination, progress, errorCode, cancellationToken))
+                    fsResult = await FilesystemTasks.Wrap(async () => MoveDirectoryAsync(sourceFolder.Result, (StorageFolder)await Path.GetDirectoryName(destination).ToStorageItem(), Path.GetFileName(destination)))
                                 .OnSuccess(t => sourceFolder.Result.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
                 }
                 errorCode?.Report(fsResult);
@@ -438,6 +438,25 @@ namespace Files.Filesystem
             {
                 await CloneDirectoryAsync(folderinSourceDir, destinationFolder, folderinSourceDir.Name);
             }
+
+            return createdRoot;
+        }
+
+        public static async Task<StorageFolder> MoveDirectoryAsync(StorageFolder SourceFolder, StorageFolder DestinationFolder, string sourceRootName)
+        {
+            StorageFolder createdRoot = await DestinationFolder.CreateFolderAsync(sourceRootName, CreationCollisionOption.FailIfExists);
+            DestinationFolder = createdRoot;
+
+            foreach (StorageFile fileInSourceDir in await SourceFolder.GetFilesAsync())
+            {
+                await fileInSourceDir.MoveAsync(DestinationFolder, fileInSourceDir.Name, NameCollisionOption.FailIfExists);
+            }
+            foreach (StorageFolder folderinSourceDir in await SourceFolder.GetFoldersAsync())
+            {
+                await MoveDirectoryAsync(folderinSourceDir, DestinationFolder, folderinSourceDir.Name);
+            }
+
+            App.JumpList.RemoveFolder(SourceFolder.Path);
 
             return createdRoot;
         }

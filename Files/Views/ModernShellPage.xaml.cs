@@ -901,7 +901,7 @@ namespace Files.Views.Pages
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
                     if (!NavigationToolbar.IsEditModeEnabled)
                     {
-                        await this._filesystemHelpers.DeleteItemsAsync(await this.ContentPage.SelectedItems.ToSafeStorageItemCollection(this), true, true, true);
+                        await this._filesystemHelpers.DeleteItemsAsync(await this.ContentPage.SelectedItems.ToStorageItemCollection(), true, true, true);
                     }
 
                     break;
@@ -965,7 +965,7 @@ namespace Files.Views.Pages
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
                     if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem)
                     {
-                        await this._filesystemHelpers.DeleteItemsAsync(await this.ContentPage.SelectedItems.ToSafeStorageItemCollection(this), true, false, true);
+                        await this._filesystemHelpers.DeleteItemsAsync(await this.ContentPage.SelectedItems.ToStorageItemCollection(), true, false, true);
                     }
 
                     break;
