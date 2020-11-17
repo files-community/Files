@@ -983,7 +983,7 @@ namespace Files.Views.Pages
             {
                 switch (args.KeyboardAccelerator.Key)
                 {
-                    case VirtualKey.F2: //F2, rename	
+                    case VirtualKey.F2: //F2, rename
                         if (ContentPage.IsItemSelected)
                         {
                             InteractionOperations.RenameItem_Click(null, null);

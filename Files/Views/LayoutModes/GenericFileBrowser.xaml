@@ -135,7 +135,7 @@
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe916;" />
                 </MenuFlyoutItem.Icon>
                 <MenuFlyoutItem.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="F5" />
+                    <KeyboardAccelerator Key="F5" IsEnabled="False" />
                 </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
@@ -172,7 +172,7 @@
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe903;" />
                 </MenuFlyoutSubItem.Icon>
                 <MenuFlyoutSubItem.KeyboardAccelerators>
-                    <KeyboardAccelerator Modifiers="Control,Shift" Key="N" />
+                    <KeyboardAccelerator Modifiers="Control,Shift" Key="N" IsEnabled="False" />
                 </MenuFlyoutSubItem.KeyboardAccelerators>
                 <MenuFlyoutItem
                     x:Name="NewFolder"
@@ -287,7 +287,7 @@
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe916;" />
                 </MenuFlyoutItem.Icon>
                 <MenuFlyoutItem.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="F5" />
+                    <KeyboardAccelerator Key="F5" IsEnabled="False" />
                 </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
