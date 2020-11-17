@@ -298,7 +298,7 @@ namespace Files
                     {
                         tapDebounceTimer.Stop();
                         AllView.BeginEdit(); // EditingEventArgs will be null
-                    }, TimeSpan.FromMilliseconds(500), false);
+                    }, TimeSpan.FromMilliseconds(1000), false);
                 }
                 else
                 {
