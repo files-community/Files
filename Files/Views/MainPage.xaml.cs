@@ -175,11 +175,9 @@ namespace Files.Views
 
         public static async void AddNewTabAtIndex(object sender, RoutedEventArgs e)
         {
-            var tabItem = ((FrameworkElement)sender).DataContext as TabItem;
-            var index = MainPage.AppInstances.IndexOf(tabItem);
-            await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), "NewTab".GetLocalized(), index + 1);
+            await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), "NewTab".GetLocalized());
         }
-        
+
         public static async void DuplicateTabAtIndex(object sender, RoutedEventArgs e)
         {
             var tabItem = ((FrameworkElement)sender).DataContext as TabItem;
@@ -187,14 +185,14 @@ namespace Files.Views
 
             if (MainPage.AppInstances[index].Path != null)
             {
-                await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), MainPage.AppInstances[index].Path, index + 1);
+                await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), MainPage.AppInstances[index].Path);
             }
             else
             {
-                await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), "NewTab".GetLocalized(), index + 1);
+                await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), "NewTab".GetLocalized());
             }
         }
-        
+
         public static async void MoveTabToNewWindow(object sender, RoutedEventArgs e)
         {
             var tabItem = ((FrameworkElement)sender).DataContext as TabItem;
