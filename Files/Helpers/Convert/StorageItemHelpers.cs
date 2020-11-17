@@ -12,20 +12,38 @@ namespace Files.Helpers
     /// </summary>
     public static class StorageItemHelpers
     {
-        public static async Task<IStorageItem> ToStorageItem(this string path) 
+        public static async Task<IStorageItem> ToStorageItem(this string path) // TODO: If the TODO of IStorageItemWithPath is implemented, change return type to IStorageItem
         {
-            FilesystemResult<StorageFile> fsFileResult = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
+            StorageFolderWithPath rootFolder = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+
+            FilesystemResult<StorageFile> fsFileResult = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path, rootFolder));
 
             if (fsFileResult)
             {
-                return fsFileResult.Result;
+                if (!string.IsNullOrWhiteSpace(fsFileResult.Result.Path))
+                    return fsFileResult.Result;
+                else
+                {
+                    FilesystemResult<StorageFileWithPath> fsFileWithPathResult = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(path, rootFolder));
+
+                    if (fsFileWithPathResult)
+                        return /* fsFileWithPathResult.Result */ null; // Could be done if IStorageItemWithPath implemented IStorageItem
+                }
             }
 
             FilesystemResult<StorageFolder> fsFolderResult = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
 
             if (fsFolderResult)
             {
-                return fsFolderResult.Result;
+                 if (!string.IsNullOrWhiteSpace(fsFolderResult.Result.Path))
+                    return fsFolderResult.Result;
+                else
+                {
+                    FilesystemResult<StorageFolderWithPath> fsFolderWithPathResult = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path, rootFolder));
+
+                    if (fsFolderWithPathResult)
+                        return /* fsFolderWithPathResult.Result; */ null; // Could be done if IStorageItemWithPath implemented IStorageItem
+                }
             }
 
             return null;
@@ -33,7 +51,7 @@ namespace Files.Helpers
 
         public static async Task<bool?> IsOfType(this string path, StorageItemTypes type)
         {
-            IStorageItem item = await path.ToStorageItem();
+            IStorageItem item = await path.ToStorageItem() is IStorageItem storageItem ? storageItem : null;
             return item?.IsOfType(type);
         }
 

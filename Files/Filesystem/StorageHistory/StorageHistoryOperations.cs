@@ -63,7 +63,7 @@ namespace Files.Filesystem.FilesystemHistory
                         NameCollisionOption collision = NameCollisionOption.GenerateUniqueName;
                         for (int i = 0; i < history.Source.Count(); i++)
                         {
-                            await this._filesystemOperations.RenameAsync(await history.Source.ElementAt(i).ToStorageItem(), Path.GetFileName(history.Destination.ElementAt(i)), collision, errorCode, this._cancellationToken);
+                            await this._filesystemOperations.RenameAsync(await history.Source.ElementAt(i).ToStorageItem() as IStorageItem, Path.GetFileName(history.Destination.ElementAt(i)), collision, errorCode, this._cancellationToken);
                         }
 
                         break;
@@ -73,7 +73,7 @@ namespace Files.Filesystem.FilesystemHistory
                     {
                         for (int i = 0; i < history.Source.Count(); i++)
                         {
-                            returnStatus = await this._filesystemHelpers.CopyItemAsync(await history.Source.ElementAt(i).ToStorageItem(), history.Destination.ElementAt(i), false);
+                            returnStatus = await this._filesystemHelpers.CopyItemAsync(await history.Source.ElementAt(i).ToStorageItem() as IStorageItem, history.Destination.ElementAt(i), false);
                         }
 
                         break;
@@ -83,7 +83,7 @@ namespace Files.Filesystem.FilesystemHistory
                     {
                         for (int i = 0; i < history.Source.Count(); i++)
                         {
-                            await this._filesystemHelpers.MoveItemAsync(await history.Source.ElementAt(i).ToStorageItem(), history.Destination.ElementAt(i), false);
+                            await this._filesystemHelpers.MoveItemAsync(await history.Source.ElementAt(i).ToStorageItem() as IStorageItem, history.Destination.ElementAt(i), false);
                         }
 
                         break;
@@ -103,7 +103,7 @@ namespace Files.Filesystem.FilesystemHistory
 
                         for (int i = 0; i < history.Source.Count(); i++)
                         {
-                            IStorageHistory history1 = await this._filesystemOperations.DeleteAsync(await history.Source.ElementAt(i).ToStorageItem(), null, errorCode, false, this._cancellationToken);
+                            IStorageHistory history1 = await this._filesystemOperations.DeleteAsync(await history.Source.ElementAt(i).ToStorageItem() as IStorageItem, null, errorCode, false, this._cancellationToken);
                             rawHistory.Add(history1);
                         }
 
@@ -149,7 +149,7 @@ namespace Files.Filesystem.FilesystemHistory
                     {
                         // Opposite: Delete created items
 
-                        return await this._filesystemHelpers.DeleteItemsAsync(await history.Source.ToStorageItemCollection(), false, true, false);
+                        return await this._filesystemHelpers.DeleteItemsAsync(await history.Source.ToStorageItemCollection() as IEnumerable<IStorageItem>, false, true, false);
                     }
 
                 case FileOperationType.Rename: // Rename PASS
@@ -159,7 +159,7 @@ namespace Files.Filesystem.FilesystemHistory
                         NameCollisionOption collision = NameCollisionOption.GenerateUniqueName;
                         for (int i = 0; i < history.Destination.Count(); i++)
                         {
-                            await this._filesystemOperations.RenameAsync(await history.Destination.ElementAt(i).ToStorageItem(), Path.GetFileName(history.Source.ElementAt(i)), collision, errorCode, this._cancellationToken);
+                            await this._filesystemOperations.RenameAsync(await history.Destination.ElementAt(i).ToStorageItem() as IStorageItem, Path.GetFileName(history.Source.ElementAt(i)), collision, errorCode, this._cancellationToken);
                         }
 
                         break;
@@ -169,7 +169,7 @@ namespace Files.Filesystem.FilesystemHistory
                     {
                         // Opposite: Delete copied items
 
-                        return await this._filesystemHelpers.DeleteItemsAsync(await history.Destination.ToStorageItemCollection(), false, true, false);
+                        return await this._filesystemHelpers.DeleteItemsAsync(await history.Destination.ToStorageItemCollection() as IEnumerable<IStorageItem>, false, true, false);
                     }
 
                 case FileOperationType.Move: // Move PASS
@@ -178,7 +178,7 @@ namespace Files.Filesystem.FilesystemHistory
 
                         for (int i = 0; i < history.Destination.Count(); i++)
                         {
-                            returnStatus = await this._filesystemHelpers.MoveItemAsync(await history.Destination.ElementAt(i).ToStorageItem(), history.Source.ElementAt(i), false);
+                            returnStatus = await this._filesystemHelpers.MoveItemAsync(await history.Destination.ElementAt(i).ToStorageItem() as IStorageItem, history.Source.ElementAt(i), false);
                         }
 
                         break;
@@ -214,7 +214,7 @@ namespace Files.Filesystem.FilesystemHistory
 
                         for (int i = 0; i < history.Destination.Count(); i++)
                         {
-                            IStorageHistory history1 = await this._filesystemOperations.DeleteAsync(await history.Destination.ElementAt(i).ToStorageItem(), null, errorCode, false, this._cancellationToken);
+                            IStorageHistory history1 = await this._filesystemOperations.DeleteAsync(await history.Destination.ElementAt(i).ToStorageItem() as IStorageItem, null, errorCode, false, this._cancellationToken);
                             rawHistory.Add(history1);
                         }
 

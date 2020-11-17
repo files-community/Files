@@ -25,7 +25,7 @@ namespace Files.Filesystem
         /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
         /// <returns><see cref="IStorageHistory"/> where:
         /// <br/>
-        /// Source: The created item full path (<see cref="string"/>)
+        /// Source: The created item fullPath (<see cref="string"/>)
         /// <br/>
         /// Destination: The <see cref="FilesystemItemType"/> (as <see cref="string"/>) of created item
         /// </returns>
@@ -41,9 +41,9 @@ namespace Files.Filesystem
         /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
         /// <returns><see cref="IStorageHistory"/> where:
         /// <br/>
-        /// Source: The <paramref name="source"/> item full path (<see cref="string"/>)
+        /// Source: The <paramref name="source"/> item fullPath (<see cref="string"/>)
         /// <br/>
-        /// Destination: The <paramref name="destination"/> item full path (<see cref="string"/>) the <paramref name="source"/> was copied
+        /// Destination: The <paramref name="destination"/> item fullPath (<see cref="string"/>) the <paramref name="source"/> was copied
         /// </returns>
         Task<IStorageHistory> CopyAsync(IStorageItem source, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
 
@@ -57,9 +57,9 @@ namespace Files.Filesystem
         /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
         /// <returns><see cref="IStorageHistory"/> where:
         /// <br/>
-        /// Source: The source item full path (<see cref="string"/>)
+        /// Source: The source item fullPath (<see cref="string"/>)
         /// <br/>
-        /// Destination: The <paramref name="destination"/> item full path (<see cref="string"/>) the <paramref name="source"/> was moved
+        /// Destination: The <paramref name="destination"/> item fullPath (<see cref="string"/>) the <paramref name="source"/> was moved
         /// </returns>
         Task<IStorageHistory> MoveAsync(IStorageItem source, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
 
@@ -73,7 +73,7 @@ namespace Files.Filesystem
         /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
         /// <returns><see cref="IStorageHistory"/> where:
         /// <br/>
-        /// Source: The deleted item full path (<see cref="string"/>)
+        /// Source: The deleted item fullPath (<see cref="string"/>)
         /// <br/>
         /// Destination:
         /// <br/>
@@ -87,6 +87,30 @@ namespace Files.Filesystem
         Task<IStorageHistory> DeleteAsync(IStorageItem source, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, bool permanently, CancellationToken cancellationToken);
 
         /// <summary>
+        /// Deletes <paramref name="source"/>
+        /// </summary>
+        /// <param name="source">The source to delete</param>
+        /// <param name="itemType">Type of the item</param>
+        /// <param name="progress">Progress of the operation</param>
+        /// <param name="errorCode">Status of the operation</param>
+        /// <param name="permanently">Determines whether <paramref name="source"/> is be deleted permanently</param>
+        /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
+        /// <returns><see cref="IStorageHistory"/> where:
+        /// <br/>
+        /// Source: The deleted item fullPath (<see cref="string"/>)
+        /// <br/>
+        /// Destination:
+        /// <br/>
+        /// Returns null if <paramref name="permanently"/> was true
+        /// <br/>
+        /// If <paramref name="permanently"/> was false, returns path to recycled item followed by <see cref="FilesystemItemType"/> (separated by | symbol):
+        /// <br/>
+        /// <br/>
+        /// <code>&lt;RecycleBinPath&gt;|&lt;<see cref="FilesystemItemType"/>&gt;</code>
+        /// </returns>
+        Task<IStorageHistory> DeleteAsync(string source, FilesystemItemType itemType, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, bool permanently, CancellationToken cancellationToken);
+
+        /// <summary>
         /// Renames <paramref name="source"/> with <paramref name="newName"/>
         /// </summary>
         /// <param name="source">The item to rename</param>
@@ -96,9 +120,9 @@ namespace Files.Filesystem
         /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
         /// <returns><see cref="IStorageHistory"/> where:
         /// <br/>
-        /// Source: The original item full path (<see cref="string"/>)
+        /// Source: The original item fullPath (<see cref="string"/>)
         /// <br/>
-        /// Destination: The renamed item full path (<see cref="string"/>)
+        /// Destination: The renamed item fullPath (<see cref="string"/>)
         /// </returns>
         Task<IStorageHistory> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
 
@@ -115,9 +139,9 @@ namespace Files.Filesystem
         /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
         /// <returns><see cref="IStorageHistory"/> where:
         /// <br/>
-        /// Source: The trash item full path
+        /// Source: The trash item fullPath
         /// <br/>
-        /// Destination: The <paramref name="destination"/> item full path (<see cref="string"/>) the <paramref name="source"/> has been restored
+        /// Destination: The <paramref name="destination"/> item fullPath (<see cref="string"/>) the <paramref name="source"/> has been restored
         /// </returns>
         Task<IStorageHistory> RestoreFromTrashAsync(string source, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
     }

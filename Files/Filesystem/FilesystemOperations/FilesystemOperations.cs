@@ -250,9 +250,7 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> DeleteAsync(IStorageItem source, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, bool permanently, CancellationToken cancellationToken)
         {
-            bool deleteFromRecycleBin = _associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
-            //if (deleteFromRecycleBin) // TODO: Causes issues with Undo.Restore
-            //    permanently = true;
+            bool deleteFromRecycleBin = await _recycleBinHelpers.IsRecycleBinItem(source);
 
             FilesystemResult fsResult = FilesystemErrorCode.ERROR_INPROGRESS;
             FilesystemItemType itemType = source.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory;
@@ -260,15 +258,31 @@ namespace Files.Filesystem
             errorCode?.Report(fsResult);
             progress?.Report(0.0f);
 
-            if (source.IsOfType(StorageItemTypes.File))
+            if (source is IStorageItemWithPath sourceWithPath)
             {
-                fsResult = await _associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source.Path)
-                    .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
+                if (sourceWithPath.Item.IsOfType(StorageItemTypes.File))
+                {
+                    fsResult = await _associatedInstance.FilesystemViewModel.GetFileFromPathAsync(sourceWithPath.Path)
+                        .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
+                }
+                else if (sourceWithPath.Item.IsOfType(StorageItemTypes.Folder))
+                {
+                    fsResult = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(sourceWithPath.Path)
+                        .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
+                }
             }
-            else if (source.IsOfType(StorageItemTypes.Folder))
+            else
             {
-                fsResult = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.Path)
-                    .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
+                if (source.IsOfType(StorageItemTypes.File))
+                {
+                    fsResult = await _associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source.Path)
+                        .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
+                }
+                else if (source.IsOfType(StorageItemTypes.Folder))
+                {
+                    fsResult = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.Path)
+                        .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
+                }
             }
             errorCode?.Report(fsResult);
 
@@ -336,6 +350,101 @@ namespace Files.Filesystem
                 }
 
                 return new StorageHistory(FileOperationType.Delete, source.Path, null);
+            }
+            else
+            {
+                // Stop at first error
+                return null;
+            }
+        }
+
+        public async Task<IStorageHistory> DeleteAsync(string source, FilesystemItemType itemType, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, bool permanently, CancellationToken cancellationToken)
+        {
+            bool deleteFromRecycleBin = await _recycleBinHelpers.IsRecycleBinItem(source);
+
+            FilesystemResult fsResult = FilesystemErrorCode.ERROR_INPROGRESS;
+
+            errorCode?.Report(fsResult);
+            progress?.Report(0.0f);
+
+
+            if (itemType == FilesystemItemType.File)
+            {
+                fsResult = await _associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source)
+                    .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
+            }
+            else if (itemType == FilesystemItemType.Directory)
+            {
+                fsResult = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source)
+                    .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
+            }
+
+            errorCode?.Report(fsResult);
+
+            if (fsResult == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+            {
+                if (!permanently)
+                {
+                    // Try again with fulltrust process
+                    if (_associatedInstance.FilesystemViewModel.Connection != null)
+                    {
+                        AppServiceResponse response = await _associatedInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet()
+                        {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "MoveToBin" },
+                            { "filepath", source }
+                        });
+                        fsResult = (FilesystemResult)(response.Status == AppServiceResponseStatus.Success);
+                    }
+                }
+                else
+                {
+                    // Try again with DeleteFileFromApp
+                    if (!NativeFileOperationsHelper.DeleteFileFromApp(source))
+                    {
+                        Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
+                    }
+                    else
+                    {
+                        fsResult = (FilesystemResult)true;
+                    }
+                }
+            }
+            else if (fsResult == FilesystemErrorCode.ERROR_INUSE)
+            {
+                // TODO: retry or show dialog
+                await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), "FileInUseDeleteDialog/Text".GetLocalized());
+            }
+
+            if (deleteFromRecycleBin)
+            {
+                // Recycle bin also stores a file starting with $I for each item
+                string iFilePath = Path.Combine(Path.GetDirectoryName(source), Path.GetFileName(source).Replace("$R", "$I"));
+                await _associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
+                    .OnSuccess(t => t.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
+            }
+            errorCode?.Report(fsResult);
+            progress?.Report(100.0f);
+
+            if (fsResult)
+            {
+                await _associatedInstance.FilesystemViewModel.RemoveFileOrFolderAsync(source);
+
+                if (!permanently)
+                {
+                    // Enumerate Recycle Bin
+                    List<ShellFileItem> items = await this._recycleBinHelpers.EnumerateRecycleBin();
+
+                    // Get name matching files
+                    List<ShellFileItem> nameMatchItems = items.Where((item) => item.FileName == Path.GetFileName(source)).ToList();
+
+                    // Get newest file
+                    ShellFileItem item = nameMatchItems.Where((item) => item.RecycleDate != null).OrderBy((item) => item.RecycleDate).FirstOrDefault();
+
+                    return new StorageHistory(FileOperationType.Recycle, source, $"{item.RecyclePath}|{itemType.ToString()}");
+                }
+
+                return new StorageHistory(FileOperationType.Delete, source, null);
             }
             else
             {

@@ -66,7 +66,7 @@ namespace Files.Filesystem
         public async Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItem> source, bool showDialog, bool permanently, bool registerHistory)
         {
             bool deleteFromRecycleBin = false;
-            foreach (IStorageItem item in source) /*_associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);*/
+            foreach (IStorageItem item in source)
                 if (await this._recycleBinHelpers.IsRecycleBinItem(item)) 
                 { 
                     deleteFromRecycleBin = true; 
