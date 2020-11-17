@@ -237,6 +237,7 @@ namespace Files
             else if (e.Key == VirtualKey.Enter)
             {
                 TextBox textBox = sender as TextBox;
+                textBox.LostFocus -= RenameTextBox_LostFocus;
                 CommitRename(textBox);
                 e.Handled = true;
             }
