@@ -1206,4 +1206,13 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Eject</value>
   </data>
+  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+    <value>Duplicate tab</value>
+  </data>
+  <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
+    <value>Move tab to new window</value>
+  </data>
+  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+    <value>New tab</value>
+  </data>
 </root>
