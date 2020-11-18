@@ -195,9 +195,6 @@
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>प्राथमिकताएँ</value>
   </data>
-  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>खोजें</value>
-  </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
     <value>चेतावनी: प्रयोगात्मक विशेषताएं आगे!</value>
   </data>

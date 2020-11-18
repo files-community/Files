@@ -195,9 +195,6 @@
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>ପସନ୍ଦ</value>
   </data>
-  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>ସନ୍ଧାନ କର</value>
-  </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
     <value>ଚେତାବନୀ: ପରୀକ୍ଷାମୂଳକ ବୈଶିଷ୍ଟ୍ୟଗୁଡିକ!</value>
   </data>

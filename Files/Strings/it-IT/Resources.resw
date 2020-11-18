@@ -177,9 +177,6 @@
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferenze</value>
   </data>
-  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>Cerca</value>
-  </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Riprendi da dove eri rimasto</value>
   </data>
@@ -995,9 +992,6 @@
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Chiedi conferma prima di eliminare file e cartelle</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Header" xml:space="preserve">
-    <value>Mostra lettera dell'unità</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>Mostra estensione per i tipi di file conosciuti</value>

@@ -90,9 +90,6 @@
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Opcje</value>
   </data>
-  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>Szukaj</value>
-  </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Kontynuuj poprzednią sejsę</value>
   </data>
