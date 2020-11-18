@@ -1086,4 +1086,7 @@
   <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
     <value>Rejtett fájlok és mappák mutatása</value>
   </data>
+  <data name="EjectNotificationHeader" xml:space="preserve">
+    <value>A hardware eltávolítása biztonságos</value>
+  </data>
 </root>
