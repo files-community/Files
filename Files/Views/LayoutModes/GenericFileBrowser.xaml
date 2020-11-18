@@ -149,7 +149,10 @@
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe9b2;" />
                 </MenuFlyoutItem.Icon>
                 <MenuFlyoutItem.KeyboardAccelerators>
-                    <KeyboardAccelerator Modifiers="Control" Key="V" IsEnabled="False" />
+                    <KeyboardAccelerator
+                        Key="V"
+                        IsEnabled="False"
+                        Modifiers="Control" />
                 </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
@@ -172,7 +175,10 @@
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe903;" />
                 </MenuFlyoutSubItem.Icon>
                 <MenuFlyoutSubItem.KeyboardAccelerators>
-                    <KeyboardAccelerator Modifiers="Control,Shift" Key="N" IsEnabled="False" />
+                    <KeyboardAccelerator
+                        Key="N"
+                        IsEnabled="False"
+                        Modifiers="Control,Shift" />
                 </MenuFlyoutSubItem.KeyboardAccelerators>
                 <MenuFlyoutItem
                     x:Name="NewFolder"
@@ -424,7 +430,10 @@
                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF105;" />
                 </MenuFlyoutItem.Icon>
                 <MenuFlyoutItem.KeyboardAccelerators>
-                    <KeyboardAccelerator Modifiers="Control" Key="X" IsEnabled="False" />
+                    <KeyboardAccelerator
+                        Key="X"
+                        IsEnabled="False"
+                        Modifiers="Control" />
                 </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -436,7 +445,10 @@
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe9d6;" />
                 </MenuFlyoutItem.Icon>
                 <MenuFlyoutItem.KeyboardAccelerators>
-                    <KeyboardAccelerator Modifiers="Control" Key="C" IsEnabled="False" />
+                    <KeyboardAccelerator
+                        Key="C"
+                        IsEnabled="False"
+                        Modifiers="Control" />
                 </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutItem

@@ -18,7 +18,10 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
-                    <MenuFlyout x:Key="TabFlyout" x:Name="TabItemContextMenu" Opening="TabItemContextMenu_Opening">
+                    <MenuFlyout
+                        x:Key="TabFlyout"
+                        x:Name="TabItemContextMenu"
+                        Opening="TabItemContextMenu_Opening">
                         <MenuFlyoutItem
                             x:Uid="HorizontalMultitaskingControlNewTab"
                             Click="{x:Bind views:MainPage.AddNewTabAtIndex}"
