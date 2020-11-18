@@ -243,6 +243,9 @@
     <Compile Include="UserControls\PropertyListItem.xaml.cs">
       <DependentUpon>PropertyListItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\PropertySaveError.xaml.cs">
+      <DependentUpon>PropertySaveError.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\SidebarControl.xaml.cs">
       <DependentUpon>SidebarControl.xaml</DependentUpon>
     </Compile>
@@ -521,6 +524,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\PropertyListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\PropertySaveError.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

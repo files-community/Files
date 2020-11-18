@@ -311,7 +311,6 @@ namespace Files.View_Models.Properties
             ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
 
             SetVisibilities();
-
         }
 
         private void SetVisibilities()
@@ -366,19 +365,12 @@ namespace Files.View_Models.Properties
         }
 
 
-        public async Task<bool> SyncPropertyChanges()
+        public async Task SyncPropertyChanges()
         {
             StorageFile file = null;
-            try
-            {
-                file = await ItemViewModel.GetFileFromPathAsync(Item.ItemPath);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.ToString());
-            }
+            file = await ItemViewModel.GetFileFromPathAsync(Item.ItemPath);
 
-            var failedProperties = new List<string>();
+            var failedProperties = "";
             foreach (var group in ViewModel.PropertySections)
             {
                 foreach (FileProperty prop in group)
@@ -394,13 +386,14 @@ namespace Files.View_Models.Properties
                         }
                         catch (Exception e)
                         {
-                            failedProperties.Add(prop.Name);
+                            failedProperties += $"{prop.Name}\n";
                         }
                     }
                 }
             }
 
-            return failedProperties.Count < 1;
+            if (string.IsNullOrWhiteSpace(failedProperties))
+                throw new Exception($"The following properties failed to save: {failedProperties}");
 
         }
 

@@ -1,6 +1,7 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
+using Files.UserControls;
 using Files.View_Models;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
@@ -172,16 +173,12 @@ namespace Files
             }
             else if (contentFrame.Content is PropertiesDetails)
             {
-                var contentDialog = new ContentDialog()
+                try
                 {
-                    PrimaryButtonText = "Close anyway",
-                    CloseButtonText = "Cancel",
-                    SecondaryButtonText = "Retry",
-                    Content = new TextBlock() { Text = "Properties failed to save" },
-                };
-
-                if (!(await (contentFrame.Content as PropertiesDetails).SaveChanges(listedItem)))
-                    switch (await contentDialog.ShowAsync())
+                    await (contentFrame.Content as PropertiesDetails).SaveChanges(listedItem);
+                } catch (Exception error)
+                {
+                    switch (await new PropertySaveError() { ErrorMessage = error.Message }.ShowAsync())
                     {
                         case ContentDialogResult.Primary:
                             break;
@@ -189,6 +186,7 @@ namespace Files
                         default:
                             return;
                     }
+                }
             }
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))

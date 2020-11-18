@@ -3,6 +3,7 @@ using Files.View_Models;
 using Files.View_Models.Properties;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -83,9 +84,9 @@ namespace Files
             //    new Windows.System.LauncherOptions() { TargetApplicationPackageFamilyName = "Microsoft.WindowsMaps_8wekyb3d8bbwe" });
         }
 
-        public async Task<bool> SaveChanges(ListedItem item)
+        public async Task SaveChanges(ListedItem item)
         {
-            return await (BaseProperties as FileProperties).SyncPropertyChanges();
+            await (BaseProperties as FileProperties).SyncPropertyChanges();
         }
 
         private async void ClearPersonalInformation_Click(object sender, RoutedEventArgs e)

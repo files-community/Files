@@ -1,0 +1,21 @@
+﻿<ContentDialog
+    x:Class="Files.UserControls.PropertySaveError"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Files.UserControls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Error"
+    CloseButtonText="Cancel"
+    PrimaryButtonText="Retry"
+    SecondaryButtonText="Close anyway"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    CornerRadius="3"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+    <StackPanel Spacing="5">
+        <TextBlock Grid.Row="1" Text="Some properties failed to save"/>
+        <ToggleButton Content="More Info" Name="MoreInfoToggle" Click="MoreInfoToggle_Click"/>
+        <TextBlock x:Name="MoreInfoText" Visibility="Collapsed" Text="{x:Bind ErrorMessage, Mode=OneWay}"/>
+    </StackPanel>
+</ContentDialog>
