@@ -348,9 +348,6 @@
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Vernieuwen (F5)</value>
   </data>
-  <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Maak een nieuw item (Ctrl + Shift + N)</value>
-  </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Zoeken</value>
   </data>
@@ -872,9 +869,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Lay-outmodus</value>
-  </data>
-  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Nieuw item maken</value>
   </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>Vooruit gaan</value>

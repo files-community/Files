@@ -520,10 +520,6 @@
           <source>Refresh (F5)</source>
           <target state="translated">புதுப்பி (F5)</target>
         </trans-unit>
-        <trans-unit id="NavNewItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Create a new item (Ctrl + Shift + N)</source>
-          <target state="translated">ஒரு புதிய உருப்படியை உருவாக்கு (Ctrl + Shift + N)</target>
-        </trans-unit>
         <trans-unit id="NavSearchButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Search</source>
           <target state="final" state-qualifier="tm-suggestion">தேடு</target>
@@ -1229,10 +1225,6 @@
         <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
           <target state="translated">தளவமைப்பு முறை</target>
-        </trans-unit>
-        <trans-unit id="NewItemButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Create new item</source>
-          <target state="translated">புதிய உருப்படியை உருவாக்கு</target>
         </trans-unit>
         <trans-unit id="NavBackButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Navigate backwards</source>

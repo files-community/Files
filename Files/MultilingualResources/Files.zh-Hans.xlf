@@ -456,10 +456,6 @@
           <source>Refresh (F5)</source>
           <target state="translated">刷新 (F5)</target>
         </trans-unit>
-        <trans-unit id="NavNewItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Create a new item (Ctrl + Shift + N)</source>
-          <target state="translated">新建 (Ctrl + Shift + N)</target>
-        </trans-unit>
         <trans-unit id="NavSearchButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Search</source>
           <target state="translated">搜索</target>
@@ -1230,10 +1226,6 @@
         <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">布局模式</target>
-        </trans-unit>
-        <trans-unit id="NewItemButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Create new item</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">创建一个新的项目</target>
         </trans-unit>
         <trans-unit id="NavBackButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Navigate backwards</source>

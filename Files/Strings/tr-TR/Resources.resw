@@ -699,9 +699,6 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Düzen modu</value>
   </data>
-  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Yeni öğe oluştur</value>
-  </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>İleri Git</value>
   </data>
