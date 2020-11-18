@@ -207,14 +207,22 @@ namespace Files.Controls
             ShowProperties = true;
             ShowEjectDevice = false;
 
-             if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+            if (item.IsDefaultLocation)
             {
-                RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
-
-                ShowEmptyRecycleBin = true;
                 ShowProperties = false;
-            }
 
+                if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
+
+                    ShowEmptyRecycleBin = true;
+                }
+                else
+                {
+                    ShowUnpinItem = false;
+                }
+            }
+            
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
             App.RightClickedItem = item;
         }
