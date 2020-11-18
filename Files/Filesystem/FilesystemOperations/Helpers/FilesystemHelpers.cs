@@ -125,9 +125,12 @@ namespace Files.Filesystem
                 rawStorageHistory.Add(history1);
             }
 
-            history = new StorageHistory(rawStorageHistory[0].OperationType, rawStorageHistory.SelectMany((item) => item.Source).ToList(), rawStorageHistory.SelectMany((item) => item.Destination).ToList());
-            if (!permanently && registerHistory)
-                App.AddHistory(history);
+            if (rawStorageHistory.TrueForAll((item) => item != null))
+            {
+                history = new StorageHistory(rawStorageHistory[0].OperationType, rawStorageHistory.SelectMany((item) => item.Source).ToList(), rawStorageHistory.SelectMany((item) => item.Destination).ToList());
+                if (!permanently && registerHistory)
+                    App.AddHistory(history);
+            }
 
             banner.Remove();
             sw.Stop();
@@ -255,9 +258,12 @@ namespace Files.Filesystem
                 rawStorageHistory.Add(history1);
             }
 
-            history = new StorageHistory(rawStorageHistory[0].OperationType, rawStorageHistory.SelectMany((item) => item.Source).ToList(), rawStorageHistory.SelectMany((item) => item.Destination).ToList());
-            if (!permanently && registerHistory)
-                App.AddHistory(history);
+            if (rawStorageHistory.TrueForAll((item) => item != null))
+            {
+                history = new StorageHistory(rawStorageHistory[0].OperationType, rawStorageHistory.SelectMany((item) => item.Source).ToList(), rawStorageHistory.SelectMany((item) => item.Destination).ToList());
+                if (!permanently && registerHistory)
+                    App.AddHistory(history);
+            }
 
             banner.Remove();
             sw.Stop();
@@ -380,9 +386,12 @@ namespace Files.Filesystem
                 rawStorageHistory.Add(history1);
             }
 
-            history = new StorageHistory(rawStorageHistory[0].OperationType, rawStorageHistory.SelectMany((item) => item.Source).ToList(), rawStorageHistory.SelectMany((item) => item.Destination).ToList());
-            if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
-                App.AddHistory(history);
+            if (rawStorageHistory.TrueForAll((item) => item != null))
+            {
+                history = new StorageHistory(rawStorageHistory[0].OperationType, rawStorageHistory.SelectMany((item) => item.Source).ToList(), rawStorageHistory.SelectMany((item) => item.Destination).ToList());
+                if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
+                    App.AddHistory(history);
+            }
 
             banner.Remove();
             sw.Stop();
@@ -492,9 +501,12 @@ namespace Files.Filesystem
                 rawStorageHistory.Add(history1);
             }
 
-            history = new StorageHistory(rawStorageHistory[0].OperationType, rawStorageHistory.SelectMany((item) => item.Source).ToList(), rawStorageHistory.SelectMany((item) => item.Destination).ToList());
-            if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
-                App.AddHistory(history);
+            if (rawStorageHistory.TrueForAll((item) => item != null))
+            {
+                history = new StorageHistory(rawStorageHistory[0].OperationType, rawStorageHistory.SelectMany((item) => item.Source).ToList(), rawStorageHistory.SelectMany((item) => item.Destination).ToList());
+                if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
+                    App.AddHistory(history);
+            }
 
             banner.Remove();
             sw.Stop();
