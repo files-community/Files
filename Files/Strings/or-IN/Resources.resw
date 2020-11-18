@@ -402,9 +402,6 @@
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ସତେଜ କର (F5)</value>
   </data>
-  <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ଏକ ନୂତନ ଆଇଟମ୍ ସୃଷ୍ଟି କରନ୍ତୁ (Ctrl + Shift + N)</value>
-  </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ସନ୍ଧାନ କର</value>
   </data>

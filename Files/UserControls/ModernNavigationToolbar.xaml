@@ -852,66 +852,6 @@
             Orientation="Horizontal">
 
             <Button
-                x:Name="NewItemButton"
-                x:Uid="NavNewItemButton"
-                Grid.Row="3"
-                Width="36"
-                Height="32"
-                Margin="0,0,4,0"
-                Padding="0"
-                HorizontalAlignment="Right"
-                x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                AutomationProperties.Name="Create new item"
-                Background="Transparent"
-                CornerRadius="2"
-                FontFamily="Segoe MDL2 Assets"
-                IsEnabled="{x:Bind IsCreateButtonEnabledInPage, Mode=OneWay}"
-                Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Create a new item (Ctrl + Shift + N)"
-                Visibility="Visible">
-                <Button.Content>
-                    <FontIcon
-                        FontFamily="{StaticResource FluentUIGlyphs}"
-                        FontSize="18"
-                        Glyph="&#xE903;" />
-                </Button.Content>
-                <Button.Flyout>
-                    <MenuFlyout Placement="BottomEdgeAlignedRight">
-                        <MenuFlyoutItem
-                            x:Name="ToolbarNewFolderItem"
-                            x:Uid="ModernNavigationToolbaNewFolder"
-                            Command="{x:Bind NewFolderInvokedCommand, Mode=OneWay}"
-                            Text="Folder">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA55;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutSeparator />
-                        <MenuFlyoutItem
-                            x:Name="ToolbarNewImageItem"
-                            x:Uid="ModernNavigationToolbaNewBitmapImage"
-                            Command="{x:Bind NewImageInvokedCommand, Mode=OneWay}"
-                            IsEnabled="{x:Bind CanCreateFileInPage, Mode=OneWay}"
-                            Text="Bitmap Image">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA83;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            x:Name="ToolbarNewDocumentItem"
-                            x:Uid="ModernNavigationToolbaNewTextDocument"
-                            Command="{x:Bind NewDocumentInvokedCommand, Mode=OneWay}"
-                            IsEnabled="{x:Bind CanCreateFileInPage, Mode=OneWay}"
-                            Text="Text Document">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA00;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                    </MenuFlyout>
-                </Button.Flyout>
-            </Button>
-
-            <Button
                 x:Name="SearchButton"
                 x:Uid="NavSearchButton"
                 Grid.Row="3"
@@ -1009,7 +949,10 @@
                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF104;" />
                             </MenuFlyoutItem.Icon>
                             <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator Modifiers="Control" Key="T" IsEnabled="False" />
+                                <KeyboardAccelerator
+                                    Key="T"
+                                    IsEnabled="False"
+                                    Modifiers="Control" />
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -1021,7 +964,10 @@
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE973;" />
                             </MenuFlyoutItem.Icon>
                             <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator Modifiers="Control" Key="N" IsEnabled="False" />
+                                <KeyboardAccelerator
+                                    Key="N"
+                                    IsEnabled="False"
+                                    Modifiers="Control" />
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -1036,20 +982,6 @@
                         </MenuFlyoutItem>
                         <MenuFlyoutSeparator x:Name="SeparatorBar" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
                         <MenuFlyoutItem
-                            x:Name="PasteButton"
-                            x:Uid="NavigationToolbarPaste"
-                            x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
-                            Command="{x:Bind PasteInvokedCommand, Mode=OneWay}"
-                            IsEnabled="{x:Bind local1:App.InteractionViewModel.IsPasteEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            Text="Paste">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9B2;" />
-                            </MenuFlyoutItem.Icon>
-                            <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator Modifiers="Control" Key="V" IsEnabled="False" />
-                            </MenuFlyoutItem.KeyboardAccelerators>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem
                             x:Name="OpenInTerminalButton"
                             x:Uid="NavigationToolbarOpenInTerminal"
                             x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
@@ -1060,6 +992,71 @@
                                 <FontIcon Glyph="&#xE756;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
+                        <MenuFlyoutSeparator x:Name="SeparatorBar1" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
+                        <MenuFlyoutItem
+                            x:Name="PasteButton"
+                            x:Uid="NavigationToolbarPaste"
+                            x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                            Command="{x:Bind PasteInvokedCommand, Mode=OneWay}"
+                            IsEnabled="{x:Bind local1:App.InteractionViewModel.IsPasteEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            Text="Paste">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9B2;" />
+                            </MenuFlyoutItem.Icon>
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator
+                                    Key="V"
+                                    IsEnabled="False"
+                                    Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutSeparator x:Name="SeparatorBar2" x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}" />
+                        <MenuFlyoutSubItem
+                            x:Name="NewEmptySpace"
+                            x:Uid="BaseLayoutContextFlyoutNew"
+                            x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
+                            IsEnabled="{x:Bind IsCreateButtonEnabledInPage, Mode=OneWay}"
+                            Text="New">
+                            <MenuFlyoutSubItem.Icon>
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe903;" />
+                            </MenuFlyoutSubItem.Icon>
+                            <MenuFlyoutSubItem.KeyboardAccelerators>
+                                <KeyboardAccelerator
+                                    Key="N"
+                                    IsEnabled="False"
+                                    Modifiers="Control,Shift" />
+                            </MenuFlyoutSubItem.KeyboardAccelerators>
+                            <MenuFlyoutItem
+                                x:Name="ToolbarNewFolderItem"
+                                x:Uid="ModernNavigationToolbaNewFolder"
+                                Command="{x:Bind NewFolderInvokedCommand, Mode=OneWay}"
+                                Text="Folder">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA55;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutSeparator />
+                            <MenuFlyoutItem
+                                x:Name="ToolbarNewImageItem"
+                                x:Uid="ModernNavigationToolbaNewBitmapImage"
+                                Command="{x:Bind NewImageInvokedCommand, Mode=OneWay}"
+                                IsEnabled="{x:Bind CanCreateFileInPage, Mode=OneWay}"
+                                Text="Bitmap Image">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA83;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                                x:Name="ToolbarNewDocumentItem"
+                                x:Uid="ModernNavigationToolbaNewTextDocument"
+                                Command="{x:Bind NewDocumentInvokedCommand, Mode=OneWay}"
+                                IsEnabled="{x:Bind CanCreateFileInPage, Mode=OneWay}"
+                                Text="Text Document">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA00;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyoutSubItem>
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
