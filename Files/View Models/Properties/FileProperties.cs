@@ -1,4 +1,5 @@
 ﻿using ByteSizeLib;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -261,7 +262,10 @@ namespace Files.View_Models.Properties
                 return;
             }
 
-            ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(file.DateCreated);
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+
+            ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDateFromFormat(file.DateCreated, returnformat);
             GetOtherProperties(file.Properties);
 
             // Get file MD5 hash
