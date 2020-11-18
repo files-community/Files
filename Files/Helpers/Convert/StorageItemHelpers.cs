@@ -35,7 +35,7 @@ namespace Files.Helpers
 
             if (fsFolderResult)
             {
-                 if (!string.IsNullOrWhiteSpace(fsFolderResult.Result.Path))
+                if (!string.IsNullOrWhiteSpace(fsFolderResult.Result.Path))
                     return fsFolderResult.Result;
                 else
                 {
@@ -49,10 +49,51 @@ namespace Files.Helpers
             return null;
         }
 
+        public static async Task<IStorageItemWithPath> ToStorageItemWithPath(this string path)
+        {
+            StorageFolderWithPath rootFolder = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+
+            FilesystemResult<StorageFileWithPath> fsFileWithPathResult = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(path, rootFolder));
+
+            if (fsFileWithPathResult)
+                return fsFileWithPathResult.Result;
+
+            FilesystemResult<StorageFolderWithPath> fsFolderWithPathResult = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path, rootFolder));
+
+            if (fsFolderWithPathResult)
+                return fsFolderWithPathResult.Result;
+
+            return null;
+        }
+
         public static async Task<bool?> IsOfType(this string path, StorageItemTypes type)
         {
             IStorageItem item = await path.ToStorageItem() is IStorageItem storageItem ? storageItem : null;
             return item?.IsOfType(type);
+        }
+
+        public static async Task<IEnumerable<IStorageItemWithPath>> ToStorageItemWithPathCollection(this IEnumerable<ListedItem> listedItems)
+        {
+            List<IStorageItemWithPath> output = new List<IStorageItemWithPath>();
+
+            foreach (ListedItem item in listedItems)
+            {
+                output.Add(await item.ItemPath.ToStorageItemWithPath());
+            }
+
+            return output;
+        }
+
+        public static async Task<IEnumerable<IStorageItemWithPath>> ToStorageItemWithPathCollection(this IEnumerable<string> paths)
+        {
+            List<IStorageItemWithPath> output = new List<IStorageItemWithPath>();
+
+            foreach (string path in paths)
+            {
+                output.Add(await path.ToStorageItemWithPath());
+            }
+
+            return output;
         }
 
         public static async Task<IEnumerable<IStorageItem>> ToStorageItemCollection(this IEnumerable<string> paths)

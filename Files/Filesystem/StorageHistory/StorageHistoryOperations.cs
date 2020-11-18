@@ -149,7 +149,7 @@ namespace Files.Filesystem.FilesystemHistory
                     {
                         // Opposite: Delete created items
 
-                        return await this._filesystemHelpers.DeleteItemsAsync(await history.Source.ToStorageItemCollection() as IEnumerable<IStorageItem>, false, true, false);
+                        return await this._filesystemHelpers.DeleteItemsAsync(await history.Source.ToStorageItemCollection(), false, true, false);
                     }
 
                 case FileOperationType.Rename: // Rename PASS
@@ -169,7 +169,7 @@ namespace Files.Filesystem.FilesystemHistory
                     {
                         // Opposite: Delete copied items
 
-                        return await this._filesystemHelpers.DeleteItemsAsync(await history.Destination.ToStorageItemCollection() as IEnumerable<IStorageItem>, false, true, false);
+                        return await this._filesystemHelpers.DeleteItemsAsync(await history.Destination.ToStorageItemCollection(), false, true, false);
                     }
 
                 case FileOperationType.Move: // Move PASS

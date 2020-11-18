@@ -63,6 +63,136 @@ namespace Files.Filesystem
 
         #region Delete
 
+        public async Task<ReturnResult> DeleteItemsAsync(IDictionary<string, FilesystemItemType> source, bool showDialog, bool permanently, bool registerHistory)
+        {
+            bool deleteFromRecycleBin = false;
+            foreach (KeyValuePair<string, FilesystemItemType> item in source)
+                if (await this._recycleBinHelpers.IsRecycleBinItem(item.Key))
+                {
+                    deleteFromRecycleBin = true;
+                    break;
+                }
+
+            PostedStatusBanner banner;
+            if (permanently)
+            {
+                banner = _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(string.Empty,
+                _associatedInstance.FilesystemViewModel.WorkingDirectory,
+                0,
+                ReturnResult.InProgress,
+                FileOperationType.Delete);
+            }
+            else
+            {
+                banner = _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(string.Empty,
+                _associatedInstance.FilesystemViewModel.WorkingDirectory,
+                0,
+                ReturnResult.InProgress,
+                FileOperationType.Recycle);
+            }
+
+            ReturnResult returnStatus = ReturnResult.InProgress;
+            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
+
+            if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
+            {
+                ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(deleteFromRecycleBin, !deleteFromRecycleBin ? permanently : deleteFromRecycleBin, _associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
+                await dialog.ShowAsync();
+
+                if (dialog.Result != DialogResult.Delete) // Delete selected  items if the result is Yes
+                {
+                    return ReturnResult.Cancelled; // Return if the result isn't delete
+                }
+                permanently = dialog.PermanentlyDelete;
+            }
+
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
+            IStorageHistory history;
+            List<IStorageHistory> rawStorageHistory = new List<IStorageHistory>();
+
+            bool originalPermanently = permanently;
+            foreach (KeyValuePair<string, FilesystemItemType> item in source)
+            {
+                if (await this._recycleBinHelpers.IsRecycleBinItem(item.Key))
+                    permanently = true;
+                else
+                    permanently = originalPermanently;
+
+                // TODO: Remove history1
+                IStorageHistory history1 = await this._filesystemOperations.DeleteAsync(item.Key, item.Value, banner.Progress, banner.ErrorCode, permanently, this._cancellationToken);
+                rawStorageHistory.Add(history1);
+            }
+
+            history = new StorageHistory(rawStorageHistory[0].OperationType, rawStorageHistory.SelectMany((item) => item.Source).ToList(), rawStorageHistory.SelectMany((item) => item.Destination).ToList());
+            if (!permanently && registerHistory)
+                App.AddHistory(history);
+
+            banner.Remove();
+            sw.Stop();
+
+            PostBannerHelpers.PostBanner_Delete(returnStatus, permanently ? FileOperationType.Delete : FileOperationType.Recycle, sw, _associatedInstance);
+
+            return returnStatus;
+        }
+
+        public async Task<ReturnResult> DeleteItemAsync(string source, FilesystemItemType itemType, bool showDialog, bool permanently, bool registerHistory)
+        {
+            PostedStatusBanner banner;
+            bool deleteFromRecycleBin = await this._recycleBinHelpers.IsRecycleBinItem(source);
+
+            if (deleteFromRecycleBin)
+                permanently = true;
+
+            if (permanently)
+            {
+                banner = _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(string.Empty,
+                _associatedInstance.FilesystemViewModel.WorkingDirectory,
+                0,
+                ReturnResult.InProgress,
+                FileOperationType.Delete);
+            }
+            else
+            {
+                banner = _associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(string.Empty,
+                _associatedInstance.FilesystemViewModel.WorkingDirectory,
+                0,
+                ReturnResult.InProgress,
+                FileOperationType.Recycle);
+            }
+
+            ReturnResult returnStatus = ReturnResult.InProgress;
+            banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
+
+            if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
+            {
+                ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(deleteFromRecycleBin, permanently, _associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
+                await dialog.ShowAsync();
+
+                if (dialog.Result != DialogResult.Delete) // Delete selected item if the result is Yes
+                {
+                    return ReturnResult.Cancelled; // Return if the result isn't delete
+                }
+                permanently = dialog.PermanentlyDelete;
+            }
+
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+
+            IStorageHistory history = await this._filesystemOperations.DeleteAsync(source, itemType, banner.Progress, banner.ErrorCode, permanently, this._cancellationToken);
+
+            if (!permanently && registerHistory)
+                App.AddHistory(history);
+
+            banner.Remove();
+            sw.Stop();
+
+            PostBannerHelpers.PostBanner_Delete(returnStatus, permanently ? FileOperationType.Delete : FileOperationType.Recycle, sw, _associatedInstance);
+
+            return returnStatus;
+        }
+
         public async Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItem> source, bool showDialog, bool permanently, bool registerHistory)
         {
             bool deleteFromRecycleBin = false;

@@ -901,7 +901,12 @@ namespace Files.Views.Pages
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
                     if (!NavigationToolbar.IsEditModeEnabled)
                     {
-                        await this._filesystemHelpers.DeleteItemsAsync(await this.ContentPage.SelectedItems.ToStorageItemCollection() as IEnumerable<IStorageItem>, true, true, true);
+                        Dictionary<string, FilesystemItemType> itemsToDelete = new Dictionary<string, FilesystemItemType>();
+                        foreach (IStorageItemWithPath item in await this.ContentPage.SelectedItems.ToStorageItemWithPathCollection())
+                        {
+                            itemsToDelete.Add(item.Path, item.Item.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory);
+                        }
+                        await this._filesystemHelpers.DeleteItemsAsync(itemsToDelete, true, true, true);
                     }
 
                     break;
@@ -965,7 +970,12 @@ namespace Files.Views.Pages
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
                     if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem)
                     {
-                        await this._filesystemHelpers.DeleteItemsAsync(await this.ContentPage.SelectedItems.ToStorageItemCollection() as IEnumerable<IStorageItem>, true, false, true);
+                        Dictionary<string, FilesystemItemType> itemsToDelete = new Dictionary<string, FilesystemItemType>();
+                        foreach (IStorageItemWithPath item in await this.ContentPage.SelectedItems.ToStorageItemWithPathCollection())
+                        {
+                            itemsToDelete.Add(item.Path, item.Item.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory);
+                        }
+                        await this._filesystemHelpers.DeleteItemsAsync(itemsToDelete, true, false, true);
                     }
 
                     break;
