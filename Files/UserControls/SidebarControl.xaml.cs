@@ -202,12 +202,11 @@ namespace Files.Controls
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as LocationItem;
 
-            // Set default values
-            ShowUnpinItem = false;
-            ShowEmptyRecycleBin = false ;
-            ShowProperties = true;
-
             if (item.IsDefaultLocation)
+            {
+                ShowUnpinItem = false;
+            }
+            else
             {
                 ShowUnpinItem = true;
             }
@@ -218,6 +217,19 @@ namespace Files.Controls
 
                 ShowEmptyRecycleBin = true;
                 ShowUnpinItem = true;
+                ShowProperties = false;
+            }
+            else
+            {
+                ShowEmptyRecycleBin = false;
+                // Set to true if properties should be displayed for pinned folders
+                ShowProperties = false;
+            }
+
+            // Additional check needed because ShowProperties is set to true if not recycle bin
+            if (item.IsDefaultLocation)
+            {
+                ShowEjectDevice = false;
                 ShowProperties = false;
             }
 

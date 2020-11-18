@@ -1086,25 +1086,4 @@
   <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
     <value>Rejtett fájlok és mappák mutatása</value>
   </data>
-  <data name="EjectNotificationHeader" xml:space="preserve">
-    <value>A hardware eltávolítása biztonságos</value>
-  </data>
-  <data name="EjectNotificationBody" xml:space="preserve">
-    <value>Az eszköz biztonságosan eltávolítható.</value>
-  </data>
-  <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
-    <value>Hiba az eszköz kiadása közben</value>
-  </data>
-  <data name="SideBarEjectDevice.Text" xml:space="preserve">
-    <value>Kiadás</value>
-  </data>
-  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
-    <value>Lap kettőzése</value>
-  </data>
-  <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
-    <value>Lap áthelyezése új ablakba</value>
-  </data>
-  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
-    <value>Új lap</value>
-  </data>
 </root>
