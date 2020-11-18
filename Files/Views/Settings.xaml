@@ -71,15 +71,6 @@
                     Text="Settings" />
             </muxc:NavigationView.PaneHeader>
 
-            <muxc:NavigationView.AutoSuggestBox>
-                <AutoSuggestBox
-                    x:Uid="SettingsNavSearch"
-                    MinWidth="150"
-                    AutomationProperties.Name="Search"
-                    PlaceholderText="Search"
-                    QueryIcon="Find" />
-            </muxc:NavigationView.AutoSuggestBox>
-
             <muxc:NavigationView.MenuItems>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavAppearance"

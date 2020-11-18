@@ -177,9 +177,6 @@
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Megjelenés</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Header" xml:space="preserve">
-    <value>Meghajtó betűjének mutatása</value>
-  </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>Kiterjesztés mutatása ismert fájlformátumoknál</value>
   </data>
@@ -209,9 +206,6 @@
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferencia</value>
-  </data>
-  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>Keresés</value>
   </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
     <value>VIGYÁZAT: Kísérleti beállítások!</value>
@@ -1082,5 +1076,23 @@
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>A hardware eltávolítása biztonságos</value>
+  </data>
+  <data name="EjectNotificationBody" xml:space="preserve">
+    <value>Az eszköz biztonságosan eltávolítható.</value>
+  </data>
+  <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
+    <value>Hiba az eszköz kiadása közben</value>
+  </data>
+  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+    <value>Kiadás</value>
+  </data>
+  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+    <value>Lap kettőzése</value>
+  </data>
+  <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
+    <value>Lap áthelyezése új ablakba</value>
+  </data>
+  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+    <value>Új lap</value>
   </data>
 </root>

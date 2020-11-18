@@ -282,9 +282,6 @@
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Appearance</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Header" xml:space="preserve">
-    <value>Show drive letters</value>
-  </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>Show extensions for known file types</value>
   </data>
@@ -320,9 +317,6 @@
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferences</value>
-  </data>
-  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>Search</value>
   </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
     <value>WARNING: EXPERIMENTAL FEATURES AHEAD!</value>

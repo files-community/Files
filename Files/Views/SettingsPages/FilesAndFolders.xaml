@@ -40,12 +40,6 @@
                     IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
 
                 <ToggleSwitch
-                    x:Uid="SettingsFilesAndFoldersShowDriveLetters"
-                    Header="Show drive letters"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsEnabled="False" />
-
-                <ToggleSwitch
                     x:Uid="SettingsOpenItemsWithOneclick"
                     Header="Open items with a single click"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
