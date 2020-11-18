@@ -212,7 +212,6 @@ namespace Files.Controls
                 RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
 
                 ShowEmptyRecycleBin = true;
-                ShowUnpinItem = true;
                 ShowProperties = false;
             }
 
