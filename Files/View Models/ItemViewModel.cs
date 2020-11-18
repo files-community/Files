@@ -547,7 +547,7 @@ namespace Files.Filesystem
                     if (item.PrimaryItemAttribute == StorageItemTypes.File)
                     {
                         var fileIconInfo = await LoadIconOverlayAsync(matchingItem.ItemPath, thumbnailSize);
-                        if (fileIconInfo.Icon != null)
+                        if (fileIconInfo.Icon != null && !matchingItem.IsLinkItem)
                         {
                             matchingItem.FileImage = fileIconInfo.Icon;
                             matchingItem.LoadUnknownTypeGlyph = false;

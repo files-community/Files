@@ -228,7 +228,7 @@ namespace Files.View_Models.Properties
                 + " (" + ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + "ItemSizeBytes".GetLocalized() + ")";
 
             var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
-            if (fileIconInfo.Icon != null)
+            if (fileIconInfo.Icon != null && !Item.IsLinkItem)
             {
                 ViewModel.FileIconSource = fileIconInfo.Icon;
             }
@@ -237,6 +237,7 @@ namespace Files.View_Models.Properties
             {
                 ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
                 ViewModel.ItemAccessedTimestamp = Item.ItemDateAccessed;
+                ViewModel.LoadLinkIcon = Item.IsLinkItem;
                 if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
                 {
                     // Can't show any other property
