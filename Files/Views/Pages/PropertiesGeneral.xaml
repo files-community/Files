@@ -362,8 +362,8 @@
                 <CheckBox
                     x:Uid="PropertiesDialogReadOnly"
                     Content="Read-only"
-                    IsEnabled="{x:Bind ViewModel.IsReadOnlyEnabled, Mode=OneWay}"
-                    IsChecked="{x:Bind ViewModel.IsReadOnly, Mode=TwoWay}"/>
+                    IsChecked="{x:Bind ViewModel.IsReadOnly, Mode=TwoWay}"
+                    IsEnabled="{x:Bind ViewModel.IsReadOnlyEnabled, Mode=OneWay}" />
                 <CheckBox
                     x:Uid="PropertiesDialogHidden"
                     Content="Hidden"

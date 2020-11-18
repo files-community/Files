@@ -5,10 +5,12 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.AccessCache;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
@@ -55,36 +57,16 @@ namespace Files
 
         public async void PopulateRecentsList()
         {
-            var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
-            bool IsRecentsListEmpty = true;
-            foreach (var entry in mostRecentlyUsed.Entries)
-            {
-                try
-                {
-                    var item = await mostRecentlyUsed.GetItemAsync(entry.Token);
-                    if (item.IsOfType(StorageItemTypes.File))
-                    {
-                        IsRecentsListEmpty = false;
-                    }
-                }
-                catch (Exception) { }
-            }
+            var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
 
-            if (IsRecentsListEmpty)
-            {
-                Empty.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                Empty.Visibility = Visibility.Collapsed;
-            }
+            Empty.Visibility = Visibility.Collapsed;
 
-            foreach (Windows.Storage.AccessCache.AccessListEntry entry in mostRecentlyUsed.Entries)
+            foreach (AccessListEntry entry in mostRecentlyUsed.Entries)
             {
                 string mruToken = entry.Token;
                 try
                 {
-                    IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken);
+                    IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
                     await AddItemToRecentListAsync(item, entry);
                 }
                 catch (UnauthorizedAccessException)
@@ -138,14 +120,14 @@ namespace Files
                 ItemType = StorageItemTypes.File;
                 ItemImage = new BitmapImage();
                 StorageFile file = (StorageFile)item;
-                var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.SingleItem, 30, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
+                var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
                 if (thumbnail == null)
                 {
                     ItemEmptyImgVis = Visibility.Visible;
                 }
                 else
                 {
-                    await ItemImage.SetSourceAsync(thumbnail.CloneStream());
+                    await ItemImage.SetSourceAsync(thumbnail);
                     ItemEmptyImgVis = Visibility.Collapsed;
                 }
                 ItemFolderImgVis = Visibility.Collapsed;
@@ -214,7 +196,7 @@ namespace Files
         {
             recentItemsCollection.Clear();
             RecentsView.ItemsSource = null;
-            var mru = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
+            var mru = StorageApplicationPermissions.MostRecentlyUsedList;
             mru.Clear();
             Empty.Visibility = Visibility.Visible;
         }
