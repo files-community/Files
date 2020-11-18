@@ -229,6 +229,7 @@ namespace Files.Controls
             // Additional check needed because ShowProperties is set to true if not recycle bin
             if (item.IsDefaultLocation)
             {
+                ShowEjectDevice = false;
                 ShowProperties = false;
             }
 
