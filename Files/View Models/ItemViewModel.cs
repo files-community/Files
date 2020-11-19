@@ -918,6 +918,14 @@ namespace Files.Filesystem
                 }
                 catch (ArgumentException) { }
 
+                bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
+                double opacity = 1;
+
+                if (isHidden)
+                {
+                    opacity = 0.4;
+                }
+
                 CurrentFolder = new ListedItem(_rootFolder.FolderRelativeId, returnformat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
@@ -927,7 +935,8 @@ namespace Files.Filesystem
                     ItemType = _rootFolder.DisplayType,
                     LoadFolderGlyph = true,
                     FileImage = null,
-                    IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden,
+                    IsHiddenItem = isHidden,
+                    Opacity = opacity,
                     LoadFileIcon = false,
                     ItemPath = string.IsNullOrEmpty(_rootFolder.Path) ? _currentStorageFolder.Path : _rootFolder.Path,
                     LoadUnknownTypeGlyph = false,
@@ -1420,6 +1429,14 @@ namespace Files.Filesystem
             }
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
+            bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
+            double opacity = 1;
+
+            if (isHidden)
+            {
+                opacity = 0.4;
+            }
+
             _filesAndFolders.Add(new ListedItem(null, dateReturnFormat)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
@@ -1429,6 +1446,7 @@ namespace Files.Filesystem
                 LoadFolderGlyph = true,
                 FileImage = null,
                 IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden,
+                Opacity = opacity,
                 LoadFileIcon = false,
                 ItemPath = itemPath,
                 LoadUnknownTypeGlyph = false,
@@ -1436,7 +1454,7 @@ namespace Files.Filesystem
                 FileSizeBytes = 0,
                 ContainsFilesOrFolders = CheckForFilesFolders(itemPath)
                 //FolderTooltipText = tooltipString,
-            });
+            });;
 
             IsFolderEmptyTextDisplayed = false;
         }
@@ -1542,11 +1560,20 @@ namespace Files.Filesystem
                             containsFilesOrFolders = CheckForFilesFolders(target);
                         }
 
+                        bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
+                        double opacity = 1;
+
+                        if (isHidden)
+                        {
+                            opacity = 0.4;
+                        }
+
                         _filesAndFolders.Add(new ShortcutItem(null, dateReturnFormat)
                         {
                             PrimaryItemAttribute = (bool)response.Message["IsFolder"] ? StorageItemTypes.Folder : StorageItemTypes.File,
                             FileExtension = itemFileExtension,
                             IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden,
+                            Opacity = opacity,
                             FileImage = !(bool)response.Message["IsFolder"] ? icon : null,
                             LoadFileIcon = !(bool)response.Message["IsFolder"] && itemThumbnailImgVis,
                             LoadUnknownTypeGlyph = !(bool)response.Message["IsFolder"] && !isUrl && itemEmptyImgVis,
@@ -1571,6 +1598,14 @@ namespace Files.Filesystem
             }
             else
             {
+                bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
+                double opacity = 1;
+
+                if (isHidden)
+                {
+                    opacity = 0.4;
+                }
+
                 _filesAndFolders.Add(new ListedItem(null, dateReturnFormat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.File,
@@ -1581,6 +1616,7 @@ namespace Files.Filesystem
                     LoadFolderGlyph = itemFolderImgVis,
                     ItemName = itemName,
                     IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden,
+                    Opacity = opacity,
                     ItemDateModifiedReal = itemModifiedDate,
                     ItemDateAccessedReal = itemLastAccessDate,
                     ItemDateCreatedReal = itemCreatedDate,

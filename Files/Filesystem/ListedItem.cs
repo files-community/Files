@@ -55,12 +55,12 @@ namespace Files.Filesystem
             set => SetProperty(ref _LoadUnknownTypeGlyph, value);
         }
 
-        private bool _IsDimmed;
+        private double opacity;
 
-        public bool IsDimmed
+        public double Opacity
         {
-            get => _IsDimmed;
-            set => SetProperty(ref _IsDimmed, value);
+            get => opacity;
+            set => SetProperty(ref opacity, value);
         }
 
         private CloudDriveSyncStatusUI _SyncStatusUI;
