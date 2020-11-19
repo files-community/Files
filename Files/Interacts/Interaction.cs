@@ -145,6 +145,16 @@ namespace Files.Interacts
             }
         }
 
+        public void List_ItemPointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
+            {
+                if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem Item && Item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    OpenPathInNewTab(Item.ItemPath);
+                }
+            }
+        }
         public static async void OpenPathInNewTab(string path)
         {
             await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), path);
