@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using Windows.ApplicationModel.Core;
 
 namespace Files.Helpers
 {
@@ -14,16 +15,21 @@ namespace Files.Helpers
 
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-            if (!_isBlukOperationStarted)
-            {
-                base.OnCollectionChanged(e);
-            }
+            
+                if (!_isBlukOperationStarted)
+                {
+                    base.OnCollectionChanged(e);
+                }
+           
         }
 
         public void EndBulkOperation()
         {
-            base.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-            _isBlukOperationStarted = false;
+            CoreApplication.MainView.DispatcherQueue.TryEnqueue(Windows.System.DispatcherQueuePriority.Normal, () =>
+            {
+                base.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                _isBlukOperationStarted = false;
+            });
         }
     }
 }

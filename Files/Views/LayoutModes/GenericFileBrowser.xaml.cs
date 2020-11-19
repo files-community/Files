@@ -259,7 +259,7 @@ namespace Files
                     {
                         if (!(row.DataContext as ListedItem).ItemPropertiesInitialized)
                         {
-                            await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
+                            await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                             {
                                 ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(row.DataContext as ListedItem);
                                 (row.DataContext as ListedItem).ItemPropertiesInitialized = true;
@@ -432,7 +432,7 @@ namespace Files
                 {
                     if (!(row.DataContext as ListedItem).ItemPropertiesInitialized)
                     {
-                        await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
+                        await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                         {
                             ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(row.DataContext as ListedItem);
                             (row.DataContext as ListedItem).ItemPropertiesInitialized = true;
@@ -528,7 +528,7 @@ namespace Files
                 !item.ItemPropertiesInitialized &&
                 args.BringIntoViewDistanceX < sender.ActualHeight)
             {
-                await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
+                await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
                     ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(parentRow.DataContext as ListedItem);
                     (parentRow.DataContext as ListedItem).ItemPropertiesInitialized = true;

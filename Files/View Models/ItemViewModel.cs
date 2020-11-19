@@ -34,6 +34,7 @@ using static Files.Helpers.NativeDirectoryChangesHelper;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using static Files.Helpers.NativeFileOperationsHelper;
 using FileAttributes = System.IO.FileAttributes;
+using Windows.System;
 
 namespace Files.Filesystem
 {
@@ -788,10 +789,10 @@ namespace Files.Filesystem
                     {
                         var item = folderContentsList[count];
                         AddFileOrFolderFromShellFile(item, returnformat);
-                        if (count % 64 == 0)
-                        {
-                            await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
-                        }
+                        //if (count % 64 == 0)
+                        //{
+                        //    await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
+                        //}
                     }
                 }
             }
@@ -961,15 +962,20 @@ namespace Files.Filesystem
 
                             if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                             {
-                                AddFile(findData, path, returnformat);
-                                ++count;
+                                await Task.Run(()=>{
+                                    AddFile(findData, path, returnformat);
+                                    ++count;
+                                });
                             }
                             else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
                             {
                                 if (findData.cFileName != "." && findData.cFileName != "..")
                                 {
-                                    AddFolder(findData, path, returnformat);
-                                    ++count;
+                                    await Task.Run(() => {
+                                        AddFolder(findData, path, returnformat);
+                                        ++count;
+                                    });
+                                    
                                 }
                             }
                         }
@@ -978,10 +984,10 @@ namespace Files.Filesystem
                             break;
                         }
 
-                        if (count % 64 == 0)
-                        {
-                            await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
-                        }
+                        //if (count % 64 == 0)
+                        //{
+                        //    await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
+                        //}
                     } while (FindNextFile(hFile, out findData));
 
                     FindClose(hFile);
@@ -1032,10 +1038,10 @@ namespace Files.Filesystem
                 {
                     break;
                 }
-                if (count % 64 == 0)
-                {
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
-                }
+                //if (count % 64 == 0)
+                //{
+                //    await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
+                //}
             }
             stopwatch.Stop();
             Debug.WriteLine($"Enumerating items in {WorkingDirectory} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
@@ -1222,7 +1228,7 @@ namespace Files.Filesystem
             Debug.WriteLine("Task exiting...");
         }
 
-        public void AddFileOrFolderFromShellFile(ShellFileItem item, string dateReturnFormat = null)
+        public async void AddFileOrFolderFromShellFile(ShellFileItem item, string dateReturnFormat = null)
         {
             if (dateReturnFormat == null)
             {
@@ -1232,22 +1238,26 @@ namespace Files.Filesystem
 
             if (item.IsFolder)
             {
-                // Folder
-                _filesAndFolders.Add(new RecycleBinItem(null, dateReturnFormat)
+                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                 {
-                    PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemName = item.FileName,
-                    ItemDateModifiedReal = item.RecycleDate,
-                    ItemType = item.FileType,
-                    LoadFolderGlyph = true,
-                    FileImage = null,
-                    LoadFileIcon = false,
-                    ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
-                    ItemOriginalPath = item.FilePath,
-                    LoadUnknownTypeGlyph = false,
-                    FileSize = null,
-                    FileSizeBytes = 0,
-                    //FolderTooltipText = tooltipString,
+                    // Folder
+                    _filesAndFolders.Add(new RecycleBinItem(null, dateReturnFormat)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.Folder,
+                        ItemName = item.FileName,
+                        ItemDateModifiedReal = item.RecycleDate,
+                        ItemType = item.FileType,
+                        LoadFolderGlyph = true,
+                        FileImage = null,
+                        LoadFileIcon = false,
+                        ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
+                        ItemOriginalPath = item.FilePath,
+                        LoadUnknownTypeGlyph = false,
+                        FileSize = null,
+                        FileSizeBytes = 0,
+                        //FolderTooltipText = tooltipString,
+                    });
+
                 });
             }
             else
@@ -1275,22 +1285,24 @@ namespace Files.Filesystem
                 {
                     itemFileExtension = Path.GetExtension(item.FileName);
                 }
-
-                _filesAndFolders.Add(new RecycleBinItem(null, dateReturnFormat)
+                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                 {
-                    PrimaryItemAttribute = StorageItemTypes.File,
-                    FileExtension = itemFileExtension,
-                    LoadUnknownTypeGlyph = true,
-                    FileImage = null,
-                    LoadFileIcon = false,
-                    LoadFolderGlyph = false,
-                    ItemName = itemName,
-                    ItemDateModifiedReal = item.RecycleDate,
-                    ItemType = item.FileType,
-                    ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
-                    ItemOriginalPath = item.FilePath,
-                    FileSize = item.FileSize,
-                    FileSizeBytes = (long)item.FileSizeBytes
+                    _filesAndFolders.Add(new RecycleBinItem(null, dateReturnFormat)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.File,
+                        FileExtension = itemFileExtension,
+                        LoadUnknownTypeGlyph = true,
+                        FileImage = null,
+                        LoadFileIcon = false,
+                        LoadFolderGlyph = false,
+                        ItemName = itemName,
+                        ItemDateModifiedReal = item.RecycleDate,
+                        ItemType = item.FileType,
+                        ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
+                        ItemOriginalPath = item.FilePath,
+                        FileSize = item.FileSize,
+                        FileSizeBytes = (long)item.FileSizeBytes
+                    });
                 });
             }
 
@@ -1396,7 +1408,7 @@ namespace Files.Filesystem
             }
         }
 
-        private void AddFolder(WIN32_FIND_DATA findData, string pathRoot, string dateReturnFormat)
+        private async void AddFolder(WIN32_FIND_DATA findData, string pathRoot, string dateReturnFormat)
         {
             if (_addFilesCTS.IsCancellationRequested)
             {
@@ -1420,28 +1432,31 @@ namespace Files.Filesystem
             }
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
-            _filesAndFolders.Add(new ListedItem(null, dateReturnFormat)
+            await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
             {
-                PrimaryItemAttribute = StorageItemTypes.Folder,
-                ItemName = findData.cFileName,
-                ItemDateModifiedReal = itemDate,
-                ItemType = "FileFolderListItem".GetLocalized(),
-                LoadFolderGlyph = true,
-                FileImage = null,
-                IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden,
-                LoadFileIcon = false,
-                ItemPath = itemPath,
-                LoadUnknownTypeGlyph = false,
-                FileSize = null,
-                FileSizeBytes = 0,
-                ContainsFilesOrFolders = CheckForFilesFolders(itemPath)
-                //FolderTooltipText = tooltipString,
+                _filesAndFolders.Add(new ListedItem(null, dateReturnFormat)
+                {
+                    PrimaryItemAttribute = StorageItemTypes.Folder,
+                    ItemName = findData.cFileName,
+                    ItemDateModifiedReal = itemDate,
+                    ItemType = "FileFolderListItem".GetLocalized(),
+                    LoadFolderGlyph = true,
+                    FileImage = null,
+                    IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden,
+                    LoadFileIcon = false,
+                    ItemPath = itemPath,
+                    LoadUnknownTypeGlyph = false,
+                    FileSize = null,
+                    FileSizeBytes = 0,
+                    ContainsFilesOrFolders = CheckForFilesFolders(itemPath)
+                    //FolderTooltipText = tooltipString,
+                });
             });
 
             IsFolderEmptyTextDisplayed = false;
         }
 
-        private void AddFile(WIN32_FIND_DATA findData, string pathRoot, string dateReturnFormat)
+        private async void AddFile(WIN32_FIND_DATA findData, string pathRoot, string dateReturnFormat)
         {
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
@@ -1501,7 +1516,6 @@ namespace Files.Filesystem
             }
 
             bool itemFolderImgVis = false;
-            BitmapImage icon = new BitmapImage();
             bool itemThumbnailImgVis;
             bool itemEmptyImgVis;
 
@@ -1513,6 +1527,8 @@ namespace Files.Filesystem
                 IsLoadingItems = false;
                 return;
             }
+
+
 
             if (findData.cFileName.EndsWith(".lnk") || findData.cFileName.EndsWith(".url"))
             {
@@ -1541,53 +1557,58 @@ namespace Files.Filesystem
                         {
                             containsFilesOrFolders = CheckForFilesFolders(target);
                         }
-
-                        _filesAndFolders.Add(new ShortcutItem(null, dateReturnFormat)
+                        await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                         {
-                            PrimaryItemAttribute = (bool)response.Message["IsFolder"] ? StorageItemTypes.Folder : StorageItemTypes.File,
-                            FileExtension = itemFileExtension,
-                            IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden,
-                            FileImage = !(bool)response.Message["IsFolder"] ? icon : null,
-                            LoadFileIcon = !(bool)response.Message["IsFolder"] && itemThumbnailImgVis,
-                            LoadUnknownTypeGlyph = !(bool)response.Message["IsFolder"] && !isUrl && itemEmptyImgVis,
-                            LoadFolderGlyph = (bool)response.Message["IsFolder"],
-                            ItemName = itemName,
-                            ItemDateModifiedReal = itemModifiedDate,
-                            ItemDateAccessedReal = itemLastAccessDate,
-                            ItemDateCreatedReal = itemCreatedDate,
-                            ItemType = isUrl ? "ShortcutWebLinkFileType".GetLocalized() : "ShortcutFileType".GetLocalized(),
-                            ItemPath = itemPath,
-                            FileSize = itemSize,
-                            FileSizeBytes = itemSizeBytes,
-                            TargetPath = target,
-                            Arguments = (string)response.Message["Arguments"],
-                            WorkingDirectory = (string)response.Message["WorkingDirectory"],
-                            RunAsAdmin = (bool)response.Message["RunAsAdmin"],
-                            IsUrl = isUrl,
-                            ContainsFilesOrFolders = containsFilesOrFolders
+                            _filesAndFolders.Add(new ShortcutItem(null, dateReturnFormat)
+                            {
+                                PrimaryItemAttribute = (bool)response.Message["IsFolder"] ? StorageItemTypes.Folder : StorageItemTypes.File,
+                                FileExtension = itemFileExtension,
+                                IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden,
+                                FileImage = null,
+                                LoadFileIcon = !(bool)response.Message["IsFolder"] && itemThumbnailImgVis,
+                                LoadUnknownTypeGlyph = !(bool)response.Message["IsFolder"] && !isUrl && itemEmptyImgVis,
+                                LoadFolderGlyph = (bool)response.Message["IsFolder"],
+                                ItemName = itemName,
+                                ItemDateModifiedReal = itemModifiedDate,
+                                ItemDateAccessedReal = itemLastAccessDate,
+                                ItemDateCreatedReal = itemCreatedDate,
+                                ItemType = isUrl ? "ShortcutWebLinkFileType".GetLocalized() : "ShortcutFileType".GetLocalized(),
+                                ItemPath = itemPath,
+                                FileSize = itemSize,
+                                FileSizeBytes = itemSizeBytes,
+                                TargetPath = target,
+                                Arguments = (string)response.Message["Arguments"],
+                                WorkingDirectory = (string)response.Message["WorkingDirectory"],
+                                RunAsAdmin = (bool)response.Message["RunAsAdmin"],
+                                IsUrl = isUrl,
+                                ContainsFilesOrFolders = containsFilesOrFolders
+                            });
                         });
                     }
                 }
             }
             else
             {
-                _filesAndFolders.Add(new ListedItem(null, dateReturnFormat)
+                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                 {
-                    PrimaryItemAttribute = StorageItemTypes.File,
-                    FileExtension = itemFileExtension,
-                    LoadUnknownTypeGlyph = itemEmptyImgVis,
-                    FileImage = icon,
-                    LoadFileIcon = itemThumbnailImgVis,
-                    LoadFolderGlyph = itemFolderImgVis,
-                    ItemName = itemName,
-                    IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden,
-                    ItemDateModifiedReal = itemModifiedDate,
-                    ItemDateAccessedReal = itemLastAccessDate,
-                    ItemDateCreatedReal = itemCreatedDate,
-                    ItemType = itemType,
-                    ItemPath = itemPath,
-                    FileSize = itemSize,
-                    FileSizeBytes = itemSizeBytes
+                    _filesAndFolders.Add(new ListedItem(null, dateReturnFormat)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.File,
+                        FileExtension = itemFileExtension,
+                        LoadUnknownTypeGlyph = itemEmptyImgVis,
+                        FileImage = null,
+                        LoadFileIcon = itemThumbnailImgVis,
+                        LoadFolderGlyph = itemFolderImgVis,
+                        ItemName = itemName,
+                        IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden,
+                        ItemDateModifiedReal = itemModifiedDate,
+                        ItemDateAccessedReal = itemLastAccessDate,
+                        ItemDateCreatedReal = itemCreatedDate,
+                        ItemType = itemType,
+                        ItemPath = itemPath,
+                        FileSize = itemSize,
+                        FileSizeBytes = itemSizeBytes
+                    });
                 });
             }
 
@@ -1610,23 +1631,24 @@ namespace Files.Filesystem
                     IsLoadingItems = false;
                     return;
                 }
-
-                _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId, dateReturnFormat)
+                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                 {
-                    PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemName = folder.Name,
-                    ItemDateModifiedReal = basicProperties.DateModified,
-                    ItemType = folder.DisplayType,
-                    LoadFolderGlyph = true,
-                    FileImage = null,
-                    LoadFileIcon = false,
-                    ItemPath = string.IsNullOrEmpty(folder.Path) ? Path.Combine(_currentStorageFolder.Path, folder.Name) : folder.Path,
-                    LoadUnknownTypeGlyph = false,
-                    FileSize = null,
-                    FileSizeBytes = 0
-                    //FolderTooltipText = tooltipString,
+                    _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId, dateReturnFormat)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.Folder,
+                        ItemName = folder.Name,
+                        ItemDateModifiedReal = basicProperties.DateModified,
+                        ItemType = folder.DisplayType,
+                        LoadFolderGlyph = true,
+                        FileImage = null,
+                        LoadFileIcon = false,
+                        ItemPath = string.IsNullOrEmpty(folder.Path) ? Path.Combine(_currentStorageFolder.Path, folder.Name) : folder.Path,
+                        LoadUnknownTypeGlyph = false,
+                        FileSize = null,
+                        FileSizeBytes = 0
+                        //FolderTooltipText = tooltipString,
+                    });
                 });
-
                 IsFolderEmptyTextDisplayed = false;
             }
         }
@@ -1716,20 +1738,23 @@ namespace Files.Filesystem
             }
             else
             {
-                _filesAndFolders.Add(new ListedItem(file.FolderRelativeId, dateReturnFormat)
+                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                 {
-                    PrimaryItemAttribute = StorageItemTypes.File,
-                    FileExtension = itemFileExtension,
-                    LoadUnknownTypeGlyph = itemEmptyImgVis,
-                    FileImage = icon,
-                    LoadFileIcon = itemThumbnailImgVis,
-                    LoadFolderGlyph = itemFolderImgVis,
-                    ItemName = itemName,
-                    ItemDateModifiedReal = itemDate,
-                    ItemType = itemType,
-                    ItemPath = itemPath,
-                    FileSize = itemSize,
-                    FileSizeBytes = (long)itemSizeBytes
+                    _filesAndFolders.Add(new ListedItem(file.FolderRelativeId, dateReturnFormat)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.File,
+                        FileExtension = itemFileExtension,
+                        LoadUnknownTypeGlyph = itemEmptyImgVis,
+                        FileImage = icon,
+                        LoadFileIcon = itemThumbnailImgVis,
+                        LoadFolderGlyph = itemFolderImgVis,
+                        ItemName = itemName,
+                        ItemDateModifiedReal = itemDate,
+                        ItemType = itemType,
+                        ItemPath = itemPath,
+                        FileSize = itemSize,
+                        FileSizeBytes = (long)itemSizeBytes
+                    });
                 });
             }
 
