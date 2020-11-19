@@ -145,7 +145,7 @@ namespace Files.Interacts
             }
         }
 
-        public async void ItemPointerPressed(object sender, PointerRoutedEventArgs e)
+        public void ItemPointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
             {
@@ -153,7 +153,7 @@ namespace Files.Interacts
                 {
                     if (Item.IsShortcutItem)
                     {
-                        await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), ((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+                        _ = MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), ((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
                     }
                     else
                     {
