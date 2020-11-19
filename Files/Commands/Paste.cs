@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
@@ -202,10 +203,17 @@ namespace Files.Commands
 
                     if (deleted == FilesystemErrorCode.ERROR_UNAUTHORIZED)
                     {
-                        // Try again with DeleteFileFromApp
-                        if (!NativeFileOperationsHelper.DeleteFileFromApp(item.Path))
+                        // Try again with fulltrust process
+                        if (AppInstance.FilesystemViewModel.Connection != null)
                         {
-                            Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
+                            var response = await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet()
+                            {
+                                { "Arguments", "FileOperation" },
+                                { "fileop", "DeleteItem" },
+                                { "filepath", item.Path },
+                                { "permanently", true }
+                            });
+                            deleted = (FilesystemResult)(response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success);
                         }
                     }
                     else if (deleted == FilesystemErrorCode.ERROR_NOTFOUND)

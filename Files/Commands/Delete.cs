@@ -151,31 +151,17 @@ namespace Files.Commands
 
                 if (deleted.ErrorCode == FilesystemErrorCode.ERROR_UNAUTHORIZED)
                 {
-                    if (deleteOption == StorageDeleteOption.Default)
+                    // Try again with fulltrust process
+                    if (AppInstance.FilesystemViewModel.Connection != null)
                     {
-                        // Try again with fulltrust process
-                        if (AppInstance.FilesystemViewModel.Connection != null)
-                        {
-                            var response = await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet()
+                        var response = await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet()
                             {
                                 { "Arguments", "FileOperation" },
-                                { "fileop", "MoveToBin" },
-                                { "filepath", storItem.ItemPath }
+                                { "fileop", "DeleteItem" },
+                                { "filepath", storItem.ItemPath },
+                                { "permanently", deleteOption == StorageDeleteOption.PermanentDelete }
                             });
-                            deleted = (FilesystemResult)(response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success);
-                        }
-                    }
-                    else
-                    {
-                        // Try again with DeleteFileFromApp
-                        if (!NativeFileOperationsHelper.DeleteFileFromApp(storItem.ItemPath))
-                        {
-                            Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
-                        }
-                        else
-                        {
-                            deleted = (FilesystemResult)true;
-                        }
+                        deleted = (FilesystemResult)(response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success);
                     }
                 }
                 else if (deleted.ErrorCode == FilesystemErrorCode.ERROR_INUSE)
