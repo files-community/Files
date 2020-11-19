@@ -74,8 +74,8 @@ namespace Files.Helpers
         public void SetDarkTheme()
         {
             FallbackColor = Color.FromArgb(255, 50, 49, 48);
-            TintColor = Colors.Black;
-            TintOpacity = 0.7;
+            TintColor = Color.FromArgb(255, 50, 49, 48);
+            TintOpacity = 0.9;
         }
     }
 }
