@@ -659,6 +659,7 @@ namespace Files.Interacts
                     newView = ApplicationView.GetForCurrentView();
                     newWindow.TitleBar.ExtendViewIntoTitleBar = true;
                     newView.Title = "PropertiesTitle".GetLocalized();
+                    newView.PersistedStateId = "Properties";
                     newView.SetPreferredMinSize(new Size(400, 550));
                     newView.Consolidated += delegate
                     {
