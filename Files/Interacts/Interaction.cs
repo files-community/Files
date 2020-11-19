@@ -145,13 +145,20 @@ namespace Files.Interacts
             }
         }
 
-        public void List_ItemPointerPressed(object sender, PointerRoutedEventArgs e)
+        public async void List_ItemPointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
             {
                 if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem Item && Item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    OpenPathInNewTab(Item.ItemPath);
+                    if (Item.IsShortcutItem)
+                    {
+                        await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), ((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+                    }
+                    else
+                    {
+                        OpenPathInNewTab(Item.ItemPath);
+                    }
                 }
             }
         }
