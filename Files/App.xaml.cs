@@ -39,8 +39,8 @@ namespace Files
     {
         private static bool ShowErrorNotification = false;
 
-        private readonly static CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
-        public static CancellationToken CancellationToken = _cancellationTokenSource.Token;
+        private readonly static CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        public static CancellationToken CancellationToken = cancellationTokenSource.Token;
 
         public static readonly List<IStorageHistory> StorageHistory = new List<IStorageHistory>();
         public static int StorageHistoryIndex = 0;

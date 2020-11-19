@@ -33,7 +33,7 @@ namespace Files
     /// </summary>
     public abstract class BaseLayout : Page, INotifyPropertyChanged
     {
-        private IFilesystemHelpers _filesystemHelpers;
+        private IFilesystemHelpers filesystemHelpers;
 
         private AppServiceConnection Connection => ParentShellPageInstance?.ServiceConnection;
 
@@ -137,7 +137,7 @@ namespace Files
 
         public BaseLayout()
         {
-            this._filesystemHelpers = new FilesystemHelpers(ParentShellPageInstance, App.CancellationToken);
+            this.filesystemHelpers = new FilesystemHelpers(ParentShellPageInstance, App.CancellationToken);
             SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel(this);
             DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
 
@@ -609,7 +609,7 @@ namespace Files
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                await _filesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, true);
+                await filesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, true);
                 e.Handled = true;
             }
 
@@ -715,7 +715,7 @@ namespace Files
 
             e.Handled = true;
             ListedItem rowItem = GetItemFromElement(sender);
-            await this._filesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, true);
+            await this.filesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, true);
             deferral.Complete();
         }
 

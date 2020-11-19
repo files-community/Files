@@ -35,7 +35,7 @@ namespace Files.Views.Pages
 {
     public sealed partial class ModernShellPage : Page, IShellPage, INotifyPropertyChanged
     {
-        private readonly IFilesystemHelpers _filesystemHelpers;
+        private readonly IFilesystemHelpers filesystemHelpers;
         public SettingsViewModel AppSettings => App.AppSettings;
         public bool IsCurrentInstance { get; set; } = false;
         public StatusBarControl BottomStatusStripControl => StatusBarControl;
@@ -86,7 +86,7 @@ namespace Files.Views.Pages
         public ModernShellPage()
         {
             this.InitializeComponent();
-            this._filesystemHelpers = new FilesystemHelpers(this, App.CancellationToken);
+            this.filesystemHelpers = new FilesystemHelpers(this, App.CancellationToken);
             AppSettings.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
             DisplayFilesystemConsentDialog();
 
@@ -173,7 +173,7 @@ namespace Files.Views.Pages
 
         private async void SidebarControl_SidebarItemDropped(object sender, Controls.SidebarItemDroppedEventArgs e)
         {
-            await this._filesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.ItemPath, true);
+            await this.filesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.ItemPath, true);
         }
 
         private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, Controls.SidebarItemPropertiesInvokedEventArgs e)
@@ -278,7 +278,7 @@ namespace Files.Views.Pages
 
         private async void ModernShellPage_PathBoxItemDropped(object sender, PathBoxItemDroppedEventArgs e)
         {
-            await this._filesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.Path, true);
+            await this.filesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.Path, true);
         }
 
         private void ModernShellPage_AddressBarTextEntered(object sender, AddressBarTextEnteredEventArgs e)
@@ -906,7 +906,7 @@ namespace Files.Views.Pages
                         {
                             itemsToDelete.Add(item.Path, item.Item.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory);
                         }
-                        await this._filesystemHelpers.DeleteItemsAsync(itemsToDelete, true, true, true);
+                        await this.filesystemHelpers.DeleteItemsAsync(itemsToDelete, true, true, true);
                     }
 
                     break;
@@ -975,7 +975,7 @@ namespace Files.Views.Pages
                         {
                             itemsToDelete.Add(item.Path, item.Item.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory);
                         }
-                        await this._filesystemHelpers.DeleteItemsAsync(itemsToDelete, true, false, true);
+                        await this.filesystemHelpers.DeleteItemsAsync(itemsToDelete, true, false, true);
                     }
 
                     break;

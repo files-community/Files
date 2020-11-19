@@ -14,15 +14,15 @@ namespace Files.Helpers
     {
         #region Private Members
 
-        private IShellPage _associatedInstance;
+        private IShellPage associatedInstance;
 
-        private AppServiceConnection Connection => _associatedInstance?.ServiceConnection;
+        private AppServiceConnection Connection => associatedInstance?.ServiceConnection;
 
         #endregion
 
         public RecycleBinHelpers(IShellPage associatedInstance)
         {
-            this._associatedInstance = associatedInstance;
+            this.associatedInstance = associatedInstance;
         }
 
         public async Task<List<ShellFileItem>> EnumerateRecycleBin()
@@ -72,9 +72,9 @@ namespace Files.Helpers
         public void Dispose()
         {
             this.Connection?.Dispose();
-            this._associatedInstance?.Dispose();
+            this.associatedInstance?.Dispose();
 
-            this._associatedInstance = null;
+            this.associatedInstance = null;
         }
 
         #endregion

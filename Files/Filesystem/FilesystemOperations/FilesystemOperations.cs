@@ -28,9 +28,9 @@ namespace Files.Filesystem
     {
         #region Private Members
 
-        private IShellPage _associatedInstance;
+        private IShellPage associatedInstance;
 
-        private RecycleBinHelpers _recycleBinHelpers;
+        private RecycleBinHelpers recycleBinHelpers;
 
         #endregion
 
@@ -38,8 +38,8 @@ namespace Files.Filesystem
 
         public FilesystemOperations(IShellPage associatedInstance)
         {
-            this._associatedInstance = associatedInstance;
-            this._recycleBinHelpers = new RecycleBinHelpers(this._associatedInstance);
+            this.associatedInstance = associatedInstance;
+            this.recycleBinHelpers = new RecycleBinHelpers(this.associatedInstance);
         }
 
         #endregion
@@ -79,7 +79,7 @@ namespace Files.Filesystem
                         break;
                 }
 
-                errorCode?.Report(FilesystemErrorCode.ERROR_SUCCESS);
+                errorCode?.Report(FilesystemErrorCode.ERRORSUCCESS);
                 return new StorageHistory(FileOperationType.CreateNew, fullPath, itemType.ToString());
             }
             catch (Exception e)
@@ -91,9 +91,9 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> CopyAsync(IStorageItem source, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken)
         {
-            if (_associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
             {
-                errorCode?.Report(FilesystemErrorCode.ERROR_UNAUTHORIZED);
+                errorCode?.Report(FilesystemErrorCode.ERRORUNAUTHORIZED);
                 progress?.Report(100.0f);
 
                 // Do not paste files and folders inside the recycle bin
@@ -128,12 +128,12 @@ namespace Files.Filesystem
                     if (responseType == ImpossibleActionResponseTypes.Skip)
                     {
                         progress?.Report(100.0f);
-                        errorCode?.Report(FilesystemErrorCode.ERROR_SUCCESS | FilesystemErrorCode.ERROR_INPROGRESS);
+                        errorCode?.Report(FilesystemErrorCode.ERRORSUCCESS | FilesystemErrorCode.ERRORINPROGRESS);
                     }
                     else if (responseType == ImpossibleActionResponseTypes.Abort)
                     {
                         progress?.Report(100.0f);
-                        errorCode?.Report(FilesystemErrorCode.ERROR_INPROGRESS | FilesystemErrorCode.ERROR_GENERIC);
+                        errorCode?.Report(FilesystemErrorCode.ERRORINPROGRESS | FilesystemErrorCode.ERRORGENERIC);
                     }
                 }
                 else
@@ -143,7 +143,7 @@ namespace Files.Filesystem
                         progress?.Report((float)(itemSize * 100.0f / itemSize));
                     }
 
-                    await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination))
+                    await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination))
                         .OnSuccess(t => CloneDirectoryAsync((IStorageFolder)source, t, source.Name))
                         .OnSuccess(t =>
                         {
@@ -158,7 +158,7 @@ namespace Files.Filesystem
                     progress?.Report((float)(itemSize * 100.0f / itemSize));
                 }
 
-                FilesystemResult<StorageFolder> fsResult = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
+                FilesystemResult<StorageFolder> fsResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
 
                 if (fsResult)
                 {
@@ -169,7 +169,7 @@ namespace Files.Filesystem
                     {
                         copiedItem = fsResultCopy.Result;
                     }
-                    else if (fsResultCopy.ErrorCode == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+                    else if (fsResultCopy.ErrorCode == FilesystemErrorCode.ERRORUNAUTHORIZED)
                     {
                         // Try again with CopyFileFromApp
                         if (NativeFileOperationsHelper.CopyFileFromApp(source.Path, destination, true))
@@ -188,14 +188,14 @@ namespace Files.Filesystem
                 }
             }
 
-            if (Path.GetDirectoryName(destination) == _associatedInstance.FilesystemViewModel.WorkingDirectory)
+            if (Path.GetDirectoryName(destination) == associatedInstance.FilesystemViewModel.WorkingDirectory)
             {
                 if (copiedItem != null)
                 {
-                    List<ListedItem> copiedListedItems = _associatedInstance.FilesystemViewModel.FilesAndFolders.Where(listedItem => copiedItem.Path.Contains(listedItem.ItemPath)).ToList();
+                    List<ListedItem> copiedListedItems = associatedInstance.FilesystemViewModel.FilesAndFolders.Where(listedItem => copiedItem.Path.Contains(listedItem.ItemPath)).ToList();
 
-                    _associatedInstance.ContentPage.AddSelectedItemsOnUi(copiedListedItems);
-                    _associatedInstance.ContentPage.FocusSelectedItems();
+                    associatedInstance.ContentPage.AddSelectedItemsOnUi(copiedListedItems);
+                    associatedInstance.ContentPage.FocusSelectedItems();
                 }
             }
 
@@ -214,22 +214,22 @@ namespace Files.Filesystem
                 // Can't move (only copy) files from MTP devices because:
                 // StorageItems returned in DataPackageView are read-only
                 // The item.Path property will be empty and there's no way of retrieving a new StorageItem with R/W access
-                errorCode?.Report(FilesystemErrorCode.ERROR_SUCCESS | FilesystemErrorCode.ERROR_INPROGRESS);
+                errorCode?.Report(FilesystemErrorCode.ERRORSUCCESS | FilesystemErrorCode.ERRORINPROGRESS);
             }
             if (source.IsOfType(StorageItemTypes.File))
             {
                 // If we reached this we are not in an MTP device, using StorageFile.* is ok here
-                fsResultDelete = await _associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source.Path)
+                fsResultDelete = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source.Path)
                     .OnSuccess(t => t.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
             }
             else if (source.IsOfType(StorageItemTypes.Folder))
             {
                 // If we reached this we are not in an MTP device, using StorageFolder.* is ok here
-                fsResultDelete = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.Path)
+                fsResultDelete = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.Path)
                     .OnSuccess(t => t.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
             }
 
-            if (fsResultDelete == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+            if (fsResultDelete == FilesystemErrorCode.ERRORUNAUTHORIZED)
             {
                 // Try again with DeleteFileFromApp
                 if (!NativeFileOperationsHelper.DeleteFileFromApp(source.Path))
@@ -237,7 +237,7 @@ namespace Files.Filesystem
                     Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
                 }
             }
-            else if (fsResultDelete == FilesystemErrorCode.ERROR_NOTFOUND)
+            else if (fsResultDelete == FilesystemErrorCode.ERRORNOTFOUND)
             {
                 // File or Folder was moved/deleted in the meantime
                 errorCode?.Report(fsResultDelete);
@@ -250,9 +250,9 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> DeleteAsync(IStorageItem source, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, bool permanently, CancellationToken cancellationToken)
         {
-            bool deleteFromRecycleBin = await _recycleBinHelpers.IsRecycleBinItem(source);
+            bool deleteFromRecycleBin = await recycleBinHelpers.IsRecycleBinItem(source);
 
-            FilesystemResult fsResult = FilesystemErrorCode.ERROR_INPROGRESS;
+            FilesystemResult fsResult = FilesystemErrorCode.ERRORINPROGRESS;
             FilesystemItemType itemType = source.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory;
 
             errorCode?.Report(fsResult);
@@ -262,12 +262,12 @@ namespace Files.Filesystem
             {
                 if (sourceWithPath.Item.IsOfType(StorageItemTypes.File))
                 {
-                    fsResult = await _associatedInstance.FilesystemViewModel.GetFileFromPathAsync(sourceWithPath.Path)
+                    fsResult = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(sourceWithPath.Path)
                         .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
                 }
                 else if (sourceWithPath.Item.IsOfType(StorageItemTypes.Folder))
                 {
-                    fsResult = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(sourceWithPath.Path)
+                    fsResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(sourceWithPath.Path)
                         .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
                 }
             }
@@ -275,25 +275,25 @@ namespace Files.Filesystem
             {
                 if (source.IsOfType(StorageItemTypes.File))
                 {
-                    fsResult = await _associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source.Path)
+                    fsResult = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source.Path)
                         .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
                 }
                 else if (source.IsOfType(StorageItemTypes.Folder))
                 {
-                    fsResult = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.Path)
+                    fsResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.Path)
                         .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
                 }
             }
             errorCode?.Report(fsResult);
 
-            if (fsResult == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+            if (fsResult == FilesystemErrorCode.ERRORUNAUTHORIZED)
             {
                 if (!permanently)
                 {
                     // Try again with fulltrust process
-                    if (_associatedInstance.FilesystemViewModel.Connection != null)
+                    if (associatedInstance.FilesystemViewModel.Connection != null)
                     {
-                        AppServiceResponse response = await _associatedInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet()
+                        AppServiceResponse response = await associatedInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "MoveToBin" },
@@ -315,7 +315,7 @@ namespace Files.Filesystem
                     }
                 }
             }
-            else if (fsResult == FilesystemErrorCode.ERROR_INUSE)
+            else if (fsResult == FilesystemErrorCode.ERRORINUSE)
             {
                 // TODO: retry or show dialog
                 await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), "FileInUseDeleteDialog/Text".GetLocalized());
@@ -325,7 +325,7 @@ namespace Files.Filesystem
             {
                 // Recycle bin also stores a file starting with $I for each item
                 string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I"));
-                await _associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
+                await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
                     .OnSuccess(t => t.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
             }
             errorCode?.Report(fsResult);
@@ -333,12 +333,12 @@ namespace Files.Filesystem
 
             if (fsResult)
             {
-                await _associatedInstance.FilesystemViewModel.RemoveFileOrFolderAsync(source.Path);
+                await associatedInstance.FilesystemViewModel.RemoveFileOrFolderAsync(source.Path);
 
                 if (!permanently)
                 {
                     // Enumerate Recycle Bin
-                    List<ShellFileItem> items = await this._recycleBinHelpers.EnumerateRecycleBin();
+                    List<ShellFileItem> items = await this.recycleBinHelpers.EnumerateRecycleBin();
 
                     // Get name matching files
                     List<ShellFileItem> nameMatchItems = items.Where((item) => item.FileName == source.Name).ToList();
@@ -360,9 +360,9 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> DeleteAsync(string source, FilesystemItemType itemType, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, bool permanently, CancellationToken cancellationToken)
         {
-            bool deleteFromRecycleBin = await _recycleBinHelpers.IsRecycleBinItem(source);
+            bool deleteFromRecycleBin = await recycleBinHelpers.IsRecycleBinItem(source);
 
-            FilesystemResult fsResult = FilesystemErrorCode.ERROR_INPROGRESS;
+            FilesystemResult fsResult = FilesystemErrorCode.ERRORINPROGRESS;
 
             errorCode?.Report(fsResult);
             progress?.Report(0.0f);
@@ -370,25 +370,25 @@ namespace Files.Filesystem
 
             if (itemType == FilesystemItemType.File)
             {
-                fsResult = await _associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source)
+                fsResult = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source)
                     .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
             }
             else if (itemType == FilesystemItemType.Directory)
             {
-                fsResult = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source)
+                fsResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source)
                     .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
             }
 
             errorCode?.Report(fsResult);
 
-            if (fsResult == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+            if (fsResult == FilesystemErrorCode.ERRORUNAUTHORIZED)
             {
                 if (!permanently)
                 {
                     // Try again with fulltrust process
-                    if (_associatedInstance.FilesystemViewModel.Connection != null)
+                    if (associatedInstance.FilesystemViewModel.Connection != null)
                     {
-                        AppServiceResponse response = await _associatedInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet()
+                        AppServiceResponse response = await associatedInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "MoveToBin" },
@@ -410,7 +410,7 @@ namespace Files.Filesystem
                     }
                 }
             }
-            else if (fsResult == FilesystemErrorCode.ERROR_INUSE)
+            else if (fsResult == FilesystemErrorCode.ERRORINUSE)
             {
                 // TODO: retry or show dialog
                 await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), "FileInUseDeleteDialog/Text".GetLocalized());
@@ -420,7 +420,7 @@ namespace Files.Filesystem
             {
                 // Recycle bin also stores a file starting with $I for each item
                 string iFilePath = Path.Combine(Path.GetDirectoryName(source), Path.GetFileName(source).Replace("$R", "$I"));
-                await _associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
+                await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
                     .OnSuccess(t => t.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
             }
             errorCode?.Report(fsResult);
@@ -428,12 +428,12 @@ namespace Files.Filesystem
 
             if (fsResult)
             {
-                await _associatedInstance.FilesystemViewModel.RemoveFileOrFolderAsync(source);
+                await associatedInstance.FilesystemViewModel.RemoveFileOrFolderAsync(source);
 
                 if (!permanently)
                 {
                     // Enumerate Recycle Bin
-                    List<ShellFileItem> items = await this._recycleBinHelpers.EnumerateRecycleBin();
+                    List<ShellFileItem> items = await this.recycleBinHelpers.EnumerateRecycleBin();
 
                     // Get name matching files
                     List<ShellFileItem> nameMatchItems = items.Where((item) => item.FileName == Path.GetFileName(source)).ToList();
@@ -460,7 +460,7 @@ namespace Files.Filesystem
                 string originalSource = source.Path;
                 await source.RenameAsync(newName, collision);
 
-                errorCode?.Report(FilesystemErrorCode.ERROR_SUCCESS);
+                errorCode?.Report(FilesystemErrorCode.ERRORSUCCESS);
                 return new StorageHistory(FileOperationType.Rename, originalSource, source.Path);
             }
             catch (Exception e)
@@ -472,14 +472,14 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> RestoreFromTrashAsync(string source, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken)
         {
-            FilesystemResult fsResult = FilesystemErrorCode.ERROR_INPROGRESS;
+            FilesystemResult fsResult = FilesystemErrorCode.ERRORINPROGRESS;
             errorCode?.Report(fsResult);
             FilesystemItemType itemType = EnumExtensions.GetEnum<FilesystemItemType>(source.Split('|')[1]);
             source = source.Split('|')[0];
 
             if (itemType == FilesystemItemType.Directory)
             {
-                FilesystemResult<StorageFolder> sourceFolder = await _associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source);
+                FilesystemResult<StorageFolder> sourceFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source);
                 fsResult = sourceFolder.ErrorCode;
                 errorCode?.Report(fsResult);
 
@@ -492,7 +492,7 @@ namespace Files.Filesystem
             }
             else
             {
-                FilesystemResult<StorageFile> sourceFile = await _associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source);
+                FilesystemResult<StorageFile> sourceFile = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source);
                 fsResult = sourceFile.ErrorCode;
                 errorCode?.Report(fsResult);
 
@@ -505,21 +505,21 @@ namespace Files.Filesystem
 
             // Recycle bin also stores a file starting with $I for each item
             string iFilePath = Path.Combine(Path.GetDirectoryName(source), Path.GetFileName(source).Replace("$R", "$I"));
-            await _associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
+            await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
                 .OnSuccess(iFile => iFile.DeleteAsync().AsTask());
 
             errorCode?.Report(fsResult);
-            if (fsResult != FilesystemErrorCode.ERROR_SUCCESS)
+            if (fsResult != FilesystemErrorCode.ERRORSUCCESS)
             {
-                if (((FilesystemErrorCode)fsResult).HasFlag(FilesystemErrorCode.ERROR_UNAUTHORIZED))
+                if (((FilesystemErrorCode)fsResult).HasFlag(FilesystemErrorCode.ERRORUNAUTHORIZED))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("AccessDeniedDeleteDialog/Title".GetLocalized(), "AccessDeniedDeleteDialog/Text".GetLocalized());
                 }
-                else if (((FilesystemErrorCode)fsResult).HasFlag(FilesystemErrorCode.ERROR_UNAUTHORIZED))
+                else if (((FilesystemErrorCode)fsResult).HasFlag(FilesystemErrorCode.ERRORUNAUTHORIZED))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 }
-                else if (((FilesystemErrorCode)fsResult).HasFlag(FilesystemErrorCode.ERROR_ALREADYEXIST))
+                else if (((FilesystemErrorCode)fsResult).HasFlag(FilesystemErrorCode.ERRORALREADYEXIST))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalized(), "ItemAlreadyExistsDialogContent".GetLocalized());
                 }
@@ -664,11 +664,11 @@ namespace Files.Filesystem
 
         public void Dispose()
         {
-            this._associatedInstance?.Dispose();
-            this._recycleBinHelpers?.Dispose();
+            this.associatedInstance?.Dispose();
+            this.recycleBinHelpers?.Dispose();
 
-            this._recycleBinHelpers = null;
-            this._associatedInstance = null;
+            this.recycleBinHelpers = null;
+            this.associatedInstance = null;
         }
 
         #endregion
