@@ -144,7 +144,7 @@ namespace Files
             }
             else if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
             {
-                ParentShellPageInstance.InteractionOperations.List_ItemPointerPressed(sender, e);
+                ParentShellPageInstance.InteractionOperations.ItemPointerPressed(sender, e);
             }
         }
 

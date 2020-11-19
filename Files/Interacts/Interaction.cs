@@ -145,7 +145,7 @@ namespace Files.Interacts
             }
         }
 
-        public async void List_ItemPointerPressed(object sender, PointerRoutedEventArgs e)
+        public async void ItemPointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
             {
