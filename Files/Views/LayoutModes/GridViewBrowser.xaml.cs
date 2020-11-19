@@ -142,6 +142,10 @@ namespace Files
             {
                 ClearSelection();
             }
+            else if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
+            {
+                ParentShellPageInstance.InteractionOperations.ItemPointerPressed(sender, e);
+            }
         }
 
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)

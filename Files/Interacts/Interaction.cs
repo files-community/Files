@@ -145,6 +145,23 @@ namespace Files.Interacts
             }
         }
 
+        public void ItemPointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
+            {
+                if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem Item && Item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    if (Item.IsShortcutItem)
+                    {
+                        OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+                    }
+                    else
+                    {
+                        OpenPathInNewTab(Item.ItemPath);
+                    }
+                }
+            }
+        }
         public static async void OpenPathInNewTab(string path)
         {
             await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), path);
