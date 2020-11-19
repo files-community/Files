@@ -79,7 +79,7 @@ namespace Files.Filesystem
                         break;
                 }
 
-                errorCode?.Report(FilesystemErrorCode.ERRORSUCCESS);
+                errorCode?.Report(FilesystemErrorCode.ERROR_SUCCESS);
                 return new StorageHistory(FileOperationType.CreateNew, fullPath, itemType.ToString());
             }
             catch (Exception e)
@@ -93,7 +93,7 @@ namespace Files.Filesystem
         {
             if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
             {
-                errorCode?.Report(FilesystemErrorCode.ERRORUNAUTHORIZED);
+                errorCode?.Report(FilesystemErrorCode.ERROR_UNAUTHORIZED);
                 progress?.Report(100.0f);
 
                 // Do not paste files and folders inside the recycle bin
@@ -128,12 +128,12 @@ namespace Files.Filesystem
                     if (responseType == ImpossibleActionResponseTypes.Skip)
                     {
                         progress?.Report(100.0f);
-                        errorCode?.Report(FilesystemErrorCode.ERRORSUCCESS | FilesystemErrorCode.ERRORINPROGRESS);
+                        errorCode?.Report(FilesystemErrorCode.ERROR_SUCCESS | FilesystemErrorCode.ERROR_INPROGRESS);
                     }
                     else if (responseType == ImpossibleActionResponseTypes.Abort)
                     {
                         progress?.Report(100.0f);
-                        errorCode?.Report(FilesystemErrorCode.ERRORINPROGRESS | FilesystemErrorCode.ERRORGENERIC);
+                        errorCode?.Report(FilesystemErrorCode.ERROR_INPROGRESS | FilesystemErrorCode.ERROR_GENERIC);
                     }
                 }
                 else
@@ -169,7 +169,7 @@ namespace Files.Filesystem
                     {
                         copiedItem = fsResultCopy.Result;
                     }
-                    else if (fsResultCopy.ErrorCode == FilesystemErrorCode.ERRORUNAUTHORIZED)
+                    else if (fsResultCopy.ErrorCode == FilesystemErrorCode.ERROR_UNAUTHORIZED)
                     {
                         // Try again with CopyFileFromApp
                         if (NativeFileOperationsHelper.CopyFileFromApp(source.Path, destination, true))
@@ -214,7 +214,7 @@ namespace Files.Filesystem
                 // Can't move (only copy) files from MTP devices because:
                 // StorageItems returned in DataPackageView are read-only
                 // The item.Path property will be empty and there's no way of retrieving a new StorageItem with R/W access
-                errorCode?.Report(FilesystemErrorCode.ERRORSUCCESS | FilesystemErrorCode.ERRORINPROGRESS);
+                errorCode?.Report(FilesystemErrorCode.ERROR_SUCCESS | FilesystemErrorCode.ERROR_INPROGRESS);
             }
             if (source.IsOfType(StorageItemTypes.File))
             {
@@ -229,7 +229,7 @@ namespace Files.Filesystem
                     .OnSuccess(t => t.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
             }
 
-            if (fsResultDelete == FilesystemErrorCode.ERRORUNAUTHORIZED)
+            if (fsResultDelete == FilesystemErrorCode.ERROR_UNAUTHORIZED)
             {
                 // Try again with DeleteFileFromApp
                 if (!NativeFileOperationsHelper.DeleteFileFromApp(source.Path))
@@ -237,7 +237,7 @@ namespace Files.Filesystem
                     Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
                 }
             }
-            else if (fsResultDelete == FilesystemErrorCode.ERRORNOTFOUND)
+            else if (fsResultDelete == FilesystemErrorCode.ERROR_NOTFOUND)
             {
                 // File or Folder was moved/deleted in the meantime
                 errorCode?.Report(fsResultDelete);
@@ -252,7 +252,7 @@ namespace Files.Filesystem
         {
             bool deleteFromRecycleBin = await recycleBinHelpers.IsRecycleBinItem(source);
 
-            FilesystemResult fsResult = FilesystemErrorCode.ERRORINPROGRESS;
+            FilesystemResult fsResult = FilesystemErrorCode.ERROR_INPROGRESS;
             FilesystemItemType itemType = source.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory;
 
             errorCode?.Report(fsResult);
@@ -286,7 +286,7 @@ namespace Files.Filesystem
             }
             errorCode?.Report(fsResult);
 
-            if (fsResult == FilesystemErrorCode.ERRORUNAUTHORIZED)
+            if (fsResult == FilesystemErrorCode.ERROR_UNAUTHORIZED)
             {
                 if (!permanently)
                 {
@@ -315,7 +315,7 @@ namespace Files.Filesystem
                     }
                 }
             }
-            else if (fsResult == FilesystemErrorCode.ERRORINUSE)
+            else if (fsResult == FilesystemErrorCode.ERROR_INUSE)
             {
                 // TODO: retry or show dialog
                 await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), "FileInUseDeleteDialog/Text".GetLocalized());
@@ -362,7 +362,7 @@ namespace Files.Filesystem
         {
             bool deleteFromRecycleBin = await recycleBinHelpers.IsRecycleBinItem(source);
 
-            FilesystemResult fsResult = FilesystemErrorCode.ERRORINPROGRESS;
+            FilesystemResult fsResult = FilesystemErrorCode.ERROR_INPROGRESS;
 
             errorCode?.Report(fsResult);
             progress?.Report(0.0f);
@@ -381,7 +381,7 @@ namespace Files.Filesystem
 
             errorCode?.Report(fsResult);
 
-            if (fsResult == FilesystemErrorCode.ERRORUNAUTHORIZED)
+            if (fsResult == FilesystemErrorCode.ERROR_UNAUTHORIZED)
             {
                 if (!permanently)
                 {
@@ -410,7 +410,7 @@ namespace Files.Filesystem
                     }
                 }
             }
-            else if (fsResult == FilesystemErrorCode.ERRORINUSE)
+            else if (fsResult == FilesystemErrorCode.ERROR_INUSE)
             {
                 // TODO: retry or show dialog
                 await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), "FileInUseDeleteDialog/Text".GetLocalized());
@@ -460,7 +460,7 @@ namespace Files.Filesystem
                 string originalSource = source.Path;
                 await source.RenameAsync(newName, collision);
 
-                errorCode?.Report(FilesystemErrorCode.ERRORSUCCESS);
+                errorCode?.Report(FilesystemErrorCode.ERROR_SUCCESS);
                 return new StorageHistory(FileOperationType.Rename, originalSource, source.Path);
             }
             catch (Exception e)
@@ -472,7 +472,7 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> RestoreFromTrashAsync(string source, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken)
         {
-            FilesystemResult fsResult = FilesystemErrorCode.ERRORINPROGRESS;
+            FilesystemResult fsResult = FilesystemErrorCode.ERROR_INPROGRESS;
             errorCode?.Report(fsResult);
             FilesystemItemType itemType = EnumExtensions.GetEnum<FilesystemItemType>(source.Split('|')[1]);
             source = source.Split('|')[0];
@@ -509,17 +509,17 @@ namespace Files.Filesystem
                 .OnSuccess(iFile => iFile.DeleteAsync().AsTask());
 
             errorCode?.Report(fsResult);
-            if (fsResult != FilesystemErrorCode.ERRORSUCCESS)
+            if (fsResult != FilesystemErrorCode.ERROR_SUCCESS)
             {
-                if (((FilesystemErrorCode)fsResult).HasFlag(FilesystemErrorCode.ERRORUNAUTHORIZED))
+                if (((FilesystemErrorCode)fsResult).HasFlag(FilesystemErrorCode.ERROR_UNAUTHORIZED))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("AccessDeniedDeleteDialog/Title".GetLocalized(), "AccessDeniedDeleteDialog/Text".GetLocalized());
                 }
-                else if (((FilesystemErrorCode)fsResult).HasFlag(FilesystemErrorCode.ERRORUNAUTHORIZED))
+                else if (((FilesystemErrorCode)fsResult).HasFlag(FilesystemErrorCode.ERROR_UNAUTHORIZED))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 }
-                else if (((FilesystemErrorCode)fsResult).HasFlag(FilesystemErrorCode.ERRORALREADYEXIST))
+                else if (((FilesystemErrorCode)fsResult).HasFlag(FilesystemErrorCode.ERROR_ALREADYEXIST))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalized(), "ItemAlreadyExistsDialogContent".GetLocalized());
                 }

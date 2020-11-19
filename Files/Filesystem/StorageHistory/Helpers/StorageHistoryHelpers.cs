@@ -38,8 +38,8 @@ namespace Files.Filesystem.FilesystemHistory
         {
             if (CanRedo())
             {
-                App.StorageHistoryIndex++;
                 int index = EnumerableHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count);
+                App.StorageHistoryIndex++;
                 return await this._storageHistoryOperations.Redo(App.StorageHistory[index]);
             }
             return ReturnResult.InProgress;
