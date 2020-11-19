@@ -282,20 +282,17 @@
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Appearance</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Header" xml:space="preserve">
-    <value>Show drive letters</value>
-  </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>Show extensions for known file types</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Header" xml:space="preserve">
-    <value>Show hidden files, folders, and drives</value>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
+    <value>Show hidden files and folders</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Show hidden files and folders</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Files and Folders</value>
-  </data>
-  <data name="SettingsExperimentalDoubleTapToRenameFiles.Header" xml:space="preserve">
-    <value>Double click to rename files</value>
   </data>
   <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
     <value>Experimental</value>
@@ -320,9 +317,6 @@
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferences</value>
-  </data>
-  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>Search</value>
   </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
     <value>WARNING: EXPERIMENTAL FEATURES AHEAD!</value>
@@ -527,9 +521,6 @@
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Refresh (F5)</value>
-  </data>
-  <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Create a new item (Ctrl + Shift + N)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Search</value>
@@ -1077,9 +1068,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Go up one directory</value>
   </data>
-  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Create new item</value>
-  </data>
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>Vertical tab strip</value>
   </data>
@@ -1094,9 +1082,6 @@
   </data>
   <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Show an option to copy the location of the selected item</value>
-  </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Pin OneDrive to the sidebar</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Pin Recycle Bin to the sidebar</value>
@@ -1122,14 +1107,11 @@
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Terminal Applications</value>
   </data>
-  <data name="CopyLocationToggleSwitch.Header" xml:space="preserve">
+  <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
     <value>Show an option to copy the location of the selected item</value>
   </data>
   <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
     <value>Show all context menu items</value>
-  </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.Header" xml:space="preserve">
-    <value>Pin OneDrive to the sidebar</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Pin Recycle Bin to the sidebar</value>
@@ -1139,5 +1121,86 @@
   </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>Terminal Applications</value>
+  </data>
+  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>More options</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.AutomationProperties.Name" xml:space="preserve">
+    <value>Layout mode</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Selection options</value>
+  </data>
+  <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
+    <value>Status center</value>
+  </data>
+  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
+    <value>Open items with a single click</value>
+  </data>
+  <data name="FileItemAutomation" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="FolderItemAutomation" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="RecycleBinItemAutomation" xml:space="preserve">
+    <value>Recycle bin item</value>
+  </data>
+  <data name="ShortcutItemAutomation" xml:space="preserve">
+    <value>Shortcut item</value>
+  </data>
+  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+    <value>Drives</value>
+  </data>
+  <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
+    <value>Move here</value>
+  </data>
+  <data name="SettingsWidgets.Content" xml:space="preserve">
+    <value>Widgets</value>
+  </data>
+  <data name="SettingsWidgetsShowDrives.AutomationProperties.Name" xml:space="preserve">
+    <value>Show drives on the home page</value>
+  </data>
+  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
+    <value>Show drives on the home page</value>
+  </data>
+  <data name="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" xml:space="preserve">
+    <value>Show library cards on the home page</value>
+  </data>
+  <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
+    <value>Show library cards on the home page</value>
+  </data>
+  <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
+    <value>Show recent files on the home page</value>
+  </data>
+  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
+    <value>Show recent files on the home page</value>
+  </data>
+  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
+    <value>Widgets</value>
+  </data>
+  <data name="EjectNotificationHeader" xml:space="preserve">
+    <value>Safe to remove hardware</value>
+  </data>
+  <data name="EjectNotificationBody" xml:space="preserve">
+    <value>The device can now be safely removed from the computer.</value>
+  </data>
+  <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
+    <value>Problem Ejecting Device</value>
+  </data>
+  <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
+    <value>This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</value>
+  </data>
+  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+    <value>Eject</value>
+  </data>
+  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+    <value>Duplicate tab</value>
+  </data>
+  <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
+    <value>Move tab to new window</value>
+  </data>
+  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+    <value>New tab</value>
   </data>
 </root>

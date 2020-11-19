@@ -10,11 +10,15 @@ namespace Files.Converters
             var array = value as string[];
 
             if (array == null || !(array is string[]))
+            {
                 return "";
+            }
 
             var str = "";
-            foreach (var i in array as string[])
+            foreach (var i in array)
+            {
                 str += string.Format("{0}; ", i);
+            }
 
             return str;
         }

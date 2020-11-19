@@ -8,7 +8,7 @@
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:usercontrols="using:Files.UserControls"
+    xmlns:usercontrols="using:Files.UserControls.MultitaskingControl"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
     NavigationCacheMode="Required"

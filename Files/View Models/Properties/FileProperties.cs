@@ -3,6 +3,7 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.UI.Xaml.Controls;
 using Newtonsoft.Json.Linq;
 using System;
@@ -151,13 +152,14 @@ namespace Files.View_Models.Properties
 
         public ListedItem Item { get; }
 
-        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ProgressBar progressBar, ListedItem item)
+        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ProgressBar progressBar, ListedItem item, IShellPage instance)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;
             ProgressBar = progressBar;
             Dispatcher = coreDispatcher;
             Item = item;
+            AppInstance = instance;
 
             GetBaseProperties();
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
@@ -186,8 +188,8 @@ namespace Files.View_Models.Properties
                             || shortcutItem.TargetPath.EndsWith(".msi", StringComparison.OrdinalIgnoreCase)
                             || shortcutItem.TargetPath.EndsWith(".bat", StringComparison.OrdinalIgnoreCase));
 
-                    ViewModel.ShortcutItemType = isApplication ? ResourceController.GetTranslation("PropertiesShortcutTypeApplication") :
-                        Item.IsLinkItem ? ResourceController.GetTranslation("PropertiesShortcutTypeLink") : ResourceController.GetTranslation("PropertiesShortcutTypeFile");
+                    ViewModel.ShortcutItemType = isApplication ? "PropertiesShortcutTypeApplication".GetLocalized() :
+                        Item.IsLinkItem ? "PropertiesShortcutTypeLink".GetLocalized() : "PropertiesShortcutTypeFile".GetLocalized();
                     ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
                     ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
                     ViewModel.ShortcutItemWorkingDirVisibility = Item.IsLinkItem ? Visibility.Collapsed : Visibility.Visible;
@@ -199,7 +201,7 @@ namespace Files.View_Models.Properties
                         if (Item.IsLinkItem)
                         {
                             var tmpItem = (ShortcutItem)Item;
-                            await Interacts.Interaction.InvokeWin32Component(ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, tmpItem.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
+                            await AppInstance.InteractionOperations.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, tmpItem.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
                         }
                         else
                         {
@@ -216,9 +218,20 @@ namespace Files.View_Models.Properties
 
         public override async void GetSpecialProperties()
         {
+            ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(
+                Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+            ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
+                Item.ItemPath, System.IO.FileAttributes.Hidden);
+
             ViewModel.ItemSizeVisibility = Visibility.Visible;
             ViewModel.ItemSize = ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()
-                + " (" + ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
+                + " (" + ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + "ItemSizeBytes".GetLocalized() + ")";
+
+            var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
+            if (fileIconInfo.Icon != null && !Item.IsLinkItem)
+            {
+                ViewModel.FileIconSource = fileIconInfo.Icon;
+            }
 
             if (Item.IsShortcutItem)
             {
@@ -232,28 +245,11 @@ namespace Files.View_Models.Properties
                 }
             }
 
-            StorageFile file = null;
-            try
+            StorageFile file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+            if (file == null)
             {
-                file = await ItemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
-            }
-            catch (Exception ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                 // Could not access file, can't show any other property
                 return;
-            }
-
-            using (var Thumbnail = await file.GetThumbnailAsync(ThumbnailMode.SingleItem, 80, ThumbnailOptions.UseCurrentScale))
-            {
-                BitmapImage icon = new BitmapImage();
-                if (Thumbnail != null)
-                {
-                    ViewModel.FileIconSource = icon;
-                    await icon.SetSourceAsync(Thumbnail);
-                    ViewModel.LoadUnknownTypeGlyph = false;
-                    ViewModel.LoadFileIcon = true;
-                }
             }
 
             if (Item.IsShortcutItem)
@@ -274,8 +270,8 @@ namespace Files.View_Models.Properties
             ViewModel.ItemMD5HashVisibility = Visibility.Visible;
             try
             {
-                ViewModel.ItemMD5Hash = await App.CurrentInstance.InteractionOperations
-                    .GetHashForFile(Item, hashAlgTypeName, TokenSource.Token, ProgressBar);
+                ViewModel.ItemMD5Hash = await AppInstance.InteractionOperations
+                    .GetHashForFileAsync(Item, hashAlgTypeName, TokenSource.Token, ProgressBar);
             }
             catch (Exception ex)
             {
@@ -286,14 +282,9 @@ namespace Files.View_Models.Properties
 
         public async void GetSystemFileProperties()
         {
-            StorageFile file = null;
-            try
+            StorageFile file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+            if (file == null)
             {
-                file = await ItemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
-            }
-            catch (Exception ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                 // Could not access file, can't show any other property
                 return;
             }
@@ -332,17 +323,21 @@ namespace Files.View_Models.Properties
         private async void ViewModelProcessing()
         {
             if (ViewModel.DetailsSectionVisibility_Photo.Equals(Visibility.Visible))
+            {
                 ViewModel.CameraNameString = string.Format("{0} {1}", ViewModel.SystemFileProperties_RW["System.Photo.CameraManufacturer"], ViewModel.SystemFileProperties_RW["System.Photo.CameraModel"]);
+            }
 
             if (ViewModel.DetailsSectionVisibility_GPS == Visibility.Visible)
+            {
                 SetLocationInformation();
+            }
 
             if (ViewModel.DetailsSectionVisibility_GPS.Equals(Visibility.Visible))
             {
                 MapLocationFinderResult result = null;
                 try
                 {
-                    result = await GetAddressFromCoordinates((double)ViewModel.Latitude, (double)ViewModel.Longitude);
+                    result = await GetAddressFromCoordinatesAsync((double)ViewModel.Latitude, (double)ViewModel.Longitude);
                     if (result != null)
                     {
                         ViewModel.Geopoint = result.Locations[0];
@@ -382,13 +377,17 @@ namespace Files.View_Models.Properties
         private bool CheckVisibilityHelper(string endpoint, IDictionary<string, object> dict)
         {
             foreach (KeyValuePair<string, object> pair in dict)
+            {
                 if (pair.Key.Contains(endpoint) && pair.Value != null)
+                {
                     return true;
+                }
+            }
 
             return false;
         }
 
-        private async Task<MapLocationFinderResult> GetAddressFromCoordinates(double Lat, double Lon)
+        private async Task<MapLocationFinderResult> GetAddressFromCoordinatesAsync(double Lat, double Lon)
         {
             JObject obj;
             try
@@ -397,7 +396,7 @@ namespace Files.View_Models.Properties
                 var lines = await FileIO.ReadTextAsync(file);
                 obj = JObject.Parse(lines);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
@@ -416,33 +415,23 @@ namespace Files.View_Models.Properties
 
         public async void SyncPropertyChanges()
         {
-            StorageFile file = null;
-
-            try
+            StorageFile file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(Item.ItemPath);
+            if (file != null)
             {
-                file = await ItemViewModel.GetFileFromPathAsync(Item.ItemPath);
-                SavePropertiesAsync(file);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.ToString());
+                await SavePropertiesAsync(file);
             }
         }
 
-        private async void SavePropertiesAsync(StorageFile file)
+        private async Task SavePropertiesAsync(StorageFile file)
         {
             foreach (KeyValuePair<string, object> valuePair in ViewModel.SystemFileProperties_RW)
             {
                 var newDict = new Dictionary<string, object>();
                 newDict.Add(valuePair.Key, valuePair.Value);
-
-                try
+                var res = await FilesystemTasks.Wrap(() => file.Properties.SavePropertiesAsync(newDict).AsTask());
+                if (!res)
                 {
-                    await file.Properties.SavePropertiesAsync(newDict);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(string.Format("{0}\n{1}", valuePair.Key, e.ToString()));
+                    Debug.WriteLine(string.Format("{0}\n{1}", valuePair.Key, res.ErrorCode.ToString()));
                 }
             }
         }
@@ -451,38 +440,59 @@ namespace Files.View_Models.Properties
         /// This function goes through ever read-write property saved, then syncs it
         /// </summary>
         /// <returns></returns>
-        public async Task ClearPersonalInformation()
+        public async Task ClearPersonalInformationAsync()
         {
-            StorageFile file = null;
-            try
+            StorageFile file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync(Item.ItemPath);
+            if (file != null)
             {
-                file = await ItemViewModel.GetFileFromPathAsync(Item.ItemPath);
+                var dict = new Dictionary<string, object>();
+
+                foreach (string str in PersonalProperties)
+                {
+                    dict.Add(str, null);
+                }
+
+                await FilesystemTasks.Wrap(() => file.Properties.SavePropertiesAsync(dict).AsTask());
+
+                GetSpecialProperties();
             }
-            catch
-            {
-                //return;
-            }
-            var dict = new Dictionary<string, object>();
-
-            foreach (string str in PersonalProperties)
-                dict.Add(str, null);
-
-            await file.Properties.SavePropertiesAsync(dict);
-
-            GetSpecialProperties();
         }
 
         private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
+                case "IsReadOnly":
+                    if (ViewModel.IsReadOnly)
+                    {
+                        NativeFileOperationsHelper.SetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+                    }
+                    else
+                    {
+                        NativeFileOperationsHelper.UnsetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+                    }
+                    break;
+                case "IsHidden":
+                    if (ViewModel.IsHidden)
+                    {
+                        NativeFileOperationsHelper.SetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.Hidden);
+                    }
+                    else
+                    {
+                        NativeFileOperationsHelper.UnsetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.Hidden);
+                    }
+                    break;
                 case "ShortcutItemPath":
                 case "ShortcutItemWorkingDir":
                 case "ShortcutItemArguments":
                     var tmpItem = (ShortcutItem)Item;
                     if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
                         return;
-                    if (App.Connection != null)
+                    if (AppInstance.FilesystemViewModel.Connection != null)
                     {
                         var value = new ValueSet()
                         {
@@ -494,7 +504,7 @@ namespace Files.View_Models.Properties
                             { "workingdir", ViewModel.ShortcutItemWorkingDir },
                             { "runasadmin", tmpItem.RunAsAdmin },
                         };
-                        await App.Connection.SendMessageAsync(value);
+                        await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(value);
                     }
                     break;
             }

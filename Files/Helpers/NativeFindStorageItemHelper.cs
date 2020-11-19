@@ -49,9 +49,9 @@ namespace Files.Helpers
         public struct WIN32_FIND_DATA
         {
             public uint dwFileAttributes;
-            public System.Runtime.InteropServices.ComTypes.FILETIME ftCreationTime;
-            public System.Runtime.InteropServices.ComTypes.FILETIME ftLastAccessTime;
-            public System.Runtime.InteropServices.ComTypes.FILETIME ftLastWriteTime;
+            public FILETIME ftCreationTime;
+            public FILETIME ftLastAccessTime;
+            public FILETIME ftLastWriteTime;
             public uint nFileSizeHigh;
             public uint nFileSizeLow;
             public uint dwReserved0;

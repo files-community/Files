@@ -116,10 +116,6 @@
           <source>Preferences</source>
           <target state="translated">Tercihler</target>
         </trans-unit>
-        <trans-unit id="SettingsNavSearch.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Search</source>
-          <target state="translated">Ara</target>
-        </trans-unit>
         <trans-unit id="SettingsOnStartupContinueWhereYouLeftOff.Content" translate="yes" xml:space="preserve">
           <source>Continue where you left off</source>
           <target state="translated">Kaldığınız yerden devam edin</target>
@@ -463,10 +459,6 @@
           <source>Refresh (F5)</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Yenile (F5)</target>
         </trans-unit>
-        <trans-unit id="NavNewItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Create a new item (Ctrl + Shift + N)</source>
-          <target state="new">Create a new item (Ctrl + Shift + N)</target>
-        </trans-unit>
         <trans-unit id="NavSearchButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Search</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Ara</target>
@@ -785,19 +777,19 @@
         </trans-unit>
         <trans-unit id="KiloByteSymbol" translate="yes" xml:space="preserve">
           <source>KB</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">KB'den büyük olan postaları göster</target>
+          <target state="needs-review-translation">KB</target>
         </trans-unit>
         <trans-unit id="MegaByteSymbol" translate="yes" xml:space="preserve">
           <source>MB</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">MB'a ulaştığında</target>
+          <target state="needs-review-translation">MB</target>
         </trans-unit>
         <trans-unit id="GigaByteSymbol" translate="yes" xml:space="preserve">
           <source>GB</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">G</target>
+          <target state="needs-review-translation">GB</target>
         </trans-unit>
         <trans-unit id="TeraByteSymbol" translate="yes" xml:space="preserve">
           <source>TB</source>
-          <target state="new">TB</target>
+          <target state="needs-review-translation">TB</target>
         </trans-unit>
         <trans-unit id="PetaByteSymbol" translate="yes" xml:space="preserve">
           <source>PB</source>
@@ -805,7 +797,7 @@
         </trans-unit>
         <trans-unit id="ByteSymbol" translate="yes" xml:space="preserve">
           <source>B</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">K</target>
+          <target state="needs-review-translation">B</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
@@ -1235,10 +1227,6 @@
           <source>Layout mode</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Düzen modu</target>
         </trans-unit>
-        <trans-unit id="NewItemButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Create new item</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Yeni öğe oluştur</target>
-        </trans-unit>
         <trans-unit id="NavBackButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Navigate backwards</source>
           <target state="new">Navigate backwards</target>
@@ -1278,10 +1266,6 @@
         <trans-unit id="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show an option to copy the location of the selected item</source>
           <target state="new">Show an option to copy the location of the selected item</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Pin OneDrive to the sidebar</source>
-          <target state="new">Pin OneDrive to the sidebar</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
@@ -1327,17 +1311,9 @@
           <source>Access Denied</source>
           <target state="new">Access Denied</target>
         </trans-unit>
-        <trans-unit id="CopyLocationToggleSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show an option to copy the location of the selected item</source>
-          <target state="new">Show an option to copy the location of the selected item</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesContextMenuSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show all context menu items</source>
           <target state="new">Show all context menu items</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesPinOneDriveSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Pin OneDrive to the sidebar</source>
-          <target state="new">Pin OneDrive to the sidebar</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
@@ -1347,17 +1323,9 @@
           <source>Show a confirmation dialog when deleting files or folders</source>
           <target state="new">Show a confirmation dialog when deleting files or folders</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowDriveLetters.Header" translate="yes" xml:space="preserve">
-          <source>Show drive letters</source>
-          <target state="new">Show drive letters</target>
-        </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Header" translate="yes" xml:space="preserve">
           <source>Show extensions for known file types</source>
           <target state="new">Show extensions for known file types</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Header" translate="yes" xml:space="preserve">
-          <source>Show hidden files, folders, and drives</source>
-          <target state="new">Show hidden files, folders, and drives</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Header" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>
@@ -1371,13 +1339,129 @@
           <source>App theme</source>
           <target state="new">App theme</target>
         </trans-unit>
-        <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Header" translate="yes" xml:space="preserve">
-          <source>Double click to rename files</source>
-          <target state="new">Double click to rename files</target>
-        </trans-unit>
         <trans-unit id="SettingsShowFileOwnerInProperties.Header" translate="yes" xml:space="preserve">
           <source>Show Owner in properties</source>
           <target state="new">Show Owner in properties</target>
+        </trans-unit>
+        <trans-unit id="NavMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>More options</source>
+          <target state="new">More options</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlLayoutMode.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Layout mode</source>
+          <target state="new">Layout mode</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Selection options</source>
+          <target state="new">Selection options</target>
+        </trans-unit>
+        <trans-unit id="StatusCenter.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Status center</source>
+          <target state="new">Status center</target>
+        </trans-unit>
+        <trans-unit id="SettingsOpenItemsWithOneclick.Header" translate="yes" xml:space="preserve">
+          <source>Open items with a single click</source>
+          <target state="new">Open items with a single click</target>
+        </trans-unit>
+        <trans-unit id="FileItemAutomation" translate="yes" xml:space="preserve">
+          <source>File</source>
+          <target state="new">File</target>
+        </trans-unit>
+        <trans-unit id="FolderItemAutomation" translate="yes" xml:space="preserve">
+          <source>Folder</source>
+          <target state="new">Folder</target>
+        </trans-unit>
+        <trans-unit id="RecycleBinItemAutomation" translate="yes" xml:space="preserve">
+          <source>Recycle bin item</source>
+          <target state="new">Recycle bin item</target>
+        </trans-unit>
+        <trans-unit id="ShortcutItemAutomation" translate="yes" xml:space="preserve">
+          <source>Shortcut item</source>
+          <target state="new">Shortcut item</target>
+        </trans-unit>
+        <trans-unit id="PinToSidebarByDraggingCaptionText" translate="yes" xml:space="preserve">
+          <source>Move here</source>
+          <target state="new">Move here</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
+          <source>Drives</source>
+          <target state="new">Drives</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show library cards on the home page</source>
+          <target state="new">Show library cards on the home page</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowLibraryCards.Header" translate="yes" xml:space="preserve">
+          <source>Show library cards on the home page</source>
+          <target state="new">Show library cards on the home page</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsTitle.Text" translate="yes" xml:space="preserve">
+          <source>Widgets</source>
+          <target state="new">Widgets</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgets.Content" translate="yes" xml:space="preserve">
+          <source>Widgets</source>
+          <target state="new">Widgets</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowDrives.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show drives on the home page</source>
+          <target state="new">Show drives on the home page</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowDrives.Header" translate="yes" xml:space="preserve">
+          <source>Show drives on the home page</source>
+          <target state="new">Show drives on the home page</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show recent files on the home page</source>
+          <target state="new">Show recent files on the home page</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowRecentFiles.Header" translate="yes" xml:space="preserve">
+          <source>Show recent files on the home page</source>
+          <target state="new">Show recent files on the home page</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Show an option to copy the location of the selected item</source>
+          <target state="new">Show an option to copy the location of the selected item</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Header" translate="yes" xml:space="preserve">
+          <source>Show hidden files and folders</source>
+          <target state="new">Show hidden files and folders</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show hidden files and folders</source>
+          <target state="new">Show hidden files and folders</target>
+        </trans-unit>
+        <trans-unit id="EjectNotificationHeader" translate="yes" xml:space="preserve">
+          <source>Safe to remove hardware</source>
+          <target state="new">Safe to remove hardware</target>
+        </trans-unit>
+        <trans-unit id="EjectNotificationBody" translate="yes" xml:space="preserve">
+          <source>The device can now be safely removed from the computer.</source>
+          <target state="new">The device can now be safely removed from the computer.</target>
+        </trans-unit>
+        <trans-unit id="EjectNotificationErrorDialogHeader" translate="yes" xml:space="preserve">
+          <source>Problem Ejecting Device</source>
+          <target state="new">Problem Ejecting Device</target>
+        </trans-unit>
+        <trans-unit id="EjectNotificationErrorDialogBody" translate="yes" xml:space="preserve">
+          <source>This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</source>
+          <target state="new">This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</target>
+        </trans-unit>
+        <trans-unit id="SideBarEjectDevice.Text" translate="yes" xml:space="preserve">
+          <source>Eject</source>
+          <target state="new">Eject</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlDuplicateTab.Text" translate="yes" xml:space="preserve">
+          <source>Duplicate tab</source>
+          <target state="new">Duplicate tab</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlMoveTabToNewWindow.Text" translate="yes" xml:space="preserve">
+          <source>Move tab to new window</source>
+          <target state="new">Move tab to new window</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlNewTab.Text" translate="yes" xml:space="preserve">
+          <source>New tab</source>
+          <target state="new">New tab</target>
         </trans-unit>
       </group>
     </body>

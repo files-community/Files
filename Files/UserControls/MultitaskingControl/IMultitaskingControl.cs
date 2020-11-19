@@ -1,14 +1,26 @@
-﻿using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using Windows.UI.Xaml;
 
-namespace Files.UserControls.MultiTaskingControl
+namespace Files.UserControls.MultitaskingControl
 {
     public interface IMultitaskingControl
     {
-        Task SetSelectedTabInfo(string text, string currentPathForTabIcon);
+        public delegate void CurrentInstanceChangedEventHandler(object sender, CurrentInstanceChangedEventArgs e);
 
-        void SelectionChanged();
+        public void UpdateSelectedTab(string tabHeader, string workingDirectoryPath);
+
+        event CurrentInstanceChangedEventHandler CurrentInstanceChanged;
 
         ObservableCollection<TabItem> Items { get; }
+
+        void MultitaskingControl_Loaded(object sender, RoutedEventArgs e);
+    }
+
+    public class CurrentInstanceChangedEventArgs : EventArgs
+    {
+        public IShellPage CurrentInstance { get; set; }
+        public List<IShellPage> ShellPageInstances { get; set; }
     }
 }

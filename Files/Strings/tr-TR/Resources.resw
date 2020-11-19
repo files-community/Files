@@ -90,9 +90,6 @@
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Tercihler</value>
   </data>
-  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>Ara</value>
-  </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Kaldığınız yerden devam edin</value>
   </data>
@@ -487,19 +484,22 @@
     <value>bayt</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
-    <value>KB'den büyük olan postaları göster</value>
+    <value>KB</value>
   </data>
   <data name="MegaByteSymbol" xml:space="preserve">
-    <value>MB'a ulaştığında</value>
+    <value>MB</value>
   </data>
   <data name="GigaByteSymbol" xml:space="preserve">
-    <value>G</value>
+    <value>GB</value>
+  </data>
+  <data name="TeraByteSymbol" xml:space="preserve">
+    <value>TB</value>
   </data>
   <data name="PetaByteSymbol" xml:space="preserve">
     <value>PB</value>
   </data>
   <data name="ByteSymbol" xml:space="preserve">
-    <value>K</value>
+    <value>B</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Kilidi aç</value>
@@ -695,9 +695,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Düzen modu</value>
-  </data>
-  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Yeni öğe oluştur</value>
   </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>İleri Git</value>

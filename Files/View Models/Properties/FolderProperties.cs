@@ -1,8 +1,10 @@
 ﻿using ByteSizeLib;
+using Files.Common;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.IO;
@@ -11,8 +13,10 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.Storage.FileProperties;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.View_Models.Properties
 {
@@ -20,12 +24,13 @@ namespace Files.View_Models.Properties
     {
         public ListedItem Item { get; }
 
-        public FolderProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ListedItem item)
+        public FolderProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ListedItem item, IShellPage instance)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;
             Dispatcher = coreDispatcher;
             Item = item;
+            AppInstance = instance;
 
             GetBaseProperties();
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
@@ -49,7 +54,7 @@ namespace Files.View_Models.Properties
                 if (Item.IsShortcutItem)
                 {
                     var shortcutItem = (ShortcutItem)Item;
-                    ViewModel.ShortcutItemType = ResourceController.GetTranslation("PropertiesShortcutTypeFolder");
+                    ViewModel.ShortcutItemType = "PropertiesShortcutTypeFolder".GetLocalized();
                     ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
                     ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
                     ViewModel.ShortcutItemWorkingDirVisibility = Visibility.Collapsed;
@@ -69,77 +74,97 @@ namespace Files.View_Models.Properties
 
         public async override void GetSpecialProperties()
         {
+            ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
+                Item.ItemPath, System.IO.FileAttributes.Hidden);
+
+            var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
+            if (fileIconInfo.Icon != null && fileIconInfo.IsCustom)
+            {
+                ViewModel.FileIconSource = fileIconInfo.Icon;
+            }
+
             if (Item.IsShortcutItem)
             {
                 ViewModel.ItemSizeVisibility = Visibility.Visible;
                 ViewModel.ItemSize = ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()
-                    + " (" + ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
+                    + " (" + ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + "ItemSizeBytes".GetLocalized() + ")";
                 ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
                 ViewModel.ItemAccessedTimestamp = Item.ItemDateAccessed;
-                // Can't show any other property
+                if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
+                {
+                    // Can't show any other property
+                    return;
+                }
+            }
+
+            var parentDirectory = AppInstance.FilesystemViewModel.CurrentFolder;
+
+            StorageFolder storageFolder = null;
+            try
+            {
+                var isItemSelected = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance?.ContentPage?.IsItemSelected ?? true);
+                if (isItemSelected)
+                {
+                    storageFolder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+                }
+                else if (!parentDirectory.ItemPath.StartsWith(App.AppSettings.RecycleBinPath))
+                {
+                    storageFolder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(parentDirectory.ItemPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                // Could not access folder, can't show any other property
                 return;
             }
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
 
-            StorageFolder storageFolder;
-            var isItemSelected = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => App.CurrentInstance.ContentPage.IsItemSelected);
-            if (isItemSelected)
+            if (storageFolder != null)
             {
-                storageFolder = await ItemViewModel.GetFolderFromPathAsync(Item.ItemPath);
+                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+                string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
                 ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDateFromFormat(storageFolder.DateCreated, returnformat);
                 GetOtherProperties(storageFolder.Properties);
                 GetFolderSize(storageFolder, TokenSource.Token);
             }
-            else
+            else if (parentDirectory.ItemPath.StartsWith(App.AppSettings.RecycleBinPath))
             {
-                var parentDirectory = App.CurrentInstance.FilesystemViewModel.CurrentFolder;
-                if (parentDirectory.ItemPath.StartsWith(App.AppSettings.RecycleBinPath))
+                // GetFolderFromPathAsync cannot access recyclebin folder
+                if (AppInstance.FilesystemViewModel.Connection != null)
                 {
-                    // GetFolderFromPathAsync cannot access recyclebin folder
-                    if (App.Connection != null)
+                    var value = new ValueSet();
+                    value.Add("Arguments", "RecycleBin");
+                    value.Add("action", "Query");
+                    // Send request to fulltrust process to get recyclebin properties
+                    var response = await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(value);
+                    if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
                     {
-                        var value = new ValueSet();
-                        value.Add("Arguments", "RecycleBin");
-                        value.Add("action", "Query");
-                        // Send request to fulltrust process to get recyclebin properties
-                        var response = await App.Connection.SendMessageAsync(value);
-                        if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
+                        if (response.Message.TryGetValue("BinSize", out var binSize))
                         {
-                            if (response.Message.TryGetValue("BinSize", out var binSize))
-                            {
-                                ViewModel.ItemSizeBytes = (long)binSize;
-                                ViewModel.ItemSize = ByteSize.FromBytes((long)binSize).ToString();
-                                ViewModel.ItemSizeVisibility = Visibility.Visible;
-                            }
-                            else
-                            {
-                                ViewModel.ItemSizeVisibility = Visibility.Collapsed;
-                            }
-                            if (response.Message.TryGetValue("NumItems", out var numItems))
-                            {
-                                ViewModel.FilesCount = (int)(long)numItems;
-                                SetItemsCountString();
-                                ViewModel.FilesAndFoldersCountVisibility = Visibility.Visible;
-                            }
-                            else
-                            {
-                                ViewModel.FilesAndFoldersCountVisibility = Visibility.Collapsed;
-                            }
-                            ViewModel.ItemCreatedTimestampVisibiity = Visibility.Collapsed;
-                            ViewModel.ItemAccessedTimestampVisibility = Visibility.Collapsed;
-                            ViewModel.ItemModifiedTimestampVisibility = Visibility.Collapsed;
-                            ViewModel.ItemFileOwnerVisibility = Visibility.Collapsed;
-                            ViewModel.LastSeparatorVisibility = Visibility.Collapsed;
+                            ViewModel.ItemSizeBytes = (long)binSize;
+                            ViewModel.ItemSize = ByteSize.FromBytes((long)binSize).ToString();
+                            ViewModel.ItemSizeVisibility = Visibility.Visible;
                         }
+                        else
+                        {
+                            ViewModel.ItemSizeVisibility = Visibility.Collapsed;
+                        }
+                        if (response.Message.TryGetValue("NumItems", out var numItems))
+                        {
+                            ViewModel.FilesCount = (int)(long)numItems;
+                            SetItemsCountString();
+                            ViewModel.FilesAndFoldersCountVisibility = Visibility.Visible;
+                        }
+                        else
+                        {
+                            ViewModel.FilesAndFoldersCountVisibility = Visibility.Collapsed;
+                        }
+                        ViewModel.ItemCreatedTimestampVisibiity = Visibility.Collapsed;
+                        ViewModel.ItemAccessedTimestampVisibility = Visibility.Collapsed;
+                        ViewModel.ItemModifiedTimestampVisibility = Visibility.Collapsed;
+                        ViewModel.ItemFileOwnerVisibility = Visibility.Collapsed;
+                        ViewModel.LastSeparatorVisibility = Visibility.Collapsed;
                     }
-                }
-                else
-                {
-                    storageFolder = await ItemViewModel.GetFolderFromPathAsync(parentDirectory.ItemPath);
-                    ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDateFromFormat(storageFolder.DateCreated, returnformat);
-                    GetOtherProperties(storageFolder.Properties);
-                    GetFolderSize(storageFolder, TokenSource.Token);
                 }
             }
         }
@@ -166,7 +191,7 @@ namespace Files.View_Models.Properties
                 var folderSize = await fileSizeTask;
                 ViewModel.ItemSizeBytes = folderSize;
                 ViewModel.ItemSize = ByteSize.FromBytes(folderSize).ToBinaryString().ConvertSizeAbbreviation()
-                    + " (" + ByteSize.FromBytes(folderSize).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
+                    + " (" + ByteSize.FromBytes(folderSize).Bytes.ToString("#,##0") + " " + "ItemSizeBytes".GetLocalized() + ")";
             }
             catch (Exception ex)
             {
@@ -181,13 +206,28 @@ namespace Files.View_Models.Properties
         {
             switch (e.PropertyName)
             {
+                case "IsHidden":
+                    if (ViewModel.IsHidden)
+                    {
+                        NativeFileOperationsHelper.SetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.Hidden);
+                    }
+                    else
+                    {
+                        NativeFileOperationsHelper.UnsetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.Hidden);
+                    }
+                    break;
                 case "ShortcutItemPath":
                 case "ShortcutItemWorkingDir":
                 case "ShortcutItemArguments":
                     var tmpItem = (ShortcutItem)Item;
                     if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
+                    {
                         return;
-                    if (App.Connection != null)
+                    }
+
+                    if (AppInstance.FilesystemViewModel.Connection != null)
                     {
                         var value = new ValueSet()
                         {
@@ -199,7 +239,7 @@ namespace Files.View_Models.Properties
                             { "workingdir", ViewModel.ShortcutItemWorkingDir },
                             { "runasadmin", tmpItem.RunAsAdmin },
                         };
-                        await App.Connection.SendMessageAsync(value);
+                        await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(value);
                     }
                     break;
             }
