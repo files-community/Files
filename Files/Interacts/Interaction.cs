@@ -153,7 +153,7 @@ namespace Files.Interacts
                 {
                     if (Item.IsShortcutItem)
                     {
-                        _ = MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), ((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+                        OpenPathInNewTab(((e.OriginalSource as FrameworkElement)?.DataContext as ShortcutItem)?.TargetPath ?? Item.ItemPath);
                     }
                     else
                     {
