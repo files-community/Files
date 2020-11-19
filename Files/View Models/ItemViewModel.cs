@@ -1454,7 +1454,7 @@ namespace Files.Filesystem
                 FileSizeBytes = 0,
                 ContainsFilesOrFolders = CheckForFilesFolders(itemPath)
                 //FolderTooltipText = tooltipString,
-            });;
+            });
 
             IsFolderEmptyTextDisplayed = false;
         }
