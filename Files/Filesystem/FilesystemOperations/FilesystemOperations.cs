@@ -89,6 +89,11 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> CopyAsync(IStorageItem source, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken)
         {
+            return await CopyAsync(source.Path, source.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory, destination, progress, errorCode, cancellationToken);
+        }
+
+        public async Task<IStorageHistory> CopyAsync(string source, FilesystemItemType itemType, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken)
+        {
             if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
             {
                 errorCode?.Report(FilesystemErrorCode.ERROR_UNAUTHORIZED);
@@ -100,12 +105,12 @@ namespace Files.Filesystem
             }
 
             IStorageItem copiedItem = null;
-            long itemSize = await FilesystemHelpers.GetItemSize(source);
+            long itemSize = await FilesystemHelpers.GetItemSize(await source.ToStorageItem());
             bool reportProgress = false; // TODO: The default value is false
 
-            if (source.IsOfType(StorageItemTypes.Folder))
+            if (itemType == FilesystemItemType.Directory)
             {
-                if (string.IsNullOrWhiteSpace(source.Path) || Path.GetDirectoryName(destination).IsSubPathOf(source.Path)) // We check if user tried to copy anything above the source.ItemPath 
+                if (string.IsNullOrWhiteSpace(source) || Path.GetDirectoryName(destination).IsSubPathOf(source)) // We check if user tried to copy anything above the source.ItemPath 
                 {
                     ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
 
@@ -147,14 +152,14 @@ namespace Files.Filesystem
                     }
 
                     await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination))
-                        .OnSuccess(t => FilesystemHelpers.CloneDirectoryAsync((IStorageFolder)source, t, source.Name))
+                        .OnSuccess(t => FilesystemHelpers.CloneDirectoryAsync((IStorageFolder)source.ToStorageItem(), t, Path.GetFileName(source)))
                         .OnSuccess(t =>
                         {
                             copiedItem = t;
                         });
                 }
             }
-            else if (source.IsOfType(StorageItemTypes.File))
+            else if (itemType == FilesystemItemType.File)
             {
                 if (reportProgress)
                 {
@@ -165,19 +170,23 @@ namespace Files.Filesystem
 
                 if (fsResult)
                 {
-                    StorageFile file = (StorageFile)source;
-                    FilesystemResult<StorageFile> fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(fsResult.Result, source.Name, NameCollisionOption.GenerateUniqueName).AsTask());
+                    StorageFile file = (StorageFile)await source.ToStorageItem();
+
+                    FilesystemResult<StorageFile> fsResultCopy = new FilesystemResult<StorageFile>(null, FilesystemErrorCode.ERROR_GENERIC);
+
+                    if (file != null)
+                    fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(fsResult.Result, Path.GetFileName(source), NameCollisionOption.GenerateUniqueName).AsTask());
 
                     if (fsResultCopy)
                     {
                         copiedItem = fsResultCopy.Result;
                     }
-                    else if (fsResultCopy.ErrorCode == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+                    else if (fsResultCopy.ErrorCode == FilesystemErrorCode.ERROR_UNAUTHORIZED || fsResultCopy.ErrorCode == FilesystemErrorCode.ERROR_GENERIC)
                     {
                         // Try again with CopyFileFromApp
-                        if (NativeFileOperationsHelper.CopyFileFromApp(source.Path, destination, true))
+                        if (NativeFileOperationsHelper.CopyFileFromApp(source, destination, true))
                         {
-                            copiedItem = source; // Dangerous - the provided item may be different than output result!
+                            copiedItem = await source.ToStorageItem(); // Dangerous - the provided item may be different than output result!
                         }
                         else
                         {
@@ -204,38 +213,44 @@ namespace Files.Filesystem
 
             progress?.Report(100.0f);
 
-            return new StorageHistory(FileOperationType.Copy, source.Path, copiedItem != null ? (!string.IsNullOrWhiteSpace(copiedItem.Path) ? copiedItem.Path : destination) : destination);
+            return new StorageHistory(FileOperationType.Copy, source, $"{(copiedItem != null ? (!string.IsNullOrWhiteSpace(copiedItem.Path) ? copiedItem.Path : destination) : destination)}|{itemType.ToString()}");
+
         }
 
         public async Task<IStorageHistory> MoveAsync(IStorageItem source, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken)
         {
-            IStorageHistory history = await CopyAsync(source, destination, progress, errorCode, cancellationToken);
+            return await MoveAsync(source.Path, source.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory, destination, progress, errorCode, cancellationToken);
+        }
+
+        public async Task<IStorageHistory> MoveAsync(string source, FilesystemItemType itemType, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken)
+        {
+            IStorageHistory history = await CopyAsync(source, itemType, destination, progress, errorCode, cancellationToken);
 
             FilesystemResult fsResultDelete = (FilesystemResult)false;
-            if (string.IsNullOrWhiteSpace(source.Path))
+            if (string.IsNullOrWhiteSpace(source))
             {
                 // Can't move (only copy) files from MTP devices because:
                 // StorageItems returned in DataPackageView are read-only
                 // The item.Path property will be empty and there's no way of retrieving a new StorageItem with R/W access
                 errorCode?.Report(FilesystemErrorCode.ERROR_SUCCESS | FilesystemErrorCode.ERROR_INPROGRESS);
             }
-            if (source.IsOfType(StorageItemTypes.File))
+            if (itemType == FilesystemItemType.File)
             {
                 // If we reached this we are not in an MTP device, using StorageFile.* is ok here
-                fsResultDelete = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source.Path)
+                fsResultDelete = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source)
                     .OnSuccess(t => t.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
             }
-            else if (source.IsOfType(StorageItemTypes.Folder))
+            else if (itemType == FilesystemItemType.Directory)
             {
                 // If we reached this we are not in an MTP device, using StorageFolder.* is ok here
-                fsResultDelete = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.Path)
+                fsResultDelete = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source)
                     .OnSuccess(t => t.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
             }
 
             if (fsResultDelete == FilesystemErrorCode.ERROR_UNAUTHORIZED)
             {
                 // Try again with DeleteFileFromApp
-                if (!NativeFileOperationsHelper.DeleteFileFromApp(source.Path))
+                if (!NativeFileOperationsHelper.DeleteFileFromApp(source))
                 {
                     Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
                 }
@@ -253,112 +268,7 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> DeleteAsync(IStorageItem source, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, bool permanently, CancellationToken cancellationToken)
         {
-            bool deleteFromRecycleBin = await recycleBinHelpers.IsRecycleBinItem(source);
-
-            FilesystemResult fsResult = FilesystemErrorCode.ERROR_INPROGRESS;
-            FilesystemItemType itemType = source.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory;
-
-            errorCode?.Report(fsResult);
-            progress?.Report(0.0f);
-
-            if (source is IStorageItemWithPath sourceWithPath)
-            {
-                if (sourceWithPath.Item.IsOfType(StorageItemTypes.File))
-                {
-                    fsResult = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(sourceWithPath.Path)
-                        .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
-                }
-                else if (sourceWithPath.Item.IsOfType(StorageItemTypes.Folder))
-                {
-                    fsResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(sourceWithPath.Path)
-                        .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
-                }
-            }
-            else
-            {
-                if (source.IsOfType(StorageItemTypes.File))
-                {
-                    fsResult = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source.Path)
-                        .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
-                }
-                else if (source.IsOfType(StorageItemTypes.Folder))
-                {
-                    fsResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.Path)
-                        .OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
-                }
-            }
-            errorCode?.Report(fsResult);
-
-            if (fsResult == FilesystemErrorCode.ERROR_UNAUTHORIZED)
-            {
-                if (!permanently)
-                {
-                    // Try again with fulltrust process
-                    if (associatedInstance.FilesystemViewModel.Connection != null)
-                    {
-                        AppServiceResponse response = await associatedInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet()
-                        {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "MoveToBin" },
-                            { "filepath", source.Path }
-                        });
-                        fsResult = (FilesystemResult)(response.Status == AppServiceResponseStatus.Success);
-                    }
-                }
-                else
-                {
-                    // Try again with DeleteFileFromApp
-                    if (!NativeFileOperationsHelper.DeleteFileFromApp(source.Path))
-                    {
-                        Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
-                    }
-                    else
-                    {
-                        fsResult = (FilesystemResult)true;
-                    }
-                }
-            }
-            else if (fsResult == FilesystemErrorCode.ERROR_INUSE)
-            {
-                // TODO: retry or show dialog
-                await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), "FileInUseDeleteDialog/Text".GetLocalized());
-            }
-
-            if (deleteFromRecycleBin)
-            {
-                // Recycle bin also stores a file starting with $I for each item
-                string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I"));
-                await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
-                    .OnSuccess(t => t.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
-            }
-            errorCode?.Report(fsResult);
-            progress?.Report(100.0f);
-
-            if (fsResult)
-            {
-                await associatedInstance.FilesystemViewModel.RemoveFileOrFolderAsync(source.Path);
-
-                if (!permanently)
-                {
-                    // Enumerate Recycle Bin
-                    List<ShellFileItem> items = await this.recycleBinHelpers.EnumerateRecycleBin();
-
-                    // Get name matching files
-                    List<ShellFileItem> nameMatchItems = items.Where((item) => item.FileName == source.Name).ToList();
-
-                    // Get newest file
-                    ShellFileItem item = nameMatchItems.Where((item) => item.RecycleDate != null).OrderBy((item) => item.RecycleDate).FirstOrDefault();
-
-                    return new StorageHistory(FileOperationType.Recycle, source.Path, $"{item.RecyclePath}|{itemType.ToString()}");
-                }
-
-                return new StorageHistory(FileOperationType.Delete, source.Path, null);
-            }
-            else
-            {
-                // Stop at first error
-                return null;
-            }
+            return await DeleteAsync(source.Path, source.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory, progress, errorCode, permanently, cancellationToken);
         }
 
         public async Task<IStorageHistory> DeleteAsync(string source, FilesystemItemType itemType, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, bool permanently, CancellationToken cancellationToken)

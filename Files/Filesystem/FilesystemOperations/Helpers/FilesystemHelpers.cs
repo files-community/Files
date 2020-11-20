@@ -370,6 +370,23 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
         {
+            Dictionary<string, FilesystemItemType> itemsToCopy = new Dictionary<string, FilesystemItemType>();
+
+            foreach (IStorageItem item in source)
+            {
+                itemsToCopy.Add(item.Path, item.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory);
+            }
+
+            return await CopyItemsAsync(itemsToCopy, destination, registerHistory);
+        }
+
+        public async Task<ReturnResult> CopyItemAsync(IStorageItem source, string destination, bool registerHistory)
+        {
+            return await CopyItemAsync(source.Path, source.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory, destination, registerHistory);
+        }
+
+        public async Task<ReturnResult> CopyItemsAsync(IDictionary<string, FilesystemItemType> source, IEnumerable<string> destination, bool registerHistory)
+        {
             PostedStatusBanner banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                 string.Empty,
                 associatedInstance.FilesystemViewModel.WorkingDirectory,
@@ -389,13 +406,13 @@ namespace Files.Filesystem
             associatedInstance.ContentPage.ClearSelection();
             for (int i = 0; i < source.Count(); i++)
             {
-                rawStorageHistory.Add(await this.filesystemOperations.CopyAsync(source.ElementAt(i), destination.ElementAt(i), banner.Progress, banner.ErrorCode, this.cancellationToken));
+                rawStorageHistory.Add(await this.filesystemOperations.CopyAsync(source.ElementAt(i).Key, source.ElementAt(i).Value, destination.ElementAt(i), banner.Progress, banner.ErrorCode, this.cancellationToken));
             }
 
             if (rawStorageHistory.TrueForAll((item) => item != null))
             {
                 history = new StorageHistory(rawStorageHistory[0].OperationType, rawStorageHistory.SelectMany((item) => item.Source).ToList(), rawStorageHistory.SelectMany((item) => item.Destination).ToList());
-                if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
+                if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Key)))
                     App.AddHistory(history);
             }
 
@@ -415,14 +432,14 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> CopyItemAsync(IStorageItem source, string destination, bool registerHistory)
+        public async Task<ReturnResult> CopyItemAsync(string source, FilesystemItemType itemType, string destination, bool registerHistory)
         {
             PostedStatusBanner banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
-               string.Empty,
-               associatedInstance.FilesystemViewModel.WorkingDirectory,
-               0,
-               ReturnResult.InProgress,
-               FileOperationType.Copy);
+                string.Empty,
+                associatedInstance.FilesystemViewModel.WorkingDirectory,
+                0,
+                ReturnResult.InProgress,
+                FileOperationType.Copy);
 
             ReturnResult returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
@@ -431,9 +448,9 @@ namespace Files.Filesystem
             sw.Start();
 
             associatedInstance.ContentPage.ClearSelection();
-            IStorageHistory history = await this.filesystemOperations.CopyAsync(source, destination, banner.Progress, banner.ErrorCode, this.cancellationToken);
+            IStorageHistory history = await this.filesystemOperations.CopyAsync(source, itemType, destination, banner.Progress, banner.ErrorCode, this.cancellationToken);
 
-            if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
+            if (registerHistory && !string.IsNullOrWhiteSpace(source))
                 App.AddHistory(history);
 
             banner.Remove();
@@ -477,12 +494,29 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
         {
+            Dictionary<string, FilesystemItemType> itemsToMove = new Dictionary<string, FilesystemItemType>();
+
+            foreach (IStorageItem item in source)
+            {
+                itemsToMove.Add(item.Path, item.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory);
+            }
+
+            return await MoveItemsAsync(itemsToMove, destination, registerHistory);
+        }
+
+        public async Task<ReturnResult> MoveItemAsync(IStorageItem source, string destination, bool registerHistory)
+        {
+            return await MoveItemAsync(source.Path, source.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory, destination, registerHistory);
+        }
+
+        public async Task<ReturnResult> MoveItemsAsync(IDictionary<string, FilesystemItemType> source, IEnumerable<string> destination, bool registerHistory)
+        {
             PostedStatusBanner banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
-                    string.Empty,
-                    associatedInstance.FilesystemViewModel.WorkingDirectory,
-                    0,
-                    ReturnResult.InProgress,
-                    FileOperationType.Move);
+                string.Empty,
+                associatedInstance.FilesystemViewModel.WorkingDirectory,
+                0,
+                ReturnResult.InProgress,
+                FileOperationType.Move);
 
             ReturnResult returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
@@ -496,13 +530,13 @@ namespace Files.Filesystem
             associatedInstance.ContentPage.ClearSelection();
             for (int i = 0; i < source.Count(); i++)
             {
-                rawStorageHistory.Add(await this.filesystemOperations.MoveAsync(source.ElementAt(i), destination.ElementAt(i), banner.Progress, banner.ErrorCode, this.cancellationToken));
+                rawStorageHistory.Add(await this.filesystemOperations.MoveAsync(source.ElementAt(i).Key, source.ElementAt(i).Value, destination.ElementAt(i), banner.Progress, banner.ErrorCode, this.cancellationToken));
             }
 
             if (rawStorageHistory.TrueForAll((item) => item != null))
             {
                 history = new StorageHistory(rawStorageHistory[0].OperationType, rawStorageHistory.SelectMany((item) => item.Source).ToList(), rawStorageHistory.SelectMany((item) => item.Destination).ToList());
-                if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
+                if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Key)))
                     App.AddHistory(history);
             }
 
@@ -522,14 +556,14 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> MoveItemAsync(IStorageItem source, string destination, bool registerHistory)
+        public async Task<ReturnResult> MoveItemAsync(string source, FilesystemItemType itemType, string destination, bool registerHistory)
         {
             PostedStatusBanner banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
-               string.Empty,
-               associatedInstance.FilesystemViewModel.WorkingDirectory,
-               0,
-               ReturnResult.InProgress,
-               FileOperationType.Move);
+                string.Empty,
+                associatedInstance.FilesystemViewModel.WorkingDirectory,
+                0,
+                ReturnResult.InProgress,
+                FileOperationType.Move);
 
             ReturnResult returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
@@ -538,9 +572,9 @@ namespace Files.Filesystem
             sw.Start();
 
             associatedInstance.ContentPage.ClearSelection();
-            IStorageHistory history = await this.filesystemOperations.MoveAsync(source, destination, banner.Progress, banner.ErrorCode, this.cancellationToken);
+            IStorageHistory history = await this.filesystemOperations.MoveAsync(source, itemType, destination, banner.Progress, banner.ErrorCode, this.cancellationToken);
 
-            if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
+            if (registerHistory && !string.IsNullOrWhiteSpace(source))
                 App.AddHistory(history);
 
             banner.Remove();
@@ -637,6 +671,9 @@ namespace Files.Filesystem
 
         public static async Task<long> GetItemSize(IStorageItem item)
         {
+            if (item == null)
+                return 0L;
+
             if (item.IsOfType(StorageItemTypes.Folder))
             {
                 return await CalculateFolderSizeAsync(item.Path);

@@ -1,9 +1,9 @@
-﻿using Files.Filesystem.FilesystemHistory;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Files.Filesystem.FilesystemHistory;
 
 namespace Files.Filesystem
 {
@@ -110,6 +110,25 @@ namespace Files.Filesystem
         Task<ReturnResult> CopyItemAsync(IStorageItem source, string destination, bool registerHistory);
 
         /// <summary>
+        /// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
+        /// </summary>
+        /// <param name="source">The source items to be copied</param>
+        /// <param name="destination">The destination fullPath</param>
+        /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
+        /// <returns><see cref="ReturnResult"/> of performed operation</returns>
+        Task<ReturnResult> CopyItemsAsync(IDictionary<string, FilesystemItemType> source, IEnumerable<string> destination, bool registerHistory);
+
+        /// <summary>
+        /// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
+        /// </summary>
+        /// <param name="source">The source item to be copied</param>
+        /// <param name="itemType">Type of the item</param>
+        /// <param name="destination">The destination fullPath</param>
+        /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
+        /// <returns><see cref="ReturnResult"/> of performed operation</returns>
+        Task<ReturnResult> CopyItemAsync(string source, FilesystemItemType itemType, string destination, bool registerHistory);
+
+        /// <summary>
         /// Copies items from clipboard to <paramref name="destination"/> fullPath
         /// </summary>
         /// <param name="packageView">Clipboard data</param>
@@ -139,11 +158,30 @@ namespace Files.Filesystem
         /// <summary>
         /// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
         /// </summary>
-        /// <param name="source"></param>
+        /// <param name="source">The source to move</param>
         /// <param name="destination">The destination fullPath</param>
         /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
         Task<ReturnResult> MoveItemAsync(IStorageItem source, string destination, bool registerHistory);
+
+        /// <summary>
+        /// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
+        /// </summary>
+        /// <param name="source">The source items to be moved</param>
+        /// <param name="destination">The destination fullPath</param>
+        /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
+        /// <returns><see cref="ReturnResult"/> of performed operation</returns>
+        Task<ReturnResult> MoveItemsAsync(IDictionary<string, FilesystemItemType> source, IEnumerable<string> destination, bool registerHistory);
+
+        /// <summary>
+        /// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
+        /// </summary>
+        /// <param name="source">The source to move</param>
+        /// <param name="itemType">Type of the item</param>
+        /// <param name="destination">The destination fullPath</param>
+        /// <param name="registerHistory">Determines whether <see cref="IStorageHistory"/> is saved</param>
+        /// <returns><see cref="ReturnResult"/> of performed operation</returns>
+        Task<ReturnResult> MoveItemAsync(string source, FilesystemItemType itemType, string destination, bool registerHistory);
 
         /// <summary>
         /// Moves items from clipboard to <paramref name="destination"/> fullPath

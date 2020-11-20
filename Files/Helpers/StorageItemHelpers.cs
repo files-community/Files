@@ -12,11 +12,11 @@ namespace Files.Helpers
     /// </summary>
     public static class StorageItemHelpers
     {
-        public static async Task<IStorageItem> ToStorageItem(this string path) // TODO: If the TODO of IStorageItemWithPath is implemented, change return type to IStorageItem
+        public static async Task<IStorageItem> ToStorageItem(this string path, StorageFolderWithPath parentFolder = null) // TODO: If the TODO of IStorageItemWithPath is implemented, change return type to IStorageItem
         {
             FilesystemResult<StorageFolderWithPath> fsRootFolderResult = await FilesystemTasks.Wrap(async () => (StorageFolderWithPath)await Path.GetPathRoot(path).ToStorageItemWithPath());
 
-            FilesystemResult<StorageFile> fsFileResult = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path, fsRootFolderResult.Result));
+            FilesystemResult<StorageFile> fsFileResult = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path, fsRootFolderResult.Result, parentFolder));
 
             if (fsFileResult)
             {
@@ -49,11 +49,11 @@ namespace Files.Helpers
             return null;
         }
 
-        public static async Task<IStorageItemWithPath> ToStorageItemWithPath(this string path)
+        public static async Task<IStorageItemWithPath> ToStorageItemWithPath(this string path, StorageFolderWithPath parentFolder = null)
         {
             StorageFolderWithPath rootFolder = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
 
-            FilesystemResult<StorageFileWithPath> fsFileWithPathResult = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(path, rootFolder));
+            FilesystemResult<StorageFileWithPath> fsFileWithPathResult = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(path, rootFolder, parentFolder));
 
             if (fsFileWithPathResult)
                 return fsFileWithPathResult.Result;
@@ -72,49 +72,49 @@ namespace Files.Helpers
             return item?.IsOfType(type);
         }
 
-        public static async Task<IEnumerable<IStorageItemWithPath>> ToStorageItemWithPathCollection(this IEnumerable<ListedItem> listedItems)
+        public static async Task<IEnumerable<IStorageItemWithPath>> ToStorageItemWithPathCollection(this IEnumerable<ListedItem> listedItems, StorageFolderWithPath parentFolder = null)
         {
             List<IStorageItemWithPath> output = new List<IStorageItemWithPath>();
 
             foreach (ListedItem item in listedItems)
             {
-                output.Add(await item.ItemPath.ToStorageItemWithPath());
+                output.Add(await item.ItemPath.ToStorageItemWithPath(parentFolder));
             }
 
             return output;
         }
 
-        public static async Task<IEnumerable<IStorageItemWithPath>> ToStorageItemWithPathCollection(this IEnumerable<string> paths)
+        public static async Task<IEnumerable<IStorageItemWithPath>> ToStorageItemWithPathCollection(this IEnumerable<string> paths, StorageFolderWithPath parentFolder = null)
         {
             List<IStorageItemWithPath> output = new List<IStorageItemWithPath>();
 
             foreach (string path in paths)
             {
-                output.Add(await path.ToStorageItemWithPath());
+                output.Add(await path.ToStorageItemWithPath(parentFolder));
             }
 
             return output;
         }
 
-        public static async Task<IEnumerable<IStorageItem>> ToStorageItemCollection(this IEnumerable<string> paths)
+        public static async Task<IEnumerable<IStorageItem>> ToStorageItemCollection(this IEnumerable<string> paths, StorageFolderWithPath parentFolder = null)
         {
             List<IStorageItem> output = new List<IStorageItem>();
 
             foreach (string path in paths)
             {
-                output.Add(await path.ToStorageItem());
+                output.Add(await path.ToStorageItem(parentFolder));
             }
 
             return output;
         }
 
-        public static async Task<IEnumerable<IStorageItem>> ToStorageItemCollection(this IEnumerable<ListedItem> listedItems)
+        public static async Task<IEnumerable<IStorageItem>> ToStorageItemCollection(this IEnumerable<ListedItem> listedItems, StorageFolderWithPath parentFolder = null)
         {
             List<IStorageItem> output = new List<IStorageItem>();
 
             foreach (ListedItem item in listedItems)
             {
-                output.Add(await item.ItemPath.ToStorageItem());
+                output.Add(await item.ItemPath.ToStorageItem(parentFolder));
             }
 
             return output;

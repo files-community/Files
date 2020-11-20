@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Windows.Storage;
 using Files.Helpers;
 using Files.Extensions;
-using Files.Filesystem.FilesystemHistory;
 
 namespace Files.Filesystem.FilesystemHistory
 {
@@ -20,6 +19,8 @@ namespace Files.Filesystem.FilesystemHistory
 
         private IFilesystemHelpers filesystemHelpers;
 
+        private IShellPage associatedInstance;
+
         private readonly CancellationToken cancellationToken;
 
         #endregion
@@ -28,6 +29,7 @@ namespace Files.Filesystem.FilesystemHistory
 
         public StorageHistoryOperations(IShellPage associatedInstance, CancellationToken cancellationToken)
         {
+            this.associatedInstance = associatedInstance;
             this.cancellationToken = cancellationToken;
             this.filesystemOperations = new FilesystemOperations(associatedInstance);
             this.filesystemHelpers = new FilesystemHelpers(associatedInstance, cancellationToken);
@@ -77,24 +79,14 @@ namespace Files.Filesystem.FilesystemHistory
                     {
                         if (IsHistoryNull(history)) break;
 
-                        for (int i = 0; i < history.Source.Count(); i++)
-                        {
-                            returnStatus = await this.filesystemHelpers.CopyItemAsync(await history.Source.ElementAt(i).ToStorageItem(), history.Destination.ElementAt(i), false);
-                        }
-
-                        break;
+                        return await this.filesystemHelpers.CopyItemsAsync(ExtractDictionaryFilesFromHistory(history.Source), history.Destination, false);
                     }
 
                 case FileOperationType.Move: // Move PASS
                     {
                         if (IsHistoryNull(history)) break;
 
-                        for (int i = 0; i < history.Source.Count(); i++)
-                        {
-                            await this.filesystemHelpers.MoveItemAsync(await history.Source.ElementAt(i).ToStorageItem(), history.Destination.ElementAt(i), false);
-                        }
-
-                        break;
+                        return await this.filesystemHelpers.MoveItemsAsync(ExtractDictionaryFilesFromHistory(history.Source), history.Destination, false);
                     }
 
                 case FileOperationType.Extract: // Extract PASS
@@ -163,7 +155,7 @@ namespace Files.Filesystem.FilesystemHistory
 
                         if (IsHistoryNull(history.Source)) break;
 
-                        return await this.filesystemHelpers.DeleteItemsAsync(await history.Source.ToStorageItemCollection(), false, true, false);
+                        return await this.filesystemHelpers.DeleteItemsAsync(ExtractDictionaryFilesFromHistory(history.Destination), false, true, false);
                     }
 
                 case FileOperationType.Rename: // Rename PASS
@@ -187,7 +179,7 @@ namespace Files.Filesystem.FilesystemHistory
 
                         if (IsHistoryNull(history.Destination)) break;
 
-                        return await this.filesystemHelpers.DeleteItemsAsync(await history.Destination.ToStorageItemCollection(), false, true, false);
+                        return await this.filesystemHelpers.DeleteItemsAsync(ExtractDictionaryFilesFromHistory(history.Destination), false, true, false);
                     }
 
                 case FileOperationType.Move: // Move PASS
@@ -196,12 +188,7 @@ namespace Files.Filesystem.FilesystemHistory
 
                         if (IsHistoryNull(history)) break;
 
-                        for (int i = 0; i < history.Destination.Count(); i++)
-                        {
-                            returnStatus = await this.filesystemHelpers.MoveItemAsync(await history.Destination.ElementAt(i).ToStorageItem(), history.Source.ElementAt(i), false);
-                        }
-
-                        break;
+                        return await this.filesystemHelpers.MoveItemsAsync(ExtractDictionaryFilesFromHistory(history.Destination), history.Source, false);
                     }
 
                 case FileOperationType.Extract: // Extract PASS
@@ -265,6 +252,18 @@ namespace Files.Filesystem.FilesystemHistory
 
         #region Private Helpers
 
+        private Dictionary<string, FilesystemItemType> ExtractDictionaryFilesFromHistory(IEnumerable<string> source)
+        {
+            Dictionary<string, FilesystemItemType> items = new Dictionary<string, FilesystemItemType>();
+
+            foreach (string item in source)
+            {
+                items.Add(item.Split('|')[0], item.Split('|')[1].GetEnum<FilesystemItemType>());
+            }
+
+            return items;
+        }
+
         private bool IsHistoryNull(IStorageHistory history) =>
             !(history.Source.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item))
                 && history.Destination.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item)));
@@ -272,16 +271,17 @@ namespace Files.Filesystem.FilesystemHistory
         private bool IsHistoryNull(IEnumerable<string> source) =>
             !(source.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item)));
 
-
         #endregion
 
         #region IDisposable
 
         public void Dispose()
         {
+            this.associatedInstance?.Dispose();
             this.filesystemOperations?.Dispose();
             this.filesystemHelpers?.Dispose();
 
+            this.associatedInstance = null;
             this.filesystemOperations = null;
             this.filesystemHelpers = null;
         }

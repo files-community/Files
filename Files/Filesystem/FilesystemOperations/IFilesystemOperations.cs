@@ -43,9 +43,26 @@ namespace Files.Filesystem
         /// <br/>
         /// Source: The <paramref name="source"/> item fullPath (<see cref="string"/>)
         /// <br/>
-        /// Destination: The <paramref name="destination"/> item fullPath (<see cref="string"/>) the <paramref name="source"/> was copied
+        /// Destination: The <paramref name="destination"/> item fullPath (<see cref="string"/>) the <paramref name="source"/> was copied. Separated by | symbol, <see cref="FilesystemItemType"/> of the <paramref name="source"/> item type
         /// </returns>
         Task<IStorageHistory> CopyAsync(IStorageItem source, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
+        /// </summary>
+        /// <param name="source">The source item to be copied</param>
+        /// <param name="itemType">Type of the item</param>
+        /// <param name="destination">The destination fullPath</param>
+        /// <param name="progress">Progress of the operation</param>
+        /// <param name="errorCode">Status of the operation</param>
+        /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
+        /// <returns><see cref="IStorageHistory"/> where:
+        /// <br/>
+        /// Source: The <paramref name="source"/> item fullPath (<see cref="string"/>)
+        /// <br/>
+        /// Destination: The <paramref name="destination"/> item fullPath (<see cref="string"/>) the <paramref name="source"/> was copied. Separated by | symbol, <see cref="FilesystemItemType"/> of the <paramref name="source"/> item type
+        /// </returns>
+        Task<IStorageHistory> CopyAsync(string source, FilesystemItemType itemType, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
 
         /// <summary>
         /// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
@@ -59,9 +76,27 @@ namespace Files.Filesystem
         /// <br/>
         /// Source: The source item fullPath (<see cref="string"/>)
         /// <br/>
-        /// Destination: The <paramref name="destination"/> item fullPath (<see cref="string"/>) the <paramref name="source"/> was moved
+        /// Destination: The <paramref name="destination"/> item fullPath (<see cref="string"/>) the <paramref name="source"/> was moved. Separated by | symbol, <see cref="FilesystemItemType"/> of the <paramref name="source"/> item type
         /// </returns>
         Task<IStorageHistory> MoveAsync(IStorageItem source, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
+        /// </summary>
+        /// <param name="source">The source item to be moved</param>
+        /// <param name="itemType">Type of the item</param>
+        /// <param name="destination">The destination fullPath</param>
+        /// <param name="progress">Progress of the operation</param>
+        /// <param name="errorCode">Status of the operation</param>
+        /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
+        /// <returns><see cref="IStorageHistory"/> where:
+        /// <br/>
+        /// Source: The source item fullPath (<see cref="string"/>)
+        /// <br/>
+        /// Destination: The <paramref name="destination"/> item fullPath (<see cref="string"/>) the <paramref name="source"/> was moved. Separated by | symbol, <see cref="FilesystemItemType"/> of the <paramref name="source"/> item type
+        /// </returns>
+        Task<IStorageHistory> MoveAsync(string source, FilesystemItemType itemType, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
+
 
         /// <summary>
         /// Deletes <paramref name="source"/>
