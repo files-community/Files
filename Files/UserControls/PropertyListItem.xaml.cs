@@ -33,7 +33,13 @@ namespace Files.UserControls
             set => SetValue(ValueTextProperty, value as string);
         }
 
-        public bool IsReadOnly { get; set; }
+        public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.Register("IsReadOnly", typeof(bool), typeof(PropertyListItem), null);
+
+        public bool IsReadOnly
+        {
+            get => (bool)GetValue(IsReadOnlyProperty);
+            set => SetValue(IsReadOnlyProperty, value);
+        }
 
         private Button _ActionButton;
         public Button ActionButton

@@ -30,7 +30,7 @@
             Grid.Row="0"
             Style="{StaticResource PropertyName}"
             Text="{x:Bind Text, Mode=OneWay}" 
-            HorizontalAlignment="Left"/>
+            HorizontalAlignment="Stretch"/>
         <TextBox
             Grid.Row="0"
             Grid.Column="1"

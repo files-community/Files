@@ -184,6 +184,7 @@ namespace Files.View_Models.Properties
 				Name = "Camera Model",
 				Property = "System.Photo.CameraModel",
 				Section = "Photo",
+				IsReadOnly = false,
 			},
 			new FileProperty() {
 				Name = "Exposure Time",
@@ -664,7 +665,7 @@ namespace Files.View_Models.Properties
         /// This function goes through ever read-write property saved, then syncs it
         /// </summary>
         /// <returns></returns>
-        public async Task ClearPersonalInformation()
+        public async Task ClearProperties()
         {
             var failedProperties = new List<string>();
             StorageFile file = null;
@@ -681,7 +682,7 @@ namespace Files.View_Models.Properties
             {
                 foreach (FileProperty prop in group)
                 {
-                    if (prop.IsPersonalProperty)
+                    if (!prop.IsReadOnly)
                     {
                         var newDict = new Dictionary<string, object>();
                         newDict.Add(prop.Property, null);
@@ -698,59 +699,7 @@ namespace Files.View_Models.Properties
                 }
             }
 
-            //if (failedProperties.Count > 0)
-            //{
-            //    var text = "The following properties failed to save";
-
-            //    foreach (var error in failedProperties)
-            //    {
-            //        text += $"{error}, ";
-            //    }
-            //    text.Remove(text.LastIndexOf(','));
-            //    var toastContent = new ToastContent()
-            //    {
-            //        Visual = new ToastVisual()
-            //        {
-            //            BindingGeneric = new ToastBindingGeneric()
-            //            {
-            //                Children =
-            //                {
-            //                    new AdaptiveText()
-            //                    {
-            //                        Text = "Some properties failed to clear"
-            //                    },
-            //                    new AdaptiveText()
-            //                    {
-            //                        Text = text
-            //                    }
-            //                },
-            //                AppLogoOverride = new ToastGenericAppLogo()
-            //                {
-            //                    Source = "ms-appx:///Assets/error.png"
-            //                }
-            //            }
-            //        },
-            //        Actions = new ToastActionsCustom()
-            //        {
-            //            Buttons =
-            //            {
-            //                new ToastButton(ResourceController.GetTranslation("ExceptionNotificationReportButton"), "report")
-            //                {
-            //                    ActivationType = ToastActivationType.Foreground
-            //                }
-            //            }
-            //        }
-            //    };
-
-            //    // Create the toast notification
-            //    var toastNotif = new ToastNotification(toastContent.GetXml());
-
-            //    // And send the notification
-            //    ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
-            //}
-
-
-            GetSpecialProperties();
+			GetSystemFileProperties();
         }
 
         private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

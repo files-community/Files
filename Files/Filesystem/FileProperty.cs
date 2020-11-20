@@ -19,7 +19,6 @@ namespace Files.Filesystem
         public object Value { get; set; }
         public IValueConverter Converter { get; set; }
         public bool IsReadOnly { get; set; } = true;
-        public bool IsPersonalProperty { get; set; } = false;
 
         /// <summary>
         /// If the property is hidden, it is only shown when the user presses show all

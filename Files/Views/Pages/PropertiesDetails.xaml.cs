@@ -89,10 +89,10 @@ namespace Files
             await (BaseProperties as FileProperties).SyncPropertyChanges();
         }
 
-        private async void ClearPersonalInformation_Click(object sender, RoutedEventArgs e)
+        private async void ClearPropertiesConfirmation_Click(object sender, RoutedEventArgs e)
         {
-            ClearPersonalInformationFlyout.Hide();
-            await (BaseProperties as FileProperties).ClearPersonalInformation();
+            ClearPropertiesFlyout.Hide();
+            await (BaseProperties as FileProperties).ClearProperties();
         }
     }
 }
