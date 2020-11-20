@@ -136,6 +136,8 @@ namespace Files.Filesystem
                         progress?.Report(100.0f);
                         errorCode?.Report(FilesystemErrorCode.ERROR_INPROGRESS | FilesystemErrorCode.ERROR_GENERIC);
                     }
+
+                    return null;
                 }
                 else
                 {
