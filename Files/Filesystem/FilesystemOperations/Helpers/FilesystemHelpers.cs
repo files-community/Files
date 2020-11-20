@@ -200,10 +200,10 @@ namespace Files.Filesystem
         {
             bool deleteFromRecycleBin = false;
             foreach (IStorageItem item in source)
-                if (await this.recycleBinHelpers.IsRecycleBinItem(item)) 
-                { 
-                    deleteFromRecycleBin = true; 
-                    break; 
+                if (await this.recycleBinHelpers.IsRecycleBinItem(item))
+                {
+                    deleteFromRecycleBin = true;
+                    break;
                 }
 
             PostedStatusBanner banner;
@@ -347,15 +347,25 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> PerformOperationTypeAsync(DataPackageOperation operation, DataPackageView packageView, string destination, bool registerHistory)
         {
-            switch (operation)
+            try
             {
-                case DataPackageOperation.Copy:
-                    return await CopyItemsFromClipboard(packageView, destination, registerHistory);
+                switch (operation)
+                {
+                    case DataPackageOperation.Copy:
+                        return await CopyItemsFromClipboard(packageView, destination, registerHistory);
 
-                case DataPackageOperation.Move:
-                    return await MoveItemsFromClipboard(packageView, destination, registerHistory);
+                    case DataPackageOperation.Move:
+                        return await MoveItemsFromClipboard(packageView, destination, registerHistory);
 
-                default: return default;
+                    case DataPackageOperation.None: // Shortcut items
+                        return await CopyItemsFromClipboard(packageView, destination, registerHistory);
+
+                    default: return default;
+                }
+            }
+            finally
+            {
+                packageView.ReportOperationCompleted(operation);
             }
         }
 
@@ -448,28 +458,21 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool registerHistory)
         {
-            try
+            if (!packageView.Contains(StandardDataFormats.StorageItems))
             {
-                if (!packageView.Contains(StandardDataFormats.StorageItems))
-                {
-                    // Happens if you copy some text and then you Ctrl+V in Files
-                    // Should this be done in ModernShellPage?
-                    return ReturnResult.BadArgumentException;
-                }
-
-                IReadOnlyList<IStorageItem> source = await packageView.GetStorageItemsAsync();
-                ReturnResult returnStatus = ReturnResult.InProgress;
-
-                foreach (IStorageItem item in source)
-                {
-                    returnStatus = await CopyItemAsync(item, Path.Combine(destination, item.Name), registerHistory);
-                }
-                return returnStatus;
+                // Happens if you copy some text and then you Ctrl+V in Files
+                // Should this be done in ModernShellPage?
+                return ReturnResult.BadArgumentException;
             }
-            finally
+
+            IReadOnlyList<IStorageItem> source = await packageView.GetStorageItemsAsync();
+            ReturnResult returnStatus = ReturnResult.InProgress;
+
+            foreach (IStorageItem item in source)
             {
-                packageView.ReportOperationCompleted(DataPackageOperation.Copy);
+                returnStatus = await CopyItemAsync(item, Path.Combine(destination, item.Name), registerHistory);
             }
+            return returnStatus;
         }
 
         #endregion
@@ -563,28 +566,21 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> MoveItemsFromClipboard(DataPackageView packageView, string destination, bool registerHistory)
         {
-            try
+            if (!packageView.Contains(StandardDataFormats.StorageItems))
             {
-                if (!packageView.Contains(StandardDataFormats.StorageItems))
-                {
-                    // Happens if you copy some text and then you Ctrl+V in Files
-                    // Should this be done in ModernShellPage?
-                    return ReturnResult.BadArgumentException;
-                }
-
-                IReadOnlyList<IStorageItem> source = await packageView.GetStorageItemsAsync();
-                ReturnResult returnStatus = ReturnResult.InProgress;
-
-                foreach (IStorageItem item in source)
-                {
-                    returnStatus = await MoveItemAsync(item, Path.Combine(destination, item.Name), registerHistory);
-                }
-                return returnStatus;
+                // Happens if you copy some text and then you Ctrl+V in Files
+                // Should this be done in ModernShellPage?
+                return ReturnResult.BadArgumentException;
             }
-            finally
+
+            IReadOnlyList<IStorageItem> source = await packageView.GetStorageItemsAsync();
+            ReturnResult returnStatus = ReturnResult.InProgress;
+
+            foreach (IStorageItem item in source)
             {
-                packageView.ReportOperationCompleted(DataPackageOperation.Move);
+                returnStatus = await MoveItemAsync(item, Path.Combine(destination, item.Name), registerHistory);
             }
+            return returnStatus;
         }
 
         #endregion

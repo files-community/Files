@@ -162,7 +162,7 @@ namespace Files.Filesystem
 
                 if (fsResult)
                 {
-                    IStorageFile file = (StorageFile)source;
+                    StorageFile file = (StorageFile)source;
                     FilesystemResult<StorageFile> fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(fsResult.Result, source.Name, NameCollisionOption.GenerateUniqueName).AsTask());
 
                     if (fsResultCopy)
@@ -201,7 +201,7 @@ namespace Files.Filesystem
 
             progress?.Report(100.0f);
 
-            return new StorageHistory(FileOperationType.Copy, source.Path, copiedItem.Path);
+            return new StorageHistory(FileOperationType.Copy, source.Path, copiedItem != null ? (!string.IsNullOrWhiteSpace(copiedItem.Path) ? copiedItem.Path : destination) : destination);
         }
 
         public async Task<IStorageHistory> MoveAsync(IStorageItem source, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken)
@@ -434,9 +434,17 @@ namespace Files.Filesystem
                 {
                     // Enumerate Recycle Bin
                     List<ShellFileItem> items = await this.recycleBinHelpers.EnumerateRecycleBin();
+                    List<ShellFileItem> nameMatchItems;
 
                     // Get name matching files
-                    List<ShellFileItem> nameMatchItems = items.Where((item) => item.FileName == Path.GetFileName(source)).ToList();
+                    if (Path.GetExtension(source) == ".lnk") // We need to check if it is a shortcut file
+                    {
+                        nameMatchItems = items.Where((item) => item.FilePath == Path.Combine(Path.GetDirectoryName(source), Path.GetFileNameWithoutExtension(source))).ToList();
+                    }
+                    else
+                    {
+                        nameMatchItems = items.Where((item) => item.FilePath == source).ToList();
+                    }
 
                     // Get newest file
                     ShellFileItem item = nameMatchItems.Where((item) => item.RecycleDate != null).OrderBy((item) => item.RecycleDate).FirstOrDefault();

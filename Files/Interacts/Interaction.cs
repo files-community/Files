@@ -784,10 +784,12 @@ namespace Files.Interacts
         public async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
             Dictionary<string, FilesystemItemType> itemsToDelete = new Dictionary<string, FilesystemItemType>();
-            foreach (IStorageItemWithPath item in await this.AssociatedInstance.ContentPage.SelectedItems.ToStorageItemWithPathCollection())
+
+            foreach (ListedItem item in this.AssociatedInstance.ContentPage.SelectedItems)
             {
-                itemsToDelete.Add(item.Path, item.Item.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory);
+                itemsToDelete.Add(item.ItemPath, item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory);
             }
+
             await this.filesystemHelpers.DeleteItemsAsync(itemsToDelete, true, false, true);
         }
 

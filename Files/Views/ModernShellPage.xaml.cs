@@ -902,10 +902,12 @@ namespace Files.Views.Pages
                     if (!NavigationToolbar.IsEditModeEnabled)
                     {
                         Dictionary<string, FilesystemItemType> itemsToDelete = new Dictionary<string, FilesystemItemType>();
-                        foreach (IStorageItemWithPath item in await this.ContentPage.SelectedItems.ToStorageItemWithPathCollection())
+
+                        foreach (ListedItem item in this.ContentPage.SelectedItems)
                         {
-                            itemsToDelete.Add(item.Path, item.Item.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory);
+                            itemsToDelete.Add(item.ItemPath, item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory);
                         }
+
                         await this.filesystemHelpers.DeleteItemsAsync(itemsToDelete, true, true, true);
                     }
 
@@ -971,10 +973,12 @@ namespace Files.Views.Pages
                     if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem)
                     {
                         Dictionary<string, FilesystemItemType> itemsToDelete = new Dictionary<string, FilesystemItemType>();
-                        foreach (IStorageItemWithPath item in await this.ContentPage.SelectedItems.ToStorageItemWithPathCollection())
+
+                        foreach (ListedItem item in this.ContentPage.SelectedItems)
                         {
-                            itemsToDelete.Add(item.Path, item.Item.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory);
+                            itemsToDelete.Add(item.ItemPath, item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory);
                         }
+
                         await this.filesystemHelpers.DeleteItemsAsync(itemsToDelete, true, false, true);
                     }
 
