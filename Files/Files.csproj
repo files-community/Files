@@ -363,7 +363,7 @@
     <Compile Include="View Models\SettingsViewModel.cs" />
     <Compile Include="Helpers\WindowDisplayInfo.cs" />
     <Compile Include="Helpers\WindowDisplayMode.cs" />
-    <Compile Include="UserControls\YourHome.xaml.cs">
+    <Compile Include="Views\YourHome.xaml.cs">
       <DependentUpon>YourHome.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -660,7 +660,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\YourHome.xaml">
+    <Page Include="Views\YourHome.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
