@@ -214,7 +214,6 @@ namespace Files.Filesystem
             progress?.Report(100.0f);
 
             return new StorageHistory(FileOperationType.Copy, source, $"{(copiedItem != null ? (!string.IsNullOrWhiteSpace(copiedItem.Path) ? copiedItem.Path : destination) : destination)}|{itemType.ToString()}");
-
         }
 
         public async Task<IStorageHistory> MoveAsync(IStorageItem source, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken)

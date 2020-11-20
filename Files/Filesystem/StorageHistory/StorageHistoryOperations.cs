@@ -79,14 +79,14 @@ namespace Files.Filesystem.FilesystemHistory
                     {
                         if (IsHistoryNull(history)) break;
 
-                        return await this.filesystemHelpers.CopyItemsAsync(ExtractDictionaryFilesFromHistory(history.Source), history.Destination, false);
+                        return await this.filesystemHelpers.CopyItemsAsync(ExtractDictionaryFilesFromHistory(history.Destination, history.Source), history.Destination.Select((item) => item.Split('|')[0]), false);
                     }
 
                 case FileOperationType.Move: // Move PASS
                     {
                         if (IsHistoryNull(history)) break;
 
-                        return await this.filesystemHelpers.MoveItemsAsync(ExtractDictionaryFilesFromHistory(history.Source), history.Destination, false);
+                        return await this.filesystemHelpers.MoveItemsAsync(ExtractDictionaryFilesFromHistory(history.Destination, history.Source), history.Destination.Select((item) => item.Split('|')[0]), false);
                     }
 
                 case FileOperationType.Extract: // Extract PASS
@@ -259,6 +259,18 @@ namespace Files.Filesystem.FilesystemHistory
             foreach (string item in source)
             {
                 items.Add(item.Split('|')[0], item.Split('|')[1].GetEnum<FilesystemItemType>());
+            }
+
+            return items;
+        }
+
+        private Dictionary<string, FilesystemItemType> ExtractDictionaryFilesFromHistory(IEnumerable<string> source, IEnumerable<string> replace)
+        {
+            Dictionary<string, FilesystemItemType> items = new Dictionary<string, FilesystemItemType>();
+
+            for (int i = 0; i < source.Count(); i++)
+            {
+                items.Add(replace.ElementAt(i), source.ElementAt(i).Split('|')[1].GetEnum<FilesystemItemType>());
             }
 
             return items;
