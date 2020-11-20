@@ -428,7 +428,10 @@ namespace FilesFullTrust
                     using (var op = new ShellFileOperations())
                     {
                         op.Options = ShellFileOperations.OperationFlags.NoUI;
-                        if (!permanently) op.Options |= ShellFileOperations.OperationFlags.AllowUndo;
+                        if (!permanently)
+                        {
+                            op.Options |= ShellFileOperations.OperationFlags.AllowUndo;
+                        }
                         using var shi = new ShellItem(fileToDeletePath);
                         op.QueueDeleteOperation(shi);
                         op.PerformOperations();
