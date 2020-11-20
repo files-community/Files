@@ -138,7 +138,10 @@
                                         Text="{x:Bind Text, Mode=OneWay}"
                                         TextWrapping="NoWrap" />
                                     <muxc:ProgressBar Maximum="{x:Bind MaxSpace.GigaBytes, Mode=OneWay}" Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}" />
-                                    <TextBlock Text="{x:Bind SpaceText, Mode=OneWay}" ToolTipService.ToolTip="{x:Bind SpaceText, Mode=OneWay}" />
+                                    <TextBlock
+                                        Text="{x:Bind SpaceText, Mode=OneWay}"
+                                        TextWrapping="Wrap"
+                                        ToolTipService.ToolTip="{x:Bind SpaceText, Mode=OneWay}" />
                                 </StackPanel>
                             </Grid>
                         </Button>
