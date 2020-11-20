@@ -42,6 +42,7 @@ namespace Files
         private readonly static CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         public static CancellationToken CancellationToken = cancellationTokenSource.Token;
 
+        public static SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
         public static readonly List<IStorageHistory> StorageHistory = new List<IStorageHistory>();
         public static int StorageHistoryIndex = 0;
 

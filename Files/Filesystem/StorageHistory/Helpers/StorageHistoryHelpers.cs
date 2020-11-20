@@ -2,6 +2,7 @@
 using Files.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,8 +14,6 @@ namespace Files.Filesystem.FilesystemHistory
         #region Private Members
 
         private IStorageHistoryOperations storageHistoryOperations;
-
-        private Queue<Func<Task<ReturnResult>>> operationsQueue = new Queue<Func<Task<ReturnResult>>>();
 
         #endregion
 
@@ -33,22 +32,50 @@ namespace Files.Filesystem.FilesystemHistory
         {
             if (CanUndo())
             {
-                App.StorageHistoryIndex--;
-                int index = EnumerableHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count);
-                operationsQueue.Enqueue(new Func<Task<ReturnResult>>(() => this.storageHistoryOperations.Undo(App.StorageHistory[index])));
+                try
+                {
+                    await App.SemaphoreSlim.WaitAsync(0);
+
+                    App.StorageHistoryIndex--;
+                    int index = EnumerableHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count);
+                    await this.storageHistoryOperations.Undo(App.StorageHistory[index]);
+
+                    await Task.Delay(10000); // Test
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    return;
+                }
+                finally
+                {
+                    App.SemaphoreSlim.Release();
+                }
             }
-            await operationsQueue.Throttle(1);
         }
 
         public async Task Redo()
         {
             if (CanRedo())
             {
-                int index = EnumerableHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count);
-                App.StorageHistoryIndex++;
-                operationsQueue.Enqueue(new Func<Task<ReturnResult>>(() => this.storageHistoryOperations.Redo(App.StorageHistory[index])));
+                try
+                {
+                    await App.SemaphoreSlim.WaitAsync(0);
+
+                    int index = EnumerableHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count);
+                    App.StorageHistoryIndex++;
+                    await this.storageHistoryOperations.Redo(App.StorageHistory[index]);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(e.Message);
+                    return;
+                }
+                finally
+                {
+                    App.SemaphoreSlim.Release();
+                }
             }
-            await operationsQueue.Throttle(1);
         }
 
         #endregion
