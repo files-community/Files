@@ -35,6 +35,8 @@ namespace Files.Views.Pages
 {
     public sealed partial class ModernShellPage : Page, IShellPage, INotifyPropertyChanged
     {
+        private readonly StorageHistoryHelpers storageHistoryHelpers;
+
         private readonly IFilesystemHelpers filesystemHelpers;
         public SettingsViewModel AppSettings => App.AppSettings;
         public bool IsCurrentInstance { get; set; } = false;
@@ -87,6 +89,7 @@ namespace Files.Views.Pages
         {
             this.InitializeComponent();
             this.filesystemHelpers = new FilesystemHelpers(this, App.CancellationToken);
+            this.storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, App.CancellationToken));
             AppSettings.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
             DisplayFilesystemConsentDialog();
 
@@ -879,11 +882,11 @@ namespace Files.Views.Pages
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
                 case (true, false, false, true, VirtualKey.Z): // ctrl + z, undo
-                    await new StorageHistoryHelpers(new StorageHistoryOperations(this, App.CancellationToken)).Undo();
+                    await this.storageHistoryHelpers.Undo();
                     break;
 
                 case (true, false, false, true, VirtualKey.Y): // ctrl + y, redo
-                    await new StorageHistoryHelpers(new StorageHistoryOperations(this, App.CancellationToken)).Redo();
+                    await this.storageHistoryHelpers.Redo();
                     break;
 
                 case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item

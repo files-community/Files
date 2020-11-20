@@ -1,5 +1,9 @@
-﻿using Files.Helpers;
+﻿using Files.Extensions;
+using Files.Helpers;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Files.Filesystem.FilesystemHistory
@@ -8,7 +12,9 @@ namespace Files.Filesystem.FilesystemHistory
     {
         #region Private Members
 
-        private IStorageHistoryOperations _storageHistoryOperations;
+        private IStorageHistoryOperations storageHistoryOperations;
+
+        private Queue<Func<Task<ReturnResult>>> operationsQueue = new Queue<Func<Task<ReturnResult>>>();
 
         #endregion
 
@@ -16,38 +22,38 @@ namespace Files.Filesystem.FilesystemHistory
 
         public StorageHistoryHelpers(IStorageHistoryOperations storageHistoryOperations)
         {
-            this._storageHistoryOperations = storageHistoryOperations;
+            this.storageHistoryOperations = storageHistoryOperations;
         }
 
         #endregion
 
         #region Undo, Redo
 
-        public async Task<ReturnResult> Undo()
+        public async Task Undo()
         {
             if (CanUndo())
             {
                 App.StorageHistoryIndex--;
                 int index = EnumerableHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count);
-                return await this._storageHistoryOperations.Undo(App.StorageHistory[index]);
+                operationsQueue.Enqueue(new Func<Task<ReturnResult>>(() => this.storageHistoryOperations.Undo(App.StorageHistory[index])));
             }
-            return ReturnResult.InProgress;
+            await operationsQueue.Throttle(1);
         }
 
-        public async Task<ReturnResult> Redo()
+        public async Task Redo()
         {
             if (CanRedo())
             {
                 int index = EnumerableHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count);
                 App.StorageHistoryIndex++;
-                return await this._storageHistoryOperations.Redo(App.StorageHistory[index]);
+                operationsQueue.Enqueue(new Func<Task<ReturnResult>>(() => this.storageHistoryOperations.Redo(App.StorageHistory[index])));
             }
-            return ReturnResult.InProgress;
+            await operationsQueue.Throttle(1);
         }
 
         #endregion
 
-        #region Helpers
+        #region Public Helpers
 
         public static bool CanUndo() =>
             App.StorageHistoryIndex > 0;
@@ -57,13 +63,19 @@ namespace Files.Filesystem.FilesystemHistory
 
         #endregion
 
+        #region Private Helpers
+
+
+
+        #endregion
+
         #region IDisposable
 
         public void Dispose()
         {
-            this._storageHistoryOperations?.Dispose();
+            this.storageHistoryOperations?.Dispose();
 
-            this._storageHistoryOperations = null;
+            this.storageHistoryOperations = null;
         }
 
         #endregion
