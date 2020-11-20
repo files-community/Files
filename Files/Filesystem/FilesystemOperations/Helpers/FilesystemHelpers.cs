@@ -9,9 +9,10 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using FileAttributes = System.IO.FileAttributes;
+using static Files.Helpers.NativeFindStorageItemHelper;
 
 namespace Files.Filesystem
 {
@@ -120,9 +121,7 @@ namespace Files.Filesystem
                 else
                     permanently = originalPermanently;
 
-                // TODO: Remove history1
-                IStorageHistory history1 = await this.filesystemOperations.DeleteAsync(item.Key, item.Value, banner.Progress, banner.ErrorCode, permanently, this.cancellationToken);
-                rawStorageHistory.Add(history1);
+                rawStorageHistory.Add(await this.filesystemOperations.DeleteAsync(item.Key, item.Value, banner.Progress, banner.ErrorCode, permanently, this.cancellationToken));
             }
 
             if (rawStorageHistory.TrueForAll((item) => item != null))
@@ -253,9 +252,7 @@ namespace Files.Filesystem
                 else
                     permanently = originalPermanently;
 
-                // TODO: Remove history1
-                IStorageHistory history1 = await this.filesystemOperations.DeleteAsync(item, banner.Progress, banner.ErrorCode, permanently, this.cancellationToken);
-                rawStorageHistory.Add(history1);
+                rawStorageHistory.Add(await this.filesystemOperations.DeleteAsync(item, banner.Progress, banner.ErrorCode, permanently, this.cancellationToken));
             }
 
             if (rawStorageHistory.TrueForAll((item) => item != null))
@@ -392,8 +389,7 @@ namespace Files.Filesystem
             associatedInstance.ContentPage.ClearSelection();
             for (int i = 0; i < source.Count(); i++)
             {
-                IStorageHistory history1 = await this.filesystemOperations.CopyAsync(source.ElementAt(i), destination.ElementAt(i), banner.Progress, banner.ErrorCode, this.cancellationToken);
-                rawStorageHistory.Add(history1);
+                rawStorageHistory.Add(await this.filesystemOperations.CopyAsync(source.ElementAt(i), destination.ElementAt(i), banner.Progress, banner.ErrorCode, this.cancellationToken));
             }
 
             if (rawStorageHistory.TrueForAll((item) => item != null))
@@ -500,8 +496,7 @@ namespace Files.Filesystem
             associatedInstance.ContentPage.ClearSelection();
             for (int i = 0; i < source.Count(); i++)
             {
-                IStorageHistory history1 = await this.filesystemOperations.MoveAsync(source.ElementAt(i), destination.ElementAt(i), banner.Progress, banner.ErrorCode, this.cancellationToken);
-                rawStorageHistory.Add(history1);
+                rawStorageHistory.Add(await this.filesystemOperations.MoveAsync(source.ElementAt(i), destination.ElementAt(i), banner.Progress, banner.ErrorCode, this.cancellationToken));
             }
 
             if (rawStorageHistory.TrueForAll((item) => item != null))
@@ -597,6 +592,137 @@ namespace Files.Filesystem
                 App.AddHistory(history);
 
             return returnCode.ToStatus();
+        }
+
+        #endregion
+
+        #region Public Helpers
+
+        public async static Task<StorageFolder> CloneDirectoryAsync(IStorageFolder sourceFolder, IStorageFolder destinationFolder, string sourceRootName)
+        {
+            StorageFolder createdRoot = await destinationFolder.CreateFolderAsync(sourceRootName, CreationCollisionOption.GenerateUniqueName);
+            destinationFolder = createdRoot;
+
+            foreach (IStorageFile fileInSourceDir in await sourceFolder.GetFilesAsync())
+            {
+                await fileInSourceDir.CopyAsync(destinationFolder, fileInSourceDir.Name, NameCollisionOption.GenerateUniqueName);
+            }
+
+            foreach (IStorageFolder folderinSourceDir in await sourceFolder.GetFoldersAsync())
+            {
+                await CloneDirectoryAsync(folderinSourceDir, destinationFolder, folderinSourceDir.Name);
+            }
+
+            return createdRoot;
+        }
+
+        public static async Task<StorageFolder> MoveDirectoryAsync(StorageFolder SourceFolder, StorageFolder DestinationFolder, string sourceRootName)
+        {
+            StorageFolder createdRoot = await DestinationFolder.CreateFolderAsync(sourceRootName, CreationCollisionOption.FailIfExists);
+            DestinationFolder = createdRoot;
+
+            foreach (StorageFile fileInSourceDir in await SourceFolder.GetFilesAsync())
+            {
+                await fileInSourceDir.MoveAsync(DestinationFolder, fileInSourceDir.Name, NameCollisionOption.FailIfExists);
+            }
+            foreach (StorageFolder folderinSourceDir in await SourceFolder.GetFoldersAsync())
+            {
+                await MoveDirectoryAsync(folderinSourceDir, DestinationFolder, folderinSourceDir.Name);
+            }
+
+            App.JumpList.RemoveFolder(SourceFolder.Path);
+
+            return createdRoot;
+        }
+
+        public static async Task<long> GetItemSize(IStorageItem item)
+        {
+            if (item.IsOfType(StorageItemTypes.Folder))
+            {
+                return await CalculateFolderSizeAsync(item.Path);
+            }
+            else
+            {
+                return CalculateFileSize(item.Path);
+            }
+        }
+
+        public static async Task<long> CalculateFolderSizeAsync(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                // In MTP devices calculating folder size would be too slow
+                // Also should use StorageFolder methods instead of FindFirstFileExFromApp
+                return 0;
+            }
+
+            long size = 0;
+            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+
+            IntPtr hFile = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
+                                                  additionalFlags);
+
+            int count = 0;
+            if (hFile.ToInt64() != -1)
+            {
+                do
+                {
+                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
+                    {
+                        size += findData.GetSize();
+                        ++count;
+                    }
+                    else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+                    {
+                        if (findData.cFileName != "." && findData.cFileName != "..")
+                        {
+                            string itemPath = Path.Combine(path, findData.cFileName);
+
+                            size += await CalculateFolderSizeAsync(itemPath);
+                            ++count;
+                        }
+                    }
+                } while (FindNextFile(hFile, out findData));
+                FindClose(hFile);
+                return size;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public static long CalculateFileSize(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                // In MTP devices calculating folder size would be too slow
+                // Also should use StorageFolder methods instead of FindFirstFileExFromApp
+                return 0;
+            }
+
+            long size = 0;
+            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+
+            IntPtr hFile = FindFirstFileExFromApp(path, findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
+                                                  additionalFlags);
+
+            if (hFile.ToInt64() != -1)
+            {
+                if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
+                {
+                    size += findData.GetSize();
+                }
+                FindClose(hFile);
+                Debug.WriteLine("Individual file size for Progress UI will be reported as: " + size.ToString() + " bytes");
+                return size;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         #endregion

@@ -927,7 +927,7 @@ namespace Files.Views.Pages
                 case (true, false, false, true, VirtualKey.V): // ctrl + v, paste
                     if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem)
                     {
-                        InteractionOperations.PasteItem();
+                        await InteractionOperations.PasteItemAsync();
                     }
 
                     break;

@@ -1,9 +1,6 @@
-﻿using Files.Extensions;
-using Files.Helpers;
+﻿using Files.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -32,20 +29,14 @@ namespace Files.Filesystem.FilesystemHistory
         {
             if (CanUndo())
             {
+                if (!(await App.SemaphoreSlim.WaitAsync(0)))
+                    return;
+
                 try
                 {
-                    await App.SemaphoreSlim.WaitAsync(0);
-
                     App.StorageHistoryIndex--;
-                    int index = EnumerableHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count);
+                    int index = ArrayHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count);
                     await this.storageHistoryOperations.Undo(App.StorageHistory[index]);
-
-                    await Task.Delay(10000); // Test
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                    return;
                 }
                 finally
                 {
@@ -58,18 +49,14 @@ namespace Files.Filesystem.FilesystemHistory
         {
             if (CanRedo())
             {
+                if (!(await App.SemaphoreSlim.WaitAsync(0)))
+                    return;
+
                 try
                 {
-                    await App.SemaphoreSlim.WaitAsync(0);
-
-                    int index = EnumerableHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count);
+                    int index = ArrayHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count);
                     App.StorageHistoryIndex++;
                     await this.storageHistoryOperations.Redo(App.StorageHistory[index]);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                    return;
                 }
                 finally
                 {
@@ -87,12 +74,6 @@ namespace Files.Filesystem.FilesystemHistory
 
         public static bool CanRedo() =>
             App.StorageHistoryIndex < App.StorageHistory.Count;
-
-        #endregion
-
-        #region Private Helpers
-
-
 
         #endregion
 

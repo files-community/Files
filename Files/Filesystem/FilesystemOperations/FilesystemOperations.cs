@@ -13,8 +13,6 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using FileAttributes = System.IO.FileAttributes;
-using static Files.Helpers.NativeFindStorageItemHelper;
 
 namespace Files.Filesystem
 {
@@ -102,7 +100,7 @@ namespace Files.Filesystem
             }
 
             IStorageItem copiedItem = null;
-            long itemSize = await GetItemSize(source);
+            long itemSize = await FilesystemHelpers.GetItemSize(source);
             bool reportProgress = false; // TODO: The default value is false
 
             if (source.IsOfType(StorageItemTypes.Folder))
@@ -144,7 +142,7 @@ namespace Files.Filesystem
                     }
 
                     await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination))
-                        .OnSuccess(t => CloneDirectoryAsync((IStorageFolder)source, t, source.Name))
+                        .OnSuccess(t => FilesystemHelpers.CloneDirectoryAsync((IStorageFolder)source, t, source.Name))
                         .OnSuccess(t =>
                         {
                             copiedItem = t;
@@ -367,7 +365,6 @@ namespace Files.Filesystem
             errorCode?.Report(fsResult);
             progress?.Report(0.0f);
 
-
             if (itemType == FilesystemItemType.File)
             {
                 fsResult = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source)
@@ -493,7 +490,7 @@ namespace Files.Filesystem
 
                 if (sourceFolder)
                 {
-                    fsResult = await FilesystemTasks.Wrap(async () => MoveDirectoryAsync(sourceFolder.Result, (StorageFolder)await Path.GetDirectoryName(destination).ToStorageItem(), Path.GetFileName(destination)))
+                    fsResult = await FilesystemTasks.Wrap(async () => FilesystemHelpers.MoveDirectoryAsync(sourceFolder.Result, (StorageFolder)await Path.GetDirectoryName(destination).ToStorageItem(), Path.GetFileName(destination)))
                                 .OnSuccess(t => sourceFolder.Result.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
                 }
                 errorCode?.Report(fsResult);
@@ -540,133 +537,6 @@ namespace Files.Filesystem
         }
 
         #endregion
-
-        public async static Task<StorageFolder> CloneDirectoryAsync(IStorageFolder sourceFolder, IStorageFolder destinationFolder, string sourceRootName)
-        {
-            StorageFolder createdRoot = await destinationFolder.CreateFolderAsync(sourceRootName, CreationCollisionOption.GenerateUniqueName);
-            destinationFolder = createdRoot;
-
-            foreach (IStorageFile fileInSourceDir in await sourceFolder.GetFilesAsync())
-            {
-                await fileInSourceDir.CopyAsync(destinationFolder, fileInSourceDir.Name, NameCollisionOption.GenerateUniqueName);
-            }
-
-            foreach (IStorageFolder folderinSourceDir in await sourceFolder.GetFoldersAsync())
-            {
-                await CloneDirectoryAsync(folderinSourceDir, destinationFolder, folderinSourceDir.Name);
-            }
-
-            return createdRoot;
-        }
-
-        public static async Task<StorageFolder> MoveDirectoryAsync(StorageFolder SourceFolder, StorageFolder DestinationFolder, string sourceRootName)
-        {
-            StorageFolder createdRoot = await DestinationFolder.CreateFolderAsync(sourceRootName, CreationCollisionOption.FailIfExists);
-            DestinationFolder = createdRoot;
-
-            foreach (StorageFile fileInSourceDir in await SourceFolder.GetFilesAsync())
-            {
-                await fileInSourceDir.MoveAsync(DestinationFolder, fileInSourceDir.Name, NameCollisionOption.FailIfExists);
-            }
-            foreach (StorageFolder folderinSourceDir in await SourceFolder.GetFoldersAsync())
-            {
-                await MoveDirectoryAsync(folderinSourceDir, DestinationFolder, folderinSourceDir.Name);
-            }
-
-            App.JumpList.RemoveFolder(SourceFolder.Path);
-
-            return createdRoot;
-        }
-
-        public static async Task<long> GetItemSize(IStorageItem item)
-        {
-            if (item.IsOfType(StorageItemTypes.Folder))
-            {
-                return await CalculateFolderSizeAsync(item.Path);
-            }
-            else
-            {
-                return CalculateFileSize(item.Path);
-            }
-        }
-
-        public static async Task<long> CalculateFolderSizeAsync(string path)
-        {
-            if (string.IsNullOrEmpty(path))
-            {
-                // In MTP devices calculating folder size would be too slow
-                // Also should use StorageFolder methods instead of FindFirstFileExFromApp
-                return 0;
-            }
-
-            long size = 0;
-            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-
-            IntPtr hFile = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
-                                                  additionalFlags);
-
-            int count = 0;
-            if (hFile.ToInt64() != -1)
-            {
-                do
-                {
-                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
-                    {
-                        size += findData.GetSize();
-                        ++count;
-                    }
-                    else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
-                    {
-                        if (findData.cFileName != "." && findData.cFileName != "..")
-                        {
-                            var itemPath = Path.Combine(path, findData.cFileName);
-
-                            size += await CalculateFolderSizeAsync(itemPath);
-                            ++count;
-                        }
-                    }
-                } while (FindNextFile(hFile, out findData));
-                FindClose(hFile);
-                return size;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-
-        public static long CalculateFileSize(string path)
-        {
-            if (string.IsNullOrEmpty(path))
-            {
-                // In MTP devices calculating folder size would be too slow
-                // Also should use StorageFolder methods instead of FindFirstFileExFromApp
-                return 0;
-            }
-
-            long size = 0;
-            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-
-            IntPtr hFile = FindFirstFileExFromApp(path, findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
-                                                  additionalFlags);
-
-            if (hFile.ToInt64() != -1)
-            {
-                if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
-                {
-                    size += findData.GetSize();
-                }
-                FindClose(hFile);
-                Debug.WriteLine("Individual file size for Progress UI will be reported as: " + size.ToString() + " bytes");
-                return size;
-            }
-            else
-            {
-                return 0;
-            }
-        }
 
         #region IDisposable
 

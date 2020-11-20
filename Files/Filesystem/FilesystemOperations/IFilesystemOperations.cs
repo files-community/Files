@@ -14,7 +14,7 @@ namespace Files.Filesystem
     /// </summary>
     public interface IFilesystemOperations : IDisposable
     // TODO Maybe replace IProgress<float> with custom IProgress<FilesystemProgress> class?
-    // It would gave us the ability to extend the reported progress by e.g.: transfer speed
+    // It would give us the ability to extend the reported progress by e.g.: transfer speed
     {
         /// <summary>
         /// Creates an item from <paramref name="fullPath"/> determined by <paramref name="itemType"/>

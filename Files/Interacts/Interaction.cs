@@ -1156,9 +1156,9 @@ namespace Files.Interacts
             }
         }
 
-        public RelayCommand PasteItemsFromClipboard => new RelayCommand(() => PasteItem());
+        public RelayCommand PasteItemsFromClipboard => new RelayCommand(async () => await PasteItemAsync());
 
-        public async void PasteItem()
+        public async Task PasteItemAsync()
         {
             DataPackageView packageView = Clipboard.GetContent();
             string destinationPath = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
