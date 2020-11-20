@@ -47,7 +47,11 @@
                 </GroupStyle.HeaderTemplate>
             </GroupStyle>
         </ListView.GroupStyle>
-
+        <ListView.ItemContainerStyle>
+            <Style TargetType="ListViewItem">
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            </Style>
+        </ListView.ItemContainerStyle>
         <ListView.Footer>
             <StackPanel Margin="10,5,10,5" Spacing="5">
                 <Button

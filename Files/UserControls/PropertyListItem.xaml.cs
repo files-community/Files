@@ -9,14 +9,6 @@ namespace Files.UserControls
 {
     public sealed partial class PropertyListItem : UserControl
     {
-        public static readonly DependencyProperty ColumnWidthProperty = DependencyProperty.Register("ColumnWidth", typeof(GridLength), typeof(PropertyListItem), null);
-
-        public GridLength ColumnWidth
-        {
-            get => (GridLength)GetValue(ColumnWidthProperty);
-            set => SetValue(ColumnWidthProperty, (GridLength)value);
-        }
-
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(PropertyListItem), null);
 
         public string Text
