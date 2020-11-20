@@ -105,24 +105,27 @@ namespace Files.Filesystem
 
             if (source.IsOfType(StorageItemTypes.Folder))
             {
-                if (!string.IsNullOrWhiteSpace(source.Path) && !destination.IsSubPathOf(source.Path)) // TODO: Investigate
+                if (string.IsNullOrWhiteSpace(source.Path) || source.Path == Path.GetDirectoryName(destination)) // We check if user tried to copy anything above the source.ItemPath 
                 {
                     ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
 
-                    /// Currently following implementation throws exception until it is resolved keep it disabled
-                    /*Binding themeBind = new Binding();
-                    themeBind.Source = ThemeHelper.RootTheme;
-                    ContentDialog dialog = new ContentDialog()
+                    /*if (ShowDialog)
                     {
-                        Title = ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"),
-                        Content = ResourceController.GetTranslation("ErrorDialogTheDestinationFolder") + " (" + destinationPath.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last() + ") " + ResourceController.GetTranslation("ErrorDialogIsASubfolder") + " (" + item.Name + ")",
-                        PrimaryButtonText = ResourceController.GetTranslation("ErrorDialogSkip"),
-                        CloseButtonText = ResourceController.GetTranslation("ErrorDialogCancel"),
-                        PrimaryButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Skip; }),
-                        CloseButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Abort; }),
-                    };
-                    BindingOperations.SetBinding(dialog, FrameworkElement.RequestedThemeProperty, themeBind);
-                    await dialog.ShowAsync();*/
+                        /// Currently following implementation throws exception until it is resolved keep it disabled
+                        Binding themeBind = new Binding();
+                        themeBind.Source = ThemeHelper.RootTheme;
+                        ContentDialog dialog = new ContentDialog()
+                        {
+                            Title = ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"),
+                            Content = ResourceController.GetTranslation("ErrorDialogTheDestinationFolder") + " (" + destinationPath.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last() + ") " + ResourceController.GetTranslation("ErrorDialogIsASubfolder") + " (" + item.Name + ")",
+                            PrimaryButtonText = ResourceController.GetTranslation("ErrorDialogSkip"),
+                            CloseButtonText = ResourceController.GetTranslation("ErrorDialogCancel"),
+                            PrimaryButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Skip; }),
+                            CloseButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Abort; }),
+                        };
+                        BindingOperations.SetBinding(dialog, FrameworkElement.RequestedThemeProperty, themeBind);
+                        await dialog.ShowAsync();
+                    }*/
                     if (responseType == ImpossibleActionResponseTypes.Skip)
                     {
                         progress?.Report(100.0f);
