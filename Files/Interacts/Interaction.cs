@@ -47,7 +47,7 @@ namespace Files.Interacts
 {
     public class Interaction
     {
-        private readonly IFilesystemHelpers filesystemHelpers;
+        public readonly IFilesystemHelpers FilesystemHelpers;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -60,7 +60,7 @@ namespace Files.Interacts
         public Interaction(IShellPage appInstance)
         {
             AssociatedInstance = appInstance;
-            this.filesystemHelpers = new FilesystemHelpers(AssociatedInstance, App.CancellationToken);
+            this.FilesystemHelpers = new FilesystemHelpers(AssociatedInstance, App.CancellationToken);
         }
 
         public void List_ItemDoubleClick(object sender, DoubleTappedRoutedEventArgs e)
@@ -790,7 +790,7 @@ namespace Files.Interacts
                 itemsToDelete.Add(item.ItemPath, item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory);
             }
 
-            await this.filesystemHelpers.DeleteItemsAsync(itemsToDelete, true, false, true);
+            await this.FilesystemHelpers.DeleteItemsAsync(itemsToDelete, true, false, true);
         }
 
         public void RenameItem_Click(object sender, RoutedEventArgs e)
@@ -853,12 +853,12 @@ namespace Files.Interacts
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
                     renamed = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
-                        .OnSuccess(async (t) => await this.filesystemHelpers.RenameAsync(t, newName, NameCollisionOption.FailIfExists, true));
+                        .OnSuccess(async (t) => await this.FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.FailIfExists, true));
                 }
                 else
                 {
                     renamed = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
-                        .OnSuccess(async (t) => await this.filesystemHelpers.RenameAsync(t, newName, NameCollisionOption.FailIfExists, true));
+                        .OnSuccess(async (t) => await this.FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.FailIfExists, true));
                 }
                 if (renamed == FilesystemErrorCode.ERROR_UNAUTHORIZED)
                 {
@@ -903,12 +903,12 @@ namespace Files.Interacts
                         if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                         {
                             renamed = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
-                                .OnSuccess(async (t) => await this.filesystemHelpers.RenameAsync(t, newName, NameCollisionOption.GenerateUniqueName, true));
+                                .OnSuccess(async (t) => await this.FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.GenerateUniqueName, true));
                         }
                         else
                         {
                             renamed = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
-                                .OnSuccess(async (t) => await this.filesystemHelpers.RenameAsync(t, newName, NameCollisionOption.GenerateUniqueName, true));
+                                .OnSuccess(async (t) => await this.FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.GenerateUniqueName, true));
                         }
                     }
                     else if (result == ContentDialogResult.Secondary)
@@ -916,12 +916,12 @@ namespace Files.Interacts
                         if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                         {
                             renamed = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
-                                .OnSuccess(async (t) => await this.filesystemHelpers.RenameAsync(t, newName, NameCollisionOption.ReplaceExisting, true));
+                                .OnSuccess(async (t) => await this.FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.ReplaceExisting, true));
                         }
                         else
                         {
                             renamed = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
-                                .OnSuccess(async (t) => await this.filesystemHelpers.RenameAsync(t, newName, NameCollisionOption.ReplaceExisting, true));
+                                .OnSuccess(async (t) => await this.FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.ReplaceExisting, true));
                         }
                     }
                 }
@@ -941,7 +941,7 @@ namespace Files.Interacts
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
                     FilesystemItemType itemType = (listedItem as RecycleBinItem).PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
-                    await this.filesystemHelpers.RestoreFromTrashAsync($"{(listedItem as RecycleBinItem).ItemPath}|{itemType.ToString()}", (listedItem as RecycleBinItem).ItemOriginalPath, true);
+                    await this.FilesystemHelpers.RestoreFromTrashAsync($"{(listedItem as RecycleBinItem).ItemPath}|{itemType.ToString()}", (listedItem as RecycleBinItem).ItemOriginalPath, true);
                 }
             }
         }
@@ -1163,7 +1163,7 @@ namespace Files.Interacts
             DataPackageView packageView = Clipboard.GetContent();
             string destinationPath = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
 
-            await this.filesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, destinationPath, true);
+            await this.FilesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, destinationPath, true);
         }
 
         public async void CreateFileFromDialogResultType(AddItemType itemType)
@@ -1192,17 +1192,17 @@ namespace Files.Interacts
                 {
                     case AddItemType.Folder:
                         userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalized();
-                        created = await FilesystemTasks.Wrap(async () => await this.filesystemHelpers.CreateAsync(Path.Combine(folderRes.Result.Path, userInput), FilesystemItemType.Directory, true));
+                        created = await FilesystemTasks.Wrap(async () => await this.FilesystemHelpers.CreateAsync(Path.Combine(folderRes.Result.Path, userInput), FilesystemItemType.Directory, true));
                         break;
 
                     case AddItemType.TextDocument:
                         userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewTextDocument".GetLocalized();
-                        created = await FilesystemTasks.Wrap(async () => await this.filesystemHelpers.CreateAsync(Path.Combine(folderRes.Result.Path, userInput + ".txt"), FilesystemItemType.File, true));
+                        created = await FilesystemTasks.Wrap(async () => await this.FilesystemHelpers.CreateAsync(Path.Combine(folderRes.Result.Path, userInput + ".txt"), FilesystemItemType.File, true));
                         break;
 
                     case AddItemType.BitmapImage:
                         userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewBitmapImage".GetLocalized();
-                        created = await FilesystemTasks.Wrap(async () => await this.filesystemHelpers.CreateAsync(Path.Combine(folderRes.Result.Path, userInput + ".bmp"), FilesystemItemType.File, true));
+                        created = await FilesystemTasks.Wrap(async () => await this.FilesystemHelpers.CreateAsync(Path.Combine(folderRes.Result.Path, userInput + ".bmp"), FilesystemItemType.File, true));
                         break;
                 }
             }

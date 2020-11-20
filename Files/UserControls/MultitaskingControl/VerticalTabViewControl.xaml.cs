@@ -15,14 +15,12 @@ namespace Files.UserControls.MultitaskingControl
 {
     public sealed partial class VerticalTabViewControl : BaseMultitaskingControl
     {
-        private readonly IFilesystemHelpers filesystemHelpers;
         private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
         private TabViewItem hoveredTabViewItem = null;
 
         public VerticalTabViewControl()
         {
             InitializeComponent();
-            this.filesystemHelpers = new FilesystemHelpers(CurrentSelectedAppInstance, App.CancellationToken);
             tabHoverTimer.Interval = TimeSpan.FromMilliseconds(500);
             tabHoverTimer.Tick += TabHoverSelected;
         }
@@ -54,7 +52,7 @@ namespace Files.UserControls.MultitaskingControl
                     .FilesystemViewModel
                     .WorkingDirectory;
 
-                await this.filesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Move, e.DataView, tabViewItemWorkingDir, true);
+                await CurrentSelectedAppInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Move, e.DataView, tabViewItemWorkingDir, true);
             }
             else
             {
