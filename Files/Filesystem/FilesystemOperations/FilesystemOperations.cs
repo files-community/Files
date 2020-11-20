@@ -105,7 +105,7 @@ namespace Files.Filesystem
 
             if (source.IsOfType(StorageItemTypes.Folder))
             {
-                if (!string.IsNullOrWhiteSpace(source.Path) && destination.IsSubPathOf(source.Path)) // TODO: Investigate
+                if (!string.IsNullOrWhiteSpace(source.Path) && !destination.IsSubPathOf(source.Path)) // TODO: Investigate
                 {
                     ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
 
@@ -434,7 +434,7 @@ namespace Files.Filesystem
                     List<ShellFileItem> nameMatchItems;
 
                     // Get name matching files
-                    if (Path.GetExtension(source) == ".lnk") // We need to check if it is a shortcut file
+                    if (Path.GetExtension(source) == ".lnk" || Path.GetExtension(source) == ".url") // We need to check if it is a shortcut file
                     {
                         nameMatchItems = items.Where((item) => item.FilePath == Path.Combine(Path.GetDirectoryName(source), Path.GetFileNameWithoutExtension(source))).ToList();
                     }

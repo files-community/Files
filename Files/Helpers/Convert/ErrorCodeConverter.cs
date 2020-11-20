@@ -2,7 +2,7 @@
 
 namespace Files.Helpers
 {
-    public static class ErrorCodeHelpers
+    public static class ErrorCodeConverter
     {
         public static ReturnResult ToStatus(this FilesystemErrorCode errorCode)
         {
