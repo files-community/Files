@@ -105,7 +105,7 @@ namespace Files.Filesystem
 
             if (source.IsOfType(StorageItemTypes.Folder))
             {
-                if (string.IsNullOrWhiteSpace(source.Path) || source.Path == Path.GetDirectoryName(destination)) // We check if user tried to copy anything above the source.ItemPath 
+                if (string.IsNullOrWhiteSpace(source.Path) || Path.GetDirectoryName(destination).IsSubPathOf(source.Path)) // We check if user tried to copy anything above the source.ItemPath 
                 {
                     ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
 
