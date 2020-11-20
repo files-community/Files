@@ -1661,6 +1661,8 @@ namespace Files.Filesystem
                     ItemName = folder.Name,
                     ItemDateModifiedReal = basicProperties.DateModified,
                     ItemType = folder.DisplayType,
+                    IsHiddenItem = false,
+                    Opacity = 1,
                     LoadFolderGlyph = true,
                     FileImage = null,
                     LoadFileIcon = false,
@@ -1764,6 +1766,8 @@ namespace Files.Filesystem
                 {
                     PrimaryItemAttribute = StorageItemTypes.File,
                     FileExtension = itemFileExtension,
+                    IsHiddenItem = false,
+                    Opacity = 1,
                     LoadUnknownTypeGlyph = itemEmptyImgVis,
                     FileImage = icon,
                     LoadFileIcon = itemThumbnailImgVis,
