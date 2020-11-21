@@ -178,7 +178,8 @@ namespace Files.Filesystem
             lock (drivesList)
             {
                 // If drive already in list, skip.
-                if (drivesList.Any(x => x.DeviceID == deviceId))
+                if (drivesList.Any(x => x.DeviceID == deviceId ||
+                    string.IsNullOrEmpty(root.Path) ? x.Path.Contains(root.Name) : x.Path == root.Path))
                 {
                     return;
                 }
@@ -405,7 +406,8 @@ namespace Files.Filesystem
                 lock (drivesList)
                 {
                     // If drive already in list, skip.
-                    if (drivesList.Any(x => x.DeviceID == deviceId))
+                    if (drivesList.Any(x => x.DeviceID == deviceId ||
+                        string.IsNullOrEmpty(root.Result.Path) ? x.Path.Contains(root.Result.Name) : x.Path == root.Result.Path))
                     {
                         return;
                     }
