@@ -16,6 +16,7 @@ namespace Files.Filesystem
     {
         public string Glyph { get; set; }
         public string Path { get; set; }
+        public string DeviceID { get; set; }
         public StorageFolder Root { get; set; }
         public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
         public ByteSize MaxSpace { get; set; }
@@ -57,11 +58,12 @@ namespace Files.Filesystem
             ItemType = NavigationControlItemType.OneDrive;
         }
 
-        public DriveItem(StorageFolder root, DriveType type)
+        public DriveItem(StorageFolder root, string deviceId, DriveType type)
         {
             Text = root.DisplayName;
             Type = type;
             Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
+            DeviceID = deviceId;
             Root = root;
             IsRemovable = (Type == DriveType.Removable || Type == DriveType.CDRom);
 

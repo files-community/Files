@@ -50,7 +50,6 @@ namespace Files
 
             InitializeComponent();
             Suspending += OnSuspending;
-            LeavingBackground += OnLeavingBackground;
 
             // Initialize NLog
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
@@ -74,11 +73,6 @@ namespace Files
             }
 
             AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
-        }
-
-        private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
-        {
-            AppSettings?.DrivesManager?.ResumeDeviceWatcher();
         }
 
         public static INavigationControlItem RightClickedItem;
