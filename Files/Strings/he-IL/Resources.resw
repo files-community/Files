@@ -162,9 +162,6 @@
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>העדפות</value>
   </data>
-  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>חיפוש</value>
-  </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>פתח כרטיסיה חדשה</value>
   </data>
@@ -630,9 +627,6 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>מצב פריסה</value>
   </data>
-  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
-    <value>צור פריט חדש</value>
-  </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>נווט קדימה</value>
   </data>
@@ -641,9 +635,6 @@
   </data>
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>הגישה נדחתה</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Header" xml:space="preserve">
-    <value>‏‏הצג אותיות כונן</value>
   </data>
   <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
     <value>תבנית תאריך.</value>

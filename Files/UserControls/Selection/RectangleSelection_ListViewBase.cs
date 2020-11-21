@@ -103,9 +103,9 @@ namespace Files.UserControls.Selection
             originDragPoint = new Point(e.GetCurrentPoint(uiElement).Position.X, e.GetCurrentPoint(uiElement).Position.Y); // Initial drag point relative to the topleft corner
             var verticalOffset = scrollViewer?.VerticalOffset ?? 0;
             originDragPoint.Y += verticalOffset; // Initial drag point relative to the top of the list (considering scrolled offset)
-            if (!e.GetCurrentPoint(uiElement).Properties.IsLeftButtonPressed)
+            if (!e.GetCurrentPoint(uiElement).Properties.IsLeftButtonPressed || e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
             {
-                // Trigger only on left click
+                // Trigger only on left click, do not trigger with touch
                 return;
             }
             uiElement.PointerMoved -= RectangleSelection_PointerMoved;
