@@ -356,7 +356,7 @@ namespace Files.Filesystem
                     }
                 });
             }
-            // The fulltrust process signaled that something in the recycle bin folder has changed
+            // The fulltrust process signaled that a drive has been connected/disconnected
             else if (args.Request.Message.ContainsKey("DeviceID"))
             {
                 var deviceId = (string)args.Request.Message["DeviceID"];
