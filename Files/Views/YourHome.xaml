@@ -10,6 +10,11 @@
 
     <ScrollViewer>
         <StackPanel Margin="14" Spacing="24">
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition />
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
             <local:LibraryCards x:Name="LibraryWidget" x:Load="{x:Bind AppSettings.ShowLibraryCardsWidget, Mode=OneWay}" />
 
             <local:DrivesWidget x:Name="DrivesWidget" x:Load="{x:Bind AppSettings.ShowDrivesWidget, Mode=OneWay}" />

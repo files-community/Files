@@ -61,13 +61,13 @@
     <value>Envoyer un rapport d'incident aux développeurs avec des informations détaillées</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Licences tierces :</value>
+    <value>Licences tierces</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>À propos</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Site web :</value>
+    <value>Site web</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Apparence</value>
@@ -175,7 +175,7 @@
     <value>Coller</value>
   </data>
   <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
-    <value>Ouvrir dans le Terminal</value>
+    <value>Ouvrir dans le Terminal...</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
     <value>Nouveau</value>
@@ -238,7 +238,7 @@
     <value>Coller</value>
   </data>
   <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
-    <value>Ouvrir dans le Terminal</value>
+    <value>Ouvrir dans le Terminal...</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Entrer un chemin d’accès</value>
@@ -304,7 +304,7 @@
     <value>Accorder l’autorisation</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Pour commencer, vous devez nous permettre d'afficher vos fichiers. Une fenêtre de configuration va s'ouvrir où vous pourrez nous donner la permission. Vous devrez relancer l'application une fois cette étape terminée.</value>
+    <value>Pour commencer, vous devez nous permettre d'afficher vos fichiers. Une fenêtre de configuration va s'ouvrir où vous pourrez nous donner la permission. Vous devrez relancer l'application une fois cette étape terminée. </value>
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>Dossier de fichiers</value>
@@ -465,6 +465,9 @@
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
     <value>Le dossier auquel vous tentez d'accéder a peut-être été déplacé ou supprimé.</value>
   </data>
+  <data name="FolderNotFoundDialog.Title" xml:space="preserve">
+    <value>Avez-vous supprimé ce dossier ?</value>
+  </data>
   <data name="StatusBarControlLayoutMode.ToolTipService.ToolTip" xml:space="preserve">
     <value>Disposition</value>
   </data>
@@ -520,7 +523,7 @@
     <value>Nouvel onglet</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
-    <value>L'opération demandée n'est pas prise en charge.</value>
+    <value>L'opération demandée n'est pas prise en charge</value>
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} libre(s) sur {1}</value>
@@ -690,6 +693,9 @@
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>Pas de résultats</value>
   </data>
+  <data name="SubDirectoryAccessDenied" xml:space="preserve">
+    <value>Impossible d'accéder à un élément à afficher</value>
+  </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
     <value>Déplacer vers {0}</value>
   </data>
@@ -713,6 +719,9 @@
   </data>
   <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
     <value>Destination :</value>
+  </data>
+  <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
+    <value>Type de raccourci :</value>
   </data>
   <data name="PropertiesShortcutItemWorkingDir.Text" xml:space="preserve">
     <value>Répertoire de travail :</value>
@@ -775,7 +784,7 @@
     <value>Découvrez les nouveautés de Files</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
-    <value>L'élément référencé est invalide ou inaccessible.{0} Message d'erreur : {0}{1}</value>
+    <value>L'élément référencé est invalide ou inaccessible.{0}Message d'erreur : {0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Élément invalide</value>
@@ -798,8 +807,14 @@
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
     <value>Partage {0} {1}</value>
   </data>
+  <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
+    <value>L'élément que vous essayez de renommer n'existe plus. Veuillez vérifier l'emplacement exact de l'élément que vous avez besoin de renommer.</value>
+  </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
     <value>L’élément n’existe plus</value>
+  </data>
+  <data name="RenameError.NameInvalid.Text" xml:space="preserve">
+    <value>Le nom spécifié est invalide. Veuillez vérifier le nom désiré et essayez encore.</value>
   </data>
   <data name="RenameError.NameInvalid.Title" xml:space="preserve">
     <value>Nom d'élément invalide</value>
@@ -823,8 +838,7 @@
     <value>Adaptif (Recommandé)</value>
   </data>
   <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
-    <value>Horizontal
-        </value>
+    <value>Horizontal</value>
   </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multitâche</value>
@@ -898,6 +912,12 @@
   <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
     <value>Langue de l'application</value>
   </data>
+  <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
+    <value>Applications de terminal</value>
+  </data>
+  <data name="SettingsPreferencesContextMenuSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Afficher tous les éléments du menu contextuel</value>
+  </data>
   <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Afficher une option pour copier le chemin de l'élément</value>
   </data>
@@ -916,13 +936,46 @@
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
     <value>Voir des exemples de profils</value>
   </data>
+  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
+    <value>Langue de l'application</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
+    <value>Applications de terminal</value>
+  </data>
   <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
     <value>Soutenez-nous</value>
   </data>
   <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
     <value>Soutenez-nous sur PayPal</value>
   </data>
+  <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
+    <value>Nous n'avons pas pu créer cet élément</value>
+  </data>
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Accès refusé</value>
+  </data>
+  <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
+    <value>Afficher tous les éléments du menu contextuel</value>
+  </data>
+  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+    <value>Épingler la corbeille à la barre latérale</value>
+  </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
+    <value>Afficher une confirmation lors de la suppression de fichiers ou dossiers</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
+    <value>Afficher les extensions dont le type est connu</value>
+  </data>
+  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
+    <value>Barre latérale Acrylic</value>
+  </data>
+  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+    <value>Format de date</value>
+  </data>
+  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
+    <value>Thème de l'application</value>
+  </data>
+  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
+    <value>Afficher le propriétaire dans les propriétés</value>
   </data>
 </root>
