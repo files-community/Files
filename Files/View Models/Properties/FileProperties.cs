@@ -227,6 +227,12 @@ namespace Files.View_Models.Properties
             ViewModel.ItemSize = ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()
                 + " (" + ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + "ItemSizeBytes".GetLocalized() + ")";
 
+            var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
+            if (fileIconInfo.Icon != null && !Item.IsLinkItem)
+            {
+                ViewModel.FileIconSource = fileIconInfo.Icon;
+            }
+
             if (Item.IsShortcutItem)
             {
                 ViewModel.ItemCreatedTimestamp = Item.ItemDateCreated;
@@ -244,18 +250,6 @@ namespace Files.View_Models.Properties
             {
                 // Could not access file, can't show any other property
                 return;
-            }
-
-            using (var Thumbnail = await file.GetThumbnailAsync(ThumbnailMode.SingleItem, 80, ThumbnailOptions.UseCurrentScale))
-            {
-                BitmapImage icon = new BitmapImage();
-                if (Thumbnail != null)
-                {
-                    ViewModel.FileIconSource = icon;
-                    await icon.SetSourceAsync(Thumbnail);
-                    ViewModel.LoadUnknownTypeGlyph = false;
-                    ViewModel.LoadFileIcon = true;
-                }
             }
 
             if (Item.IsShortcutItem)

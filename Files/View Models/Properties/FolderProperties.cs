@@ -77,6 +77,12 @@ namespace Files.View_Models.Properties
             ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
                 Item.ItemPath, System.IO.FileAttributes.Hidden);
 
+            var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
+            if (fileIconInfo.Icon != null && fileIconInfo.IsCustom)
+            {
+                ViewModel.FileIconSource = fileIconInfo.Icon;
+            }
+
             if (Item.IsShortcutItem)
             {
                 ViewModel.ItemSizeVisibility = Visibility.Visible;
@@ -118,7 +124,6 @@ namespace Files.View_Models.Properties
                 ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
                 string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
                 ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDateFromFormat(storageFolder.DateCreated, returnformat);
-                LoadFolderIcon(storageFolder);
                 GetOtherProperties(storageFolder.Properties);
                 GetFolderSize(storageFolder, TokenSource.Token);
             }
@@ -159,35 +164,6 @@ namespace Files.View_Models.Properties
                         ViewModel.ItemModifiedTimestampVisibility = Visibility.Collapsed;
                         ViewModel.ItemFileOwnerVisibility = Visibility.Collapsed;
                         ViewModel.LastSeparatorVisibility = Visibility.Collapsed;
-                    }
-                }
-            }
-        }
-
-        private async void LoadFolderIcon(StorageFolder storageFolder)
-        {
-            if (AppInstance.FilesystemViewModel.Connection != null)
-            {
-                var value = new ValueSet();
-                value.Add("Arguments", "CheckCustomIcon");
-                value.Add("folderPath", Item.ItemPath);
-                var response = await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(value);
-                var hasCustomIcon = (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
-                    && response.Message.Get("HasCustomIcon", false);
-                if (hasCustomIcon)
-                {
-                    // Only set folder icon if it's a custom icon
-                    using (var Thumbnail = await storageFolder.GetThumbnailAsync(ThumbnailMode.SingleItem, 80, ThumbnailOptions.UseCurrentScale))
-                    {
-                        BitmapImage icon = new BitmapImage();
-                        if (Thumbnail != null)
-                        {
-                            ViewModel.FileIconSource = icon;
-                            await icon.SetSourceAsync(Thumbnail);
-                            ViewModel.LoadUnknownTypeGlyph = false;
-                            ViewModel.LoadFolderGlyph = false;
-                            ViewModel.LoadFileIcon = true;
-                        }
                     }
                 }
             }

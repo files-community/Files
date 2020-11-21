@@ -177,9 +177,6 @@
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferenze</value>
   </data>
-  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>Cerca</value>
-  </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Riprendi da dove eri rimasto</value>
   </data>
@@ -377,9 +374,6 @@
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Aggiorna (F5)</value>
-  </data>
-  <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Crea un nuovo elemento (Ctrl + Shift + N)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Cerca</value>
@@ -927,9 +921,6 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Modalità di visualizzazione</value>
   </data>
-  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Crea un nuovo elemento</value>
-  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Posizione precedente</value>
   </data>
@@ -1002,9 +993,6 @@
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Chiedi conferma prima di eliminare file e cartelle</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Header" xml:space="preserve">
-    <value>Mostra lettera dell'unità</value>
-  </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>Mostra estensione per i tipi di file conosciuti</value>
   </data>
@@ -1020,7 +1008,82 @@
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
     <value>Mostra Proprietario del file nelle proprietà</value>
   </data>
+  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Più opzioni</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.AutomationProperties.Name" xml:space="preserve">
+    <value>Stile layout</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Opzioni selezione</value>
+  </data>
+  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
+    <value>Apri elementi con un solo click</value>
+  </data>
+  <data name="FileItemAutomation" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="FolderItemAutomation" xml:space="preserve">
+    <value>Cartella</value>
+  </data>
+  <data name="RecycleBinItemAutomation" xml:space="preserve">
+    <value>Elemento del cestino</value>
+  </data>
+  <data name="ShortcutItemAutomation" xml:space="preserve">
+    <value>Scorciatoia</value>
+  </data>
+  <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
+    <value>Sposta qui</value>
+  </data>
+  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+    <value>Risorse</value>
+  </data>
+  <data name="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostra le schede della libreria nella schermata iniziale</value>
+  </data>
+  <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
+    <value>Mostra le schede della libreria nella schermata iniziale</value>
+  </data>
+  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
+    <value>Widgets</value>
+  </data>
+  <data name="SettingsWidgets.Content" xml:space="preserve">
+    <value>Widgets</value>
+  </data>
+  <data name="SettingsWidgetsShowDrives.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostra risorse nella schermata iniziale</value>
+  </data>
+  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
+    <value>Mostra risorse nella schermata iniziale</value>
+  </data>
+  <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostra file recenti nella schermata iniziale</value>
+  </data>
+  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
+    <value>Mostra file recenti nella schermata iniziale</value>
+  </data>
   <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
     <value>Mostra un'opzione per copiare il percorso dell'elemento selezionato</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
+    <value>Mostra file e cartelle nascoste</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostra file e cartelle nascoste</value>
+  </data>
+  <data name="EjectNotificationHeader" xml:space="preserve">
+    <value>Il dispositivo può essere rimosso senza problemi</value>
+  </data>
+  <data name="EjectNotificationBody" xml:space="preserve">
+    <value>Ora è sicuro rimuovere il dispositivo</value>
+  </data>
+  <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
+    <value>Si è verificato un problema nell'espellere il dispositivo</value>
+  </data>
+  <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
+    <value>Questo dispositivo è in uso. Si prega di chiudere ogni programma, finestra o scheda che potrebbe tenerlo occupato e riprovare.</value>
+  </data>
+  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+    <value>Espelli</value>
   </data>
 </root>

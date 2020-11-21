@@ -18,10 +18,6 @@
     mc:Ignorable="d">
     <local:BaseLayout.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
-        <converters:BoolToObjectConverter
-            x:Key="BoolToOpacityConverter"
-            FalseValue="1"
-            TrueValue="0.4" />
 
         <MenuFlyout
             x:Key="BaseLayoutContextFlyout"
@@ -119,6 +115,9 @@
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe916;" />
                 </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="F5" IsEnabled="False" />
+                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
@@ -130,6 +129,12 @@
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe9b2;" />
                 </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator
+                        Key="V"
+                        IsEnabled="False"
+                        Modifiers="Control" />
+                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
@@ -150,6 +155,12 @@
                 <MenuFlyoutSubItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe903;" />
                 </MenuFlyoutSubItem.Icon>
+                <MenuFlyoutSubItem.KeyboardAccelerators>
+                    <KeyboardAccelerator
+                        Key="N"
+                        IsEnabled="False"
+                        Modifiers="Control,Shift" />
+                </MenuFlyoutSubItem.KeyboardAccelerators>
                 <MenuFlyoutItem
                     x:Name="NewFolder"
                     x:Uid="BaseLayoutContextFlyoutNewFolder"
@@ -250,6 +261,9 @@
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe916;" />
                 </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="F5" IsEnabled="False" />
+                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
@@ -383,6 +397,12 @@
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF105;" />
                 </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator
+                        Key="X"
+                        IsEnabled="False"
+                        Modifiers="Control" />
+                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="CopyItem"
@@ -392,6 +412,12 @@
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe9d6;" />
                 </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator
+                        Key="C"
+                        IsEnabled="False"
+                        Modifiers="Control" />
+                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="CopyLocationItem"
@@ -420,6 +446,9 @@
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe9ed;" />
                 </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Delete" IsEnabled="False" />
+                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="RenameItem"
@@ -429,6 +458,9 @@
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeb3f;" />
                 </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="F2" IsEnabled="False" />
+                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
@@ -491,6 +523,9 @@
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe9ee;" />
                 </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Delete" IsEnabled="False" />
+                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
@@ -527,7 +562,7 @@
                     Grid.Row="0"
                     Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
                     Height="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
-                    Opacity="{x:Bind IsDimmed, Converter={StaticResource BoolToOpacityConverter}, Mode=OneWay}"
+                    Opacity="{x:Bind Opacity, Mode=OneWay}"
                     Tag="ItemImage">
                     <Grid
                         x:Name="Picture"
@@ -679,7 +714,7 @@
                     Grid.Column="1"
                     Height="Auto"
                     MinHeight="100"
-                    Opacity="{x:Bind IsDimmed, Converter={StaticResource BoolToOpacityConverter}, Mode=OneWay}"
+                    Opacity="{x:Bind Opacity, Mode=OneWay}"
                     Tag="ItemImage">
                     <Grid
                         x:Name="Picture"

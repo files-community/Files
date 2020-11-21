@@ -29,17 +29,17 @@
             ItemsSource="{x:Bind local:DrivesWidget.ItemsAdded}">
             <muxc:ItemsRepeater.Layout>
                 <muxc:UniformGridLayout
-                    ItemsStretch="Fill"
+                    ItemsStretch="None"
                     MaximumRowsOrColumns="4"
                     MinColumnSpacing="8"
                     MinItemHeight="90"
-                    MinItemWidth="160"
                     MinRowSpacing="8"
                     Orientation="Horizontal" />
             </muxc:ItemsRepeater.Layout>
             <muxc:ItemsRepeater.ItemTemplate>
                 <DataTemplate x:DataType="local2:DriveItem">
                     <Grid
+                        Width="270"
                         extensions:VisualExtensions.CenterPoint="80,45,0"
                         PointerEntered="GridScaleUp"
                         PointerExited="GridScaleNormal">
@@ -138,7 +138,10 @@
                                         Text="{x:Bind Text, Mode=OneWay}"
                                         TextWrapping="NoWrap" />
                                     <muxc:ProgressBar Maximum="{x:Bind MaxSpace.GigaBytes, Mode=OneWay}" Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}" />
-                                    <TextBlock Text="{x:Bind SpaceText, Mode=OneWay}" ToolTipService.ToolTip="{x:Bind SpaceText, Mode=OneWay}" />
+                                    <TextBlock
+                                        Text="{x:Bind SpaceText, Mode=OneWay}"
+                                        TextWrapping="Wrap"
+                                        ToolTipService.ToolTip="{x:Bind SpaceText, Mode=OneWay}" />
                                 </StackPanel>
                             </Grid>
                         </Button>

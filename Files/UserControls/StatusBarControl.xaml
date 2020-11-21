@@ -41,8 +41,8 @@
             Orientation="Horizontal">
             <Button
                 x:Uid="StatusBarControlSelectionOptions"
-                Width="34"
-                Height="30"
+                Width="36"
+                Height="32"
                 Margin="2,0,2,0"
                 AutomationProperties.Name="Selection options"
                 Background="Transparent"
@@ -62,6 +62,12 @@
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB54;" />
                             </MenuFlyoutItem.Icon>
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator
+                                    Key="A"
+                                    IsEnabled="False"
+                                    Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
                             x:Name="InvertSelectionMFI"
@@ -87,8 +93,8 @@
 
             <Button
                 x:Uid="StatusBarControlLayoutMode"
-                Width="34"
-                Height="30"
+                Width="36"
+                Height="32"
                 Margin="2,0,2,0"
                 AutomationProperties.Name="Layout mode"
                 Background="Transparent"
@@ -152,8 +158,8 @@
                 </muxc:AnimatedVisualPlayer>
                 <Button
                     x:Uid="StatusCenter"
-                    Width="34"
-                    Height="30"
+                    Width="36"
+                    Height="32"
                     Margin="2,0,2,0"
                     AutomationProperties.Name="Status center"
                     Background="Transparent"

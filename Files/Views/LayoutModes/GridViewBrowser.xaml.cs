@@ -150,6 +150,10 @@ namespace Files
             {
                 ClearSelection();
             }
+            else if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
+            {
+                ParentShellPageInstance.InteractionOperations.ItemPointerPressed(sender, e);
+            }
         }
 
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -223,13 +227,20 @@ namespace Files
 
             foreach (ListedItem listedItem in items)
             {
-                listedItem.IsDimmed = false;
+                if (listedItem.IsHiddenItem)
+                {
+                    listedItem.Opacity = 0.4;
+                }
+                else
+                {
+                    listedItem.Opacity = 1;
+                }
             }
         }
 
         public override void SetItemOpacity(ListedItem item)
         {
-            item.IsDimmed = true;
+            item.Opacity = 0.4;
         }
 
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -245,6 +256,7 @@ namespace Files
             else if (e.Key == VirtualKey.Enter)
             {
                 TextBox textBox = sender as TextBox;
+                textBox.LostFocus -= RenameTextBox_LostFocus;
                 CommitRename(textBox);
                 e.Handled = true;
             }
