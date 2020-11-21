@@ -17,19 +17,18 @@ namespace Files.Filesystem
     // It would give us the ability to extend the reported progress by e.g.: transfer speed
     {
         /// <summary>
-        /// Creates an item from <paramref name="fullPath"/> determined by <paramref name="itemType"/>
+        /// Creates an item from <paramref name="source"/>
         /// </summary>
-        /// <param name="fullPath">The fullPath to the item</param>
-        /// <param name="itemType">The type of item to create</param>
+        /// <param name="source">FullPath to the item</param>
         /// <param name="errorCode">Status of the operation</param>
         /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
         /// <returns><see cref="IStorageHistory"/> where:
         /// <br/>
-        /// Source: The created item fullPath (<see cref="string"/>)
+        /// Source: The created item fullPath (as <see cref="PathWithType"/>)
         /// <br/>
-        /// Destination: The <see cref="FilesystemItemType"/> (as <see cref="string"/>) of created item
+        /// Destination: null
         /// </returns>
-        Task<IStorageHistory> CreateAsync(string fullPath, FilesystemItemType itemType, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
+        Task<IStorageHistory> CreateAsync(PathWithType source, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
 
         /// <summary>
         /// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
@@ -41,9 +40,9 @@ namespace Files.Filesystem
         /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
         /// <returns><see cref="IStorageHistory"/> where:
         /// <br/>
-        /// Source: The <paramref name="source"/> item fullPath (<see cref="string"/>)
+        /// Source: The <paramref name="source"/> item fullPath (as <see cref="PathWithType"/>)
         /// <br/>
-        /// Destination: The <paramref name="destination"/> item fullPath (<see cref="string"/>) the <paramref name="source"/> was copied. Separated by | symbol, <see cref="FilesystemItemType"/> of the <paramref name="source"/> item type
+        /// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> was copied
         /// </returns>
         Task<IStorageHistory> CopyAsync(IStorageItem source, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
 
@@ -51,18 +50,17 @@ namespace Files.Filesystem
         /// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
         /// </summary>
         /// <param name="source">The source item to be copied</param>
-        /// <param name="itemType">Type of the item</param>
         /// <param name="destination">The destination fullPath</param>
         /// <param name="progress">Progress of the operation</param>
         /// <param name="errorCode">Status of the operation</param>
         /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
         /// <returns><see cref="IStorageHistory"/> where:
         /// <br/>
-        /// Source: The <paramref name="source"/> item fullPath (<see cref="string"/>)
+        /// Source: The <paramref name="source"/> item fullPath (as <see cref="PathWithType"/>)
         /// <br/>
-        /// Destination: The <paramref name="destination"/> item fullPath (<see cref="string"/>) the <paramref name="source"/> was copied. Separated by | symbol, <see cref="FilesystemItemType"/> of the <paramref name="source"/> item type
+        /// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> was copied
         /// </returns>
-        Task<IStorageHistory> CopyAsync(string source, FilesystemItemType itemType, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
+        Task<IStorageHistory> CopyAsync(PathWithType source, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
 
         /// <summary>
         /// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
@@ -74,9 +72,9 @@ namespace Files.Filesystem
         /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
         /// <returns><see cref="IStorageHistory"/> where:
         /// <br/>
-        /// Source: The source item fullPath (<see cref="string"/>)
+        /// Source: The source item fullPath (as <see cref="PathWithType"/>)
         /// <br/>
-        /// Destination: The <paramref name="destination"/> item fullPath (<see cref="string"/>) the <paramref name="source"/> was moved. Separated by | symbol, <see cref="FilesystemItemType"/> of the <paramref name="source"/> item type
+        /// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> was moved
         /// </returns>
         Task<IStorageHistory> MoveAsync(IStorageItem source, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
 
@@ -84,18 +82,17 @@ namespace Files.Filesystem
         /// Moves <paramref name="source"/> to <paramref name="destination"/> fullPath
         /// </summary>
         /// <param name="source">The source item to be moved</param>
-        /// <param name="itemType">Type of the item</param>
         /// <param name="destination">The destination fullPath</param>
         /// <param name="progress">Progress of the operation</param>
         /// <param name="errorCode">Status of the operation</param>
         /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
         /// <returns><see cref="IStorageHistory"/> where:
         /// <br/>
-        /// Source: The source item fullPath (<see cref="string"/>)
+        /// Source: The source item fullPath (as <see cref="PathWithType"/>)
         /// <br/>
-        /// Destination: The <paramref name="destination"/> item fullPath (<see cref="string"/>) the <paramref name="source"/> was moved. Separated by | symbol, <see cref="FilesystemItemType"/> of the <paramref name="source"/> item type
+        /// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> was moved
         /// </returns>
-        Task<IStorageHistory> MoveAsync(string source, FilesystemItemType itemType, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
+        Task<IStorageHistory> MoveAsync(PathWithType source, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
 
 
         /// <summary>
@@ -108,16 +105,13 @@ namespace Files.Filesystem
         /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
         /// <returns><see cref="IStorageHistory"/> where:
         /// <br/>
-        /// Source: The deleted item fullPath (<see cref="string"/>)
+        /// Source: The deleted item fullPath (as <see cref="PathWithType"/>)
         /// <br/>
         /// Destination:
         /// <br/>
         /// Returns null if <paramref name="permanently"/> was true
         /// <br/>
-        /// If <paramref name="permanently"/> was false, returns path to recycled item followed by <see cref="FilesystemItemType"/> (separated by | symbol):
-        /// <br/>
-        /// <br/>
-        /// <code>&lt;RecycleBinPath&gt;|&lt;<see cref="FilesystemItemType"/>&gt;</code>
+        /// If <paramref name="permanently"/> was false, returns path to recycled item
         /// </returns>
         Task<IStorageHistory> DeleteAsync(IStorageItem source, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, bool permanently, CancellationToken cancellationToken);
 
@@ -132,18 +126,15 @@ namespace Files.Filesystem
         /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
         /// <returns><see cref="IStorageHistory"/> where:
         /// <br/>
-        /// Source: The deleted item fullPath (<see cref="string"/>)
+        /// Source: The deleted item fullPath (as <see cref="PathWithType"/>)
         /// <br/>
         /// Destination:
         /// <br/>
         /// Returns null if <paramref name="permanently"/> was true
         /// <br/>
-        /// If <paramref name="permanently"/> was false, returns path to recycled item followed by <see cref="FilesystemItemType"/> (separated by | symbol):
-        /// <br/>
-        /// <br/>
-        /// <code>&lt;RecycleBinPath&gt;|&lt;<see cref="FilesystemItemType"/>&gt;</code>
+        /// If <paramref name="permanently"/> was false, returns path to recycled item
         /// </returns>
-        Task<IStorageHistory> DeleteAsync(string source, FilesystemItemType itemType, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, bool permanently, CancellationToken cancellationToken);
+        Task<IStorageHistory> DeleteAsync(PathWithType source, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, bool permanently, CancellationToken cancellationToken);
 
         /// <summary>
         /// Renames <paramref name="source"/> with <paramref name="newName"/>
@@ -155,19 +146,32 @@ namespace Files.Filesystem
         /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
         /// <returns><see cref="IStorageHistory"/> where:
         /// <br/>
-        /// Source: The original item fullPath (<see cref="string"/>)
+        /// Source: The original item fullPath (as <see cref="PathWithType"/>)
         /// <br/>
-        /// Destination: The renamed item fullPath (<see cref="string"/>)
+        /// Destination: The renamed item fullPath (as <see cref="PathWithType"/>)
         /// </returns>
         Task<IStorageHistory> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
 
         /// <summary>
+        /// Renames <paramref name="source"/> fullPath with <paramref name="newName"/>
+        /// </summary>
+        /// <param name="source">The item to rename</param>
+        /// <param name="newName">Desired new name</param>
+        /// <param name="collision">Determines what to do if item already exists</param>
+        /// <param name="errorCode">Status of the operation</param>
+        /// <param name="cancellationToken">Can be cancelled with <see cref="CancellationToken"/></param>
+        /// <returns><see cref="IStorageHistory"/> where:
+        /// <br/>
+        /// Source: The original item fullPath (as <see cref="PathWithType"/>)
+        /// <br/>
+        /// Destination: The renamed item fullPath (as <see cref="PathWithType"/>)
+        /// </returns>
+        Task<IStorageHistory> RenameAsync(PathWithType source, string newName, NameCollisionOption collision, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
+
+        /// <summary>
         /// Restores <paramref name="source"/> from the RecycleBin to <paramref name="destination"/> fullPath
         /// </summary>
-        /// <param name="source">The source Recycle Bin item followed by <see cref="FilesystemItemType"/> (separated by | symbol):
-        /// <br/>
-        /// <br/>
-        /// &lt;RecycleBinPath&gt;|&lt;<see cref="FilesystemItemType"/>&gt;</param>
+        /// <param name="source">The source Recycle Bin item path</param>
         /// <param name="destination">The destination fullPath to restore to</param>
         /// <param name="progress">Progress of the operation</param>
         /// <param name="errorCode">Status of the operation</param>
@@ -176,8 +180,8 @@ namespace Files.Filesystem
         /// <br/>
         /// Source: The trash item fullPath
         /// <br/>
-        /// Destination: The <paramref name="destination"/> item fullPath (<see cref="string"/>) the <paramref name="source"/> has been restored
+        /// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> has been restored
         /// </returns>
-        Task<IStorageHistory> RestoreFromTrashAsync(string source, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
+        Task<IStorageHistory> RestoreFromTrashAsync(PathWithType source, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
     }
 }

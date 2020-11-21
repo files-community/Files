@@ -13,6 +13,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using FileAttributes = System.IO.FileAttributes;
 using static Files.Helpers.NativeFindStorageItemHelper;
+using System.Text.RegularExpressions;
 
 namespace Files.Filesystem
 {
@@ -27,6 +28,21 @@ namespace Files.Filesystem
         private RecycleBinHelpers recycleBinHelpers;
 
         private readonly CancellationToken cancellationToken;
+
+        #region Helpers Members
+
+        private static readonly List<string> RestrictedFileNames = new List<string>()
+        {
+                "CON", "PRN", "AUX",
+                "NUL", "COM1", "COM2",
+                "COM3", "COM4", "COM5",
+                "COM6", "COM7", "COM8",
+                "COM9", "LPT1", "LPT2",
+                "LPT3", "LPT4", "LPT5",
+                "LPT6", "LPT7", "LPT8", "LPT9"
+        };
+
+        #endregion
 
         #endregion
 
@@ -46,15 +62,15 @@ namespace Files.Filesystem
 
         #region Create
 
-        public async Task<ReturnResult> CreateAsync(string fullPath, FilesystemItemType itemType, bool registerHistory)
+        public async Task<ReturnResult> CreateAsync(PathWithType source, bool registerHistory)
         {
             FilesystemErrorCode returnCode = FilesystemErrorCode.ERROR_INPROGRESS;
             Progress<FilesystemErrorCode> errorCode = new Progress<FilesystemErrorCode>();
             errorCode.ProgressChanged += (s, e) => returnCode = e;
 
-            IStorageHistory history = await this.filesystemOperations.CreateAsync(fullPath, itemType, errorCode, this.cancellationToken);
+            IStorageHistory history = await this.filesystemOperations.CreateAsync(source, errorCode, this.cancellationToken);
 
-            if (registerHistory && !string.IsNullOrWhiteSpace(fullPath))
+            if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
                 App.AddHistory(history);
 
             return returnCode.ToStatus();
@@ -64,11 +80,11 @@ namespace Files.Filesystem
 
         #region Delete
 
-        public async Task<ReturnResult> DeleteItemsAsync(IDictionary<string, FilesystemItemType> source, bool showDialog, bool permanently, bool registerHistory)
+        public async Task<ReturnResult> DeleteItemsAsync(IEnumerable<PathWithType> source, bool showDialog, bool permanently, bool registerHistory)
         {
             bool deleteFromRecycleBin = false;
-            foreach (KeyValuePair<string, FilesystemItemType> item in source)
-                if (await this.recycleBinHelpers.IsRecycleBinItem(item.Key))
+            foreach (PathWithType item in source)
+                if (await this.recycleBinHelpers.IsRecycleBinItem(item.Path))
                 {
                     deleteFromRecycleBin = true;
                     break;
@@ -114,14 +130,14 @@ namespace Files.Filesystem
             List<IStorageHistory> rawStorageHistory = new List<IStorageHistory>();
 
             bool originalPermanently = permanently;
-            foreach (KeyValuePair<string, FilesystemItemType> item in source)
+            foreach (PathWithType item in source)
             {
-                if (await this.recycleBinHelpers.IsRecycleBinItem(item.Key))
+                if (await this.recycleBinHelpers.IsRecycleBinItem(item.Path))
                     permanently = true;
                 else
                     permanently = originalPermanently;
 
-                rawStorageHistory.Add(await this.filesystemOperations.DeleteAsync(item.Key, item.Value, banner.Progress, banner.ErrorCode, permanently, this.cancellationToken));
+                rawStorageHistory.Add(await this.filesystemOperations.DeleteAsync(item, banner.Progress, banner.ErrorCode, permanently, this.cancellationToken));
             }
 
             if (rawStorageHistory.TrueForAll((item) => item != null))
@@ -139,10 +155,10 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> DeleteItemAsync(string source, FilesystemItemType itemType, bool showDialog, bool permanently, bool registerHistory)
+        public async Task<ReturnResult> DeleteItemAsync(PathWithType source, bool showDialog, bool permanently, bool registerHistory)
         {
             PostedStatusBanner banner;
-            bool deleteFromRecycleBin = await this.recycleBinHelpers.IsRecycleBinItem(source);
+            bool deleteFromRecycleBin = await this.recycleBinHelpers.IsRecycleBinItem(source.Path);
 
             if (deleteFromRecycleBin)
                 permanently = true;
@@ -182,7 +198,7 @@ namespace Files.Filesystem
             Stopwatch sw = new Stopwatch();
             sw.Start();
 
-            IStorageHistory history = await this.filesystemOperations.DeleteAsync(source, itemType, banner.Progress, banner.ErrorCode, permanently, this.cancellationToken);
+            IStorageHistory history = await this.filesystemOperations.DeleteAsync(source, banner.Progress, banner.ErrorCode, permanently, this.cancellationToken);
 
             if (!permanently && registerHistory)
                 App.AddHistory(history);
@@ -328,7 +344,7 @@ namespace Files.Filesystem
 
         #endregion
 
-        public async Task<ReturnResult> RestoreFromTrashAsync(string source, string destination, bool registerHistory)
+        public async Task<ReturnResult> RestoreFromTrashAsync(PathWithType source, string destination, bool registerHistory)
         {
             FilesystemErrorCode returnCode = FilesystemErrorCode.ERROR_INPROGRESS;
             Progress<FilesystemErrorCode> errorCode = new Progress<FilesystemErrorCode>();
@@ -336,7 +352,7 @@ namespace Files.Filesystem
 
             IStorageHistory history = await this.filesystemOperations.RestoreFromTrashAsync(source, destination, null, errorCode, this.cancellationToken);
 
-            if (registerHistory && !string.IsNullOrWhiteSpace(source))
+            if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
                 App.AddHistory(history);
 
             return returnCode.ToStatus();
@@ -370,11 +386,11 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
         {
-            Dictionary<string, FilesystemItemType> itemsToCopy = new Dictionary<string, FilesystemItemType>();
+            List<PathWithType> itemsToCopy = new List<PathWithType>();
 
             foreach (IStorageItem item in source)
             {
-                itemsToCopy.Add(item.Path, item.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory);
+                itemsToCopy.Add(new PathWithType(item.Path, item.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory));
             }
 
             return await CopyItemsAsync(itemsToCopy, destination, registerHistory);
@@ -382,10 +398,10 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> CopyItemAsync(IStorageItem source, string destination, bool registerHistory)
         {
-            return await CopyItemAsync(source.Path, source.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory, destination, registerHistory);
+            return await CopyItemAsync(new PathWithType(source.Path, source.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory), destination, registerHistory);
         }
 
-        public async Task<ReturnResult> CopyItemsAsync(IDictionary<string, FilesystemItemType> source, IEnumerable<string> destination, bool registerHistory)
+        public async Task<ReturnResult> CopyItemsAsync(IEnumerable<PathWithType> source, IEnumerable<string> destination, bool registerHistory)
         {
             PostedStatusBanner banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                 string.Empty,
@@ -406,13 +422,13 @@ namespace Files.Filesystem
             associatedInstance.ContentPage.ClearSelection();
             for (int i = 0; i < source.Count(); i++)
             {
-                rawStorageHistory.Add(await this.filesystemOperations.CopyAsync(source.ElementAt(i).Key, source.ElementAt(i).Value, destination.ElementAt(i), banner.Progress, banner.ErrorCode, this.cancellationToken));
+                rawStorageHistory.Add(await this.filesystemOperations.CopyAsync(source.ElementAt(i), destination.ElementAt(i), banner.Progress, banner.ErrorCode, this.cancellationToken));
             }
 
             if (rawStorageHistory.TrueForAll((item) => item != null))
             {
                 history = new StorageHistory(rawStorageHistory[0].OperationType, rawStorageHistory.SelectMany((item) => item.Source).ToList(), rawStorageHistory.SelectMany((item) => item.Destination).ToList());
-                if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Key)))
+                if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
                     App.AddHistory(history);
             }
 
@@ -432,7 +448,7 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> CopyItemAsync(string source, FilesystemItemType itemType, string destination, bool registerHistory)
+        public async Task<ReturnResult> CopyItemAsync(PathWithType source, string destination, bool registerHistory)
         {
             PostedStatusBanner banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                 string.Empty,
@@ -448,9 +464,9 @@ namespace Files.Filesystem
             sw.Start();
 
             associatedInstance.ContentPage.ClearSelection();
-            IStorageHistory history = await this.filesystemOperations.CopyAsync(source, itemType, destination, banner.Progress, banner.ErrorCode, this.cancellationToken);
+            IStorageHistory history = await this.filesystemOperations.CopyAsync(source, destination, banner.Progress, banner.ErrorCode, this.cancellationToken);
 
-            if (registerHistory && !string.IsNullOrWhiteSpace(source))
+            if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
                 App.AddHistory(history);
 
             banner.Remove();
@@ -494,11 +510,11 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
         {
-            Dictionary<string, FilesystemItemType> itemsToMove = new Dictionary<string, FilesystemItemType>();
+            List<PathWithType> itemsToMove = new List<PathWithType>();
 
             foreach (IStorageItem item in source)
             {
-                itemsToMove.Add(item.Path, item.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory);
+                itemsToMove.Add(new PathWithType(item.Path, item.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory));
             }
 
             return await MoveItemsAsync(itemsToMove, destination, registerHistory);
@@ -506,10 +522,10 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> MoveItemAsync(IStorageItem source, string destination, bool registerHistory)
         {
-            return await MoveItemAsync(source.Path, source.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory, destination, registerHistory);
+            return await MoveItemAsync(new PathWithType(source.Path, source.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory), destination, registerHistory);
         }
 
-        public async Task<ReturnResult> MoveItemsAsync(IDictionary<string, FilesystemItemType> source, IEnumerable<string> destination, bool registerHistory)
+        public async Task<ReturnResult> MoveItemsAsync(IEnumerable<PathWithType> source, IEnumerable<string> destination, bool registerHistory)
         {
             PostedStatusBanner banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                 string.Empty,
@@ -530,13 +546,13 @@ namespace Files.Filesystem
             associatedInstance.ContentPage.ClearSelection();
             for (int i = 0; i < source.Count(); i++)
             {
-                rawStorageHistory.Add(await this.filesystemOperations.MoveAsync(source.ElementAt(i).Key, source.ElementAt(i).Value, destination.ElementAt(i), banner.Progress, banner.ErrorCode, this.cancellationToken));
+                rawStorageHistory.Add(await this.filesystemOperations.MoveAsync(source.ElementAt(i), destination.ElementAt(i), banner.Progress, banner.ErrorCode, this.cancellationToken));
             }
 
             if (rawStorageHistory.TrueForAll((item) => item != null))
             {
                 history = new StorageHistory(rawStorageHistory[0].OperationType, rawStorageHistory.SelectMany((item) => item.Source).ToList(), rawStorageHistory.SelectMany((item) => item.Destination).ToList());
-                if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Key)))
+                if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
                     App.AddHistory(history);
             }
 
@@ -556,7 +572,7 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        public async Task<ReturnResult> MoveItemAsync(string source, FilesystemItemType itemType, string destination, bool registerHistory)
+        public async Task<ReturnResult> MoveItemAsync(PathWithType source, string destination, bool registerHistory)
         {
             PostedStatusBanner banner = associatedInstance.BottomStatusStripControl.OngoingTasksControl.PostBanner(
                 string.Empty,
@@ -572,9 +588,9 @@ namespace Files.Filesystem
             sw.Start();
 
             associatedInstance.ContentPage.ClearSelection();
-            IStorageHistory history = await this.filesystemOperations.MoveAsync(source, itemType, destination, banner.Progress, banner.ErrorCode, this.cancellationToken);
+            IStorageHistory history = await this.filesystemOperations.MoveAsync(source, destination, banner.Progress, banner.ErrorCode, this.cancellationToken);
 
-            if (registerHistory && !string.IsNullOrWhiteSpace(source))
+            if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
                 App.AddHistory(history);
 
             banner.Remove();
@@ -614,6 +630,8 @@ namespace Files.Filesystem
 
         #endregion
 
+        #region Rename
+
         public async Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory)
         {
             FilesystemErrorCode returnCode = FilesystemErrorCode.ERROR_INPROGRESS;
@@ -627,6 +645,22 @@ namespace Files.Filesystem
 
             return returnCode.ToStatus();
         }
+
+        public async Task<ReturnResult> RenameAsync(PathWithType source, string newName, NameCollisionOption collision, bool registerHistory)
+        {
+            FilesystemErrorCode returnCode = FilesystemErrorCode.ERROR_INPROGRESS;
+            Progress<FilesystemErrorCode> errorCode = new Progress<FilesystemErrorCode>();
+            errorCode.ProgressChanged += (s, e) => returnCode = e;
+
+            IStorageHistory history = await this.filesystemOperations.RenameAsync(source, newName, collision, errorCode, this.cancellationToken);
+
+            if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
+                App.AddHistory(history);
+
+            return returnCode.ToStatus();
+        }
+
+        #endregion
 
         #endregion
 
@@ -760,6 +794,31 @@ namespace Files.Filesystem
             {
                 return 0;
             }
+        }
+
+        public static bool ContainsRestrictedCharacters(string input)
+        {
+            Regex regex = new Regex("\\\\|\\/|\\:|\\*|\\?|\\\"|\\<|\\>|\\|"); // Restricted symbols for file names
+            MatchCollection matches = regex.Matches(input);
+
+            if (matches.Count > 0)
+                return true;
+
+            return false;
+        }
+
+        public static bool ContainsRestrictedFileName(string input)
+        {
+            foreach (string name in RestrictedFileNames)
+            {
+                Regex regex = new Regex($"^{name}($|\\.)(.+)?");
+                MatchCollection matches = regex.Matches(input.ToUpper());
+
+                if (matches.Count > 0)
+                    return true;
+            }
+
+            return false;
         }
 
         #endregion

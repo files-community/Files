@@ -203,7 +203,7 @@ namespace Files
         {
             var textBox = sender as TextBox;
 
-            if (Interaction.ContainsRestrictedCharacters(textBox.Text))
+            if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
             {
                 FileNameTeachingTip.IsOpen = true;
             }

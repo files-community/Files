@@ -9,22 +9,22 @@ namespace Files.Filesystem.FilesystemHistory
 
         public FileOperationType OperationType { get; private set; }
 
-        public IEnumerable<string> Source { get; private set; }
+        public IEnumerable<PathWithType> Source { get; private set; }
 
-        public IEnumerable<string> Destination { get; private set; }
+        public IEnumerable<PathWithType> Destination { get; private set; }
 
         #endregion
 
         #region Constructor
 
-        public StorageHistory(FileOperationType operationType, IEnumerable<string> source, IEnumerable<string> destination)
+        public StorageHistory(FileOperationType operationType, IEnumerable<PathWithType> source, IEnumerable<PathWithType> destination)
         {
             this.OperationType = operationType;
             this.Source = source;
             this.Destination = destination;
         }
 
-        public StorageHistory(FileOperationType operationType, string source, string destination)
+        public StorageHistory(FileOperationType operationType, PathWithType source, PathWithType destination)
         {
             this.OperationType = operationType;
             this.Source = source.CreateEnumerable();
@@ -42,14 +42,14 @@ namespace Files.Filesystem.FilesystemHistory
             this.Destination = newHistory.Destination;
         }
 
-        public void Modify(FileOperationType operationType, IEnumerable<string> source, IEnumerable<string> destination)
+        public void Modify(FileOperationType operationType, IEnumerable<PathWithType> source, IEnumerable<PathWithType> destination)
         {
             this.OperationType = operationType;
             this.Source = source;
             this.Destination = destination;
         }
 
-        public void Modify(FileOperationType operationType, string source, string destination)
+        public void Modify(FileOperationType operationType, PathWithType source, PathWithType destination)
         {
             this.OperationType = operationType;
             this.Source = source.CreateEnumerable();

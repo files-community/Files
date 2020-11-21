@@ -197,6 +197,7 @@
     <Compile Include="Filesystem\FilesystemOperations\Helpers\FilesystemHelpers.cs" />
     <Compile Include="Filesystem\FilesystemOperations\Helpers\IFilesystemHelpers.cs" />
     <Compile Include="Filesystem\FilesystemOperations\IFilesystemOperations.cs" />
+    <Compile Include="Filesystem\FilesystemOperations\PathWithType.cs" />
     <Compile Include="Filesystem\PropertiesData.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\FilesystemResult.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\StorageFileExtensions.cs" />

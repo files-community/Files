@@ -52,24 +52,22 @@ namespace Files.Filesystem.FilesystemHistory
                     {
                         if (IsHistoryNull(history)) break;
 
-                        FilesystemItemType itemType;
                         for (int i = 0; i < history.Source.Count(); i++)
                         {
-                            itemType = EnumExtensions.GetEnum<FilesystemItemType>(history.Destination.ElementAt(i));
-                            await this.filesystemOperations.CreateAsync(history.Source.ElementAt(i), itemType, errorCode, this.cancellationToken);
+                            await this.filesystemOperations.CreateAsync(history.Source.ElementAt(i), errorCode, this.cancellationToken);
                         }
 
                         break;
                     }
 
-                case FileOperationType.Rename: // Rename PASS
+                case FileOperationType.Rename: // Rename
                     {
                         if (IsHistoryNull(history)) break;
 
                         NameCollisionOption collision = NameCollisionOption.GenerateUniqueName;
                         for (int i = 0; i < history.Source.Count(); i++)
                         {
-                            await this.filesystemOperations.RenameAsync(await history.Source.ElementAt(i).ToStorageItem(), Path.GetFileName(history.Destination.ElementAt(i)), collision, errorCode, this.cancellationToken);
+                            await this.filesystemOperations.RenameAsync(history.Source.ElementAt(i), Path.GetFileName(history.Destination.ElementAt(i).Path), collision, errorCode, this.cancellationToken);
                         }
 
                         break;
@@ -79,14 +77,14 @@ namespace Files.Filesystem.FilesystemHistory
                     {
                         if (IsHistoryNull(history)) break;
 
-                        return await this.filesystemHelpers.CopyItemsAsync(ExtractDictionaryFilesFromHistory(history.Destination, history.Source), history.Destination.Select((item) => item.Split('|')[0]), false);
+                        return await this.filesystemHelpers.CopyItemsAsync(history.Source, history.Destination.Select((item) => item.Path), false);
                     }
 
                 case FileOperationType.Move: // Move PASS
                     {
                         if (IsHistoryNull(history)) break;
 
-                        return await this.filesystemHelpers.MoveItemsAsync(ExtractDictionaryFilesFromHistory(history.Destination, history.Source), history.Destination.Select((item) => item.Split('|')[0]), false);
+                        return await this.filesystemHelpers.MoveItemsAsync(history.Source, history.Destination.Select((item) => item.Path), false);
                     }
 
                 case FileOperationType.Extract: // Extract PASS
@@ -97,33 +95,31 @@ namespace Files.Filesystem.FilesystemHistory
                         break;
                     }
 
-                case FileOperationType.Recycle: // Recycle PASS
+                case FileOperationType.Recycle: // Recycle
                     {
-                        if (IsHistoryNull(history.Source)) break;
+                        if (IsHistoryNull(history.Destination)) break;
 
-                        List<IStorageHistory> rawHistory = new List<IStorageHistory>();
-
+                        List<IStorageHistory> rawStorageHistory = new List<IStorageHistory>();
                         for (int i = 0; i < history.Source.Count(); i++)
                         {
-                            IStorageHistory history1 = await this.filesystemOperations.DeleteAsync(await history.Source.ElementAt(i).ToStorageItem(), null, errorCode, false, this.cancellationToken);
-                            rawHistory.Add(history1);
+                            rawStorageHistory.Add(await this.filesystemOperations.DeleteAsync(history.Source.ElementAt(i), null, errorCode, false, this.cancellationToken));
                         }
 
-                        IStorageHistory newHistory = new StorageHistory(FileOperationType.Recycle, rawHistory.SelectMany((item) => item.Source).ToList(), rawHistory.SelectMany((item) => item.Destination).ToList());
+                        IStorageHistory newHistory = new StorageHistory(FileOperationType.Recycle, rawStorageHistory.SelectMany((item) => item.Source), rawStorageHistory.SelectMany((item) => item.Destination));
 
                         // We need to change the recycled item paths (since IDs are different) - for Undo() to work
-                        App.StorageHistory[App.StorageHistoryIndex - 1].Modify(newHistory);
+                        App.StorageHistory[ArrayHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count)].Modify(newHistory);
 
                         break;
                     }
 
-                case FileOperationType.Restore: // Restore PASS
+                case FileOperationType.Restore: // Restore
                     {
                         if (IsHistoryNull(history)) break;
 
                         for (int i = 0; i < history.Destination.Count(); i++)
                         {
-                            await filesystemHelpers.RestoreFromTrashAsync(history.Source.ElementAt(i), history.Destination.ElementAt(i), false);
+                            await filesystemHelpers.RestoreFromTrashAsync(history.Source.ElementAt(i), history.Destination.ElementAt(i).Path, false);
                         }
 
                         break;
@@ -155,10 +151,10 @@ namespace Files.Filesystem.FilesystemHistory
 
                         if (IsHistoryNull(history.Source)) break;
 
-                        return await this.filesystemHelpers.DeleteItemsAsync(ExtractDictionaryFilesFromHistory(history.Destination), false, true, false);
+                        return await this.filesystemHelpers.DeleteItemsAsync(history.Source, false, true, false);
                     }
 
-                case FileOperationType.Rename: // Rename PASS
+                case FileOperationType.Rename: // Rename
                     {
                         // Opposite: Restore original item names
 
@@ -167,7 +163,7 @@ namespace Files.Filesystem.FilesystemHistory
                         NameCollisionOption collision = NameCollisionOption.GenerateUniqueName;
                         for (int i = 0; i < history.Destination.Count(); i++)
                         {
-                            await this.filesystemOperations.RenameAsync(await history.Destination.ElementAt(i).ToStorageItem(), Path.GetFileName(history.Source.ElementAt(i)), collision, errorCode, this.cancellationToken);
+                            await this.filesystemOperations.RenameAsync(history.Destination.ElementAt(i), Path.GetFileName(history.Source.ElementAt(i).Path), collision, errorCode, this.cancellationToken);
                         }
 
                         break;
@@ -179,7 +175,7 @@ namespace Files.Filesystem.FilesystemHistory
 
                         if (IsHistoryNull(history.Destination)) break;
 
-                        return await this.filesystemHelpers.DeleteItemsAsync(ExtractDictionaryFilesFromHistory(history.Destination), false, true, false);
+                        return await this.filesystemHelpers.DeleteItemsAsync(history.Destination, false, true, false);
                     }
 
                 case FileOperationType.Move: // Move PASS
@@ -188,7 +184,7 @@ namespace Files.Filesystem.FilesystemHistory
 
                         if (IsHistoryNull(history)) break;
 
-                        return await this.filesystemHelpers.MoveItemsAsync(ExtractDictionaryFilesFromHistory(history.Destination), history.Source, false);
+                        return await this.filesystemHelpers.MoveItemsAsync(history.Destination, history.Source.Select((item) => item.Path), false);
                     }
 
                 case FileOperationType.Extract: // Extract PASS
@@ -201,37 +197,35 @@ namespace Files.Filesystem.FilesystemHistory
                         break;
                     }
 
-                case FileOperationType.Recycle: // Recycle PASS
+                case FileOperationType.Recycle: // Recycle
                     {
                         // Opposite: Restore recycled items
                         if (IsHistoryNull(history)) break;
 
                         for (int i = 0; i < history.Destination.Count(); i++)
                         {
-                            returnStatus = await this.filesystemHelpers.RestoreFromTrashAsync(history.Destination.ElementAt(i), history.Source.ElementAt(i), false);
+                            returnStatus = await this.filesystemHelpers.RestoreFromTrashAsync(history.Destination.ElementAt(i), history.Source.ElementAt(i).Path, false);
                         }
 
                         break;
                     }
 
-                case FileOperationType.Restore: // Restore PASS
+                case FileOperationType.Restore: // Restore
                     {
                         // Opposite: Move restored items to Recycle Bin
 
                         if (IsHistoryNull(history.Destination)) break;
 
-                        List<IStorageHistory> rawHistory = new List<IStorageHistory>();
-
+                        List<IStorageHistory> rawStorageHistory = new List<IStorageHistory>();
                         for (int i = 0; i < history.Destination.Count(); i++)
                         {
-                            IStorageHistory history1 = await this.filesystemOperations.DeleteAsync(await history.Destination.ElementAt(i).ToStorageItem(), null, errorCode, false, this.cancellationToken);
-                            rawHistory.Add(history1);
+                            rawStorageHistory.Add(await this.filesystemOperations.DeleteAsync(history.Destination.ElementAt(i), null, errorCode, false, this.cancellationToken));
                         }
 
-                        IStorageHistory newHistory = new StorageHistory(FileOperationType.Restore, rawHistory.SelectMany((item) => item.Destination).ToList(), rawHistory.SelectMany((item) => item.Source).ToList());
+                        IStorageHistory newHistory = new StorageHistory(FileOperationType.Restore, rawStorageHistory.SelectMany((item) => item.Destination), rawStorageHistory.SelectMany((item) => item.Source));
 
                         // We need to change the recycled item paths (since IDs are different) - for Redo() to work
-                        App.StorageHistory[App.StorageHistoryIndex].Modify(newHistory);
+                        App.StorageHistory[ArrayHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count)].Modify(newHistory);
 
                         break;
                     }
@@ -252,36 +246,12 @@ namespace Files.Filesystem.FilesystemHistory
 
         #region Private Helpers
 
-        private Dictionary<string, FilesystemItemType> ExtractDictionaryFilesFromHistory(IEnumerable<string> source)
-        {
-            Dictionary<string, FilesystemItemType> items = new Dictionary<string, FilesystemItemType>();
-
-            foreach (string item in source)
-            {
-                items.Add(item.Split('|')[0], item.Split('|')[1].GetEnum<FilesystemItemType>());
-            }
-
-            return items;
-        }
-
-        private Dictionary<string, FilesystemItemType> ExtractDictionaryFilesFromHistory(IEnumerable<string> source, IEnumerable<string> replace)
-        {
-            Dictionary<string, FilesystemItemType> items = new Dictionary<string, FilesystemItemType>();
-
-            for (int i = 0; i < source.Count(); i++)
-            {
-                items.Add(replace.ElementAt(i), source.ElementAt(i).Split('|')[1].GetEnum<FilesystemItemType>());
-            }
-
-            return items;
-        }
-
         private bool IsHistoryNull(IStorageHistory history) =>
-            !(history.Source.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item))
-                && history.Destination.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item)));
+            !(history.Source.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item.Path))
+                && history.Destination.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item.Path)));
 
-        private bool IsHistoryNull(IEnumerable<string> source) =>
-            !(source.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item)));
+        private bool IsHistoryNull(IEnumerable<PathWithType> source) =>
+            !(source.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item.Path)));
 
         #endregion
 

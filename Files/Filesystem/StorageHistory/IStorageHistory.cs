@@ -17,7 +17,7 @@ namespace Files.Filesystem.FilesystemHistory
         /// <br/>
         /// May contain more that one item
         /// </summary>
-        IEnumerable<string> Source { get; }
+        IEnumerable<PathWithType> Source { get; }
 
         /// <summary>
         /// Destination file/folder
@@ -27,15 +27,15 @@ namespace Files.Filesystem.FilesystemHistory
         /// <br/>
         /// May contain more that one item
         /// </summary>
-        IEnumerable<string> Destination { get; }
+        IEnumerable<PathWithType> Destination { get; }
 
         #region Modify
 
         void Modify(IStorageHistory newHistory);
 
-        void Modify(FileOperationType operationType, IEnumerable<string> source, IEnumerable<string> destination);
+        void Modify(FileOperationType operationType, IEnumerable<PathWithType> source, IEnumerable<PathWithType> destination);
 
-        void Modify(FileOperationType operationType, string source, string destination);
+        void Modify(FileOperationType operationType, PathWithType source, PathWithType destination);
 
         #endregion
     }
