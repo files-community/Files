@@ -643,6 +643,7 @@
             CellEditEnded="AllView_CellEditEnded"
             CellEditEnding="AllView_CellEditEnding"
             ClipboardCopyMode="None"
+            ColumnHeaderHeight="38"
             DoubleTapped="{x:Bind ParentShellPageInstance.InteractionOperations.List_ItemDoubleClick}"
             DragOver="List_DragOver"
             Drop="List_Drop"
@@ -662,9 +663,28 @@
             SelectionMode="Extended"
             Sorting="AllView_Sorting">
             <controls:DataGrid.Resources>
-                <SolidColorBrush x:Key="DataGridCellFocusVisualPrimaryBrush" Color="Transparent" />
-                <SolidColorBrush x:Key="DataGridCellFocusVisualSecondaryBrush" Color="Transparent" />
-                <StaticResource x:Key="DataGridColumnHeaderBackgroundColor" ResourceKey="SystemControlTransparentBrush" />
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Light">
+                            <SolidColorBrush x:Key="GridLinesBrush" Color="#edebe9" />
+                            <Color x:Key="DataGridColumnHeaderBackgroundColor">White</Color>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Dark">
+                            <SolidColorBrush x:Key="GridLinesBrush" Color="#3b3a39" />
+                            <Color x:Key="DataGridColumnHeaderBackgroundColor">#201F1E</Color>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="HighContrast">
+                            <SolidColorBrush x:Key="GridLinesBrush" Color="{StaticResource SystemColorWindowTextColor}" />
+                            <StaticResource x:Key="DataGridColumnHeaderBackgroundColor" ResourceKey="SystemColorWindowColor" />
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary>
+                            <SolidColorBrush x:Key="DataGridCellFocusVisualPrimaryBrush" Color="Transparent" />
+                            <SolidColorBrush x:Key="DataGridCellFocusVisualSecondaryBrush" Color="Transparent" />
+                        </ResourceDictionary>
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
             </controls:DataGrid.Resources>
             <controls:DataGrid.ColumnHeaderStyle>
                 <Style TargetType="controlsprimitives:DataGridColumnHeader">
@@ -691,11 +711,10 @@
                         </Setter.Value>
                     </Setter>
                     <Setter Property="SeparatorBrush" Value="Transparent" />
-                    <Setter Property="Height" Value="38" />
                     <Setter Property="FontSize" Value="14" />
                     <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
                     <Setter Property="FontWeight" Value="SemiBold" />
-                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Background" Value="{ThemeResource DataGridColumnHeaderBackgroundColor}" />
                 </Style>
             </controls:DataGrid.ColumnHeaderStyle>
             <Interactivity:Interaction.Behaviors>
