@@ -361,8 +361,7 @@ namespace Files.Filesystem
             {
                 var deviceId = (string)args.Request.Message["DeviceID"];
                 var eventType = (DeviceEvent)(int)args.Request.Message["EventType"];
-                var isPnp = (bool)args.Request.Message["IsPnp"];
-                await AppSettings.DrivesManager.HandleWin32DriveEvent(eventType, deviceId, isPnp);
+                await AppSettings.DrivesManager.HandleWin32DriveEvent(eventType, deviceId);
             }
             // Complete the deferral so that the platform knows that we're done responding to the app service call.
             // Note for error handling: this must be called even if SendResponseAsync() throws an exception.

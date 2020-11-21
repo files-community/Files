@@ -25,12 +25,12 @@ namespace FilesFullTrust
         public void Start()
         {
             //WqlEventQuery query = new WqlEventQuery("SELECT * FROM Win32_VolumeChangeEvent WHERE EventType = 2 or EventType = 3");
-            WqlEventQuery insertQuery = new WqlEventQuery("SELECT * FROM __InstanceCreationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LogicalDisk' or TargetInstance ISA 'Win32_PnPEntity'");
+            WqlEventQuery insertQuery = new WqlEventQuery("SELECT * FROM __InstanceCreationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LogicalDisk'");
             insertWatcher = new ManagementEventWatcher(insertQuery);
             insertWatcher.EventArrived += new EventArrivedEventHandler(DeviceInsertedEvent);
             insertWatcher.Start();
 
-            WqlEventQuery removeQuery = new WqlEventQuery("SELECT * FROM __InstanceDeletionEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LogicalDisk' or TargetInstance ISA 'Win32_PnPEntity'");
+            WqlEventQuery removeQuery = new WqlEventQuery("SELECT * FROM __InstanceDeletionEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LogicalDisk'");
             removeWatcher = new ManagementEventWatcher(removeQuery);
             removeWatcher.EventArrived += new EventArrivedEventHandler(DeviceRemovedEvent);
             removeWatcher.Start();
@@ -41,17 +41,7 @@ namespace FilesFullTrust
             ManagementBaseObject obj = (ManagementBaseObject)e.NewEvent["TargetInstance"];
             var deviceName = (string)obj.Properties["Name"].Value;
             var deviceId = (string)obj.Properties["DeviceID"].Value;
-            var isPnp = (string)obj.Properties["CreationClassName"].Value == "Win32_PnPEntity";
-            if (isPnp)
-            {
-                var isWnd = (string)obj.Properties["PNPClass"].Value == "WPD";
-                if (!isWnd)
-                {
-                    return;
-                }
-                deviceId = $@"\\?\{deviceId.Replace("\\", "#")}#{WpdGuid}";
-            }
-            await SendEvent(deviceName, deviceId, isPnp, DeviceEvent.Removed);
+            await SendEvent(deviceName, deviceId, DeviceEvent.Removed);
         }
 
         private async void DeviceInsertedEvent(object sender, EventArrivedEventArgs e)
@@ -59,20 +49,10 @@ namespace FilesFullTrust
             ManagementBaseObject obj = (ManagementBaseObject)e.NewEvent["TargetInstance"];
             var deviceName = (string)obj.Properties["Name"].Value;
             var deviceId = (string)obj.Properties["DeviceID"].Value;
-            var isPnp = (string)obj.Properties["CreationClassName"].Value == "Win32_PnPEntity";
-            if (isPnp)
-            {
-                var isWnd = (string)obj.Properties["PNPClass"].Value == "WPD";
-                if (!isWnd)
-                {
-                    return;
-                }
-                deviceId = $@"\\?\{deviceId.Replace("\\", "#")}#{WpdGuid}";
-            }
-            await SendEvent(deviceName, deviceId, isPnp, DeviceEvent.Inserted);
+            await SendEvent(deviceName, deviceId, DeviceEvent.Inserted);
         }
 
-        private async Task SendEvent(string deviceName, string deviceId, bool isPnp, DeviceEvent eventType)
+        private async Task SendEvent(string deviceName, string deviceId, DeviceEvent eventType)
         {
             System.Diagnostics.Debug.WriteLine($"Drive connection event: {eventType}, {deviceName}, {deviceId}");
             if (connection != null)
@@ -80,7 +60,6 @@ namespace FilesFullTrust
                 await connection.SendMessageAsync(new ValueSet()
                 {
                     { "DeviceID", deviceId },
-                    { "IsPnp", isPnp },
                     { "EventType", (int)eventType }
                 });
             }
