@@ -23,44 +23,48 @@ namespace Files.Filesystem.FilesystemHistory
 
         #region Undo, Redo
 
-        public async Task Undo()
+        public async Task<ReturnResult> Undo()
         {
             if (CanUndo())
             {
                 if (!(await App.SemaphoreSlim.WaitAsync(0)))
-                    return;
+                    return ReturnResult.InProgress;
 
                 try
                 {
                     App.StorageHistoryIndex--;
                     int index = ArrayHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count);
-                    await this.storageHistoryOperations.Undo(App.StorageHistory[index]);
+                    return await this.storageHistoryOperations.Undo(App.StorageHistory[index]);
                 }
                 finally
                 {
                     App.SemaphoreSlim.Release();
                 }
             }
+
+            return ReturnResult.Cancelled;
         }
 
-        public async Task Redo()
+        public async Task<ReturnResult> Redo()
         {
             if (CanRedo())
             {
                 if (!(await App.SemaphoreSlim.WaitAsync(0)))
-                    return;
+                    return ReturnResult.InProgress;
 
                 try
                 {
                     int index = ArrayHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count);
                     App.StorageHistoryIndex++;
-                    await this.storageHistoryOperations.Redo(App.StorageHistory[index]);
+                    return await this.storageHistoryOperations.Redo(App.StorageHistory[index]);
                 }
                 finally
                 {
                     App.SemaphoreSlim.Release();
                 }
             }
+
+            return ReturnResult.Cancelled;
         }
 
         #endregion

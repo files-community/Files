@@ -57,5 +57,18 @@ namespace Files.Filesystem.FilesystemHistory
         }
 
         #endregion
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            this.Source?.ForEach((item) => item?.Dispose());
+            this.Destination?.ForEach((item) => item?.Dispose());
+
+            this.Source = null;
+            this.Destination = null;
+        }
+
+        #endregion
     }
 }

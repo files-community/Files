@@ -1,8 +1,9 @@
-﻿using Windows.Storage;
+﻿using System;
+using Windows.Storage;
 
 namespace Files.Filesystem
 {
-    public class PathWithType
+    public class PathWithType : IDisposable
     {
         public string Path { get; private set; }
 
@@ -22,9 +23,24 @@ namespace Files.Filesystem
 
         public static explicit operator PathWithType(StorageFolder storageFolder) => new PathWithType(storageFolder.Path, storageFolder.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory);
 
+        #region Override
+
         public override string ToString()
         {
             return Path;
         }
+
+        #endregion
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            this.Path ??= string.Empty;
+
+            this.Path = null;
+        }
+
+        #endregion
     }
 }

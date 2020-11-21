@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Files.Filesystem.FilesystemHistory
 {
-    public interface IStorageHistory
+    public interface IStorageHistory : IDisposable
     {
         /// <summary>
         /// Type of operation that took place
