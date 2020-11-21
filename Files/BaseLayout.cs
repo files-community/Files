@@ -606,7 +606,7 @@ namespace Files
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                await ParentShellPageInstance.InteractionOperations.filesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, true);
+                await ParentShellPageInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, true);
                 e.Handled = true;
             }
 
@@ -712,7 +712,7 @@ namespace Files
 
             e.Handled = true;
             ListedItem rowItem = GetItemFromElement(sender);
-            await ParentShellPageInstance.InteractionOperations.filesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, true);
+            await ParentShellPageInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, true);
             deferral.Complete();
         }
 

@@ -60,7 +60,7 @@ namespace Files.Filesystem.FilesystemHistory
                         break;
                     }
 
-                case FileOperationType.Rename: // Rename
+                case FileOperationType.Rename: // Rename PASS
                     {
                         if (IsHistoryNull(history)) break;
 
@@ -95,7 +95,7 @@ namespace Files.Filesystem.FilesystemHistory
                         break;
                     }
 
-                case FileOperationType.Recycle: // Recycle
+                case FileOperationType.Recycle: // Recycle PASS
                     {
                         if (IsHistoryNull(history.Destination)) break;
 
@@ -105,7 +105,7 @@ namespace Files.Filesystem.FilesystemHistory
                             rawStorageHistory.Add(await this.filesystemOperations.DeleteAsync(history.Source.ElementAt(i), null, errorCode, false, this.cancellationToken));
                         }
 
-                        IStorageHistory newHistory = new StorageHistory(FileOperationType.Recycle, rawStorageHistory.SelectMany((item) => item.Source), rawStorageHistory.SelectMany((item) => item.Destination));
+                        IStorageHistory newHistory = new StorageHistory(FileOperationType.Recycle, rawStorageHistory.SelectMany((item) => item.Source).ToList(), rawStorageHistory.SelectMany((item) => item.Destination).ToList());
 
                         // We need to change the recycled item paths (since IDs are different) - for Undo() to work
                         App.StorageHistory[ArrayHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count)].Modify(newHistory);
@@ -113,7 +113,7 @@ namespace Files.Filesystem.FilesystemHistory
                         break;
                     }
 
-                case FileOperationType.Restore: // Restore
+                case FileOperationType.Restore: // Restore PASS
                     {
                         if (IsHistoryNull(history)) break;
 
@@ -154,7 +154,7 @@ namespace Files.Filesystem.FilesystemHistory
                         return await this.filesystemHelpers.DeleteItemsAsync(history.Source, false, true, false);
                     }
 
-                case FileOperationType.Rename: // Rename
+                case FileOperationType.Rename: // Rename PASS
                     {
                         // Opposite: Restore original item names
 
@@ -197,7 +197,7 @@ namespace Files.Filesystem.FilesystemHistory
                         break;
                     }
 
-                case FileOperationType.Recycle: // Recycle
+                case FileOperationType.Recycle: // Recycle PASS
                     {
                         // Opposite: Restore recycled items
                         if (IsHistoryNull(history)) break;
@@ -210,7 +210,7 @@ namespace Files.Filesystem.FilesystemHistory
                         break;
                     }
 
-                case FileOperationType.Restore: // Restore
+                case FileOperationType.Restore: // Restore PASS
                     {
                         // Opposite: Move restored items to Recycle Bin
 
@@ -222,7 +222,7 @@ namespace Files.Filesystem.FilesystemHistory
                             rawStorageHistory.Add(await this.filesystemOperations.DeleteAsync(history.Destination.ElementAt(i), null, errorCode, false, this.cancellationToken));
                         }
 
-                        IStorageHistory newHistory = new StorageHistory(FileOperationType.Restore, rawStorageHistory.SelectMany((item) => item.Destination), rawStorageHistory.SelectMany((item) => item.Source));
+                        IStorageHistory newHistory = new StorageHistory(FileOperationType.Restore, rawStorageHistory.SelectMany((item) => item.Destination).ToList(), rawStorageHistory.SelectMany((item) => item.Source).ToList());
 
                         // We need to change the recycled item paths (since IDs are different) - for Redo() to work
                         App.StorageHistory[ArrayHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count)].Modify(newHistory);

@@ -282,7 +282,7 @@ namespace Files.Filesystem
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "MoveToBin" },
-                            { "filepath", source }
+                            { "filepath", source.Path }
                         });
                         fsResult = (FilesystemResult)(response.Status == AppServiceResponseStatus.Success);
                     }
