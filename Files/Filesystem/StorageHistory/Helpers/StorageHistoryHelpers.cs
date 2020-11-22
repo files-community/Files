@@ -72,7 +72,7 @@ namespace Files.Filesystem.FilesystemHistory
         #region Public Helpers
 
         public static bool CanUndo() =>
-            App.StorageHistoryIndex > 0;
+            App.StorageHistoryIndex >= 0 && App.StorageHistory.Count > 0;
 
         public static bool CanRedo() =>
             App.StorageHistoryIndex < App.StorageHistory.Count;

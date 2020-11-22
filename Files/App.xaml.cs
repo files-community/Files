@@ -68,12 +68,25 @@ namespace Files
             StartAppCenter();
         }
 
-        public static void AddHistory(IStorageHistory storageHistory)
+        public static void AddHistory(IStorageHistory history)
         {
-            if (storageHistory != null)
+            if (history != null)
             {
-                StorageHistory.Insert(StorageHistoryIndex, storageHistory);
-                StorageHistoryIndex++;
+                StorageHistory.Insert(StorageHistoryIndex, history);
+
+                int index = ArrayHelpers.FitBounds(StorageHistoryIndex++, StorageHistory.Count);
+                StorageHistoryIndex = index;
+            }
+        }
+
+        public static void RemoveHistory(IStorageHistory history)
+        {
+            if (history != null)
+            {
+                StorageHistory.Remove(history);
+
+                int index = ArrayHelpers.FitBounds(StorageHistoryIndex--, StorageHistory.Count);
+                StorageHistoryIndex = index;
             }
         }
 

@@ -208,8 +208,7 @@ namespace Files.Filesystem.FilesystemHistory
 
                         if (returnStatus == ReturnResult.IntegrityCheckFailed) // Not found, corrupted
                         {
-                            App.StorageHistory.Remove(history);
-                            App.StorageHistoryIndex--;
+                            App.RemoveHistory(history);
                         }
 
                         break;
