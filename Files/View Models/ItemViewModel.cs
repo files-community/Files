@@ -1050,12 +1050,16 @@ namespace Files.Filesystem
             Debug.WriteLine($"Enumerating items in {WorkingDirectory} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
         }
 
-        private bool CheckFolderForHiddenAttribute(string path)
+        public bool CheckFolderForHiddenAttribute(string path)
         {
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
             int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
             IntPtr hFileTsk = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
                 additionalFlags);
+            if (hFileTsk.ToInt64() == -1)
+            {
+                return false;
+            }
             var isHidden = ((FileAttributes)findDataTsk.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
             FindClose(hFileTsk);
             return isHidden;
@@ -1248,6 +1252,8 @@ namespace Files.Filesystem
                     ItemName = item.FileName,
                     ItemDateModifiedReal = item.RecycleDate,
                     ItemType = item.FileType,
+                    IsHiddenItem = false,
+                    Opacity = 1,
                     LoadFolderGlyph = true,
                     FileImage = null,
                     LoadFileIcon = false,
@@ -1293,6 +1299,8 @@ namespace Files.Filesystem
                     FileImage = null,
                     LoadFileIcon = false,
                     LoadFolderGlyph = false,
+                    IsHiddenItem = false,
+                    Opacity = 1,
                     ItemName = itemName,
                     ItemDateModifiedReal = item.RecycleDate,
                     ItemType = item.FileType,
@@ -1653,6 +1661,8 @@ namespace Files.Filesystem
                     ItemName = folder.Name,
                     ItemDateModifiedReal = basicProperties.DateModified,
                     ItemType = folder.DisplayType,
+                    IsHiddenItem = false,
+                    Opacity = 1,
                     LoadFolderGlyph = true,
                     FileImage = null,
                     LoadFileIcon = false,
@@ -1756,6 +1766,8 @@ namespace Files.Filesystem
                 {
                     PrimaryItemAttribute = StorageItemTypes.File,
                     FileExtension = itemFileExtension,
+                    IsHiddenItem = false,
+                    Opacity = 1,
                     LoadUnknownTypeGlyph = itemEmptyImgVis,
                     FileImage = icon,
                     LoadFileIcon = itemThumbnailImgVis,

@@ -422,11 +422,16 @@ namespace FilesFullTrust
                     });
                     break;
 
-                case "MoveToBin":
+                case "DeleteItem":
                     var fileToDeletePath = (string)args.Request.Message["filepath"];
+                    var permanently = (bool)args.Request.Message["permanently"];
                     using (var op = new ShellFileOperations())
                     {
-                        op.Options = ShellFileOperations.OperationFlags.AllowUndo | ShellFileOperations.OperationFlags.NoUI;
+                        op.Options = ShellFileOperations.OperationFlags.NoUI;
+                        if (!permanently)
+                        {
+                            op.Options |= ShellFileOperations.OperationFlags.AllowUndo;
+                        }
                         using var shi = new ShellItem(fileToDeletePath);
                         op.QueueDeleteOperation(shi);
                         op.PerformOperations();
