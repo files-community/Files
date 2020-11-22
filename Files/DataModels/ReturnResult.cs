@@ -44,7 +44,7 @@ namespace Files
         NullException = 6,
 
         /// <summary>
-        /// Infoms that operation tried to access restricted resources
+        /// Informs that operation tried to access restricted resources
         /// </summary>
         AccessUnauthorized = 7,
 
