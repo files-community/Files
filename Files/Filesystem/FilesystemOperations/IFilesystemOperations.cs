@@ -94,7 +94,6 @@ namespace Files.Filesystem
         /// </returns>
         Task<IStorageHistory> MoveAsync(PathWithType source, string destination, IProgress<float> progress, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
 
-
         /// <summary>
         /// Deletes <paramref name="source"/>
         /// </summary>

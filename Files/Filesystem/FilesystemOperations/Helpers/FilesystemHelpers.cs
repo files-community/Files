@@ -11,9 +11,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using System.Text.RegularExpressions;
 using FileAttributes = System.IO.FileAttributes;
 using static Files.Helpers.NativeFindStorageItemHelper;
-using System.Text.RegularExpressions;
 
 namespace Files.Filesystem
 {
