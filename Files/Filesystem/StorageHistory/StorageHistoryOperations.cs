@@ -104,7 +104,7 @@ namespace Files.Filesystem.FilesystemHistory
                             rawStorageHistory.Add(await this.filesystemOperations.DeleteAsync(history.Source.ElementAt(i), null, errorCode, false, this.cancellationToken));
                         }
 
-                        IStorageHistory newHistory = new StorageHistory(FileOperationType.Recycle, rawStorageHistory.SelectMany((item) => item.Source).ToList(), rawStorageHistory.SelectMany((item) => item.Destination).ToList());
+                        IStorageHistory newHistory = new StorageHistory(FileOperationType.Recycle, rawStorageHistory.SelectMany((item) => item?.Source).ToList(), rawStorageHistory.SelectMany((item) => item?.Destination).ToList());
 
                         // We need to change the recycled item paths (since IDs are different) - for Undo() to work
                         App.StorageHistory[ArrayHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count)].Modify(newHistory);
@@ -206,6 +206,12 @@ namespace Files.Filesystem.FilesystemHistory
                             returnStatus = await this.filesystemHelpers.RestoreFromTrashAsync(history.Destination.ElementAt(i), history.Source.ElementAt(i).Path, false);
                         }
 
+                        if (returnStatus == ReturnResult.IntegrityCheckFailed) // Not found, corrupted
+                        {
+                            App.StorageHistory.Remove(history);
+                            App.StorageHistoryIndex--;
+                        }
+
                         break;
                     }
 
@@ -221,7 +227,7 @@ namespace Files.Filesystem.FilesystemHistory
                             rawStorageHistory.Add(await this.filesystemOperations.DeleteAsync(history.Destination.ElementAt(i), null, errorCode, false, this.cancellationToken));
                         }
 
-                        IStorageHistory newHistory = new StorageHistory(FileOperationType.Restore, rawStorageHistory.SelectMany((item) => item.Destination).ToList(), rawStorageHistory.SelectMany((item) => item.Source).ToList());
+                        IStorageHistory newHistory = new StorageHistory(FileOperationType.Restore, rawStorageHistory.SelectMany((item) => item?.Destination).ToList(), rawStorageHistory.SelectMany((item) => item?.Source).ToList());
 
                         // We need to change the recycled item paths (since IDs are different) - for Redo() to work
                         App.StorageHistory[ArrayHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count)].Modify(newHistory);
