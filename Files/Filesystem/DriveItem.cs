@@ -67,14 +67,13 @@ namespace Files.Filesystem
             Root = root;
             IsRemovable = (Type == DriveType.Removable || Type == DriveType.CDRom);
 
-            CoreApplication.MainView.ExecuteOnUIThreadAsync(() => GetDriveItemProperties());
+            CoreApplication.MainView.ExecuteOnUIThreadAsync(() => UpdatePropertiesAsync());
         }
 
-        public async Task UpdateAsync()
+        public async Task UpdateLabelAsync()
         {
             try
             {
-                // Delay is needed to apply the new name
                 var properties = await Root.Properties.RetrievePropertiesAsync(new[] { "System.ItemNameDisplay" })
                     .AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
                 Text = (string)properties["System.ItemNameDisplay"];
@@ -84,7 +83,7 @@ namespace Files.Filesystem
             }
         }
 
-        private async void GetDriveItemProperties()
+        public async Task UpdatePropertiesAsync()
         {
             try
             {
@@ -103,6 +102,7 @@ namespace Files.Filesystem
             catch (NullReferenceException)
             {
                 SpaceText = "DriveCapacityUnknown".GetLocalized();
+                SpaceUsed = ByteSize.FromBytes(0);
             }
         }
 

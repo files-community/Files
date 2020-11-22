@@ -46,7 +46,7 @@ namespace FilesFullTrust
             var deviceName = (string)obj.Properties["Name"].Value;
             var deviceId = (string)obj.Properties["DeviceID"].Value;
             var volumeName = (string)obj.Properties["VolumeName"].Value;
-            var eventType = volumeName != null ? DeviceEvent.Inserted : DeviceEvent.Removed;
+            var eventType = volumeName != null ? DeviceEvent.Inserted : DeviceEvent.Ejected;
             System.Diagnostics.Debug.WriteLine($"Drive modify event: {deviceName}, {deviceId}, {eventType}");
             await SendEvent(deviceName, deviceId, eventType);
         }
@@ -65,8 +65,8 @@ namespace FilesFullTrust
             ManagementBaseObject obj = (ManagementBaseObject)e.NewEvent["TargetInstance"];
             var deviceName = (string)obj.Properties["Name"].Value;
             var deviceId = (string)obj.Properties["DeviceID"].Value;
-            System.Diagnostics.Debug.WriteLine($"Drive inserted event: {deviceName}, {deviceId}");
-            await SendEvent(deviceName, deviceId, DeviceEvent.Inserted);
+            System.Diagnostics.Debug.WriteLine($"Drive added event: {deviceName}, {deviceId}");
+            await SendEvent(deviceName, deviceId, DeviceEvent.Added);
         }
 
         private async Task SendEvent(string deviceName, string deviceId, DeviceEvent eventType)
