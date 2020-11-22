@@ -228,7 +228,6 @@ namespace Files.Filesystem
         {
             IStorageHistory history = await CopyAsync(source, destination, progress, errorCode, cancellationToken);
 
-            FilesystemResult fsResultDelete = (FilesystemResult)false;
             if (string.IsNullOrWhiteSpace(source.Path))
             {
                 // Can't move (only copy) files from MTP devices because:
@@ -465,9 +464,6 @@ namespace Files.Filesystem
                 }
             }
 
-            //if (Path.GetFileName(source.ItemOriginalPath) != Path.GetFileName(destination)) // Different names
-            //    return new StorageHistory(FileOperationType.Restore, source.ItemPath, Path.Combine(destination, Path.GetFileName(source.ItemOriginalPath)));
-            //else
             return new StorageHistory(FileOperationType.Restore, source, new PathWithType(destination, source.ItemType));
         }
 

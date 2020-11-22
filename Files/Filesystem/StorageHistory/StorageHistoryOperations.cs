@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Files.Helpers;
-using Files.Extensions;
 
 namespace Files.Filesystem.FilesystemHistory
 {

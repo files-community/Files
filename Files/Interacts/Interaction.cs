@@ -801,14 +801,9 @@ namespace Files.Interacts
 
         public async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-            List<PathWithType> itemsToDelete = new List<PathWithType>();
-
-            foreach (ListedItem item in this.AssociatedInstance.ContentPage.SelectedItems)
-            {
-                itemsToDelete.Add(new PathWithType(item.ItemPath, item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-            }
-
-            await this.FilesystemHelpers.DeleteItemsAsync(itemsToDelete, true, false, true);
+            await this.FilesystemHelpers.DeleteItemsAsync(
+                AssociatedInstance.ContentPage.SelectedItems.Select((item) => new PathWithType(item.ItemPath, item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(),
+                true, false, true);
         }
 
         public void RenameItem_Click(object sender, RoutedEventArgs e)

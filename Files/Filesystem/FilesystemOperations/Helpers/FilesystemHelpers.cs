@@ -370,7 +370,7 @@ namespace Files.Filesystem
                     case DataPackageOperation.Move:
                         return await MoveItemsFromClipboard(packageView, destination, registerHistory);
 
-                    case DataPackageOperation.None: // Shortcut items
+                    case DataPackageOperation.None: // Other
                         return await CopyItemsFromClipboard(packageView, destination, registerHistory);
 
                     default: return default;
@@ -386,14 +386,7 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> CopyItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
         {
-            List<PathWithType> itemsToCopy = new List<PathWithType>();
-
-            foreach (IStorageItem item in source)
-            {
-                itemsToCopy.Add(new PathWithType(item.Path, item.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory));
-            }
-
-            return await CopyItemsAsync(itemsToCopy, destination, registerHistory);
+            return await CopyItemsAsync(source.Select((item) => new PathWithType(item.Path, item.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(), destination, registerHistory);
         }
 
         public async Task<ReturnResult> CopyItemAsync(IStorageItem source, string destination, bool registerHistory)
@@ -510,14 +503,7 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> MoveItemsAsync(IEnumerable<IStorageItem> source, IEnumerable<string> destination, bool registerHistory)
         {
-            List<PathWithType> itemsToMove = new List<PathWithType>();
-
-            foreach (IStorageItem item in source)
-            {
-                itemsToMove.Add(new PathWithType(item.Path, item.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory));
-            }
-
-            return await MoveItemsAsync(itemsToMove, destination, registerHistory);
+            return await MoveItemsAsync(source.Select((item) => new PathWithType(item.Path, item.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(), destination, registerHistory);
         }
 
         public async Task<ReturnResult> MoveItemAsync(IStorageItem source, string destination, bool registerHistory)

@@ -904,13 +904,10 @@ namespace Files.Views.Pages
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
                     if (!NavigationToolbar.IsEditModeEnabled)
                     {
-                        List<PathWithType> itemsToDelete = new List<PathWithType>();
-                        foreach (ListedItem item in this.ContentPage.SelectedItems)
-                        {
-                            itemsToDelete.Add(new PathWithType(item.ItemPath, item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-                        }
 
-                        await this.filesystemHelpers.DeleteItemsAsync(itemsToDelete, true, true, true);
+                        await this.filesystemHelpers.DeleteItemsAsync(
+                            ContentPage.SelectedItems.Select((item) => new PathWithType(item.ItemPath, item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(),
+                            true, true, true);
                     }
 
                     break;
@@ -974,13 +971,9 @@ namespace Files.Views.Pages
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
                     if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem)
                     {
-                        List<PathWithType> itemsToDelete = new List<PathWithType>();
-                        foreach (ListedItem item in this.ContentPage.SelectedItems)
-                        {
-                            itemsToDelete.Add(new PathWithType(item.ItemPath, item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory));
-                        }
-
-                        await this.filesystemHelpers.DeleteItemsAsync(itemsToDelete, true, false, true);
+                        await this.filesystemHelpers.DeleteItemsAsync(
+                            ContentPage.SelectedItems.Select((item) => new PathWithType(item.ItemPath, item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(),
+                            true, false, true);
                     }
 
                     break;
