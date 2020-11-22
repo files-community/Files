@@ -12,7 +12,7 @@ namespace FilesFullTrust
 {
     public class DeviceWatcher : IDisposable
     {
-        private ManagementEventWatcher insertWatcher, removeWatcher;
+        private ManagementEventWatcher insertWatcher, removeWatcher, modifyWatcher;
         private AppServiceConnection connection;
 
         private const string WpdGuid = "{6ac27878-a6fa-4155-ba85-f98f491d4f33}";
@@ -24,11 +24,15 @@ namespace FilesFullTrust
 
         public void Start()
         {
-            //WqlEventQuery query = new WqlEventQuery("SELECT * FROM Win32_VolumeChangeEvent WHERE EventType = 2 or EventType = 3");
             WqlEventQuery insertQuery = new WqlEventQuery("SELECT * FROM __InstanceCreationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LogicalDisk'");
             insertWatcher = new ManagementEventWatcher(insertQuery);
             insertWatcher.EventArrived += new EventArrivedEventHandler(DeviceInsertedEvent);
             insertWatcher.Start();
+
+            WqlEventQuery modifyQuery = new WqlEventQuery("SELECT * FROM __InstanceModificationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LogicalDisk' and TargetInstance.DriveType = 5");
+            modifyWatcher = new ManagementEventWatcher(modifyQuery);
+            modifyWatcher.EventArrived += new EventArrivedEventHandler(DeviceModifiedEvent);
+            modifyWatcher.Start();
 
             WqlEventQuery removeQuery = new WqlEventQuery("SELECT * FROM __InstanceDeletionEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LogicalDisk'");
             removeWatcher = new ManagementEventWatcher(removeQuery);
@@ -36,11 +40,23 @@ namespace FilesFullTrust
             removeWatcher.Start();
         }
 
+        private async void DeviceModifiedEvent(object sender, EventArrivedEventArgs e)
+        {
+            ManagementBaseObject obj = (ManagementBaseObject)e.NewEvent["TargetInstance"];
+            var deviceName = (string)obj.Properties["Name"].Value;
+            var deviceId = (string)obj.Properties["DeviceID"].Value;
+            var volumeName = (string)obj.Properties["VolumeName"].Value;
+            var eventType = volumeName != null ? DeviceEvent.Inserted : DeviceEvent.Removed;
+            System.Diagnostics.Debug.WriteLine($"Drive modify event: {deviceName}, {deviceId}, {eventType}");
+            await SendEvent(deviceName, deviceId, eventType);
+        }
+
         private async void DeviceRemovedEvent(object sender, EventArrivedEventArgs e)
         {
             ManagementBaseObject obj = (ManagementBaseObject)e.NewEvent["TargetInstance"];
             var deviceName = (string)obj.Properties["Name"].Value;
             var deviceId = (string)obj.Properties["DeviceID"].Value;
+            System.Diagnostics.Debug.WriteLine($"Drive removed event: {deviceName}, {deviceId}");
             await SendEvent(deviceName, deviceId, DeviceEvent.Removed);
         }
 
@@ -49,12 +65,12 @@ namespace FilesFullTrust
             ManagementBaseObject obj = (ManagementBaseObject)e.NewEvent["TargetInstance"];
             var deviceName = (string)obj.Properties["Name"].Value;
             var deviceId = (string)obj.Properties["DeviceID"].Value;
+            System.Diagnostics.Debug.WriteLine($"Drive inserted event: {deviceName}, {deviceId}");
             await SendEvent(deviceName, deviceId, DeviceEvent.Inserted);
         }
 
         private async Task SendEvent(string deviceName, string deviceId, DeviceEvent eventType)
         {
-            System.Diagnostics.Debug.WriteLine($"Drive connection event: {eventType}, {deviceName}, {deviceId}");
             if (connection != null)
             {
                 await connection.SendMessageAsync(new ValueSet()
@@ -69,8 +85,10 @@ namespace FilesFullTrust
         {
             insertWatcher?.Dispose();
             removeWatcher?.Dispose();
+            modifyWatcher?.Dispose();
             insertWatcher = null;
             removeWatcher = null;
+            modifyWatcher = null;
         }
     }
 }
