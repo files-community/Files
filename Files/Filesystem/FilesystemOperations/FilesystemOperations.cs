@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Filesystem
 {
@@ -155,6 +156,11 @@ namespace Files.Filesystem
                         .OnSuccess(t => FilesystemHelpers.CloneDirectoryAsync((IStorageFolder)source.Path.ToStorageItem(), t, Path.GetFileName(source.Path)))
                         .OnSuccess(t =>
                         {
+                            if (associatedInstance.FilesystemViewModel.CheckFolderForHiddenAttribute(source.Path))
+                            {
+                                // The source folder was hidden, apply hidden attribute to destination
+                                NativeFileOperationsHelper.SetFileAttribute(t.Path, FileAttributes.Hidden);
+                            }
                             copiedItem = t;
                         });
                 }
@@ -272,31 +278,17 @@ namespace Files.Filesystem
 
             if (fsResult == FilesystemErrorCode.ERROR_UNAUTHORIZED)
             {
-                if (!permanently)
+                // Try again with fulltrust process
+                if (associatedInstance.FilesystemViewModel.Connection != null)
                 {
-                    // Try again with fulltrust process
-                    if (associatedInstance.FilesystemViewModel.Connection != null)
-                    {
                         AppServiceResponse response = await associatedInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
-                            { "fileop", "MoveToBin" },
-                            { "filepath", source.Path }
+                            { "fileop", "DeleteItem" },
+                            { "filepath", source.Path },
+                            { "permanently", permanently }
                         });
                         fsResult = (FilesystemResult)(response.Status == AppServiceResponseStatus.Success);
-                    }
-                }
-                else
-                {
-                    // Try again with DeleteFileFromApp
-                    if (!NativeFileOperationsHelper.DeleteFileFromApp(source.Path))
-                    {
-                        Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
-                    }
-                    else
-                    {
-                        fsResult = (FilesystemResult)true;
-                    }
                 }
             }
             else if (fsResult == FilesystemErrorCode.ERROR_INUSE)
