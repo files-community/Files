@@ -420,7 +420,7 @@ namespace Files.Interacts
                             {
                                 NavPathParam = childFolder.Path,
                                 AssociatedTabInstance = AssociatedInstance
-                            }, new SuppressNavigationTransitionInfo());
+                            }, new DrillInNavigationTransitionInfo());
                         });
                 }
                 else if (clickedOnItem.IsHiddenItem)
@@ -435,7 +435,7 @@ namespace Files.Interacts
                         {
                             NavPathParam = clickedOnItemPath,
                             AssociatedTabInstance = AssociatedInstance
-                        }, new SuppressNavigationTransitionInfo());
+                        }, new DrillInNavigationTransitionInfo());
                     }
                     else if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.File)
                     {
@@ -669,7 +669,7 @@ namespace Files.Interacts
                     {
                         Item = item,
                         AppInstanceArgument = AssociatedInstance
-                    }, new SuppressNavigationTransitionInfo());
+                    }, new DrillInNavigationTransitionInfo());
                     Window.Current.Content = frame;
                     Window.Current.Activate();
 
@@ -695,7 +695,7 @@ namespace Files.Interacts
                 {
                     Item = item,
                     AppInstanceArgument = AssociatedInstance
-                }, new SuppressNavigationTransitionInfo());
+                }, new DrillInNavigationTransitionInfo());
                 await propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
             }
         }

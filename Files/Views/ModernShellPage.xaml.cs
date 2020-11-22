@@ -246,7 +246,7 @@ namespace Files.Views.Pages
                     NavPathParam = navigationPath,
                     AssociatedTabInstance = this
                 },
-                new SuppressNavigationTransitionInfo());
+                new DrillInNavigationTransitionInfo());
 
             NavigationToolbar.PathControlDisplayText = FilesystemViewModel.WorkingDirectory;
         }
@@ -482,7 +482,7 @@ namespace Files.Views.Pages
                                               NavPathParam = "NewTab".GetLocalized(),
                                               AssociatedTabInstance = this
                                           },
-                                          new SuppressNavigationTransitionInfo());
+                                          new DrillInNavigationTransitionInfo());
                 }
                 else
                 {
@@ -656,7 +656,7 @@ namespace Files.Views.Pages
                                                   NavPathParam = NavParams,
                                                   AssociatedTabInstance = this
                                               },
-                                              new SuppressNavigationTransitionInfo());
+                                              new DrillInNavigationTransitionInfo());
                     SidebarControl.SelectedSidebarItem = MainPage.SideBarItems.FirstOrDefault();
                     break;
 
@@ -711,7 +711,7 @@ namespace Files.Views.Pages
                                                       NavPathParam = NavParams,
                                                       AssociatedTabInstance = this
                                                   },
-                                                  new SuppressNavigationTransitionInfo());
+                                                  new DrillInNavigationTransitionInfo());
                         SidebarControl.SelectedSidebarItem = MainPage.SideBarItems[0];
                     }
                     else if (((NavParams[0] >= 'A' && NavParams[0] <= 'Z') || (NavParams[0] >= 'a' && NavParams[0] <= 'z'))
@@ -750,7 +750,7 @@ namespace Files.Views.Pages
                                           NavPathParam = NavigationPath,
                                           AssociatedTabInstance = this
                                       },
-                                      new SuppressNavigationTransitionInfo());
+                                      new DrillInNavigationTransitionInfo());
             }
 
             this.Loaded -= Page_Loaded;
@@ -1058,7 +1058,7 @@ namespace Files.Views.Pages
                                               NavPathParam = parentDirectoryOfPath,
                                               AssociatedTabInstance = this
                                           },
-                                          new SuppressNavigationTransitionInfo());
+                                          new DrillInNavigationTransitionInfo());
         }
 
         private void SelectSidebarItemFromPath(Type incomingSourcePageType = null)

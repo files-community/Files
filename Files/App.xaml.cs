@@ -143,7 +143,7 @@ namespace Files
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments, new SuppressNavigationTransitionInfo());
+                    rootFrame.Navigate(typeof(MainPage), e.Arguments, new DrillInNavigationTransitionInfo());
                 }
                 else
                 {
@@ -186,12 +186,12 @@ namespace Files
 
                     if (eventArgs.Uri.AbsoluteUri == "files-uwp:")
                     {
-                        rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+                        rootFrame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
                     }
                     else
                     {
                         var trimmedPath = eventArgs.Uri.OriginalString.Split('=')[1];
-                        rootFrame.Navigate(typeof(MainPage), @trimmedPath, new SuppressNavigationTransitionInfo());
+                        rootFrame.Navigate(typeof(MainPage), @trimmedPath, new DrillInNavigationTransitionInfo());
                     }
 
                     // Ensure the current window is active.
@@ -214,7 +214,7 @@ namespace Files
                             switch (command.Type)
                             {
                                 case ParsedCommandType.OpenDirectory:
-                                    rootFrame.Navigate(typeof(MainPage), command.Payload, new SuppressNavigationTransitionInfo());
+                                    rootFrame.Navigate(typeof(MainPage), command.Payload, new DrillInNavigationTransitionInfo());
 
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
@@ -227,7 +227,7 @@ namespace Files
                                     {
                                         var det = await StorageFolder.GetFolderFromPathAsync(command.Payload);
 
-                                        rootFrame.Navigate(typeof(MainPage), command.Payload, new SuppressNavigationTransitionInfo());
+                                        rootFrame.Navigate(typeof(MainPage), command.Payload, new DrillInNavigationTransitionInfo());
 
                                         // Ensure the current window is active.
                                         Window.Current.Activate();
@@ -248,7 +248,7 @@ namespace Files
                                     break;
 
                                 case ParsedCommandType.Unknown:
-                                    rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+                                    rootFrame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
                                     Window.Current.CoreWindow.Activated += CoreWindow_Activated;
@@ -270,7 +270,7 @@ namespace Files
                     break;
             }
 
-            rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+            rootFrame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
 
             // Ensure the current window is active.
             Window.Current.Activate();
