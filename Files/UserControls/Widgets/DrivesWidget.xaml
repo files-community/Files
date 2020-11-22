@@ -40,7 +40,7 @@
                 <DataTemplate x:DataType="local2:DriveItem">
                     <Grid
                         Width="270"
-                        extensions:VisualExtensions.CenterPoint="80,45,0"
+                        extensions:VisualExtensions.CenterPoint="135,45,0"
                         PointerEntered="GridScaleUp"
                         PointerExited="GridScaleNormal">
                         <animations:Implicit.Animations>
