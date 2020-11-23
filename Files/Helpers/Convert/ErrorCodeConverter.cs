@@ -41,38 +41,5 @@ namespace Files.Helpers
                 default: return default;
             }
         }
-
-        public static FilesystemErrorCode ToFilesystemErrorCode(this ReturnResult status)
-        {
-            switch (status)
-            {
-                case ReturnResult.InProgress:
-                    return FilesystemErrorCode.ERROR_INPROGRESS;
-
-                case ReturnResult.Success:
-                    return FilesystemErrorCode.ERROR_SUCCESS;
-
-                case ReturnResult.Failed:
-                    return FilesystemErrorCode.ERROR_UNAUTHORIZED | FilesystemErrorCode.ERROR_NOTFOUND |
-                        FilesystemErrorCode.ERROR_NOTAFILE | FilesystemErrorCode.ERROR_NOTAFOLDER;
-
-                case ReturnResult.IntegrityCheckFailed:
-                    return FilesystemErrorCode.ERROR_NOTAFILE | FilesystemErrorCode.ERROR_NOTAFOLDER | FilesystemErrorCode.ERROR_NOTFOUND;
-
-                case ReturnResult.UnknownException:
-                    return FilesystemErrorCode.ERROR_ALREADYEXIST | FilesystemErrorCode.ERROR_NAMETOOLONG;
-
-                case ReturnResult.NullException:
-                    return FilesystemErrorCode.ERROR_NOTFOUND | FilesystemErrorCode.ERROR_NOTAFILE | FilesystemErrorCode.ERROR_NOTAFOLDER;
-
-                case ReturnResult.AccessUnauthorized:
-                    return FilesystemErrorCode.ERROR_UNAUTHORIZED;
-
-                case ReturnResult.Cancelled:
-                    return FilesystemErrorCode.ERROR_GENERIC | FilesystemErrorCode.ERROR_INPROGRESS;
-
-                default: return default;
-            }
-        }
     }
 }
