@@ -1,32 +1,42 @@
 ﻿using Files.Converters;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
-using SQLitePCL;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 
 namespace Files.View_Models.Properties
 {
     /// <summary>
-    /// This class is used to represent a file property from the Windows.Storage API
+    /// This class is represents a system file property from the Windows.Storage API
     /// </summary>
     public class FileProperty : ObservableObject
     {
         /// <summary>
-        /// This property defines the resource to use to get the name from string resources
+        /// The name to display
         /// </summary>
         public string Name { get; set; }
         /// <summary>
-        /// The string resource of the property name
+        /// The name of the string resource for the property name
         /// </summary>
         public string NameResource { get; set; }
-        public string Property { get; set; }
+        /// <summary>
+        /// The name of the section to display
+        /// </summary>
         public string Section { get; set; }
+        /// <summary>
+        /// The name of the string resource for the section name
+        /// </summary>
         public string SectionResource { get; set; }
+        /// <summary>
+        /// The identifier of the property to get, eg System.Media.Duration
+        /// </summary>
+        public string Property { get; set; }
+        /// <summary>
+        /// The value of the property
+        /// </summary>
         public object Value { get; set; }
 
         /// <summary>
@@ -37,6 +47,10 @@ namespace Files.View_Models.Properties
             get => Converter != null && Value != null ? Converter.Convert(Value, typeof(string), null, null) as string : Value as string;
             set => Value = Converter != null && value != null? Converter.ConvertBack(value, typeof(object), null, null) : value;
         }
+
+        /// <summary>
+        /// The converter used to convert the property to a string, and vice versa if needed
+        /// </summary>
         public IValueConverter Converter { 
             get => GetConverter(); 
         }
@@ -53,7 +67,6 @@ namespace Files.View_Models.Properties
         {
 
         }
-
 
         /// <summary>
         /// Use this function when taking a file property from the base list and adding it to the view model list.
@@ -76,9 +89,13 @@ namespace Files.View_Models.Properties
         {
             var props = await file.Properties.RetrievePropertiesAsync(new List<string>() { Property });
             Value = props[Property];
-
         }
 
+        /// <summary>
+        /// Saves the property to a given file
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         public async Task SaveValueToFile(StorageFile file)
         {
             if (!string.IsNullOrEmpty(Property)) 
@@ -115,7 +132,9 @@ namespace Files.View_Models.Properties
             return null;
         }
 
-
+        /// <summary>
+        /// Uses the name and section name resources to get their values
+        /// </summary>
         public void InitializeNames()
         {
             Name = ResourceController.GetTranslation(NameResource);

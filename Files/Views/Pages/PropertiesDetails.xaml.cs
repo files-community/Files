@@ -2,12 +2,9 @@
 using Files.UserControls;
 using Files.View_Models;
 using Files.View_Models.Properties;
-using Microsoft.Toolkit.Uwp.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -47,27 +44,6 @@ namespace Files
             }
         }
 
-        private void SetOverviewVisibilities()
-        {
-            var name = ViewModel.ItemName.Split(".");
-            var extension = name[name.Length - 1].ToLower();
-
-            //if (extension.Contains("png") || extension.Contains("jpg") || extension.Contains("png") || extension.Contains("gif") || extension.Contains("jpeg"))
-            //    OverviewImage.Visibility = Visibility.Visible;
-        }
-
-        private string GetStringArray(object array)
-        {
-            if (array == null || !(array is string[]))
-                return "";
-
-            var str = "";
-            foreach (var i in array as string[])
-                str += string.Format("{0}; ", i);
-
-            return str;
-        }
-
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel = new SelectedItemsPropertiesViewModel();
@@ -79,10 +55,8 @@ namespace Files
                 BaseProperties = new FileProperties(ViewModel, np.tokenSource, Dispatcher, null, listedItem);
             }
 
-            SetOverviewVisibilities();
             base.OnNavigatedTo(e);
         }
-
 
         /// <summary>
         /// Returns false if the operation was cancelled

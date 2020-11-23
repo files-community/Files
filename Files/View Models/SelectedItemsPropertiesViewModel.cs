@@ -642,13 +642,11 @@ namespace Files.View_Models
             }
         }
 
-
         private ObservableCollection<FilePropertySection> _PropertySections = new ObservableCollection<FilePropertySection>();
         public ObservableCollection<FilePropertySection> PropertySections
         {
             get => _PropertySections;
             set => SetProperty(ref _PropertySections, value);
         }
-
     }
 }
