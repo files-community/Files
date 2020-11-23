@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Files.Filesystem.FilesystemHistory;
+using Files.Enums;
 
 namespace Files.Filesystem
 {

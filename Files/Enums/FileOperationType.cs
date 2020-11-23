@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Files
+namespace Files.Enums
 {
     /// <summary>
     /// Type of operation on Files filesystem that took place

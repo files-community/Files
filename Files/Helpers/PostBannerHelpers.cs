@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp.Extensions;
+﻿using Files.Enums;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System.Diagnostics;
 
 namespace Files.Helpers

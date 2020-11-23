@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Files
+namespace Files.Enums
 {
     /// <summary>
     /// Contains all kinds of return status

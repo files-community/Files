@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;

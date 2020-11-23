@@ -1,4 +1,5 @@
-﻿using Files.Helpers;
+﻿using Files.Enums;
+using Files.Helpers;
 using System;
 using System.Threading.Tasks;
 

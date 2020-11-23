@@ -14,6 +14,7 @@ using Windows.Storage;
 using System.Text.RegularExpressions;
 using FileAttributes = System.IO.FileAttributes;
 using static Files.Helpers.NativeFindStorageItemHelper;
+using Files.Enums;
 
 namespace Files.Filesystem
 {
