@@ -150,7 +150,7 @@ namespace Files.View_Models.Properties
             new FileProperty() { Property = "System.ItemTypeText", NameResource = "PropertyItemTypeText", SectionResource = "PropertySectionCore"},
             new FileProperty() { Property = "System.Title", NameResource = "PropertyTitle", SectionResource = "PropertySectionCore", IsReadOnly = false},
             new FileProperty() { Property = "System.Subject", NameResource = "PropertySubject", SectionResource = "PropertySectionCore", IsReadOnly = false},
-            new FileProperty() { Property = "System.Comment", NameResource = "PropertyComment", SectionResource = "PropertySectionCore"},
+            new FileProperty() { Property = "System.Comment", NameResource = "PropertyComment", SectionResource = "PropertySectionCore", IsReadOnly = false},
             new FileProperty() { Property = "System.Copyright", NameResource = "PropertyCopyright", SectionResource = "PropertySectionCore"},
             new FileProperty() { Property = "System.DateCreated", NameResource = "PropertyDateCreated", SectionResource = "PropertySectionCore"},
             new FileProperty() { Property = "System.DateModified", NameResource = "PropertyDateModified", SectionResource = "PropertySectionCore"},
