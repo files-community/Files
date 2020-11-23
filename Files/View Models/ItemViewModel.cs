@@ -31,10 +31,9 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
 using static Files.Helpers.NativeDirectoryChangesHelper;
-using static Files.Helpers.NativeFindStorageItemHelper;
 using static Files.Helpers.NativeFileOperationsHelper;
+using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
-using Windows.System;
 
 namespace Files.Filesystem
 {
@@ -824,10 +823,10 @@ namespace Files.Filesystem
                     {
                         var item = folderContentsList[count];
                         AddFileOrFolderFromShellFile(item, returnformat);
-                        //if (count % 64 == 0)
-                        //{
-                        //    await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
-                        //}
+                        if (count % 64 == 0)
+                        {
+                            OrderFiles();
+                        }
                     }
                 }
             }
@@ -954,6 +953,14 @@ namespace Files.Filesystem
                 }
                 catch (ArgumentException) { }
 
+                bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
+                double opacity = 1;
+
+                if (isHidden)
+                {
+                    opacity = 0.4;
+                }
+
                 CurrentFolder = new ListedItem(_rootFolder.FolderRelativeId, returnformat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
@@ -963,7 +970,8 @@ namespace Files.Filesystem
                     ItemType = _rootFolder.DisplayType,
                     LoadFolderGlyph = true,
                     FileImage = null,
-                    IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden,
+                    IsHiddenItem = isHidden,
+                    Opacity = opacity,
                     LoadFileIcon = false,
                     ItemPath = string.IsNullOrEmpty(_rootFolder.Path) ? _currentStorageFolder.Path : _rootFolder.Path,
                     LoadUnknownTypeGlyph = false,
@@ -997,7 +1005,8 @@ namespace Files.Filesystem
 
                             if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                             {
-                                await Task.Run(()=>{
+                                await Task.Run(() =>
+                                {
                                     AddFile(findData, path, returnformat);
                                     ++count;
                                 });
@@ -1006,11 +1015,12 @@ namespace Files.Filesystem
                             {
                                 if (findData.cFileName != "." && findData.cFileName != "..")
                                 {
-                                    await Task.Run(() => {
+                                    await Task.Run(() =>
+                                    {
                                         AddFolder(findData, path, returnformat);
                                         ++count;
                                     });
-                                    
+
                                 }
                             }
                         }
@@ -1019,10 +1029,10 @@ namespace Files.Filesystem
                             break;
                         }
 
-                        //if (count % 64 == 0)
-                        //{
-                        //    await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
-                        //}
+                        if (count % 64 == 0)
+                        {
+                            OrderFiles();
+                        }
                     } while (FindNextFile(hFile, out findData));
 
                     FindClose(hFile);
@@ -1073,21 +1083,25 @@ namespace Files.Filesystem
                 {
                     break;
                 }
-                //if (count % 64 == 0)
-                //{
-                //    await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
-                //}
+                if (count % 64 == 0)
+                {
+                    OrderFiles();
+                }
             }
             stopwatch.Stop();
             Debug.WriteLine($"Enumerating items in {WorkingDirectory} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
         }
 
-        private bool CheckFolderForHiddenAttribute(string path)
+        public bool CheckFolderForHiddenAttribute(string path)
         {
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
             int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
             IntPtr hFileTsk = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
                 additionalFlags);
+            if (hFileTsk.ToInt64() == -1)
+            {
+                return false;
+            }
             var isHidden = ((FileAttributes)findDataTsk.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
             FindClose(hFileTsk);
             return isHidden;
@@ -1282,6 +1296,8 @@ namespace Files.Filesystem
                         ItemName = item.FileName,
                         ItemDateModifiedReal = item.RecycleDate,
                         ItemType = item.FileType,
+                        IsHiddenItem = false,
+                        Opacity = 1,
                         LoadFolderGlyph = true,
                         FileImage = null,
                         LoadFileIcon = false,
@@ -1292,7 +1308,6 @@ namespace Files.Filesystem
                         FileSizeBytes = 0,
                         //FolderTooltipText = tooltipString,
                     });
-
                 });
             }
             else
@@ -1330,6 +1345,8 @@ namespace Files.Filesystem
                         FileImage = null,
                         LoadFileIcon = false,
                         LoadFolderGlyph = false,
+                        IsHiddenItem = false,
+                        Opacity = 1,
                         ItemName = itemName,
                         ItemDateModifiedReal = item.RecycleDate,
                         ItemType = item.FileType,
@@ -1467,6 +1484,14 @@ namespace Files.Filesystem
             }
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
+            bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
+            double opacity = 1;
+
+            if (isHidden)
+            {
+                opacity = 0.4;
+            }
+
             await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
             {
                 _filesAndFolders.Add(new ListedItem(null, dateReturnFormat)
@@ -1477,7 +1502,8 @@ namespace Files.Filesystem
                     ItemType = "FileFolderListItem".GetLocalized(),
                     LoadFolderGlyph = true,
                     FileImage = null,
-                    IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden,
+                    IsHiddenItem = isHidden,
+                    Opacity = opacity,
                     LoadFileIcon = false,
                     ItemPath = itemPath,
                     LoadUnknownTypeGlyph = false,
@@ -1590,13 +1616,23 @@ namespace Files.Filesystem
                         {
                             containsFilesOrFolders = CheckForFilesFolders(target);
                         }
+
+                        bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
+                        double opacity = 1;
+
+                        if (isHidden)
+                        {
+                            opacity = 0.4;
+                        }
+
                         await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                         {
                             _filesAndFolders.Add(new ShortcutItem(null, dateReturnFormat)
                             {
                                 PrimaryItemAttribute = (bool)response.Message["IsFolder"] ? StorageItemTypes.Folder : StorageItemTypes.File,
                                 FileExtension = itemFileExtension,
-                                IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden,
+                                IsHiddenItem = isHidden,
+                                Opacity = opacity,
                                 FileImage = null,
                                 LoadFileIcon = !(bool)response.Message["IsFolder"] && itemThumbnailImgVis,
                                 LoadUnknownTypeGlyph = !(bool)response.Message["IsFolder"] && !isUrl && itemEmptyImgVis,
@@ -1619,33 +1655,59 @@ namespace Files.Filesystem
                         });
                     }
                 }
-            }
-            else
-            {
-                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                else
                 {
-                    _filesAndFolders.Add(new ListedItem(null, dateReturnFormat)
+                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                     {
-                        PrimaryItemAttribute = StorageItemTypes.File,
-                        FileExtension = itemFileExtension,
-                        LoadUnknownTypeGlyph = itemEmptyImgVis,
-                        FileImage = null,
-                        LoadFileIcon = itemThumbnailImgVis,
-                        LoadFolderGlyph = itemFolderImgVis,
-                        ItemName = itemName,
-                        IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden,
-                        ItemDateModifiedReal = itemModifiedDate,
-                        ItemDateAccessedReal = itemLastAccessDate,
-                        ItemDateCreatedReal = itemCreatedDate,
-                        ItemType = itemType,
-                        ItemPath = itemPath,
-                        FileSize = itemSize,
-                        FileSizeBytes = itemSizeBytes
-                    });
-                });
-            }
+                        _filesAndFolders.Add(new ListedItem(null, dateReturnFormat)
+                        {
+                            PrimaryItemAttribute = StorageItemTypes.File,
+                            FileExtension = itemFileExtension,
+                            LoadUnknownTypeGlyph = itemEmptyImgVis,
+                            FileImage = null,
+                            LoadFileIcon = itemThumbnailImgVis,
+                            LoadFolderGlyph = itemFolderImgVis,
+                            ItemName = itemName,
+                            IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden,
+                            ItemDateModifiedReal = itemModifiedDate,
+                            ItemDateAccessedReal = itemLastAccessDate,
+                            ItemDateCreatedReal = itemCreatedDate,
+                            ItemType = itemType,
+                            ItemPath = itemPath,
+                            FileSize = itemSize,
+                            FileSizeBytes = itemSizeBytes
+                        });
+                        bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
+                        double opacity = 1;
 
-            IsFolderEmptyTextDisplayed = false;
+                        if (isHidden)
+                        {
+                            opacity = 0.4;
+                        }
+
+                        _filesAndFolders.Add(new ListedItem(null, dateReturnFormat)
+                        {
+                            PrimaryItemAttribute = StorageItemTypes.File,
+                            FileExtension = itemFileExtension,
+                            LoadUnknownTypeGlyph = itemEmptyImgVis,
+                            FileImage = null,
+                            LoadFileIcon = itemThumbnailImgVis,
+                            LoadFolderGlyph = itemFolderImgVis,
+                            ItemName = itemName,
+                            IsHiddenItem = isHidden,
+                            Opacity = opacity,
+                            ItemDateModifiedReal = itemModifiedDate,
+                            ItemDateAccessedReal = itemLastAccessDate,
+                            ItemDateCreatedReal = itemCreatedDate,
+                            ItemType = itemType,
+                            ItemPath = itemPath,
+                            FileSize = itemSize,
+                            FileSizeBytes = itemSizeBytes
+                        });
+                        IsFolderEmptyTextDisplayed = false;
+                    });
+                }
+            }
         }
 
         public void AddItemsToCollectionAsync(string path)
@@ -1672,6 +1734,8 @@ namespace Files.Filesystem
                         ItemName = folder.Name,
                         ItemDateModifiedReal = basicProperties.DateModified,
                         ItemType = folder.DisplayType,
+                        IsHiddenItem = false,
+                        Opacity = 1,
                         LoadFolderGlyph = true,
                         FileImage = null,
                         LoadFileIcon = false,
@@ -1679,8 +1743,8 @@ namespace Files.Filesystem
                         LoadUnknownTypeGlyph = false,
                         FileSize = null,
                         FileSizeBytes = 0
-                        //FolderTooltipText = tooltipString,
-                    });
+                            //FolderTooltipText = tooltipString,
+                        });
                 });
                 IsFolderEmptyTextDisplayed = false;
             }
@@ -1775,8 +1839,11 @@ namespace Files.Filesystem
                 {
                     _filesAndFolders.Add(new ListedItem(file.FolderRelativeId, dateReturnFormat)
                     {
+
                         PrimaryItemAttribute = StorageItemTypes.File,
                         FileExtension = itemFileExtension,
+                        IsHiddenItem = false,
+                        Opacity = 1,
                         LoadUnknownTypeGlyph = itemEmptyImgVis,
                         FileImage = icon,
                         LoadFileIcon = itemThumbnailImgVis,

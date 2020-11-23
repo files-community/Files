@@ -90,7 +90,11 @@ namespace Files.Filesystem
                         if (!MainPage.SideBarItems.Contains(drive))
                         {
                             MainPage.SideBarItems.Add(drive);
-                            DrivesWidget.ItemsAdded.Add(drive);
+
+                            if (drive.Type != DriveType.VirtualDrive)
+                            {
+                                DrivesWidget.ItemsAdded.Add(drive);
+                            }
                         }
                     }
                     foreach (INavigationControlItem item in MainPage.SideBarItems.ToList())
@@ -126,7 +130,11 @@ namespace Files.Filesystem
                     if (!MainPage.SideBarItems.Contains(drive))
                     {
                         MainPage.SideBarItems.Add(drive);
-                        DrivesWidget.ItemsAdded.Add(drive);
+
+                        if (drive.Type != DriveType.VirtualDrive)
+                        {
+                            DrivesWidget.ItemsAdded.Add(drive);
+                        }
                     }
                 }
                 foreach (INavigationControlItem item in MainPage.SideBarItems.ToList())
