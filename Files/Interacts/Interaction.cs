@@ -828,7 +828,7 @@ namespace Files.Interacts
                 var renamed = (FilesystemResult)false;
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    renamed = await this.AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
+                    renamed = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
                         .OnSuccess(async (t) => await this.FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.FailIfExists, true));
                 }
                 else
@@ -838,7 +838,7 @@ namespace Files.Interacts
                         newName += item.FileExtension;
                     }
 
-                    renamed = await this.AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
+                    renamed = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
                         .OnSuccess(async (t) => await this.FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.FailIfExists, true));
                 }
                 if (renamed == FilesystemErrorCode.ERROR_UNAUTHORIZED)
@@ -883,12 +883,12 @@ namespace Files.Interacts
                     {
                         if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                         {
-                            renamed = await this.AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
+                            renamed = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
                                 .OnSuccess(async (t) => await this.FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.GenerateUniqueName, true));
                         }
                         else
                         {
-                            renamed = await this.AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
+                            renamed = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
                                 .OnSuccess(async (t) => await this.FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.GenerateUniqueName, true));
                         }
                     }
@@ -896,19 +896,19 @@ namespace Files.Interacts
                     {
                         if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                         {
-                            renamed = await this.AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
+                            renamed = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
                                 .OnSuccess(async (t) => await this.FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.ReplaceExisting, true));
                         }
                         else
                         {
-                            renamed = await this.AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
+                            renamed = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
                                 .OnSuccess(async (t) => await this.FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.ReplaceExisting, true));
                         }
                     }
                 }
                 if (renamed)
                 {
-                    this.AssociatedInstance.NavigationToolbar.CanGoForward = false;
+                    AssociatedInstance.NavigationToolbar.CanGoForward = false;
                     return true;
                 }
             }

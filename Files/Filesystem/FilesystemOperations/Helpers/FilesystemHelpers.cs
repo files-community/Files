@@ -84,11 +84,13 @@ namespace Files.Filesystem
         {
             bool deleteFromRecycleBin = false;
             foreach (PathWithType item in source)
+            {
                 if (await this.recycleBinHelpers.IsRecycleBinItem(item.Path))
                 {
                     deleteFromRecycleBin = true;
                     break;
                 }
+            }
 
             PostedStatusBanner banner;
             if (permanently)
@@ -133,9 +135,13 @@ namespace Files.Filesystem
             foreach (PathWithType item in source)
             {
                 if (await this.recycleBinHelpers.IsRecycleBinItem(item.Path))
+                {
                     permanently = true;
+                }
                 else
+                {
                     permanently = originalPermanently;
+                }
 
                 rawStorageHistory.Add(await this.filesystemOperations.DeleteAsync(item, banner.Progress, banner.ErrorCode, permanently, this.cancellationToken));
             }
@@ -143,8 +149,11 @@ namespace Files.Filesystem
             if (rawStorageHistory.TrueForAll((item) => item != null))
             {
                 history = new StorageHistory(rawStorageHistory[0].OperationType, rawStorageHistory.SelectMany((item) => item.Source).ToList(), rawStorageHistory.SelectMany((item) => item.Destination).ToList());
+
                 if (!permanently && registerHistory)
+                {
                     App.AddHistory(history);
+                }
             }
 
             banner.Remove();
@@ -161,7 +170,9 @@ namespace Files.Filesystem
             bool deleteFromRecycleBin = await this.recycleBinHelpers.IsRecycleBinItem(source.Path);
 
             if (deleteFromRecycleBin)
+            {
                 permanently = true;
+            }
 
             if (permanently)
             {
@@ -201,7 +212,9 @@ namespace Files.Filesystem
             IStorageHistory history = await this.filesystemOperations.DeleteAsync(source, banner.Progress, banner.ErrorCode, permanently, this.cancellationToken);
 
             if (!permanently && registerHistory)
+            {
                 App.AddHistory(history);
+            }
 
             banner.Remove();
             sw.Stop();
@@ -215,11 +228,13 @@ namespace Files.Filesystem
         {
             bool deleteFromRecycleBin = false;
             foreach (IStorageItem item in source)
+            {
                 if (await this.recycleBinHelpers.IsRecycleBinItem(item))
                 {
                     deleteFromRecycleBin = true;
                     break;
                 }
+            }
 
             PostedStatusBanner banner;
             if (permanently)
@@ -264,9 +279,13 @@ namespace Files.Filesystem
             foreach (IStorageItem item in source)
             {
                 if (await this.recycleBinHelpers.IsRecycleBinItem(item))
+                {
                     permanently = true;
+                }
                 else
+                {
                     permanently = originalPermanently;
+                }
 
                 rawStorageHistory.Add(await this.filesystemOperations.DeleteAsync(item, banner.Progress, banner.ErrorCode, permanently, this.cancellationToken));
             }
@@ -275,7 +294,9 @@ namespace Files.Filesystem
             {
                 history = new StorageHistory(rawStorageHistory[0].OperationType, rawStorageHistory.SelectMany((item) => item.Source).ToList(), rawStorageHistory.SelectMany((item) => item.Destination).ToList());
                 if (!permanently && registerHistory)
+                {
                     App.AddHistory(history);
+                }
             }
 
             banner.Remove();
@@ -292,7 +313,9 @@ namespace Files.Filesystem
             bool deleteFromRecycleBin = await this.recycleBinHelpers.IsRecycleBinItem(source);
 
             if (deleteFromRecycleBin)
+            {
                 permanently = true;
+            }
 
             if (permanently)
             {
@@ -332,7 +355,9 @@ namespace Files.Filesystem
             IStorageHistory history = await this.filesystemOperations.DeleteAsync(source, banner.Progress, banner.ErrorCode, permanently, this.cancellationToken);
 
             if (!permanently && registerHistory)
+            {
                 App.AddHistory(history);
+            }
 
             banner.Remove();
             sw.Stop();
@@ -353,7 +378,9 @@ namespace Files.Filesystem
             IStorageHistory history = await this.filesystemOperations.RestoreFromTrashAsync(source, destination, null, errorCode, this.cancellationToken);
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
+            {
                 App.AddHistory(history);
+            }
 
             return returnCode.ToStatus();
         }
@@ -422,7 +449,9 @@ namespace Files.Filesystem
             {
                 history = new StorageHistory(rawStorageHistory[0].OperationType, rawStorageHistory.SelectMany((item) => item.Source).ToList(), rawStorageHistory.SelectMany((item) => item.Destination).ToList());
                 if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
+                {
                     App.AddHistory(history);
+                }
             }
 
             banner.Remove();
@@ -460,7 +489,9 @@ namespace Files.Filesystem
             IStorageHistory history = await this.filesystemOperations.CopyAsync(source, destination, banner.Progress, banner.ErrorCode, this.cancellationToken);
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
+            {
                 App.AddHistory(history);
+            }
 
             banner.Remove();
             sw.Stop();
@@ -538,8 +569,11 @@ namespace Files.Filesystem
             if (rawStorageHistory.TrueForAll((item) => item != null))
             {
                 history = new StorageHistory(rawStorageHistory[0].OperationType, rawStorageHistory.SelectMany((item) => item.Source).ToList(), rawStorageHistory.SelectMany((item) => item.Destination).ToList());
+                
                 if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
+                {
                     App.AddHistory(history);
+                }
             }
 
             banner.Remove();
@@ -577,7 +611,9 @@ namespace Files.Filesystem
             IStorageHistory history = await this.filesystemOperations.MoveAsync(source, destination, banner.Progress, banner.ErrorCode, this.cancellationToken);
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
+            {
                 App.AddHistory(history);
+            }
 
             banner.Remove();
             sw.Stop();
@@ -627,7 +663,9 @@ namespace Files.Filesystem
             IStorageHistory history = await this.filesystemOperations.RenameAsync(source, newName, collision, errorCode, this.cancellationToken);
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
+            {
                 App.AddHistory(history);
+            }
 
             return returnCode.ToStatus();
         }
@@ -641,7 +679,9 @@ namespace Files.Filesystem
             IStorageHistory history = await this.filesystemOperations.RenameAsync(source, newName, collision, errorCode, this.cancellationToken);
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
+            {
                 App.AddHistory(history);
+            }
 
             return returnCode.ToStatus();
         }
@@ -788,7 +828,9 @@ namespace Files.Filesystem
             MatchCollection matches = regex.Matches(input);
 
             if (matches.Count > 0)
+            {
                 return true;
+            }
 
             return false;
         }
@@ -801,7 +843,9 @@ namespace Files.Filesystem
                 MatchCollection matches = regex.Matches(input.ToUpper());
 
                 if (matches.Count > 0)
+                {
                     return true;
+                }
             }
 
             return false;

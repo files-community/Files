@@ -882,11 +882,11 @@ namespace Files.Views.Pages
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
                 case (true, false, false, true, VirtualKey.Z): // ctrl + z, undo
-                    await this.storageHistoryHelpers.Undo();
+                    await this.storageHistoryHelpers.TryUndo();
                     break;
 
                 case (true, false, false, true, VirtualKey.Y): // ctrl + y, redo
-                    await this.storageHistoryHelpers.Redo();
+                    await this.storageHistoryHelpers.TryRedo();
                     break;
 
                 case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item

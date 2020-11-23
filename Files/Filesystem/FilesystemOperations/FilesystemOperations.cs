@@ -181,7 +181,9 @@ namespace Files.Filesystem
                     FilesystemResult<StorageFile> fsResultCopy = new FilesystemResult<StorageFile>(null, FilesystemErrorCode.ERROR_GENERIC);
 
                     if (file != null)
+                    {
                         fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(fsResult.Result, Path.GetFileName(source.Path), NameCollisionOption.GenerateUniqueName).AsTask());
+                    }
 
                     if (fsResultCopy)
                     {

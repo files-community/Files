@@ -23,12 +23,14 @@ namespace Files.Filesystem.FilesystemHistory
 
         #region Undo, Redo
 
-        public async Task<ReturnResult> Undo()
+        public async Task<ReturnResult> TryUndo()
         {
             if (CanUndo())
             {
                 if (!(await App.SemaphoreSlim.WaitAsync(0)))
+                {
                     return ReturnResult.InProgress;
+                }
 
                 try
                 {
@@ -45,12 +47,14 @@ namespace Files.Filesystem.FilesystemHistory
             return ReturnResult.Cancelled;
         }
 
-        public async Task<ReturnResult> Redo()
+        public async Task<ReturnResult> TryRedo()
         {
             if (CanRedo())
             {
                 if (!(await App.SemaphoreSlim.WaitAsync(0)))
+                {
                     return ReturnResult.InProgress;
+                }
 
                 try
                 {
