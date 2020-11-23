@@ -20,7 +20,6 @@ namespace Files.Helpers
                 {
                     base.OnCollectionChanged(e);
                 }
-           
         }
 
         public void EndBulkOperation()
