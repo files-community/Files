@@ -12,10 +12,13 @@
     SecondaryButtonText="Close anyway"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     CornerRadius="3"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+    PrimaryButtonStyle="{StaticResource ButtonRevealStyle}"
+    SecondaryButtonStyle="{StaticResource ButtonRevealStyle}"
+    CloseButtonStyle="{StaticResource ButtonRevealStyle}">
+
     <StackPanel Spacing="5">
         <TextBlock Grid.Row="1" Text="Some properties failed to save"/>
-        <ToggleButton Content="More Info" Name="MoreInfoToggle" Click="MoreInfoToggle_Click"/>
-        <TextBlock x:Name="MoreInfoText" Visibility="Collapsed" Text="{x:Bind ErrorMessage, Mode=OneWay}"/>
+        
     </StackPanel>
 </ContentDialog>

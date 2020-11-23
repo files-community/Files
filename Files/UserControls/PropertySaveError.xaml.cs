@@ -32,10 +32,5 @@ namespace Files.UserControls
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
         }
-
-        private void MoreInfoToggle_Click(object sender, RoutedEventArgs e)
-        {
-            MoreInfoText.Visibility = (sender as ToggleButton).IsChecked.Value ? Visibility.Visible : Visibility.Collapsed;
-        }
     }
 }

@@ -6,6 +6,7 @@ using Files.UserControls;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.UI.Xaml.Controls;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 using Windows.Devices.Geolocation;
 using Windows.Foundation.Collections;
 using Windows.Security.Cryptography.Core;
@@ -25,6 +27,7 @@ using Windows.Storage.FileProperties;
 using Windows.UI.Core;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.View_Models.Properties
@@ -32,382 +35,6 @@ namespace Files.View_Models.Properties
     public class FileProperties : BaseProperties
     {
         private ProgressBar ProgressBar;
-
-        private List<FileProperty> PropertyListItemsBase = new List<FileProperty>()
-        {
-            new FileProperty()
-            {
-                Name = "Address",
-                Section = "GPS",
-                ID = "address",
-            },
-			new FileProperty() {
-				Name = "Rating Text",
-				Property = "System.RatingText",
-				Section = "Core",
-			},
-			new FileProperty() {
-				Name = "Item Folder Path Display",
-				Property = "System.ItemFolderPathDisplay",
-				Section = "Core",
-			},
-			new FileProperty() {
-				Name = "Item Type Text",
-				Property = "System.ItemTypeText",
-				Section = "Core",
-			},
-			new FileProperty() {
-				Name = "Title",
-				Property = "System.Title",
-				Section = "Core",
-			},
-			new FileProperty() {
-				Name = "Subject",
-				Property = "System.Subject",
-				Section = "Core",
-			},
-			new FileProperty() {
-				Name = "Comment",
-				Property = "System.Comment",
-				Section = "Core",
-			},
-			new FileProperty() {
-				Name = "Copyright",
-				Property = "System.Copyright",
-				Section = "Core",
-			},
-			new FileProperty() {
-				Name = "Date Created",
-				Property = "System.DateCreated",
-				Section = "Core",
-				Converter = new DateTimeOffsetToString(),
-			},
-			new FileProperty() {
-				Name = "Date Modified",
-				Property = "System.DateModified",
-				Section = "Core",
-				Converter = new DateTimeOffsetToString(),
-			},
-			new FileProperty() {
-				Name = "Image I D",
-				Property = "System.Image.ImageID",
-				Section = "Image",
-			},
-			new FileProperty() {
-				Name = "Compressed Bits Per Pixel",
-				Property = "System.Image.CompressedBitsPerPixel",
-				Section = "Image",
-				Converter = new DoubleToString(),
-			},
-			new FileProperty() {
-				Name = "Bit Depth",
-				Property = "System.Image.BitDepth",
-				Section = "Image",
-				Converter = new UInt32ToString(),
-			},
-			new FileProperty() {
-				Name = "Dimensions",
-				Property = "System.Image.Dimensions",
-				Section = "Image",
-			},
-			new FileProperty() {
-				Name = "Horizontal Resolution",
-				Property = "System.Image.HorizontalResolution",
-				Section = "Image",
-				Converter = new DoubleToString(),
-			},
-			new FileProperty() {
-				Name = "Vertical Resolution",
-				Property = "System.Image.VerticalResolution",
-				Section = "Image",
-				Converter = new DoubleToString(),
-			},
-			new FileProperty() {
-				Name = "Resolution Unit",
-				Property = "System.Image.ResolutionUnit",
-				Section = "Image",
-			},
-			new FileProperty() {
-				Name = "Horizontal Size",
-				Property = "System.Image.HorizontalSize",
-				Section = "Image",
-				Converter = new UInt32ToString(),
-			},
-			new FileProperty() {
-				Name = "Vertical Size",
-				Property = "System.Image.VerticalSize",
-				Section = "Image",
-				Converter = new UInt32ToString(),
-			},
-			new FileProperty() {
-				Name = "Latitude",
-				Property = "System.GPS.Latitude",
-				Section = "GPS",
-			},
-			new FileProperty() {
-				Name = "Latitude Decimal",
-				Property = "System.GPS.LatitudeDecimal",
-				Section = "GPS",
-			},
-			new FileProperty() {
-				Name = "Latitude Ref",
-				Property = "System.GPS.LatitudeRef",
-				Section = "GPS",
-			},
-			new FileProperty() {
-				Name = "Longitude",
-				Property = "System.GPS.Longitude",
-				Section = "GPS",
-			},
-			new FileProperty() {
-				Name = "Longitude Decimal",
-				Property = "System.GPS.LongitudeDecimal",
-				Section = "GPS",
-			},
-			new FileProperty() {
-				Name = "Longitude Ref",
-				Property = "System.GPS.LongitudeRef",
-				Section = "GPS",
-			},
-			new FileProperty() {
-				Name = "Altitude",
-				Property = "System.GPS.Altitude",
-				Section = "GPS",
-				Converter = new DoubleToString(),
-			},
-			new FileProperty() {
-				Name = "Camera Manufacturer",
-				Property = "System.Photo.CameraManufacturer",
-				Section = "Photo",
-			},
-			new FileProperty() {
-				Name = "Camera Model",
-				Property = "System.Photo.CameraModel",
-				Section = "Photo",
-				IsReadOnly = false,
-			},
-			new FileProperty() {
-				Name = "Exposure Time",
-				Property = "System.Photo.ExposureTime",
-				Section = "Photo",
-				Converter = new DoubleToString(),
-			},
-			new FileProperty() {
-				Name = "Focal Length",
-				Property = "System.Photo.FocalLength",
-				Section = "Photo",
-				Converter = new DoubleToString(),
-			},
-			new FileProperty() {
-				Name = "Aperture",
-				Property = "System.Photo.Aperture",
-				Section = "Photo",
-				Converter = new DoubleToString(),
-			},
-			new FileProperty() {
-				Name = "Date Taken",
-				Property = "System.Photo.DateTaken",
-				Section = "Photo",
-				Converter = new DateTimeOffsetToString(),
-			},
-			new FileProperty() {
-				Name = "Channel Count",
-				Property = "System.Audio.ChannelCount",
-				Section = "Audio",
-				Converter = new UInt32ToString(),
-			},
-			new FileProperty() {
-				Name = "Encoding Bitrate",
-				Property = "System.Audio.EncodingBitrate",
-				Section = "Audio",
-				Converter = new UInt32ToString(),
-			},
-			new FileProperty() {
-				Name = "Format",
-				Property = "System.Audio.Format",
-				Section = "Audio",
-			},
-			new FileProperty() {
-				Name = "Sample Rate",
-				Property = "System.Audio.SampleRate",
-				Section = "Audio",
-				Converter = new UInt32ToString(),
-			},
-			new FileProperty() {
-				Name = "Album I D",
-				Property = "System.Music.AlbumID",
-				Section = "Music",
-			},
-			new FileProperty() {
-				Name = "Display Artist",
-				Property = "System.Music.DisplayArtist",
-				Section = "Music",
-			},
-			new FileProperty() {
-				Name = "Creator Application",
-				Property = "System.Media.CreatorApplication",
-				Section = "Media",
-			},
-			new FileProperty() {
-				Name = "Album Artist",
-				Property = "System.Music.AlbumArtist",
-				Section = "Music",
-			},
-			new FileProperty() {
-				Name = "Album Title",
-				Property = "System.Music.AlbumTitle",
-				Section = "Music",
-			},
-			new FileProperty() {
-				Name = "Artist",
-				Property = "System.Music.Artist",
-				Section = "Music",
-				Converter = new StringArrayToString(),
-			},
-			new FileProperty() {
-				Name = "Beats Per Minute",
-				Property = "System.Music.BeatsPerMinute",
-				Section = "Music",
-			},
-			new FileProperty() {
-				Name = "Composer",
-				Property = "System.Music.Composer",
-				Section = "Music",
-				Converter = new StringArrayToString(),
-			},
-			new FileProperty() {
-				Name = "Conductor",
-				Property = "System.Music.Conductor",
-				Section = "Music",
-				Converter = new StringArrayToString(),
-			},
-			new FileProperty() {
-				Name = "Disc Number",
-				Property = "System.Music.DiscNumber",
-				Section = "Music",
-				Converter = new UInt32ToString(),
-			},
-			new FileProperty() {
-				Name = "Genre",
-				Property = "System.Music.Genre",
-				Section = "Music",
-				Converter = new StringArrayToString(),
-			},
-			new FileProperty() {
-				Name = "Track Number",
-				Property = "System.Music.TrackNumber",
-				Section = "Music",
-				Converter = new UInt32ToString(),
-			},
-			new FileProperty() {
-				Name = "Average Level",
-				Property = "System.Media.AverageLevel",
-				Section = "Media",
-				Converter = new UInt32ToString(),
-			},
-			new FileProperty() {
-				Name = "Duration",
-				Property = "System.Media.Duration",
-				Section = "Media",
-			},
-			new FileProperty() {
-				Name = "Frame Count",
-				Property = "System.Media.FrameCount",
-				Section = "Media",
-				Converter = new UInt32ToString(),
-			},
-			new FileProperty() {
-				Name = "Protection Type",
-				Property = "System.Media.ProtectionType",
-				Section = "Media",
-			},
-			new FileProperty() {
-				Name = "Author Url",
-				Property = "System.Media.AuthorUrl",
-				Section = "Media",
-			},
-			new FileProperty() {
-				Name = "Content Distributor",
-				Property = "System.Media.ContentDistributor",
-				Section = "Media",
-			},
-			new FileProperty() {
-				Name = "Date Released",
-				Property = "System.Media.DateReleased",
-				Section = "Media",
-			},
-			new FileProperty() {
-				Name = "Series Name",
-				Property = "System.Media.SeriesName",
-				Section = "Media",
-			},
-			new FileProperty() {
-				Name = "Season Number",
-				Property = "System.Media.SeasonNumber",
-				Section = "Media",
-				Converter = new UInt32ToString(),
-			},
-			new FileProperty() {
-				Name = "Episode Number",
-				Property = "System.Media.EpisodeNumber",
-				Section = "Media",
-				Converter = new UInt32ToString(),
-			},
-			new FileProperty() {
-				Name = "Producer",
-				Property = "System.Media.Producer",
-				Section = "Media",
-				Converter = new StringArrayToString(),
-			},
-			new FileProperty() {
-				Name = "Promotion Url",
-				Property = "System.Media.PromotionUrl",
-				Section = "Media",
-			},
-			new FileProperty() {
-				Name = "Provider Style",
-				Property = "System.Media.ProviderStyle",
-				Section = "Media",
-			},
-			new FileProperty() {
-				Name = "Publisher",
-				Property = "System.Media.Publisher",
-				Section = "Media",
-			},
-			new FileProperty() {
-				Name = "Thumbnail Large Path",
-				Property = "System.Media.ThumbnailLargePath",
-				Section = "Media",
-			},
-			new FileProperty() {
-				Name = "Thumbnail Small Path",
-				Property = "System.Media.ThumbnailSmallPath",
-				Section = "Media",
-			},
-			new FileProperty() {
-				Name = "Unique File Identifier",
-				Property = "System.Media.UniqueFileIdentifier",
-				Section = "Media",
-			},
-			new FileProperty() {
-				Name = "User Web Url",
-				Property = "System.Media.UserWebUrl",
-				Section = "Media",
-			},
-			new FileProperty() {
-				Name = "Writer",
-				Property = "System.Media.Writer",
-				Section = "Media",
-				Converter = new StringArrayToString(),
-			},
-			new FileProperty() {
-				Name = "Year",
-				Property = "System.Media.Year",
-				Section = "Media",
-				Converter = new UInt32ToString(),
-			},
-
-		};
 
         public ListedItem Item { get; }
 
@@ -555,19 +182,14 @@ namespace Files.View_Models.Properties
                 return;
             }
 
-            //ViewModelProcessing();
             var list = new List<FileProperty>();
 
-            // Get all the properties from the base, get their values (if needed), and add them to the ViewModel list.
-            foreach (var item in PropertyListItemsBase)
+            foreach (var prop in FileProperty.PropertyListItemsBase)
             {
-                if (item.Property != null)
-                {
-                    var props = await file.Properties.RetrievePropertiesAsync(new List<string>() { item.Property });
-                    item.Value = props[item.Property];
-                }
-                list.Add(item);
+                await prop.InitializeProperty(file);
+                list.Add(prop);
             }
+
             list.Find(x => x.ID == "address").Value = await GetAddressFromCoordinates((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value, (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 
             // This code groups the properties by their "section" property. The code is derived from the XAML Controls Gallery ListView with grouped headers sample.
@@ -699,7 +321,7 @@ namespace Files.View_Models.Properties
                 }
             }
 
-			GetSystemFileProperties();
+            GetSystemFileProperties();
         }
 
         private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

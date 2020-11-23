@@ -583,22 +583,22 @@
     <value>バイト</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
-    <value>KB 以下の場合のみ</value>
+    <value>KB</value>
   </data>
   <data name="MegaByteSymbol" xml:space="preserve">
-    <value>!XyLnb!ゼMB ず!</value>
+    <value>MB</value>
   </data>
   <data name="GigaByteSymbol" xml:space="preserve">
-    <value>!aQ0Iq!晙GB ず!</value>
+    <value>GB</value>
   </data>
   <data name="TeraByteSymbol" xml:space="preserve">
-    <value>!MZ7sf!ｱTB ず!</value>
+    <value>TB</value>
   </data>
   <data name="PetaByteSymbol" xml:space="preserve">
     <value>PB</value>
   </data>
   <data name="ByteSymbol" xml:space="preserve">
-    <value>青</value>
+    <value>B</value>
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>ファイルを削除しています</value>

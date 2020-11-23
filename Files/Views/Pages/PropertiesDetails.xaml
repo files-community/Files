@@ -52,6 +52,12 @@
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             </Style>
         </ListView.ItemContainerStyle>
+        <ListView.ItemsPanel>
+            <ItemsPanelTemplate>
+                <ItemsStackPanel AreStickyGroupHeadersEnabled="False"/>
+            </ItemsPanelTemplate>
+        </ListView.ItemsPanel>
+
         <ListView.Footer>
             <StackPanel Margin="10,5,10,5" Spacing="5">
                 <Button
