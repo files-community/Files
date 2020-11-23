@@ -1655,58 +1655,40 @@ namespace Files.Filesystem
                         });
                     }
                 }
-                else
+            }
+            else
+            {
+                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                 {
-                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                    bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
+                    double opacity = 1;
+
+                    if (isHidden)
                     {
-                        _filesAndFolders.Add(new ListedItem(null, dateReturnFormat)
-                        {
-                            PrimaryItemAttribute = StorageItemTypes.File,
-                            FileExtension = itemFileExtension,
-                            LoadUnknownTypeGlyph = itemEmptyImgVis,
-                            FileImage = null,
-                            LoadFileIcon = itemThumbnailImgVis,
-                            LoadFolderGlyph = itemFolderImgVis,
-                            ItemName = itemName,
-                            IsHiddenItem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden,
-                            ItemDateModifiedReal = itemModifiedDate,
-                            ItemDateAccessedReal = itemLastAccessDate,
-                            ItemDateCreatedReal = itemCreatedDate,
-                            ItemType = itemType,
-                            ItemPath = itemPath,
-                            FileSize = itemSize,
-                            FileSizeBytes = itemSizeBytes
-                        });
-                        bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
-                        double opacity = 1;
+                        opacity = 0.4;
+                    }
 
-                        if (isHidden)
-                        {
-                            opacity = 0.4;
-                        }
-
-                        _filesAndFolders.Add(new ListedItem(null, dateReturnFormat)
-                        {
-                            PrimaryItemAttribute = StorageItemTypes.File,
-                            FileExtension = itemFileExtension,
-                            LoadUnknownTypeGlyph = itemEmptyImgVis,
-                            FileImage = null,
-                            LoadFileIcon = itemThumbnailImgVis,
-                            LoadFolderGlyph = itemFolderImgVis,
-                            ItemName = itemName,
-                            IsHiddenItem = isHidden,
-                            Opacity = opacity,
-                            ItemDateModifiedReal = itemModifiedDate,
-                            ItemDateAccessedReal = itemLastAccessDate,
-                            ItemDateCreatedReal = itemCreatedDate,
-                            ItemType = itemType,
-                            ItemPath = itemPath,
-                            FileSize = itemSize,
-                            FileSizeBytes = itemSizeBytes
-                        });
-                        IsFolderEmptyTextDisplayed = false;
+                    _filesAndFolders.Add(new ListedItem(null, dateReturnFormat)
+                    {
+                        PrimaryItemAttribute = StorageItemTypes.File,
+                        FileExtension = itemFileExtension,
+                        LoadUnknownTypeGlyph = itemEmptyImgVis,
+                        FileImage = null,
+                        LoadFileIcon = itemThumbnailImgVis,
+                        LoadFolderGlyph = itemFolderImgVis,
+                        ItemName = itemName,
+                        IsHiddenItem = isHidden,
+                        Opacity = opacity,
+                        ItemDateModifiedReal = itemModifiedDate,
+                        ItemDateAccessedReal = itemLastAccessDate,
+                        ItemDateCreatedReal = itemCreatedDate,
+                        ItemType = itemType,
+                        ItemPath = itemPath,
+                        FileSize = itemSize,
+                        FileSizeBytes = itemSizeBytes
                     });
-                }
+                    IsFolderEmptyTextDisplayed = false;
+                });
             }
         }
 
