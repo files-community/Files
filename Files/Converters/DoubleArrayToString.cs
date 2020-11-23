@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Windows.UI.Xaml.Data;
 
 namespace Files.Converters
@@ -26,7 +27,13 @@ namespace Files.Converters
             var array = new double[strArray.Length];
             for (int i = 0; i < strArray.Length; i++)
             {
-                array[i] = double.Parse(strArray[i]);
+                try
+                {
+                    array[i] = double.Parse(strArray[i]);
+                }
+                catch (Exception)
+                {
+                }
             }
             return array;
         }
