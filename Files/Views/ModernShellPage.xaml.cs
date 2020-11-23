@@ -42,19 +42,19 @@ namespace Files.Views.Pages
         public bool IsCurrentInstance { get; set; } = false;
         public StatusBarControl BottomStatusStripControl => StatusBarControl;
         public Frame ContentFrame => ItemDisplayFrame;
-        private Interaction _InteractionOperations = null;
+        private Interaction interactionOperations = null;
 
         public Interaction InteractionOperations
         {
             get
             {
-                return _InteractionOperations;
+                return interactionOperations;
             }
             private set
             {
-                if (_InteractionOperations != value)
+                if (interactionOperations != value)
                 {
-                    _InteractionOperations = value;
+                    interactionOperations = value;
                     NotifyPropertyChanged("InteractionOperations");
                 }
             }
@@ -62,19 +62,19 @@ namespace Files.Views.Pages
 
         public ItemViewModel FilesystemViewModel { get; private set; } = null;
         public CurrentInstanceViewModel InstanceViewModel { get; } = new CurrentInstanceViewModel();
-        private BaseLayout _ContentPage = null;
+        private BaseLayout contentPage = null;
 
         public BaseLayout ContentPage
         {
             get
             {
-                return _ContentPage;
+                return contentPage;
             }
             set
             {
-                if (value != _ContentPage)
+                if (value != contentPage)
                 {
-                    _ContentPage = value;
+                    contentPage = value;
                     NotifyPropertyChanged("ContentPage");
                 }
             }
@@ -87,9 +87,11 @@ namespace Files.Views.Pages
 
         public ModernShellPage()
         {
-            this.InitializeComponent();
-            this.filesystemHelpers = new FilesystemHelpers(this, App.CancellationToken);
-            this.storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, App.CancellationToken));
+            InitializeComponent();
+
+            filesystemHelpers = new FilesystemHelpers(this, App.CancellationToken);
+            storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, App.CancellationToken));
+
             AppSettings.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
             DisplayFilesystemConsentDialog();
 
@@ -176,7 +178,7 @@ namespace Files.Views.Pages
 
         private async void SidebarControl_SidebarItemDropped(object sender, Controls.SidebarItemDroppedEventArgs e)
         {
-            await this.filesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.ItemPath, true);
+            await filesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.ItemPath, true);
         }
 
         private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, Controls.SidebarItemPropertiesInvokedEventArgs e)
@@ -281,7 +283,7 @@ namespace Files.Views.Pages
 
         private async void ModernShellPage_PathBoxItemDropped(object sender, PathBoxItemDroppedEventArgs e)
         {
-            await this.filesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.Path, true);
+            await filesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.Path, true);
         }
 
         private void ModernShellPage_AddressBarTextEntered(object sender, AddressBarTextEnteredEventArgs e)
@@ -882,11 +884,11 @@ namespace Files.Views.Pages
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
                 case (true, false, false, true, VirtualKey.Z): // ctrl + z, undo
-                    await this.storageHistoryHelpers.TryUndo();
+                    await storageHistoryHelpers.TryUndo();
                     break;
 
                 case (true, false, false, true, VirtualKey.Y): // ctrl + y, redo
-                    await this.storageHistoryHelpers.TryRedo();
+                    await storageHistoryHelpers.TryRedo();
                     break;
 
                 case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
@@ -905,8 +907,10 @@ namespace Files.Views.Pages
                     if (!NavigationToolbar.IsEditModeEnabled)
                     {
 
-                        await this.filesystemHelpers.DeleteItemsAsync(
-                            ContentPage.SelectedItems.Select((item) => new PathWithType(item.ItemPath, item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(),
+                        await filesystemHelpers.DeleteItemsAsync(
+                            ContentPage.SelectedItems.Select((item) => new PathWithType(
+                                item.ItemPath,
+                                item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(),
                             true, true, true);
                     }
 
@@ -971,8 +975,10 @@ namespace Files.Views.Pages
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
                     if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem)
                     {
-                        await this.filesystemHelpers.DeleteItemsAsync(
-                            ContentPage.SelectedItems.Select((item) => new PathWithType(item.ItemPath, item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(),
+                        await filesystemHelpers.DeleteItemsAsync(
+                            ContentPage.SelectedItems.Select((item) => new PathWithType(
+                                item.ItemPath,
+                                item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(),
                             true, false, true);
                     }
 
@@ -981,7 +987,7 @@ namespace Files.Views.Pages
                 case (false, false, false, true, VirtualKey.Space): // space, quick look
                     if (!NavigationToolbar.IsEditModeEnabled)
                     {
-                        if ((ContentPage).IsQuickLookEnabled)
+                        if (ContentPage.IsQuickLookEnabled)
                         {
                             InteractionOperations.ToggleQuickLook();
                         }

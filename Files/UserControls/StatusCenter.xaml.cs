@@ -119,9 +119,9 @@ namespace Files.UserControls
     {
         #region Private Members
 
-        private float InitialProgress = 0.0f;
+        private float initialProgress = 0.0f;
 
-        private string _FullTitle;
+        private string fullTitle;
 
         #endregion
 
@@ -152,8 +152,8 @@ namespace Files.UserControls
 
         public string FullTitle
         {
-            get => _FullTitle;
-            set => SetProperty(ref _FullTitle, value);
+            get => fullTitle;
+            set => SetProperty(ref fullTitle, value);
         }
 
         #endregion
@@ -162,7 +162,7 @@ namespace Files.UserControls
         {
             Message = message;
             Title = title;
-            InitialProgress = progress;
+            initialProgress = progress;
             Status = status;
             Operation = operation;
 
@@ -220,7 +220,7 @@ namespace Files.UserControls
                                 break;
                         }
                     }
-                    FullTitle = Title + " (" + InitialProgress + "%)";
+                    FullTitle = Title + " (" + initialProgress + "%)";
                     break;
 
                 case ReturnResult.Success:

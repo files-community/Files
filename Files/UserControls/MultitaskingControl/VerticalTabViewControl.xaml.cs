@@ -52,7 +52,11 @@ namespace Files.UserControls.MultitaskingControl
                     .FilesystemViewModel
                     .WorkingDirectory;
 
-                await CurrentSelectedAppInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Move, e.DataView, tabViewItemWorkingDir, true);
+                await CurrentSelectedAppInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(
+                    DataPackageOperation.Move,
+                    e.DataView,
+                    tabViewItemWorkingDir,
+                    true);
             }
             else
             {

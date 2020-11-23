@@ -17,8 +17,8 @@ namespace Files.Filesystem
 
         public PathWithType(string path, FilesystemItemType itemType)
         {
-            this.Path = path;
-            this.ItemType = itemType;
+            Path = path;
+            ItemType = itemType;
         }
 
         #endregion
@@ -29,9 +29,15 @@ namespace Files.Filesystem
 
         public static explicit operator FilesystemItemType(PathWithType pathWithType) => pathWithType.ItemType;
 
-        public static explicit operator PathWithType(StorageFile storageFile) => new PathWithType(storageFile.Path, storageFile.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory);
+        public static explicit operator PathWithType(StorageFile storageFile)
+        {
+            return new PathWithType(storageFile.Path, storageFile.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory);
+        }
 
-        public static explicit operator PathWithType(StorageFolder storageFolder) => new PathWithType(storageFolder.Path, storageFolder.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory);
+        public static explicit operator PathWithType(StorageFolder storageFolder)
+        {
+            return new PathWithType(storageFolder.Path, storageFolder.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory);
+        }
 
         #endregion
 
@@ -48,9 +54,9 @@ namespace Files.Filesystem
 
         public void Dispose()
         {
-            this.Path ??= string.Empty;
+            Path ??= string.Empty;
 
-            this.Path = null;
+            Path = null;
         }
 
         #endregion

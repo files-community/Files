@@ -39,7 +39,8 @@ namespace Files.Helpers
                 case FilesystemErrorCode.ERROR_INPROGRESS:
                     return ReturnResult.InProgress;
 
-                default: return default;
+                default: 
+                    return default;
             }
         }
 
@@ -72,7 +73,8 @@ namespace Files.Helpers
                 case ReturnResult.Cancelled:
                     return FilesystemErrorCode.ERROR_GENERIC | FilesystemErrorCode.ERROR_INPROGRESS;
 
-                default: return default;
+                default: 
+                    return default;
             }
         }
     }

@@ -27,14 +27,14 @@ namespace Files.Helpers
 
         public async Task<List<ShellFileItem>> EnumerateRecycleBin()
         {
-            if (this.Connection != null)
+            if (Connection != null)
             {
                 ValueSet value = new ValueSet
                 {
                     { "Arguments", "RecycleBin" },
                     { "action", "Enumerate" }
                 };
-                AppServiceResponse response = await this.Connection.SendMessageAsync(value);
+                AppServiceResponse response = await Connection.SendMessageAsync(value);
 
                 if (response.Status == AppServiceResponseStatus.Success
                     && response.Message.ContainsKey("Enumerate"))
@@ -52,7 +52,9 @@ namespace Files.Helpers
             List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();
 
             if (recycleBinItems == null)
+            {
                 return false;
+            }
 
             return recycleBinItems.Any((shellItem) => shellItem.RecyclePath == item.Path);
         }
@@ -62,7 +64,9 @@ namespace Files.Helpers
             List<ShellFileItem> recycleBinItems = await EnumerateRecycleBin();
 
             if (recycleBinItems == null)
+            {
                 return false;
+            }
 
             return recycleBinItems.Any((shellItem) => shellItem.RecyclePath == path);
         }
@@ -71,10 +75,10 @@ namespace Files.Helpers
 
         public void Dispose()
         {
-            this.Connection?.Dispose();
-            this.associatedInstance?.Dispose();
+            Connection?.Dispose();
+            associatedInstance?.Dispose();
 
-            this.associatedInstance = null;
+            associatedInstance = null;
         }
 
         #endregion
