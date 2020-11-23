@@ -30,15 +30,6 @@ namespace Files.Filesystem
         public object Value { get; set; }
         public IValueConverter Converter { get; set; }
         public bool IsReadOnly { get; set; } = true;
-        /// <summary>
-        /// If the property is hidden, it is only shown when the user presses show all
-        /// </summary>
-        public bool IsHidden { get; set; }
-
-        /// <summary>
-        /// If a property has an action to run on a button press, eg "Open in maps", define it's action here
-        /// </summary>
-        public Button ActionButton { get; set; }
 
         /// <summary>
         /// Should be used in instances where a property does not have a "Property" value, but needs to be idenitfiable in a list of properties
@@ -129,14 +120,14 @@ namespace Files.Filesystem
             new FileProperty() { Property = "System.Image.ResolutionUnit", NameResource = "PropertyResolutionUnit", SectionResource = "PropertySectionImage"},
             new FileProperty() { Property = "System.Image.HorizontalSize", NameResource = "PropertyHorizontalSize", SectionResource = "PropertySectionImage"},
             new FileProperty() { Property = "System.Image.VerticalSize", NameResource = "PropertyVerticalSize", SectionResource = "PropertySectionImage"},
-            new FileProperty() { Property = "System.GPS.Latitude", NameResource = "PropertyLatitude", SectionResource = "PropertySectionGPS"},
-            new FileProperty() { Property = "System.GPS.LatitudeDecimal", NameResource = "PropertyLatitudeDecimal", SectionResource = "PropertySectionGPS"},
-            new FileProperty() { Property = "System.GPS.LatitudeRef", NameResource = "PropertyLatitudeRef", SectionResource = "PropertySectionGPS"},
-            new FileProperty() { Property = "System.GPS.Longitude", NameResource = "PropertyLongitude", SectionResource = "PropertySectionGPS"},
-            new FileProperty() { Property = "System.GPS.LongitudeDecimal", NameResource = "PropertyLongitudeDecimal", SectionResource = "PropertySectionGPS"},
-            new FileProperty() { Property = "System.GPS.LongitudeRef", NameResource = "PropertyLongitudeRef", SectionResource = "PropertySectionGPS"},
+            new FileProperty() { Property = "System.GPS.LongitudeDecimal", NameResource = "PropertyLongitudeDecimal", SectionResource = "PropertySectionGPS", Visibility = Visibility.Collapsed},
+            new FileProperty() { Property = "System.GPS.LatitudeDecimal", NameResource = "PropertyLatitudeDecimal", SectionResource = "PropertySectionGPS", Visibility = Visibility.Collapsed},
+            new FileProperty() { Property = "System.GPS.Latitude", NameResource = "PropertyLatitude", SectionResource = "PropertySectionGPS", IsReadOnly = false},
+            new FileProperty() { Property = "System.GPS.Longitude", NameResource = "PropertyLongitude", SectionResource = "PropertySectionGPS", IsReadOnly = false},
+            new FileProperty() { Property = "System.GPS.LatitudeRef", NameResource = "PropertyLatitudeRef", SectionResource = "PropertySectionGPS", IsReadOnly = false},
+            new FileProperty() { Property = "System.GPS.LongitudeRef", NameResource = "PropertyLongitudeRef", SectionResource = "PropertySectionGPS",  IsReadOnly = false},
             new FileProperty() { Property = "System.GPS.Altitude", NameResource = "PropertyAltitude", SectionResource = "PropertySectionGPS", IsReadOnly = false},
-            new FileProperty() { Property = "System.Photo.CameraManufacturer", NameResource = "PropertyCameraManufacturer", SectionResource = "PropertySectionPhoto"},
+            new FileProperty() { Property = "System.Photo.CameraManufacturer", NameResource = "PropertyCameraManufacturer", SectionResource = "PropertySectionPhoto", IsReadOnly = false},
             new FileProperty() { Property = "System.Photo.CameraModel", NameResource = "PropertyCameraModel", SectionResource = "PropertySectionPhoto"},
             new FileProperty() { Property = "System.Photo.ExposureTime", NameResource = "PropertyExposureTime", SectionResource = "PropertySectionPhoto"},
             new FileProperty() { Property = "System.Photo.FocalLength", NameResource = "PropertyFocalLength", SectionResource = "PropertySectionPhoto"},
@@ -153,12 +144,11 @@ namespace Files.Filesystem
             new FileProperty() { Property = "System.Music.AlbumArtist", NameResource = "PropertyAlbumArtist", SectionResource = "PropertySectionMusic"},
             new FileProperty() { Property = "System.Music.AlbumTitle", NameResource = "PropertyAlbumTitle", SectionResource = "PropertySectionMusic"},
             new FileProperty() { Property = "System.Music.Artist", NameResource = "PropertyArtist", SectionResource = "PropertySectionMusic"},
-            new FileProperty() { Property = "System.Music.BeatsPerMinute", NameResource = "PropertyBeatsPerMinute", SectionResource = "PropertySectionMusic"},
-            new FileProperty() { Property = "System.Music.Composer", NameResource = "PropertyComposer", SectionResource = "PropertySectionMusic"},
-            new FileProperty() { Property = "System.Music.Conductor", NameResource = "PropertyConductor", SectionResource = "PropertySectionMusic"},
-            new FileProperty() { Property = "System.Music.DiscNumber", NameResource = "PropertyDiscNumber", SectionResource = "PropertySectionMusic"},
-            new FileProperty() { Property = "System.Music.Genre", NameResource = "PropertyGenre", SectionResource = "PropertySectionMusic"},
-            new FileProperty() { Property = "System.Music.TrackNumber", NameResource = "PropertyTrackNumber", SectionResource = "PropertySectionMusic"},
+            new FileProperty() { Property = "System.Music.Composer", NameResource = "PropertyComposer", SectionResource = "PropertySectionMusic", IsReadOnly = false},
+            new FileProperty() { Property = "System.Music.Conductor", NameResource = "PropertyConductor", SectionResource = "PropertySectionMusic", IsReadOnly = false},
+            new FileProperty() { Property = "System.Music.DiscNumber", NameResource = "PropertyDiscNumber", SectionResource = "PropertySectionMusic", IsReadOnly = false},
+            new FileProperty() { Property = "System.Music.Genre", NameResource = "PropertyGenre", SectionResource = "PropertySectionMusic", IsReadOnly = false},
+            new FileProperty() { Property = "System.Music.TrackNumber", NameResource = "PropertyTrackNumber", SectionResource = "PropertySectionMusic", IsReadOnly = false},
             new FileProperty() { Property = "System.Media.AverageLevel", NameResource = "PropertyAverageLevel", SectionResource = "PropertySectionMedia"},
             new FileProperty() { Property = "System.Media.Duration", NameResource = "PropertyDuration", SectionResource = "PropertySectionMedia"},
             new FileProperty() { Property = "System.Media.FrameCount", NameResource = "PropertyFrameCount", SectionResource = "PropertySectionMedia"},
@@ -177,8 +167,6 @@ namespace Files.Filesystem
             new FileProperty() { Property = "System.Media.ThumbnailLargeUri", NameResource = "PropertyThumbnailLargeUri", SectionResource = "PropertySectionMedia"},
             new FileProperty() { Property = "System.Media.ThumbnailSmallPath", NameResource = "PropertyThumbnailSmallPath", SectionResource = "PropertySectionMedia"},
             new FileProperty() { Property = "System.Media.ThumbnailSmallUri", NameResource = "PropertyThumbnailSmallUri", SectionResource = "PropertySectionMedia"},
-            new FileProperty() { Property = "System.Media.UniqueFileIdentifier", NameResource = "PropertyUniqueFileIdentifier", SectionResource = "PropertySectionMedia"},
-            new FileProperty() { Property = "System.Media.UserWebUrl", NameResource = "PropertyUserWebUrl", SectionResource = "PropertySectionMedia"},
             new FileProperty() { Property = "System.Media.Writer", NameResource = "PropertyWriter", SectionResource = "PropertySectionMedia"},
             new FileProperty() { Property = "System.Media.Year", NameResource = "PropertyYear", SectionResource = "PropertySectionMedia"},
         };

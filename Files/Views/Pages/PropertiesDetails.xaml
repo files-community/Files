@@ -27,12 +27,31 @@
     <ListView x:Name="MainList" SelectionMode="None" ItemsSource="{x:Bind PropertiesSource.View, Mode=OneWay}">
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="filesystem:FileProperty">
-                <Grid>
-                    <usercontrols:PropertyListItem IsReadOnly="{x:Bind IsReadOnly}" ActionButton="{x:Bind ActionButton}" Text="{x:Bind Name}" HorizontalAlignment="Stretch">
-                        <usercontrols:PropertyListItem.ValueText>
+                <Grid HorizontalAlignment="Stretch" Visibility="{Binding Visibility, Mode=OneWay}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Row="0"
+                        Style="{StaticResource PropertyName}"
+                        Text="{x:Bind Name, Mode=OneWay}" 
+                        HorizontalAlignment="Stretch"/>
+                    <TextBox
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}"
+                        Style="{StaticResource PropertyValueTextBox}"
+                        HorizontalAlignment="Stretch">
+                        <TextBox.Text>
                             <Binding Path="Value" Converter="{Binding Converter, Mode=OneWay}" Mode="TwoWay"/>
-                        </usercontrols:PropertyListItem.ValueText>
-                    </usercontrols:PropertyListItem>
+                        </TextBox.Text>
+                    </TextBox>
                 </Grid>
             </DataTemplate>
         </ListView.ItemTemplate>
