@@ -28,7 +28,18 @@ namespace Files.View_Models.Properties
         public string Section { get; set; }
         public string SectionResource { get; set; }
         public object Value { get; set; }
-        public IValueConverter Converter { get; set; }
+
+        /// <summary>
+        /// The string value of the property's value
+        /// </summary>
+        public string ValueText 
+        { 
+            get => Converter != null && Value != null ? Converter.Convert(Value, typeof(string), null, null) as string : Value as string;
+            set => Value = Converter != null && value != null? Converter.ConvertBack(value, typeof(object), null, null) : value;
+        }
+        public IValueConverter Converter { 
+            get => GetConverter(); 
+        }
         public bool IsReadOnly { get; set; } = true;
 
         /// <summary>
@@ -65,27 +76,43 @@ namespace Files.View_Models.Properties
         {
             var props = await file.Properties.RetrievePropertiesAsync(new List<string>() { Property });
             Value = props[Property];
-            UpdateConverter();
+
+        }
+
+        public async Task SaveValueToFile(StorageFile file)
+        {
+            if (!string.IsNullOrEmpty(Property)) 
+                return;
+
+            var propsToSave = new Dictionary<string, object>();
+            propsToSave.Add(Property, Converter.ConvertBack(Value, null, null, null));
+            await file.Properties.SavePropertiesAsync(propsToSave);
         }
 
         /// <summary>
         /// Call this function just after getting properties to set the property's converter based on the value type.
         /// For some reason, this does not work for arrays. In the case of arrays, override the converter
         /// </summary>
-        private void UpdateConverter()
+        private IValueConverter GetConverter()
         {
-            // Return in case of override
-            if (Converter != null)
-                return;
-
             if (Value is UInt32)
-                Converter = new UInt32ToString();
+                return new UInt32ToString();
 
             if (Value is Double)
-                Converter = new DoubleToString();
+                return new DoubleToString();
 
             if (Value is DateTimeOffset)
-                Converter = new DateTimeOffsetToString();
+                return new DateTimeOffsetToString();
+
+            if(Value != null && Value.GetType().IsArray)
+            {
+                if (Value.GetType().GetElementType().Equals(typeof(string)))
+                    return new StringArrayToString();
+
+                if (Value.GetType().GetElementType().Equals(typeof(double)))
+                    return new DoubleArrayToString();
+            }
+            return null;
         }
 
 
@@ -118,8 +145,8 @@ namespace Files.View_Models.Properties
             new FileProperty() { Property = "System.Image.ColorSpace", NameResource = "PropertyColorSpace", SectionResource = "PropertySectionImage"},
             new FileProperty() { Property = "System.GPS.LongitudeDecimal", NameResource = "PropertyLongitudeDecimal", SectionResource = "PropertySectionGPS"},
             new FileProperty() { Property = "System.GPS.LatitudeDecimal", NameResource = "PropertyLatitudeDecimal", SectionResource = "PropertySectionGPS"},
-            new FileProperty() { Property = "System.GPS.Latitude", NameResource = "PropertyLatitude", SectionResource = "PropertySectionGPS", IsReadOnly = false, Converter = new DoubleArrayToString() },
-            new FileProperty() { Property = "System.GPS.Longitude", NameResource = "PropertyLongitude", SectionResource = "PropertySectionGPS", IsReadOnly = false, Converter = new DoubleArrayToString()},
+            new FileProperty() { Property = "System.GPS.Latitude", NameResource = "PropertyLatitude", SectionResource = "PropertySectionGPS", IsReadOnly = false},
+            new FileProperty() { Property = "System.GPS.Longitude", NameResource = "PropertyLongitude", SectionResource = "PropertySectionGPS", IsReadOnly = false},
             new FileProperty() { Property = "System.GPS.LatitudeRef", NameResource = "PropertyLatitudeRef", SectionResource = "PropertySectionGPS", IsReadOnly = false},
             new FileProperty() { Property = "System.GPS.LongitudeRef", NameResource = "PropertyLongitudeRef", SectionResource = "PropertySectionGPS", IsReadOnly = false},
             new FileProperty() { Property = "System.GPS.Altitude", NameResource = "PropertyAltitude", SectionResource = "PropertySectionGPS", IsReadOnly = false },
@@ -129,21 +156,21 @@ namespace Files.View_Models.Properties
             new FileProperty() { Property = "System.Photo.ExposureTime", NameResource = "PropertyExposureTime", SectionResource = "PropertySectionPhoto"},
             new FileProperty() { Property = "System.Photo.FocalLength", NameResource = "PropertyFocalLength", SectionResource = "PropertySectionPhoto"},
             new FileProperty() { Property = "System.Photo.Aperture", NameResource = "PropertyAperture", SectionResource = "PropertySectionPhoto"},
-            new FileProperty() { Property = "System.Photo.PeopleNames", NameResource = "PropertyPeopleNames", SectionResource = "PropertySectionPhoto", Converter = new StringArrayToString()},
+            new FileProperty() { Property = "System.Photo.PeopleNames", NameResource = "PropertyPeopleNames", SectionResource = "PropertySectionPhoto"},
             new FileProperty() { Property = "System.Audio.ChannelCount", NameResource = "PropertyChannelCount", SectionResource = "PropertySectionAudio"},
             new FileProperty() { Property = "System.Audio.EncodingBitrate", NameResource = "PropertyEncodingBitrate", SectionResource = "PropertySectionAudio"},
             new FileProperty() { Property = "System.Audio.Compression", NameResource = "PropertyCompression", SectionResource = "PropertySectionAudio"},
             new FileProperty() { Property = "System.Audio.Format", NameResource = "PropertyFormat", SectionResource = "PropertySectionAudio"},
             new FileProperty() { Property = "System.Audio.SampleRate", NameResource = "PropertySampleRate", SectionResource = "PropertySectionAudio"},
             new FileProperty() { Property = "System.Music.DisplayArtist", NameResource = "PropertyDisplayArtist", SectionResource = "PropertySectionMusic", IsReadOnly = false},
-            new FileProperty() { Property = "System.Music.AlbumArtist", NameResource = "PropertyAlbumArtist", SectionResource = "PropertySectionMusic", IsReadOnly = false, Converter = new StringArrayToString()},
+            new FileProperty() { Property = "System.Music.AlbumArtist", NameResource = "PropertyAlbumArtist", SectionResource = "PropertySectionMusic", IsReadOnly = false},
             new FileProperty() { Property = "System.Music.AlbumTitle", NameResource = "PropertyAlbumTitle", SectionResource = "PropertySectionMusic", IsReadOnly = false},
-            new FileProperty() { Property = "System.Music.Artist", NameResource = "PropertyArtist", SectionResource = "PropertySectionMusic", IsReadOnly = false, Converter = new StringArrayToString()},
+            new FileProperty() { Property = "System.Music.Artist", NameResource = "PropertyArtist", SectionResource = "PropertySectionMusic", IsReadOnly = false},
             new FileProperty() { Property = "System.Music.BeatsPerMinute", NameResource = "PropertyBeatsPerMinute", SectionResource = "PropertySectionMusic"},
-            new FileProperty() { Property = "System.Music.Composer", NameResource = "PropertyComposer", SectionResource = "PropertySectionMusic", IsReadOnly = false, Converter = new StringArrayToString()},
-            new FileProperty() { Property = "System.Music.Conductor", NameResource = "PropertyConductor", SectionResource = "PropertySectionMusic", IsReadOnly = false, Converter = new StringArrayToString()},
+            new FileProperty() { Property = "System.Music.Composer", NameResource = "PropertyComposer", SectionResource = "PropertySectionMusic", IsReadOnly = false},
+            new FileProperty() { Property = "System.Music.Conductor", NameResource = "PropertyConductor", SectionResource = "PropertySectionMusic", IsReadOnly = false},
             new FileProperty() { Property = "System.Music.DiscNumber", NameResource = "PropertyDiscNumber", SectionResource = "PropertySectionMusic", IsReadOnly = false},
-            new FileProperty() { Property = "System.Music.Genre", NameResource = "PropertyGenre", SectionResource = "PropertySectionMusic", IsReadOnly = false, Converter = new StringArrayToString()},
+            new FileProperty() { Property = "System.Music.Genre", NameResource = "PropertyGenre", SectionResource = "PropertySectionMusic", IsReadOnly = false},
             new FileProperty() { Property = "System.Music.TrackNumber", NameResource = "PropertyTrackNumber", SectionResource = "PropertySectionMusic", IsReadOnly = false},
             new FileProperty() { Property = "System.Media.Duration", NameResource = "PropertyDuration", SectionResource = "PropertySectionMedia"},
             new FileProperty() { Property = "System.Media.FrameCount", NameResource = "PropertyFrameCount", SectionResource = "PropertySectionMedia"},
@@ -163,9 +190,9 @@ namespace Files.View_Models.Properties
             new FileProperty() { Property = "System.Media.ThumbnailSmallPath", NameResource = "PropertyThumbnailSmallPath", SectionResource = "PropertySectionMedia"},
             new FileProperty() { Property = "System.Media.ThumbnailSmallUri", NameResource = "PropertyThumbnailSmallUri", SectionResource = "PropertySectionMedia"},
             new FileProperty() { Property = "System.Media.UserWebUrl", NameResource = "PropertyUserWebUrl", SectionResource = "PropertySectionMedia"},
-            new FileProperty() { Property = "System.Media.Writer", NameResource = "PropertyWriter", SectionResource = "PropertySectionMedia", Converter = new StringArrayToString()},
+            new FileProperty() { Property = "System.Media.Writer", NameResource = "PropertyWriter", SectionResource = "PropertySectionMedia"},
             new FileProperty() { Property = "System.Media.Year", NameResource = "PropertyYear", SectionResource = "PropertySectionMedia"},
-            new FileProperty() { Property = "System.Document.Contributor", NameResource = "PropertyContributor", SectionResource = "PropertySectionDocument", Converter = new StringArrayToString()},
+            new FileProperty() { Property = "System.Document.Contributor", NameResource = "PropertyContributor", SectionResource = "PropertySectionDocument"},
             new FileProperty() { Property = "System.Document.LastAuthor", NameResource = "PropertyLastAuthor", SectionResource = "PropertySectionDocument"},
             new FileProperty() { Property = "System.Document.RevisionNumber", NameResource = "PropertyRevisionNumber", SectionResource = "PropertySectionDocument"},
             new FileProperty() { Property = "System.Document.Version", NameResource = "PropertyVersion", SectionResource = "PropertySectionDocument"},

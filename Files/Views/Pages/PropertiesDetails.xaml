@@ -8,7 +8,7 @@
     xmlns:filesystem="using:Files.Filesystem"
     xmlns:local="using:Files.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:usercontrols="using:Files.UserControls" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:usercontrols="using:Files.UserControls" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:properties="using:Files.View_Models.Properties"
     Name="Page"
     d:DesignHeight="3000"
     Loaded="Properties_Loaded"
@@ -26,7 +26,7 @@
     </Page.Resources>
     <ListView x:Name="MainList" SelectionMode="None" ItemsSource="{x:Bind PropertiesSource.View, Mode=OneWay}">
         <ListView.ItemTemplate>
-            <DataTemplate x:DataType="filesystem:FileProperty">
+            <DataTemplate x:DataType="properties:FileProperty">
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -44,10 +44,9 @@
                         Grid.Column="1"
                         IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}"
                         Style="{StaticResource PropertyValueTextBox}"
-                        HorizontalAlignment="Stretch">
-                        <TextBox.Text>
-                            <Binding Path="Value" Converter="{Binding Converter, Mode=OneWay}" Mode="TwoWay"/>
-                        </TextBox.Text>
+                        HorizontalAlignment="Stretch"
+                        x:Name="PropertyValueTemplateTextBox"
+                        Text="{x:Bind ValueText, Mode=TwoWay}">
                     </TextBox>
                 </Grid>
             </DataTemplate>
@@ -55,7 +54,7 @@
         <ListView.GroupStyle>
             <GroupStyle >
                 <GroupStyle.HeaderTemplate>
-                    <DataTemplate x:DataType="filesystem:FilePropertySection">
+                    <DataTemplate x:DataType="properties:FilePropertySection">
                         <Border AutomationProperties.Name="{x:Bind Key}">
                             <TextBlock Text="{x:Bind Key}" Style="{ThemeResource SeparatorText}"/>
                         </Border>
