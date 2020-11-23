@@ -19,7 +19,8 @@ namespace Files.UserControls
 {
     public sealed partial class PropertySaveError : ContentDialog
     {
-        public string ErrorMessage { get; set; }
+        public string Text { get; set; }
+
         public PropertySaveError()
         {
             this.InitializeComponent();

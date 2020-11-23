@@ -1140,8 +1140,17 @@
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>Terminal Applications</value>
   </data>
-  <data name="PropertyFailedToSave" xml:space="preserve">
-    <value>There was an issue saving some properties</value>
+  <data name="PropertySaveErrorDialogText" xml:space="preserve">
+    <value>There was an issue saving some properties.</value>
+  </data>
+  <data name="PropertySaveErrorDialogRetry" xml:space="preserve">
+    <value>Retry</value>
+  </data>
+  <data name="PropertySaveErrorDialogCloseAnyway" xml:space="preserve">
+    <value>Close anyway</value>
+  </data>
+  <data name="PropertySaveErrorDialogCancel" xml:space="preserve">
+    <value>Cancel</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Rating Text</value>
@@ -1164,23 +1173,20 @@
   <data name="PropertyCopyright" xml:space="preserve">
     <value>Copyright</value>
   </data>
-  <data name="PropertyDateCreated" xml:space="preserve">
-    <value>Date Created</value>
-  </data>
   <data name="PropertyDateModified" xml:space="preserve">
     <value>Date Modified</value>
-  </data>
-  <data name="PropertyImageID" xml:space="preserve">
-    <value>Image I D</value>
-  </data>
-  <data name="PropertyCompressedBitsPerPixel" xml:space="preserve">
-    <value>Compressed Bits Per Pixel</value>
   </data>
   <data name="PropertyBitDepth" xml:space="preserve">
     <value>Bit Depth</value>
   </data>
   <data name="PropertyDimensions" xml:space="preserve">
     <value>Dimensions</value>
+  </data>
+  <data name="PropertyHorizontalSize" xml:space="preserve">
+    <value>Horizontal Size</value>
+  </data>
+  <data name="PropertyVerticalSize" xml:space="preserve">
+    <value>Vertical Size</value>
   </data>
   <data name="PropertyHorizontalResolution" xml:space="preserve">
     <value>Horizontal Resolution</value>
@@ -1191,35 +1197,32 @@
   <data name="PropertyCompressionText" xml:space="preserve">
     <value>Compression Text</value>
   </data>
-  <data name="PropertyResolutionUnit" xml:space="preserve">
-    <value>Resolution Unit</value>
+  <data name="PropertyColorSpace" xml:space="preserve">
+    <value>Color Space</value>
   </data>
-  <data name="PropertyHorizontalSize" xml:space="preserve">
-    <value>Horizontal Size</value>
-  </data>
-  <data name="PropertyVerticalSize" xml:space="preserve">
-    <value>Vertical Size</value>
-  </data>
-  <data name="PropertyLatitude" xml:space="preserve">
-    <value>Latitude</value>
+  <data name="PropertyLongitudeDecimal" xml:space="preserve">
+    <value>Longitude Decimal</value>
   </data>
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
     <value>Latitude Decimal</value>
   </data>
-  <data name="PropertyLatitudeRef" xml:space="preserve">
-    <value>Latitude Ref</value>
+  <data name="PropertyLatitude" xml:space="preserve">
+    <value>Latitude</value>
   </data>
   <data name="PropertyLongitude" xml:space="preserve">
     <value>Longitude</value>
   </data>
-  <data name="PropertyLongitudeDecimal" xml:space="preserve">
-    <value>Longitude Decimal</value>
+  <data name="PropertyLatitudeRef" xml:space="preserve">
+    <value>Latitude Ref</value>
   </data>
   <data name="PropertyLongitudeRef" xml:space="preserve">
     <value>Longitude Ref</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
     <value>Altitude</value>
+  </data>
+  <data name="PropertyDateTaken" xml:space="preserve">
+    <value>Date Taken</value>
   </data>
   <data name="PropertyCameraManufacturer" xml:space="preserve">
     <value>Camera Manufacturer</value>
@@ -1236,17 +1239,11 @@
   <data name="PropertyAperture" xml:space="preserve">
     <value>Aperture</value>
   </data>
-  <data name="PropertyDateTaken" xml:space="preserve">
-    <value>Date Taken</value>
+  <data name="PropertyPeopleNames" xml:space="preserve">
+    <value>People Names</value>
   </data>
   <data name="PropertyChannelCount" xml:space="preserve">
     <value>Channel Count</value>
-  </data>
-  <data name="PropertyEncodingBitrate" xml:space="preserve">
-    <value>Encoding Bitrate</value>
-  </data>
-  <data name="PropertyCompression" xml:space="preserve">
-    <value>Compression</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
     <value>Format</value>
@@ -1254,14 +1251,8 @@
   <data name="PropertySampleRate" xml:space="preserve">
     <value>Sample Rate</value>
   </data>
-  <data name="PropertyAlbumID" xml:space="preserve">
-    <value>Album I D</value>
-  </data>
   <data name="PropertyDisplayArtist" xml:space="preserve">
     <value>Display Artist</value>
-  </data>
-  <data name="PropertyCreatorApplication" xml:space="preserve">
-    <value>Creator Application</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>Album Artist</value>
@@ -1289,9 +1280,6 @@
   </data>
   <data name="PropertyTrackNumber" xml:space="preserve">
     <value>Track Number</value>
-  </data>
-  <data name="PropertyAverageLevel" xml:space="preserve">
-    <value>Average Level</value>
   </data>
   <data name="PropertyDuration" xml:space="preserve">
     <value>Duration</value>
@@ -1344,9 +1332,6 @@
   <data name="PropertyThumbnailSmallUri" xml:space="preserve">
     <value>Thumbnail Small Uri</value>
   </data>
-  <data name="PropertyUniqueFileIdentifier" xml:space="preserve">
-    <value>Unique File Identifier</value>
-  </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
     <value>User Web Url</value>
   </data>
@@ -1356,6 +1341,69 @@
   <data name="PropertyYear" xml:space="preserve">
     <value>Year</value>
   </data>
+  <data name="PropertyContributor" xml:space="preserve">
+    <value>Contributor</value>
+  </data>
+  <data name="PropertyLastAuthor" xml:space="preserve">
+    <value>Last Author</value>
+  </data>
+  <data name="PropertyRevisionNumber" xml:space="preserve">
+    <value>Revision Number</value>
+  </data>
+  <data name="PropertyVersion" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="PropertyDateCreated" xml:space="preserve">
+    <value>Date Created</value>
+  </data>
+  <data name="PropertyDateSaved" xml:space="preserve">
+    <value>Date Saved</value>
+  </data>
+  <data name="PropertyDatePrinted" xml:space="preserve">
+    <value>Date Printed</value>
+  </data>
+  <data name="PropertyTotalEditingTime" xml:space="preserve">
+    <value>Total Editing Time</value>
+  </data>
+  <data name="PropertyTemplate" xml:space="preserve">
+    <value>Template</value>
+  </data>
+  <data name="PropertyWordCount" xml:space="preserve">
+    <value>Word Count</value>
+  </data>
+  <data name="PropertyCharacterCount" xml:space="preserve">
+    <value>Character Count</value>
+  </data>
+  <data name="PropertyLineCount" xml:space="preserve">
+    <value>Line Count</value>
+  </data>
+  <data name="PropertyParagraphCount" xml:space="preserve">
+    <value>Paragraph Count</value>
+  </data>
+  <data name="PropertyPageCount" xml:space="preserve">
+    <value>Page Count</value>
+  </data>
+  <data name="PropertySlideCount" xml:space="preserve">
+    <value>Slide Count</value>
+  </data>
+  <data name="PropertyFrameRate" xml:space="preserve">
+    <value>Frame Rate</value>
+  </data>
+  <data name="PropertyEncodingBitrate" xml:space="preserve">
+    <value>Encoding Bitrate</value>
+  </data>
+  <data name="PropertyCompression" xml:space="preserve">
+    <value>Compression</value>
+  </data>
+  <data name="PropertyFrameWidth" xml:space="preserve">
+    <value>Frame Width</value>
+  </data>
+  <data name="PropertyFrameHeight" xml:space="preserve">
+    <value>Frame Height</value>
+  </data>
+  <data name="PropertyOrientation" xml:space="preserve">
+    <value>Orientation</value>
+  </data>  
   <data name="PropertySectionCore" xml:space="preserve">
     <value>Core</value>
   </data>
@@ -1377,6 +1425,13 @@
   <data name="PropertySectionMusic" xml:space="preserve">
     <value>Music</value>
   </data>
+  <data name="PropertySectionVideo" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="PropertySectionDocument" xml:space="preserve">
+    <value>Document</value>
+  </data>
+  
   <data name="PropertyAddress" xml:space="preserve">
     <value>Address</value>
   </data>

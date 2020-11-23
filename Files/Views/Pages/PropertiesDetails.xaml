@@ -27,10 +27,7 @@
     <ListView x:Name="MainList" SelectionMode="None" ItemsSource="{x:Bind PropertiesSource.View, Mode=OneWay}">
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="filesystem:FileProperty">
-                <Grid HorizontalAlignment="Stretch" Visibility="{Binding Visibility, Mode=OneWay}">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
+                <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>

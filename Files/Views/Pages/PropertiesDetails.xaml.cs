@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.UserControls;
 using Files.View_Models;
 using Files.View_Models.Properties;
 using Microsoft.Toolkit.Uwp.Helpers;
@@ -78,15 +79,41 @@ namespace Files
             base.OnNavigatedTo(e);
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-            //await Windows.System.Launcher.LaunchUriAsync(ViewModel.Geopoint != null ? new Uri(String.Format(@"bingmaps:?where={0}", ViewModel.Geopoint.Address.FormattedAddress)) : new Uri(String.Format(@"bingmaps:?cp={0}~{1}", ViewModel.Latitude, ViewModel.Longitude)),
-            //    new Windows.System.LauncherOptions() { TargetApplicationPackageFamilyName = "Microsoft.WindowsMaps_8wekyb3d8bbwe" });
-        }
 
-        public async Task SaveChanges(ListedItem item)
+        /// <summary>
+        /// Returns false if the operation was cancelled
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
+        public async Task<bool> SaveChanges()
         {
-            await (BaseProperties as FileProperties).SyncPropertyChanges();
+            try
+            {
+                await (BaseProperties as FileProperties).SyncPropertyChanges();
+            }
+            catch (Exception error)
+            {
+                var dialog = new PropertySaveError()
+                {
+                    Text = ResourceController.GetTranslation("PropertySaveErrorDialogText"),
+                    PrimaryButtonText = ResourceController.GetTranslation("PropertySaveErrorRetry"),
+                    SecondaryButtonText = ResourceController.GetTranslation("PropertySaveErrorDialogCloseAnyway"),
+                    CloseButtonText = ResourceController.GetTranslation("PropertySaveErrorDialogCancel"),
+                };
+                switch (await dialog.ShowAsync())
+                {
+                    case ContentDialogResult.Primary:
+                        SaveChanges();
+                        return false;
+
+                    case ContentDialogResult.Secondary:
+                        break;
+
+                    default:
+                        return false;
+                }
+            }
+            return true;
         }
 
         private async void ClearPropertiesConfirmation_Click(object sender, RoutedEventArgs e)

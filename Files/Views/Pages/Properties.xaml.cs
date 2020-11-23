@@ -173,20 +173,8 @@ namespace Files
             }
             else if (contentFrame.Content is PropertiesDetails)
             {
-                try
-                {
-                    await (contentFrame.Content as PropertiesDetails).SaveChanges(listedItem);
-                } catch (Exception error)
-                {
-                    switch (await new PropertySaveError() { ErrorMessage = error.Message }.ShowAsync())
-                    {
-                        case ContentDialogResult.Primary:
-                            break;
-
-                        default:
-                            return;
-                    }
-                }
+                if (!(await (contentFrame.Content as PropertiesDetails).SaveChanges()))
+                    return;
             }
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))

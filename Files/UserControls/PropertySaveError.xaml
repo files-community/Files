@@ -7,9 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Title="Error"
-    CloseButtonText="Cancel"
-    PrimaryButtonText="Retry"
-    SecondaryButtonText="Close anyway"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     CornerRadius="3"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
@@ -18,7 +15,6 @@
     CloseButtonStyle="{StaticResource ButtonRevealStyle}">
 
     <StackPanel Spacing="5">
-        <TextBlock Grid.Row="1" Text="Some properties failed to save"/>
-        
+        <TextBlock Grid.Row="1" Text="{x:Bind Text, Mode=OneWay}"/>
     </StackPanel>
 </ContentDialog>

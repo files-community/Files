@@ -1384,10 +1384,6 @@
           <source>Show Owner in properties</source>
           <target state="new">Show Owner in properties</target>
         </trans-unit>
-        <trans-unit id="PropertyFailedToSave" translate="yes" xml:space="preserve">
-          <source>There was an issue saving some properties</source>
-          <target state="new">There was an issue saving some properties</target>
-        </trans-unit>
         <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
           <source>Rating Text</source>
           <target state="new">Rating Text</target>
@@ -1424,14 +1420,6 @@
           <source>Date Modified</source>
           <target state="new">Date Modified</target>
         </trans-unit>
-        <trans-unit id="PropertyImageID" translate="yes" xml:space="preserve">
-          <source>Image I D</source>
-          <target state="new">Image I D</target>
-        </trans-unit>
-        <trans-unit id="PropertyCompressedBitsPerPixel" translate="yes" xml:space="preserve">
-          <source>Compressed Bits Per Pixel</source>
-          <target state="new">Compressed Bits Per Pixel</target>
-        </trans-unit>
         <trans-unit id="PropertyBitDepth" translate="yes" xml:space="preserve">
           <source>Bit Depth</source>
           <target state="new">Bit Depth</target>
@@ -1451,10 +1439,6 @@
         <trans-unit id="PropertyCompressionText" translate="yes" xml:space="preserve">
           <source>Compression Text</source>
           <target state="new">Compression Text</target>
-        </trans-unit>
-        <trans-unit id="PropertyResolutionUnit" translate="yes" xml:space="preserve">
-          <source>Resolution Unit</source>
-          <target state="new">Resolution Unit</target>
         </trans-unit>
         <trans-unit id="PropertyHorizontalSize" translate="yes" xml:space="preserve">
           <source>Horizontal Size</source>
@@ -1536,17 +1520,9 @@
           <source>Sample Rate</source>
           <target state="new">Sample Rate</target>
         </trans-unit>
-        <trans-unit id="PropertyAlbumID" translate="yes" xml:space="preserve">
-          <source>Album I D</source>
-          <target state="new">Album I D</target>
-        </trans-unit>
         <trans-unit id="PropertyDisplayArtist" translate="yes" xml:space="preserve">
           <source>Display Artist</source>
           <target state="new">Display Artist</target>
-        </trans-unit>
-        <trans-unit id="PropertyCreatorApplication" translate="yes" xml:space="preserve">
-          <source>Creator Application</source>
-          <target state="new">Creator Application</target>
         </trans-unit>
         <trans-unit id="PropertyAlbumArtist" translate="yes" xml:space="preserve">
           <source>Album Artist</source>
@@ -1583,10 +1559,6 @@
         <trans-unit id="PropertyTrackNumber" translate="yes" xml:space="preserve">
           <source>Track Number</source>
           <target state="new">Track Number</target>
-        </trans-unit>
-        <trans-unit id="PropertyAverageLevel" translate="yes" xml:space="preserve">
-          <source>Average Level</source>
-          <target state="new">Average Level</target>
         </trans-unit>
         <trans-unit id="PropertyDuration" translate="yes" xml:space="preserve">
           <source>Duration</source>
@@ -1656,10 +1628,6 @@
           <source>Thumbnail Small Uri</source>
           <target state="new">Thumbnail Small Uri</target>
         </trans-unit>
-        <trans-unit id="PropertyUniqueFileIdentifier" translate="yes" xml:space="preserve">
-          <source>Unique File Identifier</source>
-          <target state="new">Unique File Identifier</target>
-        </trans-unit>
         <trans-unit id="PropertyUserWebUrl" translate="yes" xml:space="preserve">
           <source>User Web Url</source>
           <target state="new">User Web Url</target>
@@ -1703,6 +1671,110 @@
         <trans-unit id="PropertyAddress" translate="yes" xml:space="preserve">
           <source>Address</source>
           <target state="new">Address</target>
+        </trans-unit>
+        <trans-unit id="PropertyColorSpace" translate="yes" xml:space="preserve">
+          <source>Color Space</source>
+          <target state="new">Color Space</target>
+        </trans-unit>
+        <trans-unit id="PropertyPeopleNames" translate="yes" xml:space="preserve">
+          <source>People Names</source>
+          <target state="new">People Names</target>
+        </trans-unit>
+        <trans-unit id="PropertyContributor" translate="yes" xml:space="preserve">
+          <source>Contributor</source>
+          <target state="new">Contributor</target>
+        </trans-unit>
+        <trans-unit id="PropertyLastAuthor" translate="yes" xml:space="preserve">
+          <source>Last Author</source>
+          <target state="new">Last Author</target>
+        </trans-unit>
+        <trans-unit id="PropertyRevisionNumber" translate="yes" xml:space="preserve">
+          <source>Revision Number</source>
+          <target state="new">Revision Number</target>
+        </trans-unit>
+        <trans-unit id="PropertyVersion" translate="yes" xml:space="preserve">
+          <source>Version</source>
+          <target state="new">Version</target>
+        </trans-unit>
+        <trans-unit id="PropertySectionVideo" translate="yes" xml:space="preserve">
+          <source>Video</source>
+          <target state="new">Video</target>
+        </trans-unit>
+        <trans-unit id="PropertySaveErrorDialogText" translate="yes" xml:space="preserve">
+          <source>There was an issue saving some properties.</source>
+          <target state="new">There was an issue saving some properties.</target>
+        </trans-unit>
+        <trans-unit id="PropertySaveErrorDialogRetry" translate="yes" xml:space="preserve">
+          <source>Retry</source>
+          <target state="new">Retry</target>
+        </trans-unit>
+        <trans-unit id="PropertySaveErrorDialogCloseAnyway" translate="yes" xml:space="preserve">
+          <source>Close anyway</source>
+          <target state="new">Close anyway</target>
+        </trans-unit>
+        <trans-unit id="PropertySaveErrorDialogCancel" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
+        <trans-unit id="PropertyDateSaved" translate="yes" xml:space="preserve">
+          <source>Date Saved</source>
+          <target state="new">Date Saved</target>
+        </trans-unit>
+        <trans-unit id="PropertyDatePrinted" translate="yes" xml:space="preserve">
+          <source>Date Printed</source>
+          <target state="new">Date Printed</target>
+        </trans-unit>
+        <trans-unit id="PropertyTotalEditingTime" translate="yes" xml:space="preserve">
+          <source>Total Editing Time</source>
+          <target state="new">Total Editing Time</target>
+        </trans-unit>
+        <trans-unit id="PropertyTemplate" translate="yes" xml:space="preserve">
+          <source>Template</source>
+          <target state="new">Template</target>
+        </trans-unit>
+        <trans-unit id="PropertyWordCount" translate="yes" xml:space="preserve">
+          <source>Word Count</source>
+          <target state="new">Word Count</target>
+        </trans-unit>
+        <trans-unit id="PropertyCharacterCount" translate="yes" xml:space="preserve">
+          <source>Character Count</source>
+          <target state="new">Character Count</target>
+        </trans-unit>
+        <trans-unit id="PropertyLineCount" translate="yes" xml:space="preserve">
+          <source>Line Count</source>
+          <target state="new">Line Count</target>
+        </trans-unit>
+        <trans-unit id="PropertyParagraphCount" translate="yes" xml:space="preserve">
+          <source>Paragraph Count</source>
+          <target state="new">Paragraph Count</target>
+        </trans-unit>
+        <trans-unit id="PropertyPageCount" translate="yes" xml:space="preserve">
+          <source>Page Count</source>
+          <target state="new">Page Count</target>
+        </trans-unit>
+        <trans-unit id="PropertySlideCount" translate="yes" xml:space="preserve">
+          <source>Slide Count</source>
+          <target state="new">Slide Count</target>
+        </trans-unit>
+        <trans-unit id="PropertyFrameRate" translate="yes" xml:space="preserve">
+          <source>Frame Rate</source>
+          <target state="new">Frame Rate</target>
+        </trans-unit>
+        <trans-unit id="PropertyFrameWidth" translate="yes" xml:space="preserve">
+          <source>Frame Width</source>
+          <target state="new">Frame Width</target>
+        </trans-unit>
+        <trans-unit id="PropertyFrameHeight" translate="yes" xml:space="preserve">
+          <source>Frame Height</source>
+          <target state="new">Frame Height</target>
+        </trans-unit>
+        <trans-unit id="PropertyOrientation" translate="yes" xml:space="preserve">
+          <source>Orientation</source>
+          <target state="new">Orientation</target>
+        </trans-unit>
+        <trans-unit id="PropertySectionDocument" translate="yes" xml:space="preserve">
+          <source>Document</source>
+          <target state="new">Document</target>
         </trans-unit>
       </group>
     </body>
