@@ -543,18 +543,11 @@ namespace Files.Filesystem
                     return;
                 }
                 var wasSyncStatusLoaded = false;
+                bool needsIconOverlay = true;
                 try
                 {
                     if (item.PrimaryItemAttribute == StorageItemTypes.File)
                     {
-                        var fileIconInfo = await LoadIconOverlayAsync(matchingItem.ItemPath, thumbnailSize);
-                        if (fileIconInfo.Icon != null && !matchingItem.IsLinkItem)
-                        {
-                            matchingItem.FileImage = fileIconInfo.Icon;
-                            matchingItem.LoadUnknownTypeGlyph = false;
-                            matchingItem.LoadFileIcon = true;
-                        }
-                        matchingItem.IconOverlay = fileIconInfo.Overlay;
                         if (!item.IsShortcutItem && !item.IsHiddenItem)
                         {
                             StorageFile matchingStorageItem = await GetFileFromPathAsync(item.ItemPath);
@@ -564,21 +557,49 @@ namespace Files.Filesystem
                                 matchingItem.ItemType = matchingStorageItem.DisplayType;
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
                                 matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+                                if (!matchingItem.SyncStatusUI.LoadSyncStatus)
+                                {
+                                    needsIconOverlay = false;
+                                }
                                 wasSyncStatusLoaded = true;
+                            }
+
+                            if (needsIconOverlay)
+                            {
+                                var fileIconInfo = await LoadIconOverlayAsync(matchingItem.ItemPath, thumbnailSize);
+                                if (fileIconInfo.Icon != null && !matchingItem.IsLinkItem)
+                                {
+                                    matchingItem.FileImage = fileIconInfo.Icon;
+                                    matchingItem.LoadUnknownTypeGlyph = false;
+                                    matchingItem.LoadFileIcon = true;
+                                }
+                                matchingItem.IconOverlay = fileIconInfo.Overlay;
+                            }
+                            else
+                            {
+                                if (!matchingItem.IsLinkItem)
+                                {
+                                    var filesystemIcon = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.ListView, thumbnailSize, ThumbnailOptions.UseCurrentScale);
+                                    if (filesystemIcon != null)
+                                    {
+                                        var bitmapIcon = new BitmapImage();
+                                        matchingItem.FileImage = bitmapIcon;
+                                        await bitmapIcon.SetSourceAsync(filesystemIcon);
+                                        matchingItem.LoadUnknownTypeGlyph = false;
+                                        matchingItem.LoadFileIcon = true;
+                                    }
+                                    else
+                                    {
+                                        matchingItem.LoadUnknownTypeGlyph = true;
+                                        matchingItem.LoadFileIcon = false;
+                                    }
+                                }
+                                matchingItem.IconOverlay = null;
                             }
                         }
                     }
                     else
                     {
-                        var fileIconInfo = await LoadIconOverlayAsync(matchingItem.ItemPath, thumbnailSize);
-                        if (fileIconInfo.Icon != null && fileIconInfo.IsCustom) // Only set folder icon if it's a custom icon
-                        {
-                            matchingItem.FileImage = fileIconInfo.Icon;
-                            matchingItem.LoadUnknownTypeGlyph = false;
-                            matchingItem.LoadFolderGlyph = false;
-                            matchingItem.LoadFileIcon = true;
-                        }
-                        matchingItem.IconOverlay = fileIconInfo.Overlay;
                         if (!item.IsShortcutItem && !item.IsHiddenItem)
                         {
                             StorageFolder matchingStorageItem = await GetFolderFromPathAsync(item.ItemPath);
@@ -588,8 +609,22 @@ namespace Files.Filesystem
                                 matchingItem.ItemType = matchingStorageItem.DisplayType;
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
                                 matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+                                if (!matchingItem.SyncStatusUI.LoadSyncStatus)
+                                {
+                                    needsIconOverlay = false;
+                                }
                                 wasSyncStatusLoaded = true;
                             }
+
+                            var fileIconInfo = await LoadIconOverlayAsync(matchingItem.ItemPath, thumbnailSize);
+                            if (fileIconInfo.Icon != null && fileIconInfo.IsCustom) // Only set folder icon if it's a custom icon
+                            {
+                                matchingItem.FileImage = fileIconInfo.Icon;
+                                matchingItem.LoadUnknownTypeGlyph = false;
+                                matchingItem.LoadFolderGlyph = false;
+                                matchingItem.LoadFileIcon = true;
+                            }
+                            matchingItem.IconOverlay = fileIconInfo.Overlay;
                         }
                     }
                 }
@@ -1527,8 +1562,6 @@ namespace Files.Filesystem
                 IsLoadingItems = false;
                 return;
             }
-
-
 
             if (findData.cFileName.EndsWith(".lnk") || findData.cFileName.EndsWith(".url"))
             {
