@@ -211,13 +211,20 @@ namespace Files
 
             foreach (ListedItem listedItem in items)
             {
-                listedItem.IsDimmed = false;
+                if (listedItem.IsHiddenItem)
+                {
+                    listedItem.Opacity = 0.4;
+                }
+                else
+                {
+                    listedItem.Opacity = 1;
+                }
             }
         }
 
         public override void SetItemOpacity(ListedItem item)
         {
-            item.IsDimmed = true;
+            item.Opacity = 0.4;
         }
 
         private async void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
