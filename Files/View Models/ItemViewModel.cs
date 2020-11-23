@@ -558,7 +558,8 @@ namespace Files.Filesystem
                                 matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
                                 if (!matchingItem.SyncStatusUI.LoadSyncStatus)
                                 {
-                                    needsIconOverlay = false;
+                                    // Always load them from AppServiceConnection
+                                    needsIconOverlay = true;
                                 }
                                 wasSyncStatusLoaded = true;
                             }
@@ -610,7 +611,7 @@ namespace Files.Filesystem
                                 matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
                                 if (!matchingItem.SyncStatusUI.LoadSyncStatus)
                                 {
-                                    needsIconOverlay = false;
+                                    needsIconOverlay = true;
                                 }
                                 wasSyncStatusLoaded = true;
                             }
