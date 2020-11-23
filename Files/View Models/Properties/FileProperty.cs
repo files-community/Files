@@ -9,7 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 
-namespace Files.Filesystem
+namespace Files.View_Models.Properties
 {
     /// <summary>
     /// This class is used to represent a file property from the Windows.Storage API
@@ -93,11 +93,6 @@ namespace Files.Filesystem
         {
             Name = ResourceController.GetTranslation(NameResource);
             Section = ResourceController.GetTranslation(SectionResource);
-        }
-
-        public void SaveProperty()
-        {
-
         }
 
         public static readonly List<FileProperty> PropertyListItemsBase = new List<FileProperty>()

@@ -1,6 +1,7 @@
 using ByteSizeLib;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.View_Models.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Helpers;

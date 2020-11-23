@@ -37,7 +37,7 @@ namespace Files
             {
                 BaseProperties.GetSpecialProperties();
                 Stopwatch stopwatch = System.Diagnostics.Stopwatch.StartNew();
-                BaseProperties.GetSystemFileProperties();
+                BaseProperties.GetSystemFilePropertiesAsync();
                 stopwatch.Stop();
                 Debug.WriteLine(string.Format("System file properties were obtained in {0} milliseconds", stopwatch.ElapsedMilliseconds));
             }
@@ -89,14 +89,14 @@ namespace Files
         {
             try
             {
-                await (BaseProperties as FileProperties).SyncPropertyChanges();
+                await (BaseProperties as FileProperties).SyncPropertyChangesAsync();
             }
             catch (Exception error)
             {
                 var dialog = new PropertySaveError()
                 {
                     Text = ResourceController.GetTranslation("PropertySaveErrorDialogText"),
-                    PrimaryButtonText = ResourceController.GetTranslation("PropertySaveErrorRetry"),
+                    PrimaryButtonText = ResourceController.GetTranslation("PropertySaveErrorDialogRetry"),
                     SecondaryButtonText = ResourceController.GetTranslation("PropertySaveErrorDialogCloseAnyway"),
                     CloseButtonText = ResourceController.GetTranslation("PropertySaveErrorDialogCancel"),
                 };
@@ -119,7 +119,7 @@ namespace Files
         private async void ClearPropertiesConfirmation_Click(object sender, RoutedEventArgs e)
         {
             ClearPropertiesFlyout.Hide();
-            await (BaseProperties as FileProperties).ClearProperties();
+            await (BaseProperties as FileProperties).ClearPropertiesAsync();
         }
     }
 }

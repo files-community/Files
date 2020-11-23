@@ -168,7 +168,7 @@ namespace Files.View_Models.Properties
             }
         }
 
-        public async void GetSystemFileProperties()
+        public async void GetSystemFilePropertiesAsync()
         {
             StorageFile file = null;
             try
@@ -190,7 +190,7 @@ namespace Files.View_Models.Properties
                 list.Add(prop);
             }
 
-            list.Find(x => x.ID == "address").Value = await GetAddressFromCoordinates((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value, (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+            list.Find(x => x.ID == "address").Value = await GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value, (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 
             // This code groups the properties by their "section" property. The code is derived from the XAML Controls Gallery ListView with grouped headers sample.
             var query = from item in list group item by item.Section into g orderby g.Key select new FilePropertySection(g) { Key = g.Key };
@@ -220,7 +220,7 @@ namespace Files.View_Models.Properties
             return true;
         }
 
-        private async Task<string> GetAddressFromCoordinates(double? Lat, double? Lon)
+        private async Task<string> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)
         {
             if (!Lat.HasValue || !Lon.HasValue)
                 return null;
@@ -251,7 +251,7 @@ namespace Files.View_Models.Properties
         }
 
 
-        public async Task SyncPropertyChanges()
+        public async Task SyncPropertyChangesAsync()
         {
             StorageFile file = null;
             file = await ItemViewModel.GetFileFromPathAsync(Item.ItemPath);
@@ -278,7 +278,7 @@ namespace Files.View_Models.Properties
                 }
             }
 
-            if (string.IsNullOrWhiteSpace(failedProperties))
+            if (!string.IsNullOrWhiteSpace(failedProperties))
                 throw new Exception($"The following properties failed to save: {failedProperties}");
 
         }
@@ -287,7 +287,8 @@ namespace Files.View_Models.Properties
         /// This function goes through ever read-write property saved, then syncs it
         /// </summary>
         /// <returns></returns>
-        public async Task ClearProperties()
+
+        public async Task ClearPropertiesAsync()
         {
             var failedProperties = new List<string>();
             StorageFile file = null;
@@ -321,7 +322,7 @@ namespace Files.View_Models.Properties
                 }
             }
 
-            GetSystemFileProperties();
+            GetSystemFilePropertiesAsync();
         }
 
         private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

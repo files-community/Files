@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
-namespace Files.Filesystem
+namespace Files.View_Models.Properties
 {
     /// <summary>
     /// This class is used for grouping file properties into section so that it can be used as a ListView data source

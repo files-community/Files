@@ -178,7 +178,7 @@
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Filesystem\CloudDriveSyncStatus.cs" />
-    <Compile Include="Filesystem\FileProperty.cs" />
+    <Compile Include="View Models\Properties\FileProperty.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\StorageFileExtensions.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\IStorageItemWithPath.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\StorageFileWithPath.cs" />
@@ -186,7 +186,7 @@
     <Compile Include="Helpers\AcrylicTheme.cs" />
     <Compile Include="Helpers\DialogDisplayHelper.cs" />
     <Compile Include="Helpers\DispatcherHelper.cs" />
-    <Compile Include="Filesystem\FilePropertySection.cs" />
+    <Compile Include="View Models\Properties\FilePropertySection.cs" />
     <Compile Include="Helpers\ItemsDataTemplateSelector.cs" />
     <Compile Include="Helpers\JumpListManager.cs" />
     <Compile Include="Helpers\NativeDirectoryChangesHelper.cs" />
