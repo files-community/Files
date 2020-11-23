@@ -824,7 +824,7 @@ namespace Files.Filesystem
                     {
                         var item = folderContentsList[count];
                         AddFileOrFolderFromShellFile(item, returnformat);
-                        if (count % 64 == 0)
+                        if (count % 300 == 0)
                         {
                             OrderFiles();
                         }
@@ -1030,7 +1030,7 @@ namespace Files.Filesystem
                             break;
                         }
 
-                        if (count % 64 == 0)
+                        if (count % 300 == 0)
                         {
                             OrderFiles();
                         }
@@ -1084,7 +1084,7 @@ namespace Files.Filesystem
                 {
                     break;
                 }
-                if (count % 64 == 0)
+                if (count % 300 == 0)
                 {
                     OrderFiles();
                 }
