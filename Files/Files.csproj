@@ -163,10 +163,10 @@
     <Compile Include="Converters\StringArrayToString.cs" />
     <Compile Include="Converters\UInt32ToString.cs" />
     <Compile Include="DataModels\DefaultLanguageModel.cs" />
-    <Compile Include="DataModels\FileOperationType.cs" />
+    <Compile Include="Enums\FileOperationType.cs" />
     <Compile Include="DataModels\SidebarPinnedModel.cs" />
     <Compile Include="Controllers\TerminalController.cs" />
-    <Compile Include="DataModels\ReturnResult.cs" />
+    <Compile Include="Enums\ReturnResult.cs" />
     <Compile Include="Dialogs\BitlockerDialog.xaml.cs">
       <DependentUpon>BitlockerDialog.xaml</DependentUpon>
     </Compile>

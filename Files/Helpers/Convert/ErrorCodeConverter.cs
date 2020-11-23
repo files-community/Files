@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Enums;
+using Files.Filesystem;
 
 namespace Files.Helpers
 {
@@ -38,7 +39,8 @@ namespace Files.Helpers
                 case FilesystemErrorCode.ERROR_INPROGRESS:
                     return ReturnResult.InProgress;
 
-                default: return default;
+                default: 
+                    return default;
             }
         }
     }

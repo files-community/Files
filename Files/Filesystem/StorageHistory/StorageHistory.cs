@@ -1,4 +1,5 @@
-﻿using Files.Extensions;
+﻿using Files.Enums;
+using Files.Extensions;
 using System.Collections.Generic;
 
 namespace Files.Filesystem.FilesystemHistory
@@ -19,16 +20,16 @@ namespace Files.Filesystem.FilesystemHistory
 
         public StorageHistory(FileOperationType operationType, IEnumerable<PathWithType> source, IEnumerable<PathWithType> destination)
         {
-            this.OperationType = operationType;
-            this.Source = source;
-            this.Destination = destination;
+            OperationType = operationType;
+            Source = source;
+            Destination = destination;
         }
 
         public StorageHistory(FileOperationType operationType, PathWithType source, PathWithType destination)
         {
-            this.OperationType = operationType;
-            this.Source = source.CreateEnumerable();
-            this.Destination = destination.CreateEnumerable();
+            OperationType = operationType;
+            Source = source.CreateEnumerable();
+            Destination = destination.CreateEnumerable();
         }
 
         #endregion
@@ -37,23 +38,23 @@ namespace Files.Filesystem.FilesystemHistory
 
         public void Modify(IStorageHistory newHistory)
         {
-            this.OperationType = newHistory.OperationType;
-            this.Source = newHistory.Source;
-            this.Destination = newHistory.Destination;
+            OperationType = newHistory.OperationType;
+            Source = newHistory.Source;
+            Destination = newHistory.Destination;
         }
 
         public void Modify(FileOperationType operationType, IEnumerable<PathWithType> source, IEnumerable<PathWithType> destination)
         {
-            this.OperationType = operationType;
-            this.Source = source;
-            this.Destination = destination;
+            OperationType = operationType;
+            Source = source;
+            Destination = destination;
         }
 
         public void Modify(FileOperationType operationType, PathWithType source, PathWithType destination)
         {
-            this.OperationType = operationType;
-            this.Source = source.CreateEnumerable();
-            this.Destination = destination.CreateEnumerable();
+            OperationType = operationType;
+            Source = source.CreateEnumerable();
+            Destination = destination.CreateEnumerable();
         }
 
         #endregion
@@ -62,11 +63,11 @@ namespace Files.Filesystem.FilesystemHistory
 
         public void Dispose()
         {
-            this.Source?.ForEach((item) => item?.Dispose());
-            this.Destination?.ForEach((item) => item?.Dispose());
+            Source?.ForEach((item) => item?.Dispose());
+            Destination?.ForEach((item) => item?.Dispose());
 
-            this.Source = null;
-            this.Destination = null;
+            Source = null;
+            Destination = null;
         }
 
         #endregion

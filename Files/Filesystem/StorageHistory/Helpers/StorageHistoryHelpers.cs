@@ -1,4 +1,5 @@
-﻿using Files.Helpers;
+﻿using Files.Enums;
+using Files.Helpers;
 using System;
 using System.Threading.Tasks;
 
@@ -36,7 +37,7 @@ namespace Files.Filesystem.FilesystemHistory
                 {
                     App.StorageHistoryIndex--;
                     int index = ArrayHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count);
-                    return await this.storageHistoryOperations.Undo(App.StorageHistory[index]);
+                    return await storageHistoryOperations.Undo(App.StorageHistory[index]);
                 }
                 finally
                 {
@@ -60,7 +61,7 @@ namespace Files.Filesystem.FilesystemHistory
                 {
                     int index = ArrayHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count);
                     App.StorageHistoryIndex++;
-                    return await this.storageHistoryOperations.Redo(App.StorageHistory[index]);
+                    return await storageHistoryOperations.Redo(App.StorageHistory[index]);
                 }
                 finally
                 {
@@ -87,9 +88,9 @@ namespace Files.Filesystem.FilesystemHistory
 
         public void Dispose()
         {
-            this.storageHistoryOperations?.Dispose();
+            storageHistoryOperations?.Dispose();
 
-            this.storageHistoryOperations = null;
+            storageHistoryOperations = null;
         }
 
         #endregion

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Files.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace Files.Filesystem.FilesystemHistory
