@@ -19,11 +19,30 @@ namespace Files.Filesystem
         public string DeviceID { get; set; }
         public StorageFolder Root { get; set; }
         public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
-        public ByteSize MaxSpace { get; set; }
-        public ByteSize FreeSpace { get; set; }
-        public ByteSize SpaceUsed { get; set; }
         public Visibility ItemVisibility { get; set; } = Visibility.Visible;
         public bool IsRemovable { get; set; }
+
+        private ByteSize maxSpace;
+        private ByteSize freeSpace;
+        private ByteSize spaceUsed;
+
+        public ByteSize MaxSpace
+        {
+            get => maxSpace;
+            set => SetProperty(ref maxSpace, value);
+        }
+
+        public ByteSize FreeSpace
+        {
+            get => freeSpace;
+            set => SetProperty(ref freeSpace, value);
+        }
+
+        public ByteSize SpaceUsed
+        {
+            get => spaceUsed;
+            set => SetProperty(ref spaceUsed, value);
+        }
 
         private DriveType type;
 

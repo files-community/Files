@@ -175,6 +175,19 @@ namespace Files.Filesystem
                 return;
             }
 
+            DriveType type;
+            try
+            {
+                // Check if this drive is associated with a drive letter
+                var driveAdded = new DriveInfo(root.Path);
+                type = GetDriveType(driveAdded);
+                deviceId = driveAdded.Name.TrimEnd('\\');
+            }
+            catch (ArgumentException)
+            {
+                type = DriveType.Removable;
+            }
+
             lock (drivesList)
             {
                 // If drive already in list, skip.
@@ -184,7 +197,7 @@ namespace Files.Filesystem
                     return;
                 }
 
-                var driveItem = new DriveItem(root, deviceId, DriveType.Removable);
+                var driveItem = new DriveItem(root, deviceId, type);
 
                 Logger.Info($"Drive added: {driveItem.Path}, {driveItem.Type}");
 
