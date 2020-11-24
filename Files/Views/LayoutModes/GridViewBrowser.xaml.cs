@@ -350,7 +350,7 @@ namespace Files
         {
             if (sender.DataContext != null && (!(sender.DataContext as ListedItem).ItemPropertiesInitialized) && (args.BringIntoViewDistanceX < sender.ActualHeight))
             {
-                await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
+                await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
                     ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(sender.DataContext as ListedItem, _iconSize);
                     (sender.DataContext as ListedItem).ItemPropertiesInitialized = true;
