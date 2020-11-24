@@ -986,6 +986,7 @@ namespace Files.Filesystem
                                 var itemPath = Path.Combine(path, findData.cFileName);
                                 if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden && !AppSettings.AreHiddenItemsVisible)
                                 {
+                                    hasNextFile = FindNextFile(hFile, out findData);
                                     continue;
                                 }
 
