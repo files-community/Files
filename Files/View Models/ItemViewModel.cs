@@ -417,7 +417,7 @@ namespace Files.Filesystem
             {
                 orderedList = OrderFiles2(_filesAndFolders);
             }
-            _filesAndFolders.BeginBulkOperation();
+            //_filesAndFolders.BeginBulkOperation();
             for (var i = 0; i < orderedList.Count; i++)
             {
                 if (i < _filesAndFolders.Count)
@@ -436,7 +436,7 @@ namespace Files.Filesystem
             {
                 _filesAndFolders.RemoveAt(_filesAndFolders.Count - 1);
             }
-            _filesAndFolders.EndBulkOperation();
+            //_filesAndFolders.EndBulkOperation();
         }
 
         private IList<ListedItem> OrderFiles2(IList<ListedItem> listToSort)
@@ -714,20 +714,13 @@ namespace Files.Filesystem
                     }
                 }
 
-                if (FilesAndFolders.Count == 0)
+                IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
+                if (_addFilesCTS.IsCancellationRequested)
                 {
-                    if (_addFilesCTS.IsCancellationRequested)
-                    {
-                        _addFilesCTS.Dispose();
-                        _addFilesCTS = new CancellationTokenSource();
-                        IsLoadingItems = false;
-                        return;
-                    }
-                    IsFolderEmptyTextDisplayed = true;
-                }
-                else
-                {
-                    IsFolderEmptyTextDisplayed = false;
+                    _addFilesCTS.Dispose();
+                    _addFilesCTS = new CancellationTokenSource();
+                    IsLoadingItems = false;
+                    return;
                 }
 
                 OrderFiles();
@@ -802,29 +795,26 @@ namespace Files.Filesystem
                         && response.Message.ContainsKey("Enumerate"))
                     {
                         var folderContentsList = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response.Message["Enumerate"]);
-                        var tempList = new List<ListedItem>();
                         for (int count = 0; count < folderContentsList.Count; count++)
                         {
                             var item = folderContentsList[count];
                             var listedItem = AddFileOrFolderFromShellFile(item, returnformat);
                             if (listedItem != null)
                             {
-                                tempList.Add(listedItem);
+                                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                                {
+                                    _filesAndFolders.Add(listedItem);
+                                });
                             }
-                            if (count % 64 == 0)
+                            if (count % 300 == 0)
                             {
-                                var orderedList = OrderFiles2(tempList);
+                                var orderedList = OrderFiles2(_filesAndFolders.ToList());
                                 await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                                 {
                                     OrderFiles(orderedList);
                                 });
                             }
                         }
-                        var finalList = OrderFiles2(tempList);
-                        await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
-                        {
-                            OrderFiles(finalList);
-                        });
                     }
                 }
             });
@@ -989,7 +979,6 @@ namespace Files.Filesystem
                 {
                     await Task.Run(async () =>
                     {
-                        var tempList = new List<ListedItem>();
                         do
                         {
                             if (((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System)
@@ -1005,7 +994,10 @@ namespace Files.Filesystem
                                     var listedItem = await AddFile(findData, path, returnformat);
                                     if (listedItem != null)
                                     {
-                                        tempList.Add(listedItem);
+                                        await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                                        {
+                                            _filesAndFolders.Add(listedItem);
+                                        });
                                         ++count;
                                     }
                                 }
@@ -1016,7 +1008,10 @@ namespace Files.Filesystem
                                         var listedItem = AddFolder(findData, path, returnformat);
                                         if (listedItem != null)
                                         {
-                                            tempList.Add(listedItem);
+                                            await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                                            {
+                                                _filesAndFolders.Add(listedItem);
+                                            });
                                             ++count;
                                         }
                                     }
@@ -1027,9 +1022,9 @@ namespace Files.Filesystem
                                 break;
                             }
 
-                            if (count % 64 == 0)
+                            if (count % 300 == 0)
                             {
-                                var orderedList = OrderFiles2(tempList);
+                                var orderedList = OrderFiles2(_filesAndFolders.ToList());
                                 await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                                 {
                                     OrderFiles(orderedList);
@@ -1038,12 +1033,6 @@ namespace Files.Filesystem
                         } while (FindNextFile(hFile, out findData));
 
                         FindClose(hFile);
-
-                        var finalList = OrderFiles2(tempList);
-                        await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
-                        {
-                            OrderFiles(finalList);
-                        });
                     });
                     return true;
                 }
@@ -1693,25 +1682,22 @@ namespace Files.Filesystem
                 {
                     return;
                 }
-                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId, dateReturnFormat)
                 {
-                    _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId, dateReturnFormat)
-                    {
-                        PrimaryItemAttribute = StorageItemTypes.Folder,
-                        ItemName = folder.Name,
-                        ItemDateModifiedReal = basicProperties.DateModified,
-                        ItemType = folder.DisplayType,
-                        IsHiddenItem = false,
-                        Opacity = 1,
-                        LoadFolderGlyph = true,
-                        FileImage = null,
-                        LoadFileIcon = false,
-                        ItemPath = string.IsNullOrEmpty(folder.Path) ? Path.Combine(_currentStorageFolder.Path, folder.Name) : folder.Path,
-                        LoadUnknownTypeGlyph = false,
-                        FileSize = null,
-                        FileSizeBytes = 0
-                        //FolderTooltipText = tooltipString,
-                    });
+                    PrimaryItemAttribute = StorageItemTypes.Folder,
+                    ItemName = folder.Name,
+                    ItemDateModifiedReal = basicProperties.DateModified,
+                    ItemType = folder.DisplayType,
+                    IsHiddenItem = false,
+                    Opacity = 1,
+                    LoadFolderGlyph = true,
+                    FileImage = null,
+                    LoadFileIcon = false,
+                    ItemPath = string.IsNullOrEmpty(folder.Path) ? Path.Combine(_currentStorageFolder.Path, folder.Name) : folder.Path,
+                    LoadUnknownTypeGlyph = false,
+                    FileSize = null,
+                    FileSizeBytes = 0
+                    //FolderTooltipText = tooltipString,
                 });
             }
         }
@@ -1800,25 +1786,22 @@ namespace Files.Filesystem
             }
             else
             {
-                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                _filesAndFolders.Add(new ListedItem(file.FolderRelativeId, dateReturnFormat)
                 {
-                    _filesAndFolders.Add(new ListedItem(file.FolderRelativeId, dateReturnFormat)
-                    {
-                        PrimaryItemAttribute = StorageItemTypes.File,
-                        FileExtension = itemFileExtension,
-                        IsHiddenItem = false,
-                        Opacity = 1,
-                        LoadUnknownTypeGlyph = itemEmptyImgVis,
-                        FileImage = icon,
-                        LoadFileIcon = itemThumbnailImgVis,
-                        LoadFolderGlyph = itemFolderImgVis,
-                        ItemName = itemName,
-                        ItemDateModifiedReal = itemDate,
-                        ItemType = itemType,
-                        ItemPath = itemPath,
-                        FileSize = itemSize,
-                        FileSizeBytes = (long)itemSizeBytes
-                    });
+                    PrimaryItemAttribute = StorageItemTypes.File,
+                    FileExtension = itemFileExtension,
+                    IsHiddenItem = false,
+                    Opacity = 1,
+                    LoadUnknownTypeGlyph = itemEmptyImgVis,
+                    FileImage = icon,
+                    LoadFileIcon = itemThumbnailImgVis,
+                    LoadFolderGlyph = itemFolderImgVis,
+                    ItemName = itemName,
+                    ItemDateModifiedReal = itemDate,
+                    ItemType = itemType,
+                    ItemPath = itemPath,
+                    FileSize = itemSize,
+                    FileSizeBytes = (long)itemSizeBytes
                 });
             }
         }
