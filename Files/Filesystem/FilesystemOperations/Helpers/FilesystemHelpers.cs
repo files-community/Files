@@ -767,7 +767,7 @@ namespace Files.Filesystem
 
             foreach (StorageFile fileInSourceDir in await sourceFolder.GetFilesAsync())
             {
-                await fileInSourceDir.MoveAsync(destinationDirectory, fileInSourceDir.Name, collision);
+                await fileInSourceDir.MoveAsync(destinationDirectory, fileInSourceDir.Name, (NameCollisionOption)((int)collision));
             }
 
             foreach (StorageFolder folderinSourceDir in await sourceFolder.GetFoldersAsync())
