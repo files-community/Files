@@ -181,7 +181,6 @@ namespace Files.Filesystem
                 // Check if this drive is associated with a drive letter
                 var driveAdded = new DriveInfo(root.Path);
                 type = GetDriveType(driveAdded);
-                deviceId = driveAdded.Name.TrimEnd('\\');
             }
             catch (ArgumentException)
             {
@@ -415,9 +414,12 @@ namespace Files.Filesystem
                     lock (drivesList)
                     {
                         // If drive already in list, skip.
-                        if (drivesList.Any(x => x.DeviceID == deviceId ||
-                            string.IsNullOrEmpty(rootAdded.Result.Path) ? x.Path.Contains(rootAdded.Result.Name) : x.Path == rootAdded.Result.Path))
+                        var matchingDrive = drivesList.FirstOrDefault(x => x.DeviceID == deviceId ||
+                            string.IsNullOrEmpty(rootAdded.Result.Path) ? x.Path.Contains(rootAdded.Result.Name) : x.Path == rootAdded.Result.Path);
+                        if (matchingDrive != null)
                         {
+                            // Update device id to match drive letter
+                            matchingDrive.DeviceID = deviceId;
                             return;
                         }
                         var type = GetDriveType(driveAdded);
