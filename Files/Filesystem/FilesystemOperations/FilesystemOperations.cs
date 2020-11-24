@@ -476,32 +476,36 @@ namespace Files.Filesystem
             if (source.ItemType == FilesystemItemType.Directory)
             {
                 FilesystemResult<StorageFolder> sourceFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.Path);
-                fsResult = sourceFolder.ErrorCode;
+                FilesystemResult<StorageFolder> destinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
+                
+                fsResult = sourceFolder.ErrorCode | destinationFolder.ErrorCode;
                 errorCode?.Report(fsResult);
 
-                if (sourceFolder)
+                if (sourceFolder && destinationFolder)
                 {
-                    fsResult = await FilesystemTasks.Wrap(async () =>
+                    fsResult = await FilesystemTasks.Wrap(() =>
                     {
                         return FilesystemHelpers.MoveDirectoryAsync(sourceFolder.Result,
-                                                                    (StorageFolder)await Path.GetDirectoryName(destination).ToStorageItem(),
-                                                                    Path.GetFileName(destination));
-                    })
-                                .OnSuccess(t => sourceFolder.Result.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
+                                                                    destinationFolder.Result,
+                                                                    Path.GetFileName(destination),
+                                                                    CreationCollisionOption.FailIfExists);
+                    }).OnSuccess(t => sourceFolder.Result.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask()); // TODO: we could use here FilesystemHelpers with registerHistory false?
                 }
                 errorCode?.Report(fsResult);
             }
             else
             {
                 FilesystemResult<StorageFile> sourceFile = await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(source.Path);
-                fsResult = sourceFile.ErrorCode;
+                FilesystemResult<StorageFolder> destinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
+
+                fsResult = sourceFile.ErrorCode | destinationFolder.ErrorCode;
                 errorCode?.Report(fsResult);
 
-                if (sourceFile)
+                if (sourceFile && destinationFolder)
                 {
-                    fsResult = await FilesystemTasks.Wrap(async () =>
+                    fsResult = await FilesystemTasks.Wrap(() =>
                     {
-                        return sourceFile.Result.MoveAsync((IStorageFolder)await Path.GetDirectoryName(destination).ToStorageItem(),
+                        return sourceFile.Result.MoveAsync(destinationFolder.Result,
                                                            Path.GetFileName(destination),
                                                            NameCollisionOption.GenerateUniqueName).AsTask();
                     });

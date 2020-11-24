@@ -619,7 +619,7 @@ namespace Files.Filesystem
                     rawStorageHistory[0].OperationType,
                     rawStorageHistory.SelectMany((item) => item.Source).ToList(),
                     rawStorageHistory.SelectMany((item) => item.Destination).ToList());
-                
+
                 if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
                 {
                     App.AddHistory(history);
@@ -760,22 +760,22 @@ namespace Files.Filesystem
             return createdRoot;
         }
 
-        public static async Task<StorageFolder> MoveDirectoryAsync(StorageFolder SourceFolder, StorageFolder DestinationFolder, string sourceRootName)
+        public static async Task<StorageFolder> MoveDirectoryAsync(IStorageFolder sourceFolder, IStorageFolder destinationDirectory, string sourceRootName, CreationCollisionOption collision = CreationCollisionOption.FailIfExists)
         {
-            StorageFolder createdRoot = await DestinationFolder.CreateFolderAsync(sourceRootName, CreationCollisionOption.FailIfExists);
-            DestinationFolder = createdRoot;
+            StorageFolder createdRoot = await destinationDirectory.CreateFolderAsync(sourceRootName, collision);
+            destinationDirectory = createdRoot;
 
-            foreach (StorageFile fileInSourceDir in await SourceFolder.GetFilesAsync())
+            foreach (StorageFile fileInSourceDir in await sourceFolder.GetFilesAsync())
             {
-                await fileInSourceDir.MoveAsync(DestinationFolder, fileInSourceDir.Name, NameCollisionOption.FailIfExists);
+                await fileInSourceDir.MoveAsync(destinationDirectory, fileInSourceDir.Name, collision);
             }
 
-            foreach (StorageFolder folderinSourceDir in await SourceFolder.GetFoldersAsync())
+            foreach (StorageFolder folderinSourceDir in await sourceFolder.GetFoldersAsync())
             {
-                await MoveDirectoryAsync(folderinSourceDir, DestinationFolder, folderinSourceDir.Name);
+                await MoveDirectoryAsync(folderinSourceDir, destinationDirectory, folderinSourceDir.Name);
             }
 
-            App.JumpList.RemoveFolder(SourceFolder.Path);
+            App.JumpList.RemoveFolder(sourceFolder.Path);
 
             return createdRoot;
         }

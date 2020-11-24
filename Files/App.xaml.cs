@@ -72,10 +72,11 @@ namespace Files
         {
             if (history != null)
             {
-                StorageHistory.Insert(StorageHistoryIndex, history);
-
-                int index = ArrayHelpers.FitBounds(StorageHistoryIndex++, StorageHistory.Count);
-                StorageHistoryIndex = index;
+                StorageHistory.Add(history);
+                if (StorageHistory.Count > 1)
+                {
+                    StorageHistoryIndex++;
+                }
             }
         }
 
@@ -85,7 +86,8 @@ namespace Files
             {
                 StorageHistory.Remove(history);
 
-                int index = ArrayHelpers.FitBounds(StorageHistoryIndex--, StorageHistory.Count);
+                StorageHistoryIndex--;
+                int index = ArrayHelpers.FitBounds(StorageHistoryIndex, StorageHistory.Count);
                 StorageHistoryIndex = index;
             }
         }

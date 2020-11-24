@@ -35,12 +35,11 @@ namespace Files.Filesystem.FilesystemHistory
 
                 try
                 {
-                    App.StorageHistoryIndex--;
-                    int index = ArrayHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count);
-                    return await storageHistoryOperations.Undo(App.StorageHistory[index]);
+                    return await storageHistoryOperations.Undo(App.StorageHistory[App.StorageHistoryIndex]);
                 }
                 finally
                 {
+                    App.StorageHistoryIndex--;
                     App.SemaphoreSlim.Release();
                 }
             }
@@ -59,9 +58,8 @@ namespace Files.Filesystem.FilesystemHistory
 
                 try
                 {
-                    int index = ArrayHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count);
                     App.StorageHistoryIndex++;
-                    return await storageHistoryOperations.Redo(App.StorageHistory[index]);
+                    return await storageHistoryOperations.Redo(App.StorageHistory[App.StorageHistoryIndex]);
                 }
                 finally
                 {
@@ -80,7 +78,7 @@ namespace Files.Filesystem.FilesystemHistory
             App.StorageHistoryIndex >= 0 && App.StorageHistory.Count > 0;
 
         public static bool CanRedo() =>
-            App.StorageHistoryIndex < App.StorageHistory.Count;
+            (App.StorageHistoryIndex + 1) < App.StorageHistory.Count;
 
         #endregion
 
