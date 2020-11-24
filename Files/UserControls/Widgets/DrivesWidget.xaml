@@ -139,6 +139,7 @@
                                         TextWrapping="NoWrap" />
                                     <muxc:ProgressBar Maximum="{x:Bind MaxSpace.GigaBytes, Mode=OneWay}" Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}" />
                                     <TextBlock
+                                        FontSize="12"
                                         Text="{x:Bind SpaceText, Mode=OneWay}"
                                         TextWrapping="Wrap"
                                         ToolTipService.ToolTip="{x:Bind SpaceText, Mode=OneWay}" />
