@@ -828,30 +828,27 @@ namespace Files.Filesystem
             {
                 _rootFolder = res.Result;
             }
-            else if (res == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+            else if (_workingRoot != null)
             {
-                if (!CheckFolderAccessWithWin32(path)) // The folder is really inaccessible
+                _rootFolder = _currentStorageFolder.Folder;
+                enumFromStorageFolder = true;
+            }
+            else if (!CheckFolderAccessWithWin32(path)) // The folder is really inaccessible
+            {
+                if (res == FilesystemErrorCode.ERROR_UNAUTHORIZED)
                 {
                     //TODO: proper dialog
                     await DialogDisplayHelper.ShowDialogAsync(
-                       "AccessDeniedDeleteDialog/Title".GetLocalized(),
-                       "SubDirectoryAccessDenied".GetLocalized());
+                        "AccessDeniedDeleteDialog/Title".GetLocalized(),
+                        "SubDirectoryAccessDenied".GetLocalized());
                     return false;
                 }
-            }
-            else if (res == FilesystemErrorCode.ERROR_NOTFOUND)
-            {
-                await DialogDisplayHelper.ShowDialogAsync(
-                    "FolderNotFoundDialog/Title".GetLocalized(),
-                    "FolderNotFoundDialog/Text".GetLocalized());
-                return false;
-            }
-            else
-            {
-                if (_workingRoot != null)
+                else if (res == FilesystemErrorCode.ERROR_NOTFOUND)
                 {
-                    _rootFolder = _currentStorageFolder.Folder;
-                    enumFromStorageFolder = true;
+                    await DialogDisplayHelper.ShowDialogAsync(
+                        "FolderNotFoundDialog/Title".GetLocalized(),
+                        "FolderNotFoundDialog/Text".GetLocalized());
+                    return false;
                 }
                 else
                 {
