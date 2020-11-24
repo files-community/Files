@@ -405,23 +405,29 @@ namespace Files.Interacts
                 var clickedOnItemPath = clickedOnItem.ItemPath;
                 if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.Folder && !clickedOnItem.IsHiddenItem)
                 {
-                    opened = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(
-                        (clickedOnItem as ShortcutItem)?.TargetPath ?? clickedOnItem.ItemPath)
-                        .OnSuccess(async childFolder =>
+                    var folderPath = (clickedOnItem as ShortcutItem)?.TargetPath ?? clickedOnItem.ItemPath;
+                    opened = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath)
+                        .OnSuccess(childFolder =>
                         {
                             // Add location to MRU List
                             mostRecentlyUsed.Add(childFolder.Folder, childFolder.Path);
-
-                            await AssociatedInstance.FilesystemViewModel.SetWorkingDirectoryAsync(childFolder.Path);
-                            AssociatedInstance.NavigationToolbar.PathControlDisplayText = childFolder.Path;
-
-                            AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
-                            AssociatedInstance.ContentFrame.Navigate(sourcePageType, new NavigationArguments()
-                            {
-                                NavPathParam = childFolder.Path,
-                                AssociatedTabInstance = AssociatedInstance
-                            }, new SuppressNavigationTransitionInfo());
                         });
+                    if (!opened)
+                    {
+                        opened = (FilesystemResult)AssociatedInstance.FilesystemViewModel.CheckFolderAccessWithWin32(folderPath);
+                    }
+                    if (opened)
+                    {
+                        await AssociatedInstance.FilesystemViewModel.SetWorkingDirectoryAsync(folderPath);
+                        AssociatedInstance.NavigationToolbar.PathControlDisplayText = folderPath;
+
+                        AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
+                        AssociatedInstance.ContentFrame.Navigate(sourcePageType, new NavigationArguments()
+                        {
+                            NavPathParam = folderPath,
+                            AssociatedTabInstance = AssociatedInstance
+                        }, new SuppressNavigationTransitionInfo());
+                    }
                 }
                 else if (clickedOnItem.IsHiddenItem)
                 {

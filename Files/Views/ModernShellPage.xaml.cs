@@ -385,16 +385,16 @@ namespace Files.Views.Pages
         {
             var nextPathItemTitle = NavigationToolbar.PathComponents
                 [NavigationToolbar.PathComponents.IndexOf(pathItem) + 1].Title;
-            IList<StorageFolderWithPath> childFolders = new List<StorageFolderWithPath>();
+            IList<StorageFolderWithPath> childFolders = null;
 
             StorageFolderWithPath folder = await FilesystemViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
             if (folder != null)
             {
-                childFolders = await folder.GetFoldersWithPathAsync(string.Empty);
+                childFolders = (await FilesystemTasks.Wrap(() => folder.GetFoldersWithPathAsync(string.Empty))).Result;
             }
             flyout.Items?.Clear();
 
-            if (childFolders.Count == 0)
+            if (childFolders == null || childFolders.Count == 0)
             {
                 var flyoutItem = new MenuFlyoutItem
                 {

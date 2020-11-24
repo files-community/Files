@@ -830,7 +830,7 @@ namespace Files.Filesystem
             }
             else if (res == FilesystemErrorCode.ERROR_UNAUTHORIZED)
             {
-                if (!CheckFolderForHiddenAttribute(path))    // Is a standard location
+                if (!CheckFolderAccessWithWin32(path)) // The folder is really inaccessible
                 {
                     //TODO: proper dialog
                     await DialogDisplayHelper.ShowDialogAsync(
@@ -944,19 +944,19 @@ namespace Files.Filesystem
                     opacity = 0.4;
                 }
 
-                CurrentFolder = new ListedItem(_rootFolder.FolderRelativeId, returnformat)
+                CurrentFolder = new ListedItem(null, returnformat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemPropertiesInitialized = true,
-                    ItemName = _rootFolder.Name,
+                    ItemName = Path.GetFileName(path.TrimEnd('\\')),
                     ItemDateModifiedReal = itemDate,
-                    ItemType = _rootFolder.DisplayType,
+                    ItemType = "FileFolderListItem".GetLocalized(),
                     LoadFolderGlyph = true,
                     FileImage = null,
                     IsHiddenItem = isHidden,
                     Opacity = opacity,
                     LoadFileIcon = false,
-                    ItemPath = string.IsNullOrEmpty(_rootFolder.Path) ? _currentStorageFolder.Path : _rootFolder.Path,
+                    ItemPath = path,
                     LoadUnknownTypeGlyph = false,
                     FileSize = null,
                     FileSizeBytes = 0
@@ -1084,6 +1084,20 @@ namespace Files.Filesystem
             }
             stopwatch.Stop();
             Debug.WriteLine($"Enumerating items in {WorkingDirectory} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
+        }
+
+        public bool CheckFolderAccessWithWin32(string path)
+        {
+            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+            IntPtr hFileTsk = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
+                additionalFlags);
+            if (hFileTsk.ToInt64() != -1)
+            {
+                FindClose(hFileTsk);
+                return true;
+            }
+            return false;
         }
 
         public bool CheckFolderForHiddenAttribute(string path)
