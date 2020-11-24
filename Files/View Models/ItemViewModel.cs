@@ -795,20 +795,18 @@ namespace Files.Filesystem
                         && response.Message.ContainsKey("Enumerate"))
                     {
                         var folderContentsList = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response.Message["Enumerate"]);
+                        var tempList = new List<ListedItem>();
                         for (int count = 0; count < folderContentsList.Count; count++)
                         {
                             var item = folderContentsList[count];
                             var listedItem = AddFileOrFolderFromShellFile(item, returnformat);
                             if (listedItem != null)
                             {
-                                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
-                                {
-                                    _filesAndFolders.Add(listedItem);
-                                });
+                                tempList.Add(listedItem);
                             }
-                            if (count % 300 == 0)
+                            if (count == 32 || count % 300 == 0 || count == folderContentsList.Count - 1)
                             {
-                                var orderedList = OrderFiles2(_filesAndFolders.ToList());
+                                var orderedList = OrderFiles2(tempList);
                                 await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                                 {
                                     OrderFiles(orderedList);
@@ -979,6 +977,8 @@ namespace Files.Filesystem
                 {
                     await Task.Run(async () =>
                     {
+                        var tempList = new List<ListedItem>();
+                        var hasNextFile = false;
                         do
                         {
                             if (((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System)
@@ -994,10 +994,7 @@ namespace Files.Filesystem
                                     var listedItem = await AddFile(findData, path, returnformat);
                                     if (listedItem != null)
                                     {
-                                        await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
-                                        {
-                                            _filesAndFolders.Add(listedItem);
-                                        });
+                                        tempList.Add(listedItem);
                                         ++count;
                                     }
                                 }
@@ -1008,10 +1005,7 @@ namespace Files.Filesystem
                                         var listedItem = AddFolder(findData, path, returnformat);
                                         if (listedItem != null)
                                         {
-                                            await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
-                                            {
-                                                _filesAndFolders.Add(listedItem);
-                                            });
+                                            tempList.Add(listedItem);
                                             ++count;
                                         }
                                     }
@@ -1022,15 +1016,16 @@ namespace Files.Filesystem
                                 break;
                             }
 
-                            if (count % 300 == 0)
+                            hasNextFile = FindNextFile(hFile, out findData);
+                            if (count == 32 || count % 300 == 0 || !hasNextFile)
                             {
-                                var orderedList = OrderFiles2(_filesAndFolders.ToList());
+                                var orderedList = OrderFiles2(tempList);
                                 await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                                 {
                                     OrderFiles(orderedList);
                                 });
                             }
-                        } while (FindNextFile(hFile, out findData));
+                        } while (hasNextFile);
 
                         FindClose(hFile);
                     });
