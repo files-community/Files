@@ -1,5 +1,4 @@
 ﻿using ByteSizeLib;
-using Files.Common;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
@@ -13,10 +12,8 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Windows.Storage.FileProperties;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.View_Models.Properties
 {
@@ -218,6 +215,7 @@ namespace Files.View_Models.Properties
                             Item.ItemPath, System.IO.FileAttributes.Hidden);
                     }
                     break;
+
                 case "ShortcutItemPath":
                 case "ShortcutItemWorkingDir":
                 case "ShortcutItemArguments":

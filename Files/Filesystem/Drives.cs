@@ -8,7 +8,6 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,6 +24,7 @@ namespace Files.Filesystem
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public SettingsViewModel AppSettings => App.AppSettings;
         private List<DriveItem> drivesList = new List<DriveItem>();
+
         public IReadOnlyList<DriveItem> Drives
         {
             get
@@ -35,6 +35,7 @@ namespace Files.Filesystem
                 }
             }
         }
+
         private bool showUserConsentOnInit = false;
 
         private CloudProviderController cloudProviderController;

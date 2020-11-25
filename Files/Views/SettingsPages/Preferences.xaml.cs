@@ -1,5 +1,4 @@
 ﻿using Files.DataModels;
-using Files.Filesystem;
 using Files.View_Models;
 using System;
 using Windows.Storage;

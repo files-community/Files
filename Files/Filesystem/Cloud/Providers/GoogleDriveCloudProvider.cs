@@ -13,7 +13,7 @@ namespace Files.Filesystem.Cloud.Providers
         {
             try
             {
-                // Google Drive's sync database can be in a couple different locations. Go find it. 
+                // Google Drive's sync database can be in a couple different locations. Go find it.
                 string appDataPath = UserDataPaths.GetDefault().LocalAppData;
                 string dbPath = @"Google\Drive\user_default\sync_config.db";
                 var configFile = await StorageFile.GetFileFromPathAsync(Path.Combine(appDataPath, dbPath));

@@ -6,7 +6,6 @@ using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using Windows.ApplicationModel.Core;
 using Windows.Services.Maps;
 using Windows.UI.Xaml;

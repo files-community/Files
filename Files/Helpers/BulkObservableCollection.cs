@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using Windows.ApplicationModel.Core;
 
 namespace Files.Helpers
 {

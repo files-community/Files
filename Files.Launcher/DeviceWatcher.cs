@@ -1,9 +1,6 @@
 ﻿using Files.Common;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Management;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
