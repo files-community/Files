@@ -25,35 +25,30 @@ namespace Files
             itemsAdded.Clear();
             itemsAdded.Add(new FavoriteLocationItem()
             {
-                ImageSource = "Assets/Cards/Gradients/Blue.png",
                 Icon = "\xe91c",
                 Text = "SidebarDownloads".GetLocalized(),
                 Tag = "Downloads"
             });
             itemsAdded.Add(new FavoriteLocationItem()
             {
-                ImageSource = "Assets/Cards/Gradients/Green.png",
                 Icon = "\xea11",
                 Text = "SidebarDocuments".GetLocalized(),
                 Tag = "Documents"
             });
             itemsAdded.Add(new FavoriteLocationItem()
             {
-                ImageSource = "Assets/Cards/Gradients/Orange.png",
                 Icon = "\xea83",
                 Text = "SidebarPictures".GetLocalized(),
                 Tag = "Pictures"
             });
             itemsAdded.Add(new FavoriteLocationItem()
             {
-                ImageSource = "Assets/Cards/Gradients/Pink.png",
                 Icon = "\xead4",
                 Text = "SidebarMusic".GetLocalized(),
                 Tag = "Music"
             });
             itemsAdded.Add(new FavoriteLocationItem()
             {
-                ImageSource = "Assets/Cards/Gradients/Red.png",
                 Icon = "\xec0d",
                 Text = "SidebarVideos".GetLocalized(),
                 Tag = "Videos"
@@ -127,7 +122,6 @@ namespace Files
 
     public class FavoriteLocationItem
     {
-        public string ImageSource { get; set; }
         public string Icon { get; set; }
         public string Text { get; set; }
         public string Tag { get; set; }
