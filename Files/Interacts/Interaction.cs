@@ -162,6 +162,7 @@ namespace Files.Interacts
                 }
             }
         }
+
         public static async void OpenPathInNewTab(string path)
         {
             await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), path);

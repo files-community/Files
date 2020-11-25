@@ -110,6 +110,7 @@ namespace Files.View_Models.Properties
                             x.ItemPath, System.IO.FileAttributes.ReadOnly));
                     }
                     break;
+
                 case "IsHidden":
                     if (ViewModel.IsHidden)
                     {

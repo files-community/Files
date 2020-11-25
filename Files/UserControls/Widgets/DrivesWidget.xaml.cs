@@ -1,13 +1,12 @@
 ﻿using Files.Filesystem;
+using Files.Interacts;
 using Files.View_Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Numerics;
-using Files.Interacts;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
-using System.Linq;
 
 namespace Files
 {
