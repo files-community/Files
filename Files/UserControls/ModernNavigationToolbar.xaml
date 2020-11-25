@@ -886,7 +886,9 @@
                 PlaceholderText="Search"
                 QueryIcon="Find"
                 QuerySubmitted="SearchReigon_QuerySubmitted"
-                TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxStyleFixed}" />
+                SuggestionChosen="SearchReigon_SuggestionChosen"
+                TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxStyleFixed}"
+                TextChanged="SearchReigon_TextChanged" />
             <Button
                 x:Name="VerticalTabStripInvokeButton"
                 x:Uid="VerticalTabStrip"

@@ -38,6 +38,10 @@ namespace Files.UserControls
 
         public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxQuerySubmittedEventArgs> SearchQuerySubmitted;
 
+        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxTextChangedEventArgs> SearchTextChanged;
+
+        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs> SearchSuggestionChosen;
+
         public event ToolbarPathItemInvokedEventHandler ToolbarPathItemInvoked;
 
         public event ToolbarFlyoutOpenedEventHandler ToolbarFlyoutOpened;
@@ -752,6 +756,16 @@ namespace Files.UserControls
         private void SearchReigon_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             SearchQuerySubmitted?.Invoke(sender, args);
+        }
+
+        private void SearchReigon_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            SearchTextChanged?.Invoke(sender, args);
+        }
+
+        private void SearchReigon_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            SearchSuggestionChosen?.Invoke(sender, args);
         }
     }
 }

@@ -105,6 +105,8 @@ namespace Files.Views.Pages
                 (NavigationToolbar as ModernNavigationToolbar).AddressBarTextEntered += ModernShellPage_AddressBarTextEntered;
                 (NavigationToolbar as ModernNavigationToolbar).PathBoxItemDropped += ModernShellPage_PathBoxItemDropped;
                 (NavigationToolbar as ModernNavigationToolbar).SearchQuerySubmitted += ModernShellPage_SearchQuerySubmitted;
+                (NavigationToolbar as ModernNavigationToolbar).SearchTextChanged += ModernShellPage_SearchTextChanged;
+                (NavigationToolbar as ModernNavigationToolbar).SearchSuggestionChosen += ModernShellPage_SearchSuggestionChosen;
 
                 (NavigationToolbar as ModernNavigationToolbar).BackRequested += ModernShellPage_BackNavRequested;
                 (NavigationToolbar as ModernNavigationToolbar).ForwardRequested += ModernShellPage_ForwardNavRequested;
@@ -130,9 +132,19 @@ namespace Files.Views.Pages
             Clipboard_ContentChanged(null, null);
         }
 
+        private void ModernShellPage_SearchSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ModernShellPage_SearchTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            throw new NotImplementedException();
+        }
+
         private void ModernShellPage_SearchQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            
+            throw new NotImplementedException();
         }
 
         private void ModernShellPage_RefreshRequested(object sender, EventArgs e)
@@ -1104,6 +1116,8 @@ namespace Files.Views.Pages
                 (NavigationToolbar as ModernNavigationToolbar).AddressBarTextEntered -= ModernShellPage_AddressBarTextEntered;
                 (NavigationToolbar as ModernNavigationToolbar).PathBoxItemDropped -= ModernShellPage_PathBoxItemDropped;
                 (NavigationToolbar as ModernNavigationToolbar).SearchQuerySubmitted -= ModernShellPage_SearchQuerySubmitted;
+                (NavigationToolbar as ModernNavigationToolbar).SearchTextChanged += ModernShellPage_SearchTextChanged;
+                (NavigationToolbar as ModernNavigationToolbar).SearchSuggestionChosen += ModernShellPage_SearchSuggestionChosen;
 
                 (NavigationToolbar as ModernNavigationToolbar).BackRequested -= ModernShellPage_BackNavRequested;
                 (NavigationToolbar as ModernNavigationToolbar).ForwardRequested -= ModernShellPage_ForwardNavRequested;
