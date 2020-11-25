@@ -191,6 +191,7 @@
     <Compile Include="Filesystem\Cloud\Providers\OneDriveCloudProvider.cs" />
     <Compile Include="Filesystem\Cloud\Providers\OneDriveCommercialCloudProvider.cs" />
     <Compile Include="Filesystem\PropertiesData.cs" />
+    <Compile Include="Filesystem\Search\FolderSearch.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\FilesystemResult.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\StorageFileExtensions.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\IStorageItemWithPath.cs" />

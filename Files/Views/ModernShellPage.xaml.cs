@@ -104,6 +104,7 @@ namespace Files.Views.Pages
                 (NavigationToolbar as ModernNavigationToolbar).ToolbarPathItemLoaded += ModernShellPage_ToolbarPathItemLoaded;
                 (NavigationToolbar as ModernNavigationToolbar).AddressBarTextEntered += ModernShellPage_AddressBarTextEntered;
                 (NavigationToolbar as ModernNavigationToolbar).PathBoxItemDropped += ModernShellPage_PathBoxItemDropped;
+                (NavigationToolbar as ModernNavigationToolbar).SearchQuerySubmitted += ModernShellPage_SearchQuerySubmitted;
 
                 (NavigationToolbar as ModernNavigationToolbar).BackRequested += ModernShellPage_BackNavRequested;
                 (NavigationToolbar as ModernNavigationToolbar).ForwardRequested += ModernShellPage_ForwardNavRequested;
@@ -127,6 +128,11 @@ namespace Files.Views.Pages
             SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             Clipboard_ContentChanged(null, null);
+        }
+
+        private void ModernShellPage_SearchQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            
         }
 
         private void ModernShellPage_RefreshRequested(object sender, EventArgs e)
@@ -1097,6 +1103,7 @@ namespace Files.Views.Pages
                 (NavigationToolbar as ModernNavigationToolbar).ToolbarPathItemLoaded -= ModernShellPage_ToolbarPathItemLoaded;
                 (NavigationToolbar as ModernNavigationToolbar).AddressBarTextEntered -= ModernShellPage_AddressBarTextEntered;
                 (NavigationToolbar as ModernNavigationToolbar).PathBoxItemDropped -= ModernShellPage_PathBoxItemDropped;
+                (NavigationToolbar as ModernNavigationToolbar).SearchQuerySubmitted -= ModernShellPage_SearchQuerySubmitted;
 
                 (NavigationToolbar as ModernNavigationToolbar).BackRequested -= ModernShellPage_BackNavRequested;
                 (NavigationToolbar as ModernNavigationToolbar).ForwardRequested -= ModernShellPage_ForwardNavRequested;

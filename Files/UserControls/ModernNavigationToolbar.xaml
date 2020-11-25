@@ -859,8 +859,9 @@
                 Height="32"
                 Margin="0,0,4,0"
                 Background="Transparent"
+                Click="SearchButton_Click"
                 CornerRadius="2"
-                IsEnabled="False"
+                IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Search"
                 Visibility="Visible">
@@ -884,6 +885,7 @@
                 x:Load="{x:Bind SearchBoxLoaded, Mode=OneWay}"
                 PlaceholderText="Search"
                 QueryIcon="Find"
+                QuerySubmitted="SearchReigon_QuerySubmitted"
                 TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxStyleFixed}" />
             <Button
                 x:Name="VerticalTabStripInvokeButton"
