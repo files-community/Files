@@ -554,9 +554,9 @@ namespace Files.Views.Pages
                     var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentInput));
 
                     var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
-                    if (resFolder)
+                    if (resFolder || FilesystemViewModel.CheckFolderAccessWithWin32(currentInput))
                     {
-                        var pathToNavigate = resFolder.Result.Path;
+                        var pathToNavigate = resFolder.Result?.Path ?? currentInput;
                         ContentFrame.Navigate(AppSettings.GetLayoutType(),
                                               new NavigationArguments()
                                               {
