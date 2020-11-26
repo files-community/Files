@@ -23,6 +23,7 @@
     -->
     <Namespace Name="Microsoft.Xaml.Interactivity" Dynamic="Required All" />
     <Namespace Name="Microsoft.Xaml.Interactions.Core" Dynamic="Required All" />
+    <Namespace Name="NLog" Dynamic="Required All" />
 
     <!-- Add your application specific runtime directives here. -->
   </Application>

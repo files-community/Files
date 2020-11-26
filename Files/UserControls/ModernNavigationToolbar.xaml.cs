@@ -11,6 +11,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -759,7 +760,22 @@ namespace Files.UserControls
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            IsSearchReigonVisible = !IsSearchReigonVisible;
+            IsSearchReigonVisible = true;
+
+            SearchReigon.Focus(FocusState.Programmatic);
+        }
+
+        private void SearchReigon_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (FocusManager.GetFocusedElement() is FlyoutBase ||
+                FocusManager.GetFocusedElement() is AppBarButton ||
+                FocusManager.GetFocusedElement() is Popup)
+            {
+                return;
+            }
+
+            SearchReigon.Text = "";
+            IsSearchReigonVisible = false;
         }
     }
 }

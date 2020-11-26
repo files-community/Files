@@ -1384,18 +1384,27 @@ namespace Files.Filesystem
                                                   additionalFlags);
             FindClose(hFile);
 
-            await CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
+            ListedItem listedItem = null;
+            if ((findData.dwFileAttributes & 0x10) > 0) // FILE_ATTRIBUTE_DIRECTORY
             {
-                if ((findData.dwFileAttributes & 0x10) > 0) // FILE_ATTRIBUTE_DIRECTORY
+                listedItem = AddFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat);
+            }
+            else
+            {
+                listedItem = await AddFile(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat);
+            }
+
+            if (listedItem != null)
+            {
+                var tempList = _filesAndFolders.ToList();
+                tempList.Add(listedItem);
+                var orderedList = OrderFiles2(tempList);
+                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                 {
-                    AddFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat);
-                }
-                else
-                {
-                    await AddFile(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat);
-                }
-                UpdateDirectoryInfo();
-            });
+                    OrderFiles(orderedList);
+                    UpdateDirectoryInfo();
+                });
+            }
         }
 
         private void UpdateDirectoryInfo()
