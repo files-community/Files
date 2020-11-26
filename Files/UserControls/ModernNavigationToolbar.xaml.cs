@@ -774,6 +774,7 @@ namespace Files.UserControls
                 return;
             }
 
+            SearchReigon.Text = "";
             IsSearchReigonVisible = false;
         }
     }
