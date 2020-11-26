@@ -864,8 +864,7 @@
                 CornerRadius="2"
                 IsEnabled="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                 Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Search"
-                Visibility="Visible">
+                ToolTipService.ToolTip="Search">
                 <Button.Content>
                     <FontIcon
                         FontFamily="{StaticResource FluentUIGlyphs}"
@@ -898,12 +897,11 @@
                 </AutoSuggestBox.QueryIcon>
                 <AutoSuggestBox.ItemTemplate>
                     <DataTemplate x:DataType="filesystem:ListedItem">
-                        <Grid Padding="4" Tag="{x:Bind ItemPath}">
+                        <Grid Padding="0,4" Tag="{x:Bind ItemPath}">
                             <StackPanel Orientation="Horizontal" Spacing="8">
                                 <Grid
                                     Width="24"
                                     Height="24"
-                                    Opacity="{x:Bind Opacity, Mode=OneWay}"
                                     Tag="ItemImage">
                                     <Grid
                                         x:Name="Picture"
