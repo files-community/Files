@@ -7,6 +7,7 @@
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     xmlns:converters="using:Files.Converters"
+    xmlns:converters1="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:filesystem="using:Files.Filesystem"
@@ -19,6 +20,8 @@
     mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
+            <converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
+
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="PathBoxHoverBrush" Color="{StaticResource SystemRevealListLowColor}" />
@@ -654,7 +657,7 @@
         ColumnSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">
@@ -859,6 +862,7 @@
                 Width="36"
                 Height="32"
                 Margin="0,0,4,0"
+                x:Load="{x:Bind IsSearchReigonVisible, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                 Background="Transparent"
                 Click="SearchButton_Click"
                 CornerRadius="2"
@@ -883,6 +887,7 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 x:Load="{x:Bind IsSearchReigonVisible, Mode=OneWay}"
+                LostFocus="SearchReigon_LostFocus"
                 PlaceholderText="Search"
                 QuerySubmitted="SearchReigon_QuerySubmitted"
                 SuggestionChosen="SearchReigon_SuggestionChosen"

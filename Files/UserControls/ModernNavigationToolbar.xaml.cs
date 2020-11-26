@@ -759,7 +759,19 @@ namespace Files.UserControls
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            IsSearchReigonVisible = !IsSearchReigonVisible;
+            IsSearchReigonVisible = true;;
+        }
+
+        private void SearchReigon_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (FocusManager.GetFocusedElement() is FlyoutBase ||
+                FocusManager.GetFocusedElement() is AppBarButton ||
+                FocusManager.GetFocusedElement() is Popup)
+            {
+                return;
+            }
+
+            IsSearchReigonVisible = false;
         }
     }
 }
