@@ -23,8 +23,13 @@ namespace Files.Filesystem.Search
             {
                 FolderDepth = FolderDepth.Deep,
                 IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties,
-                UserSearchFilter = string.IsNullOrWhiteSpace(userText)? null : userText
+                UserSearchFilter = string.IsNullOrWhiteSpace(userText)? null : userText,
             };
+            options.SortOrder.Add(new SortEntry()
+            {
+                PropertyName = "System.Search.Rank",
+                AscendingOrder = true
+            });
             options.SetPropertyPrefetch(Windows.Storage.FileProperties.PropertyPrefetchOptions.None, null);
             options.SetThumbnailPrefetch(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
             var itemQueryResult = workingDir.CreateItemQueryWithOptions(options);
