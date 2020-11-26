@@ -173,12 +173,14 @@ namespace Files.Views.Pages
         {
             if (args.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(args.QueryText))
             {
+                App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
                 ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments()
                 {
                     AssociatedTabInstance = this,
                     IsSearchResultPage = true,
                     SearchResults = await FolderSearch.SearchForUserQueryTextAsync(args.QueryText, FilesystemViewModel.WorkingDirectory, -1)
                 });
+                App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
             }
         }
 
