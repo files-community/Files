@@ -1454,6 +1454,10 @@
           <source>New tab</source>
           <target state="translated">Új lap</target>
         </trans-unit>
+        <trans-unit id="NavSearchButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Search</source>
+          <target state="new">Search</target>
+        </trans-unit>
       </group>
     </body>
   </file>

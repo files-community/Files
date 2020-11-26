@@ -863,6 +863,7 @@
                 Height="32"
                 Margin="0,0,4,0"
                 x:Load="{x:Bind IsSearchReigonVisible, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                AutomationProperties.Name="Search"
                 Background="Transparent"
                 Click="SearchButton_Click"
                 CornerRadius="2"

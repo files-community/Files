@@ -1203,4 +1203,7 @@
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
     <value>New tab</value>
   </data>
+  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Search</value>
+  </data>
 </root>
