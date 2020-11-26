@@ -395,22 +395,27 @@ namespace Files.Filesystem
             }
         }
 
-        public void CancelLoadAndClearFiles()
+        public void CancelLoadAndClearFiles(bool isSearchResultPage = false)
         {
             Debug.WriteLine("CancelLoadAndClearFiles");
-            CloseWatcher();
-
-            AssociatedInstance.NavigationToolbar.CanRefresh = true;
-            if (IsLoadingItems == false)
+            if (!isSearchResultPage)
             {
-                return;
-            }
+                CloseWatcher();
 
-            _addFilesCTS.Cancel();
+                AssociatedInstance.NavigationToolbar.CanRefresh = true;
+                if (IsLoadingItems == false)
+                {
+                    return;
+                }
+
+                _addFilesCTS.Cancel();
+                AssociatedInstance.NavigationToolbar.CanGoBack = true;
+                AssociatedInstance.NavigationToolbar.CanGoForward = true;
+            }
+            
             _filesAndFolders.Clear();
-            AssociatedInstance.NavigationToolbar.CanGoBack = true;
-            AssociatedInstance.NavigationToolbar.CanGoForward = true;
-            if (!(WorkingDirectory?.StartsWith(AppSettings.RecycleBinPath) ?? false))
+            
+            if (!(WorkingDirectory?.StartsWith(AppSettings.RecycleBinPath) ?? false) && !isSearchResultPage)
             {
                 // Can't go up from recycle bin
                 AssociatedInstance.NavigationToolbar.CanNavigateToParent = true;
@@ -1816,6 +1821,15 @@ namespace Files.Filesystem
                     FileSize = itemSize,
                     FileSizeBytes = (long)itemSizeBytes
                 });
+            }
+        }
+
+        public void AddSearchResultsToCollection(ObservableCollection<ListedItem> searchItems)
+        {
+            _filesAndFolders.Clear();
+            foreach (ListedItem li in searchItems)
+            {
+                _filesAndFolders.Add(li);
             }
         }
 

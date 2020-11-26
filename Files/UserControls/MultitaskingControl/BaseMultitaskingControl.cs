@@ -46,6 +46,19 @@ namespace Files.UserControls.MultitaskingControl
             }
         }
 
+        private void SetSelectedTabInfoForSearchResults()
+        {
+            var selectedTabItem = MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
+            selectedTabItem.AllowStorageItemDrop = false;
+            string tabLocationHeader = "Search results";
+            Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
+            fontIconSource.Glyph = "\xEB51";
+            fontIconSource.FontFamily = App.Current.Resources["FluentUIGlyphs"] as FontFamily;
+
+            selectedTabItem.Header = tabLocationHeader;
+            selectedTabItem.IconSource = fontIconSource;
+        }
+
         private async Task SetSelectedTabInfoAsync(string tabHeader, string currentPath = null)
         {
             var selectedTabItem = MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
@@ -185,10 +198,17 @@ namespace Files.UserControls.MultitaskingControl
             CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
         }
 
-        public async void UpdateSelectedTab(string tabHeader, string workingDirectoryPath)
+        public async void UpdateSelectedTab(string tabHeader, string workingDirectoryPath, bool searchResultsTab)
         {
             SelectionChanged();
-            await SetSelectedTabInfoAsync(tabHeader, workingDirectoryPath);
+            if (searchResultsTab)
+            {
+                SetSelectedTabInfoForSearchResults();
+            }
+            else
+            {
+                await SetSelectedTabInfoAsync(tabHeader, workingDirectoryPath);
+            }
         }
 
         public static T GetCurrentSelectedTabInstance<T>()

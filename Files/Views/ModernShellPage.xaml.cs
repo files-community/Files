@@ -1,13 +1,16 @@
 ﻿using Files.Common;
 using Files.Dialogs;
 using Files.Filesystem;
+using Files.Filesystem.Search;
 using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
 using Files.View_Models;
+using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -20,6 +23,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.Storage.Search;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Text;
@@ -132,19 +136,50 @@ namespace Files.Views.Pages
             Clipboard_ContentChanged(null, null);
         }
 
-        private void ModernShellPage_SearchSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        private async void ModernShellPage_SearchSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            throw new NotImplementedException();
+            var invokedItem = (args.SelectedItem as ListedItem);
+            if (invokedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+            {
+                ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments()
+                {
+                    NavPathParam = invokedItem.ItemPath,
+                    AssociatedTabInstance = this
+                });
+            }
+            else
+            {
+                // TODO: Add fancy file launch options similar to Interactions.cs OpenSelectedItems()
+                await InteractionOperations.InvokeWin32ComponentAsync(invokedItem.ItemPath);
+            }
         }
 
-        private void ModernShellPage_SearchTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private async void ModernShellPage_SearchTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            throw new NotImplementedException();
+            if(args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                if (!string.IsNullOrWhiteSpace(sender.Text))
+                {
+                    sender.ItemsSource = await FolderSearch.SearchForUserQueryTextAsync(sender.Text, FilesystemViewModel.WorkingDirectory);
+                }
+                else
+                {
+                    sender.ItemsSource = null;
+                }
+            }
         }
 
-        private void ModernShellPage_SearchQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private async void ModernShellPage_SearchQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            throw new NotImplementedException();
+            if (args.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(args.QueryText))
+            {
+                ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments()
+                {
+                    AssociatedTabInstance = this,
+                    IsSearchResultPage = true,
+                    SearchResults = await FolderSearch.SearchForUserQueryTextAsync(args.QueryText, FilesystemViewModel.WorkingDirectory, -1)
+                });
+            }
         }
 
         private void ModernShellPage_RefreshRequested(object sender, EventArgs e)
@@ -1156,5 +1191,7 @@ namespace Files.Views.Pages
     {
         public string NavPathParam { get; set; } = null;
         public IShellPage AssociatedTabInstance { get; set; }
+        public bool IsSearchResultPage { get; set; } = false;
+        public ObservableCollection<ListedItem> SearchResults { get; set; } = new ObservableCollection<ListedItem>();
     }
 }

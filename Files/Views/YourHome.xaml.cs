@@ -128,7 +128,7 @@ namespace Files
             AppInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
             AppInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
             AppInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
-            MainPage.MultitaskingControl?.UpdateSelectedTab(parameters.NavPathParam, null);
+            MainPage.MultitaskingControl?.UpdateSelectedTab(parameters.NavPathParam, null, false);
             AppInstance.NavigationToolbar.CanRefresh = false;
             AppInstance.NavigationToolbar.CanGoBack = AppInstance.ContentFrame.CanGoBack;
             AppInstance.NavigationToolbar.CanGoForward = AppInstance.ContentFrame.CanGoForward;

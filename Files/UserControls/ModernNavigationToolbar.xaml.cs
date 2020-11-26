@@ -339,28 +339,21 @@ namespace Files.UserControls
             }
         }
 
-        private bool SearchBoxLoaded { get; set; } = false;
         public string PathText { get; set; }
 
-        bool INavigationToolbar.IsSearchReigonVisible
+        private bool _IsSearchReigonVisible = false;
+        public bool IsSearchReigonVisible
         {
             get
             {
-                return SearchBoxLoaded;
+                return _IsSearchReigonVisible;
             }
             set
             {
-                if (value)
+                if (value != _IsSearchReigonVisible)
                 {
-                    ToolbarGrid.ColumnDefinitions[2].MinWidth = 285;
-                    ToolbarGrid.ColumnDefinitions[2].Width = GridLength.Auto;
-                    SearchBoxLoaded = true;
-                }
-                else
-                {
-                    ToolbarGrid.ColumnDefinitions[2].MinWidth = 0;
-                    ToolbarGrid.ColumnDefinitions[2].Width = new GridLength(0);
-                    SearchBoxLoaded = false;
+                    _IsSearchReigonVisible = value;
+                    NotifyPropertyChanged("IsSearchReigonVisible");
                 }
             }
         }
@@ -748,11 +741,6 @@ namespace Files.UserControls
             RefreshRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        private void SearchButton_Click(object sender, RoutedEventArgs e)
-        {
-            SearchBoxLoaded = !SearchBoxLoaded;
-        }
-
         private void SearchReigon_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             SearchQuerySubmitted?.Invoke(sender, args);
@@ -766,6 +754,12 @@ namespace Files.UserControls
         private void SearchReigon_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             SearchSuggestionChosen?.Invoke(sender, args);
+            IsSearchReigonVisible = false;
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            IsSearchReigonVisible = !IsSearchReigonVisible;
         }
     }
 }
