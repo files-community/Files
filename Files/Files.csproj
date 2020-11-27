@@ -369,8 +369,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\error.png" />
+    <Content Include="Assets\Files Icon.png" />
     <Content Include="Assets\Files UWP Beta Icon.png" />
-    <Content Include="Assets\Files UWP Icon.png" />
     <Content Include="Assets\FilesHome.png" />
     <Content Include="Assets\FolderIcon2.svg" />
     <Content Include="Assets\FolderIcon.png" />
@@ -382,7 +382,6 @@
     <Content Include="Assets\LargeTile.scale-150.png" />
     <Content Include="Assets\LargeTile.scale-200.png" />
     <Content Include="Assets\LargeTile.scale-400.png" />
-    <Content Include="Assets\logo.bmp" />
     <Content Include="Assets\Custom Glyphs\recyclebin-fabric-glyph.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
