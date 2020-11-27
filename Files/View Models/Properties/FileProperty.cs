@@ -44,9 +44,19 @@ namespace Files.View_Models.Properties
         /// </summary>
         public string ValueText 
         { 
-            get => Converter != null && Value != null ? Converter.Convert(Value, typeof(string), null, null) as string : Value as string;
-            set => Value = Converter != null && value != null? Converter.ConvertBack(value, typeof(object), null, null) : value;
+            get => ConvertToString();
+            set
+            {
+                if(!IsReadOnly)
+                    Value = ConvertBack(value);
+            }
         }
+
+        /// <summary>
+        /// For read-only properties only. 
+        /// Use this to define a function to run on a property so that it displays nicley
+        /// </summary>
+        public Func<object, string> DisplayFunction { get; set; }
 
         /// <summary>
         /// The converter used to convert the property to a string, and vice versa if needed
@@ -132,6 +142,25 @@ namespace Files.View_Models.Properties
             return null;
         }
 
+        private string ConvertToString()
+        {
+            if (DisplayFunction != null)
+                return DisplayFunction.Invoke(Value);
+
+            if (Converter != null && Value != null)
+                return Converter.Convert(Value, typeof(string), null, null) as string;
+
+            return Value as string;
+        }
+
+        private object ConvertBack(string value)
+        {
+            if (Converter != null && value != null)
+                return Converter.ConvertBack(value, typeof(object), null, null);
+
+            return value;
+        }
+
         /// <summary>
         /// Uses the name and section name resources to get their values
         /// </summary>
@@ -187,7 +216,7 @@ namespace Files.View_Models.Properties
             new FileProperty() { Property = "System.Music.DiscNumber", NameResource = "PropertyDiscNumber", SectionResource = "PropertySectionMusic", IsReadOnly = false},
             new FileProperty() { Property = "System.Music.Genre", NameResource = "PropertyGenre", SectionResource = "PropertySectionMusic", IsReadOnly = false},
             new FileProperty() { Property = "System.Music.TrackNumber", NameResource = "PropertyTrackNumber", SectionResource = "PropertySectionMusic", IsReadOnly = false},
-            new FileProperty() { Property = "System.Media.Duration", NameResource = "PropertyDuration", SectionResource = "PropertySectionMedia"},
+            new FileProperty() { Property = "System.Media.Duration", NameResource = "PropertyDuration", SectionResource = "PropertySectionMedia", DisplayFunction = input => new TimeSpan(Convert.ToInt64(input)).ToString("mm':'ss")},
             new FileProperty() { Property = "System.Media.FrameCount", NameResource = "PropertyFrameCount", SectionResource = "PropertySectionMedia"},
             new FileProperty() { Property = "System.Media.ProtectionType", NameResource = "PropertyProtectionType", SectionResource = "PropertySectionMedia"},
             new FileProperty() { Property = "System.Media.AuthorUrl", NameResource = "PropertyAuthorUrl", SectionResource = "PropertySectionMedia"},
