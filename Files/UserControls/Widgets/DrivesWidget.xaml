@@ -30,7 +30,6 @@
             <muxc:ItemsRepeater.Layout>
                 <muxc:UniformGridLayout
                     ItemsStretch="None"
-                    MaximumRowsOrColumns="4"
                     MinColumnSpacing="8"
                     MinItemHeight="90"
                     MinRowSpacing="8"
