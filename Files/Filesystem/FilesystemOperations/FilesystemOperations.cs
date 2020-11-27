@@ -169,17 +169,25 @@ namespace Files.Filesystem
                         progress?.Report((float)(itemSize * 100.0f / itemSize));
                     }
 
-                    await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination))
-                        .OnSuccess(t => FilesystemHelpers.CloneDirectoryAsync((IStorageFolder)source.Path.ToStorageItem(), t, Path.GetFileName(source.Path)))
+                    FilesystemResult<StorageFolder> fsSourceFolderResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(source.Path));
+                    FilesystemResult<StorageFolder> fsDestinationFolderResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
+
+                    if (fsSourceFolderResult && fsDestinationFolderResult)
+                    {
+                        FilesystemResult fsCopyResult = await FilesystemTasks.Wrap(async () =>
+                        {
+                            return await FilesystemHelpers.CloneDirectoryAsync(fsSourceFolderResult.Result, fsDestinationFolderResult.Result, Path.GetFileName(source.Path));
+                        })
                         .OnSuccess(t =>
                         {
                             if (associatedInstance.FilesystemViewModel.CheckFolderForHiddenAttribute(source.Path))
                             {
-                                // The source folder was hidden, apply hidden attribute to destination
-                                NativeFileOperationsHelper.SetFileAttribute(t.Path, FileAttributes.Hidden);
+                            // The source folder was hidden, apply hidden attribute to destination
+                            NativeFileOperationsHelper.SetFileAttribute(t.Path, FileAttributes.Hidden);
                             }
                             copiedItem = t;
                         });
+                    }
                 }
             }
             else if (source.ItemType == FilesystemItemType.File)
