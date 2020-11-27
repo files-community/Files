@@ -1,4 +1,5 @@
-﻿using Files.Interacts;
+﻿using Files.Filesystem;
+using Files.Interacts;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 
@@ -26,7 +27,7 @@ namespace Files.Dialogs
         {
             var textBox = sender as TextBox;
 
-            if (Interaction.ContainsRestrictedCharacters(textBox.Text))
+            if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
             {
                 RenameDialogSymbolsTip.Opacity = 1;
                 IsPrimaryButtonEnabled = false;
@@ -38,7 +39,7 @@ namespace Files.Dialogs
                 IsPrimaryButtonEnabled = true;
             }
 
-            if (Interaction.ContainsRestrictedFileName(textBox.Text))
+            if (FilesystemHelpers.ContainsRestrictedFileName(textBox.Text))
             {
                 IsPrimaryButtonEnabled = false;
             }
