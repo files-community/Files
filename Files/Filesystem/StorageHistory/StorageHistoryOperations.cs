@@ -136,7 +136,7 @@ namespace Files.Filesystem.FilesystemHistory
                             rawStorageHistory.SelectMany((item) => item?.Destination).ToList());
 
                         // We need to change the recycled item paths (since IDs are different) - for Undo() to work
-                        App.StorageHistory[ArrayHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count)].Modify(newHistory);
+                        App.HistoryWrapper.ModifyCurrentHistory(newHistory);
 
                         break;
                     }
@@ -263,7 +263,7 @@ namespace Files.Filesystem.FilesystemHistory
 
                         if (returnStatus == ReturnResult.IntegrityCheckFailed) // Not found, corrupted
                         {
-                            App.RemoveHistory(history);
+                            App.HistoryWrapper.RemoveHistory(history);
                         }
 
                         break;
@@ -295,7 +295,7 @@ namespace Files.Filesystem.FilesystemHistory
                             rawStorageHistory.SelectMany((item) => item?.Source).ToList());
 
                         // We need to change the recycled item paths (since IDs are different) - for Redo() to work
-                        App.StorageHistory[ArrayHelpers.FitBounds(App.StorageHistoryIndex, App.StorageHistory.Count)].Modify(newHistory);
+                        App.HistoryWrapper.ModifyCurrentHistory(newHistory);
 
                         break;
                     }

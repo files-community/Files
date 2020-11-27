@@ -41,10 +41,9 @@ namespace Files
 
         private readonly static CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         public static CancellationToken CancellationToken = cancellationTokenSource.Token;
-
         public static SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
-        public static readonly List<IStorageHistory> StorageHistory = new List<IStorageHistory>();
-        public static int StorageHistoryIndex = 0;
+
+        public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
 
         public static SettingsViewModel AppSettings { get; set; }
         public static InteractionViewModel InteractionViewModel { get; set; }
@@ -66,30 +65,6 @@ namespace Files
             LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
 
             StartAppCenter();
-        }
-
-        public static void AddHistory(IStorageHistory history)
-        {
-            if (history != null)
-            {
-                StorageHistory.Add(history);
-                if (StorageHistory.Count > 1)
-                {
-                    StorageHistoryIndex++;
-                }
-            }
-        }
-
-        public static void RemoveHistory(IStorageHistory history)
-        {
-            if (history != null)
-            {
-                StorageHistory.Remove(history);
-
-                StorageHistoryIndex--;
-                int index = ArrayHelpers.FitBounds(StorageHistoryIndex, StorageHistory.Count);
-                StorageHistoryIndex = index;
-            }
         }
 
         private async void StartAppCenter()

@@ -208,6 +208,7 @@
     <Compile Include="Filesystem\StorageHistory\IStorageHistoryOperations.cs" />
     <Compile Include="Filesystem\StorageHistory\StorageHistory.cs" />
     <Compile Include="Filesystem\StorageHistory\StorageHistoryOperations.cs" />
+    <Compile Include="Filesystem\StorageHistory\StorageHistoryWrapper.cs" />
     <Compile Include="Helpers\AcrylicTheme.cs" />
     <Compile Include="Helpers\Convert\ErrorCodeConverter.cs" />
     <Compile Include="Helpers\StorageItemHelpers.cs" />

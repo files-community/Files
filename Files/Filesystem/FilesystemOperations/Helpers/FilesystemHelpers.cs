@@ -73,7 +73,7 @@ namespace Files.Filesystem
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
             {
-                App.AddHistory(history);
+                App.HistoryWrapper.AddHistory(history);
             }
 
             return returnCode.ToStatus();
@@ -163,7 +163,7 @@ namespace Files.Filesystem
 
                 if (!permanently && registerHistory)
                 {
-                    App.AddHistory(history);
+                    App.HistoryWrapper.AddHistory(history);
                 }
             }
 
@@ -229,7 +229,7 @@ namespace Files.Filesystem
 
             if (!permanently && registerHistory)
             {
-                App.AddHistory(history);
+                App.HistoryWrapper.AddHistory(history);
             }
 
             banner.Remove();
@@ -320,7 +320,7 @@ namespace Files.Filesystem
 
                 if (!permanently && registerHistory)
                 {
-                    App.AddHistory(history);
+                    App.HistoryWrapper.AddHistory(history);
                 }
             }
 
@@ -386,7 +386,7 @@ namespace Files.Filesystem
 
             if (!permanently && registerHistory)
             {
-                App.AddHistory(history);
+                App.HistoryWrapper.AddHistory(history);
             }
 
             banner.Remove();
@@ -409,7 +409,7 @@ namespace Files.Filesystem
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
             {
-                App.AddHistory(history);
+                App.HistoryWrapper.AddHistory(history);
             }
 
             return returnCode.ToStatus();
@@ -492,7 +492,7 @@ namespace Files.Filesystem
 
                 if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
                 {
-                    App.AddHistory(history);
+                    App.HistoryWrapper.AddHistory(history);
                 }
             }
 
@@ -532,7 +532,7 @@ namespace Files.Filesystem
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
             {
-                App.AddHistory(history);
+                App.HistoryWrapper.AddHistory(history);
             }
 
             banner.Remove();
@@ -622,7 +622,7 @@ namespace Files.Filesystem
 
                 if (registerHistory && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
                 {
-                    App.AddHistory(history);
+                    App.HistoryWrapper.AddHistory(history);
                 }
             }
 
@@ -662,7 +662,7 @@ namespace Files.Filesystem
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
             {
-                App.AddHistory(history);
+                App.HistoryWrapper.AddHistory(history);
             }
 
             banner.Remove();
@@ -714,7 +714,7 @@ namespace Files.Filesystem
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
             {
-                App.AddHistory(history);
+                App.HistoryWrapper.AddHistory(history);
             }
 
             return returnCode.ToStatus();
@@ -730,7 +730,7 @@ namespace Files.Filesystem
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
             {
-                App.AddHistory(history);
+                App.HistoryWrapper.AddHistory(history);
             }
 
             return returnCode.ToStatus();

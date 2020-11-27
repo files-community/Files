@@ -26,7 +26,7 @@ namespace Files.Filesystem.FilesystemHistory
 
         public async Task<ReturnResult> TryUndo()
         {
-            if (CanUndo())
+            if (App.HistoryWrapper.CanUndo())
             {
                 if (!(await App.SemaphoreSlim.WaitAsync(0)))
                 {
@@ -35,11 +35,11 @@ namespace Files.Filesystem.FilesystemHistory
 
                 try
                 {
-                    return await storageHistoryOperations.Undo(App.StorageHistory[App.StorageHistoryIndex]);
+                    return await storageHistoryOperations.Undo(App.HistoryWrapper.GetCurrentHistory());
                 }
                 finally
                 {
-                    App.StorageHistoryIndex--;
+                    App.HistoryWrapper.DecreaseIndex();
                     App.SemaphoreSlim.Release();
                 }
             }
@@ -49,7 +49,7 @@ namespace Files.Filesystem.FilesystemHistory
 
         public async Task<ReturnResult> TryRedo()
         {
-            if (CanRedo())
+            if (App.HistoryWrapper.CanRedo())
             {
                 if (!(await App.SemaphoreSlim.WaitAsync(0)))
                 {
@@ -58,8 +58,8 @@ namespace Files.Filesystem.FilesystemHistory
 
                 try
                 {
-                    App.StorageHistoryIndex++;
-                    return await storageHistoryOperations.Redo(App.StorageHistory[App.StorageHistoryIndex]);
+                    App.HistoryWrapper.IncreaseIndex();
+                    return await storageHistoryOperations.Redo(App.HistoryWrapper.GetCurrentHistory());
                 }
                 finally
                 {
@@ -69,16 +69,6 @@ namespace Files.Filesystem.FilesystemHistory
 
             return ReturnResult.Cancelled;
         }
-
-        #endregion
-
-        #region Public Helpers
-
-        public static bool CanUndo() =>
-            App.StorageHistoryIndex >= 0 && App.StorageHistory.Count > 0;
-
-        public static bool CanRedo() =>
-            (App.StorageHistoryIndex + 1) < App.StorageHistory.Count;
 
         #endregion
 
