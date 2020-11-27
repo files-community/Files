@@ -306,23 +306,23 @@
     <Compile Include="UserControls\Widgets\RecentFiles.xaml.cs">
       <DependentUpon>RecentFiles.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View Models\CurrentInstanceViewModel.cs" />
-    <Compile Include="View Models\ItemViewModel.cs" />
+    <Compile Include="ViewModels\CurrentInstanceViewModel.cs" />
+    <Compile Include="ViewModels\ItemViewModel.cs" />
     <Compile Include="Filesystem\ListedItem.cs" />
     <Compile Include="Filesystem\INavigationControlItem.cs" />
     <Compile Include="Filesystem\LocationItem.cs" />
-    <Compile Include="View Models\Properties\BaseProperties.cs" />
-    <Compile Include="View Models\Properties\CombinedProperties.cs" />
-    <Compile Include="View Models\Properties\DriveProperties.cs" />
-    <Compile Include="View Models\Properties\FileProperties.cs" />
-    <Compile Include="View Models\Properties\FolderProperties.cs" />
-    <Compile Include="View Models\Properties\PropertiesTab.cs" />
+    <Compile Include="ViewModels\Properties\BaseProperties.cs" />
+    <Compile Include="ViewModels\Properties\CombinedProperties.cs" />
+    <Compile Include="ViewModels\Properties\DriveProperties.cs" />
+    <Compile Include="ViewModels\Properties\FileProperties.cs" />
+    <Compile Include="ViewModels\Properties\FolderProperties.cs" />
+    <Compile Include="ViewModels\Properties\PropertiesTab.cs" />
     <Compile Include="Views\LayoutModes\GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View Models\InteractionViewModel.cs" />
-    <Compile Include="View Models\DirectoryPropertiesViewModel.cs" />
-    <Compile Include="View Models\SelectedItemsPropertiesViewModel.cs" />
+    <Compile Include="ViewModels\InteractionViewModel.cs" />
+    <Compile Include="ViewModels\DirectoryPropertiesViewModel.cs" />
+    <Compile Include="ViewModels\SelectedItemsPropertiesViewModel.cs" />
     <Compile Include="Interacts\Interaction.cs" />
     <Compile Include="IShellPage.cs" />
     <Compile Include="Views\LayoutModes\GridViewBrowser.xaml.cs">
@@ -378,7 +378,7 @@
     <Compile Include="Views\SettingsPages\Preferences.xaml.cs">
       <DependentUpon>Preferences.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View Models\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="Helpers\WindowDisplayInfo.cs" />
     <Compile Include="Helpers\WindowDisplayMode.cs" />
     <Compile Include="Views\YourHome.xaml.cs">
