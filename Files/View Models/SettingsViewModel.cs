@@ -63,6 +63,7 @@ namespace Files.View_Models
             Analytics.TrackEvent("IsHorizontalTabStripEnabled " + IsHorizontalTabStripEnabled.ToString());
             Analytics.TrackEvent("IsVerticalTabFlyoutEnabled " + IsVerticalTabFlyoutEnabled.ToString());
             Analytics.TrackEvent("AreHiddenItemsVisible " + AreHiddenItemsVisible.ToString());
+            Analytics.TrackEvent("ShowDrivesWidget " + ShowDrivesWidget.ToString());
 
             // Load the supported languages
             var supportedLang = ApplicationLanguages.ManifestLanguages;
@@ -290,7 +291,7 @@ namespace Files.View_Models
 
         public bool ShowDrivesWidget
         {
-            get => Get(false);
+            get => Get(true);
             set => Set(value);
         }
 

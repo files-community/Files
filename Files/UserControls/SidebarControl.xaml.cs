@@ -1,19 +1,14 @@
 ﻿using Files.DataModels;
 using Files.Filesystem;
-using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
-using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
-using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -222,7 +217,7 @@ namespace Files.Controls
                     ShowUnpinItem = false;
                 }
             }
-            
+
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
             App.RightClickedItem = item;
         }

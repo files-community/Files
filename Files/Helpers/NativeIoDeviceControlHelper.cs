@@ -40,7 +40,7 @@ namespace Files.Helpers
             IntPtr lpOverlapped
         );
 
-        [DllImport("api-ms-win-core-io-l1-1-0.dll", SetLastError = true)]
+        [DllImport("api-ms-win-core-handle-l1-1-0.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CloseHandle(IntPtr hObject);
 

@@ -142,6 +142,10 @@ namespace Files
             {
                 ClearSelection();
             }
+            else if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
+            {
+                ParentShellPageInstance.InteractionOperations.ItemPointerPressed(sender, e);
+            }
         }
 
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -215,13 +219,20 @@ namespace Files
 
             foreach (ListedItem listedItem in items)
             {
-                listedItem.IsDimmed = false;
+                if (listedItem.IsHiddenItem)
+                {
+                    listedItem.Opacity = 0.4;
+                }
+                else
+                {
+                    listedItem.Opacity = 1;
+                }
             }
         }
 
         public override void SetItemOpacity(ListedItem item)
         {
-            item.IsDimmed = true;
+            item.Opacity = 0.4;
         }
 
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -339,7 +350,7 @@ namespace Files
         {
             if (sender.DataContext != null && (!(sender.DataContext as ListedItem).ItemPropertiesInitialized) && (args.BringIntoViewDistanceX < sender.ActualHeight))
             {
-                await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
+                await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
                     ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(sender.DataContext as ListedItem, _iconSize);
                     (sender.DataContext as ListedItem).ItemPropertiesInitialized = true;

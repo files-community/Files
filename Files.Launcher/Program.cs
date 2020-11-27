@@ -59,7 +59,7 @@ namespace FilesFullTrust
 
                 // Create filesystem watcher to monitor recycle bin folder(s)
                 // SHChangeNotifyRegister only works if recycle bin is open in explorer :(
-                watchers = new List<FileSystemWatcher>();
+                binWatchers = new List<FileSystemWatcher>();
                 var sid = System.Security.Principal.WindowsIdentity.GetCurrent().User.ToString();
                 foreach (var drive in DriveInfo.GetDrives())
                 {
@@ -77,7 +77,7 @@ namespace FilesFullTrust
                     watcher.Created += Watcher_Changed;
                     watcher.Deleted += Watcher_Changed;
                     watcher.EnableRaisingEvents = true;
-                    watchers.Add(watcher);
+                    binWatchers.Add(watcher);
                 }
 
                 // Preload context menu for better performace
@@ -85,20 +85,27 @@ namespace FilesFullTrust
                 var preloadPath = ApplicationData.Current.LocalFolder.Path;
                 using var _ = Win32API.ContextMenu.GetContextMenuForFiles(new string[] { preloadPath }, Shell32.CMF.CMF_NORMAL | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(false));
 
-                // Connect to app service and wait until the connection gets closed
+                // Initialize app service
                 appServiceExit = new AutoResetEvent(false);
                 InitializeAppServiceConnection();
+
+                // Initialize device watcher
+                deviceWatcher = new DeviceWatcher(connection);
+                deviceWatcher.Start();
+
+                // Wait until the connection gets closed
                 appServiceExit.WaitOne();
             }
             finally
             {
                 connection?.Dispose();
-                foreach (var watcher in watchers)
+                foreach (var watcher in binWatchers)
                 {
                     watcher.Dispose();
                 }
                 handleTable?.Dispose();
                 recycler?.Dispose();
+                deviceWatcher?.Dispose();
                 appServiceExit?.Dispose();
                 mutex?.ReleaseMutex();
             }
@@ -141,7 +148,8 @@ namespace FilesFullTrust
         private static AutoResetEvent appServiceExit;
         private static ShellFolder recycler;
         private static Win32API.DisposableDictionary handleTable;
-        private static IList<FileSystemWatcher> watchers;
+        private static IList<FileSystemWatcher> binWatchers;
+        private static DeviceWatcher deviceWatcher;
 
         private static async void InitializeAppServiceConnection()
         {
@@ -422,11 +430,16 @@ namespace FilesFullTrust
                     });
                     break;
 
-                case "MoveToBin":
+                case "DeleteItem":
                     var fileToDeletePath = (string)args.Request.Message["filepath"];
+                    var permanently = (bool)args.Request.Message["permanently"];
                     using (var op = new ShellFileOperations())
                     {
-                        op.Options = ShellFileOperations.OperationFlags.AllowUndo | ShellFileOperations.OperationFlags.NoUI;
+                        op.Options = ShellFileOperations.OperationFlags.NoUI;
+                        if (!permanently)
+                        {
+                            op.Options |= ShellFileOperations.OperationFlags.AllowUndo;
+                        }
                         using var shi = new ShellItem(fileToDeletePath);
                         op.QueueDeleteOperation(shi);
                         op.PerformOperations();

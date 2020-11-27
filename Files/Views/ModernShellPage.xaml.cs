@@ -385,16 +385,16 @@ namespace Files.Views.Pages
         {
             var nextPathItemTitle = NavigationToolbar.PathComponents
                 [NavigationToolbar.PathComponents.IndexOf(pathItem) + 1].Title;
-            IList<StorageFolderWithPath> childFolders = new List<StorageFolderWithPath>();
+            IList<StorageFolderWithPath> childFolders = null;
 
             StorageFolderWithPath folder = await FilesystemViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
             if (folder != null)
             {
-                childFolders = await folder.GetFoldersWithPathAsync(string.Empty);
+                childFolders = (await FilesystemTasks.Wrap(() => folder.GetFoldersWithPathAsync(string.Empty))).Result;
             }
             flyout.Items?.Clear();
 
-            if (childFolders.Count == 0)
+            if (childFolders == null || childFolders.Count == 0)
             {
                 var flyoutItem = new MenuFlyoutItem
                 {
@@ -499,9 +499,9 @@ namespace Files.Views.Pages
                     var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentInput));
 
                     var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
-                    if (resFolder)
+                    if (resFolder || FilesystemViewModel.CheckFolderAccessWithWin32(currentInput))
                     {
-                        var pathToNavigate = resFolder.Result.Path;
+                        var pathToNavigate = resFolder.Result?.Path ?? currentInput;
                         ContentFrame.Navigate(AppSettings.GetLayoutType(),
                                               new NavigationArguments()
                                               {

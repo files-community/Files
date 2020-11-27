@@ -16,13 +16,33 @@ namespace Files.Filesystem
     {
         public string Glyph { get; set; }
         public string Path { get; set; }
+        public string DeviceID { get; set; }
         public StorageFolder Root { get; set; }
         public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
-        public ByteSize MaxSpace { get; set; }
-        public ByteSize FreeSpace { get; set; }
-        public ByteSize SpaceUsed { get; set; }
         public Visibility ItemVisibility { get; set; } = Visibility.Visible;
         public bool IsRemovable { get; set; }
+
+        private ByteSize maxSpace;
+        private ByteSize freeSpace;
+        private ByteSize spaceUsed;
+
+        public ByteSize MaxSpace
+        {
+            get => maxSpace;
+            set => SetProperty(ref maxSpace, value);
+        }
+
+        public ByteSize FreeSpace
+        {
+            get => freeSpace;
+            set => SetProperty(ref freeSpace, value);
+        }
+
+        public ByteSize SpaceUsed
+        {
+            get => spaceUsed;
+            set => SetProperty(ref spaceUsed, value);
+        }
 
         private DriveType type;
 
@@ -57,22 +77,22 @@ namespace Files.Filesystem
             ItemType = NavigationControlItemType.OneDrive;
         }
 
-        public DriveItem(StorageFolder root, DriveType type)
+        public DriveItem(StorageFolder root, string deviceId, DriveType type)
         {
             Text = root.DisplayName;
             Type = type;
             Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
+            DeviceID = deviceId;
             Root = root;
             IsRemovable = (Type == DriveType.Removable || Type == DriveType.CDRom);
 
-            CoreApplication.MainView.ExecuteOnUIThreadAsync(() => GetDriveItemProperties());
+            CoreApplication.MainView.ExecuteOnUIThreadAsync(() => UpdatePropertiesAsync());
         }
 
-        public async Task UpdateAsync()
+        public async Task UpdateLabelAsync()
         {
             try
             {
-                // Delay is needed to apply the new name
                 var properties = await Root.Properties.RetrievePropertiesAsync(new[] { "System.ItemNameDisplay" })
                     .AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
                 Text = (string)properties["System.ItemNameDisplay"];
@@ -82,7 +102,7 @@ namespace Files.Filesystem
             }
         }
 
-        private async void GetDriveItemProperties()
+        public async Task UpdatePropertiesAsync()
         {
             try
             {
@@ -101,6 +121,7 @@ namespace Files.Filesystem
             catch (NullReferenceException)
             {
                 SpaceText = "DriveCapacityUnknown".GetLocalized();
+                SpaceUsed = ByteSize.FromBytes(0);
             }
         }
 

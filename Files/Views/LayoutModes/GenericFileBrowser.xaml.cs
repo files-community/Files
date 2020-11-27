@@ -211,13 +211,20 @@ namespace Files
 
             foreach (ListedItem listedItem in items)
             {
-                listedItem.IsDimmed = false;
+                if (listedItem.IsHiddenItem)
+                {
+                    listedItem.Opacity = 0.4;
+                }
+                else
+                {
+                    listedItem.Opacity = 1;
+                }
             }
         }
 
         public override void SetItemOpacity(ListedItem item)
         {
-            item.IsDimmed = true;
+            item.Opacity = 0.4;
         }
 
         private async void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -259,7 +266,7 @@ namespace Files
                     {
                         if (!(row.DataContext as ListedItem).ItemPropertiesInitialized)
                         {
-                            await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
+                            await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                             {
                                 ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(row.DataContext as ListedItem);
                                 (row.DataContext as ListedItem).ItemPropertiesInitialized = true;
@@ -432,7 +439,7 @@ namespace Files
                 {
                     if (!(row.DataContext as ListedItem).ItemPropertiesInitialized)
                     {
-                        await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
+                        await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                         {
                             ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(row.DataContext as ListedItem);
                             (row.DataContext as ListedItem).ItemPropertiesInitialized = true;
@@ -528,7 +535,7 @@ namespace Files
                 !item.ItemPropertiesInitialized &&
                 args.BringIntoViewDistanceX < sender.ActualHeight)
             {
-                await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
+                await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
                     ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(parentRow.DataContext as ListedItem);
                     (parentRow.DataContext as ListedItem).ItemPropertiesInitialized = true;
