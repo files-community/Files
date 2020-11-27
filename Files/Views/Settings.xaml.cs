@@ -38,8 +38,22 @@ namespace Files
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame.CanGoBack)
             {
-                rootFrame.GoBack();
+                GoBack();
                 e.Handled = true;
+            }
+        }
+
+        private void SettingsPane_BackRequested(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs args)
+        {
+            GoBack();
+        }
+
+        private void GoBack()
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame.CanGoBack)
+            {
+                rootFrame.GoBack();
             }
         }
 
@@ -57,11 +71,6 @@ namespace Files
                 7 => SettingsContentFrame.Navigate(typeof(About)),
                 _ => SettingsContentFrame.Navigate(typeof(Appearance))
             };
-        }
-
-        private void SettingsPane_BackRequested(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs args)
-        {
-            OnBackRequested(null, null);
-        }
+        }        
     }
 }
