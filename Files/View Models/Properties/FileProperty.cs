@@ -53,8 +53,9 @@ namespace Files.View_Models.Properties
         }
 
         /// <summary>
-        /// For read-only properties only. 
-        /// Use this to define a function to run on a property so that it displays nicley
+        /// This function is run on the value of the property before displaying it.
+        /// Also serves as an alternative to the Converter property
+        /// Note: should only be used on read only properties
         /// </summary>
         public Func<object, string> DisplayFunction { get; set; }
 
@@ -142,6 +143,10 @@ namespace Files.View_Models.Properties
             return null;
         }
 
+        /// <summary>
+        /// Converts the property to a string to be displayed
+        /// </summary>
+        /// <returns></returns>
         private string ConvertToString()
         {
             if (DisplayFunction != null)
@@ -153,6 +158,11 @@ namespace Files.View_Models.Properties
             return Value as string;
         }
 
+        /// <summary>
+        /// Converts a string from a text block back to it's original type
+        /// </summary>
+        /// <param name="value">The input string</param>
+        /// <returns></returns>
         private object ConvertBack(string value)
         {
             if (Converter != null && value != null)
