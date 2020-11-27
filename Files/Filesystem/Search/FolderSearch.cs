@@ -28,7 +28,7 @@ namespace Files.Filesystem.Search
             options.SortOrder.Add(new SortEntry()
             {
                 PropertyName = "System.Search.Rank",
-                AscendingOrder = true
+                AscendingOrder = false
             });
             options.SetPropertyPrefetch(Windows.Storage.FileProperties.PropertyPrefetchOptions.None, null);
             options.SetThumbnailPrefetch(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
