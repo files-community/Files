@@ -195,25 +195,25 @@ namespace Files.UserControls.MultitaskingControl
             await SetSelectedTabInfoAsync(tabHeader, workingDirectoryPath);
         }
 
-        public T GetCurrentSelectedTabInstance<T>()
+        public TTab GetCurrentSelectedTabInstance<TTab>()
         {
             Grid selectedTabContent = MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex].Content as Grid;
             foreach (UIElement uiElement in selectedTabContent.Children)
             {
                 if (uiElement.GetType() == typeof(Frame))
                 {
-                    return (T)(uiElement as Frame).Content;
+                    return (TTab)(uiElement as Frame).Content;
                 }
             }
             return default;
         }
 
-        public List<T> GetAllTabInstances<T>()
+        public List<TTab> GetAllTabInstances<TTab>()
         {
-            List<T> instances = new List<T>();
+            List<TTab> instances = new List<TTab>();
             foreach (TabItem tabItem in MainPage.AppInstances)
             {
-                instances.Add((T)((tabItem.Content as Grid).Children.First(element => element.GetType() == typeof(Frame)) as Frame).Content);
+                instances.Add((TTab)((tabItem.Content as Grid).Children.First(element => element.GetType() == typeof(Frame)) as Frame).Content);
             }
             return instances;
         }
