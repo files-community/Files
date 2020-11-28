@@ -611,14 +611,7 @@ namespace Files.Interacts
 
         public void CloseTab()
         {
-            if (MainPage.MultitaskingControl.Items.Count == 1)
-            {
-                App.CloseApp();
-            }
-            else if (MainPage.MultitaskingControl.Items.Count > 1)
-            {
-                MainPage.MultitaskingControl.Items.RemoveAt(App.InteractionViewModel.TabStripSelectedIndex);
-            }
+            MainPage.MultitaskingControl.RemoveTab(MainPage.MultitaskingControl.Items.ElementAt(App.InteractionViewModel.TabStripSelectedIndex));
         }
 
         public RelayCommand OpenNewWindow => new RelayCommand(() => LaunchNewWindow());

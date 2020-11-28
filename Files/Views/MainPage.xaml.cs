@@ -124,7 +124,7 @@ namespace Files.Views
                             }
                             else
                             {
-                                AddNewTab();
+                                AddNewTabAsync();
                             }
                         }
                         else if (App.AppSettings.ContinueLastSessionOnStartUp)
@@ -139,22 +139,22 @@ namespace Files.Views
                             }
                             else
                             {
-                                AddNewTab();
+                                AddNewTabAsync();
                             }
                         }
                         else
                         {
-                            AddNewTab();
+                            AddNewTabAsync();
                         }
                     }
                     catch (Exception)
                     {
-                        AddNewTab();
+                        AddNewTabAsync();
                     }
                 }
                 else if (string.IsNullOrEmpty(navArgs))
                 {
-                    AddNewTab();
+                    AddNewTabAsync();
                 }
                 else
                 {
@@ -168,7 +168,7 @@ namespace Files.Views
             }
         }
 
-        public static async void AddNewTab()
+        public static async Task AddNewTabAsync()
         {
             await AddNewTabByPathAsync(typeof(ModernShellPage), "NewTab".GetLocalized());
         }
@@ -215,9 +215,14 @@ namespace Files.Views
 
         public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
         {
-            string tabLocationHeader = null;
+            string tabLocationHeader = string.Empty;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
             fontIconSource.FontFamily = App.Current.Resources["FluentUIGlyphs"] as FontFamily;
+
+            if (string.IsNullOrEmpty(path))
+            {
+                path = "NewTab".GetLocalized();
+            }
 
             if (path != null)
             {

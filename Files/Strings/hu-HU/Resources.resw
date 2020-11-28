@@ -34,7 +34,7 @@
     <value>Új Lap</value>
   </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>új Ablak</value>
+    <value>Új Ablak</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
     <value>Mappa</value>
@@ -103,7 +103,7 @@
     <value>Mind kijelölése</value>
   </data>
   <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
-    <value>Kijelölés invertálása</value>
+    <value>Kijelölés megfordítása</value>
   </data>
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>Kijelölés megszűntetése</value>
@@ -1082,6 +1082,9 @@
   </data>
   <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
     <value>Hiba az eszköz kiadása közben</value>
+  </data>
+  <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
+    <value>Az eszköz jelenleg használatban van. Zárjon be minden programot, ablakot ami használhatja, majd próbálja újra.</value>
   </data>
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Kiadás</value>

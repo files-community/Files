@@ -275,6 +275,8 @@
     <Compile Include="Enums\WallpaperType.cs" />
     <Compile Include="Filesystem\DriveItem.cs" />
     <Compile Include="Filesystem\Drives.cs" />
+    <Compile Include="UserControls\MultitaskingControl\TabItem\ITabItem.cs" />
+    <Compile Include="UserControls\MultitaskingControl\TabItem\ITabItemControl.cs" />
     <Compile Include="UserControls\PropertyListItem.xaml.cs">
       <DependentUpon>PropertyListItem.xaml</DependentUpon>
     </Compile>
@@ -293,7 +295,7 @@
     <Compile Include="UserControls\StatusCenter.xaml.cs">
       <DependentUpon>StatusCenter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\MultitaskingControl\TabItem.cs" />
+    <Compile Include="UserControls\MultitaskingControl\TabItem\TabItem.cs" />
     <Compile Include="UserControls\MultitaskingControl\VerticalTabViewControl.xaml.cs">
       <DependentUpon>VerticalTabViewControl.xaml</DependentUpon>
     </Compile>

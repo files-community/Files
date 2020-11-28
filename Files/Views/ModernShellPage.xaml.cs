@@ -891,6 +891,16 @@ namespace Files.Views.Pages
                     await storageHistoryHelpers.TryRedo();
                     break;
 
+                case (true, true, false, false, VirtualKey.T): // ctrl + shif + t, restore recently closed tab
+                    {
+                        if (!MainPage.MultitaskingControl.RestoredRecentlyClosedTab)
+                        {
+                            await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), MainPage.MultitaskingControl.RecentlyClosedTabs.Last().Path);
+                            MainPage.MultitaskingControl.RestoredRecentlyClosedTab = true;
+                        }
+                    }
+                    break;
+
                 case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
                     if (InstanceViewModel.CanCreateFileInPage)
                     {
