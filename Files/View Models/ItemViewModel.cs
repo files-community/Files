@@ -987,30 +987,27 @@ namespace Files.Filesystem
                             if (((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System)
                             {
                                 var itemPath = Path.Combine(path, findData.cFileName);
-                                if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden && !AppSettings.AreHiddenItemsVisible)
+                                if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) != FileAttributes.Hidden || AppSettings.AreHiddenItemsVisible)
                                 {
-                                    hasNextFile = FindNextFile(hFile, out findData);
-                                    continue;
-                                }
-
-                                if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
-                                {
-                                    var listedItem = await AddFile(findData, path, returnformat);
-                                    if (listedItem != null)
+                                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                                     {
-                                        tempList.Add(listedItem);
-                                        ++count;
-                                    }
-                                }
-                                else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
-                                {
-                                    if (findData.cFileName != "." && findData.cFileName != "..")
-                                    {
-                                        var listedItem = AddFolder(findData, path, returnformat);
+                                        var listedItem = await AddFile(findData, path, returnformat);
                                         if (listedItem != null)
                                         {
                                             tempList.Add(listedItem);
                                             ++count;
+                                        }
+                                    }
+                                    else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+                                    {
+                                        if (findData.cFileName != "." && findData.cFileName != "..")
+                                        {
+                                            var listedItem = AddFolder(findData, path, returnformat);
+                                            if (listedItem != null)
+                                            {
+                                                tempList.Add(listedItem);
+                                                ++count;
+                                            }
                                         }
                                     }
                                 }
