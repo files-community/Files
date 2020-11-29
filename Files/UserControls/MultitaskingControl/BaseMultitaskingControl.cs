@@ -37,7 +37,7 @@ namespace Files.UserControls.MultitaskingControl
 
         public List<ITabItem> RecentlyClosedTabs { get; private set; } = new List<ITabItem>();
 
-        public bool RestoredRecentlyClosedTab { get; set; }
+        public bool RestoredRecentlyClosedTab { get; set; } = true; // True here is the default value
 
         private void MultitaskingControl_CurrentInstanceChanged(object sender, CurrentInstanceChangedEventArgs e)
         {

@@ -893,7 +893,7 @@ namespace Files.Views.Pages
 
                 case (true, true, false, _, VirtualKey.T): // ctrl + shif + t, restore recently closed tab
                     {
-                        if (!MainPage.MultitaskingControl.RestoredRecentlyClosedTab)
+                        if (!MainPage.MultitaskingControl.RestoredRecentlyClosedTab && MainPage.MultitaskingControl.Items.Count > 0)
                         {
                             await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), MainPage.MultitaskingControl.RecentlyClosedTabs.Last().Path);
                             MainPage.MultitaskingControl.RestoredRecentlyClosedTab = true;
