@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Windows.UI.Xaml;
 
 namespace Files.UserControls.MultitaskingControl
 {
@@ -15,7 +14,15 @@ namespace Files.UserControls.MultitaskingControl
 
         ObservableCollection<TabItem> Items { get; }
 
-        void MultitaskingControl_Loaded(object sender, RoutedEventArgs e);
+        List<ITabItem> RecentlyClosedTabs { get; }
+
+        bool RestoredRecentlyClosedTab { get; set; }
+
+        public TTab GetCurrentSelectedTabInstance<TTab>();
+
+        public List<TTab> GetAllTabInstances<TTab>();
+
+        public void RemoveTab(TabItem tabItem);
     }
 
     public class CurrentInstanceChangedEventArgs : EventArgs
