@@ -576,10 +576,6 @@
           <source>Tiles View</source>
           <target state="translated">ஓடுகள் காட்சி</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogOKButton.Content" translate="yes" xml:space="preserve">
-          <source>OK</source>
-          <target state="translated">சரி</target>
-        </trans-unit>
         <trans-unit id="AccessDeniedDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>We weren't able to delete this item</source>
           <target state="translated">இந்த உருப்படியை எங்களால் நீக்க இயலவில்லை</target>
@@ -639,14 +635,6 @@
         <trans-unit id="FileInUseDeleteDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
           <target state="translated">சரி</target>
-        </trans-unit>
-        <trans-unit id="PropertiesDialogReadOnly.Content" translate="yes" xml:space="preserve">
-          <source>Read-only</source>
-          <target state="translated">படிக்க-மட்டும்</target>
-        </trans-unit>
-        <trans-unit id="PropertiesDialogHidden.Content" translate="yes" xml:space="preserve">
-          <source>Hidden</source>
-          <target state="translated">மறைந்த</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
@@ -1458,6 +1446,18 @@
         <trans-unit id="HorizontalMultitaskingControlNewTab.Text" translate="yes" xml:space="preserve">
           <source>New tab</source>
           <target state="new">New tab</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogApplyButton.Content" translate="yes" xml:space="preserve">
+          <source>Apply</source>
+          <target state="new">Apply</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogReadOnly.Text" translate="yes" xml:space="preserve">
+          <source>Read-only</source>
+          <target state="new">Read-only</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogHidden.Text" translate="yes" xml:space="preserve">
+          <source>Hidden</source>
+          <target state="new">Hidden</target>
         </trans-unit>
       </group>
     </body>

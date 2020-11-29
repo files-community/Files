@@ -438,9 +438,6 @@
   <data name="StatusBarControlTilesView.Text" xml:space="preserve">
     <value>タイル</value>
   </data>
-  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
-    <value>OK</value>
-  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>このアイテムを削除できませんでした</value>
   </data>
@@ -485,12 +482,6 @@
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>選択オプション</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>読み取り専用</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>隠しファイル</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>ごみ箱を空にする</value>

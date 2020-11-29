@@ -381,9 +381,6 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Öğe zaten mevcut</value>
   </data>
-  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
-    <value>Tamam</value>
-  </data>
   <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
     <value>Erişim engellendi</value>
   </data>
@@ -401,12 +398,6 @@
   </data>
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>Tamam</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>Salt okunur</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>Gizli</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Geri dönüşüm kutusunu boşalt</value>

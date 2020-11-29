@@ -432,9 +432,6 @@
   <data name="StatusBarControlTilesView.Text" xml:space="preserve">
     <value>ஓடுகள் காட்சி</value>
   </data>
-  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
-    <value>சரி</value>
-  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>இந்த உருப்படியை எங்களால் நீக்க இயலவில்லை</value>
   </data>
@@ -479,12 +476,6 @@
   </data>
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>சரி</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>படிக்க-மட்டும்</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>மறைந்த</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>மறுசுழற்சிக் கூடையைக் காலியாக்கு</value>

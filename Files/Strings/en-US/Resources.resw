@@ -567,8 +567,8 @@
   <data name="StatusBarControlTilesView.Text" xml:space="preserve">
     <value>Tiles View</value>
   </data>
-  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
-    <value>OK</value>
+  <data name="PropertiesDialogApplyButton.Content" xml:space="preserve">
+    <value>Apply</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>We weren't able to delete this item</value>
@@ -615,10 +615,10 @@
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Selection options</value>
   </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
+  <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Read-only</value>
   </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
+  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
     <value>Hidden</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">

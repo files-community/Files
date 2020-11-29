@@ -444,9 +444,6 @@
   <data name="StatusBarControlTilesView.Text" xml:space="preserve">
     <value>टाइल्स व्यू</value>
   </data>
-  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
-    <value>ठीक है</value>
-  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>हम इस आइटम को हटाने में सक्षम नहीं हुए</value>
   </data>
@@ -491,12 +488,6 @@
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>चयन विकल्प</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>केवल पठन</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>छिपा हुआ</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>रीसायकल बिन खाली करें</value>

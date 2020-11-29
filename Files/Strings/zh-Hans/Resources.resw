@@ -438,9 +438,6 @@
   <data name="StatusBarControlTilesView.Text" xml:space="preserve">
     <value>磁贴视图</value>
   </data>
-  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
-    <value>确定</value>
-  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>无法删除此文件</value>
   </data>
@@ -485,12 +482,6 @@
   </data>
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>确定</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>只读</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>隐藏</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>清空回收站</value>

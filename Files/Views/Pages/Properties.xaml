@@ -86,13 +86,13 @@
             </Grid.ColumnDefinitions>
             <Button
                 x:Name="OKButton"
-                x:Uid="PropertiesDialogOKButton"
+                x:Uid="PropertiesDialogApplyButton"
                 Grid.Column="1"
                 MinWidth="100"
                 Margin="0,0,10,0"
                 HorizontalAlignment="Right"
                 Click="OKButton_Click"
-                Content="OK"
+                Content="Apply"
                 Style="{ThemeResource ButtonRevealStyle}" />
             <Button
                 x:Name="CancelButton"
