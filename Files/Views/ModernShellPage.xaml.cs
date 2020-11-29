@@ -891,7 +891,7 @@ namespace Files.Views.Pages
                     await storageHistoryHelpers.TryRedo();
                     break;
 
-                case (true, true, false, true, VirtualKey.T): // ctrl + shif + t, restore recently closed tab
+                case (true, true, false, _, VirtualKey.T): // ctrl + shif + t, restore recently closed tab
                     {
                         if (!MainPage.MultitaskingControl.RestoredRecentlyClosedTab)
                         {
