@@ -1,6 +1,9 @@
-﻿using Microsoft.Toolkit.Uwp.Extensions;
+﻿using Files.DataModels;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
+using System.Collections.Generic;
 using Windows.ApplicationModel;
+using Windows.Services.Store;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -38,6 +41,22 @@ namespace Files.SettingsPages
             }
 
             (FeedbackListView.Items[FeedbackListView.SelectedIndex] as ListViewItem).IsSelected = false;
+        }
+        private StoreContext context = null;
+        private async void UpdateCheck_Click(object sender, RoutedEventArgs e)
+        {
+            //AppUpdater updater = new AppUpdater();
+            //int updates = await updater.CheckForUpdatesAsync();
+
+            if (context == null)
+            {
+                context = StoreContext.GetDefault();
+            }
+
+            // Get the updates that are available.
+            IReadOnlyList<StorePackageUpdate> updates =
+                await context.GetAppAndOptionalStorePackageUpdatesAsync();
+            ;
         }
     }
 }

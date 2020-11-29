@@ -188,6 +188,7 @@
                             VerticalAlignment="Center"
                             Text="License:" />
                         <HyperlinkButton NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt">GPL</HyperlinkButton>
+                        <Button Content="Check for Updates" Click="UpdateCheck_Click"/>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
