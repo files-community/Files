@@ -388,7 +388,7 @@
     <value>Propriétés</value>
   </data>
   <data name="PropertiesAttributes.Text" xml:space="preserve">
-    <value>Attributs : </value>
+    <value>Attributs :</value>
   </data>
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Propriétés</value>
@@ -642,6 +642,15 @@
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Exécuter en tant qu’autre utilisateur</value>
   </data>
+  <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
+    <value>Tous de type {0}</value>
+  </data>
+  <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
+    <value>Différents types</value>
+  </data>
+  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+    <value>Tous dans {0}</value>
+  </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Espace utilisé :</value>
   </data>
@@ -652,7 +661,7 @@
     <value>Capacité :</value>
   </data>
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
-    <value>Système de fichiers : </value>
+    <value>Système de fichiers :</value>
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Récent</value>
@@ -819,6 +828,9 @@
   <data name="RenameError.NameInvalid.Title" xml:space="preserve">
     <value>Nom d'élément invalide</value>
   </data>
+  <data name="RenameError.TooLong.Text" xml:space="preserve">
+    <value>La longueur du nom de l'élément dépasse la limite maximum. Veuillez vérifier le nom désiré et essayer à nouveau.</value>
+  </data>
   <data name="RenameError.TooLong.Title" xml:space="preserve">
     <value>Le nom de l'élément était trop long</value>
   </data>
@@ -837,14 +849,23 @@
   <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
     <value>Adaptif (Recommandé)</value>
   </data>
+  <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
+    <value>Sélectionne la meilleure expérience multitâche basée sur la taille de la fenêtre. Quand la fenêtre est petite, vous verrez la liste horizontale des onglets disparaitre au profit d'une liste horizontale dans la barre de navigation.</value>
+  </data>
   <data name="SettingsMultitaskingHorizontal.Content" xml:space="preserve">
     <value>Horizontal</value>
+  </data>
+  <data name="SettingsMultitaskingHorizontalDescription.Text" xml:space="preserve">
+    <value>Masque toujours la liste des onglets verticale de la barre de navigation, et affiche la traditionnelle liste horizontale des onglets. C'est profitable pour les utilisateurs qui ont besoin de garder une trace de tous les onglets ouverts en permanence.</value>
   </data>
   <data name="SettingsMultitaskingTitle.Text" xml:space="preserve">
     <value>Multitâche</value>
   </data>
   <data name="SettingsMultitaskingVertical.Content" xml:space="preserve">
     <value>Vertical</value>
+  </data>
+  <data name="SettingsMultitaskingVerticalDescription.Text" xml:space="preserve">
+    <value>Réduit la liste horizontale des onglets en une liste verticale sur la barre de navigation, pensé pour les utilisateurs désirant une interface propre avec accès à la demande à l'expérience multitâche.</value>
   </data>
   <data name="SettingsNavMultitasking.Content" xml:space="preserve">
     <value>Multitâche</value>
@@ -899,6 +920,12 @@
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Disposition</value>
+  </data>
+  <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Naviguer en arrière</value>
+  </data>
+  <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Naviguer en avant</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Actualiser le dossier</value>
@@ -977,5 +1004,83 @@
   </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
     <value>Afficher le propriétaire dans les propriétés</value>
+  </data>
+  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Plus d'options</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.AutomationProperties.Name" xml:space="preserve">
+    <value>Displosition</value>
+  </data>
+  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
+    <value>Ouvrir les éléments d'un seul clic</value>
+  </data>
+  <data name="FileItemAutomation" xml:space="preserve">
+    <value>Fichier</value>
+  </data>
+  <data name="FolderItemAutomation" xml:space="preserve">
+    <value>Dossier</value>
+  </data>
+  <data name="RecycleBinItemAutomation" xml:space="preserve">
+    <value>Élément de la Corbeille</value>
+  </data>
+  <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
+    <value>Déplacer ici</value>
+  </data>
+  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+    <value>Lecteurs</value>
+  </data>
+  <data name="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" xml:space="preserve">
+    <value>Afficher les librairies sur la page d'accueil</value>
+  </data>
+  <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
+    <value>Afficher les librairies sur la page d'accueil</value>
+  </data>
+  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
+    <value>Widgets</value>
+  </data>
+  <data name="SettingsWidgets.Content" xml:space="preserve">
+    <value>Widgets</value>
+  </data>
+  <data name="SettingsWidgetsShowDrives.AutomationProperties.Name" xml:space="preserve">
+    <value>Afficher les lecteurs sur la page d'accueil</value>
+  </data>
+  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
+    <value>Afficher les lecteurs sur la page d'accueil</value>
+  </data>
+  <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
+    <value>Afficher les fichiers récents sur la page d'accueil</value>
+  </data>
+  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
+    <value>Afficher les fichiers récents sur la page d'accueil</value>
+  </data>
+  <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
+    <value>Afficher une option pour copier l'emplacement de l'élément sélectionné</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
+    <value>Afficher les fichiers et dossiers cachés</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Afficher les fichiers et dossiers cachés</value>
+  </data>
+  <data name="EjectNotificationBody" xml:space="preserve">
+    <value>Le périphériques peut maintenant être retiré en tout sécurité de l'ordinateur.</value>
+  </data>
+  <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
+    <value>Problème lors de l'éjection du périphérique</value>
+  </data>
+  <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
+    <value>Le périphérique est actuellement utilisé. Fermez tous les programmes, fenêtres, ou onglets qui peuvent utiliser le périphérique, et essayez à nouveau.</value>
+  </data>
+  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+    <value>Éjecter</value>
+  </data>
+  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+    <value>Dupliquer l'onglet</value>
+  </data>
+  <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
+    <value>Déplacer l'onglet vers une nouvelle fenêtre</value>
+  </data>
+  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+    <value>Nouvel onglet</value>
   </data>
 </root>

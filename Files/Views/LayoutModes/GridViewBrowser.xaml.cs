@@ -75,6 +75,14 @@ namespace Files
             }
         }
 
+        public override void AddSelectedItemsOnUi(List<ListedItem> selectedItems)
+        {
+            foreach (ListedItem selectedItem in selectedItems)
+            {
+                FileList.SelectedItems.Add(selectedItem);
+            }
+        }
+
         public override void SelectAllItems()
         {
             ClearSelection();
@@ -199,7 +207,7 @@ namespace Files
         {
             var textBox = sender as TextBox;
 
-            if (Interaction.ContainsRestrictedCharacters(textBox.Text))
+            if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
             {
                 FileNameTeachingTip.IsOpen = true;
             }

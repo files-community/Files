@@ -1,0 +1,343 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Windows.Storage;
+using Files.Helpers;
+using Files.Enums;
+
+namespace Files.Filesystem.FilesystemHistory
+{
+    public class StorageHistoryOperations : IStorageHistoryOperations
+    {
+        #region Private Members
+
+        private IFilesystemOperations filesystemOperations;
+
+        private IFilesystemHelpers filesystemHelpers;
+
+        private IShellPage associatedInstance;
+
+        private readonly CancellationToken cancellationToken;
+
+        #endregion
+
+        #region Constructor
+
+        public StorageHistoryOperations(IShellPage associatedInstance, CancellationToken cancellationToken)
+        {
+            this.associatedInstance = associatedInstance;
+            this.cancellationToken = cancellationToken;
+            filesystemOperations = new FilesystemOperations(associatedInstance);
+            filesystemHelpers = new FilesystemHelpers(associatedInstance, cancellationToken);
+        }
+
+        #endregion
+
+        #region IStorageHistoryOperations
+
+        public async Task<ReturnResult> Redo(IStorageHistory history)
+        {
+            ReturnResult returnStatus = ReturnResult.InProgress;
+            Progress<FilesystemErrorCode> errorCode = new Progress<FilesystemErrorCode>();
+
+            errorCode.ProgressChanged += (s, e) => { returnStatus = e.ToStatus(); };
+
+            switch (history.OperationType)
+            {
+                case FileOperationType.CreateNew: // CreateNew PASS
+                    {
+                        if (IsHistoryNull(history))
+                        {
+                            break;
+                        }
+
+                        for (int i = 0; i < history.Source.Count(); i++)
+                        {
+                            await filesystemOperations.CreateAsync(history.Source.ElementAt(i), errorCode, cancellationToken);
+                        }
+
+                        break;
+                    }
+
+                case FileOperationType.Rename: // Rename PASS
+                    {
+                        if (IsHistoryNull(history))
+                        {
+                            break;
+                        }
+
+                        NameCollisionOption collision = NameCollisionOption.GenerateUniqueName;
+                        for (int i = 0; i < history.Source.Count(); i++)
+                        {
+                            await filesystemOperations.RenameAsync(
+                                history.Source.ElementAt(i),
+                                Path.GetFileName(history.Destination.ElementAt(i).Path),
+                                collision,
+                                errorCode,
+                                cancellationToken);
+                        }
+
+                        break;
+                    }
+
+                case FileOperationType.Copy: // Copy PASS
+                    {
+                        if (IsHistoryNull(history))
+                        {
+                            break;
+                        }
+
+                        return await filesystemHelpers.CopyItemsAsync(history.Source, history.Destination.Select((item) => item.Path), false);
+                    }
+
+                case FileOperationType.Move: // Move PASS
+                    {
+                        if (IsHistoryNull(history))
+                        {
+                            break;
+                        }
+
+                        return await filesystemHelpers.MoveItemsAsync(history.Source, history.Destination.Select((item) => item.Path), false);
+                    }
+
+                case FileOperationType.Extract: // Extract PASS
+                    {
+                        returnStatus = ReturnResult.Success;
+                        Debugger.Break();
+
+                        break;
+                    }
+
+                case FileOperationType.Recycle: // Recycle PASS
+                    {
+                        if (IsHistoryNull(history.Destination))
+                        {
+                            break;
+                        }
+
+                        List<IStorageHistory> rawStorageHistory = new List<IStorageHistory>();
+                        for (int i = 0; i < history.Source.Count(); i++)
+                        {
+                            rawStorageHistory.Add(await filesystemOperations.DeleteAsync(
+                                history.Source.ElementAt(i),
+                                null,
+                                errorCode,
+                                false,
+                                cancellationToken));
+                        }
+
+                        IStorageHistory newHistory = new StorageHistory(
+                            FileOperationType.Recycle,
+                            rawStorageHistory.SelectMany((item) => item?.Source).ToList(),
+                            rawStorageHistory.SelectMany((item) => item?.Destination).ToList());
+
+                        // We need to change the recycled item paths (since IDs are different) - for Undo() to work
+                        App.HistoryWrapper.ModifyCurrentHistory(newHistory);
+
+                        break;
+                    }
+
+                case FileOperationType.Restore: // Restore PASS
+                    {
+                        if (IsHistoryNull(history))
+                        {
+                            break;
+                        }
+
+                        for (int i = 0; i < history.Destination.Count(); i++)
+                        {
+                            await filesystemHelpers.RestoreFromTrashAsync(history.Source.ElementAt(i), history.Destination.ElementAt(i).Path, false);
+                        }
+
+                        break;
+                    }
+
+                case FileOperationType.Delete: // Delete PASS
+                    {
+                        returnStatus = ReturnResult.Success;
+
+                        break;
+                    }
+            }
+
+            return returnStatus;
+        }
+
+        public async Task<ReturnResult> Undo(IStorageHistory history)
+        {
+            ReturnResult returnStatus = ReturnResult.InProgress;
+            Progress<FilesystemErrorCode> errorCode = new Progress<FilesystemErrorCode>();
+
+            errorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
+
+            switch (history.OperationType)
+            {
+                case FileOperationType.CreateNew: // CreateNew PASS
+                    {
+                        // Opposite: Delete created items
+
+                        if (IsHistoryNull(history.Source))
+                        {
+                            break;
+                        }
+
+                        return await filesystemHelpers.DeleteItemsAsync(history.Source, false, true, false);
+                    }
+
+                case FileOperationType.Rename: // Rename PASS
+                    {
+                        // Opposite: Restore original item names
+
+                        if (IsHistoryNull(history))
+                        {
+                            break;
+                        }
+
+                        NameCollisionOption collision = NameCollisionOption.GenerateUniqueName;
+                        for (int i = 0; i < history.Destination.Count(); i++)
+                        {
+                            await filesystemOperations.RenameAsync(
+                                history.Destination.ElementAt(i),
+                                Path.GetFileName(history.Source.ElementAt(i).Path),
+                                collision,
+                                errorCode,
+                                cancellationToken);
+                        }
+
+                        break;
+                    }
+
+                case FileOperationType.Copy: // Copy PASS
+                    {
+                        // Opposite: Delete copied items
+
+                        if (IsHistoryNull(history.Destination))
+                        {
+                            break;
+                        }
+
+                        return await filesystemHelpers.DeleteItemsAsync(history.Destination, false, true, false);
+                    }
+
+                case FileOperationType.Move: // Move PASS
+                    {
+                        // Opposite: Move the items to original directory
+
+                        if (IsHistoryNull(history))
+                        {
+                            break;
+                        }
+
+                        return await filesystemHelpers.MoveItemsAsync(history.Destination, history.Source.Select((item) => item.Path), false);
+                    }
+
+                case FileOperationType.Extract: // Extract PASS
+                    {
+                        // Opposite: No opposite for archive extraction
+
+                        returnStatus = ReturnResult.Success;
+                        Debugger.Break();
+
+                        break;
+                    }
+
+                case FileOperationType.Recycle: // Recycle PASS
+                    {
+                        // Opposite: Restore recycled items
+                        if (IsHistoryNull(history))
+                        {
+                            break;
+                        }
+
+                        for (int i = 0; i < history.Destination.Count(); i++)
+                        {
+                            returnStatus = await filesystemHelpers.RestoreFromTrashAsync(
+                                history.Destination.ElementAt(i),
+                                history.Source.ElementAt(i).Path,
+                                false);
+                        }
+
+                        if (returnStatus == ReturnResult.IntegrityCheckFailed) // Not found, corrupted
+                        {
+                            App.HistoryWrapper.RemoveHistory(history);
+                        }
+
+                        break;
+                    }
+
+                case FileOperationType.Restore: // Restore PASS
+                    {
+                        // Opposite: Move restored items to Recycle Bin
+
+                        if (IsHistoryNull(history.Destination))
+                        {
+                            break;
+                        }
+
+                        List<IStorageHistory> rawStorageHistory = new List<IStorageHistory>();
+                        for (int i = 0; i < history.Destination.Count(); i++)
+                        {
+                            rawStorageHistory.Add(await filesystemOperations.DeleteAsync(
+                                history.Destination.ElementAt(i),
+                                null,
+                                errorCode,
+                                false,
+                                cancellationToken));
+                        }
+
+                        IStorageHistory newHistory = new StorageHistory(
+                            FileOperationType.Restore,
+                            rawStorageHistory.SelectMany((item) => item?.Destination).ToList(),
+                            rawStorageHistory.SelectMany((item) => item?.Source).ToList());
+
+                        // We need to change the recycled item paths (since IDs are different) - for Redo() to work
+                        App.HistoryWrapper.ModifyCurrentHistory(newHistory);
+
+                        break;
+                    }
+
+                case FileOperationType.Delete: // Delete PASS
+                    {
+                        // Opposite: No opposite for pernament deletion
+
+                        returnStatus = ReturnResult.Success;
+                        break;
+                    }
+            }
+
+            return returnStatus;
+        }
+
+        #endregion
+
+        #region Private Helpers
+
+        private bool IsHistoryNull(IStorageHistory history) =>
+            !(history.Source.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item.Path))
+                && history.Destination.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item.Path)));
+
+        private bool IsHistoryNull(IEnumerable<PathWithType> source) =>
+            !(source.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item.Path)));
+
+        #endregion
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            associatedInstance?.Dispose();
+            filesystemOperations?.Dispose();
+            filesystemHelpers?.Dispose();
+
+            associatedInstance = null;
+            filesystemOperations = null;
+            filesystemHelpers = null;
+        }
+
+        #endregion
+    }
+}

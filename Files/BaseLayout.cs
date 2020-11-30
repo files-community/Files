@@ -137,6 +137,7 @@ namespace Files
         {
             SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel(this);
             DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
+
             // QuickLook Integration
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             var isQuickLookIntegrationEnabled = localSettings.Values["quicklook_enabled"];
@@ -162,6 +163,8 @@ namespace Files
         public abstract void SetSelectedItemOnUi(ListedItem selectedItem);
 
         public abstract void SetSelectedItemsOnUi(List<ListedItem> selectedItems);
+
+        public abstract void AddSelectedItemsOnUi(List<ListedItem> selectedItems);
 
         private void ClearShellContextMenus(MenuFlyout menuFlyout)
         {
@@ -597,13 +600,13 @@ namespace Files
             deferral.Complete();
         }
 
-        protected void List_Drop(object sender, DragEventArgs e)
+        protected async void List_Drop(object sender, DragEventArgs e)
         {
             var deferral = e.GetDeferral();
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                ParentShellPageInstance.InteractionOperations.ItemOperationCommands.PasteItemWithStatus(e.DataView, ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, e.AcceptedOperation);
+                await ParentShellPageInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, ParentShellPageInstance.FilesystemViewModel.WorkingDirectory, true);
                 e.Handled = true;
             }
 
@@ -703,13 +706,13 @@ namespace Files
             deferral.Complete();
         }
 
-        protected void Item_Drop(object sender, DragEventArgs e)
+        protected async void Item_Drop(object sender, DragEventArgs e)
         {
             var deferral = e.GetDeferral();
 
             e.Handled = true;
             ListedItem rowItem = GetItemFromElement(sender);
-            ParentShellPageInstance.InteractionOperations.ItemOperationCommands.PasteItemWithStatus(e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, e.AcceptedOperation);
+            await ParentShellPageInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, true);
             deferral.Complete();
         }
 

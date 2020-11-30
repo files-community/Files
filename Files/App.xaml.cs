@@ -2,6 +2,7 @@ using Files.CommandLine;
 using Files.Controllers;
 using Files.Controls;
 using Files.Filesystem;
+using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Files.View_Models;
 using Files.Views;
@@ -17,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -36,6 +38,12 @@ namespace Files
     sealed partial class App : Application
     {
         private static bool ShowErrorNotification = false;
+
+        private readonly static CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        public static CancellationToken CancellationToken = cancellationTokenSource.Token;
+        public static SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
+
+        public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
 
         public static SettingsViewModel AppSettings { get; set; }
         public static InteractionViewModel InteractionViewModel { get; set; }

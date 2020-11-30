@@ -2,6 +2,7 @@
 using Files.View_Models;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -19,6 +20,9 @@ namespace Files
             CoreTitleBar.ExtendViewIntoTitleBar = true;
             Window.Current.SetTitleBar(DragArea);
 
+            var currentView = SystemNavigationManager.GetForCurrentView();
+            currentView.BackRequested += OnBackRequested;
+
             var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
 
             if (flowDirectionSetting == "RTL")
@@ -27,6 +31,30 @@ namespace Files
             }
 
             SettingsPane.SelectedItem = SettingsPane.MenuItems[0];
+        }
+
+        private void OnBackRequested(object sender, BackRequestedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame.CanGoBack)
+            {
+                GoBack();
+                e.Handled = true;
+            }
+        }
+
+        private void SettingsPane_BackRequested(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs args)
+        {
+            GoBack();
+        }
+
+        private void GoBack()
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame.CanGoBack)
+            {
+                rootFrame.GoBack();
+            }
         }
 
         private void SettingsPane_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
@@ -43,12 +71,6 @@ namespace Files
                 7 => SettingsContentFrame.Navigate(typeof(About)),
                 _ => SettingsContentFrame.Navigate(typeof(Appearance))
             };
-        }
-
-        private void SettingsPane_BackRequested(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs args)
-        {
-            Frame rootFrame = Window.Current.Content as Frame;
-            rootFrame.GoBack();
-        }
+        }        
     }
 }
