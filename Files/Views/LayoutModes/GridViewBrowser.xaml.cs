@@ -356,15 +356,15 @@ namespace Files
 
         private async void Grid_EffectiveViewportChanged(FrameworkElement sender, EffectiveViewportChangedEventArgs args)
         {
-            if (sender.DataContext != null && (!(sender.DataContext as ListedItem).ItemPropertiesInitialized) && (args.BringIntoViewDistanceX < sender.ActualHeight))
+            if (sender.DataContext is ListedItem item && (!item.ItemPropertiesInitialized) && (args.BringIntoViewDistanceX < sender.ActualHeight))
             {
                 await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
-                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(sender.DataContext as ListedItem, _iconSize);
-                    (sender.DataContext as ListedItem).ItemPropertiesInitialized = true;
+                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, _iconSize);
+                    item.ItemPropertiesInitialized = true;
                 });
 
-                (sender as UIElement).CanDrag = FileList.SelectedItems.Contains(sender.DataContext as ListedItem); // Update CanDrag
+                sender.CanDrag = FileList.SelectedItems.Contains(item); // Update CanDrag
             }
         }
 

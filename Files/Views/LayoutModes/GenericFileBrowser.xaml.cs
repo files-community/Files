@@ -536,25 +536,18 @@ namespace Files
             }
         }
 
-        private async void Icon_EffectiveViewportChanged(FrameworkElement sender, EffectiveViewportChangedEventArgs args)
+        private async void AllView_LoadingRow(object sender, DataGridRowEventArgs e)
         {
-            var parentRow = Interacts.Interaction.FindParent<DataGridRow>(sender);
-            if (parentRow.DataContext is ListedItem item &&
-                !item.ItemPropertiesInitialized &&
-                args.BringIntoViewDistanceX < sender.ActualHeight)
+            InitializeDrag(e.Row);
+
+            if (e.Row.DataContext is ListedItem item && !item.ItemPropertiesInitialized)
             {
                 await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
-                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(parentRow.DataContext as ListedItem);
-                    (parentRow.DataContext as ListedItem).ItemPropertiesInitialized = true;
-                    //sender.EffectiveViewportChanged -= Icon_EffectiveViewportChanged;
+                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item);
+                    item.ItemPropertiesInitialized = true;
                 });
             }
-        }
-
-        private void AllView_LoadingRow(object sender, DataGridRowEventArgs e)
-        {
-            InitializeDrag(e.Row);
         }
 
         protected override ListedItem GetItemFromElement(object element)
