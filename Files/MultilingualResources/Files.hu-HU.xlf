@@ -1384,7 +1384,7 @@
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowDrives.Header" translate="yes" xml:space="preserve">
           <source>Show drives on the home page</source>
-          <target state="translated">Könyvtárak megjelenítése a fő oldalon</target>
+          <target state="translated">Meghajtók megjelenítése a fő oldalon</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show recent files on the home page</source>
