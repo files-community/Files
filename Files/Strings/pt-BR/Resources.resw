@@ -492,12 +492,6 @@
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Opções de seleção</value>
   </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>Somente leitura</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>Oculto</value>
-  </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Esvaziar lixeira</value>
   </data>

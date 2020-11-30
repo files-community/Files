@@ -486,12 +486,6 @@
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>確定</value>
   </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>唯讀</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>隱藏</value>
-  </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>資源回收筒(空)</value>
   </data>

@@ -486,12 +486,6 @@
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>Aceptar</value>
   </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>Solo lectura</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>Oculto</value>
-  </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Vaciar papelera de reciclaje</value>
   </data>
