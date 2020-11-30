@@ -1034,7 +1034,7 @@ namespace Files.Views.Pages
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 var ContentOwnedViewModelInstance = FilesystemViewModel;
-                ContentOwnedViewModelInstance.RefreshItems();
+                ContentOwnedViewModelInstance.RefreshItems(null);
             });
         }
 

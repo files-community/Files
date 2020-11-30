@@ -350,7 +350,7 @@ namespace Files.Filesystem
                                 break;
 
                             default:
-                                RefreshItems();
+                                RefreshItems(null);
                                 break;
                         }
                     }
@@ -666,12 +666,12 @@ namespace Files.Filesystem
             return (null, null, false);
         }
 
-        public void RefreshItems()
+        public void RefreshItems(string previousDir)
         {
-            AddItemsToCollectionAsync(WorkingDirectory);
+            AddItemsToCollectionAsync(WorkingDirectory, previousDir);
         }
 
-        public async void RapidAddItemsToCollectionAsync(string path)
+        public async void RapidAddItemsToCollectionAsync(string path, string previousDir)
         {
             AssociatedInstance.NavigationToolbar.CanRefresh = false;
 
@@ -735,6 +735,33 @@ namespace Files.Filesystem
                 AssociatedInstance.NavigationToolbar.CanRefresh = true;
                 App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                 IsLoadingItems = false;
+
+                if (!string.IsNullOrWhiteSpace(previousDir))
+                {
+                    if (previousDir.Contains(WorkingDirectory))
+                    {
+                        // Remove the WorkingDir from previous dir
+                        previousDir = previousDir.Replace(WorkingDirectory, string.Empty);
+
+                        // Get previous dir name
+                        if (previousDir.StartsWith('\\'))
+                        {
+                            previousDir = previousDir.Remove(0, 1);
+                        }
+                        if (previousDir.Contains('\\'))
+                        {
+                            previousDir = previousDir.Split('\\')[0];
+                        }
+
+                        // Get the first folder and combine it with WorkingDir
+                        string folderToSelect = string.Format("{0}\\{1}", WorkingDirectory, previousDir);
+
+                        // Make sure we don't get double \\ in the path
+                        folderToSelect = folderToSelect.Replace("\\\\", "\\");
+
+                        AssociatedInstance.ContentPage.SetSelectedItemOnUi(AssociatedInstance.FilesystemViewModel.FilesAndFolders.Where((item) => item.ItemPath == folderToSelect).FirstOrDefault());
+                    }
+                }
             }
             finally
             {
@@ -1686,9 +1713,9 @@ namespace Files.Filesystem
             return null;
         }
 
-        public void AddItemsToCollectionAsync(string path)
+        public void AddItemsToCollectionAsync(string path, string previousDir)
         {
-            RapidAddItemsToCollectionAsync(path);
+            RapidAddItemsToCollectionAsync(path, previousDir);
         }
 
         public async Task AddFolderAsync(StorageFolder folder, string dateReturnFormat)
