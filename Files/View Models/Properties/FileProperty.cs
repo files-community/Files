@@ -76,7 +76,6 @@ namespace Files.View_Models.Properties
 
         public FileProperty()
         {
-
         }
 
         /// <summary>

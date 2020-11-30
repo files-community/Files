@@ -28,8 +28,7 @@ namespace Files
             this.InitializeComponent();
 
             // For some reason, binding the converter XAML Markup would throw a COM error
-            // To work around this, the item template is defined here
-            
+            // To work around this, the item template is defined here   
         }
 
         private void Properties_Loaded(object sender, RoutedEventArgs e)

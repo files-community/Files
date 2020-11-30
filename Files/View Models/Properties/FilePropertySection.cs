@@ -10,7 +10,6 @@ namespace Files.View_Models.Properties
     {
         public FilePropertySection(IEnumerable<FileProperty> items) : base(items)
         {
-
         }
 
         public Visibility Visibility { get; set; }
