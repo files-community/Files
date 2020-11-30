@@ -438,6 +438,9 @@
   <data name="StatusBarControlTilesView.Text" xml:space="preserve">
     <value>Tegels Weergave</value>
   </data>
+  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
+    <value>OK</value>
+  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>We konden dit item niet verwijderen</value>
   </data>
@@ -482,6 +485,12 @@
   </data>
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>OK</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
+    <value>Alleen-lezen</value>
+  </data>
+  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
+    <value>Verborgen</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Prullenbak leegmaken</value>

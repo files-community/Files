@@ -438,6 +438,9 @@
   <data name="StatusBarControlTilesView.Text" xml:space="preserve">
     <value>Elenco</value>
   </data>
+  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
+    <value>OK</value>
+  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Non è stato possibile eliminare questo elemento</value>
   </data>
@@ -482,6 +485,12 @@
   </data>
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>OK</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
+    <value>Sola lettura</value>
+  </data>
+  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
+    <value>Nascosto</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Svuota il cestino</value>

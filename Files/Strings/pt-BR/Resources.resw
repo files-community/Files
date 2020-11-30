@@ -444,6 +444,9 @@
   <data name="StatusBarControlTilesView.Text" xml:space="preserve">
     <value>Blocos</value>
   </data>
+  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
+    <value>Ok</value>
+  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Não foi possível excluir este arquivo</value>
   </data>
@@ -488,6 +491,12 @@
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Opções de seleção</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
+    <value>Somente leitura</value>
+  </data>
+  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
+    <value>Oculto</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Esvaziar lixeira</value>

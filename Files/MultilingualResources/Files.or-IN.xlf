@@ -593,6 +593,10 @@
           <source>Tiles View</source>
           <target state="translated">ଟାଇଲ୍ସ ଭ୍ୟୁ</target>
         </trans-unit>
+        <trans-unit id="PropertiesDialogOKButton.Content" translate="yes" xml:space="preserve">
+          <source>OK</source>
+          <target state="translated">ଠିକ୍ ଅଛି</target>
+        </trans-unit>
         <trans-unit id="AccessDeniedDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>We weren't able to delete this item</source>
           <target state="translated">ଆମେ ଏହି ଆଇଟମ୍ ବିଲୋପ କରିବାକୁ ସମର୍ଥ ହେଲୁ ନାହିଁ</target>
@@ -652,6 +656,14 @@
         <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated">ଚୟନ ବିକଳ୍ପଗୁଡ଼ିକ</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogReadOnly.Content" translate="yes" xml:space="preserve">
+          <source>Read-only</source>
+          <target state="translated">କେବଳ ପାଠ</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogHidden.Content" translate="yes" xml:space="preserve">
+          <source>Hidden</source>
+          <target state="translated">ଲୁକ୍କାୟିତ</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
@@ -1453,18 +1465,6 @@
         <trans-unit id="HorizontalMultitaskingControlNewTab.Text" translate="yes" xml:space="preserve">
           <source>New tab</source>
           <target state="new">New tab</target>
-        </trans-unit>
-        <trans-unit id="PropertiesDialogApplyButton.Content" translate="yes" xml:space="preserve">
-          <source>Apply</source>
-          <target state="new">Apply</target>
-        </trans-unit>
-        <trans-unit id="PropertiesDialogReadOnly.Text" translate="yes" xml:space="preserve">
-          <source>Read-only</source>
-          <target state="new">Read-only</target>
-        </trans-unit>
-        <trans-unit id="PropertiesDialogHidden.Text" translate="yes" xml:space="preserve">
-          <source>Hidden</source>
-          <target state="new">Hidden</target>
         </trans-unit>
       </group>
     </body>

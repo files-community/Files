@@ -1,8 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
   <file datatype="xml" source-language="en-US" target-language="fr-FR" original="FILES/STRINGS/EN-US/RESOURCES.RESW" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
     <header>
-      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6915.0" tool-company="Microsoft" />
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6915.0" tool-company="Microsoft"/>
     </header>
     <body>
       <group id="FILES/STRINGS/EN-US/RESOURCES.RESW" datatype="resx">
@@ -574,6 +574,10 @@
           <source>Tiles View</source>
           <target state="translated">Vue tuiles</target>
         </trans-unit>
+        <trans-unit id="PropertiesDialogOKButton.Content" translate="yes" xml:space="preserve">
+          <source>OK</source>
+          <target state="translated">OK</target>
+        </trans-unit>
         <trans-unit id="AccessDeniedDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>We weren't able to delete this item</source>
           <target state="translated">Impossible de supprimer cet élément</target>
@@ -633,6 +637,14 @@
         <trans-unit id="FileInUseDeleteDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
           <target state="translated">OK</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogReadOnly.Content" translate="yes" xml:space="preserve">
+          <source>Read-only</source>
+          <target state="translated">Lecture seule</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogHidden.Content" translate="yes" xml:space="preserve">
+          <source>Hidden</source>
+          <target state="translated" state-qualifier="tm-suggestion">Masqué</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
@@ -1441,18 +1453,6 @@
         <trans-unit id="HorizontalMultitaskingControlNewTab.Text" translate="yes" xml:space="preserve">
           <source>New tab</source>
           <target state="translated">Nouvel onglet</target>
-        </trans-unit>
-        <trans-unit id="PropertiesDialogApplyButton.Content" translate="yes" xml:space="preserve">
-          <source>Apply</source>
-          <target state="new">Apply</target>
-        </trans-unit>
-        <trans-unit id="PropertiesDialogReadOnly.Text" translate="yes" xml:space="preserve">
-          <source>Read-only</source>
-          <target state="new">Read-only</target>
-        </trans-unit>
-        <trans-unit id="PropertiesDialogHidden.Text" translate="yes" xml:space="preserve">
-          <source>Hidden</source>
-          <target state="new">Hidden</target>
         </trans-unit>
       </group>
     </body>

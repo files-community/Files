@@ -438,6 +438,9 @@
   <data name="StatusBarControlTilesView.Text" xml:space="preserve">
     <value>Kacheln</value>
   </data>
+  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
+    <value>OK</value>
+  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Löschen der Datei oder des Ordners nicht möglich</value>
   </data>
@@ -482,6 +485,12 @@
   </data>
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>OK</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
+    <value>Schreibgeschützt</value>
+  </data>
+  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
+    <value>Ausgeblendet</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Papierkorb leeren</value>

@@ -339,6 +339,9 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>הפריט כבר קיים.</value>
   </data>
+  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
+    <value>אישור</value>
+  </data>
   <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
     <value>הגישה נדחתה</value>
   </data>
@@ -356,6 +359,12 @@
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>אפשרויות בחירה</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
+    <value>לקריאה בלבד</value>
+  </data>
+  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
+    <value>מוסתר</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>רוקן את סל המיחזור</value>

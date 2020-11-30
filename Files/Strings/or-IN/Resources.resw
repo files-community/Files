@@ -444,6 +444,9 @@
   <data name="StatusBarControlTilesView.Text" xml:space="preserve">
     <value>ଟାଇଲ୍ସ ଭ୍ୟୁ</value>
   </data>
+  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
+    <value>ଠିକ୍ ଅଛି</value>
+  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>ଆମେ ଏହି ଆଇଟମ୍ ବିଲୋପ କରିବାକୁ ସମର୍ଥ ହେଲୁ ନାହିଁ</value>
   </data>
@@ -488,6 +491,12 @@
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>ଚୟନ ବିକଳ୍ପଗୁଡ଼ିକ</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
+    <value>କେବଳ ପାଠ</value>
+  </data>
+  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
+    <value>ଲୁକ୍କାୟିତ</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>ରିସାଇକ୍ଲବିନ୍ ଖାଲି କର</value>

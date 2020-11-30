@@ -359,22 +359,15 @@
                 Orientation="Horizontal"
                 Spacing="16"
                 Visibility="{x:Bind ViewModel.ItemAttributesVisibility, Mode=OneWay}">
-                <CheckBox IsChecked="{x:Bind ViewModel.IsReadOnly, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.IsReadOnlyEnabled, Mode=OneWay}">
-                    <CheckBox.Content>
-                        <TextBlock
-                            x:Uid="PropertiesDialogReadOnly"
-                            Text="Read-only"
-                            TextWrapping="WrapWholeWords" />
-                    </CheckBox.Content>
-                </CheckBox>
-                <CheckBox IsChecked="{x:Bind ViewModel.IsHidden, Mode=TwoWay}">
-                    <CheckBox.Content>
-                        <TextBlock
-                            x:Uid="PropertiesDialogHidden"
-                            Text="Hidden"
-                            TextWrapping="WrapWholeWords" />
-                    </CheckBox.Content>
-                </CheckBox>
+                <CheckBox
+                    x:Uid="PropertiesDialogReadOnly"
+                    Content="Read-only"
+                    IsChecked="{x:Bind ViewModel.IsReadOnly, Mode=TwoWay}"
+                    IsEnabled="{x:Bind ViewModel.IsReadOnlyEnabled, Mode=OneWay}" />
+                <CheckBox
+                    x:Uid="PropertiesDialogHidden"
+                    Content="Hidden"
+                    IsChecked="{x:Bind ViewModel.IsHidden, Mode=TwoWay}" />
             </StackPanel>
         </Grid>
     </StackPanel>
