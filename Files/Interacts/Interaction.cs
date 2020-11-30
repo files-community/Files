@@ -506,8 +506,10 @@ namespace Files.Interacts
                                     //We can have many sort entries
                                     SortEntry sortEntry = new SortEntry()
                                     {
-                                        AscendingOrder = AppSettings.DirectorySortDirection == Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending,
+                                        AscendingOrder = AppSettings.DirectorySortDirection == Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending
                                     };
+
+                                    //Basically we tell to the launched app to follow how we sorted the files in the directory.
 
                                     var sortOption = AppSettings.DirectorySortOption;
 
@@ -516,34 +518,36 @@ namespace Files.Interacts
                                         case Enums.SortOption.Name:
                                             sortEntry.PropertyName = "System.ItemNameDisplay";
                                             queryOptions.SortOrder.Clear();
+                                            queryOptions.SortOrder.Add(sortEntry);
                                             break;
 
                                         case Enums.SortOption.DateModified:
                                             sortEntry.PropertyName = "System.DateModified";
                                             queryOptions.SortOrder.Clear();
+                                            queryOptions.SortOrder.Add(sortEntry);
                                             break;
 
-                                        case Enums.SortOption.Size:
-                                            //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
+                                        //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
+                                        //case Enums.SortOption.Size:
 
                                             //sortEntry.PropertyName = "System.TotalFileSize";
                                             //queryOptions.SortOrder.Clear();
-                                            break;
+                                            //queryOptions.SortOrder.Add(sortEntry);
+                                            //break;
 
-                                        case Enums.SortOption.FileType:
-                                            //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
+                                        //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
+                                        //case Enums.SortOption.FileType:
 
                                             //sortEntry.PropertyName = "System.FileExtension";
                                             //queryOptions.SortOrder.Clear();
-                                            break;
+                                            //queryOptions.SortOrder.Add(sortEntry);
+                                            //break;
 
+                                        //Handle unsupported
                                         default:
                                             //keep the default one in SortOrder IList
                                             break;
                                     }
-
-                                    //Basically we tell to the launched app to follow how we sorted the files in the directory.
-                                    queryOptions.SortOrder.Add(sortEntry);
 
                                     fileQueryResult = currFolder.CreateFileQueryWithOptions(queryOptions);
 
