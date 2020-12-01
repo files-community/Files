@@ -398,6 +398,7 @@ namespace Files.Interacts
             Type sourcePageType = AssociatedInstance.CurrentPageType;
             selectedItemCount = AssociatedInstance.ContentPage.SelectedItems.Count;
             var opened = (FilesystemResult)false;
+            string previousDir = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
 
             // Access MRU List
             var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
@@ -608,7 +609,7 @@ namespace Files.Interacts
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     var ContentOwnedViewModelInstance = AssociatedInstance.FilesystemViewModel;
-                    ContentOwnedViewModelInstance.RefreshItems();
+                    ContentOwnedViewModelInstance.RefreshItems(previousDir);
                 });
             }
         }
@@ -1272,7 +1273,7 @@ namespace Files.Interacts
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     var ContentOwnedViewModelInstance = AssociatedInstance.FilesystemViewModel;
-                    ContentOwnedViewModelInstance.RefreshItems();
+                    ContentOwnedViewModelInstance.RefreshItems(null);
                 });
             }
         }
