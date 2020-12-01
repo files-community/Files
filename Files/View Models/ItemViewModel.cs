@@ -738,7 +738,7 @@ namespace Files.Filesystem
 
                 if (!string.IsNullOrWhiteSpace(previousDir))
                 {
-                    if (previousDir.Contains(WorkingDirectory))
+                    if (previousDir.Contains(WorkingDirectory) && !previousDir.Contains("Shell:RecycleBinFolder"))
                     {
                         // Remove the WorkingDir from previous dir
                         previousDir = previousDir.Replace(WorkingDirectory, string.Empty);
@@ -759,7 +759,17 @@ namespace Files.Filesystem
                         // Make sure we don't get double \\ in the path
                         folderToSelect = folderToSelect.Replace("\\\\", "\\");
 
-                        AssociatedInstance.ContentPage.SetSelectedItemOnUi(AssociatedInstance.FilesystemViewModel.FilesAndFolders.Where((item) => item.ItemPath == folderToSelect).FirstOrDefault());
+                        if (folderToSelect.EndsWith('\\'))
+                        {
+                            folderToSelect = folderToSelect.Remove(folderToSelect.Length - 1, 1);
+                        }
+
+                        ListedItem itemToSelect = AssociatedInstance.FilesystemViewModel.FilesAndFolders.Where((item) => item.ItemPath == folderToSelect).FirstOrDefault();
+
+                        if (itemToSelect != null)
+                        {
+                            AssociatedInstance.ContentPage.SetSelectedItemOnUi(itemToSelect);
+                        }
                     }
                 }
             }
