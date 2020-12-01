@@ -46,23 +46,7 @@ namespace Files.SettingsPages
         private async void UpdateCheck_Click(object sender, RoutedEventArgs e)
         {
             AppUpdater updater = new AppUpdater();
-            //int updates = await updater.CheckForUpdatesAsync();
-
-            bool dialogResult = await updater.DownloadUpdatesConsent();
-            if (dialogResult)
-            {
-                IAsyncResult result = updater.DownloadUpdates();
-                while (!result.IsCompleted)
-                {
-                    UpdateProgress.Visibility = Visibility.Visible;
-                    //UpdateProgress.
-                }
-
-                if (result.IsCompleted)
-                {
-                    UpdateProgress.Visibility = Visibility.Collapsed;
-                }
-            }
+            await updater.CheckForUpdatesAsync();
         }
     }
 }

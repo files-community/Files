@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.Foundation;
 using Windows.Services.Store;
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.DataModels
@@ -20,7 +17,7 @@ namespace Files.DataModels
             context = StoreContext.GetDefault();
         }
 
-        public async Task<object> CheckForUpdatesAsync(bool mandantoryOnly = false)
+        public async Task CheckForUpdatesAsync(bool mandantoryOnly = false)
         {
             if (context == null)
             {
@@ -38,12 +35,10 @@ namespace Files.DataModels
             {
                 if (await DownloadUpdatesConsent())
                 {
-                    return true;
+                    DownloadUpdates();
                 }
-                return false;
             }
-
-            return true;
+            ShowNoUpdatesAvailableDialog();
         }
 
         public async Task<bool> DownloadUpdatesConsent()
@@ -64,19 +59,30 @@ namespace Files.DataModels
             return false;
         }
 
+        private async void ShowNoUpdatesAvailableDialog()
+        {
+            ContentDialog dialog = new ContentDialog
+            {
+                Title = "No updates available",
+                Content = "You have the latest version of Files installed!",
+                CloseButtonText = "Ok"
+            };
+            await dialog.ShowAsync();
+        }
+
         public IAsyncResult DownloadUpdates()
         {
-            //if (UpdateList == null || UpdateList.Count < 1)
-            //{
-            //    return null;
-            //}
+            if (UpdateList == null || UpdateList.Count < 1)
+            {
+                return null;
+            }
 
             if (context == null)
             {
                 context = StoreContext.GetDefault();
             }
 
-            IAsyncResult downloadOperation = (IAsyncResult)Task.Delay(5000);//context.RequestDownloadAndInstallStorePackageUpdatesAsync(UpdateList);
+            IAsyncResult downloadOperation = (IAsyncResult)context.RequestDownloadAndInstallStorePackageUpdatesAsync(UpdateList);
             return downloadOperation;
         }
     }
