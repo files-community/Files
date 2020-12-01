@@ -257,7 +257,8 @@ namespace Files.View_Models.Properties
             new FileProperty() { Property = "System.Document.ParagraphCount", NameResource = "PropertyParagraphCount", SectionResource = "PropertySectionDocument"},
             new FileProperty() { Property = "System.Document.PageCount", NameResource = "PropertyPageCount", SectionResource = "PropertySectionDocument"},
             new FileProperty() { Property = "System.Document.SlideCount", NameResource = "PropertySlideCount", SectionResource = "PropertySectionDocument"},
-            new FileProperty() { Property = "System.Video.FrameRate", NameResource = "PropertyFrameRate", SectionResource = "PropertySectionVideo"},
+            // Frame rate unit is frames per 1000 seconds, so the display function divides it by 1000
+            new FileProperty() { Property = "System.Video.FrameRate", NameResource = "PropertyFrameRate", SectionResource = "PropertySectionVideo", DisplayFunction = input => (((UInt32) input)/1000).ToString()},
             new FileProperty() { Property = "System.Video.EncodingBitrate", NameResource = "PropertyEncodingBitrate", SectionResource = "PropertySectionVideo"},
             new FileProperty() { Property = "System.Video.Compression", NameResource = "PropertyCompression", SectionResource = "PropertySectionVideo"},
             new FileProperty() { Property = "System.Video.FrameWidth", NameResource = "PropertyFrameWidth", SectionResource = "PropertySectionVideo"},
