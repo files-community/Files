@@ -42,21 +42,27 @@ namespace Files.SettingsPages
 
             (FeedbackListView.Items[FeedbackListView.SelectedIndex] as ListViewItem).IsSelected = false;
         }
-        private StoreContext context = null;
+
         private async void UpdateCheck_Click(object sender, RoutedEventArgs e)
         {
-            //AppUpdater updater = new AppUpdater();
+            AppUpdater updater = new AppUpdater();
             //int updates = await updater.CheckForUpdatesAsync();
 
-            if (context == null)
+            bool dialogResult = await updater.DownloadUpdatesConsent();
+            if (dialogResult)
             {
-                context = StoreContext.GetDefault();
-            }
+                IAsyncResult result = updater.DownloadUpdates();
+                while (!result.IsCompleted)
+                {
+                    UpdateProgress.Visibility = Visibility.Visible;
+                    //UpdateProgress.
+                }
 
-            // Get the updates that are available.
-            IReadOnlyList<StorePackageUpdate> updates =
-                await context.GetAppAndOptionalStorePackageUpdatesAsync();
-            ;
+                if (result.IsCompleted)
+                {
+                    UpdateProgress.Visibility = Visibility.Collapsed;
+                }
+            }
         }
     }
 }
