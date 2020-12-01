@@ -13,7 +13,7 @@
     BorderThickness="0"
     CornerRadius="4"
     PrimaryButtonText="Cancel"
-    PrimaryButtonStyle="{StaticResource DefaultButtonStyle}"
+    PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
     mc:Ignorable="d">
 
