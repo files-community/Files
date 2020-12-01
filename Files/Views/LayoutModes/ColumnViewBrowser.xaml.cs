@@ -699,10 +699,11 @@ namespace Files
                     ParentShellPageInstance.InteractionOperations.Prepare(ClickedItem.ItemPath);
                     var lv = new ListView
                     {
+                        Padding = new Thickness(5),
                         ItemsSource = collection2,
                         ItemTemplate = ListTemplate,
                         IsItemClickEnabled = true,
-                        ItemContainerStyle = FirstBlade.ItemContainerStyle
+                        ItemContainerStyle = DefaultListView
                     };
                     lv.ItemClick += FirstBlade_ItemClick;
                     ColumnBladeView.Items.Add(new BladeItem
@@ -710,6 +711,7 @@ namespace Files
                         Content = lv,
                         Style = BladeView
                     });
+                    lvi.ItemContainerStyle = NotCurentListView;
                 }
             }
         }
