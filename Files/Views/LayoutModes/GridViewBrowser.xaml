@@ -91,6 +91,14 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
+                    x:Uid="StatusBarControlColumnView"
+                    Command="{x:Bind AppSettings.ToggleLayoutColumnView}"
+                    Text="Column View">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE971;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
                     x:Uid="StatusBarControlTilesView"
                     Command="{x:Bind AppSettings.ToggleLayoutModeTiles}"
                     Text="Tiles View">

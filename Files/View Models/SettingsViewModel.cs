@@ -540,6 +540,9 @@ namespace Files.View_Models
                 case 2:
                     type = typeof(GridViewBrowser);
                     break;
+                case 3:
+                    type = typeof(ColumnViewBrowser);
+                    break;
 
                 default:
                     type = typeof(GenericFileBrowser);
@@ -564,6 +567,12 @@ namespace Files.View_Models
             LayoutMode = 2; // Grid View
 
             GridViewSize = 250; // Size
+
+            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
+        }); 
+        public RelayCommand ToggleLayoutColumnView => new RelayCommand(() =>
+        {
+            LayoutMode = 3; // Grid View
 
             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });

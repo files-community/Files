@@ -613,6 +613,30 @@ namespace Files.Interacts
             }
         }
 
+        internal void Prepare(string itemPath)
+        {
+            SetDirectory(itemPath);
+        }
+
+        private async void SetDirectory(string path)
+        {
+            var opened = (FilesystemResult)false;
+            opened = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(path)
+                .OnSuccess(childFolder =>
+                {
+                    // Add location to MRU List
+                    //mostRecentlyUsed.Add(childFolder.Folder, childFolder.Path);
+                });
+            if (!opened)
+            {
+                opened = (FilesystemResult)AssociatedInstance.FilesystemViewModel.CheckFolderAccessWithWin32(path);
+            }
+            if (opened)
+            {
+                await AssociatedInstance.FilesystemViewModel.SetWorkingDirectoryAsync(path);
+            }
+        }
+
         public void CloseTab()
         {
             MainPage.MultitaskingControl.RemoveTab(MainPage.MultitaskingControl.Items.ElementAt(App.InteractionViewModel.TabStripSelectedIndex));

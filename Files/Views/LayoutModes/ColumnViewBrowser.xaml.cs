@@ -1,35 +1,70 @@
-﻿using Files.Filesystem;
+﻿using ByteSizeLib;
+using Files.Enums;
+using Files.Filesystem;
+using Files.Helpers;
 using Files.UserControls.Selection;
+using Files.Views.Pages;
+using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.Storage.FileProperties;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
+using static Files.Helpers.NativeFindStorageItemHelper;
 using Interaction = Files.Interacts.Interaction;
 
 namespace Files
 {
-    public sealed partial class GridViewBrowser : BaseLayout
+    public sealed partial class ColumnViewBrowser : BaseLayout
     {
         public string oldItemName;
 
-        public GridViewBrowser()
+        public ColumnViewBrowser()
         {
             this.InitializeComponent();
+            ModernShellPage.ReloadColumnView += ModernShellPage_ReloadColumnView;
             base.BaseLayoutContextFlyout = this.BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
 
-            var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
-            selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
+            //var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
+            //selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
             App.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
 
             SetItemTemplate(); // Set ItemTemplate
+        }
+
+        private void ModernShellPage_ReloadColumnView(object sender, EventArgs e)
+        {
+            if (this.IsLoaded)
+            {
+                while (ColumnBladeView.Items.Count > 1)
+                {
+                    try
+                    {
+                        ColumnBladeView.Items.RemoveAt(1);
+                        ColumnBladeView.ActiveBlades.RemoveAt(1);
+                    }
+                    catch
+                    {
+                        break;
+                    }
+                }
+            }
         }
 
         private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
@@ -37,7 +72,6 @@ namespace Files
             await Task.Delay(200);
             FileList.Focus(FocusState.Programmatic);
         }
-
         private void AppSettings_LayoutModeChangeRequested(object sender, EventArgs e)
         {
             SetItemTemplate(); // Set ItemTemplate
@@ -45,7 +79,23 @@ namespace Files
 
         private void SetItemTemplate()
         {
+            if (this.IsLoaded)
+            {
+                while (ColumnBladeView.Items.Count > 1)
+                {
+                    try
+                    {
+                        ColumnBladeView.Items.RemoveAt(1);
+                        ColumnBladeView.ActiveBlades.RemoveAt(1);
+                    }
+                    catch
+                    {
+                        break;
+                    }
+                }
+            }
             FileList.ItemTemplate = (App.AppSettings.LayoutMode == 1) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
+            FirstBlade.ItemTemplate = ListTemplate; // Choose Template
 
             // Set GridViewSize event handlers
             if (App.AppSettings.LayoutMode == 1)
@@ -456,10 +506,212 @@ namespace Files
                 ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
             }
         }
-
-        private void FileListGridItem_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        public async Task<ListedItem> AddFolderAsync(StorageFolder folder, string dateReturnFormat)
         {
+            var basicProperties = await folder.GetBasicPropertiesAsync();
 
+            var item = new ListedItem(folder.FolderRelativeId, dateReturnFormat)
+            {
+                PrimaryItemAttribute = StorageItemTypes.Folder,
+                ItemName = folder.Name,
+                ItemDateModifiedReal = basicProperties.DateModified,
+                ItemType = folder.DisplayType,
+                IsHiddenItem = false,
+                Opacity = 1,
+                LoadFolderGlyph = true,
+                FileImage = null,
+                LoadFileIcon = false,
+                ItemPath = folder.Path,
+                LoadUnknownTypeGlyph = false,
+                FileSize = null,
+                FileSizeBytes = 0
+                //FolderTooltipText = tooltipString,
+            };
+            return item;
+        }
+
+        public async Task<ListedItem> AddFileAsync(StorageFile file, string dateReturnFormat, bool suppressThumbnailLoading = false)
+        {
+            var shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
+            ListedItem fileitem = null;
+            var basicProperties = await file.GetBasicPropertiesAsync();
+
+            // Display name does not include extension
+            var itemName = string.IsNullOrEmpty(file.DisplayName) || shouldDisplayFileExtensions ?
+                file.Name : file.DisplayName;
+            var itemDate = basicProperties.DateModified;
+            var itemPath = file.Path;
+            var itemSize = ByteSize.FromBytes(basicProperties.Size).ToBinaryString().ConvertSizeAbbreviation();
+            var itemSizeBytes = basicProperties.Size;
+            var itemType = file.DisplayType;
+            var itemFolderImgVis = false;
+            var itemFileExtension = file.FileType;
+
+            BitmapImage icon = new BitmapImage();
+            bool itemThumbnailImgVis;
+            bool itemEmptyImgVis;
+
+            try
+            {
+                var itemThumbnailImg = suppressThumbnailLoading ? null :
+                    await file.GetThumbnailAsync(ThumbnailMode.ListView, 80, ThumbnailOptions.UseCurrentScale);
+                if (itemThumbnailImg != null)
+                {
+                    itemEmptyImgVis = false;
+                    itemThumbnailImgVis = true;
+                    icon.DecodePixelWidth = 80;
+                    icon.DecodePixelHeight = 80;
+                    await icon.SetSourceAsync(itemThumbnailImg);
+                }
+                else
+                {
+                    itemEmptyImgVis = true;
+                    itemThumbnailImgVis = false;
+                }
+            }
+            catch
+            {
+                itemEmptyImgVis = true;
+                itemThumbnailImgVis = false;
+            }
+
+            if (file.Name.EndsWith(".lnk") || file.Name.EndsWith(".url"))
+            {
+                // This shouldn't happen, StorageFile api does not support shortcuts
+                Debug.WriteLine("Something strange: StorageFile api returned a shortcut");
+            }
+            else
+            {
+                fileitem = new ListedItem(file.FolderRelativeId, dateReturnFormat)
+                {
+                    PrimaryItemAttribute = StorageItemTypes.File,
+                    FileExtension = itemFileExtension,
+                    IsHiddenItem = false,
+                    Opacity = 1,
+                    LoadUnknownTypeGlyph = itemEmptyImgVis,
+                    FileImage = icon,
+                    LoadFileIcon = itemThumbnailImgVis,
+                    LoadFolderGlyph = itemFolderImgVis,
+                    ItemName = itemName,
+                    ItemDateModifiedReal = itemDate,
+                    ItemType = itemType,
+                    ItemPath = itemPath,
+                    FileSize = itemSize,
+                    FileSizeBytes = (long)itemSizeBytes
+                };
+            }
+            return fileitem;
+        }
+        private async Task EnumFromStorageFolderAsync(StorageFolder _rootFolder)
+        {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+            var shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
+
+            uint count = 0;
+            while (true)
+            {
+                IStorageItem item = null;
+                try
+                {
+                    var results = await _rootFolder.GetItemsAsync(count, 1);
+                    item = results?.FirstOrDefault();
+                    if (item == null)
+                    {
+                        break;
+                    }
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    ++count;
+                    continue;
+                }
+                if (item.IsOfType(StorageItemTypes.Folder))
+                {
+                    await AddFolderAsync(item as StorageFolder, returnformat);
+                    ++count;
+                }
+                else
+                {
+                    var file = item as StorageFile;
+                    await AddFileAsync(file, returnformat, true);
+                    ++count;
+                }
+                //if (_addFilesCTS.IsCancellationRequested)
+                //{
+                //    break;
+                //}
+                //if (count % 300 == 0)
+                //{
+                //    OrderFiles();
+                //}
+            }
+        }
+        private async void FirstBlade_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if (AppSettings.OpenItemsWithOneclick)
+            {
+                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+                string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+                var lvi = ((FrameworkElement)e.OriginalSource) as ListView;
+                var Blade = lvi.FindAscendant<BladeItem>();
+                var index = ColumnBladeView.Items.IndexOf(Blade);
+                while (ColumnBladeView.Items.Count > index + 1)
+                {
+                    try 
+                    { 
+                        ColumnBladeView.Items.RemoveAt(index + 1);
+                        ColumnBladeView.ActiveBlades.RemoveAt(index + 1);
+                    }
+                    catch
+                    {
+                        break;
+                    }
+                }
+                var ClickedItem = e.ClickedItem as ListedItem;
+                if (ClickedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !ClickedItem.ItemPath.Contains("$Recycle.Bin"))
+                {
+                    var collection = new List<ListedItem>();
+                    var filelist = new List<ListedItem>();
+                    var folderlist = new List<ListedItem>();
+                    var folder = await StorageFolder.GetFolderFromPathAsync(ClickedItem.ItemPath);
+                    var items = await folder.GetItemsAsync();
+                    foreach (var item in items)
+                    {
+                        if (item.IsOfType(StorageItemTypes.File))
+                        {
+                            var it = await AddFileAsync(item as StorageFile, returnformat, true);
+                            if (it != null)
+                            { 
+                                filelist.Add(it); 
+                            }
+                        }
+                        else if (item.IsOfType(StorageItemTypes.Folder))
+                        {
+                            var it = await AddFolderAsync(item as StorageFolder, returnformat);
+                            folderlist.Add(it);
+                        }
+                    }
+                    collection.AddRange(folderlist.OrderBy(x => x.ItemName));
+                    collection.AddRange(filelist.OrderBy(x => x.ItemName));
+                    var observable = new ObservableCollection<ListedItem>(collection);
+                    var collection2 = new ReadOnlyObservableCollection<ListedItem>(observable);
+                    ParentShellPageInstance.InteractionOperations.Prepare(ClickedItem.ItemPath);
+                    var lv = new ListView
+                    {
+                        ItemsSource = collection2,
+                        ItemTemplate = ListTemplate,
+                        IsItemClickEnabled = true,
+                        ItemContainerStyle = FirstBlade.ItemContainerStyle
+                    };
+                    lv.ItemClick += FirstBlade_ItemClick;
+                    ColumnBladeView.Items.Add(new BladeItem
+                    {
+                        Content = lv,
+                        Style = BladeView
+                    });
+                }
+            }
         }
     }
 }

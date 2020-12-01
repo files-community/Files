@@ -327,6 +327,9 @@
     <Compile Include="View Models\SelectedItemsPropertiesViewModel.cs" />
     <Compile Include="Interacts\Interaction.cs" />
     <Compile Include="IShellPage.cs" />
+    <Compile Include="Views\LayoutModes\ColumnViewBrowser.xaml.cs">
+      <DependentUpon>ColumnViewBrowser.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LayoutModes\GridViewBrowser.xaml.cs">
       <DependentUpon>GridViewBrowser.xaml</DependentUpon>
     </Compile>
@@ -606,6 +609,10 @@
     <Page Include="UserControls\StatusCenter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LayoutModes\ColumnViewBrowser.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\LayoutModes\GridViewBrowser.xaml">
       <SubType>Designer</SubType>
