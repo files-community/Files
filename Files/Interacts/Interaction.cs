@@ -1153,6 +1153,7 @@ namespace Files.Interacts
             string destinationPath = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
 
             await FilesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, destinationPath, true);
+            AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
         }
 
         public async void CreateFileFromDialogResultType(AddItemType itemType)
