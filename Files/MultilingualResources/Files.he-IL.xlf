@@ -1449,6 +1449,7 @@
         <trans-unit id="NavSearchButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Search</source>
           <target state="new">Search</target>
+        </trans-unit>
         <trans-unit id="PropertiesDialogReadOnly.Text" translate="yes" xml:space="preserve">
           <source>Read-only</source>
           <target state="new">Read-only</target>

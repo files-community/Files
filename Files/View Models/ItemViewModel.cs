@@ -1874,6 +1874,7 @@ namespace Files.Filesystem
             {
                 _filesAndFolders.Add(li);
             }
+            UpdateDirectoryInfo();
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
