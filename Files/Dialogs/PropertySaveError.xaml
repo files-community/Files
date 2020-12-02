@@ -12,9 +12,12 @@
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
     PrimaryButtonStyle="{StaticResource ButtonRevealStyle}"
     SecondaryButtonStyle="{StaticResource ButtonRevealStyle}"
-    CloseButtonStyle="{StaticResource ButtonRevealStyle}">
+    CloseButtonStyle="{StaticResource ButtonRevealStyle}"
+    PrimaryButtonText="Retry"
+    SecondaryButtonText="Close anyway"
+    CloseButtonText="Cancel">
 
     <StackPanel Spacing="5">
-        <TextBlock Grid.Row="1" x:Uid="PropertySaveErrorMessage"/>
+        <TextBlock Grid.Row="1" x:Uid="PropertySaveErrorMessage" Text="There was an issue saving some properties."/>
     </StackPanel>
 </ContentDialog>
