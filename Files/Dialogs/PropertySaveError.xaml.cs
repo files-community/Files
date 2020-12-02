@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Navigation;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace Files.UserControls
+namespace Files.Dialogs
 {
     public sealed partial class PropertySaveError : ContentDialog
     {

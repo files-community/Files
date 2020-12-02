@@ -277,7 +277,7 @@
     <Compile Include="Enums\WallpaperType.cs" />
     <Compile Include="Filesystem\DriveItem.cs" />
     <Compile Include="Filesystem\Drives.cs" />
-    <Compile Include="UserControls\PropertySaveError.xaml.cs">
+    <Compile Include="Dialogs\PropertySaveError.xaml.cs">
       <DependentUpon>PropertySaveError.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MultitaskingControl\TabItem\ITabItem.cs" />
@@ -569,7 +569,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\PropertySaveError.xaml">
+    <Page Include="Dialogs\PropertySaveError.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

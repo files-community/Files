@@ -12,6 +12,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Toolkit.Uwp.Extensions;
+using Files.Dialogs;
 
 namespace Files
 {
