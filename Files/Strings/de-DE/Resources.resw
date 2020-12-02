@@ -486,12 +486,6 @@
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>Schreibgeschützt</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>Ausgeblendet</value>
-  </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Papierkorb leeren</value>
   </data>

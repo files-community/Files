@@ -504,12 +504,6 @@
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Kijelölési lehetőségek</value>
   </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>Csak olvasható</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>Rejtett</value>
-  </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Lomtár ürítése</value>
   </data>
@@ -1045,7 +1039,7 @@
     <value>Meghajtók megjelenítése a fő oldalon</value>
   </data>
   <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
-    <value>Könyvtárak megjelenítése a fő oldalon</value>
+    <value>Meghajtók megjelenítése a fő oldalon</value>
   </data>
   <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
     <value>Legutóbb megnyitottak megjelenítése a fő oldalon</value>

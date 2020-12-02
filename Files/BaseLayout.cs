@@ -256,6 +256,7 @@ namespace Files
             ParentShellPageInstance.NavigationToolbar.CanRefresh = true;
             IsItemSelected = false;
             ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
+            string previousDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
             await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(parameters.NavPathParam);
 
             // pathRoot will be empty on recycle bin path
@@ -275,7 +276,7 @@ namespace Files
             ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
 
             MainPage.MultitaskingControl?.UpdateSelectedTab(new DirectoryInfo(workingDir).Name, workingDir);
-            ParentShellPageInstance.FilesystemViewModel.RefreshItems();
+            ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir);
 
             ParentShellPageInstance.Clipboard_ContentChanged(null, null);
             ParentShellPageInstance.NavigationToolbar.PathControlDisplayText = parameters.NavPathParam;

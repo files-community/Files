@@ -492,12 +492,6 @@
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>चयन विकल्प</value>
   </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>केवल पठन</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>छिपा हुआ</value>
-  </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>रीसायकल बिन खाली करें</value>
   </data>
