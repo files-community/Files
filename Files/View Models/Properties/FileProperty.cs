@@ -1,5 +1,6 @@
 ﻿using Files.Converters;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -175,8 +176,8 @@ namespace Files.View_Models.Properties
         /// </summary>
         public void InitializeNames()
         {
-            Name = ResourceController.GetTranslation(NameResource);
-            Section = ResourceController.GetTranslation(SectionResource);
+            Name = NameResource.GetLocalized();
+            Section = SectionResource.GetLocalized();
         }
 
         public static readonly List<FileProperty> PropertyListItemsBase = new List<FileProperty>()

@@ -10,6 +10,8 @@ using Windows.ApplicationModel.Core;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Controls;
+using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace Files
 {
@@ -30,23 +32,10 @@ namespace Files
             if (BaseProperties != null)
             {
                 Stopwatch stopwatch = Stopwatch.StartNew();
-                (BaseProperties as FileProperties).GetSystemFileProperties();
+                (BaseProperties as FileProperties).GetSystemFilePropertiesAsync();
                 stopwatch.Stop();
                 Debug.WriteLine(string.Format("System file properties were obtained in {0} milliseconds", stopwatch.ElapsedMilliseconds));
             }
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            ViewModel = new SelectedItemsPropertiesViewModel();
-            var np = e.Parameter as Properties.PropertyNavParam;
-
-            var listedItem = np.navParameter as ListedItem;
-            if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
-            {
-                BaseProperties = new FileProperties(ViewModel, np.tokenSource, Dispatcher, null, listedItem);
-            }
-            base.OnNavigatedTo(e);
         }
 
         /// <summary>
@@ -64,10 +53,10 @@ namespace Files
             {
                 var dialog = new PropertySaveError()
                 {
-                    Text = ResourceController.GetTranslation("PropertySaveErrorDialogText"),
-                    PrimaryButtonText = ResourceController.GetTranslation("PropertySaveErrorDialogRetry"),
-                    SecondaryButtonText = ResourceController.GetTranslation("PropertySaveErrorDialogCloseAnyway"),
-                    CloseButtonText = ResourceController.GetTranslation("PropertySaveErrorDialogCancel"),
+                    Text = "PropertySaveErrorDialogText".GetLocalized(),
+                    PrimaryButtonText = "PropertySaveErrorDialogRetry".GetLocalized(),
+                    SecondaryButtonText = "PropertySaveErrorDialogCloseAnyway".GetLocalized(),
+                    CloseButtonText = "PropertySaveErrorDialogCancel".GetLocalized(),
                 };
                 switch (await dialog.ShowAsync())
                 {

@@ -233,7 +233,7 @@ namespace Files.View_Models.Properties
         public async Task SyncPropertyChangesAsync()
         {
             StorageFile file = null;
-            file = await ItemViewModel.GetFileFromPathAsync(Item.ItemPath);
+            file = await StorageFile.GetFileFromPathAsync(Item.ItemPath);
 
             var failedProperties = "";
             foreach (var group in ViewModel.PropertySections)
@@ -271,7 +271,7 @@ namespace Files.View_Models.Properties
             StorageFile file = null;
             try
             {
-                file = await ItemViewModel.GetFileFromPathAsync(Item.ItemPath);
+                file = await StorageFile.GetFileFromPathAsync(Item.ItemPath);
             }
             catch
             {

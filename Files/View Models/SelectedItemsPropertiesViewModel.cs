@@ -652,5 +652,33 @@ namespace Files.View_Models
             get => _PropertySections;
             set => SetProperty(ref _PropertySections, value);
         }
+
+        private bool isReadOnly;
+
+        public bool IsReadOnly
+        {
+            get => isReadOnly;
+            set
+            {
+                IsReadOnlyEnabled = true;
+                SetProperty(ref isReadOnly, value);
+            }
+        }
+
+        private bool isReadOnlyEnabled;
+
+        public bool IsReadOnlyEnabled
+        {
+            get => isReadOnlyEnabled;
+            set => SetProperty(ref isReadOnlyEnabled, value);
+        }
+
+        private bool isHidden;
+
+        public bool IsHidden
+        {
+            get => isHidden;
+            set => SetProperty(ref isHidden, value);
+        }
     }
 }
