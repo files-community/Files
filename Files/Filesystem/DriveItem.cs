@@ -1,35 +1,75 @@
 ﻿using ByteSizeLib;
+using Files.Common;
 using Files.Helpers;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Xaml;
 
 namespace Files.Filesystem
 {
-    public class DriveItem : INavigationControlItem
+    public class DriveItem : ObservableObject, INavigationControlItem
     {
         public string Glyph { get; set; }
-        public string Text { get; set; }
         public string Path { get; set; }
+        public string DeviceID { get; set; }
         public StorageFolder Root { get; set; }
         public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
-        public ByteSize MaxSpace { get; set; }
-        public ByteSize FreeSpace { get; set; }
-        public ByteSize SpaceUsed { get; set; }
-        public string SpaceText { get; set; }
         public Visibility ItemVisibility { get; set; } = Visibility.Visible;
+        public bool IsRemovable { get; set; }
 
-        private DriveType _type;
+        private ByteSize maxSpace;
+        private ByteSize freeSpace;
+        private ByteSize spaceUsed;
+
+        public ByteSize MaxSpace
+        {
+            get => maxSpace;
+            set => SetProperty(ref maxSpace, value);
+        }
+
+        public ByteSize FreeSpace
+        {
+            get => freeSpace;
+            set => SetProperty(ref freeSpace, value);
+        }
+
+        public ByteSize SpaceUsed
+        {
+            get => spaceUsed;
+            set => SetProperty(ref spaceUsed, value);
+        }
+
+        private DriveType type;
 
         public DriveType Type
         {
-            get => _type;
+            get => type;
             set
             {
-                _type = value;
-                SetGlyph(_type);
+                type = value;
+                SetGlyph(type);
             }
+        }
+
+        private string text;
+
+        public string Text
+        {
+            get => text;
+            set => SetProperty(ref text, value);
+        }
+
+        private string spaceText;
+
+        public string SpaceText
+        {
+            get => spaceText;
+            set => SetProperty(ref spaceText, value);
         }
 
         public DriveItem()
@@ -37,39 +77,51 @@ namespace Files.Filesystem
             ItemType = NavigationControlItemType.OneDrive;
         }
 
-        public DriveItem(StorageFolder root, DriveType type)
+        public DriveItem(StorageFolder root, string deviceId, DriveType type)
         {
             Text = root.DisplayName;
             Type = type;
             Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
+            DeviceID = deviceId;
             Root = root;
+            IsRemovable = (Type == DriveType.Removable || Type == DriveType.CDRom);
 
-            var properties = Task.Run(async () =>
+            CoreApplication.MainView.ExecuteOnUIThreadAsync(() => UpdatePropertiesAsync());
+        }
+
+        public async Task UpdateLabelAsync()
+        {
+            try
             {
-                return await root.Properties.RetrievePropertiesAsync(new[] { "System.FreeSpace", "System.Capacity" });
-            }).Result;
-
-            if (properties.ContainsKey("System.Capacity") && properties.ContainsKey("System.FreeSpace"))
-            {
-                try
-                {
-                    MaxSpace = ByteSize.FromBytes((ulong)properties["System.Capacity"]);
-                    FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
-
-                    SpaceUsed = MaxSpace - FreeSpace;
-                    SpaceText = string.Format(
-                        ResourceController.GetTranslation("DriveFreeSpaceAndCapacity"),
-                        FreeSpace.ToBinaryString().ConvertSizeAbbreviation(),
-                        MaxSpace.ToBinaryString().ConvertSizeAbbreviation());
-                }
-                catch (NullReferenceException)
-                {
-                    SpaceText = ResourceController.GetTranslation("DriveCapacityUnknown");
-                }
+                var properties = await Root.Properties.RetrievePropertiesAsync(new[] { "System.ItemNameDisplay" })
+                    .AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
+                Text = (string)properties["System.ItemNameDisplay"];
             }
-            else
+            catch (NullReferenceException)
             {
-                SpaceText = ResourceController.GetTranslation("DriveCapacityUnknown");
+            }
+        }
+
+        public async Task UpdatePropertiesAsync()
+        {
+            try
+            {
+                var properties = await Root.Properties.RetrievePropertiesAsync(new[] { "System.FreeSpace", "System.Capacity" })
+                    .AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
+
+                MaxSpace = ByteSize.FromBytes((ulong)properties["System.Capacity"]);
+                FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
+                SpaceUsed = MaxSpace - FreeSpace;
+
+                SpaceText = string.Format(
+                    "DriveFreeSpaceAndCapacity".GetLocalized(),
+                    FreeSpace.ToBinaryString().ConvertSizeAbbreviation(),
+                    MaxSpace.ToBinaryString().ConvertSizeAbbreviation());
+            }
+            catch (NullReferenceException)
+            {
+                SpaceText = "DriveCapacityUnknown".GetLocalized();
+                SpaceUsed = ByteSize.FromBytes(0);
             }
         }
 

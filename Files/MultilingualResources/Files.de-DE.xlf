@@ -110,10 +110,6 @@
           <source>Preferences</source>
           <target state="translated">Voreinstellungen</target>
         </trans-unit>
-        <trans-unit id="SettingsNavSearch.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Search</source>
-          <target state="translated">Suchen</target>
-        </trans-unit>
         <trans-unit id="SettingsOnStartupContinueWhereYouLeftOff.Content" translate="yes" xml:space="preserve">
           <source>Continue where you left off</source>
           <target state="translated">Dort weitermachen, wo Sie aufgehört haben</target>
@@ -453,12 +449,6 @@
         <trans-unit id="NavRefreshButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Refresh (F5)</source>
           <target state="translated">Aktualisieren (F5)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
-        </trans-unit>
-        <trans-unit id="NavNewItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Create a new item (Ctrl + Shift + N)</source>
-          <target state="translated">Neue Datei erstellen (Strg + Umschalt + N)</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavSearchButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Search</source>
@@ -647,14 +637,6 @@
         <trans-unit id="FileInUseDeleteDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
           <target state="translated">OK</target>
-        </trans-unit>
-        <trans-unit id="PropertiesDialogReadOnly.Content" translate="yes" xml:space="preserve">
-          <source>Read-only</source>
-          <target state="translated">Schreibgeschützt</target>
-        </trans-unit>
-        <trans-unit id="PropertiesDialogHidden.Content" translate="yes" xml:space="preserve">
-          <source>Hidden</source>
-          <target state="translated">Ausgeblendet</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
@@ -1131,7 +1113,7 @@
         </trans-unit>
         <trans-unit id="SettingsMultitaskingAdaptive.Content" translate="yes" xml:space="preserve">
           <source>Adaptive (Recommended)</source>
-          <target state="translated">Adaptiv (Empohlen)</target>
+          <target state="translated">Adaptiv (Empfohlen)</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingAdaptiveDescription.Text" translate="yes" xml:space="preserve">
           <source>Selects the best multitasking control based on how the app window is resized. When the window is small, you'll notice the horizontal tab strip is collapsed into a flyout on the navigation toolbar.</source>
@@ -1229,10 +1211,6 @@
           <source>Layout mode</source>
           <target state="translated">Layoutmodus</target>
         </trans-unit>
-        <trans-unit id="NewItemButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Create new item</source>
-          <target state="translated">Neues Element erstellen</target>
-        </trans-unit>
         <trans-unit id="NavBackButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Navigate backwards</source>
           <target state="translated">Rückwärts navigieren</target>
@@ -1272,10 +1250,6 @@
         <trans-unit id="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show an option to copy the location of the selected item</source>
           <target state="translated">Eine Option anzeigen, um den Speicherort des ausgewählten Elements zu kopieren</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Pin OneDrive to the sidebar</source>
-          <target state="translated">OneDrive an Seitenleiste anheften</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
@@ -1321,17 +1295,9 @@
           <source>Access Denied</source>
           <target state="translated">Zugriff verweigert</target>
         </trans-unit>
-        <trans-unit id="CopyLocationToggleSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show an option to copy the location of the selected item</source>
-          <target state="translated">Eine Option anzeigen, um den Speicherort des ausgewählten Elements zu kopieren</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesContextMenuSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show all context menu items</source>
           <target state="translated">Alle Elemente im Kontextmenü anzeigen</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesPinOneDriveSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Pin OneDrive to the sidebar</source>
-          <target state="translated">OneDrive an die Seitenleiste anheften</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
@@ -1341,17 +1307,9 @@
           <source>Show a confirmation dialog when deleting files or folders</source>
           <target state="translated">Beim Löschen von Dateien oder Ordnern einen Dialog zur Bestätigung anzeigen</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowDriveLetters.Header" translate="yes" xml:space="preserve">
-          <source>Show drive letters</source>
-          <target state="translated">Laufwerksbuchstaben anzeigen</target>
-        </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Header" translate="yes" xml:space="preserve">
           <source>Show extensions for known file types</source>
           <target state="translated">Dateierweiterungen für bekannte Dateiformate anzeigen</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Header" translate="yes" xml:space="preserve">
-          <source>Show hidden files, folders, and drives</source>
-          <target state="translated">Versteckte Dateien, Ordner und Laufwerke anzeigen</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Header" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>
@@ -1364,10 +1322,6 @@
         <trans-unit id="SettingsAppearanceTheme.Header" translate="yes" xml:space="preserve">
           <source>App theme</source>
           <target state="translated">App-Design</target>
-        </trans-unit>
-        <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Header" translate="yes" xml:space="preserve">
-          <source>Double click to rename files</source>
-          <target state="translated">Doppelclicken, um Elemente umzubenennen</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileOwnerInProperties.Header" translate="yes" xml:space="preserve">
           <source>Show Owner in properties</source>

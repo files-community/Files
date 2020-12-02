@@ -195,9 +195,6 @@
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>ପସନ୍ଦ</value>
   </data>
-  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>ସନ୍ଧାନ କର</value>
-  </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
     <value>ଚେତାବନୀ: ପରୀକ୍ଷାମୂଳକ ବୈଶିଷ୍ଟ୍ୟଗୁଡିକ!</value>
   </data>
@@ -402,9 +399,6 @@
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ସତେଜ କର (F5)</value>
   </data>
-  <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ଏକ ନୂତନ ଆଇଟମ୍ ସୃଷ୍ଟି କରନ୍ତୁ (Ctrl + Shift + N)</value>
-  </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ସନ୍ଧାନ କର</value>
   </data>
@@ -497,12 +491,6 @@
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>ଚୟନ ବିକଳ୍ପଗୁଡ଼ିକ</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>କେବଳ ପାଠ</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>ଲୁକ୍କାୟିତ</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>ରିସାଇକ୍ଲବିନ୍ ଖାଲି କର</value>

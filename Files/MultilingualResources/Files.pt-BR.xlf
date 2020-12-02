@@ -250,10 +250,6 @@
           <source>Preferences</source>
           <target state="translated">Preferências</target>
         </trans-unit>
-        <trans-unit id="SettingsNavSearch.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Search</source>
-          <target state="translated">Pesquisar</target>
-        </trans-unit>
         <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
           <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
           <target state="translated">AVISO: RECURSOS EXPERIMENTAIS ABAIXO!</target>
@@ -526,10 +522,6 @@
           <source>Refresh (F5)</source>
           <target state="translated">Atualizar (F5)</target>
         </trans-unit>
-        <trans-unit id="NavNewItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Create a new item (Ctrl + Shift + N)</source>
-          <target state="translated">Crie um novo arquivo (Ctrl + Shift + N)</target>
-        </trans-unit>
         <trans-unit id="NavSearchButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Search</source>
           <target state="translated">Pesquisar</target>
@@ -653,14 +645,6 @@
         <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="translated">Opções de seleção</target>
-        </trans-unit>
-        <trans-unit id="PropertiesDialogReadOnly.Content" translate="yes" xml:space="preserve">
-          <source>Read-only</source>
-          <target state="translated">Somente leitura</target>
-        </trans-unit>
-        <trans-unit id="PropertiesDialogHidden.Content" translate="yes" xml:space="preserve">
-          <source>Hidden</source>
-          <target state="translated">Oculto</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
@@ -1226,10 +1210,6 @@
           <source>Layout mode</source>
           <target state="translated" state-qualifier="tm-suggestion">Modo de layout</target>
         </trans-unit>
-        <trans-unit id="NewItemButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Create new item</source>
-          <target state="translated" state-qualifier="tm-suggestion">Criar novo item</target>
-        </trans-unit>
         <trans-unit id="NavBackButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Navigate backwards</source>
           <target state="translated">Navegar para trás</target>
@@ -1269,10 +1249,6 @@
         <trans-unit id="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show an option to copy the location of the selected item</source>
           <target state="translated">Mostra uma opção para copiar a localização do item selecionado</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Pin OneDrive to the sidebar</source>
-          <target state="translated">Fixar OneDrive na barra lateral</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
@@ -1318,17 +1294,9 @@
           <source>Access Denied</source>
           <target state="translated">Acesso negado</target>
         </trans-unit>
-        <trans-unit id="CopyLocationToggleSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show an option to copy the location of the selected item</source>
-          <target state="translated">Mostra uma opção para copiar a localização do item selecionado</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesContextMenuSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show all context menu items</source>
           <target state="translated">Mostrar todos os itens do menu de contexto</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesPinOneDriveSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Pin OneDrive to the sidebar</source>
-          <target state="translated">Fixar OneDrive na barra lateral</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
@@ -1338,17 +1306,9 @@
           <source>Show a confirmation dialog when deleting files or folders</source>
           <target state="translated">Mostra uma caixa de diálogo de confirmação ao deletar arquivos ou pastas</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowDriveLetters.Header" translate="yes" xml:space="preserve">
-          <source>Show drive letters</source>
-          <target state="translated">Mostrar letras das unidades</target>
-        </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Header" translate="yes" xml:space="preserve">
           <source>Show extensions for known file types</source>
           <target state="translated">Mostrar extensões para tipos de arquivo conhecidos</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Header" translate="yes" xml:space="preserve">
-          <source>Show hidden files, folders, and drives</source>
-          <target state="translated">Mostrar arquivos, pastas e unidades ocultas</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Header" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>
@@ -1362,13 +1322,137 @@
           <source>App theme</source>
           <target state="translated">Tema do aplicativo</target>
         </trans-unit>
-        <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Header" translate="yes" xml:space="preserve">
-          <source>Double click to rename files</source>
-          <target state="translated">Clique duas vezes para renomear arquivos</target>
-        </trans-unit>
         <trans-unit id="SettingsShowFileOwnerInProperties.Header" translate="yes" xml:space="preserve">
           <source>Show Owner in properties</source>
           <target state="translated">Mostrar proprietário nas propriedades</target>
+        </trans-unit>
+        <trans-unit id="NavMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>More options</source>
+          <target state="translated">Mais opções</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlLayoutMode.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Layout mode</source>
+          <target state="translated">Modo de layout</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Selection options</source>
+          <target state="translated">Opções de seleção</target>
+        </trans-unit>
+        <trans-unit id="StatusCenter.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Status center</source>
+          <target state="translated">Centro de status</target>
+        </trans-unit>
+        <trans-unit id="SettingsOpenItemsWithOneclick.Header" translate="yes" xml:space="preserve">
+          <source>Open items with a single click</source>
+          <target state="translated">Abra os itens com um único clique</target>
+        </trans-unit>
+        <trans-unit id="FileItemAutomation" translate="yes" xml:space="preserve">
+          <source>File</source>
+          <target state="translated">Arquivo</target>
+        </trans-unit>
+        <trans-unit id="FolderItemAutomation" translate="yes" xml:space="preserve">
+          <source>Folder</source>
+          <target state="translated">Pasta</target>
+        </trans-unit>
+        <trans-unit id="RecycleBinItemAutomation" translate="yes" xml:space="preserve">
+          <source>Recycle bin item</source>
+          <target state="translated">Item da lixeira</target>
+        </trans-unit>
+        <trans-unit id="ShortcutItemAutomation" translate="yes" xml:space="preserve">
+          <source>Shortcut item</source>
+          <target state="translated">Item de atalho</target>
+        </trans-unit>
+        <trans-unit id="PinToSidebarByDraggingCaptionText" translate="yes" xml:space="preserve">
+          <source>Move here</source>
+          <target state="translated">Mover aqui</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
+          <source>Drives</source>
+          <target state="translated">Unidades</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show library cards on the home page</source>
+          <target state="translated">Mostrar cartões da biblioteca na página inicial</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowLibraryCards.Header" translate="yes" xml:space="preserve">
+          <source>Show library cards on the home page</source>
+          <target state="translated">Mostrar cartões da biblioteca na página inicial</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsTitle.Text" translate="yes" xml:space="preserve">
+          <source>Widgets</source>
+          <target state="translated">Widgets</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgets.Content" translate="yes" xml:space="preserve">
+          <source>Widgets</source>
+          <target state="translated">Widgets</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowDrives.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show drives on the home page</source>
+          <target state="translated">Mostrar as unidades na página inicial</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowDrives.Header" translate="yes" xml:space="preserve">
+          <source>Show drives on the home page</source>
+          <target state="translated">Mostrar as unidades na página inicial</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show recent files on the home page</source>
+          <target state="translated">Mostrar arquivos recentes na página inicial</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowRecentFiles.Header" translate="yes" xml:space="preserve">
+          <source>Show recent files on the home page</source>
+          <target state="translated">Mostrar arquivos recentes na página inicial</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Show an option to copy the location of the selected item</source>
+          <target state="translated">Mostra uma opção para copiar a localização do item selecionado</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Header" translate="yes" xml:space="preserve">
+          <source>Show hidden files and folders</source>
+          <target state="new">Show hidden files and folders</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show hidden files and folders</source>
+          <target state="new">Show hidden files and folders</target>
+        </trans-unit>
+        <trans-unit id="EjectNotificationHeader" translate="yes" xml:space="preserve">
+          <source>Safe to remove hardware</source>
+          <target state="new">Safe to remove hardware</target>
+        </trans-unit>
+        <trans-unit id="EjectNotificationBody" translate="yes" xml:space="preserve">
+          <source>The device can now be safely removed from the computer.</source>
+          <target state="new">The device can now be safely removed from the computer.</target>
+        </trans-unit>
+        <trans-unit id="EjectNotificationErrorDialogHeader" translate="yes" xml:space="preserve">
+          <source>Problem Ejecting Device</source>
+          <target state="new">Problem Ejecting Device</target>
+        </trans-unit>
+        <trans-unit id="EjectNotificationErrorDialogBody" translate="yes" xml:space="preserve">
+          <source>This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</source>
+          <target state="new">This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</target>
+        </trans-unit>
+        <trans-unit id="SideBarEjectDevice.Text" translate="yes" xml:space="preserve">
+          <source>Eject</source>
+          <target state="new">Eject</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlDuplicateTab.Text" translate="yes" xml:space="preserve">
+          <source>Duplicate tab</source>
+          <target state="new">Duplicate tab</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlMoveTabToNewWindow.Text" translate="yes" xml:space="preserve">
+          <source>Move tab to new window</source>
+          <target state="new">Move tab to new window</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlNewTab.Text" translate="yes" xml:space="preserve">
+          <source>New tab</source>
+          <target state="new">New tab</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogReadOnly.Text" translate="yes" xml:space="preserve">
+          <source>Read-only</source>
+          <target state="new">Read-only</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogHidden.Text" translate="yes" xml:space="preserve">
+          <source>Hidden</source>
+          <target state="new">Hidden</target>
         </trans-unit>
         <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
           <source>Rating Text</source>

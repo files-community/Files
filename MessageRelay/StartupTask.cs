@@ -68,7 +68,7 @@ namespace MessageRelay
                 // Last open connection is the fulltrust process, lets close it
                 // This should be done better and handle fulltrust process crashes
                 var value = new ValueSet() { { "Arguments", "Terminate" } };
-                await SendMessage(Connections.Single(), value);
+                await SendMessageAsync(Connections.Single(), value);
             }
 
             if (_backgroundTaskDeferral != null)
@@ -101,7 +101,7 @@ namespace MessageRelay
                 {
                     // Relay request to all the other listeners
                     // Break when a listener returns a response (message was handled)
-                    var returnData = await SendMessage(connection, args.Request.Message);
+                    var returnData = await SendMessageAsync(connection, args.Request.Message);
                     if (returnData?.Message?.Any() ?? false)
                     {
                         await args.Request.SendResponseAsync(returnData?.Message);
@@ -115,7 +115,7 @@ namespace MessageRelay
             }
         }
 
-        private async Task<AppServiceResponse> SendMessage(KeyValuePair<Guid, AppServiceConnection> connection, ValueSet valueSet)
+        private async Task<AppServiceResponse> SendMessageAsync(KeyValuePair<Guid, AppServiceConnection> connection, ValueSet valueSet)
         {
             try
             {

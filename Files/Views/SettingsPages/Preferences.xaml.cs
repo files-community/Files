@@ -16,21 +16,6 @@ namespace Files.SettingsPages
         public Preferences()
         {
             InitializeComponent();
-
-            TryGetOneDriveFolder();
-        }
-
-        private async void TryGetOneDriveFolder()
-        {
-            try
-            {
-                await StorageFolder.GetFolderFromPathAsync(AppSettings.OneDrivePath);
-            }
-            catch
-            {
-                AppSettings.PinOneDriveToSideBar = false;
-                OneDrivePin.IsEnabled = false;
-            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

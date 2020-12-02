@@ -56,28 +56,15 @@ namespace Files.Controls
             {
                 if (value >= 0)
                 {
-                    SetProperty(ref _TabStripSelectedIndex, value);
-                    Frame rootFrame = Window.Current.Content as Frame;
-                    var mainView = rootFrame.Content as MainPage;
-                    mainView.SelectedTabItem = App.MultitaskingControl.Items[value];
+                    if (_TabStripSelectedIndex != value)
+                    {
+                        SetProperty(ref _TabStripSelectedIndex, value);
+                        Frame rootFrame = Window.Current.Content as Frame;
+                        var mainView = rootFrame.Content as MainPage;
+                        mainView.SelectedTabItem = MainPage.MultitaskingControl.Items[value];
+                    }
                 }
             }
-        }
-
-        private Thickness _TabsLeftMargin = new Thickness(0, 0, 0, 0);
-
-        public Thickness TabsLeftMargin
-        {
-            get => _TabsLeftMargin;
-            set => SetProperty(ref _TabsLeftMargin, value);
-        }
-
-        private bool _LeftMarginLoaded = true;
-
-        public bool LeftMarginLoaded
-        {
-            get => _LeftMarginLoaded;
-            set => SetProperty(ref _LeftMarginLoaded, value);
         }
 
         private bool _IsPasteEnabled = false;
@@ -108,7 +95,7 @@ namespace Files.Controls
 
         public static bool IsWindowResizedToCompactWidth()
         {
-            return Window.Current.Bounds.Width <= 750 ? true : false;
+            return Window.Current.Bounds.Width <= 750;
         }
 
         public bool IsWindowCompactSize

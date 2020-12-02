@@ -11,22 +11,21 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
+    xmlns:local3="using:Files.Filesystem.Cloud"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Enabled"
-    PointerReleased="GenericItemView_PointerReleased"
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
     mc:Ignorable="d">
 
     <local:BaseLayout.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
-        <converters:BoolToObjectConverter
-            x:Key="BoolToOpacityConverter"
-            FalseValue="1"
-            TrueValue="0.4" />
 
-        <MenuFlyout x:Key="BaseLayoutContextFlyout">
+        <MenuFlyout
+            x:Key="BaseLayoutContextFlyout"
+            x:Name="BaseLayoutContextFlyout"
+            Opening="RightClickContextMenu_Opening">
             <MenuFlyoutSubItem
                 x:Name="SortByEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutSortBy"
@@ -38,28 +37,28 @@
                     x:Uid="BaseLayoutContextFlyoutSortByName"
                     Click="RadioMenuSortColumn_Click"
                     GroupName="SortGroup"
-                    IsChecked="{x:Bind AssociatedViewModel.IsSortedByName, Mode=TwoWay}"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByName, Mode=TwoWay}"
                     Tag="nameColumn"
                     Text="Name" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByDate"
                     Click="RadioMenuSortColumn_Click"
                     GroupName="SortGroup"
-                    IsChecked="{x:Bind AssociatedViewModel.IsSortedByDate, Mode=TwoWay}"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDate, Mode=TwoWay}"
                     Tag="dateColumn"
                     Text="Date modified" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByType"
                     Click="RadioMenuSortColumn_Click"
                     GroupName="SortGroup"
-                    IsChecked="{x:Bind AssociatedViewModel.IsSortedByType, Mode=TwoWay}"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByType, Mode=TwoWay}"
                     Tag="typeColumn"
                     Text="Type" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortBySize"
                     Click="RadioMenuSortColumn_Click"
                     GroupName="SortGroup"
-                    IsChecked="{x:Bind AssociatedViewModel.IsSortedBySize, Mode=TwoWay}"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedBySize, Mode=TwoWay}"
                     Tag="sizeColumn"
                     Text="Size" />
                 <MenuFlyoutSeparator />
@@ -67,14 +66,14 @@
                     x:Uid="BaseLayoutContextFlyoutSortByAscending"
                     Click="RadioMenuSortDirection_Click"
                     GroupName="SortOrderGroup"
-                    IsChecked="{x:Bind AssociatedViewModel.IsSortedAscending, Mode=TwoWay}"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedAscending, Mode=TwoWay}"
                     Tag="sortAscending"
                     Text="Ascending" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByDescending"
                     Click="RadioMenuSortDirection_Click"
                     GroupName="SortOrderGroup"
-                    IsChecked="{x:Bind AssociatedViewModel.IsSortedDescending, Mode=TwoWay}"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedDescending, Mode=TwoWay}"
                     Tag="sortDescending"
                     Text="Descending" />
             </MenuFlyoutSubItem>
@@ -126,28 +125,37 @@
             <MenuFlyoutItem
                 x:Name="RefreshEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutRefresh"
-                Click="{x:Bind local:NavigationActions.Refresh_Click}"
+                Click="{x:Bind ParentShellPageInstance.Refresh_Click}"
                 Text="Refresh">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe916;" />
                 </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="F5" IsEnabled="False" />
+                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
                 x:Name="PasteEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutPaste"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync}"
+                Command="{x:Bind ParentShellPageInstance.InteractionOperations.PasteItemsFromClipboard}"
                 IsEnabled="{x:Bind local:App.InteractionViewModel.IsPasteEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Text="Paste">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe9b2;" />
                 </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator
+                        Key="V"
+                        IsEnabled="False"
+                        Modifiers="Control" />
+                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
                 x:Name="OpenTerminal"
                 x:Uid="BaseLayoutContextFlyoutOpenInTerminal"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenDirectoryInTerminal}"
+                Command="{x:Bind ParentShellPageInstance.InteractionOperations.OpenDirectoryInDefaultTerminal}"
                 IsEnabled="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
                 Text="Open in Terminal...">
                 <MenuFlyoutItem.Icon>
@@ -162,10 +170,16 @@
                 <MenuFlyoutSubItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe903;" />
                 </MenuFlyoutSubItem.Icon>
+                <MenuFlyoutSubItem.KeyboardAccelerators>
+                    <KeyboardAccelerator
+                        Key="N"
+                        IsEnabled="False"
+                        Modifiers="Control,Shift" />
+                </MenuFlyoutSubItem.KeyboardAccelerators>
                 <MenuFlyoutItem
                     x:Name="NewFolder"
                     x:Uid="BaseLayoutContextFlyoutNewFolder"
-                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.NewFolder_Click}"
+                    Command="{x:Bind ParentShellPageInstance.InteractionOperations.CreateNewFolder}"
                     Text="Folder">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea55;" />
@@ -175,7 +189,7 @@
                 <MenuFlyoutItem
                     x:Name="NewBitmapImage"
                     x:Uid="BaseLayoutContextFlyoutNewBitmapImage"
-                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.NewBitmapImage_Click}"
+                    Command="{x:Bind ParentShellPageInstance.InteractionOperations.CreateNewBitmapImage}"
                     IsEnabled="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                     Text="Bitmap Image">
                     <MenuFlyoutItem.Icon>
@@ -185,7 +199,7 @@
                 <MenuFlyoutItem
                     x:Name="NewTextDocument"
                     x:Uid="BaseLayoutContextFlyoutNewTextDocument"
-                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.NewTextDocument_Click}"
+                    Command="{x:Bind ParentShellPageInstance.InteractionOperations.CreateNewTextDocument}"
                     IsEnabled="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                     Text="Text Document">
                     <MenuFlyoutItem.Icon>
@@ -197,7 +211,7 @@
             <MenuFlyoutItem
                 x:Name="PinToSidebar"
                 x:Uid="BaseLayoutContextFlyoutPinDirectoryToSidebar"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.PinDirectoryToSidebar}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.PinDirectoryToSidebar}"
                 Text="Pin directory to sidebar">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeb1f;" />
@@ -206,7 +220,7 @@
             <MenuFlyoutItem
                 x:Name="PropertiesFolder"
                 x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShowFolderPropertiesButton_Click}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.ShowFolderPropertiesButton_Click}"
                 Text="Properties">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea8d;" />
@@ -226,28 +240,28 @@
                     x:Uid="BaseLayoutContextFlyoutSortByName"
                     Click="RadioMenuSortColumn_Click"
                     GroupName="SortGroup"
-                    IsChecked="{x:Bind AssociatedViewModel.IsSortedByName, Mode=TwoWay}"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByName, Mode=TwoWay}"
                     Tag="nameColumn"
                     Text="Name" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByDate"
                     Click="RadioMenuSortColumn_Click"
                     GroupName="SortGroup"
-                    IsChecked="{x:Bind AssociatedViewModel.IsSortedByDate, Mode=TwoWay}"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDate, Mode=TwoWay}"
                     Tag="dateColumn"
                     Text="Date modified" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByType"
                     Click="RadioMenuSortColumn_Click"
                     GroupName="SortGroup"
-                    IsChecked="{x:Bind AssociatedViewModel.IsSortedByType, Mode=TwoWay}"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByType, Mode=TwoWay}"
                     Tag="typeColumn"
                     Text="Type" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortBySize"
                     Click="RadioMenuSortColumn_Click"
                     GroupName="SortGroup"
-                    IsChecked="{x:Bind AssociatedViewModel.IsSortedBySize, Mode=TwoWay}"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedBySize, Mode=TwoWay}"
                     Tag="sizeColumn"
                     Text="Size" />
                 <MenuFlyoutSeparator />
@@ -255,32 +269,35 @@
                     x:Uid="BaseLayoutContextFlyoutSortByAscending"
                     Click="RadioMenuSortDirection_Click"
                     GroupName="SortOrderGroup"
-                    IsChecked="{x:Bind AssociatedViewModel.IsSortedAscending, Mode=TwoWay}"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedAscending, Mode=TwoWay}"
                     Tag="sortAscending"
                     Text="Ascending" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByDescending"
                     Click="RadioMenuSortDirection_Click"
                     GroupName="SortOrderGroup"
-                    IsChecked="{x:Bind AssociatedViewModel.IsSortedDescending, Mode=TwoWay}"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedDescending, Mode=TwoWay}"
                     Tag="sortDescending"
                     Text="Descending" />
             </MenuFlyoutSubItem>
             <MenuFlyoutItem
                 x:Name="RecycleBinRefreshEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutRefresh"
-                Click="{x:Bind local:NavigationActions.Refresh_Click}"
+                Click="{x:Bind ParentShellPageInstance.Refresh_Click}"
                 Text="Refresh">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe916;" />
                 </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="F5" IsEnabled="False" />
+                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
                 x:Name="EmptyRecycleBin"
                 x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.EmptyRecycleBin_ClickAsync}"
-                IsEnabled="{x:Bind AssociatedViewModel.IsFolderEmptyTextDisplayed, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.EmptyRecycleBin_ClickAsync}"
+                IsEnabled="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                 Text="Empty recycle bin">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
@@ -296,7 +313,7 @@
                 x:Name="OpenItem"
                 x:Uid="BaseLayoutItemContextFlyoutOpenItem"
                 x:Load="False"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenItem_Click}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenItem_Click}"
                 Tag="Open_FlyoutItem"
                 Text="Open">
                 <MenuFlyoutItem.Icon>
@@ -307,7 +324,7 @@
                 x:Name="OpenItemWithAppPicker"
                 x:Uid="BaseLayoutItemContextFlyoutOpenItemWith"
                 x:Load="False"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenItemWithApplicationPicker_Click}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenItemWithApplicationPicker_Click}"
                 Tag="OpenWith"
                 Text="Open With">
                 <MenuFlyoutItem.Icon>
@@ -317,7 +334,7 @@
             <MenuFlyoutItem
                 x:Name="OpenFileLocation"
                 x:Uid="BaseLayoutItemContextFlyoutOpenFileLocation"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenFileLocation_Click}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenFileLocation_Click}"
                 Text="Open file location"
                 Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemShortcut, Mode=OneWay}">
                 <MenuFlyoutItem.Icon>
@@ -328,7 +345,7 @@
                 x:Name="OpenInNewTab"
                 x:Uid="BaseLayoutItemContextFlyoutOpenInNewTab"
                 x:Load="False"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenDirectoryInNewTab_Click}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenDirectoryInNewTab_Click}"
                 Tag="OpenTab_FlyoutItem"
                 Text="Open in new tab">
                 <MenuFlyoutItem.Icon>
@@ -339,7 +356,7 @@
                 x:Name="OpenInNewWindowItem"
                 x:Uid="BaseLayoutItemContextFlyoutOpenInNewWindow"
                 x:Load="False"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenInNewWindowItem_Click}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenInNewWindowItem_Click}"
                 Tag="OpenWindow_FlyoutItem"
                 Text="Open in new window">
                 <MenuFlyoutItem.Icon>
@@ -353,7 +370,7 @@
                 <MenuFlyoutItem
                     x:Name="SetAsDesktopBackgroundItem"
                     x:Uid="BaseLayoutItemContextFlyoutSetAsDesktopBackground"
-                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SetAsDesktopBackgroundItem_Click}"
+                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.SetAsDesktopBackgroundItem_Click}"
                     Text="Set as desktop background">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEC16;" />
@@ -362,7 +379,7 @@
                 <MenuFlyoutItem
                     x:Name="SetAsLockscreenBackgroundItem"
                     x:Uid="BaseLayoutItemContextFlyoutSetAsLockscreenBackground"
-                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SetAsLockscreenBackgroundItem_Click}"
+                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.SetAsLockscreenBackgroundItem_Click}"
                     Text="Set as lockscreen background">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF103;" />
@@ -374,7 +391,7 @@
                 x:Name="RunAsAdmin"
                 x:Uid="BaseLayoutContextFlyoutRunAsAdmin"
                 x:Load="False"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.RunAsAdmin_Click}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.RunAsAdmin_Click}"
                 Text="Run as another user">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeafe;" />
@@ -384,7 +401,7 @@
                 x:Name="RunAsAnotherUser"
                 x:Uid="BaseLayoutContextFlyoutRunAsAnotherUser"
                 x:Load="False"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.RunAsAnotherUser_Click}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.RunAsAnotherUser_Click}"
                 Text="RunAsAnotherUser">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeb08;" />
@@ -393,7 +410,7 @@
             <MenuFlyoutItem
                 x:Name="ShareItem"
                 x:Uid="BaseLayoutItemContextFlyoutShare"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShareItem_Click}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.ShareItem_Click}"
                 Text="Share">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeb60;" />
@@ -403,25 +420,37 @@
             <MenuFlyoutItem
                 x:Name="CutItem"
                 x:Uid="BaseLayoutItemContextFlyoutCut"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CutItem_Click}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.CutItem_Click}"
                 Text="Cut">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF105;" />
                 </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator
+                        Key="X"
+                        IsEnabled="False"
+                        Modifiers="Control" />
+                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="CopyItem"
                 x:Uid="BaseLayoutItemContextFlyoutCopy"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CopyItem_ClickAsync}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.CopyItem_ClickAsync}"
                 Text="Copy">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe9d6;" />
                 </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator
+                        Key="C"
+                        IsEnabled="False"
+                        Modifiers="Control" />
+                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="CopyLocationItem"
                 x:Uid="BaseLayoutItemContextFlyoutCopyLocation"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CopyLocation_ClickAsync}"
+                Command="{x:Bind ParentShellPageInstance.InteractionOperations.CopyPathOfSelectedItem}"
                 Text="Copy location">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9B1;" />
@@ -431,7 +460,7 @@
             <MenuFlyoutItem
                 x:Name="CreateShortcut"
                 x:Uid="BaseLayoutItemContextFlyoutShortcut"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CreateShortcutFromItem_Click}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.CreateShortcutFromItem_Click}"
                 Text="Create shortcut">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
@@ -440,27 +469,33 @@
             <MenuFlyoutItem
                 x:Name="DeleteItem"
                 x:Uid="BaseLayoutItemContextFlyoutDelete"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.DeleteItem_Click}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.DeleteItem_Click}"
                 Text="Delete">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe9ed;" />
                 </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Delete" IsEnabled="False" />
+                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="RenameItem"
                 x:Uid="BaseLayoutItemContextFlyoutRename"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.RenameItem_Click}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.RenameItem_Click}"
                 Text="Rename">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeb3f;" />
                 </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="F2" IsEnabled="False" />
+                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
                 x:Name="SidebarPinItem"
                 x:Uid="BaseLayoutItemContextFlyoutPinToSidebar"
                 x:Load="False"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.PinItem_Click}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.PinItem_Click}"
                 Tag="PinItem_FlyoutItem"
                 Text="Pin to sidebar">
                 <MenuFlyoutItem.Icon>
@@ -470,7 +505,7 @@
             <MenuFlyoutItem
                 x:Name="PropertiesItem"
                 x:Uid="BaseLayoutItemContextFlyoutProperties"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShowPropertiesButton_Click}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.ShowPropertiesButton_Click}"
                 Text="Properties">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea8d;" />
@@ -479,7 +514,7 @@
             <MenuFlyoutItem
                 x:Name="QuickLook"
                 x:Uid="BaseLayoutItemContextFlyoutQuickLook"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ToggleQuickLook}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.ToggleQuickLook}"
                 Text="QuickLook"
                 Visibility="{x:Bind IsQuickLookEnabled}">
                 <MenuFlyoutItem.Icon>
@@ -492,7 +527,7 @@
             <MenuFlyoutItem
                 x:Name="RestoreRecycleBinItem"
                 x:Uid="BaseLayoutItemContextFlyoutRestore"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.RestoreItem_Click}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.RestoreItem_Click}"
                 Text="Restore">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe935;" />
@@ -501,7 +536,7 @@
             <!--<MenuFlyoutItem
                 x:Name="CutRecycleBinItem"
                 x:Uid="BaseLayoutItemContextFlyoutCut"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CutItem_Click}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.CutItem_Click}"
                 Text="Cut">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE8C6;" />
@@ -511,17 +546,20 @@
             <MenuFlyoutItem
                 x:Name="DeleteRecycleBinItem"
                 x:Uid="BaseLayoutItemContextFlyoutDelete"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.DeleteItem_Click}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.DeleteItem_Click}"
                 Text="Delete">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe9ee;" />
                 </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Delete" IsEnabled="False" />
+                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
                 x:Name="PropertiesRecycleBinItem"
                 x:Uid="BaseLayoutItemContextFlyoutProperties"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShowPropertiesButton_Click}"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.ShowPropertiesButton_Click}"
                 Text="Properties">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea8d;" />
@@ -545,12 +583,12 @@
     <Grid x:Name="RootGrid" Background="Transparent">
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
-                Key="{x:Bind plusKey}"
-                Invoked="{x:Bind local:App.CurrentInstance.ContentPage.GridViewSizeIncrease}"
+                Key="{x:Bind PlusKey}"
+                Invoked="{x:Bind ParentShellPageInstance.ContentPage.GridViewSizeIncrease}"
                 Modifiers="Control" />
             <KeyboardAccelerator
                 Key="Add"
-                Invoked="{x:Bind local:App.CurrentInstance.ContentPage.GridViewSizeIncrease}"
+                Invoked="{x:Bind ParentShellPageInstance.ContentPage.GridViewSizeIncrease}"
                 Modifiers="Control" />
         </Grid.KeyboardAccelerators>
         <Interactivity:Interaction.Behaviors>
@@ -579,7 +617,7 @@
             Margin="0,125,0,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
-            x:Load="{x:Bind AssociatedViewModel.IsFolderEmptyTextDisplayed, Mode=OneWay}"
+            x:Load="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed, Mode=OneWay}"
             Text="This folder is empty."
             TextWrapping="Wrap" />
 
@@ -595,23 +633,27 @@
             Grid.Row="3"
             Margin="12,12,12,0"
             HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
             x:FieldModifier="public"
             AllowDrop="True"
             AutoGenerateColumns="False"
+            Background="Transparent"
             CanUserReorderColumns="False"
             CanUserSortColumns="True"
             CellEditEnded="AllView_CellEditEnded"
             CellEditEnding="AllView_CellEditEnding"
             ClipboardCopyMode="None"
-            DoubleTapped="{x:Bind local:App.CurrentInstance.InteractionOperations.List_ItemClick}"
+            ColumnHeaderHeight="38"
+            DoubleTapped="{x:Bind ParentShellPageInstance.InteractionOperations.List_ItemDoubleClick}"
             DragOver="List_DragOver"
             Drop="List_Drop"
             FocusVisualPrimaryThickness="0"
             Holding="AllView_Holding"
             IsDoubleTapEnabled="True"
             IsRightTapEnabled="True"
-            ItemsSource="{x:Bind AssociatedViewModel.FilesAndFolders, Mode=OneWay}"
+            ItemsSource="{x:Bind ParentShellPageInstance.FilesystemViewModel.FilesAndFolders, Mode=OneWay}"
             LoadingRow="AllView_LoadingRow"
+            PointerPressed="{x:Bind ParentShellPageInstance.InteractionOperations.ItemPointerPressed}"
             PreparingCellForEdit="AllView_PreparingCellForEdit"
             PreviewKeyDown="AllView_PreviewKeyDown"
             RightTapped="AllView_RightTapped"
@@ -621,9 +663,28 @@
             SelectionMode="Extended"
             Sorting="AllView_Sorting">
             <controls:DataGrid.Resources>
-                <SolidColorBrush x:Key="DataGridCellFocusVisualPrimaryBrush" Color="Transparent" />
-                <SolidColorBrush x:Key="DataGridCellFocusVisualSecondaryBrush" Color="Transparent" />
-                <StaticResource x:Key="DataGridColumnHeaderBackgroundColor" ResourceKey="SystemControlTransparentBrush" />
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Light">
+                            <SolidColorBrush x:Key="GridLinesBrush" Color="#edebe9" />
+                            <Color x:Key="DataGridColumnHeaderBackgroundColor">White</Color>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Dark">
+                            <SolidColorBrush x:Key="GridLinesBrush" Color="#3b3a39" />
+                            <Color x:Key="DataGridColumnHeaderBackgroundColor">#201F1E</Color>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="HighContrast">
+                            <SolidColorBrush x:Key="GridLinesBrush" Color="{StaticResource SystemColorWindowTextColor}" />
+                            <StaticResource x:Key="DataGridColumnHeaderBackgroundColor" ResourceKey="SystemColorWindowColor" />
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary>
+                            <SolidColorBrush x:Key="DataGridCellFocusVisualPrimaryBrush" Color="Transparent" />
+                            <SolidColorBrush x:Key="DataGridCellFocusVisualSecondaryBrush" Color="Transparent" />
+                        </ResourceDictionary>
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
             </controls:DataGrid.Resources>
             <controls:DataGrid.ColumnHeaderStyle>
                 <Style TargetType="controlsprimitives:DataGridColumnHeader">
@@ -650,11 +711,10 @@
                         </Setter.Value>
                     </Setter>
                     <Setter Property="SeparatorBrush" Value="Transparent" />
-                    <Setter Property="Height" Value="38" />
                     <Setter Property="FontSize" Value="14" />
                     <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
                     <Setter Property="FontWeight" Value="SemiBold" />
-                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Background" Value="{ThemeResource DataGridColumnHeaderBackgroundColor}" />
                 </Style>
             </controls:DataGrid.ColumnHeaderStyle>
             <Interactivity:Interaction.Behaviors>
@@ -674,7 +734,7 @@
             <controls:DataGrid.CellStyle>
                 <Style TargetType="controls:DataGridCell">
                     <Setter Property="BorderThickness" Value="0" />
-                    <Setter Property="AllowFocusOnInteraction" Value="False" />
+                    <Setter Property="AllowFocusOnInteraction" Value="True" />
                     <Setter Property="FocusVisualPrimaryThickness" Value="0" />
                     <Setter Property="FocusVisualSecondaryThickness" Value="0" />
                 </Style>
@@ -689,8 +749,7 @@
                         <DataTemplate x:DataType="local2:ListedItem">
                             <Grid
                                 x:Name="Icon"
-                                EffectiveViewportChanged="Icon_EffectiveViewportChanged"
-                                Opacity="{x:Bind IsDimmed, Converter={StaticResource BoolToOpacityConverter}, Mode=OneWay}"
+                                Opacity="{x:Bind Opacity, Mode=OneWay}"
                                 ToolTipService.ToolTip="{x:Bind FolderTooltipText}">
                                 <Rectangle
                                     x:Name="CutIndicator"
@@ -701,7 +760,7 @@
                                     x:Name="FolderGlyphElement"
                                     Width="24"
                                     Height="24"
-                                    x:Load="{x:Bind LoadFolderGlyph}">
+                                    x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}">
                                     <Image.Source>
                                         <SvgImageSource
                                             RasterizePixelHeight="128"
@@ -726,6 +785,16 @@
                                     x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                                     Source="{x:Bind FileImage, Mode=OneWay}"
                                     Stretch="UniformToFill" />
+                                <Image
+                                    x:Name="IconOverlay"
+                                    Width="22"
+                                    Height="22"
+                                    Margin="2,8,8,2"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    x:Load="True"
+                                    Source="{x:Bind IconOverlay, Mode=OneWay}"
+                                    Stretch="Uniform" />
                                 <Border
                                     x:Name="ShortcutGlyphElement"
                                     Margin="2,18,18,2"
@@ -775,8 +844,8 @@
                                 HorizontalAlignment="Left"
                                 FontFamily="Segoe MDL2 Assets"
                                 FontSize="14"
-                                Foreground="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
-                                Glyph="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
+                                Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
+                                Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>
                 </controls:DataGridTemplateColumn>
@@ -840,5 +909,20 @@
                 </controls:DataGridTextColumn>
             </controls:DataGrid.Columns>
         </controls:DataGrid>
+
+        <Canvas
+            Margin="12,12,12,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+            <Rectangle
+                Name="SelectionRectangle"
+                Canvas.Left="0"
+                Canvas.Top="0"
+                Width="0"
+                Height="0"
+                Fill="#AA0078d7"
+                Stroke="#FF0066cc"
+                StrokeThickness="1" />
+        </Canvas>
     </Grid>
 </local:BaseLayout>

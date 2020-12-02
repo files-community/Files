@@ -8,7 +8,10 @@ namespace Files.Converters
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (value != null)
+            {
                 return value.ToString();
+            }
+
             return "";
         }
 

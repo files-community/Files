@@ -90,9 +90,6 @@
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Voreinstellungen</value>
   </data>
-  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>Suchen</value>
-  </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Dort weitermachen, wo Sie aufgehört haben</value>
   </data>
@@ -348,9 +345,6 @@
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Aktualisieren (F5)</value>
   </data>
-  <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Neue Datei erstellen (Strg + Umschalt + N)</value>
-  </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Suchen</value>
   </data>
@@ -491,12 +485,6 @@
   </data>
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>OK</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>Schreibgeschützt</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>Ausgeblendet</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Papierkorb leeren</value>
@@ -853,7 +841,7 @@
     <value>Sind Sie sicher, dass Sie diese {0} Elemente löschen möchten?</value>
   </data>
   <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Adaptiv (Empohlen)</value>
+    <value>Adaptiv (Empfohlen)</value>
   </data>
   <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
     <value>Wählt das am besten geeignete Multitasking-Steuerelement basierend auf der Fenstergröße aus. Wenn das Fenster klein ist, werden Sie feststellen, dass der horizontale Tab-Streifen in ein Flyout auf der Navigationssymbolleiste reduziert wird.</value>
@@ -927,8 +915,8 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Layoutmodus</value>
   </data>
-  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Neues Element erstellen</value>
+  <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Rückwärts navigieren</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Rückwärts navigieren</value>
@@ -947,6 +935,165 @@
   </data>
   <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
     <value>Einstellungen</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
+    <value>Sprache</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
+    <value>Terminal-Anwendungen</value>
+  </data>
+  <data name="SettingsPreferencesContextMenuSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Alle Elemente im Kontextmenü anzeigen</value>
+  </data>
+  <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Eine Option anzeigen, um den Speicherort des ausgewählten Elements zu kopieren</value>
+  </data>
+  <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Papierkorb an Seitenleiste anheften</value>
+  </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>Beim Löschen von Dateien oder Ordnern einen Bestätigungsdialog anzeigen</value>
+  </data>
+  <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
+    <value>Terminal-Anwendungen bearbeiten</value>
+  </data>
+  <data name="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Terminal-Anwendungen bearbeiten</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" xml:space="preserve">
+    <value>Beispielprofile ansehen</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
+    <value>Sprache</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
+    <value>Terminal-Anwendungen</value>
+  </data>
+  <data name="SettingsAboutSupportUs.Text" xml:space="preserve">
+    <value>Unterstützen Sie uns</value>
+  </data>
+  <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
+    <value>Unterstützen Sie uns auf PayPal</value>
+  </data>
+  <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
+    <value>Wir können diese Element nicht erstellen</value>
+  </data>
+  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+    <value>Zugriff verweigert</value>
+  </data>
+  <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
+    <value>Alle Elemente im Kontextmenü anzeigen</value>
+  </data>
+  <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
+    <value>Papierkorb an die Seitenleiste anheften</value>
+  </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
+    <value>Beim Löschen von Dateien oder Ordnern einen Dialog zur Bestätigung anzeigen</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
+    <value>Dateierweiterungen für bekannte Dateiformate anzeigen</value>
+  </data>
+  <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
+    <value>Acrylic-Effekt für die Seitenleiste</value>
+  </data>
+  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+    <value>Datumsformat</value>
+  </data>
+  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
+    <value>App-Design</value>
+  </data>
+  <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
+    <value>Den Besitzer in den Eigenschaften anzeigen</value>
+  </data>
+  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Weitere Optionen</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.AutomationProperties.Name" xml:space="preserve">
+    <value>Layout-Modus</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Auswahloptionen</value>
+  </data>
+  <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
+    <value>Status Center</value>
+  </data>
+  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
+    <value>Elemente mit einfachem Klick öffnen</value>
+  </data>
+  <data name="FileItemAutomation" xml:space="preserve">
+    <value>Datei</value>
+  </data>
+  <data name="FolderItemAutomation" xml:space="preserve">
+    <value>Ordner</value>
+  </data>
+  <data name="RecycleBinItemAutomation" xml:space="preserve">
+    <value>Papierkorb</value>
+  </data>
+  <data name="ShortcutItemAutomation" xml:space="preserve">
+    <value>Verknüpfung</value>
+  </data>
+  <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
+    <value>Hierher verschieben</value>
+  </data>
+  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+    <value>Laufwerke</value>
+  </data>
+  <data name="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" xml:space="preserve">
+    <value>Bibliotheken auf Startseite anzeigen</value>
+  </data>
+  <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
+    <value>Bibliotheken auf Startseite anzeigen</value>
+  </data>
+  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
+    <value>Widgets</value>
+  </data>
+  <data name="SettingsWidgets.Content" xml:space="preserve">
+    <value>Widgets</value>
+  </data>
+  <data name="SettingsWidgetsShowDrives.AutomationProperties.Name" xml:space="preserve">
+    <value>Laufwerke auf Startseite anzeigen</value>
+  </data>
+  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
+    <value>Laufwerke auf Startseite anzeigen</value>
+  </data>
+  <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
+    <value>Zuletzt verwendete Dateien auf Startseite anzeigen</value>
+  </data>
+  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
+    <value>Zuletzt verwendete Dateien auf Startseite anzeigen</value>
+  </data>
+  <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
+    <value>Eine Option anzeigen, um den Speicherort des ausgewählten Elements zu kopieren</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
+    <value>Versteckete Dateien und Ordner anzeigen</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Versteckete Dateien und Ordner anzeigen</value>
+  </data>
+  <data name="EjectNotificationHeader" xml:space="preserve">
+    <value>Hardware sicher entfernen</value>
+  </data>
+  <data name="EjectNotificationBody" xml:space="preserve">
+    <value>Das Gerät kann jetzt sicher vom PC entfernt werden.</value>
+  </data>
+  <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
+    <value>Problem beim auswerfen des Gerätes</value>
+  </data>
+  <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
+    <value>Dieses Gerät wird derzeit benutzt. Schließen Sie jedes Program, Fenster oder Tab das möglicherweise das Gerät benutzt und versuchen Sie es erneut.</value>
+  </data>
+  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+    <value>Auswerfen</value>
+  </data>
+  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+    <value>Tab duplizieren</value>
+  </data>
+  <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
+    <value>Tab in neuem Fenster öffnen</value>
+  </data>
+  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+    <value>Neuer Tab</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
     <value>Sprache</value>

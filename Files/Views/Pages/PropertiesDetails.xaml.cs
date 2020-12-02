@@ -6,23 +6,15 @@ using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.ApplicationModel.Core;
+using Windows.System;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-
-// Il modello di elemento Pagina vuota è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Files
 {
-    /// <summary>
-    /// Pagina vuota che può essere usata autonomamente oppure per l'esplorazione all'interno di un frame.
-    /// </summary>
-    public sealed partial class PropertiesDetails : Page
+    public sealed partial class PropertiesDetails : PropertiesTab
     {
-        public FileProperties BaseProperties { get; set; }
-
-        public SelectedItemsPropertiesViewModel ViewModel { get; set; }
-
         public PropertiesDetails()
         {
             this.InitializeComponent();
@@ -31,13 +23,14 @@ namespace Files
             // To work around this, the item template is defined here   
         }
 
-        private void Properties_Loaded(object sender, RoutedEventArgs e)
+        protected override void Properties_Loaded(object sender, RoutedEventArgs e)
         {
+            base.Properties_Loaded(sender, e);
+
             if (BaseProperties != null)
             {
-                BaseProperties.GetSpecialProperties();
-                Stopwatch stopwatch = System.Diagnostics.Stopwatch.StartNew();
-                BaseProperties.GetSystemFilePropertiesAsync();
+                Stopwatch stopwatch = Stopwatch.StartNew();
+                (BaseProperties as FileProperties).GetSystemFileProperties();
                 stopwatch.Stop();
                 Debug.WriteLine(string.Format("System file properties were obtained in {0} milliseconds", stopwatch.ElapsedMilliseconds));
             }
@@ -53,7 +46,6 @@ namespace Files
             {
                 BaseProperties = new FileProperties(ViewModel, np.tokenSource, Dispatcher, null, listedItem);
             }
-
             base.OnNavigatedTo(e);
         }
 
@@ -62,7 +54,7 @@ namespace Files
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        public async Task<bool> SaveChanges()
+        public async Task<bool> SaveChangesAsync()
         {
             try
             {
@@ -80,7 +72,7 @@ namespace Files
                 switch (await dialog.ShowAsync())
                 {
                     case ContentDialogResult.Primary:
-                        SaveChanges();
+                        SaveChangesAsync();
                         return false;
 
                     case ContentDialogResult.Secondary:

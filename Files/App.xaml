@@ -30,8 +30,8 @@
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
                             <SolidColorBrush x:Key="CloudDriveSyncStatusOfflineColor" Color="#30BB03" />
                             <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
-                            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#201F1E" />
-                            <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
+                            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="{ThemeResource SystemColorWindowColor}" />
+                            <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="{ThemeResource SystemColorWindowColor}" />
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>

@@ -90,9 +90,6 @@
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Tercihler</value>
   </data>
-  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>Ara</value>
-  </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Kaldığınız yerden devam edin</value>
   </data>
@@ -405,12 +402,6 @@
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>Tamam</value>
   </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>Salt okunur</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>Gizli</value>
-  </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Geri dönüşüm kutusunu boşalt</value>
   </data>
@@ -698,9 +689,6 @@
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Düzen modu</value>
-  </data>
-  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Yeni öğe oluştur</value>
   </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>İleri Git</value>

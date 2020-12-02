@@ -195,9 +195,6 @@
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>प्राथमिकताएँ</value>
   </data>
-  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>खोजें</value>
-  </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
     <value>चेतावनी: प्रयोगात्मक विशेषताएं आगे!</value>
   </data>
@@ -402,9 +399,6 @@
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>ताज़ाकरण (F5)</value>
   </data>
-  <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>एक नया आइटम बनाएं (Ctrl + Shift + N)</value>
-  </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>खोजें</value>
   </data>
@@ -497,12 +491,6 @@
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>चयन विकल्प</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>केवल पठन</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>छिपा हुआ</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>रीसायकल बिन खाली करें</value>
@@ -836,9 +824,6 @@
   </data>
   <data name="AddDialogListTextFileHeader" xml:space="preserve">
     <value>पाठ दस्तावेज़</value>
-  </data>
-  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
-    <value>नया आइटम बनाएँ</value>
   </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>आगे नेविगेट करें</value>

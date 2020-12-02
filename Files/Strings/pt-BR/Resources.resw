@@ -195,9 +195,6 @@
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferências</value>
   </data>
-  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>Pesquisar</value>
-  </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
     <value>AVISO: RECURSOS EXPERIMENTAIS ABAIXO!</value>
   </data>
@@ -402,9 +399,6 @@
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Atualizar (F5)</value>
   </data>
-  <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Crie um novo arquivo (Ctrl + Shift + N)</value>
-  </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Pesquisar</value>
   </data>
@@ -497,12 +491,6 @@
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Opções de seleção</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>Somente leitura</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>Oculto</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Esvaziar lixeira</value>
@@ -927,9 +915,6 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Modo de layout</value>
   </data>
-  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Criar novo item</value>
-  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Navegar para trás</value>
   </data>
@@ -959,9 +944,6 @@
   </data>
   <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostra uma opção para copiar a localização do item selecionado</value>
-  </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Fixar OneDrive na barra lateral</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Fixar a lixeira na barra lateral</value>
@@ -996,14 +978,8 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Acesso negado</value>
   </data>
-  <data name="CopyLocationToggleSwitch.Header" xml:space="preserve">
-    <value>Mostra uma opção para copiar a localização do item selecionado</value>
-  </data>
   <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
     <value>Mostrar todos os itens do menu de contexto</value>
-  </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.Header" xml:space="preserve">
-    <value>Fixar OneDrive na barra lateral</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Fixar a lixeira na barra lateral</value>
@@ -1011,14 +987,8 @@
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Mostra uma caixa de diálogo de confirmação ao deletar arquivos ou pastas</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Header" xml:space="preserve">
-    <value>Mostrar letras das unidades</value>
-  </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>Mostrar extensões para tipos de arquivo conhecidos</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Header" xml:space="preserve">
-    <value>Mostrar arquivos, pastas e unidades ocultas</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Barra lateral em acrílico</value>
@@ -1029,10 +999,67 @@
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
     <value>Tema do aplicativo</value>
   </data>
-  <data name="SettingsExperimentalDoubleTapToRenameFiles.Header" xml:space="preserve">
-    <value>Clique duas vezes para renomear arquivos</value>
-  </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
     <value>Mostrar proprietário nas propriedades</value>
+  </data>
+  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Mais opções</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.AutomationProperties.Name" xml:space="preserve">
+    <value>Modo de layout</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Opções de seleção</value>
+  </data>
+  <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
+    <value>Centro de status</value>
+  </data>
+  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
+    <value>Abra os itens com um único clique</value>
+  </data>
+  <data name="FileItemAutomation" xml:space="preserve">
+    <value>Arquivo</value>
+  </data>
+  <data name="FolderItemAutomation" xml:space="preserve">
+    <value>Pasta</value>
+  </data>
+  <data name="RecycleBinItemAutomation" xml:space="preserve">
+    <value>Item da lixeira</value>
+  </data>
+  <data name="ShortcutItemAutomation" xml:space="preserve">
+    <value>Item de atalho</value>
+  </data>
+  <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
+    <value>Mover aqui</value>
+  </data>
+  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+    <value>Unidades</value>
+  </data>
+  <data name="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar cartões da biblioteca na página inicial</value>
+  </data>
+  <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
+    <value>Mostrar cartões da biblioteca na página inicial</value>
+  </data>
+  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
+    <value>Widgets</value>
+  </data>
+  <data name="SettingsWidgets.Content" xml:space="preserve">
+    <value>Widgets</value>
+  </data>
+  <data name="SettingsWidgetsShowDrives.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar as unidades na página inicial</value>
+  </data>
+  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
+    <value>Mostrar as unidades na página inicial</value>
+  </data>
+  <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar arquivos recentes na página inicial</value>
+  </data>
+  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
+    <value>Mostrar arquivos recentes na página inicial</value>
+  </data>
+  <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
+    <value>Mostra uma opção para copiar a localização do item selecionado</value>
   </data>
 </root>

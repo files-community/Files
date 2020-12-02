@@ -50,7 +50,11 @@ namespace Files.Dialogs
                     var element = Windows.UI.Xaml.Input.FocusManager.GetFocusedElement() as Button;
                     if (element == null || element.Name == "PrimaryButton")
                     {
-                        if (!IsPrimaryButtonEnabled) return;
+                        if (!IsPrimaryButtonEnabled)
+                        {
+                            return;
+                        }
+
                         BitlockerDialog_PrimaryButtonClick(null, null);
                         tcs.TrySetResult(ContentDialogResult.Primary);
                         Hide();

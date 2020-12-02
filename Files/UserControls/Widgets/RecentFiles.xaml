@@ -2,9 +2,7 @@
     x:Class="Files.RecentFiles"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:list="using:Locations"
     xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -25,14 +23,14 @@
             x:Name="RecentsListGrid"
             Grid.Row="1"
             Grid.Column="0">
-            <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Vertical" Spacing="4">
                 <TextBlock
                     x:Uid="RecentItems"
-                    Margin="0,0,0,0"
                     HorizontalAlignment="Left"
                     FontFamily="Segoe UI"
                     FontSize="14"
                     FontWeight="Medium"
+                    Opacity=".8"
                     Text="Recent files" />
                 <TextBlock
                     x:Uid="RecentItemDescription"
@@ -51,6 +49,7 @@
                     IsRightTapEnabled="True"
                     ItemClick="RecentsView_ItemClick"
                     ItemContainerStyle="{StaticResource ListViewItemContainerStyle1}"
+                    ItemContainerTransitions="{x:Null}"
                     ItemsSource="{x:Bind recentItemsCollection}"
                     SelectionMode="None">
                     <ListView.ItemTemplate>

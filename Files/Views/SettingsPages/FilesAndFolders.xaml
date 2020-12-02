@@ -27,10 +27,10 @@
                     Text="Files and Folders" />
 
                 <ToggleSwitch
-                    x:Uid="SettingsFilesAndFoldersShowHiddenFiles"
-                    Header="Show hidden files, folders, and drives"
+                    x:Uid="SettingsFilesAndFoldersShowHiddenItems"
+                    Header="Show hidden files and folders"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsEnabled="False" />
+                    IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}" />
 
                 <ToggleSwitch
                     x:Name="FileExtensionsToggle"
@@ -40,10 +40,10 @@
                     IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
 
                 <ToggleSwitch
-                    x:Uid="SettingsFilesAndFoldersShowDriveLetters"
-                    Header="Show drive letters"
+                    x:Uid="SettingsOpenItemsWithOneclick"
+                    Header="Open items with a single click"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsEnabled="False" />
+                    IsOn="{x:Bind AppSettings.OpenItemsWithOneclick, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

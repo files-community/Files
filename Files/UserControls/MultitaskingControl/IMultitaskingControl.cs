@@ -1,14 +1,33 @@
-﻿using System.Collections.ObjectModel;
-using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
-namespace Files.UserControls.MultiTaskingControl
+namespace Files.UserControls.MultitaskingControl
 {
     public interface IMultitaskingControl
     {
-        Task SetSelectedTabInfo(string text, string currentPathForTabIcon);
+        public delegate void CurrentInstanceChangedEventHandler(object sender, CurrentInstanceChangedEventArgs e);
 
-        void SelectionChanged();
+        public void UpdateSelectedTab(string tabHeader, string workingDirectoryPath);
+
+        event CurrentInstanceChangedEventHandler CurrentInstanceChanged;
 
         ObservableCollection<TabItem> Items { get; }
+
+        List<ITabItem> RecentlyClosedTabs { get; }
+
+        bool RestoredRecentlyClosedTab { get; set; }
+
+        public TTab GetCurrentSelectedTabInstance<TTab>();
+
+        public List<TTab> GetAllTabInstances<TTab>();
+
+        public void RemoveTab(TabItem tabItem);
+    }
+
+    public class CurrentInstanceChangedEventArgs : EventArgs
+    {
+        public IShellPage CurrentInstance { get; set; }
+        public List<IShellPage> ShellPageInstances { get; set; }
     }
 }

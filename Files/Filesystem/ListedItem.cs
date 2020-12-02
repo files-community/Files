@@ -2,7 +2,9 @@
 using Files.Enums;
 using Files.Helpers;
 ﻿using Files.Enums;
+using Files.Filesystem.Cloud;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Diagnostics;
 using Windows.Storage;
@@ -12,12 +14,13 @@ namespace Files.Filesystem
 {
     public class ListedItem : ObservableObject
     {
+        public bool IsHiddenItem { get; set; } = false;
         public StorageItemTypes PrimaryItemAttribute { get; set; }
         public bool ItemPropertiesInitialized { get; set; } = false;
         public string FolderTooltipText { get; set; }
         public string FolderRelativeId { get; set; }
-        public bool LoadFolderGlyph { get; set; }
         public bool ContainsFilesOrFolders { get; set; }
+        private bool _LoadFolderGlyph;
         private bool _LoadFileIcon;
 
         public Uri FolderIconSource
@@ -36,6 +39,12 @@ namespace Files.Filesystem
             }
         }
 
+        public bool LoadFolderGlyph
+        {
+            get => _LoadFolderGlyph;
+            set => SetProperty(ref _LoadFolderGlyph, value);
+        }
+
         public bool LoadFileIcon
         {
             get => _LoadFileIcon;
@@ -50,12 +59,12 @@ namespace Files.Filesystem
             set => SetProperty(ref _LoadUnknownTypeGlyph, value);
         }
 
-        private bool _IsDimmed;
+        private double opacity;
 
-        public bool IsDimmed
+        public double Opacity
         {
-            get => _IsDimmed;
-            set => SetProperty(ref _IsDimmed, value);
+            get => opacity;
+            set => SetProperty(ref opacity, value);
         }
 
         private CloudDriveSyncStatusUI _SyncStatusUI;
@@ -76,6 +85,20 @@ namespace Files.Filesystem
                 if (value != null)
                 {
                     SetProperty(ref _FileImage, value);
+                }
+            }
+        }
+
+        private BitmapImage _IconOverlay;
+
+        public BitmapImage IconOverlay
+        {
+            get => _IconOverlay;
+            set
+            {
+                if (value != null)
+                {
+                    SetProperty(ref _IconOverlay, value);
                 }
             }
         }
@@ -123,7 +146,7 @@ namespace Files.Filesystem
             get => _itemDateModifiedReal;
             set
             {
-                ItemDateModified = GetFriendlyDate(value);
+                ItemDateModified = GetFriendlyDateFromFormat(value, DateReturnFormat);
                 _itemDateModifiedReal = value;
             }
         }
@@ -135,7 +158,7 @@ namespace Files.Filesystem
             get => _itemDateCreatedReal;
             set
             {
-                ItemDateCreated = GetFriendlyDate(value);
+                ItemDateCreated = GetFriendlyDateFromFormat(value, DateReturnFormat);
                 _itemDateCreatedReal = value;
             }
         }
@@ -147,7 +170,7 @@ namespace Files.Filesystem
             get => _itemDateAccessedReal;
             set
             {
-                ItemDateAccessed = GetFriendlyDate(value);
+                ItemDateAccessed = GetFriendlyDateFromFormat(value, DateReturnFormat);
                 _itemDateAccessedReal = value;
             }
         }
@@ -155,7 +178,7 @@ namespace Files.Filesystem
         private DateTimeOffset _itemDateAccessedReal;
 
         /// <summary>
-        /// Create an item object, optionally with an explicitly-specified dateReturnFormat.
+        /// Initializes a new instance of the <see cref="ListedItem" /> class, optionally with an explicitly-specified dateReturnFormat.
         /// </summary>
         /// <param name="folderRelativeId"></param>
         /// <param name="dateReturnFormat">Specify a date return format to reduce redundant checks of this setting.</param>
@@ -176,80 +199,60 @@ namespace Files.Filesystem
 
         private string DateReturnFormat { get; }
 
-        private string GetFriendlyDate(DateTimeOffset d)
-        {
-            var elapsed = DateTimeOffset.Now - d;
-
-            if (elapsed.TotalDays > 7)
-            {
-                return d.ToString(DateReturnFormat);
-            }
-            else if (elapsed.TotalDays > 2)
-            {
-                return string.Format(ResourceController.GetTranslation("DaysAgo"), elapsed.Days);
-            }
-            else if (elapsed.TotalDays > 1)
-            {
-                return string.Format(ResourceController.GetTranslation("DayAgo"), elapsed.Days);
-            }
-            else if (elapsed.TotalHours > 2)
-            {
-                return string.Format(ResourceController.GetTranslation("HoursAgo"), elapsed.Hours);
-            }
-            else if (elapsed.TotalHours > 1)
-            {
-                return string.Format(ResourceController.GetTranslation("HourAgo"), elapsed.Hours);
-            }
-            else if (elapsed.TotalMinutes > 2)
-            {
-                return string.Format(ResourceController.GetTranslation("MinutesAgo"), elapsed.Minutes);
-            }
-            else if (elapsed.TotalMinutes > 1)
-            {
-                return string.Format(ResourceController.GetTranslation("MinuteAgo"), elapsed.Minutes);
-            }
-            else
-            {
-                return string.Format(ResourceController.GetTranslation("SecondsAgo"), elapsed.Seconds);
-            }
-        }
-
         public static string GetFriendlyDateFromFormat(DateTimeOffset d, string returnFormat)
         {
             var elapsed = DateTimeOffset.Now - d;
 
-            if (elapsed.TotalDays > 7)
+            if (elapsed.TotalDays > 7 || returnFormat == "g")
             {
                 return d.ToString(returnFormat);
             }
             else if (elapsed.TotalDays > 2)
             {
-                return string.Format(ResourceController.GetTranslation("DaysAgo"), elapsed.Days);
+                return string.Format("DaysAgo".GetLocalized(), elapsed.Days);
             }
             else if (elapsed.TotalDays > 1)
             {
-                return string.Format(ResourceController.GetTranslation("DayAgo"), elapsed.Days);
+                return string.Format("DayAgo".GetLocalized(), elapsed.Days);
             }
             else if (elapsed.TotalHours > 2)
             {
-                return string.Format(ResourceController.GetTranslation("HoursAgo"), elapsed.Hours);
+                return string.Format("HoursAgo".GetLocalized(), elapsed.Hours);
             }
             else if (elapsed.TotalHours > 1)
             {
-                return string.Format(ResourceController.GetTranslation("HourAgo"), elapsed.Hours);
+                return string.Format("HoursAgo".GetLocalized(), elapsed.Hours);
             }
             else if (elapsed.TotalMinutes > 2)
             {
-                return string.Format(ResourceController.GetTranslation("MinutesAgo"), elapsed.Minutes);
+                return string.Format("MinutesAgo".GetLocalized(), elapsed.Minutes);
             }
             else if (elapsed.TotalMinutes > 1)
             {
-                return string.Format(ResourceController.GetTranslation("MinuteAgo"), elapsed.Minutes);
+                return string.Format("MinutesAgo".GetLocalized(), elapsed.Minutes);
             }
             else
             {
-                return string.Format(ResourceController.GetTranslation("SecondsAgo"), elapsed.Seconds);
+                return string.Format("SecondsAgo".GetLocalized(), elapsed.Seconds);
             }
+        }
+
+        public override string ToString()
+        {
+            string suffix;
+            if (IsRecycleBinItem)
+            {
+                suffix = "RecycleBinItemAutomation".GetLocalized();
+            }
+            else if (IsShortcutItem)
+            {
+                suffix = "ShortcutItemAutomation".GetLocalized();
+            }
+            else
+            {
+                suffix = PrimaryItemAttribute == StorageItemTypes.File ? "FileItemAutomation".GetLocalized() : "FolderItemAutomation".GetLocalized();
+            }
+            return $"{ItemName}, {ItemPath}, {suffix}";
         }
 
         public bool IsRecycleBinItem => this is RecycleBinItem;

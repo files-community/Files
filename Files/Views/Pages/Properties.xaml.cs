@@ -28,7 +28,8 @@ namespace Files
         private CancellationTokenSource tokenSource = new CancellationTokenSource();
         private ContentDialog propertiesDialog;
 
-        private object navParameter;
+        private object navParameterItem;
+        private IShellPage AppInstance;
 
         private ListedItem listedItem;
 
@@ -42,9 +43,11 @@ namespace Files
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.navParameter = e.Parameter;
-            this.TabShorcut.Visibility = e.Parameter is ShortcutItem ? Visibility.Visible : Visibility.Collapsed;
-            this.listedItem = e.Parameter as ListedItem;
+            var args = e.Parameter as PropertiesPageNavigationArguments;
+            AppInstance = args.AppInstanceArgument;
+            this.navParameterItem = args.Item;
+            this.TabShorcut.Visibility = args.Item is ShortcutItem ? Visibility.Visible : Visibility.Collapsed;
+            this.listedItem = args.Item as ListedItem;
             this.TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null && !listedItem.IsShortcutItem ? Visibility.Visible : Visibility.Collapsed;
             this.SetBackground();
             base.OnNavigatedTo(e);
@@ -99,7 +102,15 @@ namespace Files
                 {
                     backgroundBrush.TintLuminosityOpacity = 0.9;
                 }
-                Background = backgroundBrush;
+
+                if (!(new AccessibilitySettings()).HighContrast)
+                {
+                    Background = backgroundBrush;
+                }
+                else
+                {
+                    Background = Application.Current.Resources["ApplicationPageBackgroundThemeBrush"] as SolidColorBrush;
+                }
             });
         }
 
@@ -169,11 +180,11 @@ namespace Files
         {
             if (contentFrame.Content is PropertiesGeneral)
             {
-                await (contentFrame.Content as PropertiesGeneral).SaveChanges(listedItem);
+                await (contentFrame.Content as PropertiesGeneral).SaveChangesAsync(listedItem);
             }
             else if (contentFrame.Content is PropertiesDetails)
             {
-                if (!(await (contentFrame.Content as PropertiesDetails).SaveChanges()))
+                if (!(await (contentFrame.Content as PropertiesDetails).SaveChangesAsync()))
                     return;
             }
 
@@ -216,7 +227,12 @@ namespace Files
 
         private void NavigationView_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
         {
-            var navParam = new PropertyNavParam() { tokenSource = tokenSource, navParameter = navParameter };
+            var navParam = new PropertyNavParam()
+            {
+                tokenSource = tokenSource,
+                navParameter = navParameterItem,
+                AppInstanceArgument = AppInstance
+            };
 
             switch (args.SelectedItemContainer.Tag)
             {
@@ -234,10 +250,17 @@ namespace Files
             }
         }
 
+        public class PropertiesPageNavigationArguments
+        {
+            public object Item { get; set; }
+            public IShellPage AppInstanceArgument { get; set; }
+        }
+
         public class PropertyNavParam
         {
             public CancellationTokenSource tokenSource;
             public object navParameter;
+            public IShellPage AppInstanceArgument { get; set; }
         }
     }
 }
