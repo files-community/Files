@@ -1,6 +1,7 @@
 ﻿using ByteSizeLib;
 using Files.Enums;
 using Files.Filesystem;
+using Files.Filesystem.Cloud;
 using Files.Helpers;
 using Files.UserControls.Selection;
 using Files.Views.Pages;
@@ -14,6 +15,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -509,10 +511,12 @@ namespace Files
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
 
+            var syncStatus = await CheckCloudDriveSyncStatusAsync(folder);
             var item = new ListedItem(folder.FolderRelativeId, dateReturnFormat)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
                 ItemName = folder.Name,
+                SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus),
                 ItemDateModifiedReal = basicProperties.DateModified,
                 ItemType = folder.DisplayType,
                 IsHiddenItem = false,
@@ -581,10 +585,12 @@ namespace Files
             }
             else
             {
+                var syncStatus = await CheckCloudDriveSyncStatusAsync(file);
                 fileitem = new ListedItem(file.FolderRelativeId, dateReturnFormat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.File,
                     FileExtension = itemFileExtension,
+                    SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus),
                     IsHiddenItem = false,
                     Opacity = 1,
                     LoadUnknownTypeGlyph = itemEmptyImgVis,
@@ -648,6 +654,7 @@ namespace Files
         }
         private async void FirstBlade_ItemClick(object sender, ItemClickEventArgs e)
         {
+            App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
@@ -656,44 +663,43 @@ namespace Files
             {
                 return;
             }
-            if (AppSettings.OpenItemsWithOneclick)
+            var lvi = ((FrameworkElement)e.OriginalSource) as ListView;
+            var Blade = lvi.FindAscendant<BladeItem>();
+            var index = ColumnBladeView.Items.IndexOf(Blade);
+            while (ColumnBladeView.Items.Count > index + 1)
             {
-                SelectedItems.Clear();
-                var lvi = ((FrameworkElement)e.OriginalSource) as ListView;
-                var Blade = lvi.FindAscendant<BladeItem>();
-                var index = ColumnBladeView.Items.IndexOf(Blade);
-                while (ColumnBladeView.Items.Count > index + 1)
+                try
                 {
-                    try
-                    {
-                        ColumnBladeView.Items.RemoveAt(index + 1);
-                        ColumnBladeView.ActiveBlades.RemoveAt(index + 1);
-                    }
-                    catch
-                    {
-                        break;
-                    }
+                    ColumnBladeView.Items.RemoveAt(index + 1);
+                    ColumnBladeView.ActiveBlades.RemoveAt(index + 1);
                 }
-                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-                string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-                
-                var ClickedItem = e.ClickedItem as ListedItem;
-                if (ClickedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !ClickedItem.ItemPath.Contains("$Recycle.Bin"))
+                catch
                 {
-                    
-                    var collection = new List<ListedItem>();
-                    var filelist = new List<ListedItem>();
-                    var folderlist = new List<ListedItem>();
-                    var folder = await StorageFolder.GetFolderFromPathAsync(ClickedItem.ItemPath);
-                    var items = await folder.GetItemsAsync();
+                    break;
+                }
+            }
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+                
+            var ClickedItem = e.ClickedItem as ListedItem;
+            if (ClickedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !ClickedItem.ItemPath.Contains("$Recycle.Bin"))
+            {
+
+                var collection = new List<ListedItem>();
+                var filelist = new List<ListedItem>();
+                var folderlist = new List<ListedItem>();
+                var folder = await StorageFolder.GetFolderFromPathAsync(ClickedItem.ItemPath);
+                var items = await folder.GetItemsAsync();
+                if (items.Count > 0)
+                {
                     foreach (var item in items)
                     {
                         if (item.IsOfType(StorageItemTypes.File))
                         {
-                            var it = await AddFileAsync(item as StorageFile, returnformat, true);
+                            var it = await AddFileAsync(item as StorageFile, returnformat, false);
                             if (it != null)
-                            { 
-                                filelist.Add(it); 
+                            {
+                                filelist.Add(it);
                             }
                         }
                         else if (item.IsOfType(StorageItemTypes.Folder))
@@ -717,67 +723,97 @@ namespace Files
                     };
                     lv.IsDoubleTapEnabled = true;
                     lv.DoubleTapped += FirstBlade_DoubleTapped;
+                    lv.IsRightTapEnabled = true;
+                    lv.SelectionChanged += FirstBlade_SelectionChanged;
+                    lv.RightTapped += FirstBlade_RightTapped;
                     lv.ItemClick += FirstBlade_ItemClick;
                     ColumnBladeView.Items.Add(new BladeItem
                     {
                         Content = lv,
                         Style = BladeView
                     });
-                    lvi.ItemContainerStyle = NotCurentListView;
                 }
-                else if (ClickedItem.PrimaryItemAttribute == StorageItemTypes.File && !ClickedItem.ItemPath.Contains("$Recycle.Bin"))
+                //lvi.ItemContainerStyle = NotCurentListView;
+            }
+            else if (ClickedItem.PrimaryItemAttribute == StorageItemTypes.File && !ClickedItem.ItemPath.Contains("$Recycle.Bin"))
+            {
+                if (AppSettings.OpenItemsWithOneclick)
                 {
-                    lvi.ItemContainerStyle = DefaultListView;
-                    var list = new List<ListedItem>();
-                    list.Add(ClickedItem);
-                    SelectedItems = list.ToList();
+                    var clickedlistviewitem = lvi.ContainerFromItem(ClickedItem) as ListViewItem;
+                    clickedlistviewitem.Style = NotCurentListView;
                     await Task.Delay(200); // The delay gives time for the item to be selected
                     ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
                 }
             }
+            App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
         }
-
+        private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(StorageFolder folder)
+        {
+            int? syncStatus = null;
+            IDictionary<string, object> extraProperties = await folder.Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus", "System.FileOfflineAvailabilityStatus" });
+            syncStatus = (int?)(uint?)extraProperties["System.FileOfflineAvailabilityStatus"];
+            // If no FileOfflineAvailabilityStatus, check FilePlaceholderStatus
+            syncStatus = syncStatus ?? (int?)(uint?)extraProperties["System.FilePlaceholderStatus"];
+            if (syncStatus == null || !Enum.IsDefined(typeof(CloudDriveSyncStatus), syncStatus))
+            {
+                return CloudDriveSyncStatus.Unknown;
+            }
+            return (CloudDriveSyncStatus)syncStatus;
+        }
+        private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(StorageFile file)
+        {
+            int? syncStatus = null;
+                IDictionary<string, object> extraProperties = await (file.Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus" }));
+                syncStatus = (int?)(uint?)extraProperties["System.FilePlaceholderStatus"];
+            
+            if (syncStatus == null || !Enum.IsDefined(typeof(CloudDriveSyncStatus), syncStatus))
+            {
+                return CloudDriveSyncStatus.Unknown;
+            }
+            return (CloudDriveSyncStatus)syncStatus;
+        }
         private async void FirstBlade_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             if (((FrameworkElement)e.OriginalSource).DataContext is ListedItem)
             {
-                if (!AppSettings.OpenItemsWithOneclick)
+                var lvi = sender as ListView;
+                var Blade = lvi.FindAscendant<BladeItem>();
+                var index = ColumnBladeView.Items.IndexOf(Blade);
+                while (ColumnBladeView.Items.Count > index + 1)
                 {
-                    var lvi = sender as ListView;
-                    var Blade = lvi.FindAscendant<BladeItem>();
-                    var index = ColumnBladeView.Items.IndexOf(Blade);
-                    while (ColumnBladeView.Items.Count > index + 1)
+                    try
                     {
-                        try
-                        {
-                            ColumnBladeView.Items.RemoveAt(index + 1);
-                            ColumnBladeView.ActiveBlades.RemoveAt(index + 1);
-                        }
-                        catch
-                        {
-                            break;
-                        }
+                        ColumnBladeView.Items.RemoveAt(index + 1);
+                        ColumnBladeView.ActiveBlades.RemoveAt(index + 1);
                     }
-                    ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-                    string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-                    var item = ((FrameworkElement)e.OriginalSource).DataContext as ListedItem;
-                    if (item.PrimaryItemAttribute == StorageItemTypes.File && !item.ItemPath.Contains("$Recycle.Bin"))
+                    catch
                     {
-                        var list = new List<ListedItem>();
-                        list.Add(item);
-                        SelectedItems = list.ToList();
+                        break;
+                    }
+                }
+                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+                string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+                var item = ((FrameworkElement)e.OriginalSource).DataContext as ListedItem;
+                if (item.PrimaryItemAttribute == StorageItemTypes.File && !item.ItemPath.Contains("$Recycle.Bin"))
+                {
+                    if (!AppSettings.OpenItemsWithOneclick)
+                    {
                         await Task.Delay(200); // The delay gives time for the item to be selected
                         ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
-                        lvi.ItemContainerStyle = DefaultListView;
+                        var clickedlistviewitem = lvi.ContainerFromItem(item) as ListViewItem;
+                        clickedlistviewitem.Style = DefaultListView;
+                        //lvi.ItemContainerStyle = DefaultListView;
                     }
-                    else if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !item.ItemPath.Contains("$Recycle.Bin"))
+                }
+                else if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !item.ItemPath.Contains("$Recycle.Bin"))
+                {
+                    var collection = new List<ListedItem>();
+                    var filelist = new List<ListedItem>();
+                    var folderlist = new List<ListedItem>();
+                    var folder = await StorageFolder.GetFolderFromPathAsync(item.ItemPath);
+                    var items = await folder.GetItemsAsync();
+                    if (items.Count > 0)
                     {
-                       
-                        var collection = new List<ListedItem>();
-                        var filelist = new List<ListedItem>();
-                        var folderlist = new List<ListedItem>();
-                        var folder = await StorageFolder.GetFolderFromPathAsync(item.ItemPath);
-                        var items = await folder.GetItemsAsync();
                         foreach (var item2 in items)
                         {
                             if (item2.IsOfType(StorageItemTypes.File))
@@ -808,6 +844,9 @@ namespace Files
                             ItemContainerStyle = DefaultListView
                         };
                         lv.IsDoubleTapEnabled = true;
+                        lv.IsRightTapEnabled = true;
+                        lv.SelectionChanged += FirstBlade_SelectionChanged;
+                        lv.RightTapped += FirstBlade_RightTapped;
                         lv.DoubleTapped += FirstBlade_DoubleTapped;
                         lv.ItemClick += FirstBlade_ItemClick;
                         ColumnBladeView.Items.Add(new BladeItem
@@ -815,7 +854,6 @@ namespace Files
                             Content = lv,
                             Style = BladeView
                         });
-                        lvi.ItemContainerStyle = NotCurentListView;
                     }
                 }
             }
@@ -823,7 +861,59 @@ namespace Files
 
         private void FirstBlade_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedItems = e.AddedItems.Cast<ListedItem>().ToList();
+            var currentLv = sender as ListView;
+            var lvs = RootGrid.FindDescendants<ListView>().ToList();
+            if (lvs.IndexOf(currentLv) > 0)
+            {
+                int previous = lvs.IndexOf(currentLv) - 1;
+                try
+                {
+                    var item = lvs[previous].ContainerFromItem(lvs[previous].SelectedItem) as ListViewItem;
+                    item.Style = NotCurentListView;
+                }
+                catch
+                {
+
+                }
+            }
+            
+            if (e.AddedItems.Count > 0)
+            {
+                foreach (ListedItem selecteditem in e.AddedItems)
+                {
+                    var clickedlistviewitem = currentLv.ContainerFromItem(selecteditem) as ListViewItem;
+                    try { clickedlistviewitem.Style = DefaultListView; } catch { }
+                }
+                SelectedItems = e.AddedItems.Cast<ListedItem>().ToList();
+            }
         }
+
+        private void FirstBlade_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+
+            if (((FrameworkElement)e.OriginalSource).DataContext is ListedItem)
+            {
+                var item = ((FrameworkElement)e.OriginalSource).DataContext as ListedItem;
+                if (!(sender as ListView).SelectedItems.Contains(item) || (sender as ListView).SelectedItems.Count == 0)
+                {
+                    while ((sender as ListView).SelectedItems.Count > 0)
+                    {
+                        try
+                        {
+                            (sender as ListView).SelectedItems.RemoveAt(0);
+                        }
+                        catch
+                        {
+                            break;
+                        }
+                    }
+                    (sender as ListView).SelectedItem = item;
+                    SelectedItems = (sender as ListView).SelectedItems.Cast<ListedItem>().ToList();
+                    var clickedlistviewitem = (sender as ListView).ContainerFromItem(item) as ListViewItem;
+                    clickedlistviewitem.Style = DefaultListView;
+                }
+            }
+        }
+
     }
 }

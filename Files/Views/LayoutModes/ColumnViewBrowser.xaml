@@ -952,7 +952,7 @@
                                 Content="{TemplateBinding Content}"
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Margin="{TemplateBinding Padding}" />
+                                Margin="0" />
 
                             </Grid>
                             <!-- The 'Xg' text simulates the amount of space one line of text will occupy.
@@ -1695,7 +1695,7 @@
             </Grid>
         </DataTemplate>
         <DataTemplate x:Name="ListTemplate" x:DataType="local2:ListedItem">
-            <Grid ColumnSpacing="10" Padding="10,0">
+            <Grid ColumnSpacing="10" Padding="10,0" Background="Transparent">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="24"/>
                     <ColumnDefinition/>
@@ -1779,17 +1779,17 @@
                     </Border>
                 </Grid>
                 <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{x:Bind ItemName}" TextTrimming="CharacterEllipsis"></TextBlock>
-                <FontIcon
+                <FontIcon VerticalAlignment="Center"
                     x:Name="CloudDriveSyncStatusGlyph"
                     Grid.Column="2"
-                    Margin="10,0,0,0"
+                    Margin="0,0,0,0"
                     x:Load="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
                     FontFamily="Segoe MDL2 Assets"
                     Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
                     Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
             </Grid>
         </DataTemplate>
-            <DataTemplate x:Name="TilesBrowserTemplate" x:DataType="local2:ListedItem">
+        <DataTemplate x:Name="TilesBrowserTemplate" x:DataType="local2:ListedItem">
             <Grid
                 Width="260"
                 Height="100"
@@ -2018,7 +2018,7 @@
             Padding="14,14,14,0"
             VerticalContentAlignment="Stretch"
             x:FieldModifier="public" Opacity="0"
-            AllowDrop="True" Visibility="Collapsed"
+            AllowDrop="True" Visibility="Visible"
             DoubleTapped="{x:Bind ParentShellPageInstance.InteractionOperations.List_ItemDoubleClick}"
             DragOver="List_DragOver"
             Drop="List_Drop"
@@ -2046,7 +2046,10 @@
         </GridView>
         <controls:BladeView x:Name="ColumnBladeView" BladeMode="Normal">
             <controls:BladeItem Background="Transparent" BorderThickness="0,0,1,0" TitleBarVisibility="Collapsed">
-                <ListView SelectionChanged="FirstBlade_SelectionChanged" DoubleTapped="FirstBlade_DoubleTapped" IsDoubleTapEnabled="True" Padding="5" x:Name="FirstBlade" IsItemClickEnabled="True" ItemContainerStyle="{ThemeResource DefaultListView}" ItemClick="FirstBlade_ItemClick"
+                <ListView
+            x:FieldModifier="public" 
+                    IsRightTapEnabled="True" 
+                    RightTapped="FirstBlade_RightTapped" SelectionChanged="FirstBlade_SelectionChanged" DoubleTapped="FirstBlade_DoubleTapped" IsDoubleTapEnabled="True" Padding="5" x:Name="FirstBlade" IsItemClickEnabled="True" ItemContainerStyle="{ThemeResource DefaultListView}" ItemClick="FirstBlade_ItemClick"
             ItemsSource="{x:Bind ParentShellPageInstance.FilesystemViewModel.FilesAndFolders}"
             SelectionMode="Extended">
                 </ListView>
