@@ -749,7 +749,6 @@
                         <DataTemplate x:DataType="local2:ListedItem">
                             <Grid
                                 x:Name="Icon"
-                                EffectiveViewportChanged="Icon_EffectiveViewportChanged"
                                 Opacity="{x:Bind Opacity, Mode=OneWay}"
                                 ToolTipService.ToolTip="{x:Bind FolderTooltipText}">
                                 <Rectangle

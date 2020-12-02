@@ -12,9 +12,6 @@
     CornerRadius="4"
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
     mc:Ignorable="d">
-    <ContentDialog.Resources>
-        <converters:StorageDeleteOptionToBooleanConverter x:Key="StorageDeleteOptionToBooleanConverter" />
-    </ContentDialog.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -28,7 +25,7 @@
                 x:Name="chkPermanentlyDelete"
                 x:Uid="ConfirmDeleteDialogPermanentlyDeleteCheckBox"
                 Content="Permanently delete"
-                IsChecked="{x:Bind PermanentlyDelete, Mode=TwoWay, Converter={StaticResource StorageDeleteOptionToBooleanConverter}}" />
+                IsChecked="{x:Bind PermanentlyDelete, Mode=TwoWay}" />
         </StackPanel>
 
         <StackPanel

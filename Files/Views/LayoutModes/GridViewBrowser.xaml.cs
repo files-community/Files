@@ -75,6 +75,14 @@ namespace Files
             }
         }
 
+        public override void AddSelectedItemsOnUi(List<ListedItem> selectedItems)
+        {
+            foreach (ListedItem selectedItem in selectedItems)
+            {
+                FileList.SelectedItems.Add(selectedItem);
+            }
+        }
+
         public override void SelectAllItems()
         {
             ClearSelection();
@@ -199,7 +207,7 @@ namespace Files
         {
             var textBox = sender as TextBox;
 
-            if (Interaction.ContainsRestrictedCharacters(textBox.Text))
+            if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
             {
                 FileNameTeachingTip.IsOpen = true;
             }
@@ -348,15 +356,15 @@ namespace Files
 
         private async void Grid_EffectiveViewportChanged(FrameworkElement sender, EffectiveViewportChangedEventArgs args)
         {
-            if (sender.DataContext != null && (!(sender.DataContext as ListedItem).ItemPropertiesInitialized) && (args.BringIntoViewDistanceX < sender.ActualHeight))
+            if (sender.DataContext is ListedItem item && (!item.ItemPropertiesInitialized) && (args.BringIntoViewDistanceX < sender.ActualHeight))
             {
                 await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
-                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(sender.DataContext as ListedItem, _iconSize);
-                    (sender.DataContext as ListedItem).ItemPropertiesInitialized = true;
+                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, _iconSize);
+                    item.ItemPropertiesInitialized = true;
                 });
 
-                (sender as UIElement).CanDrag = FileList.SelectedItems.Contains(sender.DataContext as ListedItem); // Update CanDrag
+                sender.CanDrag = FileList.SelectedItems.Contains(item); // Update CanDrag
             }
         }
 

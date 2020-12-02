@@ -6,27 +6,31 @@ using Windows.UI.Xaml.Controls;
 
 namespace Files.Dialogs
 {
+    public enum DialogResult
+    {
+        Delete,
+        Cancel,
+        Nothing
+    }
+
     public sealed partial class ConfirmDeleteDialog : ContentDialog
     {
-        public StorageDeleteOption PermanentlyDelete { get; set; }
-        public string Description { get; set; }
         private SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; set; } = null;
-        public MyResult Result { get; set; }
 
-        public enum MyResult
-        {
-            Delete,
-            Cancel,
-            Nothing
-        }
+        public bool PermanentlyDelete { get; set; }
 
-        public ConfirmDeleteDialog(bool deleteFromRecycleBin, StorageDeleteOption deleteOption, SelectedItemsPropertiesViewModel propertiesViewModel)
+        public string Description { get; set; }
+
+        public DialogResult Result { get; set; }
+
+        public ConfirmDeleteDialog(bool deleteFromRecycleBin, bool permanently, SelectedItemsPropertiesViewModel propertiesViewModel)
         {
             this.InitializeComponent();
 
-            Result = MyResult.Nothing; //clear the result in case the value is set from last time
-            PermanentlyDelete = deleteOption;
+            Result = DialogResult.Nothing; //clear the result in case the value is set from last time
+            PermanentlyDelete = permanently;
             SelectedItemsPropertiesViewModel = propertiesViewModel;
+
             // If deleting from recycle bin disable "permanently delete" option
             chkPermanentlyDelete.IsEnabled = !deleteFromRecycleBin;
 
@@ -42,13 +46,13 @@ namespace Files.Dialogs
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            Result = MyResult.Delete;
+            Result = DialogResult.Delete;
             Hide();
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            Result = MyResult.Cancel;
+            Result = DialogResult.Cancel;
             Hide();
         }
     }

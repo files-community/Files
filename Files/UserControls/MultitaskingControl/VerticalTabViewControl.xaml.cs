@@ -1,4 +1,5 @@
-﻿using Files.Interacts;
+﻿using Files.Filesystem;
+using Files.Interacts;
 using Files.Views;
 using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -38,7 +39,7 @@ namespace Files.UserControls.MultitaskingControl
             }
         }
 
-        private void TabViewItem_Drop(object sender, DragEventArgs e)
+        private async void TabViewItem_Drop(object sender, DragEventArgs e)
         {
             if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
             {
@@ -51,7 +52,11 @@ namespace Files.UserControls.MultitaskingControl
                     .FilesystemViewModel
                     .WorkingDirectory;
 
-                CurrentSelectedAppInstance.InteractionOperations.ItemOperationCommands.PasteItemWithStatus(e.DataView, tabViewItemWorkingDir, DataPackageOperation.Move);
+                await CurrentSelectedAppInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(
+                    DataPackageOperation.Move,
+                    e.DataView,
+                    tabViewItemWorkingDir,
+                    true);
             }
             else
             {

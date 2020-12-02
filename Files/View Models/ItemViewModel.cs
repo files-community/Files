@@ -350,7 +350,7 @@ namespace Files.Filesystem
                                 break;
 
                             default:
-                                RefreshItems();
+                                RefreshItems(null);
                                 break;
                         }
                     }
@@ -671,12 +671,12 @@ namespace Files.Filesystem
             return (null, null, false);
         }
 
-        public void RefreshItems()
+        public void RefreshItems(string previousDir)
         {
-            AddItemsToCollectionAsync(WorkingDirectory);
+            AddItemsToCollectionAsync(WorkingDirectory, previousDir);
         }
 
-        public async void RapidAddItemsToCollectionAsync(string path)
+        public async void RapidAddItemsToCollectionAsync(string path, string previousDir)
         {
             AssociatedInstance.NavigationToolbar.CanRefresh = false;
 
@@ -740,6 +740,43 @@ namespace Files.Filesystem
                 AssociatedInstance.NavigationToolbar.CanRefresh = true;
                 App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                 IsLoadingItems = false;
+
+                if (!string.IsNullOrWhiteSpace(previousDir))
+                {
+                    if (previousDir.Contains(WorkingDirectory) && !previousDir.Contains("Shell:RecycleBinFolder"))
+                    {
+                        // Remove the WorkingDir from previous dir
+                        previousDir = previousDir.Replace(WorkingDirectory, string.Empty);
+
+                        // Get previous dir name
+                        if (previousDir.StartsWith('\\'))
+                        {
+                            previousDir = previousDir.Remove(0, 1);
+                        }
+                        if (previousDir.Contains('\\'))
+                        {
+                            previousDir = previousDir.Split('\\')[0];
+                        }
+
+                        // Get the first folder and combine it with WorkingDir
+                        string folderToSelect = string.Format("{0}\\{1}", WorkingDirectory, previousDir);
+
+                        // Make sure we don't get double \\ in the path
+                        folderToSelect = folderToSelect.Replace("\\\\", "\\");
+
+                        if (folderToSelect.EndsWith('\\'))
+                        {
+                            folderToSelect = folderToSelect.Remove(folderToSelect.Length - 1, 1);
+                        }
+
+                        ListedItem itemToSelect = AssociatedInstance.FilesystemViewModel.FilesAndFolders.Where((item) => item.ItemPath == folderToSelect).FirstOrDefault();
+
+                        if (itemToSelect != null)
+                        {
+                            AssociatedInstance.ContentPage.SetSelectedItemOnUi(itemToSelect);
+                        }
+                    }
+                }
             }
             finally
             {
@@ -992,30 +1029,27 @@ namespace Files.Filesystem
                             if (((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System)
                             {
                                 var itemPath = Path.Combine(path, findData.cFileName);
-                                if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden && !AppSettings.AreHiddenItemsVisible)
+                                if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) != FileAttributes.Hidden || AppSettings.AreHiddenItemsVisible)
                                 {
-                                    hasNextFile = FindNextFile(hFile, out findData);
-                                    continue;
-                                }
-
-                                if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
-                                {
-                                    var listedItem = await AddFile(findData, path, returnformat);
-                                    if (listedItem != null)
+                                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                                     {
-                                        tempList.Add(listedItem);
-                                        ++count;
-                                    }
-                                }
-                                else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
-                                {
-                                    if (findData.cFileName != "." && findData.cFileName != "..")
-                                    {
-                                        var listedItem = AddFolder(findData, path, returnformat);
+                                        var listedItem = await AddFile(findData, path, returnformat);
                                         if (listedItem != null)
                                         {
                                             tempList.Add(listedItem);
                                             ++count;
+                                        }
+                                    }
+                                    else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+                                    {
+                                        if (findData.cFileName != "." && findData.cFileName != "..")
+                                        {
+                                            var listedItem = AddFolder(findData, path, returnformat);
+                                            if (listedItem != null)
+                                            {
+                                                tempList.Add(listedItem);
+                                                ++count;
+                                            }
                                         }
                                     }
                                 }
@@ -1694,9 +1728,9 @@ namespace Files.Filesystem
             return null;
         }
 
-        public void AddItemsToCollectionAsync(string path)
+        public void AddItemsToCollectionAsync(string path, string previousDir)
         {
-            RapidAddItemsToCollectionAsync(path);
+            RapidAddItemsToCollectionAsync(path, previousDir);
         }
 
         public async Task AddFolderAsync(StorageFolder folder, string dateReturnFormat)
