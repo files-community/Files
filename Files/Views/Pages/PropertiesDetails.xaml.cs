@@ -52,13 +52,8 @@ namespace Files
             }
             catch (Exception error)
             {
-                var dialog = new PropertySaveError()
-                {
-                    Text = "PropertySaveErrorDialogText".GetLocalized(),
-                    PrimaryButtonText = "PropertySaveErrorDialogRetry".GetLocalized(),
-                    SecondaryButtonText = "PropertySaveErrorDialogCloseAnyway".GetLocalized(),
-                    CloseButtonText = "PropertySaveErrorDialogCancel".GetLocalized(),
-                };
+                var dialog = new PropertySaveError();
+
                 switch (await dialog.ShowAsync())
                 {
                     case ContentDialogResult.Primary:

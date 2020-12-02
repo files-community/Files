@@ -1643,22 +1643,6 @@
           <source>Video</source>
           <target state="new">Video</target>
         </trans-unit>
-        <trans-unit id="PropertySaveErrorDialogText" translate="yes" xml:space="preserve">
-          <source>There was an issue saving some properties.</source>
-          <target state="new">There was an issue saving some properties.</target>
-        </trans-unit>
-        <trans-unit id="PropertySaveErrorDialogRetry" translate="yes" xml:space="preserve">
-          <source>Retry</source>
-          <target state="new">Retry</target>
-        </trans-unit>
-        <trans-unit id="PropertySaveErrorDialogCloseAnyway" translate="yes" xml:space="preserve">
-          <source>Close anyway</source>
-          <target state="new">Close anyway</target>
-        </trans-unit>
-        <trans-unit id="PropertySaveErrorDialogCancel" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="new">Cancel</target>
-        </trans-unit>
         <trans-unit id="PropertyDateSaved" translate="yes" xml:space="preserve">
           <source>Date Saved</source>
           <target state="new">Date Saved</target>
@@ -1846,6 +1830,38 @@
         <trans-unit id="HorizontalMultitaskingControlNewTab.Text" translate="yes" xml:space="preserve">
           <source>New tab</source>
           <target state="new">New tab</target>
+        </trans-unit>
+        <trans-unit id="PropertySaveErrorDialog.Title" translate="yes" xml:space="preserve">
+          <source>Error</source>
+          <target state="new">Error</target>
+        </trans-unit>
+        <trans-unit id="PropertySaveErrorDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Retry</source>
+          <target state="new">Retry</target>
+        </trans-unit>
+        <trans-unit id="PropertySaveErrorDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
+          <source>Close anyway</source>
+          <target state="new">Close anyway</target>
+        </trans-unit>
+        <trans-unit id="PropertySaveErrorDialog.CloseButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
+        <trans-unit id="PropertySaveErrorMessage.Text" translate="yes" xml:space="preserve">
+          <source>There was an issue saving some properties.</source>
+          <target state="new">There was an issue saving some properties.</target>
+        </trans-unit>
+        <trans-unit id="ClearPropertiesFlyoutText.Text" translate="yes" xml:space="preserve">
+          <source>Some properties may contain personal information.</source>
+          <target state="new">Some properties may contain personal information.</target>
+        </trans-unit>
+        <trans-unit id="ClearPropertiesFlyoutConfirmation.Content" translate="yes" xml:space="preserve">
+          <source>Clear</source>
+          <target state="new">Clear</target>
+        </trans-unit>
+        <trans-unit id="ClearPropertiesButton.Content" translate="yes" xml:space="preserve">
+          <source>Clear All Properties</source>
+          <target state="new">Clear All Properties</target>
         </trans-unit>
       </group>
     </body>

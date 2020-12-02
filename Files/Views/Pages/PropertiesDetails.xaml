@@ -80,13 +80,13 @@
                 x:Name="ClearPropertiesButton"
                 Margin="0,10,0,0"
                 HorizontalAlignment="Stretch"
-                Content="Clear All Properties">
+                x:Uid="ClearPropertiesButton">
                     <Button.Flyout>
                         <Flyout x:Name="ClearPropertiesFlyout">
                             <StackPanel Orientation="Vertical" Spacing="5">
-                                <TextBlock Text="Some properties may contain personal information"/>
+                                <TextBlock x:Uid="ClearPropertiesFlyoutText"/>
                                 <StackPanel Orientation="Horizontal" Spacing="10">
-                                    <Button Click="ClearPropertiesConfirmation_Click" Content="Clear" />
+                                    <Button Click="ClearPropertiesConfirmation_Click" x:Uid="ClearPropertiesFlyoutConfirmation"/>
                                 </StackPanel>
                             </StackPanel>
                         </Flyout>

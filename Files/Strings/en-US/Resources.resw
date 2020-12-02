@@ -1122,7 +1122,7 @@
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>Terminal Applications</value>
   </data>
-  <data name="PropertySaveErrorDialog.Text" xml:space="preserve">
+  <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>There was an issue saving some properties.</value>
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
@@ -1135,9 +1135,6 @@
     <value>Close anyway</value>
   </data>
   <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="PropertySaveErrorMessage" xml:space="preserve">
     <value>Cancel</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
@@ -1504,5 +1501,13 @@
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
     <value>New tab</value>
   </data>
-  
+  <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
+    <value>Some properties may contain personal information.</value>
+  </data>
+  <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="ClearPropertiesButton.Content" xml:space="preserve">
+    <value>Clear All Properties</value>
+  </data>
 </root>
