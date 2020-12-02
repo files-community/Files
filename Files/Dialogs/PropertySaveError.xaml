@@ -15,7 +15,8 @@
     CloseButtonStyle="{StaticResource ButtonRevealStyle}"
     PrimaryButtonText="Retry"
     SecondaryButtonText="Close anyway"
-    CloseButtonText="Cancel">
+    CloseButtonText="Cancel"
+    Title="Error">
 
     <StackPanel Spacing="5">
         <TextBlock Grid.Row="1" x:Uid="PropertySaveErrorMessage" Text="There was an issue saving some properties."/>
