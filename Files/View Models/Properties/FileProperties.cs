@@ -162,13 +162,7 @@ namespace Files.View_Models.Properties
                 return;
             }
 
-            var list = new List<FileProperty>();
-
-            foreach (var prop in FileProperty.PropertyListItemsBase)
-            {
-                await prop.InitializeProperty(file);
-                list.Add(prop);
-            }
+            var list = await FileProperty.RetrieveAndInitializePropertiesAsync(file);
 
             list.Find(x => x.ID == "address").Value = await GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value, (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 

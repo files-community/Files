@@ -1,8 +1,12 @@
 ﻿using Files.Converters;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -18,7 +22,9 @@ namespace Files.View_Models.Properties
         /// <summary>
         /// The name to display
         /// </summary>
-        public string Name { get; set; }
+        public string Name {
+            get => NameResource.GetLocalized();
+        }
         /// <summary>
         /// The name of the string resource for the property name
         /// </summary>
@@ -26,7 +32,9 @@ namespace Files.View_Models.Properties
         /// <summary>
         /// The name of the section to display
         /// </summary>
-        public string Section { get; set; }
+        public string Section {
+            get => SectionResource.GetLocalized();
+        }
         /// <summary>
         /// The name of the string resource for the section name
         /// </summary>
@@ -73,7 +81,7 @@ namespace Files.View_Models.Properties
         /// Should be used in instances where a property does not have a "Property" value, but needs to be idenitfiable in a list of properties
         /// </summary>
         public string ID { get; set; }
-
+    
         public Visibility Visibility { get; set; } = Visibility.Visible;
 
         public FileProperty()
@@ -108,8 +116,6 @@ namespace Files.View_Models.Properties
         {
             if (!string.IsNullOrEmpty(Property))
                 await SetValueFromFile(file);
-
-            InitializeNames();
         }
 
         /// <summary>
@@ -191,100 +197,16 @@ namespace Files.View_Models.Properties
             return value;
         }
 
-        /// <summary>
-        /// Uses the name and section name resources to get their values
-        /// </summary>
-        public void InitializeNames()
+        public async static Task<List<FileProperty>> RetrieveAndInitializePropertiesAsync(StorageFile file)
         {
-            Name = NameResource.GetLocalized();
-            Section = SectionResource.GetLocalized();
+            var list = JsonConvert.DeserializeObject<List<FileProperty>>(await FileIO.ReadTextAsync(await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/PropertiesInformation.json"))));
+
+            foreach (var prop in list)
+            {
+                await prop.InitializeProperty(file);
+            }
+
+            return list;
         }
-
-        public static readonly List<FileProperty> PropertyListItemsBase = new List<FileProperty>()
-        {
-            new FileProperty("PropertyAddress", "PropertySectionGPS") { ID = "address" },
-
-            new FileProperty("System.RatingText", "PropertyRatingText", "PropertySectionCore") ,
-            new FileProperty("System.ItemFolderPathDisplay", "PropertyItemFolderPathDisplay", "PropertySectionCore") ,
-            new FileProperty("System.ItemTypeText", "PropertyItemTypeText", "PropertySectionCore"),
-            new FileProperty("System.Title", "PropertyTitle", "PropertySectionCore", false),
-            new FileProperty("System.Subject", "PropertySubject", "PropertySectionCore", false),
-            new FileProperty("System.Comment", "PropertyComment", "PropertySectionCore", false),
-            new FileProperty("System.Copyright", "PropertyCopyright", "PropertySectionCore") ,
-            new FileProperty( "System.DateCreated", "PropertyDateCreated", "PropertySectionCore"),
-            new FileProperty("System.DateModified", "PropertyDateModified", "PropertySectionCore") ,
-            new FileProperty("System.Image.BitDepth", "PropertyBitDepth", "PropertySectionImage"),
-            new FileProperty("System.Image.Dimensions", "PropertyDimensions", "PropertySectionImage"),
-            new FileProperty("System.Image.HorizontalSize", "PropertyHorizontalSize", "PropertySectionImage"),
-            new FileProperty("System.Image.VerticalSize", "PropertyVerticalSize", "PropertySectionImage") ,
-            new FileProperty("System.Image.HorizontalResolution", "PropertyHorizontalResolution", "PropertySectionImage") ,
-            new FileProperty("System.Image.VerticalResolution", "PropertyVerticalResolution", "PropertySectionImage") ,
-            new FileProperty("System.Image.CompressionText", "PropertyCompressionText", "PropertySectionImage") ,
-            new FileProperty("System.Image.ColorSpace", "PropertyColorSpace", "PropertySectionImage") ,
-            new FileProperty("System.GPS.LongitudeDecimal", "PropertyLongitudeDecimal", "PropertySectionGPS") ,
-            new FileProperty("System.GPS.LatitudeDecimal", "PropertyLatitudeDecimal", "PropertySectionGPS") ,
-            new FileProperty("System.GPS.Altitude", "PropertyAltitude", "PropertySectionGPS" ) ,
-            new FileProperty("System.Photo.DateTaken", "PropertyDateTaken", "PropertySectionPhoto") ,
-            new FileProperty("System.Photo.CameraManufacturer", "PropertyCameraManufacturer", "PropertySectionPhoto",  false) ,
-            new FileProperty("System.Photo.CameraModel", "PropertyCameraModel", "PropertySectionPhoto",  false) ,
-            new FileProperty("System.Photo.ExposureTime", "PropertyExposureTime", "PropertySectionPhoto") ,
-            new FileProperty("System.Photo.FocalLength", "PropertyFocalLength", "PropertySectionPhoto") ,
-            new FileProperty("System.Photo.Aperture", "PropertyAperture", "PropertySectionPhoto") ,
-            new FileProperty("System.Photo.PeopleNames", "PropertyPeopleNames", "PropertySectionPhoto") ,
-            new FileProperty("System.Audio.ChannelCount", "PropertyChannelCount", "PropertySectionAudio") ,
-            new FileProperty("System.Audio.EncodingBitrate", "PropertyEncodingBitrate", "PropertySectionAudio") ,
-            new FileProperty("System.Audio.Compression", "PropertyCompression", "PropertySectionAudio") ,
-            new FileProperty("System.Audio.Format", "PropertyFormat", "PropertySectionAudio") ,
-            new FileProperty("System.Audio.SampleRate", "PropertySampleRate", "PropertySectionAudio") ,
-            new FileProperty("System.Music.DisplayArtist", "PropertyDisplayArtist", "PropertySectionMusic") ,
-            new FileProperty("System.Music.AlbumArtist", "PropertyAlbumArtist", "PropertySectionMusic",  false) ,
-            new FileProperty("System.Music.AlbumTitle", "PropertyAlbumTitle", "PropertySectionMusic",  false) ,
-            new FileProperty("System.Music.Artist", "PropertyArtist", "PropertySectionMusic",  false) ,
-            new FileProperty("System.Music.BeatsPerMinute", "PropertyBeatsPerMinute", "PropertySectionMusic") ,
-            new FileProperty("System.Music.Composer", "PropertyComposer", "PropertySectionMusic",  false) ,
-            new FileProperty("System.Music.Conductor", "PropertyConductor", "PropertySectionMusic",  false) ,
-            new FileProperty("System.Music.DiscNumber", "PropertyDiscNumber", "PropertySectionMusic",  false) ,
-            new FileProperty("System.Music.Genre", "PropertyGenre", "PropertySectionMusic",  false) ,
-            new FileProperty("System.Music.TrackNumber", "PropertyTrackNumber", "PropertySectionMusic",  false) ,
-            new FileProperty("System.Media.Duration", "PropertyDuration", "PropertySectionMedia") { DisplayFunction = input => new TimeSpan(Convert.ToInt64(input)).ToString("mm':'ss")},
-            new FileProperty("System.Media.FrameCount", "PropertyFrameCount", "PropertySectionMedia") ,
-            new FileProperty("System.Media.ProtectionType", "PropertyProtectionType", "PropertySectionMedia") ,
-            new FileProperty("System.Media.AuthorUrl", "PropertyAuthorUrl", "PropertySectionMedia") ,
-            new FileProperty("System.Media.ContentDistributor", "PropertyContentDistributor", "PropertySectionMedia") ,
-            new FileProperty("System.Media.DateReleased", "PropertyDateReleased", "PropertySectionMedia") ,
-            new FileProperty("System.Media.SeriesName", "PropertySeriesName", "PropertySectionMedia") ,
-            new FileProperty("System.Media.SeasonNumber", "PropertySeasonNumber", "PropertySectionMedia") ,
-            new FileProperty("System.Media.EpisodeNumber", "PropertyEpisodeNumber", "PropertySectionMedia") ,
-            new FileProperty("System.Media.Producer", "PropertyProducer", "PropertySectionMedia") ,
-            new FileProperty("System.Media.PromotionUrl", "PropertyPromotionUrl", "PropertySectionMedia") ,
-            new FileProperty("System.Media.ProviderStyle", "PropertyProviderStyle", "PropertySectionMedia") ,
-            new FileProperty("System.Media.Publisher", "PropertyPublisher", "PropertySectionMedia") ,
-            new FileProperty("System.Media.ThumbnailLargePath", "PropertyThumbnailLargePath", "PropertySectionMedia") ,
-            new FileProperty("System.Media.ThumbnailLargeUri", "PropertyThumbnailLargeUri", "PropertySectionMedia") ,
-            new FileProperty("System.Media.ThumbnailSmallPath", "PropertyThumbnailSmallPath", "PropertySectionMedia") ,
-            new FileProperty("System.Media.ThumbnailSmallUri", "PropertyThumbnailSmallUri", "PropertySectionMedia") ,
-            new FileProperty("System.Media.UserWebUrl", "PropertyUserWebUrl", "PropertySectionMedia") ,
-            new FileProperty("System.Media.Writer", "PropertyWriter", "PropertySectionMedia") ,
-            new FileProperty("System.Media.Year", "PropertyYear", "PropertySectionMedia") ,
-            new FileProperty("System.Document.Contributor", "PropertyContributor", "PropertySectionDocument") ,
-            new FileProperty("System.Document.LastAuthor", "PropertyLastAuthor", "PropertySectionDocument") ,
-            new FileProperty("System.Document.RevisionNumber", "PropertyRevisionNumber", "PropertySectionDocument") ,
-            new FileProperty("System.Document.Version", "PropertyVersion", "PropertySectionDocument") ,
-            new FileProperty("System.Document.TotalEditingTime", "PropertyTotalEditingTime", "PropertySectionDocument") ,
-            new FileProperty("System.Document.Template", "PropertyTemplate", "PropertySectionDocument") ,
-            new FileProperty("System.Document.WordCount", "PropertyWordCount", "PropertySectionDocument") ,
-            new FileProperty("System.Document.CharacterCount", "PropertyCharacterCount", "PropertySectionDocument") ,
-            new FileProperty("System.Document.LineCount", "PropertyLineCount", "PropertySectionDocument") ,
-            new FileProperty("System.Document.ParagraphCount", "PropertyParagraphCount", "PropertySectionDocument") ,
-            new FileProperty("System.Document.PageCount", "PropertyPageCount", "PropertySectionDocument") ,
-            new FileProperty("System.Document.SlideCount", "PropertySlideCount", "PropertySectionDocument") ,
-            // Frame rate unit is frames per 1000 seconds, so the display function divides it by 1000
-            new FileProperty("System.Video.FrameRate", "PropertyFrameRate", "PropertySectionVideo") { DisplayFunction = input => (((UInt32) input)/1000).ToString()},
-            new FileProperty("System.Video.EncodingBitrate", "PropertyEncodingBitrate", "PropertySectionVideo") ,
-            new FileProperty("System.Video.Compression", "PropertyCompression", "PropertySectionVideo") ,
-            new FileProperty("System.Video.FrameWidth", "PropertyFrameWidth", "PropertySectionVideo") ,
-            new FileProperty("System.Video.FrameHeight", "PropertyFrameHeight", "PropertySectionVideo") ,
-            new FileProperty("System.Video.Orientation", "PropertyOrientation", "PropertySectionVideo") ,
-        };
     }
 }
