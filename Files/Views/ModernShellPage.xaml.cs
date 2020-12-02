@@ -255,11 +255,10 @@ namespace Files.Views.Pages
                     AssociatedTabInstance = this
                 },
                 new SuppressNavigationTransitionInfo());
-            ReloadColumnView?.Invoke(this, EventArgs.Empty);
+            
 
             NavigationToolbar.PathControlDisplayText = FilesystemViewModel.WorkingDirectory;
         }
-        public static event EventHandler ReloadColumnView;
         private void AppSettings_SortDirectionPreferenceUpdated(object sender, EventArgs e)
         {
             FilesystemViewModel?.UpdateSortDirectionStatus();
@@ -464,7 +463,7 @@ namespace Files.Views.Pages
                 NavPathParam = e.ItemPath,
                 AssociatedTabInstance = this
             });
-            ReloadColumnView?.Invoke(this, EventArgs.Empty);
+            
         }
 
         private void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
@@ -518,7 +517,7 @@ namespace Files.Views.Pages
                                                   NavPathParam = pathToNavigate,
                                                   AssociatedTabInstance = this
                                               }); // navigate to folder
-                        ReloadColumnView?.Invoke(this, EventArgs.Empty);
+                        
                     }
                     else // Not a folder or inaccessible
                     {

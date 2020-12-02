@@ -37,7 +37,6 @@ namespace Files
         public ColumnViewBrowser()
         {
             this.InitializeComponent();
-            ModernShellPage.ReloadColumnView += ModernShellPage_ReloadColumnView;
             base.BaseLayoutContextFlyout = this.BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
 
@@ -46,25 +45,6 @@ namespace Files
             App.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
 
             SetItemTemplate(); // Set ItemTemplate
-        }
-
-        private void ModernShellPage_ReloadColumnView(object sender, EventArgs e)
-        {
-            if (this.IsLoaded)
-            {
-                while (ColumnBladeView.Items.Count > 1)
-                {
-                    try
-                    {
-                        ColumnBladeView.Items.RemoveAt(1);
-                        ColumnBladeView.ActiveBlades.RemoveAt(1);
-                    }
-                    catch
-                    {
-                        break;
-                    }
-                }
-            }
         }
 
         private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
@@ -488,6 +468,25 @@ namespace Files
                 _iconSize = iconSize; // Update icon size
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+        {
+            base.OnNavigatedTo(eventArgs);
+            if (this.IsLoaded)
+            {
+                while (ColumnBladeView.Items.Count > 1)
+                {
+                    try
+                    {
+                        ColumnBladeView.Items.RemoveAt(1);
+                        ColumnBladeView.ActiveBlades.RemoveAt(1);
+                    }
+                    catch
+                    {
+                        break;
+                    }
+                }
+            }
+        }
         private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
         {
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -649,17 +648,24 @@ namespace Files
         }
         private async void FirstBlade_ItemClick(object sender, ItemClickEventArgs e)
         {
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+
+            // Skip code if the control or shift key is pressed
+            if (ctrlPressed || shiftPressed)
+            {
+                return;
+            }
             if (AppSettings.OpenItemsWithOneclick)
             {
-                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-                string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+                SelectedItems.Clear();
                 var lvi = ((FrameworkElement)e.OriginalSource) as ListView;
                 var Blade = lvi.FindAscendant<BladeItem>();
                 var index = ColumnBladeView.Items.IndexOf(Blade);
                 while (ColumnBladeView.Items.Count > index + 1)
                 {
-                    try 
-                    { 
+                    try
+                    {
                         ColumnBladeView.Items.RemoveAt(index + 1);
                         ColumnBladeView.ActiveBlades.RemoveAt(index + 1);
                     }
@@ -668,9 +674,13 @@ namespace Files
                         break;
                     }
                 }
+                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+                string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+                
                 var ClickedItem = e.ClickedItem as ListedItem;
                 if (ClickedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !ClickedItem.ItemPath.Contains("$Recycle.Bin"))
                 {
+                    
                     var collection = new List<ListedItem>();
                     var filelist = new List<ListedItem>();
                     var folderlist = new List<ListedItem>();
@@ -705,6 +715,8 @@ namespace Files
                         IsItemClickEnabled = true,
                         ItemContainerStyle = DefaultListView
                     };
+                    lv.IsDoubleTapEnabled = true;
+                    lv.DoubleTapped += FirstBlade_DoubleTapped;
                     lv.ItemClick += FirstBlade_ItemClick;
                     ColumnBladeView.Items.Add(new BladeItem
                     {
@@ -713,7 +725,105 @@ namespace Files
                     });
                     lvi.ItemContainerStyle = NotCurentListView;
                 }
+                else if (ClickedItem.PrimaryItemAttribute == StorageItemTypes.File && !ClickedItem.ItemPath.Contains("$Recycle.Bin"))
+                {
+                    lvi.ItemContainerStyle = DefaultListView;
+                    var list = new List<ListedItem>();
+                    list.Add(ClickedItem);
+                    SelectedItems = list.ToList();
+                    await Task.Delay(200); // The delay gives time for the item to be selected
+                    ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
+                }
             }
+        }
+
+        private async void FirstBlade_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            if (((FrameworkElement)e.OriginalSource).DataContext is ListedItem)
+            {
+                if (!AppSettings.OpenItemsWithOneclick)
+                {
+                    var lvi = sender as ListView;
+                    var Blade = lvi.FindAscendant<BladeItem>();
+                    var index = ColumnBladeView.Items.IndexOf(Blade);
+                    while (ColumnBladeView.Items.Count > index + 1)
+                    {
+                        try
+                        {
+                            ColumnBladeView.Items.RemoveAt(index + 1);
+                            ColumnBladeView.ActiveBlades.RemoveAt(index + 1);
+                        }
+                        catch
+                        {
+                            break;
+                        }
+                    }
+                    ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+                    string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+                    var item = ((FrameworkElement)e.OriginalSource).DataContext as ListedItem;
+                    if (item.PrimaryItemAttribute == StorageItemTypes.File && !item.ItemPath.Contains("$Recycle.Bin"))
+                    {
+                        var list = new List<ListedItem>();
+                        list.Add(item);
+                        SelectedItems = list.ToList();
+                        await Task.Delay(200); // The delay gives time for the item to be selected
+                        ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
+                        lvi.ItemContainerStyle = DefaultListView;
+                    }
+                    else if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !item.ItemPath.Contains("$Recycle.Bin"))
+                    {
+                       
+                        var collection = new List<ListedItem>();
+                        var filelist = new List<ListedItem>();
+                        var folderlist = new List<ListedItem>();
+                        var folder = await StorageFolder.GetFolderFromPathAsync(item.ItemPath);
+                        var items = await folder.GetItemsAsync();
+                        foreach (var item2 in items)
+                        {
+                            if (item2.IsOfType(StorageItemTypes.File))
+                            {
+                                var it = await AddFileAsync(item2 as StorageFile, returnformat, true);
+                                if (it != null)
+                                {
+                                    filelist.Add(it);
+                                }
+                            }
+                            else if (item2.IsOfType(StorageItemTypes.Folder))
+                            {
+                                var it = await AddFolderAsync(item2 as StorageFolder, returnformat);
+                                folderlist.Add(it);
+                            }
+                        }
+                        collection.AddRange(folderlist.OrderBy(x => x.ItemName));
+                        collection.AddRange(filelist.OrderBy(x => x.ItemName));
+                        var observable = new ObservableCollection<ListedItem>(collection);
+                        var collection2 = new ReadOnlyObservableCollection<ListedItem>(observable);
+                        ParentShellPageInstance.InteractionOperations.Prepare(item.ItemPath);
+                        var lv = new ListView
+                        {
+                            Padding = new Thickness(5),
+                            ItemsSource = collection2,
+                            ItemTemplate = ListTemplate,
+                            IsItemClickEnabled = true,
+                            ItemContainerStyle = DefaultListView
+                        };
+                        lv.IsDoubleTapEnabled = true;
+                        lv.DoubleTapped += FirstBlade_DoubleTapped;
+                        lv.ItemClick += FirstBlade_ItemClick;
+                        ColumnBladeView.Items.Add(new BladeItem
+                        {
+                            Content = lv,
+                            Style = BladeView
+                        });
+                        lvi.ItemContainerStyle = NotCurentListView;
+                    }
+                }
+            }
+        }
+
+        private void FirstBlade_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectedItems = e.AddedItems.Cast<ListedItem>().ToList();
         }
     }
 }
