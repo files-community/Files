@@ -655,6 +655,8 @@ namespace Files
         private async void FirstBlade_ItemClick(object sender, ItemClickEventArgs e)
         {
             App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
+            var clickedlistviewitem1 = (sender as ListView).ContainerFromItem(e.ClickedItem as ListedItem) as ListViewItem;
+            try { clickedlistviewitem1.Style = DefaultListView; } catch { }
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
@@ -740,7 +742,7 @@ namespace Files
                 if (AppSettings.OpenItemsWithOneclick)
                 {
                     var clickedlistviewitem = lvi.ContainerFromItem(ClickedItem) as ListViewItem;
-                    clickedlistviewitem.Style = NotCurentListView;
+                    clickedlistviewitem.Style = DefaultListView;
                     await Task.Delay(200); // The delay gives time for the item to be selected
                     ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
                 }
@@ -776,6 +778,8 @@ namespace Files
         {
             if (((FrameworkElement)e.OriginalSource).DataContext is ListedItem)
             {
+                var clickedlistviewitem1 = (sender as ListView).ContainerFromItem(((FrameworkElement)e.OriginalSource).DataContext as ListedItem) as ListViewItem;
+                try { clickedlistviewitem1.Style = DefaultListView; } catch { }
                 var lvi = sender as ListView;
                 var Blade = lvi.FindAscendant<BladeItem>();
                 var index = ColumnBladeView.Items.IndexOf(Blade);
