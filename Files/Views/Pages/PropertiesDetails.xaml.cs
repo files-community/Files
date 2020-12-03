@@ -32,9 +32,9 @@ namespace Files
         }
 
         /// <summary>
-        /// Returns true if the window should continue to close
+        /// Tries to save changed properties to file.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Returns true if properties has been saved successfully.</returns>
         public async Task<bool> SaveChangesAsync()
         {
             while (true)
@@ -47,7 +47,6 @@ namespace Files
                 }
                 catch
                 {
-
                     switch (await dialog.ShowAsync())
                     {
                         case ContentDialogResult.Primary:
