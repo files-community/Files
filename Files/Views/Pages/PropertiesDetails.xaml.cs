@@ -34,7 +34,6 @@ namespace Files
         /// <summary>
         /// Returns false if the operation was cancelled
         /// </summary>
-        /// <param name="item"></param>
         /// <returns></returns>
         public async Task<bool> SaveChangesAsync()
         {
