@@ -43,7 +43,7 @@
               Background="{TemplateBinding Background}"
               BorderBrush="{TemplateBinding BorderBrush}"
               BorderThickness="{TemplateBinding BorderThickness}"
-              CornerRadius="5"
+              CornerRadius="0"
               RenderTransformOrigin="0.5,0.5">
 
                             <Grid.RenderTransform>
@@ -541,7 +541,7 @@
               Background="{TemplateBinding Background}"
               BorderBrush="{TemplateBinding BorderBrush}"
               BorderThickness="{TemplateBinding BorderThickness}"
-              CornerRadius="5"
+              CornerRadius="0"
               RenderTransformOrigin="0.5,0.5">
 
                             <Grid.RenderTransform>
@@ -2049,7 +2049,7 @@
                 <ListView
             x:FieldModifier="public" 
                     IsRightTapEnabled="True" 
-                    RightTapped="FirstBlade_RightTapped" SelectionChanged="FirstBlade_SelectionChanged" DoubleTapped="FirstBlade_DoubleTapped" IsDoubleTapEnabled="True" Padding="5" x:Name="FirstBlade" IsItemClickEnabled="True" ItemContainerStyle="{ThemeResource DefaultListView}" ItemClick="FirstBlade_ItemClick"
+                    RightTapped="FirstBlade_RightTapped" SelectionChanged="FirstBlade_SelectionChanged" DoubleTapped="FirstBlade_DoubleTapped" IsDoubleTapEnabled="True" Padding="0" x:Name="FirstBlade" IsItemClickEnabled="True" ItemContainerStyle="{ThemeResource DefaultListView}" ItemClick="FirstBlade_ItemClick"
             ItemsSource="{x:Bind ParentShellPageInstance.FilesystemViewModel.FilesAndFolders}"
             SelectionMode="Extended">
                 </ListView>

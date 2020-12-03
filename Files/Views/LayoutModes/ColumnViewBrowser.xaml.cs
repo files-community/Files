@@ -788,17 +788,8 @@ namespace Files
                             App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                             return;
                         }
-
-
-
-                        if (token.IsCancellationRequested)
-                        {
-                            App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
-                            return;
-                        }
                         var lv = new ListView
                         {
-                            Padding = new Thickness(5),
                             ItemsSource = collection2,
                             ItemTemplate = ListTemplate,
                             IsItemClickEnabled = true,
