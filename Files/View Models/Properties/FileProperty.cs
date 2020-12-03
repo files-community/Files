@@ -119,27 +119,15 @@ namespace Files.View_Models.Properties
         }
 
         /// <summary>
-        /// Use this function when taking a file property from the base list and adding it to the view model list.
+        /// This is called before properties are displayed
         /// </summary>
-        /// <param name="fileProperty"></param>
-        /// <returns></returns>
-        public async Task InitializeProperty(StorageFile file)
+        public void InitializeProperty()
         {
             Func<object, string> displayFunction;
             if (!string.IsNullOrEmpty(DisplayFunctionName) && DisplayFuncs.TryGetValue(DisplayFunctionName, out displayFunction))
             {
                 DisplayFunction = displayFunction;
             }
-        }
-
-        /// <summary>
-        /// Sets the Value property
-        /// </summary>
-        /// <param name="file">The file to get the property of</param>
-        public async Task SetValueFromFile(StorageFile file)
-        {
-            var props = await file.Properties.RetrievePropertiesAsync(new List<string>() { Property });
-            Value = props[Property];
         }
 
         /// <summary>
@@ -253,7 +241,7 @@ namespace Files.View_Models.Properties
                     prop.Value = keyValuePairs[prop.Property];
                 }
 
-                await prop.InitializeProperty(file);
+                prop.InitializeProperty();
             }
 
             return list;
@@ -264,7 +252,7 @@ namespace Files.View_Models.Properties
         /// </summary>
         private static readonly Dictionary<string, Func<object, string>> DisplayFuncs = new Dictionary<string, Func<object, string>>()
         {
-            { "DivideBy100", input => (((uint) input)/1000).ToString() },
+            { "DivideBy1000", input => (((uint) input)/1000).ToString() },
             { "FormatDuration", input => new TimeSpan(Convert.ToInt64(input)).ToString("mm':'ss")},
         };
     }
