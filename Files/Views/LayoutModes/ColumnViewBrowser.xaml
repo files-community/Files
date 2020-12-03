@@ -2018,7 +2018,7 @@
             Padding="14,14,14,0"
             VerticalContentAlignment="Stretch"
             x:FieldModifier="public" Opacity="0"
-            AllowDrop="True" Visibility="Visible"
+            AllowDrop="True" Visibility="Collapsed"
             DoubleTapped="{x:Bind ParentShellPageInstance.InteractionOperations.List_ItemDoubleClick}"
             DragOver="List_DragOver"
             Drop="List_Drop"

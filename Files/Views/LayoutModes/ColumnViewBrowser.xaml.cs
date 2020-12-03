@@ -16,7 +16,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using Files.Common;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.AppService;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.System;
@@ -29,6 +32,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using Interaction = Files.Interacts.Interaction;
+using Windows.ApplicationModel;
 
 namespace Files
 {
@@ -41,6 +45,7 @@ namespace Files
             this.InitializeComponent();
             base.BaseLayoutContextFlyout = this.BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
+            //App.Current.Suspending += Current_Suspending;
 
             //var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             //selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
@@ -48,7 +53,6 @@ namespace Files
 
             SetItemTemplate(); // Set ItemTemplate
         }
-
         private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
         {
             await Task.Delay(200);
@@ -89,6 +93,7 @@ namespace Files
                 _iconSize = UpdateThumbnailSize(); // Get icon size for jumps from other layouts directly to a grid size
                 App.AppSettings.GridViewSizeChangeRequested += AppSettings_GridViewSizeChangeRequested;
             }
+            FileList.Visibility = Visibility.Visible;
         }
 
         public override void SetSelectedItemOnUi(ListedItem item)
@@ -550,33 +555,9 @@ namespace Files
             var itemFolderImgVis = false;
             var itemFileExtension = file.FileType;
 
-            BitmapImage icon = new BitmapImage();
-            bool itemThumbnailImgVis;
-            bool itemEmptyImgVis;
-
-            try
-            {
-                var itemThumbnailImg = suppressThumbnailLoading ? null :
-                    await file.GetThumbnailAsync(ThumbnailMode.ListView, 80, ThumbnailOptions.UseCurrentScale);
-                if (itemThumbnailImg != null)
-                {
-                    itemEmptyImgVis = false;
-                    itemThumbnailImgVis = true;
-                    icon.DecodePixelWidth = 80;
-                    icon.DecodePixelHeight = 80;
-                    await icon.SetSourceAsync(itemThumbnailImg);
-                }
-                else
-                {
-                    itemEmptyImgVis = true;
-                    itemThumbnailImgVis = false;
-                }
-            }
-            catch
-            {
-                itemEmptyImgVis = true;
-                itemThumbnailImgVis = false;
-            }
+            //BitmapImage icon = new BitmapImage();
+            bool itemThumbnailImgVis = false;
+            bool itemEmptyImgVis = true;
 
             if (file.Name.EndsWith(".lnk") || file.Name.EndsWith(".url"))
             {
@@ -594,7 +575,7 @@ namespace Files
                     IsHiddenItem = false,
                     Opacity = 1,
                     LoadUnknownTypeGlyph = itemEmptyImgVis,
-                    FileImage = icon,
+                    FileImage = null,
                     LoadFileIcon = itemThumbnailImgVis,
                     LoadFolderGlyph = itemFolderImgVis,
                     ItemName = itemName,
@@ -654,7 +635,6 @@ namespace Files
         }
         private async void FirstBlade_ItemClick(object sender, ItemClickEventArgs e)
         {
-            App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
             var clickedlistviewitem1 = (sender as ListView).ContainerFromItem(e.ClickedItem as ListedItem) as ListViewItem;
             try { clickedlistviewitem1.Style = DefaultListView; } catch { }
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -680,66 +660,28 @@ namespace Files
                     break;
                 }
             }
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-                
-            var ClickedItem = e.ClickedItem as ListedItem;
-            if (ClickedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !ClickedItem.ItemPath.Contains("$Recycle.Bin"))
+            if (AppSettings.OpenItemsWithOneclick)
             {
-
-                var collection = new List<ListedItem>();
-                var filelist = new List<ListedItem>();
-                var folderlist = new List<ListedItem>();
-                var folder = await StorageFolder.GetFolderFromPathAsync(ClickedItem.ItemPath);
-                var items = await folder.GetItemsAsync();
-                if (items.Count > 0)
+                var ClickedItem = e.ClickedItem as ListedItem;
+                if (ClickedItem.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !ClickedItem.ItemPath.Contains("$Recycle.Bin"))
                 {
-                    foreach (var item in items)
+                    if (Cancellation != null)
                     {
-                        if (item.IsOfType(StorageItemTypes.File))
+                        try
                         {
-                            var it = await AddFileAsync(item as StorageFile, returnformat, false);
-                            if (it != null)
-                            {
-                                filelist.Add(it);
-                            }
+                            Cancellation.Cancel();
+                            Cancellation.Dispose();
                         }
-                        else if (item.IsOfType(StorageItemTypes.Folder))
+                        catch
                         {
-                            var it = await AddFolderAsync(item as StorageFolder, returnformat);
-                            folderlist.Add(it);
+
                         }
                     }
-                    collection.AddRange(folderlist.OrderBy(x => x.ItemName));
-                    collection.AddRange(filelist.OrderBy(x => x.ItemName));
-                    var observable = new ObservableCollection<ListedItem>(collection);
-                    var collection2 = new ReadOnlyObservableCollection<ListedItem>(observable);
-                    ParentShellPageInstance.InteractionOperations.Prepare(ClickedItem.ItemPath);
-                    var lv = new ListView
-                    {
-                        Padding = new Thickness(5),
-                        ItemsSource = collection2,
-                        ItemTemplate = ListTemplate,
-                        IsItemClickEnabled = true,
-                        ItemContainerStyle = DefaultListView
-                    };
-                    lv.IsDoubleTapEnabled = true;
-                    lv.DoubleTapped += FirstBlade_DoubleTapped;
-                    lv.IsRightTapEnabled = true;
-                    lv.SelectionChanged += FirstBlade_SelectionChanged;
-                    lv.RightTapped += FirstBlade_RightTapped;
-                    lv.ItemClick += FirstBlade_ItemClick;
-                    ColumnBladeView.Items.Add(new BladeItem
-                    {
-                        Content = lv,
-                        Style = BladeView
-                    });
+                    Cancellation = new CancellationTokenSource();
+                    Token = Cancellation.Token;
+                    await Task.Factory.StartNew(() => GetFiles(ClickedItem.ItemPath, Token));
                 }
-                //lvi.ItemContainerStyle = NotCurentListView;
-            }
-            else if (ClickedItem.PrimaryItemAttribute == StorageItemTypes.File && !ClickedItem.ItemPath.Contains("$Recycle.Bin"))
-            {
-                if (AppSettings.OpenItemsWithOneclick)
+                else if (ClickedItem.PrimaryItemAttribute == StorageItemTypes.File && !ClickedItem.ItemPath.Contains("$Recycle.Bin"))
                 {
                     var clickedlistviewitem = lvi.ContainerFromItem(ClickedItem) as ListViewItem;
                     clickedlistviewitem.Style = DefaultListView;
@@ -747,8 +689,153 @@ namespace Files
                     ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
                 }
             }
-            App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
         }
+
+        private async Task GetFiles(string itemPath, CancellationToken token)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
+                if (token.IsCancellationRequested)
+                {
+                    App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
+                    return;
+                }
+                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+                string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+
+
+                var collection = new List<ListedItem>();
+                var filelist = new List<ListedItem>();
+                var folderlist = new List<ListedItem>();
+                try
+                {
+                    if (token.IsCancellationRequested)
+                    {
+                        App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
+                        return;
+                    }
+                    var folder = await StorageFolder.GetFolderFromPathAsync(itemPath);
+                    var items = await folder.GetItemsAsync();
+                    if (items.Count > 0)
+                    {
+                        foreach (var item in items)
+                        {
+                            if (token.IsCancellationRequested)
+                            {
+                                return;
+                            }
+                            if (item.IsOfType(StorageItemTypes.File))
+                            {
+                                var it = await AddFileAsync(item as StorageFile, returnformat, true);
+                                if (it != null)
+                                {
+                                    filelist.Add(it);
+                                }
+                            }
+                            else if (item.IsOfType(StorageItemTypes.Folder))
+                            {
+                                var it = await AddFolderAsync(item as StorageFolder, returnformat);
+                                folderlist.Add(it);
+                            }
+                        }
+                        collection.AddRange(folderlist.OrderBy(x => x.ItemName));
+                        collection.AddRange(filelist.OrderBy(x => x.ItemName));
+                        var observable = new ObservableCollection<ListedItem>(collection);
+                        var collection2 = new ReadOnlyObservableCollection<ListedItem>(observable);
+                        ParentShellPageInstance.InteractionOperations.Prepare(itemPath);
+
+                        if (token.IsCancellationRequested)
+                        {
+                            App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
+                            return;
+                        }
+
+
+
+                        if (token.IsCancellationRequested)
+                        {
+                            App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
+                            return;
+                        }
+                        var lv = new ListView
+                        {
+                            Padding = new Thickness(5),
+                            ItemsSource = collection2,
+                            ItemTemplate = ListTemplate,
+                            IsItemClickEnabled = true,
+                            ItemContainerStyle = DefaultListView
+                        };
+                        lv.IsDoubleTapEnabled = true;
+                        lv.DoubleTapped += FirstBlade_DoubleTapped;
+                        lv.IsRightTapEnabled = true;
+                        lv.SelectionChanged += FirstBlade_SelectionChanged;
+                        lv.RightTapped += FirstBlade_RightTapped;
+                        lv.ItemClick += FirstBlade_ItemClick;
+
+                        if (token.IsCancellationRequested)
+                        {
+                            App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
+                            return;
+                        }
+                        ColumnBladeView.Items.Add(new BladeItem
+                        {
+                            Content = lv,
+                            Style = BladeView
+                        });
+
+                        lv.Loaded += async (s, e) =>
+                        {
+                            if (token.IsCancellationRequested)
+                            {
+                                App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
+                                return;
+                            }
+                            if (lv.Items.Cast<ListedItem>().Any(x => x.PrimaryItemAttribute == StorageItemTypes.File))
+                            {
+                                foreach (ListedItem listedItem in lv.Items.Cast<ListedItem>().Where(x => x.PrimaryItemAttribute == StorageItemTypes.File))
+                                {
+                                    var Icon = await LoadIcon(listedItem.ItemPath, 24);
+                                    if (Icon != null) // Only set folder icon if it's a custom icon
+                                    {
+                                        listedItem.FileImage = Icon;
+                                        listedItem.LoadUnknownTypeGlyph = false;
+                                        listedItem.LoadFolderGlyph = false;
+                                        listedItem.LoadFileIcon = true;
+                                    }
+                                }
+                            }
+
+                        };
+                    }
+                }
+                catch
+                {
+                    App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
+                    return;
+                }
+                App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
+            });
+        }
+
+        private async Task<BitmapImage> LoadIcon(string itemPath, int v)
+        {
+            BitmapImage icon = new BitmapImage();
+            var file = await StorageFile.GetFileFromPathAsync(itemPath);
+            var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.ListView, (uint)v, ThumbnailOptions.None);
+            if (itemThumbnailImg != null)
+            {
+                icon.DecodePixelWidth = 80;
+                icon.DecodePixelHeight = 80;
+                await icon.SetSourceAsync(itemThumbnailImg);
+            }
+            else
+            {
+                icon = null;
+            }
+            return icon;
+        }
+
         private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(StorageFolder folder)
         {
             int? syncStatus = null;
@@ -761,6 +848,17 @@ namespace Files
                 return CloudDriveSyncStatus.Unknown;
             }
             return (CloudDriveSyncStatus)syncStatus;
+        }
+        private void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
+        {
+            Connection?.Dispose();
+            Connection = null;
+        }
+
+        private void Current_Suspending(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
+        {
+            Connection?.Dispose();
+            Connection = null;
         }
         private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(StorageFile file)
         {
@@ -778,6 +876,7 @@ namespace Files
         {
             if (((FrameworkElement)e.OriginalSource).DataContext is ListedItem)
             {
+                ListView lv = new ListView();
                 var clickedlistviewitem1 = (sender as ListView).ContainerFromItem(((FrameworkElement)e.OriginalSource).DataContext as ListedItem) as ListViewItem;
                 try { clickedlistviewitem1.Style = DefaultListView; } catch { }
                 var lvi = sender as ListView;
@@ -797,10 +896,11 @@ namespace Files
                 }
                 ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
                 string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-                var item = ((FrameworkElement)e.OriginalSource).DataContext as ListedItem;
-                if (item.PrimaryItemAttribute == StorageItemTypes.File && !item.ItemPath.Contains("$Recycle.Bin"))
+
+                if (!AppSettings.OpenItemsWithOneclick)
                 {
-                    if (!AppSettings.OpenItemsWithOneclick)
+                    var item = ((FrameworkElement)e.OriginalSource).DataContext as ListedItem;
+                    if (item.PrimaryItemAttribute == StorageItemTypes.File && !item.ItemPath.Contains("$Recycle.Bin"))
                     {
                         await Task.Delay(200); // The delay gives time for the item to be selected
                         ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
@@ -808,61 +908,38 @@ namespace Files
                         clickedlistviewitem.Style = DefaultListView;
                         //lvi.ItemContainerStyle = DefaultListView;
                     }
-                }
-                else if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !item.ItemPath.Contains("$Recycle.Bin"))
-                {
-                    var collection = new List<ListedItem>();
-                    var filelist = new List<ListedItem>();
-                    var folderlist = new List<ListedItem>();
-                    var folder = await StorageFolder.GetFolderFromPathAsync(item.ItemPath);
-                    var items = await folder.GetItemsAsync();
-                    if (items.Count > 0)
+                    else if (item.PrimaryItemAttribute == Windows.Storage.StorageItemTypes.Folder && !item.ItemPath.Contains("$Recycle.Bin"))
                     {
-                        foreach (var item2 in items)
+                        if (Cancellation != null)
                         {
-                            if (item2.IsOfType(StorageItemTypes.File))
+                            try
                             {
-                                var it = await AddFileAsync(item2 as StorageFile, returnformat, true);
-                                if (it != null)
-                                {
-                                    filelist.Add(it);
-                                }
+                                Cancellation.Cancel();
+                                Cancellation.Dispose();
                             }
-                            else if (item2.IsOfType(StorageItemTypes.Folder))
+                            catch
                             {
-                                var it = await AddFolderAsync(item2 as StorageFolder, returnformat);
-                                folderlist.Add(it);
+
                             }
                         }
-                        collection.AddRange(folderlist.OrderBy(x => x.ItemName));
-                        collection.AddRange(filelist.OrderBy(x => x.ItemName));
-                        var observable = new ObservableCollection<ListedItem>(collection);
-                        var collection2 = new ReadOnlyObservableCollection<ListedItem>(observable);
-                        ParentShellPageInstance.InteractionOperations.Prepare(item.ItemPath);
-                        var lv = new ListView
-                        {
-                            Padding = new Thickness(5),
-                            ItemsSource = collection2,
-                            ItemTemplate = ListTemplate,
-                            IsItemClickEnabled = true,
-                            ItemContainerStyle = DefaultListView
-                        };
-                        lv.IsDoubleTapEnabled = true;
-                        lv.IsRightTapEnabled = true;
-                        lv.SelectionChanged += FirstBlade_SelectionChanged;
-                        lv.RightTapped += FirstBlade_RightTapped;
-                        lv.DoubleTapped += FirstBlade_DoubleTapped;
-                        lv.ItemClick += FirstBlade_ItemClick;
-                        ColumnBladeView.Items.Add(new BladeItem
-                        {
-                            Content = lv,
-                            Style = BladeView
-                        });
+                        Cancellation = new CancellationTokenSource();
+                        Token = Cancellation.Token;
+                        App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
+                        await Task.Factory.StartNew(() => GetFiles(item.ItemPath, Token));
+
+                        App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                     }
                 }
             }
         }
 
+        public AppServiceConnection Connection;
+        private CancellationTokenSource Cancellation;
+        private CancellationToken Token;
+
+        public ItemViewModel FilesystemViewModel { get; }
+
+        
         private void FirstBlade_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var currentLv = sender as ListView;

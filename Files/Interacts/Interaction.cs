@@ -633,7 +633,10 @@ namespace Files.Interacts
             }
             if (opened)
             {
-                await AssociatedInstance.FilesystemViewModel.SetWorkingDirectoryAsync(path);
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    await AssociatedInstance.FilesystemViewModel.SetWorkingDirectoryAsync(path);
+                });
             }
         }
 
