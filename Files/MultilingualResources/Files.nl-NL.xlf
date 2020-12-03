@@ -1472,6 +1472,10 @@
           <source>Hidden</source>
           <target state="new">Hidden</target>
         </trans-unit>
+        <trans-unit id="SearchPagePathBoxOverrideText" translate="yes" xml:space="preserve">
+          <source>Search results in</source>
+          <target state="new">Search results in</target>
+        </trans-unit>
       </group>
     </body>
   </file>

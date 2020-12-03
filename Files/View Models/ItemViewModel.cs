@@ -380,7 +380,7 @@ namespace Files.Filesystem
          * the updated, most-current path and add them to the UI.
          */
 
-        private void WorkingDirectoryChanged()
+        private void WorkingDirectoryChanged(string singleItemOverride = null)
         {
             // Clear the path UI
             AssociatedInstance.NavigationToolbar.PathComponents.Clear();
@@ -389,10 +389,19 @@ namespace Files.Filesystem
             {
                 Weight = FontWeights.SemiBold.Weight
             };
-            foreach (var component in StorageFileExtensions.GetDirectoryPathComponents(WorkingDirectory))
+
+            if (string.IsNullOrWhiteSpace(singleItemOverride))
             {
-                AssociatedInstance.NavigationToolbar.PathComponents.Add(component);
+                foreach (var component in StorageFileExtensions.GetDirectoryPathComponents(WorkingDirectory))
+                {
+                    AssociatedInstance.NavigationToolbar.PathComponents.Add(component);
+                }
             }
+            else
+            {
+                AssociatedInstance.NavigationToolbar.PathComponents.Add(new Views.Pages.PathBoxItem() { Path = null, Title = singleItemOverride });
+            }
+
         }
 
         public void CancelLoadAndClearFiles(bool isSearchResultPage = false)
@@ -1867,7 +1876,7 @@ namespace Files.Filesystem
             }
         }
 
-        public void AddSearchResultsToCollection(ObservableCollection<ListedItem> searchItems)
+        public void AddSearchResultsToCollection(ObservableCollection<ListedItem> searchItems, string currentSearchPath)
         {
             _filesAndFolders.Clear();
             foreach (ListedItem li in searchItems)
@@ -1875,6 +1884,7 @@ namespace Files.Filesystem
                 _filesAndFolders.Add(li);
             }
             UpdateDirectoryInfo();
+            WorkingDirectoryChanged("SearchPagePathBoxOverrideText".GetLocalized() + " " + currentSearchPath);
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

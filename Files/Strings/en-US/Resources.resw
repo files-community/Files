@@ -1206,4 +1206,7 @@
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
+    <value>Search results in</value>
+  </data>
 </root>

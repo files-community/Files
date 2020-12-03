@@ -186,6 +186,7 @@ namespace Files.Views.Pages
                 {
                     AssociatedTabInstance = this,
                     IsSearchResultPage = true,
+                    SearchPathParam = FilesystemViewModel.WorkingDirectory,
                     SearchResults = await FolderSearch.SearchForUserQueryTextAsync(args.QueryText, FilesystemViewModel.WorkingDirectory, -1)
                 });
                 App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
@@ -1230,5 +1231,6 @@ namespace Files.Views.Pages
         public IShellPage AssociatedTabInstance { get; set; }
         public bool IsSearchResultPage { get; set; } = false;
         public ObservableCollection<ListedItem> SearchResults { get; set; } = new ObservableCollection<ListedItem>();
+        public string SearchPathParam { get; set; } = null;
     }
 }

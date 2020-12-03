@@ -290,7 +290,7 @@ namespace Files
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
 
                 MainPage.MultitaskingControl?.UpdateSelectedTab(null, null, true);
-                ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(parameters.SearchResults);
+                ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(parameters.SearchResults, parameters.SearchPathParam);
             }
 
             ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
