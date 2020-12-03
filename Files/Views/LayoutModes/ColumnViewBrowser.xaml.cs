@@ -734,60 +734,71 @@ namespace Files
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
+            });
+
+            if (token.IsCancellationRequested)
+            {
+                App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
+                return;
+            }
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+
+
+            var collection = new List<ListedItem>();
+            var filelist = new List<ListedItem>();
+            var folderlist = new List<ListedItem>();
+            try
+            {
                 if (token.IsCancellationRequested)
                 {
                     App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                     return;
                 }
-                ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-                string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-
-
-                var collection = new List<ListedItem>();
-                var filelist = new List<ListedItem>();
-                var folderlist = new List<ListedItem>();
-                try
+                var folder = await StorageFolder.GetFolderFromPathAsync(itemPath);
+                var items = await folder.GetItemsAsync();
+                if (items.Count > 0)
                 {
+                    foreach (var item in items)
+                    {
+                        if (token.IsCancellationRequested)
+                        {
+                            return;
+                        }
+                        if (item.IsOfType(StorageItemTypes.File))
+                        {
+                            var it = await AddFileAsync(item as StorageFile, returnformat, true);
+                            if (it != null)
+                            {
+                                filelist.Add(it);
+                            }
+                        }
+                        else if (item.IsOfType(StorageItemTypes.Folder))
+                        {
+                            var it = await AddFolderAsync(item as StorageFolder, returnformat);
+                            folderlist.Add(it);
+                        }
+                    }
+                    collection.AddRange(folderlist.OrderBy(x => x.ItemName));
+                    collection.AddRange(filelist.OrderBy(x => x.ItemName));
+                    var observable = new ObservableCollection<ListedItem>(collection);
+                    var collection2 = new ReadOnlyObservableCollection<ListedItem>(observable);
+                    ParentShellPageInstance.InteractionOperations.Prepare(itemPath);
+
                     if (token.IsCancellationRequested)
                     {
                         App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                         return;
                     }
-                    var folder = await StorageFolder.GetFolderFromPathAsync(itemPath);
-                    var items = await folder.GetItemsAsync();
-                    if (items.Count > 0)
-                    {
-                        foreach (var item in items)
-                        {
-                            if (token.IsCancellationRequested)
-                            {
-                                return;
-                            }
-                            if (item.IsOfType(StorageItemTypes.File))
-                            {
-                                var it = await AddFileAsync(item as StorageFile, returnformat, true);
-                                if (it != null)
-                                {
-                                    filelist.Add(it);
-                                }
-                            }
-                            else if (item.IsOfType(StorageItemTypes.Folder))
-                            {
-                                var it = await AddFolderAsync(item as StorageFolder, returnformat);
-                                folderlist.Add(it);
-                            }
-                        }
-                        collection.AddRange(folderlist.OrderBy(x => x.ItemName));
-                        collection.AddRange(filelist.OrderBy(x => x.ItemName));
-                        var observable = new ObservableCollection<ListedItem>(collection);
-                        var collection2 = new ReadOnlyObservableCollection<ListedItem>(observable);
-                        ParentShellPageInstance.InteractionOperations.Prepare(itemPath);
+                    
 
-                        if (token.IsCancellationRequested)
-                        {
-                            App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
-                            return;
-                        }
+                    if (token.IsCancellationRequested)
+                    {
+                        App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
+                        return;
+                    }
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                    {
                         var lv = new ListView
                         {
                             ItemsSource = collection2,
@@ -802,12 +813,6 @@ namespace Files
                         lv.SelectionChanged += FirstBlade_SelectionChanged;
                         lv.RightTapped += FirstBlade_RightTapped;
                         lv.ItemClick += FirstBlade_ItemClick;
-
-                        if (token.IsCancellationRequested)
-                        {
-                            App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
-                            return;
-                        }
                         ColumnBladeView.Items.Add(new BladeItem
                         {
                             Content = lv,
@@ -816,34 +821,43 @@ namespace Files
 
                         lv.Loaded += async (s, e) =>
                         {
-                            if (token.IsCancellationRequested)
+                            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                             {
-                                App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
-                                return;
-                            }
-                            if (lv.Items.Cast<ListedItem>().Any(x => x.PrimaryItemAttribute == StorageItemTypes.File))
-                            {
-                                foreach (ListedItem listedItem in lv.Items.Cast<ListedItem>().Where(x => x.PrimaryItemAttribute == StorageItemTypes.File))
+                                if (token.IsCancellationRequested)
                                 {
-                                    var Icon = await LoadIcon(listedItem.ItemPath, 24);
-                                    if (Icon != null) // Only set folder icon if it's a custom icon
+                                    App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
+                                    return;
+                                }
+                                if (lv.Items.Cast<ListedItem>().Any(x => x.PrimaryItemAttribute == StorageItemTypes.File))
+                                {
+                                    foreach (ListedItem listedItem in lv.Items.Cast<ListedItem>().Where(x => x.PrimaryItemAttribute == StorageItemTypes.File))
                                     {
-                                        listedItem.FileImage = Icon;
-                                        listedItem.LoadUnknownTypeGlyph = false;
-                                        listedItem.LoadFolderGlyph = false;
-                                        listedItem.LoadFileIcon = true;
+                                        var Icon = await LoadIcon(listedItem.ItemPath, 24);
+                                        if (Icon != null) // Only set folder icon if it's a custom icon
+                                        {
+                                            listedItem.FileImage = Icon;
+                                            listedItem.LoadUnknownTypeGlyph = false;
+                                            listedItem.LoadFolderGlyph = false;
+                                            listedItem.LoadFileIcon = true;
+                                        }
                                     }
                                 }
-                            }
+                            });
                             ListViewToWorkWith = lv;
                         };
-                    }
+                    });
                 }
-                catch
+            }
+            catch
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
                     App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                     return;
-                }
+                });
+            }
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
                 App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
             });
         }
