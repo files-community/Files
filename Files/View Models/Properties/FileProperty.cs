@@ -130,11 +130,6 @@ namespace Files.View_Models.Properties
             {
                 DisplayFunction = displayFunction;
             }
-
-            if (!string.IsNullOrEmpty(Property))
-            {
-                await SetValueFromFile(file);
-            }
         }
 
         /// <summary>
@@ -238,8 +233,22 @@ namespace Files.View_Models.Properties
         {
             var propertiesJsonFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/PropertiesInformation.json"));
             var list = JsonConvert.DeserializeObject<List<FileProperty>>(await FileIO.ReadTextAsync(propertiesJsonFile));
+
+            var propsToGet = new List<string>();
+
             foreach (var prop in list)
             {
+                if (!string.IsNullOrEmpty(prop.Property))
+                    propsToGet.Add(prop.Property);
+            }
+
+            var keyValuePairs = await file.Properties.RetrievePropertiesAsync(propsToGet);
+
+            foreach (var prop in list)
+            {
+                if (!string.IsNullOrEmpty(prop.Property))
+                    prop.Value = keyValuePairs[prop.Property];
+
                 await prop.InitializeProperty(file);
             }
 
