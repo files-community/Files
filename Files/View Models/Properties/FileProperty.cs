@@ -69,6 +69,11 @@ namespace Files.View_Models.Properties
         public Func<object, string> DisplayFunction { get; set; }
 
         /// <summary>
+        /// The name of the display function to get from the display dictionary
+        /// </summary>
+        public string DisplayFunctionName { get; set; }
+
+        /// <summary>
         /// The converter used to convert the property to a string, and vice versa if needed
         /// </summary>
         public IValueConverter Converter
@@ -81,7 +86,7 @@ namespace Files.View_Models.Properties
         /// Should be used in instances where a property does not have a "Property" value, but needs to be idenitfiable in a list of properties
         /// </summary>
         public string ID { get; set; }
-    
+        
         public Visibility Visibility { get; set; } = Visibility.Visible;
 
         public FileProperty()
@@ -114,6 +119,10 @@ namespace Files.View_Models.Properties
         /// <returns></returns>
         public async Task InitializeProperty(StorageFile file)
         {
+            Func<object, string> displayFunction;
+            if (!string.IsNullOrEmpty(DisplayFunctionName) && DisplayFuncs.TryGetValue(DisplayFunctionName, out displayFunction))
+                DisplayFunction = displayFunction;
+
             if (!string.IsNullOrEmpty(Property))
                 await SetValueFromFile(file);
         }
@@ -200,7 +209,6 @@ namespace Files.View_Models.Properties
         public async static Task<List<FileProperty>> RetrieveAndInitializePropertiesAsync(StorageFile file)
         {
             var list = JsonConvert.DeserializeObject<List<FileProperty>>(await FileIO.ReadTextAsync(await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/PropertiesInformation.json"))));
-
             foreach (var prop in list)
             {
                 await prop.InitializeProperty(file);
@@ -208,5 +216,14 @@ namespace Files.View_Models.Properties
 
             return list;
         }
+
+        /// <summary>
+        /// Since you can't serialize lambdas from a json file, define them here
+        /// </summary>
+        private static readonly Dictionary<string, Func<object, string>> DisplayFuncs = new Dictionary<string, Func<object, string>>()
+        {
+            { "DivideBy100", input => (((uint) input)/1000).ToString() },
+            { "FormatDuration", input => new TimeSpan(Convert.ToInt64(input)).ToString("mm':'ss")},
+        };
     }
 }

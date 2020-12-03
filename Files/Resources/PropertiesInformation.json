@@ -305,6 +305,7 @@
     "SectionResource": "PropertySectionMedia",
     "Property": "System.Media.Duration",
     "IsReadOnly": true,
+    "DisplayFunctionName": "FormatDuration",
     "ID": null
   },
   {
@@ -529,7 +530,8 @@
     "SectionResource": "PropertySectionVideo",
     "Property": "System.Video.FrameRate",
     "IsReadOnly": true,
-    "ID": null
+    "ID": null,
+    "DisplayFunctionName": "DivideBy100"
   },
   {
     "NameResource": "PropertyEncodingBitrate",
