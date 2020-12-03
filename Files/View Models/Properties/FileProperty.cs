@@ -239,7 +239,9 @@ namespace Files.View_Models.Properties
             foreach (var prop in list)
             {
                 if (!string.IsNullOrEmpty(prop.Property))
+                {
                     propsToGet.Add(prop.Property);
+                }
             }
 
             var keyValuePairs = await file.Properties.RetrievePropertiesAsync(propsToGet);
@@ -247,7 +249,9 @@ namespace Files.View_Models.Properties
             foreach (var prop in list)
             {
                 if (!string.IsNullOrEmpty(prop.Property))
+                {
                     prop.Value = keyValuePairs[prop.Property];
+                }
 
                 await prop.InitializeProperty(file);
             }
