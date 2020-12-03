@@ -58,10 +58,11 @@ namespace Files
                     }
                 }
 
-                // Wait for the dialog to be closed before opening another
-                while (dialog.IsLoaded) ;
+                // Wait for the current dialog to be closed before continuing the loop
+                // and opening another dialog (attempting to open more than one ContentDialog
+                // at a time will throw an error
+                while(dialog.IsLoaded);
             }
-            return false;
         }
 
         private async void ClearPropertiesConfirmation_Click(object sender, RoutedEventArgs e)
