@@ -55,5 +55,12 @@ namespace Files.View_Models.Properties
 
             base.OnNavigatedTo(e);
         }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (BaseProperties != null && BaseProperties.TokenSource != null)
+                BaseProperties.TokenSource.Cancel();
+            base.OnNavigatedFrom(e);
+        }
     }
 }
