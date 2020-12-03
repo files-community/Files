@@ -531,7 +531,7 @@
     "Property": "System.Video.FrameRate",
     "IsReadOnly": true,
     "ID": null,
-    "DisplayFunctionName": "DivideBy100"
+    "DisplayFunctionName": "DivideBy1000"
   },
   {
     "NameResource": "PropertyEncodingBitrate",
