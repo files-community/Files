@@ -646,11 +646,11 @@ namespace Files.View_Models
             }
         }
 
-        private ObservableCollection<FilePropertySection> _PropertySections = new ObservableCollection<FilePropertySection>();
+        private ObservableCollection<FilePropertySection> propertySections = new ObservableCollection<FilePropertySection>();
         public ObservableCollection<FilePropertySection> PropertySections
         {
-            get => _PropertySections;
-            set => SetProperty(ref _PropertySections, value);
+            get => propertySections;
+            set => SetProperty(ref propertySections, value);
         }
 
         private bool isReadOnly;
