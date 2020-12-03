@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Windows.UI.Xaml.Data;
 
 namespace Files.Converters
@@ -11,12 +10,16 @@ namespace Files.Converters
             var array = value as double[];
 
             if (array == null)
+            {
                 return "";
+            }
 
             var str = "";
 
             foreach (var i in array)
+            {
                 str += string.Format("{0}; ", i);
+            }
 
             return str;
         }

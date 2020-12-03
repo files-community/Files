@@ -8,7 +8,6 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -153,7 +152,7 @@ namespace Files.View_Models.Properties
             }
         }
 
-        public async void GetSystemFilePropertiesAsync()
+        public async void GetSystemFileProperties()
         {
             StorageFile file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
             if (file == null)
@@ -164,10 +163,14 @@ namespace Files.View_Models.Properties
 
             var list = await FileProperty.RetrieveAndInitializePropertiesAsync(file);
 
-            list.Find(x => x.ID == "address").Value = await GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value, (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+            list.Find(x => x.ID == "address").Value = await GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
+                                                                                           (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 
             // This code groups the properties by their "section" property. The code is derived from the XAML Controls Gallery ListView with grouped headers sample.
-            var query = from item in list group item by item.Section into g orderby g.Key select new FilePropertySection(g) { Key = g.Key };
+            var query = from item in list
+                        group item by item.Section into g
+                        orderby g.Key
+                        select new FilePropertySection(g) { Key = g.Key };
             ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
 
             SetVisibilities();
@@ -179,7 +182,9 @@ namespace Files.View_Models.Properties
             foreach (var group in propertySections)
             {
                 if (CheckSectionNull(group))
+                {
                     ViewModel.PropertySections.Remove(group);
+                }
             }
         }
 
@@ -188,7 +193,9 @@ namespace Files.View_Models.Properties
             foreach (var prop in fileProperties)
             {
                 if (prop.Value != null)
+                {
                     return false;
+                }
             }
 
             return true;
@@ -197,7 +204,9 @@ namespace Files.View_Models.Properties
         private async Task<string> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)
         {
             if (!Lat.HasValue || !Lon.HasValue)
+            {
                 return null;
+            }
 
             JObject obj;
             try
@@ -252,7 +261,9 @@ namespace Files.View_Models.Properties
             }
 
             if (!string.IsNullOrWhiteSpace(failedProperties))
+            {
                 throw new Exception($"The following properties failed to save: {failedProperties}");
+            }
         }
 
         /// <summary>
@@ -293,7 +304,7 @@ namespace Files.View_Models.Properties
                 }
             }
 
-            GetSystemFilePropertiesAsync();
+            GetSystemFileProperties();
         }
 
         private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
