@@ -32,7 +32,7 @@ namespace Files
         }
 
         /// <summary>
-        /// Returns false if the operation was cancelled
+        /// Returns true if the window should continue to close
         /// </summary>
         /// <returns></returns>
         public async Task<bool> SaveChangesAsync()
