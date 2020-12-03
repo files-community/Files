@@ -684,6 +684,7 @@ namespace Files
             
             if (AppSettings.OpenItemsWithOneclick)
             {
+                App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
                 var lvi = ((FrameworkElement)e.OriginalSource) as ListView;
                 var Blade = lvi.FindAscendant<BladeItem>();
                 var index = ColumnBladeView.Items.IndexOf(Blade);
@@ -727,19 +728,15 @@ namespace Files
 
                     ListViewToWorkWith = lvi;
                 }
+                App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
             }
         }
 
         private async Task GetFiles(string itemPath, CancellationToken token)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
-            });
 
             if (token.IsCancellationRequested)
             {
-                App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                 return;
             }
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
@@ -753,7 +750,6 @@ namespace Files
             {
                 if (token.IsCancellationRequested)
                 {
-                    App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                     return;
                 }
                 var folder = await StorageFolder.GetFolderFromPathAsync(itemPath);
@@ -778,7 +774,7 @@ namespace Files
                                 }
                             }
                             else if (item.IsOfType(StorageItemTypes.Folder))
-                            {   
+                            {
                                 var it = await AddFolderAsync(item as StorageFolder, returnformat);
                                 folderlist.Add(it);
                             }
@@ -791,14 +787,6 @@ namespace Files
 
                         if (token.IsCancellationRequested)
                         {
-                            App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
-                            return;
-                        }
-
-
-                        if (token.IsCancellationRequested)
-                        {
-                            App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                             return;
                         }
 
@@ -826,7 +814,6 @@ namespace Files
                         {
                             if (token.IsCancellationRequested)
                             {
-                                App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                                 return;
                             }
                             if (lv.Items.Cast<ListedItem>().Any(x => x.PrimaryItemAttribute == StorageItemTypes.File))
@@ -850,16 +837,8 @@ namespace Files
             }
             catch
             {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-                {
-                    App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
-                    return;
-                });
+                return;
             }
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
-            });
         }
 
         private async Task<BitmapImage> LoadIcon(string itemPath, int v)
@@ -930,6 +909,7 @@ namespace Files
 
                 if (!AppSettings.OpenItemsWithOneclick)
                 {
+                    App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
                     var lvi = sender as ListView;
                     var Blade = lvi.FindAscendant<BladeItem>();
                     var index = ColumnBladeView.Items.IndexOf(Blade);
@@ -970,12 +950,11 @@ namespace Files
                         }
                         Cancellation = new CancellationTokenSource();
                         Token = Cancellation.Token;
-                        App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
                         await Task.Factory.StartNew(() => GetFiles(item.ItemPath, Token));
 
                         ListViewToWorkWith = lvi;
-                        App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                     }
+                    App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                 }
             }
         }
