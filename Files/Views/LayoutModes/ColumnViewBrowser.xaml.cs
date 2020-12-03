@@ -45,6 +45,7 @@ namespace Files
             this.InitializeComponent();
             base.BaseLayoutContextFlyout = this.BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
+            FirstBlade.Items.VectorChanged += Items_VectorChanged;
             //App.Current.Suspending += Current_Suspending;
 
             //var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
@@ -53,6 +54,27 @@ namespace Files
 
             SetItemTemplate(); // Set ItemTemplate
         }
+
+        private void Items_VectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs @event)
+        {
+            if (this.IsLoaded)
+            {
+                while (ColumnBladeView.Items.Count > 1)
+                {
+                    try
+                    {
+                        ColumnBladeView.Items.RemoveAt(1);
+                        ColumnBladeView.ActiveBlades.RemoveAt(1);
+                    }
+                    catch
+                    {
+                        break;
+                    }
+                }
+            }
+            ListViewToWorkWith = FirstBlade;
+        }
+
         private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
         {
             await Task.Delay(200);
@@ -81,7 +103,8 @@ namespace Files
                 }
             }
             FileList.ItemTemplate = (App.AppSettings.LayoutMode == 1) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
-            FirstBlade.ItemTemplate = ListTemplate; // Choose Template
+            FirstBlade.ItemTemplate = ListTemplate;
+            ListViewToWorkWith = FirstBlade; // Choose Template
 
             // Set GridViewSize event handlers
             if (App.AppSettings.LayoutMode == 1)
@@ -99,7 +122,7 @@ namespace Files
         public override void SetSelectedItemOnUi(ListedItem item)
         {
             ClearSelection();
-            FileList.SelectedItems.Add(item);
+            ListViewToWorkWith.SelectedItems.Add(item);
         }
 
         public override void SetSelectedItemsOnUi(List<ListedItem> items)
@@ -108,7 +131,7 @@ namespace Files
 
             foreach (ListedItem item in items)
             {
-                FileList.SelectedItems.Add(item);
+                ListViewToWorkWith.SelectedItems.Add(item);
             }
         }
 
@@ -116,19 +139,19 @@ namespace Files
         {
             foreach (ListedItem selectedItem in selectedItems)
             {
-                FileList.SelectedItems.Add(selectedItem);
+                ListViewToWorkWith.SelectedItems.Add(selectedItem);
             }
         }
 
         public override void SelectAllItems()
         {
             ClearSelection();
-            FileList.SelectAll();
+            ListViewToWorkWith.SelectAll();
         }
 
         public override void InvertSelection()
         {
-            List<ListedItem> allItems = FileList.Items.Cast<ListedItem>().ToList();
+            List<ListedItem> allItems = ListViewToWorkWith.Items.Cast<ListedItem>().ToList();
             List<ListedItem> newSelectedItems = allItems.Except(SelectedItems).ToList();
 
             SetSelectedItemsOnUi(newSelectedItems);
@@ -136,7 +159,17 @@ namespace Files
 
         public override void ClearSelection()
         {
-            FileList.SelectedItems.Clear();
+            while (ListViewToWorkWith.SelectedItems.Count > 0)
+            {
+                try
+                {
+                    ListViewToWorkWith.SelectedItems.RemoveAt(0);
+                }
+                catch
+                {
+                    break;
+                }
+            }
         }
 
         public override void SetDragModeForItems()
@@ -492,6 +525,7 @@ namespace Files
                         break;
                     }
                 }
+                ListViewToWorkWith = FirstBlade;
             }
         }
         private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
@@ -635,6 +669,8 @@ namespace Files
         }
         private async void FirstBlade_ItemClick(object sender, ItemClickEventArgs e)
         {
+
+            ListViewToWorkWith = sender as ListView;
             var clickedlistviewitem1 = (sender as ListView).ContainerFromItem(e.ClickedItem as ListedItem) as ListViewItem;
             try { clickedlistviewitem1.Style = DefaultListView; } catch { }
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -687,6 +723,8 @@ namespace Files
                     clickedlistviewitem.Style = DefaultListView;
                     await Task.Delay(200); // The delay gives time for the item to be selected
                     ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
+
+                    ListViewToWorkWith = lvi;
                 }
             }
         }
@@ -767,6 +805,7 @@ namespace Files
                             ItemContainerStyle = DefaultListView
                         };
                         lv.IsDoubleTapEnabled = true;
+                        lv.SelectionMode = ListViewSelectionMode.Extended;
                         lv.DoubleTapped += FirstBlade_DoubleTapped;
                         lv.IsRightTapEnabled = true;
                         lv.SelectionChanged += FirstBlade_SelectionChanged;
@@ -805,7 +844,7 @@ namespace Files
                                     }
                                 }
                             }
-
+                            ListViewToWorkWith = lv;
                         };
                     }
                 }
@@ -822,7 +861,7 @@ namespace Files
         {
             BitmapImage icon = new BitmapImage();
             var file = await StorageFile.GetFileFromPathAsync(itemPath);
-            var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.ListView, (uint)v, ThumbnailOptions.None);
+            var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.ListView, (uint)v, ThumbnailOptions.UseCurrentScale);
             if (itemThumbnailImg != null)
             {
                 icon.DecodePixelWidth = 80;
@@ -874,6 +913,7 @@ namespace Files
         }
         private async void FirstBlade_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
+            ListViewToWorkWith = sender as ListView;
             if (((FrameworkElement)e.OriginalSource).DataContext is ListedItem)
             {
                 ListView lv = new ListView();
@@ -927,6 +967,7 @@ namespace Files
                         App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
                         await Task.Factory.StartNew(() => GetFiles(item.ItemPath, Token));
 
+                        ListViewToWorkWith = lvi;
                         App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                     }
                 }
@@ -936,6 +977,7 @@ namespace Files
         public AppServiceConnection Connection;
         private CancellationTokenSource Cancellation;
         private CancellationToken Token;
+        private ListView ListViewToWorkWith;
 
         public ItemViewModel FilesystemViewModel { get; }
 
@@ -943,14 +985,16 @@ namespace Files
         private void FirstBlade_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var currentLv = sender as ListView;
-            var lvs = RootGrid.FindDescendants<ListView>().ToList();
+            ListViewToWorkWith = currentLv;
+
+             var lvs = RootGrid.FindDescendants<ListView>().ToList();
             if (lvs.IndexOf(currentLv) > 0)
             {
                 int previous = lvs.IndexOf(currentLv) - 1;
                 try
                 {
                     var item = lvs[previous].ContainerFromItem(lvs[previous].SelectedItem) as ListViewItem;
-                    item.Style = NotCurentListView;
+                    if (item != null) { item.Style = NotCurentListView; }
                 }
                 catch
                 {
@@ -972,6 +1016,7 @@ namespace Files
         private void FirstBlade_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
 
+            ListViewToWorkWith = sender as ListView;
             if (((FrameworkElement)e.OriginalSource).DataContext is ListedItem)
             {
                 var item = ((FrameworkElement)e.OriginalSource).DataContext as ListedItem;
@@ -989,10 +1034,14 @@ namespace Files
                         }
                     }
                     (sender as ListView).SelectedItem = item;
-                    SelectedItems = (sender as ListView).SelectedItems.Cast<ListedItem>().ToList();
-                    var clickedlistviewitem = (sender as ListView).ContainerFromItem(item) as ListViewItem;
-                    clickedlistviewitem.Style = DefaultListView;
                 }
+                SelectedItems = (sender as ListView).SelectedItems.Cast<ListedItem>().ToList();
+                var clickedlistviewitem = (sender as ListView).ContainerFromItem(item) as ListViewItem;
+                clickedlistviewitem.Style = DefaultListView;
+            }
+            else
+            {
+
             }
         }
 
