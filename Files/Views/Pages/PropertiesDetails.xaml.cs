@@ -37,28 +37,31 @@ namespace Files
         /// <returns></returns>
         public async Task<bool> SaveChangesAsync()
         {
-            try
-            {
-                await (BaseProperties as FileProperties).SyncPropertyChangesAsync();
-            }
-            catch (Exception error)
+            while (true)
             {
                 var dialog = new PropertySaveError();
-
-                switch (await dialog.ShowAsync())
+                try
                 {
-                    case ContentDialogResult.Primary:
-                        SaveChangesAsync();
-                        return false;
-
-                    case ContentDialogResult.Secondary:
-                        break;
-
-                    default:
-                        return false;
+                    await (BaseProperties as FileProperties).SyncPropertyChangesAsync();
                 }
+                catch
+                {
+
+                    switch (await dialog.ShowAsync())
+                    {
+                        case ContentDialogResult.Primary:
+                            break;
+                        case ContentDialogResult.Secondary:
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+
+                // Wait for the dialog to be closed before opening another
+                while (dialog.IsLoaded) ;
             }
-            return true;
+            return false;
         }
 
         private async void ClearPropertiesConfirmation_Click(object sender, RoutedEventArgs e)
