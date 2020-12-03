@@ -84,9 +84,9 @@
                     <Button.Flyout>
                         <Flyout x:Name="ClearPropertiesFlyout">
                             <StackPanel Orientation="Vertical" Spacing="5">
-                                <TextBlock x:Uid="ClearPropertiesFlyoutText"/>
+                                <TextBlock x:Uid="ClearPropertiesFlyoutText"  Text="Confirm?"/>
                                 <StackPanel Orientation="Horizontal" Spacing="10">
-                                    <Button Click="ClearPropertiesConfirmation_Click" x:Uid="ClearPropertiesFlyoutConfirmation"/>
+                                    <Button Click="ClearPropertiesConfirmation_Click" x:Uid="ClearPropertiesFlyoutConfirmation" Content="Clear"/>
                                 </StackPanel>
                             </StackPanel>
                         </Flyout>
