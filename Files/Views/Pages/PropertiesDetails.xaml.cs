@@ -34,7 +34,7 @@ namespace Files
         /// <summary>
         /// Tries to save changed properties to file.
         /// </summary>
-        /// <returns>Returns true if properties has been saved successfully.</returns>
+        /// <returns>Returns true if properties have been saved successfully.</returns>
         public async Task<bool> SaveChangesAsync()
         {
             while (true)
