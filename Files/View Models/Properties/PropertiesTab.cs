@@ -59,7 +59,10 @@ namespace Files.View_Models.Properties
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             if (BaseProperties != null && BaseProperties.TokenSource != null)
+            {
                 BaseProperties.TokenSource.Cancel();
+            }
+
             base.OnNavigatedFrom(e);
         }
     }
