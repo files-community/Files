@@ -243,7 +243,7 @@ namespace Files.View_Models.Properties
             {
                 foreach (FileProperty prop in group)
                 {
-                    if (!prop.IsReadOnly)
+                    if (!prop.IsReadOnly && prop.Modified)
                     {
                         var newDict = new Dictionary<string, object>();
                         newDict.Add(prop.Property, prop.Value);

@@ -58,6 +58,7 @@ namespace Files.View_Models.Properties
                 if (!IsReadOnly)
                 {
                     Value = ConvertBack(value);
+                    Modified = true;
                 }
             }
         }
@@ -87,6 +88,11 @@ namespace Files.View_Models.Properties
         /// Should be used in instances where a property does not have a "Property" value, but needs to be idenitfiable in a list of properties
         /// </summary>
         public string ID { get; set; }
+
+        /// <summary>
+        /// True if the property value has been modified by the user
+        /// </summary>
+        public bool Modified { get; private set; }
 
         public Visibility Visibility { get; set; } = Visibility.Visible;
 
