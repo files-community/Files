@@ -1,7 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
-using Files.UserControls;
 using Files.View_Models;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
@@ -11,7 +10,6 @@ using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI;
 using Windows.UI.Core;
-using Windows.UI.StartScreen;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -45,11 +43,11 @@ namespace Files
         {
             var args = e.Parameter as PropertiesPageNavigationArguments;
             AppInstance = args.AppInstanceArgument;
-            this.navParameterItem = args.Item;
-            this.TabShorcut.Visibility = args.Item is ShortcutItem ? Visibility.Visible : Visibility.Collapsed;
-            this.listedItem = args.Item as ListedItem;
-            this.TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null && !listedItem.IsShortcutItem ? Visibility.Visible : Visibility.Collapsed;
-            this.SetBackground();
+            navParameterItem = args.Item;
+            TabShorcut.Visibility = args.Item is ShortcutItem ? Visibility.Visible : Visibility.Collapsed;
+            listedItem = args.Item as ListedItem;
+            TabDetails.Visibility = listedItem != null && listedItem.FileExtension != null && !listedItem.IsShortcutItem ? Visibility.Visible : Visibility.Collapsed;
+            SetBackground();
             base.OnNavigatedTo(e);
         }
 
@@ -178,14 +176,16 @@ namespace Files
 
         private async void OKButton_Click(object sender, RoutedEventArgs e)
         {
-            if (contentFrame.Content is PropertiesGeneral)
+            if (contentFrame.Content is PropertiesGeneral propertiesGeneral)
             {
-                await (contentFrame.Content as PropertiesGeneral).SaveChangesAsync(listedItem);
+                await propertiesGeneral.SaveChangesAsync(listedItem);
             }
-            else if (contentFrame.Content is PropertiesDetails)
+            else if (contentFrame.Content is PropertiesDetails propertiesDetails)
             {
-                if (!(await (contentFrame.Content as PropertiesDetails).SaveChangesAsync()))
+                if (!await propertiesDetails.SaveChangesAsync())
+                {
                     return;
+                }
             }
 
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))

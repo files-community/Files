@@ -1,17 +1,9 @@
-﻿using Files.Filesystem;
-using Files.UserControls;
-using Files.View_Models;
-using Files.View_Models.Properties;
+﻿using Files.View_Models.Properties;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Windows.Storage;
-using Windows.ApplicationModel.Core;
-using Windows.System;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Controls;
-using Microsoft.Toolkit.Uwp.Extensions;
 using Files.Dialogs;
 
 namespace Files
@@ -20,7 +12,7 @@ namespace Files
     {
         public PropertiesDetails()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             // For some reason, binding the converter XAML Markup would throw a COM error
             // To work around this, the item template is defined here   
@@ -33,7 +25,7 @@ namespace Files
             if (BaseProperties != null)
             {
                 Stopwatch stopwatch = Stopwatch.StartNew();
-                (BaseProperties as FileProperties).GetSystemFilePropertiesAsync();
+                (BaseProperties as FileProperties).GetSystemFileProperties();
                 stopwatch.Stop();
                 Debug.WriteLine(string.Format("System file properties were obtained in {0} milliseconds", stopwatch.ElapsedMilliseconds));
             }

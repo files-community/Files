@@ -1,5 +1,4 @@
 using ByteSizeLib;
-using Files.Filesystem;
 using Files.Helpers;
 using Files.View_Models.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
@@ -7,15 +6,9 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using Windows.ApplicationModel.Core;
-using Windows.Services.Maps;
-using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
 namespace Files.View_Models

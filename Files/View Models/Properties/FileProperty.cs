@@ -1,12 +1,9 @@
 ﻿using Files.Converters;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
-using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -22,7 +19,8 @@ namespace Files.View_Models.Properties
         /// <summary>
         /// The name to display
         /// </summary>
-        public string Name {
+        public string Name
+        {
             get => NameResource.GetLocalized();
         }
         /// <summary>
@@ -32,7 +30,8 @@ namespace Files.View_Models.Properties
         /// <summary>
         /// The name of the section to display
         /// </summary>
-        public string Section {
+        public string Section
+        {
             get => SectionResource.GetLocalized();
         }
         /// <summary>
@@ -57,7 +56,9 @@ namespace Files.View_Models.Properties
             set
             {
                 if (!IsReadOnly)
+                {
                     Value = ConvertBack(value);
+                }
             }
         }
 
@@ -86,29 +87,28 @@ namespace Files.View_Models.Properties
         /// Should be used in instances where a property does not have a "Property" value, but needs to be idenitfiable in a list of properties
         /// </summary>
         public string ID { get; set; }
-        
+
         public Visibility Visibility { get; set; } = Visibility.Visible;
 
         public FileProperty()
         {
         }
 
-        public FileProperty(string property, string nameResource, string sectionResource)
-        {
-            Property = property;
-            NameResource = nameResource;
-            SectionResource = sectionResource;
-        }
         public FileProperty(string nameResource, string sectionResource)
         {
             NameResource = nameResource;
             SectionResource = sectionResource;
         }
-        public FileProperty(string property, string nameResource, string sectionResource, bool isReadOnly)
+
+        public FileProperty(string property, string nameResource, string sectionResource)
+            : this(nameResource, sectionResource)
         {
             Property = property;
-            NameResource = nameResource;
-            SectionResource = sectionResource;
+        }
+
+        public FileProperty(string property, string nameResource, string sectionResource, bool isReadOnly)
+            : this(property, nameResource, sectionResource)
+        {
             IsReadOnly = isReadOnly;
         }
 
@@ -121,10 +121,14 @@ namespace Files.View_Models.Properties
         {
             Func<object, string> displayFunction;
             if (!string.IsNullOrEmpty(DisplayFunctionName) && DisplayFuncs.TryGetValue(DisplayFunctionName, out displayFunction))
+            {
                 DisplayFunction = displayFunction;
+            }
 
             if (!string.IsNullOrEmpty(Property))
+            {
                 await SetValueFromFile(file);
+            }
         }
 
         /// <summary>
@@ -145,7 +149,9 @@ namespace Files.View_Models.Properties
         public async Task SaveValueToFile(StorageFile file)
         {
             if (!string.IsNullOrEmpty(Property))
+            {
                 return;
+            }
 
             var propsToSave = new Dictionary<string, object>();
             propsToSave.Add(Property, Converter.ConvertBack(Value, null, null, null));
@@ -158,22 +164,32 @@ namespace Files.View_Models.Properties
         /// </summary>
         private IValueConverter GetConverter()
         {
-            if (Value is UInt32)
+            if (Value is uint)
+            {
                 return new UInt32ToString();
+            }
 
-            if (Value is Double)
+            if (Value is double)
+            {
                 return new DoubleToString();
+            }
 
             if (Value is DateTimeOffset)
+            {
                 return new DateTimeOffsetToString();
+            }
 
             if (Value != null && Value.GetType().IsArray)
             {
                 if (Value.GetType().GetElementType().Equals(typeof(string)))
+                {
                     return new StringArrayToString();
+                }
 
                 if (Value.GetType().GetElementType().Equals(typeof(double)))
+                {
                     return new DoubleArrayToString();
+                }
             }
             return null;
         }
@@ -185,10 +201,14 @@ namespace Files.View_Models.Properties
         private string ConvertToString()
         {
             if (DisplayFunction != null)
+            {
                 return DisplayFunction.Invoke(Value);
+            }
 
             if (Converter != null && Value != null)
+            {
                 return Converter.Convert(Value, typeof(string), null, null) as string;
+            }
 
             return Value as string;
         }
@@ -201,14 +221,17 @@ namespace Files.View_Models.Properties
         private object ConvertBack(string value)
         {
             if (Converter != null && value != null)
+            {
                 return Converter.ConvertBack(value, typeof(object), null, null);
+            }
 
             return value;
         }
 
         public async static Task<List<FileProperty>> RetrieveAndInitializePropertiesAsync(StorageFile file)
         {
-            var list = JsonConvert.DeserializeObject<List<FileProperty>>(await FileIO.ReadTextAsync(await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/PropertiesInformation.json"))));
+            var propertiesJsonFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/PropertiesInformation.json"));
+            var list = JsonConvert.DeserializeObject<List<FileProperty>>(await FileIO.ReadTextAsync(propertiesJsonFile));
             foreach (var prop in list)
             {
                 await prop.InitializeProperty(file);
