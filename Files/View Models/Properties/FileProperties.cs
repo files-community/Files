@@ -166,30 +166,13 @@ namespace Files.View_Models.Properties
             list.Find(x => x.ID == "address").Value = await GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
                                                                                            (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 
-            // This code groups the properties by their "section" property. The code is derived from the XAML Controls Gallery ListView with grouped headers sample.
-            var query = from item in list
-                        group item by item.Section into g
-                        orderby g.Key
-                        select new FilePropertySection(g) { Key = g.Key };
+            var query = list
+                .Where(fileProp => !(fileProp.Value == null && fileProp.IsReadOnly))
+                .GroupBy(fileProp => fileProp.Section)
+                .OrderBy(group => group.Key)
+                .Select(group => new FilePropertySection(group) { Key = group.Key })
+                .Where(section => !section.All(fileProp => fileProp.Value == null));
             ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
-
-            // Checks if a section is completley null
-            ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(ViewModel.PropertySections.Where(group => !CheckSectionNull(group)));
-            // Removes all null read-only properties
-            ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(ViewModel.PropertySections.Select(group => new FilePropertySection(group.Where(prop => !(prop.Value == null && prop.IsReadOnly))) { Key = group.Key }));
-        }
-
-        private bool CheckSectionNull(FilePropertySection fileProperties)
-        {
-            foreach (var prop in fileProperties)
-            {
-                if (prop.Value != null)
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
 
         private async Task<string> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)
