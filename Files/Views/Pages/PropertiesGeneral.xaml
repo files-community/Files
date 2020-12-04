@@ -203,7 +203,7 @@
                 <Rectangle
                     Width="15"
                     Height="15"
-                    Margin="5,0"
+                    Margin="0,0,10,0"
                     Fill="DodgerBlue"
                     RadiusX="2"
                     RadiusY="2" />
@@ -231,7 +231,7 @@
                 <Rectangle
                     Width="15"
                     Height="15"
-                    Margin="5,0"
+                    Margin="0,0,10,0"
                     Fill="Gray"
                     RadiusX="2"
                     RadiusY="2" />
