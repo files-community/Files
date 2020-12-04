@@ -196,7 +196,7 @@ namespace Files.View_Models.Properties
         private string ConvertToString()
         {
             // Don't attempt any convert null values
-            if(Value == null)
+            if (Value == null)
             {
                 return null;
             }
