@@ -189,12 +189,18 @@ namespace Files.View_Models.Properties
         /// <returns></returns>
         private string ConvertToString()
         {
+            // Don't attempt any convert null values
+            if(Value == null)
+            {
+                return null;
+            }
+
             if (DisplayFunction != null)
             {
                 return DisplayFunction.Invoke(Value);
             }
 
-            if (Converter != null && Value != null)
+            if (Converter != null)
             {
                 return Converter.Convert(Value, typeof(string), null, null) as string;
             }
