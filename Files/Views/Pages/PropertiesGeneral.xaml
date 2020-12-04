@@ -204,7 +204,9 @@
                     Width="15"
                     Height="15"
                     Margin="5,0"
-                    Fill="DodgerBlue" />
+                    Fill="DodgerBlue"
+                    RadiusX="2"
+                    RadiusY="2" />
                 <TextBlock
                     x:Uid="PropertiesDriveUsedSpace"
                     VerticalAlignment="Center"
@@ -230,7 +232,9 @@
                     Width="15"
                     Height="15"
                     Margin="5,0"
-                    Fill="Gray" />
+                    Fill="Gray"
+                    RadiusX="2"
+                    RadiusY="2" />
                 <TextBlock
                     x:Uid="PropertiesDriveFreeSpace"
                     VerticalAlignment="Center"
