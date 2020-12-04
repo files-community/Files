@@ -12,10 +12,7 @@ namespace Files
     {
         public PropertiesDetails()
         {
-            InitializeComponent();
-
-            // For some reason, binding the converter XAML Markup would throw a COM error
-            // To work around this, the item template is defined here   
+            InitializeComponent(); 
         }
 
         protected override void Properties_Loaded(object sender, RoutedEventArgs e)

@@ -235,6 +235,16 @@ namespace Files.View_Models.Properties
             return value;
         }
 
+        /// <summary>
+        /// This function retrieves the list of properties to display from the PropertiesInformation.json
+        /// file, then intilializes them.
+        /// If you would like to add more properties, define them in the PropertiesInformation file, then
+        /// add the string resources to Strings/en-Us/Resources.resw file
+        /// A full list of file properties and their information can be found here
+        /// <a href="https://docs.microsoft.com/ru-ru/windows/win32/properties/props"/>.
+        /// </summary>
+        /// <param name="file">The file whose properties you wish to obtain</param>
+        /// <returns>A list if FileProperties containing their values</returns>
         public async static Task<List<FileProperty>> RetrieveAndInitializePropertiesAsync(StorageFile file)
         {
             var propertiesJsonFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(@"ms-appx:///Resources/PropertiesInformation.json"));
