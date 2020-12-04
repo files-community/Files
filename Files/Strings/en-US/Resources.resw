@@ -1185,6 +1185,12 @@
   <data name="PropertyColorSpace" xml:space="preserve">
     <value>Color Space</value>
   </data>
+  <data name="PropertyColorSpace_Value0">
+    <value>sRGB</value>
+  </data>
+  <data name="PropertyColorSpace_Value65535">
+    <value>Unspecified</value>
+  </data>
   <data name="PropertyLongitudeDecimal" xml:space="preserve">
     <value>Longitude Decimal</value>
   </data>

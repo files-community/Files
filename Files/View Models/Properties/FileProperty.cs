@@ -96,6 +96,12 @@ namespace Files.View_Models.Properties
 
         public Visibility Visibility { get; set; } = Visibility.Visible;
 
+        /// <summary>
+        /// If a property has an enumerated list of strings to display, add a dictionary in the JSON file that has the number as it's key
+        /// and the string resource as its value
+        /// </summary>
+        public Dictionary<int, string> EnumeratedList { get; set; }
+
         public FileProperty()
         {
         }
@@ -195,6 +201,12 @@ namespace Files.View_Models.Properties
                 return null;
             }
 
+            if(EnumeratedList != null)
+            {
+                var value = "";
+                return EnumeratedList.TryGetValue(Convert.ToInt32(Value), out value) ? value.GetLocalized(): null;
+            }
+
             if (DisplayFunction != null)
             {
                 return DisplayFunction.Invoke(Value);
@@ -205,7 +217,7 @@ namespace Files.View_Models.Properties
                 return Converter.Convert(Value, typeof(string), null, null) as string;
             }
 
-            return Value as string;
+            return Value.ToString();
         }
 
         /// <summary>

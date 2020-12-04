@@ -123,7 +123,11 @@
     "SectionResource": "PropertySectionImage",
     "Property": "System.Image.ColorSpace",
     "IsReadOnly": true,
-    "ID": null
+    "ID": null,
+    "EnumeratedList": {
+      "1": "PropertyColorSpace_Value0",
+      "65535": "PropertyColorSpace_Value65535"
+    }
   },
   {
     "NameResource": "PropertyLongitudeDecimal",
