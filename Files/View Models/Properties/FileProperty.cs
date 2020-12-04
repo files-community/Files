@@ -241,7 +241,7 @@ namespace Files.View_Models.Properties
         /// If you would like to add more properties, define them in the PropertiesInformation file, then
         /// add the string resources to Strings/en-Us/Resources.resw file
         /// A full list of file properties and their information can be found here
-        /// <a href="https://docs.microsoft.com/ru-ru/windows/win32/properties/props"/>.
+        /// <a href="https://docs.microsoft.com/windows/win32/properties/props"/>.
         /// </summary>
         /// <param name="file">The file whose properties you wish to obtain</param>
         /// <returns>A list if FileProperties containing their values</returns>
