@@ -61,7 +61,8 @@ namespace Files
                 // Wait for the current dialog to be closed before continuing the loop
                 // and opening another dialog (attempting to open more than one ContentDialog
                 // at a time will throw an error)
-                while(dialog.IsLoaded);
+                while (dialog.IsLoaded)
+                {}
             }
         }
 
