@@ -197,7 +197,7 @@
             <StackPanel
                 Grid.Row="9"
                 Grid.Column="0"
-                Margin="0,7"
+                Margin="{StaticResource PropertyNameMargin}"
                 Orientation="Horizontal"
                 Visibility="{x:Bind ViewModel.DriveUsedSpaceVisibiity, Mode=OneWay}">
                 <Rectangle
@@ -346,9 +346,9 @@
                 x:Uid="PropertiesAttributes"
                 Grid.Row="18"
                 Grid.Column="0"
-                Margin="{StaticResource PropertyNameMargin}"
                 VerticalAlignment="Center"
                 FontWeight="SemiBold"
+                Style="{StaticResource PropertyName}"
                 Text="Attributes:"
                 Visibility="{x:Bind ViewModel.ItemAttributesVisibility, Mode=OneWay}" />
             <StackPanel
