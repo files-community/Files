@@ -55,7 +55,7 @@
                 Margin="{StaticResource PropertyNameMargin}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
-                <usercontrols:FileIcon ItemSize="70" ViewModel="{x:Bind ViewModel}" />
+                <usercontrols:FileIcon ItemSize="80" ViewModel="{x:Bind ViewModel}" />
             </Grid>
             <TextBox
                 x:Name="ItemFileName"
