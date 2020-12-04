@@ -206,7 +206,7 @@ namespace Files.View_Models.Properties
         /// Converts a string from a text block back to it's original type
         /// </summary>
         /// <param name="value">The input string</param>
-        /// <returns></returns>
+        /// <returns></returns> 
         private object ConvertBack(string value)
         {
             if (Converter != null && value != null)

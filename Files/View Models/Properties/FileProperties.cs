@@ -173,19 +173,10 @@ namespace Files.View_Models.Properties
                         select new FilePropertySection(g) { Key = g.Key };
             ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
 
-            SetVisibilities();
-        }
-
-        private void SetVisibilities()
-        {
-            var propertySections = new List<FilePropertySection>(ViewModel.PropertySections);
-            foreach (var group in propertySections)
-            {
-                if (CheckSectionNull(group))
-                {
-                    ViewModel.PropertySections.Remove(group);
-                }
-            }
+            // Checks if a section is completley null
+            ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(ViewModel.PropertySections.Where(group => !CheckSectionNull(group)));
+            // Removes all null read-only properties
+            ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(ViewModel.PropertySections.Select(group => new FilePropertySection(group.Where(prop => !(prop.Value == null && prop.IsReadOnly))) { Key = group.Key }));
         }
 
         private bool CheckSectionNull(FilePropertySection fileProperties)
