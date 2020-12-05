@@ -33,6 +33,7 @@ using Windows.UI.Xaml.Navigation;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using Interaction = Files.Interacts.Interaction;
 using Windows.ApplicationModel;
+using Files.Views;
 
 namespace Files
 {
@@ -718,6 +719,7 @@ namespace Files
                     Cancellation = new CancellationTokenSource();
                     Token = Cancellation.Token;
                     await Task.Factory.StartNew(() => GetFiles(ClickedItem.ItemPath, Token));
+                    MainPage.MultitaskingControl?.UpdateSelectedTab(new DirectoryInfo(ClickedItem.ItemPath).Name, ClickedItem.ItemPath);
                 }
                 else if (ClickedItem.PrimaryItemAttribute == StorageItemTypes.File && !ClickedItem.ItemPath.Contains("$Recycle.Bin"))
                 {
@@ -763,6 +765,7 @@ namespace Files
                         {
                             if (token.IsCancellationRequested)
                             {
+                                Cancellation.Dispose();
                                 return;
                             }
                             if (item.IsOfType(StorageItemTypes.File))
@@ -787,6 +790,7 @@ namespace Files
 
                         if (token.IsCancellationRequested)
                         {
+                            Cancellation.Dispose();
                             return;
                         }
 
@@ -814,6 +818,7 @@ namespace Files
                         {
                             if (token.IsCancellationRequested)
                             {
+                                Cancellation.Dispose();
                                 return;
                             }
                             if (lv.Items.Cast<ListedItem>().Any(x => x.PrimaryItemAttribute == StorageItemTypes.File))
@@ -951,7 +956,7 @@ namespace Files
                         Cancellation = new CancellationTokenSource();
                         Token = Cancellation.Token;
                         await Task.Factory.StartNew(() => GetFiles(item.ItemPath, Token));
-
+                        MainPage.MultitaskingControl?.UpdateSelectedTab(new DirectoryInfo(item.ItemPath).Name, item.ItemPath);
                         ListViewToWorkWith = lvi;
                     }
                     App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
