@@ -30,10 +30,10 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-using static Files.Helpers.NativeFindStorageItemHelper;
-using Interaction = Files.Interacts.Interaction;
 using Windows.ApplicationModel;
 using Files.Views;
+using Interaction = Files.Interacts.Interaction;
+using static Files.Helpers.NativeFindStorageItemHelper;
 
 namespace Files
 {
@@ -675,8 +675,7 @@ namespace Files
             var clickedlistviewitem1 = (sender as ListView).ContainerFromItem(e.ClickedItem as ListedItem) as ListViewItem;
             try { clickedlistviewitem1.Style = DefaultListView; } catch { }
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-
+            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);  
             // Skip code if the control or shift key is pressed
             if (ctrlPressed || shiftPressed)
             {
@@ -713,7 +712,6 @@ namespace Files
                         }
                         catch
                         {
-
                         }
                     }
                     Cancellation = new CancellationTokenSource();
@@ -736,15 +734,12 @@ namespace Files
 
         private async Task GetFiles(string itemPath, CancellationToken token)
         {
-
             if (token.IsCancellationRequested)
             {
                 return;
             }
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-
-
             var collection = new List<ListedItem>();
             var filelist = new List<ListedItem>();
             var folderlist = new List<ListedItem>();
@@ -758,7 +753,6 @@ namespace Files
                 var items = await folder.GetItemsAsync();
                 if (items.Count > 0)
                 {
-
                     await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
                         foreach (var item in items)
@@ -950,7 +944,6 @@ namespace Files
                             }
                             catch
                             {
-
                             }
                         }
                         Cancellation = new CancellationTokenSource();
@@ -970,7 +963,6 @@ namespace Files
         private ListView ListViewToWorkWith;
 
         public ItemViewModel FilesystemViewModel { get; }
-
         
         private void FirstBlade_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -1031,9 +1023,7 @@ namespace Files
             }
             else
             {
-
             }
         }
-
     }
 }
