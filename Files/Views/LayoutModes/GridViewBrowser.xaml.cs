@@ -459,7 +459,6 @@ namespace Files
 
         private void FileListGridItem_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
-
         }
     }
 }
