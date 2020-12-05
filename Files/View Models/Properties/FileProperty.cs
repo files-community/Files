@@ -201,10 +201,10 @@ namespace Files.View_Models.Properties
                 return null;
             }
 
-            if(EnumeratedList != null)
+            if (EnumeratedList != null)
             {
                 var value = "";
-                return EnumeratedList.TryGetValue(Convert.ToInt32(Value), out value) ? value.GetLocalized(): null;
+                return EnumeratedList.TryGetValue(Convert.ToInt32(Value), out value) ? value.GetLocalized() : null;
             }
 
             if (DisplayFunction != null)
