@@ -1092,4 +1092,10 @@
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
     <value>Neuer Tab</value>
   </data>
+  <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
+    <value>Schreibgeschützt</value>
+  </data>
+  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
+    <value>Versteckt</value>
+  </data>
 </root>

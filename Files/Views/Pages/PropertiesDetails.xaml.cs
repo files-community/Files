@@ -1,13 +1,10 @@
-﻿using Files.Filesystem;
-using Files.View_Models.Properties;
-using Microsoft.Toolkit.Uwp.Helpers;
+﻿using Files.View_Models.Properties;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.System;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Controls;
+using Files.Dialogs;
 
 namespace Files
 {
@@ -15,7 +12,7 @@ namespace Files
     {
         public PropertiesDetails()
         {
-            this.InitializeComponent();
+            InitializeComponent(); 
         }
 
         protected override void Properties_Loaded(object sender, RoutedEventArgs e)
@@ -31,71 +28,45 @@ namespace Files
             }
         }
 
-        private void SetOverviewVisibilities()
+        /// <summary>
+        /// Tries to save changed properties to file.
+        /// </summary>
+        /// <returns>Returns true if properties have been saved successfully.</returns>
+        public async Task<bool> SaveChangesAsync()
         {
-            var name = ViewModel.ItemName.Split(".");
-            var extension = name[name.Length - 1].ToLower();
-
-            if (extension.Contains("png") || extension.Contains("jpg") || extension.Contains("gif") || extension.Contains("jpeg"))
+            while (true)
             {
-                OverviewImage.Visibility = Visibility.Visible;
-            }
-        }
-
-        private string GetStringArray(object array)
-        {
-            if (array == null || !(array is string[]))
-            {
-                return "";
-            }
-
-            var str = "";
-            foreach (var i in array as string[])
-            {
-                str += string.Format("{0}; ", i);
-            }
-
-            return str;
-        }
-
-        private void SetStringArray(string val, string key)
-        {
-            ViewModel.SystemFileProperties_RW[key] = val.Split("; ");
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            SetOverviewVisibilities();
-        }
-
-        private async void OpenMaps_Click(object sender, RoutedEventArgs e)
-        {
-            Uri uri;
-            if (ViewModel.Geopoint != null)
-            {
-                uri = new Uri($"bingmaps:?where={ViewModel.Geopoint.Address.FormattedAddress}");
-            }
-            else
-            {
-                uri = new Uri($"bingmaps:?cp={ViewModel.Latitude}~{ViewModel.Longitude}");
-            }
-            await Launcher.LaunchUriAsync(uri,
-                new LauncherOptions()
+                var dialog = new PropertySaveError();
+                try
                 {
-                    TargetApplicationPackageFamilyName = "Microsoft.WindowsMaps_8wekyb3d8bbwe"
-                });
+                    await (BaseProperties as FileProperties).SyncPropertyChangesAsync();
+                    return true;
+                }
+                catch
+                {
+                    switch (await dialog.ShowAsync())
+                    {
+                        case ContentDialogResult.Primary:
+                            break;
+                        case ContentDialogResult.Secondary:
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+
+                // Wait for the current dialog to be closed before continuing the loop
+                // and opening another dialog (attempting to open more than one ContentDialog
+                // at a time will throw an error)
+                while (dialog.IsLoaded)
+                {}
+            }
         }
 
-        public async Task SaveChangesAsync(ListedItem item)
+        private async void ClearPropertiesConfirmation_Click(object sender, RoutedEventArgs e)
         {
-            await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => (BaseProperties as FileProperties).SyncPropertyChanges());
-        }
-
-        private async void ClearPersonalInformation_Click(object sender, RoutedEventArgs e)
-        {
-            ClearPersonalInformationFlyout.Hide();
-            await (BaseProperties as FileProperties).ClearPersonalInformationAsync();
+            ClearPropertiesFlyout.Hide();
+            await (BaseProperties as FileProperties).ClearPropertiesAsync();
         }
     }
 }

@@ -1,8 +1,12 @@
+﻿using ByteSizeLib;
+using Files.Enums;
+using Files.Helpers;
 ﻿using Files.Enums;
 using Files.Filesystem.Cloud;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
+using System.Diagnostics;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -172,16 +176,6 @@ namespace Files.Filesystem
         }
 
         private DateTimeOffset _itemDateAccessedReal;
-
-        public bool IsImage()
-        {
-            if (FileExtension != null)
-            {
-                string lower = FileExtension.ToLower();
-                return lower.Contains("png") || lower.Contains("jpg") || lower.Contains("gif") || lower.Contains("jpeg");
-            }
-            return false;
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ListedItem" /> class, optionally with an explicitly-specified dateReturnFormat.

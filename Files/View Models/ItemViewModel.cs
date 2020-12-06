@@ -1761,7 +1761,6 @@ namespace Files.Filesystem
         public async Task AddFileAsync(StorageFile file, string dateReturnFormat, bool suppressThumbnailLoading = false)
         {
             var basicProperties = await file.GetBasicPropertiesAsync();
-
             // Display name does not include extension
             var itemName = string.IsNullOrEmpty(file.DisplayName) || shouldDisplayFileExtensions ?
                 file.Name : file.DisplayName;
@@ -1857,7 +1856,7 @@ namespace Files.Filesystem
                     ItemType = itemType,
                     ItemPath = itemPath,
                     FileSize = itemSize,
-                    FileSizeBytes = (long)itemSizeBytes
+                    FileSizeBytes = (long)itemSizeBytes,
                 });
             }
         }
