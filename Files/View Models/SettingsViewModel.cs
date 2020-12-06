@@ -554,7 +554,7 @@ namespace Files.View_Models
         {
             LayoutMode = 2; // Grid View
 
-            GridViewSize = 375; // Size
+            GridViewSize = Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_LARGE; // Size
 
             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
@@ -563,7 +563,7 @@ namespace Files.View_Models
         {
             LayoutMode = 2; // Grid View
 
-            GridViewSize = 250; // Size
+            GridViewSize = Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_MEDIUM; // Size
 
             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
@@ -572,7 +572,7 @@ namespace Files.View_Models
         {
             LayoutMode = 2; // Grid View
 
-            GridViewSize = 125; // Size
+            GridViewSize = Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_SMALL; // Size
 
             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
@@ -593,10 +593,10 @@ namespace Files.View_Models
 
         private void DetectGridViewSize()
         {
-            _GridViewSize = Get(125, "GridViewSize"); // Get GridView Size
+            _GridViewSize = Get(Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_SMALL, "GridViewSize"); // Get GridView Size
         }
 
-        private int _GridViewSize = 125; // Default Size
+        private int _GridViewSize = Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_SMALL; // Default Size
 
         public int GridViewSize
         {
@@ -611,7 +611,7 @@ namespace Files.View_Models
                         Set(0, "LayoutMode");
                         LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                     }
-                    else if (LayoutMode == 2 && value < 125) // Size down from grid to tiles
+                    else if (LayoutMode == 2 && value < Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_SMALL) // Size down from grid to tiles
                     {
                         LayoutMode = 1;
                         Set(1, "LayoutMode");
@@ -619,7 +619,7 @@ namespace Files.View_Models
                     }
                     else if (LayoutMode != 0) // Resize grid view
                     {
-                        _GridViewSize = (value >= 125) ? value : 125; // Set grid size to allow immediate UI update
+                        _GridViewSize = (value >= Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_SMALL) ? value : Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_SMALL; // Set grid size to allow immediate UI update
                         Set(value);
 
                         if (LayoutMode != 2) // Only update layout mode if it isn't already in grid view
@@ -642,7 +642,7 @@ namespace Files.View_Models
                     }
                     else // Size up from tiles to grid
                     {
-                        _GridViewSize = (LayoutMode == 1) ? 125 : (value <= 375) ? value : 375; // Set grid size to allow immediate UI update
+                        _GridViewSize = (LayoutMode == 1) ? Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_SMALL : (value <= Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_LARGE) ? value : Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_LARGE; // Set grid size to allow immediate UI update
                         Set(_GridViewSize);
 
                         if (LayoutMode != 2) // Only update layout mode if it isn't already in grid view
@@ -652,7 +652,7 @@ namespace Files.View_Models
                             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                         }
 
-                        if (value < 375) // Don't request a grid resize if it is already at the max size (375)
+                        if (value < Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_LARGE) // Don't request a grid resize if it is already at the max size
                         {
                             GridViewSizeChangeRequested?.Invoke(this, EventArgs.Empty);
                         }
