@@ -6,9 +6,9 @@
         {
             public static class GridViewBrowser
             {
-                public const int GRIDVIEW_SIZE_LARGE = 225;
+                public const int GRIDVIEW_SIZE_LARGE = 220;
 
-                public const int GRIDVIEW_SIZE_MEDIUM = 150;
+                public const int GRIDVIEW_SIZE_MEDIUM = 160;
 
                 public const int GRIDVIEW_SIZE_SMALL = 100;
             }
