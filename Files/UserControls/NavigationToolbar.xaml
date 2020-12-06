@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="Files.UserControls.ModernNavigationToolbar"
+    x:Class="Files.UserControls.NavigationToolbar"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"

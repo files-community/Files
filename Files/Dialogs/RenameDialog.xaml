@@ -13,11 +13,11 @@
     DefaultButton="Primary"
     KeyDown="NameDialog_KeyDown"
     PrimaryButtonClick="NameDialog_PrimaryButtonClick"
-    PrimaryButtonText="Set Name"
     PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
+    PrimaryButtonText="Set Name"
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
-    SecondaryButtonText="Cancel"
     SecondaryButtonStyle="{StaticResource DefaultButtonStyle}"
+    SecondaryButtonText="Cancel"
     mc:Ignorable="d">
 
     <Grid MinWidth="300">
