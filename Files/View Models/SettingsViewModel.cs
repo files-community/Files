@@ -593,17 +593,17 @@ namespace Files.View_Models
 
         private void DetectGridViewSize()
         {
-            _GridViewSize = Get(Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_SMALL, "GridViewSize"); // Get GridView Size
+            gridViewSize = Get(Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_SMALL, "GridViewSize"); // Get GridView Size
         }
 
-        private int _GridViewSize = Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_SMALL; // Default Size
+        private int gridViewSize = Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_SMALL; // Default Size
 
         public int GridViewSize
         {
-            get => _GridViewSize;
+            get => gridViewSize;
             set
             {
-                if (value < _GridViewSize) // Size down
+                if (value < gridViewSize) // Size down
                 {
                     if (LayoutMode == 1) // Size down from tiles to list
                     {
@@ -619,7 +619,7 @@ namespace Files.View_Models
                     }
                     else if (LayoutMode != 0) // Resize grid view
                     {
-                        _GridViewSize = (value >= Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_SMALL) ? value : Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_SMALL; // Set grid size to allow immediate UI update
+                        gridViewSize = (value >= Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_SMALL) ? value : Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_SMALL; // Set grid size to allow immediate UI update
                         Set(value);
 
                         if (LayoutMode != 2) // Only update layout mode if it isn't already in grid view
@@ -642,8 +642,8 @@ namespace Files.View_Models
                     }
                     else // Size up from tiles to grid
                     {
-                        _GridViewSize = (LayoutMode == 1) ? Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_SMALL : (value <= Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_LARGE) ? value : Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_LARGE; // Set grid size to allow immediate UI update
-                        Set(_GridViewSize);
+                        gridViewSize = (LayoutMode == 1) ? Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_SMALL : (value <= Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_LARGE) ? value : Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_LARGE; // Set grid size to allow immediate UI update
+                        Set(gridViewSize);
 
                         if (LayoutMode != 2) // Only update layout mode if it isn't already in grid view
                         {
