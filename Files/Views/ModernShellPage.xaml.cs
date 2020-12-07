@@ -205,6 +205,15 @@ namespace Files.Views.Pages
         {
             var invokedItemContainer = e.InvokedItemContainer;
 
+            // All items must have DataContext except Settings item
+            if (invokedItemContainer.DataContext is null)
+            {
+                Frame rootFrame = Window.Current.Content as Frame;
+                rootFrame.Navigate(typeof(Settings));
+
+                return;
+            }
+
             string navigationPath; // path to navigate
             Type sourcePageType = null; // type of page to navigate
 
