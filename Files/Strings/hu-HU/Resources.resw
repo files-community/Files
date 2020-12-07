@@ -1092,4 +1092,10 @@
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
     <value>Új lap</value>
   </data>
+  <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
+    <value>Csak olvasható</value>
+  </data>
+  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
+    <value>Rejtett</value>
+  </data>
 </root>

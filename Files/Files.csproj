@@ -157,6 +157,7 @@
     <Compile Include="Controllers\IJson.cs" />
     <Compile Include="Controllers\SidebarPinnedController.cs" />
     <Compile Include="Converters\DateTimeOffsetToString.cs" />
+    <Compile Include="Converters\DoubleArrayToString.cs" />
     <Compile Include="Converters\DoubleToString.cs" />
     <Compile Include="Converters\MultiBooleanConverter.cs" />
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
@@ -176,6 +177,7 @@
     <Compile Include="Dialogs\RestartDialog.xaml.cs">
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View Models\Properties\FileProperty.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Filesystem\Cloud\CloudDriveSyncStatusUI.cs" />
@@ -197,7 +199,6 @@
     <Compile Include="Filesystem\FilesystemOperations\Helpers\IFilesystemHelpers.cs" />
     <Compile Include="Filesystem\FilesystemOperations\IFilesystemOperations.cs" />
     <Compile Include="Filesystem\FilesystemOperations\PathWithType.cs" />
-    <Compile Include="Filesystem\PropertiesData.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\FilesystemResult.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\StorageFileExtensions.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\IStorageItemWithPath.cs" />
@@ -214,6 +215,7 @@
     <Compile Include="Helpers\StorageItemHelpers.cs" />
     <Compile Include="Helpers\DialogDisplayHelper.cs" />
     <Compile Include="Helpers\DispatcherHelper.cs" />
+    <Compile Include="View Models\Properties\FilePropertySection.cs" />
     <Compile Include="Helpers\ArrayHelpers.cs" />
     <Compile Include="Helpers\ItemsDataTemplateSelector.cs" />
     <Compile Include="Helpers\JumpListManager.cs" />
@@ -240,8 +242,8 @@
     <Compile Include="UserControls\MenuFlyoutItemWithImage.xaml.cs">
       <DependentUpon>MenuFlyoutItemWithImage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\ModernNavigationToolbar.xaml.cs">
-      <DependentUpon>ModernNavigationToolbar.xaml</DependentUpon>
+    <Compile Include="UserControls\NavigationToolbar.xaml.cs">
+      <DependentUpon>NavigationToolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MultitaskingControl\BaseMultitaskingControl.cs" />
     <Compile Include="UserControls\MultitaskingControl\HorizontalMultitaskingControl.xaml.cs">
@@ -275,11 +277,11 @@
     <Compile Include="Enums\WallpaperType.cs" />
     <Compile Include="Filesystem\DriveItem.cs" />
     <Compile Include="Filesystem\Drives.cs" />
+    <Compile Include="Dialogs\PropertySaveError.xaml.cs">
+      <DependentUpon>PropertySaveError.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MultitaskingControl\TabItem\ITabItem.cs" />
     <Compile Include="UserControls\MultitaskingControl\TabItem\ITabItemControl.cs" />
-    <Compile Include="UserControls\PropertyListItem.xaml.cs">
-      <DependentUpon>PropertyListItem.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\Selection\RectangleSelection.cs" />
     <Compile Include="UserControls\Selection\RectangleSelection_DataGrid.cs" />
     <Compile Include="UserControls\Selection\RectangleSelection_ListViewBase.cs" />
@@ -478,6 +480,9 @@
     <Content Include="Assets\WSL\ubuntu.svg" />
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
+    <None Include="Resources\PropertiesInformation.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <PRIResource Include="Strings\hu-HU\Resources.resw" />
     <PRIResource Include="Strings\or-IN\Resources.resw" />
     <PRIResource Include="Strings\hi-IN\Resources.resw" />
@@ -539,7 +544,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\ModernNavigationToolbar.xaml">
+    <Page Include="UserControls\NavigationToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -567,7 +572,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\PropertyListItem.xaml">
+    <Page Include="Dialogs\PropertySaveError.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -743,10 +748,10 @@
       <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.7.5</Version>
+      <Version>4.7.6</Version>
     </PackageReference>
     <PackageReference Include="NLog.Schema">
-      <Version>4.7.5</Version>
+      <Version>4.7.6</Version>
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_green">
       <Version>2.0.4</Version>

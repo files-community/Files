@@ -81,15 +81,15 @@
         <KeyboardAccelerator
             Key="Z"
             Invoked="KeyboardAccelerator_Invoked"
-            Modifiers="Control"/>
+            Modifiers="Control" />
         <KeyboardAccelerator
             Key="Y"
             Invoked="KeyboardAccelerator_Invoked"
-            Modifiers="Control"/>
+            Modifiers="Control" />
         <KeyboardAccelerator
             Key="T"
             Invoked="KeyboardAccelerator_Invoked"
-            Modifiers="Control,Shift"/>
+            Modifiers="Control,Shift" />
         <KeyboardAccelerator
             Key="N"
             Invoked="KeyboardAccelerator_Invoked"
@@ -189,7 +189,7 @@
                         Loaded="SmallWindowTitlebar_Loaded" />
 
                     <Grid Grid.Row="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                        <controls1:ModernNavigationToolbar
+                        <controls1:NavigationToolbar
                             x:Name="NavToolbar"
                             Grid.Column="0"
                             Margin="10"
