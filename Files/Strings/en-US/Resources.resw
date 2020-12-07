@@ -363,9 +363,6 @@
   <data name="SidebarVideos" xml:space="preserve">
     <value>Videos</value>
   </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>Settings</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Sort by</value>
   </data>

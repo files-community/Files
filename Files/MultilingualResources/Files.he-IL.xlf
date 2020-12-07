@@ -310,10 +310,6 @@
           <source>Videos</source>
           <target state="translated" state-qualifier="tm-suggestion">סרטוני וידאו</target>
         </trans-unit>
-        <trans-unit id="SidebarSettings.Text" translate="yes" xml:space="preserve">
-          <source>Settings</source>
-          <target state="translated" state-qualifier="tm-suggestion">הגדרות</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
           <source>Sort by</source>
           <target state="translated" state-qualifier="tm-suggestion">מיין לפי</target>

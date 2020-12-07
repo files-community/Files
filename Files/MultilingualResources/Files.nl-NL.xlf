@@ -349,10 +349,6 @@
           <source>List View</source>
           <target state="translated" state-qualifier="tm-suggestion">Lijstweergave</target>
         </trans-unit>
-        <trans-unit id="SidebarSettings.Text" translate="yes" xml:space="preserve">
-          <source>Settings</source>
-          <target state="translated" state-qualifier="tm-suggestion">Instellingen</target>
-        </trans-unit>
         <trans-unit id="nameColumn.Header" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="translated">Naam</target>

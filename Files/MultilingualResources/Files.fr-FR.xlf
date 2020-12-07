@@ -342,10 +342,6 @@
           <source>List View</source>
           <target state="translated">Vue liste</target>
         </trans-unit>
-        <trans-unit id="SidebarSettings.Text" translate="yes" xml:space="preserve">
-          <source>Settings</source>
-          <target state="translated" state-qualifier="tm-suggestion">Paramètres</target>
-        </trans-unit>
         <trans-unit id="PropertiesItemMD5Hash.Text" translate="yes" xml:space="preserve">
           <source>MD5Hash:</source>
           <target state="final">Hash MD5 :</target>

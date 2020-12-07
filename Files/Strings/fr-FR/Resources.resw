@@ -264,9 +264,6 @@
   <data name="StatusBarControlListView.Text" xml:space="preserve">
     <value>Vue liste</value>
   </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>Paramètres</value>
-  </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>Hash MD5 :</value>
   </data>

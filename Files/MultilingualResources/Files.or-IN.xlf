@@ -317,10 +317,6 @@
           <source>Videos</source>
           <target state="translated">ଚଳଚ୍ଚିତ୍ରଗୁଡିକ</target>
         </trans-unit>
-        <trans-unit id="SidebarSettings.Text" translate="yes" xml:space="preserve">
-          <source>Settings</source>
-          <target state="translated">ସେଟିଂସମୂହ</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
           <source>Sort by</source>
           <target state="translated">ଦ୍ୱାରା କ୍ରମ</target>

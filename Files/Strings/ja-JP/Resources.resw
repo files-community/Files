@@ -234,9 +234,6 @@
   <data name="SidebarVideos" xml:space="preserve">
     <value>ビデオ</value>
   </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>設定</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>並べ替え</value>
   </data>

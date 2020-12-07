@@ -240,9 +240,6 @@
   <data name="SidebarVideos" xml:space="preserve">
     <value>चलचित्र</value>
   </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>सेटिंग्स</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>द्वारा सॉर्ट करें</value>
   </data>

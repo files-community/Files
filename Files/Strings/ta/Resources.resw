@@ -231,9 +231,6 @@
   <data name="SidebarVideos" xml:space="preserve">
     <value>காணொளிகள்</value>
   </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>அமைப்புகள்</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>இதன்படி வரிசைப்படுத்து</value>
   </data>

@@ -264,9 +264,6 @@
   <data name="StatusBarControlListView.Text" xml:space="preserve">
     <value>Lijstweergave</value>
   </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>Instellingen</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Naam</value>
   </data>

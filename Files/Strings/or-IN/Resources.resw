@@ -240,9 +240,6 @@
   <data name="SidebarVideos" xml:space="preserve">
     <value>ଚଳଚ୍ଚିତ୍ରଗୁଡିକ</value>
   </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>ସେଟିଂସମୂହ</value>
-  </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>ଦ୍ୱାରା କ୍ରମ</value>
   </data>
