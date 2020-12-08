@@ -1062,4 +1062,313 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Expulsar</value>
   </data>
+  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+    <value>Duplicar pestaña</value>
+  </data>
+  <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
+    <value>Mover a una nueva ventana</value>
+  </data>
+  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+    <value>Nueva pestaña</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
+    <value>Solo lectura</value>
+  </data>
+  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
+    <value>Oculto</value>
+  </data>
+  <data name="PropertyRatingText" xml:space="preserve">
+    <value>Clasificación</value>
+  </data>
+  <data name="PropertyItemFolderPathDisplay" xml:space="preserve">
+    <value>Ruta de acceso a la carpeta</value>
+  </data>
+  <data name="PropertyItemTypeText" xml:space="preserve">
+    <value>Tipo de elemento</value>
+  </data>
+  <data name="PropertyTitle" xml:space="preserve">
+    <value>Título</value>
+  </data>
+  <data name="PropertySubject" xml:space="preserve">
+    <value>Asunto</value>
+  </data>
+  <data name="PropertyComment" xml:space="preserve">
+    <value>Comentarios</value>
+  </data>
+  <data name="PropertyCopyright" xml:space="preserve">
+    <value>Copyright</value>
+  </data>
+  <data name="PropertyDateCreated" xml:space="preserve">
+    <value>Fecha de creación</value>
+  </data>
+  <data name="PropertyDateModified" xml:space="preserve">
+    <value>Fecha de modificación</value>
+  </data>
+  <data name="PropertyBitDepth" xml:space="preserve">
+    <value>Profundidad en bits</value>
+  </data>
+  <data name="PropertyDimensions" xml:space="preserve">
+    <value>Dimensiones</value>
+  </data>
+  <data name="PropertyHorizontalResolution" xml:space="preserve">
+    <value>Resolución horizontal</value>
+  </data>
+  <data name="PropertyVerticalResolution" xml:space="preserve">
+    <value>Resolución vertical</value>
+  </data>
+  <data name="PropertyCompressionText" xml:space="preserve">
+    <value>Compresión</value>
+  </data>
+  <data name="PropertyHorizontalSize" xml:space="preserve">
+    <value>Ancho</value>
+  </data>
+  <data name="PropertyVerticalSize" xml:space="preserve">
+    <value>Alto</value>
+  </data>
+  <data name="PropertyLatitude" xml:space="preserve">
+    <value>Latitud</value>
+  </data>
+  <data name="PropertyLatitudeDecimal" xml:space="preserve">
+    <value>Latitud Decimal</value>
+  </data>
+  <data name="PropertyLatitudeRef" xml:space="preserve">
+    <value>Latitud Ref</value>
+  </data>
+  <data name="PropertyLongitude" xml:space="preserve">
+    <value>Longitud</value>
+  </data>
+  <data name="PropertyLongitudeDecimal" xml:space="preserve">
+    <value>Longitud Decimal</value>
+  </data>
+  <data name="PropertyLongitudeRef" xml:space="preserve">
+    <value>Longitud Ref</value>
+  </data>
+  <data name="PropertyAltitude" xml:space="preserve">
+    <value>Altitud</value>
+  </data>
+  <data name="PropertyCameraManufacturer" xml:space="preserve">
+    <value>Fabricante de cámara</value>
+  </data>
+  <data name="PropertyCameraModel" xml:space="preserve">
+    <value>Modelo de cámara</value>
+  </data>
+  <data name="PropertyExposureTime" xml:space="preserve">
+    <value>Tiempo de exposición</value>
+  </data>
+  <data name="PropertyFocalLength" xml:space="preserve">
+    <value>Distancia focal</value>
+  </data>
+  <data name="PropertyAperture" xml:space="preserve">
+    <value>Apertura máxima</value>
+  </data>
+  <data name="PropertyDateTaken" xml:space="preserve">
+    <value>Fecha de captura</value>
+  </data>
+  <data name="PropertyChannelCount" xml:space="preserve">
+    <value>Canales</value>
+  </data>
+  <data name="PropertyEncodingBitrate" xml:space="preserve">
+    <value>Velocidad de bits</value>
+  </data>
+  <data name="PropertyCompression" xml:space="preserve">
+    <value>Compresión</value>
+  </data>
+  <data name="PropertyFormat" xml:space="preserve">
+    <value>Formato</value>
+  </data>
+  <data name="PropertySampleRate" xml:space="preserve">
+    <value>Velocidad de muestra de sonido</value>
+  </data>
+  <data name="PropertyDisplayArtist" xml:space="preserve">
+    <value>Intérpretes colaboradores</value>
+  </data>
+  <data name="PropertyAlbumArtist" xml:space="preserve">
+    <value>Intérprete del álbum</value>
+  </data>
+  <data name="PropertyAlbumTitle" xml:space="preserve">
+    <value>Álbum</value>
+  </data>
+  <data name="PropertyArtist" xml:space="preserve">
+    <value>Intérprete</value>
+  </data>
+  <data name="PropertyBeatsPerMinute" xml:space="preserve">
+    <value>Pulsaciones por minuto</value>
+  </data>
+  <data name="PropertyComposer" xml:space="preserve">
+    <value>Compositores</value>
+  </data>
+  <data name="PropertyConductor" xml:space="preserve">
+    <value>Conductores</value>
+  </data>
+  <data name="PropertyDiscNumber" xml:space="preserve">
+    <value>Número de disco</value>
+  </data>
+  <data name="PropertyGenre" xml:space="preserve">
+    <value>Género</value>
+  </data>
+  <data name="PropertyTrackNumber" xml:space="preserve">
+    <value>Número de pista</value>
+  </data>
+  <data name="PropertyDuration" xml:space="preserve">
+    <value>Duración</value>
+  </data>
+  <data name="PropertyFrameCount" xml:space="preserve">
+    <value>Velocidad fotograma</value>
+  </data>
+  <data name="PropertyProtectionType" xml:space="preserve">
+    <value>Tipo de protección</value>
+  </data>
+  <data name="PropertyAuthorUrl" xml:space="preserve">
+    <value>Dirección URL del autor</value>
+  </data>
+  <data name="PropertyContentDistributor" xml:space="preserve">
+    <value>Proveedor de contenido</value>
+  </data>
+  <data name="PropertyDateReleased" xml:space="preserve">
+    <value>Fecha de lanzamiento</value>
+  </data>
+  <data name="PropertySeriesName" xml:space="preserve">
+    <value>Nombre de la serie</value>
+  </data>
+  <data name="PropertySeasonNumber" xml:space="preserve">
+    <value>Número de temporada</value>
+  </data>
+  <data name="PropertyEpisodeNumber" xml:space="preserve">
+    <value>Número de episodio</value>
+  </data>
+  <data name="PropertyProducer" xml:space="preserve">
+    <value>Productor</value>
+  </data>
+  <data name="PropertyPromotionUrl" xml:space="preserve">
+    <value>Dirección URL de promoción</value>
+  </data>
+  <data name="PropertyProviderStyle" xml:space="preserve">
+    <value>Estilo de música</value>
+  </data>
+  <data name="PropertyPublisher" xml:space="preserve">
+    <value>Editora</value>
+  </data>
+  <data name="PropertyUserWebUrl" xml:space="preserve">
+    <value>Dirección URL</value>
+  </data>
+  <data name="PropertyWriter" xml:space="preserve">
+    <value>Escritor</value>
+  </data>
+  <data name="PropertyYear" xml:space="preserve">
+    <value>Año</value>
+  </data>
+  <data name="PropertySectionCore" xml:space="preserve">
+    <value>Núcleo</value>
+  </data>
+  <data name="PropertySectionImage" xml:space="preserve">
+    <value>Imagen</value>
+  </data>
+  <data name="PropertySectionPhoto" xml:space="preserve">
+    <value>Foto</value>
+  </data>
+  <data name="PropertySectionGPS" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="PropertySectionMedia" xml:space="preserve">
+    <value>Multimedia</value>
+  </data>
+  <data name="PropertySectionAudio" xml:space="preserve">
+    <value>Audio</value>
+  </data>
+  <data name="PropertySectionMusic" xml:space="preserve">
+    <value>Música</value>
+  </data>
+  <data name="PropertyAddress" xml:space="preserve">
+    <value>Dirección</value>
+  </data>
+  <data name="PropertyColorSpace" xml:space="preserve">
+    <value>Espacio de color</value>
+  </data>
+  <data name="PropertyPeopleNames" xml:space="preserve">
+    <value>Nombre de personas </value>
+  </data>
+  <data name="PropertyContributor" xml:space="preserve">
+    <value>Contribuidor</value>
+  </data>
+  <data name="PropertyLastAuthor" xml:space="preserve">
+    <value>Último autor</value>
+  </data>
+  <data name="PropertyRevisionNumber" xml:space="preserve">
+    <value>Número de revisión</value>
+  </data>
+  <data name="PropertyVersion" xml:space="preserve">
+    <value>Versión</value>
+  </data>
+  <data name="PropertySectionVideo" xml:space="preserve">
+    <value>Vídeo</value>
+  </data>
+  <data name="PropertyDateSaved" xml:space="preserve">
+    <value>Fecha de guardado</value>
+  </data>
+  <data name="PropertyDatePrinted" xml:space="preserve">
+    <value>Fecha impresa</value>
+  </data>
+  <data name="PropertyTotalEditingTime" xml:space="preserve">
+    <value>Tiempo total de edición</value>
+  </data>
+  <data name="PropertyTemplate" xml:space="preserve">
+    <value>Plantilla</value>
+  </data>
+  <data name="PropertyWordCount" xml:space="preserve">
+    <value>Palabras</value>
+  </data>
+  <data name="PropertyCharacterCount" xml:space="preserve">
+    <value>Caracteres</value>
+  </data>
+  <data name="PropertyLineCount" xml:space="preserve">
+    <value>Líneas</value>
+  </data>
+  <data name="PropertyParagraphCount" xml:space="preserve">
+    <value>Párrafos</value>
+  </data>
+  <data name="PropertyPageCount" xml:space="preserve">
+    <value>Páginas</value>
+  </data>
+  <data name="PropertySlideCount" xml:space="preserve">
+    <value>Diapositiva</value>
+  </data>
+  <data name="PropertyFrameRate" xml:space="preserve">
+    <value>Fotogramas</value>
+  </data>
+  <data name="PropertyFrameWidth" xml:space="preserve">
+    <value>Ancho de fotograma</value>
+  </data>
+  <data name="PropertyFrameHeight" xml:space="preserve">
+    <value>Alto de fotograma</value>
+  </data>
+  <data name="PropertyOrientation" xml:space="preserve">
+    <value>Orientación</value>
+  </data>
+  <data name="PropertySectionDocument" xml:space="preserve">
+    <value>Documento</value>
+  </data>
+  <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Reintentar</value>
+  </data>
+  <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Cerrar de todos modos</value>
+  </data>
+  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
+    <value>Hubo un problema al guardar algunas propiedades.</value>
+  </data>
+  <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
+    <value>Algunas propiedades pueden contener información personal.</value>
+  </data>
+  <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
+    <value>Quitar</value>
+  </data>
+  <data name="ClearPropertiesButton.Content" xml:space="preserve">
+    <value>Quitar todas las propiedades</value>
+  </data>
 </root>
