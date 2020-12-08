@@ -264,9 +264,6 @@
   <data name="StatusBarControlListView.Text" xml:space="preserve">
     <value>Vue liste</value>
   </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>Paramètres</value>
-  </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>Hash MD5 :</value>
   </data>
@@ -926,9 +923,6 @@
   </data>
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Remonter d'un dossier</value>
-  </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Paramètres</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
     <value>Langue de l'application</value>

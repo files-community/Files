@@ -264,9 +264,6 @@
   <data name="StatusBarControlListView.Text" xml:space="preserve">
     <value>Lijstweergave</value>
   </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>Instellingen</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Naam</value>
   </data>
@@ -863,8 +860,5 @@
   </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>Vooruit gaan</value>
-  </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Instellingen</value>
   </data>
 </root>

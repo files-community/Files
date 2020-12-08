@@ -264,9 +264,6 @@
   <data name="StatusBarControlListView.Text" xml:space="preserve">
     <value>Details</value>
   </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>Einstellungen</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Name</value>
   </data>
@@ -929,9 +926,6 @@
   </data>
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>Vertikale Tab-Ansicht</value>
-  </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Einstellungen</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
     <value>Sprache</value>
