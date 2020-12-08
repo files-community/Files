@@ -12,6 +12,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 
 namespace Files.Controls
 {
@@ -60,6 +61,7 @@ namespace Files.Controls
         public SidebarControl()
         {
             this.InitializeComponent();
+            SidebarNavView.Loaded += SidebarNavView_Loaded;
         }
 
         private INavigationControlItem _SelectedSidebarItem;
@@ -467,6 +469,20 @@ namespace Files.Controls
         private async void EjectDevice_Click(object sender, RoutedEventArgs e)
         {
             await Interaction.EjectDeviceAsync(App.RightClickedItem.Path);
+        }
+
+        private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
+        {
+            var settings = (Microsoft.UI.Xaml.Controls.NavigationViewItem)SidebarNavView.SettingsItem;
+            settings.SelectsOnInvoked = false;
+            settings.Icon = new FontIcon()
+            {
+                FontSize = 18,
+                FontFamily = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                Glyph = "\xEB5D"
+            };
+
+            SidebarNavView.Loaded -= SidebarNavView_Loaded;
         }
     }
 

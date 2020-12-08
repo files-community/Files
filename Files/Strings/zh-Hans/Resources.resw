@@ -264,9 +264,6 @@
   <data name="StatusBarControlListView.Text" xml:space="preserve">
     <value>列表</value>
   </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>设置</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>名称</value>
   </data>
@@ -929,9 +926,6 @@
   </data>
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>垂直排列标签页</value>
-  </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>设置</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
     <value>应用语言</value>

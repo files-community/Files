@@ -264,9 +264,6 @@
   <data name="StatusBarControlListView.Text" xml:space="preserve">
     <value>Liste Görünümü</value>
   </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>Özellikler</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Adı</value>
   </data>
@@ -692,8 +689,5 @@
   </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>İleri Git</value>
-  </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Ayarlar</value>
   </data>
 </root>

@@ -264,9 +264,6 @@
   <data name="StatusBarControlListView.Text" xml:space="preserve">
     <value>Vue liste</value>
   </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>Paramètres</value>
-  </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>Hash MD5 :</value>
   </data>
@@ -927,9 +924,6 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>Remonter d'un dossier</value>
   </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Paramètres</value>
-  </data>
   <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
     <value>Langue de l'application</value>
   </data>
@@ -1076,5 +1070,74 @@
   </data>
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
     <value>Nouvel onglet</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
+    <value>Lecture seule</value>
+  </data>
+  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
+    <value>Caché</value>
+  </data>
+  <data name="PropertyTitle" xml:space="preserve">
+    <value>Titre</value>
+  </data>
+  <data name="PropertyBitDepth" xml:space="preserve">
+    <value>Profondeur de couleur</value>
+  </data>
+  <data name="PropertyDimensions" xml:space="preserve">
+    <value>Dimensions</value>
+  </data>
+  <data name="PropertyHorizontalResolution" xml:space="preserve">
+    <value>Résolution horizontale</value>
+  </data>
+  <data name="PropertyVerticalResolution" xml:space="preserve">
+    <value>Résolution verticale</value>
+  </data>
+  <data name="PropertyLatitude" xml:space="preserve">
+    <value>Latitude</value>
+  </data>
+  <data name="PropertyLongitude" xml:space="preserve">
+    <value>Longitude</value>
+  </data>
+  <data name="PropertyCameraManufacturer" xml:space="preserve">
+    <value>Marque d'appareil</value>
+  </data>
+  <data name="PropertyCameraModel" xml:space="preserve">
+    <value>Modèle d'appareil</value>
+  </data>
+  <data name="PropertyExposureTime" xml:space="preserve">
+    <value>Temps d'exposition</value>
+  </data>
+  <data name="PropertyFocalLength" xml:space="preserve">
+    <value>Distance focale</value>
+  </data>
+  <data name="PropertyAperture" xml:space="preserve">
+    <value>Ouverture</value>
+  </data>
+  <data name="PropertySectionVideo" xml:space="preserve">
+    <value>Vidéo</value>
+  </data>
+  <data name="PropertyOrientation" xml:space="preserve">
+    <value>Orientation</value>
+  </data>
+  <data name="PropertySectionDocument" xml:space="preserve">
+    <value>Document</value>
+  </data>
+  <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
+    <value>Erreur</value>
+  </data>
+  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Réessayer</value>
+  </data>
+  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="ClearPropertiesButton.Content" xml:space="preserve">
+    <value>Supprimer les propriétés</value>
+  </data>
+  <data name="PropertyColorSpace_Value0" xml:space="preserve">
+    <value>sRGB</value>
+  </data>
+  <data name="PropertyColorSpace_Value65535" xml:space="preserve">
+    <value>Non spécifié</value>
   </data>
 </root>
