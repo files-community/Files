@@ -6,11 +6,11 @@
         {
             public static class GridViewBrowser
             {
-                public const int GRIDVIEW_SIZE_LARGE = 220;
+                public const int GridViewSizeLarge = 220;
 
-                public const int GRIDVIEW_SIZE_MEDIUM = 160;
+                public const int GridViewSizeMedium = 160;
 
-                public const int GRIDVIEW_SIZE_SMALL = 100;
+                public const int GridViewSizeSmall = 100;
             }
 
             public static class GenericFileBrowser

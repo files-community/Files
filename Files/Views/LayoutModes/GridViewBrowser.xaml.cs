@@ -406,15 +406,15 @@ namespace Files
 
         private static uint UpdateThumbnailSize()
         {
-            if (App.AppSettings.LayoutMode == 1 || App.AppSettings.GridViewSize < Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_SMALL + 75)
+            if (App.AppSettings.LayoutMode == 1 || App.AppSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeSmall + 75)
             {
                 return 80; // Small thumbnail
             }
-            else if (App.AppSettings.GridViewSize < Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_MEDIUM + 25)
+            else if (App.AppSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium + 25)
             {
                 return 120; // Medium thumbnail
             }
-            else if (App.AppSettings.GridViewSize < Constants.Browser.GridViewBrowser.GRIDVIEW_SIZE_MEDIUM - 50)
+            else if (App.AppSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium - 50)
             {
                 return 160; // Large thumbnail
             }
