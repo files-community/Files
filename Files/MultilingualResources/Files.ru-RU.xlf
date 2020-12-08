@@ -1226,10 +1226,6 @@
           <source>Vertical tab strip</source>
           <target state="translated">Вертикальная полоса вкладок</target>
         </trans-unit>
-        <trans-unit id="SidebarSettingsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Settings</source>
-          <target state="translated">Параметры</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>App Language</source>
           <target state="translated">Язык приложения</target>

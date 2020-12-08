@@ -1227,10 +1227,6 @@
           <source>Vertical tab strip</source>
           <target state="translated">Barra schede verticale</target>
         </trans-unit>
-        <trans-unit id="SidebarSettingsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Settings</source>
-          <target state="translated">Impostazioni</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>App Language</source>
           <target state="translated">Lingua dell'App</target>
