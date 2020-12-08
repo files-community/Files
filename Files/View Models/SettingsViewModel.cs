@@ -436,6 +436,12 @@ namespace Files.View_Models
             get => Get(true);
             set => Set(value);
         }
+        
+        public bool ShowStatusCenterTeachingTip
+        {
+            get => Get(true);
+            set => Set(value);
+        }
 
         public bool OpenASpecificPageOnStartup
         {

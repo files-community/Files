@@ -1185,10 +1185,10 @@
   <data name="PropertyColorSpace" xml:space="preserve">
     <value>Color Space</value>
   </data>
-  <data name="PropertyColorSpace_Value0">
+  <data name="PropertyColorSpace_Value0" xml:space="preserve">
     <value>sRGB</value>
   </data>
-  <data name="PropertyColorSpace_Value65535">
+  <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>Unspecified</value>
   </data>
   <data name="PropertyLongitudeDecimal" xml:space="preserve">
@@ -1394,7 +1394,7 @@
   </data>
   <data name="PropertyOrientation" xml:space="preserve">
     <value>Orientation</value>
-  </data>  
+  </data>
   <data name="PropertySectionCore" xml:space="preserve">
     <value>Core</value>
   </data>
@@ -1422,7 +1422,6 @@
   <data name="PropertySectionDocument" xml:space="preserve">
     <value>Document</value>
   </data>
-  
   <data name="PropertyAddress" xml:space="preserve">
     <value>Address</value>
   </data>
@@ -1515,5 +1514,11 @@
   </data>
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
     <value>Clear All Properties</value>
+  </data>
+  <data name="StatusCenterTeachingTip.Subtitle" xml:space="preserve">
+    <value>Check the status of file operations here</value>
+  </data>
+  <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
+    <value>Status Center</value>
   </data>
 </root>

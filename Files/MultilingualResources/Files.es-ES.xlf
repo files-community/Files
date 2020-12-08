@@ -1862,6 +1862,22 @@
           <source>Clear All Properties</source>
           <target state="translated">Quitar todas las propiedades</target>
         </trans-unit>
+        <trans-unit id="PropertyColorSpace_Value0" translate="yes" xml:space="preserve">
+          <source>sRGB</source>
+          <target state="new">sRGB</target>
+        </trans-unit>
+        <trans-unit id="PropertyColorSpace_Value65535" translate="yes" xml:space="preserve">
+          <source>Unspecified</source>
+          <target state="new">Unspecified</target>
+        </trans-unit>
+        <trans-unit id="StatusCenterTeachingTip.Subtitle" translate="yes" xml:space="preserve">
+          <source>Check the status of file operations here</source>
+          <target state="new">Check the status of file operations here</target>
+        </trans-unit>
+        <trans-unit id="StatusCenterTeachingTip.Title" translate="yes" xml:space="preserve">
+          <source>Status Center</source>
+          <target state="new">Status Center</target>
+        </trans-unit>
       </group>
     </body>
   </file>
