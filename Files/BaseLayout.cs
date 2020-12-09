@@ -745,7 +745,7 @@ namespace Files
 
         public void GridViewSizeIncrease(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            AppSettings.GridViewSize = AppSettings.GridViewSize + 25; // Make Larger
+            AppSettings.GridViewSize = AppSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
             if (args != null)
             {
                 args.Handled = true;
@@ -754,7 +754,7 @@ namespace Files
 
         public void GridViewSizeDecrease(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            AppSettings.GridViewSize = AppSettings.GridViewSize - 25; // Make Smaller
+            AppSettings.GridViewSize = AppSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
             if (args != null)
             {
                 args.Handled = true;
