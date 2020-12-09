@@ -1879,6 +1879,10 @@
           <source>Website</source>
           <target state="new">Website</target>
         </trans-unit>
+        <trans-unit id="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Learn more about date formats</source>
+          <target state="new">Learn more about date formats</target>
+        </trans-unit>
       </group>
     </body>
   </file>
