@@ -55,11 +55,6 @@
           <target state="needs-review-translation">Files UWP</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
-        <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
-          <source>License</source>
-          <target state="needs-review-translation">Licentie:</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
-        </trans-unit>
         <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
           <source>Special thanks to:</source>
           <target state="translated">Speciale dank aan:</target>
@@ -81,11 +76,6 @@
         <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Over</target>
-        </trans-unit>
-        <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
-          <source>Website</source>
-          <target state="needs-review-translation">Website:</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAppearanceTitle.Text" translate="yes" xml:space="preserve">
           <source>Appearance</source>
@@ -1883,6 +1873,22 @@
         <trans-unit id="StatusCenterTeachingTip.Title" translate="yes" xml:space="preserve">
           <source>Status Center</source>
           <target state="new">Status Center</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutLicense.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>License</source>
+          <target state="new">License</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutLicense.Content" translate="yes" xml:space="preserve">
+          <source>License</source>
+          <target state="new">License</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutWebsite.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Website</source>
+          <target state="new">Website</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutWebsite.Content" translate="yes" xml:space="preserve">
+          <source>Website</source>
+          <target state="new">Website</target>
         </trans-unit>
       </group>
     </body>

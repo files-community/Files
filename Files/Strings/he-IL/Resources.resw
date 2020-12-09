@@ -129,17 +129,11 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>קבצים</value>
   </data>
-  <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>רשיון</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>שלח משוב</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>אודות</value>
-  </data>
-  <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>אתר אינטרנט</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>מראה</value>
