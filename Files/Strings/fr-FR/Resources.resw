@@ -1080,6 +1080,12 @@
   <data name="PropertyTitle" xml:space="preserve">
     <value>Titre</value>
   </data>
+  <data name="PropertyComment" xml:space="preserve">
+    <value>Commentaires</value>
+  </data>
+  <data name="PropertyCopyright" xml:space="preserve">
+    <value>Copyright</value>
+  </data>
   <data name="PropertyBitDepth" xml:space="preserve">
     <value>Profondeur de couleur</value>
   </data>
@@ -1112,6 +1118,15 @@
   </data>
   <data name="PropertyAperture" xml:space="preserve">
     <value>Ouverture</value>
+  </data>
+  <data name="PropertyArtist" xml:space="preserve">
+    <value>Artiste</value>
+  </data>
+  <data name="PropertyGenre" xml:space="preserve">
+    <value>Genre</value>
+  </data>
+  <data name="PropertyYear" xml:space="preserve">
+    <value>Année</value>
   </data>
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>Vidéo</value>
