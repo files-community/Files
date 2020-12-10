@@ -660,6 +660,92 @@
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
 
+        <Grid
+            Grid.Row="0"
+            Height="34"
+            Margin="4,4"
+            VerticalAlignment="Center">
+
+            <AutoSuggestBox
+                x:Name="VisiblePath"
+                x:Uid="NavigationToolbarVisiblePath"
+                Padding="4"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                x:Load="{x:Bind ManualEntryBoxLoaded, Mode=OneWay}"
+                Background="Transparent"
+                BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
+                BorderThickness="0"
+                DisplayMemberPath="ItemName"
+                FocusDisengaged="VisiblePath_LostFocus"
+                FontFamily="Segoe UI"
+                FontSize="16"
+                FontWeight="SemiBold"
+                ItemsSource="{x:Bind NavigationBarSuggestions}"
+                Loaded="VisiblePath_Loaded"
+                LostFocus="VisiblePath_LostFocus"
+                PlaceholderText="Enter a path"
+                PreviewKeyDown="VisiblePath_KeyDown"
+                QuerySubmitted="VisiblePath_QuerySubmitted"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                Text="{x:Bind PathText, Mode=OneWay}"
+                TextChanged="VisiblePath_TextChanged"
+                TextMemberPath="ItemPath" />
+
+            <Grid
+                x:Name="ClickablePath"
+                MinHeight="32"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                extensions:Mouse.Cursor="Hand"
+                x:Load="{x:Bind ClickablePathLoaded, Mode=OneWay}"
+                BorderBrush="{ThemeResource TransparentGridRevealBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="2"
+                PointerPressed="ManualPathEntryItem_Click">
+                <Interactivity:Interaction.Behaviors>
+                    <Core:EventTriggerBehavior EventName="PointerEntered">
+                        <Core:ChangePropertyAction PropertyName="Background" Value="{ThemeResource PathBoxHoverBrush}" />
+                    </Core:EventTriggerBehavior>
+
+                    <Core:EventTriggerBehavior EventName="PointerExited">
+                        <Core:ChangePropertyAction PropertyName="Background">
+                            <Core:ChangePropertyAction.Value>
+                                <SolidColorBrush Color="Transparent" />
+                            </Core:ChangePropertyAction.Value>
+                        </Core:ChangePropertyAction>
+                    </Core:EventTriggerBehavior>
+                </Interactivity:Interaction.Behaviors>
+
+                <ListView
+                    x:Name="PathViewInteract"
+                    VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    Background="Transparent"
+                    CanReorderItems="False"
+                    IsItemClickEnabled="True"
+                    ItemContainerStyle="{StaticResource ListViewItemContainerStyle_NoRevealBorder}"
+                    ItemsSource="{x:Bind PathComponents, Mode=OneWay}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                    ScrollViewer.HorizontalScrollMode="Enabled"
+                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                    ScrollViewer.VerticalScrollMode="Disabled"
+                    SelectionMode="None"
+                    Style="{StaticResource ListViewStyleNoAnimation}">
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Background="Transparent" Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplateSelector>
+                        <helpers:ItemsDataTemplateSelector CurrentItem="{StaticResource CurrentItem}" ParentItems="{StaticResource ParentItems}" />
+                    </ListView.ItemTemplateSelector>
+                </ListView>
+            </Grid>
+        </Grid>
+
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Button
                 x:Name="Back"
@@ -764,94 +850,8 @@
             </Button>
         </StackPanel>
 
-        <Grid
-            Grid.Row="0"
-            Height="34"
-            Margin="4,4"
-            VerticalAlignment="Center">
-
-            <AutoSuggestBox
-                x:Name="VisiblePath"
-                x:Uid="NavigationToolbarVisiblePath"
-                Padding="4"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Center"
-                x:Load="{x:Bind ManualEntryBoxLoaded, Mode=OneWay}"
-                Background="Transparent"
-                BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
-                BorderThickness="0"
-                DisplayMemberPath="ItemName"
-                FocusDisengaged="VisiblePath_LostFocus"
-                FontFamily="Segoe UI"
-                FontSize="16"
-                FontWeight="SemiBold"
-                ItemsSource="{x:Bind NavigationBarSuggestions}"
-                Loaded="VisiblePath_Loaded"
-                LostFocus="VisiblePath_LostFocus"
-                PlaceholderText="Enter a path"
-                PreviewKeyDown="VisiblePath_KeyDown"
-                QuerySubmitted="VisiblePath_QuerySubmitted"
-                ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                Text="{x:Bind PathText, Mode=OneWay}"
-                TextChanged="VisiblePath_TextChanged"
-                TextMemberPath="ItemPath" />
-
-            <Grid
-                x:Name="ClickablePath"
-                MinHeight="32"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Center"
-                extensions:Mouse.Cursor="Hand"
-                x:Load="{x:Bind ClickablePathLoaded, Mode=OneWay}"
-                BorderBrush="{ThemeResource TransparentGridRevealBorderBrush}"
-                BorderThickness="1"
-                CornerRadius="2"
-                PointerPressed="ManualPathEntryItem_Click">
-                <Interactivity:Interaction.Behaviors>
-                    <Core:EventTriggerBehavior EventName="PointerEntered">
-                        <Core:ChangePropertyAction PropertyName="Background" Value="{ThemeResource PathBoxHoverBrush}" />
-                    </Core:EventTriggerBehavior>
-
-                    <Core:EventTriggerBehavior EventName="PointerExited">
-                        <Core:ChangePropertyAction PropertyName="Background">
-                            <Core:ChangePropertyAction.Value>
-                                <SolidColorBrush Color="Transparent" />
-                            </Core:ChangePropertyAction.Value>
-                        </Core:ChangePropertyAction>
-                    </Core:EventTriggerBehavior>
-                </Interactivity:Interaction.Behaviors>
-
-                <ListView
-                    x:Name="PathViewInteract"
-                    VerticalAlignment="Stretch"
-                    HorizontalContentAlignment="Stretch"
-                    VerticalContentAlignment="Stretch"
-                    Background="Transparent"
-                    CanReorderItems="False"
-                    IsItemClickEnabled="True"
-                    ItemContainerStyle="{StaticResource ListViewItemContainerStyle_NoRevealBorder}"
-                    ItemsSource="{x:Bind PathComponents, Mode=OneWay}"
-                    ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                    ScrollViewer.HorizontalScrollMode="Enabled"
-                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                    ScrollViewer.VerticalScrollMode="Disabled"
-                    SelectionMode="None"
-                    Style="{StaticResource ListViewStyleNoAnimation}">
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Background="Transparent" Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                    <ListView.ItemTemplateSelector>
-                        <helpers:ItemsDataTemplateSelector CurrentItem="{StaticResource CurrentItem}" ParentItems="{StaticResource ParentItems}" />
-                    </ListView.ItemTemplateSelector>
-                </ListView>
-            </Grid>
-        </Grid>
-
         <StackPanel
-            Grid.Row="2"
+            Grid.Row="1"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
 
