@@ -1882,6 +1882,14 @@
           <source>Status Center</source>
           <target state="new">Status Center</target>
         </trans-unit>
+        <trans-unit id="StatusCenterDismissBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Dismiss</source>
+          <target state="new">Dismiss</target>
+        </trans-unit>
+        <trans-unit id="StatusCenterDismissBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Dismiss</source>
+          <target state="new">Dismiss</target>
+        </trans-unit>
       </group>
     </body>
   </file>

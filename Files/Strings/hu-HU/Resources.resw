@@ -1318,7 +1318,7 @@
     <value>Bezárás mindenképpen</value>
   </data>
   <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
-    <value>Mégsem</value>
+    <value>Mégse</value>
   </data>
   <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
     <value>Clear</value>
