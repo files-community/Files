@@ -125,6 +125,7 @@ namespace Files
             var parameters = eventArgs.Parameter as NavigationArguments;
             AppInstance = parameters.AssociatedTabInstance;
             AppInstance.InstanceViewModel.IsPageTypeNotHome = false;
+            AppInstance.InstanceViewModel.IsPageTypeSearchResults = false;
             AppInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
             AppInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
             AppInstance.InstanceViewModel.IsPageTypeCloudDrive = false;

@@ -256,12 +256,12 @@ namespace Files
             var parameters = (NavigationArguments)eventArgs.Parameter;
             isSearchResultPage = parameters.IsSearchResultPage;
             ParentShellPageInstance = parameters.AssociatedTabInstance;
-            ParentShellPageInstance.NavigationToolbar.CanRefresh = true;
             IsItemSelected = false;
             ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
 
             if (!isSearchResultPage)
             {
+                ParentShellPageInstance.NavigationToolbar.CanRefresh = true;
                 string previousDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
                 await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(parameters.NavPathParam);
 
@@ -282,12 +282,15 @@ namespace Files
                 MainPage.MultitaskingControl?.UpdateSelectedTab(new DirectoryInfo(workingDir).Name, workingDir, false);
                 ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir);
                 ParentShellPageInstance.NavigationToolbar.PathControlDisplayText = parameters.NavPathParam;
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
             }
             else
             {
+                ParentShellPageInstance.NavigationToolbar.CanRefresh = false;
                 ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
 
                 MainPage.MultitaskingControl?.UpdateSelectedTab(null, null, true);
                 ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(parameters.SearchResults, parameters.SearchPathParam);

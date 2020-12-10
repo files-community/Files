@@ -418,10 +418,16 @@ namespace Files.Filesystem
                 }
 
                 _addFilesCTS.Cancel();
-                AssociatedInstance.NavigationToolbar.CanGoBack = true;
                 AssociatedInstance.NavigationToolbar.CanGoForward = true;
             }
-            
+            else
+            {
+                AssociatedInstance.NavigationToolbar.CanRefresh = false;
+                AssociatedInstance.NavigationToolbar.CanGoForward = false;
+                AssociatedInstance.NavigationToolbar.CanNavigateToParent = false;
+            }
+
+            AssociatedInstance.NavigationToolbar.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.
             _filesAndFolders.Clear();
             
             if (!(WorkingDirectory?.StartsWith(AppSettings.RecycleBinPath) ?? false) && !isSearchResultPage)
