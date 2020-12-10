@@ -51,6 +51,8 @@ namespace Files
 
         public IShellPage ParentShellPageInstance { get; private set; } = null;
 
+        private bool isSearchResultPage = false;
+
         public bool IsRenamingItem { get; set; } = false;
 
         private bool isItemSelected = false;
@@ -245,8 +247,6 @@ namespace Files
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        bool IsSearchResultPage = false;
-
         protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
@@ -254,13 +254,13 @@ namespace Files
             AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
             Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
             var parameters = (NavigationArguments)eventArgs.Parameter;
-            IsSearchResultPage = parameters.IsSearchResultPage;
+            isSearchResultPage = parameters.IsSearchResultPage;
             ParentShellPageInstance = parameters.AssociatedTabInstance;
             ParentShellPageInstance.NavigationToolbar.CanRefresh = true;
             IsItemSelected = false;
             ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
 
-            if (!IsSearchResultPage)
+            if (!isSearchResultPage)
             {
                 string previousDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
                 await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(parameters.NavPathParam);
@@ -300,7 +300,7 @@ namespace Files
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles(IsSearchResultPage);
+            ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles(isSearchResultPage);
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
             AppSettings.LayoutModeChangeRequested -= AppSettings_LayoutModeChangeRequested;
