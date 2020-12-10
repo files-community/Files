@@ -166,6 +166,10 @@
           <source>Files</source>
           <target state="translated">Files</target>
         </trans-unit>
+        <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
+          <source>License</source>
+          <target state="translated">Licenza:</target>
+        </trans-unit>
         <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
           <source>Special thanks to:</source>
           <target state="translated">Un ringraziamento particolare a:</target>
@@ -185,6 +189,10 @@
         <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Info app</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
+          <source>Website</source>
+          <target state="translated">Sito web:</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceTitle.Text" translate="yes" xml:space="preserve">
           <source>Appearance</source>
@@ -1863,25 +1871,13 @@
           <source>Status Center</source>
           <target state="new">Status Center</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutLicense.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>License</source>
-          <target state="new">License</target>
+        <trans-unit id="StatusCenterDismissBannerButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Dismiss</source>
+          <target state="new">Dismiss</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutLicense.Content" translate="yes" xml:space="preserve">
-          <source>License</source>
-          <target state="new">License</target>
-        </trans-unit>
-        <trans-unit id="SettingsAboutWebsite.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Website</source>
-          <target state="new">Website</target>
-        </trans-unit>
-        <trans-unit id="SettingsAboutWebsite.Content" translate="yes" xml:space="preserve">
-          <source>Website</source>
-          <target state="new">Website</target>
-        </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Learn more about date formats</source>
-          <target state="new">Learn more about date formats</target>
+        <trans-unit id="StatusCenterDismissBannerButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Dismiss</source>
+          <target state="new">Dismiss</target>
         </trans-unit>
       </group>
     </body>

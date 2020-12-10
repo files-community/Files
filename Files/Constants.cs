@@ -6,6 +6,10 @@
         {
             public static class GridViewBrowser
             {
+                public const int GridViewIncrement = 20;
+
+                public const int GridViewSizeMax = 300; // Max achievable ctrl + scroll, not a default layout size.
+
                 public const int GridViewSizeLarge = 220;
 
                 public const int GridViewSizeMedium = 160;

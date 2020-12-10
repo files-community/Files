@@ -648,7 +648,7 @@ namespace Files.View_Models
                     }
                     else // Size up from tiles to grid
                     {
-                        gridViewSize = (LayoutMode == 1) ? Constants.Browser.GridViewBrowser.GridViewSizeSmall : (value <= Constants.Browser.GridViewBrowser.GridViewSizeLarge) ? value : Constants.Browser.GridViewBrowser.GridViewSizeLarge; // Set grid size to allow immediate UI update
+                        gridViewSize = (LayoutMode == 1) ? Constants.Browser.GridViewBrowser.GridViewSizeSmall : (value <= Constants.Browser.GridViewBrowser.GridViewSizeMax) ? value : Constants.Browser.GridViewBrowser.GridViewSizeMax; // Set grid size to allow immediate UI update
                         Set(gridViewSize);
 
                         if (LayoutMode != 2) // Only update layout mode if it isn't already in grid view
@@ -658,7 +658,7 @@ namespace Files.View_Models
                             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                         }
 
-                        if (value < Constants.Browser.GridViewBrowser.GridViewSizeLarge) // Don't request a grid resize if it is already at the max size
+                        if (value < Constants.Browser.GridViewBrowser.GridViewSizeMax) // Don't request a grid resize if it is already at the max size
                         {
                             GridViewSizeChangeRequested?.Invoke(this, EventArgs.Empty);
                         }

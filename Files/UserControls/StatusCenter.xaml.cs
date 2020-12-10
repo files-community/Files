@@ -62,7 +62,7 @@ namespace Files.UserControls
         }
 
         // Dismiss banner button event handler
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void DismissBanner(object sender, RoutedEventArgs e)
         {
             StatusBanner itemToDismiss = (sender as Button).DataContext as StatusBanner;
             StatusBannersSource.Remove(itemToDismiss);
@@ -140,8 +140,6 @@ namespace Files.UserControls
         public SolidColorBrush StrokeColor { get; private set; } = new SolidColorBrush(Colors.DeepSkyBlue);
 
         public IconSource GlyphSource { get; private set; }
-
-        public int BannerHeight { get; set; } = 55;
 
         public string PrimaryButtonText { get; set; }
 
@@ -248,7 +246,6 @@ namespace Files.UserControls
                     else
                     {
                         // Expanded banner
-                        BannerHeight = 70;
                         FullTitle = Title;
                         StrokeColor = new SolidColorBrush(Colors.Red);
                         GlyphSource = new FontIconSource()
@@ -289,7 +286,6 @@ namespace Files.UserControls
                 }
 
                 // Expanded banner
-                BannerHeight = 70;
                 FullTitle = Title;
                 StrokeColor = new SolidColorBrush(Colors.Red);
                 GlyphSource = new FontIconSource()
