@@ -1059,7 +1059,7 @@ namespace Files.Views.Pages
                     break;
 
                 case (false, false, false, true, VirtualKey.Space): // space, quick look
-                    if (!NavigationToolbar.IsEditModeEnabled)
+                    if (!NavigationToolbar.IsEditModeEnabled && !NavigationToolbar.IsSearchReigonVisible)
                     {
                         if (ContentPage.IsQuickLookEnabled)
                         {
