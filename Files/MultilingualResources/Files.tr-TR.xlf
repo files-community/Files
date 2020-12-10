@@ -1897,6 +1897,10 @@
           <source>Search results in</source>
           <target state="new">Search results in</target>
         </trans-unit>
+        <trans-unit id="SearchTabHeaderText" translate="yes" xml:space="preserve">
+          <source>Search results</source>
+          <target state="new">Search results</target>
+        </trans-unit>
       </group>
     </body>
   </file>

@@ -54,7 +54,7 @@ namespace Files.UserControls.MultitaskingControl
         {
             var selectedTabItem = MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
             selectedTabItem.AllowStorageItemDrop = false;
-            string tabLocationHeader = "Search results";
+            string tabLocationHeader = "SearchTabHeaderText".GetLocalized();
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
             fontIconSource.Glyph = "\xEB51";
             fontIconSource.FontFamily = App.Current.Resources["FluentUIGlyphs"] as FontFamily;

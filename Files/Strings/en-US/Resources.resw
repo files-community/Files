@@ -1530,4 +1530,7 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Search results in</value>
   </data>
+  <data name="SearchTabHeaderText" xml:space="preserve">
+    <value>Search results</value>
+  </data>
 </root>
