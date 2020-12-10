@@ -131,7 +131,7 @@
             IsBackButtonVisible="Collapsed"
             IsPaneOpen="True"
             IsPaneToggleButtonVisible="False"
-            IsSettingsVisible="False"
+            IsSettingsVisible="True"
             IsTitleBarAutoPaddingEnabled="False"
             ItemInvoked="Sidebar_ItemInvoked"
             MenuItemTemplateSelector="{StaticResource NavItemSelector}"
@@ -139,34 +139,6 @@
             OpenPaneLength="500"
             PaneDisplayMode="Left"
             SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <muxc:NavigationView.PaneFooter>
-                <Grid>
-                    <muxc:NavigationViewItem
-                        x:Name="SettingsButton"
-                        x:Uid="SidebarSettingsButton"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        AutomationProperties.Name="Settings"
-                        IsTapEnabled="True"
-                        SelectsOnInvoked="False"
-                        Tapped="SettingsButton_Tapped">
-                        <muxc:NavigationViewItem.Content>
-                            <TextBlock
-                                x:Uid="SidebarSettings"
-                                Grid.Column="1"
-                                Padding="2,0,0,0"
-                                VerticalAlignment="Center"
-                                Text="Settings" />
-                        </muxc:NavigationViewItem.Content>
-                        <muxc:NavigationViewItem.Icon>
-                            <FontIcon
-                                FontFamily="{StaticResource FluentUIGlyphs}"
-                                FontSize="18"
-                                Glyph="&#xEB5D;" />
-                        </muxc:NavigationViewItem.Icon>
-                    </muxc:NavigationViewItem>
-                </Grid>
-            </muxc:NavigationView.PaneFooter>
             <muxc:NavigationView.Resources>
                 <ResourceDictionary>
                     <MenuFlyout x:Name="SideBarItemContextFlyout" x:FieldModifier="public">

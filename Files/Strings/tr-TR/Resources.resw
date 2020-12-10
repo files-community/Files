@@ -48,9 +48,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files UWP</value>
   </data>
-  <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>Lisans:</value>
-  </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Özel teşekkürler:</value>
   </data>
@@ -65,9 +62,6 @@
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Hakkında</value>
-  </data>
-  <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Web Sitesi:</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Görünüm</value>
@@ -263,9 +257,6 @@
   </data>
   <data name="StatusBarControlListView.Text" xml:space="preserve">
     <value>Liste Görünümü</value>
-  </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>Özellikler</value>
   </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Adı</value>
@@ -692,8 +683,5 @@
   </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>İleri Git</value>
-  </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Ayarlar</value>
   </data>
 </root>

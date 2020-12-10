@@ -129,17 +129,11 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>קבצים</value>
   </data>
-  <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>רשיון</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>שלח משוב</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>אודות</value>
-  </data>
-  <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>אתר אינטרנט</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>מראה</value>
@@ -188,9 +182,6 @@
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>סרטוני וידאו</value>
-  </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>הגדרות</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>מיין לפי</value>
@@ -623,9 +614,6 @@
   </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>נווט קדימה</value>
-  </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>הגדרות</value>
   </data>
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>הגישה נדחתה</value>

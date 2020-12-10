@@ -111,9 +111,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
-  <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>Ліцензія</value>
-  </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Особлива подяка:</value>
   </data>
@@ -128,9 +125,6 @@
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Про програму</value>
-  </data>
-  <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Веб-сайт</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Оформлення</value>
@@ -194,9 +188,6 @@
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>Відео</value>
-  </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>Налаштування</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Сортування</value>
@@ -926,9 +917,6 @@
   </data>
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>Вертикальна смуга вкладок</value>
-  </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Налаштування</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
     <value>Мова програми</value>

@@ -132,9 +132,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
-  <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>Licenza:</value>
-  </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Un ringraziamento particolare a:</value>
   </data>
@@ -149,9 +146,6 @@
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Info app</value>
-  </data>
-  <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Sito web:</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Grafica</value>
@@ -218,9 +212,6 @@
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>Video</value>
-  </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>Impostazioni</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Ordina per</value>
@@ -929,9 +920,6 @@
   </data>
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>Barra schede verticale</value>
-  </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Impostazioni</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
     <value>Lingua dell'App</value>

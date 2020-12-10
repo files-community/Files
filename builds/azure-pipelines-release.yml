@@ -70,3 +70,5 @@ steps:
     packagePath: '$(appxPackageDir)\**\*.msixupload'
     force: false
     skipPolling: false
+    deletePackages: true
+    numberOfPackagesToKeep: '5'

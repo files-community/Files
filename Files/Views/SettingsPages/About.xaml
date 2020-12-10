@@ -173,22 +173,19 @@
                     <TextBlock
                         VerticalAlignment="Center"
                         FontSize="16"
-                        Text="QuickLook" />
-                    <StackPanel Orientation="Horizontal" Spacing="5">
-                        <TextBlock
-                            x:Uid="SettingsAboutWebsite"
-                            VerticalAlignment="Center"
-                            Text="Website:" />
-                        <HyperlinkButton NavigateUri="https://github.com/QL-Win/QuickLook">Link</HyperlinkButton>
-                    </StackPanel>
+                        Text="QuickLook:" />
 
-                    <StackPanel Orientation="Horizontal" Spacing="5">
-                        <TextBlock
-                            x:Uid="SettingsAboutLicense"
-                            VerticalAlignment="Center"
-                            Text="License:" />
-                        <HyperlinkButton NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt">GPL</HyperlinkButton>
-                    </StackPanel>
+                    <HyperlinkButton
+                        x:Uid="SettingsAboutWebsite"
+                        AutomationProperties.Name="Website"
+                        Content="Website"
+                        NavigateUri="https://github.com/QL-Win/QuickLook" />
+
+                    <HyperlinkButton
+                        x:Uid="SettingsAboutLicense"
+                        AutomationProperties.Name="License"
+                        Content="License"
+                        NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt" />
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

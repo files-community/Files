@@ -9,7 +9,7 @@
         <Setter Property="VerticalAlignment" Value="Top" />
     </Style>
 
-    <Thickness x:Key="PropertyNameMargin">0,7</Thickness>
+    <Thickness x:Key="PropertyNameMargin">7</Thickness>
     <Thickness x:Key="PropertyValueMargin">20,0,0,0</Thickness>
     <VerticalAlignment x:Key="PropertyValueVerticalAlignment">Center</VerticalAlignment>
     <!--  Might be used for Expander control  -->
@@ -64,9 +64,5 @@
     <Style x:Key="SeparatorText" TargetType="TextBlock">
         <Setter Property="Grid.Column" Value="0" />
         <Setter Property="FontSize" Value="22" />
-    </Style>
-
-    <Style TargetType="usercontrols:PropertyListItem">
-        <Setter Property="ColumnWidth" Value="110" />
     </Style>
 </ResourceDictionary>

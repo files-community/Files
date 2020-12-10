@@ -59,8 +59,9 @@
             Glyph="&#xEAAB;" />
         <Image
             x:Name="ItemIcon"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
+            Height="{x:Bind ItemSize}"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
             x:Load="{x:Bind ViewModel.LoadFileIcon, Mode=OneWay}"
             Source="{x:Bind ViewModel.FileIconSource, Mode=OneWay}" />
     </StackPanel>

@@ -48,9 +48,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files UWP</value>
   </data>
-  <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>Licentie:</value>
-  </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Speciale dank aan:</value>
   </data>
@@ -65,9 +62,6 @@
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Over</value>
-  </data>
-  <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Website:</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Uiterlijk</value>
@@ -263,9 +257,6 @@
   </data>
   <data name="StatusBarControlListView.Text" xml:space="preserve">
     <value>Lijstweergave</value>
-  </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>Instellingen</value>
   </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Naam</value>
@@ -863,8 +854,5 @@
   </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>Vooruit gaan</value>
-  </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Instellingen</value>
   </data>
 </root>

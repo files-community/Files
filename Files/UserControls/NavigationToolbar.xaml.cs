@@ -25,7 +25,7 @@ using static Files.UserControls.INavigationToolbar;
 
 namespace Files.UserControls
 {
-    public sealed partial class ModernNavigationToolbar : UserControl, INavigationToolbar, INotifyPropertyChanged
+    public sealed partial class NavigationToolbar : UserControl, INavigationToolbar, INotifyPropertyChanged
     {
         public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
@@ -72,7 +72,7 @@ namespace Files.UserControls
         public static readonly DependencyProperty IsPageTypeNotHomeProperty = DependencyProperty.Register(
           "IsPageTypeNotHome",
           typeof(bool),
-          typeof(ModernNavigationToolbar),
+          typeof(NavigationToolbar),
           new PropertyMetadata(null)
         );
 
@@ -91,7 +91,7 @@ namespace Files.UserControls
         public static readonly DependencyProperty IsCreateButtonEnabledInPageProperty = DependencyProperty.Register(
           "IsCreateButtonEnabledInPage",
           typeof(bool),
-          typeof(ModernNavigationToolbar),
+          typeof(NavigationToolbar),
           new PropertyMetadata(null)
         );
 
@@ -110,7 +110,7 @@ namespace Files.UserControls
         public static readonly DependencyProperty CanCreateFileInPageProperty = DependencyProperty.Register(
           "CanCreateFileInPage",
           typeof(bool),
-          typeof(ModernNavigationToolbar),
+          typeof(NavigationToolbar),
           new PropertyMetadata(null)
         );
 
@@ -129,7 +129,7 @@ namespace Files.UserControls
         public static readonly DependencyProperty CanOpenTerminalInPageProperty = DependencyProperty.Register(
           "CanOpenTerminalInPage",
           typeof(bool),
-          typeof(ModernNavigationToolbar),
+          typeof(NavigationToolbar),
           new PropertyMetadata(null)
         );
 
@@ -148,7 +148,7 @@ namespace Files.UserControls
         public static readonly DependencyProperty NewDocumentInvokedCommandProperty = DependencyProperty.Register(
           "NewDocumentInvokedCommand",
           typeof(ICommand),
-          typeof(ModernNavigationToolbar),
+          typeof(NavigationToolbar),
           new PropertyMetadata(null)
         );
 
@@ -167,7 +167,7 @@ namespace Files.UserControls
         public static readonly DependencyProperty NewImageInvokedCommandProperty = DependencyProperty.Register(
           "NewImageInvokedCommand",
           typeof(ICommand),
-          typeof(ModernNavigationToolbar),
+          typeof(NavigationToolbar),
           new PropertyMetadata(null)
         );
 
@@ -186,7 +186,7 @@ namespace Files.UserControls
         public static readonly DependencyProperty NewFolderInvokedCommandProperty = DependencyProperty.Register(
           "NewFolderInvokedCommand",
           typeof(ICommand),
-          typeof(ModernNavigationToolbar),
+          typeof(NavigationToolbar),
           new PropertyMetadata(null)
         );
 
@@ -205,7 +205,7 @@ namespace Files.UserControls
         public static readonly DependencyProperty CopyPathInvokedCommandProperty = DependencyProperty.Register(
           "CopyPathInvokedCommand",
           typeof(ICommand),
-          typeof(ModernNavigationToolbar),
+          typeof(NavigationToolbar),
           new PropertyMetadata(null)
         );
 
@@ -224,7 +224,7 @@ namespace Files.UserControls
         public static readonly DependencyProperty NewTabInvokedCommandProperty = DependencyProperty.Register(
           "NewTabInvokedCommand",
           typeof(ICommand),
-          typeof(ModernNavigationToolbar),
+          typeof(NavigationToolbar),
           new PropertyMetadata(null)
         );
 
@@ -243,7 +243,7 @@ namespace Files.UserControls
         public static readonly DependencyProperty NewWindowInvokedCommandProperty = DependencyProperty.Register(
           "NewWindowInvokedCommand",
           typeof(ICommand),
-          typeof(ModernNavigationToolbar),
+          typeof(NavigationToolbar),
           new PropertyMetadata(null)
         );
 
@@ -262,7 +262,7 @@ namespace Files.UserControls
         public static readonly DependencyProperty PasteInvokedCommandProperty = DependencyProperty.Register(
           "PasteInvokedCommand",
           typeof(ICommand),
-          typeof(ModernNavigationToolbar),
+          typeof(NavigationToolbar),
           new PropertyMetadata(null)
         );
 
@@ -281,7 +281,7 @@ namespace Files.UserControls
         public static readonly DependencyProperty OpenInTerminalInvokedCommandProperty = DependencyProperty.Register(
           "OpenInTerminalInvokedCommand",
           typeof(ICommand),
-          typeof(ModernNavigationToolbar),
+          typeof(NavigationToolbar),
           new PropertyMetadata(null)
         );
 
@@ -299,7 +299,7 @@ namespace Files.UserControls
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        public ModernNavigationToolbar()
+        public NavigationToolbar()
         {
             this.InitializeComponent();
         }
