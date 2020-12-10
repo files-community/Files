@@ -134,22 +134,25 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local:StatusBanner">
                     <Grid
-                        Height="{x:Bind BannerHeight}"
-                        Padding="8"
+                        Padding="4"
+                        HorizontalAlignment="Stretch"
                         Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                         BorderBrush="{x:Bind StrokeColor}"
                         BorderThickness="4,0,0,0">
                         <Grid ColumnSpacing="8">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="30" />
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="30" />
+                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <Grid>
+                            <Grid
+                                Padding="4,4,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
                                 <muxc:ProgressRing
                                     x:Name="ProgressSpinner"
                                     Width="30"
@@ -163,11 +166,13 @@
                             </Grid>
                             <StackPanel
                                 Grid.Column="1"
+                                Padding="0,4,0,0"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Center"
                                 Orientation="Vertical"
                                 Spacing="4">
                                 <TextBlock
+                                    HorizontalAlignment="Left"
                                     FontSize="12"
                                     FontWeight="Medium"
                                     Text="{x:Bind FullTitle, Mode=OneWay}" />
@@ -178,37 +183,43 @@
                                     ToolTipService.ToolTip="{x:Bind Message}" />
                             </StackPanel>
                             <Button
+                                x:Name="DismissBannerButton"
+                                x:Uid="StatusCenterDismissBannerButton"
                                 Grid.Column="2"
-                                Padding="0"
+                                Height="30"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Top"
+                                AutomationProperties.Name="Dismiss"
                                 Background="Transparent"
-                                Click="Button_Click"
-                                DataContext="{x:Bind}">
+                                Click="DismissBanner"
+                                DataContext="{x:Bind}"
+                                ToolTipService.ToolTip="Dismiss">
                                 <Button.Content>
                                     <FontIcon FontSize="11" Glyph="&#xE711;" />
                                 </Button.Content>
                             </Button>
-                            <Grid
+                            <StackPanel
                                 x:Name="solutionButtons"
                                 Grid.Row="1"
                                 Grid.ColumnSpan="3"
-                                x:Load="{x:Bind SolutionButtonsVisible}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
+                                Padding="0,4,0,0"
+                                HorizontalAlignment="Right"
+                                x:Load="{x:Bind SolutionButtonsVisible}"
+                                Orientation="Horizontal"
+                                Spacing="8">
                                 <Button
-                                    Grid.Column="0"
+                                    Height="28"
                                     Click="Button_Click_1"
                                     Content="{x:Bind PrimaryButtonText}"
-                                    DataContext="{x:Bind}" />
+                                    DataContext="{x:Bind}"
+                                    FontSize="10" />
                                 <Button
-                                    Grid.Column="1"
-                                    Click="Button_Click"
+                                    Height="28"
+                                    Click="DismissBanner"
                                     Content="{x:Bind SecondaryButtonText}"
-                                    DataContext="{x:Bind}" />
-                            </Grid>
+                                    DataContext="{x:Bind}"
+                                    FontSize="10" />
+                            </StackPanel>
                         </Grid>
                     </Grid>
                 </DataTemplate>
