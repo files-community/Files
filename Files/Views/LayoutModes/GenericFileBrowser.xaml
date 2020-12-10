@@ -635,7 +635,7 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             x:FieldModifier="public"
-            AllowDrop="True"
+            AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
             AutoGenerateColumns="False"
             Background="Transparent"
             CanUserReorderColumns="False"

@@ -600,7 +600,7 @@ namespace Files
 
                 var folderName = Path.GetFileName(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
                 // As long as one file doesn't already belong to this folder
-                if (draggedItems.AreItemsAlreadyInFolder(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory))
+                if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.AreItemsAlreadyInFolder(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
@@ -691,7 +691,7 @@ namespace Files
                 dragOverTimer.Stop();
                 dragOverTimer.Debounce(() =>
                 {
-                    if (dragOverItem != null)
+                    if (dragOverItem != null && !InstanceViewModel.IsPageTypeSearchResults)
                     {
                         dragOverItem = null;
                         dragOverTimer.Stop();
@@ -705,7 +705,7 @@ namespace Files
                 e.Handled = true;
                 IReadOnlyList<IStorageItem> draggedItems = await e.DataView.GetStorageItemsAsync();
 
-                if (draggedItems.AreItemsAlreadyInFolder(item.ItemPath) || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
+                if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.AreItemsAlreadyInFolder(item.ItemPath) || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }

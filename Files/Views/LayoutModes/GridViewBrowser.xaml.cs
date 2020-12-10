@@ -104,16 +104,19 @@ namespace Files
 
         public override void SetDragModeForItems()
         {
-            foreach (ListedItem listedItem in FileList.Items)
+            if (!InstanceViewModel.IsPageTypeSearchResults)
             {
-                GridViewItem gridViewItem = FileList.ContainerFromItem(listedItem) as GridViewItem;
-
-                if (gridViewItem != null)
+                foreach (ListedItem listedItem in FileList.Items)
                 {
-                    List<Grid> grids = new List<Grid>();
-                    Interaction.FindChildren(grids, gridViewItem);
-                    var rootItem = grids.Find(x => x.Tag?.ToString() == "ItemRoot");
-                    rootItem.CanDrag = SelectedItems.Contains(listedItem);
+                    GridViewItem gridViewItem = FileList.ContainerFromItem(listedItem) as GridViewItem;
+
+                    if (gridViewItem != null)
+                    {
+                        List<Grid> grids = new List<Grid>();
+                        Interaction.FindChildren(grids, gridViewItem);
+                        var rootItem = grids.Find(x => x.Tag?.ToString() == "ItemRoot");
+                        rootItem.CanDrag = SelectedItems.Contains(listedItem);
+                    }
                 }
             }
         }
