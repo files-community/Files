@@ -55,7 +55,7 @@ namespace Files.UserControls
 
         public event EventHandler EditModeEnabled;
 
-        public event ToolbarQuerySubmittedEventHandler QuerySubmitted;
+        public event ToolbarQuerySubmittedEventHandler PathBoxQuerySubmitted;
 
         public event AddressBarTextEnteredEventHandler AddressBarTextEntered;
 
@@ -683,7 +683,7 @@ namespace Files.UserControls
 
         private void VisiblePath_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            QuerySubmitted?.Invoke(this, new ToolbarQuerySubmittedEventArgs() { QueryText = args.QueryText });
+            PathBoxQuerySubmitted?.Invoke(this, new ToolbarQuerySubmittedEventArgs() { QueryText = args.QueryText });
 
             (this as INavigationToolbar).IsEditModeEnabled = false;
         }
@@ -776,6 +776,15 @@ namespace Files.UserControls
 
             SearchReigon.Text = "";
             IsSearchReigonVisible = false;
+        }
+
+        public void ClearSearchBoxQueryText(bool collapseSearchReigon = false)
+        {
+            SearchReigon.Text = "";
+            if (IsSearchReigonVisible && collapseSearchReigon)
+            {
+                IsSearchReigonVisible = false;
+            }
         }
     }
 }

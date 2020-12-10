@@ -106,37 +106,35 @@ namespace Files.Views.Pages
                 FlowDirection = FlowDirection.RightToLeft;
             }
 
-            NavigationToolbar.EditModeEnabled += NavigationToolbar_EditModeEnabled;
-            NavigationToolbar.QuerySubmitted += NavigationToolbar_QuerySubmitted;
-
-            if ((NavigationToolbar as NavigationToolbar) != null)
-            {
-                (NavigationToolbar as NavigationToolbar).SearchQuerySubmitted += ModernShellPage_SearchQuerySubmitted;
-                (NavigationToolbar as NavigationToolbar).SearchTextChanged += ModernShellPage_SearchTextChanged;
-                (NavigationToolbar as NavigationToolbar).SearchSuggestionChosen += ModernShellPage_SearchSuggestionChosen;
-                (NavigationToolbar as NavigationToolbar).ToolbarPathItemInvoked += ModernShellPage_NavigationRequested;
-                (NavigationToolbar as NavigationToolbar).ToolbarFlyoutOpened += ModernShellPage_ToolbarFlyoutOpened;
-                (NavigationToolbar as NavigationToolbar).ToolbarPathItemLoaded += ModernShellPage_ToolbarPathItemLoaded;
-                (NavigationToolbar as NavigationToolbar).AddressBarTextEntered += ModernShellPage_AddressBarTextEntered;
-                (NavigationToolbar as NavigationToolbar).PathBoxItemDropped += ModernShellPage_PathBoxItemDropped;
-
-                (NavigationToolbar as NavigationToolbar).BackRequested += ModernShellPage_BackNavRequested;
-                (NavigationToolbar as NavigationToolbar).ForwardRequested += ModernShellPage_ForwardNavRequested;
-                (NavigationToolbar as NavigationToolbar).UpRequested += ModernShellPage_UpNavRequested;
-                (NavigationToolbar as NavigationToolbar).RefreshRequested += ModernShellPage_RefreshRequested;
-            }
-
             SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
             SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
             SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
             SidebarControl.RecycleBinItemRightTapped += SidebarControl_RecycleBinItemRightTapped;
+            NavigationToolbar.EditModeEnabled += NavigationToolbar_EditModeEnabled;
+            NavigationToolbar.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
+            NavigationToolbar.SearchQuerySubmitted += ModernShellPage_SearchQuerySubmitted;
+            NavigationToolbar.SearchTextChanged += ModernShellPage_SearchTextChanged;
+            NavigationToolbar.SearchSuggestionChosen += ModernShellPage_SearchSuggestionChosen;
+            NavigationToolbar.BackRequested += ModernShellPage_BackNavRequested;
+            NavigationToolbar.ForwardRequested += ModernShellPage_ForwardNavRequested;
+            NavigationToolbar.UpRequested += ModernShellPage_UpNavRequested;
+            NavigationToolbar.RefreshRequested += ModernShellPage_RefreshRequested;
             NavigationToolbar.ItemDraggedOverPathItem += ModernShellPage_NavigationRequested;
-            AppSettings.SortDirectionPreferenceUpdated += AppSettings_SortDirectionPreferenceUpdated;
-            AppSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
-
             NavigationToolbar.PathControlDisplayText = "NewTab".GetLocalized();
             NavigationToolbar.CanGoBack = false;
             NavigationToolbar.CanGoForward = false;
+
+            if (NavigationToolbar is NavigationToolbar navToolbar)
+            {
+                navToolbar.ToolbarPathItemInvoked += ModernShellPage_NavigationRequested;
+                navToolbar.ToolbarFlyoutOpened += ModernShellPage_ToolbarFlyoutOpened;
+                navToolbar.ToolbarPathItemLoaded += ModernShellPage_ToolbarPathItemLoaded;
+                navToolbar.AddressBarTextEntered += ModernShellPage_AddressBarTextEntered;
+                navToolbar.PathBoxItemDropped += ModernShellPage_PathBoxItemDropped;
+            }
+            
+            AppSettings.SortDirectionPreferenceUpdated += AppSettings_SortDirectionPreferenceUpdated;
+            AppSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
 
             Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
@@ -900,6 +898,7 @@ namespace Files.Views.Pages
         private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
         {
             ContentPage = await GetContentOrNullAsync();
+            NavigationToolbar.ClearSearchBoxQueryText(true);
             if (ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser)
                 || ItemDisplayFrame.CurrentSourcePageType == typeof(GridViewBrowser))
             {
@@ -1184,32 +1183,31 @@ namespace Files.Views.Pages
             App.Current.LeavingBackground -= OnLeavingBackground;
             AppSettings.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
             NavigationToolbar.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
-            NavigationToolbar.QuerySubmitted -= NavigationToolbar_QuerySubmitted;
+            NavigationToolbar.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
             SidebarControl.SidebarItemInvoked -= SidebarControl_SidebarItemInvoked;
             SidebarControl.SidebarItemPropertiesInvoked -= SidebarControl_SidebarItemPropertiesInvoked;
             SidebarControl.SidebarItemDropped -= SidebarControl_SidebarItemDropped;
             SidebarControl.RecycleBinItemRightTapped -= SidebarControl_RecycleBinItemRightTapped;
+            NavigationToolbar.SearchQuerySubmitted -= ModernShellPage_SearchQuerySubmitted;
+            NavigationToolbar.SearchTextChanged -= ModernShellPage_SearchTextChanged;
+            NavigationToolbar.SearchSuggestionChosen -= ModernShellPage_SearchSuggestionChosen;
+            NavigationToolbar.BackRequested -= ModernShellPage_BackNavRequested;
+            NavigationToolbar.ForwardRequested -= ModernShellPage_ForwardNavRequested;
+            NavigationToolbar.UpRequested -= ModernShellPage_UpNavRequested;
+            NavigationToolbar.RefreshRequested -= ModernShellPage_RefreshRequested;
+            NavigationToolbar.ItemDraggedOverPathItem -= ModernShellPage_NavigationRequested;
 
-            if ((NavigationToolbar as NavigationToolbar) != null)
+            if (NavigationToolbar is NavigationToolbar navToolbar)
             {
-                (NavigationToolbar as NavigationToolbar).ToolbarPathItemInvoked -= ModernShellPage_NavigationRequested;
-                (NavigationToolbar as NavigationToolbar).ToolbarFlyoutOpened -= ModernShellPage_ToolbarFlyoutOpened;
-                (NavigationToolbar as NavigationToolbar).ToolbarPathItemLoaded -= ModernShellPage_ToolbarPathItemLoaded;
-                (NavigationToolbar as NavigationToolbar).AddressBarTextEntered -= ModernShellPage_AddressBarTextEntered;
-                (NavigationToolbar as NavigationToolbar).PathBoxItemDropped -= ModernShellPage_PathBoxItemDropped;
-                (NavigationToolbar as NavigationToolbar).SearchQuerySubmitted -= ModernShellPage_SearchQuerySubmitted;
-                (NavigationToolbar as NavigationToolbar).SearchTextChanged += ModernShellPage_SearchTextChanged;
-                (NavigationToolbar as NavigationToolbar).SearchSuggestionChosen += ModernShellPage_SearchSuggestionChosen;
-
-                (NavigationToolbar as NavigationToolbar).BackRequested -= ModernShellPage_BackNavRequested;
-                (NavigationToolbar as NavigationToolbar).ForwardRequested -= ModernShellPage_ForwardNavRequested;
-                (NavigationToolbar as NavigationToolbar).UpRequested -= ModernShellPage_UpNavRequested;
-                (NavigationToolbar as NavigationToolbar).RefreshRequested -= ModernShellPage_RefreshRequested;
+                navToolbar.ToolbarPathItemInvoked -= ModernShellPage_NavigationRequested;
+                navToolbar.ToolbarFlyoutOpened -= ModernShellPage_ToolbarFlyoutOpened;
+                navToolbar.ToolbarPathItemLoaded -= ModernShellPage_ToolbarPathItemLoaded;
+                navToolbar.AddressBarTextEntered -= ModernShellPage_AddressBarTextEntered;
+                navToolbar.PathBoxItemDropped -= ModernShellPage_PathBoxItemDropped;
             }
-
+            
             AppSettings.SortDirectionPreferenceUpdated -= AppSettings_SortDirectionPreferenceUpdated;
             AppSettings.SortOptionPreferenceUpdated -= AppSettings_SortOptionPreferenceUpdated;
-            NavigationToolbar.ItemDraggedOverPathItem -= ModernShellPage_NavigationRequested;
 
             if (FilesystemViewModel != null)    // Prevent weird case of this being null when many tabs are opened/closed quickly
             {

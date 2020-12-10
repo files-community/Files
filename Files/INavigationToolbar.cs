@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls
@@ -21,11 +22,26 @@ namespace Files.UserControls
 
         public delegate void ItemDraggedOverPathItemEventHandler(object sender, PathNavigationEventArgs e);
 
-        public event ToolbarQuerySubmittedEventHandler QuerySubmitted;
+        public event ToolbarQuerySubmittedEventHandler PathBoxQuerySubmitted;
 
         public event EventHandler EditModeEnabled;
 
         public event ItemDraggedOverPathItemEventHandler ItemDraggedOverPathItem;
+
+        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxQuerySubmittedEventArgs> SearchQuerySubmitted;
+
+        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxTextChangedEventArgs> SearchTextChanged;
+
+        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs> SearchSuggestionChosen;
+
+        public event EventHandler BackRequested;
+
+        public event EventHandler ForwardRequested;
+
+        public event EventHandler UpRequested;
+
+        public event EventHandler RefreshRequested;
+        public void ClearSearchBoxQueryText(bool collapseSearchReigon = false);
     }
 
     public class ToolbarQuerySubmittedEventArgs
