@@ -425,6 +425,7 @@ namespace Files.Filesystem
                 AssociatedInstance.NavigationToolbar.CanRefresh = false;
                 AssociatedInstance.NavigationToolbar.CanGoForward = false;
                 AssociatedInstance.NavigationToolbar.CanNavigateToParent = false;
+                AssociatedInstance.NavigationToolbar.CanCopyPathInPage = false;
             }
 
             AssociatedInstance.NavigationToolbar.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.

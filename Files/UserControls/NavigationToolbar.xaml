@@ -1035,6 +1035,7 @@
                             x:Uid="NavigationToolbarCopyPath"
                             x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                             Command="{x:Bind CopyPathInvokedCommand, Mode=OneWay}"
+                            IsEnabled="{x:Bind CanCopyPathInPage, Mode=OneWay}"
                             Text="Copy location">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9B1;" />

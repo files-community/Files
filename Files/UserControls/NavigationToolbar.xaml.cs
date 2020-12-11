@@ -113,6 +113,13 @@ namespace Files.UserControls
           typeof(NavigationToolbar),
           new PropertyMetadata(null)
         );
+        
+        public static readonly DependencyProperty CanCopyPathInPageProperty = DependencyProperty.Register(
+          "CanCopyPathInPage",
+          typeof(bool),
+          typeof(NavigationToolbar),
+          new PropertyMetadata(null)
+        );
 
         public bool CanCreateFileInPage
         {
@@ -123,6 +130,17 @@ namespace Files.UserControls
             set
             {
                 SetValue(CanCreateFileInPageProperty, value);
+            }
+        }
+        public bool CanCopyPathInPage
+        {
+            get
+            {
+                return (bool)GetValue(CanCopyPathInPageProperty);
+            }
+            set
+            {
+                SetValue(CanCopyPathInPageProperty, value);
             }
         }
 

@@ -12,6 +12,7 @@ namespace Files.UserControls
         public bool IsSearchReigonVisible { get; set; }
         public bool IsEditModeEnabled { get; set; }
         public bool CanRefresh { get; set; }
+        public bool CanCopyPathInPage { get; set; }
         public bool CanNavigateToParent { get; set; }
         public bool CanGoBack { get; set; }
         public bool CanGoForward { get; set; }
