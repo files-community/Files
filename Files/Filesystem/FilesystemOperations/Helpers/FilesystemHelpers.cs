@@ -569,7 +569,7 @@ namespace Files.Filesystem
                 destinations.Add(Path.Combine(destination, item.Name));
             }
 
-            returnStatus = await CopyItemsAsync(source, destinations, true);
+            returnStatus = await CopyItemsAsync(source, destinations, registerHistory);
 
             return returnStatus;
         }
@@ -703,7 +703,7 @@ namespace Files.Filesystem
                 destinations.Add(Path.Combine(destination, item.Name));
             }
 
-            returnStatus = await MoveItemsAsync(source, destinations, true);
+            returnStatus = await MoveItemsAsync(source, destinations, registerHistory);
 
             return returnStatus;
         }
