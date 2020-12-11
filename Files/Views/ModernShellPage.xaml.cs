@@ -1,13 +1,12 @@
 ﻿using Files.Common;
 using Files.Dialogs;
 using Files.Filesystem;
-using Files.Filesystem.Search;
 using Files.Filesystem.FilesystemHistory;
+using Files.Filesystem.Search;
 using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
 using Files.View_Models;
-using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
@@ -24,7 +23,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Windows.Storage.Search;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Text;
@@ -132,7 +130,7 @@ namespace Files.Views.Pages
                 navToolbar.AddressBarTextEntered += ModernShellPage_AddressBarTextEntered;
                 navToolbar.PathBoxItemDropped += ModernShellPage_PathBoxItemDropped;
             }
-            
+
             AppSettings.SortDirectionPreferenceUpdated += AppSettings_SortDirectionPreferenceUpdated;
             AppSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
 
@@ -162,7 +160,7 @@ namespace Files.Views.Pages
 
         private async void ModernShellPage_SearchTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            if(args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 if (!string.IsNullOrWhiteSpace(sender.Text))
                 {
@@ -1069,7 +1067,10 @@ namespace Files.Views.Pages
                     break;
 
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
-                    Refresh_Click();
+                    if (!NavigationToolbar.IsSearchReigonVisible)
+                    {
+                        Refresh_Click();
+                    }
                     break;
 
                 case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
@@ -1205,7 +1206,7 @@ namespace Files.Views.Pages
                 navToolbar.AddressBarTextEntered -= ModernShellPage_AddressBarTextEntered;
                 navToolbar.PathBoxItemDropped -= ModernShellPage_PathBoxItemDropped;
             }
-            
+
             AppSettings.SortDirectionPreferenceUpdated -= AppSettings_SortDirectionPreferenceUpdated;
             AppSettings.SortOptionPreferenceUpdated -= AppSettings_SortOptionPreferenceUpdated;
 
