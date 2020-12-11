@@ -563,10 +563,14 @@ namespace Files.Filesystem
             IReadOnlyList<IStorageItem> source = await packageView.GetStorageItemsAsync();
             ReturnResult returnStatus = ReturnResult.InProgress;
 
+            List<string> destinations = new List<string>();
             foreach (IStorageItem item in source)
             {
-                returnStatus = await CopyItemAsync(item, Path.Combine(destination, item.Name), registerHistory);
+                destinations.Add(Path.Combine(destination, item.Name));
             }
+
+            returnStatus = await CopyItemsAsync(source, destinations, true);
+
             return returnStatus;
         }
 
@@ -693,10 +697,14 @@ namespace Files.Filesystem
             IReadOnlyList<IStorageItem> source = await packageView.GetStorageItemsAsync();
             ReturnResult returnStatus = ReturnResult.InProgress;
 
+            List<string> destinations = new List<string>();
             foreach (IStorageItem item in source)
             {
-                returnStatus = await MoveItemAsync(item, Path.Combine(destination, item.Name), registerHistory);
+                destinations.Add(Path.Combine(destination, item.Name));
             }
+
+            returnStatus = await MoveItemsAsync(source, destinations, true);
+
             return returnStatus;
         }
 
