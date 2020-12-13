@@ -604,6 +604,12 @@
                     TargetObject="{Binding ElementName=RootGrid}"
                     Value="{StaticResource BaseLayoutContextFlyout}" />
             </Core:DataTriggerBehavior>
+            <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Mode=OneWay}" Value="True">
+                <Core:ChangePropertyAction
+                    PropertyName="ContextFlyout"
+                    TargetObject="{Binding ElementName=RootGrid}"
+                    Value="{x:Null}" />
+            </Core:DataTriggerBehavior>
         </Interactivity:Interaction.Behaviors>
         <muxc:ProgressBar
             x:Name="progBar"
