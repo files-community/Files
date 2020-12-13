@@ -58,6 +58,7 @@
                                 Padding="2.5"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
+                                AutomationProperties.Name="{x:Bind Name}"
                                 Background="Transparent"
                                 ColumnSpacing="14"
                                 ToolTipService.ToolTip="{x:Bind RecentPath}">
