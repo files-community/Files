@@ -1892,6 +1892,10 @@
           <source>Learn more about date formats</source>
           <target state="new">Learn more about date formats</target>
         </trans-unit>
+        <trans-unit id="DragDropWindowText" translate="yes" xml:space="preserve">
+          <source>Drop here</source>
+          <target state="new">Drop here</target>
+        </trans-unit>
       </group>
     </body>
   </file>

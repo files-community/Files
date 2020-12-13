@@ -1524,4 +1524,7 @@
   <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>Learn more about date formats</value>
   </data>
+  <data name="DragDropWindowText" xml:space="preserve">
+    <value>Drop here</value>
+  </data>
 </root>

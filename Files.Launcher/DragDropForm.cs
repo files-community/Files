@@ -15,7 +15,7 @@ namespace FilesFullTrust
 
         public List<string> DropTargets { get; private set; } = new List<string>();
 
-        public DragDropForm(string dropPath, System.Threading.CancellationToken token)
+        public DragDropForm(string dropPath, string dropText, System.Threading.CancellationToken token)
         {
             this.FormBorderStyle = FormBorderStyle.None;
             this.ShowInTaskbar = false;
@@ -34,7 +34,7 @@ namespace FilesFullTrust
             label.Font = new System.Drawing.Font("Segoe UI", 24);
             label.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             label.Dock = DockStyle.Fill;
-            label.Text = "Drop here"; // TODO: translate
+            label.Text = dropText;
             this.Controls.Add(label);
             this.dropPath = dropPath;
 

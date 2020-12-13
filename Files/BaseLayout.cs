@@ -591,6 +591,7 @@ namespace Files
                         await Connection.SendMessageAsync(new ValueSet() {
                             { "Arguments", "FileOperation" },
                             { "fileop", "DragDrop" },
+                            { "droptext", "DragDropWindowText".GetLocalized() },
                             { "droppath", ParentShellPageInstance.FilesystemViewModel.WorkingDirectory } });
                     }
                 }

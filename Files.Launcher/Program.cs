@@ -441,9 +441,10 @@ namespace FilesFullTrust
                     cancellation.Dispose();
                     cancellation = new CancellationTokenSource();
                     var dropPath = (string)args.Request.Message["droppath"];
+                    var dropText = (string)args.Request.Message["droptext"];
                     var drops = Win32API.StartSTATask<List<string>>(() =>
                     {
-                        var form = new DragDropForm(dropPath, cancellation.Token);
+                        var form = new DragDropForm(dropPath, dropText, cancellation.Token);
                         System.Windows.Forms.Application.Run(form);
                         return form.DropTargets;
                     });
