@@ -948,11 +948,17 @@ namespace Files.Views.Pages
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
                 case (true, false, false, true, VirtualKey.Z): // ctrl + z, undo
-                    await storageHistoryHelpers.TryUndo();
+                    if (!InstanceViewModel.IsPageTypeSearchResults)
+                    {
+                        await storageHistoryHelpers.TryUndo();
+                    }
                     break;
 
                 case (true, false, false, true, VirtualKey.Y): // ctrl + y, redo
-                    await storageHistoryHelpers.TryRedo();
+                    if (!InstanceViewModel.IsPageTypeSearchResults)
+                    {
+                        await storageHistoryHelpers.TryRedo();
+                    }
                     break;
 
                 case (true, true, false, _, VirtualKey.T): // ctrl + shif + t, restore recently closed tab
@@ -978,7 +984,7 @@ namespace Files.Views.Pages
                     break;
 
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
-                    if (!NavigationToolbar.IsEditModeEnabled)
+                    if (!NavigationToolbar.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
                     {
 
                         await filesystemHelpers.DeleteItemsAsync(
@@ -999,7 +1005,7 @@ namespace Files.Views.Pages
                     break;
 
                 case (true, false, false, true, VirtualKey.V): // ctrl + v, paste
-                    if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem)
+                    if (!NavigationToolbar.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
                     {
                         await InteractionOperations.PasteItemAsync();
                     }
@@ -1047,7 +1053,7 @@ namespace Files.Views.Pages
                     break;
 
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
-                    if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem)
+                    if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
                     {
                         await filesystemHelpers.DeleteItemsAsync(
                             ContentPage.SelectedItems.Select((item) => new PathWithType(
@@ -1069,7 +1075,10 @@ namespace Files.Views.Pages
                     break;
 
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
-                    Refresh_Click();
+                    if (!InstanceViewModel.IsPageTypeSearchResults)
+                    {
+                        Refresh_Click();
+                    }
                     break;
 
                 case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
