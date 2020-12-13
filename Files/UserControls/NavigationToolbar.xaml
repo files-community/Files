@@ -858,7 +858,6 @@
             <Button
                 x:Name="SearchButton"
                 x:Uid="NavSearchButton"
-                Grid.Row="3"
                 Width="36"
                 Height="32"
                 Margin="0,0,4,0"
@@ -881,8 +880,6 @@
             <AutoSuggestBox
                 x:Name="SearchReigon"
                 x:Uid="NavigationToolbarSearchReigon"
-                Grid.Row="2"
-                Grid.Column="2"
                 Width="300"
                 Margin="0,0,4,0"
                 HorizontalAlignment="Right"
