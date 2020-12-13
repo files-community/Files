@@ -71,15 +71,6 @@
                     Text="Settings" />
             </muxc:NavigationView.PaneHeader>
 
-            <muxc:NavigationView.AutoSuggestBox>
-                <AutoSuggestBox
-                    x:Uid="SettingsNavSearch"
-                    MinWidth="150"
-                    AutomationProperties.Name="Search"
-                    PlaceholderText="Search"
-                    QueryIcon="Find" />
-            </muxc:NavigationView.AutoSuggestBox>
-
             <muxc:NavigationView.MenuItems>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavAppearance"
@@ -147,17 +138,7 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.MenuItems>
-            <Grid>
-                <Rectangle
-                    x:Name="Divider"
-                    Width=".5"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Stretch"
-                    Fill="{ThemeResource AppBarItemForegroundThemeBrush}"
-                    Opacity=".35"
-                    Visibility="Collapsed" />
-                <Frame x:Name="SettingsContentFrame" Padding="14,30,0,0" />
-            </Grid>
+            <Frame x:Name="SettingsContentFrame" Padding="14,30,0,0" />
         </muxc:NavigationView>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>

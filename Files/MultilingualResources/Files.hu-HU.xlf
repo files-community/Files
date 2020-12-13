@@ -12,7 +12,7 @@
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogCancelButton.Content" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="translated">Mégsem</target>
+          <target state="translated">Mégse</target>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogDeleteButton.Content" translate="yes" xml:space="preserve">
           <source>Delete</source>
@@ -36,7 +36,7 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarNewWindow.Text" translate="yes" xml:space="preserve">
           <source>New Window</source>
-          <target state="translated">új Ablak</target>
+          <target state="translated">Új Ablak</target>
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewFolder.Text" translate="yes" xml:space="preserve">
           <source>Folder</source>
@@ -116,11 +116,11 @@
         </trans-unit>
         <trans-unit id="ErrorDialogCancel" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="translated">Mégsem</target>
+          <target state="translated">Mégse</target>
         </trans-unit>
         <trans-unit id="PropertiesItemType.Text" translate="yes" xml:space="preserve">
           <source>Item type:</source>
-          <target state="translated">Fájl típusa:</target>
+          <target state="translated">Elem típusa:</target>
         </trans-unit>
         <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
@@ -128,7 +128,7 @@
         </trans-unit>
         <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
-          <target state="translated">Kijelölés invertálása</target>
+          <target state="translated">Kijelölés megfordítása</target>
         </trans-unit>
         <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
@@ -182,21 +182,17 @@
           <source>Files</source>
           <target state="translated">Files</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
-          <source>License</source>
-          <target state="translated">Licence</target>
-        </trans-unit>
         <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
           <source>Special thanks to:</source>
           <target state="translated">Külön köszönet:</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
           <source>Submit Feedback</source>
-          <target state="translated">Feedback küldése</target>
+          <target state="translated">Visszajelzés küldése</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
           <source>Send the developers an issue report with detailed information</source>
-          <target state="translated">Részletesebb információ küldése a hibáról a fejlesztőknek</target>
+          <target state="translated">Visszajelzés küldése a fejlesztőknek</target>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
           <source>Third Party Licenses</source>
@@ -205,10 +201,6 @@
         <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Rólunk</target>
-        </trans-unit>
-        <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
-          <source>Website</source>
-          <target state="translated">Weboldal</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Header" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>
@@ -226,17 +218,9 @@
           <source>Appearance</source>
           <target state="translated">Megjelenés</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowDriveLetters.Header" translate="yes" xml:space="preserve">
-          <source>Show drive letters</source>
-          <target state="translated">Meghajtó betűjének mutatása</target>
-        </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Header" translate="yes" xml:space="preserve">
           <source>Show extensions for known file types</source>
           <target state="translated">Kiterjesztés mutatása ismert fájlformátumoknál</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Header" translate="yes" xml:space="preserve">
-          <source>Show hidden files, folders, and drives</source>
-          <target state="translated">Rejtett fájlok mappák meghajtók mutatása</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
           <source>Files and Folders</source>
@@ -273,10 +257,6 @@
         <trans-unit id="SettingsNavPreferences.Content" translate="yes" xml:space="preserve">
           <source>Preferences</source>
           <target state="translated">Preferencia</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavSearch.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Search</source>
-          <target state="translated">Keresés</target>
         </trans-unit>
         <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
           <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
@@ -338,10 +318,6 @@
           <source>Videos</source>
           <target state="translated">Videók</target>
         </trans-unit>
-        <trans-unit id="SidebarSettings.Text" translate="yes" xml:space="preserve">
-          <source>Settings</source>
-          <target state="translated">Beállítások</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
           <source>Sort by</source>
           <target state="translated">Rendezés</target>
@@ -372,7 +348,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRefresh.Text" translate="yes" xml:space="preserve">
           <source>Refresh</source>
-          <target state="translated">Újratöltés</target>
+          <target state="translated">Frissítés</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutPaste.Text" translate="yes" xml:space="preserve">
           <source>Paste</source>
@@ -492,7 +468,7 @@
         </trans-unit>
         <trans-unit id="RenameDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="translated">Mégsem</target>
+          <target state="translated">Mégse</target>
         </trans-unit>
         <trans-unit id="NewTab" translate="yes" xml:space="preserve">
           <source>New tab</source>
@@ -548,11 +524,7 @@
         </trans-unit>
         <trans-unit id="NavRefreshButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Refresh (F5)</source>
-          <target state="translated">Újratöltés (F5)</target>
-        </trans-unit>
-        <trans-unit id="NavNewItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Create a new item (Ctrl + Shift + N)</source>
-          <target state="translated">Új (Ctrl + Shift + N)</target>
+          <target state="translated">Frissítés (F5)</target>
         </trans-unit>
         <trans-unit id="NavSearchButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Search</source>
@@ -678,14 +650,6 @@
           <source>Selection options</source>
           <target state="translated">Kijelölési lehetőségek</target>
         </trans-unit>
-        <trans-unit id="PropertiesDialogReadOnly.Content" translate="yes" xml:space="preserve">
-          <source>Read-only</source>
-          <target state="translated">Csak olvasható</target>
-        </trans-unit>
-        <trans-unit id="PropertiesDialogHidden.Content" translate="yes" xml:space="preserve">
-          <source>Hidden</source>
-          <target state="translated">Rejtett</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
           <target state="translated">Lomtár ürítése</target>
@@ -760,19 +724,19 @@
         </trans-unit>
         <trans-unit id="ItemSelected.Text" translate="yes" xml:space="preserve">
           <source>item selected</source>
-          <target state="translated">kijelölt fájl</target>
+          <target state="translated">kijelölt elem</target>
         </trans-unit>
         <trans-unit id="ItemsSelected.Text" translate="yes" xml:space="preserve">
           <source>items selected</source>
-          <target state="translated">kijelölt fájlok</target>
+          <target state="translated">kijelölt elem</target>
         </trans-unit>
         <trans-unit id="ItemCount.Text" translate="yes" xml:space="preserve">
           <source>item</source>
-          <target state="translated">Fájl</target>
+          <target state="translated">Elem</target>
         </trans-unit>
         <trans-unit id="ItemsCount.Text" translate="yes" xml:space="preserve">
           <source>items</source>
-          <target state="translated">Fájlok</target>
+          <target state="translated">Elem</target>
         </trans-unit>
         <trans-unit id="DeleteInProgress.Title" translate="yes" xml:space="preserve">
           <source>Deleting files</source>
@@ -796,7 +760,7 @@
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="translated">Mégsem</target>
+          <target state="translated">Mégse</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete all items?</source>
@@ -848,7 +812,7 @@
         </trans-unit>
         <trans-unit id="BitlockerDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="translated">Mégsem</target>
+          <target state="translated">Mégse</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter password to unlock the drive</source>
@@ -912,7 +876,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.Text" translate="yes" xml:space="preserve">
           <source>App Language</source>
-          <target state="translated">App Nyelve</target>
+          <target state="translated">Program Nyelve</target>
         </trans-unit>
         <trans-unit id="TabStripDragAndDropUIOverrideCaption" translate="yes" xml:space="preserve">
           <source>Move tab here</source>
@@ -924,7 +888,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenAddPageButton.Content" translate="yes" xml:space="preserve">
           <source>Add a new page</source>
-          <target state="translated">Új oldal hozzáadása</target>
+          <target state="translated">Oldal hozzáadása</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" translate="yes" xml:space="preserve">
           <source>Change Page Location</source>
@@ -948,7 +912,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
           <source>When launching an item from the jumplist</source>
-          <target state="translated">Fájl megnyitásakor a listáról</target>
+          <target state="translated">Elem megnyitásakor a listáról</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
           <source>Windows default</source>
@@ -1168,7 +1132,7 @@
         </trans-unit>
         <trans-unit id="PropertiesDialogCancelButton.Content" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="translated">Mégsem</target>
+          <target state="translated">Mégse</target>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogDeleteMultipleItems.Text" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete these {0} items?</source>
@@ -1188,11 +1152,11 @@
         </trans-unit>
         <trans-unit id="SettingsMultitaskingAdaptive.Content" translate="yes" xml:space="preserve">
           <source>Adaptive (Recommended)</source>
-          <target state="translated">Alkalmazkodó (Ajánlott)</target>
+          <target state="translated">Automatikus (Ajánlott)</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingAdaptiveDescription.Text" translate="yes" xml:space="preserve">
           <source>Selects the best multitasking control based on how the app window is resized. When the window is small, you'll notice the horizontal tab strip is collapsed into a flyout on the navigation toolbar.</source>
-          <target state="translated">A legjobb multitaszking kiválasztása az ablak méretétől függően. Amikor az ablak kicsi, a vízszintes lap lánc egy menüvé alakul navigációs sávban.</target>
+          <target state="translated">A legjobb lehetőség kiválasztása az ablak méretétől függően. Amikor az ablak kicsi, a vízszintes lap lánc egy menüvé alakul navigációs sávban.</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingHorizontal.Content" translate="yes" xml:space="preserve">
           <source>Horizontal</source>
@@ -1228,7 +1192,7 @@
         </trans-unit>
         <trans-unit id="AddDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="translated">Mégsem</target>
+          <target state="translated">Mégse</target>
         </trans-unit>
         <trans-unit id="AddDialog.Title" translate="yes" xml:space="preserve">
           <source>Create a New Item</source>
@@ -1282,21 +1246,13 @@
           <source>Go up one directory</source>
           <target state="translated">Vissza egy mappával</target>
         </trans-unit>
-        <trans-unit id="NewItemButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Create new item</source>
-          <target state="translated">Új fájl készítése</target>
-        </trans-unit>
         <trans-unit id="VerticalTabStrip.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Vertical tab strip</source>
           <target state="translated">Függőleges lap lánc</target>
         </trans-unit>
-        <trans-unit id="SidebarSettingsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Settings</source>
-          <target state="translated">Beállítások</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>App Language</source>
-          <target state="translated">App Nyelve</target>
+          <target state="translated">Program Nyelve</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesContextMenuSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show all context menu items</source>
@@ -1305,10 +1261,6 @@
         <trans-unit id="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show an option to copy the location of the selected item</source>
           <target state="translated">Kijelölt elem helyének másolása lehetőség megjelenítése</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Pin OneDrive to the sidebar</source>
-          <target state="translated">OneDrive kitűzése az oldalsávra</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
@@ -1342,17 +1294,9 @@
           <source>Terminal Applications</source>
           <target state="translated">Parancssor Programok</target>
         </trans-unit>
-        <trans-unit id="CopyLocationToggleSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show an option to copy the location of the selected item</source>
-          <target state="translated">Kijelölt elem helyének másolása lehetőség megjelenítése</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesContextMenuSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show all context menu items</source>
           <target state="translated">Összes menü lehetőség megjelenítése</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesPinOneDriveSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Pin OneDrive to the sidebar</source>
-          <target state="translated">OneDrive kitűzése az oldalsávra</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
@@ -1384,51 +1328,559 @@
         </trans-unit>
         <trans-unit id="SettingsOpenItemsWithOneclick.Header" translate="yes" xml:space="preserve">
           <source>Open items with a single click</source>
-          <target state="translated">Fájlok megnyitása egy kattintással</target>
+          <target state="translated">Elemek megnyitása egy kattintással</target>
         </trans-unit>
         <trans-unit id="PinToSidebarByDraggingCaptionText" translate="yes" xml:space="preserve">
           <source>Move here</source>
           <target state="translated">Ide</target>
         </trans-unit>
-        <trans-unit id="SettingsExperimentalSortPinnedFiItemsByDragging.Header" translate="yes" xml:space="preserve">
-          <source>Enable reordering items on the sidebar</source>
-          <target state="translated">Az oldalsáv elemeinek áthelyezésének engedélyezése</target>
-        </trans-unit>
         <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
           <source>Drives</source>
-          <target state="new">Drives</target>
+          <target state="translated">Meghajtók</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show library cards on the home page</source>
-          <target state="new">Show library cards on the home page</target>
+          <target state="translated">Könyvtárak megjelenítése a fő oldalon</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowLibraryCards.Header" translate="yes" xml:space="preserve">
           <source>Show library cards on the home page</source>
-          <target state="new">Show library cards on the home page</target>
+          <target state="translated">Könyvtárak megjelenítése a fő oldalon</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsTitle.Text" translate="yes" xml:space="preserve">
           <source>Widgets</source>
-          <target state="new">Widgets</target>
+          <target state="translated">Widgetek</target>
         </trans-unit>
         <trans-unit id="SettingsWidgets.Content" translate="yes" xml:space="preserve">
           <source>Widgets</source>
-          <target state="new">Widgets</target>
+          <target state="translated">Widgetek</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowDrives.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show drives on the home page</source>
-          <target state="new">Show drives on the home page</target>
+          <target state="translated">Meghajtók megjelenítése a fő oldalon</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowDrives.Header" translate="yes" xml:space="preserve">
           <source>Show drives on the home page</source>
-          <target state="new">Show drives on the home page</target>
+          <target state="translated">Meghajtók megjelenítése a fő oldalon</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show recent files on the home page</source>
-          <target state="new">Show recent files on the home page</target>
+          <target state="translated">Legutóbb megnyitottak megjelenítése a fő oldalon</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowRecentFiles.Header" translate="yes" xml:space="preserve">
           <source>Show recent files on the home page</source>
-          <target state="new">Show recent files on the home page</target>
+          <target state="translated">Legutóbbi megnyitottak megjelenítése a fő oldalon</target>
+        </trans-unit>
+        <trans-unit id="FileItemAutomation" translate="yes" xml:space="preserve">
+          <source>File</source>
+          <target state="translated">Fájl</target>
+        </trans-unit>
+        <trans-unit id="FolderItemAutomation" translate="yes" xml:space="preserve">
+          <source>Folder</source>
+          <target state="translated">Mappa</target>
+        </trans-unit>
+        <trans-unit id="RecycleBinItemAutomation" translate="yes" xml:space="preserve">
+          <source>Recycle bin item</source>
+          <target state="translated">Lomtár elem</target>
+        </trans-unit>
+        <trans-unit id="ShortcutItemAutomation" translate="yes" xml:space="preserve">
+          <source>Shortcut item</source>
+          <target state="translated">Gyorsgomb elem</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Show an option to copy the location of the selected item</source>
+          <target state="translated">Kijelölt elem helyének másolása lehetőség megjelenítése</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Header" translate="yes" xml:space="preserve">
+          <source>Show hidden files and folders</source>
+          <target state="translated">Rejtett fájlok és mappák mutatása</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Show hidden files and folders</source>
+          <target state="translated">Rejtett fájlok és mappák mutatása</target>
+        </trans-unit>
+        <trans-unit id="EjectNotificationHeader" translate="yes" xml:space="preserve">
+          <source>Safe to remove hardware</source>
+          <target state="translated">A hardware eltávolítása biztonságos</target>
+        </trans-unit>
+        <trans-unit id="EjectNotificationBody" translate="yes" xml:space="preserve">
+          <source>The device can now be safely removed from the computer.</source>
+          <target state="translated">Az eszköz biztonságosan eltávolítható.</target>
+        </trans-unit>
+        <trans-unit id="EjectNotificationErrorDialogHeader" translate="yes" xml:space="preserve">
+          <source>Problem Ejecting Device</source>
+          <target state="translated">Hiba az eszköz kiadása közben</target>
+        </trans-unit>
+        <trans-unit id="EjectNotificationErrorDialogBody" translate="yes" xml:space="preserve">
+          <source>This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</source>
+          <target state="translated">Az eszköz jelenleg használatban van. Zárjon be minden programot, ablakot ami használhatja, majd próbálja újra.</target>
+        </trans-unit>
+        <trans-unit id="SideBarEjectDevice.Text" translate="yes" xml:space="preserve">
+          <source>Eject</source>
+          <target state="translated">Kiadás</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlDuplicateTab.Text" translate="yes" xml:space="preserve">
+          <source>Duplicate tab</source>
+          <target state="translated">Lap kettőzése</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlMoveTabToNewWindow.Text" translate="yes" xml:space="preserve">
+          <source>Move tab to new window</source>
+          <target state="translated">Lap áthelyezése új ablakba</target>
+        </trans-unit>
+        <trans-unit id="HorizontalMultitaskingControlNewTab.Text" translate="yes" xml:space="preserve">
+          <source>New tab</source>
+          <target state="translated">Új lap</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogReadOnly.Text" translate="yes" xml:space="preserve">
+          <source>Read-only</source>
+          <target state="translated">Csak olvasható</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogHidden.Text" translate="yes" xml:space="preserve">
+          <source>Hidden</source>
+          <target state="translated">Rejtett</target>
+        </trans-unit>
+        <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
+          <source>Rating Text</source>
+          <target state="translated">Minősítés</target>
+        </trans-unit>
+        <trans-unit id="PropertyItemFolderPathDisplay" translate="yes" xml:space="preserve">
+          <source>Item Folder Path Display</source>
+          <target state="translated">Mappa elérési útja</target>
+        </trans-unit>
+        <trans-unit id="PropertyItemTypeText" translate="yes" xml:space="preserve">
+          <source>Item Type Text</source>
+          <target state="translated">Elem típusa</target>
+        </trans-unit>
+        <trans-unit id="PropertyTitle" translate="yes" xml:space="preserve">
+          <source>Title</source>
+          <target state="translated">Cím</target>
+        </trans-unit>
+        <trans-unit id="PropertySubject" translate="yes" xml:space="preserve">
+          <source>Subject</source>
+          <target state="translated">Téma</target>
+        </trans-unit>
+        <trans-unit id="PropertyComment" translate="yes" xml:space="preserve">
+          <source>Comment</source>
+          <target state="translated">Megjegyzés</target>
+        </trans-unit>
+        <trans-unit id="PropertyCopyright" translate="yes" xml:space="preserve">
+          <source>Copyright</source>
+          <target state="translated">Szerzői jog</target>
+        </trans-unit>
+        <trans-unit id="PropertyDateModified" translate="yes" xml:space="preserve">
+          <source>Date Modified</source>
+          <target state="translated">Módosítás dátuma</target>
+        </trans-unit>
+        <trans-unit id="PropertyBitDepth" translate="yes" xml:space="preserve">
+          <source>Bit Depth</source>
+          <target state="translated">Bitmélység</target>
+        </trans-unit>
+        <trans-unit id="PropertyDimensions" translate="yes" xml:space="preserve">
+          <source>Dimensions</source>
+          <target state="translated">Méretek</target>
+        </trans-unit>
+        <trans-unit id="PropertyHorizontalSize" translate="yes" xml:space="preserve">
+          <source>Horizontal Size</source>
+          <target state="translated">Széleség</target>
+        </trans-unit>
+        <trans-unit id="PropertyVerticalSize" translate="yes" xml:space="preserve">
+          <source>Vertical Size</source>
+          <target state="translated">Magasság</target>
+        </trans-unit>
+        <trans-unit id="PropertyHorizontalResolution" translate="yes" xml:space="preserve">
+          <source>Horizontal Resolution</source>
+          <target state="translated">Vízszintes felbontás</target>
+        </trans-unit>
+        <trans-unit id="PropertyVerticalResolution" translate="yes" xml:space="preserve">
+          <source>Vertical Resolution</source>
+          <target state="translated">Függőleges felbontás</target>
+        </trans-unit>
+        <trans-unit id="PropertyCompressionText" translate="yes" xml:space="preserve">
+          <source>Compression Text</source>
+          <target state="translated">Tömörítés</target>
+        </trans-unit>
+        <trans-unit id="PropertyColorSpace" translate="yes" xml:space="preserve">
+          <source>Color Space</source>
+          <target state="translated">Színtér</target>
+        </trans-unit>
+        <trans-unit id="PropertyLongitudeDecimal" translate="yes" xml:space="preserve">
+          <source>Longitude Decimal</source>
+          <target state="translated">Szélesség (egész)</target>
+        </trans-unit>
+        <trans-unit id="PropertyLatitudeDecimal" translate="yes" xml:space="preserve">
+          <source>Latitude Decimal</source>
+          <target state="translated">Magasság (egész)</target>
+        </trans-unit>
+        <trans-unit id="PropertyLatitude" translate="yes" xml:space="preserve">
+          <source>Latitude</source>
+          <target state="translated">Szélesség</target>
+        </trans-unit>
+        <trans-unit id="PropertyLongitude" translate="yes" xml:space="preserve">
+          <source>Longitude</source>
+          <target state="translated">Magasság</target>
+        </trans-unit>
+        <trans-unit id="PropertyLatitudeRef" translate="yes" xml:space="preserve">
+          <source>Latitude Ref</source>
+          <target state="translated">Szélesség Ref</target>
+        </trans-unit>
+        <trans-unit id="PropertyLongitudeRef" translate="yes" xml:space="preserve">
+          <source>Longitude Ref</source>
+          <target state="translated">Magasság Ref</target>
+        </trans-unit>
+        <trans-unit id="PropertyAltitude" translate="yes" xml:space="preserve">
+          <source>Altitude</source>
+          <target state="translated">Magasság</target>
+        </trans-unit>
+        <trans-unit id="PropertyDateTaken" translate="yes" xml:space="preserve">
+          <source>Date Taken</source>
+          <target state="translated">Létrehozás dátuma</target>
+        </trans-unit>
+        <trans-unit id="PropertyCameraManufacturer" translate="yes" xml:space="preserve">
+          <source>Camera Manufacturer</source>
+          <target state="translated">Fényképezőgép gyártója</target>
+        </trans-unit>
+        <trans-unit id="PropertyCameraModel" translate="yes" xml:space="preserve">
+          <source>Camera Model</source>
+          <target state="translated">Fényképezőgép modell</target>
+        </trans-unit>
+        <trans-unit id="PropertyExposureTime" translate="yes" xml:space="preserve">
+          <source>Exposure Time</source>
+          <target state="translated">Expozíciós idő</target>
+        </trans-unit>
+        <trans-unit id="PropertyFocalLength" translate="yes" xml:space="preserve">
+          <source>Focal Length</source>
+          <target state="translated">Fókusztávolság</target>
+        </trans-unit>
+        <trans-unit id="PropertyAperture" translate="yes" xml:space="preserve">
+          <source>Aperture</source>
+          <target state="translated">Rekesz</target>
+        </trans-unit>
+        <trans-unit id="PropertyPeopleNames" translate="yes" xml:space="preserve">
+          <source>People Names</source>
+          <target state="new">People Names</target>
+        </trans-unit>
+        <trans-unit id="PropertyChannelCount" translate="yes" xml:space="preserve">
+          <source>Channel Count</source>
+          <target state="new">Channel Count</target>
+        </trans-unit>
+        <trans-unit id="PropertyFormat" translate="yes" xml:space="preserve">
+          <source>Format</source>
+          <target state="translated">Formátum</target>
+        </trans-unit>
+        <trans-unit id="PropertySampleRate" translate="yes" xml:space="preserve">
+          <source>Sample Rate</source>
+          <target state="new">Sample Rate</target>
+        </trans-unit>
+        <trans-unit id="PropertyDisplayArtist" translate="yes" xml:space="preserve">
+          <source>Display Artist</source>
+          <target state="new">Display Artist</target>
+        </trans-unit>
+        <trans-unit id="PropertyAlbumArtist" translate="yes" xml:space="preserve">
+          <source>Album Artist</source>
+          <target state="translated">Album előadója</target>
+        </trans-unit>
+        <trans-unit id="PropertyAlbumTitle" translate="yes" xml:space="preserve">
+          <source>Album Title</source>
+          <target state="translated">Album</target>
+        </trans-unit>
+        <trans-unit id="PropertyArtist" translate="yes" xml:space="preserve">
+          <source>Artist</source>
+          <target state="translated">Előadó</target>
+        </trans-unit>
+        <trans-unit id="PropertyBeatsPerMinute" translate="yes" xml:space="preserve">
+          <source>Beats Per Minute</source>
+          <target state="translated">Ütem Per Perc</target>
+        </trans-unit>
+        <trans-unit id="PropertyComposer" translate="yes" xml:space="preserve">
+          <source>Composer</source>
+          <target state="translated">Zeneszerző</target>
+        </trans-unit>
+        <trans-unit id="PropertyConductor" translate="yes" xml:space="preserve">
+          <source>Conductor</source>
+          <target state="translated">Zeneszerző</target>
+        </trans-unit>
+        <trans-unit id="PropertyDiscNumber" translate="yes" xml:space="preserve">
+          <source>Disc Number</source>
+          <target state="translated">Lemez száma</target>
+        </trans-unit>
+        <trans-unit id="PropertyGenre" translate="yes" xml:space="preserve">
+          <source>Genre</source>
+          <target state="translated">Műfaj</target>
+        </trans-unit>
+        <trans-unit id="PropertyTrackNumber" translate="yes" xml:space="preserve">
+          <source>Track Number</source>
+          <target state="translated">Szám száma</target>
+        </trans-unit>
+        <trans-unit id="PropertyDuration" translate="yes" xml:space="preserve">
+          <source>Duration</source>
+          <target state="translated">Hossz</target>
+        </trans-unit>
+        <trans-unit id="PropertyFrameCount" translate="yes" xml:space="preserve">
+          <source>Frame Count</source>
+          <target state="new">Frame Count</target>
+        </trans-unit>
+        <trans-unit id="PropertyProtectionType" translate="yes" xml:space="preserve">
+          <source>Protection Type</source>
+          <target state="new">Protection Type</target>
+        </trans-unit>
+        <trans-unit id="PropertyAuthorUrl" translate="yes" xml:space="preserve">
+          <source>Author Url</source>
+          <target state="new">Author Url</target>
+        </trans-unit>
+        <trans-unit id="PropertyContentDistributor" translate="yes" xml:space="preserve">
+          <source>Content Distributor</source>
+          <target state="new">Content Distributor</target>
+        </trans-unit>
+        <trans-unit id="PropertyDateReleased" translate="yes" xml:space="preserve">
+          <source>Date Released</source>
+          <target state="translated">Megjelenés dátuma</target>
+        </trans-unit>
+        <trans-unit id="PropertySeriesName" translate="yes" xml:space="preserve">
+          <source>Series Name</source>
+          <target state="new">Series Name</target>
+        </trans-unit>
+        <trans-unit id="PropertySeasonNumber" translate="yes" xml:space="preserve">
+          <source>Season Number</source>
+          <target state="new">Season Number</target>
+        </trans-unit>
+        <trans-unit id="PropertyEpisodeNumber" translate="yes" xml:space="preserve">
+          <source>Episode Number</source>
+          <target state="new">Episode Number</target>
+        </trans-unit>
+        <trans-unit id="PropertyProducer" translate="yes" xml:space="preserve">
+          <source>Producer</source>
+          <target state="translated">Producer</target>
+        </trans-unit>
+        <trans-unit id="PropertyPromotionUrl" translate="yes" xml:space="preserve">
+          <source>Promotion Url</source>
+          <target state="new">Promotion Url</target>
+        </trans-unit>
+        <trans-unit id="PropertyProviderStyle" translate="yes" xml:space="preserve">
+          <source>Provider Style</source>
+          <target state="new">Provider Style</target>
+        </trans-unit>
+        <trans-unit id="PropertyPublisher" translate="yes" xml:space="preserve">
+          <source>Publisher</source>
+          <target state="translated">Kiadó</target>
+        </trans-unit>
+        <trans-unit id="PropertyThumbnailLargePath" translate="yes" xml:space="preserve">
+          <source>Thumbnail Large Path</source>
+          <target state="new">Thumbnail Large Path</target>
+        </trans-unit>
+        <trans-unit id="PropertyThumbnailLargeUri" translate="yes" xml:space="preserve">
+          <source>Thumbnail Large Uri</source>
+          <target state="new">Thumbnail Large Uri</target>
+        </trans-unit>
+        <trans-unit id="PropertyThumbnailSmallPath" translate="yes" xml:space="preserve">
+          <source>Thumbnail Small Path</source>
+          <target state="new">Thumbnail Small Path</target>
+        </trans-unit>
+        <trans-unit id="PropertyThumbnailSmallUri" translate="yes" xml:space="preserve">
+          <source>Thumbnail Small Uri</source>
+          <target state="new">Thumbnail Small Uri</target>
+        </trans-unit>
+        <trans-unit id="PropertyUserWebUrl" translate="yes" xml:space="preserve">
+          <source>User Web Url</source>
+          <target state="new">User Web Url</target>
+        </trans-unit>
+        <trans-unit id="PropertyWriter" translate="yes" xml:space="preserve">
+          <source>Writer</source>
+          <target state="translated">Író</target>
+        </trans-unit>
+        <trans-unit id="PropertyYear" translate="yes" xml:space="preserve">
+          <source>Year</source>
+          <target state="translated">Év</target>
+        </trans-unit>
+        <trans-unit id="PropertyContributor" translate="yes" xml:space="preserve">
+          <source>Contributor</source>
+          <target state="new">Contributor</target>
+        </trans-unit>
+        <trans-unit id="PropertyLastAuthor" translate="yes" xml:space="preserve">
+          <source>Last Author</source>
+          <target state="new">Last Author</target>
+        </trans-unit>
+        <trans-unit id="PropertyRevisionNumber" translate="yes" xml:space="preserve">
+          <source>Revision Number</source>
+          <target state="translated">Felülvizsgálat száma</target>
+        </trans-unit>
+        <trans-unit id="PropertyVersion" translate="yes" xml:space="preserve">
+          <source>Version</source>
+          <target state="translated">Verzió</target>
+        </trans-unit>
+        <trans-unit id="PropertyDateCreated" translate="yes" xml:space="preserve">
+          <source>Date Created</source>
+          <target state="translated">Létrehozás dátuma</target>
+        </trans-unit>
+        <trans-unit id="PropertyDateSaved" translate="yes" xml:space="preserve">
+          <source>Date Saved</source>
+          <target state="translated">Mentés dátuma</target>
+        </trans-unit>
+        <trans-unit id="PropertyDatePrinted" translate="yes" xml:space="preserve">
+          <source>Date Printed</source>
+          <target state="translated">Nyomtatás dátuma</target>
+        </trans-unit>
+        <trans-unit id="PropertyTotalEditingTime" translate="yes" xml:space="preserve">
+          <source>Total Editing Time</source>
+          <target state="translated">Teljes szerkeztési idő</target>
+        </trans-unit>
+        <trans-unit id="PropertyTemplate" translate="yes" xml:space="preserve">
+          <source>Template</source>
+          <target state="translated">Minta</target>
+        </trans-unit>
+        <trans-unit id="PropertyWordCount" translate="yes" xml:space="preserve">
+          <source>Word Count</source>
+          <target state="translated">Szavak száma</target>
+        </trans-unit>
+        <trans-unit id="PropertyCharacterCount" translate="yes" xml:space="preserve">
+          <source>Character Count</source>
+          <target state="translated">Karakterek száma</target>
+        </trans-unit>
+        <trans-unit id="PropertyLineCount" translate="yes" xml:space="preserve">
+          <source>Line Count</source>
+          <target state="translated">Sorok száma</target>
+        </trans-unit>
+        <trans-unit id="PropertyParagraphCount" translate="yes" xml:space="preserve">
+          <source>Paragraph Count</source>
+          <target state="translated">Bekezdések száma</target>
+        </trans-unit>
+        <trans-unit id="PropertyPageCount" translate="yes" xml:space="preserve">
+          <source>Page Count</source>
+          <target state="translated">Lapok száma</target>
+        </trans-unit>
+        <trans-unit id="PropertySlideCount" translate="yes" xml:space="preserve">
+          <source>Slide Count</source>
+          <target state="new">Slide Count</target>
+        </trans-unit>
+        <trans-unit id="PropertyFrameRate" translate="yes" xml:space="preserve">
+          <source>Frame Rate</source>
+          <target state="translated">Képkockák sebessége</target>
+        </trans-unit>
+        <trans-unit id="PropertyEncodingBitrate" translate="yes" xml:space="preserve">
+          <source>Encoding Bitrate</source>
+          <target state="translated">Bitráta kódolása</target>
+        </trans-unit>
+        <trans-unit id="PropertyCompression" translate="yes" xml:space="preserve">
+          <source>Compression</source>
+          <target state="translated">Tömörítés</target>
+        </trans-unit>
+        <trans-unit id="PropertyFrameWidth" translate="yes" xml:space="preserve">
+          <source>Frame Width</source>
+          <target state="translated">Szélesség</target>
+        </trans-unit>
+        <trans-unit id="PropertyFrameHeight" translate="yes" xml:space="preserve">
+          <source>Frame Height</source>
+          <target state="translated">Magasság</target>
+        </trans-unit>
+        <trans-unit id="PropertyOrientation" translate="yes" xml:space="preserve">
+          <source>Orientation</source>
+          <target state="translated">Tájolás</target>
+        </trans-unit>
+        <trans-unit id="PropertySectionCore" translate="yes" xml:space="preserve">
+          <source>Core</source>
+          <target state="translated">Leírás</target>
+        </trans-unit>
+        <trans-unit id="PropertySectionImage" translate="yes" xml:space="preserve">
+          <source>Image</source>
+          <target state="translated">Kép</target>
+        </trans-unit>
+        <trans-unit id="PropertySectionPhoto" translate="yes" xml:space="preserve">
+          <source>Photo</source>
+          <target state="translated">Fotó</target>
+        </trans-unit>
+        <trans-unit id="PropertySectionGPS" translate="yes" xml:space="preserve">
+          <source>GPS</source>
+          <target state="translated">GPS</target>
+        </trans-unit>
+        <trans-unit id="PropertySectionMedia" translate="yes" xml:space="preserve">
+          <source>Media</source>
+          <target state="translated">Média</target>
+        </trans-unit>
+        <trans-unit id="PropertySectionAudio" translate="yes" xml:space="preserve">
+          <source>Audio</source>
+          <target state="translated">Audió</target>
+        </trans-unit>
+        <trans-unit id="PropertySectionMusic" translate="yes" xml:space="preserve">
+          <source>Music</source>
+          <target state="translated">Zene</target>
+        </trans-unit>
+        <trans-unit id="PropertySectionVideo" translate="yes" xml:space="preserve">
+          <source>Video</source>
+          <target state="translated">Videó</target>
+        </trans-unit>
+        <trans-unit id="PropertySectionDocument" translate="yes" xml:space="preserve">
+          <source>Document</source>
+          <target state="translated">Dokumentum</target>
+        </trans-unit>
+        <trans-unit id="PropertyAddress" translate="yes" xml:space="preserve">
+          <source>Address</source>
+          <target state="translated">Elérhetőség</target>
+        </trans-unit>
+        <trans-unit id="PropertySaveErrorDialog.Title" translate="yes" xml:space="preserve">
+          <source>Error</source>
+          <target state="translated">Hiba</target>
+        </trans-unit>
+        <trans-unit id="PropertySaveErrorDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Retry</source>
+          <target state="translated">Újra</target>
+        </trans-unit>
+        <trans-unit id="PropertySaveErrorDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
+          <source>Close anyway</source>
+          <target state="translated">Bezárás mindenképpen</target>
+        </trans-unit>
+        <trans-unit id="PropertySaveErrorDialog.CloseButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">Mégse</target>
+        </trans-unit>
+        <trans-unit id="PropertySaveErrorMessage.Text" translate="yes" xml:space="preserve">
+          <source>There was an issue saving some properties.</source>
+          <target state="translated">Probléma adódott a tulajdonságok mentésekor.</target>
+        </trans-unit>
+        <trans-unit id="ClearPropertiesFlyoutText.Text" translate="yes" xml:space="preserve">
+          <source>Some properties may contain personal information.</source>
+          <target state="translated">Pár tulajdonság tartalmazhat személyes információt.</target>
+        </trans-unit>
+        <trans-unit id="ClearPropertiesFlyoutConfirmation.Content" translate="yes" xml:space="preserve">
+          <source>Clear</source>
+          <target state="translated">Clear</target>
+        </trans-unit>
+        <trans-unit id="ClearPropertiesButton.Content" translate="yes" xml:space="preserve">
+          <source>Clear All Properties</source>
+          <target state="translated">Összes tulajdonság törlése</target>
+        </trans-unit>
+        <trans-unit id="PropertyColorSpace_Value0" translate="yes" xml:space="preserve">
+          <source>sRGB</source>
+          <target state="translated">sRGB</target>
+        </trans-unit>
+        <trans-unit id="PropertyColorSpace_Value65535" translate="yes" xml:space="preserve">
+          <source>Unspecified</source>
+          <target state="translated">Nem meghatározott</target>
+        </trans-unit>
+        <trans-unit id="StatusCenterTeachingTip.Subtitle" translate="yes" xml:space="preserve">
+          <source>Check the status of file operations here</source>
+          <target state="new">Check the status of file operations here</target>
+        </trans-unit>
+        <trans-unit id="StatusCenterTeachingTip.Title" translate="yes" xml:space="preserve">
+          <source>Status Center</source>
+          <target state="translated">Állapotsor</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutLicense.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>License</source>
+          <target state="translated">Licenc</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutLicense.Content" translate="yes" xml:space="preserve">
+          <source>License</source>
+          <target state="translated">Licenc</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutWebsite.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Website</source>
+          <target state="translated">Weboldal</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutWebsite.Content" translate="yes" xml:space="preserve">
+          <source>Website</source>
+          <target state="translated">Weboldal</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Learn more about date formats</source>
+          <target state="translated">Tudj meg többet a dátumokról</target>
         </trans-unit>
       </group>
     </body>

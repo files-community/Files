@@ -5,8 +5,9 @@ namespace Files.DataModels
 {
     public class DefaultLanguageModel
     {
-        public string ID;
-        public string Name;
+        public string ID { get; set; }
+
+        public string Name { get; set; }
 
         public DefaultLanguageModel(string id)
         {

@@ -1,5 +1,4 @@
 ﻿using ByteSizeLib;
-using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -8,8 +7,9 @@ using Microsoft.UI.Xaml.Controls;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
@@ -17,10 +17,8 @@ using Windows.Foundation.Collections;
 using Windows.Security.Cryptography.Core;
 using Windows.Services.Maps;
 using Windows.Storage;
-using Windows.Storage.FileProperties;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.View_Models.Properties
 {
@@ -28,137 +26,16 @@ namespace Files.View_Models.Properties
     {
         private ProgressBar ProgressBar;
 
-        private readonly List<string> PropertiesToGet_RO = new List<string>()
-        {
-            //Core
-            "System.RatingText",
-            "System.ItemFolderPathDisplay",
-            "System.ItemTypeText",
-
-            //Image
-            "System.Image.ImageID",
-            "System.Image.CompressedBitsPerPixel",
-            "System.Image.BitDepth",
-            "System.Image.Dimensions",
-            "System.Image.HorizontalResolution",
-            "System.Image.VerticalResolution",
-            "System.Image.CompressionText",
-            "System.Image.ResolutionUnit",
-            "System.Image.HorizontalSize",
-            "System.Image.VerticalSize",
-
-            //GPS
-            "System.GPS.Latitude",
-            "System.GPS.LatitudeRef",
-            "System.GPS.Longitude",
-            "System.GPS.LongitudeRef",
-            "System.GPS.Altitude",
-
-            //Photo
-            "System.Photo.ExposureTime",
-            "System.Photo.FocalLength",
-            "System.Photo.Aperture",
-            "System.Photo.DateTaken",
-
-            //Audio
-            "System.Audio.ChannelCount",
-            "System.Audio.EncodingBitrate",
-            "System.Audio.Compression",
-            "System.Audio.Format",
-            "System.Audio.SampleRate",
-
-            //Music
-            "System.Music.AlbumID",
-            "System.Music.DisplayArtist",
-            "System.Media.CreatorApplication",
-
-            //Media
-            "System.Media.AverageLevel",
-            "System.Media.Duration",
-            "System.Media.FrameCount",
-            "System.Media.ProtectionType",
-        };
-
-        private readonly List<string> PropertiesToGet_RW = new List<string>()
-        {
-            //Core
-            "System.Title",
-            "System.Subject",
-            "System.Comment",
-            "System.Copyright",
-            "System.DateCreated",
-            "System.DateModified",
-
-            //Photo
-            "System.Photo.CameraManufacturer",
-            "System.Photo.CameraModel",
-
-            //Music
-            "System.Music.AlbumArtist",
-            "System.Music.AlbumTitle",
-            "System.Music.Artist",
-            "System.Music.BeatsPerMinute",
-            "System.Music.Composer",
-            "System.Music.Conductor",
-            "System.Music.DiscNumber",
-            "System.Music.Genre",
-            "System.Music.TrackNumber",
-
-            //Media
-            "System.Media.AuthorUrl",
-            "System.Media.ContentDistributor",
-            "System.Media.DateReleased",
-            "System.Media.DlnaProfileID",
-            "System.Media.DVDID",
-            "System.Media.EncodedBy",
-            "System.Media.EncodingSettings",
-            "System.Media.SeriesName",
-            "System.Media.SeasonNumber",
-            "System.Media.EpisodeNumber",
-            "System.Media.MCDI",
-            "System.Media.Producer",
-            "System.Media.PromotionUrl",
-            "System.Media.ProviderStyle",
-            "System.Media.Publisher",
-            "System.Media.ThumbnailLargePath",
-            "System.Media.ThumbnailLargeUri",
-            "System.Media.ThumbnailSmallPath",
-            "System.Media.ThumbnailSmallUri",
-            "System.Media.UniqueFileIdentifier",
-            "System.Media.UserWebUrl",
-            "System.Media.Writer",
-            "System.Media.Year",
-        };
-
-        /// <summary>
-        /// This list stores all properties to be cleared when clear personal properties is called
-        /// </summary>
-        private readonly List<string> PersonalProperties = new List<string>()
-        {
-                "System.GPS.LatitudeNumerator",
-                "System.GPS.LatitudeDenominator",
-                "System.GPS.LongitudeNumerator",
-                "System.GPS.LongitudeDenominator",
-                "System.GPS.AltitudeNumerator",
-                "System.GPS.AltitudeDenominator",
-                "System.GPS.AltitudeRef",
-                "System.Title",
-                "System.Subject",
-                "System.Comment",
-                "System.Copyright",
-                "System.Photo.CameraManufacturer",
-                "System.Photo.CameraModel",
-        };
-
         public ListedItem Item { get; }
 
-        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ProgressBar progressBar, ListedItem item)
+        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ProgressBar progressBar, ListedItem item, IShellPage instance)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;
             ProgressBar = progressBar;
             Dispatcher = coreDispatcher;
             Item = item;
+            AppInstance = instance;
 
             GetBaseProperties();
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
@@ -200,7 +77,7 @@ namespace Files.View_Models.Properties
                         if (Item.IsLinkItem)
                         {
                             var tmpItem = (ShortcutItem)Item;
-                            await Interacts.Interaction.InvokeWin32Component(ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, tmpItem.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
+                            await AppInstance.InteractionOperations.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, tmpItem.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
                         }
                         else
                         {
@@ -217,9 +94,20 @@ namespace Files.View_Models.Properties
 
         public override async void GetSpecialProperties()
         {
+            ViewModel.IsReadOnly = NativeFileOperationsHelper.HasFileAttribute(
+                Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+            ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
+                Item.ItemPath, System.IO.FileAttributes.Hidden);
+
             ViewModel.ItemSizeVisibility = Visibility.Visible;
             ViewModel.ItemSize = ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()
                 + " (" + ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + "ItemSizeBytes".GetLocalized() + ")";
+
+            var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
+            if (fileIconInfo.Icon != null && !Item.IsLinkItem)
+            {
+                ViewModel.FileIconSource = fileIconInfo.Icon;
+            }
 
             if (Item.IsShortcutItem)
             {
@@ -233,28 +121,11 @@ namespace Files.View_Models.Properties
                 }
             }
 
-            StorageFile file = null;
-            try
+            StorageFile file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+            if (file == null)
             {
-                file = await ItemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
-            }
-            catch (Exception ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                 // Could not access file, can't show any other property
                 return;
-            }
-
-            using (var Thumbnail = await file.GetThumbnailAsync(ThumbnailMode.SingleItem, 80, ThumbnailOptions.UseCurrentScale))
-            {
-                BitmapImage icon = new BitmapImage();
-                if (Thumbnail != null)
-                {
-                    ViewModel.FileIconSource = icon;
-                    await icon.SetSourceAsync(Thumbnail);
-                    ViewModel.LoadUnknownTypeGlyph = false;
-                    ViewModel.LoadFileIcon = true;
-                }
             }
 
             if (Item.IsShortcutItem)
@@ -263,10 +134,6 @@ namespace Files.View_Models.Properties
                 return;
             }
 
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-
-            ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDateFromFormat(file.DateCreated, returnformat);
             GetOtherProperties(file.Properties);
 
             // Get file MD5 hash
@@ -275,8 +142,8 @@ namespace Files.View_Models.Properties
             ViewModel.ItemMD5HashVisibility = Visibility.Visible;
             try
             {
-                ViewModel.ItemMD5Hash = await App.CurrentInstance.InteractionOperations
-                    .GetHashForFile(Item, hashAlgTypeName, TokenSource.Token, ProgressBar);
+                ViewModel.ItemMD5Hash = await AppInstance.InteractionOperations
+                    .GetHashForFileAsync(Item, hashAlgTypeName, TokenSource.Token, ProgressBar);
             }
             catch (Exception ex)
             {
@@ -287,110 +154,34 @@ namespace Files.View_Models.Properties
 
         public async void GetSystemFileProperties()
         {
-            StorageFile file = null;
-            try
+            StorageFile file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+            if (file == null)
             {
-                file = await ItemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
-            }
-            catch (Exception ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                 // Could not access file, can't show any other property
                 return;
             }
 
-            //IDictionary<string, object> ViewModel.SystemFileProperties;
+            var list = await FileProperty.RetrieveAndInitializePropertiesAsync(file);
 
-            //GenerateXAMLCode();
-            try
-            {
-                ViewModel.SystemFileProperties_RO = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RO);
-                ViewModel.SystemFileProperties_RW = await file.Properties.RetrievePropertiesAsync(PropertiesToGet_RW);
-                //GetPropertiesAsyncDebug(file);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.ToString());
-            }
-            SetVisibilities();
+            list.Find(x => x.ID == "address").Value = await GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
+                                                                                           (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 
-            ViewModelProcessing();
+            var query = list
+                .Where(fileProp => !(fileProp.Value == null && fileProp.IsReadOnly))
+                .GroupBy(fileProp => fileProp.Section)
+                .OrderBy(group => group.Key)
+                .Select(group => new FilePropertySection(group) { Key = group.Key })
+                .Where(section => !section.All(fileProp => fileProp.Value == null));
+            ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
         }
 
-        private void SetLocationInformation()
+        private async Task<string> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)
         {
-            double[] latitude = ViewModel.SystemFileProperties_RO["System.GPS.Latitude"] as double[];
-            double[] longitude = ViewModel.SystemFileProperties_RO["System.GPS.Longitude"] as double[];
-            ViewModel.Latitude = (latitude[0] + (latitude[1] / 60) + (latitude[2] / 3600));
-            ViewModel.Longitude = longitude[0] + (longitude[1] / 60) + (longitude[2] / 3600);
-            ViewModel.Latitude *= (ViewModel.SystemFileProperties_RO["System.GPS.LatitudeRef"] as string).ToLower().Equals("s") ? -1 : 1;
-            ViewModel.Longitude *= (ViewModel.SystemFileProperties_RO["System.GPS.LongitudeRef"] as string).ToLower().Equals("w") ? -1 : 1;
-        }
-
-        /// <summary>
-        /// Use this function to process any information for the view model
-        /// </summary>
-        private async void ViewModelProcessing()
-        {
-            if (ViewModel.DetailsSectionVisibility_Photo.Equals(Visibility.Visible))
-                ViewModel.CameraNameString = string.Format("{0} {1}", ViewModel.SystemFileProperties_RW["System.Photo.CameraManufacturer"], ViewModel.SystemFileProperties_RW["System.Photo.CameraModel"]);
-
-            if (ViewModel.DetailsSectionVisibility_GPS == Visibility.Visible)
-                SetLocationInformation();
-
-            if (ViewModel.DetailsSectionVisibility_GPS.Equals(Visibility.Visible))
+            if (!Lat.HasValue || !Lon.HasValue)
             {
-                MapLocationFinderResult result = null;
-                try
-                {
-                    result = await GetAddressFromCoordinates((double)ViewModel.Latitude, (double)ViewModel.Longitude);
-                    if (result != null)
-                    {
-                        ViewModel.Geopoint = result.Locations[0];
-                        ViewModel.GeopointString = string.Format("{0}, {1}", result.Locations[0].Address.Town.ToString(), result.Locations[0].Address.Region.ToString());
-                    }
-                    else
-                    {
-                        ViewModel.GeopointString = string.Format("{0}, {1}", ViewModel.Latitude, ViewModel.Longitude);
-                    }
-                }
-                catch
-                {
-                }
+                return null;
             }
 
-            if (ViewModel.DetailsSectionVisibility_Photo.Equals(Visibility.Visible))
-            {
-                ViewModel.ShotString = string.Format("{0} sec. f/{1} {2}mm", ViewModel.SystemFileProperties_RO["System.Photo.ExposureTime"], ViewModel.SystemFileProperties_RO["System.Photo.Aperture"], ViewModel.SystemFileProperties_RO["System.Photo.FocalLength"]);
-            }
-        }
-
-        private void SetVisibilities()
-        {
-            ViewModel.DetailsSectionVisibility_GPS = CheckVisibility("System.GPS");
-            ViewModel.DetailsSectionVisibility_Photo = CheckVisibility("System.Photo");
-            ViewModel.DetailsSectionVisibility_Image = CheckVisibility("System.Image");
-            ViewModel.DetailsSectionVisibility_Audio = CheckVisibility("System.Audio");
-            ViewModel.DetailsSectionVisibility_Music = CheckVisibility("System.Music");
-            ViewModel.DetailsSectionVisibility_Media = CheckVisibility("System.Media");
-        }
-
-        private Visibility CheckVisibility(string endpoint)
-        {
-            return CheckVisibilityHelper(endpoint, ViewModel.SystemFileProperties_RO) || CheckVisibilityHelper(endpoint, ViewModel.SystemFileProperties_RW) ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        private bool CheckVisibilityHelper(string endpoint, IDictionary<string, object> dict)
-        {
-            foreach (KeyValuePair<string, object> pair in dict)
-                if (pair.Key.Contains(endpoint) && pair.Value != null)
-                    return true;
-
-            return false;
-        }
-
-        private async Task<MapLocationFinderResult> GetAddressFromCoordinates(double Lat, double Lon)
-        {
             JObject obj;
             try
             {
@@ -398,53 +189,54 @@ namespace Files.View_Models.Properties
                 var lines = await FileIO.ReadTextAsync(file);
                 obj = JObject.Parse(lines);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
+
             MapService.ServiceToken = (string)obj.SelectToken("key");
 
             BasicGeoposition location = new BasicGeoposition();
-            location.Latitude = Lat;
-            location.Longitude = Lon;
+            location.Latitude = Lat.Value;
+            location.Longitude = Lon.Value;
             Geopoint pointToReverseGeocode = new Geopoint(location);
 
             // Reverse geocode the specified geographic location.
-            return await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
-            // If the query returns results, display the name of the town
-            // contained in the address of the first result.
+
+            var result = await MapLocationFinder.FindLocationsAtAsync(pointToReverseGeocode);
+            return result != null ? result.Locations[0].DisplayName : null;
         }
 
-        public async void SyncPropertyChanges()
+        public async Task SyncPropertyChangesAsync()
         {
             StorageFile file = null;
+            file = await StorageFile.GetFileFromPathAsync(Item.ItemPath);
 
-            try
+            var failedProperties = "";
+            foreach (var group in ViewModel.PropertySections)
             {
-                file = await ItemViewModel.GetFileFromPathAsync(Item.ItemPath);
-                SavePropertiesAsync(file);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.ToString());
-            }
-        }
-
-        private async void SavePropertiesAsync(StorageFile file)
-        {
-            foreach (KeyValuePair<string, object> valuePair in ViewModel.SystemFileProperties_RW)
-            {
-                var newDict = new Dictionary<string, object>();
-                newDict.Add(valuePair.Key, valuePair.Value);
-
-                try
+                foreach (FileProperty prop in group)
                 {
-                    await file.Properties.SavePropertiesAsync(newDict);
+                    if (!prop.IsReadOnly && prop.Modified)
+                    {
+                        var newDict = new Dictionary<string, object>();
+                        newDict.Add(prop.Property, prop.Value);
+
+                        try
+                        {
+                            await file.Properties.SavePropertiesAsync(newDict);
+                        }
+                        catch (Exception e)
+                        {
+                            failedProperties += $"{prop.Name}\n";
+                        }
+                    }
                 }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(string.Format("{0}\n{1}", valuePair.Key, e.ToString()));
-                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(failedProperties))
+            {
+                throw new Exception($"The following properties failed to save: {failedProperties}");
             }
         }
 
@@ -452,38 +244,80 @@ namespace Files.View_Models.Properties
         /// This function goes through ever read-write property saved, then syncs it
         /// </summary>
         /// <returns></returns>
-        public async Task ClearPersonalInformation()
+        public async Task ClearPropertiesAsync()
         {
+            var failedProperties = new List<string>();
             StorageFile file = null;
             try
             {
-                file = await ItemViewModel.GetFileFromPathAsync(Item.ItemPath);
+                file = await StorageFile.GetFileFromPathAsync(Item.ItemPath);
             }
             catch
             {
-                //return;
+                return;
             }
-            var dict = new Dictionary<string, object>();
 
-            foreach (string str in PersonalProperties)
-                dict.Add(str, null);
+            foreach (var group in ViewModel.PropertySections)
+            {
+                foreach (FileProperty prop in group)
+                {
+                    if (!prop.IsReadOnly)
+                    {
+                        var newDict = new Dictionary<string, object>();
+                        newDict.Add(prop.Property, null);
 
-            await file.Properties.SavePropertiesAsync(dict);
+                        try
+                        {
+                            await file.Properties.SavePropertiesAsync(newDict);
+                        }
+                        catch
+                        {
+                            failedProperties.Add(prop.Name);
+                        }
+                    }
+                }
+            }
 
-            GetSpecialProperties();
+            GetSystemFileProperties();
         }
 
         private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
+                case "IsReadOnly":
+                    if (ViewModel.IsReadOnly)
+                    {
+                        NativeFileOperationsHelper.SetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+                    }
+                    else
+                    {
+                        NativeFileOperationsHelper.UnsetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+                    }
+                    break;
+
+                case "IsHidden":
+                    if (ViewModel.IsHidden)
+                    {
+                        NativeFileOperationsHelper.SetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.Hidden);
+                    }
+                    else
+                    {
+                        NativeFileOperationsHelper.UnsetFileAttribute(
+                            Item.ItemPath, System.IO.FileAttributes.Hidden);
+                    }
+                    break;
+
                 case "ShortcutItemPath":
                 case "ShortcutItemWorkingDir":
                 case "ShortcutItemArguments":
                     var tmpItem = (ShortcutItem)Item;
                     if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
                         return;
-                    if (App.Connection != null)
+                    if (AppInstance.FilesystemViewModel.Connection != null)
                     {
                         var value = new ValueSet()
                         {
@@ -495,7 +329,7 @@ namespace Files.View_Models.Properties
                             { "workingdir", ViewModel.ShortcutItemWorkingDir },
                             { "runasadmin", tmpItem.RunAsAdmin },
                         };
-                        await App.Connection.SendMessageAsync(value);
+                        await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(value);
                     }
                     break;
             }

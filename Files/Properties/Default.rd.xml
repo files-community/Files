@@ -21,7 +21,9 @@
       An Assembly element with Name="*Application*" applies to all assemblies in
       the application package. The asterisks are not wildcards.
     -->
-    <Assembly Name="*Application*" Dynamic="Required All" />
+    <Namespace Name="Microsoft.Xaml.Interactivity" Dynamic="Required All" />
+    <Namespace Name="Microsoft.Xaml.Interactions.Core" Dynamic="Required All" />
+    <Namespace Name="NLog" Dynamic="Required All" />
 
     <!-- Add your application specific runtime directives here. -->
   </Application>

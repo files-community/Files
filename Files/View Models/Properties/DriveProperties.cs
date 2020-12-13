@@ -10,11 +10,11 @@ namespace Files.View_Models.Properties
     {
         public DriveItem Drive { get; }
 
-        public DriveProperties(SelectedItemsPropertiesViewModel viewModel, DriveItem driveItem)
+        public DriveProperties(SelectedItemsPropertiesViewModel viewModel, DriveItem driveItem, IShellPage instance)
         {
             ViewModel = viewModel;
             Drive = driveItem;
-
+            AppInstance = instance;
             GetBaseProperties();
         }
 
@@ -25,6 +25,7 @@ namespace Files.View_Models.Properties
                 ViewModel.DriveItemGlyphSource = Drive.Glyph;
                 ViewModel.LoadDriveItemGlyph = true;
                 ViewModel.ItemName = Drive.Text;
+                ViewModel.OriginalItemName = Drive.Text;
                 ViewModel.ItemType = Drive.Type.ToString();
             }
         }
@@ -32,7 +33,7 @@ namespace Files.View_Models.Properties
         public override void GetSpecialProperties()
         {
             ViewModel.ItemAttributesVisibility = Visibility.Collapsed;
-            StorageFolder diskRoot = Task.Run(async () => await ItemViewModel.GetFolderFromPathAsync(Drive.Path)).Result;
+            StorageFolder diskRoot = Task.Run(async () => await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(Drive.Path)).Result;
 
             string freeSpace = "System.FreeSpace";
             string capacity = "System.Capacity";
@@ -42,10 +43,7 @@ namespace Files.View_Models.Properties
             {
                 var properties = Task.Run(async () =>
                 {
-                    return await diskRoot.Properties.RetrievePropertiesAsync(new[] {
-                    freeSpace,
-                    capacity,
-                    fileSystem });
+                    return await diskRoot.Properties.RetrievePropertiesAsync(new[] { freeSpace, capacity, fileSystem });
                 }).Result;
 
                 ViewModel.DriveCapacityValue = (ulong)properties[capacity];

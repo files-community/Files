@@ -32,7 +32,9 @@ namespace Files.Helpers
         public static string WithEnding([CanBeNull] this string str, string ending)
         {
             if (str == null)
+            {
                 return ending;
+            }
 
             string result = str;
 
@@ -43,7 +45,9 @@ namespace Files.Helpers
             {
                 string tmp = result + ending.Right(i);
                 if (tmp.EndsWith(ending))
+                {
                     return tmp;
+                }
             }
 
             return result;

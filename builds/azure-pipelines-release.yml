@@ -3,10 +3,11 @@ pr: none
 
 pool:
   vmImage: 'windows-latest'
+  timeoutInMinutes: 90
 
 variables:
   solution: '**/*.sln'
-  buildPlatform: 'x86|x64'
+  buildPlatform: 'x86|x64|arm64'
   buildConfiguration: 'Release'
   appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
 
@@ -62,7 +63,6 @@ steps:
     msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
 
 - task: store-flight@0
-  timeoutInMinutes: 90
   inputs:
     serviceEndpoint: 'Files'
     appId: '9NGHP3DX8HDX'
@@ -70,3 +70,5 @@ steps:
     packagePath: '$(appxPackageDir)\**\*.msixupload'
     force: false
     skipPolling: false
+    deletePackages: true
+    numberOfPackagesToKeep: '5'

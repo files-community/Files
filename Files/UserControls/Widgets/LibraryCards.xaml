@@ -2,8 +2,10 @@
     x:Class="Files.LibraryCards"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
@@ -27,7 +29,13 @@
             </muxc:ItemsRepeater.Layout>
             <muxc:ItemsRepeater.ItemTemplate>
                 <DataTemplate x:DataType="local:FavoriteLocationItem">
-                    <Grid>
+                    <Grid
+                        extensions:VisualExtensions.CenterPoint="80,45,0"
+                        PointerEntered="GridScaleUp"
+                        PointerExited="GridScaleNormal">
+                        <animations:Implicit.Animations>
+                            <animations:ScaleAnimation Duration="0:0:0.5" />
+                        </animations:Implicit.Animations>
                         <Grid.Resources>
                             <ResourceDictionary>
                                 <ResourceDictionary.ThemeDictionaries>

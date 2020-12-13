@@ -55,7 +55,7 @@
                 Margin="{StaticResource PropertyNameMargin}"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch">
-                <usercontrols:FileIcon ItemSize="70" ViewModel="{x:Bind ViewModel}" />
+                <usercontrols:FileIcon ItemSize="80" ViewModel="{x:Bind ViewModel}" />
             </Grid>
             <TextBox
                 x:Name="ItemFileName"
@@ -197,14 +197,16 @@
             <StackPanel
                 Grid.Row="9"
                 Grid.Column="0"
-                Margin="0,7"
+                Margin="{StaticResource PropertyNameMargin}"
                 Orientation="Horizontal"
                 Visibility="{x:Bind ViewModel.DriveUsedSpaceVisibiity, Mode=OneWay}">
                 <Rectangle
                     Width="15"
                     Height="15"
-                    Margin="5,0"
-                    Fill="DodgerBlue" />
+                    Margin="0,0,10,0"
+                    Fill="DodgerBlue"
+                    RadiusX="2"
+                    RadiusY="2" />
                 <TextBlock
                     x:Uid="PropertiesDriveUsedSpace"
                     VerticalAlignment="Center"
@@ -229,8 +231,10 @@
                 <Rectangle
                     Width="15"
                     Height="15"
-                    Margin="5,0"
-                    Fill="Gray" />
+                    Margin="0,0,10,0"
+                    Fill="Gray"
+                    RadiusX="2"
+                    RadiusY="2" />
                 <TextBlock
                     x:Uid="PropertiesDriveFreeSpace"
                     VerticalAlignment="Center"
@@ -346,9 +350,9 @@
                 x:Uid="PropertiesAttributes"
                 Grid.Row="18"
                 Grid.Column="0"
-                Margin="{StaticResource PropertyNameMargin}"
                 VerticalAlignment="Center"
                 FontWeight="SemiBold"
+                Style="{StaticResource PropertyName}"
                 Text="Attributes:"
                 Visibility="{x:Bind ViewModel.ItemAttributesVisibility, Mode=OneWay}" />
             <StackPanel
@@ -359,14 +363,22 @@
                 Orientation="Horizontal"
                 Spacing="16"
                 Visibility="{x:Bind ViewModel.ItemAttributesVisibility, Mode=OneWay}">
-                <CheckBox
-                    x:Uid="PropertiesDialogReadOnly"
-                    Content="Read-only"
-                    IsEnabled="False" />
-                <CheckBox
-                    x:Uid="PropertiesDialogHidden"
-                    Content="Hidden"
-                    IsEnabled="False" />
+                <CheckBox IsChecked="{x:Bind ViewModel.IsReadOnly, Mode=TwoWay}" IsEnabled="{x:Bind ViewModel.IsReadOnlyEnabled, Mode=OneWay}">
+                    <CheckBox.Content>
+                        <TextBlock
+                            x:Uid="PropertiesDialogReadOnly"
+                            Text="Read-only"
+                            TextWrapping="WrapWholeWords" />
+                    </CheckBox.Content>
+                </CheckBox>
+                <CheckBox IsChecked="{x:Bind ViewModel.IsHidden, Mode=TwoWay}">
+                    <CheckBox.Content>
+                        <TextBlock
+                            x:Uid="PropertiesDialogHidden"
+                            Text="Hidden"
+                            TextWrapping="WrapWholeWords" />
+                    </CheckBox.Content>
+                </CheckBox>
             </StackPanel>
         </Grid>
     </StackPanel>

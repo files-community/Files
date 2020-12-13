@@ -48,9 +48,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
-  <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>Licencia</value>
-  </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Agradecimientos especiales a:</value>
   </data>
@@ -65,9 +62,6 @@
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Acerca de Files UWP</value>
-  </data>
-  <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Sitio web</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Apariencia</value>
@@ -89,9 +83,6 @@
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferencias</value>
-  </data>
-  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>Búsqueda</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Continuar donde lo dejó</value>
@@ -267,9 +258,6 @@
   <data name="StatusBarControlListView.Text" xml:space="preserve">
     <value>Detalles</value>
   </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>Ajustes</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Nombre</value>
   </data>
@@ -347,9 +335,6 @@
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Actualizar (F5)</value>
-  </data>
-  <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Crear un nuevo elemento (Ctrl + Shift + N)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Búsqueda</value>
@@ -475,7 +460,7 @@
     <value>¿Has eliminado esta carpeta?</value>
   </data>
   <data name="StatusBarControlLayoutMode.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Tipo de vista</value>
+    <value>Modo de vista</value>
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Opciones de selección</value>
@@ -491,12 +476,6 @@
   </data>
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>Aceptar</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>Solo lectura</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>Oculto</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Vaciar papelera de reciclaje</value>
@@ -801,8 +780,23 @@
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
     <value>Compartiendo {0} {1}</value>
   </data>
+  <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
+    <value>El elemento que estás intentando renombrar ya no existe. Verifique la ubicación correcta del elemento que necesitas renombrar.</value>
+  </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
     <value>El elemento ya no existe</value>
+  </data>
+  <data name="RenameError.NameInvalid.Text" xml:space="preserve">
+    <value>El nombre especificado no es válido. Compruebe el nombre del elemento deseado y vuelva a intentarlo.</value>
+  </data>
+  <data name="RenameError.NameInvalid.Title" xml:space="preserve">
+    <value>Nombre de elemento inválido</value>
+  </data>
+  <data name="RenameError.TooLong.Text" xml:space="preserve">
+    <value>La longitud del nombre del elemento especificado supera el límite máximo. Compruebe el nombre deseado y vuelva a intentarlo.</value>
+  </data>
+  <data name="RenameError.TooLong.Title" xml:space="preserve">
+    <value>El nombre del elemento es demasiado largo</value>
   </data>
   <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
     <value>Más</value>
@@ -873,8 +867,14 @@
   <data name="AddDialogListBitmapHeader" xml:space="preserve">
     <value>Imagen de mapa de bits</value>
   </data>
+  <data name="AddDialogListBitmapSubHeader" xml:space="preserve">
+    <value>Crea un archivo de imagen de mapa de bits vacío</value>
+  </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>Carpeta</value>
+  </data>
+  <data name="AddDialogListFolderSubHeader" xml:space="preserve">
+    <value>Crea una carpeta vacía</value>
   </data>
   <data name="AddDialogListTextFileHeader" xml:space="preserve">
     <value>Documento de texto</value>
@@ -883,10 +883,7 @@
     <value>Crea un archivo de texto vacío.</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
-    <value>Tipo de vista</value>
-  </data>
-  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Crear nuevo elemento</value>
+    <value>Modo de vista</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Navegar hacia atrás</value>
@@ -903,9 +900,6 @@
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>Barra de pestañas vertical</value>
   </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Ajustes</value>
-  </data>
   <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
     <value>Idioma</value>
   </data>
@@ -917,9 +911,6 @@
   </data>
   <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar en el menú contextual una opción para copiar la ubicación del archivo seleccionado</value>
-  </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar OneDrive en la barra lateral</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar la papelera de reciclaje en la barra lateral</value>
@@ -954,14 +945,8 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Acceso Denegado</value>
   </data>
-  <data name="CopyLocationToggleSwitch.Header" xml:space="preserve">
-    <value>Mostrar en el menú contextual una opción para copiar la ubicación del archivo seleccionado</value>
-  </data>
   <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
     <value>Mostrar todos los elementos del menú contextual</value>
-  </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.Header" xml:space="preserve">
-    <value>Mostrar OneDrive en la barra lateral</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Mostrar la papelera de reciclaje en la barra lateral</value>
@@ -969,14 +954,8 @@
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>Mostrar cuadro de diálogo para confirmar eliminación</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Header" xml:space="preserve">
-    <value>Mostrar letra de unidades</value>
-  </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>Mostrar extensiones de archivos conocidos</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Header" xml:space="preserve">
-    <value>Mostrar archivos, carpetas y unidades ocultos</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Barra lateral acrílica</value>
@@ -989,5 +968,395 @@
   </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
     <value>Mostrar propietario de archivo en la ventana de propiedades</value>
+  </data>
+  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Más opciones</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.AutomationProperties.Name" xml:space="preserve">
+    <value>Modo de vista</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Opciones de selección</value>
+  </data>
+  <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
+    <value>Centro de actividades</value>
+  </data>
+  <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
+    <value>Abrir elementos con un solo click</value>
+  </data>
+  <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
+    <value>Mover aquí</value>
+  </data>
+  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+    <value>Dispositivos y Unidades</value>
+  </data>
+  <data name="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar bibliotecas en la página de inicio</value>
+  </data>
+  <data name="SettingsWidgetsShowLibraryCards.Header" xml:space="preserve">
+    <value>Mostrar bibliotecas en la página de inicio</value>
+  </data>
+  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
+    <value>Widgets</value>
+  </data>
+  <data name="SettingsWidgets.Content" xml:space="preserve">
+    <value>Widgets</value>
+  </data>
+  <data name="SettingsWidgetsShowDrives.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar unidades en la página de inicio</value>
+  </data>
+  <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
+    <value>Mostrar unidades en la página de inicio</value>
+  </data>
+  <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar archivos recientes en la página de inicio</value>
+  </data>
+  <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
+    <value>Mostrar archivos recientes en la página de inicio</value>
+  </data>
+  <data name="FileItemAutomation" xml:space="preserve">
+    <value>Archivo</value>
+  </data>
+  <data name="FolderItemAutomation" xml:space="preserve">
+    <value>Carpeta</value>
+  </data>
+  <data name="RecycleBinItemAutomation" xml:space="preserve">
+    <value>Elemento de papelera de reciclaje</value>
+  </data>
+  <data name="ShortcutItemAutomation" xml:space="preserve">
+    <value>Elemento de acceso directo</value>
+  </data>
+  <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
+    <value>Mostrar en el menú contextual una opción para copiar la ubicación del archivo seleccionado</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
+    <value>Mostrar archivos y carpetas ocultos</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar archivos y carpetas ocultos</value>
+  </data>
+  <data name="EjectNotificationHeader" xml:space="preserve">
+    <value>Es seguro quitar el hardware</value>
+  </data>
+  <data name="EjectNotificationBody" xml:space="preserve">
+    <value>Ahora se puede quitar el dispositivo de forma segura del equipo.</value>
+  </data>
+  <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
+    <value>Problema al expulsar el dispositivo</value>
+  </data>
+  <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
+    <value>El dispositivo está en uso. Cierre cualquier programa o ventana que pueda estar usando el dispositivo e inténtelo de nuevo.</value>
+  </data>
+  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+    <value>Expulsar</value>
+  </data>
+  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+    <value>Duplicar pestaña</value>
+  </data>
+  <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
+    <value>Mover a una nueva ventana</value>
+  </data>
+  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+    <value>Nueva pestaña</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
+    <value>Solo lectura</value>
+  </data>
+  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
+    <value>Oculto</value>
+  </data>
+  <data name="PropertyRatingText" xml:space="preserve">
+    <value>Clasificación</value>
+  </data>
+  <data name="PropertyItemFolderPathDisplay" xml:space="preserve">
+    <value>Ruta de acceso a la carpeta</value>
+  </data>
+  <data name="PropertyItemTypeText" xml:space="preserve">
+    <value>Tipo de elemento</value>
+  </data>
+  <data name="PropertyTitle" xml:space="preserve">
+    <value>Título</value>
+  </data>
+  <data name="PropertySubject" xml:space="preserve">
+    <value>Asunto</value>
+  </data>
+  <data name="PropertyComment" xml:space="preserve">
+    <value>Comentarios</value>
+  </data>
+  <data name="PropertyCopyright" xml:space="preserve">
+    <value>Copyright</value>
+  </data>
+  <data name="PropertyDateCreated" xml:space="preserve">
+    <value>Fecha de creación</value>
+  </data>
+  <data name="PropertyDateModified" xml:space="preserve">
+    <value>Fecha de modificación</value>
+  </data>
+  <data name="PropertyBitDepth" xml:space="preserve">
+    <value>Profundidad en bits</value>
+  </data>
+  <data name="PropertyDimensions" xml:space="preserve">
+    <value>Dimensiones</value>
+  </data>
+  <data name="PropertyHorizontalResolution" xml:space="preserve">
+    <value>Resolución horizontal</value>
+  </data>
+  <data name="PropertyVerticalResolution" xml:space="preserve">
+    <value>Resolución vertical</value>
+  </data>
+  <data name="PropertyCompressionText" xml:space="preserve">
+    <value>Compresión</value>
+  </data>
+  <data name="PropertyHorizontalSize" xml:space="preserve">
+    <value>Ancho</value>
+  </data>
+  <data name="PropertyVerticalSize" xml:space="preserve">
+    <value>Alto</value>
+  </data>
+  <data name="PropertyLatitude" xml:space="preserve">
+    <value>Latitud</value>
+  </data>
+  <data name="PropertyLatitudeDecimal" xml:space="preserve">
+    <value>Latitud Decimal</value>
+  </data>
+  <data name="PropertyLatitudeRef" xml:space="preserve">
+    <value>Latitud Ref</value>
+  </data>
+  <data name="PropertyLongitude" xml:space="preserve">
+    <value>Longitud</value>
+  </data>
+  <data name="PropertyLongitudeDecimal" xml:space="preserve">
+    <value>Longitud Decimal</value>
+  </data>
+  <data name="PropertyLongitudeRef" xml:space="preserve">
+    <value>Longitud Ref</value>
+  </data>
+  <data name="PropertyAltitude" xml:space="preserve">
+    <value>Altitud</value>
+  </data>
+  <data name="PropertyCameraManufacturer" xml:space="preserve">
+    <value>Fabricante de cámara</value>
+  </data>
+  <data name="PropertyCameraModel" xml:space="preserve">
+    <value>Modelo de cámara</value>
+  </data>
+  <data name="PropertyExposureTime" xml:space="preserve">
+    <value>Tiempo de exposición</value>
+  </data>
+  <data name="PropertyFocalLength" xml:space="preserve">
+    <value>Distancia focal</value>
+  </data>
+  <data name="PropertyAperture" xml:space="preserve">
+    <value>Apertura máxima</value>
+  </data>
+  <data name="PropertyDateTaken" xml:space="preserve">
+    <value>Fecha de captura</value>
+  </data>
+  <data name="PropertyChannelCount" xml:space="preserve">
+    <value>Canales</value>
+  </data>
+  <data name="PropertyEncodingBitrate" xml:space="preserve">
+    <value>Velocidad de bits</value>
+  </data>
+  <data name="PropertyCompression" xml:space="preserve">
+    <value>Compresión</value>
+  </data>
+  <data name="PropertyFormat" xml:space="preserve">
+    <value>Formato</value>
+  </data>
+  <data name="PropertySampleRate" xml:space="preserve">
+    <value>Velocidad de muestra de sonido</value>
+  </data>
+  <data name="PropertyDisplayArtist" xml:space="preserve">
+    <value>Intérpretes colaboradores</value>
+  </data>
+  <data name="PropertyAlbumArtist" xml:space="preserve">
+    <value>Intérprete del álbum</value>
+  </data>
+  <data name="PropertyAlbumTitle" xml:space="preserve">
+    <value>Álbum</value>
+  </data>
+  <data name="PropertyArtist" xml:space="preserve">
+    <value>Intérprete</value>
+  </data>
+  <data name="PropertyBeatsPerMinute" xml:space="preserve">
+    <value>Pulsaciones por minuto</value>
+  </data>
+  <data name="PropertyComposer" xml:space="preserve">
+    <value>Compositores</value>
+  </data>
+  <data name="PropertyConductor" xml:space="preserve">
+    <value>Conductores</value>
+  </data>
+  <data name="PropertyDiscNumber" xml:space="preserve">
+    <value>Número de disco</value>
+  </data>
+  <data name="PropertyGenre" xml:space="preserve">
+    <value>Género</value>
+  </data>
+  <data name="PropertyTrackNumber" xml:space="preserve">
+    <value>Número de pista</value>
+  </data>
+  <data name="PropertyDuration" xml:space="preserve">
+    <value>Duración</value>
+  </data>
+  <data name="PropertyFrameCount" xml:space="preserve">
+    <value>Velocidad fotograma</value>
+  </data>
+  <data name="PropertyProtectionType" xml:space="preserve">
+    <value>Tipo de protección</value>
+  </data>
+  <data name="PropertyAuthorUrl" xml:space="preserve">
+    <value>Dirección URL del autor</value>
+  </data>
+  <data name="PropertyContentDistributor" xml:space="preserve">
+    <value>Proveedor de contenido</value>
+  </data>
+  <data name="PropertyDateReleased" xml:space="preserve">
+    <value>Fecha de lanzamiento</value>
+  </data>
+  <data name="PropertySeriesName" xml:space="preserve">
+    <value>Nombre de la serie</value>
+  </data>
+  <data name="PropertySeasonNumber" xml:space="preserve">
+    <value>Número de temporada</value>
+  </data>
+  <data name="PropertyEpisodeNumber" xml:space="preserve">
+    <value>Número de episodio</value>
+  </data>
+  <data name="PropertyProducer" xml:space="preserve">
+    <value>Productor</value>
+  </data>
+  <data name="PropertyPromotionUrl" xml:space="preserve">
+    <value>Dirección URL de promoción</value>
+  </data>
+  <data name="PropertyProviderStyle" xml:space="preserve">
+    <value>Estilo de música</value>
+  </data>
+  <data name="PropertyPublisher" xml:space="preserve">
+    <value>Editora</value>
+  </data>
+  <data name="PropertyUserWebUrl" xml:space="preserve">
+    <value>Dirección URL</value>
+  </data>
+  <data name="PropertyWriter" xml:space="preserve">
+    <value>Escritor</value>
+  </data>
+  <data name="PropertyYear" xml:space="preserve">
+    <value>Año</value>
+  </data>
+  <data name="PropertySectionCore" xml:space="preserve">
+    <value>Núcleo</value>
+  </data>
+  <data name="PropertySectionImage" xml:space="preserve">
+    <value>Imagen</value>
+  </data>
+  <data name="PropertySectionPhoto" xml:space="preserve">
+    <value>Foto</value>
+  </data>
+  <data name="PropertySectionGPS" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="PropertySectionMedia" xml:space="preserve">
+    <value>Multimedia</value>
+  </data>
+  <data name="PropertySectionAudio" xml:space="preserve">
+    <value>Audio</value>
+  </data>
+  <data name="PropertySectionMusic" xml:space="preserve">
+    <value>Música</value>
+  </data>
+  <data name="PropertyAddress" xml:space="preserve">
+    <value>Dirección</value>
+  </data>
+  <data name="PropertyColorSpace" xml:space="preserve">
+    <value>Espacio de color</value>
+  </data>
+  <data name="PropertyPeopleNames" xml:space="preserve">
+    <value>Nombre de personas </value>
+  </data>
+  <data name="PropertyContributor" xml:space="preserve">
+    <value>Contribuidor</value>
+  </data>
+  <data name="PropertyLastAuthor" xml:space="preserve">
+    <value>Último autor</value>
+  </data>
+  <data name="PropertyRevisionNumber" xml:space="preserve">
+    <value>Número de revisión</value>
+  </data>
+  <data name="PropertyVersion" xml:space="preserve">
+    <value>Versión</value>
+  </data>
+  <data name="PropertySectionVideo" xml:space="preserve">
+    <value>Vídeo</value>
+  </data>
+  <data name="PropertyDateSaved" xml:space="preserve">
+    <value>Fecha de guardado</value>
+  </data>
+  <data name="PropertyDatePrinted" xml:space="preserve">
+    <value>Fecha impresa</value>
+  </data>
+  <data name="PropertyTotalEditingTime" xml:space="preserve">
+    <value>Tiempo total de edición</value>
+  </data>
+  <data name="PropertyTemplate" xml:space="preserve">
+    <value>Plantilla</value>
+  </data>
+  <data name="PropertyWordCount" xml:space="preserve">
+    <value>Palabras</value>
+  </data>
+  <data name="PropertyCharacterCount" xml:space="preserve">
+    <value>Caracteres</value>
+  </data>
+  <data name="PropertyLineCount" xml:space="preserve">
+    <value>Líneas</value>
+  </data>
+  <data name="PropertyParagraphCount" xml:space="preserve">
+    <value>Párrafos</value>
+  </data>
+  <data name="PropertyPageCount" xml:space="preserve">
+    <value>Páginas</value>
+  </data>
+  <data name="PropertySlideCount" xml:space="preserve">
+    <value>Diapositiva</value>
+  </data>
+  <data name="PropertyFrameRate" xml:space="preserve">
+    <value>Fotogramas</value>
+  </data>
+  <data name="PropertyFrameWidth" xml:space="preserve">
+    <value>Ancho de fotograma</value>
+  </data>
+  <data name="PropertyFrameHeight" xml:space="preserve">
+    <value>Alto de fotograma</value>
+  </data>
+  <data name="PropertyOrientation" xml:space="preserve">
+    <value>Orientación</value>
+  </data>
+  <data name="PropertySectionDocument" xml:space="preserve">
+    <value>Documento</value>
+  </data>
+  <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Reintentar</value>
+  </data>
+  <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Cerrar de todos modos</value>
+  </data>
+  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
+    <value>Hubo un problema al guardar algunas propiedades.</value>
+  </data>
+  <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
+    <value>Algunas propiedades pueden contener información personal.</value>
+  </data>
+  <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
+    <value>Quitar</value>
+  </data>
+  <data name="ClearPropertiesButton.Content" xml:space="preserve">
+    <value>Quitar todas las propiedades</value>
   </data>
 </root>

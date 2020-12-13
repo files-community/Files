@@ -4,33 +4,35 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-// The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace Files.Dialogs
 {
+    public enum DialogResult
+    {
+        Delete,
+        Cancel,
+        Nothing
+    }
+
     public sealed partial class ConfirmDeleteDialog : ContentDialog
     {
-        public StorageDeleteOption PermanentlyDelete { get; set; }
+        private SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; set; } = null;
+
+        public bool PermanentlyDelete { get; set; }
+
         public string Description { get; set; }
-        public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel => App.CurrentInstance.ContentPage.SelectedItemsPropertiesViewModel;
-        public MyResult Result { get; set; }
 
-        public enum MyResult
-        {
-            Delete,
-            Cancel,
-            Nothing
-        }
+        public DialogResult Result { get; set; }
 
-        public ConfirmDeleteDialog(bool deleteFromRecycleBin, StorageDeleteOption deleteOption)
+        public ConfirmDeleteDialog(bool deleteFromRecycleBin, bool permanently, SelectedItemsPropertiesViewModel propertiesViewModel)
         {
             this.InitializeComponent();
 
-            this.Result = MyResult.Nothing; //clear the result in case the value is set from last time
-            this.PermanentlyDelete = deleteOption;
+            Result = DialogResult.Nothing; //clear the result in case the value is set from last time
+            PermanentlyDelete = permanently;
+            SelectedItemsPropertiesViewModel = propertiesViewModel;
 
             // If deleting from recycle bin disable "permanently delete" option
-            this.chkPermanentlyDelete.IsEnabled = !deleteFromRecycleBin;
+            chkPermanentlyDelete.IsEnabled = !deleteFromRecycleBin;
 
             if (SelectedItemsPropertiesViewModel.SelectedItemsCount == 1)
             {
@@ -44,13 +46,13 @@ namespace Files.Dialogs
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            Result = MyResult.Delete;
+            Result = DialogResult.Delete;
             Hide();
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            Result = MyResult.Cancel;
+            Result = DialogResult.Cancel;
             Hide();
         }
     }

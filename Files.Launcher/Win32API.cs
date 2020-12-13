@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -34,7 +35,7 @@ namespace FilesFullTrust
             return tcs.Task;
         }
 
-        public static async Task<string> GetFileAssociation(string filename)
+        public static async Task<string> GetFileAssociationAsync(string filename)
         {
             // Find UWP apps
             var uwp_apps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
@@ -93,17 +94,74 @@ namespace FilesFullTrust
             }
         }
 
-        public static void UnlockBitlockerDrive(string drive, string password)
+        public static (string icon, string overlay, bool isCustom) GetFileIconAndOverlay(string path, int thumbnailSize)
+        {
+            var shfi = new Shell32.SHFILEINFO();
+            var ret = Shell32.SHGetFileInfo(path, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION);
+            if (ret == IntPtr.Zero)
+            {
+                return (null, null, false);
+            }
+
+            bool isCustom = !shfi.szDisplayName.StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.Windows));
+            User32.DestroyIcon(shfi.hIcon);
+            Shell32.SHGetImageList(Shell32.SHIL.SHIL_LARGE, typeof(ComCtl32.IImageList).GUID, out var tmp);
+            using var imageList = ComCtl32.SafeHIMAGELIST.FromIImageList(tmp);
+            if (imageList.IsNull || imageList.IsInvalid)
+            {
+                return (null, null, isCustom);
+            }
+
+            string iconStr = null, overlayStr = null;
+            var overlay_idx = shfi.iIcon >> 24;
+            if (overlay_idx != 0)
+            {
+                var overlay_image = imageList.Interface.GetOverlayImage(overlay_idx);
+                using var hOverlay = imageList.Interface.GetIcon(overlay_image, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
+                if (!hOverlay.IsNull && !hOverlay.IsInvalid)
+                {
+                    using var image = hOverlay.ToIcon().ToBitmap();
+                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                    overlayStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                }
+            }
+
+            // The following only returns the icon (not thumbnail) and it's difficult to get a high-res icon
+            //var icon_idx = shfi.iIcon & 0xFFFFFF;
+            //using var hIcon = imageList.Interface.GetIcon(icon_idx, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
+
+            using var shellItem = new Vanara.Windows.Shell.ShellItem(path);
+            if (shellItem.IShellItem is Shell32.IShellItemImageFactory fctry)
+            {
+                var flags = Shell32.SIIGBF.SIIGBF_BIGGERSIZEOK;
+                if (thumbnailSize < 80) flags |= Shell32.SIIGBF.SIIGBF_ICONONLY;
+                var hres = fctry.GetImage(new SIZE(thumbnailSize, thumbnailSize), flags, out var hbitmap);
+                if (hres == HRESULT.S_OK)
+                {
+                    using var image = GetBitmapFromHBitmap(hbitmap);
+                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                    iconStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                }
+                //Marshal.ReleaseComObject(fctry);
+            }
+
+            return (iconStr, overlayStr, isCustom);
+        }
+
+        private static void RunPowershellCommand(string command, bool runAsAdmin)
         {
             try
             {
                 Process process = new Process();
-                process.StartInfo.UseShellExecute = true;
-                process.StartInfo.Verb = "runas";
+                if (runAsAdmin)
+                {
+                    process.StartInfo.UseShellExecute = true;
+                    process.StartInfo.Verb = "runas";
+                }
                 process.StartInfo.FileName = "powershell.exe";
                 process.StartInfo.CreateNoWindow = true;
                 process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-                process.StartInfo.Arguments = $"-command \"$SecureString = ConvertTo-SecureString '{password}' -AsPlainText -Force; Unlock-BitLocker -MountPoint '{drive}' -Password $SecureString\"";
+                process.StartInfo.Arguments = command;
                 process.Start();
                 process.WaitForExit(30 * 1000);
             }
@@ -113,25 +171,79 @@ namespace FilesFullTrust
             }
         }
 
-        public static (string icon, bool isCustom) GetFileOverlayIcon(string path)
+        public static void UnlockBitlockerDrive(string drive, string password)
         {
-            var shfi = new Shell32.SHFILEINFO();
-            var ret = Shell32.SHGetFileInfo(path, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION);
-            if (ret == IntPtr.Zero) return (null, false);
-            bool isCustom = !shfi.szDisplayName.StartsWith(Environment.GetFolderPath(Environment.SpecialFolder.Windows));
-            User32.DestroyIcon(shfi.hIcon);
-            Shell32.SHGetImageList(Shell32.SHIL.SHIL_LARGE, typeof(ComCtl32.IImageList).GUID, out var tmp);
-            using var imageList = ComCtl32.SafeHIMAGELIST.FromIImageList(tmp);
-            if (imageList.IsNull || imageList.IsInvalid) return (null, isCustom);
-            var overlay_idx = shfi.iIcon >> 24;
-            //var icon_idx = shfi.iIcon & 0xFFFFFF;
-            if (overlay_idx == 0) return (null, isCustom);
-            var overlay_image = imageList.Interface.GetOverlayImage(overlay_idx);
-            using var hIcon = imageList.Interface.GetIcon(overlay_image, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
-            if (hIcon.IsNull || hIcon.IsInvalid) return (null, isCustom);
-            using var image = hIcon.ToIcon().ToBitmap();
-            byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-            return (Convert.ToBase64String(bitmapData, 0, bitmapData.Length), isCustom);
+            RunPowershellCommand($"-command \"$SecureString = ConvertTo-SecureString '{password}' -AsPlainText -Force; Unlock-BitLocker -MountPoint '{drive}' -Password $SecureString\"", true);
+        }
+
+        public static void OpenFormatDriveDialog(string drive)
+        {
+            // format requires elevation
+            int driveIndex = drive.ToUpperInvariant()[0] - 'A';
+            RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"shell32.dll\\\", SetLastError = false)]public static extern uint SHFormatDrive(IntPtr hwnd, uint drive, uint fmtID, uint options);'; $SHFormatDrive = Add-Type -MemberDefinition $Signature -Name \"Win32SHFormatDrive\" -Namespace Win32Functions -PassThru; $SHFormatDrive::SHFormatDrive(0, {driveIndex}, 0xFFFF, 0x0001)\"", true);
+        }
+
+        public static void SetVolumeLabel(string driveName, string newLabel)
+        {
+            // rename requires elevation
+            RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"kernel32.dll\\\", SetLastError = false)]public static extern bool SetVolumeLabel(string lpRootPathName, string lpVolumeName);'; $SetVolumeLabel = Add-Type -MemberDefinition $Signature -Name \"Win32SetVolumeLabel\" -Namespace Win32Functions -PassThru; $SetVolumeLabel::SetVolumeLabel('{driveName}', '{newLabel}')\"", true);
+        }
+
+        private static Bitmap GetBitmapFromHBitmap(HBITMAP hBitmap)
+        {
+            Bitmap bmp = hBitmap.ToBitmap();
+
+            if (Bitmap.GetPixelFormatSize(bmp.PixelFormat) < 32)
+            {
+                return bmp;
+            }
+
+            if (IsAlphaBitmap(bmp, out var bmpData))
+            {
+                return GetAlphaBitmapFromBitmapData(bmpData);
+            }
+
+            return bmp;
+        }
+
+        private static Bitmap GetAlphaBitmapFromBitmapData(BitmapData bmpData)
+        {
+            return new Bitmap(
+                    bmpData.Width,
+                    bmpData.Height,
+                    bmpData.Stride,
+                    PixelFormat.Format32bppArgb,
+                    bmpData.Scan0);
+        }
+
+        private static bool IsAlphaBitmap(Bitmap bmp, out BitmapData bmpData)
+        {
+            Rectangle bmBounds = new Rectangle(0, 0, bmp.Width, bmp.Height);
+
+            bmpData = bmp.LockBits(bmBounds, ImageLockMode.ReadOnly, bmp.PixelFormat);
+
+            try
+            {
+                for (int y = 0; y <= bmpData.Height - 1; y++)
+                {
+                    for (int x = 0; x <= bmpData.Width - 1; x++)
+                    {
+                        Color pixelColor = Color.FromArgb(
+                            Marshal.ReadInt32(bmpData.Scan0, (bmpData.Stride * y) + (4 * x)));
+
+                        if (pixelColor.A > 0 & pixelColor.A < 255)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                bmp.UnlockBits(bmpData);
+            }
+
+            return false;
         }
 
         // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.

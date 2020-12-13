@@ -12,6 +12,7 @@
     Grid.RowSpan="4"
     BorderThickness="0"
     CornerRadius="4"
+    PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
     PrimaryButtonText="Cancel"
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
     mc:Ignorable="d">

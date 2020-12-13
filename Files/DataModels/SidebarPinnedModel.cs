@@ -1,17 +1,13 @@
-﻿using Files.Enums;
-using Files.Filesystem;
+﻿using Files.Filesystem;
 using Files.View_Models;
 using Files.Views;
-using Microsoft.Toolkit.Uwp.UI;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.Storage;
 using Windows.UI.Xaml.Media;
 
 namespace Files.DataModels
@@ -54,7 +50,7 @@ namespace Files.DataModels
             if (!Items.Contains(item))
             {
                 Items.Add(item);
-                await AddItemToSidebar(item);
+                await AddItemToSidebarAsync(item);
                 Save();
             }
         }
@@ -87,10 +83,10 @@ namespace Files.DataModels
                 return false;
             }
 
-            if (oldIndex >= 0 && newIndex >=0)
+            if (oldIndex >= 0 && newIndex >= 0)
             {
-                MainPage.sideBarItems.RemoveAt(oldIndex);
-                MainPage.sideBarItems.Insert(newIndex, locationItem);
+                MainPage.SideBarItems.RemoveAt(oldIndex);
+                MainPage.SideBarItems.Insert(newIndex, locationItem);
                 return true;
             }
 
@@ -102,7 +98,7 @@ namespace Files.DataModels
         /// </summary>
         /// <param name="firstLocationItem">The first location item</param>
         /// <param name="secondLocationItem">The second location item</param>
-        public void SwapItems(INavigationControlItem firstLocationItem,  INavigationControlItem secondLocationItem)
+        public void SwapItems(INavigationControlItem firstLocationItem, INavigationControlItem secondLocationItem)
         {
             if (firstLocationItem == null || secondLocationItem == null)
             {
@@ -121,7 +117,7 @@ namespace Files.DataModels
                 var result = MoveItem(firstLocationItem, indexOfFirstItemInMainPage, indexOfSecondItemInMainPage);
 
                 // Moves the items in this model and saves the model
-                if(result == true)
+                if (result == true)
                 {
                     var indexOfFirstItemInModel = this.Items.IndexOf(firstLocationItem.Path);
                     var indexOfSecondItemInModel = this.Items.IndexOf(secondLocationItem.Path);
@@ -155,7 +151,7 @@ namespace Files.DataModels
         /// <returns>Index of the item</returns>
         public int IndexOfItem(INavigationControlItem locationItem)
         {
-            return MainPage.sideBarItems.IndexOf(locationItem);
+            return MainPage.SideBarItems.IndexOf(locationItem);
         }
 
         /// <summary>
@@ -179,40 +175,31 @@ namespace Files.DataModels
         /// </summary>
         /// <param name="path">The path which to save</param>
         /// <returns>Task</returns>
-        public async Task AddItemToSidebar(string path)
+        public async Task AddItemToSidebarAsync(string path)
         {
-            try
+            var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+            var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
+            if (res)
             {
-                var item = await DrivesManager.GetRootFromPath(path);
-                StorageFolder folder = await StorageFileExtensions.GetFolderFromPathAsync(path, item);
-                int insertIndex = MainPage.sideBarItems.IndexOf(MainPage.sideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
-                    && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;
+                int insertIndex = MainPage.SideBarItems.IndexOf(MainPage.SideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
+                && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;
                 var locationItem = new LocationItem
                 {
                     Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
                     Path = path,
                     Glyph = GetItemIcon(path),
                     IsDefaultLocation = false,
-                    Text = folder.DisplayName
+                    Text = res.Result.DisplayName
                 };
 
-                if (!MainPage.sideBarItems.Contains(locationItem))
+                if (!MainPage.SideBarItems.Contains(locationItem))
                 {
-                    MainPage.sideBarItems.Insert(insertIndex, locationItem);
+                    MainPage.SideBarItems.Insert(insertIndex, locationItem);
                 }
             }
-            catch (UnauthorizedAccessException ex)
+            else
             {
-                Debug.WriteLine(ex.Message);
-            }
-            catch (Exception ex) when (
-                ex is ArgumentException // Pinned item was invalid
-                || ex is FileNotFoundException // Pinned item was deleted
-                || ex is System.Runtime.InteropServices.COMException // Pinned item's drive was ejected
-                || (uint)ex.HResult == 0x8007000F // The system cannot find the drive specified
-                || (uint)ex.HResult == 0x800700A1) // The specified path is invalid (usually an mtp device was disconnected)
-            {
-                Debug.WriteLine("Pinned item was invalid and will be removed from the file lines list soon: " + ex.Message);
+                Debug.WriteLine("Pinned item was invalid and will be removed from the file lines list soon: " + res.ErrorCode.ToString());
                 RemoveItem(path);
             }
         }
@@ -225,7 +212,7 @@ namespace Files.DataModels
             for (int i = 0; i < Items.Count(); i++)
             {
                 string path = Items[i];
-                await AddItemToSidebar(path);
+                await AddItemToSidebarAsync(path);
             }
         }
 
@@ -235,14 +222,14 @@ namespace Files.DataModels
         public void RemoveStaleSidebarItems()
         {
             // Remove unpinned items from sidebar
-            for (int i = 0; i < MainPage.sideBarItems.Count(); i++)
+            for (int i = 0; i < MainPage.SideBarItems.Count(); i++)
             {
-                if (MainPage.sideBarItems[i] is LocationItem)
+                if (MainPage.SideBarItems[i] is LocationItem)
                 {
-                    var item = MainPage.sideBarItems[i] as LocationItem;
+                    var item = MainPage.SideBarItems[i] as LocationItem;
                     if (!item.IsDefaultLocation && !Items.Contains(item.Path))
                     {
-                        MainPage.sideBarItems.RemoveAt(i);
+                        MainPage.SideBarItems.RemoveAt(i);
                     }
                 }
             }

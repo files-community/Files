@@ -135,9 +135,6 @@
   <data name="RecentItems.Text" xml:space="preserve">
     <value>சமீபத்திய உருப்படிகள்</value>
   </data>
-  <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>உரிமம்</value>
-  </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>சிறப்பு நன்றிகள்:</value>
   </data>
@@ -152,9 +149,6 @@
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>பற்றி</value>
-  </data>
-  <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>வலைத்தளம்</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>தோற்றம்</value>
@@ -185,9 +179,6 @@
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>விருப்பங்கள்</value>
-  </data>
-  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>தேடு</value>
   </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
     <value>எச்சரிக்கை: முன் பரிசோதனை அம்சங்கள்!</value>
@@ -233,9 +224,6 @@
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>காணொளிகள்</value>
-  </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>அமைப்புகள்</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>இதன்படி வரிசைப்படுத்து</value>
@@ -390,9 +378,6 @@
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>புதுப்பி (F5)</value>
   </data>
-  <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ஒரு புதிய உருப்படியை உருவாக்கு (Ctrl + Shift + N)</value>
-  </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>தேடு</value>
   </data>
@@ -485,12 +470,6 @@
   </data>
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>சரி</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>படிக்க-மட்டும்</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>மறைந்த</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>மறுசுழற்சிக் கூடையைக் காலியாக்கு</value>
@@ -898,9 +877,6 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>தளவமைப்பு முறை</value>
   </data>
-  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
-    <value>புதிய உருப்படியை உருவாக்கு</value>
-  </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>முன்னோக்கி வழிசெலுத்து</value>
   </data>
@@ -910,17 +886,14 @@
   <data name="NavUpButton.AutomationProperties.Name" xml:space="preserve">
     <value>ஒரு கோப்புறை மேல் செல்</value>
   </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>அமைப்புகள்</value>
-  </data>
   <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
     <value>பயன்பாட்டு மொழி</value>
   </data>
   <data name="SettingsPreferencesContextMenuSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>அனைத்து சூழல் மெனு உருப்படிகளையும் காண்பி</value>
   </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Pin OneDrive to the sidebar</value>
+  <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
+    <value>தேர்வுசெய்யப்பட்ட உருப்படியின் இருப்பிடத்தை நகலெடுக்க ஒரு பொத்தானைக் காண்பி</value>
   </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Edit terminal applications</value>
@@ -944,15 +917,8 @@
     <value>Access Denied
 அணுகல் மறுக்கப்பட்டது</value>
   </data>
-  <data name="CopyLocationToggleSwitch.Header" xml:space="preserve">
-    <value>Show an option to copy the location of the selected item
-தேர்வுசெய்யப்பட்ட உருப்படியின் இருப்பிடத்தை நகலெடுக்க ஒரு பொத்தானைக் காண்பி</value>
-  </data>
   <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
     <value>அனைத்து சூழல் மெனு உருப்படிகளையும் காண்பி</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Header" xml:space="preserve">
-    <value>இயக்கக எழுத்துக்களைக் காண்பி</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>அறிந்த கோப்பு வகைகளுக்கு நீட்டிப்பைக் காண்பி</value>
@@ -983,5 +949,8 @@
   </data>
   <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
     <value>Open items with a single click</value>
+  </data>
+  <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
+    <value>தேர்வுசெய்யப்பட்ட உருப்படியின் இருப்பிடத்தை நகலெடுக்க ஒரு பொத்தானைக் காண்பி</value>
   </data>
 </root>

@@ -138,9 +138,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
-  <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>ライセンス</value>
-  </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>特別な感謝：</value>
   </data>
@@ -155,9 +152,6 @@
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>について</value>
-  </data>
-  <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>ウェブサイト</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>外観</value>
@@ -188,9 +182,6 @@
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>個人用設定</value>
-  </data>
-  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>検索</value>
   </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
     <value>注：これらは実験的な機能です！</value>
@@ -236,9 +227,6 @@
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>ビデオ</value>
-  </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>設定</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>並べ替え</value>
@@ -396,9 +384,6 @@
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>最新の情報に更新 (F5)</value>
   </data>
-  <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>新規作成 (Ctrl + Shift + N)</value>
-  </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>検索</value>
   </data>
@@ -491,12 +476,6 @@
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>選択オプション</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>読み取り専用</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>隠しファイル</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>ごみ箱を空にする</value>
@@ -927,9 +906,6 @@
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>レイアウト モード</value>
   </data>
-  <data name="NewItemButton.AutomationProperties.Name" xml:space="preserve">
-    <value>新しい項目の作成</value>
-  </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>前に戻る</value>
   </data>
@@ -945,9 +921,6 @@
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>垂直タブストリップ</value>
   </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>設定</value>
-  </data>
   <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
     <value>言語</value>
   </data>
@@ -959,9 +932,6 @@
   </data>
   <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>選択したアイテムの場所をコピーするオプションを表示する</value>
-  </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>OneDriveをサイドバーに固定する</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
     <value>ごみ箱をサイドバーに固定する</value>
@@ -996,14 +966,8 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>アクセスが拒否されました</value>
   </data>
-  <data name="CopyLocationToggleSwitch.Header" xml:space="preserve">
-    <value>選択したアイテムの場所をコピーするオプションを表示する</value>
-  </data>
   <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
     <value>すべてのコンテキストメニュー項目を表示する</value>
-  </data>
-  <data name="SettingsPreferencesPinOneDriveSwitch.Header" xml:space="preserve">
-    <value>OneDriveをサイドバーに固定する</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>ごみ箱をサイドバーに固定する</value>
@@ -1011,14 +975,8 @@
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>ファイルやフォルダを削除するときに確認ダイアログを表示する</value>
   </data>
-  <data name="SettingsFilesAndFoldersShowDriveLetters.Header" xml:space="preserve">
-    <value>ドライブ文字を表示する</value>
-  </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>既知のファイルタイプの拡張子を表示する</value>
-  </data>
-  <data name="SettingsFilesAndFoldersShowHiddenFiles.Header" xml:space="preserve">
-    <value>隠しファイル、フォルダ、およびドライブを表示する</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>アクリルサイドバー</value>
@@ -1031,5 +989,8 @@
   </data>
   <data name="SettingsShowFileOwnerInProperties.Header" xml:space="preserve">
     <value>プロパティに所有者を表示する</value>
+  </data>
+  <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
+    <value>選択したアイテムの場所をコピーするオプションを表示する</value>
   </data>
 </root>

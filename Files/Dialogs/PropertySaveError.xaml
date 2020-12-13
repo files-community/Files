@@ -1,0 +1,27 @@
+﻿<ContentDialog
+    x:Class="Files.Dialogs.PropertySaveError"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files.UserControls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Uid="PropertySaveErrorDialog"
+    Title="Error"
+    CloseButtonStyle="{StaticResource ButtonRevealStyle}"
+    CloseButtonText="Cancel"
+    CornerRadius="3"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    PrimaryButtonStyle="{StaticResource ButtonRevealStyle}"
+    PrimaryButtonText="Retry"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+    SecondaryButtonStyle="{StaticResource ButtonRevealStyle}"
+    SecondaryButtonText="Close anyway"
+    mc:Ignorable="d">
+
+    <StackPanel Spacing="5">
+        <TextBlock
+            x:Uid="PropertySaveErrorMessage"
+            Grid.Row="1"
+            Text="There was an issue saving some properties." />
+    </StackPanel>
+</ContentDialog>

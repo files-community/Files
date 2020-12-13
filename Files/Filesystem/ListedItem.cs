@@ -1,7 +1,12 @@
+﻿using ByteSizeLib;
+using Files.Enums;
+using Files.Helpers;
 ﻿using Files.Enums;
+using Files.Filesystem.Cloud;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
+using System.Diagnostics;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -9,6 +14,7 @@ namespace Files.Filesystem
 {
     public class ListedItem : ObservableObject
     {
+        public bool IsHiddenItem { get; set; } = false;
         public StorageItemTypes PrimaryItemAttribute { get; set; }
         public bool ItemPropertiesInitialized { get; set; } = false;
         public string FolderTooltipText { get; set; }
@@ -53,12 +59,12 @@ namespace Files.Filesystem
             set => SetProperty(ref _LoadUnknownTypeGlyph, value);
         }
 
-        private bool _IsDimmed;
+        private double opacity;
 
-        public bool IsDimmed
+        public double Opacity
         {
-            get => _IsDimmed;
-            set => SetProperty(ref _IsDimmed, value);
+            get => opacity;
+            set => SetProperty(ref opacity, value);
         }
 
         private CloudDriveSyncStatusUI _SyncStatusUI;
@@ -171,18 +177,8 @@ namespace Files.Filesystem
 
         private DateTimeOffset _itemDateAccessedReal;
 
-        public bool IsImage()
-        {
-            if (FileExtension != null)
-            {
-                string lower = FileExtension.ToLower();
-                return lower.Contains("png") || lower.Contains("jpg") || lower.Contains("gif") || lower.Contains("jpeg");
-            }
-            return false;
-        }
-
         /// <summary>
-        /// Create an item object, optionally with an explicitly-specified dateReturnFormat.
+        /// Initializes a new instance of the <see cref="ListedItem" /> class, optionally with an explicitly-specified dateReturnFormat.
         /// </summary>
         /// <param name="folderRelativeId"></param>
         /// <param name="dateReturnFormat">Specify a date return format to reduce redundant checks of this setting.</param>
@@ -239,6 +235,24 @@ namespace Files.Filesystem
             {
                 return string.Format("SecondsAgo".GetLocalized(), elapsed.Seconds);
             }
+        }
+
+        public override string ToString()
+        {
+            string suffix;
+            if (IsRecycleBinItem)
+            {
+                suffix = "RecycleBinItemAutomation".GetLocalized();
+            }
+            else if (IsShortcutItem)
+            {
+                suffix = "ShortcutItemAutomation".GetLocalized();
+            }
+            else
+            {
+                suffix = PrimaryItemAttribute == StorageItemTypes.File ? "FileItemAutomation".GetLocalized() : "FolderItemAutomation".GetLocalized();
+            }
+            return $"{ItemName}, {ItemPath}, {suffix}";
         }
 
         public bool IsRecycleBinItem => this is RecycleBinItem;
