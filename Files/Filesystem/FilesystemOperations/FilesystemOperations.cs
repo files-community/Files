@@ -391,7 +391,7 @@ namespace Files.Filesystem
                     // Get newest file
                     ShellFileItem item = nameMatchItems.Where((item) => item.RecycleDate != null).OrderBy((item) => item.RecycleDate).FirstOrDefault();
 
-                    return new StorageHistory(FileOperationType.Recycle, source, new PathWithType(item.RecyclePath, source.ItemType));
+                    return new StorageHistory(FileOperationType.Recycle, source, new PathWithType(item?.RecyclePath, source.ItemType));
                 }
 
                 return new StorageHistory(FileOperationType.Delete, source, null);
