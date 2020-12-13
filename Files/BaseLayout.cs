@@ -586,12 +586,12 @@ namespace Files
                 }
                 catch (Exception dropEx) when ((uint)dropEx.HResult == 0x80040064)
                 {
-                    if (App.Connection != null)
+                    if (Connection != null)
                     {
-                        await App.Connection.SendMessageAsync(new ValueSet() {
+                        await Connection.SendMessageAsync(new ValueSet() {
                             { "Arguments", "FileOperation" },
                             { "fileop", "DragDrop" },
-                            { "droppath", App.CurrentInstance.FilesystemViewModel.WorkingDirectory } });
+                            { "droppath", ParentShellPageInstance.FilesystemViewModel.WorkingDirectory } });
                     }
                 }
                 if (!draggedItems.Any())
