@@ -50,6 +50,7 @@ namespace Files.View_Models
                 OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
                 OnPropertyChanged(nameof(CanCreateFileInPage));
                 OnPropertyChanged(nameof(CanOpenTerminalInPage));
+                OnPropertyChanged(nameof(CanCopyPathInPage));
             }
         }
 
@@ -70,6 +71,11 @@ namespace Files.View_Models
         public bool IsCreateButtonEnabledInPage
         {
             get => !_IsPageTypeRecycleBin && IsPageTypeNotHome && !_IsPageTypeSearchResults;
+        }
+
+        public bool CanCopyPathInPage
+        {
+            get => !_IsPageTypeMtpDevice && !_IsPageTypeRecycleBin && IsPageTypeNotHome && !_IsPageTypeSearchResults;
         }
 
         public bool CanCreateFileInPage

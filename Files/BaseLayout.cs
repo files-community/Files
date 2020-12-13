@@ -262,6 +262,7 @@ namespace Files
             if (!isSearchResultPage)
             {
                 ParentShellPageInstance.NavigationToolbar.CanRefresh = true;
+                ParentShellPageInstance.NavigationToolbar.CanCopyPathInPage = true;
                 string previousDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
                 await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(parameters.NavPathParam);
 
@@ -287,6 +288,7 @@ namespace Files
             else
             {
                 ParentShellPageInstance.NavigationToolbar.CanRefresh = false;
+                ParentShellPageInstance.NavigationToolbar.CanCopyPathInPage = false;
                 ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
