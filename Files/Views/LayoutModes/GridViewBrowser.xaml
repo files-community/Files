@@ -878,6 +878,12 @@
                     TargetObject="{Binding ElementName=RootGrid}"
                     Value="{StaticResource BaseLayoutContextFlyout}" />
             </Core:DataTriggerBehavior>
+            <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Mode=OneWay}" Value="True">
+                <Core:ChangePropertyAction
+                    PropertyName="ContextFlyout"
+                    TargetObject="{Binding ElementName=RootGrid}"
+                    Value="{x:Null}" />
+            </Core:DataTriggerBehavior>
         </Interactivity:Interaction.Behaviors>
         <muxc:ProgressBar
             x:Name="progBar"
@@ -909,7 +915,7 @@
             Padding="14,14,14,0"
             VerticalContentAlignment="Stretch"
             x:FieldModifier="public"
-            AllowDrop="True"
+            AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
             DoubleTapped="{x:Bind ParentShellPageInstance.InteractionOperations.List_ItemDoubleClick}"
             DragEnter="List_DragEnter"
             Drop="List_Drop"

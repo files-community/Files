@@ -1527,4 +1527,13 @@
   <data name="DragDropWindowText" xml:space="preserve">
     <value>Drop here</value>
   </data>
+  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
+    <value>Search results in</value>
+  </data>
+  <data name="SearchTabHeaderText" xml:space="preserve">
+    <value>Search results</value>
+  </data>
 </root>

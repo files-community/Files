@@ -12,9 +12,11 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -37,6 +39,12 @@ namespace Files.UserControls
 
         public delegate void PathBoxItemDroppedEventHandler(object sender, PathBoxItemDroppedEventArgs e);
 
+        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxQuerySubmittedEventArgs> SearchQuerySubmitted;
+
+        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxTextChangedEventArgs> SearchTextChanged;
+
+        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs> SearchSuggestionChosen;
+
         public event ToolbarPathItemInvokedEventHandler ToolbarPathItemInvoked;
 
         public event ToolbarFlyoutOpenedEventHandler ToolbarFlyoutOpened;
@@ -49,7 +57,7 @@ namespace Files.UserControls
 
         public event EventHandler EditModeEnabled;
 
-        public event ToolbarQuerySubmittedEventHandler QuerySubmitted;
+        public event ToolbarQuerySubmittedEventHandler PathBoxQuerySubmitted;
 
         public event AddressBarTextEnteredEventHandler AddressBarTextEntered;
 
@@ -107,6 +115,13 @@ namespace Files.UserControls
           typeof(NavigationToolbar),
           new PropertyMetadata(null)
         );
+        
+        public static readonly DependencyProperty CanCopyPathInPageProperty = DependencyProperty.Register(
+          "CanCopyPathInPage",
+          typeof(bool),
+          typeof(NavigationToolbar),
+          new PropertyMetadata(null)
+        );
 
         public bool CanCreateFileInPage
         {
@@ -117,6 +132,17 @@ namespace Files.UserControls
             set
             {
                 SetValue(CanCreateFileInPageProperty, value);
+            }
+        }
+        public bool CanCopyPathInPage
+        {
+            get
+            {
+                return (bool)GetValue(CanCopyPathInPageProperty);
+            }
+            set
+            {
+                SetValue(CanCopyPathInPageProperty, value);
             }
         }
 
@@ -334,28 +360,21 @@ namespace Files.UserControls
             }
         }
 
-        private bool SearchBoxLoaded { get; set; } = false;
         public string PathText { get; set; }
 
-        bool INavigationToolbar.IsSearchReigonVisible
+        private bool _IsSearchReigonVisible = false;
+        public bool IsSearchReigonVisible
         {
             get
             {
-                return SearchBoxLoaded;
+                return _IsSearchReigonVisible;
             }
             set
             {
-                if (value)
+                if (value != _IsSearchReigonVisible)
                 {
-                    ToolbarGrid.ColumnDefinitions[2].MinWidth = 285;
-                    ToolbarGrid.ColumnDefinitions[2].Width = GridLength.Auto;
-                    SearchBoxLoaded = true;
-                }
-                else
-                {
-                    ToolbarGrid.ColumnDefinitions[2].MinWidth = 0;
-                    ToolbarGrid.ColumnDefinitions[2].Width = new GridLength(0);
-                    SearchBoxLoaded = false;
+                    _IsSearchReigonVisible = value;
+                    NotifyPropertyChanged("IsSearchReigonVisible");
                 }
             }
         }
@@ -695,7 +714,7 @@ namespace Files.UserControls
 
         private void VisiblePath_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            QuerySubmitted?.Invoke(this, new ToolbarQuerySubmittedEventArgs() { QueryText = args.QueryText });
+            PathBoxQuerySubmitted?.Invoke(this, new ToolbarQuerySubmittedEventArgs() { QueryText = args.QueryText });
 
             (this as INavigationToolbar).IsEditModeEnabled = false;
         }
@@ -752,6 +771,51 @@ namespace Files.UserControls
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
             RefreshRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void SearchReigon_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            SearchQuerySubmitted?.Invoke(sender, args);
+        }
+
+        private void SearchReigon_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            SearchTextChanged?.Invoke(sender, args);
+        }
+
+        private void SearchReigon_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            SearchSuggestionChosen?.Invoke(sender, args);
+            IsSearchReigonVisible = false;
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            IsSearchReigonVisible = true;
+
+            SearchReigon.Focus(FocusState.Programmatic);
+        }
+
+        private void SearchReigon_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (FocusManager.GetFocusedElement() is FlyoutBase ||
+                FocusManager.GetFocusedElement() is AppBarButton ||
+                FocusManager.GetFocusedElement() is Popup)
+            {
+                return;
+            }
+
+            SearchReigon.Text = "";
+            IsSearchReigonVisible = false;
+        }
+
+        public void ClearSearchBoxQueryText(bool collapseSearchReigon = false)
+        {
+            SearchReigon.Text = "";
+            if (IsSearchReigonVisible && collapseSearchReigon)
+            {
+                IsSearchReigonVisible = false;
+            }
         }
     }
 }

@@ -125,10 +125,11 @@ namespace Files
             var parameters = eventArgs.Parameter as NavigationArguments;
             AppInstance = parameters.AssociatedTabInstance;
             AppInstance.InstanceViewModel.IsPageTypeNotHome = false;
+            AppInstance.InstanceViewModel.IsPageTypeSearchResults = false;
             AppInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
             AppInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
             AppInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
-            MainPage.MultitaskingControl?.UpdateSelectedTab(parameters.NavPathParam, null);
+            MainPage.MultitaskingControl?.UpdateSelectedTab(parameters.NavPathParam, null, false);
             AppInstance.NavigationToolbar.CanRefresh = false;
             AppInstance.NavigationToolbar.CanGoBack = AppInstance.ContentFrame.CanGoBack;
             AppInstance.NavigationToolbar.CanGoForward = AppInstance.ContentFrame.CanGoForward;

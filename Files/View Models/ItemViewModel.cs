@@ -380,7 +380,7 @@ namespace Files.Filesystem
          * the updated, most-current path and add them to the UI.
          */
 
-        private void WorkingDirectoryChanged()
+        private void WorkingDirectoryChanged(string singleItemOverride = null)
         {
             // Clear the path UI
             AssociatedInstance.NavigationToolbar.PathComponents.Clear();
@@ -389,28 +389,49 @@ namespace Files.Filesystem
             {
                 Weight = FontWeights.SemiBold.Weight
             };
-            foreach (var component in StorageFileExtensions.GetDirectoryPathComponents(WorkingDirectory))
+
+            if (string.IsNullOrWhiteSpace(singleItemOverride))
             {
-                AssociatedInstance.NavigationToolbar.PathComponents.Add(component);
+                foreach (var component in StorageFileExtensions.GetDirectoryPathComponents(WorkingDirectory))
+                {
+                    AssociatedInstance.NavigationToolbar.PathComponents.Add(component);
+                }
             }
+            else
+            {
+                AssociatedInstance.NavigationToolbar.PathComponents.Add(new Views.Pages.PathBoxItem() { Path = null, Title = singleItemOverride });
+            }
+
         }
 
-        public void CancelLoadAndClearFiles()
+        public void CancelLoadAndClearFiles(bool isSearchResultPage = false)
         {
             Debug.WriteLine("CancelLoadAndClearFiles");
-            CloseWatcher();
-
-            AssociatedInstance.NavigationToolbar.CanRefresh = true;
-            if (IsLoadingItems == false)
+            if (!isSearchResultPage)
             {
-                return;
+                CloseWatcher();
+
+                AssociatedInstance.NavigationToolbar.CanRefresh = true;
+                if (IsLoadingItems == false)
+                {
+                    return;
+                }
+
+                _addFilesCTS.Cancel();
+                AssociatedInstance.NavigationToolbar.CanGoForward = true;
+            }
+            else
+            {
+                AssociatedInstance.NavigationToolbar.CanRefresh = false;
+                AssociatedInstance.NavigationToolbar.CanGoForward = false;
+                AssociatedInstance.NavigationToolbar.CanNavigateToParent = false;
+                AssociatedInstance.NavigationToolbar.CanCopyPathInPage = false;
             }
 
-            _addFilesCTS.Cancel();
+            AssociatedInstance.NavigationToolbar.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.
             _filesAndFolders.Clear();
-            AssociatedInstance.NavigationToolbar.CanGoBack = true;
-            AssociatedInstance.NavigationToolbar.CanGoForward = true;
-            if (!(WorkingDirectory?.StartsWith(AppSettings.RecycleBinPath) ?? false))
+            
+            if (!(WorkingDirectory?.StartsWith(AppSettings.RecycleBinPath) ?? false) && !isSearchResultPage)
             {
                 // Can't go up from recycle bin
                 AssociatedInstance.NavigationToolbar.CanNavigateToParent = true;
@@ -1859,6 +1880,17 @@ namespace Files.Filesystem
                     FileSizeBytes = (long)itemSizeBytes,
                 });
             }
+        }
+
+        public void AddSearchResultsToCollection(ObservableCollection<ListedItem> searchItems, string currentSearchPath)
+        {
+            _filesAndFolders.Clear();
+            foreach (ListedItem li in searchItems)
+            {
+                _filesAndFolders.Add(li);
+            }
+            UpdateDirectoryInfo();
+            WorkingDirectoryChanged("SearchPagePathBoxOverrideText".GetLocalized() + " " + currentSearchPath);
         }
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

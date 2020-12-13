@@ -52,6 +52,8 @@ namespace Files
 
         public IShellPage ParentShellPageInstance { get; private set; } = null;
 
+        private bool isSearchResultPage = false;
+
         public bool IsRenamingItem { get; set; } = false;
 
         private bool isItemSelected = false;
@@ -253,40 +255,58 @@ namespace Files
             AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
             Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
             var parameters = (NavigationArguments)eventArgs.Parameter;
+            isSearchResultPage = parameters.IsSearchResultPage;
             ParentShellPageInstance = parameters.AssociatedTabInstance;
-            ParentShellPageInstance.NavigationToolbar.CanRefresh = true;
             IsItemSelected = false;
             ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
-            string previousDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
-            await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(parameters.NavPathParam);
 
-            // pathRoot will be empty on recycle bin path
-            var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
-            string pathRoot = Path.GetPathRoot(workingDir);
-            if (string.IsNullOrEmpty(pathRoot) || workingDir == pathRoot)
+            if (!isSearchResultPage)
             {
-                ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
+                ParentShellPageInstance.NavigationToolbar.CanRefresh = true;
+                ParentShellPageInstance.NavigationToolbar.CanCopyPathInPage = true;
+                string previousDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
+                await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(parameters.NavPathParam);
+
+                // pathRoot will be empty on recycle bin path
+                var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
+                string pathRoot = Path.GetPathRoot(workingDir);
+                if (string.IsNullOrEmpty(pathRoot) || workingDir == pathRoot)
+                {
+                    ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
+                }
+                else
+                {
+                    ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = true;
+                }
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
+
+                MainPage.MultitaskingControl?.UpdateSelectedTab(new DirectoryInfo(workingDir).Name, workingDir, false);
+                ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir);
+                ParentShellPageInstance.NavigationToolbar.PathControlDisplayText = parameters.NavPathParam;
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
             }
             else
             {
-                ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = true;
+                ParentShellPageInstance.NavigationToolbar.CanRefresh = false;
+                ParentShellPageInstance.NavigationToolbar.CanCopyPathInPage = false;
+                ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
+
+                MainPage.MultitaskingControl?.UpdateSelectedTab(null, null, true);
+                ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(parameters.SearchResults, parameters.SearchPathParam);
             }
 
             ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
-            ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
-            ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
-
-            MainPage.MultitaskingControl?.UpdateSelectedTab(new DirectoryInfo(workingDir).Name, workingDir);
-            ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir);
-
             ParentShellPageInstance.Clipboard_ContentChanged(null, null);
-            ParentShellPageInstance.NavigationToolbar.PathControlDisplayText = parameters.NavPathParam;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles();
+            ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles(isSearchResultPage);
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
             AppSettings.LayoutModeChangeRequested -= AppSettings_LayoutModeChangeRequested;
@@ -604,7 +624,7 @@ namespace Files
 
                 var folderName = Path.GetFileName(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
                 // As long as one file doesn't already belong to this folder
-                if (draggedItems.AreItemsAlreadyInFolder(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory))
+                if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.AreItemsAlreadyInFolder(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
@@ -695,7 +715,7 @@ namespace Files
                 dragOverTimer.Stop();
                 dragOverTimer.Debounce(() =>
                 {
-                    if (dragOverItem != null)
+                    if (dragOverItem != null && !InstanceViewModel.IsPageTypeSearchResults)
                     {
                         dragOverItem = null;
                         dragOverTimer.Stop();
@@ -721,7 +741,7 @@ namespace Files
                 e.Handled = true;
                 e.DragUIOverride.IsCaptionVisible = true;
 
-                if (draggedItems.AreItemsAlreadyInFolder(item.ItemPath) || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
+                if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.AreItemsAlreadyInFolder(item.ItemPath) || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
                 }
