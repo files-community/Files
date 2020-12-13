@@ -1068,4 +1068,7 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Espelli</value>
   </data>
+  <data name="DragDropWindowText" xml:space="preserve">
+    <value>Rilascia qui</value>
+  </data>
 </root>

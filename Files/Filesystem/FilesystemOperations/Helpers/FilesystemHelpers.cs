@@ -560,7 +560,15 @@ namespace Files.Filesystem
                 return ReturnResult.BadArgumentException;
             }
 
-            IReadOnlyList<IStorageItem> source = await packageView.GetStorageItemsAsync();
+            IReadOnlyList<IStorageItem> source;
+            try
+            {
+                source = await packageView.GetStorageItemsAsync();
+            }
+            catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+            {
+                return ReturnResult.UnknownException;
+            }
             ReturnResult returnStatus = ReturnResult.InProgress;
 
             List<string> destinations = new List<string>();
@@ -694,7 +702,15 @@ namespace Files.Filesystem
                 return ReturnResult.BadArgumentException;
             }
 
-            IReadOnlyList<IStorageItem> source = await packageView.GetStorageItemsAsync();
+            IReadOnlyList<IStorageItem> source;
+            try
+            {
+                source = await packageView.GetStorageItemsAsync();
+            }
+            catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+            {
+                return ReturnResult.UnknownException;
+            }
             ReturnResult returnStatus = ReturnResult.InProgress;
 
             List<string> destinations = new List<string>();
