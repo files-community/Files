@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -589,7 +590,7 @@ namespace Files
             ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
         }
 
-        protected async void List_DragOver(object sender, DragEventArgs e)
+        protected async void List_DragEnter(object sender, DragEventArgs e)
         {
             var deferral = e.GetDeferral();
 
@@ -597,8 +598,29 @@ namespace Files
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 e.Handled = true;
-                IReadOnlyList<IStorageItem> draggedItems = await e.DataView.GetStorageItemsAsync();
                 e.DragUIOverride.IsCaptionVisible = true;
+                IEnumerable<IStorageItem> draggedItems = new List<IStorageItem>();
+                try
+                {
+                    draggedItems = await e.DataView.GetStorageItemsAsync();
+                }
+                catch (Exception dropEx) when ((uint)dropEx.HResult == 0x80040064)
+                {
+                    if (Connection != null)
+                    {
+                        await Connection.SendMessageAsync(new ValueSet() {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "DragDrop" },
+                            { "droptext", "DragDropWindowText".GetLocalized() },
+                            { "droppath", ParentShellPageInstance.FilesystemViewModel.WorkingDirectory } });
+                    }
+                }
+                if (!draggedItems.Any())
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
+                    deferral.Complete();
+                    return;
+                }
 
                 var folderName = Path.GetFileName(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
                 // As long as one file doesn't already belong to this folder
@@ -704,8 +726,20 @@ namespace Files
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
+                IReadOnlyList<IStorageItem> draggedItems;
+                try
+                {
+                    draggedItems = await e.DataView.GetStorageItemsAsync();
+                }
+                catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
+                    deferral.Complete();
+                    return;
+                }
+
                 e.Handled = true;
-                IReadOnlyList<IStorageItem> draggedItems = await e.DataView.GetStorageItemsAsync();
+                e.DragUIOverride.IsCaptionVisible = true;
 
                 if (InstanceViewModel.IsPageTypeSearchResults || draggedItems.AreItemsAlreadyInFolder(item.ItemPath) || draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
                 {

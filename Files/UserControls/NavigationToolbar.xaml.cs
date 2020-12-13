@@ -6,6 +6,7 @@ using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -16,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -655,7 +657,18 @@ namespace Files.UserControls
             e.Handled = true;
             var deferral = e.GetDeferral();
 
-            var storageItems = await e.DataView.GetStorageItemsAsync();
+            IReadOnlyList<IStorageItem> storageItems;
+            try
+            {
+                storageItems = await e.DataView.GetStorageItemsAsync();
+            }
+            catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+            {
+                e.AcceptedOperation = DataPackageOperation.None;
+                deferral.Complete();
+                return;
+            }
+
             if (!storageItems.Any(storageItem =>
             storageItem.Path.Replace(pathBoxItem.Path, string.Empty).
             Trim(Path.DirectorySeparatorChar).

@@ -560,13 +560,25 @@ namespace Files.Filesystem
                 return ReturnResult.BadArgumentException;
             }
 
-            IReadOnlyList<IStorageItem> source = await packageView.GetStorageItemsAsync();
+            IReadOnlyList<IStorageItem> source;
+            try
+            {
+                source = await packageView.GetStorageItemsAsync();
+            }
+            catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+            {
+                return ReturnResult.UnknownException;
+            }
             ReturnResult returnStatus = ReturnResult.InProgress;
 
+            List<string> destinations = new List<string>();
             foreach (IStorageItem item in source)
             {
-                returnStatus = await CopyItemAsync(item, Path.Combine(destination, item.Name), registerHistory);
+                destinations.Add(Path.Combine(destination, item.Name));
             }
+
+            returnStatus = await CopyItemsAsync(source, destinations, registerHistory);
+
             return returnStatus;
         }
 
@@ -690,13 +702,25 @@ namespace Files.Filesystem
                 return ReturnResult.BadArgumentException;
             }
 
-            IReadOnlyList<IStorageItem> source = await packageView.GetStorageItemsAsync();
+            IReadOnlyList<IStorageItem> source;
+            try
+            {
+                source = await packageView.GetStorageItemsAsync();
+            }
+            catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+            {
+                return ReturnResult.UnknownException;
+            }
             ReturnResult returnStatus = ReturnResult.InProgress;
 
+            List<string> destinations = new List<string>();
             foreach (IStorageItem item in source)
             {
-                returnStatus = await MoveItemAsync(item, Path.Combine(destination, item.Name), registerHistory);
+                destinations.Add(Path.Combine(destination, item.Name));
             }
+
+            returnStatus = await MoveItemsAsync(source, destinations, registerHistory);
+
             return returnStatus;
         }
 

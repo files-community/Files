@@ -1260,6 +1260,9 @@
   <data name="PropertyFrameRate" xml:space="preserve">
     <value>Képkockák sebessége</value>
   </data>
+  <data name="PropertyEncodingBitrate" xml:space="preserve">
+    <value>Bitráta kódolása</value>
+  </data>
   <data name="PropertyCompression" xml:space="preserve">
     <value>Tömörítés</value>
   </data>
@@ -1314,10 +1317,40 @@
   <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
     <value>Mégse</value>
   </data>
+  <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
+    <value>Probléma adódott a tulajdonságok mentésekor.</value>
+  </data>
+  <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
+    <value>Pár tulajdonság tartalmazhat személyes információt.</value>
+  </data>
   <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
     <value>Clear</value>
   </data>
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
     <value>Összes tulajdonság törlése</value>
+  </data>
+  <data name="PropertyColorSpace_Value0" xml:space="preserve">
+    <value>sRGB</value>
+  </data>
+  <data name="PropertyColorSpace_Value65535" xml:space="preserve">
+    <value>Nem meghatározott</value>
+  </data>
+  <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
+    <value>Állapotsor</value>
+  </data>
+  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
+    <value>Licenc</value>
+  </data>
+  <data name="SettingsAboutLicense.Content" xml:space="preserve">
+    <value>Licenc</value>
+  </data>
+  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
+    <value>Weboldal</value>
+  </data>
+  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
+    <value>Weboldal</value>
+  </data>
+  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+    <value>Tudj meg többet a dátumokról</value>
   </data>
 </root>

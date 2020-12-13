@@ -60,7 +60,7 @@
             Modifiers="Control" />
     </Page.KeyboardAccelerators>
 
-    <Grid>
+    <Grid TabFocusNavigation="Cycle">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />

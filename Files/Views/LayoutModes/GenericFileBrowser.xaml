@@ -645,7 +645,7 @@
             ClipboardCopyMode="None"
             ColumnHeaderHeight="38"
             DoubleTapped="{x:Bind ParentShellPageInstance.InteractionOperations.List_ItemDoubleClick}"
-            DragOver="List_DragOver"
+            DragEnter="List_DragEnter"
             Drop="List_Drop"
             FocusVisualPrimaryThickness="0"
             Holding="AllView_Holding"
