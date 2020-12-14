@@ -1898,6 +1898,22 @@
           <source>Search results</source>
           <target state="new">Search results</target>
         </trans-unit>
+        <trans-unit id="SettingsAboutContributorsListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>See who contributed to Files</source>
+          <target state="new">See who contributed to Files</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Find out what's new in Files</source>
+          <target state="new">Find out what's new in Files</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Send the developers an issue report with more information</source>
+          <target state="new">Send the developers an issue report with more information</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Support us on PayPal</source>
+          <target state="new">Support us on PayPal</target>
+        </trans-unit>
       </group>
     </body>
   </file>
