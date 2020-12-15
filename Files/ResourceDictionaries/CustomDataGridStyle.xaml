@@ -219,7 +219,7 @@
                             </Grid.RowDefinitions>
                             <controlsprimitives:DataGridColumnHeader x:Name="TopLeftCornerHeader" Template="{StaticResource TopLeftHeaderTemplate}"/>
                             <controlsprimitives:DataGridColumnHeadersPresenter x:Name="ColumnHeadersPresenter" AutomationProperties.AccessibilityView="Raw" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Left"/>
-                            <Rectangle x:Name="ColumnHeadersAndRowsSeparator" Grid.ColumnSpan="3" Fill="{ThemeResource GridLinesBrush}" Height="1" StrokeThickness="1" VerticalAlignment="Bottom" Width="Auto" HorizontalAlignment="Left"/>
+                            <Rectangle x:Name="ColumnHeadersAndRowsSeparator" Grid.ColumnSpan="3" Fill="{ThemeResource GridLinesBrush}" Height="1" StrokeThickness="1" VerticalAlignment="Bottom" Width="Auto"/>
                             <controlsprimitives:DataGridRowsPresenter x:Name="RowsPresenter" AutomationProperties.AccessibilityView="Raw" Grid.ColumnSpan="3" Grid.RowSpan="2" Grid.Row="1" HorizontalAlignment="Left"/>
                             <Rectangle x:Name="BottomRightCorner" Grid.Column="2" Fill="{ThemeResource ScrollBarsSeparatorBackground}" Opacity="0" Grid.Row="2"/>
                             <ScrollBar x:Name="VerticalScrollBar" Grid.Column="2" Orientation="Vertical" Grid.Row="1" Visibility="Collapsed"/>
