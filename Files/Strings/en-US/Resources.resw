@@ -1536,4 +1536,7 @@
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>Search results</value>
   </data>
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
+    <value>List and sort directories alongside files</value>
+  </data>
 </root>

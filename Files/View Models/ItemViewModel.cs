@@ -505,11 +505,25 @@ namespace Files.Filesystem
             {
                 if (AppSettings.DirectorySortOption == SortOption.Name)
                 {
-                    ordered = listToSort.OrderBy(folderThenFileAsync).ThenBy(orderFunc, naturalStringComparer);
+                    if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
+                    {
+                        ordered = listToSort.OrderBy(orderFunc, naturalStringComparer);
+                    }
+                    else
+                    {
+                        ordered = listToSort.OrderBy(folderThenFileAsync).ThenBy(orderFunc, naturalStringComparer);
+                    }
                 }
                 else
                 {
-                    ordered = listToSort.OrderBy(folderThenFileAsync).ThenBy(orderFunc);
+                    if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
+                    {
+                        ordered = listToSort.OrderBy(orderFunc);
+                    }
+                    else
+                    {
+                        ordered = listToSort.OrderBy(folderThenFileAsync).ThenBy(orderFunc);
+                    }
                 }
             }
             else
@@ -518,22 +532,50 @@ namespace Files.Filesystem
                 {
                     if (AppSettings.DirectorySortOption == SortOption.Name)
                     {
-                        ordered = listToSort.OrderBy(folderThenFileAsync).ThenByDescending(orderFunc, naturalStringComparer);
+                        if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
+                        {
+                            ordered = listToSort.OrderBy(orderFunc, naturalStringComparer);
+                        }
+                        else
+                        {
+                            ordered = listToSort.OrderByDescending(orderFunc, naturalStringComparer);
+                        }
                     }
                     else
                     {
-                        ordered = listToSort.OrderBy(folderThenFileAsync).ThenByDescending(orderFunc);
+                        if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
+                        {
+                            ordered = listToSort.OrderByDescending(orderFunc);
+                        }
+                        else
+                        {
+                            ordered = listToSort.OrderBy(folderThenFileAsync).ThenByDescending(orderFunc);
+                        }
                     }
                 }
                 else
                 {
                     if (AppSettings.DirectorySortOption == SortOption.Name)
                     {
-                        ordered = listToSort.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc, naturalStringComparer);
+                        if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
+                        {
+                            ordered = listToSort.OrderByDescending(orderFunc, naturalStringComparer);
+                        }
+                        else
+                        {
+                            ordered = listToSort.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc, naturalStringComparer);
+                        }
                     }
                     else
                     {
-                        ordered = listToSort.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc);
+                        if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
+                        {
+                            ordered = listToSort.OrderByDescending(orderFunc);
+                        }
+                        else
+                        {
+                            ordered = listToSort.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc);
+                        }
                     }
                 }
             }

@@ -1908,6 +1908,10 @@
           <source>Search results</source>
           <target state="new">Search results</target>
         </trans-unit>
+        <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles.Header" translate="yes" xml:space="preserve">
+          <source>List and sort directories alongside files</source>
+          <target state="new">List and sort directories alongside files</target>
+        </trans-unit>
       </group>
     </body>
   </file>
