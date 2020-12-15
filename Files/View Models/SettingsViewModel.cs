@@ -64,6 +64,7 @@ namespace Files.View_Models
             Analytics.TrackEvent("IsVerticalTabFlyoutEnabled " + IsVerticalTabFlyoutEnabled.ToString());
             Analytics.TrackEvent("AreHiddenItemsVisible " + AreHiddenItemsVisible.ToString());
             Analytics.TrackEvent("ShowDrivesWidget " + ShowDrivesWidget.ToString());
+            Analytics.TrackEvent("ListAndSortDirectoriesAlongsideFiles " + ListAndSortDirectoriesAlongsideFiles.ToString());
 
             // Load the supported languages
             var supportedLang = ApplicationLanguages.ManifestLanguages;
@@ -474,6 +475,12 @@ namespace Files.View_Models
         }
 
         public bool AreHiddenItemsVisible
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+        
+        public bool ListAndSortDirectoriesAlongsideFiles
         {
             get => Get(false);
             set => Set(value);
