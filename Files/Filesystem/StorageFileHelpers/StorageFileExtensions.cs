@@ -240,7 +240,7 @@ namespace Files.Filesystem
             return Environment.ExpandEnvironmentVariables(path);
         }
 
-        public static bool AreItemsInSameDrive(this IReadOnlyList<IStorageItem> storageItems, string destinationPath)
+        public static bool AreItemsInSameDrive(this IEnumerable<IStorageItem> storageItems, string destinationPath)
         {
             try
             {
@@ -255,7 +255,7 @@ namespace Files.Filesystem
             }
         }
 
-        public static bool AreItemsAlreadyInFolder(this IReadOnlyList<IStorageItem> storageItems, string destinationPath)
+        public static bool AreItemsAlreadyInFolder(this IEnumerable<IStorageItem> storageItems, string destinationPath)
         {
             try
             {

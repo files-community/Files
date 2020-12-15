@@ -240,6 +240,7 @@
             Foreground="Transparent"
             GripperCursor="Default"
             GripperForeground="Transparent"
+            IsTabStop="False"
             ResizeBehavior="BasedOnAlignment"
             ResizeDirection="Auto"
             Style="{StaticResource DefaultGridSplitterStyle}">

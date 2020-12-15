@@ -177,7 +177,7 @@ namespace Files
 
         public override void SetDragModeForItems()
         {
-            if (IsItemSelected)
+            if (IsItemSelected && !InstanceViewModel.IsPageTypeSearchResults)
             {
                 var rows = new List<DataGridRow>();
                 Interacts.Interaction.FindChildren<DataGridRow>(rows, AllView);

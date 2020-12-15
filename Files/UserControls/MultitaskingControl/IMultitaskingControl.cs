@@ -8,7 +8,7 @@ namespace Files.UserControls.MultitaskingControl
     {
         public delegate void CurrentInstanceChangedEventHandler(object sender, CurrentInstanceChangedEventArgs e);
 
-        public void UpdateSelectedTab(string tabHeader, string workingDirectoryPath);
+        public void UpdateSelectedTab(string tabHeader, string workingDirectoryPath, bool isSearchResultsPage);
 
         event CurrentInstanceChangedEventHandler CurrentInstanceChanged;
 
