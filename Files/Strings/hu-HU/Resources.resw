@@ -1080,6 +1080,9 @@
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
     <value>Új lap</value>
   </data>
+  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Keresés</value>
+  </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Csak olvasható</value>
   </data>
@@ -1351,6 +1354,18 @@
     <value>Weboldal</value>
   </data>
   <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
-    <value>Tudj meg többet a dátumokról</value>
+    <value>Tudjon meg többet a dátumokról</value>
+  </data>
+  <data name="DragDropWindowText" xml:space="preserve">
+    <value>Másolás ide</value>
+  </data>
+  <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
+    <value>Keresés eredménye a következőben:</value>
+  </data>
+  <data name="SearchTabHeaderText" xml:space="preserve">
+    <value>Keresési eredmények</value>
+  </data>
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
+    <value>Mappák rendszerezése a fájlokkal</value>
   </data>
 </root>
