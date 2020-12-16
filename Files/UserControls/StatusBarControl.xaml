@@ -146,9 +146,9 @@
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
-                            x:Uid="StatusBarControlListView"
-                            Command="{x:Bind AppSettings.ToggleLayoutModeListView}"
-                            Text="List View">
+                            x:Uid="StatusBarControlDetailsView"
+                            Command="{x:Bind AppSettings.ToggleLayoutModeDetailsView}"
+                            Text="Details View">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF101;" />
                             </MenuFlyoutItem.Icon>

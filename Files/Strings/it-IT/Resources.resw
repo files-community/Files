@@ -102,7 +102,7 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>Deseleziona tutto</value>
   </data>
-  <data name="StatusBarControlListView.Text" xml:space="preserve">
+  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
     <value>Dettagli</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">

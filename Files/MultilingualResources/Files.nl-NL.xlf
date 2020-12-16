@@ -335,8 +335,8 @@
           <source>Text Document</source>
           <target state="translated" state-qualifier="tm-suggestion">Tekstdocument</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlListView.Text" translate="yes" xml:space="preserve">
-          <source>List View</source>
+        <trans-unit id="StatusBarControlDetailsView.Text" translate="yes" xml:space="preserve">
+          <source>Details View</source>
           <target state="translated" state-qualifier="tm-suggestion">Lijstweergave</target>
         </trans-unit>
         <trans-unit id="nameColumn.Header" translate="yes" xml:space="preserve">

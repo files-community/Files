@@ -134,8 +134,8 @@
           <source>Clear Selection</source>
           <target state="translated">選択をクリア</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlListView.Text" translate="yes" xml:space="preserve">
-          <source>List View</source>
+        <trans-unit id="StatusBarControlDetailsView.Text" translate="yes" xml:space="preserve">
+          <source>Details View</source>
           <target state="translated">詳細</target>
         </trans-unit>
         <trans-unit id="PropertiesModified.Text" translate="yes" xml:space="preserve">
