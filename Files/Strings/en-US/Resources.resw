@@ -1536,6 +1536,18 @@
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>Search results</value>
   </data>
+  <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>See who contributed to Files</value>
+  </data>
+  <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Find out what's new in Files</value>
+  </data>
+  <data name="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Send the developers an issue report with more information</value>
+  </data>
+  <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Support us on PayPal</value>
+  </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
     <value>List and sort directories alongside files</value>
   </data>
