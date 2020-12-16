@@ -1,5 +1,6 @@
 ﻿using Files.SettingsPages;
 using Files.View_Models;
+using Files.Views;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.UI.Core;
@@ -10,7 +11,7 @@ namespace Files
 {
     public sealed partial class Settings : Page
     {
-        public SettingsViewModel AppSettings => App.AppSettings;
+        public SettingsViewModel AppSettings => MainPage.AppSettings;
 
         public Settings()
         {

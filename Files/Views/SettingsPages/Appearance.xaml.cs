@@ -1,6 +1,7 @@
 ﻿using Files.Enums;
 using Files.Helpers;
 using Files.View_Models;
+using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Files.SettingsPages
 {
     public sealed partial class Appearance : Page
     {
-        public SettingsViewModel AppSettings => App.AppSettings;
+        public SettingsViewModel AppSettings => MainPage.AppSettings;
 
         public Appearance()
         {

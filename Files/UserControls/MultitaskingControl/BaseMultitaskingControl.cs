@@ -85,49 +85,49 @@ namespace Files.UserControls.MultitaskingControl
                 tabLocationHeader = "NewTab".GetLocalized();
                 fontIconSource.Glyph = "\xe90c";
             }
-            else if (currentPath.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(MainPage.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "SidebarDesktop".GetLocalized();
                 fontIconSource.Glyph = "\xe9f1";
             }
-            else if (currentPath.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(MainPage.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "SidebarDownloads".GetLocalized();
                 fontIconSource.Glyph = "\xe91c";
             }
-            else if (currentPath.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(MainPage.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "SidebarDocuments".GetLocalized();
                 fontIconSource.Glyph = "\xEA11";
             }
-            else if (currentPath.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(MainPage.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "SidebarPictures".GetLocalized();
                 fontIconSource.Glyph = "\xEA83";
             }
-            else if (currentPath.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(MainPage.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "SidebarMusic".GetLocalized();
                 fontIconSource.Glyph = "\xead4";
             }
-            else if (currentPath.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(MainPage.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "SidebarVideos".GetLocalized();
                 fontIconSource.Glyph = "\xec0d";
             }
-            else if (currentPath.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+            else if (currentPath.Equals(MainPage.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
                 var localSettings = ApplicationData.Current.LocalSettings;
                 tabLocationHeader = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
                 fontIconSource.FontFamily = Application.Current.Resources["RecycleBinIcons"] as FontFamily;
                 fontIconSource.Glyph = "\xEF87";
             }
-            else if (App.AppSettings.OneDrivePath != null && currentPath.Equals(App.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase))
+            else if (MainPage.AppSettings.OneDrivePath != null && currentPath.Equals(MainPage.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "OneDrive";
                 fontIconSource.Glyph = "\xe9b7";
             }
-            else if (App.AppSettings.OneDriveCommercialPath != null && currentPath.Equals(App.AppSettings.OneDriveCommercialPath, StringComparison.OrdinalIgnoreCase))
+            else if (MainPage.AppSettings.OneDriveCommercialPath != null && currentPath.Equals(MainPage.AppSettings.OneDriveCommercialPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "OneDrive Commercial";
                 fontIconSource.Glyph = "\xe9b7";

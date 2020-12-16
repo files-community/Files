@@ -52,7 +52,7 @@ namespace Files.Interacts
 
         private readonly IShellPage AssociatedInstance;
 
-        public SettingsViewModel AppSettings => App.AppSettings;
+        public SettingsViewModel AppSettings => MainPage.AppSettings;
 
         private AppServiceConnection Connection => AssociatedInstance?.ServiceConnection;
 
@@ -656,7 +656,7 @@ namespace Files.Interacts
                 }
                 else
                 {
-                    await OpenPropertiesWindowAsync(App.AppSettings.DrivesManager.Drives
+                    await OpenPropertiesWindowAsync(MainPage.AppSettings.DrivesManager.Drives
                         .Single(x => x.Path.Equals(AssociatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)));
                 }
             }

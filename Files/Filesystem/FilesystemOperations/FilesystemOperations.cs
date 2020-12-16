@@ -3,6 +3,7 @@ using Files.Enums;
 using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
+using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
@@ -109,7 +110,7 @@ namespace Files.Filesystem
                                                      IProgress<FilesystemErrorCode> errorCode,
                                                      CancellationToken cancellationToken)
         {
-            if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(MainPage.AppSettings.RecycleBinPath))
             {
                 errorCode?.Report(FilesystemErrorCode.ERROR_UNAUTHORIZED);
                 progress?.Report(100.0f);

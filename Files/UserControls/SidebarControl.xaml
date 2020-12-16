@@ -59,7 +59,32 @@
                     ToolTipService.ToolTip="{x:Bind Path}">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon
-                            FontFamily="{x:Bind Font}"
+                            FontFamily="{StaticResource FluentUIGlyphs}"
+                            FontSize="18"
+                            Glyph="{x:Bind Glyph}" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+            </DataTemplate>
+
+            <DataTemplate x:Key="RecycleBinNavItem" x:DataType="local2:LocationItem">
+                <muxc:NavigationViewItem
+                    AllowDrop="True"
+                    BorderThickness="0.8"
+                    CanDrag="False"
+                    Content="{x:Bind Text}"
+                    DataContext="{x:Bind}"
+                    DragEnter="NavigationViewItem_DragEnter"
+                    DragLeave="NavigationViewItem_DragLeave"
+                    DragOver="NavigationViewLocationItem_DragOver"
+                    DragStarting="NavigationViewItem_DragStarting"
+                    Drop="NavigationViewLocationItem_Drop"
+                    IsRightTapEnabled="True"
+                    RightTapped="NavigationViewLocationItem_RightTapped"
+                    Tag="{x:Bind Path}"
+                    ToolTipService.ToolTip="{x:Bind Path}">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon
+                            FontFamily="{StaticResource RecycleBinIcons}"
                             FontSize="18"
                             Glyph="{x:Bind Glyph}" />
                     </muxc:NavigationViewItem.Icon>
@@ -120,7 +145,8 @@
                 DriveNavItemTemplate="{StaticResource DriveNavItem}"
                 HeaderNavItemTemplate="{StaticResource HeaderItem}"
                 LinuxNavItemTemplate="{StaticResource LinuxNavItem}"
-                LocationNavItemTemplate="{StaticResource LocationNavItem}" />
+                LocationNavItemTemplate="{StaticResource LocationNavItem}"
+                RecycleBinNavItemTemplate="{StaticResource RecycleBinNavItem}" />
         </ResourceDictionary>
     </UserControl.Resources>
 

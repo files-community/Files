@@ -10,7 +10,7 @@ namespace Files.UserControls
 {
     public sealed partial class SpecificPageOnStartup : UserControl
     {
-        //public SettingsViewModel AppSettings => App.AppSettings;
+        //public SettingsViewModel AppSettings => MainPage.AppSettings;
         public delegate void RemovePageEventHandler(SpecificPageOnStartup pageItem, string path);
 
         public delegate void ChangePageEventHandler(string old_path, string new_path);

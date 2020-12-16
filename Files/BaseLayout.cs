@@ -38,7 +38,7 @@ namespace Files
 
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
-        public SettingsViewModel AppSettings => App.AppSettings;
+        public SettingsViewModel AppSettings => MainPage.AppSettings;
 
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
 
@@ -278,7 +278,7 @@ namespace Files
                 {
                     ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = true;
                 }
-                ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(MainPage.AppSettings.RecycleBinPath);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
 
                 MainPage.MultitaskingControl?.UpdateSelectedTab(new DirectoryInfo(workingDir).Name, workingDir, false);

@@ -15,7 +15,7 @@ namespace Files.Filesystem
 {
     public static class StorageFileExtensions
     {
-        private static SettingsViewModel AppSettings => App.AppSettings;
+        private static SettingsViewModel AppSettings => MainPage.AppSettings;
 
         private static PathBoxItem GetPathItem(string component, string path)
         {

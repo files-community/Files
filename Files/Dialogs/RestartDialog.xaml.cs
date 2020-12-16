@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Files.Views;
+using System;
 using System.Diagnostics;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -25,7 +26,7 @@ namespace Files.Dialogs
 
         private async void YesButton_Click(object sender, RoutedEventArgs e)
         {
-            App.AppSettings.ResumeAfterRestart = true;
+            MainPage.AppSettings.ResumeAfterRestart = true;
             App.SaveSessionTabs();
             await Launcher.LaunchUriAsync(new Uri("files-uwp://home/page="));
             Process.GetCurrentProcess().Kill();

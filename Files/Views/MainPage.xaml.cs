@@ -33,7 +33,7 @@ namespace Files.Views
     /// </summary>
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
-        public SettingsViewModel AppSettings => App.AppSettings;
+        public static SettingsViewModel AppSettings { get; set; }
         public static IMultitaskingControl MultitaskingControl { get; set; }
 
         private TabItem _SelectedTabItem;
@@ -89,9 +89,11 @@ namespace Files.Views
             var navArgs = eventArgs.Parameter?.ToString();
             if (eventArgs.NavigationMode != NavigationMode.Back)
             {
-                App.AppSettings = new SettingsViewModel();
+                AppSettings = new SettingsViewModel();
                 App.InteractionViewModel = new InteractionViewModel();
                 App.SidebarPinnedController = new SidebarPinnedController();
+                AppSettings.DrivesManager.DriveEnumerationCompleted += DrivesManager_DriveEnumerationCompleted;
+                AppSettings.DrivesManager.EnumerateDrives();
 
                 Helpers.ThemeHelper.Initialize();
 
@@ -99,25 +101,25 @@ namespace Files.Views
                 {
                     try
                     {
-                        if (App.AppSettings.ResumeAfterRestart)
+                        if (MainPage.AppSettings.ResumeAfterRestart)
                         {
-                            App.AppSettings.ResumeAfterRestart = false;
+                            MainPage.AppSettings.ResumeAfterRestart = false;
 
-                            foreach (string path in App.AppSettings.LastSessionPages)
+                            foreach (string path in MainPage.AppSettings.LastSessionPages)
                             {
                                 await AddNewTabByPathAsync(typeof(ModernShellPage), path);
                             }
 
-                            if (!App.AppSettings.ContinueLastSessionOnStartUp)
+                            if (!MainPage.AppSettings.ContinueLastSessionOnStartUp)
                             {
-                                App.AppSettings.LastSessionPages = null;
+                                MainPage.AppSettings.LastSessionPages = null;
                             }
                         }
-                        else if (App.AppSettings.OpenASpecificPageOnStartup)
+                        else if (MainPage.AppSettings.OpenASpecificPageOnStartup)
                         {
-                            if (App.AppSettings.PagesOnStartupList != null)
+                            if (MainPage.AppSettings.PagesOnStartupList != null)
                             {
-                                foreach (string path in App.AppSettings.PagesOnStartupList)
+                                foreach (string path in MainPage.AppSettings.PagesOnStartupList)
                                 {
                                     await AddNewTabByPathAsync(typeof(ModernShellPage), path);
                                 }
@@ -127,15 +129,15 @@ namespace Files.Views
                                 AddNewTabAsync();
                             }
                         }
-                        else if (App.AppSettings.ContinueLastSessionOnStartUp)
+                        else if (MainPage.AppSettings.ContinueLastSessionOnStartUp)
                         {
-                            if (App.AppSettings.LastSessionPages != null)
+                            if (MainPage.AppSettings.LastSessionPages != null)
                             {
-                                foreach (string path in App.AppSettings.LastSessionPages)
+                                foreach (string path in MainPage.AppSettings.LastSessionPages)
                                 {
                                     await AddNewTabByPathAsync(typeof(ModernShellPage), path);
                                 }
-                                App.AppSettings.LastSessionPages = new string[] { "NewTab".GetLocalized() };
+                                MainPage.AppSettings.LastSessionPages = new string[] { "NewTab".GetLocalized() };
                             }
                             else
                             {
@@ -166,6 +168,39 @@ namespace Files.Views
                 var mainView = rootFrame.Content as MainPage;
                 mainView.SelectedTabItem = AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
             }
+        }
+
+        private async void DrivesManager_DriveEnumerationCompleted(object sender, EventArgs e)
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
+                if (SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarDrives".GetLocalized()) == null)
+                {
+                    SideBarItems.Add(new HeaderTextItem()
+                    {
+                        Text = "SidebarDrives".GetLocalized()
+                    });
+                }
+                foreach (DriveItem drive in AppSettings.DrivesManager.Drives)
+                {
+                    if (!SideBarItems.Contains(drive))
+                    {
+                        SideBarItems.Add(drive);
+
+                        if (drive.Type != Filesystem.DriveType.VirtualDrive)
+                        {
+                            DrivesWidget.ItemsAdded.Add(drive);
+                        }
+                    }
+                }
+                foreach (INavigationControlItem item in SideBarItems.ToList())
+                {
+                    if (item is DriveItem && !AppSettings.DrivesManager.Drives.Contains(item))
+                    {
+                        SideBarItems.Remove(item);
+                        DrivesWidget.ItemsAdded.Remove(item);
+                    }
+                }
+            });
         }
 
         public static async Task AddNewTabAsync()

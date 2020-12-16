@@ -21,7 +21,7 @@ namespace Files.UserControls.MultitaskingControl
         private readonly DispatcherTimer tabHoverTimer = new DispatcherTimer();
         private TabViewItem hoveredTabViewItem = null;
 
-        private SettingsViewModel AppSettings => App.AppSettings;
+        private SettingsViewModel AppSettings => MainPage.AppSettings;
 
         public HorizontalMultitaskingControl()
         {

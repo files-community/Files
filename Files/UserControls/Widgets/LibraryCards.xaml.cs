@@ -1,4 +1,5 @@
 ﻿using Files.View_Models;
+using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Files
 {
     public sealed partial class LibraryCards : UserControl
     {
-        public SettingsViewModel AppSettings => App.AppSettings;
+        public SettingsViewModel AppSettings => MainPage.AppSettings;
 
         public delegate void LibraryCardInvokedEventHandler(object sender, LibraryCardInvokedEventArgs e);
 

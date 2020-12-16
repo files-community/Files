@@ -1,6 +1,7 @@
 ﻿using Files.Helpers;
 using Files.UserControls;
 using Files.View_Models;
+using Files.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -28,7 +29,7 @@ namespace Files
 
         private ObservableCollection<RecentItem> recentItemsCollection = new ObservableCollection<RecentItem>();
         private EmptyRecentsText Empty { get; set; } = new EmptyRecentsText();
-        public SettingsViewModel AppSettings => App.AppSettings;
+        public SettingsViewModel AppSettings => MainPage.AppSettings;
 
         public RecentFiles()
         {

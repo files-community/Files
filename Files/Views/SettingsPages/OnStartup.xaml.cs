@@ -1,5 +1,6 @@
 ﻿using Files.UserControls;
 using Files.View_Models;
+using Files.Views;
 using System;
 using System.Linq;
 using Windows.Storage;
@@ -11,7 +12,7 @@ namespace Files.SettingsPages
 {
     public sealed partial class OnStartup : Page
     {
-        public SettingsViewModel AppSettings => App.AppSettings;
+        public SettingsViewModel AppSettings => MainPage.AppSettings;
 
         public OnStartup()
         {

@@ -2,6 +2,7 @@
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
@@ -44,7 +45,7 @@ namespace Files.View_Models.Properties
             // Cannot get date and owner in MTP devices
             ViewModel.ItemAccessedTimestamp = ListedItem.GetFriendlyDateFromFormat((DateTimeOffset)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now), returnformat);
 
-            if (App.AppSettings.ShowFileOwner)
+            if (MainPage.AppSettings.ShowFileOwner)
             {
                 // Cannot get date and owner in MTP devices
                 ViewModel.ItemFileOwner = extraProperties[fileOwnerProperty]?.ToString();

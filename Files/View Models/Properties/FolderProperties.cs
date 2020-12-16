@@ -2,6 +2,7 @@
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Views;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
@@ -104,7 +105,7 @@ namespace Files.View_Models.Properties
                 {
                     storageFolder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
                 }
-                else if (!parentDirectory.ItemPath.StartsWith(App.AppSettings.RecycleBinPath))
+                else if (!parentDirectory.ItemPath.StartsWith(MainPage.AppSettings.RecycleBinPath))
                 {
                     storageFolder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(parentDirectory.ItemPath);
                 }
@@ -124,7 +125,7 @@ namespace Files.View_Models.Properties
                 GetOtherProperties(storageFolder.Properties);
                 GetFolderSize(storageFolder, TokenSource.Token);
             }
-            else if (parentDirectory.ItemPath.StartsWith(App.AppSettings.RecycleBinPath))
+            else if (parentDirectory.ItemPath.StartsWith(MainPage.AppSettings.RecycleBinPath))
             {
                 // GetFolderFromPathAsync cannot access recyclebin folder
                 if (AppInstance.FilesystemViewModel.Connection != null)

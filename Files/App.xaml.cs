@@ -45,7 +45,6 @@ namespace Files
 
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
 
-        public static SettingsViewModel AppSettings { get; set; }
         public static InteractionViewModel InteractionViewModel { get; set; }
         public static JumpListManager JumpList { get; } = new JumpListManager();
         public static SidebarPinnedController SidebarPinnedController { get; set; }
@@ -86,16 +85,16 @@ namespace Files
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
         {
-            AppSettings?.DrivesManager?.ResumeDeviceWatcher();
+            MainPage.AppSettings?.DrivesManager?.ResumeDeviceWatcher();
         }
 
         public static INavigationControlItem RightClickedItem;
 
         public static void UnpinItem_Click(object sender, RoutedEventArgs e)
         {
-            if (RightClickedItem.Path.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+            if (RightClickedItem.Path.Equals(MainPage.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
-                AppSettings.PinRecycleBinToSideBar = false;
+                MainPage.AppSettings.PinRecycleBinToSideBar = false;
             }
             else
             {
@@ -314,13 +313,13 @@ namespace Files
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
 
-            AppSettings?.Dispose();
+            MainPage.AppSettings?.Dispose();
             deferral.Complete();
         }
 
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
         {
-            AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab => tab != null ? tab.Path ?? "NewTab".GetLocalized() : "NewTab".GetLocalized()).ToArray();
+            MainPage.AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab => tab != null ? tab.Path ?? "NewTab".GetLocalized() : "NewTab".GetLocalized()).ToArray();
         }
 
         // Occurs when an exception is not handled on the UI thread.

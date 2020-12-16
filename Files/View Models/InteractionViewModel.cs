@@ -8,7 +8,7 @@ namespace Files.Controls
 {
     public class InteractionViewModel : ObservableObject
     {
-        public SettingsViewModel AppSettings => App.AppSettings;
+        public SettingsViewModel AppSettings => MainPage.AppSettings;
 
         public InteractionViewModel()
         {
@@ -75,7 +75,7 @@ namespace Files.Controls
             set => SetProperty(ref _IsPasteEnabled, value);
         }
 
-        private bool _IsHorizontalTabStripVisible = App.AppSettings.IsMultitaskingExperienceAdaptive ? !IsWindowResizedToCompactWidth() : App.AppSettings.IsHorizontalTabStripEnabled;
+        private bool _IsHorizontalTabStripVisible = MainPage.AppSettings.IsMultitaskingExperienceAdaptive ? !IsWindowResizedToCompactWidth() : MainPage.AppSettings.IsHorizontalTabStripEnabled;
 
         public bool IsHorizontalTabStripVisible
         {
@@ -83,7 +83,7 @@ namespace Files.Controls
             set => SetProperty(ref _IsHorizontalTabStripVisible, value);
         }
 
-        private bool _IsVerticalTabFlyoutVisible = App.AppSettings.IsMultitaskingExperienceAdaptive ? IsWindowResizedToCompactWidth() : App.AppSettings.IsVerticalTabFlyoutEnabled;
+        private bool _IsVerticalTabFlyoutVisible = MainPage.AppSettings.IsMultitaskingExperienceAdaptive ? IsWindowResizedToCompactWidth() : MainPage.AppSettings.IsVerticalTabFlyoutEnabled;
 
         public bool IsVerticalTabFlyoutVisible
         {

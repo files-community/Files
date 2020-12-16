@@ -4,6 +4,7 @@ using Files.Enums;
 using Files.Filesystem.Cloud;
 using Files.Helpers;
 using Files.View_Models;
+using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
@@ -45,7 +46,7 @@ namespace Files.Filesystem
         private IAsyncAction aWatcherAction;
         private BulkObservableCollection<ListedItem> _filesAndFolders;
         public ReadOnlyObservableCollection<ListedItem> FilesAndFolders { get; }
-        public SettingsViewModel AppSettings => App.AppSettings;
+        public SettingsViewModel AppSettings => MainPage.AppSettings;
         private bool shouldDisplayFileExtensions = false;
         public ListedItem CurrentFolder { get; private set; }
         public CollectionViewSource viewSource;
@@ -307,7 +308,7 @@ namespace Files.Filesystem
             FilesAndFolders = new ReadOnlyObservableCollection<ListedItem>(_filesAndFolders);
             _addFilesCTS = new CancellationTokenSource();
             _semaphoreCTS = new CancellationTokenSource();
-            shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
+            shouldDisplayFileExtensions = MainPage.AppSettings.ShowFileExtensions;
             jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
             jumpTimer.Tick += JumpTimer_Tick;
         }
@@ -823,7 +824,7 @@ namespace Files.Filesystem
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-            shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
+            shouldDisplayFileExtensions = MainPage.AppSettings.ShowFileExtensions;
 
             CurrentFolder = new ListedItem(null, returnformat)
             {
@@ -923,7 +924,7 @@ namespace Files.Filesystem
 
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-            shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
+            shouldDisplayFileExtensions = MainPage.AppSettings.ShowFileExtensions;
 
             if (await CheckBitlockerStatusAsync(_rootFolder))
             {
@@ -1100,7 +1101,7 @@ namespace Files.Filesystem
 
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-            shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
+            shouldDisplayFileExtensions = MainPage.AppSettings.ShowFileExtensions;
 
             uint count = 0;
             while (true)

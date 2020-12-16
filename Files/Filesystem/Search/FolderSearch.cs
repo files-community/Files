@@ -11,6 +11,7 @@ using Files.Common;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using System.IO;
 using FileAttributes = System.IO.FileAttributes;
+using Files.Views;
 
 namespace Files.Filesystem.Search
 {
@@ -102,7 +103,7 @@ namespace Files.Filesystem.Search
                 }
             }
 
-            if (App.AppSettings.AreHiddenItemsVisible)
+            if (MainPage.AppSettings.AreHiddenItemsVisible)
             {
                 (IntPtr hFile, WIN32_FIND_DATA findData) = await Task.Run(() =>
                 {

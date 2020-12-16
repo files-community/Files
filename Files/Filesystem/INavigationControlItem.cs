@@ -12,6 +12,7 @@
     {
         Header,
         Drive,
+        RecycleBin,
         LinuxDistro,
         Location,
         OneDrive

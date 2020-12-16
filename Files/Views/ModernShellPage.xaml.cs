@@ -42,7 +42,7 @@ namespace Files.Views.Pages
         private readonly StorageHistoryHelpers storageHistoryHelpers;
 
         private readonly IFilesystemHelpers filesystemHelpers;
-        public SettingsViewModel AppSettings => App.AppSettings;
+        public SettingsViewModel AppSettings => MainPage.AppSettings;
         public bool IsCurrentInstance { get; set; } = false;
         public StatusBarControl BottomStatusStripControl => StatusBarControl;
         public Frame ContentFrame => ItemDisplayFrame;
@@ -311,7 +311,7 @@ namespace Files.Views.Pages
             }
 
             ContentFrame.Navigate(
-                sourcePageType == null ? App.AppSettings.GetLayoutType() : sourcePageType,
+                sourcePageType == null ? MainPage.AppSettings.GetLayoutType() : sourcePageType,
                 new NavigationArguments()
                 {
                     NavPathParam = navigationPath,
@@ -795,7 +795,7 @@ namespace Files.Views.Pages
                     else if (NavParams.StartsWith("\\\\?\\")) // USB device
                     {
                         NavigationPath = NavParams;
-                        SidebarControl.SelectedSidebarItem = App.AppSettings.DrivesManager.Drives
+                        SidebarControl.SelectedSidebarItem = MainPage.AppSettings.DrivesManager.Drives
                             .FirstOrDefault(x => x.Path.ToString().Equals($"{Path.GetPathRoot(NavParams)}", StringComparison.OrdinalIgnoreCase));
                     }
                     else if (NavParams.StartsWith("\\\\")) // Network share
@@ -916,7 +916,7 @@ namespace Files.Views.Pages
                     DataPackageView packageView = Clipboard.GetContent();
                     if (packageView.Contains(StandardDataFormats.StorageItems)
                         && CurrentPageType != typeof(YourHome)
-                        && !FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+                        && !FilesystemViewModel.WorkingDirectory.StartsWith(MainPage.AppSettings.RecycleBinPath))
                     {
                         App.InteractionViewModel.IsPasteEnabled = true;
                     }

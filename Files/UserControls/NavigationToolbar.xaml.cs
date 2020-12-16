@@ -317,7 +317,7 @@ namespace Files.UserControls
             }
         }
 
-        public SettingsViewModel AppSettings => App.AppSettings;
+        public SettingsViewModel AppSettings => MainPage.AppSettings;
 
         public NavigationToolbar()
         {

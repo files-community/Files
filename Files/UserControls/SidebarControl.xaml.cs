@@ -2,6 +2,7 @@
 using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
+using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
@@ -21,7 +22,7 @@ namespace Files.Controls
 {
     public sealed partial class SidebarControl : UserControl, INotifyPropertyChanged
     {
-        public SettingsViewModel AppSettings => App.AppSettings;
+        public SettingsViewModel AppSettings => MainPage.AppSettings;
 
         public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
 
@@ -211,7 +212,7 @@ namespace Files.Controls
             {
                 ShowProperties = false;
 
-                if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+                if (item.Path.Equals(MainPage.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                 {
                     RecycleBinItemRightTapped?.Invoke(this, EventArgs.Empty);
 
@@ -328,7 +329,7 @@ namespace Files.Controls
 
                 if (storageItems.Count == 0 ||
                     locationItem.IsDefaultLocation ||
-                    locationItem.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
+                    locationItem.Path.Equals(MainPage.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
                     storageItems.AreItemsAlreadyInFolder(locationItem.Path))
                 {
                     e.AcceptedOperation = DataPackageOperation.None;
@@ -542,6 +543,7 @@ namespace Files.Controls
         public DataTemplate DriveNavItemTemplate { get; set; }
         public DataTemplate LinuxNavItemTemplate { get; set; }
         public DataTemplate HeaderNavItemTemplate { get; set; }
+        public DataTemplate RecycleBinNavItemTemplate { get; set; }
 
         protected override DataTemplate SelectTemplateCore(object item)
         {
@@ -558,6 +560,9 @@ namespace Files.Controls
 
                     case NavigationControlItemType.OneDrive:
                         return DriveNavItemTemplate;
+
+                    case NavigationControlItemType.RecycleBin:
+                        return RecycleBinNavItemTemplate;
 
                     case NavigationControlItemType.LinuxDistro:
                         return LinuxNavItemTemplate;

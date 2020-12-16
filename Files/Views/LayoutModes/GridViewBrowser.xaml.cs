@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.UserControls.Selection;
+using Files.Views;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace Files
 
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
-            App.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
+            MainPage.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
 
             SetItemTemplate(); // Set ItemTemplate
         }
@@ -45,17 +46,17 @@ namespace Files
 
         private void SetItemTemplate()
         {
-            FileList.ItemTemplate = (App.AppSettings.LayoutMode == 1) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
+            FileList.ItemTemplate = (MainPage.AppSettings.LayoutMode == 1) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
 
             // Set GridViewSize event handlers
-            if (App.AppSettings.LayoutMode == 1)
+            if (MainPage.AppSettings.LayoutMode == 1)
             {
-                App.AppSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
+                MainPage.AppSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
             }
-            else if (App.AppSettings.LayoutMode == 2)
+            else if (MainPage.AppSettings.LayoutMode == 2)
             {
                 _iconSize = UpdateThumbnailSize(); // Get icon size for jumps from other layouts directly to a grid size
-                App.AppSettings.GridViewSizeChangeRequested += AppSettings_GridViewSizeChangeRequested;
+                MainPage.AppSettings.GridViewSizeChangeRequested += AppSettings_GridViewSizeChangeRequested;
             }
         }
 
@@ -174,7 +175,7 @@ namespace Files
             TextBox textBox = null;
 
             // Handle layout differences between tiles browser and photo album
-            if (App.AppSettings.LayoutMode == 2)
+            if (MainPage.AppSettings.LayoutMode == 2)
             {
                 Popup popup = (gridViewItem.ContentTemplateRoot as Grid).FindName("EditPopup") as Popup;
                 TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
@@ -198,7 +199,7 @@ namespace Files
             textBox.KeyDown += RenameTextBox_KeyDown;
 
             int selectedTextLength = SelectedItem.ItemName.Length;
-            if (App.AppSettings.ShowFileExtensions)
+            if (MainPage.AppSettings.ShowFileExtensions)
             {
                 selectedTextLength -= extensionLength;
             }
@@ -285,7 +286,7 @@ namespace Files
 
         private void EndRename(TextBox textBox)
         {
-            if (App.AppSettings.LayoutMode == 2)
+            if (MainPage.AppSettings.LayoutMode == 2)
             {
                 Popup popup = textBox.Parent as Popup;
                 TextBlock textBlock = (popup.Parent as Grid).Children[1] as TextBlock;
@@ -409,15 +410,15 @@ namespace Files
 
         private static uint UpdateThumbnailSize()
         {
-            if (App.AppSettings.LayoutMode == 1 || App.AppSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeSmall + 75)
+            if (MainPage.AppSettings.LayoutMode == 1 || MainPage.AppSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeSmall + 75)
             {
                 return 80; // Small thumbnail
             }
-            else if (App.AppSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium + 25)
+            else if (MainPage.AppSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium + 25)
             {
                 return 120; // Medium thumbnail
             }
-            else if (App.AppSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium - 50)
+            else if (MainPage.AppSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium - 50)
             {
                 return 160; // Large thumbnail
             }

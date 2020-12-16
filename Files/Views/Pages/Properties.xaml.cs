@@ -2,6 +2,7 @@
 using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
+using Files.Views;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading;
@@ -31,7 +32,7 @@ namespace Files
 
         private ListedItem listedItem;
 
-        public SettingsViewModel AppSettings => App.AppSettings;
+        public SettingsViewModel AppSettings => MainPage.AppSettings;
 
         public Properties()
         {

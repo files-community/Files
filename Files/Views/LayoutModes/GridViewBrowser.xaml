@@ -7,6 +7,7 @@
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
+    xmlns:local1="using:Files.Views"
     xmlns:local2="using:Files.Filesystem"
     xmlns:local3="using:Files.Filesystem.Cloud"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -541,7 +542,7 @@
 
         <DataTemplate x:Name="GridViewBrowserTemplate" x:DataType="local2:ListedItem">
             <Grid
-                Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
+                Width="{x:Bind local1:MainPage.AppSettings.GridViewSize, Mode=OneWay}"
                 Height="Auto"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
@@ -560,8 +561,8 @@
                 </Grid.RowDefinitions>
                 <Grid
                     Grid.Row="0"
-                    Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
-                    Height="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
+                    Width="{x:Bind local1:MainPage.AppSettings.GridViewSize, Mode=OneWay}"
+                    Height="{x:Bind local1:MainPage.AppSettings.GridViewSize, Mode=OneWay}"
                     Opacity="{x:Bind Opacity, Mode=OneWay}"
                     Tag="ItemImage">
                     <Grid
@@ -591,7 +592,7 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
-                        <Viewbox MaxWidth="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}" MaxHeight="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}">
+                        <Viewbox MaxWidth="{x:Bind local1:MainPage.AppSettings.GridViewSize, Mode=OneWay}" MaxHeight="{x:Bind local1:MainPage.AppSettings.GridViewSize, Mode=OneWay}">
                             <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA00;" />
                         </Viewbox>
                     </Grid>
@@ -611,7 +612,7 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
-                        <Viewbox MaxWidth="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}" MaxHeight="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}">
+                        <Viewbox MaxWidth="{x:Bind local1:MainPage.AppSettings.GridViewSize, Mode=OneWay}" MaxHeight="{x:Bind local1:MainPage.AppSettings.GridViewSize, Mode=OneWay}">
                             <FontIcon
                                 FontFamily="{StaticResource FluentUIGlyphs}"
                                 FontSize="28"
@@ -636,7 +637,7 @@
                 </Grid>
                 <Grid
                     Grid.Row="1"
-                    MaxWidth="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
+                    MaxWidth="{x:Bind local1:MainPage.AppSettings.GridViewSize, Mode=OneWay}"
                     Margin="5,0,5,10"
                     HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
@@ -668,7 +669,7 @@
                     x:Load="False">
                     <TextBox
                         x:Name="GridViewTextBoxItemName"
-                        Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
+                        Width="{x:Bind local1:MainPage.AppSettings.GridViewSize, Mode=OneWay}"
                         Margin="0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"

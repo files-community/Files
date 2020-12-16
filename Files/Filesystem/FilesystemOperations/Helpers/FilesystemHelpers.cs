@@ -15,6 +15,7 @@ using System.Text.RegularExpressions;
 using FileAttributes = System.IO.FileAttributes;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using Files.Enums;
+using Files.Views;
 
 namespace Files.Filesystem
 {
@@ -116,7 +117,7 @@ namespace Files.Filesystem
             ReturnResult returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
+            if (MainPage.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
             {
                 ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
                     deleteFromRecycleBin,
@@ -205,7 +206,7 @@ namespace Files.Filesystem
             ReturnResult returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
+            if (MainPage.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
             {
                 ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
                     deleteFromRecycleBin,
@@ -273,7 +274,7 @@ namespace Files.Filesystem
             ReturnResult returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
+            if (MainPage.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
             {
                 ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
                     deleteFromRecycleBin,
@@ -362,7 +363,7 @@ namespace Files.Filesystem
             ReturnResult returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
+            if (MainPage.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
             {
                 ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
                     deleteFromRecycleBin,

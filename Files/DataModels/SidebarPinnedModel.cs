@@ -8,14 +8,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Media;
 
 namespace Files.DataModels
 {
     public class SidebarPinnedModel
     {
         [JsonIgnore]
-        public SettingsViewModel AppSettings => App.AppSettings;
+        public SettingsViewModel AppSettings => MainPage.AppSettings;
 
         [JsonProperty("items")]
         public List<string> Items { get; set; } = new List<string>();
@@ -182,10 +181,9 @@ namespace Files.DataModels
             if (res)
             {
                 int insertIndex = MainPage.SideBarItems.IndexOf(MainPage.SideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
-                && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;
+                && !x.Path.Equals(MainPage.AppSettings.RecycleBinPath))) + 1;
                 var locationItem = new LocationItem
                 {
-                    Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
                     Path = path,
                     Glyph = GetItemIcon(path),
                     IsDefaultLocation = false,

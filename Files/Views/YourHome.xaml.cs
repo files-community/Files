@@ -16,7 +16,7 @@ namespace Files
 {
     public sealed partial class YourHome : Page
     {
-        public SettingsViewModel AppSettings => App.AppSettings;
+        public SettingsViewModel AppSettings => MainPage.AppSettings;
         public IShellPage AppInstance = null;
         public AppServiceConnection Connection => AppInstance?.ServiceConnection;
 

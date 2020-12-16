@@ -8,7 +8,6 @@ using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
-using Windows.UI.Xaml;
 
 namespace Files.Filesystem
 {
@@ -19,7 +18,7 @@ namespace Files.Filesystem
         public string DeviceID { get; set; }
         public StorageFolder Root { get; set; }
         public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
-        public Visibility ItemVisibility { get; set; } = Visibility.Visible;
+        public bool ItemVisibility { get; set; } = true;
         public bool IsRemovable { get; set; }
 
         private ByteSize maxSpace;

@@ -1,14 +1,11 @@
-﻿using Windows.UI.Xaml.Media;
-
-namespace Files.Filesystem
+﻿namespace Files.Filesystem
 {
     public class LocationItem : INavigationControlItem
     {
         public string Glyph { get; set; }
         public string Text { get; set; }
         public string Path { get; set; }
-        public FontFamily Font { get; set; } = new FontFamily("Segoe MDL2 Assets");
-        public NavigationControlItemType ItemType => NavigationControlItemType.Location;
+        public NavigationControlItemType ItemType { get; internal set; } = NavigationControlItemType.Location;
         public bool IsDefaultLocation { get; set; }
     }
 

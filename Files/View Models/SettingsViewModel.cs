@@ -156,7 +156,6 @@ namespace Files.View_Models
             MainPage.SideBarItems.Add(new LocationItem
             {
                 Text = "SidebarHome".GetLocalized(),
-                Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
                 Glyph = "\uea80",
                 IsDefaultLocation = true,
                 Path = "Home"
@@ -332,8 +331,8 @@ namespace Files.View_Models
                         var recycleBinItem = new LocationItem
                         {
                             Text = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
-                            Font = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
                             Glyph = "\uEF87",
+                            ItemType = NavigationControlItemType.RecycleBin,
                             IsDefaultLocation = true,
                             Path = RecycleBinPath
                         };

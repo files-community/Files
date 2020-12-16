@@ -1,4 +1,5 @@
 using Files.Common;
+using Files.Views;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -48,31 +49,31 @@ namespace Files.Helpers
             if (instance != null && !JumpListItemPaths.Contains(path))
             {
                 string displayName;
-                if (path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
+                if (path.Equals(MainPage.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
                 {
                     displayName = "ms-resource:///Resources/SidebarDesktop";
                 }
-                else if (path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
+                else if (path.Equals(MainPage.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
                 {
                     displayName = "ms-resource:///Resources/SidebarDownloads";
                 }
-                else if (path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
+                else if (path.Equals(MainPage.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
                 {
                     displayName = "ms-resource:///Resources/SidebarDocuments";
                 }
-                else if (path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
+                else if (path.Equals(MainPage.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
                 {
                     displayName = "ms-resource:///Resources/SidebarPictures";
                 }
-                else if (path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
+                else if (path.Equals(MainPage.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
                 {
                     displayName = "ms-resource:///Resources/SidebarMusic";
                 }
-                else if (path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
+                else if (path.Equals(MainPage.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
                 {
                     displayName = "ms-resource:///Resources/SidebarVideos";
                 }
-                else if (path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+                else if (path.Equals(MainPage.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                 {
                     var localSettings = ApplicationData.Current.LocalSettings;
                     displayName = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");

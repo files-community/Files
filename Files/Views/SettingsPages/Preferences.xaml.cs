@@ -1,5 +1,6 @@
 ﻿using Files.DataModels;
 using Files.View_Models;
+using Files.Views;
 using System;
 using Windows.Storage;
 using Windows.System;
@@ -11,7 +12,7 @@ namespace Files.SettingsPages
 {
     public sealed partial class Preferences : Page
     {
-        private SettingsViewModel AppSettings => App.AppSettings;
+        private SettingsViewModel AppSettings => MainPage.AppSettings;
 
         public Preferences()
         {
@@ -61,7 +62,7 @@ namespace Files.SettingsPages
 
         private void SaveTerminalSettings()
         {
-            App.AppSettings.TerminalController.SaveModel();
+            MainPage.AppSettings.TerminalController.SaveModel();
         }
     }
 }

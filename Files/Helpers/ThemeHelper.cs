@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Files.Views;
+using System;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -66,7 +67,7 @@ namespace Files.Helpers
 
         public static void Initialize()
         {
-            App.AppSettings.AcrylicTheme = new AcrylicTheme();
+            MainPage.AppSettings.AcrylicTheme = new AcrylicTheme();
 
             // Set TitleBar background color
             _TitleBar = ApplicationView.GetForCurrentView().TitleBar;
@@ -109,24 +110,24 @@ namespace Files.Helpers
             switch (RootTheme)
             {
                 case ElementTheme.Default:
-                    App.AppSettings.AcrylicTheme.SetDefaultTheme();
+                    MainPage.AppSettings.AcrylicTheme.SetDefaultTheme();
                     _TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
                     _TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
                     break;
 
                 case ElementTheme.Light:
-                    App.AppSettings.AcrylicTheme.SetLightTheme();
+                    MainPage.AppSettings.AcrylicTheme.SetLightTheme();
                     _TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
                     _TitleBar.ButtonForegroundColor = Colors.Black;
                     break;
 
                 case ElementTheme.Dark:
-                    App.AppSettings.AcrylicTheme.SetDarkTheme();
+                    MainPage.AppSettings.AcrylicTheme.SetDarkTheme();
                     _TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
                     _TitleBar.ButtonForegroundColor = Colors.White;
                     break;
             }
-            App.AppSettings.UpdateThemeElements.Execute(null);
+            MainPage.AppSettings.UpdateThemeElements.Execute(null);
         }
     }
 }

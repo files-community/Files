@@ -1,6 +1,7 @@
 ﻿using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
+using Files.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Numerics;
@@ -12,7 +13,7 @@ namespace Files
 {
     public sealed partial class DrivesWidget : UserControl
     {
-        public SettingsViewModel AppSettings => App.AppSettings;
+        public SettingsViewModel AppSettings => MainPage.AppSettings;
 
         public delegate void DrivesWidgetInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
 
