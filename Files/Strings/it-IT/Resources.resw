@@ -1446,7 +1446,7 @@
   <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
     <value>Ordina le cartelle insieme ai file</value>
   </data>
-  <data name="PropertiesDialogTabDetails" xml:space="preserve">
+  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Dettagli</value>
   </data>
 </root>
