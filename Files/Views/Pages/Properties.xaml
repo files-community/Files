@@ -68,7 +68,7 @@
 
                 <NavigationViewItem
                     x:Name="TabDetails"
-                    x:Uid="PropertiesDialogTabDetailsImage"
+                    x:Uid="PropertiesDialogTabDetails"
                     Content="Details"
                     Tag="Details"
                     Visibility="Collapsed">

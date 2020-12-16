@@ -1918,6 +1918,10 @@
           <source>List and sort directories alongside files</source>
           <target state="translated">Mappák rendszerezése a fájlokkal</target>
         </trans-unit>
+        <trans-unit id="PropertiesDialogTabDetails.Content" translate="yes" xml:space="preserve">
+          <source>Details</source>
+          <target state="new">Details</target>
+        </trans-unit>
       </group>
     </body>
   </file>

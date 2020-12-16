@@ -1551,4 +1551,7 @@
   <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
     <value>List and sort directories alongside files</value>
   </data>
+  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+    <value>Details</value>
+  </data>
 </root>
