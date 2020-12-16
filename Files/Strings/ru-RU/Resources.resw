@@ -264,7 +264,7 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>Очистить выделение</value>
   </data>
-  <data name="StatusBarControlListView.Text" xml:space="preserve">
+  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
     <value>Таблица</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">

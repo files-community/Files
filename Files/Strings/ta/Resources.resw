@@ -108,7 +108,7 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>தேர்வை அழி</value>
   </data>
-  <data name="StatusBarControlListView.Text" xml:space="preserve">
+  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
     <value>பட்டியல் காட்சி</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">

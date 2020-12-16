@@ -335,8 +335,8 @@
           <source>Text Document</source>
           <target state="translated">Dokument tekstowy</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlListView.Text" translate="yes" xml:space="preserve">
-          <source>List View</source>
+        <trans-unit id="StatusBarControlDetailsView.Text" translate="yes" xml:space="preserve">
+          <source>Details View</source>
           <target state="translated">Widok listy</target>
         </trans-unit>
         <trans-unit id="nameColumn.Header" translate="yes" xml:space="preserve">

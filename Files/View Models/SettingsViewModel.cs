@@ -533,7 +533,7 @@ namespace Files.View_Models
 
         public int LayoutMode
         {
-            get => Get(0); // List View
+            get => Get(0); // Details View
             set => Set(value);
         }
 
@@ -597,9 +597,9 @@ namespace Files.View_Models
             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
 
-        public RelayCommand ToggleLayoutModeListView => new RelayCommand(() =>
+        public RelayCommand ToggleLayoutModeDetailsView => new RelayCommand(() =>
         {
-            LayoutMode = 0; // List View
+            LayoutMode = 0; // Details View
 
             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
