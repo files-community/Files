@@ -9,9 +9,9 @@ using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -153,7 +153,15 @@ namespace Files
 
         public abstract void SelectAllItems();
 
-        public abstract void InvertSelection();
+        public virtual void InvertSelection()
+        {
+            List<ListedItem> newSelectedItems = GetAllItems()
+                .Cast<ListedItem>()
+                .Except(SelectedItems)
+                .ToList();
+
+            SetSelectedItemsOnUi(newSelectedItems);
+        }
 
         public abstract void ClearSelection();
 
@@ -161,13 +169,29 @@ namespace Files
 
         public abstract void ScrollIntoView(ListedItem item);
 
-        public abstract int GetSelectedIndex();
+        protected abstract void AddSelectedItem(ListedItem item);
 
-        public abstract void SetSelectedItemOnUi(ListedItem selectedItem);
+        protected abstract IEnumerable GetAllItems();
 
-        public abstract void SetSelectedItemsOnUi(List<ListedItem> selectedItems);
+        public virtual void SetSelectedItemOnUi(ListedItem selectedItem)
+        {
+            ClearSelection();
+            AddSelectedItem(selectedItem);
+        }
 
-        public abstract void AddSelectedItemsOnUi(List<ListedItem> selectedItems);
+        public virtual void SetSelectedItemsOnUi(List<ListedItem> selectedItems)
+        {
+            ClearSelection();
+            AddSelectedItemsOnUi(selectedItems);
+        }
+
+        public virtual void AddSelectedItemsOnUi(List<ListedItem> selectedItems)
+        {
+            foreach (ListedItem selectedItem in selectedItems)
+            {
+                AddSelectedItem(selectedItem);
+            }
+        }
 
         private void ClearShellContextMenus(MenuFlyout menuFlyout)
         {
@@ -176,6 +200,7 @@ namespace Files
             {
                 menuFlyout.Items.RemoveAt(menuFlyout.Items.IndexOf(contextMenuItems[i]));
             }
+
             if (menuFlyout.Items[0] is MenuFlyoutSeparator flyoutSeperator)
             {
                 menuFlyout.Items.RemoveAt(menuFlyout.Items.IndexOf(flyoutSeperator));
@@ -219,9 +244,31 @@ namespace Files
 
         public abstract void StartRenameItem();
 
-        public abstract void ResetItemOpacity();
+        public virtual void ResetItemOpacity()
+        {
+            IEnumerable items = GetAllItems();
+            if (items == null)
+            {
+                return;
+            }
 
-        public abstract void SetItemOpacity(ListedItem item);
+            foreach (ListedItem listedItem in items)
+            {
+                if (listedItem.IsHiddenItem)
+                {
+                    listedItem.Opacity = 0.4;
+                }
+                else
+                {
+                    listedItem.Opacity = 1;
+                }
+            }
+        }
+
+        public virtual void SetItemOpacity(ListedItem item)
+        {
+            item.Opacity = 0.4;
+        }
 
         protected abstract ListedItem GetItemFromElement(object element);
 
@@ -314,10 +361,17 @@ namespace Files
 
         private void UnloadMenuFlyoutItemByName(string nameToUnload)
         {
-            var menuItem = this.FindName(nameToUnload) as DependencyObject;
-            if (menuItem != null) // Prevent crash if the MenuFlyoutItem is missing
+            if (FindName(nameToUnload) is MenuFlyoutItemBase menuItem) // Prevent crash if the MenuFlyoutItem is missing
             {
-                (menuItem as MenuFlyoutItemBase).Visibility = Visibility.Collapsed;
+                menuItem.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void LoadMenuFlyoutItemByName(string nameToUnload)
+        {
+            if (FindName(nameToUnload) is MenuFlyoutItemBase menuItem) // Prevent crash if the MenuFlyoutItem is missing
+            {
+                menuItem.Visibility = Visibility.Visible;
             }
         }
 
@@ -485,7 +539,7 @@ namespace Files
                     {
                         if (SelectedItem.IsShortcutItem)
                         {
-                            (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            LoadMenuFlyoutItemByName("OpenItem");
                             UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
@@ -497,42 +551,42 @@ namespace Files
                             UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
-                            (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            LoadMenuFlyoutItemByName("CreateShortcut");
                         }
                         else if (SelectedItem.FileExtension.Equals(".exe", StringComparison.OrdinalIgnoreCase)
                             || SelectedItem.FileExtension.Equals(".bat", StringComparison.OrdinalIgnoreCase))
                         {
-                            (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            LoadMenuFlyoutItemByName("OpenItem");
                             UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
-                            (this.FindName("RunAsAdmin") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                            (this.FindName("RunAsAnotherUser") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                            (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            LoadMenuFlyoutItemByName("RunAsAdmin");
+                            LoadMenuFlyoutItemByName("RunAsAnotherUser");
+                            LoadMenuFlyoutItemByName("CreateShortcut");
                         }
                         else if (SelectedItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase))
                         {
                             UnloadMenuFlyoutItemByName("OpenItem");
                             UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
-                            (this.FindName("RunAsAnotherUser") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                            (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            LoadMenuFlyoutItemByName("RunAsAnotherUser");
+                            LoadMenuFlyoutItemByName("CreateShortcut");
                         }
                         else if (SelectedItem.FileExtension.Equals(".appx", StringComparison.OrdinalIgnoreCase)
                             || SelectedItem.FileExtension.Equals(".msix", StringComparison.OrdinalIgnoreCase)
                             || SelectedItem.FileExtension.Equals(".appxbundle", StringComparison.OrdinalIgnoreCase)
                             || SelectedItem.FileExtension.Equals(".msixbundle", StringComparison.OrdinalIgnoreCase))
                         {
-                            (this.FindName("OpenItemWithAppPicker") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            LoadMenuFlyoutItemByName("OpenItemWithAppPicker");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
-                            (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            LoadMenuFlyoutItemByName("CreateShortcut");
                         }
                         else
                         {
-                            (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                            (this.FindName("OpenItemWithAppPicker") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            LoadMenuFlyoutItemByName("OpenItem");
+                            LoadMenuFlyoutItemByName("OpenItemWithAppPicker");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
-                            (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            LoadMenuFlyoutItemByName("CreateShortcut");
                         }
                     }
                 }
@@ -555,23 +609,20 @@ namespace Files
                 }
                 else if (SelectedItems.Count == 1)
                 {
-                    (this.FindName("SidebarPinItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                    (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                    (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                    LoadMenuFlyoutItemByName("SidebarPinItem");
+                    LoadMenuFlyoutItemByName("CreateShortcut");
+                    LoadMenuFlyoutItemByName("OpenItem");
                 }
                 else
                 {
-                    (this.FindName("SidebarPinItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                    LoadMenuFlyoutItemByName("SidebarPinItem");
                     UnloadMenuFlyoutItemByName("CreateShortcut");
                 }
 
                 if (SelectedItems.Count <= 5 && SelectedItems.Count > 0)
                 {
-                    (this.FindName("OpenInNewTab") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                    (this.FindName("OpenInNewWindowItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                    //this.FindName("SidebarPinItem");
-                    //this.FindName("OpenInNewTab");
-                    //this.FindName("OpenInNewWindowItem");
+                    LoadMenuFlyoutItemByName("OpenInNewTab");
+                    LoadMenuFlyoutItemByName("OpenInNewWindowItem");
                 }
                 else if (SelectedItems.Count > 5)
                 {
