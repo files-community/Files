@@ -320,7 +320,7 @@ namespace Files.Filesystem.FilesystemHistory
             !(history.Source.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item.Path))
                 && history.Destination.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item.Path)));
 
-        private bool IsHistoryNull(IEnumerable<PathWithType> source) =>
+        private bool IsHistoryNull(IEnumerable<IStorageItemWithPath> source) =>
             !(source.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item.Path)));
 
         #endregion Private Helpers
