@@ -1,5 +1,4 @@
-﻿using Files.DataModels;
-using Microsoft.Toolkit.Uwp.Extensions;
+﻿using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using Windows.ApplicationModel;
@@ -41,12 +40,6 @@ namespace Files.SettingsPages
             }
 
             (FeedbackListView.Items[FeedbackListView.SelectedIndex] as ListViewItem).IsSelected = false;
-        }
-
-        private async void UpdateCheck_Click(object sender, RoutedEventArgs e)
-        {
-            AppUpdater updater = new AppUpdater();
-            await updater.CheckForUpdatesAsync();
         }
     }
 }

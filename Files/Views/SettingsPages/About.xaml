@@ -165,8 +165,6 @@
                     Click="OpenLogLocationButton_Click"
                     Content="Open log location" />
 
-                <Button Click="UpdateCheck_Click" Content="Check for updates" />
-
                 <TextBlock
                     x:Uid="SettingsAboutThirdPartyLicenses"
                     Margin="0,16,0,0"

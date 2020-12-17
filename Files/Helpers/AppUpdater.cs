@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Services.Store;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.DataModels
+namespace Files.Helpers
 {
     class AppUpdater
     {
@@ -38,17 +39,16 @@ namespace Files.DataModels
                     DownloadUpdates();
                 }
             }
-            ShowNoUpdatesAvailableDialog();
         }
 
         public async Task<bool> DownloadUpdatesConsent()
         {
             ContentDialog dialog = new ContentDialog
             {
-                Title = "Updates available",
-                Content = "Do you want to download and install the available updates?",
-                CloseButtonText = "No",
-                PrimaryButtonText = "Yes"
+                Title = "ConsentDialogTitle".GetLocalized(),
+                Content = "ConsentDialogContent".GetLocalized(),
+                CloseButtonText = "ConsentDialogCloseButtonText".GetLocalized(),
+                PrimaryButtonText = "ConsentDialogPrimaryButtonText".GetLocalized()
             };
             ContentDialogResult result = await dialog.ShowAsync();
 
@@ -57,17 +57,6 @@ namespace Files.DataModels
                 return true;
             }
             return false;
-        }
-
-        private async void ShowNoUpdatesAvailableDialog()
-        {
-            ContentDialog dialog = new ContentDialog
-            {
-                Title = "No updates available",
-                Content = "You have the latest version of Files installed!",
-                CloseButtonText = "Ok"
-            };
-            await dialog.ShowAsync();
         }
 
         public IAsyncResult DownloadUpdates()
