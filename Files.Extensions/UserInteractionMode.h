@@ -1,11 +1,7 @@
 #pragma once
 #include "UserInteractionMode.g.h"
-#include <winstring.h>
 #include "Wnf.h"
 #include "SysProc.h"
-#include "winrt/Windows.System.Profile.h"
-#include "winrt/Windows.UI.Xaml.h"
-#include "winrt/Windows.Foundation.h"
 
 namespace winrt::Files_Extensions::implementation
 {

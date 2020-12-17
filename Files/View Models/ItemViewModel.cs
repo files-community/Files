@@ -692,6 +692,21 @@ namespace Files.Filesystem
             }
         }
 
+        public async Task<string> GetLocalizedNameAsync(string path)
+        {
+            if (Connection != null)
+            {
+                var value = new ValueSet();
+                value.Add("Arguments", "LocalizedName");
+                value.Add("ItemPath", path);
+                var response = await Connection.SendMessageAsync(value);
+                if (response.Status == AppServiceResponseStatus.Success) return response.Message["LocalizedName"].ToString();
+                else return null;
+            }
+
+            return null;
+        }
+
         public async Task<(BitmapImage Icon, BitmapImage Overlay, bool IsCustom)> LoadIconOverlayAsync(string filePath, uint thumbnailSize)
         {
             if (Connection != null)
@@ -1599,10 +1614,13 @@ namespace Files.Filesystem
                 opacity = 0.4;
             }
 
+            string itemName = GetLocalizedNameAsync(itemPath).GetAwaiter().GetResult();
+            if (itemName == null) itemName = findData.cFileName;
+
             return new ListedItem(null, dateReturnFormat)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
-                ItemName = findData.cFileName,
+                ItemName = itemName,
                 ItemDateModifiedReal = itemDate,
                 ItemType = "FileFolderListItem".GetLocalized(),
                 LoadFolderGlyph = true,
@@ -1804,7 +1822,7 @@ namespace Files.Filesystem
                 _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId, dateReturnFormat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemName = folder.Name,
+                    ItemName = folder.DisplayName,
                     ItemDateModifiedReal = basicProperties.DateModified,
                     ItemType = folder.DisplayType,
                     IsHiddenItem = false,

@@ -22,12 +22,6 @@ Readapted from: https://raw.githubusercontent.com/gus33000/RegistryRT/master/pch
 */
 
 #pragma once
-#include "pch.h"
-#include <Windows.h>
-#include <winnt.h>
-#include <ppltasks.h>
-#include <winrt/base.h>
-#include <algorithm>
 
 using namespace winrt;
 

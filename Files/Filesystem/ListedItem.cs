@@ -252,7 +252,9 @@ namespace Files.Filesystem
             {
                 suffix = PrimaryItemAttribute == StorageItemTypes.File ? "FileItemAutomation".GetLocalized() : "FolderItemAutomation".GetLocalized();
             }
-            return $"{ItemName}, {ItemPath}, {suffix}";
+
+            if (App.AppSettings.LayoutMode == 1 && PrimaryItemAttribute == StorageItemTypes.File) return $"{ItemName}, {suffix}, {FileSize}";
+            else return $"{ItemName}, {suffix}";
         }
 
         public bool IsRecycleBinItem => this is RecycleBinItem;

@@ -324,6 +324,14 @@ namespace FilesFullTrust
                     });
                     break;
 
+                case "LocalizedName":
+                    var itemPath = args.Request.Message["ItemPath"].ToString();
+                    var localName = new ShellFileInfo(itemPath).DisplayName;
+                    await args.Request.SendResponseAsync(new ValueSet()
+                    {
+                        {"LocalizedName", localName }
+                    });
+                    break;
                 default:
                     if (args.Request.Message.ContainsKey("Application"))
                     {

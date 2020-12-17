@@ -1,6 +1,4 @@
 #pragma once
-#include <Windows.h>
-#include <vector>
 
 typedef DWORD ULONG;
 typedef WORD  USHORT, * USHORT_PTR;

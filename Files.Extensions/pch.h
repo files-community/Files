@@ -1,2 +1,12 @@
 ﻿#pragma once
 #include <unknwn.h>
+#include <Windows.h>
+#include <vector>
+#include <winnt.h>
+#include <ppltasks.h>
+#include <winrt/base.h>
+#include <algorithm>
+#include <winstring.h>
+#include "winrt/Windows.System.Profile.h"
+#include "winrt/Windows.UI.Xaml.h"
+#include "winrt/Windows.Foundation.h"
