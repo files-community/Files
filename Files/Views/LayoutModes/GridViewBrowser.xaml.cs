@@ -21,9 +21,9 @@ namespace Files
 
         public GridViewBrowser()
         {
-            this.InitializeComponent();
-            base.BaseLayoutContextFlyout = this.BaseLayoutContextFlyout;
-            base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
+            InitializeComponent();
+            base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
+            base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
 
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
@@ -54,47 +54,24 @@ namespace Files
             }
             else if (App.AppSettings.LayoutMode == 2)
             {
-                _iconSize = UpdateThumbnailSize(); // Get icon size for jumps from other layouts directly to a grid size
+                currentIconSize = GetIconSize(); // Get icon size for jumps from other layouts directly to a grid size
                 App.AppSettings.GridViewSizeChangeRequested += AppSettings_GridViewSizeChangeRequested;
             }
         }
 
-        public override void SetSelectedItemOnUi(ListedItem item)
+        protected override void AddSelectedItem(ListedItem item)
         {
-            ClearSelection();
             FileList.SelectedItems.Add(item);
         }
 
-        public override void SetSelectedItemsOnUi(List<ListedItem> items)
+        protected override IEnumerable GetAllItems()
         {
-            ClearSelection();
-
-            foreach (ListedItem item in items)
-            {
-                FileList.SelectedItems.Add(item);
-            }
-        }
-
-        public override void AddSelectedItemsOnUi(List<ListedItem> selectedItems)
-        {
-            foreach (ListedItem selectedItem in selectedItems)
-            {
-                FileList.SelectedItems.Add(selectedItem);
-            }
+            return FileList.Items;
         }
 
         public override void SelectAllItems()
         {
-            ClearSelection();
             FileList.SelectAll();
-        }
-
-        public override void InvertSelection()
-        {
-            List<ListedItem> allItems = FileList.Items.Cast<ListedItem>().ToList();
-            List<ListedItem> newSelectedItems = allItems.Except(SelectedItems).ToList();
-
-            SetSelectedItemsOnUi(newSelectedItems);
         }
 
         public override void ClearSelection()
@@ -124,11 +101,6 @@ namespace Files
         public override void ScrollIntoView(ListedItem item)
         {
             FileList.ScrollIntoView(item);
-        }
-
-        public override int GetSelectedIndex()
-        {
-            return FileList.SelectedIndex;
         }
 
         public override void FocusSelectedItems()
@@ -220,32 +192,6 @@ namespace Files
             }
         }
 
-        public override void ResetItemOpacity()
-        {
-            IEnumerable items = (IEnumerable)FileList.ItemsSource;
-            if (items == null)
-            {
-                return;
-            }
-
-            foreach (ListedItem listedItem in items)
-            {
-                if (listedItem.IsHiddenItem)
-                {
-                    listedItem.Opacity = 0.4;
-                }
-                else
-                {
-                    listedItem.Opacity = 1;
-                }
-            }
-        }
-
-        public override void SetItemOpacity(ListedItem item)
-        {
-            item.Opacity = 0.4;
-        }
-
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Escape)
@@ -333,7 +279,7 @@ namespace Files
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
             {
                 // Unfocus the GridView so keyboard shortcut can be handled
-                this.Focus(FocusState.Programmatic);
+                Focus(FocusState.Programmatic);
             }
         }
 
@@ -345,8 +291,11 @@ namespace Files
                 {
                     // Don't block the various uses of enter key (key 13)
                     var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
-                    if (args.KeyCode == 13 || focusedElement is Button || focusedElement is TextBox || focusedElement is PasswordBox ||
-                        Interacts.Interaction.FindParent<ContentDialog>(focusedElement) != null)
+                    if (args.KeyCode == 13 
+                        || focusedElement is Button 
+                        || focusedElement is TextBox 
+                        || focusedElement is PasswordBox 
+                        || Interaction.FindParent<ContentDialog>(focusedElement) != null)
                     {
                         return;
                     }
@@ -363,7 +312,7 @@ namespace Files
             {
                 await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
-                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, _iconSize);
+                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
                     item.ItemPropertiesInitialized = true;
                 });
 
@@ -405,9 +354,9 @@ namespace Files
             }
         }
 
-        private uint _iconSize = UpdateThumbnailSize();
+        private uint currentIconSize = GetIconSize();
 
-        private static uint UpdateThumbnailSize()
+        private static uint GetIconSize()
         {
             if (App.AppSettings.LayoutMode == 1 || App.AppSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeSmall + 75)
             {
@@ -429,16 +378,14 @@ namespace Files
 
         private void AppSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
         {
-            var iconSize = UpdateThumbnailSize(); // Get new icon size
+            var requestedIconSize = GetIconSize(); // Get new icon size
 
             // Prevents reloading icons when the icon size hasn't changed
-            if (iconSize != _iconSize)
+            if (requestedIconSize != currentIconSize)
             {
-                _iconSize = iconSize; // Update icon size before refreshing
+                currentIconSize = requestedIconSize; // Update icon size before refreshing
                 ParentShellPageInstance.Refresh_Click(); // Refresh icons
             }
-            else
-                _iconSize = iconSize; // Update icon size
         }
 
         private async void FileList_ItemClick(object sender, ItemClickEventArgs e)
