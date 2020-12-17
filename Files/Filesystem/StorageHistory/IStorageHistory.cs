@@ -39,6 +39,6 @@ namespace Files.Filesystem.FilesystemHistory
 
         void Modify(FileOperationType operationType, PathWithType source, PathWithType destination);
 
-        #endregion
+        #endregion Modify
     }
 }

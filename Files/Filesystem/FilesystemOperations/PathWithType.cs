@@ -11,7 +11,7 @@ namespace Files.Filesystem
 
         public FilesystemItemType ItemType { get; private set; }
 
-        #endregion
+        #endregion Public Properties
 
         #region Constructor
 
@@ -21,7 +21,7 @@ namespace Files.Filesystem
             ItemType = itemType;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Operators
 
@@ -39,7 +39,7 @@ namespace Files.Filesystem
             return new PathWithType(storageFolder.Path, storageFolder.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory);
         }
 
-        #endregion
+        #endregion Operators
 
         #region Override
 
@@ -48,7 +48,7 @@ namespace Files.Filesystem
             return Path;
         }
 
-        #endregion
+        #endregion Override
 
         #region IDisposable
 
@@ -59,6 +59,6 @@ namespace Files.Filesystem
             Path = null;
         }
 
-        #endregion
+        #endregion IDisposable
     }
 }

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Files.Filesystem.FilesystemHistory;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Files.Filesystem.FilesystemHistory;
 
 namespace Files.Filesystem
 {

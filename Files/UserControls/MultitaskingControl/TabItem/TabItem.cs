@@ -61,7 +61,7 @@ namespace Files.UserControls.MultitaskingControl
             Content = null;
         }
 
-        #endregion
+        #endregion IDisposable
     }
 
     public class TabItemContent

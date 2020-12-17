@@ -14,7 +14,7 @@ namespace Files.Filesystem.FilesystemHistory
 
         public IEnumerable<PathWithType> Destination { get; private set; }
 
-        #endregion
+        #endregion Public Properties
 
         #region Constructor
 
@@ -32,7 +32,7 @@ namespace Files.Filesystem.FilesystemHistory
             Destination = destination.CreateEnumerable();
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Modify
 
@@ -57,7 +57,7 @@ namespace Files.Filesystem.FilesystemHistory
             Destination = destination.CreateEnumerable();
         }
 
-        #endregion
+        #endregion Modify
 
         #region IDisposable
 
@@ -70,6 +70,6 @@ namespace Files.Filesystem.FilesystemHistory
             Destination = null;
         }
 
-        #endregion
+        #endregion IDisposable
     }
 }

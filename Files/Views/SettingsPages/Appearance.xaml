@@ -54,13 +54,13 @@
 
                     <HyperlinkButton
                         x:Uid="SettingsAppearanceDateFormatsTip"
-                        ToolTipService.ToolTip="Learn more about date formats"
                         VerticalAlignment="Bottom"
                         AutomationProperties.Name="Learn more about date formats"
                         Content="&#xE946;"
                         FontFamily="Segoe MDL2 Assets"
                         NavigateUri="https://github.com/files-community/files-uwp/wiki/Date-formats"
-                        Style="{ThemeResource TextBlockButtonStyle}" />
+                        Style="{ThemeResource TextBlockButtonStyle}"
+                        ToolTipService.ToolTip="Learn more about date formats" />
                 </StackPanel>
 
                 <ToggleSwitch

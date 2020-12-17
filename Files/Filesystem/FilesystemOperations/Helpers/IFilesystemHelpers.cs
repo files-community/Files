@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Files.Enums;
+using Files.Filesystem.FilesystemHistory;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Files.Filesystem.FilesystemHistory;
-using Files.Enums;
 
 namespace Files.Filesystem
 {
@@ -60,7 +60,7 @@ namespace Files.Filesystem
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
         Task<ReturnResult> DeleteItemAsync(PathWithType source, bool showDialog, bool permanently, bool registerHistory);
 
-        #endregion
+        #endregion Delete
 
         /// <summary>
         /// Restores <paramref name="source"/> from the RecycleBin to <paramref name="destination"/> fullPath
@@ -138,7 +138,7 @@ namespace Files.Filesystem
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
         Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool registerHistory);
 
-        #endregion
+        #endregion Copy
 
         #region Move
 
@@ -192,7 +192,7 @@ namespace Files.Filesystem
         /// <returns><see cref="ReturnResult"/> of performed operation</returns>
         Task<ReturnResult> MoveItemsFromClipboard(DataPackageView packageView, string destination, bool registerHistory);
 
-        #endregion
+        #endregion Move
 
         /// <summary>
         /// Renames <paramref name="source"/> with <paramref name="newName"/>

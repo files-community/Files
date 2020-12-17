@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Files.Enums;
+using Files.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -6,8 +8,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Files.Helpers;
-using Files.Enums;
 
 namespace Files.Filesystem.FilesystemHistory
 {
@@ -23,7 +23,7 @@ namespace Files.Filesystem.FilesystemHistory
 
         private readonly CancellationToken cancellationToken;
 
-        #endregion
+        #endregion Private Members
 
         #region Constructor
 
@@ -35,7 +35,7 @@ namespace Files.Filesystem.FilesystemHistory
             filesystemHelpers = new FilesystemHelpers(associatedInstance, cancellationToken);
         }
 
-        #endregion
+        #endregion Constructor
 
         #region IStorageHistoryOperations
 
@@ -312,7 +312,7 @@ namespace Files.Filesystem.FilesystemHistory
             return returnStatus;
         }
 
-        #endregion
+        #endregion IStorageHistoryOperations
 
         #region Private Helpers
 
@@ -323,7 +323,7 @@ namespace Files.Filesystem.FilesystemHistory
         private bool IsHistoryNull(IEnumerable<PathWithType> source) =>
             !(source.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item.Path)));
 
-        #endregion
+        #endregion Private Helpers
 
         #region IDisposable
 
@@ -338,6 +338,6 @@ namespace Files.Filesystem.FilesystemHistory
             filesystemHelpers = null;
         }
 
-        #endregion
+        #endregion IDisposable
     }
 }

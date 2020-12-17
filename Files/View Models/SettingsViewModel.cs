@@ -300,14 +300,14 @@ namespace Files.View_Models
         {
             get => Get(true);
             set => Set(value);
-        } 
+        }
 
         public bool ShowTypeColumn
         {
             get => Get(true);
             set => Set(value);
         }
-        
+
         public bool ShowSizeColumn
         {
             get => Get(true);
@@ -455,7 +455,7 @@ namespace Files.View_Models
             get => Get(true);
             set => Set(value);
         }
-        
+
         public bool ShowStatusCenterTeachingTip
         {
             get => Get(true);
@@ -497,7 +497,7 @@ namespace Files.View_Models
             get => Get(false);
             set => Set(value);
         }
-        
+
         public bool ListAndSortDirectoriesAlongsideFiles
         {
             get => Get(false);

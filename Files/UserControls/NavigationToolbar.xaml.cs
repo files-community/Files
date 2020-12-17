@@ -12,7 +12,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -115,7 +114,7 @@ namespace Files.UserControls
           typeof(NavigationToolbar),
           new PropertyMetadata(null)
         );
-        
+
         public static readonly DependencyProperty CanCopyPathInPageProperty = DependencyProperty.Register(
           "CanCopyPathInPage",
           typeof(bool),
@@ -134,6 +133,7 @@ namespace Files.UserControls
                 SetValue(CanCreateFileInPageProperty, value);
             }
         }
+
         public bool CanCopyPathInPage
         {
             get
@@ -363,6 +363,7 @@ namespace Files.UserControls
         public string PathText { get; set; }
 
         private bool _IsSearchReigonVisible = false;
+
         public bool IsSearchReigonVisible
         {
             get

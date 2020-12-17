@@ -291,10 +291,10 @@ namespace Files
                 {
                     // Don't block the various uses of enter key (key 13)
                     var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
-                    if (args.KeyCode == 13 
-                        || focusedElement is Button 
-                        || focusedElement is TextBox 
-                        || focusedElement is PasswordBox 
+                    if (args.KeyCode == 13
+                        || focusedElement is Button
+                        || focusedElement is TextBox
+                        || focusedElement is PasswordBox
                         || Interaction.FindParent<ContentDialog>(focusedElement) != null)
                     {
                         return;

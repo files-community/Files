@@ -1,10 +1,10 @@
-﻿using Files.View_Models.Properties;
+﻿using Files.Dialogs;
+using Files.View_Models.Properties;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Files.Dialogs;
 
 namespace Files
 {
@@ -12,7 +12,7 @@ namespace Files
     {
         public PropertiesDetails()
         {
-            InitializeComponent(); 
+            InitializeComponent();
         }
 
         protected override void Properties_Loaded(object sender, RoutedEventArgs e)
@@ -48,8 +48,10 @@ namespace Files
                     {
                         case ContentDialogResult.Primary:
                             break;
+
                         case ContentDialogResult.Secondary:
                             return true;
+
                         default:
                             return false;
                     }
@@ -59,7 +61,7 @@ namespace Files
                 // and opening another dialog (attempting to open more than one ContentDialog
                 // at a time will throw an error)
                 while (dialog.IsLoaded)
-                {}
+                { }
             }
         }
 

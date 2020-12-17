@@ -29,6 +29,7 @@ namespace Files
     {
         private string oldItemName;
         private DataGridColumn sortedColumn;
+
         private static readonly MethodInfo SelectAllMethod = typeof(DataGrid)
             .GetMethod("SelectAll", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -215,7 +216,7 @@ namespace Files
             }
             else if (e.PropertyName == "IsLoadingItems")
             {
-                if (!ParentShellPageInstance.FilesystemViewModel.IsLoadingItems 
+                if (!ParentShellPageInstance.FilesystemViewModel.IsLoadingItems
                     && ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Count > 0)
                 {
                     var allRows = new List<DataGridRow>();
@@ -391,7 +392,7 @@ namespace Files
                 ParentShellPageInstance.FilesystemViewModel.IsSortedAscending = true;
             }
 
-            if (!ParentShellPageInstance.FilesystemViewModel.IsLoadingItems 
+            if (!ParentShellPageInstance.FilesystemViewModel.IsLoadingItems
                 && ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Count > 0)
             {
                 var allRows = new List<DataGridRow>();
