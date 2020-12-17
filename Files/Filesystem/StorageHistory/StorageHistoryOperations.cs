@@ -130,13 +130,20 @@ namespace Files.Filesystem.FilesystemHistory
                                 cancellationToken));
                         }
 
-                        IStorageHistory newHistory = new StorageHistory(
-                            FileOperationType.Recycle,
-                            rawStorageHistory.SelectMany((item) => item?.Source).ToList(),
-                            rawStorageHistory.SelectMany((item) => item?.Destination).ToList());
+                        if (rawStorageHistory.TrueForAll((item) => item != null))
+                        {
+                            IStorageHistory newHistory = new StorageHistory(
+                                FileOperationType.Recycle,
+                                rawStorageHistory.SelectMany((item) => item?.Source).ToList(),
+                                rawStorageHistory.SelectMany((item) => item?.Destination).ToList());
 
-                        // We need to change the recycled item paths (since IDs are different) - for Undo() to work
-                        App.HistoryWrapper.ModifyCurrentHistory(newHistory);
+                            // We need to change the recycled item paths (since IDs are different) - for Undo() to work
+                            App.HistoryWrapper.ModifyCurrentHistory(newHistory);
+                        }
+                        else
+                        {
+                            App.HistoryWrapper.RemoveHistory(history);
+                        }
 
                         break;
                     }
@@ -289,13 +296,20 @@ namespace Files.Filesystem.FilesystemHistory
                                 cancellationToken));
                         }
 
-                        IStorageHistory newHistory = new StorageHistory(
-                            FileOperationType.Restore,
-                            rawStorageHistory.SelectMany((item) => item?.Destination).ToList(),
-                            rawStorageHistory.SelectMany((item) => item?.Source).ToList());
+                        if (rawStorageHistory.TrueForAll((item) => item != null))
+                        {
+                            IStorageHistory newHistory = new StorageHistory(
+                                FileOperationType.Restore,
+                                rawStorageHistory.SelectMany((item) => item?.Destination).ToList(),
+                                rawStorageHistory.SelectMany((item) => item?.Source).ToList());
 
-                        // We need to change the recycled item paths (since IDs are different) - for Redo() to work
-                        App.HistoryWrapper.ModifyCurrentHistory(newHistory);
+                            // We need to change the recycled item paths (since IDs are different) - for Redo() to work
+                            App.HistoryWrapper.ModifyCurrentHistory(newHistory);
+                        }
+                        else
+                        {
+                            App.HistoryWrapper.RemoveHistory(history);
+                        }
 
                         break;
                     }

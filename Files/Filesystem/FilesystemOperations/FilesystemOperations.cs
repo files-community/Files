@@ -126,7 +126,7 @@ namespace Files.Filesystem
 
             if (source.ItemType == FilesystemItemType.Directory)
             {
-                if (string.IsNullOrWhiteSpace(source.Path) ||
+                if (!string.IsNullOrWhiteSpace(source.Path) &&
                     Path.GetDirectoryName(destination).IsSubPathOf(source.Path)) // We check if user tried to copy anything above the source.ItemPath
                 {
                     ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
@@ -168,14 +168,14 @@ namespace Files.Filesystem
                         progress?.Report((float)(itemSize * 100.0f / itemSize));
                     }
 
-                    FilesystemResult<StorageFolder> fsSourceFolderResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(source.Path));
+                    StorageFolder fsSourceFolderResult = (StorageFolder)await source.ToStorageItem(associatedInstance);
                     FilesystemResult<StorageFolder> fsDestinationFolderResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
 
-                    if (fsSourceFolderResult && fsDestinationFolderResult)
+                    if (fsSourceFolderResult != null && fsDestinationFolderResult)
                     {
                         FilesystemResult fsCopyResult = await FilesystemTasks.Wrap(async () =>
                         {
-                            return await FilesystemHelpers.CloneDirectoryAsync(fsSourceFolderResult.Result, fsDestinationFolderResult.Result, Path.GetFileName(source.Path));
+                            return await FilesystemHelpers.CloneDirectoryAsync(fsSourceFolderResult, fsDestinationFolderResult.Result, fsSourceFolderResult.Name);
                         })
                         .OnSuccess(t =>
                         {
@@ -208,7 +208,7 @@ namespace Files.Filesystem
                     {
                         fsResultCopy = await FilesystemTasks.Wrap(() =>
                         {
-                            return file.CopyAsync(fsResult.Result, Path.GetFileName(source.Path), NameCollisionOption.GenerateUniqueName).AsTask();
+                            return file.CopyAsync(fsResult.Result, Path.GetFileName(file.Name), NameCollisionOption.GenerateUniqueName).AsTask();
                         });
                     }
 
@@ -504,7 +504,7 @@ namespace Files.Filesystem
                 fsResult = sourceFile.ErrorCode | destinationFolder.ErrorCode;
                 errorCode?.Report(fsResult);
 
-                if (sourceFile && destinationFolder)
+                if (fsResult)
                 {
                     fsResult = await FilesystemTasks.Wrap(() =>
                     {
@@ -512,6 +512,11 @@ namespace Files.Filesystem
                                                            Path.GetFileName(destination),
                                                            NameCollisionOption.GenerateUniqueName).AsTask();
                     });
+                }
+                else if (fsResult == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+                {
+                    // Try again with MoveFileFromApp
+                    fsResult = (FilesystemResult)NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination);
                 }
                 errorCode?.Report(fsResult);
             }

@@ -422,18 +422,26 @@ namespace Files.Filesystem
         {
             try
             {
-                switch (operation)
+                if (operation.HasFlag(DataPackageOperation.Copy))
                 {
-                    case DataPackageOperation.Copy:
-                        return await CopyItemsFromClipboard(packageView, destination, registerHistory);
-
-                    case DataPackageOperation.Move:
-                        return await MoveItemsFromClipboard(packageView, destination, registerHistory);
-
-                    case DataPackageOperation.None: // Other
-                        return await CopyItemsFromClipboard(packageView, destination, registerHistory);
-
-                    default: return default;
+                    return await CopyItemsFromClipboard(packageView, destination, registerHistory);
+                }
+                else if (operation.HasFlag(DataPackageOperation.Move))
+                {
+                    return await MoveItemsFromClipboard(packageView, destination, registerHistory);
+                }
+                else if (operation.HasFlag(DataPackageOperation.Link))
+                {
+                    // TODO: Support link creation
+                    return default;
+                }
+                else if (operation.HasFlag(DataPackageOperation.None))
+                {
+                    return await CopyItemsFromClipboard(packageView, destination, registerHistory);
+                }
+                else
+                {
+                    return default;
                 }
             }
             finally
