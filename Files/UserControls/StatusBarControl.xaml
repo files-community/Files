@@ -34,6 +34,13 @@
             <TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}" Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
         </StackPanel>
 
+        <muxc:TeachingTip
+            x:Name="StatusCenterTeachingTip"
+            x:Uid="StatusCenterTeachingTip"
+            Title="Status Center"
+            Subtitle="Check the status of file operations here"
+            Target="{x:Bind StatusCenter}" />
+
         <StackPanel
             Grid.Column="1"
             Padding="2"
@@ -139,9 +146,9 @@
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
-                            x:Uid="StatusBarControlListView"
-                            Command="{x:Bind AppSettings.ToggleLayoutModeListView}"
-                            Text="List View">
+                            x:Uid="StatusBarControlDetailsView"
+                            Command="{x:Bind AppSettings.ToggleLayoutModeDetailsView}"
+                            Text="Details View">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF101;" />
                             </MenuFlyoutItem.Icon>
@@ -157,6 +164,7 @@
                     <lottie:LottieVisualSource x:Name="StatusCenterPulseVisualSource" UriSource="ms-appx:///Assets/AnimatedVisuals/LottiePulseStatusCenter.json" />
                 </muxc:AnimatedVisualPlayer>
                 <Button
+                    x:Name="StatusCenter"
                     x:Uid="StatusCenter"
                     Width="36"
                     Height="32"

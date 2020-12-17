@@ -35,6 +35,10 @@ namespace Files.UserControls.MultitaskingControl
 
         public ObservableCollection<TabItem> Items => MainPage.AppInstances;
 
+        public List<ITabItem> RecentlyClosedTabs { get; private set; } = new List<ITabItem>();
+
+        public bool RestoredRecentlyClosedTab { get; set; } = true; // True here is the default value
+
         private void MultitaskingControl_CurrentInstanceChanged(object sender, CurrentInstanceChangedEventArgs e)
         {
             foreach (IShellPage instance in e.ShellPageInstances)
@@ -44,6 +48,19 @@ namespace Files.UserControls.MultitaskingControl
                     instance.IsCurrentInstance = instance == e.CurrentInstance;
                 }
             }
+        }
+
+        private void SetSelectedTabInfoForSearchResults()
+        {
+            var selectedTabItem = MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
+            selectedTabItem.AllowStorageItemDrop = false;
+            string tabLocationHeader = "SearchTabHeaderText".GetLocalized();
+            Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
+            fontIconSource.Glyph = "\xEB51";
+            fontIconSource.FontFamily = App.Current.Resources["FluentUIGlyphs"] as FontFamily;
+
+            selectedTabItem.Header = tabLocationHeader;
+            selectedTabItem.IconSource = fontIconSource;
         }
 
         private async Task SetSelectedTabInfoAsync(string tabHeader, string currentPath = null)
@@ -177,7 +194,7 @@ namespace Files.UserControls.MultitaskingControl
 
         protected void TabView_AddTabButtonClick(TabView sender, object args)
         {
-            MainPage.AddNewTab();
+            MainPage.AddNewTabAsync();
         }
 
         public void MultitaskingControl_Loaded(object sender, RoutedEventArgs e)
@@ -185,52 +202,54 @@ namespace Files.UserControls.MultitaskingControl
             CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
         }
 
-        public async void UpdateSelectedTab(string tabHeader, string workingDirectoryPath)
+        public async void UpdateSelectedTab(string tabHeader, string workingDirectoryPath, bool searchResultsTab)
         {
             SelectionChanged();
-            await SetSelectedTabInfoAsync(tabHeader, workingDirectoryPath);
+            if (searchResultsTab)
+            {
+                SetSelectedTabInfoForSearchResults();
+            }
+            else
+            {
+                await SetSelectedTabInfoAsync(tabHeader, workingDirectoryPath);
+            }
         }
 
-        public static T GetCurrentSelectedTabInstance<T>()
+        public TTab GetCurrentSelectedTabInstance<TTab>()
         {
-            var selectedTabContent = MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex].Content as Grid;
+            Grid selectedTabContent = MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex].Content as Grid;
             foreach (UIElement uiElement in selectedTabContent.Children)
             {
                 if (uiElement.GetType() == typeof(Frame))
                 {
-                    return (T)(uiElement as Frame).Content;
+                    return (TTab)(uiElement as Frame).Content;
                 }
             }
             return default;
         }
 
-        public List<T> GetAllTabInstances<T>()
+        public List<TTab> GetAllTabInstances<TTab>()
         {
-            var instances = new List<T>();
-            foreach (TabItem ti in MainPage.AppInstances)
+            List<TTab> instances = new List<TTab>();
+            foreach (TabItem tabItem in MainPage.AppInstances)
             {
-                instances.Add((T)((ti.Content as Grid).Children.First(element => element.GetType() == typeof(Frame)) as Frame).Content);
+                instances.Add((TTab)((tabItem.Content as Grid).Children.First(element => element.GetType() == typeof(Frame)) as Frame).Content);
             }
             return instances;
         }
 
-        public void RemoveTab(TabItem tabItem, bool closeApp = true)
+        public void RemoveTab(TabItem tabItem)
         {
             if (Items.Count == 1)
             {
-                Items.Remove(tabItem);
-                if (closeApp)
-                {
-                    App.CloseApp();
-                }
-                else
-                {
-                    MainPage.AddNewTab();
-                }
+                App.CloseApp();
             }
             else if (Items.Count > 1)
             {
                 Items.Remove(tabItem);
+
+                RecentlyClosedTabs.Add((ITabItem)tabItem);
+                RestoredRecentlyClosedTab = false;
             }
         }
     }

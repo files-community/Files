@@ -51,6 +51,7 @@ namespace Files.UserControls.Selection
                 // Selected area considering scrolled offset
                 var rect = new System.Drawing.Rectangle((int)Canvas.GetLeft(selectionRectangle), (int)Math.Min(originDragPoint.Y, currentPoint.Position.Y + verticalOffset), (int)selectionRectangle.Width, (int)Math.Abs(originDragPoint.Y - (currentPoint.Position.Y + verticalOffset)));
                 var dataGridRowsPosition = new Dictionary<DataGridRow, System.Drawing.Rectangle>();
+                double actualWidth = -1;
                 foreach (var row in dataGridRows)
                 {
                     if (row.Visibility != Visibility.Visible)
@@ -58,9 +59,16 @@ namespace Files.UserControls.Selection
                         continue; // Skip invalid/invisible rows
                     }
 
+                    if (actualWidth < 0)
+                    {
+                        var temp = new List<DataGridCell>();
+                        Interaction.FindChildren<DataGridCell>(temp, row); // Find cells inside row
+                        actualWidth = temp.Sum(x => x.ActualWidth); // row.ActualWidth reports incorrect width
+                    }
+
                     var gt = row.TransformToVisual(uiElement);
                     var itemStartPoint = gt.TransformPoint(new Point(0, verticalOffset)); // Get item position relative to the top of the list (considering scrolled offset)
-                    var itemRect = new System.Drawing.Rectangle((int)itemStartPoint.X, (int)itemStartPoint.Y, (int)row.ActualWidth, (int)row.ActualHeight);
+                    var itemRect = new System.Drawing.Rectangle((int)itemStartPoint.X, (int)itemStartPoint.Y, (int)actualWidth, (int)row.ActualHeight);
                     itemsPosition[row.DataContext] = itemRect; // Update item position
                     dataGridRowsPosition[row] = itemRect; // Update ui row position
                 }

@@ -108,7 +108,7 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>選択をクリア</value>
   </data>
-  <data name="StatusBarControlListView.Text" xml:space="preserve">
+  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
     <value>詳細</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -138,9 +138,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
-  <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>ライセンス</value>
-  </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>特別な感謝：</value>
   </data>
@@ -155,9 +152,6 @@
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>について</value>
-  </data>
-  <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>ウェブサイト</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>外観</value>
@@ -233,9 +227,6 @@
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>ビデオ</value>
-  </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>設定</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>並べ替え</value>
@@ -485,12 +476,6 @@
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>選択オプション</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>読み取り専用</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>隠しファイル</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>ごみ箱を空にする</value>
@@ -935,9 +920,6 @@
   </data>
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>垂直タブストリップ</value>
-  </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>設定</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
     <value>言語</value>

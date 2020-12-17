@@ -99,9 +99,9 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
-                    x:Uid="StatusBarControlListView"
-                    Command="{x:Bind AppSettings.ToggleLayoutModeListView}"
-                    Text="List View">
+                    x:Uid="StatusBarControlDetailsView"
+                    Command="{x:Bind AppSettings.ToggleLayoutModeDetailsView}"
+                    Text="Details View">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF101;" />
                     </MenuFlyoutItem.Icon>
@@ -592,7 +592,7 @@
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
                         <Viewbox MaxWidth="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}" MaxHeight="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}">
-                            <SymbolIcon Symbol="Page2" />
+                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA00;" />
                         </Viewbox>
                     </Grid>
                     <Grid
@@ -878,6 +878,12 @@
                     TargetObject="{Binding ElementName=RootGrid}"
                     Value="{StaticResource BaseLayoutContextFlyout}" />
             </Core:DataTriggerBehavior>
+            <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Mode=OneWay}" Value="True">
+                <Core:ChangePropertyAction
+                    PropertyName="ContextFlyout"
+                    TargetObject="{Binding ElementName=RootGrid}"
+                    Value="{x:Null}" />
+            </Core:DataTriggerBehavior>
         </Interactivity:Interaction.Behaviors>
         <muxc:ProgressBar
             x:Name="progBar"
@@ -909,9 +915,9 @@
             Padding="14,14,14,0"
             VerticalContentAlignment="Stretch"
             x:FieldModifier="public"
-            AllowDrop="True"
+            AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
             DoubleTapped="{x:Bind ParentShellPageInstance.InteractionOperations.List_ItemDoubleClick}"
-            DragOver="List_DragOver"
+            DragEnter="List_DragEnter"
             Drop="List_Drop"
             IsDoubleTapEnabled="True"
             IsItemClickEnabled="True"

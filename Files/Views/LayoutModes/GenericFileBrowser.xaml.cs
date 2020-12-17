@@ -28,14 +28,15 @@ namespace Files
     public sealed partial class GenericFileBrowser : BaseLayout
     {
         private string oldItemName;
-        private DataGridColumn _sortedColumn;
-        private static readonly MethodInfo SelectAllMethod = typeof(DataGrid).GetMethod("SelectAll", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance);
+        private DataGridColumn sortedColumn;
+        private static readonly MethodInfo SelectAllMethod = typeof(DataGrid)
+            .GetMethod("SelectAll", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance);
 
         public DataGridColumn SortedColumn
         {
             get
             {
-                return _sortedColumn;
+                return sortedColumn;
             }
             set
             {
@@ -60,25 +61,26 @@ namespace Files
                     AppSettings.DirectorySortOption = SortOption.Name;
                 }
 
-                if (value != _sortedColumn)
+                if (value != sortedColumn)
                 {
                     // Remove arrow on previous sorted column
-                    if (_sortedColumn != null)
+                    if (sortedColumn != null)
                     {
-                        _sortedColumn.SortDirection = null;
+                        sortedColumn.SortDirection = null;
                     }
                 }
                 value.SortDirection = AppSettings.DirectorySortDirection == SortDirection.Ascending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
-                _sortedColumn = value;
+                sortedColumn = value;
             }
         }
 
         public GenericFileBrowser()
         {
             InitializeComponent();
-            base.BaseLayoutContextFlyout = this.BaseLayoutContextFlyout;
-            base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
-            this.tapDebounceTimer = new DispatcherTimer();
+            base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
+            base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
+
+            tapDebounceTimer = new DispatcherTimer();
             switch (AppSettings.DirectorySortOption)
             {
                 case SortOption.Name:
@@ -134,32 +136,19 @@ namespace Files
             RequestedTheme = ThemeHelper.RootTheme;
         }
 
-        public override void SetSelectedItemOnUi(ListedItem item)
+        protected override void AddSelectedItem(ListedItem item)
         {
-            ClearSelection();
             AllView.SelectedItems.Add(item);
         }
 
-        public override void SetSelectedItemsOnUi(List<ListedItem> selectedItems)
+        protected override IEnumerable GetAllItems()
         {
-            ClearSelection();
-            foreach (ListedItem selectedItem in selectedItems)
-            {
-                AllView.SelectedItems.Add(selectedItem);
-            }
+            return AllView.ItemsSource;
         }
 
         public override void SelectAllItems()
         {
             SelectAllMethod.Invoke(AllView, null);
-        }
-
-        public override void InvertSelection()
-        {
-            List<ListedItem> allItems = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList();
-            List<ListedItem> newSelectedItems = allItems.Except(SelectedItems).ToList();
-
-            SetSelectedItemsOnUi(newSelectedItems);
         }
 
         public override void ClearSelection()
@@ -169,10 +158,10 @@ namespace Files
 
         public override void SetDragModeForItems()
         {
-            if (IsItemSelected)
+            if (IsItemSelected && !InstanceViewModel.IsPageTypeSearchResults)
             {
                 var rows = new List<DataGridRow>();
-                Interacts.Interaction.FindChildren<DataGridRow>(rows, AllView);
+                Interaction.FindChildren<DataGridRow>(rows, AllView);
                 foreach (DataGridRow row in rows)
                 {
                     row.CanDrag = SelectedItems.Contains(row.DataContext);
@@ -185,11 +174,6 @@ namespace Files
             AllView.ScrollIntoView(item, null);
         }
 
-        public override int GetSelectedIndex()
-        {
-            return AllView.SelectedIndex;
-        }
-
         public override void FocusSelectedItems()
         {
             AllView.ScrollIntoView(AllView.ItemsSource.Cast<ListedItem>().Last(), null);
@@ -199,32 +183,6 @@ namespace Files
         {
             AllView.CurrentColumn = AllView.Columns[1];
             AllView.BeginEdit();
-        }
-
-        public override void ResetItemOpacity()
-        {
-            IEnumerable items = AllView.ItemsSource;
-            if (items == null)
-            {
-                return;
-            }
-
-            foreach (ListedItem listedItem in items)
-            {
-                if (listedItem.IsHiddenItem)
-                {
-                    listedItem.Opacity = 0.4;
-                }
-                else
-                {
-                    listedItem.Opacity = 1;
-                }
-            }
-        }
-
-        public override void SetItemOpacity(ListedItem item)
-        {
-            item.Opacity = 0.4;
         }
 
         private async void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -253,15 +211,16 @@ namespace Files
             else if (e.PropertyName == "DirectorySortDirection")
             {
                 // Swap arrows
-                SortedColumn = _sortedColumn;
+                SortedColumn = sortedColumn;
             }
             else if (e.PropertyName == "IsLoadingItems")
             {
-                if (!ParentShellPageInstance.FilesystemViewModel.IsLoadingItems && ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Count > 0)
+                if (!ParentShellPageInstance.FilesystemViewModel.IsLoadingItems 
+                    && ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Count > 0)
                 {
                     var allRows = new List<DataGridRow>();
 
-                    Interacts.Interaction.FindChildren<DataGridRow>(allRows, AllView);
+                    Interaction.FindChildren<DataGridRow>(allRows, AllView);
                     foreach (DataGridRow row in allRows.Take(25))
                     {
                         if (!(row.DataContext as ListedItem).ItemPropertiesInitialized)
@@ -299,6 +258,7 @@ namespace Files
                     AllView.CancelEdit(); // Cancel the edit operation
                     return;
                 }
+
                 if (!tapDebounceTimer.IsEnabled)
                 {
                     tapDebounceTimer.Debounce(() =>
@@ -312,6 +272,7 @@ namespace Files
                     tapDebounceTimer.Stop();
                     ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null); // Open selected files
                 }
+
                 AllView.CancelEdit(); // Cancel the edit operation
                 return;
             }
@@ -347,7 +308,7 @@ namespace Files
         {
             var textBox = sender as TextBox;
 
-            if (Interaction.ContainsRestrictedCharacters(textBox.Text))
+            if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
             {
                 FileNameTeachingTip.IsOpen = true;
             }
@@ -430,11 +391,12 @@ namespace Files
                 ParentShellPageInstance.FilesystemViewModel.IsSortedAscending = true;
             }
 
-            if (!ParentShellPageInstance.FilesystemViewModel.IsLoadingItems && ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Count > 0)
+            if (!ParentShellPageInstance.FilesystemViewModel.IsLoadingItems 
+                && ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Count > 0)
             {
                 var allRows = new List<DataGridRow>();
 
-                Interacts.Interaction.FindChildren<DataGridRow>(allRows, AllView);
+                Interaction.FindChildren<DataGridRow>(allRows, AllView);
                 foreach (DataGridRow row in allRows.Take(25))
                 {
                     if (!(row.DataContext as ListedItem).ItemPropertiesInitialized)
@@ -470,7 +432,7 @@ namespace Files
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
             {
                 // Unfocus the GridView so keyboard shortcut can be handled
-                this.Focus(FocusState.Programmatic);
+                Focus(FocusState.Programmatic);
             }
         }
 
@@ -489,7 +451,7 @@ namespace Files
 
         private void HandleRightClick(object sender, RoutedEventArgs e)
         {
-            var rowPressed = Interacts.Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
+            var rowPressed = Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
             if (rowPressed != null)
             {
                 var objectPressed = ((ReadOnlyObservableCollection<ListedItem>)AllView.ItemsSource)[rowPressed.GetIndex()];
@@ -517,7 +479,7 @@ namespace Files
                     // Don't block the various uses of enter key (key 13)
                     var focusedElement = FocusManager.GetFocusedElement() as FrameworkElement;
                     if (args.KeyCode == 13 || focusedElement is Button || focusedElement is TextBox || focusedElement is PasswordBox ||
-                        Interacts.Interaction.FindParent<ContentDialog>(focusedElement) != null)
+                        Interaction.FindParent<ContentDialog>(focusedElement) != null)
                     {
                         return;
                     }
@@ -528,25 +490,18 @@ namespace Files
             }
         }
 
-        private async void Icon_EffectiveViewportChanged(FrameworkElement sender, EffectiveViewportChangedEventArgs args)
+        private async void AllView_LoadingRow(object sender, DataGridRowEventArgs e)
         {
-            var parentRow = Interacts.Interaction.FindParent<DataGridRow>(sender);
-            if (parentRow.DataContext is ListedItem item &&
-                !item.ItemPropertiesInitialized &&
-                args.BringIntoViewDistanceX < sender.ActualHeight)
+            InitializeDrag(e.Row);
+
+            if (e.Row.DataContext is ListedItem item && !item.ItemPropertiesInitialized)
             {
                 await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
-                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(parentRow.DataContext as ListedItem);
-                    (parentRow.DataContext as ListedItem).ItemPropertiesInitialized = true;
-                    //sender.EffectiveViewportChanged -= Icon_EffectiveViewportChanged;
+                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item);
+                    item.ItemPropertiesInitialized = true;
                 });
             }
-        }
-
-        private void AllView_LoadingRow(object sender, DataGridRowEventArgs e)
-        {
-            InitializeDrag(e.Row);
         }
 
         protected override ListedItem GetItemFromElement(object element)

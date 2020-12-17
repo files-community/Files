@@ -48,9 +48,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>通用檔案管理器</value>
   </data>
-  <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>許可證：</value>
-  </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>特別感謝：</value>
   </data>
@@ -65,9 +62,6 @@
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>關於</value>
-  </data>
-  <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>官方網站：</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>外觀</value>
@@ -261,11 +255,8 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>文字文件</value>
   </data>
-  <data name="StatusBarControlListView.Text" xml:space="preserve">
+  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
     <value>列表</value>
-  </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>設定</value>
   </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>名稱</value>
@@ -485,12 +476,6 @@
   </data>
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>確定</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>唯讀</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>隱藏</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>資源回收筒(空)</value>

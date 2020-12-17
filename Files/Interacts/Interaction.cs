@@ -1,4 +1,3 @@
-using Files.Commands;
 using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
@@ -17,7 +16,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
@@ -48,16 +46,20 @@ namespace Files.Interacts
 {
     public class Interaction
     {
+        public readonly IFilesystemHelpers FilesystemHelpers;
+
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        public ItemOperations ItemOperationCommands { get; private set; } = null;
+
         private readonly IShellPage AssociatedInstance;
+
         public SettingsViewModel AppSettings => App.AppSettings;
+
         private AppServiceConnection Connection => AssociatedInstance?.ServiceConnection;
 
         public Interaction(IShellPage appInstance)
         {
             AssociatedInstance = appInstance;
-            ItemOperationCommands = new ItemOperations(appInstance);
+            FilesystemHelpers = new FilesystemHelpers(AssociatedInstance, App.CancellationToken);
         }
 
         public void List_ItemDoubleClick(object sender, DoubleTappedRoutedEventArgs e)
@@ -396,6 +398,7 @@ namespace Files.Interacts
             Type sourcePageType = AssociatedInstance.CurrentPageType;
             selectedItemCount = AssociatedInstance.ContentPage.SelectedItems.Count;
             var opened = (FilesystemResult)false;
+            string previousDir = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
 
             // Access MRU List
             var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
@@ -504,8 +507,10 @@ namespace Files.Interacts
                                     //We can have many sort entries
                                     SortEntry sortEntry = new SortEntry()
                                     {
-                                        AscendingOrder = AppSettings.DirectorySortDirection == Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending,
+                                        AscendingOrder = AppSettings.DirectorySortDirection == Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending
                                     };
+
+                                    //Basically we tell to the launched app to follow how we sorted the files in the directory.
 
                                     var sortOption = AppSettings.DirectorySortOption;
 
@@ -514,34 +519,36 @@ namespace Files.Interacts
                                         case Enums.SortOption.Name:
                                             sortEntry.PropertyName = "System.ItemNameDisplay";
                                             queryOptions.SortOrder.Clear();
+                                            queryOptions.SortOrder.Add(sortEntry);
                                             break;
 
                                         case Enums.SortOption.DateModified:
                                             sortEntry.PropertyName = "System.DateModified";
                                             queryOptions.SortOrder.Clear();
+                                            queryOptions.SortOrder.Add(sortEntry);
                                             break;
 
-                                        case Enums.SortOption.Size:
-                                            //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
+                                        //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
+                                        //case Enums.SortOption.Size:
 
                                             //sortEntry.PropertyName = "System.TotalFileSize";
                                             //queryOptions.SortOrder.Clear();
-                                            break;
+                                            //queryOptions.SortOrder.Add(sortEntry);
+                                            //break;
 
-                                        case Enums.SortOption.FileType:
-                                            //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
+                                        //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
+                                        //case Enums.SortOption.FileType:
 
                                             //sortEntry.PropertyName = "System.FileExtension";
                                             //queryOptions.SortOrder.Clear();
-                                            break;
+                                            //queryOptions.SortOrder.Add(sortEntry);
+                                            //break;
 
+                                        //Handle unsupported
                                         default:
                                             //keep the default one in SortOrder IList
                                             break;
                                     }
-
-                                    //Basically we tell to the launched app to follow how we sorted the files in the directory.
-                                    queryOptions.SortOrder.Add(sortEntry);
 
                                     fileQueryResult = currFolder.CreateFileQueryWithOptions(queryOptions);
 
@@ -602,21 +609,14 @@ namespace Files.Interacts
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     var ContentOwnedViewModelInstance = AssociatedInstance.FilesystemViewModel;
-                    ContentOwnedViewModelInstance.RefreshItems();
+                    ContentOwnedViewModelInstance.RefreshItems(previousDir);
                 });
             }
         }
 
         public void CloseTab()
         {
-            if (MainPage.MultitaskingControl.Items.Count == 1)
-            {
-                App.CloseApp();
-            }
-            else if (MainPage.MultitaskingControl.Items.Count > 1)
-            {
-                MainPage.MultitaskingControl.Items.RemoveAt(App.InteractionViewModel.TabStripSelectedIndex);
-            }
+            MainPage.MultitaskingControl.RemoveTab(MainPage.MultitaskingControl.Items.ElementAt(App.InteractionViewModel.TabStripSelectedIndex));
         }
 
         public RelayCommand OpenNewWindow => new RelayCommand(() => LaunchNewWindow());
@@ -803,9 +803,13 @@ namespace Files.Interacts
             }
         }
 
-        public void DeleteItem_Click(object sender, RoutedEventArgs e)
+        public async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-            AssociatedInstance.InteractionOperations.ItemOperationCommands.DeleteItemWithStatus(StorageDeleteOption.Default);
+            await FilesystemHelpers.DeleteItemsAsync(
+                AssociatedInstance.ContentPage.SelectedItems.Select((item) => new PathWithType(
+                    item.ItemPath,
+                    item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(),
+                true, false, true);
         }
 
         public void RenameItem_Click(object sender, RoutedEventArgs e)
@@ -816,43 +820,6 @@ namespace Files.Interacts
             }
         }
 
-        public static bool ContainsRestrictedCharacters(string input)
-        {
-            Regex regex = new Regex("\\\\|\\/|\\:|\\*|\\?|\\\"|\\<|\\>|\\|"); //restricted symbols for file names
-            MatchCollection matches = regex.Matches(input);
-            if (matches.Count > 0)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        private static readonly List<string> RestrictedFileNames = new List<string>()
-        {
-                "CON", "PRN", "AUX",
-                "NUL", "COM1", "COM2",
-                "COM3", "COM4", "COM5",
-                "COM6", "COM7", "COM8",
-                "COM9", "LPT1", "LPT2",
-                "LPT3", "LPT4", "LPT5",
-                "LPT6", "LPT7", "LPT8", "LPT9"
-        };
-
-        public static bool ContainsRestrictedFileName(string input)
-        {
-            foreach (var name in RestrictedFileNames)
-            {
-                Regex regex = new Regex($"^{name}($|\\.)(.+)?");
-                MatchCollection matches = regex.Matches(input.ToUpper());
-                if (matches.Count > 0)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
         public async Task<bool> RenameFileItemAsync(ListedItem item, string oldName, string newName)
         {
             if (oldName == newName)
@@ -861,14 +828,14 @@ namespace Files.Interacts
             }
 
             if (!string.IsNullOrWhiteSpace(newName)
-                && !ContainsRestrictedCharacters(newName)
-                && !ContainsRestrictedFileName(newName))
+                && !Filesystem.FilesystemHelpers.ContainsRestrictedCharacters(newName)
+                && !Filesystem.FilesystemHelpers.ContainsRestrictedFileName(newName))
             {
                 var renamed = (FilesystemResult)false;
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
                     renamed = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
-                        .OnSuccess(t => t.RenameAsync(newName, NameCollisionOption.FailIfExists).AsTask());
+                        .OnSuccess(async (t) => await FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.FailIfExists, true));
                 }
                 else
                 {
@@ -878,7 +845,7 @@ namespace Files.Interacts
                     }
 
                     renamed = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
-                        .OnSuccess(t => t.RenameAsync(newName, NameCollisionOption.FailIfExists).AsTask());
+                        .OnSuccess(async (t) => await FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.FailIfExists, true));
                 }
                 if (renamed == FilesystemErrorCode.ERROR_UNAUTHORIZED)
                 {
@@ -923,12 +890,12 @@ namespace Files.Interacts
                         if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                         {
                             renamed = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
-                                .OnSuccess(t => t.RenameAsync(newName, NameCollisionOption.GenerateUniqueName).AsTask());
+                                .OnSuccess(async (t) => await FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.GenerateUniqueName, true));
                         }
                         else
                         {
                             renamed = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
-                                .OnSuccess(t => t.RenameAsync(newName, NameCollisionOption.GenerateUniqueName).AsTask());
+                                .OnSuccess(async (t) => await FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.GenerateUniqueName, true));
                         }
                     }
                     else if (result == ContentDialogResult.Secondary)
@@ -936,12 +903,12 @@ namespace Files.Interacts
                         if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                         {
                             renamed = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
-                                .OnSuccess(t => t.RenameAsync(newName, NameCollisionOption.ReplaceExisting).AsTask());
+                                .OnSuccess(async (t) => await FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.ReplaceExisting, true));
                         }
                         else
                         {
                             renamed = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
-                                .OnSuccess(t => t.RenameAsync(newName, NameCollisionOption.ReplaceExisting).AsTask());
+                                .OnSuccess(async (t) => await FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.ReplaceExisting, true));
                         }
                     }
                 }
@@ -960,69 +927,12 @@ namespace Files.Interacts
             {
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
-                    var restored = FilesystemErrorCode.ERROR_GENERIC;
-                    var recycleBinItem = listedItem as RecycleBinItem;
-                    if (listedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-                    {
-                        var sourceFolder = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(recycleBinItem.ItemPath);
-                        var destFolder = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(recycleBinItem.ItemOriginalPath));
-                        restored = sourceFolder.ErrorCode | destFolder.ErrorCode;
-                        if (sourceFolder && destFolder)
-                        {
-                            restored = await FilesystemTasks.Wrap(() => MoveDirectoryAsync(sourceFolder.Result, destFolder.Result, recycleBinItem.ItemName))
-                                .OnSuccess(t => sourceFolder.Result.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
-                        }
-                    }
-                    else
-                    {
-                        var sourceFile = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(recycleBinItem.ItemPath);
-                        var destFolder = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(recycleBinItem.ItemOriginalPath));
-                        restored = sourceFile.ErrorCode | destFolder.ErrorCode;
-                        if (sourceFile && destFolder)
-                        {
-                            restored = await FilesystemTasks.Wrap(() => sourceFile.Result.MoveAsync(destFolder.Result, Path.GetFileName(recycleBinItem.ItemOriginalPath), NameCollisionOption.GenerateUniqueName).AsTask());
-                        }
-                    }
-                    // Recycle bin also stores a file starting with $I for each item
-                    var iFilePath = Path.Combine(Path.GetDirectoryName(recycleBinItem.ItemPath), Path.GetFileName(recycleBinItem.ItemPath).Replace("$R", "$I"));
-                    await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
-                        .OnSuccess(iFile => iFile.DeleteAsync().AsTask());
-                    if (restored != FilesystemErrorCode.ERROR_OK)
-                    {
-                        if (restored.HasFlag(FilesystemErrorCode.ERROR_UNAUTHORIZED))
-                        {
-                            await DialogDisplayHelper.ShowDialogAsync("AccessDeniedDeleteDialog/Title".GetLocalized(), "AccessDeniedDeleteDialog/Text".GetLocalized());
-                        }
-                        else if (restored.HasFlag(FilesystemErrorCode.ERROR_UNAUTHORIZED))
-                        {
-                            await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
-                        }
-                        else if (restored.HasFlag(FilesystemErrorCode.ERROR_ALREADYEXIST))
-                        {
-                            await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalized(), "ItemAlreadyExistsDialogContent".GetLocalized());
-                        }
-                    }
+                    FilesystemItemType itemType = (listedItem as RecycleBinItem).PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
+                    await FilesystemHelpers.RestoreFromTrashAsync(new PathWithType(
+                        (listedItem as RecycleBinItem).ItemPath,
+                        itemType), (listedItem as RecycleBinItem).ItemOriginalPath, true);
                 }
             }
-        }
-
-        public async Task<StorageFolder> MoveDirectoryAsync(StorageFolder SourceFolder, StorageFolder DestinationFolder, string sourceRootName)
-        {
-            var createdRoot = await DestinationFolder.CreateFolderAsync(sourceRootName, CreationCollisionOption.FailIfExists);
-            DestinationFolder = createdRoot;
-
-            foreach (StorageFile fileInSourceDir in await SourceFolder.GetFilesAsync())
-            {
-                await fileInSourceDir.MoveAsync(DestinationFolder, fileInSourceDir.Name, NameCollisionOption.FailIfExists);
-            }
-            foreach (StorageFolder folderinSourceDir in await SourceFolder.GetFoldersAsync())
-            {
-                await MoveDirectoryAsync(folderinSourceDir, DestinationFolder, folderinSourceDir.Name);
-            }
-
-            App.JumpList.RemoveFolder(SourceFolder.Path);
-
-            return createdRoot;
         }
 
         public async void CutItem_Click(object sender, RoutedEventArgs e)
@@ -1235,14 +1145,15 @@ namespace Files.Interacts
             }
         }
 
-        public RelayCommand PasteItemsFromClipboard => new RelayCommand(() => PasteItem());
+        public RelayCommand PasteItemsFromClipboard => new RelayCommand(async () => await PasteItemAsync());
 
-        public void PasteItem()
+        public async Task PasteItemAsync()
         {
             DataPackageView packageView = Clipboard.GetContent();
             string destinationPath = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
 
-            ItemOperationCommands.PasteItemWithStatus(packageView, destinationPath, packageView.RequestedOperation);
+            await FilesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, destinationPath, true);
+            AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
         }
 
         public async void CreateFileFromDialogResultType(AddItemType itemType)
@@ -1271,17 +1182,32 @@ namespace Files.Interacts
                 {
                     case AddItemType.Folder:
                         userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalized();
-                        created = await FilesystemTasks.Wrap(() => folderRes.Result.CreateFolderAsync(userInput, CreationCollisionOption.GenerateUniqueName).AsTask());
+                        created = await FilesystemTasks.Wrap(async () =>
+                        {
+                            return await FilesystemHelpers.CreateAsync(
+                                new PathWithType(Path.Combine(folderRes.Result.Path, userInput), FilesystemItemType.Directory),
+                                true);
+                        });
                         break;
 
                     case AddItemType.TextDocument:
                         userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewTextDocument".GetLocalized();
-                        created = await FilesystemTasks.Wrap(() => folderRes.Result.CreateFileAsync(userInput + ".txt", CreationCollisionOption.GenerateUniqueName).AsTask());
+                        created = await FilesystemTasks.Wrap(async () =>
+                        {
+                            return await FilesystemHelpers.CreateAsync(
+                                new PathWithType(Path.Combine(folderRes.Result.Path, userInput + ".txt"), FilesystemItemType.File),
+                                true);
+                        });
                         break;
 
                     case AddItemType.BitmapImage:
                         userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewBitmapImage".GetLocalized();
-                        created = await FilesystemTasks.Wrap(() => folderRes.Result.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.GenerateUniqueName).AsTask());
+                        created = await FilesystemTasks.Wrap(async () =>
+                        {
+                            return await FilesystemHelpers.CreateAsync(
+                                new PathWithType(Path.Combine(folderRes.Result.Path, userInput + ".bmp"), FilesystemItemType.File),
+                                true);
+                        });
                         break;
                 }
             }
@@ -1348,7 +1274,7 @@ namespace Files.Interacts
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     var ContentOwnedViewModelInstance = AssociatedInstance.FilesystemViewModel;
-                    ContentOwnedViewModelInstance.RefreshItems();
+                    ContentOwnedViewModelInstance.RefreshItems(null);
                 });
             }
         }

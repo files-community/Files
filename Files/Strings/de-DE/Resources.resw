@@ -48,9 +48,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
-  <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>Lizenz</value>
-  </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Besonderer Dank an:</value>
   </data>
@@ -65,9 +62,6 @@
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Über</value>
-  </data>
-  <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Internetseite</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Aussehen</value>
@@ -261,11 +255,8 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Textdokument</value>
   </data>
-  <data name="StatusBarControlListView.Text" xml:space="preserve">
+  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
     <value>Details</value>
-  </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>Einstellungen</value>
   </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Name</value>
@@ -485,12 +476,6 @@
   </data>
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>OK</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>Schreibgeschützt</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>Ausgeblendet</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Papierkorb leeren</value>
@@ -847,7 +832,7 @@
     <value>Sind Sie sicher, dass Sie diese {0} Elemente löschen möchten?</value>
   </data>
   <data name="SettingsMultitaskingAdaptive.Content" xml:space="preserve">
-    <value>Adaptiv (Empohlen)</value>
+    <value>Adaptiv (Empfohlen)</value>
   </data>
   <data name="SettingsMultitaskingAdaptiveDescription.Text" xml:space="preserve">
     <value>Wählt das am besten geeignete Multitasking-Steuerelement basierend auf der Fenstergröße aus. Wenn das Fenster klein ist, werden Sie feststellen, dass der horizontale Tab-Streifen in ein Flyout auf der Navigationssymbolleiste reduziert wird.</value>
@@ -935,9 +920,6 @@
   </data>
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>Vertikale Tab-Ansicht</value>
-  </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Einstellungen</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
     <value>Sprache</value>
@@ -1097,5 +1079,11 @@
   </data>
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
     <value>Neuer Tab</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
+    <value>Schreibgeschützt</value>
+  </data>
+  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
+    <value>Versteckt</value>
   </data>
 </root>

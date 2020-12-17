@@ -22,6 +22,12 @@ namespace Files.UserControls
 
         private void OngoingTasksControl_ProgressBannerPosted(object sender, EventArgs e)
         {
+            if (AppSettings.ShowStatusCenterTeachingTip)
+            {
+                StatusCenterTeachingTip.IsOpen = true;
+                AppSettings.ShowStatusCenterTeachingTip = false;
+            }
+
             PlayBannerAddedVisualAnimation();
         }
 

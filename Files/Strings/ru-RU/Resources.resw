@@ -48,9 +48,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
-  <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>Лицензия</value>
-  </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Особые благодарности:</value>
   </data>
@@ -65,9 +62,6 @@
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>О приложении</value>
-  </data>
-  <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Сайт</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Внешний вид</value>
@@ -270,11 +264,8 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>Очистить выделение</value>
   </data>
-  <data name="StatusBarControlListView.Text" xml:space="preserve">
+  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
     <value>Таблица</value>
-  </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>Параметры</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Добро пожаловать в Files!</value>
@@ -482,12 +473,6 @@
   </data>
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>OK</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>Только чтение</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>Скрытый</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Очистить корзину</value>
@@ -932,9 +917,6 @@
   </data>
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>Вертикальная полоса вкладок</value>
-  </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Параметры</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
     <value>Язык приложения</value>

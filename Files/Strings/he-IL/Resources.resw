@@ -102,7 +102,7 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>נקה בחירה</value>
   </data>
-  <data name="StatusBarControlListView.Text" xml:space="preserve">
+  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
     <value>תצוגת רשימה</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -129,17 +129,11 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>קבצים</value>
   </data>
-  <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>רשיון</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>שלח משוב</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>אודות</value>
-  </data>
-  <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>אתר אינטרנט</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>מראה</value>
@@ -188,9 +182,6 @@
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>סרטוני וידאו</value>
-  </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>הגדרות</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>מיין לפי</value>
@@ -359,12 +350,6 @@
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>אפשרויות בחירה</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>לקריאה בלבד</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>מוסתר</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>רוקן את סל המיחזור</value>
@@ -629,9 +614,6 @@
   </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>נווט קדימה</value>
-  </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>הגדרות</value>
   </data>
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>הגישה נדחתה</value>

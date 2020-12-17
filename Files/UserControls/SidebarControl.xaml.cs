@@ -5,13 +5,17 @@ using Files.View_Models;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 
 namespace Files.Controls
 {
@@ -60,6 +64,7 @@ namespace Files.Controls
         public SidebarControl()
         {
             this.InitializeComponent();
+            SidebarNavView.Loaded += SidebarNavView_Loaded;
         }
 
         private INavigationControlItem _SelectedSidebarItem;
@@ -309,7 +314,17 @@ namespace Files.Controls
             {
                 var deferral = e.GetDeferral();
                 e.Handled = true;
-                var storageItems = await e.DataView.GetStorageItemsAsync();
+                IReadOnlyList<IStorageItem> storageItems;
+                try
+                {
+                    storageItems = await e.DataView.GetStorageItemsAsync();
+                }
+                catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
+                    deferral.Complete();
+                    return;
+                }
 
                 if (storageItems.Count == 0 ||
                     locationItem.IsDefaultLocation ||
@@ -405,7 +420,17 @@ namespace Files.Controls
 
             var deferral = e.GetDeferral();
             e.Handled = true;
-            var storageItems = await e.DataView.GetStorageItemsAsync();
+            IReadOnlyList<IStorageItem> storageItems;
+            try
+            {
+                storageItems = await e.DataView.GetStorageItemsAsync();
+            }
+            catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
+            {
+                e.AcceptedOperation = DataPackageOperation.None;
+                deferral.Complete();
+                return;
+            }
 
             if (storageItems.Count == 0 ||
                 "DriveCapacityUnknown".GetLocalized().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
@@ -467,6 +492,20 @@ namespace Files.Controls
         private async void EjectDevice_Click(object sender, RoutedEventArgs e)
         {
             await Interaction.EjectDeviceAsync(App.RightClickedItem.Path);
+        }
+
+        private void SidebarNavView_Loaded(object sender, RoutedEventArgs e)
+        {
+            var settings = (Microsoft.UI.Xaml.Controls.NavigationViewItem)SidebarNavView.SettingsItem;
+            settings.SelectsOnInvoked = false;
+            settings.Icon = new FontIcon()
+            {
+                FontSize = 18,
+                FontFamily = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                Glyph = "\xEB5D"
+            };
+
+            SidebarNavView.Loaded -= SidebarNavView_Loaded;
         }
     }
 

@@ -108,7 +108,7 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>Limpar Seleção</value>
   </data>
-  <data name="StatusBarControlListView.Text" xml:space="preserve">
+  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
     <value>Lista</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -144,9 +144,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
-  <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>Licença</value>
-  </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Agradecimentos especiais para:</value>
   </data>
@@ -161,9 +158,6 @@
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Sobre</value>
-  </data>
-  <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Site da web</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Aparência</value>
@@ -239,9 +233,6 @@
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>Vídeos</value>
-  </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>Configurações</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Classificar por</value>
@@ -491,12 +482,6 @@
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Opções de seleção</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>Somente leitura</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>Oculto</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Esvaziar lixeira</value>
@@ -935,9 +920,6 @@
   </data>
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>Faixa de tabulação vertical</value>
-  </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Configurações</value>
   </data>
   <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
     <value>Idioma do aplicativo</value>

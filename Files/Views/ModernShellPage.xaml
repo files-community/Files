@@ -79,6 +79,18 @@
 
     <Page.KeyboardAccelerators>
         <KeyboardAccelerator
+            Key="Z"
+            Invoked="KeyboardAccelerator_Invoked"
+            Modifiers="Control" />
+        <KeyboardAccelerator
+            Key="Y"
+            Invoked="KeyboardAccelerator_Invoked"
+            Modifiers="Control" />
+        <KeyboardAccelerator
+            Key="T"
+            Invoked="KeyboardAccelerator_Invoked"
+            Modifiers="Control,Shift" />
+        <KeyboardAccelerator
             Key="N"
             Invoked="KeyboardAccelerator_Invoked"
             Modifiers="Control,Shift" />
@@ -177,7 +189,7 @@
                         Loaded="SmallWindowTitlebar_Loaded" />
 
                     <Grid Grid.Row="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                        <controls1:ModernNavigationToolbar
+                        <controls1:NavigationToolbar
                             x:Name="NavToolbar"
                             Grid.Column="0"
                             Margin="10"
@@ -228,6 +240,7 @@
             Foreground="Transparent"
             GripperCursor="Default"
             GripperForeground="Transparent"
+            IsTabStop="False"
             ResizeBehavior="BasedOnAlignment"
             ResizeDirection="Auto"
             Style="{StaticResource DefaultGridSplitterStyle}">

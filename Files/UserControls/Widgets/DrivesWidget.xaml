@@ -30,7 +30,6 @@
             <muxc:ItemsRepeater.Layout>
                 <muxc:UniformGridLayout
                     ItemsStretch="None"
-                    MaximumRowsOrColumns="4"
                     MinColumnSpacing="8"
                     MinItemHeight="90"
                     MinRowSpacing="8"
@@ -137,7 +136,10 @@
                                         FontWeight="Medium"
                                         Text="{x:Bind Text, Mode=OneWay}"
                                         TextWrapping="NoWrap" />
-                                    <muxc:ProgressBar Maximum="{x:Bind MaxSpace.GigaBytes, Mode=OneWay}" Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}" />
+                                    <muxc:ProgressBar
+                                        AutomationProperties.AccessibilityView="Raw"
+                                        Maximum="{x:Bind MaxSpace.GigaBytes, Mode=OneWay}"
+                                        Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}" />
                                     <TextBlock
                                         FontSize="12"
                                         MaxLines="2"

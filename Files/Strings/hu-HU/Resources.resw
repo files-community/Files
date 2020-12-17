@@ -34,7 +34,7 @@
     <value>Új Lap</value>
   </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>új Ablak</value>
+    <value>Új Ablak</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
     <value>Mappa</value>
@@ -103,12 +103,12 @@
     <value>Mind kijelölése</value>
   </data>
   <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
-    <value>Kijelölés invertálása</value>
+    <value>Kijelölés megfordítása</value>
   </data>
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>Kijelölés megszűntetése</value>
   </data>
-  <data name="StatusBarControlListView.Text" xml:space="preserve">
+  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
     <value>Részletek</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -144,9 +144,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
-  <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>Licence</value>
-  </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>Külön köszönet:</value>
   </data>
@@ -161,9 +158,6 @@
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>Rólunk</value>
-  </data>
-  <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Weboldal</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
     <value>Akril oldalsáv</value>
@@ -251,9 +245,6 @@
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>Videók</value>
-  </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>Beállítások</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>Rendezés</value>
@@ -503,12 +494,6 @@
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Kijelölési lehetőségek</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>Csak olvasható</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>Rejtett</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Lomtár ürítése</value>
@@ -960,9 +945,6 @@
   <data name="VerticalTabStrip.AutomationProperties.Name" xml:space="preserve">
     <value>Függőleges lap lánc</value>
   </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>Beállítások</value>
-  </data>
   <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
     <value>Program Nyelve</value>
   </data>
@@ -1045,7 +1027,7 @@
     <value>Meghajtók megjelenítése a fő oldalon</value>
   </data>
   <data name="SettingsWidgetsShowDrives.Header" xml:space="preserve">
-    <value>Könyvtárak megjelenítése a fő oldalon</value>
+    <value>Meghajtók megjelenítése a fő oldalon</value>
   </data>
   <data name="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" xml:space="preserve">
     <value>Legutóbb megnyitottak megjelenítése a fő oldalon</value>
@@ -1083,6 +1065,9 @@
   <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
     <value>Hiba az eszköz kiadása közben</value>
   </data>
+  <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
+    <value>Az eszköz jelenleg használatban van. Zárjon be minden programot, ablakot ami használhatja, majd próbálja újra.</value>
+  </data>
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Kiadás</value>
   </data>
@@ -1094,5 +1079,293 @@
   </data>
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
     <value>Új lap</value>
+  </data>
+  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Keresés</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
+    <value>Csak olvasható</value>
+  </data>
+  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
+    <value>Rejtett</value>
+  </data>
+  <data name="PropertyRatingText" xml:space="preserve">
+    <value>Minősítés</value>
+  </data>
+  <data name="PropertyItemFolderPathDisplay" xml:space="preserve">
+    <value>Mappa elérési útja</value>
+  </data>
+  <data name="PropertyItemTypeText" xml:space="preserve">
+    <value>Elem típusa</value>
+  </data>
+  <data name="PropertyTitle" xml:space="preserve">
+    <value>Cím</value>
+  </data>
+  <data name="PropertySubject" xml:space="preserve">
+    <value>Téma</value>
+  </data>
+  <data name="PropertyComment" xml:space="preserve">
+    <value>Megjegyzés</value>
+  </data>
+  <data name="PropertyCopyright" xml:space="preserve">
+    <value>Szerzői jog</value>
+  </data>
+  <data name="PropertyDateModified" xml:space="preserve">
+    <value>Módosítás dátuma</value>
+  </data>
+  <data name="PropertyBitDepth" xml:space="preserve">
+    <value>Bitmélység</value>
+  </data>
+  <data name="PropertyDimensions" xml:space="preserve">
+    <value>Méretek</value>
+  </data>
+  <data name="PropertyHorizontalSize" xml:space="preserve">
+    <value>Széleség</value>
+  </data>
+  <data name="PropertyVerticalSize" xml:space="preserve">
+    <value>Magasság</value>
+  </data>
+  <data name="PropertyHorizontalResolution" xml:space="preserve">
+    <value>Vízszintes felbontás</value>
+  </data>
+  <data name="PropertyVerticalResolution" xml:space="preserve">
+    <value>Függőleges felbontás</value>
+  </data>
+  <data name="PropertyCompressionText" xml:space="preserve">
+    <value>Tömörítés</value>
+  </data>
+  <data name="PropertyColorSpace" xml:space="preserve">
+    <value>Színtér</value>
+  </data>
+  <data name="PropertyLongitudeDecimal" xml:space="preserve">
+    <value>Szélesség (egész)</value>
+  </data>
+  <data name="PropertyLatitudeDecimal" xml:space="preserve">
+    <value>Magasság (egész)</value>
+  </data>
+  <data name="PropertyLatitude" xml:space="preserve">
+    <value>Szélesség</value>
+  </data>
+  <data name="PropertyLongitude" xml:space="preserve">
+    <value>Magasság</value>
+  </data>
+  <data name="PropertyLatitudeRef" xml:space="preserve">
+    <value>Szélesség Ref</value>
+  </data>
+  <data name="PropertyLongitudeRef" xml:space="preserve">
+    <value>Magasság Ref</value>
+  </data>
+  <data name="PropertyAltitude" xml:space="preserve">
+    <value>Magasság</value>
+  </data>
+  <data name="PropertyDateTaken" xml:space="preserve">
+    <value>Létrehozás dátuma</value>
+  </data>
+  <data name="PropertyCameraManufacturer" xml:space="preserve">
+    <value>Fényképezőgép gyártója</value>
+  </data>
+  <data name="PropertyCameraModel" xml:space="preserve">
+    <value>Fényképezőgép modell</value>
+  </data>
+  <data name="PropertyExposureTime" xml:space="preserve">
+    <value>Expozíciós idő</value>
+  </data>
+  <data name="PropertyFocalLength" xml:space="preserve">
+    <value>Fókusztávolság</value>
+  </data>
+  <data name="PropertyAperture" xml:space="preserve">
+    <value>Rekesz</value>
+  </data>
+  <data name="PropertyFormat" xml:space="preserve">
+    <value>Formátum</value>
+  </data>
+  <data name="PropertyAlbumArtist" xml:space="preserve">
+    <value>Album előadója</value>
+  </data>
+  <data name="PropertyAlbumTitle" xml:space="preserve">
+    <value>Album</value>
+  </data>
+  <data name="PropertyArtist" xml:space="preserve">
+    <value>Előadó</value>
+  </data>
+  <data name="PropertyBeatsPerMinute" xml:space="preserve">
+    <value>Ütem Per Perc</value>
+  </data>
+  <data name="PropertyComposer" xml:space="preserve">
+    <value>Zeneszerző</value>
+  </data>
+  <data name="PropertyConductor" xml:space="preserve">
+    <value>Zeneszerző</value>
+  </data>
+  <data name="PropertyDiscNumber" xml:space="preserve">
+    <value>Lemez száma</value>
+  </data>
+  <data name="PropertyGenre" xml:space="preserve">
+    <value>Műfaj</value>
+  </data>
+  <data name="PropertyTrackNumber" xml:space="preserve">
+    <value>Szám száma</value>
+  </data>
+  <data name="PropertyDuration" xml:space="preserve">
+    <value>Hossz</value>
+  </data>
+  <data name="PropertyDateReleased" xml:space="preserve">
+    <value>Megjelenés dátuma</value>
+  </data>
+  <data name="PropertyProducer" xml:space="preserve">
+    <value>Producer</value>
+  </data>
+  <data name="PropertyPublisher" xml:space="preserve">
+    <value>Kiadó</value>
+  </data>
+  <data name="PropertyWriter" xml:space="preserve">
+    <value>Író</value>
+  </data>
+  <data name="PropertyYear" xml:space="preserve">
+    <value>Év</value>
+  </data>
+  <data name="PropertyRevisionNumber" xml:space="preserve">
+    <value>Felülvizsgálat száma</value>
+  </data>
+  <data name="PropertyVersion" xml:space="preserve">
+    <value>Verzió</value>
+  </data>
+  <data name="PropertyDateCreated" xml:space="preserve">
+    <value>Létrehozás dátuma</value>
+  </data>
+  <data name="PropertyDateSaved" xml:space="preserve">
+    <value>Mentés dátuma</value>
+  </data>
+  <data name="PropertyDatePrinted" xml:space="preserve">
+    <value>Nyomtatás dátuma</value>
+  </data>
+  <data name="PropertyTotalEditingTime" xml:space="preserve">
+    <value>Teljes szerkeztési idő</value>
+  </data>
+  <data name="PropertyTemplate" xml:space="preserve">
+    <value>Minta</value>
+  </data>
+  <data name="PropertyWordCount" xml:space="preserve">
+    <value>Szavak száma</value>
+  </data>
+  <data name="PropertyCharacterCount" xml:space="preserve">
+    <value>Karakterek száma</value>
+  </data>
+  <data name="PropertyLineCount" xml:space="preserve">
+    <value>Sorok száma</value>
+  </data>
+  <data name="PropertyParagraphCount" xml:space="preserve">
+    <value>Bekezdések száma</value>
+  </data>
+  <data name="PropertyPageCount" xml:space="preserve">
+    <value>Lapok száma</value>
+  </data>
+  <data name="PropertyFrameRate" xml:space="preserve">
+    <value>Képkockák sebessége</value>
+  </data>
+  <data name="PropertyEncodingBitrate" xml:space="preserve">
+    <value>Bitráta kódolása</value>
+  </data>
+  <data name="PropertyCompression" xml:space="preserve">
+    <value>Tömörítés</value>
+  </data>
+  <data name="PropertyFrameWidth" xml:space="preserve">
+    <value>Szélesség</value>
+  </data>
+  <data name="PropertyFrameHeight" xml:space="preserve">
+    <value>Magasság</value>
+  </data>
+  <data name="PropertyOrientation" xml:space="preserve">
+    <value>Tájolás</value>
+  </data>
+  <data name="PropertySectionCore" xml:space="preserve">
+    <value>Leírás</value>
+  </data>
+  <data name="PropertySectionImage" xml:space="preserve">
+    <value>Kép</value>
+  </data>
+  <data name="PropertySectionPhoto" xml:space="preserve">
+    <value>Fotó</value>
+  </data>
+  <data name="PropertySectionGPS" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="PropertySectionMedia" xml:space="preserve">
+    <value>Média</value>
+  </data>
+  <data name="PropertySectionAudio" xml:space="preserve">
+    <value>Audió</value>
+  </data>
+  <data name="PropertySectionMusic" xml:space="preserve">
+    <value>Zene</value>
+  </data>
+  <data name="PropertySectionVideo" xml:space="preserve">
+    <value>Videó</value>
+  </data>
+  <data name="PropertySectionDocument" xml:space="preserve">
+    <value>Dokumentum</value>
+  </data>
+  <data name="PropertyAddress" xml:space="preserve">
+    <value>Elérhetőség</value>
+  </data>
+  <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
+    <value>Hiba</value>
+  </data>
+  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Újra</value>
+  </data>
+  <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Bezárás mindenképpen</value>
+  </data>
+  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
+    <value>Mégse</value>
+  </data>
+  <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
+    <value>Probléma adódott a tulajdonságok mentésekor.</value>
+  </data>
+  <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
+    <value>Pár tulajdonság tartalmazhat személyes információt.</value>
+  </data>
+  <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="ClearPropertiesButton.Content" xml:space="preserve">
+    <value>Összes tulajdonság törlése</value>
+  </data>
+  <data name="PropertyColorSpace_Value0" xml:space="preserve">
+    <value>sRGB</value>
+  </data>
+  <data name="PropertyColorSpace_Value65535" xml:space="preserve">
+    <value>Nem meghatározott</value>
+  </data>
+  <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
+    <value>Állapotsor</value>
+  </data>
+  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
+    <value>Licenc</value>
+  </data>
+  <data name="SettingsAboutLicense.Content" xml:space="preserve">
+    <value>Licenc</value>
+  </data>
+  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
+    <value>Weboldal</value>
+  </data>
+  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
+    <value>Weboldal</value>
+  </data>
+  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+    <value>Tudjon meg többet a dátumokról</value>
+  </data>
+  <data name="DragDropWindowText" xml:space="preserve">
+    <value>Másolás ide</value>
+  </data>
+  <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
+    <value>Keresés eredménye a következőben:</value>
+  </data>
+  <data name="SearchTabHeaderText" xml:space="preserve">
+    <value>Keresési eredmények</value>
+  </data>
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
+    <value>Mappák rendszerezése a fájlokkal</value>
   </data>
 </root>

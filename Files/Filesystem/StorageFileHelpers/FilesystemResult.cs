@@ -8,7 +8,7 @@ namespace Files.Filesystem
     [Flags]
     public enum FilesystemErrorCode
     {
-        ERROR_OK = 0,
+        ERROR_SUCCESS = 0,
         ERROR_GENERIC = 1,
         ERROR_UNAUTHORIZED = 2,
         ERROR_NOTFOUND = 4,
@@ -16,14 +16,15 @@ namespace Files.Filesystem
         ERROR_NAMETOOLONG = 16,
         ERROR_ALREADYEXIST = 32,
         ERROR_NOTAFOLDER = 64,
-        ERROR_NOTAFILE = 128
+        ERROR_NOTAFILE = 128,
+        ERROR_INPROGRESS = 256
     }
 
     public static class FilesystemErrorCodeExtensions
     {
         public static bool HasFlag(this FilesystemErrorCode errorCode, FilesystemErrorCode flag)
         {
-            return (errorCode & flag) != FilesystemErrorCode.ERROR_OK;
+            return (errorCode & flag) != FilesystemErrorCode.ERROR_SUCCESS;
         }
     }
 
@@ -50,18 +51,18 @@ namespace Files.Filesystem
 
         public static implicit operator FilesystemErrorCode(FilesystemResult res) => res.ErrorCode;
 
-        public static explicit operator FilesystemResult(FilesystemErrorCode res) => new FilesystemResult(res);
+        public static implicit operator FilesystemResult(FilesystemErrorCode res) => new FilesystemResult(res);
 
         public static implicit operator bool(FilesystemResult res) =>
-            res.ErrorCode == FilesystemErrorCode.ERROR_OK;
+            res.ErrorCode == FilesystemErrorCode.ERROR_SUCCESS;
 
         public static explicit operator FilesystemResult(bool res) =>
-            new FilesystemResult(res ? FilesystemErrorCode.ERROR_OK : FilesystemErrorCode.ERROR_GENERIC);
+            new FilesystemResult(res ? FilesystemErrorCode.ERROR_SUCCESS : FilesystemErrorCode.ERROR_GENERIC);
     }
 
     public static class FilesystemTasks
     {
-        private static FilesystemErrorCode GetErrorCode(Exception ex, Type T = null)
+        public static FilesystemErrorCode GetErrorCode(Exception ex, Type T = null)
         {
             if (ex is UnauthorizedAccessException)
             {
@@ -106,7 +107,7 @@ namespace Files.Filesystem
         {
             try
             {
-                return new FilesystemResult<T>(await wrapped(), FilesystemErrorCode.ERROR_OK);
+                return new FilesystemResult<T>(await wrapped(), FilesystemErrorCode.ERROR_SUCCESS);
             }
             catch (Exception ex)
             {
@@ -119,7 +120,7 @@ namespace Files.Filesystem
             try
             {
                 await wrapped();
-                return new FilesystemResult(FilesystemErrorCode.ERROR_OK);
+                return new FilesystemResult(FilesystemErrorCode.ERROR_SUCCESS);
             }
             catch (Exception ex)
             {

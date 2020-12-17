@@ -44,6 +44,12 @@
                     Header="Open items with a single click"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{x:Bind AppSettings.OpenItemsWithOneclick, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Uid="SettingsListAndSortDirectoriesAlongsideFiles"
+                    Header="List and sort directories alongside files"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind AppSettings.ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

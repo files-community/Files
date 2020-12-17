@@ -57,10 +57,11 @@ steps:
 
 - task: MSBuild@1
   inputs:
-    platform: 'x86'
     solution: '**/*.wapproj'
+    platform: 'x86'
     configuration: '$(buildConfiguration)'
     msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
+    maximumCpuCount: true
 
 - task: store-flight@0
   inputs:
@@ -70,3 +71,5 @@ steps:
     packagePath: '$(appxPackageDir)\**\*.msixupload'
     force: false
     skipPolling: false
+    deletePackages: true
+    numberOfPackagesToKeep: '5'

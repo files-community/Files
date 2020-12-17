@@ -30,7 +30,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Image
                         Width="60"
-                        Source="/Assets/Files UWP Beta Icon.png"
+                        Source="/Assets/Files Icon.png"
                         Stretch="Uniform" />
                     <StackPanel Padding="12,0,0,0" Orientation="Vertical">
                         <TextBlock
@@ -54,9 +54,11 @@
                     Tapped="FeedbackListView_Tapped">
                     <ListViewItem
                         x:Name="FeedbackForm"
+                        x:Uid="SettingsAboutSubmitFeedbackListViewItem"
                         Padding="8,2"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
+                        AutomationProperties.Name="Send the developers an issue report with more information"
                         IsEnabled="True">
                         <StackPanel
                             Padding="0,4"
@@ -78,9 +80,11 @@
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem
+                        x:Uid="SettingsAboutReleaseNotesListViewItem"
                         Padding="8,2"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
+                        AutomationProperties.Name="Find out what's new in Files"
                         IsEnabled="True">
                         <StackPanel
                             Padding="0,4"
@@ -102,9 +106,11 @@
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem
+                        x:Uid="SettingsAboutContributorsListViewItem"
                         Padding="8,2"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
+                        AutomationProperties.Name="See who contributed to Files"
                         IsEnabled="True">
                         <StackPanel
                             Padding="0,4"
@@ -126,9 +132,11 @@
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem
+                        x:Uid="SettingsAboutSupportUsListViewItem"
                         Padding="8,2"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
+                        AutomationProperties.Name="Support us on PayPal"
                         IsEnabled="True">
                         <StackPanel
                             Padding="0,4"
@@ -173,24 +181,19 @@
                     <TextBlock
                         VerticalAlignment="Center"
                         FontSize="16"
-                        Text="QuickLook" />
-                    <StackPanel Orientation="Horizontal" Spacing="5">
-                        <TextBlock
-                            x:Uid="SettingsAboutWebsite"
-                            VerticalAlignment="Center"
-                            Text="Website:" />
-                        <HyperlinkButton NavigateUri="https://github.com/QL-Win/QuickLook">Link</HyperlinkButton>
-                    </StackPanel>
+                        Text="QuickLook:" />
 
-                    <StackPanel Orientation="Horizontal" Spacing="5">
-                        <TextBlock
-                            x:Uid="SettingsAboutLicense"
-                            VerticalAlignment="Center"
-                            Text="License:" />
-                        <HyperlinkButton NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt">GPL</HyperlinkButton>
-                        <Button Content="Check for updates" Click="UpdateCheck_Click">
-                        </Button>
-                    </StackPanel>
+                    <HyperlinkButton
+                        x:Uid="SettingsAboutWebsite"
+                        AutomationProperties.Name="Website"
+                        Content="Website"
+                        NavigateUri="https://github.com/QL-Win/QuickLook" />
+
+                    <HyperlinkButton
+                        x:Uid="SettingsAboutLicense"
+                        AutomationProperties.Name="License"
+                        Content="License"
+                        NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt" />
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

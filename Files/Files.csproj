@@ -154,12 +154,11 @@
     <Compile Include="CommandLine\ParsedCommand.cs" />
     <Compile Include="CommandLine\ParsedCommands.cs" />
     <Compile Include="CommandLine\ParsedCommandType.cs" />
-    <Compile Include="Commands\Delete.cs" />
-    <Compile Include="Commands\ItemOperations.cs" />
-    <Compile Include="Commands\Paste.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Controllers\IJson.cs" />
     <Compile Include="Controllers\SidebarPinnedController.cs" />
     <Compile Include="Converters\DateTimeOffsetToString.cs" />
+    <Compile Include="Converters\DoubleArrayToString.cs" />
     <Compile Include="Converters\DoubleToString.cs" />
     <Compile Include="Converters\MultiBooleanConverter.cs" />
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
@@ -167,8 +166,10 @@
     <Compile Include="Converters\UInt32ToString.cs" />
     <Compile Include="DataModels\AppUpdater.cs" />
     <Compile Include="DataModels\DefaultLanguageModel.cs" />
+    <Compile Include="Enums\FileOperationType.cs" />
     <Compile Include="DataModels\SidebarPinnedModel.cs" />
     <Compile Include="Controllers\TerminalController.cs" />
+    <Compile Include="Enums\ReturnResult.cs" />
     <Compile Include="Dialogs\BitlockerDialog.xaml.cs">
       <DependentUpon>BitlockerDialog.xaml</DependentUpon>
     </Compile>
@@ -178,6 +179,9 @@
     <Compile Include="Dialogs\RestartDialog.xaml.cs">
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View Models\Properties\FileProperty.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Filesystem\Cloud\CloudDriveSyncStatusUI.cs" />
     <Compile Include="Filesystem\Cloud\CloudProvider.cs" />
     <Compile Include="Filesystem\Cloud\Providers\AppleCloudProvider.cs" />
@@ -191,15 +195,31 @@
     <Compile Include="Filesystem\Cloud\Providers\MegaCloudProvider.cs" />
     <Compile Include="Filesystem\Cloud\Providers\OneDriveCloudProvider.cs" />
     <Compile Include="Filesystem\Cloud\Providers\OneDriveCommercialCloudProvider.cs" />
-    <Compile Include="Filesystem\PropertiesData.cs" />
+    <Compile Include="Filesystem\FilesystemOperations\FilesystemItemType.cs" />
+    <Compile Include="Filesystem\FilesystemOperations\FilesystemOperations.cs" />
+    <Compile Include="Filesystem\FilesystemOperations\Helpers\FilesystemHelpers.cs" />
+    <Compile Include="Filesystem\FilesystemOperations\Helpers\IFilesystemHelpers.cs" />
+    <Compile Include="Filesystem\FilesystemOperations\IFilesystemOperations.cs" />
+    <Compile Include="Filesystem\FilesystemOperations\PathWithType.cs" />
+    <Compile Include="Filesystem\Search\FolderSearch.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\FilesystemResult.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\StorageFileExtensions.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\IStorageItemWithPath.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\StorageFileWithPath.cs" />
     <Compile Include="Filesystem\StorageFileHelpers\StorageFolderWithPath.cs" />
+    <Compile Include="Filesystem\StorageHistory\Helpers\StorageHistoryHelpers.cs" />
+    <Compile Include="Filesystem\StorageHistory\IStorageHistory.cs" />
+    <Compile Include="Filesystem\StorageHistory\IStorageHistoryOperations.cs" />
+    <Compile Include="Filesystem\StorageHistory\StorageHistory.cs" />
+    <Compile Include="Filesystem\StorageHistory\StorageHistoryOperations.cs" />
+    <Compile Include="Filesystem\StorageHistory\StorageHistoryWrapper.cs" />
     <Compile Include="Helpers\AcrylicTheme.cs" />
+    <Compile Include="Helpers\Convert\ErrorCodeConverter.cs" />
+    <Compile Include="Helpers\StorageItemHelpers.cs" />
     <Compile Include="Helpers\DialogDisplayHelper.cs" />
     <Compile Include="Helpers\DispatcherHelper.cs" />
+    <Compile Include="View Models\Properties\FilePropertySection.cs" />
+    <Compile Include="Helpers\ArrayHelpers.cs" />
     <Compile Include="Helpers\ItemsDataTemplateSelector.cs" />
     <Compile Include="Helpers\JumpListManager.cs" />
     <Compile Include="Helpers\NativeDirectoryChangesHelper.cs" />
@@ -210,6 +230,8 @@
     <Compile Include="Helpers\NaturalStringComparer.cs" />
     <Compile Include="Helpers\PackageHelper.cs" />
     <Compile Include="Helpers\PathNormalization.cs" />
+    <Compile Include="Helpers\PostBannerHelpers.cs" />
+    <Compile Include="Helpers\RecycleBinHelpers.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Helpers\BulkObservableCollection.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
@@ -223,8 +245,8 @@
     <Compile Include="UserControls\MenuFlyoutItemWithImage.xaml.cs">
       <DependentUpon>MenuFlyoutItemWithImage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\ModernNavigationToolbar.xaml.cs">
-      <DependentUpon>ModernNavigationToolbar.xaml</DependentUpon>
+    <Compile Include="UserControls\NavigationToolbar.xaml.cs">
+      <DependentUpon>NavigationToolbar.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\MultitaskingControl\BaseMultitaskingControl.cs" />
     <Compile Include="UserControls\MultitaskingControl\HorizontalMultitaskingControl.xaml.cs">
@@ -258,9 +280,11 @@
     <Compile Include="Enums\WallpaperType.cs" />
     <Compile Include="Filesystem\DriveItem.cs" />
     <Compile Include="Filesystem\Drives.cs" />
-    <Compile Include="UserControls\PropertyListItem.xaml.cs">
-      <DependentUpon>PropertyListItem.xaml</DependentUpon>
+    <Compile Include="Dialogs\PropertySaveError.xaml.cs">
+      <DependentUpon>PropertySaveError.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\MultitaskingControl\TabItem\ITabItem.cs" />
+    <Compile Include="UserControls\MultitaskingControl\TabItem\ITabItemControl.cs" />
     <Compile Include="UserControls\Selection\RectangleSelection.cs" />
     <Compile Include="UserControls\Selection\RectangleSelection_DataGrid.cs" />
     <Compile Include="UserControls\Selection\RectangleSelection_ListViewBase.cs" />
@@ -276,7 +300,7 @@
     <Compile Include="UserControls\StatusCenter.xaml.cs">
       <DependentUpon>StatusCenter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\MultitaskingControl\TabItem.cs" />
+    <Compile Include="UserControls\MultitaskingControl\TabItem\TabItem.cs" />
     <Compile Include="UserControls\MultitaskingControl\VerticalTabViewControl.xaml.cs">
       <DependentUpon>VerticalTabViewControl.xaml</DependentUpon>
     </Compile>
@@ -330,9 +354,6 @@
     <Compile Include="Views\Pages\PropertiesShortcut.xaml.cs">
       <DependentUpon>PropertiesShortcut.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Pages\Search.xaml.cs">
-      <DependentUpon>Search.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Settings.cs" />
     <Compile Include="Views\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -370,8 +391,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\error.png" />
+    <Content Include="Assets\Files Icon.png" />
     <Content Include="Assets\Files UWP Beta Icon.png" />
-    <Content Include="Assets\Files UWP Icon.png" />
     <Content Include="Assets\FilesHome.png" />
     <Content Include="Assets\FolderIcon2.svg" />
     <Content Include="Assets\FolderIcon.png" />
@@ -383,7 +404,6 @@
     <Content Include="Assets\LargeTile.scale-150.png" />
     <Content Include="Assets\LargeTile.scale-200.png" />
     <Content Include="Assets\LargeTile.scale-400.png" />
-    <Content Include="Assets\logo.bmp" />
     <Content Include="Assets\Custom Glyphs\recyclebin-fabric-glyph.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -460,6 +480,9 @@
     <Content Include="Assets\WSL\ubuntu.svg" />
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
+    <None Include="Resources\PropertiesInformation.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <PRIResource Include="Strings\hu-HU\Resources.resw" />
     <PRIResource Include="Strings\or-IN\Resources.resw" />
     <PRIResource Include="Strings\hi-IN\Resources.resw" />
@@ -497,6 +520,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ResourceDictionaries\CustomDataGridStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ResourceDictionaries\CustomHeaderStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -521,7 +548,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\ModernNavigationToolbar.xaml">
+    <Page Include="UserControls\NavigationToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -549,7 +576,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\PropertyListItem.xaml">
+    <Page Include="Dialogs\PropertySaveError.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -617,10 +644,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Pages\Search.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -674,7 +697,7 @@
       <Version>2.5.2</Version>
     </PackageReference>
     <PackageReference Include="JetBrains.Annotations">
-      <Version>2020.1.0</Version>
+      <Version>2020.3.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
       <Version>4.0.0</Version>
@@ -683,7 +706,7 @@
       <Version>4.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Data.Sqlite.Core">
-      <Version>5.0.0</Version>
+      <Version>5.0.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.11</Version>
@@ -716,7 +739,7 @@
       <Version>6.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.4.3</Version>
+      <Version>2.5.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Win32.Registry">
       <Version>5.0.0</Version>
@@ -725,10 +748,10 @@
       <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.7.5</Version>
+      <Version>4.7.6</Version>
     </PackageReference>
     <PackageReference Include="NLog.Schema">
-      <Version>4.7.5</Version>
+      <Version>4.7.6</Version>
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_green">
       <Version>2.0.4</Version>

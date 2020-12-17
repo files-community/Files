@@ -1,13 +1,13 @@
 using ByteSizeLib;
 using Files.Helpers;
+using Files.View_Models.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Windows.ApplicationModel.Core;
-using Windows.Services.Maps;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -639,132 +639,11 @@ namespace Files.View_Models
             }
         }
 
-        private DateTimeOffset dateTaken;
-
-        public DateTimeOffset DateTaken
+        private ObservableCollection<FilePropertySection> propertySections = new ObservableCollection<FilePropertySection>();
+        public ObservableCollection<FilePropertySection> PropertySections
         {
-            get => dateTaken;
-            set => SetProperty(ref dateTaken, value);
-        }
-
-        private double? longitude;
-
-        public double? Longitude
-        {
-            get => longitude;
-            set => SetProperty(ref longitude, value);
-        }
-
-        private double? latitude;
-
-        public double? Latitude
-        {
-            get => latitude;
-            set => SetProperty(ref latitude, value);
-        }
-
-        private int rating;
-
-        public int Rating
-        {
-            get => rating;
-            set => SetProperty(ref rating, value);
-        }
-
-        private MapLocation geopoint;
-
-        public MapLocation Geopoint
-        {
-            get => geopoint;
-            set => SetProperty(ref geopoint, value);
-        }
-
-        private string geopointString;
-
-        public string GeopointString
-        {
-            get => geopointString;
-            set => SetProperty(ref geopointString, value);
-        }
-
-        private string cameraNameString;
-
-        public string CameraNameString
-        {
-            get => cameraNameString;
-            set => SetProperty(ref cameraNameString, value);
-        }
-
-        private string shotString;
-
-        public string ShotString
-        {
-            get => shotString;
-            set => SetProperty(ref shotString, value);
-        }
-
-        private IDictionary<string, object> systemFileProperties_RO;
-
-        public IDictionary<string, object> SystemFileProperties_RO
-        {
-            get => systemFileProperties_RO;
-            set => SetProperty(ref systemFileProperties_RO, value);
-        }
-
-        private IDictionary<string, object> systemFileProperties_RW;
-
-        public IDictionary<string, object> SystemFileProperties_RW
-        {
-            get => systemFileProperties_RW;
-            set => SetProperty(ref systemFileProperties_RW, value);
-        }
-
-        private Visibility detailsSectionVisibility_Image;
-
-        public Visibility DetailsSectionVisibility_Image
-        {
-            get => detailsSectionVisibility_Image;
-            set => SetProperty(ref detailsSectionVisibility_Image, value);
-        }
-
-        private Visibility detailsSectionVisibility_GPS;
-
-        public Visibility DetailsSectionVisibility_GPS
-        {
-            get => detailsSectionVisibility_GPS;
-            set => SetProperty(ref detailsSectionVisibility_GPS, value);
-        }
-
-        private Visibility detailsSectionVisibility_Photo;
-
-        public Visibility DetailsSectionVisibility_Photo
-        {
-            get => detailsSectionVisibility_Photo;
-            set => SetProperty(ref detailsSectionVisibility_Photo, value);
-        }
-
-        private Visibility detailsSectionVisibility_Audio;
-
-        public Visibility DetailsSectionVisibility_Audio
-        {
-            get => detailsSectionVisibility_Audio;
-            set => SetProperty(ref detailsSectionVisibility_Audio, value);
-        }
-
-        private Visibility detailsSectionVisibility_Music;
-
-        public Visibility DetailsSectionVisibility_Music
-        {
-            get => detailsSectionVisibility_Music;
-            set => SetProperty(ref detailsSectionVisibility_Music, value);
-        }
-
-        private Visibility detailsSectionVisibility_Media;
-
-        public Visibility DetailsSectionVisibility_Media
-        {
-            get => detailsSectionVisibility_Media;
-            set => SetProperty(ref detailsSectionVisibility_Media, value);
+            get => propertySections;
+            set => SetProperty(ref propertySections, value);
         }
 
         private bool isReadOnly;

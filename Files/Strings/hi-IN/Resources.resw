@@ -108,7 +108,7 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>चयन खाली करें</value>
   </data>
-  <data name="StatusBarControlListView.Text" xml:space="preserve">
+  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
     <value>सूची व्यू</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -144,9 +144,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files UWP</value>
   </data>
-  <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>लाइसेंस:</value>
-  </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>विशेष धन्यवाद:</value>
   </data>
@@ -161,9 +158,6 @@
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>बारे में</value>
-  </data>
-  <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>वेबसाइट:</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>उपस्थिति</value>
@@ -239,9 +233,6 @@
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>चलचित्र</value>
-  </data>
-  <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>सेटिंग्स</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
     <value>द्वारा सॉर्ट करें</value>
@@ -491,12 +482,6 @@
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>चयन विकल्प</value>
-  </data>
-  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
-    <value>केवल पठन</value>
-  </data>
-  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
-    <value>छिपा हुआ</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>रीसायकल बिन खाली करें</value>
@@ -833,8 +818,5 @@
   </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>आगे नेविगेट करें</value>
-  </data>
-  <data name="SidebarSettingsButton.AutomationProperties.Name" xml:space="preserve">
-    <value>सेटिंग्स</value>
   </data>
 </root>

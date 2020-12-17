@@ -4,7 +4,7 @@ using System;
 
 namespace Files.UserControls.MultitaskingControl
 {
-    public class TabItem : ObservableObject
+    public class TabItem : ObservableObject, ITabItem, ITabItemControl, IDisposable
     {
         private string _Header;
 
@@ -41,6 +41,8 @@ namespace Files.UserControls.MultitaskingControl
             set => SetProperty(ref _IconSource, value);
         }
 
+        public object NavigationArgs { get; private set; }
+
         public object Content { get; set; }
 
         private bool _AllowStorageItemDrop = false;
@@ -50,6 +52,16 @@ namespace Files.UserControls.MultitaskingControl
             get => _AllowStorageItemDrop;
             set => SetProperty(ref _AllowStorageItemDrop, value);
         }
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            NavigationArgs = null;
+            Content = null;
+        }
+
+        #endregion
     }
 
     public class TabItemContent

@@ -13,8 +13,10 @@
     DefaultButton="Primary"
     KeyDown="NameDialog_KeyDown"
     PrimaryButtonClick="NameDialog_PrimaryButtonClick"
+    PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
     PrimaryButtonText="Set Name"
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
+    SecondaryButtonStyle="{StaticResource DefaultButtonStyle}"
     SecondaryButtonText="Cancel"
     mc:Ignorable="d">
 
