@@ -1,4 +1,5 @@
 ﻿using Files.Dialogs;
+using Files.Enums;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Files.UserControls;
@@ -7,14 +8,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using System.Text.RegularExpressions;
-using FileAttributes = System.IO.FileAttributes;
 using static Files.Helpers.NativeFindStorageItemHelper;
-using Files.Enums;
+using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Filesystem
 {
@@ -43,9 +43,9 @@ namespace Files.Filesystem
                 "LPT6", "LPT7", "LPT8", "LPT9"
         };
 
-        #endregion
+        #endregion Helpers Members
 
-        #endregion
+        #endregion Private Members
 
         #region Constructor
 
@@ -57,7 +57,7 @@ namespace Files.Filesystem
             recycleBinHelpers = new RecycleBinHelpers(this.associatedInstance);
         }
 
-        #endregion
+        #endregion Constructor
 
         #region IFilesystemHelpers
 
@@ -79,7 +79,7 @@ namespace Files.Filesystem
             return returnCode.ToStatus();
         }
 
-        #endregion
+        #endregion Create
 
         #region Delete
 
@@ -397,7 +397,7 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        #endregion
+        #endregion Delete
 
         public async Task<ReturnResult> RestoreFromTrashAsync(PathWithType source, string destination, bool registerHistory)
         {
@@ -582,7 +582,7 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        #endregion
+        #endregion Copy
 
         #region Move
 
@@ -724,7 +724,7 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        #endregion
+        #endregion Move
 
         #region Rename
 
@@ -760,9 +760,9 @@ namespace Files.Filesystem
             return returnCode.ToStatus();
         }
 
-        #endregion
+        #endregion Rename
 
-        #endregion
+        #endregion IFilesystemHelpers
 
         #region Public Helpers
 
@@ -933,7 +933,7 @@ namespace Files.Filesystem
             return false;
         }
 
-        #endregion
+        #endregion Public Helpers
 
         #region IDisposable
 
@@ -948,6 +948,6 @@ namespace Files.Filesystem
             recycleBinHelpers = null;
         }
 
-        #endregion
+        #endregion IDisposable
     }
 }

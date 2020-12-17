@@ -83,6 +83,6 @@ namespace Files
                 7 => SettingsContentFrame.Navigate(typeof(About)),
                 _ => SettingsContentFrame.Navigate(typeof(Appearance))
             };
-        }        
+        }
     }
 }

@@ -32,7 +32,7 @@ namespace Files.Filesystem
 
         private RecycleBinHelpers recycleBinHelpers;
 
-        #endregion
+        #endregion Private Members
 
         #region Constructor
 
@@ -42,7 +42,7 @@ namespace Files.Filesystem
             recycleBinHelpers = new RecycleBinHelpers(this.associatedInstance);
         }
 
-        #endregion
+        #endregion Constructor
 
         #region IFilesystemOperations
 
@@ -128,7 +128,7 @@ namespace Files.Filesystem
             if (source.ItemType == FilesystemItemType.Directory)
             {
                 if (string.IsNullOrWhiteSpace(source.Path) ||
-                    Path.GetDirectoryName(destination).IsSubPathOf(source.Path)) // We check if user tried to copy anything above the source.ItemPath 
+                    Path.GetDirectoryName(destination).IsSubPathOf(source.Path)) // We check if user tried to copy anything above the source.ItemPath
                 {
                     ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
 
@@ -182,8 +182,8 @@ namespace Files.Filesystem
                         {
                             if (associatedInstance.FilesystemViewModel.CheckFolderForHiddenAttribute(source.Path))
                             {
-                            // The source folder was hidden, apply hidden attribute to destination
-                            NativeFileOperationsHelper.SetFileAttribute(t.Path, FileAttributes.Hidden);
+                                // The source folder was hidden, apply hidden attribute to destination
+                                NativeFileOperationsHelper.SetFileAttribute(t.Path, FileAttributes.Hidden);
                             }
                             copiedItem = t;
                         });
@@ -342,14 +342,14 @@ namespace Files.Filesystem
                 // Try again with fulltrust process
                 if (associatedInstance.FilesystemViewModel.Connection != null)
                 {
-                        AppServiceResponse response = await associatedInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet()
+                    AppServiceResponse response = await associatedInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "DeleteItem" },
                             { "filepath", source.Path },
                             { "permanently", permanently }
                         });
-                        fsResult = (FilesystemResult)(response.Status == AppServiceResponseStatus.Success);
+                    fsResult = (FilesystemResult)(response.Status == AppServiceResponseStatus.Success);
                 }
             }
             else if (fsResult == FilesystemErrorCode.ERROR_INUSE)
@@ -485,7 +485,7 @@ namespace Files.Filesystem
             {
                 FilesystemResult<StorageFolder> sourceFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(source.Path);
                 FilesystemResult<StorageFolder> destinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
-                
+
                 fsResult = sourceFolder.ErrorCode | destinationFolder.ErrorCode;
                 errorCode?.Report(fsResult);
 
@@ -546,7 +546,7 @@ namespace Files.Filesystem
             return new StorageHistory(FileOperationType.Restore, source, new PathWithType(destination, source.ItemType));
         }
 
-        #endregion
+        #endregion IFilesystemOperations
 
         #region IDisposable
 
@@ -559,6 +559,6 @@ namespace Files.Filesystem
             associatedInstance = null;
         }
 
-        #endregion
+        #endregion IDisposable
     }
 }

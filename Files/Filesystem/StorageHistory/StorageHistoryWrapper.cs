@@ -12,7 +12,7 @@ namespace Files.Filesystem.FilesystemHistory
 
         private int storageHistoryIndex;
 
-        #endregion
+        #endregion Private Members
 
         #region Constructor
 
@@ -22,7 +22,7 @@ namespace Files.Filesystem.FilesystemHistory
             this.storageHistoryIndex = 0;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Helpers
 
@@ -74,7 +74,7 @@ namespace Files.Filesystem.FilesystemHistory
         public bool CanRedo() =>
             (this.storageHistoryIndex + 1) < this.storageHistory.Count;
 
-        #endregion
+        #endregion Helpers
 
         #region IDisposable
 
@@ -86,6 +86,6 @@ namespace Files.Filesystem.FilesystemHistory
             storageHistory = null;
         }
 
-        #endregion
+        #endregion IDisposable
     }
 }

@@ -401,7 +401,6 @@ namespace Files.Filesystem
             {
                 AssociatedInstance.NavigationToolbar.PathComponents.Add(new Views.Pages.PathBoxItem() { Path = null, Title = singleItemOverride });
             }
-
         }
 
         public void CancelLoadAndClearFiles(bool isSearchResultPage = false)
@@ -430,7 +429,7 @@ namespace Files.Filesystem
 
             AssociatedInstance.NavigationToolbar.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.
             _filesAndFolders.Clear();
-            
+
             if (!(WorkingDirectory?.StartsWith(AppSettings.RecycleBinPath) ?? false) && !isSearchResultPage)
             {
                 // Can't go up from recycle bin

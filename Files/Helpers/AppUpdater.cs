@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Files.Helpers
 {
-    class AppUpdater
+    internal class AppUpdater
     {
         private StoreContext context = null;
         private IReadOnlyList<StorePackageUpdate> UpdateList = null;
@@ -44,7 +44,6 @@ namespace Files.Helpers
             }
             catch (Exception)
             {
-
             }
         }
 

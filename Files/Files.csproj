@@ -415,6 +415,8 @@
     <None Include="Assets\terminal\terminal.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Include="priconfig.default.xml" />
+    <Content Include="priconfig.packaging.xml" />
     <Content Include="Resources\AppCenterKey.txt" />
     <Content Include="Resources\BingMapsKey.txt" />
     <None Include="NLog.config">
