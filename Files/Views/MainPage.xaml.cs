@@ -165,7 +165,6 @@ namespace Files.Views
                 AppUpdater updater = new AppUpdater();
                 updater.CheckForUpdatesAsync();
 
-
                 // Initial setting of SelectedTabItem
                 Frame rootFrame = Window.Current.Content as Frame;
                 var mainView = rootFrame.Content as MainPage;
