@@ -161,7 +161,7 @@ namespace Files.Views
                     await AddNewTabByPathAsync(typeof(ModernShellPage), navArgs);
                 }
 
-                // Check for required updates=
+                // Check for required updates
                 AppUpdater updater = new AppUpdater();
                 updater.CheckForUpdatesAsync();
 
