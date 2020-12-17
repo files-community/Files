@@ -296,6 +296,24 @@ namespace Files.View_Models
             set => Set(value);
         }
 
+        public bool ShowDateColumn
+        {
+            get => Get(true);
+            set => Set(value);
+        } 
+
+        public bool ShowTypeColumn
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+        
+        public bool ShowSizeColumn
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
         // Any distinguishable path here is fine
         // Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
         public string RecycleBinPath { get; set; } = @"Shell:RecycleBinFolder";
