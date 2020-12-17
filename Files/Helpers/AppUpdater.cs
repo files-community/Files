@@ -48,7 +48,7 @@ namespace Files.Helpers
             }
         }
 
-        public async Task<bool> DownloadUpdatesConsent()
+        private async Task<bool> DownloadUpdatesConsent()
         {
             ContentDialog dialog = new ContentDialog
             {
@@ -66,7 +66,7 @@ namespace Files.Helpers
             return false;
         }
 
-        public IAsyncResult DownloadUpdates()
+        private IAsyncResult DownloadUpdates()
         {
             if (UpdateList == null || UpdateList.Count < 1)
             {
