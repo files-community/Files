@@ -18,26 +18,33 @@ namespace Files.Helpers
             context = StoreContext.GetDefault();
         }
 
-        public async Task CheckForUpdatesAsync(bool mandantoryOnly = false)
+        public async void CheckForUpdatesAsync(bool mandantoryOnly = true)
         {
-            if (context == null)
+            try
             {
-                context = StoreContext.GetDefault();
-            }
-
-            UpdateList = await context.GetAppAndOptionalStorePackageUpdatesAsync();
-
-            if (mandantoryOnly)
-            {
-                UpdateList = (IReadOnlyList<StorePackageUpdate>)UpdateList.Where(e => e.Mandatory);
-            }
-
-            if (UpdateList.Count > 0)
-            {
-                if (await DownloadUpdatesConsent())
+                if (context == null)
                 {
-                    DownloadUpdates();
+                    context = StoreContext.GetDefault();
                 }
+
+                UpdateList = await context.GetAppAndOptionalStorePackageUpdatesAsync();
+
+                if (mandantoryOnly)
+                {
+                    UpdateList = (IReadOnlyList<StorePackageUpdate>)UpdateList.Where(e => e.Mandatory);
+                }
+
+                if (UpdateList.Count > 0)
+                {
+                    if (await DownloadUpdatesConsent())
+                    {
+                        DownloadUpdates();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
             }
         }
 
