@@ -1,8 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp.Extensions;
 using System;
-using System.Collections.Generic;
 using Windows.ApplicationModel;
-using Windows.Services.Store;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
