@@ -18,6 +18,7 @@
     mc:Ignorable="d">
     <local:BaseLayout.Resources>
         <Style TargetType="ListViewItem" x:Name="NotCurentListView">
+            <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutItemContextFlyout}" />
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
             <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
             <Setter Property="BorderBrush" Value="{x:Null}" />
@@ -77,7 +78,6 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectCheck" Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
                                         </Storyboard>
                                     </VisualState>
 
@@ -100,7 +100,6 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectCheck" Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <PointerDownThemeAnimation TargetName="ContentPresenter" />
                                         </Storyboard>
                                     </VisualState>
 
@@ -124,7 +123,6 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectCheck" Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
                                         </Storyboard>
                                     </VisualState>
 
@@ -148,7 +146,6 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectCheck" Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
                                         </Storyboard>
                                     </VisualState>
 
@@ -172,7 +169,6 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectCheck" Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <PointerDownThemeAnimation TargetName="ContentPresenter" />
                                         </Storyboard>
                                     </VisualState>
 
@@ -515,6 +511,7 @@
         </Style>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
         <Style TargetType="ListViewItem" x:Name="DefaultListView">
+            <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutItemContextFlyout}" />
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
             <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
             <Setter Property="BorderBrush" Value="{x:Null}" />
@@ -574,7 +571,6 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectCheck" Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
                                         </Storyboard>
                                     </VisualState>
 
@@ -597,7 +593,6 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectCheck" Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <PointerDownThemeAnimation TargetName="ContentPresenter" />
                                         </Storyboard>
                                     </VisualState>
 
@@ -624,7 +619,6 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectCheck" Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
                                         </Storyboard>
                                     </VisualState>
 
@@ -651,7 +645,6 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectCheck" Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
                                         </Storyboard>
                                     </VisualState>
 
@@ -678,7 +671,6 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MultiSelectCheck" Storyboard.TargetProperty="Foreground">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <PointerDownThemeAnimation TargetName="ContentPresenter" />
                                         </Storyboard>
                                     </VisualState>
 
@@ -1776,7 +1768,19 @@
                             Glyph="&#xF10A;" />
                     </Border>
                 </Grid>
-                <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{x:Bind ItemName}" TextTrimming="CharacterEllipsis"></TextBlock>
+                <TextBlock Grid.Column="1" x:Name="ItemName" VerticalAlignment="Center" Text="{x:Bind ItemName, Mode=OneWay}" TextTrimming="CharacterEllipsis"></TextBlock>
+
+                <TextBox
+                        x:Name="ColumnViewTextBoxItemName"
+                        Margin="0"
+                    Visibility="Collapsed"
+                        Grid.Column="1"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Text="{x:Bind ItemName}"
+                        TextAlignment="Left"
+                        TextChanged="GridViewTextBoxItemName_TextChanged"
+                        TextWrapping="NoWrap" />
                 <FontIcon VerticalAlignment="Center"
                     x:Name="CloudDriveSyncStatusGlyph"
                     Grid.Column="2"

@@ -3,9 +3,7 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Filesystem.Cloud;
 using Files.Helpers;
-using Files.UserControls.Selection;
-using Files.Views.Pages;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Files.Views;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
@@ -16,7 +14,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using Files.Common;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
@@ -30,10 +27,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-using Windows.ApplicationModel;
-using Files.Views;
 using Interaction = Files.Interacts.Interaction;
-using static Files.Helpers.NativeFindStorageItemHelper;
 
 namespace Files
 {
@@ -238,29 +232,14 @@ namespace Files
         {
             renamingItem = SelectedItem;
             int extensionLength = renamingItem.FileExtension?.Length ?? 0;
-            GridViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as GridViewItem;
+            ListViewItem listViewItem = ListViewToWorkWith.ContainerFromItem(renamingItem) as ListViewItem;
             TextBox textBox = null;
-
-            // Handle layout differences between tiles browser and photo album
-            if (App.AppSettings.LayoutMode == 2)
-            {
-                Popup popup = (gridViewItem.ContentTemplateRoot as Grid).FindName("EditPopup") as Popup;
-                TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
-                textBox = popup.Child as TextBox;
-                textBox.Text = textBlock.Text;
-                popup.IsOpen = true;
-                oldItemName = textBlock.Text;
-            }
-            else
-            {
-                TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
-                textBox = (gridViewItem.ContentTemplateRoot as Grid).FindName("TileViewTextBoxItemName") as TextBox;
-                textBox.Text = textBlock.Text;
-                oldItemName = textBlock.Text;
-                textBlock.Visibility = Visibility.Collapsed;
-                textBox.Visibility = Visibility.Visible;
-            }
-
+            TextBlock textBlock = (listViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
+            textBox = (listViewItem.ContentTemplateRoot as Grid).FindName("ColumnViewTextBoxItemName") as TextBox;
+            textBox.Text = textBlock.Text;
+            oldItemName = textBlock.Text;
+            textBlock.Visibility = Visibility.Collapsed;
+            textBox.Visibility = Visibility.Visible;
             textBox.Focus(FocusState.Pointer);
             textBox.LostFocus += RenameTextBox_LostFocus;
             textBox.KeyDown += RenameTextBox_KeyDown;
@@ -349,23 +328,19 @@ namespace Files
             {
                 renamingItem.ItemName = oldItemName;
             }
+            else
+            {
+                renamingItem.ItemName = newItemName;
+                renamingItem.ItemPath = renamingItem.ItemPath.Replace(oldItemName, newItemName);
+            }
         }
 
         private void EndRename(TextBox textBox)
         {
-            if (App.AppSettings.LayoutMode == 2)
-            {
-                Popup popup = textBox.Parent as Popup;
-                TextBlock textBlock = (popup.Parent as Grid).Children[1] as TextBlock;
-                popup.IsOpen = false;
-            }
-            else
-            {
-                StackPanel parentPanel = textBox.Parent as StackPanel;
-                TextBlock textBlock = parentPanel.Children[0] as TextBlock;
-                textBox.Visibility = Visibility.Collapsed;
-                textBlock.Visibility = Visibility.Visible;
-            }
+            Grid parentPanel = textBox.Parent as Grid;
+            TextBlock textBlock = parentPanel.FindName("ItemName") as TextBlock;
+            textBox.Visibility = Visibility.Collapsed;
+            textBlock.Visibility = Visibility.Visible;
 
             textBox.LostFocus -= RenameTextBox_LostFocus;
             textBox.KeyDown -= RenameTextBox_KeyDown;
@@ -986,11 +961,11 @@ namespace Files
             
             if (e.AddedItems.Count > 0)
             {
-                foreach (ListedItem selecteditem in e.AddedItems)
-                {
-                    var clickedlistviewitem = currentLv.ContainerFromItem(selecteditem) as ListViewItem;
-                    try { clickedlistviewitem.Style = DefaultListView; } catch { }
-                }
+                //foreach (ListedItem selecteditem in e.AddedItems)
+                //{
+                ////    var clickedlistviewitem = currentLv.ContainerFromItem(selecteditem) as ListViewItem;
+                //    try { (currentLv.ContainerFromItem(selecteditem) as ListViewItem).Style = DefaultListView; } catch { }
+                //}
                 SelectedItems = e.AddedItems.Cast<ListedItem>().ToList();
             }
         }
