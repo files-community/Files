@@ -172,7 +172,6 @@ namespace Files.Views
                 {
                     // App is not installed from the store or checking for updates failed
                 }
-                
 
                 // Initial setting of SelectedTabItem
                 Frame rootFrame = Window.Current.Content as Frame;
