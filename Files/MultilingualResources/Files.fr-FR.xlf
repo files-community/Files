@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
   <file datatype="xml" source-language="en-US" target-language="fr-FR" original="FILES/STRINGS/EN-US/RESOURCES.RESW" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
     <header>
@@ -1921,6 +1921,22 @@
         <trans-unit id="PropertiesDialogTabDetails.Content" translate="yes" xml:space="preserve">
           <source>Details</source>
           <target state="new">Details</target>
+        </trans-unit>
+        <trans-unit id="UpdateConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+          <source>No</source>
+          <target state="new">No</target>
+        </trans-unit>
+        <trans-unit id="UpdateConsentDialogContent" translate="yes" xml:space="preserve">
+          <source>Do you want to download and install the latest version of Files?</source>
+          <target state="new">Do you want to download and install the latest version of Files?</target>
+        </trans-unit>
+        <trans-unit id="UpdateConsentDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Yes</source>
+          <target state="new">Yes</target>
+        </trans-unit>
+        <trans-unit id="UpdateConsentDialogTitle" translate="yes" xml:space="preserve">
+          <source>Updates Available</source>
+          <target state="new">Updates Available</target>
         </trans-unit>
       </group>
     </body>
