@@ -94,20 +94,10 @@ namespace Files.View_Models.Properties
                 }
             }
 
-            var parentDirectory = AppInstance.FilesystemViewModel.CurrentFolder;
-
-            StorageFolder storageFolder = null;
+            StorageFolder storageFolder;
             try
             {
-                var isItemSelected = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance?.ContentPage?.IsItemSelected ?? true);
-                if (isItemSelected)
-                {
-                    storageFolder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
-                }
-                else if (!parentDirectory.ItemPath.StartsWith(App.AppSettings.RecycleBinPath))
-                {
-                    storageFolder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(parentDirectory.ItemPath);
-                }
+                storageFolder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
             }
             catch (Exception ex)
             {
@@ -124,7 +114,7 @@ namespace Files.View_Models.Properties
                 GetOtherProperties(storageFolder.Properties);
                 GetFolderSize(storageFolder, TokenSource.Token);
             }
-            else if (parentDirectory.ItemPath.StartsWith(App.AppSettings.RecycleBinPath))
+            else if (Item.ItemPath.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
                 // GetFolderFromPathAsync cannot access recyclebin folder
                 if (AppInstance.FilesystemViewModel.Connection != null)
