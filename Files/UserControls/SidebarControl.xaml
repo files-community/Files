@@ -136,7 +136,7 @@
             ItemInvoked="Sidebar_ItemInvoked"
             MenuItemTemplateSelector="{StaticResource NavItemSelector}"
             MenuItemsSource="{x:Bind local3:MainPage.SideBarItems, Mode=OneWay}"
-            OpenPaneLength="500"
+            OpenPaneLength="{x:Bind AppSettings.SidebarWidth.Value, Mode=OneWay}"
             PaneDisplayMode="Left"
             SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <muxc:NavigationView.Resources>

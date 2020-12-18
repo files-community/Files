@@ -162,7 +162,9 @@
         </Grid.ColumnDefinitions>
 
         <Grid>
-            <controls:SidebarControl x:Name="SidebarControl" EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}" />
+            <controls:SidebarControl 
+                x:Name="SidebarControl" 
+                EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}" />
         </Grid>
 
         <Grid Grid.Column="1">
