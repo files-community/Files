@@ -13,6 +13,10 @@ namespace Files.Helpers
     {
         public static async Task<IStorageItem> ToStorageItem(this IStorageItemWithPath item, IShellPage associatedInstance = null)
         {
+            if (item.Item != null)
+            {
+                return item.Item;
+            }
             if (!string.IsNullOrEmpty(item.Path))
             {
                 return (item.ItemType == FilesystemItemType.File) ?
@@ -22,10 +26,6 @@ namespace Files.Helpers
                     (associatedInstance != null ?
                         (IStorageItem)(StorageFolder)await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.Path) :
                         (IStorageItem)(StorageFolder)await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(item.Path)));
-            }
-            if (item.Item != null)
-            {
-                return item.Item;
             }
             return null;
         }

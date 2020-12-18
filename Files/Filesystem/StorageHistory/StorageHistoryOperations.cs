@@ -142,7 +142,7 @@ namespace Files.Filesystem.FilesystemHistory
                         }
                         else
                         {
-                            App.HistoryWrapper.RemoveHistory(history);
+                            App.HistoryWrapper.RemoveHistory(history, true);
                         }
 
                         break;
@@ -270,7 +270,7 @@ namespace Files.Filesystem.FilesystemHistory
 
                         if (returnStatus == ReturnResult.IntegrityCheckFailed) // Not found, corrupted
                         {
-                            App.HistoryWrapper.RemoveHistory(history);
+                            App.HistoryWrapper.RemoveHistory(history, false);
                         }
 
                         break;
@@ -308,7 +308,7 @@ namespace Files.Filesystem.FilesystemHistory
                         }
                         else
                         {
-                            App.HistoryWrapper.RemoveHistory(history);
+                            App.HistoryWrapper.RemoveHistory(history, false);
                         }
 
                         break;

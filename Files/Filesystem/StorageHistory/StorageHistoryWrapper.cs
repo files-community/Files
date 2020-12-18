@@ -32,6 +32,7 @@ namespace Files.Filesystem.FilesystemHistory
             {
                 this.storageHistoryIndex++;
                 this.storageHistory.Insert(this.storageHistoryIndex, history);
+                // If a history item is added also remove all the redo operations after it
                 for (var idx = this.storageHistory.Count - 1; idx > this.storageHistoryIndex; idx--)
                 {
                     this.storageHistory.RemoveAt(idx);
@@ -39,12 +40,19 @@ namespace Files.Filesystem.FilesystemHistory
             }
         }
 
-        public void RemoveHistory(IStorageHistory history)
+        public void RemoveHistory(IStorageHistory history, bool decreaseIndex)
         {
             if (history != null)
             {
-                // Only called inside TryUndo() and TryRedo()
-                // The finally clause at the end takes care to decrement the index
+                // If a history item is invalid also remove all the redo operations after it
+                for (var idx = this.storageHistory.Count - 1; idx > this.storageHistoryIndex; idx--)
+                {
+                    this.storageHistory.RemoveAt(idx);
+                }
+                if (decreaseIndex)
+                {
+                    this.storageHistoryIndex--;
+                }
                 this.storageHistory.Remove(history);
             }
         }

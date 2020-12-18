@@ -168,14 +168,14 @@ namespace Files.Filesystem
                         progress?.Report((float)(itemSize * 100.0f / itemSize));
                     }
 
-                    StorageFolder fsSourceFolderResult = (StorageFolder)await source.ToStorageItem(associatedInstance);
-                    FilesystemResult<StorageFolder> fsDestinationFolderResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
+                    StorageFolder fsSourceFolder = (StorageFolder)await source.ToStorageItem(associatedInstance);
+                    StorageFolder fsDestinationFolder = (StorageFolder)await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
 
-                    if (fsSourceFolderResult != null && fsDestinationFolderResult)
+                    if (fsSourceFolder != null && fsDestinationFolder != null)
                     {
                         FilesystemResult fsCopyResult = await FilesystemTasks.Wrap(async () =>
                         {
-                            return await FilesystemHelpers.CloneDirectoryAsync(fsSourceFolderResult, fsDestinationFolderResult.Result, fsSourceFolderResult.Name);
+                            return await FilesystemHelpers.CloneDirectoryAsync(fsSourceFolder, fsDestinationFolder, fsSourceFolder.Name);
                         })
                         .OnSuccess(t =>
                         {
@@ -484,7 +484,7 @@ namespace Files.Filesystem
                 fsResult = sourceFolder.ErrorCode | destinationFolder.ErrorCode;
                 errorCode?.Report(fsResult);
 
-                if (sourceFolder && destinationFolder)
+                if (fsResult)
                 {
                     fsResult = await FilesystemTasks.Wrap(() =>
                     {
@@ -521,10 +521,13 @@ namespace Files.Filesystem
                 errorCode?.Report(fsResult);
             }
 
-            // Recycle bin also stores a file starting with $I for each item
-            string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I"));
-            await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
-                .OnSuccess(iFile => iFile.DeleteAsync().AsTask());
+            if (fsResult)
+            {
+                // Recycle bin also stores a file starting with $I for each item
+                string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I"));
+                await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
+                    .OnSuccess(iFile => iFile.DeleteAsync().AsTask());
+            }
 
             errorCode?.Report(fsResult);
             if (fsResult != FilesystemErrorCode.ERROR_SUCCESS)
