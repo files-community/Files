@@ -349,7 +349,8 @@ namespace Files.Filesystem
                             { "filepath", source.Path },
                             { "permanently", permanently }
                         });
-                    fsResult = (FilesystemResult)(response.Status == AppServiceResponseStatus.Success);
+                    fsResult = (FilesystemResult)(response.Status == AppServiceResponseStatus.Success
+                        && response.Message.Get("Success", false));
                 }
             }
             else if (fsResult == FilesystemErrorCode.ERROR_INUSE)
