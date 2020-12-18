@@ -330,9 +330,10 @@ namespace Files.Filesystem.FilesystemHistory
 
         #region Private Helpers
 
+        // history.Destination is null with CreateNew
         private bool IsHistoryNull(IStorageHistory history) =>
             !(history.Source.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item.Path))
-                && history.Destination.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item.Path)));
+                && (history.Destination == null || history.Destination.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item.Path))));
 
         private bool IsHistoryNull(IEnumerable<IStorageItemWithPath> source) =>
             !(source.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item.Path)));

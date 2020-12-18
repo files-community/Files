@@ -43,8 +43,9 @@ namespace Files.Filesystem.FilesystemHistory
         {
             if (history != null)
             {
+                // Only called inside TryUndo() and TryRedo()
+                // The finally clause at the end takes care to decrement the index
                 this.storageHistory.Remove(history);
-                this.storageHistoryIndex--;
             }
         }
 
