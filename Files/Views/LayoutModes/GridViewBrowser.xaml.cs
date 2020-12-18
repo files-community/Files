@@ -38,6 +38,11 @@ namespace Files
             FileList.Focus(FocusState.Programmatic);
         }
 
+        public override void FocusFileList()
+        {
+            FileList.Focus(FocusState.Programmatic);
+        }
+
         private void AppSettings_LayoutModeChangeRequested(object sender, EventArgs e)
         {
             SetItemTemplate(); // Set ItemTemplate

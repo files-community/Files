@@ -175,6 +175,11 @@ namespace Files
             AllView.ScrollIntoView(item, null);
         }
 
+        public override void FocusFileList()
+        {
+            AllView.Focus(FocusState.Programmatic);
+        }
+
         public override void FocusSelectedItems()
         {
             AllView.ScrollIntoView(AllView.ItemsSource.Cast<ListedItem>().Last(), null);
