@@ -498,6 +498,12 @@ namespace Files.View_Models
             set => Set(value);
         }
 
+        public bool AreSystemItemsHidden
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
         public bool ListAndSortDirectoriesAlongsideFiles
         {
             get => Get(false);

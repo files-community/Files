@@ -117,9 +117,9 @@ namespace Files.Filesystem.Search
                         var hasNextFile = false;
                         do
                         {
-                            if (((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System)
+                            var itemPath = Path.Combine(WorkingDirectory, findData.cFileName);
+                            if (((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System || !App.AppSettings.AreSystemItemsHidden)
                             {
-                                var itemPath = Path.Combine(WorkingDirectory, findData.cFileName);
                                 if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden)
                                 {
                                     if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
