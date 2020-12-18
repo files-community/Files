@@ -99,7 +99,7 @@
         </trans-unit>
         <trans-unit id="SettingsNavOnStartup.Content" translate="yes" xml:space="preserve">
           <source>On Startup</source>
-          <target state="translated">Po uruchomienu</target>
+          <target state="translated">Po uruchomieniu</target>
         </trans-unit>
         <trans-unit id="SettingsNavPreferences.Content" translate="yes" xml:space="preserve">
           <source>Preferences</source>
