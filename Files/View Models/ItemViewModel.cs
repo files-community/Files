@@ -1201,6 +1201,10 @@ namespace Files.Filesystem
 
         public bool CheckFolderForHiddenAttribute(string path)
         {
+            if (string.IsNullOrEmpty(path))
+            {
+                return false;
+            }
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
             int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
             IntPtr hFileTsk = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
