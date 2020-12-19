@@ -128,14 +128,14 @@ namespace Files.Filesystem
             }
         }
 
-        public async static Task<FilesystemResult<T>> OnSuccess<T>(this Task<FilesystemResult<T>> wrapped, Func<T, Task<T>> func)
+        public async static Task<FilesystemResult<V>> OnSuccess<V,T>(this Task<FilesystemResult<T>> wrapped, Func<T, Task<V>> func)
         {
             var res = await wrapped;
             if (res)
             {
                 return await Wrap(() => func(res.Result));
             }
-            return res;
+            return new FilesystemResult<V>(default, res.ErrorCode);
         }
 
         public async static Task<FilesystemResult> OnSuccess<T>(this Task<FilesystemResult<T>> wrapped, Func<T, Task> func)

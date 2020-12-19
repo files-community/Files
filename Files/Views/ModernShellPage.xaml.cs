@@ -974,9 +974,11 @@ namespace Files.Views.Pages
                     {
                         var addItemDialog = new AddItemDialog();
                         await addItemDialog.ShowAsync();
-                        if (addItemDialog.ResultType != AddItemType.Cancel)
+                        if (addItemDialog.ResultType.ItemType != AddItemType.Cancel)
                         {
-                            InteractionOperations.CreateFileFromDialogResultType(addItemDialog.ResultType);
+                            InteractionOperations.CreateFileFromDialogResultType(
+                                addItemDialog.ResultType.ItemType,
+                                addItemDialog.ResultType.ItemInfo);
                         }
                     }
                     break;
