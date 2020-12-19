@@ -1174,7 +1174,7 @@ namespace Files.Interacts
 
             // Create file based on dialog result
             string userInput = renameDialog.storedRenameInput;
-            var folderRes = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(currentPath);
+            var folderRes = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(currentPath);
             FilesystemResult created = folderRes;
             if (folderRes)
             {

@@ -54,7 +54,7 @@ namespace Files.Filesystem
                 {
                     case FilesystemItemType.File:
                         {
-                            StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(Path.GetDirectoryName(source.Path));
+                            StorageFolder folder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(source.Path));
                             await folder.CreateFileAsync(Path.GetFileName(source.Path));
 
                             break;
@@ -62,7 +62,7 @@ namespace Files.Filesystem
 
                     case FilesystemItemType.Directory:
                         {
-                            StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(Path.GetDirectoryName(source.Path));
+                            StorageFolder folder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(source.Path));
                             await folder.CreateFolderAsync(Path.GetFileName(source.Path));
 
                             break;
