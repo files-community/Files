@@ -288,12 +288,6 @@
   <data name="NewFolder" xml:space="preserve">
     <value>תיקיה חדשה</value>
   </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>‏‏‫מסמך טקסט ‫חדש</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>‏‏‫תמונת מפת ‫סיביות ‫חדשה</value>
-  </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>‏‏תיקיה זו ריקה.</value>
   </data>

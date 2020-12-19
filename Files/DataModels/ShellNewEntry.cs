@@ -35,7 +35,7 @@ namespace Files.DataModels
             }
             if (Template == null)
             {
-                createdFile = await FilesystemTasks.Wrap(() => parentFolder.CreateFileAsync(fileName).AsTask());
+                createdFile = await FilesystemTasks.Wrap(() => parentFolder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName).AsTask());
             }
             else
             {

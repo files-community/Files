@@ -466,14 +466,6 @@
           <source>New Folder</source>
           <target state="translated">新しいフォルダ</target>
         </trans-unit>
-        <trans-unit id="NewTextDocument" translate="yes" xml:space="preserve">
-          <source>New Text Document</source>
-          <target state="translated">新しいテキスト文書</target>
-        </trans-unit>
-        <trans-unit id="NewBitmapImage" translate="yes" xml:space="preserve">
-          <source>New Bitmap Image</source>
-          <target state="translated">新しいビットマップ</target>
-        </trans-unit>
         <trans-unit id="EmptyFolder.Text" translate="yes" xml:space="preserve">
           <source>This folder is empty.</source>
           <target state="translated">フォルダは空です。</target>
@@ -1925,6 +1917,10 @@
         <trans-unit id="AddDialogListFileSubHeader" translate="yes" xml:space="preserve">
           <source>Creates an empty file</source>
           <target state="new">Creates an empty file</target>
+        </trans-unit>
+        <trans-unit id="NewFile" translate="yes" xml:space="preserve">
+          <source>New File</source>
+          <target state="new">New File</target>
         </trans-unit>
       </group>
     </body>

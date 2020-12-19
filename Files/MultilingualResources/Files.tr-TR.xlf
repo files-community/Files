@@ -409,14 +409,6 @@
           <source>New Folder</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Yeni Klasör</target>
         </trans-unit>
-        <trans-unit id="NewTextDocument" translate="yes" xml:space="preserve">
-          <source>New Text Document</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Yeni Metin Belgesi</target>
-        </trans-unit>
-        <trans-unit id="NewBitmapImage" translate="yes" xml:space="preserve">
-          <source>New Bitmap Image</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Yeni Bit Eşlem Resmi</target>
-        </trans-unit>
         <trans-unit id="EmptyFolder.Text" translate="yes" xml:space="preserve">
           <source>This folder is empty.</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Bu klasör boş.</target>
@@ -1932,6 +1924,10 @@
         <trans-unit id="AddDialogListFileSubHeader" translate="yes" xml:space="preserve">
           <source>Creates an empty file</source>
           <target state="new">Creates an empty file</target>
+        </trans-unit>
+        <trans-unit id="NewFile" translate="yes" xml:space="preserve">
+          <source>New File</source>
+          <target state="new">New File</target>
         </trans-unit>
       </group>
     </body>

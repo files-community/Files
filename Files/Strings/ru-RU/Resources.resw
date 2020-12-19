@@ -306,12 +306,6 @@
   <data name="NewFolder" xml:space="preserve">
     <value>Новая папка</value>
   </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>Новый текстовый документ</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>Рисунок</value>
-  </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Эта папка пуста.</value>
   </data>

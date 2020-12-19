@@ -468,14 +468,6 @@
           <source>New Folder</source>
           <target state="translated">புதியக் கோப்புறை</target>
         </trans-unit>
-        <trans-unit id="NewTextDocument" translate="yes" xml:space="preserve">
-          <source>New Text Document</source>
-          <target state="translated">புதிய உரை ஆவணம்</target>
-        </trans-unit>
-        <trans-unit id="NewBitmapImage" translate="yes" xml:space="preserve">
-          <source>New Bitmap Image</source>
-          <target state="translated">புதிய பிட் வரைபடப் படிமம்</target>
-        </trans-unit>
         <trans-unit id="EmptyFolder.Text" translate="yes" xml:space="preserve">
           <source>This folder is empty.</source>
           <target state="translated">இந்தக் கோப்புறை வெறுமையாக உள்ளது</target>
@@ -1930,6 +1922,10 @@
         <trans-unit id="AddDialogListFileSubHeader" translate="yes" xml:space="preserve">
           <source>Creates an empty file</source>
           <target state="new">Creates an empty file</target>
+        </trans-unit>
+        <trans-unit id="NewFile" translate="yes" xml:space="preserve">
+          <source>New File</source>
+          <target state="new">New File</target>
         </trans-unit>
       </group>
     </body>

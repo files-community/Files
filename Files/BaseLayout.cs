@@ -516,19 +516,32 @@ namespace Files
                 var separatorIndex = newItemMenu.Items.IndexOf(newItemMenu.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
                 foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))
                 {
-                    BitmapImage image = null;
+                    MenuFlyoutItem menuLayoutItem;
                     if (newEntry.Icon != null)
                     {
+                        BitmapImage image = null;
                         image = new BitmapImage();
 #pragma warning disable CS4014
                         image.SetSourceAsync(newEntry.Icon);
 #pragma warning restore CS4014
+                        menuLayoutItem = new MenuFlyoutItemWithImage()
+                        {
+                            Text = newEntry.Name,
+                            BitmapIcon = image
+                        };
                     }
-                    var menuLayoutItem = new MenuFlyoutItemWithImage()
+                    else
                     {
-                        Text = newEntry.Name,
-                        BitmapIcon = image
-                    };
+                        menuLayoutItem = new MenuFlyoutItem()
+                        {
+                            Text = newEntry.Name,
+                            Icon = new FontIcon()
+                            {
+                                FontFamily = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
+                                Glyph = "\xea00"
+                            }
+                        };
+                    }
                     menuLayoutItem.Click += new RoutedEventHandler((s, e) =>
                     {
                         ParentShellPageInstance.InteractionOperations.CreateFileFromDialogResultType(Dialogs.AddItemType.File, newEntry);

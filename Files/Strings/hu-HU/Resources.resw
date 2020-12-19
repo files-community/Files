@@ -375,12 +375,6 @@
   <data name="NewFolder" xml:space="preserve">
     <value>Új Mappa</value>
   </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>Új Szöveges Dokumentum</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>Új Bitmap Kép</value>
-  </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Üres mappa.</value>
   </data>

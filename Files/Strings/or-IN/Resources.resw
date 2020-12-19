@@ -363,12 +363,6 @@
   <data name="NewFolder" xml:space="preserve">
     <value>ନୂତନ ଫୋଲ୍ଡର</value>
   </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>ନୂତନ ପାଠ୍ୟ ଦସ୍ତାବେଜ</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>ନୂତନ ବିଟମ୍ୟାପ୍ ପ୍ରତିଛବି</value>
-  </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>ଏହି ଫୋଲ୍ଡରଟି ଖାଲି ଅଛି |</value>
   </data>

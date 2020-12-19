@@ -309,12 +309,6 @@
   <data name="NewFolder" xml:space="preserve">
     <value>新增資料夾</value>
   </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>新增文字文件</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>新增 Bitmap 點陣圖</value>
-  </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>該資料夾為空。</value>
   </data>

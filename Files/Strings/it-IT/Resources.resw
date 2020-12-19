@@ -339,12 +339,6 @@
   <data name="NewFolder" xml:space="preserve">
     <value>Nuova cartella</value>
   </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>Nuovo documento di testo</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>Nuova immagine bitmap</value>
-  </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Questa cartella è vuota</value>
   </data>
@@ -1439,5 +1433,8 @@
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Crea un file vuoto</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>Nuovo File</value>
   </data>
 </root>

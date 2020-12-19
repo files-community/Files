@@ -357,12 +357,6 @@
   <data name="NewFolder" xml:space="preserve">
     <value>新しいフォルダ</value>
   </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>新しいテキスト文書</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>新しいビットマップ</value>
-  </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>フォルダは空です。</value>
   </data>

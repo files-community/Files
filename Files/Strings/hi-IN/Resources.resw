@@ -363,12 +363,6 @@
   <data name="NewFolder" xml:space="preserve">
     <value>नया फ़ोल्डर</value>
   </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>नया लिखित दस्तावेज़</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>नई बिटमैप छवि</value>
-  </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>यह फोल्डर खाली है।</value>
   </data>

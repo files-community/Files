@@ -297,12 +297,6 @@
   <data name="NewFolder" xml:space="preserve">
     <value>Yeni Klasör</value>
   </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>Yeni Metin Belgesi</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>Yeni Bit Eşlem Resmi</value>
-  </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Bu klasör boş.</value>
   </data>

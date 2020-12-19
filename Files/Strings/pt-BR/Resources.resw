@@ -363,12 +363,6 @@
   <data name="NewFolder" xml:space="preserve">
     <value>Nova pasta</value>
   </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>Novo Documento de Texto</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>Nova Imagem de Bitmap</value>
-  </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Esta pasta está vazia.</value>
   </data>

@@ -1192,11 +1192,11 @@ namespace Files.Interacts
                         break;
 
                     case AddItemType.File:
-                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo.Name;
+                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo?.Name ?? "NewFile".GetLocalized();
                         created = await FilesystemTasks.Wrap(async () =>
                         {
                             return await FilesystemHelpers.CreateAsync(
-                                new PathWithType(Path.Combine(folderRes.Result.Path, userInput + itemInfo.Extension), FilesystemItemType.File),
+                                new PathWithType(Path.Combine(folderRes.Result.Path, userInput + itemInfo?.Extension), FilesystemItemType.File),
                                 true);
                         });
                         break;

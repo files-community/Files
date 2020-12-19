@@ -309,12 +309,6 @@
   <data name="NewFolder" xml:space="preserve">
     <value>Neuer Ordner</value>
   </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>Neues Textdokument</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>Neues Bitmap Bild</value>
-  </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Dieser Ordner ist leer.</value>
   </data>
