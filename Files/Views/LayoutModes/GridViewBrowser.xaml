@@ -161,36 +161,6 @@
                         IsEnabled="False"
                         Modifiers="Control,Shift" />
                 </MenuFlyoutSubItem.KeyboardAccelerators>
-                <MenuFlyoutItem
-                    x:Name="NewFolder"
-                    x:Uid="BaseLayoutContextFlyoutNewFolder"
-                    Command="{x:Bind ParentShellPageInstance.InteractionOperations.CreateNewFolder}"
-                    Text="Folder">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea55;" />
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>
-                <MenuFlyoutSeparator />
-                <MenuFlyoutItem
-                    x:Name="NewBitmapImage"
-                    x:Uid="BaseLayoutContextFlyoutNewBitmapImage"
-                    Command="{x:Bind ParentShellPageInstance.InteractionOperations.CreateNewBitmapImage}"
-                    IsEnabled="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
-                    Text="Bitmap Image">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea83;" />
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>
-                <MenuFlyoutItem
-                    x:Name="NewTextDocument"
-                    x:Uid="BaseLayoutContextFlyoutNewTextDocument"
-                    Command="{x:Bind ParentShellPageInstance.InteractionOperations.CreateNewTextDocument}"
-                    IsEnabled="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
-                    Text="Text Document">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea00;" />
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>
             </MenuFlyoutSubItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem

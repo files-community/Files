@@ -27,23 +27,16 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Viewbox
-                                x:Name="IconRoot"
-                                Width="16"
-                                Height="16"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Visibility="Collapsed">
-                                <ContentPresenter x:Name="IconContent" Content="{TemplateBinding Icon}" />
-                            </Viewbox>
                             <Image
+                                x:Name="IconRoot"
                                 Width="16"
                                 Height="16"
                                 Margin="0"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 Source="{TemplateBinding BitmapIcon}"
-                                Stretch="Uniform" />
+                                Stretch="Uniform"
+                                Visibility="Collapsed" />
                             <TextBlock
                                 x:Name="TextBlock"
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -115,24 +108,9 @@
                                 </VisualStateGroup>
                                 <VisualStateGroup x:Name="CheckPlaceholderStates">
                                     <VisualState x:Name="NoPlaceholder" />
-                                    <VisualState x:Name="CheckPlaceholder">
-                                        <VisualState.Setters>
-                                            <Setter Target="TextBlock.Margin" Value="{ThemeResource MenuFlyoutItemPlaceholderThemeThickness}" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="IconPlaceholder">
-                                        <VisualState.Setters>
-                                            <Setter Target="TextBlock.Margin" Value="{ThemeResource MenuFlyoutItemPlaceholderThemeThickness}" />
-                                            <Setter Target="IconRoot.Visibility" Value="Visible" />
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="CheckAndIconPlaceholder">
-                                        <VisualState.Setters>
-                                            <Setter Target="TextBlock.Margin" Value="{ThemeResource MenuFlyoutItemDoublePlaceholderThemeThickness}" />
-                                            <Setter Target="IconRoot.Margin" Value="{ThemeResource MenuFlyoutItemPlaceholderThemeThickness}" />
-                                            <Setter Target="IconRoot.Visibility" Value="Visible" />
-                                        </VisualState.Setters>
-                                    </VisualState>
+                                    <VisualState x:Name="CheckPlaceholder" />
+                                    <VisualState x:Name="IconPlaceholder" />
+                                    <VisualState x:Name="CheckAndIconPlaceholder" />
                                 </VisualStateGroup>
                                 <VisualStateGroup x:Name="PaddingSizeStates">
                                     <VisualState x:Name="DefaultPadding" />
@@ -150,6 +128,15 @@
                                     <VisualState x:Name="KeyboardAcceleratorTextVisible">
                                         <VisualState.Setters>
                                             <Setter Target="KeyboardAcceleratorTextBlock.Visibility" Value="Visible" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="IconStates">
+                                    <VisualState x:Name="IconCollapsed" />
+                                    <VisualState x:Name="IconVisible">
+                                        <VisualState.Setters>
+                                            <Setter Target="TextBlock.Margin" Value="{ThemeResource MenuFlyoutItemPlaceholderThemeThickness}" />
+                                            <Setter Target="IconRoot.Visibility" Value="Visible" />
                                         </VisualState.Setters>
                                     </VisualState>
                                 </VisualStateGroup>

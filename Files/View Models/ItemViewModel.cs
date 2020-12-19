@@ -696,7 +696,8 @@ namespace Files.Filesystem
             if (Connection != null)
             {
                 var value = new ValueSet();
-                value.Add("Arguments", "GetIconOverlay");
+                value.Add("Arguments", "FileOperation");
+                value.Add("fileop", "GetIconOverlay");
                 value.Add("filePath", filePath);
                 value.Add("thumbnailSize", (int)thumbnailSize);
                 var response = await Connection.SendMessageAsync(value);

@@ -27,6 +27,7 @@ namespace Files.Common
         public int ID { get; set; } // Valid only in current menu to invoke item
         public string Label { get; set; }
         public string CommandString { get; set; }
+        public string InvariantName { get; set; }
         public MenuItemType Type { get; set; }
         public List<Win32ContextMenuItem> SubItems { get; set; }
     }

@@ -259,36 +259,8 @@ namespace FilesFullTrust
                     process.Start();
                     break;
 
-                case "LoadContextMenu":
-                    var contextMenuResponse = new ValueSet();
-                    var loadThreadWithMessageQueue = new Win32API.ThreadWithMessageQueue<ValueSet>(HandleMenuMessage);
-                    var cMenuLoad = await loadThreadWithMessageQueue.PostMessageAsync<Win32API.ContextMenu>(args.Request.Message);
-                    contextMenuResponse.Add("Handle", handleTable.AddValue(loadThreadWithMessageQueue));
-                    contextMenuResponse.Add("ContextMenu", JsonConvert.SerializeObject(cMenuLoad));
-                    await args.Request.SendResponseAsync(contextMenuResponse);
-                    break;
-
-                case "ExecAndCloseContextMenu":
-                    var menuKey = (string)args.Request.Message["Handle"];
-                    var execThreadWithMessageQueue = handleTable.GetValue<Win32API.ThreadWithMessageQueue<ValueSet>>(menuKey);
-                    if (execThreadWithMessageQueue != null)
-                    {
-                        await execThreadWithMessageQueue.PostMessage(args.Request.Message);
-                    }
-                    // The following line is needed to cleanup resources when menu is closed.
-                    // Unfortunately if you uncomment it some menu items will randomly stop working.
-                    // Resource cleanup is currently done on app closing,
-                    // if we find a solution for the issue above, we should cleanup as soon as a menu is closed.
-                    //handleTable.RemoveValue(menuKey);
-                    break;
-
-                case "InvokeVerb":
-                    var filePath = (string)args.Request.Message["FilePath"];
-                    var split = filePath.Split('|').Where(x => !string.IsNullOrWhiteSpace(x));
-                    using (var cMenu = Win32API.ContextMenu.GetContextMenuForFiles(split.ToArray(), Shell32.CMF.CMF_DEFAULTONLY))
-                    {
-                        cMenu?.InvokeVerb((string)args.Request.Message["Verb"]);
-                    }
+                case "MenuAction":
+                    await parseContextMenuAction(args, arguments);
                     break;
 
                 case "Bitlocker":
@@ -312,18 +284,6 @@ namespace FilesFullTrust
                     await ParseFileOperationAsync(args);
                     break;
 
-                case "GetIconOverlay":
-                    var fileIconPath = (string)args.Request.Message["filePath"];
-                    var thumbnailSize = (int)args.Request.Message["thumbnailSize"];
-                    var iconOverlay = Win32API.GetFileIconAndOverlay(fileIconPath, thumbnailSize);
-                    await args.Request.SendResponseAsync(new ValueSet()
-                    {
-                        { "Icon", iconOverlay.icon },
-                        { "Overlay", iconOverlay.overlay },
-                        { "HasCustomIcon", iconOverlay.isCustom }
-                    });
-                    break;
-
                 default:
                     if (args.Request.Message.ContainsKey("Application"))
                     {
@@ -341,16 +301,22 @@ namespace FilesFullTrust
 
         private static object HandleMenuMessage(ValueSet message, Win32API.DisposableDictionary table)
         {
-            switch ((string)message["Arguments"])
+            switch ((string)message["menuop"])
             {
                 case "LoadContextMenu":
                     var contextMenuResponse = new ValueSet();
                     var filePath = (string)message["FilePath"];
                     var extendedMenu = (bool)message["ExtendedMenu"];
+                    var emptySpaceMenu = (bool)message["EmptySpaceMenu"];
                     var showOpenMenu = (bool)message["ShowOpenMenu"];
                     var split = filePath.Split('|').Where(x => !string.IsNullOrWhiteSpace(x));
-                    var cMenuLoad = Win32API.ContextMenu.GetContextMenuForFiles(split.ToArray(),
-                        (extendedMenu ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL) | Shell32.CMF.CMF_SYNCCASCADEMENU, FilterMenuItems(showOpenMenu));
+                    var cMenuLoad = emptySpaceMenu ?
+                        Win32API.ContextMenu.GetContextMenuForFolder(split.Single(),
+                            (extendedMenu ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL) | Shell32.CMF.CMF_SYNCCASCADEMENU,
+                            FilterMenuItems(false)) :
+                        Win32API.ContextMenu.GetContextMenuForFiles(split.ToArray(),
+                            (extendedMenu ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL) | Shell32.CMF.CMF_SYNCCASCADEMENU,
+                            FilterMenuItems(showOpenMenu));
                     table.SetValue("MENU", cMenuLoad);
                     return cMenuLoad;
 
@@ -382,23 +348,25 @@ namespace FilesFullTrust
             }
         }
 
-        private static Func<string, bool> FilterMenuItems(bool showOpenMenu)
+        private static Func<Win32ContextMenuItem, bool> FilterMenuItems(bool showOpenMenu)
         {
-            var knownItems = new List<string>()
+            var excludeVerbs = new List<string>()
             {
                 "opennew", "openas", "opencontaining", "opennewprocess",
                 "runas", "runasuser", "pintohome", "PinToStartScreen",
-                "cut", "copy", "paste", "delete", "properties", "link",
+                "cut", "copy", "paste", "pastelink", "delete", "properties", "link",
                 "Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
-                "eject",
-                Win32API.ExtractStringFromDLL("shell32.dll", 30312), // SendTo menu
-                Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
+                "eject", "view", "arrange", "groupby", "refresh", "undo", "redo", "viewcustomwizard",
             };
 
-            bool filterMenuItemsImpl(string menuItem)
+            var excludeNames = new List<string>() {
+                "sendto", "addtocollection"
+            };
+
+            bool filterMenuItemsImpl(Win32ContextMenuItem menuItem)
             {
-                return string.IsNullOrEmpty(menuItem) ? false : knownItems.Contains(menuItem)
-                    || (!showOpenMenu && menuItem.Equals("open", StringComparison.OrdinalIgnoreCase));
+                return excludeVerbs.Contains(menuItem.CommandString) || excludeNames.Contains(menuItem.InvariantName)
+                    || (!showOpenMenu && menuItem.CommandString == "open");
             }
 
             return filterMenuItemsImpl;
@@ -539,6 +507,58 @@ namespace FilesFullTrust
                             (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Save(linkSavePath, false); // Overwrite if exists
                             return true;
                         });
+                    }
+                    break;
+
+                case "GetIconOverlay":
+                    var fileIconPath = (string)args.Request.Message["filePath"];
+                    var thumbnailSize = (int)args.Request.Message["thumbnailSize"];
+                    var iconOverlay = Win32API.GetFileIconAndOverlay(fileIconPath, thumbnailSize);
+                    await args.Request.SendResponseAsync(new ValueSet()
+                    {
+                        { "Icon", iconOverlay.icon },
+                        { "Overlay", iconOverlay.overlay },
+                        { "HasCustomIcon", iconOverlay.isCustom }
+                    });
+                    break;
+            }
+        }
+
+        private static async Task parseContextMenuAction(AppServiceRequestReceivedEventArgs args, string argument)
+        {
+            var menuOp = (string)args.Request.Message["menuop"];
+
+            switch (menuOp)
+            {
+                case "LoadContextMenu":
+                    var contextMenuResponse = new ValueSet();
+                    var loadThreadWithMessageQueue = new Win32API.ThreadWithMessageQueue<ValueSet>(HandleMenuMessage);
+                    var cMenuLoad = await loadThreadWithMessageQueue.PostMessageAsync<Win32API.ContextMenu>(args.Request.Message);
+                    contextMenuResponse.Add("Handle", handleTable.AddValue(loadThreadWithMessageQueue));
+                    contextMenuResponse.Add("ContextMenu", JsonConvert.SerializeObject(cMenuLoad));
+                    await args.Request.SendResponseAsync(contextMenuResponse);
+                    break;
+
+                case "ExecAndCloseContextMenu":
+                    var menuKey = (string)args.Request.Message["Handle"];
+                    var execThreadWithMessageQueue = handleTable.GetValue<Win32API.ThreadWithMessageQueue<ValueSet>>(menuKey);
+                    if (execThreadWithMessageQueue != null)
+                    {
+                        await execThreadWithMessageQueue.PostMessage(args.Request.Message);
+                    }
+                    // The following line is needed to cleanup resources when menu is closed.
+                    // Unfortunately if you uncomment it some menu items will randomly stop working.
+                    // Resource cleanup is currently done on app closing,
+                    // if we find a solution for the issue above, we should cleanup as soon as a menu is closed.
+                    //handleTable.RemoveValue(menuKey);
+                    break;
+
+                case "InvokeVerb":
+                    var filePath = (string)args.Request.Message["FilePath"];
+                    var split = filePath.Split('|').Where(x => !string.IsNullOrWhiteSpace(x));
+                    using (var cMenu = Win32API.ContextMenu.GetContextMenuForFiles(split.ToArray(), Shell32.CMF.CMF_DEFAULTONLY))
+                    {
+                        cMenu?.InvokeVerb((string)args.Request.Message["Verb"]);
                     }
                     break;
             }
