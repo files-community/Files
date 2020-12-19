@@ -177,12 +177,6 @@
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Map</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
-    <value>Bitmapafbeelding</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewTextDocument.Text" xml:space="preserve">
-    <value>Tekstdocument</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Eigenschappen</value>
   </data>
@@ -840,14 +834,8 @@
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
     <value>Annuleren</value>
   </data>
-  <data name="AddDialogListBitmapHeader" xml:space="preserve">
-    <value>Bitmapafbeelding</value>
-  </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>Map</value>
-  </data>
-  <data name="AddDialogListTextFileHeader" xml:space="preserve">
-    <value>Tekstdocument</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Lay-outmodus</value>

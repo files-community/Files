@@ -165,41 +165,22 @@ namespace Files.UserControls
             }
         }
 
-        public static readonly DependencyProperty NewDocumentInvokedCommandProperty = DependencyProperty.Register(
-          "NewDocumentInvokedCommand",
+        public static readonly DependencyProperty NewFileInvokedCommandProperty = DependencyProperty.Register(
+          "NewFileInvokedCommand",
           typeof(ICommand),
           typeof(NavigationToolbar),
           new PropertyMetadata(null)
         );
 
-        public ICommand NewDocumentInvokedCommand
+        public ICommand NewFileInvokedCommand
         {
             get
             {
-                return (ICommand)GetValue(NewDocumentInvokedCommandProperty);
+                return (ICommand)GetValue(NewFileInvokedCommandProperty);
             }
             set
             {
-                SetValue(NewDocumentInvokedCommandProperty, value);
-            }
-        }
-
-        public static readonly DependencyProperty NewImageInvokedCommandProperty = DependencyProperty.Register(
-          "NewImageInvokedCommand",
-          typeof(ICommand),
-          typeof(NavigationToolbar),
-          new PropertyMetadata(null)
-        );
-
-        public ICommand NewImageInvokedCommand
-        {
-            get
-            {
-                return (ICommand)GetValue(NewImageInvokedCommandProperty);
-            }
-            set
-            {
-                SetValue(NewImageInvokedCommandProperty, value);
+                SetValue(NewFileInvokedCommandProperty, value);
             }
         }
 

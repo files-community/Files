@@ -1,3 +1,4 @@
+using Files.DataModels;
 using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
@@ -1156,7 +1157,7 @@ namespace Files.Interacts
             AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
         }
 
-        public async void CreateFileFromDialogResultType(AddItemType itemType, RegistryHelper.ShellNewEntry itemInfo)
+        public async void CreateFileFromDialogResultType(AddItemType itemType, ShellNewEntry itemInfo)
         {
             string currentPath = null;
             if (AssociatedInstance.ContentPage != null)
@@ -1191,7 +1192,6 @@ namespace Files.Interacts
                         break;
 
                     case AddItemType.File:
-                    case AddItemType.Shortcut:
                         userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo.Name;
                         created = await FilesystemTasks.Wrap(async () =>
                         {
@@ -1209,22 +1209,16 @@ namespace Files.Interacts
         }
 
         public RelayCommand CreateNewFolder => new RelayCommand(() => NewFolder());
-        public RelayCommand CreateNewTextDocument => new RelayCommand(() => NewTextDocument());
-        public RelayCommand CreateNewBitmapImage => new RelayCommand(() => NewBitmapImage());
+        public RelayCommand CreateNewGenericFile => new RelayCommand(() => NewGenericFile());
 
         private void NewFolder()
         {
             CreateFileFromDialogResultType(AddItemType.Folder, null);
         }
 
-        private void NewTextDocument()
+        private void NewGenericFile()
         {
-            
-        }
-
-        private void NewBitmapImage()
-        {
-            
+            CreateFileFromDialogResultType(AddItemType.File, null);
         }
 
         public RelayCommand SelectAllContentPageItems => new RelayCommand(() => SelectAllItems());

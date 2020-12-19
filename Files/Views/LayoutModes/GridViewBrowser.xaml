@@ -170,23 +170,14 @@
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea55;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-                <MenuFlyoutSeparator />
+                <MenuFlyoutSeparator x:Name="NewMenuFileFolderSeparator"/>
                 <MenuFlyoutItem
-                    x:Name="NewBitmapImage"
-                    x:Uid="BaseLayoutContextFlyoutNewBitmapImage"
-                    Command="{x:Bind ParentShellPageInstance.InteractionOperations.CreateNewBitmapImage}"
+                    x:Name="NewFile"
+                    x:Uid="BaseLayoutContextFlyoutNewFile"
+                    Command="{x:Bind ParentShellPageInstance.InteractionOperations.CreateNewGenericFile}"
+                    CommandParameter="{x:Null}"
                     IsEnabled="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
-                    Text="Bitmap Image">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea83;" />
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>
-                <MenuFlyoutItem
-                    x:Name="NewTextDocument"
-                    x:Uid="BaseLayoutContextFlyoutNewTextDocument"
-                    Command="{x:Bind ParentShellPageInstance.InteractionOperations.CreateNewTextDocument}"
-                    IsEnabled="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
-                    Text="Text Document">
+                    Text="File">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea00;" />
                     </MenuFlyoutItem.Icon>

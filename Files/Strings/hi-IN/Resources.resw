@@ -273,12 +273,6 @@
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>फ़ोल्डर</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
-    <value>बिटमैप चित्र</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewTextDocument.Text" xml:space="preserve">
-    <value>लेख दस्तावेज़</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>गुण</value>
   </data>
@@ -807,14 +801,8 @@
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
     <value>रद्द करें</value>
   </data>
-  <data name="AddDialogListBitmapHeader" xml:space="preserve">
-    <value>बिटमैप छवि</value>
-  </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>फ़ोल्डर</value>
-  </data>
-  <data name="AddDialogListTextFileHeader" xml:space="preserve">
-    <value>पाठ दस्तावेज़</value>
   </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>आगे नेविगेट करें</value>

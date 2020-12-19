@@ -1,4 +1,5 @@
-﻿using Files.Helpers;
+﻿using Files.DataModels;
+using Files.Helpers;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -44,8 +45,7 @@ namespace Files.Dialogs
                     IsItemEnabled = true,
                     ItemType = new AddItemResult()
                     {
-                        ItemType = new string[] { ".lnk", ".url" }.Contains(itemType.Extension) ?
-                            AddItemType.Shortcut : AddItemType.File,
+                        ItemType = AddItemType.File,
                         ItemInfo = itemType
                     }
                 });
@@ -53,14 +53,14 @@ namespace Files.Dialogs
 
             AddItemsList.Add(new AddListItem
             {
-                Header = "File",
-                SubHeader = "Generic empty file",
+                Header = "AddDialogListFileHeader".GetLocalized(),
+                SubHeader = "AddDialogListFileSubHeader".GetLocalized(),
                 Icon = "\xE8A5",
                 IsItemEnabled = true,
                 ItemType = new AddItemResult()
                 {
                     ItemType = AddItemType.File,
-                    ItemInfo = new RegistryHelper.ShellNewEntry()
+                    ItemInfo = new ShellNewEntry()
                 }
             });
         }
@@ -76,14 +76,13 @@ namespace Files.Dialogs
     {
         Folder,
         File,
-        Shortcut,
         Cancel
     }
 
     public class AddItemResult
     {
         public AddItemType ItemType { get; set; }
-        public RegistryHelper.ShellNewEntry ItemInfo { get; set; }
+        public ShellNewEntry ItemInfo { get; set; }
     }
 
     public class AddListItem

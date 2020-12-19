@@ -396,11 +396,8 @@
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Folder</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
-    <value>Bitmap Image</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewTextDocument.Text" xml:space="preserve">
-    <value>Text Document</value>
+  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
+    <value>File</value>
   </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Properties</value>
@@ -1026,23 +1023,17 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Choose a type for this new item below</value>
   </data>
-  <data name="AddDialogListBitmapHeader" xml:space="preserve">
-    <value>Bitmap Image</value>
+  <data name="AddDialogListFileHeader" xml:space="preserve">
+    <value>File</value>
   </data>
-  <data name="AddDialogListBitmapSubHeader" xml:space="preserve">
-    <value>Creates an empty bitmap image file</value>
+  <data name="AddDialogListFileSubHeader" xml:space="preserve">
+    <value>Creates an empty file</value>
   </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>Folder</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Creates an empty folder</value>
-  </data>
-  <data name="AddDialogListTextFileHeader" xml:space="preserve">
-    <value>Text Document</value>
-  </data>
-  <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
-    <value>Creates an empty text file</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Layout mode</value>

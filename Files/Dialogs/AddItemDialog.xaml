@@ -17,42 +17,46 @@
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Vertical" Spacing="25">
+    <Grid RowSpacing="25">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <Grid x:Name="SubtitleArea">
             <TextBlock
                 x:Name="Description"
                 x:Uid="AddDialogDescription"
                 Text="Choose a type for this new item below" />
         </Grid>
-        <Grid x:Name="SelectionListContent" HorizontalAlignment="Stretch">
-            <StackPanel>
-                <ListView
-                    x:Name="AddItemsListView"
-                    Width="400"
-                    IsItemClickEnabled="True"
-                    ItemClick="ListView_ItemClick"
-                    ItemsSource="{x:Bind AddItemsList}"
-                    SelectionMode="None">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="local:AddListItem">
-                            <Grid Height="50">
-                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                                    <TextBlock
+        <Grid x:Name="SelectionListContent"
+              Grid.Row="1"
+              HorizontalAlignment="Stretch">
+            <ListView
+                x:Name="AddItemsListView"
+                Width="400"
+                IsItemClickEnabled="True"
+                ItemClick="ListView_ItemClick"
+                ItemsSource="{x:Bind AddItemsList}"
+                SelectionMode="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="local:AddListItem">
+                        <Grid Height="50">
+                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                <TextBlock
                                         Margin="0,0,10,0"
                                         VerticalAlignment="Center"
                                         FontFamily="Segoe MDL2 Assets"
                                         FontSize="28"
                                         Text="{x:Bind Icon}" />
-                                    <StackPanel>
-                                        <TextBlock Text="{x:Bind Header}" />
-                                        <TextBlock Foreground="Gray" Text="{x:Bind SubHeader}" />
-                                    </StackPanel>
+                                <StackPanel>
+                                    <TextBlock Text="{x:Bind Header}" />
+                                    <TextBlock Foreground="Gray" Text="{x:Bind SubHeader}" />
                                 </StackPanel>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </Grid>
-    </StackPanel>
+    </Grid>
 </ContentDialog>

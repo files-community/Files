@@ -285,12 +285,6 @@
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Mappa</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
-    <value>Bitmap Kép</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewTextDocument.Text" xml:space="preserve">
-    <value>Szöveges Dokumentum</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Tulajdonságok</value>
   </data>
@@ -909,23 +903,11 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Válasszon fájltípust az alábbiak közűl</value>
   </data>
-  <data name="AddDialogListBitmapHeader" xml:space="preserve">
-    <value>Bitmap Kép</value>
-  </data>
-  <data name="AddDialogListBitmapSubHeader" xml:space="preserve">
-    <value>Új bitmap kép készítése</value>
-  </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>Mappa</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Új mappa készítése</value>
-  </data>
-  <data name="AddDialogListTextFileHeader" xml:space="preserve">
-    <value>Szöveges Dokumentum</value>
-  </data>
-  <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
-    <value>Új szöveges dokumentum készítése</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Elrendezés</value>
@@ -1224,6 +1206,9 @@
   <data name="PropertyYear" xml:space="preserve">
     <value>Év</value>
   </data>
+  <data name="PropertyContributor" xml:space="preserve">
+    <value>Közreműködő</value>
+  </data>
   <data name="PropertyRevisionNumber" xml:space="preserve">
     <value>Felülvizsgálat száma</value>
   </data>
@@ -1365,7 +1350,34 @@
   <data name="SearchTabHeaderText" xml:space="preserve">
     <value>Keresési eredmények</value>
   </data>
+  <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Közreműködők</value>
+  </data>
+  <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Újdonságok a Files-ban</value>
+  </data>
+  <data name="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Visszajelzés küldése a fejlesztőknek</value>
+  </data>
+  <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Támogatás PayPal-on</value>
+  </data>
   <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
     <value>Mappák rendszerezése a fájlokkal</value>
+  </data>
+  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+    <value>Részletek</value>
+  </data>
+  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+    <value>Nem</value>
+  </data>
+  <data name="UpdateConsentDialogContent" xml:space="preserve">
+    <value>Szeretné letőlteni és telepíteni a legújabb Files verziót?</value>
+  </data>
+  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
+    <value>Igen</value>
+  </data>
+  <data name="UpdateConsentDialogTitle" xml:space="preserve">
+    <value>Frissítés elérhető</value>
   </data>
 </root>

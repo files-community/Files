@@ -177,12 +177,6 @@
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Ordner</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
-    <value>Bitmap Bild</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewTextDocument.Text" xml:space="preserve">
-    <value>Textdatei</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Eigenschaften</value>
   </data>
@@ -885,23 +879,11 @@
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
     <value>Abbrechen</value>
   </data>
-  <data name="AddDialogListBitmapHeader" xml:space="preserve">
-    <value>Bitmapbild</value>
-  </data>
-  <data name="AddDialogListBitmapSubHeader" xml:space="preserve">
-    <value>Erstelt ein leeres Bitmapbild</value>
-  </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>Ordner</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Erstellt einen leeren Ordner</value>
-  </data>
-  <data name="AddDialogListTextFileHeader" xml:space="preserve">
-    <value>Textdokument</value>
-  </data>
-  <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
-    <value>Erstellt ein leeres Textdokument</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Layoutmodus</value>
