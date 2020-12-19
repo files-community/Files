@@ -996,7 +996,8 @@
                 ToolTipService.ToolTip="More options"
                 Visibility="Visible">
                 <Button.Flyout>
-                    <MenuFlyout Placement="BottomEdgeAlignedRight">
+                    <MenuFlyout Placement="BottomEdgeAlignedRight"
+                                Opening="NavMoreButtonFlyout_Opening">
                         <MenuFlyoutItem
                             x:Name="NavToolbarNewTab"
                             x:Uid="NavigationToolbarNewTab"

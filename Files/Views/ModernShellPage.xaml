@@ -201,7 +201,7 @@
                             CopyPathInvokedCommand="{x:Bind InteractionOperations.CopyPathOfWorkingDirectory, Mode=OneWay}"
                             IsCreateButtonEnabledInPage="{x:Bind InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
                             IsPageTypeNotHome="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-                            NewFileInvokedCommand="{x:Bind InteractionOperations.CreateNewGenericFile, Mode=OneWay}"
+                            NewFileInvokedCommand="{x:Bind InteractionOperations.CreateNewFile, Mode=OneWay}"
                             NewFolderInvokedCommand="{x:Bind InteractionOperations.CreateNewFolder, Mode=OneWay}"
                             NewTabInvokedCommand="{x:Bind InteractionOperations.AddNewTabToMultitaskingControl, Mode=OneWay}"
                             NewWindowInvokedCommand="{x:Bind InteractionOperations.OpenNewWindow, Mode=OneWay}"

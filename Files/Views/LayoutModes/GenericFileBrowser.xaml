@@ -198,7 +198,7 @@
                     <MenuFlyoutItem
                         x:Name="NewFile"
                         x:Uid="BaseLayoutContextFlyoutNewFile"
-                        Command="{x:Bind ParentShellPageInstance.InteractionOperations.CreateNewGenericFile}"
+                        Command="{x:Bind ParentShellPageInstance.InteractionOperations.CreateNewFile}"
                         CommandParameter="{x:Null}"
                         IsEnabled="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                         Text="File">

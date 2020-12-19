@@ -1209,16 +1209,16 @@ namespace Files.Interacts
         }
 
         public RelayCommand CreateNewFolder => new RelayCommand(() => NewFolder());
-        public RelayCommand CreateNewGenericFile => new RelayCommand(() => NewGenericFile());
+        public RelayCommand<ShellNewEntry> CreateNewFile => new RelayCommand<ShellNewEntry>((itemType) => NewFile(itemType));
 
         private void NewFolder()
         {
             CreateFileFromDialogResultType(AddItemType.Folder, null);
         }
 
-        private void NewGenericFile()
+        private void NewFile(ShellNewEntry itemType)
         {
-            CreateFileFromDialogResultType(AddItemType.File, null);
+            CreateFileFromDialogResultType(AddItemType.File, itemType);
         }
 
         public RelayCommand SelectAllContentPageItems => new RelayCommand(() => SelectAllItems());

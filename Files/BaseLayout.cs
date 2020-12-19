@@ -511,7 +511,7 @@ namespace Files
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             SetShellContextmenu(BaseLayoutContextFlyout, shiftPressed, false);
             var newItemMenu = (MenuFlyoutSubItem)BaseLayoutContextFlyout.Items.Single(x => x.Name == "NewEmptySpace");
-            if (newItemMenu.Items.Count == 3)
+            if (!newItemMenu.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
             {
                 var separatorIndex = newItemMenu.Items.IndexOf(newItemMenu.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
                 foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))
@@ -527,7 +527,8 @@ namespace Files
                         menuLayoutItem = new MenuFlyoutItemWithImage()
                         {
                             Text = newEntry.Name,
-                            BitmapIcon = image
+                            BitmapIcon = image,
+                            Tag = "CreateNewFile"
                         };
                     }
                     else
@@ -539,13 +540,12 @@ namespace Files
                             {
                                 FontFamily = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
                                 Glyph = "\xea00"
-                            }
+                            },
+                            Tag = "CreateNewFile"
                         };
                     }
-                    menuLayoutItem.Click += new RoutedEventHandler((s, e) =>
-                    {
-                        ParentShellPageInstance.InteractionOperations.CreateFileFromDialogResultType(Dialogs.AddItemType.File, newEntry);
-                    });
+                    menuLayoutItem.Command = ParentShellPageInstance.InteractionOperations.CreateNewFile;
+                    menuLayoutItem.CommandParameter = newEntry;
                     newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
                 }
             }
