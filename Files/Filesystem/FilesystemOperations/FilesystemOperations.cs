@@ -46,7 +46,7 @@ namespace Files.Filesystem
 
         #region IFilesystemOperations
 
-        public async Task<IStorageHistory> CreateAsync(PathWithType source, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken)
+        public async Task<IStorageHistory> CreateAsync(IStorageItemWithPath source, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace Files.Filesystem
                 {
                     case FilesystemItemType.File:
                         {
-                            StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(Path.GetDirectoryName(source.Path));
+                            StorageFolder folder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(source.Path));
                             await folder.CreateFileAsync(Path.GetFileName(source.Path));
 
                             break;
@@ -62,7 +62,7 @@ namespace Files.Filesystem
 
                     case FilesystemItemType.Directory:
                         {
-                            StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(Path.GetDirectoryName(source.Path));
+                            StorageFolder folder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(source.Path));
                             await folder.CreateFolderAsync(Path.GetFileName(source.Path));
 
                             break;
@@ -95,15 +95,14 @@ namespace Files.Filesystem
                                                      IProgress<FilesystemErrorCode> errorCode,
                                                      CancellationToken cancellationToken)
         {
-            return await CopyAsync(new PathWithType(source.Path,
-                                                    source.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory),
+            return await CopyAsync(source.FromStorageItem(),
                                                     destination,
                                                     progress,
                                                     errorCode,
                                                     cancellationToken);
         }
 
-        public async Task<IStorageHistory> CopyAsync(PathWithType source,
+        public async Task<IStorageHistory> CopyAsync(IStorageItemWithPath source,
                                                      string destination,
                                                      IProgress<float> progress,
                                                      IProgress<FilesystemErrorCode> errorCode,
@@ -122,12 +121,12 @@ namespace Files.Filesystem
             }
 
             IStorageItem copiedItem = null;
-            long itemSize = await FilesystemHelpers.GetItemSize(await source.Path.ToStorageItem());
+            long itemSize = await FilesystemHelpers.GetItemSize(await source.ToStorageItem(associatedInstance));
             bool reportProgress = false; // TODO: The default value is false
 
             if (source.ItemType == FilesystemItemType.Directory)
             {
-                if (string.IsNullOrWhiteSpace(source.Path) ||
+                if (!string.IsNullOrWhiteSpace(source.Path) &&
                     Path.GetDirectoryName(destination).IsSubPathOf(source.Path)) // We check if user tried to copy anything above the source.ItemPath
                 {
                     ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
@@ -169,14 +168,14 @@ namespace Files.Filesystem
                         progress?.Report((float)(itemSize * 100.0f / itemSize));
                     }
 
-                    FilesystemResult<StorageFolder> fsSourceFolderResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(source.Path));
-                    FilesystemResult<StorageFolder> fsDestinationFolderResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
+                    StorageFolder fsSourceFolder = (StorageFolder)await source.ToStorageItem(associatedInstance);
+                    StorageFolder fsDestinationFolder = (StorageFolder)await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
 
-                    if (fsSourceFolderResult && fsDestinationFolderResult)
+                    if (fsSourceFolder != null && fsDestinationFolder != null)
                     {
                         FilesystemResult fsCopyResult = await FilesystemTasks.Wrap(async () =>
                         {
-                            return await FilesystemHelpers.CloneDirectoryAsync(fsSourceFolderResult.Result, fsDestinationFolderResult.Result, Path.GetFileName(source.Path));
+                            return await FilesystemHelpers.CloneDirectoryAsync(fsSourceFolder, fsDestinationFolder, fsSourceFolder.Name);
                         })
                         .OnSuccess(t =>
                         {
@@ -201,7 +200,7 @@ namespace Files.Filesystem
 
                 if (fsResult)
                 {
-                    StorageFile file = (StorageFile)await source.Path.ToStorageItem();
+                    StorageFile file = (StorageFile)await source.ToStorageItem(associatedInstance);
 
                     FilesystemResult<StorageFile> fsResultCopy = new FilesystemResult<StorageFile>(null, FilesystemErrorCode.ERROR_GENERIC);
 
@@ -209,7 +208,7 @@ namespace Files.Filesystem
                     {
                         fsResultCopy = await FilesystemTasks.Wrap(() =>
                         {
-                            return file.CopyAsync(fsResult.Result, Path.GetFileName(source.Path), NameCollisionOption.GenerateUniqueName).AsTask();
+                            return file.CopyAsync(fsResult.Result, Path.GetFileName(file.Name), NameCollisionOption.GenerateUniqueName).AsTask();
                         });
                     }
 
@@ -222,7 +221,7 @@ namespace Files.Filesystem
                         // Try again with CopyFileFromApp
                         if (NativeFileOperationsHelper.CopyFileFromApp(source.Path, destination, true))
                         {
-                            copiedItem = await source.Path.ToStorageItem(); // Dangerous - the provided item may be different than output result!
+                            copiedItem = await source.ToStorageItem(associatedInstance); // Dangerous - the provided item may be different than output result!
                         }
                         else
                         {
@@ -253,9 +252,7 @@ namespace Files.Filesystem
 
             progress?.Report(100.0f);
 
-            var pathWithType = new PathWithType(
-                copiedItem != null ? (!string.IsNullOrWhiteSpace(copiedItem.Path) ? copiedItem.Path : destination) : destination,
-                source.ItemType);
+            var pathWithType = copiedItem.FromStorageItem(destination, source.ItemType);
 
             return new StorageHistory(FileOperationType.Copy, source, pathWithType);
         }
@@ -266,15 +263,14 @@ namespace Files.Filesystem
                                                      IProgress<FilesystemErrorCode> errorCode,
                                                      CancellationToken cancellationToken)
         {
-            return await MoveAsync(new PathWithType(source.Path,
-                                                    source.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory),
+            return await MoveAsync(source.FromStorageItem(),
                                                     destination,
                                                     progress,
                                                     errorCode,
                                                     cancellationToken);
         }
 
-        public async Task<IStorageHistory> MoveAsync(PathWithType source,
+        public async Task<IStorageHistory> MoveAsync(IStorageItemWithPath source,
                                                      string destination,
                                                      IProgress<float> progress,
                                                      IProgress<FilesystemErrorCode> errorCode,
@@ -303,15 +299,14 @@ namespace Files.Filesystem
                                                        bool permanently,
                                                        CancellationToken cancellationToken)
         {
-            return await DeleteAsync(new PathWithType(source.Path,
-                                                      source.IsOfType(StorageItemTypes.File) ? FilesystemItemType.File : FilesystemItemType.Directory),
+            return await DeleteAsync(source.FromStorageItem(),
                                                       progress,
                                                       errorCode,
                                                       permanently,
                                                       cancellationToken);
         }
 
-        public async Task<IStorageHistory> DeleteAsync(PathWithType source,
+        public async Task<IStorageHistory> DeleteAsync(IStorageItemWithPath source,
                                                        IProgress<float> progress,
                                                        IProgress<FilesystemErrorCode> errorCode,
                                                        bool permanently,
@@ -392,7 +387,7 @@ namespace Files.Filesystem
                     // Get newest file
                     ShellFileItem item = nameMatchItems.Where((item) => item.RecycleDate != null).OrderBy((item) => item.RecycleDate).FirstOrDefault();
 
-                    return new StorageHistory(FileOperationType.Recycle, source, new PathWithType(item?.RecyclePath, source.ItemType));
+                    return new StorageHistory(FileOperationType.Recycle, source, StorageItemHelpers.FromPathAndType(item?.RecyclePath, source.ItemType));
                 }
 
                 return new StorageHistory(FileOperationType.Delete, source, null);
@@ -427,7 +422,7 @@ namespace Files.Filesystem
                     await source.RenameAsync(newName, collision);
 
                     errorCode?.Report(FilesystemErrorCode.ERROR_SUCCESS);
-                    return new StorageHistory(FileOperationType.Rename, new PathWithType(originalSource, itemType), new PathWithType(source.Path, itemType));
+                    return new StorageHistory(FileOperationType.Rename, StorageItemHelpers.FromPathAndType(originalSource, itemType), source.FromStorageItem());
                 }
                 catch (Exception e)
                 {
@@ -439,7 +434,7 @@ namespace Files.Filesystem
             return null;
         }
 
-        public async Task<IStorageHistory> RenameAsync(PathWithType source,
+        public async Task<IStorageHistory> RenameAsync(IStorageItemWithPath source,
                                                        string newName,
                                                        NameCollisionOption collision,
                                                        IProgress<FilesystemErrorCode> errorCode,
@@ -457,11 +452,11 @@ namespace Files.Filesystem
             {
                 try
                 {
-                    IStorageItem itemToRename = await source.Path.ToStorageItem();
+                    IStorageItem itemToRename = await source.ToStorageItem(associatedInstance);
                     await itemToRename.RenameAsync(newName, collision);
 
                     errorCode?.Report(FilesystemErrorCode.ERROR_SUCCESS);
-                    return new StorageHistory(FileOperationType.Rename, source, new PathWithType(itemToRename.Path, source.ItemType));
+                    return new StorageHistory(FileOperationType.Rename, source, itemToRename.FromStorageItem());
                 }
                 catch (Exception e)
                 {
@@ -473,7 +468,7 @@ namespace Files.Filesystem
             return null;
         }
 
-        public async Task<IStorageHistory> RestoreFromTrashAsync(PathWithType source,
+        public async Task<IStorageHistory> RestoreFromTrashAsync(IStorageItemWithPath source,
                                                                  string destination,
                                                                  IProgress<float> progress,
                                                                  IProgress<FilesystemErrorCode> errorCode,
@@ -490,7 +485,7 @@ namespace Files.Filesystem
                 fsResult = sourceFolder.ErrorCode | destinationFolder.ErrorCode;
                 errorCode?.Report(fsResult);
 
-                if (sourceFolder && destinationFolder)
+                if (fsResult)
                 {
                     fsResult = await FilesystemTasks.Wrap(() =>
                     {
@@ -510,7 +505,7 @@ namespace Files.Filesystem
                 fsResult = sourceFile.ErrorCode | destinationFolder.ErrorCode;
                 errorCode?.Report(fsResult);
 
-                if (sourceFile && destinationFolder)
+                if (fsResult)
                 {
                     fsResult = await FilesystemTasks.Wrap(() =>
                     {
@@ -519,13 +514,21 @@ namespace Files.Filesystem
                                                            NameCollisionOption.GenerateUniqueName).AsTask();
                     });
                 }
+                else if (fsResult == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+                {
+                    // Try again with MoveFileFromApp
+                    fsResult = (FilesystemResult)NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination);
+                }
                 errorCode?.Report(fsResult);
             }
 
-            // Recycle bin also stores a file starting with $I for each item
-            string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I"));
-            await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
-                .OnSuccess(iFile => iFile.DeleteAsync().AsTask());
+            if (fsResult)
+            {
+                // Recycle bin also stores a file starting with $I for each item
+                string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I"));
+                await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(iFilePath)
+                    .OnSuccess(iFile => iFile.DeleteAsync().AsTask());
+            }
 
             errorCode?.Report(fsResult);
             if (fsResult != FilesystemErrorCode.ERROR_SUCCESS)
@@ -544,7 +547,7 @@ namespace Files.Filesystem
                 }
             }
 
-            return new StorageHistory(FileOperationType.Restore, source, new PathWithType(destination, source.ItemType));
+            return new StorageHistory(FileOperationType.Restore, source, StorageItemHelpers.FromPathAndType(destination, source.ItemType));
         }
 
         #endregion IFilesystemOperations

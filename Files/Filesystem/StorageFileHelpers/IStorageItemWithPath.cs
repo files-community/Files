@@ -7,5 +7,6 @@ namespace Files.Filesystem
     {
         public string Path { get; set; }
         public IStorageItem Item { get; set; }
+        public FilesystemItemType ItemType { get; }
     }
 }
