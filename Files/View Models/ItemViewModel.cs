@@ -644,6 +644,19 @@ namespace Files.Filesystem
                             StorageFile matchingStorageItem = await GetFileFromPathAsync(item.ItemPath);
                             if (matchingStorageItem != null)
                             {
+                                if (!matchingItem.LoadFileIcon) // Loading icon from fulltrust process failed
+                                {
+                                    using (var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale))
+                                    {
+                                        if (Thumbnail != null)
+                                        {
+                                            matchingItem.FileImage = new BitmapImage();
+                                            await matchingItem.FileImage.SetSourceAsync(Thumbnail);
+                                            matchingItem.LoadUnknownTypeGlyph = false;
+                                            matchingItem.LoadFileIcon = true;
+                                        }
+                                    }
+                                }
                                 matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                                 matchingItem.ItemType = matchingStorageItem.DisplayType;
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
