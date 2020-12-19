@@ -1449,4 +1449,22 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Dettagli</value>
   </data>
+  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="UpdateConsentDialogContent" xml:space="preserve">
+    <value>Vuoi scaricare e installare l'ultima versione di Files?</value>
+  </data>
+  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
+    <value>Sì</value>
+  </data>
+  <data name="UpdateConsentDialogTitle" xml:space="preserve">
+    <value>Aggiornamenti disponibili</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
+    <value>Nascondi i file protetti di sistema (consigliato)</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Nascondi i file protetti di sistema (consigliato)</value>
+  </data>
 </root>

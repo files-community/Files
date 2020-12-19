@@ -1096,9 +1096,9 @@ namespace Files.Filesystem
                         var hasNextFile = false;
                         do
                         {
-                            if (((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System)
+                            var itemPath = Path.Combine(path, findData.cFileName);
+                            if (((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System || !AppSettings.AreSystemItemsHidden)
                             {
-                                var itemPath = Path.Combine(path, findData.cFileName);
                                 if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) != FileAttributes.Hidden || AppSettings.AreHiddenItemsVisible)
                                 {
                                     if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
