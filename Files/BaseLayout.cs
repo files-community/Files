@@ -216,14 +216,12 @@ namespace Files
             {
                 var response = Connection.SendMessageAsync(new ValueSet()
                 {
-                    { "Arguments", "MenuAction" },
-                    { "menuop", "LoadContextMenu" },
-                    { "FilePath", IsItemSelected ?
-                        string.Join('|', selectedItems.Select(x => x.ItemPath)) :
-                        ParentShellPageInstance.FilesystemViewModel.CurrentFolder.ItemPath},
-                    { "EmptySpaceMenu", false },
-                    { "ExtendedMenu", shiftPressed },
-                    { "ShowOpenMenu", showOpenMenu }
+                        { "Arguments", "LoadContextMenu" },
+                        { "FilePath", IsItemSelected ?
+                            string.Join('|', selectedItems.Select(x => x.ItemPath)) :
+                            ParentShellPageInstance.FilesystemViewModel.CurrentFolder.ItemPath},
+                        { "ExtendedMenu", shiftPressed },
+                        { "ShowOpenMenu", showOpenMenu }
                 }).AsTask().Result;
                 if (response.Status == AppServiceResponseStatus.Success
                     && response.Message.ContainsKey("Handle"))
@@ -232,43 +230,6 @@ namespace Files
                     if (contextMenu != null)
                     {
                         LoadMenuFlyoutItem(menuFlyout.Items, contextMenu.Items, (string)response.Message["Handle"], true, maxItems);
-                    }
-                }
-            }
-            var totalFlyoutItems = menuFlyout.Items.Count - currentBaseLayoutItemCount;
-            if (totalFlyoutItems > 0 && !(menuFlyout.Items[totalFlyoutItems] is MenuFlyoutSeparator))
-            {
-                menuFlyout.Items.Insert(totalFlyoutItems, new MenuFlyoutSeparator());
-            }
-        }
-
-        public virtual void SetShellFolderContextmenu(MenuFlyout menuFlyout, bool shiftPressed)
-        {
-            ClearShellContextMenus(menuFlyout);
-            var currentBaseLayoutItemCount = menuFlyout.Items.Count;
-            var maxItems = AppSettings.ShowAllContextMenuItems ? int.MaxValue : shiftPressed ? 6 : 4;
-            if (Connection != null)
-            {
-                var response = Connection.SendMessageAsync(new ValueSet() {
-                    { "Arguments", "MenuAction" },
-                    { "menuop", "LoadContextMenu" },
-                    { "FilePath", ParentShellPageInstance.FilesystemViewModel.CurrentFolder.ItemPath },
-                    { "EmptySpaceMenu", true },
-                    { "ExtendedMenu", shiftPressed },
-                    { "ShowOpenMenu", false }}).AsTask().Result;
-                if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
-                    && response.Message.ContainsKey("Handle"))
-                {
-                    var contextMenu = JsonConvert.DeserializeObject<Win32ContextMenu>((string)response.Message["ContextMenu"]);
-                    if (contextMenu != null)
-                    {
-                        LoadMenuFlyoutItem(menuFlyout.Items, contextMenu.Items.Where(x => x.InvariantName != "new"), (string)response.Message["Handle"], true, maxItems);
-                        var newMenuItem = contextMenu.Items.FirstOrDefault(x => x.InvariantName == "new");
-                        var newMenuFlyout = menuFlyout.Items.Single(x => x.Name == "NewEmptySpace") as MenuFlyoutSubItem;
-                        if (!newMenuFlyout.Items.Any())
-                        {
-                            LoadMenuFlyoutItem(newMenuFlyout.Items, newMenuItem.SubItems, (string)response.Message["Handle"], true);
-                        }
                     }
                 }
             }
@@ -487,8 +448,7 @@ namespace Files
                     {
                         Text = menuFlyoutItem.Label.Replace("&", ""),
                         Tag = (menuFlyoutItem, menuHandle),
-                        BitmapIcon = image,
-                        ShowIcon = showIcons
+                        BitmapIcon = image
                     };
                     menuLayoutItem.Click += MenuLayoutItem_Click;
                     MenuItemsList.Insert(0, menuLayoutItem);
@@ -517,8 +477,7 @@ namespace Files
                 {
                     await Connection.SendMessageAsync(new ValueSet()
                     {
-                        { "Arguments", "MenuAction" },
-                        { "menuop", "ExecAndCloseContextMenu" },
+                        { "Arguments", "ExecAndCloseContextMenu" },
                         { "Handle", menuHandle },
                         { "ItemID", menuItem.ID },
                         { "CommandString", menuItem.CommandString }
@@ -535,8 +494,7 @@ namespace Files
             {
                 await Connection.SendMessageAsync(new ValueSet()
                 {
-                    { "Arguments", "MenuAction" },
-                    { "menuop","ExecAndCloseContextMenu" },
+                    { "Arguments", "ExecAndCloseContextMenu" },
                     { "Handle", shellContextMenuTag.menuHandle }
                 });
             }
@@ -546,7 +504,7 @@ namespace Files
         {
             ClearSelection();
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            SetShellFolderContextmenu(BaseLayoutContextFlyout, shiftPressed);
+            SetShellContextmenu(BaseLayoutContextFlyout, shiftPressed, false);
         }
 
         public void RightClickItemContextMenu_Opening(object sender, object e)

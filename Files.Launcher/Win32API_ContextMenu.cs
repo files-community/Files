@@ -130,25 +130,16 @@ namespace FilesFullTrust
             }
         }
 
-        private static readonly Dictionary<string, string> KnownMenuItemLabels = new Dictionary<string, string>()
-        {
-            { Win32API.ExtractStringFromDLL("shell32.dll", 30315), "new" },
-            { Win32API.ExtractStringFromDLL("shell32.dll", 30312), "sendto" },
-            { Win32API.ExtractStringFromDLL("shell32.dll", 34593), "addtocollection" }
-        };
-
         public class ContextMenu : Win32ContextMenu, IDisposable
         {
             private Shell32.IContextMenu cMenu;
             private User32.SafeHMENU hMenu;
-            private Shell32.IShellView view;
             public List<string> ItemsPath { get; }
 
-            public ContextMenu(Shell32.IContextMenu cMenu, User32.SafeHMENU hMenu, IEnumerable<string> itemsPath, Shell32.IShellView view = null)
+            public ContextMenu(Shell32.IContextMenu cMenu, User32.SafeHMENU hMenu, IEnumerable<string> itemsPath)
             {
                 this.cMenu = cMenu;
                 this.hMenu = hMenu;
-                this.view = view;
                 this.ItemsPath = itemsPath.ToList();
                 this.Items = new List<Win32ContextMenuItem>();
             }
@@ -201,34 +192,7 @@ namespace FilesFullTrust
 
             #region FactoryMethods
 
-            public static ContextMenu GetContextMenuForFolder(string folderPath, Shell32.CMF flags, Func<Win32ContextMenuItem, bool> itemFilter = null)
-            {
-                try
-                {
-                    using var shellFolder = new ShellFolder(folderPath);
-                    return GetContextMenuForFolder(shellFolder, flags, itemFilter);
-                }
-                catch (ArgumentException)
-                {
-                    // Return empty context menu
-                    return null;
-                }
-            }
-
-            public static ContextMenu GetContextMenuForFolder(ShellFolder shellFolder, Shell32.CMF flags, Func<Win32ContextMenuItem, bool> itemFilter = null)
-            {
-                if (shellFolder == null)
-                    return null;
-                Shell32.IShellView view = shellFolder.GetViewObject<Shell32.IShellView>(null);
-                Shell32.IContextMenu menu = view.GetItemObject<Shell32.IContextMenu>(Shell32.SVGIO.SVGIO_BACKGROUND);
-                var hMenu = User32.CreatePopupMenu();
-                menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
-                var contextMenu = new ContextMenu(menu, hMenu, new string[] { shellFolder.ParsingName }, view);
-                ContextMenu.EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
-                return contextMenu;
-            }
-
-            public static ContextMenu GetContextMenuForFiles(string[] filePathList, Shell32.CMF flags, Func<Win32ContextMenuItem, bool> itemFilter = null)
+            public static ContextMenu GetContextMenuForFiles(string[] filePathList, Shell32.CMF flags, Func<string, bool> itemFilter = null)
             {
                 List<ShellItem> shellItems = new List<ShellItem>();
                 try
@@ -254,7 +218,7 @@ namespace FilesFullTrust
                 }
             }
 
-            private static ContextMenu GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, Func<Win32ContextMenuItem, bool> itemFilter = null)
+            private static ContextMenu GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, Func<string, bool> itemFilter = null)
             {
                 if (shellItems == null || !shellItems.Any())
                 {
@@ -276,7 +240,7 @@ namespace FilesFullTrust
                 Shell32.IContextMenu cMenu,
                 HMENU hMenu,
                 List<Win32ContextMenuItem> menuItemsResult,
-                Func<Win32ContextMenuItem, bool> itemFilter = null)
+                Func<string, bool> itemFilter = null)
             {
                 var itemCount = User32.GetMenuItemCount(hMenu);
                 var mii = new User32.MENUITEMINFO();
@@ -305,31 +269,32 @@ namespace FilesFullTrust
                         Debug.WriteLine("Item {0} ({1}): {2}", ii, mii.wID, mii.dwTypeData);
                         menuItem.Label = mii.dwTypeData;
                         menuItem.CommandString = GetCommandString(cMenu, mii.wID - 1);
-                        menuItem.InvariantName = KnownMenuItemLabels.Get(menuItem.Label, (string)null);
-                        // Skip enumerating subitems if the item is to be excluded
-                        if (itemFilter == null || !itemFilter(menuItem))
+                        if (itemFilter != null && (itemFilter(menuItem.CommandString) || itemFilter(menuItem.Label)))
                         {
-                            if (mii.hbmpItem != HBITMAP.NULL)
+                            // Skip items implemented in UWP
+                            container.Dispose();
+                            continue;
+                        }
+                        if (mii.hbmpItem != HBITMAP.NULL)
+                        {
+                            var bitmap = GetBitmapFromHBitmap(mii.hbmpItem);
+                            menuItem.Icon = bitmap;
+                        }
+                        if (mii.hSubMenu != HMENU.NULL)
+                        {
+                            Debug.WriteLine("Item {0}: has submenu", ii);
+                            var subItems = new List<Win32ContextMenuItem>();
+                            try
                             {
-                                var bitmap = GetBitmapFromHBitmap(mii.hbmpItem);
-                                menuItem.Icon = bitmap;
+                                (cMenu as Shell32.IContextMenu2)?.HandleMenuMsg((uint)User32.WindowMessage.WM_INITMENUPOPUP, (IntPtr)mii.hSubMenu, new IntPtr(ii));
                             }
-                            if (mii.hSubMenu != HMENU.NULL)
+                            catch (NotImplementedException)
                             {
-                                Debug.WriteLine("Item {0}: has submenu", ii);
-                                var subItems = new List<Win32ContextMenuItem>();
-                                try
-                                {
-                                    (cMenu as Shell32.IContextMenu2)?.HandleMenuMsg((uint)User32.WindowMessage.WM_INITMENUPOPUP, (IntPtr)mii.hSubMenu, new IntPtr(ii));
-                                }
-                                catch (NotImplementedException)
-                                {
-                                    // Only for dynamic/owner drawn? (open with, etc)
-                                }
-                                EnumMenuItems(cMenu, mii.hSubMenu, subItems, itemFilter);
-                                menuItem.SubItems = subItems;
-                                Debug.WriteLine("Item {0}: done submenu", ii);
+                                // Only for dynamic/owner drawn? (open with, etc)
                             }
+                            EnumMenuItems(cMenu, mii.hSubMenu, subItems, itemFilter);
+                            menuItem.SubItems = subItems;
+                            Debug.WriteLine("Item {0}: done submenu", ii);
                         }
                     }
                     else
@@ -337,11 +302,7 @@ namespace FilesFullTrust
                         Debug.WriteLine("Item {0}: {1}", ii, mii.fType.ToString());
                     }
                     container.Dispose();
-                    if (itemFilter == null || !itemFilter(menuItem))
-                    {
-                        // Skip items implemented in UWP
-                        menuItemsResult.Add(menuItem);
-                    }
+                    menuItemsResult.Add(menuItem);
                 }
             }
 
@@ -410,11 +371,6 @@ namespace FilesFullTrust
                     {
                         Marshal.ReleaseComObject(cMenu);
                         cMenu = null;
-                    }
-                    if (view != null)
-                    {
-                        Marshal.ReleaseComObject(view);
-                        view = null;
                     }
 
                     disposedValue = true;
