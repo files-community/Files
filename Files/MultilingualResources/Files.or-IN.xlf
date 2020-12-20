@@ -359,14 +359,6 @@
           <source>Folder</source>
           <target state="translated">ଫୋଲ୍ଡର</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNewBitmapImage.Text" translate="yes" xml:space="preserve">
-          <source>Bitmap Image</source>
-          <target state="translated">ବିଟମ୍ୟାପ୍ ପ୍ରତିଛବି</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNewTextDocument.Text" translate="yes" xml:space="preserve">
-          <source>Text Document</source>
-          <target state="translated">ପାଠ୍ୟ ଦସ୍ତାବେଜ</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutPropertiesFolder.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="translated">ଗୁଣଧର୍ମ</target>
@@ -490,14 +482,6 @@
         <trans-unit id="NewFolder" translate="yes" xml:space="preserve">
           <source>New Folder</source>
           <target state="translated">ନୂତନ ଫୋଲ୍ଡର</target>
-        </trans-unit>
-        <trans-unit id="NewTextDocument" translate="yes" xml:space="preserve">
-          <source>New Text Document</source>
-          <target state="translated">ନୂତନ ପାଠ୍ୟ ଦସ୍ତାବେଜ</target>
-        </trans-unit>
-        <trans-unit id="NewBitmapImage" translate="yes" xml:space="preserve">
-          <source>New Bitmap Image</source>
-          <target state="translated">ନୂତନ ବିଟମ୍ୟାପ୍ ପ୍ରତିଛବି</target>
         </trans-unit>
         <trans-unit id="EmptyFolder.Text" translate="yes" xml:space="preserve">
           <source>This folder is empty.</source>
@@ -1180,14 +1164,6 @@
           <source>Cancel</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ବାତିଲ୍</target>
         </trans-unit>
-        <trans-unit id="AddDialogListBitmapHeader" translate="yes" xml:space="preserve">
-          <source>Bitmap Image</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବିଟ୍‌ମ୍ୟାପ୍ ପ୍ରତିଛବି</target>
-        </trans-unit>
-        <trans-unit id="AddDialogListBitmapSubHeader" translate="yes" xml:space="preserve">
-          <source>Creates an empty bitmap image file</source>
-          <target state="new">Creates an empty bitmap image file</target>
-        </trans-unit>
         <trans-unit id="AddDialogListFolderHeader" translate="yes" xml:space="preserve">
           <source>Folder</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ଫୋଲ୍ଡର:</target>
@@ -1195,14 +1171,6 @@
         <trans-unit id="AddDialogListFolderSubHeader" translate="yes" xml:space="preserve">
           <source>Creates an empty folder</source>
           <target state="new">Creates an empty folder</target>
-        </trans-unit>
-        <trans-unit id="AddDialogListTextFileHeader" translate="yes" xml:space="preserve">
-          <source>Text Document</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">ପାଠ ଡକ୍ୟୁମେଣ୍ଟ୍</target>
-        </trans-unit>
-        <trans-unit id="AddDialogListTextFileSubHeader" translate="yes" xml:space="preserve">
-          <source>Creates an empty text file</source>
-          <target state="new">Creates an empty text file</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
@@ -1955,6 +1923,22 @@
         <trans-unit id="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Hide protected operating system files (Recommended)</source>
           <target state="new">Hide protected operating system files (Recommended)</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutNewFile.Text" translate="yes" xml:space="preserve">
+          <source>File</source>
+          <target state="new">File</target>
+        </trans-unit>
+        <trans-unit id="AddDialogListFileHeader" translate="yes" xml:space="preserve">
+          <source>File</source>
+          <target state="new">File</target>
+        </trans-unit>
+        <trans-unit id="AddDialogListFileSubHeader" translate="yes" xml:space="preserve">
+          <source>Creates an empty file</source>
+          <target state="new">Creates an empty file</target>
+        </trans-unit>
+        <trans-unit id="NewFile" translate="yes" xml:space="preserve">
+          <source>New File</source>
+          <target state="new">New File</target>
         </trans-unit>
       </group>
     </body>

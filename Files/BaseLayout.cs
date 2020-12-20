@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using Files.DataModels;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
@@ -135,6 +136,8 @@ namespace Files
         }
 
         public ListedItem SelectedItem { get; private set; }
+
+        private List<ShellNewEntry> cachedNewContextMenuEntries { get; set; }
 
         public BaseLayout()
         {
@@ -351,6 +354,8 @@ namespace Files
             ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
             ParentShellPageInstance.Clipboard_ContentChanged(null, null);
 
+            cachedNewContextMenuEntries = await RegistryHelper.GetNewContextMenuEntries();
+
             FocusFileList(); // Set focus on layout specific file list control
         }
 
@@ -509,6 +514,48 @@ namespace Files
             ClearSelection();
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             SetShellContextmenu(BaseLayoutContextFlyout, shiftPressed, false);
+            var newItemMenu = (MenuFlyoutSubItem)BaseLayoutContextFlyout.Items.SingleOrDefault(x => x.Name == "NewEmptySpace");
+            if (newItemMenu == null || cachedNewContextMenuEntries == null)
+            {
+                return;
+            }
+            if (!newItemMenu.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
+            {
+                var separatorIndex = newItemMenu.Items.IndexOf(newItemMenu.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
+                foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))
+                {
+                    MenuFlyoutItem menuLayoutItem;
+                    if (newEntry.Icon != null)
+                    {
+                        var image = new BitmapImage();
+#pragma warning disable CS4014
+                        image.SetSourceAsync(newEntry.Icon);
+#pragma warning restore CS4014
+                        menuLayoutItem = new MenuFlyoutItemWithImage()
+                        {
+                            Text = newEntry.Name,
+                            BitmapIcon = image,
+                            Tag = "CreateNewFile"
+                        };
+                    }
+                    else
+                    {
+                        menuLayoutItem = new MenuFlyoutItem()
+                        {
+                            Text = newEntry.Name,
+                            Icon = new FontIcon()
+                            {
+                                FontFamily = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
+                                Glyph = "\xea00"
+                            },
+                            Tag = "CreateNewFile"
+                        };
+                    }
+                    menuLayoutItem.Command = ParentShellPageInstance.InteractionOperations.CreateNewFile;
+                    menuLayoutItem.CommandParameter = newEntry;
+                    newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
+                }
+            }
         }
 
         public void RightClickItemContextMenu_Opening(object sender, object e)

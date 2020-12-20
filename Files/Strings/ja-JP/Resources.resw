@@ -267,12 +267,6 @@
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>フォルダ</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
-    <value>ビットマップ</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewTextDocument.Text" xml:space="preserve">
-    <value>テキスト文書</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>プロパティ</value>
   </data>
@@ -362,12 +356,6 @@
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>新しいフォルダ</value>
-  </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>新しいテキスト文書</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>新しいビットマップ</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>フォルダは空です。</value>
@@ -885,23 +873,11 @@
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
     <value>キャンセル</value>
   </data>
-  <data name="AddDialogListBitmapHeader" xml:space="preserve">
-    <value>ビットマップ イメージ</value>
-  </data>
-  <data name="AddDialogListBitmapSubHeader" xml:space="preserve">
-    <value>空のビットマップ画像ファイルを作成します</value>
-  </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>フォルダー</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>空のフォルダを作成します</value>
-  </data>
-  <data name="AddDialogListTextFileHeader" xml:space="preserve">
-    <value>テキスト ドキュメント</value>
-  </data>
-  <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
-    <value>空のテキスト ファイルを作成します。</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>レイアウト モード</value>

@@ -195,12 +195,6 @@
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Папку</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
-    <value>Изображение</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewTextDocument.Text" xml:space="preserve">
-    <value>Текстовый документ</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Свойства</value>
   </data>
@@ -311,12 +305,6 @@
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Новая папка</value>
-  </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>Новый текстовый документ</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>Рисунок</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Эта папка пуста.</value>
@@ -882,23 +870,11 @@
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
     <value>Отмена</value>
   </data>
-  <data name="AddDialogListBitmapHeader" xml:space="preserve">
-    <value>Изображение</value>
-  </data>
-  <data name="AddDialogListBitmapSubHeader" xml:space="preserve">
-    <value>Создает пустой файл изображения</value>
-  </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>Папка</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Создает пустую папку</value>
-  </data>
-  <data name="AddDialogListTextFileHeader" xml:space="preserve">
-    <value>Текстовый документ</value>
-  </data>
-  <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
-    <value>Создает пустой текстовый документ.</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Вид значков</value>

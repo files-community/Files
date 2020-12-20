@@ -164,6 +164,7 @@
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
     <Compile Include="Converters\StringArrayToString.cs" />
     <Compile Include="Converters\UInt32ToString.cs" />
+    <Compile Include="DataModels\ShellNewEntry.cs" />
     <Compile Include="Helpers\AppUpdater.cs" />
     <Compile Include="DataModels\DefaultLanguageModel.cs" />
     <Compile Include="Enums\FileOperationType.cs" />
@@ -179,6 +180,7 @@
     <Compile Include="Dialogs\RestartDialog.xaml.cs">
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\RegistryHelper.cs" />
     <Compile Include="View Models\Properties\FileProperty.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />

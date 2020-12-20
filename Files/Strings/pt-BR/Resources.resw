@@ -273,12 +273,6 @@
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Pasta</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
-    <value>Imagem de Bitmap</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewTextDocument.Text" xml:space="preserve">
-    <value>Documento de Texto</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Propriedades</value>
   </data>
@@ -368,12 +362,6 @@
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Nova pasta</value>
-  </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>Novo Documento de Texto</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>Nova Imagem de Bitmap</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Esta pasta está vazia.</value>
@@ -885,23 +873,11 @@
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
     <value>Cancelar</value>
   </data>
-  <data name="AddDialogListBitmapHeader" xml:space="preserve">
-    <value>Imagem de Bitmap</value>
-  </data>
-  <data name="AddDialogListBitmapSubHeader" xml:space="preserve">
-    <value>Criar um arquivo de imagem bitmap vazio</value>
-  </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>Pasta</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Cria uma pasta vazia</value>
-  </data>
-  <data name="AddDialogListTextFileHeader" xml:space="preserve">
-    <value>Documento de Texto</value>
-  </data>
-  <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
-    <value>Cria um arquivo de texto vazio</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Modo de layout</value>

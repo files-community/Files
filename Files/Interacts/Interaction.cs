@@ -1,3 +1,4 @@
+using Files.DataModels;
 using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
@@ -1156,7 +1157,7 @@ namespace Files.Interacts
             AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
         }
 
-        public async void CreateFileFromDialogResultType(AddItemType itemType)
+        public async void CreateFileFromDialogResultType(AddItemType itemType, ShellNewEntry itemInfo)
         {
             string currentPath = null;
             if (AssociatedInstance.ContentPage != null)
@@ -1190,22 +1191,12 @@ namespace Files.Interacts
                         });
                         break;
 
-                    case AddItemType.TextDocument:
-                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewTextDocument".GetLocalized();
+                    case AddItemType.File:
+                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo?.Name ?? "NewFile".GetLocalized();
                         created = await FilesystemTasks.Wrap(async () =>
                         {
                             return await FilesystemHelpers.CreateAsync(
-                                StorageItemHelpers.FromPathAndType(Path.Combine(folderRes.Result.Path, userInput + ".txt"), FilesystemItemType.File),
-                                true);
-                        });
-                        break;
-
-                    case AddItemType.BitmapImage:
-                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewBitmapImage".GetLocalized();
-                        created = await FilesystemTasks.Wrap(async () =>
-                        {
-                            return await FilesystemHelpers.CreateAsync(
-                                StorageItemHelpers.FromPathAndType(Path.Combine(folderRes.Result.Path, userInput + ".bmp"), FilesystemItemType.File),
+                                StorageItemHelpers.FromPathAndType(Path.Combine(folderRes.Result.Path, userInput + itemInfo?.Extension), FilesystemItemType.File),
                                 true);
                         });
                         break;
@@ -1218,22 +1209,16 @@ namespace Files.Interacts
         }
 
         public RelayCommand CreateNewFolder => new RelayCommand(() => NewFolder());
-        public RelayCommand CreateNewTextDocument => new RelayCommand(() => NewTextDocument());
-        public RelayCommand CreateNewBitmapImage => new RelayCommand(() => NewBitmapImage());
+        public RelayCommand<ShellNewEntry> CreateNewFile => new RelayCommand<ShellNewEntry>((itemType) => NewFile(itemType));
 
         private void NewFolder()
         {
-            CreateFileFromDialogResultType(AddItemType.Folder);
+            CreateFileFromDialogResultType(AddItemType.Folder, null);
         }
 
-        private void NewTextDocument()
+        private void NewFile(ShellNewEntry itemType)
         {
-            CreateFileFromDialogResultType(AddItemType.TextDocument);
-        }
-
-        private void NewBitmapImage()
-        {
-            CreateFileFromDialogResultType(AddItemType.BitmapImage);
+            CreateFileFromDialogResultType(AddItemType.File, itemType);
         }
 
         public RelayCommand SelectAllContentPageItems => new RelayCommand(() => SelectAllItems());

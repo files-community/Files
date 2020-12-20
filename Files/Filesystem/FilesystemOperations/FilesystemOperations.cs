@@ -54,8 +54,16 @@ namespace Files.Filesystem
                 {
                     case FilesystemItemType.File:
                         {
-                            StorageFolder folder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(source.Path));
-                            await folder.CreateFileAsync(Path.GetFileName(source.Path));
+                            var newEntryInfo = await RegistryHelper.GetNewContextMenuEntryForType(Path.GetExtension(source.Path));
+                            if (newEntryInfo == null)
+                            {
+                                StorageFolder folder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(source.Path));
+                                await folder.CreateFileAsync(Path.GetFileName(source.Path));
+                            }
+                            else
+                            {
+                                await newEntryInfo.Create(source.Path, associatedInstance);
+                            }
 
                             break;
                         }

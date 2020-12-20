@@ -1,4 +1,6 @@
-﻿using Files.Filesystem;
+﻿using Files.DataModels;
+using Files.Filesystem;
+using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
 using Files.Views;
@@ -22,6 +24,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Imaging;
 using static Files.UserControls.INavigationToolbar;
 
 namespace Files.UserControls
@@ -165,41 +168,22 @@ namespace Files.UserControls
             }
         }
 
-        public static readonly DependencyProperty NewDocumentInvokedCommandProperty = DependencyProperty.Register(
-          "NewDocumentInvokedCommand",
+        public static readonly DependencyProperty NewFileInvokedCommandProperty = DependencyProperty.Register(
+          "NewFileInvokedCommand",
           typeof(ICommand),
           typeof(NavigationToolbar),
           new PropertyMetadata(null)
         );
 
-        public ICommand NewDocumentInvokedCommand
+        public ICommand NewFileInvokedCommand
         {
             get
             {
-                return (ICommand)GetValue(NewDocumentInvokedCommandProperty);
+                return (ICommand)GetValue(NewFileInvokedCommandProperty);
             }
             set
             {
-                SetValue(NewDocumentInvokedCommandProperty, value);
-            }
-        }
-
-        public static readonly DependencyProperty NewImageInvokedCommandProperty = DependencyProperty.Register(
-          "NewImageInvokedCommand",
-          typeof(ICommand),
-          typeof(NavigationToolbar),
-          new PropertyMetadata(null)
-        );
-
-        public ICommand NewImageInvokedCommand
-        {
-            get
-            {
-                return (ICommand)GetValue(NewImageInvokedCommandProperty);
-            }
-            set
-            {
-                SetValue(NewImageInvokedCommandProperty, value);
+                SetValue(NewFileInvokedCommandProperty, value);
             }
         }
 
@@ -319,9 +303,17 @@ namespace Files.UserControls
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
+        private List<ShellNewEntry> cachedNewContextMenuEntries { get; set; }
+
         public NavigationToolbar()
         {
             this.InitializeComponent();
+            this.Loading += NavigationToolbar_Loading;
+        }
+
+        private async void NavigationToolbar_Loading(FrameworkElement sender, object args)
+        {
+            cachedNewContextMenuEntries = await RegistryHelper.GetNewContextMenuEntries();
         }
 
         private bool manualEntryBoxLoaded = false;
@@ -816,6 +808,53 @@ namespace Files.UserControls
             if (IsSearchReigonVisible && collapseSearchReigon)
             {
                 IsSearchReigonVisible = false;
+            }
+        }
+
+        private void NavMoreButtonFlyout_Opening(object sender, object e)
+        {
+            var newItemMenu = (MenuFlyoutSubItem)(sender as MenuFlyout).Items.SingleOrDefault(x => x.Name == "NewEmptySpace");
+            if (newItemMenu == null || cachedNewContextMenuEntries == null)
+            {
+                return;
+            }
+            if (!newItemMenu.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
+            {
+                var separatorIndex = newItemMenu.Items.IndexOf(newItemMenu.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
+                foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))
+                {
+                    MenuFlyoutItem menuLayoutItem;
+                    if (newEntry.Icon != null)
+                    {
+                        BitmapImage image = null;
+                        image = new BitmapImage();
+#pragma warning disable CS4014
+                        image.SetSourceAsync(newEntry.Icon);
+#pragma warning restore CS4014
+                        menuLayoutItem = new MenuFlyoutItemWithImage()
+                        {
+                            Text = newEntry.Name,
+                            BitmapIcon = image,
+                            Tag = "CreateNewFile"
+                        };
+                    }
+                    else
+                    {
+                        menuLayoutItem = new MenuFlyoutItem()
+                        {
+                            Text = newEntry.Name,
+                            Icon = new FontIcon()
+                            {
+                                FontFamily = App.Current.Resources["FluentUIGlyphs"] as Windows.UI.Xaml.Media.FontFamily,
+                                Glyph = "\xea00"
+                            },
+                            Tag = "CreateNewFile"
+                        };
+                    }
+                    menuLayoutItem.Command = NewFileInvokedCommand;
+                    menuLayoutItem.CommandParameter = newEntry;
+                    newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
+                }
             }
         }
     }

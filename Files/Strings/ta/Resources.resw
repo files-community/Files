@@ -264,12 +264,6 @@
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>கோப்புறை</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
-    <value>பிட் வரைபடப் படிமம்</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewTextDocument.Text" xml:space="preserve">
-    <value>உரை ஆவணம்</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>பண்புகள்</value>
   </data>
@@ -356,12 +350,6 @@
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>புதியக் கோப்புறை</value>
-  </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>புதிய உரை ஆவணம்</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>புதிய பிட் வரைபடப் படிமம்</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>இந்தக் கோப்புறை வெறுமையாக உள்ளது</value>
@@ -856,23 +844,11 @@
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
     <value>இரத்து</value>
   </data>
-  <data name="AddDialogListBitmapHeader" xml:space="preserve">
-    <value>பிட் வரைபடப் படிமம்</value>
-  </data>
-  <data name="AddDialogListBitmapSubHeader" xml:space="preserve">
-    <value>ஒரு வெறுமை பிட் வரைபடப் படிம கோப்பை உருவாக்கும்</value>
-  </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>கோப்புறை</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>ஒரு வெறுமை கோப்புறையை உருவாக்கும்</value>
-  </data>
-  <data name="AddDialogListTextFileHeader" xml:space="preserve">
-    <value>உரை ஆவணம்</value>
-  </data>
-  <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
-    <value>ஒரு வெறுமை உரை ஆவணத்தை உருவாக்கும்</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>தளவமைப்பு முறை</value>

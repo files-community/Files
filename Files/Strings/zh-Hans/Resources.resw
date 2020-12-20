@@ -177,12 +177,6 @@
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>文件夹</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
-    <value>位图</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewTextDocument.Text" xml:space="preserve">
-    <value>文本文档</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>属性</value>
   </data>
@@ -314,12 +308,6 @@
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>新建 文件夹</value>
-  </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>新建 文本文档</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>新建位图</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>该文件夹为空。</value>
@@ -885,23 +873,11 @@
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
     <value>取消</value>
   </data>
-  <data name="AddDialogListBitmapHeader" xml:space="preserve">
-    <value>位图</value>
-  </data>
-  <data name="AddDialogListBitmapSubHeader" xml:space="preserve">
-    <value>创建新位图文件</value>
-  </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>文件夹</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>创建一个空文件夹</value>
-  </data>
-  <data name="AddDialogListTextFileHeader" xml:space="preserve">
-    <value>文本文档</value>
-  </data>
-  <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
-    <value>创建一个空文本文件</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>布局模式</value>

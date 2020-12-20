@@ -252,12 +252,6 @@
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Cartella</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
-    <value>Immagine bitmap</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewTextDocument.Text" xml:space="preserve">
-    <value>Documento di testo</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Proprietà</value>
   </data>
@@ -344,12 +338,6 @@
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Nuova cartella</value>
-  </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>Nuovo documento di testo</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>Nuova immagine bitmap</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Questa cartella è vuota</value>
@@ -885,23 +873,11 @@
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
     <value>Annulla</value>
   </data>
-  <data name="AddDialogListBitmapHeader" xml:space="preserve">
-    <value>Immagine bitmap</value>
-  </data>
-  <data name="AddDialogListBitmapSubHeader" xml:space="preserve">
-    <value>Crea un file immagine bitmap vuoto</value>
-  </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>Cartella</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Crea una cartella vuota</value>
-  </data>
-  <data name="AddDialogListTextFileHeader" xml:space="preserve">
-    <value>Documento di testo</value>
-  </data>
-  <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
-    <value>Crea un file di testo vuoto</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Modalità di visualizzazione</value>
@@ -1466,5 +1442,17 @@
   </data>
   <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
     <value>Nascondi i file protetti di sistema (consigliato)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="AddDialogListFileHeader" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="AddDialogListFileSubHeader" xml:space="preserve">
+    <value>Crea un file vuoto</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>Nuovo File</value>
   </data>
 </root>
