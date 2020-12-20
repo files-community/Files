@@ -771,7 +771,7 @@
                             <AcrylicBrush
                                 x:Key="TabViewBackground"
                                 Windows10version1903:TintLuminosityOpacity="0.75"
-                                AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
+                                AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                                 BackgroundSource="HostBackdrop"
                                 FallbackColor="#FFF3F2F1"
                                 TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
@@ -781,7 +781,7 @@
                             <AcrylicBrush
                                 x:Key="TabViewBackground"
                                 Windows10version1903:TintLuminosityOpacity="0.75"
-                                AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
+                                AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                                 BackgroundSource="HostBackdrop"
                                 FallbackColor="#161514"
                                 TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"

@@ -75,7 +75,7 @@ namespace Files
         {
             switch (e.PropertyName)
             {
-                case "AcrylicEnabled":
+                case "IsAcrylicDisabled":
                 case "FallbackColor":
                 case "TintColor":
                 case "TintOpacity":
@@ -90,7 +90,7 @@ namespace Files
             {
                 var backgroundBrush = new AcrylicBrush()
                 {
-                    AlwaysUseFallback = AppSettings.AcrylicEnabled,
+                    AlwaysUseFallback = AppSettings.IsAcrylicDisabled,
                     BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
                     FallbackColor = AppSettings.AcrylicTheme.FallbackColor,
                     TintColor = AppSettings.AcrylicTheme.TintColor,
