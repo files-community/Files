@@ -15,7 +15,8 @@
     NavigationCacheMode="Enabled"
     PointerPressed="GridViewBrowserViewer_PointerPressed"
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    x:Name="PageRoot">
     <local:BaseLayout.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 
@@ -531,9 +532,8 @@
         </MenuFlyout>
 
         <DataTemplate x:Name="GridViewBrowserTemplate" x:DataType="local2:ListedItem">
-            <!--Width="{x:Bind FolderSettings.GridViewSize, Mode=OneWay}"-->
             <Grid
-                Width="100"
+                Width="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                 Height="Auto"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
@@ -552,8 +552,8 @@
                 </Grid.RowDefinitions>
                 <Grid
                     Grid.Row="0"
-                    Width="100"
-                    Height="100"
+                    Width="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+                    Height="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                     Opacity="{x:Bind Opacity, Mode=OneWay}"
                     Tag="ItemImage">
                     <Grid
@@ -583,8 +583,8 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
-                        <Viewbox MaxWidth="100"
-                                 MaxHeight="100">
+                        <Viewbox MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+                                 MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}">
                             <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA00;" />
                         </Viewbox>
                     </Grid>
@@ -604,8 +604,8 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
-                        <Viewbox MaxWidth="100"
-                                 MaxHeight="100">
+                        <Viewbox MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+                                 MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}">
                             <FontIcon
                                 FontFamily="{StaticResource FluentUIGlyphs}"
                                 FontSize="28"
@@ -630,7 +630,7 @@
                 </Grid>
                 <Grid
                     Grid.Row="1"
-                    MaxWidth="100"
+                    MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                     Margin="5,0,5,10"
                     HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
@@ -662,7 +662,7 @@
                     x:Load="False">
                     <TextBox
                         x:Name="GridViewTextBoxItemName"
-                        Width="100"
+                        Width="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                         Margin="0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"

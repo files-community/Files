@@ -23,6 +23,7 @@ namespace Files
         public GridViewBrowser()
         {
             InitializeComponent();
+            this.DataContext = this;
             base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
 
@@ -57,7 +58,11 @@ namespace Files
 
         private void SetItemTemplate()
         {
-            FileList.ItemTemplate = (FolderSettings.LayoutMode == 1) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
+            var template = (FolderSettings.LayoutMode == 1) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
+            if (template != FileList.ItemTemplate)
+            {
+                FileList.ItemTemplate = template;
+            }
 
             // Set GridViewSize event handlers
             if (FolderSettings.LayoutMode == 1)
@@ -67,6 +72,7 @@ namespace Files
             else if (FolderSettings.LayoutMode == 2)
             {
                 currentIconSize = GetIconSize(); // Get icon size for jumps from other layouts directly to a grid size
+                FolderSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
                 FolderSettings.GridViewSizeChangeRequested += AppSettings_GridViewSizeChangeRequested;
             }
         }
