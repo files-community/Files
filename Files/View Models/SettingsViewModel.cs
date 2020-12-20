@@ -41,7 +41,6 @@ namespace Files.View_Models
         {
             _roamingSettings = ApplicationData.Current.RoamingSettings;
 
-            DetectAcrylicPreference();
             DetectDateTimeFormat();
             PinSidebarLocationItems();
             DetectRecycleBinPreference();
@@ -58,7 +57,7 @@ namespace Files.View_Models
             Analytics.TrackEvent("PinRecycleBinToSideBar " + PinRecycleBinToSideBar.ToString());
             Analytics.TrackEvent("ShowFileExtensions " + ShowFileExtensions.ToString());
             Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
-            Analytics.TrackEvent("AcrylicSidebar " + AcrylicEnabled.ToString());
+            Analytics.TrackEvent("IsAcrylicDisabled " + IsAcrylicDisabled.ToString());
             Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
             Analytics.TrackEvent("IsHorizontalTabStripEnabled " + IsHorizontalTabStripEnabled.ToString());
             Analytics.TrackEvent("IsVerticalTabFlyoutEnabled " + IsVerticalTabFlyoutEnabled.ToString());
@@ -510,28 +509,10 @@ namespace Files.View_Models
             set => Set(value);
         }
 
-        private void DetectAcrylicPreference()
+        public bool IsAcrylicDisabled
         {
-            if (localSettings.Values["AcrylicEnabled"] == null)
-            {
-                localSettings.Values["AcrylicEnabled"] = true;
-            }
-            AcrylicEnabled = (bool)localSettings.Values["AcrylicEnabled"];
-        }
-
-        private bool _AcrylicEnabled = true;
-
-        public bool AcrylicEnabled
-        {
-            get => _AcrylicEnabled;
-            set
-            {
-                if (value != _AcrylicEnabled)
-                {
-                    SetProperty(ref _AcrylicEnabled, value);
-                    localSettings.Values["AcrylicEnabled"] = value;
-                }
-            }
+            get => Get(true);
+            set => Set(value);
         }
 
         public bool ShowAllContextMenuItems
@@ -772,9 +753,10 @@ namespace Files.View_Models
                     Set(tValue, propertyName); // Put the corrected value in settings.
                     return tValue;
                 }
-
                 return tValue;
             }
+
+            _roamingSettings.Values[propertyName] = defaultValue;
 
             return defaultValue;
         }
