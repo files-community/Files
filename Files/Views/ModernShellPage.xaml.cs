@@ -63,7 +63,7 @@ namespace Files.Views.Pages
         }
 
         public ItemViewModel FilesystemViewModel { get; private set; } = null;
-        public CurrentInstanceViewModel InstanceViewModel { get; } = new CurrentInstanceViewModel();
+        public CurrentInstanceViewModel InstanceViewModel { get; }
         private BaseLayout contentPage = null;
 
         public BaseLayout ContentPage
@@ -91,6 +91,7 @@ namespace Files.Views.Pages
         {
             InitializeComponent();
 
+            InstanceViewModel = new CurrentInstanceViewModel(this);
             filesystemHelpers = new FilesystemHelpers(this, App.CancellationToken);
             storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, App.CancellationToken));
 
@@ -145,7 +146,7 @@ namespace Files.Views.Pages
             var invokedItem = (args.SelectedItem as ListedItem);
             if (invokedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
-                ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments()
+                ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(invokedItem.ItemPath), new NavigationArguments()
                 {
                     NavPathParam = invokedItem.ItemPath,
                     AssociatedTabInstance = this
@@ -178,7 +179,7 @@ namespace Files.Views.Pages
             if (args.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(args.QueryText))
             {
                 App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
-                ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments()
+                ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
                 {
                     AssociatedTabInstance = this,
                     IsSearchResultPage = true,
@@ -309,7 +310,7 @@ namespace Files.Views.Pages
             }
 
             ContentFrame.Navigate(
-                sourcePageType == null ? App.AppSettings.GetLayoutType() : sourcePageType,
+                sourcePageType == null ? InstanceViewModel.FolderSettings.GetLayoutType(navigationPath) : sourcePageType,
                 new NavigationArguments()
                 {
                     NavPathParam = navigationPath,
@@ -504,7 +505,7 @@ namespace Files.Views.Pages
                 {
                     flyoutItem.Click += (sender, args) =>
                     {
-                        ContentFrame.Navigate(AppSettings.GetLayoutType(),
+                        ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(childFolder.Path),
                                               new NavigationArguments()
                                               {
                                                   NavPathParam = childFolder.Path,
@@ -519,7 +520,7 @@ namespace Files.Views.Pages
 
         private void ModernShellPage_NavigationRequested(object sender, PathNavigationEventArgs e)
         {
-            ContentFrame.Navigate(e.LayoutType, new NavigationArguments()
+            ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
             {
                 NavPathParam = e.ItemPath,
                 AssociatedTabInstance = this
@@ -571,7 +572,7 @@ namespace Files.Views.Pages
                     if (resFolder || FilesystemViewModel.CheckFolderAccessWithWin32(currentInput))
                     {
                         var pathToNavigate = resFolder.Result?.Path ?? currentInput;
-                        ContentFrame.Navigate(AppSettings.GetLayoutType(),
+                        ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(pathToNavigate),
                                               new NavigationArguments()
                                               {
                                                   NavPathParam = pathToNavigate,
@@ -813,7 +814,7 @@ namespace Files.Views.Pages
 
             if (NavigationPath != "")
             {
-                ContentFrame.Navigate(AppSettings.GetLayoutType(),
+                ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(NavigationPath),
                                       new NavigationArguments()
                                       {
                                           NavPathParam = NavigationPath,

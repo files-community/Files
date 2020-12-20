@@ -108,15 +108,13 @@ namespace Files
             }
             LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs()
             {
-                Path = NavigationPath,
-                LayoutType = AppSettings.GetLayoutType()
+                Path = NavigationPath
             });
         }
     }
 
     public class LibraryCardInvokedEventArgs : EventArgs
     {
-        public Type LayoutType { get; set; }
         public string Path { get; set; }
     }
 

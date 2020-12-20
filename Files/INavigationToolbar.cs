@@ -53,7 +53,6 @@ namespace Files.UserControls
 
     public class PathNavigationEventArgs
     {
-        public Type LayoutType { get; set; }
         public string ItemPath { get; set; }
     }
 

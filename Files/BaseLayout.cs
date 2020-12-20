@@ -41,6 +41,8 @@ namespace Files
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
+        public FolderSettingsViewModel FolderSettings => ParentShellPageInstance.InstanceViewModel.FolderSettings;
+
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
 
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
@@ -277,7 +279,7 @@ namespace Files
 
         protected abstract ListedItem GetItemFromElement(object element);
 
-        private void AppSettings_LayoutModeChangeRequested(object sender, EventArgs e)
+        private void FolderSettings_LayoutModeChangeRequested(object sender, EventArgs e)
         {
             if (ParentShellPageInstance.ContentPage != null)
             {
@@ -285,7 +287,9 @@ namespace Files
                 ParentShellPageInstance.FilesystemViewModel.IsLoadingItems = true;
                 ParentShellPageInstance.FilesystemViewModel.IsLoadingItems = false;
 
-                ParentShellPageInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments()
+                var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
+
+                ParentShellPageInstance.ContentFrame.Navigate(layoutType, new NavigationArguments()
                 {
                     NavPathParam = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory,
                     AssociatedTabInstance = ParentShellPageInstance
@@ -304,12 +308,12 @@ namespace Files
         {
             base.OnNavigatedTo(eventArgs);
             // Add item jumping handler
-            AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
             Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
             var parameters = (NavigationArguments)eventArgs.Parameter;
             isSearchResultPage = parameters.IsSearchResultPage;
             ParentShellPageInstance = parameters.AssociatedTabInstance;
             IsItemSelected = false;
+            FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
 
             if (!isSearchResultPage)
@@ -365,7 +369,7 @@ namespace Files
             ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles(isSearchResultPage);
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
-            AppSettings.LayoutModeChangeRequested -= AppSettings_LayoutModeChangeRequested;
+            FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
         }
 
         private void UnloadMenuFlyoutItemByName(string nameToUnload)
@@ -901,7 +905,7 @@ namespace Files
 
         public void GridViewSizeIncrease(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            AppSettings.GridViewSize = AppSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
+            FolderSettings.GridViewSize = FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
             if (args != null)
             {
                 args.Handled = true;
@@ -910,7 +914,7 @@ namespace Files
 
         public void GridViewSizeDecrease(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            AppSettings.GridViewSize = AppSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
+            FolderSettings.GridViewSize = FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
             if (args != null)
             {
                 args.Handled = true;

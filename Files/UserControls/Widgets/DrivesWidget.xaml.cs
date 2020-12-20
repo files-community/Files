@@ -52,14 +52,12 @@ namespace Files
 
             DrivesWidgetInvoked?.Invoke(this, new DrivesWidgetInvokedEventArgs()
             {
-                Path = NavigationPath,
-                LayoutType = AppSettings.GetLayoutType()
+                Path = NavigationPath
             });
         }
 
         public class DrivesWidgetInvokedEventArgs : EventArgs
         {
-            public Type LayoutType { get; set; }
             public string Path { get; set; }
         }
 

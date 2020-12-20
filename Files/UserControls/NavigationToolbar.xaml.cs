@@ -632,8 +632,7 @@ namespace Files.UserControls
                             dragOverTimer.Stop();
                             ItemDraggedOverPathItem?.Invoke(this, new PathNavigationEventArgs()
                             {
-                                ItemPath = dragOverPath,
-                                LayoutType = AppSettings.GetLayoutType()
+                                ItemPath = dragOverPath
                             });
                             dragOverPath = null;
                         }
@@ -717,8 +716,7 @@ namespace Files.UserControls
             var itemTappedPath = ((sender as TextBlock).DataContext as PathBoxItem).Path;
             ToolbarPathItemInvoked?.Invoke(this, new PathNavigationEventArgs()
             {
-                ItemPath = itemTappedPath,
-                LayoutType = AppSettings.GetLayoutType()
+                ItemPath = itemTappedPath
             });
         }
 
