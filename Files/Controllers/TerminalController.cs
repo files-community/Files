@@ -1,4 +1,5 @@
 ﻿using Files.DataModels;
+using Files.Filesystem;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -11,9 +12,7 @@ namespace Files.Controllers
     {
         private string defaultTerminalPath = "ms-appx:///Assets/terminal/terminal.json";
 
-        private StorageFile JsonFile { get; set; }
-
-        private StorageFolder Folder { get; set; }
+        private string folderPath => Path.Combine(ApplicationData.Current.LocalFolder.Path, "settings");
 
         public TerminalFileModel Model { get; set; }
 
@@ -26,45 +25,69 @@ namespace Files.Controllers
 
         private async Task LoadAsync()
         {
-            Folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists);
-            try
+            StorageFolder Folder = await FilesystemTasks.Wrap(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists).AsTask());
+            if (Folder == null)
             {
-                JsonFile = await Folder.GetFileAsync(JsonFileName);
-            }
-            catch (FileNotFoundException)
-            {
-                var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri(defaultTerminalPath));
-
-                JsonFile = await Folder.CreateFileAsync(JsonFileName);
-                await FileIO.WriteBufferAsync(JsonFile, await FileIO.ReadBufferAsync(await defaultFile));
+                Model = await GetDefaultTerminalFileModel();
+                return;
             }
 
-            var content = await FileIO.ReadTextAsync(JsonFile);
+            var JsonFile = await FilesystemTasks.Wrap(() => Folder.GetFileAsync(JsonFileName).AsTask());
+            if (!JsonFile)
+            {
+                if (JsonFile == FilesystemErrorCode.ERROR_NOTFOUND)
+                {
+                    Model = await GetDefaultTerminalFileModel();
+                    SaveModel();
+                    return;
+                }
+                else
+                {
+                    Model = await GetDefaultTerminalFileModel();
+                    return;
+                }
+            }
 
             try
             {
+                var content = await FileIO.ReadTextAsync(JsonFile.Result);
                 Model = JsonConvert.DeserializeObject<TerminalFileModel>(content);
                 if (Model == null)
                 {
-                    Model = new TerminalFileModel();
                     throw new JsonParsingNullException(JsonFileName);
                 }
             }
             catch (JsonParsingNullException)
             {
-                var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri(defaultTerminalPath));
-
-                JsonFile = await Folder.CreateFileAsync(JsonFileName, CreationCollisionOption.ReplaceExisting);
-                await FileIO.WriteBufferAsync(JsonFile, await FileIO.ReadBufferAsync(await defaultFile));
-                var defaultContent = await FileIO.ReadTextAsync(JsonFile);
-                Model = JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
+                Model = await GetDefaultTerminalFileModel();
+                SaveModel();
             }
             catch (Exception)
             {
-                var defaultFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(defaultTerminalPath));
-                JsonFile = null;
+                Model = await GetDefaultTerminalFileModel();
+            }
+        }
+
+        private async Task<TerminalFileModel> GetDefaultTerminalFileModel()
+        {
+            try
+            {
+                StorageFile defaultFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(defaultTerminalPath));
                 var defaultContent = await FileIO.ReadTextAsync(defaultFile);
-                Model = JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
+                return JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
+            }
+            catch
+            {
+                var model = new TerminalFileModel();
+                model.Terminals.Add(new Terminal()
+                {
+                    Name = "CMD",
+                    Path = "cmd.exe",
+                    Arguments = "",
+                    Icon = ""
+                });
+                model.ResetToDefaultTerminal();
+                return model;
             }
         }
 
@@ -102,16 +125,17 @@ namespace Files.Controllers
 
         public void SaveModel()
         {
-            if (JsonFile == null)
+            try
             {
-                return;
+                using (var file = File.CreateText(Path.Combine(folderPath, JsonFileName)))
+                {
+                    JsonSerializer serializer = new JsonSerializer();
+                    serializer.Formatting = Formatting.Indented;
+                    serializer.Serialize(file, Model);
+                }
             }
-
-            using (var file = File.CreateText(Folder.Path + Path.DirectorySeparatorChar + JsonFileName))
+            catch
             {
-                JsonSerializer serializer = new JsonSerializer();
-                serializer.Formatting = Formatting.Indented;
-                serializer.Serialize(file, Model);
             }
         }
     }
