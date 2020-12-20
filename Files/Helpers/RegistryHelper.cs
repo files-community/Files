@@ -5,13 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.Helpers
 {
-    public class RegistryHelper
+    public static class RegistryHelper
     {
         public static async Task<List<ShellNewEntry>> GetNewContextMenuEntries()
         {
@@ -19,11 +20,14 @@ namespace Files.Helpers
             foreach (var keyName in Registry.ClassesRoot.GetSubKeyNames()
                 .Where(x => x.StartsWith(".") && !new string[] { ".library-ms", ".url", ".lnk" }.Contains(x)))
             {
-                using var key = Registry.ClassesRoot.OpenSubKey(keyName);
-                var ret = await GetShellNewRegistryEntries(key, key);
-                if (ret != null)
+                using var key = Registry.ClassesRoot.OpenSubKeySafe(keyName);
+                if (key != null)
                 {
-                    newMenuItems.Add(ret);
+                    var ret = await GetShellNewRegistryEntries(key, key);
+                    if (ret != null)
+                    {
+                        newMenuItems.Add(ret);
+                    }
                 }
             }
             return newMenuItems;
@@ -32,7 +36,7 @@ namespace Files.Helpers
         public static async Task<ShellNewEntry> GetNewContextMenuEntryForType(string extension)
         {
             if (string.IsNullOrEmpty(extension)) return null;
-            using var key = Registry.ClassesRoot.OpenSubKey(extension);
+            using var key = Registry.ClassesRoot.OpenSubKeySafe(extension);
             return key != null ? await GetShellNewRegistryEntries(key, key) : null;
         }
 
@@ -40,7 +44,11 @@ namespace Files.Helpers
         {
             foreach (var keyName in current.GetSubKeyNames())
             {
-                using var key = current.OpenSubKey(keyName);
+                using var key = current.OpenSubKeySafe(keyName);
+                if (key == null)
+                {
+                    continue;
+                }
                 if (keyName == "ShellNew")
                 {
                     return await ParseShellNewRegistryEntry(key, root);
@@ -107,6 +115,18 @@ namespace Files.Helpers
             };
 
             return entry;
+        }
+
+        private static RegistryKey OpenSubKeySafe(this RegistryKey root, string keyName)
+        {
+            try
+            {
+                return root.OpenSubKey(keyName);
+            }
+            catch (SecurityException)
+            {
+                return null;
+            }
         }
     }
 }
