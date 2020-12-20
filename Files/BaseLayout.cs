@@ -515,7 +515,7 @@ namespace Files
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             SetShellContextmenu(BaseLayoutContextFlyout, shiftPressed, false);
             var newItemMenu = (MenuFlyoutSubItem)BaseLayoutContextFlyout.Items.Single(x => x.Name == "NewEmptySpace");
-            if (!newItemMenu.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
+            if (cachedNewContextMenuEntries != null && !newItemMenu.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
             {
                 var separatorIndex = newItemMenu.Items.IndexOf(newItemMenu.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
                 foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))

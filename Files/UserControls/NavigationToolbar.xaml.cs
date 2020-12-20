@@ -814,7 +814,7 @@ namespace Files.UserControls
         private void NavMoreButtonFlyout_Opening(object sender, object e)
         {
             var newItemMenu = (MenuFlyoutSubItem)(sender as MenuFlyout).Items.Single(x => x.Name == "NewEmptySpace");
-            if (!newItemMenu.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
+            if (cachedNewContextMenuEntries != null && !newItemMenu.Items.Any(x => (x.Tag as string) == "CreateNewFile"))
             {
                 var separatorIndex = newItemMenu.Items.IndexOf(newItemMenu.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
                 foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))
