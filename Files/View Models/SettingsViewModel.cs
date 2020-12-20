@@ -748,7 +748,6 @@ namespace Files.View_Models
                             (TryParseDelegate<TValue>)Delegate.CreateDelegate(valueType, tryParse, false);
 
                         tValue = (tryParseDelegate?.Invoke(stringValue, out tValue) ?? false) ? tValue : default;
-
                     }
 
                     Set(tValue, propertyName); // Put the corrected value in settings.
