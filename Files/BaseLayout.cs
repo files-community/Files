@@ -154,6 +154,8 @@ namespace Files
             }
         }
 
+        public abstract void FocusFileList();
+
         public abstract void SelectAllItems();
 
         public virtual void InvertSelection()
@@ -353,6 +355,8 @@ namespace Files
             ParentShellPageInstance.Clipboard_ContentChanged(null, null);
 
             cachedNewContextMenuEntries = await RegistryHelper.GetNewContextMenuEntries();
+
+            FocusFileList(); // Set focus on layout specific file list control
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

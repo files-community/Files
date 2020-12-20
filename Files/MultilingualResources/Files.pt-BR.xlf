@@ -1906,6 +1906,14 @@
           <source>Updates Available</source>
           <target state="new">Updates Available</target>
         </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersHideSystemItems.Header" translate="yes" xml:space="preserve">
+          <source>Hide protected operating system files (Recommended)</source>
+          <target state="new">Hide protected operating system files (Recommended)</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Hide protected operating system files (Recommended)</source>
+          <target state="new">Hide protected operating system files (Recommended)</target>
+        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNewFile.Text" translate="yes" xml:space="preserve">
           <source>File</source>
           <target state="new">File</target>

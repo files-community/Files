@@ -807,7 +807,7 @@ namespace Files.Interacts
         public async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
             await FilesystemHelpers.DeleteItemsAsync(
-                AssociatedInstance.ContentPage.SelectedItems.Select((item) => new PathWithType(
+                AssociatedInstance.ContentPage.SelectedItems.Select((item) => StorageItemHelpers.FromPathAndType(
                     item.ItemPath,
                     item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(),
                 true, false, true);
@@ -929,7 +929,7 @@ namespace Files.Interacts
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
                     FilesystemItemType itemType = (listedItem as RecycleBinItem).PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
-                    await FilesystemHelpers.RestoreFromTrashAsync(new PathWithType(
+                    await FilesystemHelpers.RestoreFromTrashAsync(StorageItemHelpers.FromPathAndType(
                         (listedItem as RecycleBinItem).ItemPath,
                         itemType), (listedItem as RecycleBinItem).ItemOriginalPath, true);
                 }
@@ -1175,7 +1175,7 @@ namespace Files.Interacts
 
             // Create file based on dialog result
             string userInput = renameDialog.storedRenameInput;
-            var folderRes = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(currentPath);
+            var folderRes = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(currentPath);
             FilesystemResult created = folderRes;
             if (folderRes)
             {
@@ -1186,7 +1186,7 @@ namespace Files.Interacts
                         created = await FilesystemTasks.Wrap(async () =>
                         {
                             return await FilesystemHelpers.CreateAsync(
-                                new PathWithType(Path.Combine(folderRes.Result.Path, userInput), FilesystemItemType.Directory),
+                                StorageItemHelpers.FromPathAndType(Path.Combine(folderRes.Result.Path, userInput), FilesystemItemType.Directory),
                                 true);
                         });
                         break;
@@ -1196,7 +1196,7 @@ namespace Files.Interacts
                         created = await FilesystemTasks.Wrap(async () =>
                         {
                             return await FilesystemHelpers.CreateAsync(
-                                new PathWithType(Path.Combine(folderRes.Result.Path, userInput + itemInfo?.Extension), FilesystemItemType.File),
+                                StorageItemHelpers.FromPathAndType(Path.Combine(folderRes.Result.Path, userInput + itemInfo?.Extension), FilesystemItemType.File),
                                 true);
                         });
                         break;

@@ -19,7 +19,7 @@ namespace Files.Filesystem.FilesystemHistory
         public StorageHistoryWrapper()
         {
             this.storageHistory = new List<IStorageHistory>();
-            this.storageHistoryIndex = 0;
+            this.storageHistoryIndex = -1;
         }
 
         #endregion Constructor
@@ -30,32 +30,41 @@ namespace Files.Filesystem.FilesystemHistory
         {
             if (history != null)
             {
-                this.storageHistory?.Add(history);
-
-                if (this.storageHistory?.Count > 1)
+                this.storageHistoryIndex++;
+                this.storageHistory.Insert(this.storageHistoryIndex, history);
+                // If a history item is added also remove all the redo operations after it
+                for (var idx = this.storageHistory.Count - 1; idx > this.storageHistoryIndex; idx--)
                 {
-                    this.storageHistoryIndex++;
+                    this.storageHistory.RemoveAt(idx);
                 }
             }
         }
 
-        public void RemoveHistory(IStorageHistory history)
+        public void RemoveHistory(IStorageHistory history, bool decreaseIndex)
         {
             if (history != null)
             {
-                this.storageHistory?.Remove(history);
-                this.storageHistoryIndex--;
+                // If a history item is invalid also remove all the redo operations after it
+                for (var idx = this.storageHistory.Count - 1; idx > this.storageHistoryIndex; idx--)
+                {
+                    this.storageHistory.RemoveAt(idx);
+                }
+                if (decreaseIndex)
+                {
+                    this.storageHistoryIndex--;
+                }
+                this.storageHistory.Remove(history);
             }
         }
 
         public void ModifyCurrentHistory(IStorageHistory newHistory)
         {
-            this.storageHistory?[this.storageHistoryIndex].Modify(newHistory);
+            this.storageHistory[this.storageHistoryIndex].Modify(newHistory);
         }
 
         public IStorageHistory GetCurrentHistory()
         {
-            return this.storageHistory?.ElementAt(this.storageHistoryIndex);
+            return this.storageHistory.ElementAt(this.storageHistoryIndex);
         }
 
         public void IncreaseIndex()
@@ -81,7 +90,6 @@ namespace Files.Filesystem.FilesystemHistory
         public void Dispose()
         {
             storageHistory?.ForEach((item) => item?.Dispose());
-
             storageHistory?.ForEach((item) => item = null);
             storageHistory = null;
         }

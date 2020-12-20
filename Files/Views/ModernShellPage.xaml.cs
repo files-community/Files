@@ -987,7 +987,7 @@ namespace Files.Views.Pages
                     if (!NavigationToolbar.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
                     {
                         await filesystemHelpers.DeleteItemsAsync(
-                            ContentPage.SelectedItems.Select((item) => new PathWithType(
+                            ContentPage.SelectedItems.Select((item) => StorageItemHelpers.FromPathAndType(
                                 item.ItemPath,
                                 item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(),
                             true, true, true);
@@ -1055,7 +1055,7 @@ namespace Files.Views.Pages
                     if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
                     {
                         await filesystemHelpers.DeleteItemsAsync(
-                            ContentPage.SelectedItems.Select((item) => new PathWithType(
+                            ContentPage.SelectedItems.Select((item) => StorageItemHelpers.FromPathAndType(
                                 item.ItemPath,
                                 item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(),
                             true, false, true);
