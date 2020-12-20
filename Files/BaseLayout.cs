@@ -527,8 +527,7 @@ namespace Files
                     MenuFlyoutItem menuLayoutItem;
                     if (newEntry.Icon != null)
                     {
-                        BitmapImage image = null;
-                        image = new BitmapImage();
+                        var image = new BitmapImage();
 #pragma warning disable CS4014
                         image.SetSourceAsync(newEntry.Icon);
 #pragma warning restore CS4014

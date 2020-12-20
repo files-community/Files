@@ -42,12 +42,25 @@
                     <DataTemplate x:DataType="local:AddListItem">
                         <Grid Height="50">
                             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                                <TextBlock
-                                        Margin="0,0,10,0"
+                                <Grid Margin="0,0,10,0"
+                                      VerticalAlignment="Center">
+                                    <Viewbox
+                                        x:Name="IconRoot"
+                                        Width="24"
+                                        Height="24"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center">
+                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="{x:Bind Glyph}" />
+                                    </Viewbox>
+                                    <Image
+                                        Width="24"
+                                        Height="24"
+                                        Margin="0"
+                                        HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
-                                        FontFamily="Segoe MDL2 Assets"
-                                        FontSize="28"
-                                        Text="{x:Bind Icon}" />
+                                        Source="{x:Bind Icon}"
+                                        Stretch="Uniform" />
+                                </Grid>
                                 <StackPanel>
                                     <TextBlock Text="{x:Bind Header}" />
                                     <TextBlock Foreground="Gray" Text="{x:Bind SubHeader}" />
