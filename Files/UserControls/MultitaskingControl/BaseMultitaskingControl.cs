@@ -192,9 +192,9 @@ namespace Files.UserControls.MultitaskingControl
             RemoveTab(args.Item as TabItem);
         }
 
-        protected void TabView_AddTabButtonClick(TabView sender, object args)
+        protected async void TabView_AddTabButtonClick(TabView sender, object args)
         {
-            MainPage.AddNewTabAsync();
+            await MainPage.AddNewTabAsync();
         }
 
         public void MultitaskingControl_Loaded(object sender, RoutedEventArgs e)
