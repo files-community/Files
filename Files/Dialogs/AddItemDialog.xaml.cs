@@ -1,12 +1,16 @@
-﻿using Microsoft.Toolkit.Uwp.Extensions;
-using System.Collections.Generic;
+﻿using Files.DataModels;
+using Files.Helpers;
+using Microsoft.Toolkit.Uwp.Extensions;
+using System;
+using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Dialogs
 {
     public sealed partial class AddItemDialog : ContentDialog
     {
-        public AddItemType ResultType { get; private set; } = AddItemType.Cancel;
+        public AddItemResult ResultType { get; private set; } = new AddItemResult() { ItemType = AddItemType.Cancel };
 
         public AddItemDialog()
         {
@@ -14,9 +18,9 @@ namespace Files.Dialogs
             AddItemsToList();
         }
 
-        public List<AddListItem> AddItemsList = new List<AddListItem>();
+        public ObservableCollection<AddListItem> AddItemsList = new ObservableCollection<AddListItem>();
 
-        public void AddItemsToList()
+        public async void AddItemsToList()
         {
             AddItemsList.Clear();
 
@@ -24,26 +28,48 @@ namespace Files.Dialogs
             {
                 Header = "AddDialogListFolderHeader".GetLocalized(),
                 SubHeader = "AddDialogListFolderSubHeader".GetLocalized(),
-                Icon = "\xE838",
+                Glyph = "\xE838",
                 IsItemEnabled = true,
-                ItemType = AddItemType.Folder
+                ItemType = new AddItemResult() { ItemType = AddItemType.Folder }
             });
+
+            var itemTypes = await RegistryHelper.GetNewContextMenuEntries();
+
+            foreach (var itemType in itemTypes)
+            {
+                BitmapImage image = null;
+                if (itemType.Icon != null)
+                {
+                    image = new BitmapImage();
+                    await image.SetSourceAsync(itemType.Icon);
+                }
+
+                AddItemsList.Add(new AddListItem
+                {
+                    Header = itemType.Name,
+                    SubHeader = itemType.Extension,
+                    Glyph = itemType.Icon != null ? null : "\xE8A5",
+                    Icon = image,
+                    IsItemEnabled = true,
+                    ItemType = new AddItemResult()
+                    {
+                        ItemType = AddItemType.File,
+                        ItemInfo = itemType
+                    }
+                });
+            }
 
             AddItemsList.Add(new AddListItem
             {
-                Header = "AddDialogListTextFileHeader".GetLocalized(),
-                SubHeader = "AddDialogListTextFileSubHeader".GetLocalized(),
-                Icon = "\xE8A5",
+                Header = "AddDialogListFileHeader".GetLocalized(),
+                SubHeader = "AddDialogListFileSubHeader".GetLocalized(),
+                Glyph = "\xE8A5",
                 IsItemEnabled = true,
-                ItemType = AddItemType.TextDocument
-            });
-            AddItemsList.Add(new AddListItem
-            {
-                Header = "AddDialogListBitmapHeader".GetLocalized(),
-                SubHeader = "AddDialogListBitmapSubHeader".GetLocalized(),
-                Icon = "\xEB9F",
-                IsItemEnabled = true,
-                ItemType = AddItemType.BitmapImage
+                ItemType = new AddItemResult()
+                {
+                    ItemType = AddItemType.File,
+                    ItemInfo = new ShellNewEntry()
+                }
             });
         }
 
@@ -56,19 +82,24 @@ namespace Files.Dialogs
 
     public enum AddItemType
     {
-        Folder = 0,
-        TextDocument = 1,
-        BitmapImage = 2,
-        CompressedArchive = 3,
-        Cancel = 4
+        Folder,
+        File,
+        Cancel
+    }
+
+    public class AddItemResult
+    {
+        public AddItemType ItemType { get; set; }
+        public ShellNewEntry ItemInfo { get; set; }
     }
 
     public class AddListItem
     {
         public string Header { get; set; }
         public string SubHeader { get; set; }
-        public string Icon { get; set; }
+        public string Glyph { get; set; }
+        public BitmapImage Icon { get; set; }
         public bool IsItemEnabled { get; set; }
-        public AddItemType ItemType { get; set; }
+        public AddItemResult ItemType { get; set; }
     }
 }

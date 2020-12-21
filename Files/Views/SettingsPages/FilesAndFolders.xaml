@@ -33,6 +33,12 @@
                     IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}" />
 
                 <ToggleSwitch
+                    x:Uid="SettingsFilesAndFoldersHideSystemItems"
+                    Header="Hide protected operating system files (Recommended)"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind AppSettings.AreSystemItemsHidden, Mode=TwoWay}" />
+
+                <ToggleSwitch
                     x:Name="FileExtensionsToggle"
                     x:Uid="SettingsFilesAndFoldersShowFileExtensions"
                     Header="Show extensions for known file types"
@@ -44,6 +50,12 @@
                     Header="Open items with a single click"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{x:Bind AppSettings.OpenItemsWithOneclick, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Uid="SettingsListAndSortDirectoriesAlongsideFiles"
+                    Header="List and sort directories alongside files"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind AppSettings.ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

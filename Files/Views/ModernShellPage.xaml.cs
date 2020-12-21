@@ -1,13 +1,12 @@
 ﻿using Files.Common;
 using Files.Dialogs;
 using Files.Filesystem;
-using Files.Filesystem.Search;
 using Files.Filesystem.FilesystemHistory;
+using Files.Filesystem.Search;
 using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
 using Files.View_Models;
-using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
@@ -24,7 +23,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Windows.Storage.Search;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Text;
@@ -132,7 +130,7 @@ namespace Files.Views.Pages
                 navToolbar.AddressBarTextEntered += ModernShellPage_AddressBarTextEntered;
                 navToolbar.PathBoxItemDropped += ModernShellPage_PathBoxItemDropped;
             }
-            
+
             AppSettings.SortDirectionPreferenceUpdated += AppSettings_SortDirectionPreferenceUpdated;
             AppSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
 
@@ -162,7 +160,7 @@ namespace Files.Views.Pages
 
         private async void ModernShellPage_SearchTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            if(args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 if (!string.IsNullOrWhiteSpace(sender.Text))
                 {
@@ -976,9 +974,11 @@ namespace Files.Views.Pages
                     {
                         var addItemDialog = new AddItemDialog();
                         await addItemDialog.ShowAsync();
-                        if (addItemDialog.ResultType != AddItemType.Cancel)
+                        if (addItemDialog.ResultType.ItemType != AddItemType.Cancel)
                         {
-                            InteractionOperations.CreateFileFromDialogResultType(addItemDialog.ResultType);
+                            InteractionOperations.CreateFileFromDialogResultType(
+                                addItemDialog.ResultType.ItemType,
+                                addItemDialog.ResultType.ItemInfo);
                         }
                     }
                     break;
@@ -986,9 +986,8 @@ namespace Files.Views.Pages
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
                     if (!NavigationToolbar.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
                     {
-
                         await filesystemHelpers.DeleteItemsAsync(
-                            ContentPage.SelectedItems.Select((item) => new PathWithType(
+                            ContentPage.SelectedItems.Select((item) => StorageItemHelpers.FromPathAndType(
                                 item.ItemPath,
                                 item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(),
                             true, true, true);
@@ -1056,7 +1055,7 @@ namespace Files.Views.Pages
                     if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
                     {
                         await filesystemHelpers.DeleteItemsAsync(
-                            ContentPage.SelectedItems.Select((item) => new PathWithType(
+                            ContentPage.SelectedItems.Select((item) => StorageItemHelpers.FromPathAndType(
                                 item.ItemPath,
                                 item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(),
                             true, false, true);
@@ -1214,7 +1213,7 @@ namespace Files.Views.Pages
                 navToolbar.AddressBarTextEntered -= ModernShellPage_AddressBarTextEntered;
                 navToolbar.PathBoxItemDropped -= ModernShellPage_PathBoxItemDropped;
             }
-            
+
             AppSettings.SortDirectionPreferenceUpdated -= AppSettings_SortDirectionPreferenceUpdated;
             AppSettings.SortOptionPreferenceUpdated -= AppSettings_SortOptionPreferenceUpdated;
 

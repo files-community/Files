@@ -177,12 +177,6 @@
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Carpeta</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
-    <value>Imagen Bitmap</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewTextDocument.Text" xml:space="preserve">
-    <value>Documento de Texto</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Propiedades</value>
   </data>
@@ -255,7 +249,7 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Documento de Texto</value>
   </data>
-  <data name="StatusBarControlListView.Text" xml:space="preserve">
+  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
     <value>Detalles</value>
   </data>
   <data name="nameColumn.Header" xml:space="preserve">
@@ -314,12 +308,6 @@
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Nueva Carpeta</value>
-  </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>Nuevo Documento de Texto</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>Nueva Imagen Bitmap</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Esta carpeta está vacía.</value>
@@ -864,23 +852,11 @@
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
     <value>Cancelar</value>
   </data>
-  <data name="AddDialogListBitmapHeader" xml:space="preserve">
-    <value>Imagen de mapa de bits</value>
-  </data>
-  <data name="AddDialogListBitmapSubHeader" xml:space="preserve">
-    <value>Crea un archivo de imagen de mapa de bits vacío</value>
-  </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>Carpeta</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Crea una carpeta vacía</value>
-  </data>
-  <data name="AddDialogListTextFileHeader" xml:space="preserve">
-    <value>Documento de texto</value>
-  </data>
-  <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
-    <value>Crea un archivo de texto vacío.</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Modo de vista</value>
@@ -988,7 +964,7 @@
     <value>Mover aquí</value>
   </data>
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
-    <value>Dispositivos y Unidades</value>
+    <value>Dispositivos y unidades</value>
   </data>
   <data name="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" xml:space="preserve">
     <value>Mostrar bibliotecas en la página de inicio</value>
@@ -1058,6 +1034,9 @@
   </data>
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
     <value>Nueva pestaña</value>
+  </data>
+  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Búsqueda</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Solo lectura</value>
@@ -1358,5 +1337,59 @@
   </data>
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
     <value>Quitar todas las propiedades</value>
+  </data>
+  <data name="PropertyColorSpace_Value0" xml:space="preserve">
+    <value>sRGB</value>
+  </data>
+  <data name="PropertyColorSpace_Value65535" xml:space="preserve">
+    <value>Sin especificar</value>
+  </data>
+  <data name="StatusCenterTeachingTip.Subtitle" xml:space="preserve">
+    <value>Verifique el estado de las operaciones de archivo aquí</value>
+  </data>
+  <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
+    <value>Centro de actividades</value>
+  </data>
+  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
+    <value>Licencia</value>
+  </data>
+  <data name="SettingsAboutLicense.Content" xml:space="preserve">
+    <value>Licencia</value>
+  </data>
+  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
+    <value>Sitio web</value>
+  </data>
+  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
+    <value>Sitio web</value>
+  </data>
+  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+    <value>Mas información acerca de formatos de fecha</value>
+  </data>
+  <data name="DragDropWindowText" xml:space="preserve">
+    <value>Soltar aquí</value>
+  </data>
+  <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
+    <value>Resultados de búsqueda en</value>
+  </data>
+  <data name="SearchTabHeaderText" xml:space="preserve">
+    <value>Resultados de búsqueda</value>
+  </data>
+  <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Ver quiénes contribuyen a Files</value>
+  </data>
+  <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Ver las novedades de esta versión</value>
+  </data>
+  <data name="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Envíe a los desarrolladores un reporte de problemas con más información.</value>
+  </data>
+  <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Apóyanos en PayPal</value>
+  </data>
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
+    <value>Listar y ordenar directorios junto con archivos</value>
+  </data>
+  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+    <value>Detalles</value>
   </data>
 </root>

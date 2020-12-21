@@ -109,16 +109,19 @@ namespace Files.Filesystem
                 var properties = await Root.Properties.RetrievePropertiesAsync(new[] { "System.FreeSpace", "System.Capacity" })
                     .AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
-                MaxSpace = ByteSize.FromBytes((ulong)properties["System.Capacity"]);
-                FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
-                SpaceUsed = MaxSpace - FreeSpace;
+                if (properties["System.Capacity"] != null && properties["System.FreeSpace"] != null)
+                {
+                    MaxSpace = ByteSize.FromBytes((ulong)properties["System.Capacity"]);
+                    FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
+                    SpaceUsed = MaxSpace - FreeSpace;
 
-                SpaceText = string.Format(
-                    "DriveFreeSpaceAndCapacity".GetLocalized(),
-                    FreeSpace.ToBinaryString().ConvertSizeAbbreviation(),
-                    MaxSpace.ToBinaryString().ConvertSizeAbbreviation());
+                    SpaceText = string.Format(
+                        "DriveFreeSpaceAndCapacity".GetLocalized(),
+                        FreeSpace.ToBinaryString().ConvertSizeAbbreviation(),
+                        MaxSpace.ToBinaryString().ConvertSizeAbbreviation());
+                }
             }
-            catch (NullReferenceException)
+            catch (Exception)
             {
                 SpaceText = "DriveCapacityUnknown".GetLocalized();
                 SpaceUsed = ByteSize.FromBytes(0);

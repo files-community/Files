@@ -1,12 +1,8 @@
-﻿using ByteSizeLib;
-using Files.Enums;
-using Files.Helpers;
 ﻿using Files.Enums;
 using Files.Filesystem.Cloud;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
-using System.Diagnostics;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 

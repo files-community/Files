@@ -123,7 +123,7 @@ namespace Files.UserControls
 
         private string fullTitle;
 
-        #endregion
+        #endregion Private Members
 
         #region Public Properties
 
@@ -154,7 +154,7 @@ namespace Files.UserControls
             set => SetProperty(ref fullTitle, value);
         }
 
-        #endregion
+        #endregion Public Properties
 
         public StatusBanner(string message, string title, uint progress, ReturnResult status, FileOperationType operation)
         {

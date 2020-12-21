@@ -19,7 +19,7 @@ namespace Files.Filesystem.FilesystemHistory
         /// <br/>
         /// May contain more that one item
         /// </summary>
-        IEnumerable<PathWithType> Source { get; }
+        IEnumerable<IStorageItemWithPath> Source { get; }
 
         /// <summary>
         /// Destination file/folder
@@ -29,16 +29,16 @@ namespace Files.Filesystem.FilesystemHistory
         /// <br/>
         /// May contain more that one item
         /// </summary>
-        IEnumerable<PathWithType> Destination { get; }
+        IEnumerable<IStorageItemWithPath> Destination { get; }
 
         #region Modify
 
         void Modify(IStorageHistory newHistory);
 
-        void Modify(FileOperationType operationType, IEnumerable<PathWithType> source, IEnumerable<PathWithType> destination);
+        void Modify(FileOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<IStorageItemWithPath> destination);
 
-        void Modify(FileOperationType operationType, PathWithType source, PathWithType destination);
+        void Modify(FileOperationType operationType, IStorageItemWithPath source, IStorageItemWithPath destination);
 
-        #endregion
+        #endregion Modify
     }
 }
