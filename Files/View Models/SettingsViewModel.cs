@@ -26,7 +26,6 @@ namespace Files.View_Models
 {
     public class SettingsViewModel : ObservableObject
     {
-        private readonly ApplicationDataContainer _roamingSettings;
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
         public event EventHandler SortOptionPreferenceUpdated;
@@ -39,9 +38,6 @@ namespace Files.View_Models
 
         public SettingsViewModel()
         {
-            _roamingSettings = ApplicationData.Current.RoamingSettings;
-
-            DetectAcrylicPreference();
             DetectDateTimeFormat();
             PinSidebarLocationItems();
             DetectRecycleBinPreference();
@@ -52,19 +48,8 @@ namespace Files.View_Models
             //DetectWSLDistros();
             TerminalController = new TerminalController();
 
-            // Send analytics
-            Analytics.TrackEvent("DisplayedTimeStyle " + DisplayedTimeStyle.ToString());
-            Analytics.TrackEvent("ThemeValue " + ThemeHelper.RootTheme.ToString());
-            Analytics.TrackEvent("PinRecycleBinToSideBar " + PinRecycleBinToSideBar.ToString());
-            Analytics.TrackEvent("ShowFileExtensions " + ShowFileExtensions.ToString());
-            Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
-            Analytics.TrackEvent("AcrylicSidebar " + AcrylicEnabled.ToString());
-            Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
-            Analytics.TrackEvent("IsHorizontalTabStripEnabled " + IsHorizontalTabStripEnabled.ToString());
-            Analytics.TrackEvent("IsVerticalTabFlyoutEnabled " + IsVerticalTabFlyoutEnabled.ToString());
-            Analytics.TrackEvent("AreHiddenItemsVisible " + AreHiddenItemsVisible.ToString());
-            Analytics.TrackEvent("ShowDrivesWidget " + ShowDrivesWidget.ToString());
-            Analytics.TrackEvent("ListAndSortDirectoriesAlongsideFiles " + ListAndSortDirectoriesAlongsideFiles.ToString());
+            // Send analytics to AppCenter
+            TrackAnalytics();
 
             // Load the supported languages
             var supportedLang = ApplicationLanguages.ManifestLanguages;
@@ -73,6 +58,22 @@ namespace Files.View_Models
             {
                 DefaultLanguages.Add(new DefaultLanguageModel(lang));
             }
+        }
+
+        private void TrackAnalytics()
+        {
+            Analytics.TrackEvent("DisplayedTimeStyle " + DisplayedTimeStyle.ToString());
+            Analytics.TrackEvent("ThemeValue " + ThemeHelper.RootTheme.ToString());
+            Analytics.TrackEvent("PinRecycleBinToSideBar " + PinRecycleBinToSideBar.ToString());
+            Analytics.TrackEvent("ShowFileExtensions " + ShowFileExtensions.ToString());
+            Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
+            Analytics.TrackEvent("IsAcrylicDisabled " + IsAcrylicDisabled.ToString());
+            Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
+            Analytics.TrackEvent("IsHorizontalTabStripEnabled " + IsHorizontalTabStripEnabled.ToString());
+            Analytics.TrackEvent("IsVerticalTabFlyoutEnabled " + IsVerticalTabFlyoutEnabled.ToString());
+            Analytics.TrackEvent("AreHiddenItemsVisible " + AreHiddenItemsVisible.ToString());
+            Analytics.TrackEvent("ShowDrivesWidget " + ShowDrivesWidget.ToString());
+            Analytics.TrackEvent("ListAndSortDirectoriesAlongsideFiles " + ListAndSortDirectoriesAlongsideFiles.ToString());
         }
 
         public static async void OpenLogLocation()
@@ -272,42 +273,27 @@ namespace Files.View_Models
             set => Set(value);
         }
 
-        public bool OpenItemsWithOneclick
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        public bool ShowLibraryCardsWidget
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        public bool ShowRecentFilesWidget
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        public bool ShowDrivesWidget
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the date column should be visible.
+        /// </summary>
         public bool ShowDateColumn
         {
             get => Get(true);
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the type column should be visible.
+        /// </summary>
         public bool ShowTypeColumn
         {
             get => Get(true);
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the size column should be visible.
+        /// </summary>
         public bool ShowSizeColumn
         {
             get => Get(true);
@@ -375,6 +361,8 @@ namespace Files.View_Models
             }
         }
 
+        #region CommonPaths
+
         public string DesktopPath { get; set; } = UserDataPaths.GetDefault().Desktop;
         public string DocumentsPath { get; set; } = UserDataPaths.GetDefault().Documents;
         public string DownloadsPath { get; set; } = UserDataPaths.GetDefault().Downloads;
@@ -414,23 +402,58 @@ namespace Files.View_Models
             set => SetProperty(ref _WinDirPath, value);
         }
 
+        #endregion CommonPaths
+
+        #region FilesAndFolder
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not file extensions should be visible.
+        /// </summary>
         public bool ShowFileExtensions
         {
             get => Get(true);
             set => Set(value);
         }
 
-        public bool ShowConfirmDeleteDialog
+        /// <summary>
+        /// Gets or sets a value indicating whether or not hidden items should be visible.
+        /// </summary>
+        public bool AreHiddenItemsVisible
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not system items should be visible.
+        /// </summary>
+        public bool AreSystemItemsHidden
         {
             get => Get(true);
             set => Set(value);
         }
 
-        public bool AreLinuxFilesSupported
+        /// <summary>
+        /// Gets or sets a value indicating whether or not files should be sorted together with folders.
+        /// </summary>
+        public bool ListAndSortDirectoriesAlongsideFiles
         {
             get => Get(false);
             set => Set(value);
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not items should open with one click.
+        /// </summary>
+        public bool OpenItemsWithOneclick
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        #endregion FilesAndFolder
+
+        #region Multitasking
 
         public bool IsMultitaskingExperienceAdaptive
         {
@@ -450,99 +473,153 @@ namespace Files.View_Models
             set => Set(value);
         }
 
+        #endregion Multitasking
+
+        #region Widgets
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the library cards widget should be visible.
+        /// </summary>
+        public bool ShowLibraryCardsWidget
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the recent files widget should be visible.
+        /// </summary>
+        public bool ShowRecentFilesWidget
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the drives widget should be visible.
+        /// </summary>
+        public bool ShowDrivesWidget
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        #endregion Widgets
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the confirm delete dialog should show when deleting items.
+        /// </summary>
+        public bool ShowConfirmDeleteDialog
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not WSL is supported.
+        /// </summary>
+        public bool AreLinuxFilesSupported
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         public bool OpenNewTabPageOnStartup
         {
             get => Get(true);
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to show a teaching tip informing the user about the status center.
+        /// </summary>
         public bool ShowStatusCenterTeachingTip
         {
             get => Get(true);
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to navigate to a specific location when launching the app.
+        /// </summary>
         public bool OpenASpecificPageOnStartup
         {
             get => Get(false);
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not continue the last session whenever the app is launched.
+        /// </summary>
         public bool ContinueLastSessionOnStartUp
         {
             get => Get(false);
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to restore tabs after restarting the app.
+        /// </summary>
         public bool ResumeAfterRestart
         {
             get => Get(false);
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating the default startup location.
+        /// </summary>
         public string OpenASpecificPageOnStartupPath
         {
             get => Get("");
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not opening the app from the jumplist should open the directory in a new instance.
+        /// </summary>
         public bool AlwaysOpenANewInstance
         {
             get => Get(false);
             set => Set(value);
         }
 
-        public bool AreHiddenItemsVisible
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        public bool AreSystemItemsHidden
+        /// <summary>
+        /// Gets or sets a value indicating whether or not acrylic is enabled.
+        /// </summary>
+        public bool IsAcrylicDisabled
         {
             get => Get(true);
             set => Set(value);
         }
 
-        public bool ListAndSortDirectoriesAlongsideFiles
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        private void DetectAcrylicPreference()
-        {
-            if (localSettings.Values["AcrylicEnabled"] == null)
-            {
-                localSettings.Values["AcrylicEnabled"] = true;
-            }
-            AcrylicEnabled = (bool)localSettings.Values["AcrylicEnabled"];
-        }
-
-        private bool _AcrylicEnabled = true;
-
-        public bool AcrylicEnabled
-        {
-            get => _AcrylicEnabled;
-            set
-            {
-                if (value != _AcrylicEnabled)
-                {
-                    SetProperty(ref _AcrylicEnabled, value);
-                    localSettings.Values["AcrylicEnabled"] = value;
-                }
-            }
-        }
-
+        /// <summary>
+        /// Gets or sets a value indicating whether or not some of the right click context menu items overflow into a sub menu.
+        /// </summary>
         public bool ShowAllContextMenuItems
         {
             get => Get(false);
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the show copy location option is shown in the right click context menu.
+        /// </summary>
         public bool ShowCopyLocationOption
         {
             get => Get(true);
+            set => Set(value);
+        }
+
+        public string[] PagesOnStartupList
+        {
+            get => Get<string[]>(null);
+            set => Set(value);
+        }
+
+        public string[] LastSessionPages
+        {
+            get => Get<string[]>(null);
             set => Set(value);
         }
 
@@ -705,6 +782,8 @@ namespace Files.View_Models
             DrivesManager?.Dispose();
         }
 
+        #region ReadAndSaveSettings
+
         public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
         {
             propertyName = propertyName != null && propertyName.StartsWith("set_", StringComparison.InvariantCultureIgnoreCase)
@@ -713,11 +792,11 @@ namespace Files.View_Models
 
             TValue originalValue = default;
 
-            if (_roamingSettings.Values.ContainsKey(propertyName))
+            if (localSettings.Values.ContainsKey(propertyName))
             {
                 originalValue = Get(originalValue, propertyName);
 
-                _roamingSettings.Values[propertyName] = value;
+                localSettings.Values[propertyName] = value;
                 if (!base.SetProperty(ref originalValue, value, propertyName))
                 {
                     return false;
@@ -725,7 +804,7 @@ namespace Files.View_Models
             }
             else
             {
-                _roamingSettings.Values[propertyName] = value;
+                localSettings.Values[propertyName] = value;
             }
 
             return true;
@@ -740,9 +819,9 @@ namespace Files.View_Models
                 ? propertyName.Substring(4)
                 : propertyName;
 
-            if (_roamingSettings.Values.ContainsKey(name))
+            if (localSettings.Values.ContainsKey(name))
             {
-                var value = _roamingSettings.Values[name];
+                var value = localSettings.Values[name];
 
                 if (!(value is TValue tValue))
                 {
@@ -772,25 +851,16 @@ namespace Files.View_Models
                     Set(tValue, propertyName); // Put the corrected value in settings.
                     return tValue;
                 }
-
                 return tValue;
             }
+
+            localSettings.Values[propertyName] = defaultValue;
 
             return defaultValue;
         }
 
         private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
 
-        public string[] PagesOnStartupList
-        {
-            get => Get<string[]>(null);
-            set => Set(value);
-        }
-
-        public string[] LastSessionPages
-        {
-            get => Get<string[]>(null);
-            set => Set(value);
-        }
+        #endregion ReadAndSaveSettings
     }
 }

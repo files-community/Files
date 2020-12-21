@@ -12,7 +12,7 @@
     <ContentDialog.Background>
         <AcrylicBrush
             Windows10version1903:TintLuminosityOpacity="0.9"
-            AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
+            AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
             BackgroundSource="HostBackdrop"
             FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
             TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
