@@ -58,11 +58,7 @@ namespace Files
 
         private void SetItemTemplate()
         {
-            var template = (FolderSettings.LayoutMode == 1) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
-            if (template != FileList.ItemTemplate)
-            {
-                FileList.ItemTemplate = template;
-            }
+            FileList.ItemTemplate = (FolderSettings.LayoutMode == 1) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
 
             // Set GridViewSize event handlers
             if (FolderSettings.LayoutMode == 1)

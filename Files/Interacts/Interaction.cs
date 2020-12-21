@@ -398,7 +398,6 @@ namespace Files.Interacts
             }
 
             int selectedItemCount;
-            Type sourcePageType = AssociatedInstance.CurrentPageType;
             selectedItemCount = AssociatedInstance.ContentPage.SelectedItems.Count;
             var opened = (FilesystemResult)false;
             string previousDir = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
@@ -429,7 +428,7 @@ namespace Files.Interacts
                         AssociatedInstance.NavigationToolbar.PathControlDisplayText = folderPath;
 
                         AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
-                        AssociatedInstance.ContentFrame.Navigate(sourcePageType, new NavigationArguments()
+                        AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
                         {
                             NavPathParam = folderPath,
                             AssociatedTabInstance = AssociatedInstance
@@ -444,7 +443,7 @@ namespace Files.Interacts
                         AssociatedInstance.NavigationToolbar.PathControlDisplayText = clickedOnItemPath;
 
                         AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
-                        AssociatedInstance.ContentFrame.Navigate(sourcePageType, new NavigationArguments()
+                        AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(clickedOnItemPath), new NavigationArguments()
                         {
                             NavPathParam = clickedOnItemPath,
                             AssociatedTabInstance = AssociatedInstance

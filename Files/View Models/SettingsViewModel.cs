@@ -631,6 +631,18 @@ namespace Files.View_Models
 
         public AcrylicTheme AcrylicTheme { get; set; }
 
+        public int DefaultLayoutMode
+        {
+            get => Get(0); // Details View	
+            set => Set(value);
+        }
+
+        public int DefaultGridViewSize
+        {
+            get => Get(Constants.Browser.GridViewBrowser.GridViewSizeSmall);
+            set => Set(value);
+        }
+
 #region ReadAndSaveSettings
 
         public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)

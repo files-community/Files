@@ -1155,7 +1155,7 @@ namespace Files.Views.Pages
             }
 
             SelectSidebarItemFromPath();
-            instanceContentFrame.Navigate(CurrentPageType,
+            instanceContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(parentDirectoryOfPath),
                                           new NavigationArguments()
                                           {
                                               NavPathParam = parentDirectoryOfPath,
