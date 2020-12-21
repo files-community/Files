@@ -59,6 +59,8 @@ namespace Files.Filesystem
 
         private string _customPath;
 
+        private FileListCache fileListCache = FileListCache.GetInstance();
+
         public string WorkingDirectory
         {
             get
@@ -770,6 +772,17 @@ namespace Files.Filesystem
                 AssociatedInstance.NavigationToolbar.CanGoBack = AssociatedInstance.ContentFrame.CanGoBack;
                 AssociatedInstance.NavigationToolbar.CanGoForward = AssociatedInstance.ContentFrame.CanGoForward;
 
+                var (fileList, currentFolder) = fileListCache.ReadFileListFromCache(path);
+                if (fileList != null && currentFolder != null)
+                {
+                    CurrentFolder = currentFolder;
+                    var orderedList = OrderFiles2(fileList);
+                    OrderFiles(orderedList);
+                    Debug.WriteLine($"Loading of items from cache in {WorkingDirectory} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
+                    App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
+                    IsLoadingItems = false;
+                }
+
                 if (path.StartsWith(AppSettings.RecycleBinPath))
                 {
                     // Recycle bin is special as files are enumerated by the fulltrust process
@@ -1128,6 +1141,8 @@ namespace Files.Filesystem
                             }
                         } while (hasNextFile);
 
+                        fileListCache.CacheFileList(path, tempList, CurrentFolder);
+
                         FindClose(hFile);
                     });
                     return true;
@@ -1183,6 +1198,7 @@ namespace Files.Filesystem
                 }
             }
             stopwatch.Stop();
+            fileListCache.CacheFileList(WorkingDirectory, _filesAndFolders, CurrentFolder);
             Debug.WriteLine($"Enumerating items in {WorkingDirectory} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
         }
 

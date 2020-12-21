@@ -272,6 +272,12 @@ namespace Files.View_Models
             set => Set(value);
         }
 
+        public bool UseFileListCache
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         public bool OpenItemsWithOneclick
         {
             get => Get(false);
