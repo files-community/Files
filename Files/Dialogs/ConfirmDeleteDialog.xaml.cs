@@ -1,6 +1,5 @@
 ﻿using Files.View_Models;
 using Microsoft.Toolkit.Uwp.Extensions;
-using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 

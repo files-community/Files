@@ -18,7 +18,7 @@ namespace Files.Helpers
 
         private AppServiceConnection Connection => associatedInstance?.ServiceConnection;
 
-        #endregion
+        #endregion Private Members
 
         public RecycleBinHelpers(IShellPage associatedInstance)
         {
@@ -81,6 +81,6 @@ namespace Files.Helpers
             associatedInstance = null;
         }
 
-        #endregion
+        #endregion IDisposable
     }
 }

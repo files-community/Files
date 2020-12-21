@@ -79,13 +79,13 @@
     <value>Pliki i foldery</value>
   </data>
   <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>Po uruchomienu</value>
+    <value>Po uruchomieniu</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Opcje</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Kontynuuj poprzednią sejsę</value>
+    <value>Przywróć poprzednią sesję</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>Otwórz nową kartę</value>
@@ -177,12 +177,6 @@
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Folder</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
-    <value>Obraz - mapa bitowa</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewTextDocument.Text" xml:space="preserve">
-    <value>Dokument tekstowy</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Właściwości</value>
   </data>
@@ -220,7 +214,7 @@
     <value>Właściwości</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>QuickLook</value>
+    <value>Szybki podgląd</value>
   </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
     <value>Nowe okno</value>
@@ -255,7 +249,7 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Dokument tekstowy</value>
   </data>
-  <data name="StatusBarControlListView.Text" xml:space="preserve">
+  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
     <value>Widok listy</value>
   </data>
   <data name="nameColumn.Header" xml:space="preserve">
@@ -277,16 +271,16 @@
     <value>Udziel uprawnienia</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Przed rozpoczęciem, będziesz musiał przyznać uprawnień do odczytu plików. Otworzy to kartę z ustawieniami gdzie będziesz mógł przyznać te uprawnienie. Wymagany restart aplikacji po wprowadzonych zmianach.</value>
+    <value>Przed rozpoczęciem, będziesz musiał przyznać uprawnienia do odczytu plików. Otworzymy dla Ciebie kartę z ustawieniami gdzie będziesz mógł przyznać te uprawnienia. Będzie wymagany restart aplikacji po wprowadzeniu zmian.</value>
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
-    <value>Folder plików</value>
+    <value>Folder</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>Wprowadź nazwę elementu</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Wprowadź nazwę elementu bez rozszerzenia</value>
+    <value>Wprowadź nazwę pliku</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Ustaw nazwę</value>
@@ -314,12 +308,6 @@
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Nowy folder</value>
-  </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>Nowy dokument tekstowy</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>Nowy obraz mapy bitowej</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Ten folder jest pusty.</value>
@@ -460,7 +448,7 @@
     <value>Czy usunąłeś ten folder?</value>
   </data>
   <data name="StatusBarControlLayoutMode.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Tryb układu</value>
+    <value>Układu</value>
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Opcje zaznaczeń</value>
@@ -700,7 +688,7 @@
     <value>Folder docelowy jest taki sam jak folder źródłowy.</value>
   </data>
   <data name="CopyToFolderCaptionText" xml:space="preserve">
-    <value>Kopiuj do programu {0}</value>
+    <value>Kopiuj do {0}</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
     <value>Utwórz skrót</value>
@@ -727,7 +715,7 @@
     <value>Folder</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
-    <value>Link sieci Web</value>
+    <value>Link Url</value>
   </data>
   <data name="PropertiesDialogTabGeneral.Content" xml:space="preserve">
     <value>Ogólne</value>
@@ -882,26 +870,14 @@
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
     <value>Anuluj</value>
   </data>
-  <data name="AddDialogListBitmapHeader" xml:space="preserve">
-    <value>Obraz - mapa bitowa</value>
-  </data>
-  <data name="AddDialogListBitmapSubHeader" xml:space="preserve">
-    <value>Tworzy pusty plik obrazu bitmapowego</value>
-  </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>Folder</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Tworzy pusty folder</value>
   </data>
-  <data name="AddDialogListTextFileHeader" xml:space="preserve">
-    <value>Dokument tekstowy</value>
-  </data>
-  <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
-    <value>Tworzy pusty plik tekstowy</value>
-  </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
-    <value>Tryb układu</value>
+    <value>Układ</value>
   </data>
   <data name="NavBackButton.AutomationProperties.Name" xml:space="preserve">
     <value>Nawiguj do tyłu</value>

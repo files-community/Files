@@ -134,8 +134,8 @@
           <source>Clear Selection</source>
           <target state="translated">選択をクリア</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlListView.Text" translate="yes" xml:space="preserve">
-          <source>List View</source>
+        <trans-unit id="StatusBarControlDetailsView.Text" translate="yes" xml:space="preserve">
+          <source>Details View</source>
           <target state="translated">詳細</target>
         </trans-unit>
         <trans-unit id="PropertiesModified.Text" translate="yes" xml:space="preserve">
@@ -346,14 +346,6 @@
           <source>Folder</source>
           <target state="translated">フォルダ</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNewBitmapImage.Text" translate="yes" xml:space="preserve">
-          <source>Bitmap Image</source>
-          <target state="translated">ビットマップ</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNewTextDocument.Text" translate="yes" xml:space="preserve">
-          <source>Text Document</source>
-          <target state="translated">テキスト文書</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutPropertiesFolder.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="translated">プロパティ</target>
@@ -473,14 +465,6 @@
         <trans-unit id="NewFolder" translate="yes" xml:space="preserve">
           <source>New Folder</source>
           <target state="translated">新しいフォルダ</target>
-        </trans-unit>
-        <trans-unit id="NewTextDocument" translate="yes" xml:space="preserve">
-          <source>New Text Document</source>
-          <target state="translated">新しいテキスト文書</target>
-        </trans-unit>
-        <trans-unit id="NewBitmapImage" translate="yes" xml:space="preserve">
-          <source>New Bitmap Image</source>
-          <target state="translated">新しいビットマップ</target>
         </trans-unit>
         <trans-unit id="EmptyFolder.Text" translate="yes" xml:space="preserve">
           <source>This folder is empty.</source>
@@ -1170,14 +1154,6 @@
           <source>Cancel</source>
           <target state="translated">キャンセル</target>
         </trans-unit>
-        <trans-unit id="AddDialogListBitmapHeader" translate="yes" xml:space="preserve">
-          <source>Bitmap Image</source>
-          <target state="translated">ビットマップ イメージ</target>
-        </trans-unit>
-        <trans-unit id="AddDialogListBitmapSubHeader" translate="yes" xml:space="preserve">
-          <source>Creates an empty bitmap image file</source>
-          <target state="translated">空のビットマップ画像ファイルを作成します</target>
-        </trans-unit>
         <trans-unit id="AddDialogListFolderHeader" translate="yes" xml:space="preserve">
           <source>Folder</source>
           <target state="translated">フォルダー</target>
@@ -1185,14 +1161,6 @@
         <trans-unit id="AddDialogListFolderSubHeader" translate="yes" xml:space="preserve">
           <source>Creates an empty folder</source>
           <target state="translated">空のフォルダを作成します</target>
-        </trans-unit>
-        <trans-unit id="AddDialogListTextFileHeader" translate="yes" xml:space="preserve">
-          <source>Text Document</source>
-          <target state="translated">テキスト ドキュメント</target>
-        </trans-unit>
-        <trans-unit id="AddDialogListTextFileSubHeader" translate="yes" xml:space="preserve">
-          <source>Creates an empty text file</source>
-          <target state="translated">空のテキスト ファイルを作成します。</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
@@ -1898,9 +1866,69 @@
           <source>Search results</source>
           <target state="new">Search results</target>
         </trans-unit>
+        <trans-unit id="SettingsAboutContributorsListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>See who contributed to Files</source>
+          <target state="new">See who contributed to Files</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Find out what's new in Files</source>
+          <target state="new">Find out what's new in Files</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Send the developers an issue report with more information</source>
+          <target state="new">Send the developers an issue report with more information</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Support us on PayPal</source>
+          <target state="new">Support us on PayPal</target>
+        </trans-unit>
         <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles.Header" translate="yes" xml:space="preserve">
           <source>List and sort directories alongside files</source>
           <target state="new">List and sort directories alongside files</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogTabDetails.Content" translate="yes" xml:space="preserve">
+          <source>Details</source>
+          <target state="new">Details</target>
+        </trans-unit>
+        <trans-unit id="UpdateConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
+          <source>No</source>
+          <target state="new">No</target>
+        </trans-unit>
+        <trans-unit id="UpdateConsentDialogContent" translate="yes" xml:space="preserve">
+          <source>Do you want to download and install the latest version of Files?</source>
+          <target state="new">Do you want to download and install the latest version of Files?</target>
+        </trans-unit>
+        <trans-unit id="UpdateConsentDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Yes</source>
+          <target state="new">Yes</target>
+        </trans-unit>
+        <trans-unit id="UpdateConsentDialogTitle" translate="yes" xml:space="preserve">
+          <source>Updates Available</source>
+          <target state="new">Updates Available</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersHideSystemItems.Header" translate="yes" xml:space="preserve">
+          <source>Hide protected operating system files (Recommended)</source>
+          <target state="new">Hide protected operating system files (Recommended)</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Hide protected operating system files (Recommended)</source>
+          <target state="new">Hide protected operating system files (Recommended)</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutNewFile.Text" translate="yes" xml:space="preserve">
+          <source>File</source>
+          <target state="new">File</target>
+        </trans-unit>
+        <trans-unit id="AddDialogListFileHeader" translate="yes" xml:space="preserve">
+          <source>File</source>
+          <target state="new">File</target>
+        </trans-unit>
+        <trans-unit id="AddDialogListFileSubHeader" translate="yes" xml:space="preserve">
+          <source>Creates an empty file</source>
+          <target state="new">Creates an empty file</target>
+        </trans-unit>
+        <trans-unit id="NewFile" translate="yes" xml:space="preserve">
+          <source>New File</source>
+          <target state="new">New File</target>
         </trans-unit>
       </group>
     </body>

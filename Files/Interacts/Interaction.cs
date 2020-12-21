@@ -1,3 +1,4 @@
+using Files.DataModels;
 using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
@@ -531,18 +532,18 @@ namespace Files.Interacts
                                         //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
                                         //case Enums.SortOption.Size:
 
-                                            //sortEntry.PropertyName = "System.TotalFileSize";
-                                            //queryOptions.SortOrder.Clear();
-                                            //queryOptions.SortOrder.Add(sortEntry);
-                                            //break;
+                                        //sortEntry.PropertyName = "System.TotalFileSize";
+                                        //queryOptions.SortOrder.Clear();
+                                        //queryOptions.SortOrder.Add(sortEntry);
+                                        //break;
 
                                         //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
                                         //case Enums.SortOption.FileType:
 
-                                            //sortEntry.PropertyName = "System.FileExtension";
-                                            //queryOptions.SortOrder.Clear();
-                                            //queryOptions.SortOrder.Add(sortEntry);
-                                            //break;
+                                        //sortEntry.PropertyName = "System.FileExtension";
+                                        //queryOptions.SortOrder.Clear();
+                                        //queryOptions.SortOrder.Add(sortEntry);
+                                        //break;
 
                                         //Handle unsupported
                                         default:
@@ -806,7 +807,7 @@ namespace Files.Interacts
         public async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
             await FilesystemHelpers.DeleteItemsAsync(
-                AssociatedInstance.ContentPage.SelectedItems.Select((item) => new PathWithType(
+                AssociatedInstance.ContentPage.SelectedItems.Select((item) => StorageItemHelpers.FromPathAndType(
                     item.ItemPath,
                     item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(),
                 true, false, true);
@@ -928,7 +929,7 @@ namespace Files.Interacts
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
                     FilesystemItemType itemType = (listedItem as RecycleBinItem).PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
-                    await FilesystemHelpers.RestoreFromTrashAsync(new PathWithType(
+                    await FilesystemHelpers.RestoreFromTrashAsync(StorageItemHelpers.FromPathAndType(
                         (listedItem as RecycleBinItem).ItemPath,
                         itemType), (listedItem as RecycleBinItem).ItemOriginalPath, true);
                 }
@@ -1156,7 +1157,7 @@ namespace Files.Interacts
             AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
         }
 
-        public async void CreateFileFromDialogResultType(AddItemType itemType)
+        public async void CreateFileFromDialogResultType(AddItemType itemType, ShellNewEntry itemInfo)
         {
             string currentPath = null;
             if (AssociatedInstance.ContentPage != null)
@@ -1174,7 +1175,7 @@ namespace Files.Interacts
 
             // Create file based on dialog result
             string userInput = renameDialog.storedRenameInput;
-            var folderRes = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(currentPath);
+            var folderRes = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(currentPath);
             FilesystemResult created = folderRes;
             if (folderRes)
             {
@@ -1185,27 +1186,17 @@ namespace Files.Interacts
                         created = await FilesystemTasks.Wrap(async () =>
                         {
                             return await FilesystemHelpers.CreateAsync(
-                                new PathWithType(Path.Combine(folderRes.Result.Path, userInput), FilesystemItemType.Directory),
+                                StorageItemHelpers.FromPathAndType(Path.Combine(folderRes.Result.Path, userInput), FilesystemItemType.Directory),
                                 true);
                         });
                         break;
 
-                    case AddItemType.TextDocument:
-                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewTextDocument".GetLocalized();
+                    case AddItemType.File:
+                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo?.Name ?? "NewFile".GetLocalized();
                         created = await FilesystemTasks.Wrap(async () =>
                         {
                             return await FilesystemHelpers.CreateAsync(
-                                new PathWithType(Path.Combine(folderRes.Result.Path, userInput + ".txt"), FilesystemItemType.File),
-                                true);
-                        });
-                        break;
-
-                    case AddItemType.BitmapImage:
-                        userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewBitmapImage".GetLocalized();
-                        created = await FilesystemTasks.Wrap(async () =>
-                        {
-                            return await FilesystemHelpers.CreateAsync(
-                                new PathWithType(Path.Combine(folderRes.Result.Path, userInput + ".bmp"), FilesystemItemType.File),
+                                StorageItemHelpers.FromPathAndType(Path.Combine(folderRes.Result.Path, userInput + itemInfo?.Extension), FilesystemItemType.File),
                                 true);
                         });
                         break;
@@ -1218,22 +1209,16 @@ namespace Files.Interacts
         }
 
         public RelayCommand CreateNewFolder => new RelayCommand(() => NewFolder());
-        public RelayCommand CreateNewTextDocument => new RelayCommand(() => NewTextDocument());
-        public RelayCommand CreateNewBitmapImage => new RelayCommand(() => NewBitmapImage());
+        public RelayCommand<ShellNewEntry> CreateNewFile => new RelayCommand<ShellNewEntry>((itemType) => NewFile(itemType));
 
         private void NewFolder()
         {
-            CreateFileFromDialogResultType(AddItemType.Folder);
+            CreateFileFromDialogResultType(AddItemType.Folder, null);
         }
 
-        private void NewTextDocument()
+        private void NewFile(ShellNewEntry itemType)
         {
-            CreateFileFromDialogResultType(AddItemType.TextDocument);
-        }
-
-        private void NewBitmapImage()
-        {
-            CreateFileFromDialogResultType(AddItemType.BitmapImage);
+            CreateFileFromDialogResultType(AddItemType.File, itemType);
         }
 
         public RelayCommand SelectAllContentPageItems => new RelayCommand(() => SelectAllItems());

@@ -640,6 +640,7 @@ namespace Files.View_Models
         }
 
         private ObservableCollection<FilePropertySection> propertySections = new ObservableCollection<FilePropertySection>();
+
         public ObservableCollection<FilePropertySection> PropertySections
         {
             get => propertySections;

@@ -5,6 +5,7 @@ using Windows.ApplicationModel.Resources.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace Files
 {
@@ -15,6 +16,11 @@ namespace Files
         public Settings()
         {
             this.InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+        {
+            base.OnNavigatedTo(eventArgs);
 
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
@@ -31,6 +37,12 @@ namespace Files
             }
 
             SettingsPane.SelectedItem = SettingsPane.MenuItems[0];
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs eventArgs)
+        {
+            var currentView = SystemNavigationManager.GetForCurrentView();
+            currentView.BackRequested -= OnBackRequested;
         }
 
         private void OnBackRequested(object sender, BackRequestedEventArgs e)
@@ -71,6 +83,6 @@ namespace Files
                 7 => SettingsContentFrame.Navigate(typeof(About)),
                 _ => SettingsContentFrame.Navigate(typeof(Appearance))
             };
-        }        
+        }
     }
 }

@@ -27,9 +27,9 @@
 
             <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
             <converters:BoolToVisibilityConverter
-            x:Key="BoolToVisibilityConverter"
-            FalseValue="Collapsed"
-            TrueValue="Visible" />
+                x:Key="BoolToVisibilityConverter"
+                FalseValue="Collapsed"
+                TrueValue="Visible" />
 
             <MenuFlyout
                 x:Key="BaseLayoutContextFlyout"
@@ -123,9 +123,9 @@
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
-                        x:Uid="StatusBarControlListView"
-                        Command="{x:Bind AppSettings.ToggleLayoutModeListView}"
-                        Text="List View">
+                        x:Uid="StatusBarControlDetailsView"
+                        Command="{x:Bind AppSettings.ToggleLayoutModeDetailsView}"
+                        Text="Details View">
                         <MenuFlyoutItem.Icon>
                             <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF101;" />
                         </MenuFlyoutItem.Icon>
@@ -194,23 +194,14 @@
                             <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea55;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
-                    <MenuFlyoutSeparator />
+                    <MenuFlyoutSeparator x:Name="NewMenuFileFolderSeparator" />
                     <MenuFlyoutItem
-                        x:Name="NewBitmapImage"
-                        x:Uid="BaseLayoutContextFlyoutNewBitmapImage"
-                        Command="{x:Bind ParentShellPageInstance.InteractionOperations.CreateNewBitmapImage}"
+                        x:Name="NewFile"
+                        x:Uid="BaseLayoutContextFlyoutNewFile"
+                        Command="{x:Bind ParentShellPageInstance.InteractionOperations.CreateNewFile}"
+                        CommandParameter="{x:Null}"
                         IsEnabled="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
-                        Text="Bitmap Image">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea83;" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
-                        x:Name="NewTextDocument"
-                        x:Uid="BaseLayoutContextFlyoutNewTextDocument"
-                        Command="{x:Bind ParentShellPageInstance.InteractionOperations.CreateNewTextDocument}"
-                        IsEnabled="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
-                        Text="Text Document">
+                        Text="File">
                         <MenuFlyoutItem.Icon>
                             <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea00;" />
                         </MenuFlyoutItem.Icon>
@@ -703,22 +694,18 @@
                     <Setter Property="ContextFlyout">
                         <Setter.Value>
                             <MenuFlyout x:Name="HeaderRightClickMenu">
-                                <MenuFlyoutItem
-                                    x:Name="EditColumn"
-                                    IsEnabled="False"
-                                    Text="Edit Columns">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE70F;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem
-                                    x:Name="FitColumns"
-                                    IsEnabled="False"
-                                    Text="Size All Columns to Fit">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE9A6;" />
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
+                                <ToggleMenuFlyoutItem
+                                    x:Uid="BaseLayoutContextFlyoutSortByDate"
+                                    IsChecked="{x:Bind AppSettings.ShowDateColumn, Mode=TwoWay}"
+                                    Text="Date" />
+                                <ToggleMenuFlyoutItem
+                                    x:Uid="BaseLayoutContextFlyoutSortByType"
+                                    IsChecked="{x:Bind AppSettings.ShowTypeColumn, Mode=TwoWay}"
+                                    Text="Type" />
+                                <ToggleMenuFlyoutItem
+                                    x:Uid="BaseLayoutContextFlyoutSortBySize"
+                                    IsChecked="{x:Bind AppSettings.ShowSizeColumn, Mode=TwoWay}"
+                                    Text="Size" />
                             </MenuFlyout>
                         </Setter.Value>
                     </Setter>
@@ -870,7 +857,8 @@
                     FontSize="12"
                     Header="Date modified"
                     IsReadOnly="True"
-                    Tag="Date">
+                    Tag="Date"
+                    Visibility="{x:Bind AppSettings.ShowDateColumn, Mode=OneWay}">
                     <controls:DataGridTextColumn.CellStyle>
                         <Style TargetType="controls:DataGridCell">
                             <Setter Property="Opacity" Value="0.6" />
@@ -889,7 +877,8 @@
                     FontSize="12"
                     Header="Type"
                     IsReadOnly="True"
-                    Tag="Type">
+                    Tag="Type"
+                    Visibility="{x:Bind AppSettings.ShowTypeColumn, Mode=OneWay}">
                     <controls:DataGridTextColumn.CellStyle>
                         <Style TargetType="controls:DataGridCell">
                             <Setter Property="Opacity" Value="0.6" />
@@ -909,7 +898,8 @@
                     FontSize="12"
                     Header="Size"
                     IsReadOnly="True"
-                    Tag="Size">
+                    Tag="Size"
+                    Visibility="{x:Bind AppSettings.ShowSizeColumn, Mode=OneWay}">
                     <controls:DataGridTextColumn.CellStyle>
                         <Style TargetType="controls:DataGridCell">
                             <Setter Property="Opacity" Value="0.6" />
@@ -932,7 +922,8 @@
                 Canvas.Top="0"
                 Width="0"
                 Height="0"
-                Fill="#AA0078d7"
+                Fill="{ThemeResource SystemAccentColor}"
+                Opacity=".5"
                 Stroke="#FF0066cc"
                 StrokeThickness="1" />
         </Canvas>

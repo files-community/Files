@@ -462,9 +462,13 @@ namespace FilesFullTrust
                         }
                         using var shi = new ShellItem(fileToDeletePath);
                         op.QueueDeleteOperation(shi);
+                        op.PostDeleteItem += async (s, e) =>
+                        {
+                            await args.Request.SendResponseAsync(new ValueSet() {
+                                { "Success", e.Result.Succeeded } });
+                        };
                         op.PerformOperations();
                     }
-                    //ShellFileOperations.Delete(fileToDeletePath, ShellFileOperations.OperationFlags.AllowUndo | ShellFileOperations.OperationFlags.NoUI);
                     break;
 
                 case "ParseLink":

@@ -39,7 +39,7 @@ namespace Files.Helpers
                 case FilesystemErrorCode.ERROR_INPROGRESS:
                     return ReturnResult.InProgress;
 
-                default: 
+                default:
                     return default;
             }
         }

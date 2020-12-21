@@ -10,29 +10,29 @@ namespace Files.Filesystem.FilesystemHistory
 
         public FileOperationType OperationType { get; private set; }
 
-        public IEnumerable<PathWithType> Source { get; private set; }
+        public IEnumerable<IStorageItemWithPath> Source { get; private set; }
 
-        public IEnumerable<PathWithType> Destination { get; private set; }
+        public IEnumerable<IStorageItemWithPath> Destination { get; private set; }
 
-        #endregion
+        #endregion Public Properties
 
         #region Constructor
 
-        public StorageHistory(FileOperationType operationType, IEnumerable<PathWithType> source, IEnumerable<PathWithType> destination)
+        public StorageHistory(FileOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<IStorageItemWithPath> destination)
         {
             OperationType = operationType;
             Source = source;
             Destination = destination;
         }
 
-        public StorageHistory(FileOperationType operationType, PathWithType source, PathWithType destination)
+        public StorageHistory(FileOperationType operationType, IStorageItemWithPath source, IStorageItemWithPath destination)
         {
             OperationType = operationType;
             Source = source.CreateEnumerable();
             Destination = destination.CreateEnumerable();
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Modify
 
@@ -43,33 +43,30 @@ namespace Files.Filesystem.FilesystemHistory
             Destination = newHistory.Destination;
         }
 
-        public void Modify(FileOperationType operationType, IEnumerable<PathWithType> source, IEnumerable<PathWithType> destination)
+        public void Modify(FileOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<IStorageItemWithPath> destination)
         {
             OperationType = operationType;
             Source = source;
             Destination = destination;
         }
 
-        public void Modify(FileOperationType operationType, PathWithType source, PathWithType destination)
+        public void Modify(FileOperationType operationType, IStorageItemWithPath source, IStorageItemWithPath destination)
         {
             OperationType = operationType;
             Source = source.CreateEnumerable();
             Destination = destination.CreateEnumerable();
         }
 
-        #endregion
+        #endregion Modify
 
         #region IDisposable
 
         public void Dispose()
         {
-            Source?.ForEach((item) => item?.Dispose());
-            Destination?.ForEach((item) => item?.Dispose());
-
             Source = null;
             Destination = null;
         }
 
-        #endregion
+        #endregion IDisposable
     }
 }

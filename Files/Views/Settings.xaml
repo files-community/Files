@@ -17,7 +17,7 @@
                     <AcrylicBrush
                         x:Key="NavigationViewExpandedPaneBackground"
                         Windows10version1903:TintLuminosityOpacity="0.9"
-                        AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
+                        AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
                         TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
@@ -27,7 +27,7 @@
                     <AcrylicBrush
                         x:Key="NavigationViewExpandedPaneBackground"
                         Windows10version1903:TintLuminosityOpacity="0.9"
-                        AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
+                        AlwaysUseFallback="{x:Bind AppSettings.IsAcrylicDisabled, Mode=OneWay}"
                         BackgroundSource="HostBackdrop"
                         FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
                         TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
@@ -52,6 +52,7 @@
         <muxc:NavigationView
             x:Name="SettingsPane"
             BackRequested="SettingsPane_BackRequested"
+            CompactModeThresholdWidth="0"
             IsBackButtonVisible="Visible"
             IsBackEnabled="True"
             IsPaneOpen="True"
@@ -59,7 +60,7 @@
             IsSettingsVisible="False"
             IsTitleBarAutoPaddingEnabled="False"
             OpenPaneLength="250"
-            PaneDisplayMode="LeftCompact"
+            PaneDisplayMode="Auto"
             SelectionChanged="SettingsPane_SelectionChanged">
 
             <muxc:NavigationView.PaneHeader>
@@ -140,17 +141,5 @@
             </muxc:NavigationView.MenuItems>
             <Frame x:Name="SettingsContentFrame" Padding="14,30,0,0" />
         </muxc:NavigationView>
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{x:Bind SettingsPane.CompactModeThresholdWidth}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="SettingsPane.PaneDisplayMode" Value="Left" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>

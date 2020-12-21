@@ -31,7 +31,7 @@
             VerticalAlignment="Center"
             Text="Properties" />
 
-        <muxc:NavigationView
+        <NavigationView
             x:Name="NavigationView"
             Grid.Row="1"
             AllowDrop="False"
@@ -40,44 +40,50 @@
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
             PaneDisplayMode="Top"
+            SelectedItem="{x:Bind TabGeneral}"
             SelectionChanged="NavigationView_SelectionChanged"
             SelectionFollowsFocus="Enabled">
 
             <!--  Tabs  -->
-            <muxc:NavigationView.MenuItems>
-                <muxc:NavigationViewItem
+            <NavigationView.MenuItems>
+                <NavigationViewItem
                     x:Name="TabGeneral"
                     x:Uid="PropertiesDialogTabGeneral"
                     Content="General"
                     Tag="General">
-                    <muxc:NavigationViewItem.Icon>
+                    <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea00;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem
                     x:Name="TabShorcut"
                     x:Uid="PropertiesDialogTabShortcut"
                     Content="Shortcut"
                     Tag="Shortcut"
                     Visibility="Collapsed">
-                    <muxc:NavigationViewItem.Icon>
+                    <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10A;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
 
-                <muxc:NavigationViewItem
+                <NavigationViewItem
                     x:Name="TabDetails"
-                    x:Uid="PropertiesDialogTabDetailsImage"
+                    x:Uid="PropertiesDialogTabDetails"
                     Content="Details"
                     Tag="Details"
                     Visibility="Collapsed">
-                    <muxc:NavigationViewItem.Icon>
+                    <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea8d;" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
-            </muxc:NavigationView.MenuItems>
-            <Frame x:Name="contentFrame" IsNavigationStackEnabled="False" />
-        </muxc:NavigationView>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+
+            <Frame
+                x:Name="contentFrame"
+                Grid.Row="1"
+                IsNavigationStackEnabled="False" />
+        </NavigationView>
+
         <Grid Grid.Row="2" Padding="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />

@@ -18,6 +18,7 @@ namespace Files.Filesystem
 
         public string Path { get; set; }
         public IStorageItem Item { get; set; }
+        public FilesystemItemType ItemType => FilesystemItemType.Directory;
 
         public StorageFolderWithPath(StorageFolder folder)
         {

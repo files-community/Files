@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Files.Enums;
+using Files.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -6,8 +8,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Files.Helpers;
-using Files.Enums;
 
 namespace Files.Filesystem.FilesystemHistory
 {
@@ -23,7 +23,7 @@ namespace Files.Filesystem.FilesystemHistory
 
         private readonly CancellationToken cancellationToken;
 
-        #endregion
+        #endregion Private Members
 
         #region Constructor
 
@@ -35,7 +35,7 @@ namespace Files.Filesystem.FilesystemHistory
             filesystemHelpers = new FilesystemHelpers(associatedInstance, cancellationToken);
         }
 
-        #endregion
+        #endregion Constructor
 
         #region IStorageHistoryOperations
 
@@ -130,13 +130,20 @@ namespace Files.Filesystem.FilesystemHistory
                                 cancellationToken));
                         }
 
-                        IStorageHistory newHistory = new StorageHistory(
-                            FileOperationType.Recycle,
-                            rawStorageHistory.SelectMany((item) => item?.Source).ToList(),
-                            rawStorageHistory.SelectMany((item) => item?.Destination).ToList());
+                        if (rawStorageHistory.TrueForAll((item) => item != null))
+                        {
+                            IStorageHistory newHistory = new StorageHistory(
+                                FileOperationType.Recycle,
+                                rawStorageHistory.SelectMany((item) => item?.Source).ToList(),
+                                rawStorageHistory.SelectMany((item) => item?.Destination).ToList());
 
-                        // We need to change the recycled item paths (since IDs are different) - for Undo() to work
-                        App.HistoryWrapper.ModifyCurrentHistory(newHistory);
+                            // We need to change the recycled item paths (since IDs are different) - for Undo() to work
+                            App.HistoryWrapper.ModifyCurrentHistory(newHistory);
+                        }
+                        else
+                        {
+                            App.HistoryWrapper.RemoveHistory(history, true);
+                        }
 
                         break;
                     }
@@ -263,7 +270,7 @@ namespace Files.Filesystem.FilesystemHistory
 
                         if (returnStatus == ReturnResult.IntegrityCheckFailed) // Not found, corrupted
                         {
-                            App.HistoryWrapper.RemoveHistory(history);
+                            App.HistoryWrapper.RemoveHistory(history, false);
                         }
 
                         break;
@@ -289,13 +296,20 @@ namespace Files.Filesystem.FilesystemHistory
                                 cancellationToken));
                         }
 
-                        IStorageHistory newHistory = new StorageHistory(
-                            FileOperationType.Restore,
-                            rawStorageHistory.SelectMany((item) => item?.Destination).ToList(),
-                            rawStorageHistory.SelectMany((item) => item?.Source).ToList());
+                        if (rawStorageHistory.TrueForAll((item) => item != null))
+                        {
+                            IStorageHistory newHistory = new StorageHistory(
+                                FileOperationType.Restore,
+                                rawStorageHistory.SelectMany((item) => item?.Destination).ToList(),
+                                rawStorageHistory.SelectMany((item) => item?.Source).ToList());
 
-                        // We need to change the recycled item paths (since IDs are different) - for Redo() to work
-                        App.HistoryWrapper.ModifyCurrentHistory(newHistory);
+                            // We need to change the recycled item paths (since IDs are different) - for Redo() to work
+                            App.HistoryWrapper.ModifyCurrentHistory(newHistory);
+                        }
+                        else
+                        {
+                            App.HistoryWrapper.RemoveHistory(history, false);
+                        }
 
                         break;
                     }
@@ -312,18 +326,19 @@ namespace Files.Filesystem.FilesystemHistory
             return returnStatus;
         }
 
-        #endregion
+        #endregion IStorageHistoryOperations
 
         #region Private Helpers
 
+        // history.Destination is null with CreateNew
         private bool IsHistoryNull(IStorageHistory history) =>
             !(history.Source.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item.Path))
-                && history.Destination.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item.Path)));
+                && (history.Destination == null || history.Destination.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item.Path))));
 
-        private bool IsHistoryNull(IEnumerable<PathWithType> source) =>
+        private bool IsHistoryNull(IEnumerable<IStorageItemWithPath> source) =>
             !(source.ToList().TrueForAll((item) => item != null && !string.IsNullOrWhiteSpace(item.Path)));
 
-        #endregion
+        #endregion Private Helpers
 
         #region IDisposable
 
@@ -338,6 +353,6 @@ namespace Files.Filesystem.FilesystemHistory
             filesystemHelpers = null;
         }
 
-        #endregion
+        #endregion IDisposable
     }
 }

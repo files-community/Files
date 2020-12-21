@@ -403,7 +403,6 @@ namespace Files.Filesystem
             {
                 AssociatedInstance.NavigationToolbar.PathComponents.Add(new Views.Pages.PathBoxItem() { Path = null, Title = singleItemOverride });
             }
-
         }
 
         public void CancelLoadAndClearFiles(bool isSearchResultPage = false)
@@ -432,7 +431,7 @@ namespace Files.Filesystem
 
             AssociatedInstance.NavigationToolbar.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.
             _filesAndFolders.Clear();
-            
+
             if (!(WorkingDirectory?.StartsWith(AppSettings.RecycleBinPath) ?? false) && !isSearchResultPage)
             {
                 // Can't go up from recycle bin
@@ -647,6 +646,19 @@ namespace Files.Filesystem
                             StorageFile matchingStorageItem = await GetFileFromPathAsync(item.ItemPath);
                             if (matchingStorageItem != null)
                             {
+                                if (!matchingItem.LoadFileIcon) // Loading icon from fulltrust process failed
+                                {
+                                    using (var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale))
+                                    {
+                                        if (Thumbnail != null)
+                                        {
+                                            matchingItem.FileImage = new BitmapImage();
+                                            await matchingItem.FileImage.SetSourceAsync(Thumbnail);
+                                            matchingItem.LoadUnknownTypeGlyph = false;
+                                            matchingItem.LoadFileIcon = true;
+                                        }
+                                    }
+                                }
                                 matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                                 matchingItem.ItemType = matchingStorageItem.DisplayType;
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
@@ -1097,9 +1109,9 @@ namespace Files.Filesystem
                         var hasNextFile = false;
                         do
                         {
-                            if (((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System)
+                            var itemPath = Path.Combine(path, findData.cFileName);
+                            if (((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System || !AppSettings.AreSystemItemsHidden)
                             {
-                                var itemPath = Path.Combine(path, findData.cFileName);
                                 if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) != FileAttributes.Hidden || AppSettings.AreHiddenItemsVisible)
                                 {
                                     if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
@@ -1218,6 +1230,10 @@ namespace Files.Filesystem
 
         public bool CheckFolderForHiddenAttribute(string path)
         {
+            if (string.IsNullOrEmpty(path))
+            {
+                return false;
+            }
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
             int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
             IntPtr hFileTsk = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,

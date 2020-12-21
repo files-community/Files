@@ -1,5 +1,4 @@
-﻿using Files.Filesystem;
-using Files.Interacts;
+﻿using Files.Interacts;
 using Files.View_Models;
 using Files.Views;
 using Files.Views.Pages;
