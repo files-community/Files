@@ -81,7 +81,7 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>Очистити виділення</value>
   </data>
-  <data name="StatusBarControlListView.Text" xml:space="preserve">
+  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
     <value>Список</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -225,12 +225,6 @@
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Папку</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
-    <value>Зображення</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewTextDocument.Text" xml:space="preserve">
-    <value>Текстовий документ</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Властивості</value>
   </data>
@@ -311,12 +305,6 @@
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Нова папка</value>
-  </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>Новий текстовий документ</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>Новий точковий рисунок</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Ця папка порожня.</value>
@@ -882,23 +870,11 @@
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
     <value>Скасувати</value>
   </data>
-  <data name="AddDialogListBitmapHeader" xml:space="preserve">
-    <value>Зображення</value>
-  </data>
-  <data name="AddDialogListBitmapSubHeader" xml:space="preserve">
-    <value>Створює порожній файл зображення</value>
-  </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>Папка</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Створює порожню папку</value>
-  </data>
-  <data name="AddDialogListTextFileHeader" xml:space="preserve">
-    <value>Текстовий документ</value>
-  </data>
-  <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
-    <value>Створює порожній текстовий файл</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Вид піктограм</value>

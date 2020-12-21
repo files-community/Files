@@ -3,6 +3,6 @@
     public enum SidebarOpacity
     {
         Opaque = 0,
-        AcrylicEnabled = 1
+        IsAcrylicDisabled = 1
     }
 }

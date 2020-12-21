@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FilesFullTrust
@@ -45,7 +42,8 @@ namespace FilesFullTrust
             this.Size = new System.Drawing.Size(lpRect.Width, lpRect.Height);
             this.Location = new System.Drawing.Point(lpRect.Location.X, lpRect.Location.Y);
 
-            token.Register(() => {
+            token.Register(() =>
+            {
                 if (this.IsHandleCreated)
                 {
                     // If another window is created, close this one

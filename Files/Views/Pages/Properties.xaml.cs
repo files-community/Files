@@ -75,7 +75,7 @@ namespace Files
         {
             switch (e.PropertyName)
             {
-                case "AcrylicEnabled":
+                case "IsAcrylicDisabled":
                 case "FallbackColor":
                 case "TintColor":
                 case "TintOpacity":
@@ -90,7 +90,7 @@ namespace Files
             {
                 var backgroundBrush = new AcrylicBrush()
                 {
-                    AlwaysUseFallback = AppSettings.AcrylicEnabled,
+                    AlwaysUseFallback = AppSettings.IsAcrylicDisabled,
                     BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
                     FallbackColor = AppSettings.AcrylicTheme.FallbackColor,
                     TintColor = AppSettings.AcrylicTheme.TintColor,
@@ -225,7 +225,7 @@ namespace Files
             }
         }
 
-        private void NavigationView_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
+        private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             var navParam = new PropertyNavParam()
             {

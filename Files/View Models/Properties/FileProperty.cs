@@ -23,10 +23,12 @@ namespace Files.View_Models.Properties
         {
             get => NameResource.GetLocalized();
         }
+
         /// <summary>
         /// The name of the string resource for the property name
         /// </summary>
         public string NameResource { get; set; }
+
         /// <summary>
         /// The name of the section to display
         /// </summary>
@@ -34,14 +36,17 @@ namespace Files.View_Models.Properties
         {
             get => SectionResource.GetLocalized();
         }
+
         /// <summary>
         /// The name of the string resource for the section name
         /// </summary>
         public string SectionResource { get; set; }
+
         /// <summary>
         /// The identifier of the property to get, eg System.Media.Duration
         /// </summary>
         public string Property { get; set; }
+
         /// <summary>
         /// The value of the property
         /// </summary>
@@ -82,6 +87,7 @@ namespace Files.View_Models.Properties
         {
             get => GetConverter();
         }
+
         public bool IsReadOnly { get; set; } = true;
 
         /// <summary>
@@ -224,7 +230,7 @@ namespace Files.View_Models.Properties
         /// Converts a string from a text block back to it's original type
         /// </summary>
         /// <param name="value">The input string</param>
-        /// <returns></returns> 
+        /// <returns></returns>
         private object ConvertBack(string value)
         {
             if (Converter != null && value != null)

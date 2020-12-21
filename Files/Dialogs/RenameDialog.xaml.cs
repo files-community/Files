@@ -1,5 +1,4 @@
 ﻿using Files.Filesystem;
-using Files.Interacts;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 

@@ -1,6 +1,7 @@
 ﻿using Files.Controllers;
 using Files.Controls;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.UserControls.MultitaskingControl;
 using Files.View_Models;
 using Files.Views.Pages;
@@ -23,7 +24,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
 using static Files.Helpers.PathNormalization;
 
 namespace Files.Views
@@ -160,6 +160,10 @@ namespace Files.Views
                 {
                     await AddNewTabByPathAsync(typeof(ModernShellPage), navArgs);
                 }
+
+                // Check for required updates
+                AppUpdater updater = new AppUpdater();
+                updater.CheckForUpdatesAsync();
 
                 // Initial setting of SelectedTabItem
                 Frame rootFrame = Window.Current.Content as Frame;

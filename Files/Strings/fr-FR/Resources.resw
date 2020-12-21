@@ -177,12 +177,6 @@
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Dossier</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
-    <value>Image bitmap</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewTextDocument.Text" xml:space="preserve">
-    <value>Document texte</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Propriétés</value>
   </data>
@@ -255,7 +249,7 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Document texte</value>
   </data>
-  <data name="StatusBarControlListView.Text" xml:space="preserve">
+  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
     <value>Vue liste</value>
   </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
@@ -332,12 +326,6 @@
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Nouveau dossier</value>
-  </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>Nouveau document texte</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>Nouvelle image bitmap</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Ce dossier est vide.</value>
@@ -885,23 +873,11 @@
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
     <value>Annuler</value>
   </data>
-  <data name="AddDialogListBitmapHeader" xml:space="preserve">
-    <value>Image bitmap</value>
-  </data>
-  <data name="AddDialogListBitmapSubHeader" xml:space="preserve">
-    <value>Crée une image bitmap vide</value>
-  </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>Dossier</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Crée un dossier vide</value>
-  </data>
-  <data name="AddDialogListTextFileHeader" xml:space="preserve">
-    <value>Document texte</value>
-  </data>
-  <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
-    <value>Crée un fichier texte vide</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Disposition</value>
@@ -1098,6 +1074,9 @@
   <data name="PropertyLongitude" xml:space="preserve">
     <value>Longitude</value>
   </data>
+  <data name="PropertyAltitude" xml:space="preserve">
+    <value>Altitude</value>
+  </data>
   <data name="PropertyCameraManufacturer" xml:space="preserve">
     <value>Marque d'appareil</value>
   </data>
@@ -1113,14 +1092,26 @@
   <data name="PropertyAperture" xml:space="preserve">
     <value>Ouverture</value>
   </data>
+  <data name="PropertyFormat" xml:space="preserve">
+    <value>Format</value>
+  </data>
   <data name="PropertyArtist" xml:space="preserve">
     <value>Artiste</value>
   </data>
   <data name="PropertyGenre" xml:space="preserve">
     <value>Genre</value>
   </data>
+  <data name="PropertyDuration" xml:space="preserve">
+    <value>Durée</value>
+  </data>
+  <data name="PropertyProducer" xml:space="preserve">
+    <value>Producteur</value>
+  </data>
   <data name="PropertyYear" xml:space="preserve">
     <value>Année</value>
+  </data>
+  <data name="PropertyVersion" xml:space="preserve">
+    <value>Version</value>
   </data>
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>Vidéo</value>
@@ -1140,6 +1131,9 @@
   <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
     <value>Annuler</value>
   </data>
+  <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
+    <value>Certaines propriétés peuvent contenir des informations personnelles.</value>
+  </data>
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
     <value>Supprimer les propriétés</value>
   </data>
@@ -1148,5 +1142,20 @@
   </data>
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>Non spécifié</value>
+  </data>
+  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
+    <value>Licence</value>
+  </data>
+  <data name="SettingsAboutLicense.Content" xml:space="preserve">
+    <value>Licence</value>
+  </data>
+  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
+    <value>Site web</value>
+  </data>
+  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
+    <value>Site web</value>
+  </data>
+  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+    <value>En savoir plus sur les formats de date</value>
   </data>
 </root>

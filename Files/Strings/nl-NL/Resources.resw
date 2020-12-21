@@ -177,12 +177,6 @@
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Map</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
-    <value>Bitmapafbeelding</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewTextDocument.Text" xml:space="preserve">
-    <value>Tekstdocument</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Eigenschappen</value>
   </data>
@@ -255,7 +249,7 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Tekstdocument</value>
   </data>
-  <data name="StatusBarControlListView.Text" xml:space="preserve">
+  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
     <value>Lijstweergave</value>
   </data>
   <data name="nameColumn.Header" xml:space="preserve">
@@ -314,12 +308,6 @@
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Nieuwe map</value>
-  </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>Nieuw tekstdocument</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>Nieuwe bitmapafbeelding</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Deze map is leeg.</value>
@@ -840,14 +828,8 @@
   <data name="AddDialog.PrimaryButtonText" xml:space="preserve">
     <value>Annuleren</value>
   </data>
-  <data name="AddDialogListBitmapHeader" xml:space="preserve">
-    <value>Bitmapafbeelding</value>
-  </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>Map</value>
-  </data>
-  <data name="AddDialogListTextFileHeader" xml:space="preserve">
-    <value>Tekstdocument</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Lay-outmodus</value>

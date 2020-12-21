@@ -1,20 +1,18 @@
-﻿using System;
+﻿using Files.Common;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.UI.Xaml.Media.Imaging;
-using Files.Common;
 using static Files.Helpers.NativeFindStorageItemHelper;
-using System.IO;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Filesystem.Search
 {
-    class FolderSearch
+    internal class FolderSearch
     {
         public static async Task<ObservableCollection<ListedItem>> SearchForUserQueryTextAsync(string userText, string WorkingDirectory, int maxItemCount = 10)
         {
@@ -23,7 +21,7 @@ namespace Files.Filesystem.Search
             {
                 FolderDepth = FolderDepth.Deep,
                 IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties,
-                UserSearchFilter = string.IsNullOrWhiteSpace(userText)? null : userText,
+                UserSearchFilter = string.IsNullOrWhiteSpace(userText) ? null : userText,
             };
             options.SortOrder.Add(new SortEntry()
             {
@@ -88,7 +86,6 @@ namespace Files.Filesystem.Search
                                 ItemPropertiesInitialized = true
                             });
                         }
-
                     }
                 }
                 if (maxItemCount != 10)
@@ -120,9 +117,9 @@ namespace Files.Filesystem.Search
                         var hasNextFile = false;
                         do
                         {
-                            if (((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System)
+                            var itemPath = Path.Combine(WorkingDirectory, findData.cFileName);
+                            if (((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System || !App.AppSettings.AreSystemItemsHidden)
                             {
-                                var itemPath = Path.Combine(WorkingDirectory, findData.cFileName);
                                 if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden)
                                 {
                                     if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
