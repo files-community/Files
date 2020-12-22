@@ -36,7 +36,6 @@ namespace Files
         public Properties()
         {
             InitializeComponent();
-            propertiesDialog = Interaction.FindParent<ContentDialog>(this);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -67,6 +66,7 @@ namespace Files
             }
             else
             {
+                propertiesDialog = Interaction.FindParent<ContentDialog>(this);
                 propertiesDialog.Closed += PropertiesDialog_Closed;
             }
         }
@@ -194,7 +194,7 @@ namespace Files
             }
             else
             {
-                propertiesDialog.Hide();
+                propertiesDialog?.Hide();
             }
         }
 
@@ -206,7 +206,7 @@ namespace Files
             }
             else
             {
-                propertiesDialog.Hide();
+                propertiesDialog?.Hide();
             }
         }
 
@@ -220,7 +220,7 @@ namespace Files
                 }
                 else
                 {
-                    propertiesDialog.Hide();
+                    propertiesDialog?.Hide();
                 }
             }
         }
