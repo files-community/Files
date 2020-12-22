@@ -1173,6 +1173,10 @@ namespace Files.Filesystem
                         break;
                     }
                 }
+                catch (NotImplementedException)
+                {
+                    break;
+                }
                 catch (Exception ex) when (ex is UnauthorizedAccessException || ex is FileNotFoundException)
                 {
                     ++count;
