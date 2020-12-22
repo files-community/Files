@@ -848,6 +848,10 @@ namespace Files.Filesystem
                     }
                 }
             }
+            catch (ObjectDisposedException ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+            }
             finally
             {
                 semaphoreSlim.Release();
