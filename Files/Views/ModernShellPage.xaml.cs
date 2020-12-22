@@ -211,21 +211,21 @@ namespace Files.Views.Pages
 
         private async void SidebarControl_RecycleBinItemRightTapped(object sender, EventArgs e)
         {
-            var value = new ValueSet
+            var recycleBinHasItems = false;
+            if (ServiceConnection != null)
+            {
+                var value = new ValueSet
                 {
                     { "Arguments", "RecycleBin" },
                     { "action", "Query" }
                 };
-
-            var response = await ServiceConnection.SendMessageAsync(value);
-            if (response.Status == AppServiceResponseStatus.Success && response.Message.TryGetValue("NumItems", out var numItems))
-            {
-                SidebarControl.RecycleBinHasItems = (long)numItems > 0;
+                var response = await ServiceConnection.SendMessageAsync(value);
+                if (response.Status == AppServiceResponseStatus.Success && response.Message.TryGetValue("NumItems", out var numItems))
+                {
+                    recycleBinHasItems = (long)numItems > 0;
+                }
             }
-            else
-            {
-                SidebarControl.RecycleBinHasItems = false;
-            }
+            SidebarControl.RecycleBinHasItems = recycleBinHasItems;
         }
 
         private async void SidebarControl_SidebarItemDropped(object sender, Controls.SidebarItemDroppedEventArgs e)
