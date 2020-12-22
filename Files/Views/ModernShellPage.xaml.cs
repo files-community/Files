@@ -1146,16 +1146,11 @@ namespace Files.Views.Pages
             Frame instanceContentFrame = ContentFrame;
             FilesystemViewModel.CancelLoadAndClearFiles();
             var instance = FilesystemViewModel;
-            string parentDirectoryOfPath;
-            // Check that there isn't a slash at the end
-            if ((instance.WorkingDirectory.Count() - 1) - instance.WorkingDirectory.LastIndexOf("\\") > 0)
+            string parentDirectoryOfPath = instance.WorkingDirectory.TrimEnd('\\');
+            var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");
+            if (lastSlashIndex != -1)
             {
-                parentDirectoryOfPath = instance.WorkingDirectory.Remove(instance.WorkingDirectory.LastIndexOf("\\"));
-            }
-            else  // Slash found at end
-            {
-                var currentPathWithoutEndingSlash = instance.WorkingDirectory.Remove(instance.WorkingDirectory.LastIndexOf("\\"));
-                parentDirectoryOfPath = currentPathWithoutEndingSlash.Remove(currentPathWithoutEndingSlash.LastIndexOf("\\"));
+                parentDirectoryOfPath = instance.WorkingDirectory.Remove(lastSlashIndex);
             }
 
             SelectSidebarItemFromPath();
