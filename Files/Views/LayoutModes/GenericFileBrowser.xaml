@@ -30,6 +30,10 @@
                 x:Key="BoolToVisibilityConverter"
                 FalseValue="Collapsed"
                 TrueValue="Visible" />
+            <converters:BoolToVisibilityConverter
+                x:Key="NegatedBoolToVisibilityConverter"
+                FalseValue="Visible"
+                TrueValue="Collapsed" />
 
             <MenuFlyout
                 x:Key="BaseLayoutContextFlyout"
@@ -663,7 +667,8 @@
             SelectionChanged="AllView_SelectionChanged"
             SelectionMode="Extended"
             Sorting="AllView_Sorting"
-            Style="{StaticResource LeftAlignedDataGridStyle}">
+            Style="{StaticResource LeftAlignedDataGridStyle}"
+            Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
             <controls:DataGrid.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>

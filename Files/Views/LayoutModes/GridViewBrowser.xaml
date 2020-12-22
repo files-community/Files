@@ -19,6 +19,10 @@
     x:Name="PageRoot">
     <local:BaseLayout.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        <converters:BoolToVisibilityConverter
+            x:Key="NegatedBoolToVisibilityConverter"
+            FalseValue="Visible"
+            TrueValue="Collapsed" />
 
         <MenuFlyout
             x:Key="BaseLayoutContextFlyout"
@@ -919,7 +923,8 @@
             ItemsSource="{x:Bind ParentShellPageInstance.FilesystemViewModel.FilesAndFolders}"
             PreviewKeyDown="FileList_PreviewKeyDown"
             SelectionChanged="FileList_SelectionChanged"
-            SelectionMode="Extended">
+            SelectionMode="Extended"
+            Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
             <Interactivity:Interaction.Behaviors>
                 <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">
                     <Core:ChangePropertyAction

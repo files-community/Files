@@ -29,14 +29,23 @@ namespace Files.View_Models
                 if (layoutMode != value)
                 {
                     SetLayoutModeForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, value, gridViewSize);
+                    IsLayoutModeChanging = true;
                 }
                 SetProperty(ref layoutMode, value);
             }
         }
 
+        private bool isLayoutModeChanging;
+
+        public bool IsLayoutModeChanging
+        {
+            get => isLayoutModeChanging;
+            set => SetProperty(ref isLayoutModeChanging, value);
+        }
+
         public Type GetLayoutType(string folderPath)
         {
-            (layoutMode, gridViewSize) = GetLayoutModeForPath(folderPath);
+            (LayoutMode, GridViewSize) = GetLayoutModeForPath(folderPath);
 
             Type type = null;
             switch (LayoutMode)
@@ -170,7 +179,7 @@ namespace Files.View_Models
                         GridViewSizeChangeRequested?.Invoke(this, EventArgs.Empty);
                     }
                 }
-                else // Size up
+                else if (value > gridViewSize) // Size up
                 {
                     if (LayoutMode == 0) // Size up from list to tiles
                     {

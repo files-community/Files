@@ -424,9 +424,7 @@ namespace Files.Interacts
                     }
                     if (opened)
                     {
-                        await AssociatedInstance.FilesystemViewModel.SetWorkingDirectoryAsync(folderPath);
                         AssociatedInstance.NavigationToolbar.PathControlDisplayText = folderPath;
-
                         AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
                         AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
                         {
@@ -439,9 +437,7 @@ namespace Files.Interacts
                 {
                     if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
-                        await AssociatedInstance.FilesystemViewModel.SetWorkingDirectoryAsync(clickedOnItemPath);
                         AssociatedInstance.NavigationToolbar.PathControlDisplayText = clickedOnItemPath;
-
                         AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
                         AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(clickedOnItemPath), new NavigationArguments()
                         {

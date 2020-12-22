@@ -545,7 +545,6 @@ namespace Files.Views.Pages
                 if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase)
                     || currentInput.Equals("NewTab".GetLocalized(), StringComparison.OrdinalIgnoreCase))
                 {
-                    await FilesystemViewModel.SetWorkingDirectoryAsync("NewTab".GetLocalized());
                     ContentFrame.Navigate(typeof(YourHome),
                                           new NavigationArguments()
                                           {
@@ -1119,13 +1118,12 @@ namespace Files.Views.Pages
             {
                 FilesystemViewModel.CancelLoadAndClearFiles();
                 var previousSourcePageType = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].SourcePageType;
-
                 SelectSidebarItemFromPath(previousSourcePageType);
                 instanceContentFrame.GoBack();
             }
         }
 
-        public async void Forward_Click()
+        public void Forward_Click()
         {
             NavigationToolbar.CanGoForward = false;
             Frame instanceContentFrame = ContentFrame;
@@ -1136,7 +1134,6 @@ namespace Files.Views.Pages
                 var incomingSourcePageType = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].SourcePageType;
                 var Parameter = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].Parameter;
                 SelectSidebarItemFromPath(incomingSourcePageType);
-                await FilesystemViewModel.SetWorkingDirectoryAsync((Parameter as NavigationArguments).NavPathParam);
                 instanceContentFrame.GoForward();
             }
         }

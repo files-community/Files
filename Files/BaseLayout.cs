@@ -358,6 +358,8 @@ namespace Files
             ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
             ParentShellPageInstance.Clipboard_ContentChanged(null, null);
 
+            FolderSettings.IsLayoutModeChanging = false;
+
             cachedNewContextMenuEntries = await RegistryHelper.GetNewContextMenuEntries();
 
             FocusFileList(); // Set focus on layout specific file list control
