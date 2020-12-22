@@ -1116,9 +1116,9 @@ namespace Files.Views.Pages
             Frame instanceContentFrame = ContentFrame;
             if (instanceContentFrame.CanGoBack)
             {
-                FilesystemViewModel.CancelLoadAndClearFiles();
                 var previousSourcePageType = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].SourcePageType;
                 SelectSidebarItemFromPath(previousSourcePageType);
+                InstanceViewModel.FolderSettings.IsLayoutModeChanging = previousSourcePageType != CurrentPageType;
                 instanceContentFrame.GoBack();
             }
         }
@@ -1130,10 +1130,10 @@ namespace Files.Views.Pages
 
             if (instanceContentFrame.CanGoForward)
             {
-                FilesystemViewModel.CancelLoadAndClearFiles();
                 var incomingSourcePageType = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].SourcePageType;
                 var Parameter = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].Parameter;
                 SelectSidebarItemFromPath(incomingSourcePageType);
+                InstanceViewModel.FolderSettings.IsLayoutModeChanging = incomingSourcePageType != CurrentPageType;
                 instanceContentFrame.GoForward();
             }
         }
@@ -1142,7 +1142,6 @@ namespace Files.Views.Pages
         {
             NavigationToolbar.CanNavigateToParent = false;
             Frame instanceContentFrame = ContentFrame;
-            FilesystemViewModel.CancelLoadAndClearFiles();
             var instance = FilesystemViewModel;
             string parentDirectoryOfPath = instance.WorkingDirectory.TrimEnd('\\');
             var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");

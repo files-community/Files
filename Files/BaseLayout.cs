@@ -283,10 +283,6 @@ namespace Files
         {
             if (ParentShellPageInstance.ContentPage != null)
             {
-                ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles();
-                ParentShellPageInstance.FilesystemViewModel.IsLoadingItems = true;
-                ParentShellPageInstance.FilesystemViewModel.IsLoadingItems = false;
-
                 var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
 
                 ParentShellPageInstance.ContentFrame.Navigate(layoutType, new NavigationArguments()

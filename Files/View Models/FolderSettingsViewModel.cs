@@ -29,7 +29,6 @@ namespace Files.View_Models
                 if (layoutMode != value)
                 {
                     SetLayoutModeForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, value, gridViewSize);
-                    IsLayoutModeChanging = true;
                 }
                 SetProperty(ref layoutMode, value);
             }
@@ -45,7 +44,12 @@ namespace Files.View_Models
 
         public Type GetLayoutType(string folderPath)
         {
-            (LayoutMode, GridViewSize) = GetLayoutModeForPath(folderPath);
+            var oldLayoutMode = layoutMode;
+            (layoutMode, gridViewSize) = GetLayoutModeForPath(folderPath);
+            if (oldLayoutMode != layoutMode)
+            {
+                IsLayoutModeChanging = true;
+            }
 
             Type type = null;
             switch (LayoutMode)
