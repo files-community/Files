@@ -95,11 +95,17 @@ namespace Files.Helpers
 
         public async void RemoveFolder(string path)
         {
-            if (JumpListItemPaths.Contains(path))
+            // Updating the jumplist may fail randomly with error: FileLoadException: File in use
+            // In that case app should just catch the error and proceed as usual
+            try
             {
-                JumpListItemPaths.Remove(path);
-                await UpdateAsync();
+                if (JumpListItemPaths.Contains(path))
+                {
+                    JumpListItemPaths.Remove(path);
+                    await UpdateAsync();
+                }
             }
+            catch { }
         }
 
         private async Task UpdateAsync()
