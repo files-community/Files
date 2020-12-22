@@ -124,12 +124,14 @@ namespace Files
         {
             base.OnNavigatedTo(eventArgs);
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged += ViewModel_PropertyChanged;
+            AllView.LoadingRow += AllView_LoadingRow;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged -= ViewModel_PropertyChanged;
+            AllView.LoadingRow -= AllView_LoadingRow;
         }
 
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
