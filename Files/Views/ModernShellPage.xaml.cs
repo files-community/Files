@@ -617,7 +617,7 @@ namespace Files.Views.Pages
                                         string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, resFolder.ErrorCode.ToString()));
                                 }
                             }
-                            catch (UriFormatException)
+                            catch (Exception ex) when (ex is UriFormatException || ex is ArgumentException)
                             {
                                 await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalized(),
                                     string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, resFolder.ErrorCode.ToString()));
