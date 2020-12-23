@@ -187,7 +187,7 @@ namespace Files.Filesystem.Search
                         }
                     }
                 }
-                index += items.Count;
+                index += (uint)items.Count;
                 stepSize = Math.Min(500, (uint)(maxItemCount - returnedItems.Count));
                 items = await itemQueryResult.GetItemsAsync(index, stepSize);
             }
