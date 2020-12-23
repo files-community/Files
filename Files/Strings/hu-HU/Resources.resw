@@ -1152,6 +1152,9 @@
   <data name="PropertyAperture" xml:space="preserve">
     <value>Rekesz</value>
   </data>
+  <data name="PropertyChannelCount" xml:space="preserve">
+    <value>Csatornák száma</value>
+  </data>
   <data name="PropertyFormat" xml:space="preserve">
     <value>Formátum</value>
   </data>
@@ -1193,6 +1196,18 @@
   </data>
   <data name="PropertyPublisher" xml:space="preserve">
     <value>Kiadó</value>
+  </data>
+  <data name="PropertyThumbnailLargePath" xml:space="preserve">
+    <value>Nagy indexkép Path</value>
+  </data>
+  <data name="PropertyThumbnailLargeUri" xml:space="preserve">
+    <value>Nagy indexkép URI</value>
+  </data>
+  <data name="PropertyThumbnailSmallPath" xml:space="preserve">
+    <value>Kis indexkép Path</value>
+  </data>
+  <data name="PropertyThumbnailSmallUri" xml:space="preserve">
+    <value>Kis indexkép URI</value>
   </data>
   <data name="PropertyWriter" xml:space="preserve">
     <value>Író</value>
@@ -1373,5 +1388,23 @@
   </data>
   <data name="UpdateConsentDialogTitle" xml:space="preserve">
     <value>Frissítés elérhető</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
+    <value>Védett operációs rendszer fájlok elrejtése (Ajánlott)</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Védett operációs rendszer fájlok elrejtése (Ajánlott)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
+    <value>Fájl</value>
+  </data>
+  <data name="AddDialogListFileHeader" xml:space="preserve">
+    <value>Fájl</value>
+  </data>
+  <data name="AddDialogListFileSubHeader" xml:space="preserve">
+    <value>Létrehoz egy üres fájlt</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>Új Fájl</value>
   </data>
 </root>
