@@ -29,7 +29,8 @@ namespace Files.Filesystem.Search
             }
             if (!hiddenOnlyFromWin32 || App.AppSettings.AreHiddenItemsVisible)
             {
-                foreach (var item in await SearchWithWin32(userText, WorkingDirectory, hiddenOnlyFromWin32, maxItemCount))
+                foreach (var item in await SearchWithWin32(userText, WorkingDirectory, hiddenOnlyFromWin32,
+                    maxItemCount - returnedItems.Count))
                 {
                     returnedItems.Add(item);
                 }
@@ -45,7 +46,7 @@ namespace Files.Filesystem.Search
             {
                 FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
                 int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-                IntPtr hFileTsk = FindFirstFileExFromApp(WorkingDirectory + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
+                IntPtr hFileTsk = FindFirstFileExFromApp(WorkingDirectory + $"\\*{userText}*.*", findInfoLevel, out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
                     additionalFlags);
                 return (hFileTsk, findDataTsk);
             }).WithTimeoutAsync(TimeSpan.FromSeconds(5));
@@ -57,10 +58,15 @@ namespace Files.Filesystem.Search
                     var hasNextFile = false;
                     do
                     {
+                        if (returnedItems.Count >= maxItemCount)
+                        {
+                            break;
+                        }
                         var itemPath = Path.Combine(WorkingDirectory, findData.cFileName);
                         if (((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System || !App.AppSettings.AreSystemItemsHidden)
                         {
-                            if ((((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) != FileAttributes.Hidden && !hiddenOnly) || App.AppSettings.AreHiddenItemsVisible)
+                            var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
+                            if ((!isHidden && !hiddenOnly) || (isHidden && App.AppSettings.AreHiddenItemsVisible))
                             {
                                 if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                                 {
@@ -113,6 +119,7 @@ namespace Files.Filesystem.Search
                 IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties,
                 UserSearchFilter = string.IsNullOrWhiteSpace(userText) ? null : userText,
             };
+            options.SortOrder.Clear();
             options.SortOrder.Add(new SortEntry()
             {
                 PropertyName = "System.Search.Rank",
