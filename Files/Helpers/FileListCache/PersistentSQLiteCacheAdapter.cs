@@ -37,6 +37,8 @@ namespace Files.Helpers.FileListCache
                 using var cmd = new SqliteCommand(createSql, connection);
                 var result = cmd.ExecuteNonQuery();
             }
+
+            RunCleanupRoutine();
         }
         public async Task SaveFileListToCache(string path, CacheEntry cacheEntry)
         {
@@ -110,6 +112,26 @@ namespace Files.Helpers.FileListCache
             }
         }
 
-        // TODO : run cleanup routine once in a while (remove all entries that wasn't used in a long time - use timestamp value here)
+        private void RunCleanupRoutine()
+        {
+            Task.Run(async () =>
+            {
+                try
+                {
+                    // remove entries that are 1 month old (timestamp is updated every time the cache is set)
+                    var limitTimestamp = GetTimestamp(DateTime.Now.AddMonths(-1));
+                    using var cmd = new SqliteCommand("DELETE FROM FileListCache WHERE Timestamp < @Timestamp", connection);
+                    cmd.Parameters.Add("@Timestamp", SqliteType.Integer).Value = limitTimestamp;
+
+                    var count = await cmd.ExecuteNonQueryAsync().ConfigureAwait(false);
+                    Debug.WriteLine($"Removed {count} old entries from cache database");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.ToString());
+                }
+
+            });
+        }
     }
 }
