@@ -20,8 +20,8 @@ namespace Files
     public sealed partial class GridViewBrowser : BaseLayout
     {
         public string oldItemName;
-        private Compositor _compositor;
-        private ImplicitAnimationCollection _elementImplicitAnimation;
+        private Compositor compositor;
+        private ImplicitAnimationCollection elementImplicitAnimation;
 
         public GridViewBrowser()
         {
@@ -36,12 +36,12 @@ namespace Files
 
             SetItemTemplate(); // Set ItemTemplate
 
-            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
             // Create ImplicitAnimations Collection.
-            _elementImplicitAnimation = _compositor.CreateImplicitAnimationCollection();
+            elementImplicitAnimation = compositor.CreateImplicitAnimationCollection();
 
             //Define trigger and animation that should play when the trigger is triggered.
-            _elementImplicitAnimation["Offset"] = createOffsetAnimation();
+            elementImplicitAnimation["Offset"] = CreateOffsetAnimation();
         }
 
         private void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
@@ -54,7 +54,7 @@ namespace Files
             else
             {
                 //Add implicit animation to each visual
-                elementVisual.ImplicitAnimations = _elementImplicitAnimation;
+                elementVisual.ImplicitAnimations = elementImplicitAnimation;
             }
         }
 
@@ -440,10 +440,10 @@ namespace Files
 
         #region Animation
 
-        private CompositionAnimationGroup createOffsetAnimation()
+        private CompositionAnimationGroup CreateOffsetAnimation()
         {
             //Define Offset Animation for the ANimation group
-            Vector3KeyFrameAnimation offsetAnimation = _compositor.CreateVector3KeyFrameAnimation();
+            Vector3KeyFrameAnimation offsetAnimation = compositor.CreateVector3KeyFrameAnimation();
             offsetAnimation.InsertExpressionKeyFrame(1.0f, "this.FinalValue");
             offsetAnimation.Duration = TimeSpan.FromSeconds(.4);
 
@@ -451,7 +451,7 @@ namespace Files
             offsetAnimation.Target = "Offset";
 
             //Define Rotation Animation for Animation Group.
-            ScalarKeyFrameAnimation rotationAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            ScalarKeyFrameAnimation rotationAnimation = compositor.CreateScalarKeyFrameAnimation();
             rotationAnimation.InsertKeyFrame(.5f, 0.160f);
             rotationAnimation.InsertKeyFrame(1f, 0f);
             rotationAnimation.Duration = TimeSpan.FromSeconds(.4);
@@ -460,7 +460,7 @@ namespace Files
             rotationAnimation.Target = "RotationAngle";
 
             //Add Animations to Animation group.
-            CompositionAnimationGroup animationGroup = _compositor.CreateAnimationGroup();
+            CompositionAnimationGroup animationGroup = compositor.CreateAnimationGroup();
             animationGroup.Add(offsetAnimation);
             animationGroup.Add(rotationAnimation);
 
