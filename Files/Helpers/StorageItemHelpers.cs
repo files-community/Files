@@ -13,21 +13,26 @@ namespace Files.Helpers
     {
         public static async Task<IStorageItem> ToStorageItem(this IStorageItemWithPath item, IShellPage associatedInstance = null)
         {
+            return (await item.ToStorageItemResult(associatedInstance)).Result;
+        }
+
+        public static async Task<FilesystemResult<IStorageItem>> ToStorageItemResult(this IStorageItemWithPath item, IShellPage associatedInstance = null)
+        {
             if (item.Item != null)
             {
-                return item.Item;
+                return new FilesystemResult<IStorageItem>(item.Item, FilesystemErrorCode.ERROR_SUCCESS);
             }
             if (!string.IsNullOrEmpty(item.Path))
             {
                 return (item.ItemType == FilesystemItemType.File) ?
-                    (associatedInstance != null ?
-                        (IStorageItem)(StorageFile)await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.Path) :
-                        (IStorageItem)(StorageFile)await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path))) :
-                    (associatedInstance != null ?
-                        (IStorageItem)(StorageFolder)await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.Path) :
-                        (IStorageItem)(StorageFolder)await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(item.Path)));
+                    ToType<IStorageItem,StorageFile>(associatedInstance != null ?
+                        await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.Path) :
+                        await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path))) :
+                    ToType<IStorageItem, StorageFolder>(associatedInstance != null ?
+                        await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.Path) :
+                        await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(item.Path)));
             }
-            return null;
+            return new FilesystemResult<IStorageItem>(null, FilesystemErrorCode.ERROR_GENERIC);
         }
 
         public static IStorageItemWithPath FromPathAndType(string customPath, FilesystemItemType? itemType)
@@ -52,6 +57,11 @@ namespace Files.Helpers
                 return new StorageFolderWithPath(item as StorageFolder, string.IsNullOrEmpty(item.Path) ? customPath : item.Path);
             }
             return null;
+        }
+
+        public static FilesystemResult<T> ToType<T,V>(FilesystemResult<V> result) where T : class
+        {
+            return new FilesystemResult<T>(result.Result as T, result.ErrorCode);
         }
     }
 }
