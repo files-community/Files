@@ -426,7 +426,6 @@ namespace Files.Interacts
                         await AssociatedInstance.FilesystemViewModel.SetWorkingDirectoryAsync(folderPath);
                         AssociatedInstance.NavigationToolbar.PathControlDisplayText = folderPath;
 
-                        AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
                         AssociatedInstance.ContentFrame.Navigate(sourcePageType, new NavigationArguments()
                         {
                             NavPathParam = folderPath,
@@ -441,7 +440,6 @@ namespace Files.Interacts
                         await AssociatedInstance.FilesystemViewModel.SetWorkingDirectoryAsync(clickedOnItemPath);
                         AssociatedInstance.NavigationToolbar.PathControlDisplayText = clickedOnItemPath;
 
-                        AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
                         AssociatedInstance.ContentFrame.Navigate(sourcePageType, new NavigationArguments()
                         {
                             NavPathParam = clickedOnItemPath,
@@ -1083,9 +1081,7 @@ namespace Files.Interacts
         {
             DataPackageView packageView = Clipboard.GetContent();
             string destinationPath = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
-
             await FilesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, destinationPath, true);
-            AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
         }
 
         public async void CreateFileFromDialogResultType(AddItemType itemType, ShellNewEntry itemInfo)

@@ -210,39 +210,33 @@ namespace Files.Filesystem
                     progress?.Report((float)(itemSize * 100.0f / itemSize));
                 }
 
-                FilesystemResult<StorageFolder> fsResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
+                FilesystemResult<StorageFolder> destinationResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
+                var sourceResult = await source.ToStorageItemResult(associatedInstance);
+                var fsResult = (FilesystemResult)(sourceResult.ErrorCode | destinationResult.ErrorCode);
 
                 if (fsResult)
                 {
-                    StorageFile file = (StorageFile)await source.ToStorageItem(associatedInstance);
-
-                    FilesystemResult<StorageFile> fsResultCopy = new FilesystemResult<StorageFile>(null, FilesystemErrorCode.ERROR_GENERIC);
-
-                    if (file != null)
-                    {
-                        fsResultCopy = await FilesystemTasks.Wrap(() =>
-                        {
-                            return file.CopyAsync(fsResult.Result, Path.GetFileName(file.Name), NameCollisionOption.GenerateUniqueName).AsTask();
-                        });
-                    }
-
+                    var file = (StorageFile)sourceResult;
+                    var fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), NameCollisionOption.GenerateUniqueName).AsTask());
                     if (fsResultCopy)
                     {
                         copiedItem = fsResultCopy.Result;
                     }
-                    else if (fsResultCopy.ErrorCode == FilesystemErrorCode.ERROR_UNAUTHORIZED || fsResultCopy.ErrorCode == FilesystemErrorCode.ERROR_GENERIC)
+                    fsResult = fsResultCopy;
+                }
+                if (fsResult == FilesystemErrorCode.ERROR_UNAUTHORIZED || fsResult == FilesystemErrorCode.ERROR_GENERIC)
+                {
+                    // Try again with CopyFileFromApp
+                    if (NativeFileOperationsHelper.CopyFileFromApp(source.Path, destination, true))
                     {
-                        // Try again with CopyFileFromApp
-                        if (!NativeFileOperationsHelper.CopyFileFromApp(source.Path, destination, true))
-                        {
-                            Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
-                        }
+                        fsResult = (FilesystemResult)true;
                     }
                     else
                     {
-                        errorCode?.Report(fsResultCopy.ErrorCode);
+                        Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
                     }
                 }
+                errorCode?.Report(fsResult.ErrorCode);
             }
 
             if (Path.GetDirectoryName(destination) == associatedInstance.FilesystemViewModel.WorkingDirectory)
