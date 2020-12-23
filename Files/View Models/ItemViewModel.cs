@@ -1177,7 +1177,10 @@ namespace Files.Filesystem
                 {
                     break;
                 }
-                catch (Exception ex) when (ex is UnauthorizedAccessException || ex is FileNotFoundException)
+                catch (Exception ex) when (
+                    ex is UnauthorizedAccessException 
+                    || ex is FileNotFoundException
+                    || (uint)ex.HResult == 0x80070490) // ERROR_NOT_FOUND
                 {
                     ++count;
                     continue;
