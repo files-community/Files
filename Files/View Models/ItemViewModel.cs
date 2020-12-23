@@ -1244,6 +1244,10 @@ namespace Files.Filesystem
 
         private async Task<bool> CheckBitlockerStatusAsync(StorageFolder rootFolder)
         {
+            if (rootFolder == null || rootFolder.Properties == null)
+            {
+                return false;
+            }
             if (Path.IsPathRooted(WorkingDirectory) && Path.GetPathRoot(WorkingDirectory) == WorkingDirectory)
             {
                 IDictionary<string, object> extraProperties = await rootFolder.Properties.RetrievePropertiesAsync(new string[] { "System.Volume.BitLockerProtection" });
