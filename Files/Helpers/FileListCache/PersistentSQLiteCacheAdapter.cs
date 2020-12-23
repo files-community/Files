@@ -130,7 +130,6 @@ namespace Files.Helpers.FileListCache
                 {
                     Debug.WriteLine(ex.ToString());
                 }
-
             });
         }
     }
