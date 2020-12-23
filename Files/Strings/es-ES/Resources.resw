@@ -1392,4 +1392,34 @@
   <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
     <value>Detalles</value>
   </data>
+  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="UpdateConsentDialogContent" xml:space="preserve">
+    <value>¿Quieres descargar e instalar la última versión de Files?</value>
+  </data>
+  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
+    <value>Si</value>
+  </data>
+  <data name="UpdateConsentDialogTitle" xml:space="preserve">
+    <value>Actualizaciones disponibles</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
+    <value>Ocultar archivos protegidos del sistema operativo (Recomendado)</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Ocultar archivos protegidos del sistema operativo (Recomendado)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
+    <value>Archivo</value>
+  </data>
+  <data name="AddDialogListFileHeader" xml:space="preserve">
+    <value>Archivo</value>
+  </data>
+  <data name="AddDialogListFileSubHeader" xml:space="preserve">
+    <value>Crea un archivo vacío</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>Nuevo archivo</value>
+  </data>
 </root>
