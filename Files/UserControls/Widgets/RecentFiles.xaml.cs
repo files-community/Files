@@ -71,12 +71,13 @@ namespace Files
                 {
                     // Skip item until consent is provided
                 }
-                catch (Exception ex) when (
-                    ex is COMException
-                    || ex is FileNotFoundException
-                    || ex is ArgumentException
-                    || (uint)ex.HResult == 0x8007016A // The cloud file provider is not running
-                    || (uint)ex.HResult == 0x8000000A) // The data necessary to complete this operation is not yet available
+                // Exceptions include but are not limited to:
+                // COMException, FileNotFoundException, ArgumentException, DirectoryNotFoundException
+                // 0x8007016A -> The cloud file provider is not running
+                // 0x8000000A -> The data necessary to complete this operation is not yet available
+                // 0x80004005 -> Unspecified error
+                // 0x80270301 -> ?
+                catch (Exception ex)
                 {
                     mostRecentlyUsed.Remove(mruToken);
                     System.Diagnostics.Debug.WriteLine(ex);
