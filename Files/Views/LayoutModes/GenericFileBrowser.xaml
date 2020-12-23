@@ -13,7 +13,7 @@
     xmlns:local2="using:Files.Filesystem"
     xmlns:local3="using:Files.Filesystem.Cloud"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:usercontrols="using:Files.UserControls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Enabled"
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
@@ -23,6 +23,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionaries/CustomDataGridStyle.xaml" />
+                <ResourceDictionary Source="/ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -573,10 +574,17 @@
             <Style x:Key="DataGridRowRecycleBinContextFlyout" TargetType="controls:DataGridRow">
                 <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutRecycleBinItemContextFlyout}" />
             </Style>
+
+
         </ResourceDictionary>
     </local:BaseLayout.Resources>
 
     <Grid x:Name="RootGrid" Background="Transparent">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
                 Key="{x:Bind PlusKey}"
@@ -911,7 +919,8 @@
                 </controls:DataGridTextColumn>
             </controls:DataGrid.Columns>
         </controls:DataGrid>
-
+        
+        
         <Canvas
             Margin="12,12,12,0"
             HorizontalAlignment="Stretch"
@@ -927,5 +936,21 @@
                 Stroke="#FF0066cc"
                 StrokeThickness="1" />
         </Canvas>
+
+        <controls:GridSplitter
+            GripperCursor="Default"
+            HorizontalAlignment="Left"
+            Grid.Column="1"
+            ResizeDirection="Auto"
+            ResizeBehavior="BasedOnAlignment"
+            CursorBehavior="ChangeOnSplitterHover"
+            Style="{StaticResource DefaultGridSplitterStyle}"
+            Width="2">
+            
+        </controls:GridSplitter>
+        <usercontrols:DetailsPane Grid.Column="3">
+            
+        </usercontrols:DetailsPane>
+        
     </Grid>
 </local:BaseLayout>

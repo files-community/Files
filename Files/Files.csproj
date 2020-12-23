@@ -183,6 +183,9 @@
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\RegistryHelper.cs" />
+    <Compile Include="UserControls\DetailsPane.xaml.cs">
+      <DependentUpon>DetailsPane.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View Models\Properties\FileProperty.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
@@ -530,6 +533,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ResourceDictionaries\DefaultGridSplitterStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ResourceDictionaries\PropertiesStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -537,6 +544,10 @@
     <Page Include="ResourceDictionaries\TabView_themeresources.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\DetailsPane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\FileIcon.xaml">
       <SubType>Designer</SubType>
