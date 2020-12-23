@@ -862,6 +862,10 @@ namespace Files.Filesystem
                     }
                 }
             }
+            catch (ObjectDisposedException ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+            }
             finally
             {
                 semaphoreSlim.Release();
@@ -1189,7 +1193,11 @@ namespace Files.Filesystem
                         break;
                     }
                 }
-                catch (UnauthorizedAccessException)
+                catch (NotImplementedException)
+                {
+                    break;
+                }
+                catch (Exception ex) when (ex is UnauthorizedAccessException || ex is FileNotFoundException)
                 {
                     ++count;
                     continue;

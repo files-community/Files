@@ -211,21 +211,21 @@ namespace Files.Views.Pages
 
         private async void SidebarControl_RecycleBinItemRightTapped(object sender, EventArgs e)
         {
-            var value = new ValueSet
+            var recycleBinHasItems = false;
+            if (ServiceConnection != null)
+            {
+                var value = new ValueSet
                 {
                     { "Arguments", "RecycleBin" },
                     { "action", "Query" }
                 };
-
-            var response = await ServiceConnection.SendMessageAsync(value);
-            if (response.Status == AppServiceResponseStatus.Success && response.Message.TryGetValue("NumItems", out var numItems))
-            {
-                SidebarControl.RecycleBinHasItems = (long)numItems > 0;
+                var response = await ServiceConnection.SendMessageAsync(value);
+                if (response.Status == AppServiceResponseStatus.Success && response.Message.TryGetValue("NumItems", out var numItems))
+                {
+                    recycleBinHasItems = (long)numItems > 0;
+                }
             }
-            else
-            {
-                SidebarControl.RecycleBinHasItems = false;
-            }
+            SidebarControl.RecycleBinHasItems = recycleBinHasItems;
         }
 
         private async void SidebarControl_SidebarItemDropped(object sender, Controls.SidebarItemDroppedEventArgs e)
@@ -1146,16 +1146,11 @@ namespace Files.Views.Pages
             Frame instanceContentFrame = ContentFrame;
             FilesystemViewModel.CancelLoadAndClearFiles();
             var instance = FilesystemViewModel;
-            string parentDirectoryOfPath;
-            // Check that there isn't a slash at the end
-            if ((instance.WorkingDirectory.Count() - 1) - instance.WorkingDirectory.LastIndexOf("\\") > 0)
+            string parentDirectoryOfPath = instance.WorkingDirectory.TrimEnd('\\');
+            var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");
+            if (lastSlashIndex != -1)
             {
-                parentDirectoryOfPath = instance.WorkingDirectory.Remove(instance.WorkingDirectory.LastIndexOf("\\"));
-            }
-            else  // Slash found at end
-            {
-                var currentPathWithoutEndingSlash = instance.WorkingDirectory.Remove(instance.WorkingDirectory.LastIndexOf("\\"));
-                parentDirectoryOfPath = currentPathWithoutEndingSlash.Remove(currentPathWithoutEndingSlash.LastIndexOf("\\"));
+                parentDirectoryOfPath = instance.WorkingDirectory.Remove(lastSlashIndex);
             }
 
             SelectSidebarItemFromPath();

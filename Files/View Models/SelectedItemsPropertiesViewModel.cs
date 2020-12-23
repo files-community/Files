@@ -540,7 +540,7 @@ namespace Files.View_Models
             IsSelectedItemShortcut = false;
 
             //check if the selected item is an image file
-            string ItemExtension = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => contentPage.SelectedItem.FileExtension);
+            string ItemExtension = await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => contentPage?.SelectedItem?.FileExtension);
             if (!string.IsNullOrEmpty(ItemExtension) && SelectedItemsCount == 1)
             {
                 if (ItemExtension.Equals(".png", StringComparison.OrdinalIgnoreCase)

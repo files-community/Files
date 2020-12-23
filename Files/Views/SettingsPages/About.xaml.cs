@@ -36,8 +36,10 @@ namespace Files.SettingsPages
             {
                 await Launcher.LaunchUriAsync(new Uri(@"https://paypal.me/yaichenbaum"));
             }
-
-            (FeedbackListView.Items[FeedbackListView.SelectedIndex] as ListViewItem).IsSelected = false;
+            if (FeedbackListView.SelectedIndex != -1)
+            {
+                (FeedbackListView.Items[FeedbackListView.SelectedIndex] as ListViewItem).IsSelected = false;
+            }
         }
     }
 }

@@ -654,7 +654,6 @@
             IsDoubleTapEnabled="True"
             IsRightTapEnabled="True"
             ItemsSource="{x:Bind ParentShellPageInstance.FilesystemViewModel.FilesAndFolders, Mode=OneWay}"
-            LoadingRow="AllView_LoadingRow"
             PointerPressed="{x:Bind ParentShellPageInstance.InteractionOperations.ItemPointerPressed}"
             PreparingCellForEdit="AllView_PreparingCellForEdit"
             PreviewKeyDown="AllView_PreviewKeyDown"
