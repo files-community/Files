@@ -17,6 +17,8 @@ namespace Files.Filesystem.Search
         public static async Task<ObservableCollection<ListedItem>> SearchForUserQueryTextAsync(string userText, string WorkingDirectory, IShellPage associatedInstance, int maxItemCount = 10)
         {
             var returnedItems = new ObservableCollection<ListedItem>();
+            maxItemCount = maxItemCount < 0 ? int.MaxValue : maxItemCount;
+
             var hiddenOnlyFromWin32 = false;
             var workingDir = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(WorkingDirectory);
             if (workingDir)
@@ -128,7 +130,7 @@ namespace Files.Filesystem.Search
             options.SetPropertyPrefetch(Windows.Storage.FileProperties.PropertyPrefetchOptions.None, null);
             options.SetThumbnailPrefetch(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
             var itemQueryResult = workingDir.CreateItemQueryWithOptions(options);
-            uint stepSize = maxItemCount == 10 ? (uint)maxItemCount : 500;
+            uint stepSize = Math.Min(500, (uint)maxItemCount);
             IReadOnlyList<IStorageItem> items = await itemQueryResult.GetItemsAsync(0, stepSize);
             var returnedItems = new List<ListedItem>();
             uint index = 0;
@@ -185,15 +187,9 @@ namespace Files.Filesystem.Search
                         }
                     }
                 }
-                if (maxItemCount != 10)
-                {
-                    index += stepSize;
-                    items = await itemQueryResult.GetItemsAsync(index, stepSize);
-                }
-                else
-                {
-                    break;
-                }
+                index += items.Count;
+                stepSize = Math.Min(500, (uint)(maxItemCount - returnedItems.Count));
+                items = await itemQueryResult.GetItemsAsync(index, stepSize);
             }
             return returnedItems;
         }
