@@ -6,10 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.System;
+using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Interaction = Files.Interacts.Interaction;
 
@@ -18,10 +20,13 @@ namespace Files
     public sealed partial class GridViewBrowser : BaseLayout
     {
         public string oldItemName;
+        private Compositor _compositor;
+        private ImplicitAnimationCollection _elementImplicitAnimation;
 
         public GridViewBrowser()
         {
             InitializeComponent();
+
             base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
 
@@ -30,6 +35,27 @@ namespace Files
             App.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
 
             SetItemTemplate(); // Set ItemTemplate
+
+            _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            // Create ImplicitAnimations Collection.
+            _elementImplicitAnimation = _compositor.CreateImplicitAnimationCollection();
+
+            //Define trigger and animation that should play when the trigger is triggered.
+            _elementImplicitAnimation["Offset"] = createOffsetAnimation();
+        }
+
+        private void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            var elementVisual = ElementCompositionPreview.GetElementVisual(args.ItemContainer);
+            if (args.InRecycleQueue)
+            {
+                elementVisual.ImplicitAnimations = null;
+            }
+            else
+            {
+                //Add implicit animation to each visual
+                elementVisual.ImplicitAnimations = _elementImplicitAnimation;
+            }
         }
 
         private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
@@ -411,5 +437,36 @@ namespace Files
                 ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
             }
         }
+
+        #region Animation
+
+        private CompositionAnimationGroup createOffsetAnimation()
+        {
+            //Define Offset Animation for the ANimation group
+            Vector3KeyFrameAnimation offsetAnimation = _compositor.CreateVector3KeyFrameAnimation();
+            offsetAnimation.InsertExpressionKeyFrame(1.0f, "this.FinalValue");
+            offsetAnimation.Duration = TimeSpan.FromSeconds(.4);
+
+            //Define Animation Target for this animation to animate using definition.
+            offsetAnimation.Target = "Offset";
+
+            //Define Rotation Animation for Animation Group.
+            ScalarKeyFrameAnimation rotationAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            rotationAnimation.InsertKeyFrame(.5f, 0.160f);
+            rotationAnimation.InsertKeyFrame(1f, 0f);
+            rotationAnimation.Duration = TimeSpan.FromSeconds(.4);
+
+            //Define Animation Target for this animation to animate using definition.
+            rotationAnimation.Target = "RotationAngle";
+
+            //Add Animations to Animation group.
+            CompositionAnimationGroup animationGroup = _compositor.CreateAnimationGroup();
+            animationGroup.Add(offsetAnimation);
+            animationGroup.Add(rotationAnimation);
+
+            return animationGroup;
+        }
+
+        #endregion Animation
     }
 }
