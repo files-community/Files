@@ -907,6 +907,7 @@
             VerticalContentAlignment="Stretch"
             x:FieldModifier="public"
             AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+            ContainerContentChanging="FileList_ContainerContentChanging"
             DoubleTapped="{x:Bind ParentShellPageInstance.InteractionOperations.List_ItemDoubleClick}"
             DragEnter="List_DragEnter"
             Drop="List_Drop"
