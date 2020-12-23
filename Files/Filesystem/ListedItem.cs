@@ -2,6 +2,7 @@
 using Files.Filesystem.Cloud;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
+using Newtonsoft.Json;
 using System;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
@@ -65,6 +66,7 @@ namespace Files.Filesystem
 
         private CloudDriveSyncStatusUI _SyncStatusUI;
 
+        [JsonIgnore]
         public CloudDriveSyncStatusUI SyncStatusUI
         {
             get => _SyncStatusUI;
@@ -73,6 +75,7 @@ namespace Files.Filesystem
 
         private BitmapImage _FileImage;
 
+        [JsonIgnore]
         public BitmapImage FileImage
         {
             get => _FileImage;
@@ -87,6 +90,7 @@ namespace Files.Filesystem
 
         private BitmapImage _IconOverlay;
 
+        [JsonIgnore]
         public BitmapImage IconOverlay
         {
             get => _IconOverlay;

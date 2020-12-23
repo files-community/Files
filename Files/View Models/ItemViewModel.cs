@@ -3,6 +3,7 @@ using Files.Common;
 using Files.Enums;
 using Files.Filesystem.Cloud;
 using Files.Helpers;
+using Files.Helpers.FileListCache;
 using Files.View_Models;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
@@ -59,7 +60,7 @@ namespace Files.Filesystem
 
         private string _customPath;
 
-        private FileListCache fileListCache = FileListCache.GetInstance();
+        private IFileListCache fileListCache = FileListCacheController.GetInstance();
 
         public string WorkingDirectory
         {
@@ -784,11 +785,11 @@ namespace Files.Filesystem
                 AssociatedInstance.NavigationToolbar.CanGoBack = AssociatedInstance.ContentFrame.CanGoBack;
                 AssociatedInstance.NavigationToolbar.CanGoForward = AssociatedInstance.ContentFrame.CanGoForward;
 
-                var (fileList, currentFolder) = fileListCache.ReadFileListFromCache(path);
-                if (fileList != null && currentFolder != null)
+                var cacheEntry = await fileListCache.ReadFileListFromCache(path);
+                if (cacheEntry != null)
                 {
-                    CurrentFolder = currentFolder;
-                    var orderedList = OrderFiles2(fileList);
+                    CurrentFolder = cacheEntry.CurrentFolder;
+                    var orderedList = OrderFiles2(cacheEntry.FileList);
                     OrderFiles(orderedList);
                     Debug.WriteLine($"Loading of items from cache in {WorkingDirectory} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
                     App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
@@ -1153,7 +1154,11 @@ namespace Files.Filesystem
                             }
                         } while (hasNextFile);
 
-                        fileListCache.CacheFileList(path, tempList, CurrentFolder);
+                        await fileListCache.SaveFileListToCache(path, new CacheEntry
+                        {
+                            CurrentFolder = CurrentFolder,
+                            FileList = tempList
+                        });
 
                         FindClose(hFile);
                     });
@@ -1210,7 +1215,11 @@ namespace Files.Filesystem
                 }
             }
             stopwatch.Stop();
-            fileListCache.CacheFileList(WorkingDirectory, _filesAndFolders, CurrentFolder);
+            await fileListCache.SaveFileListToCache(WorkingDirectory, new CacheEntry
+            {
+                CurrentFolder = CurrentFolder,
+                FileList = _filesAndFolders.ToList()
+            });
             Debug.WriteLine($"Enumerating items in {WorkingDirectory} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
         }
 

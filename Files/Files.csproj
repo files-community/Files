@@ -182,7 +182,10 @@
     <Compile Include="Dialogs\RestartDialog.xaml.cs">
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\FileListCache.cs" />
+    <Compile Include="Helpers\FileListCache\CacheEntry.cs" />
+    <Compile Include="Helpers\FileListCache\FileListCacheController.cs" />
+    <Compile Include="Helpers\FileListCache\IFileListCache.cs" />
+    <Compile Include="Helpers\FileListCache\PersistentSQLiteCacheAdapter.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
     <Compile Include="View Models\Properties\FileProperty.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
