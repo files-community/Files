@@ -1,10 +1,8 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Files.Enums;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp.UI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.View_Models
@@ -212,6 +210,46 @@ namespace Files.View_Models
                     }
                 }
             }
+        }
+
+        public event EventHandler SortOptionPreferenceUpdated;
+
+        public event EventHandler SortDirectionPreferenceUpdated;
+
+        public SortOption DirectorySortOption
+        {
+            get => (SortOption)SortOptionByte;
+            set
+            {
+                SortOptionByte = (byte)value;
+                SortOptionPreferenceUpdated?.Invoke(this, new EventArgs());
+            }
+        }
+
+        public SortDirection DirectorySortDirection
+        {
+            get => (SortDirection)SortDirectionByte;
+            set
+            {
+                SortDirectionByte = (byte)value;
+                SortDirectionPreferenceUpdated?.Invoke(this, new EventArgs());
+            }
+        }
+
+        private byte sortOptionByte = (byte)0;
+
+        private byte SortOptionByte
+        {
+            get => sortOptionByte;
+            set => SetProperty(ref sortOptionByte, value);
+        }
+
+        private byte sortDirectionByte = 0;
+
+        private byte SortDirectionByte
+        {
+            get => sortDirectionByte;
+            set => SetProperty(ref sortDirectionByte, value);
         }
     }
 }

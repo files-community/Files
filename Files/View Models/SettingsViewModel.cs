@@ -9,7 +9,6 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Extensions;
-using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -27,10 +26,6 @@ namespace Files.View_Models
     public class SettingsViewModel : ObservableObject
     {
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-
-        public event EventHandler SortOptionPreferenceUpdated;
-
-        public event EventHandler SortDirectionPreferenceUpdated;
 
         public DrivesManager DrivesManager { get; }
 
@@ -106,38 +101,6 @@ namespace Files.View_Models
         {
             get => new GridLength(Math.Min(Math.Max(Get(200d), 200d), 500d), GridUnitType.Pixel);
             set => Set(value.Value);
-        }
-
-        public SortOption DirectorySortOption
-        {
-            get => (SortOption)SortOptionByte;
-            set
-            {
-                SortOptionByte = (byte)value;
-                SortOptionPreferenceUpdated?.Invoke(this, new EventArgs());
-            }
-        }
-
-        public SortDirection DirectorySortDirection
-        {
-            get => (SortDirection)SortDirectionByte;
-            set
-            {
-                SortDirectionByte = (byte)value;
-                SortDirectionPreferenceUpdated?.Invoke(this, new EventArgs());
-            }
-        }
-
-        private byte SortOptionByte
-        {
-            get => Get((byte)0);
-            set => Set(value);
-        }
-
-        private byte SortDirectionByte
-        {
-            get => Get((byte)0);
-            set => Set(value);
         }
 
         public async void DetectQuickLook()

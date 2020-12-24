@@ -505,12 +505,12 @@ namespace Files.Interacts
                                     //We can have many sort entries
                                     SortEntry sortEntry = new SortEntry()
                                     {
-                                        AscendingOrder = AppSettings.DirectorySortDirection == Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending
+                                        AscendingOrder = FolderSettings.DirectorySortDirection == Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending
                                     };
 
                                     //Basically we tell to the launched app to follow how we sorted the files in the directory.
 
-                                    var sortOption = AppSettings.DirectorySortOption;
+                                    var sortOption = FolderSettings.DirectorySortOption;
 
                                     switch (sortOption)
                                     {
