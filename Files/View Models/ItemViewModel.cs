@@ -335,27 +335,31 @@ namespace Files.Filesystem
                 var changeType = (string)args.Request.Message["Type"];
                 var newItem = JsonConvert.DeserializeObject<ShellFileItem>(args.Request.Message.Get("Item", ""));
                 Debug.WriteLine("{0}: {1}", folderPath, changeType);
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                // If we are currently displaying the reycle bin lets refresh the items
+                if (CurrentFolder?.ItemPath == folderPath)
                 {
-                    // If we are currently displaying the reycle bin lets refresh the items
-                    if (CurrentFolder?.ItemPath == folderPath)
+                    switch (changeType)
                     {
-                        switch (changeType)
-                        {
-                            case "Created":
-                                AddFileOrFolderFromShellFile(newItem);
-                                break;
+                        case "Created":
+                            var newListedItem = AddFileOrFolderFromShellFile(newItem);
+                            if (newListedItem != null)
+                            {
+                                await AddFileOrFolderAsync(newListedItem);
+                            }
+                            break;
 
-                            case "Deleted":
-                                await RemoveFileOrFolderAsync(itemPath);
-                                break;
+                        case "Deleted":
+                            await RemoveFileOrFolderAsync(itemPath);
+                            break;
 
-                            default:
+                        default:
+                            await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                            {
                                 RefreshItems(null);
-                                break;
-                        }
+                            });
+                            break;
                     }
-                });
+                }
             }
             // The fulltrust process signaled that a drive has been connected/disconnected
             else if (args.Request.Message.ContainsKey("DeviceID"))
@@ -1493,10 +1497,13 @@ namespace Files.Filesystem
             }
         }
 
-        private void AddFileOrFolder(ListedItem item)
+        private async Task AddFileOrFolderAsync(ListedItem item)
         {
-            _filesAndFolders.Add(item);
-            IsFolderEmptyTextDisplayed = false;
+            await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+            {
+                _filesAndFolders.Add(item);
+                IsFolderEmptyTextDisplayed = false;
+            });
         }
 
         private async Task AddFileOrFolderAsync(string fileOrFolderPath, string dateReturnFormat)
@@ -1525,6 +1532,7 @@ namespace Files.Filesystem
                 var orderedList = OrderFiles2(tempList);
                 await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                 {
+                    IsFolderEmptyTextDisplayed = false;
                     OrderFiles(orderedList);
                     UpdateDirectoryInfo();
                 });
@@ -1581,10 +1589,7 @@ namespace Files.Filesystem
             await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
             {
                 _filesAndFolders.Remove(item);
-                if (_filesAndFolders.Count == 0)
-                {
-                    IsFolderEmptyTextDisplayed = true;
-                }
+                IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
                 App.JumpList.RemoveFolder(item.ItemPath);
 
                 UpdateDirectoryInfo();
