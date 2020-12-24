@@ -1116,9 +1116,14 @@ namespace Files.Views.Pages
             Frame instanceContentFrame = ContentFrame;
             if (instanceContentFrame.CanGoBack)
             {
-                var previousSourcePageType = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].SourcePageType;
-                SelectSidebarItemFromPath(previousSourcePageType);
-                InstanceViewModel.FolderSettings.IsLayoutModeChanging = previousSourcePageType != CurrentPageType;
+                var previousPageContent = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1];
+                var previousPageNavPath = previousPageContent.Parameter as NavigationArguments;
+                if (previousPageContent.SourcePageType != typeof(YourHome))
+                {
+                    // Update layout type
+                    InstanceViewModel.FolderSettings.GetLayoutType(previousPageNavPath.IsSearchResultPage ? previousPageNavPath.SearchPathParam : previousPageNavPath.NavPathParam);
+                }
+                SelectSidebarItemFromPath(previousPageContent.SourcePageType);
                 instanceContentFrame.GoBack();
             }
         }
@@ -1127,13 +1132,16 @@ namespace Files.Views.Pages
         {
             NavigationToolbar.CanGoForward = false;
             Frame instanceContentFrame = ContentFrame;
-
             if (instanceContentFrame.CanGoForward)
             {
-                var incomingSourcePageType = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].SourcePageType;
-                var Parameter = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].Parameter;
-                SelectSidebarItemFromPath(incomingSourcePageType);
-                InstanceViewModel.FolderSettings.IsLayoutModeChanging = incomingSourcePageType != CurrentPageType;
+                var incomingPageContent = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1];
+                var incomingPageNavPath = incomingPageContent.Parameter as NavigationArguments;
+                if (incomingPageContent.SourcePageType != typeof(YourHome))
+                {
+                    // Update layout type
+                    InstanceViewModel.FolderSettings.GetLayoutType(incomingPageNavPath.IsSearchResultPage ? incomingPageNavPath.SearchPathParam : incomingPageNavPath.NavPathParam);
+                }
+                SelectSidebarItemFromPath(incomingPageContent.SourcePageType);
                 instanceContentFrame.GoForward();
             }
         }
