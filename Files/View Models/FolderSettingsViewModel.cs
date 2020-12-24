@@ -225,7 +225,7 @@ namespace Files.View_Models
         {
             if (prefs == LayoutPreferences.DefaultLayoutPreferences)
             {
-                Helpers.NativeFileOperationsHelper.WriteStringToFile($"{folderPath}:files_layoutmode", null);
+                Helpers.NativeFileOperationsHelper.DeleteFileFromApp($"{folderPath}:files_layoutmode");
                 return; // Do not create setting if it's default
             }
             Helpers.NativeFileOperationsHelper.WriteStringToFile($"{folderPath}:files_layoutmode", JsonConvert.SerializeObject(prefs));
