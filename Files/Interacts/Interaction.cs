@@ -426,7 +426,6 @@ namespace Files.Interacts
                         await AssociatedInstance.FilesystemViewModel.SetWorkingDirectoryAsync(folderPath);
                         AssociatedInstance.NavigationToolbar.PathControlDisplayText = folderPath;
 
-                        AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
                         AssociatedInstance.ContentFrame.Navigate(sourcePageType, new NavigationArguments()
                         {
                             NavPathParam = folderPath,
@@ -441,7 +440,6 @@ namespace Files.Interacts
                         await AssociatedInstance.FilesystemViewModel.SetWorkingDirectoryAsync(clickedOnItemPath);
                         AssociatedInstance.NavigationToolbar.PathControlDisplayText = clickedOnItemPath;
 
-                        AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
                         AssociatedInstance.ContentFrame.Navigate(sourcePageType, new NavigationArguments()
                         {
                             NavPathParam = clickedOnItemPath,
@@ -828,96 +826,27 @@ namespace Files.Interacts
                 return true;
             }
 
-            if (!string.IsNullOrWhiteSpace(newName)
-                && !Filesystem.FilesystemHelpers.ContainsRestrictedCharacters(newName)
-                && !Filesystem.FilesystemHelpers.ContainsRestrictedFileName(newName))
+            var renamed = ReturnResult.InProgress;
+            if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
-                var renamed = (FilesystemResult)false;
-                if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                renamed = await FilesystemHelpers.RenameAsync(StorageItemHelpers.FromPathAndType(item.ItemPath, FilesystemItemType.Directory),
+                    newName, NameCollisionOption.FailIfExists, true);
+            }
+            else
+            {
+                if (!AppSettings.ShowFileExtensions)
                 {
-                    renamed = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
-                        .OnSuccess(async (t) => await FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.FailIfExists, true));
+                    newName += item.FileExtension;
                 }
-                else
-                {
-                    if (!AppSettings.ShowFileExtensions)
-                    {
-                        newName += item.FileExtension;
-                    }
 
-                    renamed = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
-                        .OnSuccess(async (t) => await FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.FailIfExists, true));
-                }
-                if (renamed == FilesystemErrorCode.ERROR_UNAUTHORIZED)
-                {
-                    // Try again with MoveFileFromApp
-                    if (!NativeFileOperationsHelper.MoveFileFromApp(item.ItemPath, Path.Combine(Path.GetDirectoryName(item.ItemPath), newName)))
-                    {
-                        Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
-                        return false;
-                    }
-                }
-                else if (renamed == FilesystemErrorCode.ERROR_NOTAFILE || renamed == FilesystemErrorCode.ERROR_NOTAFOLDER)
-                {
-                    await DialogDisplayHelper.ShowDialogAsync("RenameError.NameInvalid.Title".GetLocalized(), "RenameError.NameInvalid.Text".GetLocalized());
-                }
-                else if (renamed == FilesystemErrorCode.ERROR_NAMETOOLONG)
-                {
-                    await DialogDisplayHelper.ShowDialogAsync("RenameError.TooLong.Title".GetLocalized(), "RenameError.TooLong.Text".GetLocalized());
-                }
-                else if (renamed == FilesystemErrorCode.ERROR_INUSE)
-                {
-                    // TODO: proper dialog, retry
-                    await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), "");
-                }
-                else if (renamed == FilesystemErrorCode.ERROR_NOTFOUND)
-                {
-                    await DialogDisplayHelper.ShowDialogAsync("RenameError.ItemDeleted.Title".GetLocalized(), "RenameError.ItemDeleted.Text".GetLocalized());
-                }
-                else if (renamed == FilesystemErrorCode.ERROR_ALREADYEXIST)
-                {
-                    var ItemAlreadyExistsDialog = new ContentDialog()
-                    {
-                        Title = "ItemAlreadyExistsDialogTitle".GetLocalized(),
-                        Content = "ItemAlreadyExistsDialogContent".GetLocalized(),
-                        PrimaryButtonText = "ItemAlreadyExistsDialogPrimaryButtonText".GetLocalized(),
-                        SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized()
-                    };
+                renamed = await FilesystemHelpers.RenameAsync(StorageItemHelpers.FromPathAndType(item.ItemPath, FilesystemItemType.File),
+                    newName, NameCollisionOption.FailIfExists, true);
+            }
 
-                    ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
-
-                    if (result == ContentDialogResult.Primary)
-                    {
-                        if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                        {
-                            renamed = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
-                                .OnSuccess(async (t) => await FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.GenerateUniqueName, true));
-                        }
-                        else
-                        {
-                            renamed = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
-                                .OnSuccess(async (t) => await FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.GenerateUniqueName, true));
-                        }
-                    }
-                    else if (result == ContentDialogResult.Secondary)
-                    {
-                        if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                        {
-                            renamed = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
-                                .OnSuccess(async (t) => await FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.ReplaceExisting, true));
-                        }
-                        else
-                        {
-                            renamed = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
-                                .OnSuccess(async (t) => await FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.ReplaceExisting, true));
-                        }
-                    }
-                }
-                if (renamed)
-                {
-                    AssociatedInstance.NavigationToolbar.CanGoForward = false;
-                    return true;
-                }
+            if (renamed == ReturnResult.Success)
+            {
+                AssociatedInstance.NavigationToolbar.CanGoForward = false;
+                return true;
             }
             return false;
         }
@@ -1005,9 +934,9 @@ namespace Files.Interacts
                 return;
             }
             dataPackage.SetStorageItems(items);
-            Clipboard.SetContent(dataPackage);
             try
             {
+                Clipboard.SetContent(dataPackage);
                 Clipboard.Flush();
             }
             catch
@@ -1152,9 +1081,7 @@ namespace Files.Interacts
         {
             DataPackageView packageView = Clipboard.GetContent();
             string destinationPath = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
-
             await FilesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, destinationPath, true);
-            AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
         }
 
         public async void CreateFileFromDialogResultType(AddItemType itemType, ShellNewEntry itemInfo)

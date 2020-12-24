@@ -56,6 +56,12 @@
                     Header="List and sort directories alongside files"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{x:Bind AppSettings.ListAndSortDirectoriesAlongsideFiles, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Uid="SettingsSearchUnindexedItems"
+                    Header="Show unindexed items when searching for files and folders (searches may take longer)"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind AppSettings.SearchUnindexedItems, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
