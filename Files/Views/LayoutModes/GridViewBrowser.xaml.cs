@@ -2,7 +2,6 @@
 using Files.UserControls.Selection;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.System;
@@ -116,14 +115,9 @@ namespace Files
             {
                 foreach (ListedItem listedItem in FileList.Items)
                 {
-                    GridViewItem gridViewItem = FileList.ContainerFromItem(listedItem) as GridViewItem;
-
-                    if (gridViewItem != null)
+                    if (FileList.ContainerFromItem(listedItem) is GridViewItem gridViewItem)
                     {
-                        List<Grid> grids = new List<Grid>();
-                        Interaction.FindChildren(grids, gridViewItem);
-                        var rootItem = grids.Find(x => x.Tag?.ToString() == "ItemRoot");
-                        rootItem.CanDrag = SelectedItems.Contains(listedItem);
+                        gridViewItem.CanDrag = gridViewItem.IsSelected;
                     }
                 }
             }
@@ -142,7 +136,7 @@ namespace Files
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             var parentContainer = Interaction.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
-            if (FileList.SelectedItems.Contains(FileList.ItemFromContainer(parentContainer)))
+            if (parentContainer.IsSelected)
             {
                 return;
             }
@@ -337,50 +331,27 @@ namespace Files
             }
         }
 
-        private async void Grid_EffectiveViewportChanged(FrameworkElement sender, EffectiveViewportChangedEventArgs args)
-        {
-            if (sender.DataContext is ListedItem item && (!item.ItemPropertiesInitialized) && (args.BringIntoViewDistanceX < sender.ActualHeight))
-            {
-                await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                {
-                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
-                    item.ItemPropertiesInitialized = true;
-                });
-
-                sender.CanDrag = FileList.SelectedItems.Contains(item); // Update CanDrag
-            }
-        }
-
         protected override ListedItem GetItemFromElement(object element)
         {
-            FrameworkElement gridItem = element as FrameworkElement;
-            return gridItem.DataContext as ListedItem;
-        }
-
-        private void FileListGridItem_DataContextChanged(object sender, DataContextChangedEventArgs e)
-        {
-            InitializeDrag(sender as UIElement);
+            return (element as GridViewItem).DataContext as ListedItem;
         }
 
         private void FileListGridItem_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (e.KeyModifiers == VirtualKeyModifiers.Control)
             {
-                var listedItem = (sender as Grid).DataContext as ListedItem;
-                if (FileList.SelectedItems.Contains(listedItem))
+                if ((sender as SelectorItem).IsSelected)
                 {
-                    FileList.SelectedItems.Remove(listedItem);
+                    (sender as SelectorItem).IsSelected = false;
                     // Prevent issues arising caused by the default handlers attempting to select the item that has just been deselected by ctrl + click
                     e.Handled = true;
                 }
             }
             else if (e.GetCurrentPoint(sender as UIElement).Properties.IsLeftButtonPressed)
             {
-                var listedItem = (sender as Grid).DataContext as ListedItem;
-
-                if (!FileList.SelectedItems.Contains(listedItem))
+                if (!(sender as SelectorItem).IsSelected)
                 {
-                    SetSelectedItemOnUi(listedItem);
+                    (sender as SelectorItem).IsSelected = true;
                 }
             }
         }
@@ -423,7 +394,7 @@ namespace Files
         {
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-
+ 
             // Skip code if the control or shift key is pressed
             if (ctrlPressed || shiftPressed)
             {
@@ -468,5 +439,29 @@ namespace Files
         }
 
         #endregion Animation
+
+        private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
+        {
+            if (args.ItemContainer == null)
+            {
+                GridViewItem gvi = new GridViewItem();
+                args.ItemContainer = gvi;
+            }
+            args.ItemContainer.DataContext = args.Item;
+
+            if (args.Item is ListedItem item && (!item.ItemPropertiesInitialized))
+            {
+                args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
+                InitializeDrag(args.ItemContainer);
+                args.ItemContainer.CanDrag = args.ItemContainer.IsSelected; // Update CanDrag
+
+                await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                {
+                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
+                    item.ItemPropertiesInitialized = true;
+                });
+                
+            }
+        }
     }
 }
