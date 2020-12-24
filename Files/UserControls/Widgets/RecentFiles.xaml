@@ -67,7 +67,7 @@
                                         <MenuFlyoutItem
                                             x:Name="RemoveRecentItem"
                                             x:Uid="RecentItemRemove"
-                                            Click="RemoveRecentItem"
+                                            Click="RemoveRecentItem_Click"
                                             Text="Remove this item">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB3D;" />
@@ -75,7 +75,7 @@
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem
                                             x:Uid="RecentItemClearAll"
-                                            Click="ClearRecentItems"
+                                            Click="ClearRecentItems_Click"
                                             Text="Clear all items">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9ED;" />
@@ -83,7 +83,7 @@
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem
                                             x:Uid="RecentItemOpenFileLocation"
-                                            Click="OpenFileLocation"
+                                            Click="OpenFileLocation_Click"
                                             Text="Open file location"
                                             Visibility="{x:Bind IsFile}">
                                             <MenuFlyoutItem.Icon>

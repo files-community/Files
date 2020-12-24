@@ -37,7 +37,7 @@ namespace Files
             PopulateRecentsList();
         }
 
-        private void OpenFileLocation(object sender, RoutedEventArgs e)
+        private void OpenFileLocation_Click(object sender, RoutedEventArgs e)
         {
             var flyoutItem = sender as MenuFlyoutItem;
             var clickedOnItem = flyoutItem.DataContext as RecentItem;
@@ -153,7 +153,7 @@ namespace Files
             });
         }
 
-        private async void RemoveRecentItem(object sender, RoutedEventArgs e)
+        private async void RemoveRecentItem_Click(object sender, RoutedEventArgs e)
         {
             // Get the sender frameworkelement
 
@@ -168,7 +168,7 @@ namespace Files
 
                     // Now clear it from the recent list cache permanently.
                     // No token stored in the viewmodel, so need to find it the old fashioned way.
-                    var mru = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
+                    var mru = StorageApplicationPermissions.MostRecentlyUsedList;
 
                     foreach (var element in mru.Entries)
                     {
@@ -187,7 +187,7 @@ namespace Files
             }
         }
 
-        private void ClearRecentItems(object sender, RoutedEventArgs e)
+        private void ClearRecentItems_Click(object sender, RoutedEventArgs e)
         {
             recentItemsCollection.Clear();
             RecentsView.ItemsSource = null;
