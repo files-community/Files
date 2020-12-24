@@ -216,8 +216,8 @@ namespace Files.View_Models
             var fixPath = folderPath.TrimEnd('\\');
             if (dataContainer.Values.ContainsKey(fixPath))
             {
-                var val = (Windows.Foundation.Rect)dataContainer.Values[fixPath];
-                return new LayoutPreferences((LayoutModes)(int)val.X, (int)val.Y, (SortOption)(int)val.Width, (SortDirection)(int)val.Height);
+                var val = (ApplicationDataCompositeValue)dataContainer.Values[fixPath];
+                return LayoutPreferences.FromCompositeValue(val);
             }
             else
             {
@@ -236,7 +236,7 @@ namespace Files.View_Models
                     return; // Do not create setting if it's default
                 }
             }
-            dataContainer.Values[fixPath] = new Windows.Foundation.Rect((int)prefs.LayoutMode, prefs.GridViewSize, (int)prefs.DirectorySortOption, (int)prefs.DirectorySortDirection);
+            dataContainer.Values[fixPath] = prefs.ToCompositeValue();
         }
 
         private LayoutPreferences LayoutPreference { get; set; }
@@ -264,6 +264,26 @@ namespace Files.View_Models
                 this.GridViewSize = gridViewSize;
                 this.DirectorySortOption = sortOption;
                 this.DirectorySortDirection = sortDirection;
+            }
+
+            public static LayoutPreferences FromCompositeValue(ApplicationDataCompositeValue compositeValue)
+            {
+                var layoutPreference = new LayoutPreferences();
+                layoutPreference.LayoutMode = (LayoutModes)(int)compositeValue[nameof(LayoutMode)];
+                layoutPreference.GridViewSize = (int)compositeValue[nameof(GridViewSize)];
+                layoutPreference.DirectorySortOption = (SortOption)(int)compositeValue[nameof(DirectorySortOption)];
+                layoutPreference.DirectorySortDirection = (SortDirection)(int)compositeValue[nameof(DirectorySortDirection)];
+                return layoutPreference;
+            }
+
+            public ApplicationDataCompositeValue ToCompositeValue()
+            {
+                var compositeValue = new ApplicationDataCompositeValue();
+                compositeValue[nameof(LayoutMode)] = (int)this.LayoutMode;
+                compositeValue[nameof(GridViewSize)] = this.GridViewSize;
+                compositeValue[nameof(DirectorySortOption)] = (int)this.DirectorySortOption;
+                compositeValue[nameof(DirectorySortDirection)] = (int)this.DirectorySortDirection;
+                return compositeValue;
             }
         }
 
