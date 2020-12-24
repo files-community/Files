@@ -67,7 +67,7 @@ steps:
   inputs:
     serviceEndpoint: 'Files'
     appId: '9NGHP3DX8HDX'
-    flightName: 'Files UWP Fast Ring'
+    flightName: 'Canary'
     packagePath: '$(appxPackageDir)\**\*.msixupload'
     force: false
     skipPolling: false
