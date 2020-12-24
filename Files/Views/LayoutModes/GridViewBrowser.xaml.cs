@@ -452,9 +452,9 @@ namespace Files
 
             //Define Rotation Animation for Animation Group.
             ScalarKeyFrameAnimation rotationAnimation = compositor.CreateScalarKeyFrameAnimation();
-            rotationAnimation.InsertKeyFrame(.5f, 0.160f);
+            rotationAnimation.InsertKeyFrame(0.160f, .2f);
             rotationAnimation.InsertKeyFrame(1f, 0f);
-            rotationAnimation.Duration = TimeSpan.FromSeconds(.4);
+            rotationAnimation.Duration = TimeSpan.FromSeconds(.3);
 
             //Define Animation Target for this animation to animate using definition.
             rotationAnimation.Target = "RotationAngle";
