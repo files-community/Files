@@ -37,7 +37,7 @@ namespace Files
             PopulateRecentsList();
         }
 
-        private void OpenFileLocation_Click(object sender, RoutedEventArgs e)
+        private void OpenFileLocation(object sender, RoutedEventArgs e)
         {
             var flyoutItem = sender as MenuFlyoutItem;
             var clickedOnItem = flyoutItem.DataContext as RecentItem;
