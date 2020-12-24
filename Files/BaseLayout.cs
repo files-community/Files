@@ -290,6 +290,9 @@ namespace Files
                     NavPathParam = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory,
                     AssociatedTabInstance = ParentShellPageInstance
                 }, null);
+
+                // Remove old layout from back stack
+                ParentShellPageInstance.ContentFrame.BackStack.RemoveAt(ParentShellPageInstance.ContentFrame.BackStack.Count - 1);
             }
         }
 
