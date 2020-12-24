@@ -2,6 +2,7 @@
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
+using Newtonsoft.Json;
 using System;
 using Windows.Storage;
 
@@ -212,31 +213,22 @@ namespace Files.View_Models
 
         private static LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
         {
-            ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
-            var fixPath = folderPath.TrimEnd('\\');
-            if (dataContainer.Values.ContainsKey(fixPath))
-            {
-                var val = (ApplicationDataCompositeValue)dataContainer.Values[fixPath];
-                return LayoutPreferences.FromCompositeValue(val);
-            }
-            else
+            var str = Helpers.NativeFileOperationsHelper.ReadStringFromFile($"{folderPath}:files_layoutmode");
+            if (string.IsNullOrEmpty(str))
             {
                 return LayoutPreferences.DefaultLayoutPreferences; // Either global setting or smart guess
             }
+            return JsonConvert.DeserializeObject<LayoutPreferences>(str);
         }
 
         private static void UpdateLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
         {
-            ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
-            var fixPath = folderPath.TrimEnd('\\');
-            if (!dataContainer.Values.ContainsKey(fixPath))
+            if (prefs == LayoutPreferences.DefaultLayoutPreferences)
             {
-                if (prefs == LayoutPreferences.DefaultLayoutPreferences)
-                {
-                    return; // Do not create setting if it's default
-                }
+                Helpers.NativeFileOperationsHelper.WriteStringToFile($"{folderPath}:files_layoutmode", null);
+                return; // Do not create setting if it's default
             }
-            dataContainer.Values[fixPath] = prefs.ToCompositeValue();
+            Helpers.NativeFileOperationsHelper.WriteStringToFile($"{folderPath}:files_layoutmode", JsonConvert.SerializeObject(prefs));
         }
 
         private LayoutPreferences LayoutPreference { get; set; }
