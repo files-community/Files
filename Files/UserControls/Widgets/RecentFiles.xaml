@@ -65,9 +65,9 @@
                                 <Grid.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem
-                                            x:Name="mfi_RemoveOneItem"
+                                            x:Name="RemoveRecentItem"
                                             x:Uid="RecentItemRemove"
-                                            Click="RemoveOneFrequentItem"
+                                            Click="RemoveRecentItem_Click"
                                             Text="Remove this item">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB3D;" />
@@ -75,7 +75,7 @@
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem
                                             x:Uid="RecentItemClearAll"
-                                            Click="MenuFlyoutItem_Click"
+                                            Click="ClearRecentItems_Click"
                                             Text="Clear all items">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9ED;" />
