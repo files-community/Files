@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Files.Filesystem.FilesystemHistory;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Files.Filesystem.FilesystemHistory;
 
 namespace Files.Filesystem
 {
@@ -28,7 +28,7 @@ namespace Files.Filesystem
         /// <br/>
         /// Destination: null
         /// </returns>
-        Task<IStorageHistory> CreateAsync(PathWithType source, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
+        Task<IStorageHistory> CreateAsync(IStorageItemWithPath source, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
 
         /// <summary>
         /// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
@@ -64,7 +64,7 @@ namespace Files.Filesystem
         /// <br/>
         /// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> was copied
         /// </returns>
-        Task<IStorageHistory> CopyAsync(PathWithType source,
+        Task<IStorageHistory> CopyAsync(IStorageItemWithPath source,
                                         string destination,
                                         IProgress<float> progress,
                                         IProgress<FilesystemErrorCode> errorCode,
@@ -104,7 +104,7 @@ namespace Files.Filesystem
         /// <br/>
         /// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> was moved
         /// </returns>
-        Task<IStorageHistory> MoveAsync(PathWithType source,
+        Task<IStorageHistory> MoveAsync(IStorageItemWithPath source,
                                         string destination,
                                         IProgress<float> progress,
                                         IProgress<FilesystemErrorCode> errorCode,
@@ -153,7 +153,7 @@ namespace Files.Filesystem
         /// <br/>
         /// If <paramref name="permanently"/> was false, returns path to recycled item
         /// </returns>
-        Task<IStorageHistory> DeleteAsync(PathWithType source,
+        Task<IStorageHistory> DeleteAsync(IStorageItemWithPath source,
                                           IProgress<float> progress,
                                           IProgress<FilesystemErrorCode> errorCode,
                                           bool permanently,
@@ -193,7 +193,7 @@ namespace Files.Filesystem
         /// <br/>
         /// Destination: The renamed item fullPath (as <see cref="PathWithType"/>)
         /// </returns>
-        Task<IStorageHistory> RenameAsync(PathWithType source,
+        Task<IStorageHistory> RenameAsync(IStorageItemWithPath source,
                                           string newName,
                                           NameCollisionOption collision,
                                           IProgress<FilesystemErrorCode> errorCode,
@@ -213,7 +213,7 @@ namespace Files.Filesystem
         /// <br/>
         /// Destination: The <paramref name="destination"/> item fullPath (as <see cref="PathWithType"/>) the <paramref name="source"/> has been restored
         /// </returns>
-        Task<IStorageHistory> RestoreFromTrashAsync(PathWithType source,
+        Task<IStorageHistory> RestoreFromTrashAsync(IStorageItemWithPath source,
                                                     string destination,
                                                     IProgress<float> progress,
                                                     IProgress<FilesystemErrorCode> errorCode,

@@ -996,7 +996,8 @@
                 ToolTipService.ToolTip="More options"
                 Visibility="Visible">
                 <Button.Flyout>
-                    <MenuFlyout Placement="BottomEdgeAlignedRight">
+                    <MenuFlyout Placement="BottomEdgeAlignedRight"
+                                Opening="NavMoreButtonFlyout_Opening">
                         <MenuFlyoutItem
                             x:Name="NavToolbarNewTab"
                             x:Uid="NavigationToolbarNewTab"
@@ -1093,25 +1094,16 @@
                                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA55;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutSeparator />
+                            <MenuFlyoutSeparator x:Name="NewMenuFileFolderSeparator"/>
                             <MenuFlyoutItem
-                                x:Name="ToolbarNewImageItem"
-                                x:Uid="ModernNavigationToolbaNewBitmapImage"
-                                Command="{x:Bind NewImageInvokedCommand, Mode=OneWay}"
+                                x:Name="NewFile"
+                                x:Uid="BaseLayoutContextFlyoutNewFile"
+                                Command="{x:Bind NewFileInvokedCommand}"
+                                CommandParameter="{x:Null}"
                                 IsEnabled="{x:Bind CanCreateFileInPage, Mode=OneWay}"
-                                Text="Bitmap Image">
+                                Text="File">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA83;" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem
-                                x:Name="ToolbarNewDocumentItem"
-                                x:Uid="ModernNavigationToolbaNewTextDocument"
-                                Command="{x:Bind NewDocumentInvokedCommand, Mode=OneWay}"
-                                IsEnabled="{x:Bind CanCreateFileInPage, Mode=OneWay}"
-                                Text="Text Document">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA00;" />
+                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea00;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                         </MenuFlyoutSubItem>

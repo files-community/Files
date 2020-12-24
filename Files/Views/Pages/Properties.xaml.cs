@@ -36,7 +36,6 @@ namespace Files
         public Properties()
         {
             InitializeComponent();
-            propertiesDialog = Interaction.FindParent<ContentDialog>(this);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -67,6 +66,7 @@ namespace Files
             }
             else
             {
+                propertiesDialog = Interaction.FindParent<ContentDialog>(this);
                 propertiesDialog.Closed += PropertiesDialog_Closed;
             }
         }
@@ -75,7 +75,7 @@ namespace Files
         {
             switch (e.PropertyName)
             {
-                case "AcrylicEnabled":
+                case "IsAcrylicDisabled":
                 case "FallbackColor":
                 case "TintColor":
                 case "TintOpacity":
@@ -90,7 +90,7 @@ namespace Files
             {
                 var backgroundBrush = new AcrylicBrush()
                 {
-                    AlwaysUseFallback = AppSettings.AcrylicEnabled,
+                    AlwaysUseFallback = AppSettings.IsAcrylicDisabled,
                     BackgroundSource = AcrylicBackgroundSource.HostBackdrop,
                     FallbackColor = AppSettings.AcrylicTheme.FallbackColor,
                     TintColor = AppSettings.AcrylicTheme.TintColor,
@@ -194,7 +194,7 @@ namespace Files
             }
             else
             {
-                propertiesDialog.Hide();
+                propertiesDialog?.Hide();
             }
         }
 
@@ -206,7 +206,7 @@ namespace Files
             }
             else
             {
-                propertiesDialog.Hide();
+                propertiesDialog?.Hide();
             }
         }
 
@@ -220,12 +220,12 @@ namespace Files
                 }
                 else
                 {
-                    propertiesDialog.Hide();
+                    propertiesDialog?.Hide();
                 }
             }
         }
 
-        private void NavigationView_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
+        private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             var navParam = new PropertyNavParam()
             {

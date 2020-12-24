@@ -1,5 +1,4 @@
 ﻿using Files.Enums;
-using Files.Helpers;
 using System;
 using System.Threading.Tasks;
 
@@ -11,7 +10,7 @@ namespace Files.Filesystem.FilesystemHistory
 
         private IStorageHistoryOperations storageHistoryOperations;
 
-        #endregion
+        #endregion Private Members
 
         #region Constructor
 
@@ -20,7 +19,7 @@ namespace Files.Filesystem.FilesystemHistory
             this.storageHistoryOperations = storageHistoryOperations;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Undo, Redo
 
@@ -70,7 +69,7 @@ namespace Files.Filesystem.FilesystemHistory
             return ReturnResult.Cancelled;
         }
 
-        #endregion
+        #endregion Undo, Redo
 
         #region IDisposable
 
@@ -81,6 +80,6 @@ namespace Files.Filesystem.FilesystemHistory
             storageHistoryOperations = null;
         }
 
-        #endregion
+        #endregion IDisposable
     }
 }

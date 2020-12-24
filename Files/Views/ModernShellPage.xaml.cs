@@ -1,13 +1,12 @@
 ﻿using Files.Common;
 using Files.Dialogs;
 using Files.Filesystem;
-using Files.Filesystem.Search;
 using Files.Filesystem.FilesystemHistory;
+using Files.Filesystem.Search;
 using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
 using Files.View_Models;
-using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
@@ -24,7 +23,6 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Windows.Storage.Search;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Text;
@@ -132,7 +130,7 @@ namespace Files.Views.Pages
                 navToolbar.AddressBarTextEntered += ModernShellPage_AddressBarTextEntered;
                 navToolbar.PathBoxItemDropped += ModernShellPage_PathBoxItemDropped;
             }
-            
+
             AppSettings.SortDirectionPreferenceUpdated += AppSettings_SortDirectionPreferenceUpdated;
             AppSettings.SortOptionPreferenceUpdated += AppSettings_SortOptionPreferenceUpdated;
 
@@ -162,11 +160,11 @@ namespace Files.Views.Pages
 
         private async void ModernShellPage_SearchTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            if(args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 if (!string.IsNullOrWhiteSpace(sender.Text))
                 {
-                    sender.ItemsSource = await FolderSearch.SearchForUserQueryTextAsync(sender.Text, FilesystemViewModel.WorkingDirectory);
+                    sender.ItemsSource = await FolderSearch.SearchForUserQueryTextAsync(sender.Text, FilesystemViewModel.WorkingDirectory, this);
                 }
                 else
                 {
@@ -185,7 +183,7 @@ namespace Files.Views.Pages
                     AssociatedTabInstance = this,
                     IsSearchResultPage = true,
                     SearchPathParam = FilesystemViewModel.WorkingDirectory,
-                    SearchResults = await FolderSearch.SearchForUserQueryTextAsync(args.QueryText, FilesystemViewModel.WorkingDirectory, -1)
+                    SearchResults = await FolderSearch.SearchForUserQueryTextAsync(args.QueryText, FilesystemViewModel.WorkingDirectory, this, -1)
                 });
                 App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
             }
@@ -213,21 +211,21 @@ namespace Files.Views.Pages
 
         private async void SidebarControl_RecycleBinItemRightTapped(object sender, EventArgs e)
         {
-            var value = new ValueSet
+            var recycleBinHasItems = false;
+            if (ServiceConnection != null)
+            {
+                var value = new ValueSet
                 {
                     { "Arguments", "RecycleBin" },
                     { "action", "Query" }
                 };
-
-            var response = await ServiceConnection.SendMessageAsync(value);
-            if (response.Status == AppServiceResponseStatus.Success && response.Message.TryGetValue("NumItems", out var numItems))
-            {
-                SidebarControl.RecycleBinHasItems = (long)numItems > 0;
+                var response = await ServiceConnection.SendMessageAsync(value);
+                if (response.Status == AppServiceResponseStatus.Success && response.Message.TryGetValue("NumItems", out var numItems))
+                {
+                    recycleBinHasItems = (long)numItems > 0;
+                }
             }
-            else
-            {
-                SidebarControl.RecycleBinHasItems = false;
-            }
+            SidebarControl.RecycleBinHasItems = recycleBinHasItems;
         }
 
         private async void SidebarControl_SidebarItemDropped(object sender, Controls.SidebarItemDroppedEventArgs e)
@@ -976,9 +974,11 @@ namespace Files.Views.Pages
                     {
                         var addItemDialog = new AddItemDialog();
                         await addItemDialog.ShowAsync();
-                        if (addItemDialog.ResultType != AddItemType.Cancel)
+                        if (addItemDialog.ResultType.ItemType != AddItemType.Cancel)
                         {
-                            InteractionOperations.CreateFileFromDialogResultType(addItemDialog.ResultType);
+                            InteractionOperations.CreateFileFromDialogResultType(
+                                addItemDialog.ResultType.ItemType,
+                                addItemDialog.ResultType.ItemInfo);
                         }
                     }
                     break;
@@ -986,9 +986,8 @@ namespace Files.Views.Pages
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
                     if (!NavigationToolbar.IsEditModeEnabled && !InstanceViewModel.IsPageTypeSearchResults)
                     {
-
                         await filesystemHelpers.DeleteItemsAsync(
-                            ContentPage.SelectedItems.Select((item) => new PathWithType(
+                            ContentPage.SelectedItems.Select((item) => StorageItemHelpers.FromPathAndType(
                                 item.ItemPath,
                                 item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(),
                             true, true, true);
@@ -1056,7 +1055,7 @@ namespace Files.Views.Pages
                     if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
                     {
                         await filesystemHelpers.DeleteItemsAsync(
-                            ContentPage.SelectedItems.Select((item) => new PathWithType(
+                            ContentPage.SelectedItems.Select((item) => StorageItemHelpers.FromPathAndType(
                                 item.ItemPath,
                                 item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory)).ToList(),
                             true, false, true);
@@ -1147,16 +1146,11 @@ namespace Files.Views.Pages
             Frame instanceContentFrame = ContentFrame;
             FilesystemViewModel.CancelLoadAndClearFiles();
             var instance = FilesystemViewModel;
-            string parentDirectoryOfPath;
-            // Check that there isn't a slash at the end
-            if ((instance.WorkingDirectory.Count() - 1) - instance.WorkingDirectory.LastIndexOf("\\") > 0)
+            string parentDirectoryOfPath = instance.WorkingDirectory.TrimEnd('\\');
+            var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");
+            if (lastSlashIndex != -1)
             {
-                parentDirectoryOfPath = instance.WorkingDirectory.Remove(instance.WorkingDirectory.LastIndexOf("\\"));
-            }
-            else  // Slash found at end
-            {
-                var currentPathWithoutEndingSlash = instance.WorkingDirectory.Remove(instance.WorkingDirectory.LastIndexOf("\\"));
-                parentDirectoryOfPath = currentPathWithoutEndingSlash.Remove(currentPathWithoutEndingSlash.LastIndexOf("\\"));
+                parentDirectoryOfPath = instance.WorkingDirectory.Remove(lastSlashIndex);
             }
 
             SelectSidebarItemFromPath();
@@ -1214,7 +1208,7 @@ namespace Files.Views.Pages
                 navToolbar.AddressBarTextEntered -= ModernShellPage_AddressBarTextEntered;
                 navToolbar.PathBoxItemDropped -= ModernShellPage_PathBoxItemDropped;
             }
-            
+
             AppSettings.SortDirectionPreferenceUpdated -= AppSettings_SortDirectionPreferenceUpdated;
             AppSettings.SortOptionPreferenceUpdated -= AppSettings_SortOptionPreferenceUpdated;
 

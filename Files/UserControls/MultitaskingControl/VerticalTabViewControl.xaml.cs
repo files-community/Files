@@ -1,5 +1,4 @@
-﻿using Files.Filesystem;
-using Files.Interacts;
+﻿using Files.Interacts;
 using Files.Views;
 using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.Extensions;

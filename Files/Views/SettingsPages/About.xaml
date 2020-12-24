@@ -54,9 +54,11 @@
                     Tapped="FeedbackListView_Tapped">
                     <ListViewItem
                         x:Name="FeedbackForm"
+                        x:Uid="SettingsAboutSubmitFeedbackListViewItem"
                         Padding="8,2"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
+                        AutomationProperties.Name="Send the developers an issue report with more information"
                         IsEnabled="True">
                         <StackPanel
                             Padding="0,4"
@@ -78,9 +80,11 @@
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem
+                        x:Uid="SettingsAboutReleaseNotesListViewItem"
                         Padding="8,2"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
+                        AutomationProperties.Name="Find out what's new in Files"
                         IsEnabled="True">
                         <StackPanel
                             Padding="0,4"
@@ -102,9 +106,11 @@
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem
+                        x:Uid="SettingsAboutContributorsListViewItem"
                         Padding="8,2"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
+                        AutomationProperties.Name="See who contributed to Files"
                         IsEnabled="True">
                         <StackPanel
                             Padding="0,4"
@@ -126,9 +132,11 @@
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem
+                        x:Uid="SettingsAboutSupportUsListViewItem"
                         Padding="8,2"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
+                        AutomationProperties.Name="Support us on PayPal"
                         IsEnabled="True">
                         <StackPanel
                             Padding="0,4"

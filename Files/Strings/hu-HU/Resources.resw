@@ -108,7 +108,7 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>Kijelölés megszűntetése</value>
   </data>
-  <data name="StatusBarControlListView.Text" xml:space="preserve">
+  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
     <value>Részletek</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -285,12 +285,6 @@
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
     <value>Mappa</value>
   </data>
-  <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
-    <value>Bitmap Kép</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewTextDocument.Text" xml:space="preserve">
-    <value>Szöveges Dokumentum</value>
-  </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Tulajdonságok</value>
   </data>
@@ -380,12 +374,6 @@
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Új Mappa</value>
-  </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>Új Szöveges Dokumentum</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>Új Bitmap Kép</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Üres mappa.</value>
@@ -909,23 +897,11 @@
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>Válasszon fájltípust az alábbiak közűl</value>
   </data>
-  <data name="AddDialogListBitmapHeader" xml:space="preserve">
-    <value>Bitmap Kép</value>
-  </data>
-  <data name="AddDialogListBitmapSubHeader" xml:space="preserve">
-    <value>Új bitmap kép készítése</value>
-  </data>
   <data name="AddDialogListFolderHeader" xml:space="preserve">
     <value>Mappa</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Új mappa készítése</value>
-  </data>
-  <data name="AddDialogListTextFileHeader" xml:space="preserve">
-    <value>Szöveges Dokumentum</value>
-  </data>
-  <data name="AddDialogListTextFileSubHeader" xml:space="preserve">
-    <value>Új szöveges dokumentum készítése</value>
   </data>
   <data name="BaseLayoutContextFlyoutLayoutMode.Text" xml:space="preserve">
     <value>Elrendezés</value>
@@ -1080,6 +1056,9 @@
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
     <value>Új lap</value>
   </data>
+  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Keresés</value>
+  </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Csak olvasható</value>
   </data>
@@ -1173,6 +1152,9 @@
   <data name="PropertyAperture" xml:space="preserve">
     <value>Rekesz</value>
   </data>
+  <data name="PropertyChannelCount" xml:space="preserve">
+    <value>Csatornák száma</value>
+  </data>
   <data name="PropertyFormat" xml:space="preserve">
     <value>Formátum</value>
   </data>
@@ -1215,11 +1197,26 @@
   <data name="PropertyPublisher" xml:space="preserve">
     <value>Kiadó</value>
   </data>
+  <data name="PropertyThumbnailLargePath" xml:space="preserve">
+    <value>Nagy indexkép Path</value>
+  </data>
+  <data name="PropertyThumbnailLargeUri" xml:space="preserve">
+    <value>Nagy indexkép URI</value>
+  </data>
+  <data name="PropertyThumbnailSmallPath" xml:space="preserve">
+    <value>Kis indexkép Path</value>
+  </data>
+  <data name="PropertyThumbnailSmallUri" xml:space="preserve">
+    <value>Kis indexkép URI</value>
+  </data>
   <data name="PropertyWriter" xml:space="preserve">
     <value>Író</value>
   </data>
   <data name="PropertyYear" xml:space="preserve">
     <value>Év</value>
+  </data>
+  <data name="PropertyContributor" xml:space="preserve">
+    <value>Közreműködő</value>
   </data>
   <data name="PropertyRevisionNumber" xml:space="preserve">
     <value>Felülvizsgálat száma</value>
@@ -1351,6 +1348,63 @@
     <value>Weboldal</value>
   </data>
   <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
-    <value>Tudj meg többet a dátumokról</value>
+    <value>Tudjon meg többet a dátumokról</value>
+  </data>
+  <data name="DragDropWindowText" xml:space="preserve">
+    <value>Másolás ide</value>
+  </data>
+  <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
+    <value>Keresés eredménye a következőben:</value>
+  </data>
+  <data name="SearchTabHeaderText" xml:space="preserve">
+    <value>Keresési eredmények</value>
+  </data>
+  <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Közreműködők</value>
+  </data>
+  <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Újdonságok a Files-ban</value>
+  </data>
+  <data name="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Visszajelzés küldése a fejlesztőknek</value>
+  </data>
+  <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Támogatás PayPal-on</value>
+  </data>
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
+    <value>Mappák rendszerezése a fájlokkal</value>
+  </data>
+  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+    <value>Részletek</value>
+  </data>
+  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+    <value>Nem</value>
+  </data>
+  <data name="UpdateConsentDialogContent" xml:space="preserve">
+    <value>Szeretné letőlteni és telepíteni a legújabb Files verziót?</value>
+  </data>
+  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
+    <value>Igen</value>
+  </data>
+  <data name="UpdateConsentDialogTitle" xml:space="preserve">
+    <value>Frissítés elérhető</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
+    <value>Védett operációs rendszer fájlok elrejtése (Ajánlott)</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Védett operációs rendszer fájlok elrejtése (Ajánlott)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
+    <value>Fájl</value>
+  </data>
+  <data name="AddDialogListFileHeader" xml:space="preserve">
+    <value>Fájl</value>
+  </data>
+  <data name="AddDialogListFileSubHeader" xml:space="preserve">
+    <value>Létrehoz egy üres fájlt</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>Új Fájl</value>
   </data>
 </root>
