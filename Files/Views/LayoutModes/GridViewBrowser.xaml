@@ -537,13 +537,8 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Background="Transparent"
-                DataContext="{x:Bind}"
-                DataContextChanged="FileListGridItem_DataContextChanged"
-                EffectiveViewportChanged="Grid_EffectiveViewportChanged"
                 IsRightTapEnabled="True"
-                PointerPressed="FileListGridItem_PointerPressed"
                 RightTapped="StackPanel_RightTapped"
-                Tag="ItemRoot"
                 ToolTipService.ToolTip="{x:Bind ItemName}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -680,13 +675,8 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Background="Transparent"
-                DataContext="{x:Bind}"
-                DataContextChanged="FileListGridItem_DataContextChanged"
-                EffectiveViewportChanged="Grid_EffectiveViewportChanged"
                 IsRightTapEnabled="True"
-                PointerPressed="FileListGridItem_PointerPressed"
                 RightTapped="StackPanel_RightTapped"
-                Tag="ItemRoot"
                 ToolTipService.ToolTip="{x:Bind ItemName}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -907,6 +897,7 @@
             VerticalContentAlignment="Stretch"
             x:FieldModifier="public"
             AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+            ChoosingItemContainer="FileList_ChoosingItemContainer"
             ContainerContentChanging="FileList_ContainerContentChanging"
             DoubleTapped="{x:Bind ParentShellPageInstance.InteractionOperations.List_ItemDoubleClick}"
             DragEnter="List_DragEnter"
