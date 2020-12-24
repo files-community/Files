@@ -555,10 +555,6 @@ namespace Files.Views.Pages
                 }
                 else
                 {
-                    var workingDir = string.IsNullOrEmpty(FilesystemViewModel.WorkingDirectory)
-                        ? AppSettings.HomePath
-                        : FilesystemViewModel.WorkingDirectory;
-
                     currentInput = StorageFileExtensions.GetPathWithoutEnvironmentVariable(currentInput);
                     if (currentSelectedPath == currentInput)
                     {
@@ -588,6 +584,11 @@ namespace Files.Views.Pages
                         }
                         else // Not a file or not accessible
                         {
+                            var workingDir = string.IsNullOrEmpty(FilesystemViewModel.WorkingDirectory)
+                                    || CurrentPageType == typeof(YourHome)
+                                ? AppSettings.HomePath
+                                : FilesystemViewModel.WorkingDirectory;
+
                             // Launch terminal application if possible
                             foreach (var terminal in AppSettings.TerminalController.Model.Terminals)
                             {
@@ -600,8 +601,7 @@ namespace Files.Views.Pages
                                         {
                                             { "WorkingDirectory", workingDir },
                                             { "Application", terminal.Path },
-                                            { "Arguments", string.Format(terminal.Arguments,
-                                            Helpers.PathNormalization.NormalizePath(FilesystemViewModel.WorkingDirectory)) }
+                                            { "Arguments", string.Format(terminal.Arguments, workingDir) }
                                         };
                                         await ServiceConnection.SendMessageAsync(value);
                                     }
@@ -617,7 +617,7 @@ namespace Files.Views.Pages
                                         string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, resFolder.ErrorCode.ToString()));
                                 }
                             }
-                            catch (UriFormatException)
+                            catch (Exception ex) when (ex is UriFormatException || ex is ArgumentException)
                             {
                                 await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalized(),
                                     string.Format("InvalidItemDialogContent".GetLocalized(), Environment.NewLine, resFolder.ErrorCode.ToString()));
