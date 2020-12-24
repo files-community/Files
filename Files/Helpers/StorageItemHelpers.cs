@@ -18,21 +18,22 @@ namespace Files.Helpers
 
         public static async Task<FilesystemResult<IStorageItem>> ToStorageItemResult(this IStorageItemWithPath item, IShellPage associatedInstance = null)
         {
-            if (item.Item != null)
-            {
-                return new FilesystemResult<IStorageItem>(item.Item, FilesystemErrorCode.ERROR_SUCCESS);
-            }
+            var returnedItem = new FilesystemResult<IStorageItem>(null, FilesystemErrorCode.ERROR_GENERIC);
             if (!string.IsNullOrEmpty(item.Path))
             {
-                return (item.ItemType == FilesystemItemType.File) ?
-                    ToType<IStorageItem,StorageFile>(associatedInstance != null ?
+                returnedItem = (item.ItemType == FilesystemItemType.File) ?
+                    ToType<IStorageItem, StorageFile>(associatedInstance != null ?
                         await associatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.Path) :
                         await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.Path))) :
                     ToType<IStorageItem, StorageFolder>(associatedInstance != null ?
                         await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.Path) :
                         await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(item.Path)));
             }
-            return new FilesystemResult<IStorageItem>(null, FilesystemErrorCode.ERROR_GENERIC);
+            if (returnedItem.Result == null && item.Item != null)
+            {
+                returnedItem = new FilesystemResult<IStorageItem>(item.Item, FilesystemErrorCode.ERROR_SUCCESS);
+            }
+            return returnedItem;
         }
 
         public static IStorageItemWithPath FromPathAndType(string customPath, FilesystemItemType? itemType)
@@ -59,7 +60,7 @@ namespace Files.Helpers
             return null;
         }
 
-        public static FilesystemResult<T> ToType<T,V>(FilesystemResult<V> result) where T : class
+        public static FilesystemResult<T> ToType<T, V>(FilesystemResult<V> result) where T : class
         {
             return new FilesystemResult<T>(result.Result as T, result.ErrorCode);
         }

@@ -459,11 +459,11 @@ namespace Files.Filesystem
                 }
                 else if (renamed == FilesystemErrorCode.ERROR_NOTAFILE || renamed == FilesystemErrorCode.ERROR_NOTAFOLDER)
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("RenameError.NameInvalid.Title".GetLocalized(), "RenameError.NameInvalid.Text".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync("RenameError/NameInvalid/Title".GetLocalized(), "RenameError/NameInvalid/Text".GetLocalized());
                 }
                 else if (renamed == FilesystemErrorCode.ERROR_NAMETOOLONG)
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("RenameError.TooLong.Title".GetLocalized(), "RenameError.TooLong.Text".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync("RenameError/TooLong/Title".GetLocalized(), "RenameError/TooLong/Text".GetLocalized());
                 }
                 else if (renamed == FilesystemErrorCode.ERROR_INUSE)
                 {
@@ -472,7 +472,7 @@ namespace Files.Filesystem
                 }
                 else if (renamed == FilesystemErrorCode.ERROR_NOTFOUND)
                 {
-                    await DialogDisplayHelper.ShowDialogAsync("RenameError.ItemDeleted.Title".GetLocalized(), "RenameError.ItemDeleted.Text".GetLocalized());
+                    await DialogDisplayHelper.ShowDialogAsync("RenameError/ItemDeleted/Title".GetLocalized(), "RenameError/ItemDeleted/Text".GetLocalized());
                 }
                 else if (renamed == FilesystemErrorCode.ERROR_ALREADYEXIST)
                 {
