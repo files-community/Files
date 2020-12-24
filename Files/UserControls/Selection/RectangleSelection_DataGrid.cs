@@ -38,6 +38,7 @@ namespace Files.UserControls.Selection
             if (selectionState == SelectionState.Starting)
             {
                 // Clear selected items once if the pointer is pressed and moved
+                uiElement.CancelEdit();
                 uiElement.SelectedItems.Clear();
                 OnSelectionStarted();
                 selectionState = SelectionState.Active;
@@ -157,6 +158,7 @@ namespace Files.UserControls.Selection
             if (clickedRow == null)
             {
                 // If user click outside, reset selection
+                uiElement.CancelEdit();
                 uiElement.SelectedItems.Clear();
             }
             else if (uiElement.SelectedItems.Contains(clickedRow.DataContext))

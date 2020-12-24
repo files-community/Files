@@ -1,5 +1,4 @@
-﻿using Files.Helpers;
-using Files.UserControls;
+﻿using Files.UserControls;
 using Files.View_Models;
 using System;
 using System.Collections.ObjectModel;
@@ -71,12 +70,13 @@ namespace Files
                 {
                     // Skip item until consent is provided
                 }
-                catch (Exception ex) when (
-                    ex is COMException
-                    || ex is FileNotFoundException
-                    || ex is ArgumentException
-                    || (uint)ex.HResult == 0x8007016A // The cloud file provider is not running
-                    || (uint)ex.HResult == 0x8000000A) // The data necessary to complete this operation is not yet available
+                // Exceptions include but are not limited to:
+                // COMException, FileNotFoundException, ArgumentException, DirectoryNotFoundException
+                // 0x8007016A -> The cloud file provider is not running
+                // 0x8000000A -> The data necessary to complete this operation is not yet available
+                // 0x80004005 -> Unspecified error
+                // 0x80270301 -> ?
+                catch (Exception ex)
                 {
                     mostRecentlyUsed.Remove(mruToken);
                     System.Diagnostics.Debug.WriteLine(ex);
@@ -152,7 +152,7 @@ namespace Files
             });
         }
 
-        private async void RemoveOneFrequentItem(object sender, RoutedEventArgs e)
+        private async void RemoveRecentItem_Click(object sender, RoutedEventArgs e)
         {
             // Get the sender frameworkelement
 
@@ -162,34 +162,31 @@ namespace Files
 
                 if (fe.DataContext is RecentItem vm)
                 {
-                    if (await DialogDisplayHelper.ShowDialogAsync("Remove item from Recents List", "Do you wish to remove " + vm.Name + " from the list?", "Yes", "No"))
+                    // Remove it from the visible collection
+                    recentItemsCollection.Remove(vm);
+
+                    // Now clear it from the recent list cache permanently.
+                    // No token stored in the viewmodel, so need to find it the old fashioned way.
+                    var mru = StorageApplicationPermissions.MostRecentlyUsedList;
+
+                    foreach (var element in mru.Entries)
                     {
-                        // remove it from the visible collection
-                        recentItemsCollection.Remove(vm);
-
-                        // Now clear it also from the recent list cache permanently.
-                        // No token stored in the viewmodel, so need to find it the old fashioned way.
-                        var mru = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
-
-                        foreach (var element in mru.Entries)
+                        var f = await mru.GetItemAsync(element.Token);
+                        if (f.Path == vm.RecentPath || element.Metadata == vm.RecentPath)
                         {
-                            var f = await mru.GetItemAsync(element.Token);
-                            if (f.Path == vm.RecentPath || element.Metadata == vm.RecentPath)
+                            mru.Remove(element.Token);
+                            if (recentItemsCollection.Count == 0)
                             {
-                                mru.Remove(element.Token);
-                                if (recentItemsCollection.Count == 0)
-                                {
-                                    Empty.Visibility = Visibility.Visible;
-                                }
-                                break;
+                                Empty.Visibility = Visibility.Visible;
                             }
+                            break;
                         }
                     }
                 }
             }
         }
 
-        private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        private void ClearRecentItems_Click(object sender, RoutedEventArgs e)
         {
             recentItemsCollection.Clear();
             RecentsView.ItemsSource = null;

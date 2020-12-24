@@ -1177,7 +1177,10 @@ namespace Files.Filesystem
                 {
                     break;
                 }
-                catch (Exception ex) when (ex is UnauthorizedAccessException || ex is FileNotFoundException)
+                catch (Exception ex) when (
+                    ex is UnauthorizedAccessException 
+                    || ex is FileNotFoundException
+                    || (uint)ex.HResult == 0x80070490) // ERROR_NOT_FOUND
                 {
                     ++count;
                     continue;
@@ -1241,6 +1244,10 @@ namespace Files.Filesystem
 
         private async Task<bool> CheckBitlockerStatusAsync(StorageFolder rootFolder)
         {
+            if (rootFolder == null || rootFolder.Properties == null)
+            {
+                return false;
+            }
             if (Path.IsPathRooted(WorkingDirectory) && Path.GetPathRoot(WorkingDirectory) == WorkingDirectory)
             {
                 IDictionary<string, object> extraProperties = await rootFolder.Properties.RetrievePropertiesAsync(new string[] { "System.Volume.BitLockerProtection" });

@@ -285,6 +285,12 @@ namespace Files
                 return;
             }
 
+            if (SelectedItem == null)
+            {
+                AllView.CancelEdit(); // Cancel the edit operation
+                return;
+            }
+
             int extensionLength = SelectedItem.FileExtension?.Length ?? 0;
             oldItemName = SelectedItem.ItemName;
 

@@ -8,7 +8,8 @@
             <TextBlock
                 Padding="0,0,0,8"
                 FontSize="17"
-                Text="{Binding}" />
+                Text="{Binding}"
+                TextWrapping="Wrap" />
         </StackPanel>
     </DataTemplate>
 </ResourceDictionary>

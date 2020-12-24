@@ -1002,9 +1002,9 @@ namespace Files.Interacts
                 return;
             }
             dataPackage.SetStorageItems(items);
-            Clipboard.SetContent(dataPackage);
             try
             {
+                Clipboard.SetContent(dataPackage);
                 Clipboard.Flush();
             }
             catch
