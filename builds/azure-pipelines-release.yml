@@ -67,7 +67,7 @@ steps:
   inputs:
     serviceEndpoint: 'Files'
     appId: '9NGHP3DX8HDX'
-    flightName: 'Canary'
+    flightName: 'Files - Canary'
     packagePath: '$(appxPackageDir)\**\*.msixupload'
     force: false
     skipPolling: false
