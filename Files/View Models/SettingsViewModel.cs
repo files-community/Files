@@ -451,6 +451,15 @@ namespace Files.View_Models
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to search unindexed items.
+        /// </summary>
+        public bool SearchUnindexedItems
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         #endregion FilesAndFolder
 
         #region Multitasking
