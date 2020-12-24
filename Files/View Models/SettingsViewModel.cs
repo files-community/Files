@@ -9,6 +9,7 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -603,10 +604,10 @@ namespace Files.View_Models
 
         public AcrylicTheme AcrylicTheme { get; set; }
 
-        public int DefaultLayoutMode
+        public FolderSettingsViewModel.LayoutModes DefaultLayoutMode
         {
-            get => Get(0); // Details View	
-            set => Set(value);
+            get => (FolderSettingsViewModel.LayoutModes)Get((byte)FolderSettingsViewModel.LayoutModes.DETAILS_VIEW); // Details View
+            set => Set((byte)value);
         }
 
         public int DefaultGridViewSize
@@ -615,7 +616,19 @@ namespace Files.View_Models
             set => Set(value);
         }
 
-#region ReadAndSaveSettings
+        public SortDirection DefaultDirectorySortDirection
+        {
+            get => (SortDirection)Get((byte)SortDirection.Ascending);
+            set => Set((byte)value);
+        }
+
+        public SortOption DefaultDirectorySortOption
+        {
+            get => (SortOption)Get((byte)SortOption.Name);
+            set => Set((byte)value);
+        }
+
+        #region ReadAndSaveSettings
 
         public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
         {

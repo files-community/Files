@@ -16,19 +16,18 @@ namespace Files.View_Models
         public FolderSettingsViewModel(IShellPage associatedInstance)
         {
             this.associatedInstance = associatedInstance;
+            this.LayoutPreference = new LayoutPreferences();
         }
 
-        private int layoutMode = 0; // Details View
-        public int LayoutMode
+        public LayoutModes LayoutMode
         {
-            get => layoutMode;
+            get => LayoutPreference.LayoutMode;
             set
             {
-                if (layoutMode != value)
+                if (SetProperty(ref LayoutPreference.LayoutMode, value, nameof(LayoutMode)))
                 {
-                    SetLayoutModeForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, value, gridViewSize);
+                    UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
                 }
-                SetProperty(ref layoutMode, value);
             }
         }
 
@@ -42,9 +41,9 @@ namespace Files.View_Models
 
         public Type GetLayoutType(string folderPath)
         {
-            var oldLayoutMode = layoutMode;
-            (layoutMode, gridViewSize) = GetLayoutModeForPath(folderPath);
-            if (oldLayoutMode != layoutMode)
+            var oldLayoutMode = LayoutPreference.LayoutMode;
+            LayoutPreference = GetLayoutPreferencesForPath(folderPath);
+            if (oldLayoutMode != LayoutPreference.LayoutMode)
             {
                 IsLayoutModeChanging = true;
             }
@@ -52,15 +51,15 @@ namespace Files.View_Models
             Type type = null;
             switch (LayoutMode)
             {
-                case 0:
+                case LayoutModes.DETAILS_VIEW:
                     type = typeof(GenericFileBrowser);
                     break;
 
-                case 1:
+                case LayoutModes.TILES_VIEW:
                     type = typeof(GridViewBrowser);
                     break;
 
-                case 2:
+                case LayoutModes.GRID_VIEW:
                     type = typeof(GridViewBrowser);
                     break;
 
@@ -71,41 +70,12 @@ namespace Files.View_Models
             return type;
         }
 
-        private static (int, int) GetLayoutModeForPath(string folderPath)
-        {
-            ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
-            var fixPath = folderPath.TrimEnd('\\');
-            if (dataContainer.Values.ContainsKey(fixPath))
-            {
-                var val = (Windows.Foundation.Point)dataContainer.Values[fixPath];
-                return ((int)val.X, (int)val.Y);
-            }
-            else
-            {
-                return (App.AppSettings.DefaultLayoutMode, App.AppSettings.DefaultGridViewSize); // Either global setting or smart guess
-            }
-        }
-
-        private static void SetLayoutModeForPath(string folderPath, int layoutMode, int gridViewSize)
-        {
-            ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
-            var fixPath = folderPath.TrimEnd('\\');
-            if (!dataContainer.Values.ContainsKey(fixPath))
-            {
-                if ((layoutMode, gridViewSize) == (App.AppSettings.DefaultLayoutMode, App.AppSettings.DefaultGridViewSize))
-                {
-                    return; // Do not create setting if it's default
-                }
-            }
-            dataContainer.Values[fixPath] = new Windows.Foundation.Point(layoutMode, gridViewSize);
-        }
-
         public event EventHandler LayoutModeChangeRequested;
         public event EventHandler GridViewSizeChangeRequested;
 
         public RelayCommand ToggleLayoutModeGridViewLarge => new RelayCommand(() =>
         {
-            LayoutMode = 2; // Grid View
+            LayoutMode = LayoutModes.GRID_VIEW; // Grid View
 
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeLarge; // Size
 
@@ -114,7 +84,7 @@ namespace Files.View_Models
 
         public RelayCommand ToggleLayoutModeGridViewMedium => new RelayCommand(() =>
         {
-            LayoutMode = 2; // Grid View
+            LayoutMode = LayoutModes.GRID_VIEW; // Grid View
 
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeMedium; // Size
 
@@ -123,7 +93,7 @@ namespace Files.View_Models
 
         public RelayCommand ToggleLayoutModeGridViewSmall => new RelayCommand(() =>
         {
-            LayoutMode = 2; // Grid View
+            LayoutMode = LayoutModes.GRID_VIEW; // Grid View
 
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Size
 
@@ -132,75 +102,73 @@ namespace Files.View_Models
 
         public RelayCommand ToggleLayoutModeTiles => new RelayCommand(() =>
         {
-            LayoutMode = 1; // Tiles View
+            LayoutMode = LayoutModes.TILES_VIEW; // Tiles View
 
             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
 
         public RelayCommand ToggleLayoutModeDetailsView => new RelayCommand(() =>
         {
-            LayoutMode = 0; // Details View
+            LayoutMode = LayoutModes.DETAILS_VIEW; // Details View
 
             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
 
-        private int gridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Default Size
-
         public int GridViewSize
         {
-            get => gridViewSize;
+            get => LayoutPreference.GridViewSize;
             set
             {
-                if (value < gridViewSize) // Size down
+                if (value < LayoutPreference.GridViewSize) // Size down
                 {
-                    if (LayoutMode == 1) // Size down from tiles to list
+                    if (LayoutMode == LayoutModes.TILES_VIEW) // Size down from tiles to list
                     {
                         LayoutMode = 0;
                         LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                     }
-                    else if (LayoutMode == 2 && value < Constants.Browser.GridViewBrowser.GridViewSizeSmall) // Size down from grid to tiles
+                    else if (LayoutMode == LayoutModes.GRID_VIEW && value < Constants.Browser.GridViewBrowser.GridViewSizeSmall) // Size down from grid to tiles
                     {
-                        LayoutMode = 1;
+                        LayoutMode = LayoutModes.TILES_VIEW;
                         LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                     }
-                    else if (LayoutMode != 0) // Resize grid view
+                    else if (LayoutMode != LayoutModes.DETAILS_VIEW) // Resize grid view
                     {
                         var newValue = (value >= Constants.Browser.GridViewBrowser.GridViewSizeSmall) ? value : Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Set grid size to allow immediate UI update
-                        SetProperty(ref gridViewSize, newValue);
+                        SetProperty(ref LayoutPreference.GridViewSize, newValue, nameof(GridViewSize));
 
-                        if (LayoutMode != 2) // Only update layout mode if it isn't already in grid view
+                        if (LayoutMode != LayoutModes.GRID_VIEW) // Only update layout mode if it isn't already in grid view
                         {
-                            LayoutMode = 2;
+                            LayoutMode = LayoutModes.GRID_VIEW;
                             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                         }
                         else
                         {
-                            SetLayoutModeForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, layoutMode, newValue);
+                            UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
                         }
 
                         GridViewSizeChangeRequested?.Invoke(this, EventArgs.Empty);
                     }
                 }
-                else if (value > gridViewSize) // Size up
+                else if (value > LayoutPreference.GridViewSize) // Size up
                 {
                     if (LayoutMode == 0) // Size up from list to tiles
                     {
-                        LayoutMode = 1;
+                        LayoutMode = LayoutModes.TILES_VIEW;
                         LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                     }
                     else // Size up from tiles to grid
                     {
-                        var newValue = (LayoutMode == 1) ? Constants.Browser.GridViewBrowser.GridViewSizeSmall : (value <= Constants.Browser.GridViewBrowser.GridViewSizeMax) ? value : Constants.Browser.GridViewBrowser.GridViewSizeMax; // Set grid size to allow immediate UI update
-                        SetProperty(ref gridViewSize, newValue);
+                        var newValue = (LayoutMode == LayoutModes.TILES_VIEW) ? Constants.Browser.GridViewBrowser.GridViewSizeSmall : (value <= Constants.Browser.GridViewBrowser.GridViewSizeMax) ? value : Constants.Browser.GridViewBrowser.GridViewSizeMax; // Set grid size to allow immediate UI update
+                        SetProperty(ref LayoutPreference.GridViewSize, newValue, nameof(GridViewSize));
 
-                        if (LayoutMode != 2) // Only update layout mode if it isn't already in grid view
+                        if (LayoutMode != LayoutModes.GRID_VIEW) // Only update layout mode if it isn't already in grid view
                         {
-                            LayoutMode = 2;
+                            LayoutMode = LayoutModes.GRID_VIEW;
                             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                         }
                         else
                         {
-                            SetLayoutModeForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, layoutMode, newValue);
+                            UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
                         }
 
                         if (value < Constants.Browser.GridViewBrowser.GridViewSizeMax) // Don't request a grid resize if it is already at the max size
@@ -218,38 +186,92 @@ namespace Files.View_Models
 
         public SortOption DirectorySortOption
         {
-            get => (SortOption)SortOptionByte;
+            get => LayoutPreference.DirectorySortOption;
             set
             {
-                SortOptionByte = (byte)value;
-                SortOptionPreferenceUpdated?.Invoke(this, new EventArgs());
+                if (SetProperty(ref LayoutPreference.DirectorySortOption, value, nameof(DirectorySortOption)))
+                {
+                    UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
+                    SortOptionPreferenceUpdated?.Invoke(this, new EventArgs());
+                }
             }
         }
 
         public SortDirection DirectorySortDirection
         {
-            get => (SortDirection)SortDirectionByte;
+            get => LayoutPreference.DirectorySortDirection;
             set
             {
-                SortDirectionByte = (byte)value;
-                SortDirectionPreferenceUpdated?.Invoke(this, new EventArgs());
+                if (SetProperty(ref LayoutPreference.DirectorySortDirection, value, nameof(DirectorySortDirection)))
+                {
+                    UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
+                    SortDirectionPreferenceUpdated?.Invoke(this, new EventArgs());
+                }
             }
         }
 
-        private byte sortOptionByte = (byte)0;
-
-        private byte SortOptionByte
+        private static LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
         {
-            get => sortOptionByte;
-            set => SetProperty(ref sortOptionByte, value);
+            ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
+            var fixPath = folderPath.TrimEnd('\\');
+            if (dataContainer.Values.ContainsKey(fixPath))
+            {
+                var val = (Windows.Foundation.Rect)dataContainer.Values[fixPath];
+                return new LayoutPreferences((LayoutModes)(int)val.X, (int)val.Y, (SortOption)(int)val.Width, (SortDirection)(int)val.Height);
+            }
+            else
+            {
+                return LayoutPreferences.DefaultLayoutPreferences; // Either global setting or smart guess
+            }
         }
 
-        private byte sortDirectionByte = 0;
-
-        private byte SortDirectionByte
+        private static void UpdateLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
         {
-            get => sortDirectionByte;
-            set => SetProperty(ref sortDirectionByte, value);
+            ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
+            var fixPath = folderPath.TrimEnd('\\');
+            if (!dataContainer.Values.ContainsKey(fixPath))
+            {
+                if (prefs == LayoutPreferences.DefaultLayoutPreferences)
+                {
+                    return; // Do not create setting if it's default
+                }
+            }
+            dataContainer.Values[fixPath] = new Windows.Foundation.Rect((int)prefs.LayoutMode, prefs.GridViewSize, (int)prefs.DirectorySortOption, (int)prefs.DirectorySortDirection);
+        }
+
+        private LayoutPreferences LayoutPreference { get; set; }
+
+        private class LayoutPreferences
+        {
+            public SortOption DirectorySortOption;
+            public SortDirection DirectorySortDirection;
+            public LayoutModes LayoutMode;
+            public int GridViewSize;
+
+            public static LayoutPreferences DefaultLayoutPreferences => new LayoutPreferences();
+
+            public LayoutPreferences()
+            {
+                this.LayoutMode = App.AppSettings.DefaultLayoutMode;
+                this.GridViewSize = App.AppSettings.DefaultGridViewSize;
+                this.DirectorySortOption = App.AppSettings.DefaultDirectorySortOption;
+                this.DirectorySortDirection = App.AppSettings.DefaultDirectorySortDirection;
+            }
+
+            public LayoutPreferences(LayoutModes layoutMode, int gridViewSize, SortOption sortOption, SortDirection sortDirection)
+            {
+                this.LayoutMode = layoutMode;
+                this.GridViewSize = gridViewSize;
+                this.DirectorySortOption = sortOption;
+                this.DirectorySortDirection = sortDirection;
+            }
+        }
+
+        public enum LayoutModes
+        {
+            DETAILS_VIEW = 0,
+            TILES_VIEW,
+            GRID_VIEW
         }
     }
 }
