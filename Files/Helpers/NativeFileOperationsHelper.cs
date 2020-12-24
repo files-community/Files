@@ -210,26 +210,19 @@ namespace Files.Helpers
 
         public static void WriteStringToFile(string filePath, string str)
         {
-            if (str == null)
-            {
-                DeleteFileFromApp(filePath);
-            }
-            else
-            {
-                IntPtr hStream = CreateFileFromApp(filePath,
+            IntPtr hStream = CreateFileFromApp(filePath,
                     GENERIC_WRITE, 0, IntPtr.Zero, CREATE_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero);
-                if (hStream.ToInt64() == -1) return;
-                byte[] buff = Encoding.UTF8.GetBytes(str);
-                int dwBytesWritten;
-                unsafe
+            if (hStream.ToInt64() == -1) return;
+            byte[] buff = Encoding.UTF8.GetBytes(str);
+            int dwBytesWritten;
+            unsafe
+            {
+                fixed (byte* pBuff = buff)
                 {
-                    fixed (byte* pBuff = buff)
-                    {
-                        WriteFile(hStream, pBuff, buff.Length, &dwBytesWritten, IntPtr.Zero);
-                    }
+                    WriteFile(hStream, pBuff, buff.Length, &dwBytesWritten, IntPtr.Zero);
                 }
-                CloseHandle(hStream);
             }
+            CloseHandle(hStream);
         }
     }
 }

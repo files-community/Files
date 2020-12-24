@@ -4,6 +4,7 @@ using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
 using Newtonsoft.Json;
 using System;
+using System.IO;
 using Windows.Storage;
 
 namespace Files.View_Models
@@ -213,7 +214,7 @@ namespace Files.View_Models
 
         private static LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
         {
-            var str = Helpers.NativeFileOperationsHelper.ReadStringFromFile($"{folderPath}:files_layoutmode");
+            var str = Helpers.NativeFileOperationsHelper.ReadStringFromFile(Path.Combine(folderPath,"files.desktop.ini"));
             if (string.IsNullOrEmpty(str))
             {
                 return LayoutPreferences.DefaultLayoutPreferences; // Either global setting or smart guess
@@ -223,12 +224,14 @@ namespace Files.View_Models
 
         private static void UpdateLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
         {
+            var settingsFilePath = Path.Combine(folderPath, "files.desktop.ini");
             if (prefs == LayoutPreferences.DefaultLayoutPreferences)
             {
-                Helpers.NativeFileOperationsHelper.WriteStringToFile($"{folderPath}:files_layoutmode", null);
+                Helpers.NativeFileOperationsHelper.DeleteFileFromApp(settingsFilePath);
                 return; // Do not create setting if it's default
             }
-            Helpers.NativeFileOperationsHelper.WriteStringToFile($"{folderPath}:files_layoutmode", JsonConvert.SerializeObject(prefs));
+            Helpers.NativeFileOperationsHelper.WriteStringToFile(settingsFilePath, JsonConvert.SerializeObject(prefs));
+            Helpers.NativeFileOperationsHelper.SetFileAttribute(settingsFilePath, System.IO.FileAttributes.Hidden);
         }
 
         private LayoutPreferences LayoutPreference { get; set; }
