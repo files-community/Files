@@ -1098,7 +1098,7 @@
                             <MenuFlyoutItem
                                 x:Name="NewFile"
                                 x:Uid="BaseLayoutContextFlyoutNewFile"
-                                Command="{x:Bind NewFileInvokedCommand}"
+                                Command="{x:Bind NewFileInvokedCommand, Mode=OneWay}"
                                 CommandParameter="{x:Null}"
                                 IsEnabled="{x:Bind CanCreateFileInPage, Mode=OneWay}"
                                 Text="File">

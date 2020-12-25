@@ -43,19 +43,19 @@ namespace Files
             {
                 if (value == nameColumn)
                 {
-                    AppSettings.DirectorySortOption = SortOption.Name;
+                    FolderSettings.DirectorySortOption = SortOption.Name;
                 }
                 else if (value == dateColumn)
                 {
-                    AppSettings.DirectorySortOption = SortOption.DateModified;
+                    FolderSettings.DirectorySortOption = SortOption.DateModified;
                 }
                 else if (value == typeColumn)
                 {
-                    AppSettings.DirectorySortOption = SortOption.FileType;
+                    FolderSettings.DirectorySortOption = SortOption.FileType;
                 }
                 else if (value == sizeColumn)
                 {
-                    AppSettings.DirectorySortOption = SortOption.Size;
+                    FolderSettings.DirectorySortOption = SortOption.Size;
                 }
                 else if (value == originalPathColumn)
                 {
@@ -63,7 +63,7 @@ namespace Files
                 }
                 else
                 {
-                    AppSettings.DirectorySortOption = SortOption.Name;
+                    FolderSettings.DirectorySortOption = SortOption.Name;
                 }
 
                 if (value != sortedColumn)
@@ -74,7 +74,7 @@ namespace Files
                         sortedColumn.SortDirection = null;
                     }
                 }
-                value.SortDirection = AppSettings.DirectorySortDirection == SortDirection.Ascending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
+                value.SortDirection = FolderSettings.DirectorySortDirection == SortDirection.Ascending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
                 sortedColumn = value;
             }
         }
@@ -135,6 +135,7 @@ namespace Files
 
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged += ViewModel_PropertyChanged;
             AllView.LoadingRow += AllView_LoadingRow;
+            ViewModel_PropertyChanged(null, new PropertyChangedEventArgs("DirectorySortOption"));
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -207,7 +208,7 @@ namespace Files
         {
             if (e.PropertyName == "DirectorySortOption")
             {
-                switch (AppSettings.DirectorySortOption)
+                switch (FolderSettings.DirectorySortOption)
                 {
                     case SortOption.Name:
                         SortedColumn = nameColumn;

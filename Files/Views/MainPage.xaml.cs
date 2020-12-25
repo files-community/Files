@@ -125,7 +125,7 @@ namespace Files.Views
                             }
                             else
                             {
-                                AddNewTabAsync();
+                                await AddNewTabAsync();
                             }
                         }
                         else if (App.AppSettings.ContinueLastSessionOnStartUp)
@@ -140,22 +140,22 @@ namespace Files.Views
                             }
                             else
                             {
-                                AddNewTabAsync();
+                                await AddNewTabAsync();
                             }
                         }
                         else
                         {
-                            AddNewTabAsync();
+                            await AddNewTabAsync();
                         }
                     }
                     catch (Exception)
                     {
-                        AddNewTabAsync();
+                        await AddNewTabAsync();
                     }
                 }
                 else if (string.IsNullOrEmpty(navArgs))
                 {
-                    AddNewTabAsync();
+                    await AddNewTabAsync();
                 }
                 else
                 {

@@ -1563,6 +1563,10 @@
   <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
     <value>Show unindexed items when searching for files and folders (searches may take longer)</value>
   </data>
+  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
+    <value>Enable individual preferences for individual directories</value>
+  </data>
+</root>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Original path</value>
   </data>

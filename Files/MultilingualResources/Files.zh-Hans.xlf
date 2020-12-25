@@ -1939,6 +1939,10 @@
           <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
           <target state="new">Show unindexed items when searching for files and folders (searches may take longer)</target>
         </trans-unit>
+        <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Header" translate="yes" xml:space="preserve">
+          <source>Enable individual preferences for individual directories</source>
+          <target state="new">Enable individual preferences for individual directories</target>
+        </trans-unit>
         <trans-unit id="originalPathColumn.Header" translate="yes" xml:space="preserve">
           <source>Original path</source>
           <target state="new">Original path</target>

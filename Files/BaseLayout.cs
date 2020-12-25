@@ -16,6 +16,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
@@ -40,6 +41,8 @@ namespace Files
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
         public SettingsViewModel AppSettings => App.AppSettings;
+
+        public FolderSettingsViewModel FolderSettings => ParentShellPageInstance.InstanceViewModel.FolderSettings;
 
         public CurrentInstanceViewModel InstanceViewModel => ParentShellPageInstance.InstanceViewModel;
 
@@ -219,15 +222,15 @@ namespace Files
             var maxItems = AppSettings.ShowAllContextMenuItems ? int.MaxValue : shiftPressed ? 6 : 4;
             if (Connection != null)
             {
-                var response = Connection.SendMessageAsync(new ValueSet()
+                var response = Task.Run(() => Connection.SendMessageAsync(new ValueSet()
                 {
-                        { "Arguments", "LoadContextMenu" },
-                        { "FilePath", IsItemSelected ?
-                            string.Join('|', selectedItems.Select(x => x.ItemPath)) :
-                            ParentShellPageInstance.FilesystemViewModel.CurrentFolder.ItemPath},
-                        { "ExtendedMenu", shiftPressed },
-                        { "ShowOpenMenu", showOpenMenu }
-                }).AsTask().Result;
+                    { "Arguments", "LoadContextMenu" },
+                    { "FilePath", IsItemSelected ?
+                        string.Join('|', selectedItems.Select(x => x.ItemPath)) :
+                        ParentShellPageInstance.FilesystemViewModel.CurrentFolder.ItemPath},
+                    { "ExtendedMenu", shiftPressed },
+                    { "ShowOpenMenu", showOpenMenu }
+                }).AsTask()).Result;
                 if (response.Status == AppServiceResponseStatus.Success
                     && response.Message.ContainsKey("Handle"))
                 {
@@ -277,19 +280,20 @@ namespace Files
 
         protected abstract ListedItem GetItemFromElement(object element);
 
-        private void AppSettings_LayoutModeChangeRequested(object sender, EventArgs e)
+        private void FolderSettings_LayoutModeChangeRequested(object sender, EventArgs e)
         {
             if (ParentShellPageInstance.ContentPage != null)
             {
-                ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles();
-                ParentShellPageInstance.FilesystemViewModel.IsLoadingItems = true;
-                ParentShellPageInstance.FilesystemViewModel.IsLoadingItems = false;
+                var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
 
-                ParentShellPageInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments()
+                ParentShellPageInstance.ContentFrame.Navigate(layoutType, new NavigationArguments()
                 {
                     NavPathParam = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory,
                     AssociatedTabInstance = ParentShellPageInstance
                 }, null);
+
+                // Remove old layout from back stack
+                ParentShellPageInstance.ContentFrame.BackStack.RemoveAt(ParentShellPageInstance.ContentFrame.BackStack.Count - 1);
             }
         }
 
@@ -304,12 +308,12 @@ namespace Files
         {
             base.OnNavigatedTo(eventArgs);
             // Add item jumping handler
-            AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
             Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
             var parameters = (NavigationArguments)eventArgs.Parameter;
             isSearchResultPage = parameters.IsSearchResultPage;
             ParentShellPageInstance = parameters.AssociatedTabInstance;
             IsItemSelected = false;
+            FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
 
             if (AppSettings.DirectorySortOption == Enums.SortOption.OriginalPath
@@ -362,6 +366,8 @@ namespace Files
             ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
             ParentShellPageInstance.Clipboard_ContentChanged(null, null);
 
+            FolderSettings.IsLayoutModeChanging = false;
+
             cachedNewContextMenuEntries = await RegistryHelper.GetNewContextMenuEntries();
 
             FocusFileList(); // Set focus on layout specific file list control
@@ -373,7 +379,7 @@ namespace Files
             ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles(isSearchResultPage);
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
-            AppSettings.LayoutModeChangeRequested -= AppSettings_LayoutModeChangeRequested;
+            FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
         }
 
         private void UnloadMenuFlyoutItemByName(string nameToUnload)
@@ -915,7 +921,7 @@ namespace Files
 
         public void GridViewSizeIncrease(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            AppSettings.GridViewSize = AppSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
+            FolderSettings.GridViewSize = FolderSettings.GridViewSize + Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Larger
             if (args != null)
             {
                 args.Handled = true;
@@ -924,7 +930,7 @@ namespace Files
 
         public void GridViewSizeDecrease(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            AppSettings.GridViewSize = AppSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
+            FolderSettings.GridViewSize = FolderSettings.GridViewSize - Constants.Browser.GridViewBrowser.GridViewIncrement; // Make Smaller
             if (args != null)
             {
                 args.Handled = true;

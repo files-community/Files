@@ -16,9 +16,14 @@
     NavigationCacheMode="Enabled"
     PointerPressed="GridViewBrowserViewer_PointerPressed"
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    x:Name="PageRoot">
     <local:BaseLayout.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        <converters:BoolToVisibilityConverter
+            x:Key="NegatedBoolToVisibilityConverter"
+            FalseValue="Visible"
+            TrueValue="Collapsed" />
 
         <MenuFlyout
             x:Key="BaseLayoutContextFlyout"
@@ -69,7 +74,7 @@
                 </MenuFlyoutSubItem.Icon>
                 <MenuFlyoutItem
                     x:Uid="StatusBarControlGridViewLarge"
-                    Command="{x:Bind AppSettings.ToggleLayoutModeGridViewLarge}"
+                    Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewLarge}"
                     Text="Grid View (Large)">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9A0;" />
@@ -77,7 +82,7 @@
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
                     x:Uid="StatusBarControlGridViewMedium"
-                    Command="{x:Bind AppSettings.ToggleLayoutModeGridViewMedium}"
+                    Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
                     Text="Grid View (Medium)">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA72;" />
@@ -85,7 +90,7 @@
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
                     x:Uid="StatusBarControlGridViewSmall"
-                    Command="{x:Bind AppSettings.ToggleLayoutModeGridViewSmall}"
+                    Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
                     Text="Grid View (Small)">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEBA1;" />
@@ -93,7 +98,7 @@
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
                     x:Uid="StatusBarControlTilesView"
-                    Command="{x:Bind AppSettings.ToggleLayoutModeTiles}"
+                    Command="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
                     Text="Tiles View">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF100;" />
@@ -101,7 +106,7 @@
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
                     x:Uid="StatusBarControlDetailsView"
-                    Command="{x:Bind AppSettings.ToggleLayoutModeDetailsView}"
+                    Command="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"
                     Text="Details View">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF101;" />
@@ -538,7 +543,7 @@
 
         <DataTemplate x:Name="GridViewBrowserTemplate" x:DataType="local2:ListedItem">
             <Grid
-                Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
+                Width="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                 Height="Auto"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
@@ -552,8 +557,8 @@
                 </Grid.RowDefinitions>
                 <Grid
                     Grid.Row="0"
-                    Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
-                    Height="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
+                    Width="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+                    Height="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                     Opacity="{x:Bind Opacity, Mode=OneWay}"
                     Tag="ItemImage">
                     <Grid
@@ -583,7 +588,8 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
-                        <Viewbox MaxWidth="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}" MaxHeight="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}">
+                        <Viewbox MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+                                 MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}">
                             <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA00;" />
                         </Viewbox>
                     </Grid>
@@ -603,7 +609,8 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
-                        <Viewbox MaxWidth="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}" MaxHeight="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}">
+                        <Viewbox MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+                                 MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}">
                             <FontIcon
                                 FontFamily="{StaticResource FluentUIGlyphs}"
                                 FontSize="28"
@@ -628,7 +635,7 @@
                 </Grid>
                 <Grid
                     Grid.Row="1"
-                    MaxWidth="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
+                    MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                     Margin="5,0,5,10"
                     HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
@@ -660,7 +667,7 @@
                     x:Load="False">
                     <TextBox
                         x:Name="GridViewTextBoxItemName"
-                        Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
+                        Width="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                         Margin="0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
@@ -914,7 +921,8 @@
             ItemsSource="{x:Bind ParentShellPageInstance.FilesystemViewModel.FilesAndFolders}"
             PreviewKeyDown="FileList_PreviewKeyDown"
             SelectionChanged="FileList_SelectionChanged"
-            SelectionMode="Extended">
+            SelectionMode="Extended"
+            Visibility="{x:Bind FolderSettings.IsLayoutModeChanging, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}">
             <Interactivity:Interaction.Behaviors>
                 <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">
                     <Core:ChangePropertyAction
