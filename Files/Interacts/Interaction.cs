@@ -55,6 +55,8 @@ namespace Files.Interacts
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
+        public FolderSettingsViewModel FolderSettings => AssociatedInstance?.InstanceViewModel.FolderSettings;
+
         private AppServiceConnection Connection => AssociatedInstance?.ServiceConnection;
 
         public Interaction(IShellPage appInstance)
@@ -370,7 +372,7 @@ namespace Files.Interacts
             var destFolder = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
             if (destFolder)
             {
-                AssociatedInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments()
+                AssociatedInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
                 {
                     NavPathParam = folderPath,
                     AssociatedTabInstance = AssociatedInstance
@@ -396,7 +398,6 @@ namespace Files.Interacts
             }
 
             int selectedItemCount;
-            Type sourcePageType = AssociatedInstance.CurrentPageType;
             selectedItemCount = AssociatedInstance.ContentPage.SelectedItems.Count;
             var opened = (FilesystemResult)false;
             string previousDir = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
@@ -423,10 +424,8 @@ namespace Files.Interacts
                     }
                     if (opened)
                     {
-                        await AssociatedInstance.FilesystemViewModel.SetWorkingDirectoryAsync(folderPath);
                         AssociatedInstance.NavigationToolbar.PathControlDisplayText = folderPath;
-
-                        AssociatedInstance.ContentFrame.Navigate(sourcePageType, new NavigationArguments()
+                        AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
                         {
                             NavPathParam = folderPath,
                             AssociatedTabInstance = AssociatedInstance
@@ -437,10 +436,8 @@ namespace Files.Interacts
                 {
                     if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
-                        await AssociatedInstance.FilesystemViewModel.SetWorkingDirectoryAsync(clickedOnItemPath);
                         AssociatedInstance.NavigationToolbar.PathControlDisplayText = clickedOnItemPath;
-
-                        AssociatedInstance.ContentFrame.Navigate(sourcePageType, new NavigationArguments()
+                        AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(clickedOnItemPath), new NavigationArguments()
                         {
                             NavPathParam = clickedOnItemPath,
                             AssociatedTabInstance = AssociatedInstance
@@ -506,12 +503,12 @@ namespace Files.Interacts
                                     //We can have many sort entries
                                     SortEntry sortEntry = new SortEntry()
                                     {
-                                        AscendingOrder = AppSettings.DirectorySortDirection == Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending
+                                        AscendingOrder = FolderSettings.DirectorySortDirection == Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending
                                     };
 
                                     //Basically we tell to the launched app to follow how we sorted the files in the directory.
 
-                                    var sortOption = AppSettings.DirectorySortOption;
+                                    var sortOption = FolderSettings.DirectorySortOption;
 
                                     switch (sortOption)
                                     {

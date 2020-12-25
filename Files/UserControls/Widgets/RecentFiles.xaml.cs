@@ -47,8 +47,7 @@ namespace Files
                 var folderPath = filePath.Substring(0, filePath.Length - clickedOnItem.Name.Length);
                 RecentFilesOpenLocationInvoked?.Invoke(this, new PathNavigationEventArgs()
                 {
-                    ItemPath = folderPath,
-                    LayoutType = AppSettings.GetLayoutType()
+                    ItemPath = folderPath
                 });
             }
         }
@@ -149,8 +148,7 @@ namespace Files
             var path = (e.ClickedItem as RecentItem).RecentPath;
             RecentFileInvoked?.Invoke(this, new PathNavigationEventArgs()
             {
-                ItemPath = path,
-                LayoutType = AppSettings.GetLayoutType()
+                ItemPath = path
             });
         }
 

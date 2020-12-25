@@ -16,8 +16,9 @@ namespace Files
 {
     public sealed partial class YourHome : Page
     {
+        private IShellPage AppInstance = null;
         public SettingsViewModel AppSettings => App.AppSettings;
-        public IShellPage AppInstance = null;
+        public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
         public AppServiceConnection Connection => AppInstance?.ServiceConnection;
 
         public YourHome()
@@ -60,7 +61,7 @@ namespace Files
             {
                 if (new DirectoryInfo(e.ItemPath).Root.ToString().Contains(@"C:\"))
                 {
-                    AppInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments()
+                    AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
                     {
                         AssociatedTabInstance = AppInstance,
                         NavPathParam = e.ItemPath
@@ -72,7 +73,7 @@ namespace Files
                     {
                         if (drive.Path.ToString() == new DirectoryInfo(e.ItemPath).Root.ToString())
                         {
-                            AppInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments()
+                            AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
                             {
                                 AssociatedTabInstance = AppInstance,
                                 NavPathParam = e.ItemPath
@@ -92,7 +93,7 @@ namespace Files
 
         private void RecentFilesWidget_RecentFilesOpenLocationInvoked(object sender, UserControls.PathNavigationEventArgs e)
         {
-            AppInstance.ContentFrame.Navigate(e.LayoutType, new NavigationArguments()
+            AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
             {
                 NavPathParam = e.ItemPath,
                 AssociatedTabInstance = AppInstance
@@ -101,7 +102,7 @@ namespace Files
 
         private void LibraryLocationCardsWidget_LibraryCardInvoked(object sender, LibraryCardInvokedEventArgs e)
         {
-            AppInstance.ContentFrame.Navigate(e.LayoutType, new NavigationArguments()
+            AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
             {
                 NavPathParam = e.Path,
                 AssociatedTabInstance = AppInstance
@@ -111,7 +112,7 @@ namespace Files
 
         private void DrivesWidget_DrivesWidgetInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)
         {
-            AppInstance.ContentFrame.Navigate(e.LayoutType, new NavigationArguments()
+            AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
             {
                 NavPathParam = e.Path,
                 AssociatedTabInstance = AppInstance

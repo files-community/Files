@@ -28,10 +28,6 @@ namespace Files.View_Models
     {
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
-        public event EventHandler SortOptionPreferenceUpdated;
-
-        public event EventHandler SortDirectionPreferenceUpdated;
-
         public DrivesManager DrivesManager { get; }
 
         public TerminalController TerminalController { get; set; }
@@ -42,7 +38,6 @@ namespace Files.View_Models
             PinSidebarLocationItems();
             DetectRecycleBinPreference();
             DetectQuickLook();
-            DetectGridViewSize();
             DrivesManager = new DrivesManager();
 
             //DetectWSLDistros();
@@ -107,38 +102,6 @@ namespace Files.View_Models
         {
             get => new GridLength(Math.Min(Math.Max(Get(200d), 200d), 500d), GridUnitType.Pixel);
             set => Set(value.Value);
-        }
-
-        public SortOption DirectorySortOption
-        {
-            get => (SortOption)SortOptionByte;
-            set
-            {
-                SortOptionByte = (byte)value;
-                SortOptionPreferenceUpdated?.Invoke(this, new EventArgs());
-            }
-        }
-
-        public SortDirection DirectorySortDirection
-        {
-            get => (SortDirection)SortDirectionByte;
-            set
-            {
-                SortDirectionByte = (byte)value;
-                SortDirectionPreferenceUpdated?.Invoke(this, new EventArgs());
-            }
-        }
-
-        private byte SortOptionByte
-        {
-            get => Get((byte)0);
-            set => Set(value);
-        }
-
-        private byte SortDirectionByte
-        {
-            get => Get((byte)0);
-            set => Set(value);
         }
 
         public async void DetectQuickLook()
@@ -460,6 +423,14 @@ namespace Files.View_Models
             set => Set(value);
         }
 
+        /// <summary>
+        /// Enables saving a unique layout mode, gridview size and sort direction per folder
+        /// </summary>
+        public bool AreLayoutPreferencesPerFolder
+        {
+            get => Get(true);
+            set => Set(value);
+        }
         #endregion FilesAndFolder
 
         #region Multitasking
@@ -640,155 +611,29 @@ namespace Files.View_Models
         });
 
         public AcrylicTheme AcrylicTheme { get; set; }
-
-        public int LayoutMode
+                
+        public LayoutModes DefaultLayoutMode
         {
-            get => Get(0); // Details View
+            get => (LayoutModes)Get((byte)LayoutModes.DetailsView); // Details View
+            set => Set((byte)value);
+        }
+
+        public int DefaultGridViewSize
+        {
+            get => Get(Constants.Browser.GridViewBrowser.GridViewSizeSmall);
             set => Set(value);
         }
 
-        public Type GetLayoutType()
+        public SortDirection DefaultDirectorySortDirection
         {
-            Type type = null;
-            switch (LayoutMode)
-            {
-                case 0:
-                    type = typeof(GenericFileBrowser);
-                    break;
-
-                case 1:
-                    type = typeof(GridViewBrowser);
-                    break;
-
-                case 2:
-                    type = typeof(GridViewBrowser);
-                    break;
-
-                default:
-                    type = typeof(GenericFileBrowser);
-                    break;
-            }
-            return type;
+            get => (SortDirection)Get((byte)SortDirection.Ascending);
+            set => Set((byte)value);
         }
 
-        public event EventHandler LayoutModeChangeRequested;
-
-        public RelayCommand ToggleLayoutModeGridViewLarge => new RelayCommand(() =>
+        public SortOption DefaultDirectorySortOption
         {
-            LayoutMode = 2; // Grid View
-
-            GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeLarge; // Size
-
-            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
-        });
-
-        public RelayCommand ToggleLayoutModeGridViewMedium => new RelayCommand(() =>
-        {
-            LayoutMode = 2; // Grid View
-
-            GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeMedium; // Size
-
-            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
-        });
-
-        public RelayCommand ToggleLayoutModeGridViewSmall => new RelayCommand(() =>
-        {
-            LayoutMode = 2; // Grid View
-
-            GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Size
-
-            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
-        });
-
-        public RelayCommand ToggleLayoutModeTiles => new RelayCommand(() =>
-        {
-            LayoutMode = 1; // Tiles View
-
-            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
-        });
-
-        public RelayCommand ToggleLayoutModeDetailsView => new RelayCommand(() =>
-        {
-            LayoutMode = 0; // Details View
-
-            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
-        });
-
-        private void DetectGridViewSize()
-        {
-            gridViewSize = Get(Constants.Browser.GridViewBrowser.GridViewSizeSmall, "GridViewSize"); // Get GridView Size
-        }
-
-        private int gridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Default Size
-
-        public int GridViewSize
-        {
-            get => gridViewSize;
-            set
-            {
-                if (value < gridViewSize) // Size down
-                {
-                    if (LayoutMode == 1) // Size down from tiles to list
-                    {
-                        LayoutMode = 0;
-                        Set(0, "LayoutMode");
-                        LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
-                    }
-                    else if (LayoutMode == 2 && value < Constants.Browser.GridViewBrowser.GridViewSizeSmall) // Size down from grid to tiles
-                    {
-                        LayoutMode = 1;
-                        Set(1, "LayoutMode");
-                        LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
-                    }
-                    else if (LayoutMode != 0) // Resize grid view
-                    {
-                        gridViewSize = (value >= Constants.Browser.GridViewBrowser.GridViewSizeSmall) ? value : Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Set grid size to allow immediate UI update
-                        Set(value);
-
-                        if (LayoutMode != 2) // Only update layout mode if it isn't already in grid view
-                        {
-                            LayoutMode = 2;
-                            Set(2, "LayoutMode");
-                            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
-                        }
-
-                        GridViewSizeChangeRequested?.Invoke(this, EventArgs.Empty);
-                    }
-                }
-                else // Size up
-                {
-                    if (LayoutMode == 0) // Size up from list to tiles
-                    {
-                        LayoutMode = 1;
-                        Set(1, "LayoutMode");
-                        LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
-                    }
-                    else // Size up from tiles to grid
-                    {
-                        gridViewSize = (LayoutMode == 1) ? Constants.Browser.GridViewBrowser.GridViewSizeSmall : (value <= Constants.Browser.GridViewBrowser.GridViewSizeMax) ? value : Constants.Browser.GridViewBrowser.GridViewSizeMax; // Set grid size to allow immediate UI update
-                        Set(gridViewSize);
-
-                        if (LayoutMode != 2) // Only update layout mode if it isn't already in grid view
-                        {
-                            LayoutMode = 2;
-                            Set(2, "LayoutMode");
-                            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
-                        }
-
-                        if (value < Constants.Browser.GridViewBrowser.GridViewSizeMax) // Don't request a grid resize if it is already at the max size
-                        {
-                            GridViewSizeChangeRequested?.Invoke(this, EventArgs.Empty);
-                        }
-                    }
-                }
-            }
-        }
-
-        public event EventHandler GridViewSizeChangeRequested;
-
-        public void Dispose()
-        {
-            DrivesManager?.Dispose();
+            get => (SortOption)Get((byte)SortOption.Name);
+            set => Set((byte)value);
         }
 
         #region ReadAndSaveSettings
@@ -870,6 +715,11 @@ namespace Files.View_Models
 
         private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
 
-        #endregion ReadAndSaveSettings
+#endregion ReadAndSaveSettings
+
+        public void Dispose()
+        {
+            DrivesManager?.Dispose();
+        }
     }
 }

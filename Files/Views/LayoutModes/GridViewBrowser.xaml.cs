@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Enums;
+using Files.Filesystem;
 using Files.UserControls.Selection;
 using System;
 using System.Collections;
@@ -10,6 +11,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Navigation;
+using static Files.View_Models.FolderSettingsViewModel;
 using Interaction = Files.Interacts.Interaction;
 
 namespace Files
@@ -21,14 +24,20 @@ namespace Files
         public GridViewBrowser()
         {
             InitializeComponent();
-
+            this.DataContext = this;
             base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
 
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
-            App.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
+        }
 
+        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+        {
+            base.OnNavigatedTo(eventArgs);
+            currentIconSize = GetIconSize();
+            FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+            FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             SetItemTemplate(); // Set ItemTemplate
         }
 
@@ -43,24 +52,25 @@ namespace Files
             FileList.Focus(FocusState.Programmatic);
         }
 
-        private void AppSettings_LayoutModeChangeRequested(object sender, EventArgs e)
+        private void FolderSettings_LayoutModeChangeRequested(object sender, EventArgs e)
         {
             SetItemTemplate(); // Set ItemTemplate
         }
 
         private void SetItemTemplate()
         {
-            FileList.ItemTemplate = (App.AppSettings.LayoutMode == 1) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
+            FileList.ItemTemplate = (FolderSettings.LayoutMode == LayoutModes.TilesView) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
 
             // Set GridViewSize event handlers
-            if (App.AppSettings.LayoutMode == 1)
+            if (FolderSettings.LayoutMode == LayoutModes.TilesView)
             {
-                App.AppSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
+                FolderSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
             }
-            else if (App.AppSettings.LayoutMode == 2)
+            else if (FolderSettings.LayoutMode == LayoutModes.GridView)
             {
                 currentIconSize = GetIconSize(); // Get icon size for jumps from other layouts directly to a grid size
-                App.AppSettings.GridViewSizeChangeRequested += AppSettings_GridViewSizeChangeRequested;
+                FolderSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
+                FolderSettings.GridViewSizeChangeRequested += AppSettings_GridViewSizeChangeRequested;
             }
         }
 
@@ -146,7 +156,7 @@ namespace Files
             TextBox textBox = null;
 
             // Handle layout differences between tiles browser and photo album
-            if (App.AppSettings.LayoutMode == 2)
+            if (FolderSettings.LayoutMode == LayoutModes.GridView)
             {
                 Popup popup = (gridViewItem.ContentTemplateRoot as Grid).FindName("EditPopup") as Popup;
                 TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
@@ -231,7 +241,7 @@ namespace Files
 
         private void EndRename(TextBox textBox)
         {
-            if (App.AppSettings.LayoutMode == 2)
+            if (FolderSettings.LayoutMode == LayoutModes.GridView)
             {
                 Popup popup = textBox.Parent as Popup;
                 TextBlock textBlock = (popup.Parent as Grid).Children[1] as TextBlock;
@@ -331,19 +341,19 @@ namespace Files
             }
         }
 
-        private uint currentIconSize = GetIconSize();
+        private uint currentIconSize;
 
-        private static uint GetIconSize()
+        private uint GetIconSize()
         {
-            if (App.AppSettings.LayoutMode == 1 || App.AppSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeSmall + 75)
+            if (FolderSettings.LayoutMode == LayoutModes.TilesView || FolderSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeSmall + 75)
             {
                 return 80; // Small thumbnail
             }
-            else if (App.AppSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium + 25)
+            else if (FolderSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium + 25)
             {
                 return 120; // Medium thumbnail
             }
-            else if (App.AppSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium - 50)
+            else if (FolderSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium - 50)
             {
                 return 160; // Large thumbnail
             }

@@ -1455,4 +1455,10 @@
   <data name="NewFile" xml:space="preserve">
     <value>Nuovo File</value>
   </data>
+  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
+    <value>Mostra contenuti non indicizzati durante la ricerca (più lento)</value>
+  </data>
+  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
+    <value>Abilita impostazioni di visualizzazione per cartella</value>
+  </data>
 </root>

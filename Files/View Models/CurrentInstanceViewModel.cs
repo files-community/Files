@@ -11,6 +11,13 @@ namespace Files.View_Models
          * values being manipulated inside the setter blocks.
          */
 
+        public FolderSettingsViewModel FolderSettings { get; }
+
+        public CurrentInstanceViewModel(IShellPage associatedInstance)
+        {
+            FolderSettings = new FolderSettingsViewModel(associatedInstance);
+        }
+
         private bool _IsPageTypeSearchResults = false;
 
         public bool IsPageTypeSearchResults
