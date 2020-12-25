@@ -316,14 +316,6 @@ namespace Files
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
 
-            if (AppSettings.DirectorySortOption == Enums.SortOption.OriginalPath
-                && (isSearchResultPage || !parameters.NavPathParam.StartsWith(App.AppSettings.RecycleBinPath)))
-            {
-                // Can only sort by OriginalPath in recycle bin
-                // THIS MUST BE CALLED BEFORE ANY "AWAIT"
-                AppSettings.DirectorySortOption = Enums.SortOption.Name;
-            }
-
             if (!isSearchResultPage)
             {
                 ParentShellPageInstance.NavigationToolbar.CanRefresh = true;

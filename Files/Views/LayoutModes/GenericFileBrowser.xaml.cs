@@ -59,7 +59,7 @@ namespace Files
                 }
                 else if (value == originalPathColumn)
                 {
-                    AppSettings.DirectorySortOption = SortOption.OriginalPath;
+                    FolderSettings.DirectorySortOption = SortOption.OriginalPath;
                 }
                 else
                 {
@@ -110,7 +110,7 @@ namespace Files
         {
             base.OnNavigatedTo(eventArgs);
 
-            switch (AppSettings.DirectorySortOption)
+            switch (FolderSettings.DirectorySortOption)
             {
                 case SortOption.Name:
                     SortedColumn = nameColumn;

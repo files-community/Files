@@ -191,12 +191,12 @@ namespace Files.Filesystem
 
         public bool IsSortedByOriginalPath
         {
-            get => AppSettings.DirectorySortOption == SortOption.OriginalPath;
+            get => FolderSettings.DirectorySortOption == SortOption.OriginalPath;
             set
             {
                 if (value)
                 {
-                    AppSettings.DirectorySortOption = SortOption.OriginalPath;
+                    FolderSettings.DirectorySortOption = SortOption.OriginalPath;
                     NotifyPropertyChanged(nameof(IsSortedByOriginalPath));
                 }
             }
@@ -512,12 +512,7 @@ namespace Files.Filesystem
                     break;
 
                 case SortOption.OriginalPath:
-                    orderFunc = orderByNameFunc;
-                    if (AssociatedInstance?.InstanceViewModel?.IsPageTypeRecycleBin ?? false)
-                    {
-                        // Temporary fix when multiple tabs are open
-                        orderFunc = item => ((RecycleBinItem)item).ItemOriginalFolder;
-                    }
+                    orderFunc = item => ((RecycleBinItem)item).ItemOriginalFolder;
                     break;
             }
 
