@@ -5,12 +5,10 @@ using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.System;
-using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Interaction = Files.Interacts.Interaction;
 
@@ -19,8 +17,6 @@ namespace Files
     public sealed partial class GridViewBrowser : BaseLayout
     {
         public string oldItemName;
-        private Compositor compositor;
-        private ImplicitAnimationCollection elementImplicitAnimation;
 
         public GridViewBrowser()
         {
@@ -34,27 +30,6 @@ namespace Files
             App.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
 
             SetItemTemplate(); // Set ItemTemplate
-
-            compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-            // Create ImplicitAnimations Collection.
-            elementImplicitAnimation = compositor.CreateImplicitAnimationCollection();
-
-            //Define trigger and animation that should play when the trigger is triggered.
-            elementImplicitAnimation["Offset"] = CreateOffsetAnimation();
-        }
-
-        private void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
-        {
-            var elementVisual = ElementCompositionPreview.GetElementVisual(args.ItemContainer);
-            if (args.InRecycleQueue)
-            {
-                elementVisual.ImplicitAnimations = null;
-            }
-            else
-            {
-                //Add implicit animation to each visual
-                elementVisual.ImplicitAnimations = elementImplicitAnimation;
-            }
         }
 
         private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
@@ -394,7 +369,7 @@ namespace Files
         {
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
- 
+
             // Skip code if the control or shift key is pressed
             if (ctrlPressed || shiftPressed)
             {
@@ -408,37 +383,6 @@ namespace Files
                 ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
             }
         }
-
-        #region Animation
-
-        private CompositionAnimationGroup CreateOffsetAnimation()
-        {
-            //Define Offset Animation for the ANimation group
-            Vector3KeyFrameAnimation offsetAnimation = compositor.CreateVector3KeyFrameAnimation();
-            offsetAnimation.InsertExpressionKeyFrame(1.0f, "this.FinalValue");
-            offsetAnimation.Duration = TimeSpan.FromSeconds(.5);
-
-            //Define Animation Target for this animation to animate using definition.
-            offsetAnimation.Target = "Offset";
-
-            //Define Rotation Animation for Animation Group.
-            ScalarKeyFrameAnimation rotationAnimation = compositor.CreateScalarKeyFrameAnimation();
-            rotationAnimation.InsertKeyFrame(0.160f, .04f);
-            rotationAnimation.InsertKeyFrame(1f, 0f);
-            rotationAnimation.Duration = TimeSpan.FromSeconds(.5);
-
-            //Define Animation Target for this animation to animate using definition.
-            rotationAnimation.Target = "RotationAngle";
-
-            //Add Animations to Animation group.
-            CompositionAnimationGroup animationGroup = compositor.CreateAnimationGroup();
-            animationGroup.Add(offsetAnimation);
-            animationGroup.Add(rotationAnimation);
-
-            return animationGroup;
-        }
-
-        #endregion Animation
 
         private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
@@ -460,7 +404,6 @@ namespace Files
                     ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
                     item.ItemPropertiesInitialized = true;
                 });
-                
             }
         }
     }
