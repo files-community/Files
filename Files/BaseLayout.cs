@@ -16,6 +16,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
@@ -219,15 +220,15 @@ namespace Files
             var maxItems = AppSettings.ShowAllContextMenuItems ? int.MaxValue : shiftPressed ? 6 : 4;
             if (Connection != null)
             {
-                var response = Connection.SendMessageAsync(new ValueSet()
+                var response = Task.Run(() => Connection.SendMessageAsync(new ValueSet()
                 {
-                        { "Arguments", "LoadContextMenu" },
-                        { "FilePath", IsItemSelected ?
-                            string.Join('|', selectedItems.Select(x => x.ItemPath)) :
-                            ParentShellPageInstance.FilesystemViewModel.CurrentFolder.ItemPath},
-                        { "ExtendedMenu", shiftPressed },
-                        { "ShowOpenMenu", showOpenMenu }
-                }).AsTask().Result;
+                    { "Arguments", "LoadContextMenu" },
+                    { "FilePath", IsItemSelected ?
+                        string.Join('|', selectedItems.Select(x => x.ItemPath)) :
+                        ParentShellPageInstance.FilesystemViewModel.CurrentFolder.ItemPath},
+                    { "ExtendedMenu", shiftPressed },
+                    { "ShowOpenMenu", showOpenMenu }
+                }).AsTask()).Result;
                 if (response.Status == AppServiceResponseStatus.Success
                     && response.Message.ContainsKey("Handle"))
                 {
