@@ -407,7 +407,6 @@ namespace Files
                     ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
                     item.ItemPropertiesInitialized = true;
                 });
-                
             }
         }
     }
