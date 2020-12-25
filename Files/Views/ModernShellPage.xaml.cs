@@ -300,10 +300,10 @@ namespace Files.Views.Pages
             }
 
             if (string.IsNullOrEmpty(navigationPath) ||
-                (!string.IsNullOrEmpty(FilesystemViewModel.WorkingDirectory) &&
+                string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory) ||
                 navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
                     FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
-                    StringComparison.OrdinalIgnoreCase))) // return if already selected
+                    StringComparison.OrdinalIgnoreCase)) // return if already selected
             {
                 return;
             }
@@ -847,7 +847,6 @@ namespace Files.Views.Pages
             ServiceConnection.AppServiceName = "FilesInteropService";
             ServiceConnection.PackageFamilyName = Package.Current.Id.FamilyName;
             ServiceConnection.ServiceClosed += Connection_ServiceClosed;
-
             AppServiceConnectionStatus status = await ServiceConnection.OpenAsync();
             if (status != AppServiceConnectionStatus.Success)
             {
