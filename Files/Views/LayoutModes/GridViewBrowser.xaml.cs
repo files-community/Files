@@ -5,7 +5,6 @@ using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.System;
-using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -18,8 +17,6 @@ namespace Files
     public sealed partial class GridViewBrowser : BaseLayout
     {
         public string oldItemName;
-        private Compositor compositor;
-        private ImplicitAnimationCollection elementImplicitAnimation;
 
         public GridViewBrowser()
         {
@@ -372,7 +369,7 @@ namespace Files
         {
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
- 
+
             // Skip code if the control or shift key is pressed
             if (ctrlPressed || shiftPressed)
             {
@@ -386,7 +383,7 @@ namespace Files
                 ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
             }
         }
-       
+
         private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
             if (args.ItemContainer == null)
@@ -407,7 +404,6 @@ namespace Files
                     ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
                     item.ItemPropertiesInitialized = true;
                 });
-                
             }
         }
     }
