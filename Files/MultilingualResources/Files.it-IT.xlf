@@ -1935,6 +1935,10 @@
           <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
           <target state="new">Show unindexed items when searching for files and folders (searches may take longer)</target>
         </trans-unit>
+        <trans-unit id="originalPathColumn.Header" translate="yes" xml:space="preserve">
+          <source>Original path</source>
+          <target state="translated">Percorso originale</target>
+        </trans-unit>
       </group>
     </body>
   </file>

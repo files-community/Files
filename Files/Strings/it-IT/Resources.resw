@@ -1455,4 +1455,7 @@
   <data name="NewFile" xml:space="preserve">
     <value>Nuovo File</value>
   </data>
+  <data name="originalPathColumn.Header" xml:space="preserve">
+    <value>Percorso originale</value>
+  </data>
 </root>
