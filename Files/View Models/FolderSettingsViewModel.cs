@@ -223,7 +223,7 @@ namespace Files.View_Models
 
         private static void UpdateLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
         {
-            if (prefs == LayoutPreferences.DefaultLayoutPreferences)
+            if (LayoutPreferences.DefaultLayoutPreferences.Equals(prefs))
             {
                 Helpers.NativeFileOperationsHelper.DeleteFileFromApp($"{folderPath}:files_layoutmode");
                 return; // Do not create setting if it's default
@@ -276,6 +276,32 @@ namespace Files.View_Models
                 compositeValue[nameof(DirectorySortOption)] = (int)this.DirectorySortOption;
                 compositeValue[nameof(DirectorySortDirection)] = (int)this.DirectorySortDirection;
                 return compositeValue;
+            }
+
+            public override bool Equals(object obj)
+            {
+                if (obj == null)
+                {
+                    return false;
+                }
+                if (obj == this)
+                {
+                    return true;
+                }
+                if (obj is LayoutPreferences prefs)
+                {
+                    return (
+                        prefs.LayoutMode == this.LayoutMode &&
+                        prefs.GridViewSize == this.GridViewSize &&
+                        prefs.DirectorySortOption == this.DirectorySortOption &&
+                        prefs.DirectorySortDirection == this.DirectorySortDirection);
+                }
+                return base.Equals(obj);
+            }
+
+            public override int GetHashCode()
+            {
+                return base.GetHashCode();
             }
         }
 
