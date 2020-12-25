@@ -44,6 +44,11 @@ namespace Files.Filesystem
             set => SetProperty(ref spaceUsed, value);
         }
 
+        public Visibility ShowDriveDetails
+        {
+            get => MaxSpace.Bytes > 0d ? Visibility.Visible : Visibility.Collapsed;
+        }
+
         private DriveType type;
 
         public DriveType Type

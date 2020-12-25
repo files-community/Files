@@ -124,29 +124,41 @@
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     FontSize="28"
                                     Glyph="{x:Bind Glyph}" />
-                                <StackPanel
+                                <Grid
                                     Grid.Column="1"
                                     Margin="12,0,0,0"
-                                    VerticalAlignment="Center"
-                                    Orientation="Vertical"
-                                    Spacing="8">
+                                    VerticalAlignment="Center">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    
                                     <TextBlock
                                         x:Name="ItemLocationName"
                                         FontSize="14"
                                         FontWeight="Medium"
                                         Text="{x:Bind Text, Mode=OneWay}"
-                                        TextWrapping="NoWrap" />
+                                        TextWrapping="NoWrap"
+                                        VerticalAlignment="Center"
+                                        Margin="0 0 0 8"
+                                        Grid.Row="0"/>
                                     <muxc:ProgressBar
                                         AutomationProperties.AccessibilityView="Raw"
                                         Maximum="{x:Bind MaxSpace.GigaBytes, Mode=OneWay}"
-                                        Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}" />
+                                        Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}"
+                                        Visibility="{x:Bind ShowDriveDetails, Mode=OneWay}"
+                                        Margin="0 0 0 8"
+                                        Grid.Row="1"/>
                                     <TextBlock
                                         FontSize="12"
                                         MaxLines="2"
                                         Text="{x:Bind SpaceText, Mode=OneWay}"
+                                        Visibility="{x:Bind ShowDriveDetails, Mode=OneWay}"
                                         TextWrapping="Wrap"
-                                        ToolTipService.ToolTip="{x:Bind SpaceText, Mode=OneWay}" />
-                                </StackPanel>
+                                        ToolTipService.ToolTip="{x:Bind SpaceText, Mode=OneWay}"
+                                        Grid.Row="2"/>
+                                </Grid>
                             </Grid>
                         </Button>
                     </Grid>
