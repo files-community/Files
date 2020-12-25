@@ -923,7 +923,7 @@
                 Height="0"
                 Fill="{ThemeResource SystemAccentColor}"
                 Opacity=".5"
-                Stroke="#FF0066cc"
+                Stroke="{ThemeResource SystemAccentColorLight1}"
                 StrokeThickness="1" />
         </Canvas>
     </Grid>
