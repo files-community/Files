@@ -26,4 +26,4 @@ In the short term, we plan to focus on crucial functionality to achieve parity w
 - Launch the package project.
 
 ## FAQ
-Have any questions? Check out [a relative link](FAQ.md)!
+Have any questions? Check out [FAQ](FAQ.md)!
