@@ -1939,6 +1939,10 @@
           <source>Original path</source>
           <target state="translated">Percorso originale</target>
         </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortByOriginalPath.Text" translate="yes" xml:space="preserve">
+          <source>Original path</source>
+          <target state="translated">Percorso originale</target>
+        </trans-unit>
       </group>
     </body>
   </file>

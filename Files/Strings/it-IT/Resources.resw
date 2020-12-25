@@ -1458,4 +1458,7 @@
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Percorso originale</value>
   </data>
+  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
+    <value>Percorso originale</value>
+  </data>
 </root>

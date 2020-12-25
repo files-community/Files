@@ -513,8 +513,9 @@ namespace Files.Filesystem
 
                 case SortOption.OriginalPath:
                     orderFunc = orderByNameFunc;
-                    if (AssociatedInstance.InstanceViewModel.IsPageTypeRecycleBin)
+                    if (AssociatedInstance?.InstanceViewModel?.IsPageTypeRecycleBin ?? false)
                     {
+                        // Temporary fix when multiple tabs are open
                         orderFunc = item => ((RecycleBinItem)item).ItemOriginalFolder;
                     }
                     break;
