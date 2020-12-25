@@ -288,14 +288,6 @@ namespace Files.View_Models
                 this.DirectorySortDirection = App.AppSettings.DefaultDirectorySortDirection;
             }
 
-            public LayoutPreferences(LayoutModes layoutMode, int gridViewSize, SortOption sortOption, SortDirection sortDirection)
-            {
-                this.LayoutMode = layoutMode;
-                this.GridViewSize = gridViewSize;
-                this.DirectorySortOption = sortOption;
-                this.DirectorySortDirection = sortDirection;
-            }
-
             public static LayoutPreferences FromCompositeValue(ApplicationDataCompositeValue compositeValue)
             {
                 var layoutPreference = new LayoutPreferences();
