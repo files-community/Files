@@ -24,3 +24,6 @@ In the short term, we plan to focus on crucial functionality to achieve parity w
 - Clone the source and open the Files.sln in VS.
 - VS installs all missing dependencies for you.
 - Launch the package project.
+
+## FAQ
+Have any questions? Check out FAQ.
