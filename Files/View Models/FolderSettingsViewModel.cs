@@ -213,24 +213,62 @@ namespace Files.View_Models
 
         private static LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
         {
-            var str = Helpers.NativeFileOperationsHelper.ReadStringFromFile($"{folderPath}:files_layoutmode");
-            if (string.IsNullOrEmpty(str))
-            {
-                return LayoutPreferences.DefaultLayoutPreferences; // Either global setting or smart guess
-            }
-            return JsonConvert.DeserializeObject<LayoutPreferences>(str);
+            var layoutPrefs = ReadLayoutPreferencesFromAds(folderPath);
+            return layoutPrefs ?? ReadLayoutPreferencesFromSettings(folderPath);
         }
 
         private static void UpdateLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
         {
+            if (!WriteLayoutPreferencesToAds(folderPath, prefs))
+            {
+                WriteLayoutPreferencesToSettings(folderPath, prefs);
+            }
+        }
+
+        private static LayoutPreferences ReadLayoutPreferencesFromAds(string folderPath)
+        {
+            var str = Helpers.NativeFileOperationsHelper.ReadStringFromFile($"{folderPath}:files_layoutmode");
+            return string.IsNullOrEmpty(str) ? null : JsonConvert.DeserializeObject<LayoutPreferences>(str);
+        }
+
+        private static bool WriteLayoutPreferencesToAds(string folderPath, LayoutPreferences prefs)
+        {
             if (LayoutPreferences.DefaultLayoutPreferences.Equals(prefs))
             {
                 Helpers.NativeFileOperationsHelper.DeleteFileFromApp($"{folderPath}:files_layoutmode");
-                return; // Do not create setting if it's default
+                return false;
             }
-            Helpers.NativeFileOperationsHelper.WriteStringToFile($"{folderPath}:files_layoutmode", JsonConvert.SerializeObject(prefs));
+            return Helpers.NativeFileOperationsHelper.WriteStringToFile($"{folderPath}:files_layoutmode", JsonConvert.SerializeObject(prefs));
         }
 
+        private static LayoutPreferences ReadLayoutPreferencesFromSettings(string folderPath)
+        {
+            ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
+            var fixPath = folderPath.TrimEnd('\\');
+            if (dataContainer.Values.ContainsKey(fixPath))
+            {
+                var val = (ApplicationDataCompositeValue)dataContainer.Values[fixPath];
+                return LayoutPreferences.FromCompositeValue(val);
+            }
+            else
+            {
+                return LayoutPreferences.DefaultLayoutPreferences; // Either global setting or smart guess
+            }
+        }
+
+        private static void WriteLayoutPreferencesToSettings(string folderPath, LayoutPreferences prefs)
+        {
+            ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
+            var fixPath = folderPath.TrimEnd('\\');
+            if (!dataContainer.Values.ContainsKey(fixPath))
+            {
+                if (prefs == LayoutPreferences.DefaultLayoutPreferences)
+                {
+                    return; // Do not create setting if it's default
+                }
+            }
+            dataContainer.Values[fixPath] = prefs.ToCompositeValue();
+        }
         private LayoutPreferences LayoutPreference { get; set; }
 
         private class LayoutPreferences

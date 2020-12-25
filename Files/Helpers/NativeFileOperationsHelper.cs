@@ -192,7 +192,10 @@ namespace Files.Helpers
         {
             IntPtr hStream = CreateFileFromApp(filePath,
                 GENERIC_READ, 0, IntPtr.Zero, OPEN_EXISTING, (uint)File_Attributes.BackupSemantics, IntPtr.Zero);
-            if (hStream.ToInt64() == -1) return null;
+            if (hStream.ToInt64() == -1)
+            {
+                return null;
+            }
             byte[] buff = new byte[4096];
             int dwBytesRead;
             string str = null;
@@ -208,11 +211,14 @@ namespace Files.Helpers
             return str;
         }
 
-        public static void WriteStringToFile(string filePath, string str)
+        public static bool WriteStringToFile(string filePath, string str)
         {
             IntPtr hStream = CreateFileFromApp(filePath,
                 GENERIC_WRITE, 0, IntPtr.Zero, CREATE_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero);
-            if (hStream.ToInt64() == -1) return;
+            if (hStream.ToInt64() == -1)
+            {
+                return false;
+            }
             byte[] buff = Encoding.UTF8.GetBytes(str);
             int dwBytesWritten;
             unsafe
@@ -223,6 +229,7 @@ namespace Files.Helpers
                 }
             }
             CloseHandle(hStream);
+            return true;
         }
     }
 }
