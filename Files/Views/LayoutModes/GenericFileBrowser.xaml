@@ -244,6 +244,13 @@
                         Tag="nameColumn"
                         Text="Name" />
                     <muxc:RadioMenuFlyoutItem
+                        x:Uid="BaseLayoutContextFlyoutSortByOriginalPath"
+                        Click="RadioMenuSortColumn_Click"
+                        GroupName="SortGroup"
+                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByOriginalPath, Mode=TwoWay}"
+                        Tag="originalPathColumn"
+                        Text="Original path" />
+                    <muxc:RadioMenuFlyoutItem
                         x:Uid="BaseLayoutContextFlyoutSortByDate"
                         Click="RadioMenuSortColumn_Click"
                         GroupName="SortGroup"
@@ -851,7 +858,7 @@
                     x:Name="originalPathColumn"
                     x:Uid="originalPathColumn"
                     Width="275"
-                    Binding="{Binding ItemOriginalPath}"
+                    Binding="{Binding ItemOriginalFolder}"
                     DisplayIndex="3"
                     FontSize="12"
                     Header="Original path"

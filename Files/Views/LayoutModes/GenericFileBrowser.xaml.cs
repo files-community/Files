@@ -57,6 +57,10 @@ namespace Files
                 {
                     AppSettings.DirectorySortOption = SortOption.Size;
                 }
+                else if (value == originalPathColumn)
+                {
+                    AppSettings.DirectorySortOption = SortOption.OriginalPath;
+                }
                 else
                 {
                     AppSettings.DirectorySortOption = SortOption.Name;
@@ -98,6 +102,10 @@ namespace Files
 
                 case SortOption.Size:
                     SortedColumn = sizeColumn;
+                    break;
+
+                case SortOption.OriginalPath:
+                    SortedColumn = originalPathColumn;
                     break;
             }
 
@@ -213,6 +221,10 @@ namespace Files
 
                     case SortOption.Size:
                         SortedColumn = sizeColumn;
+                        break;
+
+                    case SortOption.OriginalPath:
+                        SortedColumn = originalPathColumn;
                         break;
                 }
             }
@@ -544,6 +556,10 @@ namespace Files
 
                 case "sizeColumn":
                     args = new DataGridColumnEventArgs(sizeColumn);
+                    break;
+
+                case "originalPathColumn":
+                    args = new DataGridColumnEventArgs(originalPathColumn);
                     break;
             }
 
