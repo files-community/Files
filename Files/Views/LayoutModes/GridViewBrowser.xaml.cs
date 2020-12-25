@@ -416,16 +416,16 @@ namespace Files
             //Define Offset Animation for the ANimation group
             Vector3KeyFrameAnimation offsetAnimation = compositor.CreateVector3KeyFrameAnimation();
             offsetAnimation.InsertExpressionKeyFrame(1.0f, "this.FinalValue");
-            offsetAnimation.Duration = TimeSpan.FromSeconds(.4);
+            offsetAnimation.Duration = TimeSpan.FromSeconds(.5);
 
             //Define Animation Target for this animation to animate using definition.
             offsetAnimation.Target = "Offset";
 
             //Define Rotation Animation for Animation Group.
             ScalarKeyFrameAnimation rotationAnimation = compositor.CreateScalarKeyFrameAnimation();
-            rotationAnimation.InsertKeyFrame(.5f, 0.160f);
+            rotationAnimation.InsertKeyFrame(0.160f, .04f);
             rotationAnimation.InsertKeyFrame(1f, 0f);
-            rotationAnimation.Duration = TimeSpan.FromSeconds(.4);
+            rotationAnimation.Duration = TimeSpan.FromSeconds(.5);
 
             //Define Animation Target for this animation to animate using definition.
             rotationAnimation.Target = "RotationAngle";
