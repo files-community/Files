@@ -213,15 +213,29 @@ namespace Files.View_Models
 
         private static LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
         {
-            var layoutPrefs = ReadLayoutPreferencesFromAds(folderPath);
-            return layoutPrefs ?? ReadLayoutPreferencesFromSettings(folderPath);
+            if (App.AppSettings.AreLayoutPreferencesPerFolder)
+            {
+                var layoutPrefs = ReadLayoutPreferencesFromAds(folderPath);
+                return layoutPrefs ?? ReadLayoutPreferencesFromSettings(folderPath);
+            }
+            return LayoutPreferences.DefaultLayoutPreferences;
         }
 
         private static void UpdateLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
         {
-            if (!WriteLayoutPreferencesToAds(folderPath, prefs))
+            if (App.AppSettings.AreLayoutPreferencesPerFolder)
             {
-                WriteLayoutPreferencesToSettings(folderPath, prefs);
+                if (!WriteLayoutPreferencesToAds(folderPath, prefs))
+                {
+                    WriteLayoutPreferencesToSettings(folderPath, prefs);
+                }
+            }
+            else
+            {
+                App.AppSettings.DefaultLayoutMode = prefs.LayoutMode;
+                App.AppSettings.DefaultGridViewSize = prefs.GridViewSize;
+                App.AppSettings.DefaultDirectorySortOption = prefs.DirectorySortOption;
+                App.AppSettings.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
             }
         }
 

@@ -604,6 +604,15 @@ namespace Files.View_Models
 
         public AcrylicTheme AcrylicTheme { get; set; }
 
+        /// <summary>
+        /// Enables saving layout mode, gridview size, sort direction per folder
+        /// </summary>
+        public bool AreLayoutPreferencesPerFolder
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
         public FolderSettingsViewModel.LayoutModes DefaultLayoutMode
         {
             get => (FolderSettingsViewModel.LayoutModes)Get((byte)FolderSettingsViewModel.LayoutModes.DETAILS_VIEW); // Details View

@@ -1946,6 +1946,14 @@
           <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
           <target state="new">Show unindexed items when searching for files and folders (searches may take longer)</target>
         </trans-unit>
+        <trans-unit id="SettingsAreLayoutPreferencesPerFolder.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Enable folder view preferences per folder</source>
+          <target state="new">Enable folder view preferences per folder</target>
+        </trans-unit>
+        <trans-unit id="SettingsAreLayoutPreferencesPerFolder.Header" translate="yes" xml:space="preserve">
+          <source>Enable folder view preferences per folder</source>
+          <target state="new">Enable folder view preferences per folder</target>
+        </trans-unit>
       </group>
     </body>
   </file>

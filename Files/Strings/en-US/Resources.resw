@@ -1563,4 +1563,10 @@
   <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
     <value>Show unindexed items when searching for files and folders (searches may take longer)</value>
   </data>
+  <data name="SettingsAreLayoutPreferencesPerFolder.AutomationProperties.Name" xml:space="preserve">
+    <value>Enable folder view preferences per folder</value>
+  </data>
+  <data name="SettingsAreLayoutPreferencesPerFolder.Header" xml:space="preserve">
+    <value>Enable folder view preferences per folder</value>
+  </data>
 </root>

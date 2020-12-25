@@ -62,6 +62,12 @@
                     Header="Show unindexed items when searching for files and folders (searches may take longer)"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{x:Bind AppSettings.SearchUnindexedItems, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Uid="SettingsAreLayoutPreferencesPerFolder"
+                    Header="Enable folder view preferences per folder"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind AppSettings.AreLayoutPreferencesPerFolder, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
