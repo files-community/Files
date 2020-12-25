@@ -109,30 +109,6 @@ namespace Files
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-
-            switch (FolderSettings.DirectorySortOption)
-            {
-                case SortOption.Name:
-                    SortedColumn = nameColumn;
-                    break;
-
-                case SortOption.DateModified:
-                    SortedColumn = dateColumn;
-                    break;
-
-                case SortOption.FileType:
-                    SortedColumn = typeColumn;
-                    break;
-
-                case SortOption.Size:
-                    SortedColumn = sizeColumn;
-                    break;
-
-                case SortOption.OriginalPath:
-                    SortedColumn = originalPathColumn;
-                    break;
-            }
-
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged += ViewModel_PropertyChanged;
             AllView.LoadingRow += AllView_LoadingRow;
             ViewModel_PropertyChanged(null, new PropertyChangedEventArgs("DirectorySortOption"));
