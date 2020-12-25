@@ -834,7 +834,7 @@ namespace Files.Interacts
             }
             else
             {
-                if (!AppSettings.ShowFileExtensions)
+                if (item.IsShortcutItem || !AppSettings.ShowFileExtensions)
                 {
                     newName += item.FileExtension;
                 }

@@ -298,7 +298,7 @@ namespace Files
             renamingTextBox.Focus(FocusState.Programmatic); // Without this,the user cannot edit the text box when renaming via right-click
 
             int selectedTextLength = SelectedItem.ItemName.Length;
-            if (AppSettings.ShowFileExtensions)
+            if (!SelectedItem.IsShortcutItem && AppSettings.ShowFileExtensions)
             {
                 selectedTextLength -= extensionLength;
             }
