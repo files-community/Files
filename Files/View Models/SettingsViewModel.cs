@@ -613,9 +613,9 @@ namespace Files.View_Models
             set => Set(value);
         }
 
-        public FolderSettingsViewModel.LayoutModes DefaultLayoutMode
+        public LayoutModes DefaultLayoutMode
         {
-            get => (FolderSettingsViewModel.LayoutModes)Get((byte)FolderSettingsViewModel.LayoutModes.DETAILS_VIEW); // Details View
+            get => (LayoutModes)Get((byte)LayoutModes.DetailsView); // Details View
             set => Set((byte)value);
         }
 

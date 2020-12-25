@@ -1,4 +1,5 @@
 ﻿using Files.Enums;
+using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.UI;
@@ -52,15 +53,15 @@ namespace Files.View_Models
             Type type = null;
             switch (LayoutMode)
             {
-                case LayoutModes.DETAILS_VIEW:
+                case LayoutModes.DetailsView:
                     type = typeof(GenericFileBrowser);
                     break;
 
-                case LayoutModes.TILES_VIEW:
+                case LayoutModes.TilesView:
                     type = typeof(GridViewBrowser);
                     break;
 
-                case LayoutModes.GRID_VIEW:
+                case LayoutModes.GridView:
                     type = typeof(GridViewBrowser);
                     break;
 
@@ -76,7 +77,7 @@ namespace Files.View_Models
 
         public RelayCommand ToggleLayoutModeGridViewLarge => new RelayCommand(() =>
         {
-            LayoutMode = LayoutModes.GRID_VIEW; // Grid View
+            LayoutMode = LayoutModes.GridView; // Grid View
 
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeLarge; // Size
 
@@ -85,7 +86,7 @@ namespace Files.View_Models
 
         public RelayCommand ToggleLayoutModeGridViewMedium => new RelayCommand(() =>
         {
-            LayoutMode = LayoutModes.GRID_VIEW; // Grid View
+            LayoutMode = LayoutModes.GridView; // Grid View
 
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeMedium; // Size
 
@@ -94,7 +95,7 @@ namespace Files.View_Models
 
         public RelayCommand ToggleLayoutModeGridViewSmall => new RelayCommand(() =>
         {
-            LayoutMode = LayoutModes.GRID_VIEW; // Grid View
+            LayoutMode = LayoutModes.GridView; // Grid View
 
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Size
 
@@ -103,14 +104,14 @@ namespace Files.View_Models
 
         public RelayCommand ToggleLayoutModeTiles => new RelayCommand(() =>
         {
-            LayoutMode = LayoutModes.TILES_VIEW; // Tiles View
+            LayoutMode = LayoutModes.TilesView; // Tiles View
 
             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
 
         public RelayCommand ToggleLayoutModeDetailsView => new RelayCommand(() =>
         {
-            LayoutMode = LayoutModes.DETAILS_VIEW; // Details View
+            LayoutMode = LayoutModes.DetailsView; // Details View
 
             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
@@ -122,24 +123,24 @@ namespace Files.View_Models
             {
                 if (value < LayoutPreference.GridViewSize) // Size down
                 {
-                    if (LayoutMode == LayoutModes.TILES_VIEW) // Size down from tiles to list
+                    if (LayoutMode == LayoutModes.TilesView) // Size down from tiles to list
                     {
                         LayoutMode = 0;
                         LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                     }
-                    else if (LayoutMode == LayoutModes.GRID_VIEW && value < Constants.Browser.GridViewBrowser.GridViewSizeSmall) // Size down from grid to tiles
+                    else if (LayoutMode == LayoutModes.GridView && value < Constants.Browser.GridViewBrowser.GridViewSizeSmall) // Size down from grid to tiles
                     {
-                        LayoutMode = LayoutModes.TILES_VIEW;
+                        LayoutMode = LayoutModes.TilesView;
                         LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                     }
-                    else if (LayoutMode != LayoutModes.DETAILS_VIEW) // Resize grid view
+                    else if (LayoutMode != LayoutModes.DetailsView) // Resize grid view
                     {
                         var newValue = (value >= Constants.Browser.GridViewBrowser.GridViewSizeSmall) ? value : Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Set grid size to allow immediate UI update
                         SetProperty(ref LayoutPreference.GridViewSize, newValue, nameof(GridViewSize));
 
-                        if (LayoutMode != LayoutModes.GRID_VIEW) // Only update layout mode if it isn't already in grid view
+                        if (LayoutMode != LayoutModes.GridView) // Only update layout mode if it isn't already in grid view
                         {
-                            LayoutMode = LayoutModes.GRID_VIEW;
+                            LayoutMode = LayoutModes.GridView;
                             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                         }
                         else
@@ -154,17 +155,17 @@ namespace Files.View_Models
                 {
                     if (LayoutMode == 0) // Size up from list to tiles
                     {
-                        LayoutMode = LayoutModes.TILES_VIEW;
+                        LayoutMode = LayoutModes.TilesView;
                         LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                     }
                     else // Size up from tiles to grid
                     {
-                        var newValue = (LayoutMode == LayoutModes.TILES_VIEW) ? Constants.Browser.GridViewBrowser.GridViewSizeSmall : (value <= Constants.Browser.GridViewBrowser.GridViewSizeMax) ? value : Constants.Browser.GridViewBrowser.GridViewSizeMax; // Set grid size to allow immediate UI update
+                        var newValue = (LayoutMode == LayoutModes.TilesView) ? Constants.Browser.GridViewBrowser.GridViewSizeSmall : (value <= Constants.Browser.GridViewBrowser.GridViewSizeMax) ? value : Constants.Browser.GridViewBrowser.GridViewSizeMax; // Set grid size to allow immediate UI update
                         SetProperty(ref LayoutPreference.GridViewSize, newValue, nameof(GridViewSize));
 
-                        if (LayoutMode != LayoutModes.GRID_VIEW) // Only update layout mode if it isn't already in grid view
+                        if (LayoutMode != LayoutModes.GridView) // Only update layout mode if it isn't already in grid view
                         {
-                            LayoutMode = LayoutModes.GRID_VIEW;
+                            LayoutMode = LayoutModes.GridView;
                             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                         }
                         else
@@ -241,7 +242,7 @@ namespace Files.View_Models
 
         private static LayoutPreferences ReadLayoutPreferencesFromAds(string folderPath)
         {
-            var str = Helpers.NativeFileOperationsHelper.ReadStringFromFile($"{folderPath}:files_layoutmode");
+            var str = NativeFileOperationsHelper.ReadStringFromFile($"{folderPath}:files_layoutmode");
             return string.IsNullOrEmpty(str) ? null : JsonConvert.DeserializeObject<LayoutPreferences>(str);
         }
 
@@ -249,10 +250,10 @@ namespace Files.View_Models
         {
             if (LayoutPreferences.DefaultLayoutPreferences.Equals(prefs))
             {
-                Helpers.NativeFileOperationsHelper.DeleteFileFromApp($"{folderPath}:files_layoutmode");
+                NativeFileOperationsHelper.DeleteFileFromApp($"{folderPath}:files_layoutmode");
                 return false;
             }
-            return Helpers.NativeFileOperationsHelper.WriteStringToFile($"{folderPath}:files_layoutmode", JsonConvert.SerializeObject(prefs));
+            return NativeFileOperationsHelper.WriteStringToFile($"{folderPath}:files_layoutmode", JsonConvert.SerializeObject(prefs));
         }
 
         private static LayoutPreferences ReadLayoutPreferencesFromSettings(string folderPath)
@@ -304,22 +305,24 @@ namespace Files.View_Models
 
             public static LayoutPreferences FromCompositeValue(ApplicationDataCompositeValue compositeValue)
             {
-                var layoutPreference = new LayoutPreferences();
-                layoutPreference.LayoutMode = (LayoutModes)(int)compositeValue[nameof(LayoutMode)];
-                layoutPreference.GridViewSize = (int)compositeValue[nameof(GridViewSize)];
-                layoutPreference.DirectorySortOption = (SortOption)(int)compositeValue[nameof(DirectorySortOption)];
-                layoutPreference.DirectorySortDirection = (SortDirection)(int)compositeValue[nameof(DirectorySortDirection)];
-                return layoutPreference;
+                return new LayoutPreferences
+                {
+                    LayoutMode = (LayoutModes)(int)compositeValue[nameof(LayoutMode)],
+                    GridViewSize = (int)compositeValue[nameof(GridViewSize)],
+                    DirectorySortOption = (SortOption)(int)compositeValue[nameof(DirectorySortOption)],
+                    DirectorySortDirection = (SortDirection)(int)compositeValue[nameof(DirectorySortDirection)]
+                };
             }
 
             public ApplicationDataCompositeValue ToCompositeValue()
             {
-                var compositeValue = new ApplicationDataCompositeValue();
-                compositeValue[nameof(LayoutMode)] = (int)this.LayoutMode;
-                compositeValue[nameof(GridViewSize)] = this.GridViewSize;
-                compositeValue[nameof(DirectorySortOption)] = (int)this.DirectorySortOption;
-                compositeValue[nameof(DirectorySortDirection)] = (int)this.DirectorySortDirection;
-                return compositeValue;
+                return new ApplicationDataCompositeValue()
+                {
+                    { nameof(LayoutMode), (int)this.LayoutMode },
+                    { nameof(GridViewSize), this.GridViewSize },
+                    { nameof(DirectorySortOption), (int)this.DirectorySortOption },
+                    { nameof(DirectorySortDirection), (int)this.DirectorySortDirection },
+                };
             }
 
             public override bool Equals(object obj)
@@ -347,13 +350,6 @@ namespace Files.View_Models
             {
                 return base.GetHashCode();
             }
-        }
-
-        public enum LayoutModes
-        {
-            DETAILS_VIEW = 0,
-            TILES_VIEW,
-            GRID_VIEW
         }
     }
 }

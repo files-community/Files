@@ -167,6 +167,7 @@
     <Compile Include="Converters\StringArrayToString.cs" />
     <Compile Include="Converters\UInt32ToString.cs" />
     <Compile Include="DataModels\ShellNewEntry.cs" />
+    <Compile Include="Enums\LayoutModes.cs" />
     <Compile Include="Helpers\AppUpdater.cs" />
     <Compile Include="DataModels\DefaultLanguageModel.cs" />
     <Compile Include="Enums\FileOperationType.cs" />
