@@ -1372,7 +1372,10 @@ namespace Files.Filesystem
                                     {
                                         case FILE_ACTION_ADDED:
                                             Debug.WriteLine("File " + FileName + " added to working directory.");
-                                            AddFileOrFolderAsync(FileName, returnformat).GetAwaiter().GetResult();
+                                            if (Path.GetFileName(FileName) != "files.desktop.ini" || AppSettings.AreHiddenItemsVisible)
+                                            {
+                                                AddFileOrFolderAsync(FileName, returnformat).GetAwaiter().GetResult();
+                                            }
                                             break;
 
                                         case FILE_ACTION_REMOVED:
