@@ -213,7 +213,7 @@ namespace Files.View_Models
 
         private static LayoutPreferences GetLayoutPreferencesForPath(string folderPath)
         {
-            var str = Helpers.NativeFileOperationsHelper.ReadStringFromFile(System.IO.Path.Combine(folderPath, "files.desktop.ini"));
+            var str = Helpers.NativeFileOperationsHelper.ReadStringFromFile($"{folderPath}:files_layoutmode");
             if (string.IsNullOrEmpty(str))
             {
                 return LayoutPreferences.DefaultLayoutPreferences; // Either global setting or smart guess
@@ -223,14 +223,12 @@ namespace Files.View_Models
 
         private static void UpdateLayoutPreferencesForPath(string folderPath, LayoutPreferences prefs)
         {
-            var prefsFilePath = System.IO.Path.Combine(folderPath, "files.desktop.ini");
             if (LayoutPreferences.DefaultLayoutPreferences.Equals(prefs))
             {
-                Helpers.NativeFileOperationsHelper.DeleteFileFromApp(prefsFilePath);
+                Helpers.NativeFileOperationsHelper.DeleteFileFromApp($"{folderPath}:files_layoutmode");
                 return; // Do not create setting if it's default
             }
-            Helpers.NativeFileOperationsHelper.WriteStringToFile(prefsFilePath, JsonConvert.SerializeObject(prefs));
-            Helpers.NativeFileOperationsHelper.SetFileAttribute(prefsFilePath, System.IO.FileAttributes.Hidden);
+            Helpers.NativeFileOperationsHelper.WriteStringToFile($"{folderPath}:files_layoutmode", JsonConvert.SerializeObject(prefs));
         }
 
         private LayoutPreferences LayoutPreference { get; set; }
