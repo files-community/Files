@@ -1935,12 +1935,8 @@
           <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
           <target state="translated">Mostra contenuti non indicizzati durante la ricerca (più lento)</target>
         </trans-unit>
-        <trans-unit id="SettingsAreLayoutPreferencesPerFolder.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Enable folder view preferences per folder</source>
-          <target state="translated">Abilita impostazioni di visualizzazione per cartella</target>
-        </trans-unit>
-        <trans-unit id="SettingsAreLayoutPreferencesPerFolder.Header" translate="yes" xml:space="preserve">
-          <source>Enable folder view preferences per folder</source>
+        <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Header" translate="yes" xml:space="preserve">
+          <source>Enable individual preferences for individual directories</source>
           <target state="translated">Abilita impostazioni di visualizzazione per cartella</target>
         </trans-unit>
       </group>

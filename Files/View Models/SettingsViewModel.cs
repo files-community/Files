@@ -423,6 +423,14 @@ namespace Files.View_Models
             set => Set(value);
         }
 
+        /// <summary>
+        /// Enables saving a unique layout mode, gridview size and sort direction per folder
+        /// </summary>
+        public bool AreLayoutPreferencesPerFolder
+        {
+            get => Get(true);
+            set => Set(value);
+        }
         #endregion FilesAndFolder
 
         #region Multitasking
@@ -603,16 +611,7 @@ namespace Files.View_Models
         });
 
         public AcrylicTheme AcrylicTheme { get; set; }
-
-        /// <summary>
-        /// Enables saving a unique layout mode, gridview size and sort direction per folder
-        /// </summary>
-        public bool AreLayoutPreferencesPerFolder
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
+                
         public FolderSettingsViewModel.LayoutModes DefaultLayoutMode
         {
             get => (FolderSettingsViewModel.LayoutModes)Get((byte)FolderSettingsViewModel.LayoutModes.DETAILS_VIEW); // Details View
