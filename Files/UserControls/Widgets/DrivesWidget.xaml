@@ -127,6 +127,7 @@
                                 <Grid
                                     Grid.Column="1"
                                     Margin="12,0,0,0"
+                                    RowSpacing="8"
                                     VerticalAlignment="Center">
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
@@ -141,14 +142,12 @@
                                         Text="{x:Bind Text, Mode=OneWay}"
                                         TextWrapping="NoWrap"
                                         VerticalAlignment="Center"
-                                        Margin="0 0 0 8"
                                         Grid.Row="0"/>
                                     <muxc:ProgressBar
                                         AutomationProperties.AccessibilityView="Raw"
                                         Maximum="{x:Bind MaxSpace.GigaBytes, Mode=OneWay}"
                                         Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}"
                                         Visibility="{x:Bind ShowDriveDetails, Mode=OneWay}"
-                                        Margin="0 0 0 8"
                                         Grid.Row="1"/>
                                     <TextBlock
                                         FontSize="12"
