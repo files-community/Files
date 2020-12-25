@@ -195,7 +195,7 @@ namespace Files
             textBox.KeyDown += RenameTextBox_KeyDown;
 
             int selectedTextLength = SelectedItem.ItemName.Length;
-            if (App.AppSettings.ShowFileExtensions)
+            if (!SelectedItem.IsShortcutItem && App.AppSettings.ShowFileExtensions)
             {
                 selectedTextLength -= extensionLength;
             }
