@@ -1458,10 +1458,7 @@
   <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
     <value>Mostra contenuti non indicizzati durante la ricerca (più lento)</value>
   </data>
-  <data name="SettingsAreLayoutPreferencesPerFolder.AutomationProperties.Name" xml:space="preserve">
-    <value>Abilita impostazioni di visualizzazione per cartella</value>
-  </data>
-  <data name="SettingsAreLayoutPreferencesPerFolder.Header" xml:space="preserve">
+  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
     <value>Abilita impostazioni di visualizzazione per cartella</value>
   </data>
 </root>
