@@ -809,6 +809,12 @@ namespace Files
             var deferral = e.GetDeferral();
 
             ListedItem item = GetItemFromElement(sender);
+
+            if(item is null && sender is GridViewItem gvi)
+            {
+                item = gvi.Content as ListedItem;
+            }
+
             SetSelectedItemOnUi(item);
 
             if (dragOverItem != item)
