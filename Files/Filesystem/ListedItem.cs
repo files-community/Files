@@ -3,6 +3,7 @@ using Files.Filesystem.Cloud;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
+using System.IO;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -265,7 +266,7 @@ namespace Files.Filesystem
         // For recycle bin elements (path + name)
         public string ItemOriginalPath { get; set; }
         // For recycle bin elements (path)
-        public string ItemOriginalFolder => System.IO.Path.GetDirectoryName(ItemOriginalPath);
+        public string ItemOriginalFolder => Path.IsPathRooted(ItemOriginalPath) ? Path.GetDirectoryName(ItemOriginalPath) : ItemOriginalPath;
     }
 
     public class ShortcutItem : ListedItem
