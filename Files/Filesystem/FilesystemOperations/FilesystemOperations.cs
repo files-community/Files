@@ -134,7 +134,6 @@ namespace Files.Filesystem
 
             IStorageItem copiedItem = null;
             long itemSize = await FilesystemHelpers.GetItemSize(await source.ToStorageItem(associatedInstance));
-            bool reportProgress = false; // TODO: The default value is false
 
             if (source.ItemType == FilesystemItemType.Directory)
             {
@@ -180,39 +179,27 @@ namespace Files.Filesystem
                 }
                 else
                 {
-                    if (reportProgress)
-                    {
-                        progress?.Report((float)(itemSize * 100.0f / itemSize));
-                    }
-
                     StorageFolder fsSourceFolder = (StorageFolder)await source.ToStorageItem(associatedInstance);
                     StorageFolder fsDestinationFolder = (StorageFolder)await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
 
                     if (fsSourceFolder != null && fsDestinationFolder != null)
                     {
-                        FilesystemResult fsCopyResult = await FilesystemTasks.Wrap(async () =>
-                        {
-                            return await CloneDirectoryAsync(fsSourceFolder, fsDestinationFolder, fsSourceFolder.Name);
-                        })
-                        .OnSuccess(t =>
+                        var fsCopyResult = await CloneDirectoryAsyncWithProgress(fsSourceFolder, fsDestinationFolder, fsSourceFolder.Name, collision, progress, itemSize);
+                        if (fsCopyResult)
                         {
                             if (associatedInstance.FilesystemViewModel.CheckFolderForHiddenAttribute(source.Path))
                             {
                                 // The source folder was hidden, apply hidden attribute to destination
-                                NativeFileOperationsHelper.SetFileAttribute(t.Path, FileAttributes.Hidden);
+                                NativeFileOperationsHelper.SetFileAttribute(fsCopyResult.Result.Path, FileAttributes.Hidden);
                             }
-                            copiedItem = t;
-                        });
+                            copiedItem = (StorageFolder)fsCopyResult;
+                        }
+                        errorCode?.Report(fsCopyResult.ErrorCode);
                     }
                 }
             }
             else if (source.ItemType == FilesystemItemType.File)
             {
-                if (reportProgress)
-                {
-                    progress?.Report((float)(itemSize * 100.0f / itemSize));
-                }
-
                 FilesystemResult<StorageFolder> destinationResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
                 var sourceResult = await source.ToStorageItemResult(associatedInstance);
                 var fsResult = (FilesystemResult)(sourceResult.ErrorCode | destinationResult.ErrorCode);
@@ -288,6 +275,53 @@ namespace Files.Filesystem
             var pathWithType = copiedItem.FromStorageItem(destination, source.ItemType);
 
             return new StorageHistory(FileOperationType.Copy, source, pathWithType);
+        }
+
+        private async Task<FilesystemResult<StorageFolder>> CloneDirectoryAsyncWithProgress(StorageFolder sourceFolder, StorageFolder destinationFolder, string sourceRootName, NameCollisionOption collision, IProgress<float> progress, long totalSize)
+        {
+            var createdRoot = await FilesystemTasks.Wrap(() => destinationFolder.CreateFolderAsync(sourceRootName, (CreationCollisionOption)(int)collision).AsTask());
+            if (!createdRoot)
+            {
+                if (createdRoot == FilesystemErrorCode.ERROR_ALREADYEXIST)
+                {
+                    var ItemAlreadyExistsDialog = new ContentDialog()
+                    {
+                        Title = "ItemAlreadyExistsDialogTitle".GetLocalized(),
+                        Content = "ItemAlreadyExistsDialogContent".GetLocalized(),
+                        PrimaryButtonText = "ItemAlreadyExistsDialogPrimaryButtonText".GetLocalized(),
+                        SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized()
+                    };
+
+                    ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
+
+                    if (result == ContentDialogResult.Primary)
+                    {
+                        return await CloneDirectoryAsyncWithProgress(sourceFolder, destinationFolder, sourceRootName, NameCollisionOption.GenerateUniqueName, progress, totalSize);
+                    }
+                    else if (result == ContentDialogResult.Secondary)
+                    {
+                        return await CloneDirectoryAsyncWithProgress(sourceFolder, destinationFolder, sourceRootName, NameCollisionOption.ReplaceExisting, progress, totalSize);
+                    }
+                }
+                return createdRoot;
+            }
+
+            return await FilesystemTasks.Wrap(async () =>
+            {
+                destinationFolder = createdRoot;
+
+                foreach (IStorageFile fileInSourceDir in await sourceFolder.GetFilesAsync())
+                {
+                    await fileInSourceDir.CopyAsync(destinationFolder, fileInSourceDir.Name, NameCollisionOption.GenerateUniqueName);
+                }
+
+                foreach (IStorageFolder folderinSourceDir in await sourceFolder.GetFoldersAsync())
+                {
+                    await CloneDirectoryAsync(folderinSourceDir, destinationFolder, folderinSourceDir.Name);
+                }
+
+                return destinationFolder;
+            });
         }
 
         public async Task<IStorageHistory> MoveAsync(IStorageItem source,
