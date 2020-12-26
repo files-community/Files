@@ -137,41 +137,28 @@ namespace Files.Filesystem
                 if (!string.IsNullOrWhiteSpace(source.Path) &&
                     Path.GetDirectoryName(destination).IsSubPathOf(source.Path)) // We check if user tried to copy anything above the source.ItemPath
                 {
-                    ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
-
-                    /*if (false)
+                    var destinationName = destination.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
+                    var sourceName = source.Path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
+                    ContentDialog dialog = new ContentDialog()
                     {
-                        var destinationName = destination.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
-                        var sourceName = source.Path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
-                        ContentDialog dialog = new ContentDialog()
-                        {
-                            Title = "ErrorDialogThisActionCannotBeDone".GetLocalized(),
-                            Content = "ErrorDialogTheDestinationFolder".GetLocalized() + " (" + destinationName + ") " + "ErrorDialogIsASubfolder".GetLocalized() + " (" + sourceName + ")",
-                            PrimaryButtonText = "ErrorDialogSkip".GetLocalized(),
-                            CloseButtonText = "ErrorDialogCancel".GetLocalized()
-                        };
-                        ContentDialogResult result = await dialog.ShowAsync();
-                        if (result == ContentDialogResult.Primary)
-                        {
-                            responseType = ImpossibleActionResponseTypes.Skip;
-                        }
-                        else
-                        {
-                            responseType = ImpossibleActionResponseTypes.Abort;
-                        }
-                    }*/
+                        Title = "ErrorDialogThisActionCannotBeDone".GetLocalized(),
+                        Content = "ErrorDialogTheDestinationFolder".GetLocalized() + " (" + destinationName + ") " + "ErrorDialogIsASubfolder".GetLocalized() + " (" + sourceName + ")",
+                        //PrimaryButtonText = "ErrorDialogSkip".GetLocalized(),
+                        CloseButtonText = "ErrorDialogCancel".GetLocalized()
+                    };
 
-                    if (responseType == ImpossibleActionResponseTypes.Skip)
+                    ContentDialogResult result = await dialog.ShowAsync();
+
+                    if (result == ContentDialogResult.Primary)
                     {
                         progress?.Report(100.0f);
                         errorCode?.Report(FilesystemErrorCode.ERROR_INPROGRESS | FilesystemErrorCode.ERROR_SUCCESS);
                     }
-                    else if (responseType == ImpossibleActionResponseTypes.Abort)
+                    else
                     {
                         progress?.Report(100.0f);
                         errorCode?.Report(FilesystemErrorCode.ERROR_INPROGRESS | FilesystemErrorCode.ERROR_GENERIC);
                     }
-
                     return null;
                 }
                 else
