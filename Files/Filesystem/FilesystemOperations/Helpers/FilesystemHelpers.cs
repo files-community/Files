@@ -123,10 +123,17 @@ namespace Files.Filesystem
                     !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
                     associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
 
+                if (Interacts.Interaction.IsAnyContentDialogOpen())
+                {
+                    // Can show only one dialog at a time
+                    banner.Remove();
+                    return ReturnResult.Cancelled;
+                }
                 await dialog.ShowAsync();
 
-                if (dialog.Result != DialogResult.Delete) // Delete selected  items if the result is Yes
+                if (dialog.Result != DialogResult.Delete) // Delete selected items if the result is Yes
                 {
+                    banner.Remove();
                     return ReturnResult.Cancelled; // Return if the result isn't delete
                 }
 
@@ -212,10 +219,17 @@ namespace Files.Filesystem
                     permanently,
                     associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
 
+                if (Interacts.Interaction.IsAnyContentDialogOpen())
+                {
+                    // Can show only one dialog at a time
+                    banner.Remove();
+                    return ReturnResult.Cancelled;
+                }
                 await dialog.ShowAsync();
 
                 if (dialog.Result != DialogResult.Delete) // Delete selected item if the result is Yes
                 {
+                    banner.Remove();
                     return ReturnResult.Cancelled; // Return if the result isn't delete
                 }
 
@@ -280,10 +294,17 @@ namespace Files.Filesystem
                     !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
                     associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
 
+                if (Interacts.Interaction.IsAnyContentDialogOpen())
+                {
+                    // Can show only one dialog at a time
+                    banner.Remove();
+                    return ReturnResult.Cancelled;
+                }
                 await dialog.ShowAsync();
 
-                if (dialog.Result != DialogResult.Delete) // Delete selected  items if the result is Yes
+                if (dialog.Result != DialogResult.Delete) // Delete selected items if the result is Yes
                 {
+                    banner.Remove();
                     return ReturnResult.Cancelled; // Return if the result isn't delete
                 }
 
@@ -369,10 +390,17 @@ namespace Files.Filesystem
                     permanently,
                     associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
 
+                if (Interacts.Interaction.IsAnyContentDialogOpen())
+                {
+                    // Can show only one dialog at a time
+                    banner.Remove();
+                    return ReturnResult.Cancelled;
+                }
                 await dialog.ShowAsync();
 
                 if (dialog.Result != DialogResult.Delete) // Delete selected item if the result is Yes
                 {
+                    banner.Remove();
                     return ReturnResult.Cancelled; // Return if the result isn't delete
                 }
 

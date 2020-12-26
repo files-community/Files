@@ -267,6 +267,12 @@ namespace Files.Interacts
             await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess"));
         }
 
+        public static bool IsAnyContentDialogOpen()
+        {
+            var openedPopups = VisualTreeHelper.GetOpenPopups(Window.Current);
+            return openedPopups.Any(popup => popup.Child is ContentDialog);
+        }
+
         public static T FindChild<T>(DependencyObject startNode) where T : DependencyObject
         {
             int count = VisualTreeHelper.GetChildrenCount(startNode);
