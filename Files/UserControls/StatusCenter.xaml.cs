@@ -135,11 +135,7 @@ namespace Files.UserControls
             get => progress;
             set
             {
-                if (value != progress)
-                {
-                    SetProperty(ref progress, value);
-                    OnPropertyChanged(nameof(Progress));
-                }
+                SetProperty(ref progress, value);
             }
         }
 
