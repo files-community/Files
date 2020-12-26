@@ -100,12 +100,14 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> CopyAsync(IStorageItem source,
                                                      string destination,
+                                                     NameCollisionOption collision,
                                                      IProgress<float> progress,
                                                      IProgress<FilesystemErrorCode> errorCode,
                                                      CancellationToken cancellationToken)
         {
             return await CopyAsync(source.FromStorageItem(),
                                                     destination,
+                                                    collision,
                                                     progress,
                                                     errorCode,
                                                     cancellationToken);
@@ -113,6 +115,7 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> CopyAsync(IStorageItemWithPath source,
                                                      string destination,
+                                                     NameCollisionOption collision,
                                                      IProgress<float> progress,
                                                      IProgress<FilesystemErrorCode> errorCode,
                                                      CancellationToken cancellationToken)
@@ -156,7 +159,7 @@ namespace Files.Filesystem
                         {
                             responseType = ImpossibleActionResponseTypes.Skip;
                         }
-                        else if (result == ContentDialogResult.Primary)
+                        else
                         {
                             responseType = ImpossibleActionResponseTypes.Abort;
                         }
@@ -217,10 +220,36 @@ namespace Files.Filesystem
                 if (fsResult)
                 {
                     var file = (StorageFile)sourceResult;
-                    var fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), NameCollisionOption.GenerateUniqueName).AsTask());
+                    var fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), collision).AsTask());
                     if (fsResultCopy)
                     {
                         copiedItem = fsResultCopy.Result;
+                    }
+                    else if (fsResultCopy == FilesystemErrorCode.ERROR_ALREADYEXIST)
+                    {
+                        var ItemAlreadyExistsDialog = new ContentDialog()
+                        {
+                            Title = "ItemAlreadyExistsDialogTitle".GetLocalized(),
+                            Content = "ItemAlreadyExistsDialogContent".GetLocalized(),
+                            PrimaryButtonText = "ItemAlreadyExistsDialogPrimaryButtonText".GetLocalized(),
+                            SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized()
+                        };
+
+                        ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
+
+                        if (result == ContentDialogResult.Primary)
+                        {
+                            return await CopyAsync(source, destination, NameCollisionOption.GenerateUniqueName, progress, errorCode, cancellationToken);
+                        }
+                        else if (result == ContentDialogResult.Secondary)
+                        {
+                            await CopyAsync(source, destination, NameCollisionOption.ReplaceExisting, progress, errorCode, cancellationToken);
+                            return null; // Cannot undo overwrite operation
+                        }
+                        else
+                        {
+                            return null;
+                        }
                     }
                     fsResult = fsResultCopy;
                 }
@@ -280,7 +309,7 @@ namespace Files.Filesystem
                                                      IProgress<FilesystemErrorCode> errorCode,
                                                      CancellationToken cancellationToken)
         {
-            IStorageHistory history = await CopyAsync(source, destination, progress, errorCode, cancellationToken);
+            IStorageHistory history = await CopyAsync(source, destination, NameCollisionOption.GenerateUniqueName, progress, errorCode, cancellationToken);
 
             if (string.IsNullOrWhiteSpace(source.Path))
             {

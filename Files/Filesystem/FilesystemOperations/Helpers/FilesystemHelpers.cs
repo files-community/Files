@@ -514,6 +514,7 @@ namespace Files.Filesystem
                 rawStorageHistory.Add(await filesystemOperations.CopyAsync(
                     source.ElementAt(i),
                     destination.ElementAt(i),
+                    NameCollisionOption.FailIfExists,
                     banner.Progress,
                     banner.ErrorCode,
                     cancellationToken));
@@ -564,7 +565,7 @@ namespace Files.Filesystem
             sw.Start();
 
             associatedInstance.ContentPage.ClearSelection();
-            IStorageHistory history = await filesystemOperations.CopyAsync(source, destination, banner.Progress, banner.ErrorCode, cancellationToken);
+            IStorageHistory history = await filesystemOperations.CopyAsync(source, destination, NameCollisionOption.FailIfExists, banner.Progress, banner.ErrorCode, cancellationToken);
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
             {
