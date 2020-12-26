@@ -653,8 +653,9 @@ namespace Files.Filesystem
                 foreach (StorageFile fileInSourceDir in await sourceFolder.GetFilesAsync())
                 {
                     var newFile = await fileInSourceDir.CopyAsync(destinationFolder, fileInSourceDir.Name, NameCollisionOption.GenerateUniqueName);
-                    copiedProgress.Progress += (long)(await newFile.GetBasicPropertiesAsync()).Size;
-                    progress?.Report(copiedProgress.Percentage);
+                    // Progress reporting disabled for speed
+                    //copiedProgress.Progress += (long)(await newFile.GetBasicPropertiesAsync()).Size;
+                    //progress?.Report(copiedProgress.Percentage);
                 }
 
                 foreach (StorageFolder folderinSourceDir in await sourceFolder.GetFoldersAsync())
