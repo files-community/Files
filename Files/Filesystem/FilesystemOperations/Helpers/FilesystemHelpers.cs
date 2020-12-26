@@ -552,7 +552,7 @@ namespace Files.Filesystem
                 rawStorageHistory.Add(await filesystemOperations.MoveAsync(
                     source.ElementAt(i),
                     destination.ElementAt(i),
-                    banner.Progress,
+                    null,
                     banner.ErrorCode,
                     cancellationToken));
 
