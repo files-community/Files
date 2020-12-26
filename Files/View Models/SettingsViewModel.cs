@@ -183,20 +183,20 @@ namespace Files.View_Models
 
         private void DetectDateTimeFormat()
         {
-            if (localSettings.Values[LocalSettings.DateTimeFormat] != null)
+            if (localSettings.Values[Constants.LocalSettings.DateTimeFormat] != null)
             {
-                if (localSettings.Values[LocalSettings.DateTimeFormat].ToString() == "Application")
+                if (localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString() == "Application")
                 {
                     DisplayedTimeStyle = TimeStyle.Application;
                 }
-                else if (localSettings.Values[LocalSettings.DateTimeFormat].ToString() == "System")
+                else if (localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString() == "System")
                 {
                     DisplayedTimeStyle = TimeStyle.System;
                 }
             }
             else
             {
-                localSettings.Values[LocalSettings.DateTimeFormat] = "Application";
+                localSettings.Values[Constants.LocalSettings.DateTimeFormat] = "Application";
             }
         }
 
@@ -210,11 +210,11 @@ namespace Files.View_Models
                 SetProperty(ref _DisplayedTimeStyle, value);
                 if (value.Equals(TimeStyle.Application))
                 {
-                    localSettings.Values[LocalSettings.DateTimeFormat] = "Application";
+                    localSettings.Values[Constants.LocalSettings.DateTimeFormat] = "Application";
                 }
                 else if (value.Equals(TimeStyle.System))
                 {
-                    localSettings.Values[LocalSettings.DateTimeFormat] = "System";
+                    localSettings.Values[Constants.LocalSettings.DateTimeFormat] = "System";
                 }
             }
         }
@@ -612,9 +612,9 @@ namespace Files.View_Models
 
         public AcrylicTheme AcrylicTheme { get; set; }
                 
-        public LayoutModes DefaultLayoutMode
+        public FolderLayoutModes DefaultLayoutMode
         {
-            get => (LayoutModes)Get((byte)LayoutModes.DetailsView); // Details View
+            get => (FolderLayoutModes)Get((byte)FolderLayoutModes.DetailsView); // Details View
             set => Set((byte)value);
         }
 

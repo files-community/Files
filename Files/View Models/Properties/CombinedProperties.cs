@@ -1,4 +1,5 @@
 ﻿using ByteSizeLib;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp.Extensions;

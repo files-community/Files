@@ -1,5 +1,4 @@
-﻿using Files.UserControls;
-using Files.View_Models;
+﻿using Files.View_Models;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -13,7 +12,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Files
+namespace Files.UserControls.Widgets
 {
     public sealed partial class RecentFiles : UserControl
     {

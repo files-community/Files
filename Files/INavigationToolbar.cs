@@ -1,4 +1,4 @@
-﻿using Files.Views.Pages;
+﻿using Files.Views;
 using System;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel.DataTransfer;

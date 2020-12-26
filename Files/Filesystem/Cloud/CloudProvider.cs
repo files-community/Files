@@ -1,4 +1,6 @@
-﻿namespace Files.Filesystem.Cloud
+﻿using Files.Enums;
+
+namespace Files.Filesystem.Cloud
 {
     public class CloudProvider
     {

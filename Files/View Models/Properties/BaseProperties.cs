@@ -1,7 +1,7 @@
 ﻿using ByteSizeLib;
 using Files.Enums;
+using Files.Extensions;
 using Files.Filesystem;
-using Files.Helpers;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
@@ -39,7 +39,7 @@ namespace Files.View_Models.Properties
             IDictionary<string, object> extraProperties = await properties.RetrievePropertiesAsync(propertiesName);
 
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
 
             // Cannot get date and owner in MTP devices
             ViewModel.ItemAccessedTimestamp = ListedItem.GetFriendlyDateFromFormat((DateTimeOffset)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now), returnformat);

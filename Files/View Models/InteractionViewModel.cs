@@ -4,7 +4,7 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.Controls
+namespace Files.View_Models
 {
     public class InteractionViewModel : ObservableObject
     {

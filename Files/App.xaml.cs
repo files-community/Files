@@ -1,6 +1,5 @@
 using Files.CommandLine;
 using Files.Controllers;
-using Files.Controls;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
@@ -155,7 +154,7 @@ namespace Files
                 }
                 else
                 {
-                    await MainPage.AddNewTabByPathAsync(typeof(Views.Pages.ModernShellPage), e.Arguments);
+                    await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), e.Arguments);
                 }
 
                 // Ensure the current window is active

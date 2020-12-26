@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 
-namespace Files
+namespace Files.Views
 {
     public sealed partial class PropertiesGeneral : PropertiesTab
     {

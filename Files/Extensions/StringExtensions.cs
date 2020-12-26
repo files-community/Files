@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Files.Helpers
+namespace Files.Extensions
 {
     public static class StringExtensions
     {

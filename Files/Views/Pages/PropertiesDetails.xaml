@@ -1,5 +1,5 @@
 ﻿<local:PropertiesTab
-    x:Class="Files.PropertiesDetails"
+    x:Class="Files.Views.PropertiesDetails"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
