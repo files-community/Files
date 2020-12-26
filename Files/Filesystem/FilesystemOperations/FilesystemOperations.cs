@@ -189,7 +189,7 @@ namespace Files.Filesystem
                     {
                         FilesystemResult fsCopyResult = await FilesystemTasks.Wrap(async () =>
                         {
-                            return await FilesystemHelpers.CloneDirectoryAsync(fsSourceFolder, fsDestinationFolder, fsSourceFolder.Name);
+                            return await CloneDirectoryAsync(fsSourceFolder, fsDestinationFolder, fsSourceFolder.Name);
                         })
                         .OnSuccess(t =>
                         {
@@ -522,10 +522,10 @@ namespace Files.Filesystem
                 {
                     fsResult = await FilesystemTasks.Wrap(() =>
                     {
-                        return FilesystemHelpers.MoveDirectoryAsync(sourceFolder.Result,
-                                                                    destinationFolder.Result,
-                                                                    Path.GetFileName(destination),
-                                                                    CreationCollisionOption.FailIfExists);
+                        return MoveDirectoryAsync(sourceFolder.Result,
+                                                  destinationFolder.Result,
+                                                  Path.GetFileName(destination),
+                                                  CreationCollisionOption.FailIfExists);
                     }).OnSuccess(t => sourceFolder.Result.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask()); // TODO: we could use here FilesystemHelpers with registerHistory false?
                 }
                 errorCode?.Report(fsResult);
@@ -584,6 +584,48 @@ namespace Files.Filesystem
         }
 
         #endregion IFilesystemOperations
+
+        #region Helpers
+
+        private async static Task<StorageFolder> CloneDirectoryAsync(IStorageFolder sourceFolder, IStorageFolder destinationFolder, string sourceRootName)
+        {
+            StorageFolder createdRoot = await destinationFolder.CreateFolderAsync(sourceRootName, CreationCollisionOption.GenerateUniqueName);
+            destinationFolder = createdRoot;
+
+            foreach (IStorageFile fileInSourceDir in await sourceFolder.GetFilesAsync())
+            {
+                await fileInSourceDir.CopyAsync(destinationFolder, fileInSourceDir.Name, NameCollisionOption.GenerateUniqueName);
+            }
+
+            foreach (IStorageFolder folderinSourceDir in await sourceFolder.GetFoldersAsync())
+            {
+                await CloneDirectoryAsync(folderinSourceDir, destinationFolder, folderinSourceDir.Name);
+            }
+
+            return createdRoot;
+        }
+
+        private static async Task<StorageFolder> MoveDirectoryAsync(IStorageFolder sourceFolder, IStorageFolder destinationDirectory, string sourceRootName, CreationCollisionOption collision = CreationCollisionOption.FailIfExists)
+        {
+            StorageFolder createdRoot = await destinationDirectory.CreateFolderAsync(sourceRootName, collision);
+            destinationDirectory = createdRoot;
+
+            foreach (StorageFile fileInSourceDir in await sourceFolder.GetFilesAsync())
+            {
+                await fileInSourceDir.MoveAsync(destinationDirectory, fileInSourceDir.Name, (NameCollisionOption)((int)collision));
+            }
+
+            foreach (StorageFolder folderinSourceDir in await sourceFolder.GetFoldersAsync())
+            {
+                await MoveDirectoryAsync(folderinSourceDir, destinationDirectory, folderinSourceDir.Name);
+            }
+
+            App.JumpList.RemoveFolder(sourceFolder.Path);
+
+            return createdRoot;
+        }
+
+        #endregion Helpers
 
         #region IDisposable
 
