@@ -46,7 +46,6 @@ namespace Files.Filesystem
         /// </returns>
         Task<IStorageHistory> CopyAsync(IStorageItem source,
                                         string destination,
-                                        NameCollisionOption collision,
                                         IProgress<float> progress,
                                         IProgress<FilesystemErrorCode> errorCode,
                                         CancellationToken cancellationToken);
@@ -67,7 +66,6 @@ namespace Files.Filesystem
         /// </returns>
         Task<IStorageHistory> CopyAsync(IStorageItemWithPath source,
                                         string destination,
-                                        NameCollisionOption collision,
                                         IProgress<float> progress,
                                         IProgress<FilesystemErrorCode> errorCode,
                                         CancellationToken cancellationToken);
