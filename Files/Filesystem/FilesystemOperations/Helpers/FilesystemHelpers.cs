@@ -140,7 +140,7 @@ namespace Files.Filesystem
             var rawStorageHistory = new List<IStorageHistory>();
 
             bool originalPermanently = permanently;
-            double progress;
+            float progress;
             for (int i = 0; i < source.Count(); i++)
             {
                 if (await recycleBinHelpers.IsRecycleBinItem(source.ElementAt(i).Path))
@@ -153,8 +153,8 @@ namespace Files.Filesystem
                 }
 
                 rawStorageHistory.Add(await filesystemOperations.DeleteAsync(source.ElementAt(i), null, banner.ErrorCode, permanently, cancellationToken));
-                progress = ((double)i / (double)source.Count()) * 100.0d;
-                ((IProgress<double>)banner.Progress).Report(progress);
+                progress = ((float)i / (float)source.Count()) * 100.0f;
+                ((IProgress<float>)banner.Progress).Report(progress);
             }
 
             if (rawStorageHistory.TrueForAll((item) => item != null))
@@ -300,7 +300,7 @@ namespace Files.Filesystem
             sw.Start();
 
             IStorageHistory history = await filesystemOperations.DeleteAsync(source, banner.Progress, banner.ErrorCode, permanently, cancellationToken);
-            ((IProgress<double>)banner.Progress).Report(100.0d);
+            ((IProgress<float>)banner.Progress).Report(100.0f);
 
             if (!permanently && registerHistory)
             {
@@ -399,7 +399,7 @@ namespace Files.Filesystem
             List<IStorageHistory> rawStorageHistory = new List<IStorageHistory>();
 
             associatedInstance.ContentPage.ClearSelection();
-            double progress;
+            float progress;
             for (int i = 0; i < source.Count(); i++)
             {
                 rawStorageHistory.Add(await filesystemOperations.CopyAsync(
@@ -409,8 +409,8 @@ namespace Files.Filesystem
                     banner.ErrorCode,
                     cancellationToken));
 
-                progress = ((double)i / (double)source.Count()) * 100.0d;
-                ((IProgress<double>)banner.Progress).Report(progress);
+                progress = ((float)i / (float)source.Count()) * 100.0f;
+                ((IProgress<float>)banner.Progress).Report(progress);
             }
 
             if (rawStorageHistory.TrueForAll((item) => item != null))
@@ -459,7 +459,7 @@ namespace Files.Filesystem
 
             associatedInstance.ContentPage.ClearSelection();
             IStorageHistory history = await filesystemOperations.CopyAsync(source, destination, banner.Progress, banner.ErrorCode, cancellationToken);
-            ((IProgress<double>)banner.Progress).Report(100.0d);
+            ((IProgress<float>)banner.Progress).Report(100.0f);
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
             {
@@ -546,7 +546,7 @@ namespace Files.Filesystem
             List<IStorageHistory> rawStorageHistory = new List<IStorageHistory>();
 
             associatedInstance.ContentPage.ClearSelection();
-            double progress;
+            float progress;
             for (int i = 0; i < source.Count(); i++)
             {
                 rawStorageHistory.Add(await filesystemOperations.MoveAsync(
@@ -556,8 +556,8 @@ namespace Files.Filesystem
                     banner.ErrorCode,
                     cancellationToken));
 
-                progress = ((double)i / (double)source.Count()) * 100.0d;
-                ((IProgress<double>)banner.Progress).Report(progress);
+                progress = ((float)i / (float)source.Count()) * 100.0f;
+                ((IProgress<float>)banner.Progress).Report(progress);
             }
 
             if (rawStorageHistory.TrueForAll((item) => item != null))
@@ -606,7 +606,7 @@ namespace Files.Filesystem
 
             associatedInstance.ContentPage.ClearSelection();
             IStorageHistory history = await filesystemOperations.MoveAsync(source, destination, banner.Progress, banner.ErrorCode, cancellationToken);
-            ((IProgress<double>)banner.Progress).Report(100.0d);
+            ((IProgress<float>)banner.Progress).Report(100.0f);
 
             if (registerHistory && !string.IsNullOrWhiteSpace(source.Path))
             {

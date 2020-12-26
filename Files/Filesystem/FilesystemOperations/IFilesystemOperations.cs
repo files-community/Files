@@ -46,7 +46,7 @@ namespace Files.Filesystem
         /// </returns>
         Task<IStorageHistory> CopyAsync(IStorageItem source,
                                         string destination,
-                                        IProgress<double> progress,
+                                        IProgress<float> progress,
                                         IProgress<FilesystemErrorCode> errorCode,
                                         CancellationToken cancellationToken);
 
@@ -66,7 +66,7 @@ namespace Files.Filesystem
         /// </returns>
         Task<IStorageHistory> CopyAsync(IStorageItemWithPath source,
                                         string destination,
-                                        IProgress<double> progress,
+                                        IProgress<float> progress,
                                         IProgress<FilesystemErrorCode> errorCode,
                                         CancellationToken cancellationToken);
 
@@ -86,7 +86,7 @@ namespace Files.Filesystem
         /// </returns>
         Task<IStorageHistory> MoveAsync(IStorageItem source,
                                         string destination,
-                                        IProgress<double> progress,
+                                        IProgress<float> progress,
                                         IProgress<FilesystemErrorCode> errorCode,
                                         CancellationToken cancellationToken);
 
@@ -106,7 +106,7 @@ namespace Files.Filesystem
         /// </returns>
         Task<IStorageHistory> MoveAsync(IStorageItemWithPath source,
                                         string destination,
-                                        IProgress<double> progress,
+                                        IProgress<float> progress,
                                         IProgress<FilesystemErrorCode> errorCode,
                                         CancellationToken cancellationToken);
 
@@ -129,7 +129,7 @@ namespace Files.Filesystem
         /// If <paramref name="permanently"/> was false, returns path to recycled item
         /// </returns>
         Task<IStorageHistory> DeleteAsync(IStorageItem source,
-                                          IProgress<double> progress,
+                                          IProgress<float> progress,
                                           IProgress<FilesystemErrorCode> errorCode,
                                           bool permanently,
                                           CancellationToken cancellationToken);
@@ -154,7 +154,7 @@ namespace Files.Filesystem
         /// If <paramref name="permanently"/> was false, returns path to recycled item
         /// </returns>
         Task<IStorageHistory> DeleteAsync(IStorageItemWithPath source,
-                                          IProgress<double> progress,
+                                          IProgress<float> progress,
                                           IProgress<FilesystemErrorCode> errorCode,
                                           bool permanently,
                                           CancellationToken cancellationToken);
@@ -215,7 +215,7 @@ namespace Files.Filesystem
         /// </returns>
         Task<IStorageHistory> RestoreFromTrashAsync(IStorageItemWithPath source,
                                                     string destination,
-                                                    IProgress<double> progress,
+                                                    IProgress<float> progress,
                                                     IProgress<FilesystemErrorCode> errorCode,
                                                     CancellationToken cancellationToken);
     }

@@ -36,7 +36,7 @@ namespace Files.UserControls
         /// <param name="status"></param>
         /// <param name="operation"></param>
         /// <returns>A StatusBanner object which may be used to track/update the progress of an operation.</returns>
-        public PostedStatusBanner PostBanner(string title, string message, double initialProgress, ReturnResult status, FileOperationType operation)
+        public PostedStatusBanner PostBanner(string title, string message, float initialProgress, ReturnResult status, FileOperationType operation)
         {
             StatusBanner item = new StatusBanner(message, title, initialProgress, status, operation);
             StatusBannersSource.Add(item);
@@ -80,19 +80,19 @@ namespace Files.UserControls
     public class PostedStatusBanner
     {
         internal StatusBanner Banner;
-        public Progress<double> Progress;
+        public Progress<float> Progress;
         public Progress<FilesystemErrorCode> ErrorCode;
 
         public PostedStatusBanner(StatusBanner bannerArg)
         {
             Banner = bannerArg;
-            Progress = new Progress<double>(ReportProgressToBanner);
+            Progress = new Progress<float>(ReportProgressToBanner);
             ErrorCode = new Progress<FilesystemErrorCode>((errorCode) => ReportProgressToBanner(errorCode.ToStatus()));
         }
 
-        private void ReportProgressToBanner(double value)
+        private void ReportProgressToBanner(float value)
         {
-            if (value <= 100.0d)
+            if (value <= 100.0f)
             {
                 Banner.IsProgressing = true;
                 Banner.Progress = value;
@@ -121,7 +121,7 @@ namespace Files.UserControls
     {
         #region Private Members
 
-        private readonly double initialProgress = 0.0d;
+        private readonly float initialProgress = 0.0f;
 
         private string fullTitle;
 
@@ -129,8 +129,8 @@ namespace Files.UserControls
 
         #region Public Properties
 
-        private double progress = 0.0d;
-        public double Progress 
+        private float progress = 0.0f;
+        public float Progress 
         {
             get => progress;
             set
@@ -173,7 +173,7 @@ namespace Files.UserControls
 
         #endregion Public Properties
 
-        public StatusBanner(string message, string title, double progress, ReturnResult status, FileOperationType operation)
+        public StatusBanner(string message, string title, float progress, ReturnResult status, FileOperationType operation)
         {
             Message = message;
             Title = title;
