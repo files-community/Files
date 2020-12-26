@@ -47,7 +47,7 @@ namespace Files.Interacts
 {
     public class Interaction
     {
-        public readonly IFilesystemHelpers FilesystemHelpers;
+        public IFilesystemHelpers FilesystemHelpers => AssociatedInstance.FilesystemHelpers;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -62,7 +62,6 @@ namespace Files.Interacts
         public Interaction(IShellPage appInstance)
         {
             AssociatedInstance = appInstance;
-            FilesystemHelpers = new FilesystemHelpers(AssociatedInstance, App.CancellationToken);
         }
 
         public void List_ItemDoubleClick(object sender, DoubleTappedRoutedEventArgs e)
