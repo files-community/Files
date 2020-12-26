@@ -44,7 +44,7 @@ namespace Files.View_Models
         public Type GetLayoutType(string folderPath)
         {
             var oldLayoutMode = LayoutPreference.LayoutMode;
-            LayoutPreference = GetLayoutPreferencesForPath(folderPath);
+            LayoutPreference = GetLayoutPreferencesForPath(folderPath.TrimEnd('\\'));
             if (oldLayoutMode != LayoutPreference.LayoutMode)
             {
                 IsLayoutModeChanging = true;
@@ -259,10 +259,9 @@ namespace Files.View_Models
         private static LayoutPreferences ReadLayoutPreferencesFromSettings(string folderPath)
         {
             ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
-            var fixPath = folderPath.TrimEnd('\\');
-            if (dataContainer.Values.ContainsKey(fixPath))
+            if (dataContainer.Values.ContainsKey(folderPath))
             {
-                var val = (ApplicationDataCompositeValue)dataContainer.Values[fixPath];
+                var val = (ApplicationDataCompositeValue)dataContainer.Values[folderPath];
                 return LayoutPreferences.FromCompositeValue(val);
             }
             else
@@ -274,15 +273,14 @@ namespace Files.View_Models
         private static void WriteLayoutPreferencesToSettings(string folderPath, LayoutPreferences prefs)
         {
             ApplicationDataContainer dataContainer = localSettings.CreateContainer("LayoutModeContainer", ApplicationDataCreateDisposition.Always);
-            var fixPath = folderPath.TrimEnd('\\');
-            if (!dataContainer.Values.ContainsKey(fixPath))
+            if (!dataContainer.Values.ContainsKey(folderPath))
             {
                 if (prefs == LayoutPreferences.DefaultLayoutPreferences)
                 {
                     return; // Do not create setting if it's default
                 }
             }
-            dataContainer.Values[fixPath] = prefs.ToCompositeValue();
+            dataContainer.Values[folderPath] = prefs.ToCompositeValue();
         }
         private LayoutPreferences LayoutPreference { get; set; }
 
