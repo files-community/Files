@@ -158,6 +158,7 @@
                                     Width="30"
                                     Height="30"
                                     x:Load="{x:Bind IsProgressing, Mode=OneWay}"
+                                    IsIndeterminate="False"
                                     IsActive="True"
                                     Value="{x:Bind Progress, Mode=OneWay}"/>
                                 <FontIcon

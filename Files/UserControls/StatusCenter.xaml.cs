@@ -129,7 +129,19 @@ namespace Files.UserControls
 
         #region Public Properties
 
-        public double Progress { get; set; } = 0.0d;
+        private double progress = 0.0d;
+        public double Progress 
+        {
+            get => progress;
+            set
+            {
+                if (value != progress)
+                {
+                    SetProperty(ref progress, value);
+                    OnPropertyChanged(nameof(Progress));
+                }
+            }
+        }
 
         public bool IsProgressing { get; set; } = false;
 
