@@ -1,6 +1,6 @@
 ﻿using Files.Common;
 using Files.Extensions;
-using Files.View_Models;
+using Files.ViewModels;
 using Files.Views;
 using System;
 using System.Collections.Generic;

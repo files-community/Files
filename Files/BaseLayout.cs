@@ -4,7 +4,7 @@ using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
-using Files.View_Models;
+using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;

@@ -6,7 +6,7 @@ using Files.Filesystem.Search;
 using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
-using Files.View_Models;
+using Files.ViewModels;
 using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;

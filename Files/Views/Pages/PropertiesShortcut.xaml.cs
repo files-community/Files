@@ -1,4 +1,4 @@
-﻿using Files.View_Models.Properties;
+﻿using Files.ViewModels.Properties;
 
 namespace Files.Views
 {

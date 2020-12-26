@@ -1,7 +1,7 @@
 ﻿using Files.DataModels;
 using Files.Filesystem;
 using Files.Interacts;
-using Files.View_Models;
+using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;

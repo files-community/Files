@@ -1,7 +1,7 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
-using Files.View_Models;
+using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading;

@@ -2,7 +2,7 @@
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls.Widgets;
-using Files.View_Models;
+using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.IO;

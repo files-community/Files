@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using System;
 using Windows.Storage;
 
-namespace Files.View_Models
+namespace Files.ViewModels
 {
     public class FolderSettingsViewModel : ObservableObject
     {

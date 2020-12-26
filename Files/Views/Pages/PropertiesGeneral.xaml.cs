@@ -1,5 +1,5 @@
 using Files.Filesystem;
-using Files.View_Models.Properties;
+using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading.Tasks;

@@ -22,7 +22,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
-namespace Files.View_Models
+namespace Files.ViewModels
 {
     public class SettingsViewModel : ObservableObject
     {

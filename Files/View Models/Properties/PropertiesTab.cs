@@ -5,7 +5,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace Files.View_Models.Properties
+namespace Files.ViewModels.Properties
 {
     public abstract class PropertiesTab : Page
     {

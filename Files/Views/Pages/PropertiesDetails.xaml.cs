@@ -1,5 +1,5 @@
 ﻿using Files.Dialogs;
-using Files.View_Models.Properties;
+using Files.ViewModels.Properties;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;

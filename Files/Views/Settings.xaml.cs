@@ -1,5 +1,5 @@
 ﻿using Files.SettingsPages;
-using Files.View_Models;
+using Files.ViewModels;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.UI.Core;

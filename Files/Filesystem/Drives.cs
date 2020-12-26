@@ -1,7 +1,7 @@
 using Files.Common;
 using Files.Filesystem.Cloud;
 using Files.UserControls.Widgets;
-using Files.View_Models;
+using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;

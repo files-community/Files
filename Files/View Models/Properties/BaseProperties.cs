@@ -14,7 +14,7 @@ using Windows.UI.Core;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.View_Models.Properties
+namespace Files.ViewModels.Properties
 {
     public abstract class BaseProperties
     {
