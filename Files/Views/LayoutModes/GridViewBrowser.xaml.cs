@@ -133,7 +133,10 @@ namespace Files
         {
             if (e.GetCurrentPoint(sender as Page).Properties.IsLeftButtonPressed)
             {
-                ClearSelection();
+                if (e.KeyModifiers != VirtualKeyModifiers.Control)
+                {
+                    ClearSelection();
+                }
             }
             else if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
             {
