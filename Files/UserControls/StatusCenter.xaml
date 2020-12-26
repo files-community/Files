@@ -158,7 +158,8 @@
                                     Width="30"
                                     Height="30"
                                     x:Load="{x:Bind IsProgressing, Mode=OneWay}"
-                                    IsActive="True" />
+                                    IsActive="True"
+                                    Value="{x:Bind Progress, Mode=OneWay}"/>
                                 <FontIcon
                                     FontFamily="{x:Bind ((FontIconSource)GlyphSource).FontFamily}"
                                     FontSize="14"
