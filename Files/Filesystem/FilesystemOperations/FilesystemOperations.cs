@@ -184,7 +184,7 @@ namespace Files.Filesystem
 
                     if (fsSourceFolder != null && fsDestinationFolder != null)
                     {
-                        var fsCopyResult = await CloneDirectoryAsyncWithProgress(fsSourceFolder, fsDestinationFolder, fsSourceFolder.Name, collision, progress, itemSize);
+                        var fsCopyResult = await CloneDirectoryAsyncWithProgress(fsSourceFolder, fsDestinationFolder, fsSourceFolder.Name, collision, progress, new FileSizeProgress(itemSize));
                         if (fsCopyResult)
                         {
                             if (associatedInstance.FilesystemViewModel.CheckFolderForHiddenAttribute(source.Path))
@@ -275,53 +275,6 @@ namespace Files.Filesystem
             var pathWithType = copiedItem.FromStorageItem(destination, source.ItemType);
 
             return new StorageHistory(FileOperationType.Copy, source, pathWithType);
-        }
-
-        private async Task<FilesystemResult<StorageFolder>> CloneDirectoryAsyncWithProgress(StorageFolder sourceFolder, StorageFolder destinationFolder, string sourceRootName, NameCollisionOption collision, IProgress<float> progress, long totalSize)
-        {
-            var createdRoot = await FilesystemTasks.Wrap(() => destinationFolder.CreateFolderAsync(sourceRootName, (CreationCollisionOption)(int)collision).AsTask());
-            if (!createdRoot)
-            {
-                if (createdRoot == FilesystemErrorCode.ERROR_ALREADYEXIST)
-                {
-                    var ItemAlreadyExistsDialog = new ContentDialog()
-                    {
-                        Title = "ItemAlreadyExistsDialogTitle".GetLocalized(),
-                        Content = "ItemAlreadyExistsDialogContent".GetLocalized(),
-                        PrimaryButtonText = "ItemAlreadyExistsDialogPrimaryButtonText".GetLocalized(),
-                        SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized()
-                    };
-
-                    ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
-
-                    if (result == ContentDialogResult.Primary)
-                    {
-                        return await CloneDirectoryAsyncWithProgress(sourceFolder, destinationFolder, sourceRootName, NameCollisionOption.GenerateUniqueName, progress, totalSize);
-                    }
-                    else if (result == ContentDialogResult.Secondary)
-                    {
-                        return await CloneDirectoryAsyncWithProgress(sourceFolder, destinationFolder, sourceRootName, NameCollisionOption.ReplaceExisting, progress, totalSize);
-                    }
-                }
-                return createdRoot;
-            }
-
-            return await FilesystemTasks.Wrap(async () =>
-            {
-                destinationFolder = createdRoot;
-
-                foreach (IStorageFile fileInSourceDir in await sourceFolder.GetFilesAsync())
-                {
-                    await fileInSourceDir.CopyAsync(destinationFolder, fileInSourceDir.Name, NameCollisionOption.GenerateUniqueName);
-                }
-
-                foreach (IStorageFolder folderinSourceDir in await sourceFolder.GetFoldersAsync())
-                {
-                    await CloneDirectoryAsync(folderinSourceDir, destinationFolder, folderinSourceDir.Name);
-                }
-
-                return destinationFolder;
-            });
         }
 
         public async Task<IStorageHistory> MoveAsync(IStorageItem source,
@@ -649,6 +602,69 @@ namespace Files.Filesystem
         #endregion IFilesystemOperations
 
         #region Helpers
+
+        private class FileSizeProgress
+        {
+            private long totalSize;
+
+            public long Progress { get; set; } = 0L;
+
+            public float Percentage => totalSize <= 0 ? 0 : (float)Math.Round(Progress * 100.0 / totalSize, 1);
+
+            public FileSizeProgress(long totalSize)
+            {
+                this.totalSize = totalSize;
+            }
+        }
+
+        private async Task<FilesystemResult<StorageFolder>> CloneDirectoryAsyncWithProgress(StorageFolder sourceFolder, StorageFolder destinationFolder, string sourceRootName, NameCollisionOption collision, IProgress<float> progress, FileSizeProgress copiedProgress)
+        {
+            var createdRoot = await FilesystemTasks.Wrap(() => destinationFolder.CreateFolderAsync(sourceRootName, (CreationCollisionOption)(int)collision).AsTask());
+            if (!createdRoot)
+            {
+                if (createdRoot == FilesystemErrorCode.ERROR_ALREADYEXIST)
+                {
+                    var ItemAlreadyExistsDialog = new ContentDialog()
+                    {
+                        Title = "ItemAlreadyExistsDialogTitle".GetLocalized(),
+                        Content = "ItemAlreadyExistsDialogContent".GetLocalized(),
+                        PrimaryButtonText = "ItemAlreadyExistsDialogPrimaryButtonText".GetLocalized(),
+                        SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized()
+                    };
+
+                    ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
+
+                    if (result == ContentDialogResult.Primary)
+                    {
+                        return await CloneDirectoryAsyncWithProgress(sourceFolder, destinationFolder, sourceRootName, NameCollisionOption.GenerateUniqueName, progress, copiedProgress);
+                    }
+                    else if (result == ContentDialogResult.Secondary)
+                    {
+                        return await CloneDirectoryAsyncWithProgress(sourceFolder, destinationFolder, sourceRootName, NameCollisionOption.ReplaceExisting, progress, copiedProgress);
+                    }
+                }
+                return createdRoot;
+            }
+
+            return await FilesystemTasks.Wrap(async () =>
+            {
+                destinationFolder = createdRoot;
+
+                foreach (StorageFile fileInSourceDir in await sourceFolder.GetFilesAsync())
+                {
+                    var newFile = await fileInSourceDir.CopyAsync(destinationFolder, fileInSourceDir.Name, NameCollisionOption.GenerateUniqueName);
+                    copiedProgress.Progress += (long)(await newFile.GetBasicPropertiesAsync()).Size;
+                    progress?.Report(copiedProgress.Percentage);
+                }
+
+                foreach (StorageFolder folderinSourceDir in await sourceFolder.GetFoldersAsync())
+                {
+                    await CloneDirectoryAsyncWithProgress(folderinSourceDir, destinationFolder, folderinSourceDir.Name, NameCollisionOption.ReplaceExisting, progress, copiedProgress);
+                }
+
+                return destinationFolder;
+            });
+        }
 
         private async static Task<StorageFolder> CloneDirectoryAsync(IStorageFolder sourceFolder, IStorageFolder destinationFolder, string sourceRootName)
         {
