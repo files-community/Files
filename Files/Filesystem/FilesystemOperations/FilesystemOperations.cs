@@ -130,7 +130,7 @@ namespace Files.Filesystem
             }
 
             IStorageItem copiedItem = null;
-            long itemSize = await FilesystemHelpers.GetItemSize(await source.ToStorageItem(associatedInstance));
+            //long itemSize = await FilesystemHelpers.GetItemSize(await source.ToStorageItem(associatedInstance));
 
             if (source.ItemType == FilesystemItemType.Directory)
             {
