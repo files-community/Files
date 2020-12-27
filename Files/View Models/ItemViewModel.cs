@@ -1,9 +1,11 @@
 using ByteSizeLib;
 using Files.Common;
 using Files.Enums;
+using Files.Extensions;
+using Files.Filesystem;
 using Files.Filesystem.Cloud;
 using Files.Helpers;
-using Files.View_Models;
+using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
@@ -24,7 +26,6 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using Windows.UI.Core;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -34,7 +35,7 @@ using static Files.Helpers.NativeDirectoryChangesHelper;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.Filesystem
+namespace Files.ViewModels
 {
     public class ItemViewModel : INotifyPropertyChanged, IDisposable
     {
@@ -417,7 +418,7 @@ namespace Files.Filesystem
             }
             else
             {
-                AssociatedInstance.NavigationToolbar.PathComponents.Add(new Views.Pages.PathBoxItem() { Path = null, Title = singleItemOverride });
+                AssociatedInstance.NavigationToolbar.PathComponents.Add(new Views.PathBoxItem() { Path = null, Title = singleItemOverride });
             }
         }
 
@@ -902,7 +903,7 @@ namespace Files.Filesystem
         public async Task EnumerateItemsFromSpecialFolderAsync(string path)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
 
             CurrentFolder = new ListedItem(null, returnformat)
@@ -1002,7 +1003,7 @@ namespace Files.Filesystem
             }
 
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
 
             if (await CheckBitlockerStatusAsync(_rootFolder))
@@ -1179,7 +1180,7 @@ namespace Files.Filesystem
             stopwatch.Start();
 
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
 
             uint count = 0;
@@ -1303,7 +1304,7 @@ namespace Files.Filesystem
         private void WatchForDirectoryChanges(string path)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
 
             Debug.WriteLine("WatchForDirectoryChanges: {0}", path);
             hWatchDir = NativeFileOperationsHelper.CreateFileFromApp(path, 1, 1 | 2 | 4,
@@ -1443,7 +1444,7 @@ namespace Files.Filesystem
             if (dateReturnFormat == null)
             {
                 ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-                dateReturnFormat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+                dateReturnFormat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
             }
 
             if (item.IsFolder)

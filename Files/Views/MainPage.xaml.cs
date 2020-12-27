@@ -1,11 +1,9 @@
 ﻿using Files.Common;
 using Files.Controllers;
-using Files.Controls;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls.MultitaskingControl;
-using Files.View_Models;
-using Files.Views.Pages;
+using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.ObjectModel;

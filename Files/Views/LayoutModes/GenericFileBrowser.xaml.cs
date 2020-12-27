@@ -23,7 +23,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
-namespace Files
+namespace Files.Views.LayoutModes
 {
     public sealed partial class GenericFileBrowser : BaseLayout
     {

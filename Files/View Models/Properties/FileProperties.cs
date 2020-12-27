@@ -1,4 +1,5 @@
 ﻿using ByteSizeLib;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -20,7 +21,7 @@ using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 
-namespace Files.View_Models.Properties
+namespace Files.ViewModels.Properties
 {
     public class FileProperties : BaseProperties
     {

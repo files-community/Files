@@ -1,6 +1,6 @@
 using ByteSizeLib;
-using Files.Helpers;
-using Files.View_Models.Properties;
+using Files.Extensions;
+using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -11,7 +11,7 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
-namespace Files.View_Models
+namespace Files.ViewModels
 {
     public class SelectedItemsPropertiesViewModel : ObservableObject
     {

@@ -1,7 +1,7 @@
 ﻿using Files.DataModels;
 using Files.Filesystem;
 using Files.Interacts;
-using Files.View_Models;
+using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
-namespace Files.Controls
+namespace Files.UserControls
 {
     public sealed partial class SidebarControl : UserControl, INotifyPropertyChanged
     {
@@ -483,7 +483,7 @@ namespace Files.Controls
         private void SettingsButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
-            rootFrame.Navigate(typeof(Settings));
+            rootFrame.Navigate(typeof(Views.Settings));
 
             return;
         }

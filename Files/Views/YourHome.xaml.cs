@@ -1,9 +1,8 @@
 ﻿using Files.Dialogs;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.View_Models;
-using Files.Views;
-using Files.Views.Pages;
+using Files.UserControls.Widgets;
+using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.IO;
@@ -12,7 +11,7 @@ using Windows.ApplicationModel.AppService;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace Files
+namespace Files.Views
 {
     public sealed partial class YourHome : Page
     {
