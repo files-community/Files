@@ -228,7 +228,7 @@ namespace Files.Views
         {
             if (args.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(args.QueryText))
             {
-                App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
+                FilesystemViewModel.IsLoadingItems = true;
                 ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
                 {
                     AssociatedTabInstance = this,
@@ -236,7 +236,7 @@ namespace Files.Views
                     SearchPathParam = FilesystemViewModel.WorkingDirectory,
                     SearchResults = await FolderSearch.SearchForUserQueryTextAsync(args.QueryText, FilesystemViewModel.WorkingDirectory, this, -1)
                 });
-                App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
+                FilesystemViewModel.IsLoadingItems = false;
             }
         }
 

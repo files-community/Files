@@ -39,14 +39,6 @@ namespace Files.ViewModels
             }
         }
 
-        private bool _IsContentLoadingIndicatorVisible = false;
-
-        public bool IsContentLoadingIndicatorVisible
-        {
-            get => _IsContentLoadingIndicatorVisible;
-            set => SetProperty(ref _IsContentLoadingIndicatorVisible, value);
-        }
-
         private int _TabStripSelectedIndex = 0;
 
         public int TabStripSelectedIndex
