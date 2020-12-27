@@ -6,7 +6,7 @@ namespace Files.UserControls.Selection
     {
         private readonly List<object> prevSelectedItems;
 
-        public ExtendPreviousItemSelectionStrategy(ISelectedItems selectedItems, List<object> prevSelectedItems) : base(selectedItems)
+        public ExtendPreviousItemSelectionStrategy(IList<object> selectedItems, List<object> prevSelectedItems) : base(selectedItems)
         {
             this.prevSelectedItems = prevSelectedItems;
         }
