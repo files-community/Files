@@ -162,5 +162,17 @@ namespace Files.Views
             PaneLeft.Dispose();
             PaneRight.Dispose();
         }
+
+        private void PaneLeft_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            ActivePane = PaneLeft;
+            e.Handled = false;
+        }
+
+        private void PaneRight_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            ActivePane = PaneRight;
+            e.Handled = false;
+        }
     }
 }
