@@ -19,6 +19,8 @@ namespace Files.Views
     /// </summary>
     public sealed partial class PaneHolderPage : Page, IShellPage, INotifyPropertyChanged
     {
+        public SettingsViewModel AppSettings => App.AppSettings;
+
         public PaneHolderPage()
         {
             this.InitializeComponent();

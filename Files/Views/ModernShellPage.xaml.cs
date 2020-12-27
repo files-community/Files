@@ -83,23 +83,23 @@ namespace Files.Views
             }
         }
 
-        public bool isSidebarVisible;
-
         public bool IsSidebarVisible
         {
-            get
-            {
-                return isSidebarVisible;
-            }
-            set
-            {
-                if (value != isSidebarVisible)
-                {
-                    isSidebarVisible = value;
-                    NotifyPropertyChanged("IsSidebarVisible");
-                }
-            }
+            get { return (bool)GetValue(IsSidebarVisibleProperty); }
+            set { SetValue(IsSidebarVisibleProperty, value); }
         }
+
+        public static readonly DependencyProperty IsSidebarVisibleProperty =
+            DependencyProperty.Register("IsSidebarVisible", typeof(bool), typeof(ModernShellPage), new PropertyMetadata(true));
+
+        public GridLength SidebarWidth
+        {
+            get { return (GridLength)GetValue(SidebarWidthProperty); }
+            set { SetValue(SidebarWidthProperty, value); }
+        }
+
+        public static readonly DependencyProperty SidebarWidthProperty =
+            DependencyProperty.Register("SidebarWidth", typeof(GridLength), typeof(ModernShellPage), new PropertyMetadata(0));
 
         public Control OperationsControl => null;
         public Type CurrentPageType => ItemDisplayFrame.SourcePageType;
