@@ -166,6 +166,7 @@
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
     <Compile Include="Converters\StringArrayToString.cs" />
     <Compile Include="Converters\UInt32ToString.cs" />
+    <Compile Include="DataModels\SettingsModels\AboutFeedbackItem.cs" />
     <Compile Include="DataModels\ShellNewEntry.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="Helpers\AppUpdater.cs" />
@@ -295,9 +296,6 @@
     <Compile Include="UserControls\SidebarControl.xaml.cs">
       <DependentUpon>SidebarControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\SettingsControls\SpecificPageOnStartup.xaml.cs">
-      <DependentUpon>SpecificPageOnStartup.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\StatusBarControl.xaml.cs">
       <DependentUpon>StatusBarControl.xaml</DependentUpon>
     </Compile>
@@ -328,6 +326,14 @@
     <Compile Include="View Models\Properties\FileProperties.cs" />
     <Compile Include="View Models\Properties\FolderProperties.cs" />
     <Compile Include="View Models\Properties\PropertiesTab.cs" />
+    <Compile Include="View Models\SettingsViewModels\AboutViewModel.cs" />
+    <Compile Include="View Models\SettingsViewModels\AppearanceViewModel.cs" />
+    <Compile Include="View Models\SettingsViewModels\ExperimentalViewModel.cs" />
+    <Compile Include="View Models\SettingsViewModels\FilesAndFoldersViewModel.cs" />
+    <Compile Include="View Models\SettingsViewModels\MultitaskingViewModel.cs" />
+    <Compile Include="View Models\SettingsViewModels\OnStartupViewModel.cs" />
+    <Compile Include="View Models\SettingsViewModels\PreferencesViewModel.cs" />
+    <Compile Include="View Models\SettingsViewModels\WidgetsViewModel.cs" />
     <Compile Include="Views\LayoutModes\GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
@@ -582,10 +588,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\SidebarControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\SettingsControls\SpecificPageOnStartup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

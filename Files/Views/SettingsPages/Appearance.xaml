@@ -4,13 +4,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
     </Page.Resources>
+    <Page.DataContext>
+        <settingsviewmodels:AppearanceViewModel />
+    </Page.DataContext>
 
     <Grid>
         <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -37,6 +40,8 @@
                     MinWidth="200"
                     MaxWidth="250"
                     Header="App theme"
+                    ItemsSource="{Binding Themes}"
+                    SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}" />
 
                 <StackPanel
@@ -50,6 +55,8 @@
                         MinWidth="200"
                         MaxWidth="250"
                         Header="Date format"
+                        ItemsSource="{Binding DateFormats}"
+                        SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}"
                         HeaderTemplate="{StaticResource CustomHeaderStyle}" />
 
                     <HyperlinkButton
@@ -68,7 +75,7 @@
                     x:Uid="SettingsAppearanceAcrylicSidebar"
                     Header="Acrylic sidebar"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{x:Bind AppSettings.IsAcrylicDisabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}" />
+                    IsOn="{Binding IsAcrylicDisabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
