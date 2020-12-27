@@ -117,6 +117,8 @@ namespace Files.Views
             }
         }
 
+        public bool IsPageMainPane { get; set; }
+
         public Control OperationsControl => null;
         public Type CurrentPageType => ItemDisplayFrame.SourcePageType;
         public INavigationControlItem SidebarSelectedItem

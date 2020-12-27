@@ -122,6 +122,8 @@ namespace Files.Views
 
         public Type CurrentPageType => ActivePane?.CurrentPageType;
 
+        public bool IsPageMainPane => true;
+
         public INavigationControlItem SidebarSelectedItem
         {
             get => ActivePane?.SidebarSelectedItem;
@@ -172,7 +174,6 @@ namespace Files.Views
 
         public void Clipboard_ContentChanged(object sender, object e)
         {
-
         }
 
         public void Refresh_Click()

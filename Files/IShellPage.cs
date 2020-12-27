@@ -22,6 +22,7 @@ namespace Files
         public INavigationControlItem SidebarSelectedItem { get; set; }
         public INavigationToolbar NavigationToolbar { get; }
         public bool IsCurrentInstance { get; set; }
+        public bool IsPageMainPane { get; }
 
         public abstract void Clipboard_ContentChanged(object sender, object e);
 

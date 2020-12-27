@@ -109,6 +109,7 @@
             <local:ModernShellPage x:Name="PaneLeft"
                                    PointerPressed="PaneLeft_PointerPressed"
                                    IsSidebarVisible="True"
+                                   IsPageMainPane="True"
                                    NavParams="{x:Bind NavParamsLeft, Mode=OneWay}" />
         </Border>
 
@@ -118,6 +119,7 @@
             <local:ModernShellPage x:Name="PaneRight"
                                    PointerPressed="PaneRight_PointerPressed"
                                    IsSidebarVisible="False"
+                                   IsPageMainPane="False"
                                    NavParams="{x:Bind NavParamsRight, Mode=OneWay}">
             </local:ModernShellPage>
 
