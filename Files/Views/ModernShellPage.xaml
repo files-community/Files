@@ -4,6 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:controls="using:Files.UserControls"
     xmlns:controls1="using:Files.UserControls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
@@ -29,7 +31,6 @@
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 
-            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
             <Style x:Key="DefaultGridSplitterStyle" TargetType="Custom:GridSplitter">
                 <Setter Property="IsTabStop" Value="True" />
                 <Setter Property="UseSystemFocusVisuals" Value="True" />
@@ -153,12 +154,25 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition
+                x:Name="SidebarColumn"
                 Width="{x:Bind AppSettings.SidebarWidth, Mode=TwoWay}"
                 MinWidth="200"
                 MaxWidth="500" />
             <ColumnDefinition Width="*" MinWidth="300" />
         </Grid.ColumnDefinitions>
 
+        <Interactivity:Interaction.Behaviors>
+            <Core:DataTriggerBehavior Binding="{x:Bind IsSidebarVisible}"
+                                      Value="False">
+                <Core:ChangePropertyAction PropertyName="MinWidth"
+                                           TargetObject="{Binding ElementName=SidebarColumn}"
+                                           Value="0" />
+                <Core:ChangePropertyAction PropertyName="Width"
+                                           TargetObject="{Binding ElementName=SidebarColumn}"
+                                           Value="0" />
+            </Core:DataTriggerBehavior>
+        </Interactivity:Interaction.Behaviors>
+        
         <Grid>
             <controls:SidebarControl 
                 x:Name="SidebarControl"
@@ -231,6 +245,7 @@
         </Grid>
         <Custom:GridSplitter
             x:Name="SidebarResizer"
+            x:Load="{x:Bind IsSidebarVisible}"
             Grid.Column="1"
             Width="5"
             MinWidth="5"
