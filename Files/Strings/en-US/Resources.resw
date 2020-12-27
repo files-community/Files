@@ -1563,4 +1563,13 @@
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>Original path</value>
   </data>
+  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+    <value>Remove</value>
+  </data>
 </root>

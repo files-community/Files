@@ -1943,6 +1943,18 @@
           <source>Original path</source>
           <target state="new">Original path</target>
         </trans-unit>
+        <trans-unit id="AppBarButtonAdd.Label" translate="yes" xml:space="preserve">
+          <source>Add</source>
+          <target state="new">Add</target>
+        </trans-unit>
+        <trans-unit id="AppBarButtonEdit.Label" translate="yes" xml:space="preserve">
+          <source>Edit</source>
+          <target state="new">Edit</target>
+        </trans-unit>
+        <trans-unit id="AppBarButtonRemove.Label" translate="yes" xml:space="preserve">
+          <source>Remove</source>
+          <target state="new">Remove</target>
+        </trans-unit>
       </group>
     </body>
   </file>

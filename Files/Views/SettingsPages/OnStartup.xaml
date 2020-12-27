@@ -13,8 +13,7 @@
     </Page.DataContext>
 
     <Page.Resources>
-        <converters:BoolNegationConverter
-            x:Key="BoolNegationConverter" />
+        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
     </Page.Resources>
 
     <Grid>
@@ -38,9 +37,9 @@
                 <RadioButton
                     x:Uid="SettingsOnStartupOpenANewTab"
                     Grid.Column="0"
+                    Padding="8,3,0,0"
                     VerticalAlignment="Center"
                     Content="Open a new tab"
-                    Padding="8,3,0,0"
                     FontSize="16"
                     GroupName="StartupPageSettingRadioGroup"
                     IsChecked="{Binding OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -48,9 +47,9 @@
                 <RadioButton
                     x:Uid="SettingsOnStartupContinueWhereYouLeftOff"
                     Grid.Column="0"
+                    Padding="8,3,0,0"
                     VerticalAlignment="Center"
                     Content="Continue where you left off"
-                    Padding="8,3,0,0"
                     FontSize="16"
                     GroupName="StartupPageSettingRadioGroup"
                     IsChecked="{Binding ContinueLastSessionOnStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -59,21 +58,21 @@
                     x:Name="OpenSpecificPage"
                     x:Uid="SettingsOnStartupOpenASpecificPage"
                     Grid.Column="0"
+                    Padding="8,3,0,0"
                     VerticalAlignment="Center"
                     Content="Open a specific page or pages"
-                    Padding="8,3,0,0"
                     FontSize="16"
                     GroupName="StartupPageSettingRadioGroup"
                     IsChecked="{Binding OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Grid
                     Width="Auto"
-                    HorizontalAlignment="Left"
                     Padding="0,0,10,0"
+                    HorizontalAlignment="Left"
                     Visibility="{x:Bind OpenSpecificPage.IsChecked, Mode=OneWay}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition MinWidth="100"/>
-                        <ColumnDefinition MinWidth="240"/>
+                        <ColumnDefinition MinWidth="100" />
+                        <ColumnDefinition MinWidth="240" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -88,41 +87,43 @@
                     <CommandBar
                         Grid.Column="1"
                         Background="Transparent"
-                        IsOpen="False"
-                        DefaultLabelPosition="Right">
+                        DefaultLabelPosition="Right"
+                        IsOpen="False">
                         <AppBarButton
+                            x:Uid="AppBarButtonAdd"
+                            Command="{Binding AddPageCommand}"
                             Icon="Add"
-                            Label="Add"
-                            Command="{Binding AddPageCommand}" />
+                            Label="Add" />
                         <AppBarButton
+                            x:Uid="AppBarButtonEdit"
+                            Command="{Binding ChangePageCommand}"
                             Icon="Edit"
-                            Label="Edit"
                             IsEnabled="{Binding IsPageListEditEnabled}"
-                            Command="{Binding ChangePageCommand}" />
+                            Label="Edit" />
                         <AppBarButton
+                            x:Uid="AppBarButtonRemove"
+                            Command="{Binding RemovePageCommand}"
                             Icon="Delete"
-                            Label="Remove"
                             IsEnabled="{Binding IsPageListEditEnabled}"
-                            Command="{Binding RemovePageCommand}" />
-
+                            Label="Remove" />
                     </CommandBar>
 
                     <ListView
                         x:Name="PagesList"
                         Grid.Row="1"
                         Grid.ColumnSpan="2"
+                        Margin="0,10"
+                        HorizontalAlignment="Stretch"
+                        IsItemClickEnabled="True"
                         ItemsSource="{Binding PagesOnStartupList, Mode=TwoWay}"
                         SelectedIndex="{Binding SelectedPageIndex, Mode=TwoWay}"
-                        IsItemClickEnabled="True"
-                        SelectionMode="Single"
-                        Margin="0,10"
-                        HorizontalAlignment="Stretch">
+                        SelectionMode="Single">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock
-                                    TextTrimming="CharacterEllipsis"
                                     Text="{Binding}"
-                                    ToolTipService.ToolTip="{Binding}"/>
+                                    TextTrimming="CharacterEllipsis"
+                                    ToolTipService.ToolTip="{Binding}" />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
@@ -135,18 +136,18 @@
 
                 <RadioButton
                     x:Uid="SettingsOnStartupLaunchNewTab"
+                    Padding="8,3,0,0"
                     VerticalAlignment="Center"
                     Content="Open folder in a new tab"
-                    Padding="8,3,0,0"
                     FontSize="16"
                     GroupName="StartupPageLaunchRadioGroup"
                     IsChecked="{Binding AlwaysOpenANewInstance, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}" />
 
                 <RadioButton
                     x:Uid="SettingsOnStartupLaunchNewInstance"
+                    Padding="8,3,0,0"
                     VerticalAlignment="Center"
                     Content="Always open a new instance"
-                    Padding="8,3,0,0"
                     FontSize="16"
                     GroupName="StartupPageLaunchRadioGroup"
                     IsChecked="{Binding AlwaysOpenANewInstance, Mode=TwoWay}" />
