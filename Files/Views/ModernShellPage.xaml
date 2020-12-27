@@ -176,6 +176,7 @@
             <controls:SidebarControl 
                 x:Name="SidebarControl"
                 x:Load="{x:Bind IsSidebarVisible, Mode=OneWay}"
+                Loaded="SidebarControl_Loaded"
                 EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}" />
         </Grid>
 

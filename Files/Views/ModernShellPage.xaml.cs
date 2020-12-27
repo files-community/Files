@@ -142,13 +142,6 @@ namespace Files.Views
                 FlowDirection = FlowDirection.RightToLeft;
             }
 
-            if (SidebarControl != null)
-            {
-                SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
-                SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
-                SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
-                SidebarControl.RecycleBinItemRightTapped += SidebarControl_RecycleBinItemRightTapped;
-            }
             NavigationToolbar.EditModeEnabled += NavigationToolbar_EditModeEnabled;
             NavigationToolbar.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
             NavigationToolbar.SearchQuerySubmitted += ModernShellPage_SearchQuerySubmitted;
@@ -1278,6 +1271,14 @@ namespace Files.Views
 
             ServiceConnection?.Dispose();
             ServiceConnection = null;
+        }
+
+        private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
+            SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
+            SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
+            SidebarControl.RecycleBinItemRightTapped += SidebarControl_RecycleBinItemRightTapped;
         }
     }
 
