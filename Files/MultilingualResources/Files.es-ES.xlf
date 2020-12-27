@@ -1194,22 +1194,6 @@
           <source>Terminal Applications</source>
           <target state="translated">Aplicaciones de Terminal</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesContextMenuSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Show all context menu items</source>
-          <target state="translated">Mostrar todos los elementos del menú contextual</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Show an option to copy the location of the selected item</source>
-          <target state="translated">Mostrar en el menú contextual una opción para copiar la ubicación del archivo seleccionado</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Pin Recycle Bin to the sidebar</source>
-          <target state="translated">Mostrar la papelera de reciclaje en la barra lateral</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialogSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="translated">Mostrar cuadro de diálogo para confirmar eliminación</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Edit terminal applications</source>
           <target state="translated">Editar las aplicaciones de terminal</target>
@@ -1247,8 +1231,9 @@
           <target state="translated">Acceso Denegado</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesContextMenuSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show all context menu items</source>
-          <target state="translated">Mostrar todos los elementos del menú contextual</target>
+          <source>Show all context menu items when right clicking an item</source>
+          <target state="needs-review-translation">Mostrar todos los elementos del menú contextual</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
@@ -1355,8 +1340,9 @@
           <target state="translated">Elemento de acceso directo</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show an option to copy the location of the selected item</source>
-          <target state="translated">Mostrar en el menú contextual una opción para copiar la ubicación del archivo seleccionado</target>
+          <source>Show an option to copy the location when right clicking an item</source>
+          <target state="needs-review-translation">Mostrar en el menú contextual una opción para copiar la ubicación del archivo seleccionado</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Header" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
@@ -1937,6 +1923,10 @@
         <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Header" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
           <target state="translated">Habilitar preferencias individuales para directorios individuales</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesContextMenu.Text" translate="yes" xml:space="preserve">
+          <source>Context Menu</source>
+          <target state="new">Context Menu</target>
         </trans-unit>
       </group>
     </body>
