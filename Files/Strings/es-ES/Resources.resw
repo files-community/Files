@@ -882,18 +882,6 @@
   <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Aplicaciones de Terminal</value>
   </data>
-  <data name="SettingsPreferencesContextMenuSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar todos los elementos del menú contextual</value>
-  </data>
-  <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar en el menú contextual una opción para copiar la ubicación del archivo seleccionado</value>
-  </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar la papelera de reciclaje en la barra lateral</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar cuadro de diálogo para confirmar eliminación</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Editar las aplicaciones de terminal</value>
   </data>
@@ -1421,5 +1409,11 @@
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>Nuevo archivo</value>
+  </data>
+  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
+    <value>Mostrar elementos no indizados al buscar archivos y carpetas (Las búsquedas pueden tardar más)</value>
+  </data>
+  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
+    <value>Habilitar preferencias individuales para directorios individuales</value>
   </data>
 </root>

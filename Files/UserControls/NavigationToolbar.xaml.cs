@@ -2,9 +2,8 @@
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
-using Files.View_Models;
+using Files.ViewModels;
 using Files.Views;
-using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;

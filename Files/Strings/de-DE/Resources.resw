@@ -903,18 +903,6 @@
   <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Terminal-Anwendungen</value>
   </data>
-  <data name="SettingsPreferencesContextMenuSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Alle Elemente im Kontextmenü anzeigen</value>
-  </data>
-  <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Eine Option anzeigen, um den Speicherort des ausgewählten Elements zu kopieren</value>
-  </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Papierkorb an Seitenleiste anheften</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Beim Löschen von Dateien oder Ordnern einen Bestätigungsdialog anzeigen</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Terminal-Anwendungen bearbeiten</value>
   </data>

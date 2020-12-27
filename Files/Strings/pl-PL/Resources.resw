@@ -900,18 +900,6 @@
   <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Aplikacje Terminala</value>
   </data>
-  <data name="SettingsPreferencesContextMenuSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Pokaż wszystkie elementy menu kontekstowego</value>
-  </data>
-  <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Pokaż opcję skopiowania lokalizacji zaznaczonego elementu</value>
-  </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Przypnij Kosz do bocznego paska</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Pokazuj okno potwierdzenia podczas usuwania plików lub folderów</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Edytuj aplikacje terminala</value>
   </data>

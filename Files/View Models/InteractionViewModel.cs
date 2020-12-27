@@ -1,10 +1,10 @@
-﻿using Files.View_Models;
+﻿using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Files.Controls
+namespace Files.ViewModels
 {
     public class InteractionViewModel : ObservableObject
     {

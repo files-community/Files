@@ -12,10 +12,9 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
-using static Files.View_Models.FolderSettingsViewModel;
 using Interaction = Files.Interacts.Interaction;
 
-namespace Files
+namespace Files.Views.LayoutModes
 {
     public sealed partial class GridViewBrowser : BaseLayout
     {
@@ -59,14 +58,14 @@ namespace Files
 
         private void SetItemTemplate()
         {
-            FileList.ItemTemplate = (FolderSettings.LayoutMode == LayoutModes.TilesView) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
+            FileList.ItemTemplate = (FolderSettings.LayoutMode == FolderLayoutModes.TilesView) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
 
             // Set GridViewSize event handlers
-            if (FolderSettings.LayoutMode == LayoutModes.TilesView)
+            if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
             {
                 FolderSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
             }
-            else if (FolderSettings.LayoutMode == LayoutModes.GridView)
+            else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
             {
                 currentIconSize = GetIconSize(); // Get icon size for jumps from other layouts directly to a grid size
                 FolderSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
@@ -159,7 +158,7 @@ namespace Files
             TextBox textBox = null;
 
             // Handle layout differences between tiles browser and photo album
-            if (FolderSettings.LayoutMode == LayoutModes.GridView)
+            if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
             {
                 Popup popup = (gridViewItem.ContentTemplateRoot as Grid).FindName("EditPopup") as Popup;
                 TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
@@ -244,7 +243,7 @@ namespace Files
 
         private void EndRename(TextBox textBox)
         {
-            if (FolderSettings.LayoutMode == LayoutModes.GridView)
+            if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
             {
                 Popup popup = textBox.Parent as Popup;
                 TextBlock textBlock = (popup.Parent as Grid).Children[1] as TextBlock;
@@ -348,7 +347,7 @@ namespace Files
 
         private uint GetIconSize()
         {
-            if (FolderSettings.LayoutMode == LayoutModes.TilesView || FolderSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeSmall + 75)
+            if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView || FolderSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeSmall + 75)
             {
                 return 80; // Small thumbnail
             }

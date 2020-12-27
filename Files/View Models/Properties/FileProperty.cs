@@ -9,7 +9,7 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace Files.View_Models.Properties
+namespace Files.ViewModels.Properties
 {
     /// <summary>
     /// This class is represents a system file property from the Windows.Storage API

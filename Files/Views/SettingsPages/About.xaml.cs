@@ -16,13 +16,13 @@ namespace Files.SettingsPages
             VersionNumber.Text = string.Format($"{"SettingsAboutVersionTitle".GetLocalized()} {version.Major}.{version.Minor}.{version.Build}.{version.Revision}");
         }
 
-        private void OpenLogLocationButton_Click(object sender, RoutedEventArgs e) => View_Models.SettingsViewModel.OpenLogLocation();
+        private void OpenLogLocationButton_Click(object sender, RoutedEventArgs e) => ViewModels.SettingsViewModel.OpenLogLocation();
 
         private async void FeedbackListView_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             if (FeedbackListView.SelectedIndex == 0)
             {
-                View_Models.SettingsViewModel.ReportIssueOnGitHub();
+                ViewModels.SettingsViewModel.ReportIssueOnGitHub();
             }
             else if (FeedbackListView.SelectedIndex == 1)
             {

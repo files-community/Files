@@ -1,8 +1,7 @@
 ﻿using Files.Common;
-using Files.Helpers;
-using Files.View_Models;
+using Files.Extensions;
+using Files.ViewModels;
 using Files.Views;
-using Files.Views.Pages;
 using System;
 using System.Collections.Generic;
 using System.IO;

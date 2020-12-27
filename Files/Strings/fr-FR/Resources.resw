@@ -900,18 +900,6 @@
   <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Applications de terminal</value>
   </data>
-  <data name="SettingsPreferencesContextMenuSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Afficher tous les éléments du menu contextuel</value>
-  </data>
-  <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Afficher une option pour copier le chemin de l'élément</value>
-  </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Épingler la Corbeille à la barre latérale</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Demander une confirmation lors de la suppression de fichiers ou dossiers</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Éditer les applications de terminal</value>
   </data>

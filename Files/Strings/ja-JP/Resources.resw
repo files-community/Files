@@ -903,18 +903,6 @@
   <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>ターミナルアプリ</value>
   </data>
-  <data name="SettingsPreferencesContextMenuSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>すべてのコンテキストメニュー項目を表示する</value>
-  </data>
-  <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>選択したアイテムの場所をコピーするオプションを表示する</value>
-  </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>ごみ箱をサイドバーに固定する</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>ファイルやフォルダを削除するときに確認ダイアログを表示する</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>ターミナルアプリを編集する</value>
   </data>
