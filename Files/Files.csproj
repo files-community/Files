@@ -166,7 +166,6 @@
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
     <Compile Include="Converters\StringArrayToString.cs" />
     <Compile Include="Converters\UInt32ToString.cs" />
-    <Compile Include="DataModels\SettingsModels\AboutFeedbackItem.cs" />
     <Compile Include="DataModels\ShellNewEntry.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="Helpers\AppUpdater.cs" />

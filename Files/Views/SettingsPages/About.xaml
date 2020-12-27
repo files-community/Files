@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
-    xmlns:settingsmodels="using:Files.DataModels.SettingsModels"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -13,40 +12,6 @@
     <Page.DataContext>
         <settingsviewmodels:AboutViewModel />
     </Page.DataContext>
-
-    <Page.Resources>
-        <ResourceDictionary>
-            <DataTemplate
-                x:Key="AboutFeedbackTemplate"
-                x:DataType="settingsmodels:AboutFeedbackItem">
-                <Grid
-                    Padding="8,2"
-                    HorizontalAlignment="Stretch"
-                    AutomationProperties.Name="{Binding AutomationPropertiesName}">
-                    <StackPanel
-                        Padding="0,4"
-                        Orientation="Horizontal"
-                        Spacing="14">
-                        <FontIcon
-                            FontFamily="{StaticResource FluentUIGlyphs}"
-                            Foreground="{ThemeResource SystemAccentColor}"
-                            Glyph="{Binding Glyph}" />
-                        <StackPanel
-                            VerticalAlignment="Center"
-                            Orientation="Vertical">
-                            <TextBlock
-                                Text="{Binding Title}" />
-                            <TextBlock
-                                FontSize="12"
-                                Foreground="Gray"
-                                Text="{Binding Subtitle}"
-                                TextWrapping="Wrap" />
-                        </StackPanel>
-                    </StackPanel>
-                </Grid>
-            </DataTemplate>
-        </ResourceDictionary>
-    </Page.Resources>
 
     <Grid>
         <ScrollViewer>
@@ -92,9 +57,132 @@
                     x:Name="FeedbackListView"
                     HorizontalAlignment="Left"
                     SelectionMode="None"
-                    IsItemClickEnabled="True"
-                    ItemTemplate="{StaticResource AboutFeedbackTemplate}"
-                    ItemsSource="{Binding AboutFeedbackItems}">
+                    IsItemClickEnabled="True">
+                    <ListViewItem
+                        x:Name="FeedbackForm"
+                        x:Uid="SettingsAboutSubmitFeedbackListViewItem"
+                        Padding="8,2"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        AutomationProperties.Name="Send the developers an issue report with more information"
+                        IsEnabled="True">
+                        <StackPanel
+                            Padding="0,4"
+                            Orientation="Horizontal"
+                            Spacing="14"
+                            Tag="Feedback">
+                            <FontIcon
+                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                Foreground="{ThemeResource SystemAccentColor}"
+                                Glyph="&#xeb05;" />
+                            <StackPanel
+                                VerticalAlignment="Center"
+                                Orientation="Vertical">
+                                <TextBlock
+                                    x:Uid="SettingsAboutSubmitFeedback"
+                                    Text="Submit Feedback" />
+                                <TextBlock
+                                    x:Uid="SettingsAboutSubmitFeedbackDescription"
+                                    FontSize="12"
+                                    Foreground="Gray"
+                                    Text="Send the developers an issue report with more information"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem
+                        x:Uid="SettingsAboutReleaseNotesListViewItem"
+                        Padding="8,2"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        AutomationProperties.Name="Find out what's new in Files"
+                        IsEnabled="True">
+                        <StackPanel
+                            Padding="0,4"
+                            Orientation="Horizontal"
+                            Spacing="14"
+                            Tag="ReleaseNotes">
+                            <FontIcon
+                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                Foreground="{ThemeResource SystemAccentColor}"
+                                Glyph="&#xEB3A;" />
+                            <StackPanel
+                                VerticalAlignment="Center"
+                                Orientation="Vertical">
+                                <TextBlock
+                                    x:Uid="SettingsAboutReleaseNotes"
+                                    Text="Release Notes" />
+                                <TextBlock
+                                    x:Uid="SettingsAboutReleaseNotesDescription"
+                                    FontSize="12"
+                                    Foreground="Gray"
+                                    Text="Find out what's new in Files"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem
+                        x:Uid="SettingsAboutContributorsListViewItem"
+                        Padding="8,2"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        AutomationProperties.Name="See who contributed to Files"
+                        IsEnabled="True">
+                        <StackPanel
+                            Padding="0,4"
+                            Orientation="Horizontal"
+                            Spacing="14"
+                            Tag="Contributors">
+                            <FontIcon
+                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                Foreground="{ThemeResource SystemAccentColor}"
+                                Glyph="&#xEAF7;" />
+                            <StackPanel
+                                VerticalAlignment="Center"
+                                Orientation="Vertical">
+                                <TextBlock
+                                    x:Uid="SettingsAboutContributors"
+                                    Text="Contributors" />
+                                <TextBlock
+                                    x:Uid="SettingsAboutContributorsDescription"
+                                    FontSize="12"
+                                    Foreground="Gray"
+                                    Text="See who contributed to Files"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ListViewItem>
+                    <ListViewItem
+                        x:Uid="SettingsAboutSupportUsListViewItem"
+                        Padding="8,2"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        AutomationProperties.Name="Support us on PayPal"
+                        IsEnabled="True">
+                        <StackPanel
+                            Padding="0,4"
+                            Orientation="Horizontal"
+                            Spacing="14"
+                            Tag="SupportUs">
+                            <FontIcon
+                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                Foreground="{ThemeResource SystemAccentColor}"
+                                Glyph="&#xEB3B;" />
+                            <StackPanel
+                                VerticalAlignment="Center"
+                                Orientation="Vertical">
+                                <TextBlock
+                                    x:Uid="SettingsAboutSupportUs"
+                                    Text="Support us" />
+                                <TextBlock
+                                    x:Uid="SettingsAboutSupportUsDescription"
+                                    FontSize="12"
+                                    Foreground="Gray"
+                                    Text="Support us on PayPal"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ListViewItem>
                     <i:Interaction.Behaviors>
                         <ic:EventTriggerBehavior
                             EventName="ItemClick">
