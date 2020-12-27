@@ -185,6 +185,10 @@
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\RegistryHelper.cs" />
+    <Compile Include="UserControls\Selection\ExtendPreviousItemSelectionStrategy.cs" />
+    <Compile Include="Helpers\GenericItemsCollection.cs" />
+    <Compile Include="UserControls\Selection\IgnorePreviousItemSelectionStrategy.cs" />
+    <Compile Include="UserControls\Selection\ItemSelectionStrategy.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
     <Compile Include="ViewModels\Properties\FileProperty.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
