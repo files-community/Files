@@ -26,5 +26,10 @@ namespace Files.UserControls.Selection
         {
             selectedItems.Clear();
         }
+
+        public override void HandleNoItemSelected()
+        {
+            selectedItems.Clear();
+        }
     }
 }

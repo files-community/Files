@@ -2,18 +2,22 @@
 
 namespace Files.UserControls.Selection
 {
-    public class ExtendPreviousItemSelectionStrategy : ItemSelectionStrategy
+    internal class InvertPreviousItemSelectionStrategy : ItemSelectionStrategy
     {
         private readonly List<object> prevSelectedItems;
 
-        public ExtendPreviousItemSelectionStrategy(ICollection<object> selectedItems, List<object> prevSelectedItems) : base(selectedItems)
+        public InvertPreviousItemSelectionStrategy(ICollection<object> selectedItems, List<object> prevSelectedItems) : base(selectedItems)
         {
             this.prevSelectedItems = prevSelectedItems;
         }
 
         public override void HandleIntersectionWithItem(object item)
         {
-            if (!selectedItems.Contains(item))
+            if (prevSelectedItems.Contains(item))
+            {
+                selectedItems.Remove(item);
+            }
+            else if (!selectedItems.Contains(item))
             {
                 selectedItems.Add(item);
             }
@@ -22,7 +26,14 @@ namespace Files.UserControls.Selection
         public override void HandleNoIntersectionWithItem(object item)
         {
             // Restore selection on items not intersecting with the rectangle
-            if (!prevSelectedItems.Contains(item))
+            if (prevSelectedItems.Contains(item))
+            {
+                if (!selectedItems.Contains(item))
+                {
+                    selectedItems.Add(item);
+                }
+            }
+            else
             {
                 selectedItems.Remove(item);
             }

@@ -20,6 +20,7 @@ namespace Files.UserControls.Selection
         private Point originDragPoint;
         private Dictionary<object, System.Drawing.Rectangle> itemsPosition;
         private List<object> prevSelectedItems;
+        private ItemSelectionStrategy selectionStrategy;
 
         public RectangleSelection_ListViewBase(ListViewBase uiElement, Rectangle selectionRectangle, SelectionChangedEventHandler selectionChanged = null)
         {
@@ -32,14 +33,10 @@ namespace Files.UserControls.Selection
 
         private void RectangleSelection_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            var itemSelectionStrategy = e.KeyModifiers == VirtualKeyModifiers.Control ?
-                    (ItemSelectionStrategy)new ExtendPreviousItemSelectionStrategy(uiElement.SelectedItems, prevSelectedItems) :
-                    new IgnorePreviousItemSelectionStrategy(uiElement.SelectedItems);
-
             if (selectionState == SelectionState.Starting)
             {
                 // Clear selected items once if the pointer is pressed and moved
-                itemSelectionStrategy.StartSelection();
+                selectionStrategy.StartSelection();
                 OnSelectionStarted();
                 selectionState = SelectionState.Active;
             }
@@ -71,11 +68,11 @@ namespace Files.UserControls.Selection
                     {
                         if (rect.IntersectsWith(item.Value))
                         {
-                            itemSelectionStrategy.HandleIntersectionWithItem(item.Key);
+                            selectionStrategy.HandleIntersectionWithItem(item.Key);
                         }
                         else
                         {
-                            itemSelectionStrategy.HandleNoIntersectionWithItem(item.Key);
+                            selectionStrategy.HandleNoIntersectionWithItem(item.Key);
                         }
                     }
                     catch (ArgumentException)
@@ -111,6 +108,15 @@ namespace Files.UserControls.Selection
                 // Trigger only on left click, do not trigger with touch
                 return;
             }
+
+            selectionStrategy = e.KeyModifiers == VirtualKeyModifiers.Control ?
+                    new InvertPreviousItemSelectionStrategy(uiElement.SelectedItems, prevSelectedItems) :
+                    e.KeyModifiers == VirtualKeyModifiers.Shift ?
+                        (ItemSelectionStrategy)new ExtendPreviousItemSelectionStrategy(uiElement.SelectedItems, prevSelectedItems) :
+                        new IgnorePreviousItemSelectionStrategy(uiElement.SelectedItems);
+
+            selectionStrategy.HandleNoItemSelected();
+
             uiElement.PointerMoved -= RectangleSelection_PointerMoved;
             uiElement.PointerMoved += RectangleSelection_PointerMoved;
             if (selectionChanged != null)
@@ -145,6 +151,8 @@ namespace Files.UserControls.Selection
             {
                 OnSelectionEnded();
             }
+
+            selectionStrategy = null;
             selectionState = SelectionState.Inactive;
         }
 
