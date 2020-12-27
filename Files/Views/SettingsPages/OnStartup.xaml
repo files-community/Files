@@ -69,11 +69,11 @@
                 <Grid
                     Width="Auto"
                     HorizontalAlignment="Left"
-                    Margin="0,0,10,0"
+                    Padding="0,0,10,0"
                     Visibility="{x:Bind OpenSpecificPage.IsChecked, Mode=OneWay}">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition MinWidth="100" />
-                        <ColumnDefinition MinWidth="240" />
+                        <ColumnDefinition MinWidth="100"/>
+                        <ColumnDefinition MinWidth="240"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -101,7 +101,7 @@
                             Command="{Binding ChangePageCommand}" />
                         <AppBarButton
                             Icon="Delete"
-                            Label="Delete"
+                            Label="Remove"
                             IsEnabled="{Binding IsPageListEditEnabled}"
                             Command="{Binding RemovePageCommand}" />
 
