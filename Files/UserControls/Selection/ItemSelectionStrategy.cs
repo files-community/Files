@@ -1,11 +1,13 @@
-﻿namespace Files.UserControls.Selection
+﻿using System.Collections.Generic;
+
+namespace Files.UserControls.Selection
 {
 
     public abstract class ItemSelectionStrategy
     {
-        protected readonly ISelectedItems selectedItems;
+        protected readonly IList<object> selectedItems;
 
-        protected ItemSelectionStrategy(ISelectedItems selectedItems)
+        protected ItemSelectionStrategy(IList<object> selectedItems)
         {
             this.selectedItems = selectedItems;
         }
