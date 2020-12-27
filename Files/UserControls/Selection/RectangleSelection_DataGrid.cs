@@ -153,7 +153,7 @@ namespace Files.UserControls.Selection
             Interaction.FindChildren<DataGridRow>(dataGridRows, uiElement); // Find visible/loaded rows
             prevSelectedItems = uiElement.SelectedItems.Cast<object>().ToList(); // Save current selected items
             originDragPoint = new Point(e.GetCurrentPoint(uiElement).Position.X, e.GetCurrentPoint(uiElement).Position.Y); // Initial drag point relative to the topleft corner
-            var verticalOffset = (scrollBar?.Value ?? 0) - uiElement.ColumnHeaderHeight; // Header height
+            var verticalOffset = (scrollBar?.Value ?? 0) - uiElement.ColumnHeaderHeight;
             originDragPoint.Y += verticalOffset; // Initial drag point relative to the top of the list (considering scrolled offset)
             if (!e.GetCurrentPoint(uiElement).Properties.IsLeftButtonPressed || e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
             {
