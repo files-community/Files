@@ -94,12 +94,19 @@ namespace Files.Views
 
         public GridLength SidebarWidth
         {
-            get { return (GridLength)GetValue(SidebarWidthProperty); }
-            set { SetValue(SidebarWidthProperty, value); }
+            get
+            {
+                return IsSidebarVisible ? AppSettings.SidebarWidth : new GridLength(0);
+            }
+            set
+            {
+                if (IsSidebarVisible && AppSettings.SidebarWidth != value)
+                {
+                    AppSettings.SidebarWidth = value;
+                    NotifyPropertyChanged("SidebarWidth");
+                }
+            }
         }
-
-        public static readonly DependencyProperty SidebarWidthProperty =
-            DependencyProperty.Register("SidebarWidth", typeof(GridLength), typeof(ModernShellPage), new PropertyMetadata(0));
 
         public Control OperationsControl => null;
         public Type CurrentPageType => ItemDisplayFrame.SourcePageType;
@@ -125,6 +132,7 @@ namespace Files.Views
             storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, App.CancellationToken));
 
             AppSettings.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
+            AppSettings.PropertyChanged += AppSettings_PropertyChanged;
             DisplayFilesystemConsentDialog();
 
             var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
@@ -171,6 +179,14 @@ namespace Files.Views
             SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             Clipboard_ContentChanged(null, null);
+        }
+
+        private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(AppSettings.SidebarWidth))
+            {
+                NotifyPropertyChanged(nameof(SidebarWidth));
+            }
         }
 
         private async void ModernShellPage_SearchSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
@@ -1223,6 +1239,7 @@ namespace Files.Views
             App.Current.Suspending -= Current_Suspending;
             App.Current.LeavingBackground -= OnLeavingBackground;
             AppSettings.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
+            AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
             NavigationToolbar.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
             NavigationToolbar.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
             if (SidebarControl != null)

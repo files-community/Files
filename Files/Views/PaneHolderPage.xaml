@@ -88,13 +88,11 @@
         <local:ModernShellPage x:Name="PaneLeft"
                                Grid.Column="0" 
                                IsSidebarVisible="True"
-                               SidebarWidth="{x:Bind AppSettings.SidebarWidth, Mode=TwoWay}"
                                NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"/>
         
         <local:ModernShellPage x:Name="PaneRight"
                                Grid.Column="1" 
                                IsSidebarVisible="False"
-                               SidebarWidth="0"
                                NavParams="{x:Bind NavParamsRight, Mode=OneWay}"/>
 
         <Custom:GridSplitter x:Name="PaneResizer"
