@@ -6,6 +6,7 @@
     <DataTemplate x:Key="CustomHeaderStyle">
         <StackPanel Orientation="Horizontal">
             <TextBlock
+                MaxWidth="440"
                 Padding="0,0,0,8"
                 FontSize="17"
                 Text="{Binding}"
