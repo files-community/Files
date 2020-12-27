@@ -3,9 +3,8 @@ using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.View_Models;
+using Files.ViewModels;
 using Files.Views;
-using Files.Views.Pages;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -41,7 +40,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using static Files.Properties;
+using static Files.Views.Properties;
 
 namespace Files.Interacts
 {

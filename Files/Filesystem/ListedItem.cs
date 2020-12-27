@@ -188,7 +188,7 @@ namespace Files.Filesystem
             else
             {
                 ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-                string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+                string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
                 DateReturnFormat = returnformat;
             }
         }

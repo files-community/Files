@@ -6,7 +6,8 @@ using Files.Filesystem.Search;
 using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
-using Files.View_Models;
+using Files.ViewModels;
+using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
@@ -34,7 +35,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
-namespace Files.Views.Pages
+namespace Files.Views
 {
     public sealed partial class ModernShellPage : Page, IShellPage, INotifyPropertyChanged
     {
@@ -232,12 +233,12 @@ namespace Files.Views.Pages
             SidebarControl.RecycleBinHasItems = recycleBinHasItems;
         }
 
-        private async void SidebarControl_SidebarItemDropped(object sender, Controls.SidebarItemDroppedEventArgs e)
+        private async void SidebarControl_SidebarItemDropped(object sender, SidebarItemDroppedEventArgs e)
         {
             await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.ItemPath, true);
         }
 
-        private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, Controls.SidebarItemPropertiesInvokedEventArgs e)
+        private async void SidebarControl_SidebarItemPropertiesInvoked(object sender, SidebarItemPropertiesInvokedEventArgs e)
         {
             if (e.InvokedItemDataContext is DriveItem)
             {
@@ -257,7 +258,7 @@ namespace Files.Views.Pages
             }
         }
 
-        private void SidebarControl_SidebarItemInvoked(object sender, Controls.SidebarItemInvokedEventArgs e)
+        private void SidebarControl_SidebarItemInvoked(object sender, SidebarItemInvokedEventArgs e)
         {
             var invokedItemContainer = e.InvokedItemContainer;
 
@@ -1229,12 +1230,6 @@ namespace Files.Views.Pages
             ServiceConnection?.Dispose();
             ServiceConnection = null;
         }
-    }
-
-    public enum InteractionOperationType
-    {
-        PasteItems = 0,
-        DeleteItems = 1,
     }
 
     public class PathBoxItem

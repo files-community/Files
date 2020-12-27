@@ -1,6 +1,6 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-namespace Files.View_Models
+namespace Files.ViewModels
 {
     public class DirectoryPropertiesViewModel : ObservableObject
     {

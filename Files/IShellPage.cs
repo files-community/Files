@@ -1,7 +1,7 @@
 ﻿using Files.Filesystem;
 using Files.Interacts;
 using Files.UserControls;
-using Files.View_Models;
+using Files.ViewModels;
 using System;
 using Windows.ApplicationModel.AppService;
 using Windows.UI.Xaml.Controls;
