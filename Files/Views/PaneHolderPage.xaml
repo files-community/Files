@@ -105,18 +105,22 @@
                               Width="0" />
         </Grid.ColumnDefinitions>
 
-        <local:ModernShellPage x:Name="PaneLeft"
-                               PointerPressed="PaneLeft_PointerPressed"
-                               IsSidebarVisible="True"
-                               NavParams="{x:Bind NavParamsLeft, Mode=OneWay}" />
+        <Border x:Name="PaneLeftLoader">
+            <local:ModernShellPage x:Name="PaneLeft"
+                                   PointerPressed="PaneLeft_PointerPressed"
+                                   IsSidebarVisible="True"
+                                   NavParams="{x:Bind NavParamsLeft, Mode=OneWay}" />
+        </Border>
 
-        <local:ModernShellPage x:Name="PaneRight"
-                               x:Load="{x:Bind IsRightPaneVisible, Mode=OneWay}"
-                               Grid.Column="1"
-                               PointerPressed="PaneRight_PointerPressed"
-                               Visibility="{x:Bind IsRightPaneVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
-                               IsSidebarVisible="False"
-                               NavParams="{x:Bind NavParamsRight, Mode=OneWay}">
+        <Border x:Name="PaneRightLoader"
+                x:Load="{x:Bind IsRightPaneVisible, Mode=OneWay}"
+                Grid.Column="1">
+            <local:ModernShellPage x:Name="PaneRight"
+                                   PointerPressed="PaneRight_PointerPressed"
+                                   IsSidebarVisible="False"
+                                   NavParams="{x:Bind NavParamsRight, Mode=OneWay}">
+            </local:ModernShellPage>
+
             <animations:Implicit.ShowAnimations>
                 <animations:ScalarAnimation Target="Translation.X"
                                             Duration="0:0:0.2"
@@ -137,7 +141,7 @@
                                             From="1"
                                             To="0" />
             </animations:Implicit.HideAnimations>
-        </local:ModernShellPage>
+        </Border>
 
         <Custom:GridSplitter x:Name="PaneResizer"
                              Grid.Column="1"
@@ -169,7 +173,7 @@
         <Border x:Name="TeachingTipTarget"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Right" />
-        
+
         <Button x:Name="AddPaneButton"
                 Content="+"
                 FontSize="20"

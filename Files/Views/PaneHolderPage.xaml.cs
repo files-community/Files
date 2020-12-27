@@ -247,7 +247,7 @@ namespace Files.Views
             {
                 await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(2));
                 AddPaneTeachingTip.IsOpen = true;
-                //AppSettings.ShowDualPaneTeachingTip = false;
+                AppSettings.ShowDualPaneTeachingTip = false;
             }
         }
     }
