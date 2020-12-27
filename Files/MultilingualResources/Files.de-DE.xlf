@@ -1929,6 +1929,14 @@
           <source>Context Menu</source>
           <target state="new">Context Menu</target>
         </trans-unit>
+        <trans-unit id="originalPathColumn.Header" translate="yes" xml:space="preserve">
+          <source>Original path</source>
+          <target state="new">Original path</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortByOriginalPath.Text" translate="yes" xml:space="preserve">
+          <source>Original path</source>
+          <target state="new">Original path</target>
+        </trans-unit>
       </group>
     </body>
   </file>

@@ -248,6 +248,13 @@
                         Tag="nameColumn"
                         Text="Name" />
                     <muxc:RadioMenuFlyoutItem
+                        x:Uid="BaseLayoutContextFlyoutSortByOriginalPath"
+                        Click="RadioMenuSortColumn_Click"
+                        GroupName="SortGroup"
+                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByOriginalPath, Mode=TwoWay}"
+                        Tag="originalPathColumn"
+                        Text="Original path" />
+                    <muxc:RadioMenuFlyoutItem
                         x:Uid="BaseLayoutContextFlyoutSortByDate"
                         Click="RadioMenuSortColumn_Click"
                         GroupName="SortGroup"
@@ -853,11 +860,32 @@
                     </controls:DataGridTemplateColumn.CellTemplate>
                 </controls:DataGridTemplateColumn>
                 <controls:DataGridTextColumn
+                    x:Name="originalPathColumn"
+                    x:Uid="originalPathColumn"
+                    Width="275"
+                    Binding="{Binding ItemOriginalFolder}"
+                    DisplayIndex="3"
+                    FontSize="12"
+                    Header="Original path"
+                    IsReadOnly="True"
+                    Tag="OriginalPath"
+                    Visibility="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                    <controls:DataGridTextColumn.CellStyle>
+                        <Style TargetType="controls:DataGridCell">
+                            <Setter Property="Opacity" Value="0.6" />
+                        </Style>
+                    </controls:DataGridTextColumn.CellStyle>
+                    <ToolTipService.ToolTip>
+                        <ToolTip
+                            Content="{Binding FolderTooltipText}" />
+                    </ToolTipService.ToolTip>
+                </controls:DataGridTextColumn>
+                <controls:DataGridTextColumn
                     x:Name="dateColumn"
                     x:Uid="dateColumn"
                     Width="Auto"
                     Binding="{Binding ItemDateModified}"
-                    DisplayIndex="3"
+                    DisplayIndex="4"
                     FontSize="12"
                     Header="Date modified"
                     IsReadOnly="True"
@@ -877,7 +905,7 @@
                     x:Uid="typeColumn"
                     Width="150"
                     Binding="{Binding ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    DisplayIndex="4"
+                    DisplayIndex="5"
                     FontSize="12"
                     Header="Type"
                     IsReadOnly="True"
@@ -898,7 +926,7 @@
                     Width="Auto"
                     MinWidth="100"
                     Binding="{Binding FileSize}"
-                    DisplayIndex="5"
+                    DisplayIndex="6"
                     FontSize="12"
                     Header="Size"
                     IsReadOnly="True"

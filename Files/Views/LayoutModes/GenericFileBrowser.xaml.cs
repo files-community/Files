@@ -57,6 +57,10 @@ namespace Files.Views.LayoutModes
                 {
                     FolderSettings.DirectorySortOption = SortOption.Size;
                 }
+                else if (value == originalPathColumn)
+                {
+                    FolderSettings.DirectorySortOption = SortOption.OriginalPath;
+                }
                 else
                 {
                     FolderSettings.DirectorySortOption = SortOption.Name;
@@ -196,6 +200,10 @@ namespace Files.Views.LayoutModes
 
                     case SortOption.Size:
                         SortedColumn = sizeColumn;
+                        break;
+
+                    case SortOption.OriginalPath:
+                        SortedColumn = originalPathColumn;
                         break;
                 }
             }
@@ -527,6 +535,10 @@ namespace Files.Views.LayoutModes
 
                 case "sizeColumn":
                     args = new DataGridColumnEventArgs(sizeColumn);
+                    break;
+
+                case "originalPathColumn":
+                    args = new DataGridColumnEventArgs(originalPathColumn);
                     break;
             }
 

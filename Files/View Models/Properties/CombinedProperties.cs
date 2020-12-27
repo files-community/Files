@@ -44,8 +44,12 @@ namespace Files.ViewModels.Properties
                 {
                     ViewModel.ItemType = "PropertiesDriveItemTypeDifferent".GetLocalized();
                 }
-                ViewModel.ItemPath = string.Format(
-                    "PropertiesCombinedItemPath".GetLocalized(), Path.GetDirectoryName(List.First().ItemPath));
+                var itemsPath = List.Select(Item => (Item as RecycleBinItem)?.ItemOriginalFolder ??
+                    (Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath));
+                if (itemsPath.Distinct().Count() == 1)
+                {
+                    ViewModel.ItemPath = string.Format("PropertiesCombinedItemPath".GetLocalized(), itemsPath.First());
+                }
             }
         }
 

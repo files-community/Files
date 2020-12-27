@@ -236,7 +236,11 @@ namespace Files.ViewModels
             {
                 App.AppSettings.DefaultLayoutMode = prefs.LayoutMode;
                 App.AppSettings.DefaultGridViewSize = prefs.GridViewSize;
-                App.AppSettings.DefaultDirectorySortOption = prefs.DirectorySortOption;
+                // Do not save OriginalPath as global sort option (only works in recycle bin)
+                if (prefs.DirectorySortOption != SortOption.OriginalPath)
+                {
+                    App.AppSettings.DefaultDirectorySortOption = prefs.DirectorySortOption;
+                }
                 App.AppSettings.DefaultDirectorySortDirection = prefs.DirectorySortDirection;
             }
         }

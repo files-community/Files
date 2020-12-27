@@ -302,10 +302,10 @@ namespace Files.Views
             }
 
             if (string.IsNullOrEmpty(navigationPath) ||
-                (!string.IsNullOrEmpty(FilesystemViewModel.WorkingDirectory) &&
+                string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory) ||
                 navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
                     FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
-                    StringComparison.OrdinalIgnoreCase))) // return if already selected
+                    StringComparison.OrdinalIgnoreCase)) // return if already selected
             {
                 return;
             }
@@ -706,9 +706,9 @@ namespace Files.Views
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            InitializeAppServiceConnection();
+            await InitializeAppServiceConnection();
             FilesystemViewModel = new ItemViewModel(this);
             FilesystemViewModel.OnAppServiceConnectionChanged();
             InteractionOperations = new Interaction(this);
@@ -826,12 +826,12 @@ namespace Files.Views
             this.Loaded -= Page_Loaded;
         }
 
-        private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
+        private async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
         {
             if (this.ServiceConnection == null)
             {
                 // Need to reinitialize AppService when app is resuming
-                InitializeAppServiceConnection();
+                await InitializeAppServiceConnection();
                 FilesystemViewModel?.OnAppServiceConnectionChanged();
             }
         }
@@ -842,13 +842,12 @@ namespace Files.Views
             ServiceConnection = null;
         }
 
-        public async void InitializeAppServiceConnection()
+        public async Task InitializeAppServiceConnection()
         {
             ServiceConnection = new AppServiceConnection();
             ServiceConnection.AppServiceName = "FilesInteropService";
             ServiceConnection.PackageFamilyName = Package.Current.Id.FamilyName;
             ServiceConnection.ServiceClosed += Connection_ServiceClosed;
-
             AppServiceConnectionStatus status = await ServiceConnection.OpenAsync();
             if (status != AppServiceConnectionStatus.Success)
             {
