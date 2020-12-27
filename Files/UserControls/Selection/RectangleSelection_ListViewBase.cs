@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.Foundation;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -30,10 +31,15 @@ namespace Files.UserControls.Selection
 
         private void RectangleSelection_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
+            var extendExistingSelection = e.KeyModifiers == VirtualKeyModifiers.Control;
+
             if (selectionState == SelectionState.Starting)
             {
                 // Clear selected items once if the pointer is pressed and moved
-                uiElement.SelectedItems.Clear();
+                if (!extendExistingSelection)
+                {
+                    uiElement.SelectedItems.Clear();
+                }
                 OnSelectionStarted();
                 selectionState = SelectionState.Active;
             }
@@ -71,7 +77,7 @@ namespace Files.UserControls.Selection
                                 uiElement.SelectedItems.Add(item.Key);
                             }
                         }
-                        else
+                        else if (!extendExistingSelection)
                         {
                             uiElement.SelectedItems.Remove(item.Key);
                         }

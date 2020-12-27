@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Windows.Foundation;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -35,11 +36,16 @@ namespace Files.UserControls.Selection
 
         private void RectangleSelection_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
+            var extendExistingSelection = e.KeyModifiers == VirtualKeyModifiers.Control;
+
             if (selectionState == SelectionState.Starting)
             {
-                // Clear selected items once if the pointer is pressed and moved
                 uiElement.CancelEdit();
-                uiElement.SelectedItems.Clear();
+                if (!extendExistingSelection)
+                {
+                    // Clear selected items once if the pointer is pressed and moved
+                    uiElement.SelectedItems.Clear();
+                }
                 OnSelectionStarted();
                 selectionState = SelectionState.Active;
             }
@@ -86,7 +92,7 @@ namespace Files.UserControls.Selection
                                 uiElement.SelectedItems.Add(item.Key);
                             }
                         }
-                        else
+                        else if (!extendExistingSelection)
                         {
                             uiElement.SelectedItems.Remove(item.Key);
                         }
@@ -159,7 +165,12 @@ namespace Files.UserControls.Selection
             {
                 // If user click outside, reset selection
                 uiElement.CancelEdit();
-                uiElement.SelectedItems.Clear();
+
+                var extendExistingSelection = e.KeyModifiers == VirtualKeyModifiers.Control;
+                if (!extendExistingSelection)
+                {
+                    uiElement.SelectedItems.Clear();
+                }
             }
             else if (uiElement.SelectedItems.Contains(clickedRow.DataContext))
             {
