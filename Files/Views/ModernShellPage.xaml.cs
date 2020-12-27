@@ -83,9 +83,37 @@ namespace Files.Views
             }
         }
 
+        public bool isSidebarVisible;
+
+        public bool IsSidebarVisible
+        {
+            get
+            {
+                return isSidebarVisible;
+            }
+            set
+            {
+                if (value != isSidebarVisible)
+                {
+                    isSidebarVisible = value;
+                    NotifyPropertyChanged("IsSidebarVisible");
+                }
+            }
+        }
+
         public Control OperationsControl => null;
         public Type CurrentPageType => ItemDisplayFrame.SourcePageType;
-        public INavigationControlItem SidebarSelectedItem { get => SidebarControl.SelectedSidebarItem; set => SidebarControl.SelectedSidebarItem = value; }
+        public INavigationControlItem SidebarSelectedItem
+        {
+            get => SidebarControl?.SelectedSidebarItem;
+            set
+            {
+                if (SidebarControl != null)
+                {
+                    SidebarControl.SelectedSidebarItem = value;
+                }
+            }
+        }
         public INavigationToolbar NavigationToolbar => NavToolbar;
 
         public ModernShellPage()
@@ -106,10 +134,13 @@ namespace Files.Views
                 FlowDirection = FlowDirection.RightToLeft;
             }
 
-            SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
-            SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
-            SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
-            SidebarControl.RecycleBinItemRightTapped += SidebarControl_RecycleBinItemRightTapped;
+            if (SidebarControl != null)
+            {
+                SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
+                SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
+                SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
+                SidebarControl.RecycleBinItemRightTapped += SidebarControl_RecycleBinItemRightTapped;
+            }
             NavigationToolbar.EditModeEnabled += NavigationToolbar_EditModeEnabled;
             NavigationToolbar.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
             NavigationToolbar.SearchQuerySubmitted += ModernShellPage_SearchQuerySubmitted;
@@ -689,13 +720,14 @@ namespace Files.Views
             }
         }
 
-        private string NavParams = null;
-
-        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+        public string NavParams
         {
-            base.OnNavigatedTo(eventArgs);
-            NavParams = eventArgs.Parameter.ToString();
+            get { return (string)GetValue(NavParamsProperty); }
+            set { SetValue(NavParamsProperty, value); }
         }
+
+        public static readonly DependencyProperty NavParamsProperty =
+            DependencyProperty.Register("NavParams", typeof(string), typeof(ModernShellPage), new PropertyMetadata(null));
 
         public AppServiceConnection ServiceConnection { get; private set; }
 
@@ -727,48 +759,48 @@ namespace Files.Views
                                                   AssociatedTabInstance = this
                                               },
                                               new SuppressNavigationTransitionInfo());
-                    SidebarControl.SelectedSidebarItem = MainPage.SideBarItems.FirstOrDefault();
+                    SidebarSelectedItem = MainPage.SideBarItems.FirstOrDefault();
                     break;
 
                 case "Desktop":
                     NavigationPath = AppSettings.DesktopPath;
-                    SidebarControl.SelectedSidebarItem =
+                    SidebarSelectedItem =
                         MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Downloads":
                     NavigationPath = AppSettings.DownloadsPath;
-                    SidebarControl.SelectedSidebarItem =
+                    SidebarSelectedItem =
                         MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Documents":
                     NavigationPath = AppSettings.DocumentsPath;
-                    SidebarControl.SelectedSidebarItem =
+                    SidebarSelectedItem =
                         MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Pictures":
                     NavigationPath = AppSettings.PicturesPath;
-                    SidebarControl.SelectedSidebarItem =
+                    SidebarSelectedItem =
                         MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Music":
                     NavigationPath = AppSettings.MusicPath;
-                    SidebarControl.SelectedSidebarItem =
+                    SidebarSelectedItem =
                         MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Videos":
                     NavigationPath = AppSettings.VideosPath;
-                    SidebarControl.SelectedSidebarItem =
+                    SidebarSelectedItem =
                         MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "RecycleBin":
                     NavigationPath = AppSettings.RecycleBinPath;
-                    SidebarControl.SelectedSidebarItem =
+                    SidebarSelectedItem =
                         MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
@@ -782,19 +814,19 @@ namespace Files.Views
                                                       AssociatedTabInstance = this
                                                   },
                                                   new SuppressNavigationTransitionInfo());
-                        SidebarControl.SelectedSidebarItem = MainPage.SideBarItems[0];
+                        SidebarSelectedItem = MainPage.SideBarItems[0];
                     }
                     else if (((NavParams[0] >= 'A' && NavParams[0] <= 'Z') || (NavParams[0] >= 'a' && NavParams[0] <= 'z'))
                         && NavParams[1] == ':')
                     {
                         NavigationPath = NavParams;
-                        SidebarControl.SelectedSidebarItem = AppSettings.DrivesManager.Drives
+                        SidebarSelectedItem = AppSettings.DrivesManager.Drives
                             .FirstOrDefault(x => x.Path.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
                     }
                     else if (NavParams.StartsWith("\\\\?\\")) // USB device
                     {
                         NavigationPath = NavParams;
-                        SidebarControl.SelectedSidebarItem = App.AppSettings.DrivesManager.Drives
+                        SidebarSelectedItem = App.AppSettings.DrivesManager.Drives
                             .FirstOrDefault(x => x.Path.ToString().Equals($"{Path.GetPathRoot(NavParams)}", StringComparison.OrdinalIgnoreCase));
                     }
                     else if (NavParams.StartsWith("\\\\")) // Network share
@@ -807,7 +839,7 @@ namespace Files.Views
                     }
                     else
                     {
-                        SidebarControl.SelectedSidebarItem = null;
+                        SidebarSelectedItem = null;
                     }
                     break;
             }
@@ -1193,10 +1225,13 @@ namespace Files.Views
             AppSettings.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
             NavigationToolbar.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
             NavigationToolbar.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
-            SidebarControl.SidebarItemInvoked -= SidebarControl_SidebarItemInvoked;
-            SidebarControl.SidebarItemPropertiesInvoked -= SidebarControl_SidebarItemPropertiesInvoked;
-            SidebarControl.SidebarItemDropped -= SidebarControl_SidebarItemDropped;
-            SidebarControl.RecycleBinItemRightTapped -= SidebarControl_RecycleBinItemRightTapped;
+            if (SidebarControl != null)
+            {
+                SidebarControl.SidebarItemInvoked -= SidebarControl_SidebarItemInvoked;
+                SidebarControl.SidebarItemPropertiesInvoked -= SidebarControl_SidebarItemPropertiesInvoked;
+                SidebarControl.SidebarItemDropped -= SidebarControl_SidebarItemDropped;
+                SidebarControl.RecycleBinItemRightTapped -= SidebarControl_RecycleBinItemRightTapped;
+            }
             NavigationToolbar.SearchQuerySubmitted -= ModernShellPage_SearchQuerySubmitted;
             NavigationToolbar.SearchTextChanged -= ModernShellPage_SearchTextChanged;
             NavigationToolbar.SearchSuggestionChosen -= ModernShellPage_SearchSuggestionChosen;

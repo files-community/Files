@@ -328,6 +328,9 @@
     <Compile Include="View Models\Properties\FileProperties.cs" />
     <Compile Include="View Models\Properties\FolderProperties.cs" />
     <Compile Include="View Models\Properties\PropertiesTab.cs" />
+    <Compile Include="Views\PaneHolderPage.xaml.cs">
+      <DependentUpon>PaneHolderPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LayoutModes\GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
@@ -604,6 +607,10 @@
     <Page Include="UserControls\Widgets\RecentFiles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PaneHolderPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LayoutModes\GenericFileBrowser.xaml">
       <SubType>Designer</SubType>

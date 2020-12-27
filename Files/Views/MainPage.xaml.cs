@@ -103,7 +103,7 @@ namespace Files.Views
 
                             foreach (string path in App.AppSettings.LastSessionPages)
                             {
-                                await AddNewTabByPathAsync(typeof(ModernShellPage), path);
+                                await AddNewTabByPathAsync(typeof(PaneHolderPage), path);
                             }
 
                             if (!App.AppSettings.ContinueLastSessionOnStartUp)
@@ -117,7 +117,7 @@ namespace Files.Views
                             {
                                 foreach (string path in App.AppSettings.PagesOnStartupList)
                                 {
-                                    await AddNewTabByPathAsync(typeof(ModernShellPage), path);
+                                    await AddNewTabByPathAsync(typeof(PaneHolderPage), path);
                                 }
                             }
                             else
@@ -131,7 +131,7 @@ namespace Files.Views
                             {
                                 foreach (string path in App.AppSettings.LastSessionPages)
                                 {
-                                    await AddNewTabByPathAsync(typeof(ModernShellPage), path);
+                                    await AddNewTabByPathAsync(typeof(PaneHolderPage), path);
                                 }
                                 App.AppSettings.LastSessionPages = new string[] { "NewTab".GetLocalized() };
                             }
@@ -156,7 +156,7 @@ namespace Files.Views
                 }
                 else
                 {
-                    await AddNewTabByPathAsync(typeof(ModernShellPage), navArgs);
+                    await AddNewTabByPathAsync(typeof(PaneHolderPage), navArgs);
                 }
 
                 // Check for required updates
@@ -172,12 +172,12 @@ namespace Files.Views
 
         public static async Task AddNewTabAsync()
         {
-            await AddNewTabByPathAsync(typeof(ModernShellPage), "NewTab".GetLocalized());
+            await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
         }
 
         public static async void AddNewTabAtIndex(object sender, RoutedEventArgs e)
         {
-            await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), "NewTab".GetLocalized());
+            await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
         }
 
         public static async void DuplicateTabAtIndex(object sender, RoutedEventArgs e)
@@ -187,11 +187,11 @@ namespace Files.Views
 
             if (MainPage.AppInstances[index].Path != null)
             {
-                await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), MainPage.AppInstances[index].Path);
+                await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), MainPage.AppInstances[index].Path);
             }
             else
             {
-                await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), "NewTab".GetLocalized());
+                await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
             }
         }
 
@@ -308,7 +308,7 @@ namespace Files.Views
         private static void TabViewItemFrame_Loaded(object sender, RoutedEventArgs e)
         {
             var frame = sender as Frame;
-            if (frame.CurrentSourcePageType != typeof(ModernShellPage))
+            if (frame.CurrentSourcePageType != typeof(PaneHolderPage))
             {
                 frame.Navigate((frame.Tag as TabItemContent).InitialPageType, (frame.Tag as TabItemContent).NavigationArg);
                 frame.Loaded -= TabViewItemFrame_Loaded;
@@ -396,7 +396,7 @@ namespace Files.Views
 
         private async void AddNewInstanceAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            await AddNewTabByPathAsync(typeof(ModernShellPage), "NewTab".GetLocalized());
+            await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
             args.Handled = true;
         }
 

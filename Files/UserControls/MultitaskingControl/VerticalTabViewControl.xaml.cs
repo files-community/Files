@@ -150,7 +150,7 @@ namespace Files.UserControls.MultitaskingControl
             }
 
             ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
-            await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), tabViewItemPath, index);
+            await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), tabViewItemPath, index);
         }
 
         private void TabStrip_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)

@@ -154,7 +154,7 @@ namespace Files
                 }
                 else
                 {
-                    await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), e.Arguments);
+                    await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
                 }
 
                 // Ensure the current window is active
