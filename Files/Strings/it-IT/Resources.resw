@@ -1461,4 +1461,16 @@
   <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
     <value>Abilita impostazioni di visualizzazione per cartella</value>
   </data>
+  <data name="AddPaneTeachingTip.Subtitle" xml:space="preserve">
+    <value>Clicca per aprire il secondo pannello</value>
+  </data>
+  <data name="AddPaneTeachingTip.Title" xml:space="preserve">
+    <value>Dual pane view</value>
+  </data>
+  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
+    <value>Apri sempre le nuove schede in modalità doppia-finestra</value>
+  </data>
+  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
+    <value>Abilita la modalità doppia-finestra</value>
+  </data>
 </root>

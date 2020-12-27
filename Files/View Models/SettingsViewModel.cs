@@ -65,6 +65,8 @@ namespace Files.ViewModels
             Analytics.TrackEvent("IsAcrylicDisabled " + IsAcrylicDisabled.ToString());
             Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
             Analytics.TrackEvent("IsHorizontalTabStripEnabled " + IsHorizontalTabStripEnabled.ToString());
+            Analytics.TrackEvent("IsDualPaneEnabled " + IsDualPaneEnabled.ToString());
+            Analytics.TrackEvent("AlwaysOpenDualPaneInNewTab " + AlwaysOpenDualPaneInNewTab.ToString());
             Analytics.TrackEvent("IsVerticalTabFlyoutEnabled " + IsVerticalTabFlyoutEnabled.ToString());
             Analytics.TrackEvent("AreHiddenItemsVisible " + AreHiddenItemsVisible.ToString());
             Analytics.TrackEvent("ShowDrivesWidget " + ShowDrivesWidget.ToString());
@@ -448,6 +450,18 @@ namespace Files.ViewModels
         }
 
         public bool IsHorizontalTabStripEnabled
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        public bool IsDualPaneEnabled
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        public bool AlwaysOpenDualPaneInNewTab
         {
             get => Get(false);
             set => Set(value);

@@ -1939,6 +1939,22 @@
           <source>Enable individual preferences for individual directories</source>
           <target state="translated">Abilita impostazioni di visualizzazione per cartella</target>
         </trans-unit>
+        <trans-unit id="AddPaneTeachingTip.Subtitle" translate="yes" xml:space="preserve">
+          <source>Click to open the right pane</source>
+          <target state="translated">Clicca per aprire il secondo pannello</target>
+        </trans-unit>
+        <trans-unit id="AddPaneTeachingTip.Title" translate="yes" xml:space="preserve">
+          <source>Dual pane view</source>
+          <target state="translated">Dual pane view</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane.Header" translate="yes" xml:space="preserve">
+          <source>Always open new tabs in dual pane mode</source>
+          <target state="translated">Apri sempre le nuove schede in modalità doppia-finestra</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingEnableDualPane.Header" translate="yes" xml:space="preserve">
+          <source>Enable dual pane view</source>
+          <target state="translated">Abilita la modalità doppia-finestra</target>
+        </trans-unit>
       </group>
     </body>
   </file>

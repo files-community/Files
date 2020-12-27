@@ -76,6 +76,18 @@
                             TextWrapping="WrapWholeWords" />
                     </StackPanel>
                 </StackPanel>
+
+                <ToggleSwitch x:Uid="SettingsMultitaskingEnableDualPane"
+                              Header="Enable dual pane view"
+                              HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                              IsOn="{x:Bind AppSettings.IsDualPaneEnabled, Mode=TwoWay}" />
+
+                <ToggleSwitch x:Name="SettingsMultitaskingAlwaysOpenDualPane"
+                              x:Uid="SettingsMultitaskingAlwaysOpenDualPane"
+                              Header="Always open new tabs in dual pane mode"
+                              HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                              x:Load="{x:Bind AppSettings.IsDualPaneEnabled, Mode=OneWay}"
+                              IsOn="{x:Bind AppSettings.AlwaysOpenDualPaneInNewTab, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

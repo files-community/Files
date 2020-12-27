@@ -26,7 +26,8 @@ namespace Files.Views
         public PaneHolderPage()
         {
             this.InitializeComponent();
-            ActivePane = PaneLeft;
+            this.ActivePane = PaneLeft;
+            this.IsRightPaneVisible = AppSettings.IsDualPaneEnabled && AppSettings.AlwaysOpenDualPaneInNewTab;
         }
 
         private string navParamsLeft;
@@ -214,7 +215,7 @@ namespace Files.Views
 
         private void Page_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if (!IsRightPaneVisible)
+            if (!IsRightPaneVisible && AppSettings.IsDualPaneEnabled)
             {
                 var position = e.GetCurrentPoint(null).Position;
                 if (position.X >= this.ActualWidth - 70 && Math.Abs(position.Y - Window.Current.Bounds.Height / 2) <= 70)
@@ -231,7 +232,7 @@ namespace Files.Views
 
         private void Page_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            if (!IsRightPaneVisible)
+            if (!IsRightPaneVisible && AppSettings.IsDualPaneEnabled)
             {
                 var position = e.GetCurrentPoint(null).Position;
                 if (position.X >= this.ActualWidth - 70 && Math.Abs(position.Y - Window.Current.Bounds.Height / 2) <= 70)
@@ -244,7 +245,7 @@ namespace Files.Views
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            if (AppSettings.ShowDualPaneTeachingTip)
+            if (AppSettings.ShowDualPaneTeachingTip && AppSettings.IsDualPaneEnabled)
             {
                 await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(2));
                 AddPaneTeachingTip.IsOpen = true;
