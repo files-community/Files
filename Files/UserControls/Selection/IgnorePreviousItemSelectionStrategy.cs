@@ -4,7 +4,7 @@ namespace Files.UserControls.Selection
 {
     public class IgnorePreviousItemSelectionStrategy : ItemSelectionStrategy
     {
-        public IgnorePreviousItemSelectionStrategy(IList<object> selectedItems) : base(selectedItems)
+        public IgnorePreviousItemSelectionStrategy(ICollection<object> selectedItems) : base(selectedItems)
         {
         }
 

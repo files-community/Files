@@ -4,19 +4,13 @@ using System.Linq;
 
 namespace Files.UserControls.Selection
 {
-    public class GenericItemsList<T> : IList<T>
+    public class GenericItemsCollection<T> : ICollection<T>
     {
         private readonly IList baseList;
 
-        public GenericItemsList(IList baseList)
+        public GenericItemsCollection(IList baseList)
         {
             this.baseList = baseList;
-        }
-
-        public T this[int index]
-        {
-            get => (T)baseList[index];
-            set => baseList[index] = value;
         }
 
         public int Count => baseList.Count;
@@ -48,16 +42,6 @@ namespace Files.UserControls.Selection
             return baseList.Cast<T>().GetEnumerator();
         }
 
-        public int IndexOf(T item)
-        {
-            return baseList.IndexOf(item);
-        }
-
-        public void Insert(int index, T item)
-        {
-            baseList.Insert(index, item);
-        }
-
         public bool Remove(T item)
         {
             if (baseList.Contains(item))
@@ -66,11 +50,6 @@ namespace Files.UserControls.Selection
                 return true;
             }
             return false;
-        }
-
-        public void RemoveAt(int index)
-        {
-            baseList.RemoveAt(index);
         }
 
         IEnumerator IEnumerable.GetEnumerator()

@@ -5,9 +5,9 @@ namespace Files.UserControls.Selection
 
     public abstract class ItemSelectionStrategy
     {
-        protected readonly IList<object> selectedItems;
+        protected readonly ICollection<object> selectedItems;
 
-        protected ItemSelectionStrategy(IList<object> selectedItems)
+        protected ItemSelectionStrategy(ICollection<object> selectedItems)
         {
             this.selectedItems = selectedItems;
         }

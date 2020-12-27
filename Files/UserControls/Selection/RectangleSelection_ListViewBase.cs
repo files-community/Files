@@ -32,10 +32,9 @@ namespace Files.UserControls.Selection
 
         private void RectangleSelection_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            var selectedItems = uiElement.SelectedItems;
             var itemSelectionStrategy = e.KeyModifiers == VirtualKeyModifiers.Control ?
-                    (ItemSelectionStrategy)new ExtendPreviousItemSelectionStrategy(selectedItems, prevSelectedItems) :
-                    new IgnorePreviousItemSelectionStrategy(selectedItems);
+                    (ItemSelectionStrategy)new ExtendPreviousItemSelectionStrategy(uiElement.SelectedItems, prevSelectedItems) :
+                    new IgnorePreviousItemSelectionStrategy(uiElement.SelectedItems);
 
             if (selectionState == SelectionState.Starting)
             {
