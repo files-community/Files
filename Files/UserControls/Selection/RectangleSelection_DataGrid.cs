@@ -36,16 +36,15 @@ namespace Files.UserControls.Selection
 
         private void RectangleSelection_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            var extendExistingSelection = e.KeyModifiers == VirtualKeyModifiers.Control;
+            var selectedItems = new GenericItemsCollection<object>(uiElement.SelectedItems);
+            var selectionStrategy = e.KeyModifiers == VirtualKeyModifiers.Control ?
+                    (ItemSelectionStrategy)new ExtendPreviousItemSelectionStrategy(selectedItems, prevSelectedItems) :
+                    new IgnorePreviousItemSelectionStrategy(selectedItems);
 
             if (selectionState == SelectionState.Starting)
             {
                 uiElement.CancelEdit();
-                if (!extendExistingSelection)
-                {
-                    // Clear selected items once if the pointer is pressed and moved
-                    uiElement.SelectedItems.Clear();
-                }
+                selectionStrategy.StartSelection();
                 OnSelectionStarted();
                 selectionState = SelectionState.Active;
             }
@@ -79,22 +78,18 @@ namespace Files.UserControls.Selection
                     itemsPosition[row.DataContext] = itemRect; // Update item position
                     dataGridRowsPosition[row] = itemRect; // Update ui row position
                 }
+
                 foreach (var item in itemsPosition.ToList())
                 {
                     try
                     {
-                        // Update selected items
                         if (rect.IntersectsWith(item.Value))
                         {
-                            // Selection rectangle intersects item, add to selected items
-                            if (!uiElement.SelectedItems.Contains(item.Key))
-                            {
-                                uiElement.SelectedItems.Add(item.Key);
-                            }
+                            selectionStrategy.HandleIntersectionWithItem(item.Key);
                         }
-                        else if (!extendExistingSelection)
+                        else
                         {
-                            uiElement.SelectedItems.Remove(item.Key);
+                            selectionStrategy.HandleNoIntersectionWithItem(item.Key);
                         }
                     }
                     catch (ArgumentException)
