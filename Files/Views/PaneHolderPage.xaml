@@ -4,10 +4,14 @@
       xmlns:local="using:Files.Views"
       xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+      xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
       xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      mc:Ignorable="d">
+      mc:Ignorable="d"
+      PointerMoved="Page_PointerMoved"
+      PointerPressed="Page_PointerPressed">
 
     <Page.Resources>
         <ResourceDictionary>
@@ -81,14 +85,22 @@
 
             <SolidColorBrush x:Key="PaneSelectedBorderBrush"
                              Color="{ThemeResource SystemAccentColorLight1}" />
+
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"
+                                                  FalseValue="Collapsed"
+                                                  TrueValue="Visible" />
         </ResourceDictionary>
     </Page.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"
+            <ColumnDefinition x:Name="LeftColumn"
+                              Width="2*"
                               MinWidth="500" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition x:Name="RightColumn"
+                              MinWidth="0"
+                              Width="0" />
         </Grid.ColumnDefinitions>
 
         <local:ModernShellPage x:Name="PaneLeft"
@@ -98,10 +110,33 @@
                                NavParams="{x:Bind NavParamsLeft, Mode=OneWay}" />
 
         <local:ModernShellPage x:Name="PaneRight"
+                               x:Load="{x:Bind IsRightPaneVisible, Mode=OneWay}"
                                Grid.Column="1"
                                PointerPressed="PaneRight_PointerPressed"
+                               Visibility="{x:Bind IsRightPaneVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
                                IsSidebarVisible="False"
-                               NavParams="{x:Bind NavParamsRight, Mode=OneWay}" />
+                               NavParams="{x:Bind NavParamsRight, Mode=OneWay}">
+            <animations:Implicit.ShowAnimations>
+                <animations:ScalarAnimation Target="Translation.X"
+                                            Duration="0:0:0.2"
+                                            From="300"
+                                            To="0" />
+                <animations:ScalarAnimation Target="Opacity"
+                                            Duration="0:0:0.2"
+                                            From="0"
+                                            To="1" />
+            </animations:Implicit.ShowAnimations>
+            <animations:Implicit.HideAnimations>
+                <animations:ScalarAnimation Target="Translation.X"
+                                            Duration="0:0:0.2"
+                                            From="0"
+                                            To="300" />
+                <animations:ScalarAnimation Target="Opacity"
+                                            Duration="0:0:0.2"
+                                            From="1"
+                                            To="0" />
+            </animations:Implicit.HideAnimations>
+        </local:ModernShellPage>
 
         <Custom:GridSplitter x:Name="PaneResizer"
                              Grid.Column="1"
@@ -117,11 +152,45 @@
                              IsTabStop="False"
                              ResizeBehavior="BasedOnAlignment"
                              ResizeDirection="Auto"
+                             ManipulationCompleted="PaneResizer_ManipulationCompleted"
                              Style="{StaticResource DefaultGridSplitterStyle}">
             <Custom:GridSplitter.RenderTransform>
                 <TranslateTransform X="0" />
             </Custom:GridSplitter.RenderTransform>
         </Custom:GridSplitter>
+
+        <Button x:Name="AddPaneButton"
+                Content="+"
+                Grid.Column="0"
+                FontSize="20"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                Click="ShowPaneButton_Click"
+                Visibility="Collapsed"
+                x:Load="{x:Bind IsRightPaneVisible, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                Width="48"
+                Height="48">
+            <animations:Implicit.ShowAnimations>
+                <animations:ScalarAnimation Target="Translation.X"
+                                            Duration="0:0:0.2"
+                                            From="48"
+                                            To="0" />
+                <animations:ScalarAnimation Target="Opacity"
+                                            Duration="0:0:0.2"
+                                            From="0"
+                                            To="1" />
+            </animations:Implicit.ShowAnimations>
+            <animations:Implicit.HideAnimations>
+                <animations:ScalarAnimation Target="Translation.X"
+                                            Duration="0:0:0.2"
+                                            From="0"
+                                            To="48" />
+                <animations:ScalarAnimation Target="Opacity"
+                                            Duration="0:0:0.2"
+                                            From="1"
+                                            To="0" />
+            </animations:Implicit.HideAnimations>
+        </Button>
 
         <Interactivity:Interaction.Behaviors>
             <Core:DataTriggerBehavior Binding="{x:Bind IsLeftPaneActive, Mode=OneWay}"
@@ -141,6 +210,24 @@
                 <Core:ChangePropertyAction PropertyName="CurrentInstanceBorderBrush"
                                            TargetObject="{Binding ElementName=PaneRight}"
                                            Value="{StaticResource PaneSelectedBorderBrush}" />
+            </Core:DataTriggerBehavior>
+            <Core:DataTriggerBehavior Binding="{x:Bind IsRightPaneVisible, Mode=OneWay}"
+                                      Value="True">
+                <Core:ChangePropertyAction PropertyName="MinWidth"
+                                           TargetObject="{Binding ElementName=RightColumn}"
+                                           Value="290" />
+                <Core:ChangePropertyAction PropertyName="Width"
+                                           TargetObject="{Binding ElementName=RightColumn}"
+                                           Value="*" />
+            </Core:DataTriggerBehavior>
+            <Core:DataTriggerBehavior Binding="{x:Bind IsRightPaneVisible, Mode=OneWay}"
+                                      Value="False">
+                <Core:ChangePropertyAction PropertyName="MinWidth"
+                                           TargetObject="{Binding ElementName=RightColumn}"
+                                           Value="0" />
+                <Core:ChangePropertyAction PropertyName="Width"
+                                           TargetObject="{Binding ElementName=RightColumn}"
+                                           Value="0" />
             </Core:DataTriggerBehavior>
         </Interactivity:Interaction.Behaviors>
     </Grid>

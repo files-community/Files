@@ -7,7 +7,9 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.AppService;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 // Il modello di elemento Pagina vuota è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=234238
@@ -68,7 +70,10 @@ namespace Files.Views
                 {
                     activePane = value;
                     PaneLeft.IsCurrentInstance = false;
-                    PaneRight.IsCurrentInstance = false;
+                    if (PaneRight != null)
+                    {
+                        PaneRight.IsCurrentInstance = false;
+                    }
                     if (ActivePane != null)
                     {
                         ActivePane.IsCurrentInstance = isCurrentInstance;
@@ -83,6 +88,21 @@ namespace Files.Views
         public bool IsLeftPaneActive => ActivePane == PaneLeft;
 
         public bool IsRightPaneActive => ActivePane == PaneRight;
+
+        private bool isRightPaneVisible;
+
+        public bool IsRightPaneVisible
+        {
+            get => isRightPaneVisible;
+            set
+            {
+                if (value != isRightPaneVisible)
+                {
+                    isRightPaneVisible = value;
+                    NotifyPropertyChanged("IsRightPaneVisible");
+                }
+            }
+        }
 
         public StatusBarControl BottomStatusStripControl => ActivePane?.BottomStatusStripControl;
 
@@ -125,7 +145,10 @@ namespace Files.Views
             {
                 isCurrentInstance = value;
                 PaneLeft.IsCurrentInstance = false;
-                PaneRight.IsCurrentInstance = false;
+                if (PaneRight != null)
+                {
+                    PaneRight.IsCurrentInstance = false;
+                }
                 if (ActivePane != null)
                 {
                     ActivePane.IsCurrentInstance = value;
@@ -149,7 +172,7 @@ namespace Files.Views
 
         public void Clipboard_ContentChanged(object sender, object e)
         {
-            
+
         }
 
         public void Refresh_Click()
@@ -159,20 +182,61 @@ namespace Files.Views
 
         public void Dispose()
         {
-            PaneLeft.Dispose();
-            PaneRight.Dispose();
+            PaneLeft?.Dispose();
+            PaneRight?.Dispose();
         }
 
-        private void PaneLeft_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void PaneLeft_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             ActivePane = PaneLeft;
             e.Handled = false;
         }
 
-        private void PaneRight_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void PaneRight_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             ActivePane = PaneRight;
             e.Handled = false;
+        }
+
+        private void PaneResizer_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            if (PaneRight != null && PaneRight.ActualWidth <= 300)
+            {
+                IsRightPaneVisible = false;
+            }
+        }
+
+        private void ShowPaneButton_Click(object sender, RoutedEventArgs e)
+        {
+            IsRightPaneVisible = true;
+        }
+
+        private void Page_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            if (!IsRightPaneVisible)
+            {
+                var position = e.GetCurrentPoint(null).Position;
+                if (position.X >= this.ActualWidth - 70 && Math.Abs(position.Y - Window.Current.Bounds.Height / 2) <= 70)
+                {
+                    AddPaneButton.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    AddPaneButton.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+
+        private void Page_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (!IsRightPaneVisible)
+            {
+                var position = e.GetCurrentPoint(null).Position;
+                if (position.X >= this.ActualWidth - 70 && Math.Abs(position.Y - Window.Current.Bounds.Height / 2) <= 70)
+                {
+                    AddPaneButton.Visibility = Visibility.Visible;
+                }
+            }
         }
     }
 }
