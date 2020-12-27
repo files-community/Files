@@ -98,7 +98,6 @@
 
                 <ToggleSwitch
                     x:Uid="SettingsPreferencesRecycleBinSwitch"
-                    AutomationProperties.Name="Pin Recycle Bin to the sidebar"
                     Header="Pin Recycle Bin to the sidebar"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{x:Bind AppSettings.PinRecycleBinToSideBar, Mode=TwoWay}" />
@@ -106,24 +105,27 @@
                 <ToggleSwitch
                     x:Name="ShowConfirmDeleteDialogSwitch"
                     x:Uid="SettingsPreferencesShowConfirmDeleteDialogSwitch"
-                    AutomationProperties.Name="Show a confirmation dialog when deleting files or folders"
                     Header="Show a confirmation dialog when deleting files or folders"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{x:Bind AppSettings.ShowConfirmDeleteDialog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
+                <TextBlock
+                    x:Uid="SettingsPreferencesContextMenu"
+                    Padding="0,10,0,0"
+                    FontSize="20"
+                    Text="Context Menu" />
+
                 <ToggleSwitch
                     x:Name="ContextMenuToggleSwitch"
                     x:Uid="SettingsPreferencesContextMenuSwitch"
-                    AutomationProperties.Name="Show all context menu items"
-                    Header="Show all context menu items"
+                    Header="Show all context menu items when right clicking an item"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{x:Bind AppSettings.ShowAllContextMenuItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <ToggleSwitch
                     x:Name="CopyLocationToggleSwitch"
                     x:Uid="SettingsPreferencesCopyLocationSwitch"
-                    AutomationProperties.Name="Show an option to copy the location of the selected item"
-                    Header="Show an option to copy the location of the selected item"
+                    Header="Show an option to copy the location when right clicking an item"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{x:Bind AppSettings.ShowCopyLocationOption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
