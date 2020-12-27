@@ -52,7 +52,7 @@ namespace Files.UserControls.Selection
             var currentPoint = e.GetCurrentPoint(uiElement);
             if (currentPoint.Properties.IsLeftButtonPressed && scrollBar != null)
             {
-                var verticalOffset = scrollBar.Value - 38; // Header height
+                var verticalOffset = scrollBar.Value - uiElement.ColumnHeaderHeight;
                 var originDragPointShifted = new Point(originDragPoint.X, originDragPoint.Y - verticalOffset); // Initial drag point relative to the topleft corner
                 base.DrawRectangle(currentPoint, originDragPointShifted);
                 // Selected area considering scrolled offset
@@ -153,7 +153,7 @@ namespace Files.UserControls.Selection
             Interaction.FindChildren<DataGridRow>(dataGridRows, uiElement); // Find visible/loaded rows
             prevSelectedItems = uiElement.SelectedItems.Cast<object>().ToList(); // Save current selected items
             originDragPoint = new Point(e.GetCurrentPoint(uiElement).Position.X, e.GetCurrentPoint(uiElement).Position.Y); // Initial drag point relative to the topleft corner
-            var verticalOffset = (scrollBar?.Value ?? 0) - 38; // Header height
+            var verticalOffset = (scrollBar?.Value ?? 0) - uiElement.ColumnHeaderHeight; // Header height
             originDragPoint.Y += verticalOffset; // Initial drag point relative to the top of the list (considering scrolled offset)
             if (!e.GetCurrentPoint(uiElement).Properties.IsLeftButtonPressed || e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
             {
