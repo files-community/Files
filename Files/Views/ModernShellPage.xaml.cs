@@ -958,9 +958,9 @@ namespace Files.Views
 
         public void Clipboard_ContentChanged(object sender, object e)
         {
-            try
+            if (IsCurrentInstance)
             {
-                if (IsCurrentInstance)
+                try
                 {
                     DataPackageView packageView = Clipboard.GetContent();
                     if (packageView.Contains(StandardDataFormats.StorageItems)
@@ -974,14 +974,10 @@ namespace Files.Views
                         App.InteractionViewModel.IsPasteEnabled = false;
                     }
                 }
-                else
+                catch (Exception)
                 {
                     App.InteractionViewModel.IsPasteEnabled = false;
                 }
-            }
-            catch (Exception)
-            {
-                App.InteractionViewModel.IsPasteEnabled = false;
             }
         }
 
