@@ -92,6 +92,15 @@ namespace Files.Views
         public static readonly DependencyProperty IsSidebarVisibleProperty =
             DependencyProperty.Register("IsSidebarVisible", typeof(bool), typeof(ModernShellPage), new PropertyMetadata(true));
 
+        public SolidColorBrush CurrentInstanceBorderBrush
+        {
+            get { return (SolidColorBrush)GetValue(CurrentInstanceBorderBrushProperty); }
+            set { SetValue(CurrentInstanceBorderBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty CurrentInstanceBorderBrushProperty =
+            DependencyProperty.Register("CurrentInstanceBorderBrush", typeof(SolidColorBrush), typeof(ModernShellPage), new PropertyMetadata(null));
+
         public GridLength SidebarWidth
         {
             get

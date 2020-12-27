@@ -3,6 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:local="using:Files.Views"
       xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
@@ -76,24 +78,30 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+            <SolidColorBrush x:Key="PaneSelectedBorderBrush"
+                             Color="{ThemeResource SystemAccentColorLight1}" />
         </ResourceDictionary>
     </Page.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" MinWidth="500" />
+            <ColumnDefinition Width="2*"
+                              MinWidth="500" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <local:ModernShellPage x:Name="PaneLeft"
-                               Grid.Column="0" 
+                               Grid.Column="0"
+                               BorderThickness="2"
                                IsSidebarVisible="True"
-                               NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"/>
-        
+                               NavParams="{x:Bind NavParamsLeft, Mode=OneWay}" />
+
         <local:ModernShellPage x:Name="PaneRight"
-                               Grid.Column="1" 
+                               Grid.Column="1"
+                               BorderThickness="2"
                                IsSidebarVisible="False"
-                               NavParams="{x:Bind NavParamsRight, Mode=OneWay}"/>
+                               NavParams="{x:Bind NavParamsRight, Mode=OneWay}" />
 
         <Custom:GridSplitter x:Name="PaneResizer"
                              Grid.Column="1"
@@ -114,5 +122,26 @@
                 <TranslateTransform X="0" />
             </Custom:GridSplitter.RenderTransform>
         </Custom:GridSplitter>
+
+        <Interactivity:Interaction.Behaviors>
+            <Core:DataTriggerBehavior Binding="{x:Bind IsLeftPaneActive, Mode=OneWay}"
+                                      Value="True">
+                <Core:ChangePropertyAction PropertyName="CurrentInstanceBorderBrush"
+                                           TargetObject="{Binding ElementName=PaneLeft}"
+                                           Value="{StaticResource PaneSelectedBorderBrush}" />
+                <Core:ChangePropertyAction PropertyName="CurrentInstanceBorderBrush"
+                                           TargetObject="{Binding ElementName=PaneRight}"
+                                           Value="{ThemeResource SystemControlTransparentBrush}" />
+            </Core:DataTriggerBehavior>
+            <Core:DataTriggerBehavior Binding="{x:Bind IsRightPaneActive, Mode=OneWay}"
+                                      Value="True">
+                <Core:ChangePropertyAction PropertyName="CurrentInstanceBorderBrush"
+                                           TargetObject="{Binding ElementName=PaneLeft}"
+                                           Value="{ThemeResource SystemControlTransparentBrush}" />
+                <Core:ChangePropertyAction PropertyName="CurrentInstanceBorderBrush"
+                                           TargetObject="{Binding ElementName=PaneRight}"
+                                           Value="{StaticResource PaneSelectedBorderBrush}" />
+            </Core:DataTriggerBehavior>
+        </Interactivity:Interaction.Behaviors>
     </Grid>
 </Page>

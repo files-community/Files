@@ -67,10 +67,22 @@ namespace Files.Views
                 if (activePane != value)
                 {
                     activePane = value;
+                    PaneLeft.IsCurrentInstance = false;
+                    PaneRight.IsCurrentInstance = false;
+                    if (ActivePane != null)
+                    {
+                        ActivePane.IsCurrentInstance = isCurrentInstance;
+                    }
                     NotifyPropertyChanged("ActivePane");
+                    NotifyPropertyChanged("IsLeftPaneActive");
+                    NotifyPropertyChanged("IsRightPaneActive");
                 }
             }
         }
+
+        public bool IsLeftPaneActive => ActivePane == PaneLeft;
+
+        public bool IsRightPaneActive => ActivePane == PaneRight;
 
         public StatusBarControl BottomStatusStripControl => ActivePane?.BottomStatusStripControl;
 

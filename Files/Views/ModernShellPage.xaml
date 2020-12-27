@@ -180,7 +180,9 @@
                 EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}" />
         </Grid>
 
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="1"
+              BorderThickness="0,0,0,2"
+              BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}">
             <Custom:DropShadowPanel
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
