@@ -1,4 +1,4 @@
-﻿namespace Files.Filesystem
+﻿namespace Files.Enums
 {
     public enum CloudProviders
     {

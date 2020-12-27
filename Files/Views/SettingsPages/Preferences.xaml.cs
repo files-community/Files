@@ -1,5 +1,5 @@
 ﻿using Files.DataModels;
-using Files.View_Models;
+using Files.ViewModels;
 using System;
 using Windows.Storage;
 using Windows.System;

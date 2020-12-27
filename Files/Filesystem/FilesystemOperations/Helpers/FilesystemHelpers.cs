@@ -1,5 +1,6 @@
 ﻿using Files.Dialogs;
 using Files.Enums;
+using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Files.UserControls;

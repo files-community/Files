@@ -1,6 +1,6 @@
 ﻿using ByteSizeLib;
 using Files.Common;
-using Files.Helpers;
+using Files.Extensions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;

@@ -167,7 +167,7 @@
     <Compile Include="Converters\StringArrayToString.cs" />
     <Compile Include="Converters\UInt32ToString.cs" />
     <Compile Include="DataModels\ShellNewEntry.cs" />
-    <Compile Include="Enums\LayoutModes.cs" />
+    <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="Helpers\AppUpdater.cs" />
     <Compile Include="DataModels\DefaultLanguageModel.cs" />
     <Compile Include="Enums\FileOperationType.cs" />
@@ -236,10 +236,10 @@
     <Compile Include="Helpers\PathNormalization.cs" />
     <Compile Include="Helpers\PostBannerHelpers.cs" />
     <Compile Include="Helpers\RecycleBinHelpers.cs" />
-    <Compile Include="Helpers\StringExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\BulkObservableCollection.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
-    <Compile Include="Helpers\Win32FindDataExtensions.cs" />
+    <Compile Include="Extensions\Win32FindDataExtensions.cs" />
     <Compile Include="Interacts\RemovableDevice.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="INavigationToolbar.cs" />
@@ -358,7 +358,6 @@
     <Compile Include="Views\Pages\PropertiesShortcut.xaml.cs">
       <DependentUpon>PropertiesShortcut.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Settings.cs" />
     <Compile Include="Views\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
@@ -387,8 +386,6 @@
       <DependentUpon>Preferences.xaml</DependentUpon>
     </Compile>
     <Compile Include="View Models\SettingsViewModel.cs" />
-    <Compile Include="Helpers\WindowDisplayInfo.cs" />
-    <Compile Include="Helpers\WindowDisplayMode.cs" />
     <Compile Include="Views\YourHome.xaml.cs">
       <DependentUpon>YourHome.xaml</DependentUpon>
     </Compile>

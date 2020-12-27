@@ -1,4 +1,5 @@
-﻿using Files.Helpers;
+﻿using Files.Enums;
+using Files.Helpers;
 using IniParser.Parser;
 using System;
 using System.Collections.Generic;

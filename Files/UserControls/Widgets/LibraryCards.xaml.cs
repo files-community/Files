@@ -1,4 +1,4 @@
-﻿using Files.View_Models;
+﻿using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 
-namespace Files
+namespace Files.UserControls.Widgets
 {
     public sealed partial class LibraryCards : UserControl
     {
