@@ -648,14 +648,8 @@
   <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
     <value>新しいページを追加する</value>
   </data>
-  <data name="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" xml:space="preserve">
-    <value>ページの場所を変更する</value>
-  </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>ページ:</value>
-  </data>
-  <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
-    <value>ページの削除</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
     <value>ジャンプリストからアイテムを起動するとき</value>

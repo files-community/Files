@@ -465,9 +465,6 @@
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>עמודים</value>
   </data>
-  <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
-    <value>הסר עמוד</value>
-  </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>ברירת מחדל של Windows</value>
   </data>
