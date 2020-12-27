@@ -1,4 +1,5 @@
-﻿using Files.ViewModels;
+﻿using Files.Filesystem;
+using Files.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -60,12 +61,12 @@ namespace Files.UserControls.Widgets
             foreach (AccessListEntry entry in mostRecentlyUsed.Entries)
             {
                 string mruToken = entry.Token;
-                try
+                var added = await FilesystemTasks.Wrap(async () =>
                 {
                     IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
                     await AddItemToRecentListAsync(item, entry);
-                }
-                catch (UnauthorizedAccessException)
+                });
+                if (added == FilesystemErrorCode.ERROR_UNAUTHORIZED)
                 {
                     // Skip item until consent is provided
                 }
@@ -75,10 +76,14 @@ namespace Files.UserControls.Widgets
                 // 0x8000000A -> The data necessary to complete this operation is not yet available
                 // 0x80004005 -> Unspecified error
                 // 0x80270301 -> ?
-                catch (Exception ex)
+                else if (!added)
                 {
-                    mostRecentlyUsed.Remove(mruToken);
-                    System.Diagnostics.Debug.WriteLine(ex);
+                    await FilesystemTasks.Wrap(() =>
+                    {
+                        mostRecentlyUsed.Remove(mruToken);
+                        return Task.CompletedTask;
+                    });
+                    System.Diagnostics.Debug.WriteLine(added.ErrorCode);
                 }
             }
 
