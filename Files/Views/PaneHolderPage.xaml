@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:local="using:Files.Views"
       xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
       xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
       xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
@@ -10,6 +11,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d"
+      Loaded="Page_Loaded"
       PointerMoved="Page_PointerMoved"
       PointerPressed="Page_PointerPressed">
 
@@ -104,7 +106,6 @@
         </Grid.ColumnDefinitions>
 
         <local:ModernShellPage x:Name="PaneLeft"
-                               Grid.Column="0"
                                PointerPressed="PaneLeft_PointerPressed"
                                IsSidebarVisible="True"
                                NavParams="{x:Bind NavParamsLeft, Mode=OneWay}" />
@@ -159,9 +160,18 @@
             </Custom:GridSplitter.RenderTransform>
         </Custom:GridSplitter>
 
+        <muxc:TeachingTip x:Name="AddPaneTeachingTip"
+                          x:Uid="AddPaneTeachingTip"
+                          Title="Dual pane view"
+                          Subtitle="Click to open the right pane"
+                          Target="{x:Bind TeachingTipTarget}" />
+
+        <Border x:Name="TeachingTipTarget"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right" />
+        
         <Button x:Name="AddPaneButton"
                 Content="+"
-                Grid.Column="0"
                 FontSize="20"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Right"

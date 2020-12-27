@@ -219,6 +219,7 @@ namespace Files.Views
                 if (position.X >= this.ActualWidth - 70 && Math.Abs(position.Y - Window.Current.Bounds.Height / 2) <= 70)
                 {
                     AddPaneButton.Visibility = Visibility.Visible;
+                    AddPaneTeachingTip.IsOpen = false;
                 }
                 else
                 {
@@ -235,7 +236,18 @@ namespace Files.Views
                 if (position.X >= this.ActualWidth - 70 && Math.Abs(position.Y - Window.Current.Bounds.Height / 2) <= 70)
                 {
                     AddPaneButton.Visibility = Visibility.Visible;
+                    AddPaneTeachingTip.IsOpen = false;
                 }
+            }
+        }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (AppSettings.ShowDualPaneTeachingTip)
+            {
+                await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(2));
+                AddPaneTeachingTip.IsOpen = true;
+                //AppSettings.ShowDualPaneTeachingTip = false;
             }
         }
     }
