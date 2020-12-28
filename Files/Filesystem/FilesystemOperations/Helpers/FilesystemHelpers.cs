@@ -86,16 +86,6 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItemWithPath> source, bool showDialog, bool permanently, bool registerHistory)
         {
-            bool deleteFromRecycleBin = false;
-            foreach (IStorageItemWithPath item in source)
-            {
-                if (await recycleBinHelpers.IsRecycleBinItem(item.Path))
-                {
-                    deleteFromRecycleBin = true;
-                    break;
-                }
-            }
-
             PostedStatusBanner banner;
             if (permanently)
             {
@@ -119,6 +109,14 @@ namespace Files.Filesystem
 
             if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
             {
+                var deleteFromRecycleBin = false;
+                var recycleBinItems = await recycleBinHelpers.EnumerateRecycleBin();
+                if (recycleBinItems != null)
+                {
+                    var recyclePaths = recycleBinItems.Select(shellItem => shellItem.RecyclePath).ToHashSet();
+                    deleteFromRecycleBin = source.Select(item => item.Path).Where(path => recyclePaths.Contains(path)).Any();
+                }
+
                 ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
                     deleteFromRecycleBin,
                     !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
