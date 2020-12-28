@@ -109,9 +109,9 @@ namespace Files.UserControls.Selection
                 return;
             }
 
-            selectionStrategy = e.KeyModifiers == VirtualKeyModifiers.Control ?
+            selectionStrategy = e.KeyModifiers.HasFlag(VirtualKeyModifiers.Control) ?
                     new InvertPreviousItemSelectionStrategy(uiElement.SelectedItems, prevSelectedItems) :
-                    e.KeyModifiers == VirtualKeyModifiers.Shift ?
+                    e.KeyModifiers.HasFlag(VirtualKeyModifiers.Shift) ?
                         (ItemSelectionStrategy)new ExtendPreviousItemSelectionStrategy(uiElement.SelectedItems, prevSelectedItems) :
                         new IgnorePreviousItemSelectionStrategy(uiElement.SelectedItems);
 
