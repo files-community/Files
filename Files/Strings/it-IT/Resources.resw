@@ -1449,6 +1449,12 @@
   <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
     <value>Abilita impostazioni di visualizzazione per cartella</value>
   </data>
+  <data name="originalPathColumn.Header" xml:space="preserve">
+    <value>Percorso originale</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
+    <value>Percorso originale</value>
+  </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Annulla</value>
   </data>

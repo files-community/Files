@@ -166,6 +166,7 @@ namespace Files.ViewModels
             NotifyPropertyChanged(nameof(IsSortedByDate));
             NotifyPropertyChanged(nameof(IsSortedByType));
             NotifyPropertyChanged(nameof(IsSortedBySize));
+            NotifyPropertyChanged(nameof(IsSortedByOriginalPath));
             OrderFiles();
         }
 
@@ -185,6 +186,19 @@ namespace Files.ViewModels
                 {
                     FolderSettings.DirectorySortOption = SortOption.Name;
                     NotifyPropertyChanged(nameof(IsSortedByName));
+                }
+            }
+        }
+
+        public bool IsSortedByOriginalPath
+        {
+            get => FolderSettings.DirectorySortOption == SortOption.OriginalPath;
+            set
+            {
+                if (value)
+                {
+                    FolderSettings.DirectorySortOption = SortOption.OriginalPath;
+                    NotifyPropertyChanged(nameof(IsSortedByOriginalPath));
                 }
             }
         }
@@ -496,6 +510,10 @@ namespace Files.ViewModels
 
                 case SortOption.Size:
                     orderFunc = item => item.FileSizeBytes;
+                    break;
+
+                case SortOption.OriginalPath:
+                    orderFunc = item => ((RecycleBinItem)item).ItemOriginalFolder;
                     break;
             }
 

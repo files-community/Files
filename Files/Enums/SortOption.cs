@@ -5,6 +5,7 @@
         Name,
         DateModified,
         Size,
-        FileType
+        FileType,
+        OriginalPath
     }
 }

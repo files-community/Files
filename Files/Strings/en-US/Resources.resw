@@ -1557,6 +1557,12 @@
   <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
     <value>Context Menu</value>
   </data>
+  <data name="originalPathColumn.Header" xml:space="preserve">
+    <value>Original path</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
+    <value>Original path</value>
+  </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
