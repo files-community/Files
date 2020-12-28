@@ -334,10 +334,9 @@ namespace Files
                 {
                     ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = true;
                 }
+
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
-
-                MainPage.MultitaskingControl?.UpdateSelectedTab(new DirectoryInfo(workingDir).Name, workingDir, false);
                 ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir);
                 ParentShellPageInstance.NavigationToolbar.PathControlDisplayText = parameters.NavPathParam;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
@@ -350,8 +349,6 @@ namespace Files
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
-
-                MainPage.MultitaskingControl?.UpdateSelectedTab(null, null, true);
                 ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(parameters.SearchResults, parameters.SearchPathParam);
             }
 

@@ -83,14 +83,14 @@ namespace Files.Views
             }
         }
 
-        public bool IsSidebarVisible
+        public bool IsPageMainPane
         {
-            get { return (bool)GetValue(IsSidebarVisibleProperty); }
-            set { SetValue(IsSidebarVisibleProperty, value); }
+            get { return (bool)GetValue(IsPageMainPaneProperty); }
+            set { SetValue(IsPageMainPaneProperty, value); }
         }
 
-        public static readonly DependencyProperty IsSidebarVisibleProperty =
-            DependencyProperty.Register("IsSidebarVisible", typeof(bool), typeof(ModernShellPage), new PropertyMetadata(true));
+        public static readonly DependencyProperty IsPageMainPaneProperty =
+            DependencyProperty.Register("IsPageMainPane", typeof(bool), typeof(ModernShellPage), new PropertyMetadata(true));
 
         public SolidColorBrush CurrentInstanceBorderBrush
         {
@@ -105,19 +105,17 @@ namespace Files.Views
         {
             get
             {
-                return IsSidebarVisible ? AppSettings.SidebarWidth : new GridLength(0);
+                return IsPageMainPane ? AppSettings.SidebarWidth : new GridLength(0);
             }
             set
             {
-                if (IsSidebarVisible && AppSettings.SidebarWidth != value)
+                if (IsPageMainPane && AppSettings.SidebarWidth != value)
                 {
                     AppSettings.SidebarWidth = value;
                     NotifyPropertyChanged("SidebarWidth");
                 }
             }
         }
-
-        public bool IsPageMainPane { get; set; }
 
         public Control OperationsControl => null;
         public Type CurrentPageType => ItemDisplayFrame.SourcePageType;
@@ -954,6 +952,24 @@ namespace Files.Views
             {
                 // Reset DataGrid Rows that may be in "cut" command mode
                 ContentPage.ResetItemOpacity();
+            }
+            
+            // Update tab header
+            var parameters = e.Parameter as NavigationArguments;
+            if (e.SourcePageType == typeof(YourHome))
+            {
+                MainPage.MultitaskingControl?.UpdateSelectedTab(parameters.NavPathParam, null, false);
+            }
+            else
+            {
+                if (parameters.IsSearchResultPage)
+                {
+                    MainPage.MultitaskingControl?.UpdateSelectedTab(null, null, true);
+                }
+                else
+                {
+                    MainPage.MultitaskingControl?.UpdateSelectedTab(new DirectoryInfo(parameters.NavPathParam).Name, parameters.NavPathParam, false);
+                }
             }
         }
 

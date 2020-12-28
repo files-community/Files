@@ -161,7 +161,7 @@
         </Grid.ColumnDefinitions>
 
         <Interactivity:Interaction.Behaviors>
-            <Core:DataTriggerBehavior Binding="{x:Bind IsSidebarVisible}"
+            <Core:DataTriggerBehavior Binding="{x:Bind IsPageMainPane}"
                                       Value="False">
                 <Core:ChangePropertyAction PropertyName="MinWidth"
                                            TargetObject="{Binding ElementName=SidebarColumn}"
@@ -175,7 +175,7 @@
         <Grid>
             <controls:SidebarControl 
                 x:Name="SidebarControl"
-                x:Load="{x:Bind IsSidebarVisible}"
+                x:Load="{x:Bind IsPageMainPane}"
                 Loaded="SidebarControl_Loaded"
                 EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}" />
         </Grid>
@@ -247,7 +247,7 @@
         </Grid>
         <Custom:GridSplitter
             x:Name="SidebarResizer"
-            x:Load="{x:Bind IsSidebarVisible}"
+            x:Load="{x:Bind IsPageMainPane}"
             Grid.Column="1"
             Width="5"
             MinWidth="5"
