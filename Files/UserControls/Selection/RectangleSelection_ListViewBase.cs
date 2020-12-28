@@ -148,6 +148,19 @@ namespace Files.UserControls.Selection
             selectionState = SelectionState.Inactive;
         }
 
+        private void RectangleSelection_LayoutUpdated(object sender, object e)
+        {
+            if (scrollViewer == null)
+            {
+                scrollViewer = Interaction.FindChild<ScrollViewer>(uiElement);
+            }
+
+            if (scrollViewer != null)
+            {
+                uiElement.LayoutUpdated -= RectangleSelection_LayoutUpdated;
+            }
+        }
+
         private void InitEvents(object sender, RoutedEventArgs e)
         {
             if (!uiElement.IsLoaded)
@@ -161,7 +174,12 @@ namespace Files.UserControls.Selection
                 uiElement.PointerReleased += RectangleSelection_PointerReleased;
                 uiElement.PointerCaptureLost += RectangleSelection_PointerReleased;
                 uiElement.PointerCanceled += RectangleSelection_PointerReleased;
+
                 scrollViewer = Interaction.FindChild<ScrollViewer>(uiElement);
+                if (scrollViewer == null)
+                {
+                    uiElement.LayoutUpdated += RectangleSelection_LayoutUpdated;
+                }
             }
         }
     }
