@@ -177,7 +177,8 @@ namespace Files.Filesystem
                                 Title = "ItemAlreadyExistsDialogTitle".GetLocalized(),
                                 Content = "ItemAlreadyExistsDialogContent".GetLocalized(),
                                 PrimaryButtonText = "ItemAlreadyExistsDialogPrimaryButtonText".GetLocalized(),
-                                SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized()
+                                SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized(),
+                                CloseButtonText = "ItemAlreadyExistsDialogCloseButtonText".GetLocalized()
                             };
 
                             ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
@@ -227,7 +228,8 @@ namespace Files.Filesystem
                             Title = "ItemAlreadyExistsDialogTitle".GetLocalized(),
                             Content = "ItemAlreadyExistsDialogContent".GetLocalized(),
                             PrimaryButtonText = "ItemAlreadyExistsDialogPrimaryButtonText".GetLocalized(),
-                            SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized()
+                            SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized(),
+                            CloseButtonText = "ItemAlreadyExistsDialogCloseButtonText".GetLocalized()
                         };
 
                         ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
@@ -509,7 +511,8 @@ namespace Files.Filesystem
                         Title = "ItemAlreadyExistsDialogTitle".GetLocalized(),
                         Content = "ItemAlreadyExistsDialogContent".GetLocalized(),
                         PrimaryButtonText = "ItemAlreadyExistsDialogPrimaryButtonText".GetLocalized(),
-                        SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized()
+                        SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized(),
+                        CloseButtonText = "ItemAlreadyExistsDialogCloseButtonText".GetLocalized()
                     };
 
                     ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();

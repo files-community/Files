@@ -1557,4 +1557,7 @@
   <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
     <value>Context Menu</value>
   </data>
+  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
 </root>

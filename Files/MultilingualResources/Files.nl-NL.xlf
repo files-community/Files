@@ -1938,6 +1938,10 @@
           <source>Context Menu</source>
           <target state="new">Context Menu</target>
         </trans-unit>
+        <trans-unit id="ItemAlreadyExistsDialogCloseButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
       </group>
     </body>
   </file>
