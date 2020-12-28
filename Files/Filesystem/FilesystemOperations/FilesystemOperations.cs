@@ -282,11 +282,17 @@ namespace Files.Filesystem
         {
             if (source.Path == destination)
             {
+                progress?.Report(100.0f);
                 errorCode?.Report(FilesystemErrorCode.ERROR_SUCCESS);
                 return null;
             }
 
             IStorageHistory history = await CopyAsync(source, destination, progress, errorCode, cancellationToken);
+            if (history == null)
+            {
+                // If copy was not performed we don't continue to delete to prevent data loss
+                return null;
+            }
 
             if (string.IsNullOrWhiteSpace(source.Path))
             {
