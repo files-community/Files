@@ -1,4 +1,5 @@
-﻿using Files.Controllers;
+﻿using Files.Common;
+using Files.Controllers;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls.MultitaskingControl;
@@ -264,6 +265,13 @@ namespace Files.Views
                             tabLocationHeader = (await KnownFolders.RemovableDevices.GetFolderAsync(path)).DisplayName;
                         }
                     }
+                }
+                else if (path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    var localSettings = ApplicationData.Current.LocalSettings;
+                    tabLocationHeader = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
+                    fontIconSource.FontFamily = Application.Current.Resources["RecycleBinIcons"] as FontFamily;
+                    fontIconSource.Glyph = "\xEF87";
                 }
                 else
                 {

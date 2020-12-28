@@ -57,6 +57,10 @@ namespace Files.Views.LayoutModes
                 {
                     FolderSettings.DirectorySortOption = SortOption.Size;
                 }
+                else if (value == originalPathColumn)
+                {
+                    FolderSettings.DirectorySortOption = SortOption.OriginalPath;
+                }
                 else
                 {
                     FolderSettings.DirectorySortOption = SortOption.Name;
@@ -196,6 +200,10 @@ namespace Files.Views.LayoutModes
 
                     case SortOption.Size:
                         SortedColumn = sizeColumn;
+                        break;
+
+                    case SortOption.OriginalPath:
+                        SortedColumn = originalPathColumn;
                         break;
                 }
             }
@@ -352,7 +360,7 @@ namespace Files.Views.LayoutModes
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
             var cp = e.GetCurrentPoint((UIElement)sender);
-            if (cp.Position.Y <= 38 // Return if click is on the header(38 = header height)
+            if (cp.Position.Y <= AllView.ColumnHeaderHeight // Return if click is on the header
                 || cp.Properties.IsLeftButtonPressed // Return if dragging an item
                 || cp.Properties.IsRightButtonPressed // Return if the user right clicks an item
                 || ctrlPressed || shiftPressed) // Allow for Ctrl+Shift selection
@@ -527,6 +535,10 @@ namespace Files.Views.LayoutModes
 
                 case "sizeColumn":
                     args = new DataGridColumnEventArgs(sizeColumn);
+                    break;
+
+                case "originalPathColumn":
+                    args = new DataGridColumnEventArgs(originalPathColumn);
                     break;
             }
 

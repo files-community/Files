@@ -39,7 +39,8 @@ namespace Files.ViewModels.Properties
                 ViewModel.ItemName = Item.ItemName;
                 ViewModel.OriginalItemName = Item.ItemName;
                 ViewModel.ItemType = Item.ItemType;
-                ViewModel.ItemPath = Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath;
+                ViewModel.ItemPath = (Item as RecycleBinItem)?.ItemOriginalFolder ??
+                    (Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath);
                 ViewModel.ItemModifiedTimestamp = Item.ItemDateModified;
                 //ViewModel.FileIconSource = Item.FileImage;
                 ViewModel.LoadFolderGlyph = Item.LoadFolderGlyph;
