@@ -1943,6 +1943,10 @@
           <source>Original path</source>
           <target state="new">Original path</target>
         </trans-unit>
+        <trans-unit id="SettingsUseFileListCache.Header" translate="yes" xml:space="preserve">
+          <source>Cache files and folders for better performance</source>
+          <target state="new">Cache files and folders for better performance</target>
+        </trans-unit>
       </group>
     </body>
   </file>
