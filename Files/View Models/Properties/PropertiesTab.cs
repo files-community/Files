@@ -5,7 +5,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace Files.View_Models.Properties
+namespace Files.ViewModels.Properties
 {
     public abstract class PropertiesTab : Page
     {
@@ -27,7 +27,7 @@ namespace Files.View_Models.Properties
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            var np = e.Parameter as Files.Properties.PropertyNavParam;
+            var np = e.Parameter as Views.Properties.PropertyNavParam;
 
             AppInstance = np.AppInstanceArgument;
             ViewModel = new SelectedItemsPropertiesViewModel(AppInstance.ContentPage);

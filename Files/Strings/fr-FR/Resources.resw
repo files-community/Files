@@ -900,18 +900,6 @@
   <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Applications de terminal</value>
   </data>
-  <data name="SettingsPreferencesContextMenuSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Afficher tous les éléments du menu contextuel</value>
-  </data>
-  <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Afficher une option pour copier le chemin de l'élément</value>
-  </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Épingler la Corbeille à la barre latérale</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Demander une confirmation lors de la suppression de fichiers ou dossiers</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Éditer les applications de terminal</value>
   </data>
@@ -1047,14 +1035,29 @@
   <data name="PropertiesDialogHidden.Text" xml:space="preserve">
     <value>Caché</value>
   </data>
+  <data name="PropertyItemFolderPathDisplay" xml:space="preserve">
+    <value>Chemin du dossier</value>
+  </data>
+  <data name="PropertyItemTypeText" xml:space="preserve">
+    <value>Type d'élément</value>
+  </data>
   <data name="PropertyTitle" xml:space="preserve">
     <value>Titre</value>
+  </data>
+  <data name="PropertySubject" xml:space="preserve">
+    <value>Objet</value>
   </data>
   <data name="PropertyComment" xml:space="preserve">
     <value>Commentaires</value>
   </data>
   <data name="PropertyCopyright" xml:space="preserve">
     <value>Copyright</value>
+  </data>
+  <data name="PropertyDateCreated" xml:space="preserve">
+    <value>Date de création</value>
+  </data>
+  <data name="PropertyDateModified" xml:space="preserve">
+    <value>Date de modification</value>
   </data>
   <data name="PropertyBitDepth" xml:space="preserve">
     <value>Profondeur de couleur</value>
@@ -1067,6 +1070,12 @@
   </data>
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>Résolution verticale</value>
+  </data>
+  <data name="PropertyHorizontalSize" xml:space="preserve">
+    <value>Largeur</value>
+  </data>
+  <data name="PropertyVerticalSize" xml:space="preserve">
+    <value>Hauteur</value>
   </data>
   <data name="PropertyLatitude" xml:space="preserve">
     <value>Latitude</value>
@@ -1110,6 +1119,18 @@
   <data name="PropertyYear" xml:space="preserve">
     <value>Année</value>
   </data>
+  <data name="PropertySectionCore" xml:space="preserve">
+    <value>Fichier</value>
+  </data>
+  <data name="PropertySectionImage" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="PropertySectionMusic" xml:space="preserve">
+    <value>Musique</value>
+  </data>
+  <data name="PropertyContributor" xml:space="preserve">
+    <value>Contributeur</value>
+  </data>
   <data name="PropertyVersion" xml:space="preserve">
     <value>Version</value>
   </data>
@@ -1143,6 +1164,9 @@
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>Non spécifié</value>
   </data>
+  <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
+    <value>Centre de status</value>
+  </data>
   <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
     <value>Licence</value>
   </data>
@@ -1157,5 +1181,59 @@
   </data>
   <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>En savoir plus sur les formats de date</value>
+  </data>
+  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Rechercher</value>
+  </data>
+  <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
+    <value>Résultats de recherche dans</value>
+  </data>
+  <data name="SearchTabHeaderText" xml:space="preserve">
+    <value>Résultats de recherche</value>
+  </data>
+  <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Voir qui a contribué à Files</value>
+  </data>
+  <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Découvrez les nouveautés de Files</value>
+  </data>
+  <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Soutenez-nous sur PayPal</value>
+  </data>
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
+    <value>Lister et trier les dossiers au milieu des fichiers</value>
+  </data>
+  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+    <value>Détails</value>
+  </data>
+  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+    <value>Non</value>
+  </data>
+  <data name="UpdateConsentDialogContent" xml:space="preserve">
+    <value>Voulez-vous télécharger et installer la dernière version de Files ?</value>
+  </data>
+  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
+    <value>Oui</value>
+  </data>
+  <data name="UpdateConsentDialogTitle" xml:space="preserve">
+    <value>Mise à jour disponible</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
+    <value>Masquer les fichiers protégés du système (Recommandé)</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Masquer les fichiers protégés du système (Recommandé)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
+    <value>Fichier</value>
+  </data>
+  <data name="AddDialogListFileHeader" xml:space="preserve">
+    <value>Fichier</value>
+  </data>
+  <data name="AddDialogListFileSubHeader" xml:space="preserve">
+    <value>Crée un fichier vide</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>Nouveau fichier</value>
   </data>
 </root>

@@ -275,10 +275,13 @@ namespace FilesFullTrust
                             container.Dispose();
                             continue;
                         }
-                        if (mii.hbmpItem != HBITMAP.NULL)
+                        if (mii.hbmpItem != HBITMAP.NULL && !Enum.IsDefined(typeof(HBITMAP_HMENU), ((IntPtr)mii.hbmpItem).ToInt64()))
                         {
                             var bitmap = GetBitmapFromHBitmap(mii.hbmpItem);
-                            menuItem.Icon = bitmap;
+                            if (bitmap != null)
+                            {
+                                menuItem.Icon = bitmap;
+                            }
                         }
                         if (mii.hSubMenu != HMENU.NULL)
                         {
@@ -428,6 +431,25 @@ namespace FilesFullTrust
                     SubItems = null;
                 }
             }
+        }
+
+        // There is usually no need to define Win32 COM interfaces/P-Invoke methods here.
+        // The Vanara library contains the definitions for all members of Shell32.dll, User32.dll and more
+        // The ones below are due to bugs in the current version of the library and can be removed once fixed
+        // https://docs.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-menuiteminfoa
+        private enum HBITMAP_HMENU : long
+        {
+            HBMMENU_CALLBACK = -1,
+            HBMMENU_MBAR_CLOSE = 5,
+            HBMMENU_MBAR_CLOSE_D = 6,
+            HBMMENU_MBAR_MINIMIZE = 3,
+            HBMMENU_MBAR_MINIMIZE_D = 7,
+            HBMMENU_MBAR_RESTORE = 2,
+            HBMMENU_POPUP_CLOSE = 8,
+            HBMMENU_POPUP_MAXIMIZE = 10,
+            HBMMENU_POPUP_MINIMIZE = 11,
+            HBMMENU_POPUP_RESTORE = 9,
+            HBMMENU_SYSTEM = 1
         }
     }
 }

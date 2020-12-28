@@ -1,6 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.Interacts;
-using Files.View_Models;
+using Files.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.Numerics;
@@ -8,7 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 
-namespace Files
+namespace Files.UserControls.Widgets
 {
     public sealed partial class DrivesWidget : UserControl
     {
@@ -52,14 +52,12 @@ namespace Files
 
             DrivesWidgetInvoked?.Invoke(this, new DrivesWidgetInvokedEventArgs()
             {
-                Path = NavigationPath,
-                LayoutType = AppSettings.GetLayoutType()
+                Path = NavigationPath
             });
         }
 
         public class DrivesWidgetInvokedEventArgs : EventArgs
         {
-            public Type LayoutType { get; set; }
             public string Path { get; set; }
         }
 

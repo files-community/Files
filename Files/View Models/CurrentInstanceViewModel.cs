@@ -1,6 +1,6 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 
-namespace Files.View_Models
+namespace Files.ViewModels
 {
     public class CurrentInstanceViewModel : ObservableObject
     {
@@ -10,6 +10,13 @@ namespace Files.View_Models
          * a single enum property providing simplified customization of the
          * values being manipulated inside the setter blocks.
          */
+
+        public FolderSettingsViewModel FolderSettings { get; }
+
+        public CurrentInstanceViewModel(IShellPage associatedInstance)
+        {
+            FolderSettings = new FolderSettingsViewModel(associatedInstance);
+        }
 
         private bool _IsPageTypeSearchResults = false;
 

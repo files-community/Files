@@ -1,4 +1,5 @@
 ﻿using ByteSizeLib;
+using Files.Extensions;
 using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -12,7 +13,7 @@ using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 
-namespace Files.View_Models.Properties
+namespace Files.ViewModels.Properties
 {
     internal class CombinedProperties : BaseProperties
     {
@@ -43,8 +44,12 @@ namespace Files.View_Models.Properties
                 {
                     ViewModel.ItemType = "PropertiesDriveItemTypeDifferent".GetLocalized();
                 }
-                ViewModel.ItemPath = string.Format(
-                    "PropertiesCombinedItemPath".GetLocalized(), Path.GetDirectoryName(List.First().ItemPath));
+                var itemsPath = List.Select(Item => (Item as RecycleBinItem)?.ItemOriginalFolder ??
+                    (Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath));
+                if (itemsPath.Distinct().Count() == 1)
+                {
+                    ViewModel.ItemPath = string.Format("PropertiesCombinedItemPath".GetLocalized(), itemsPath.First());
+                }
             }
         }
 

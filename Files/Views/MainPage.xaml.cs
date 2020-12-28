@@ -1,10 +1,9 @@
-﻿using Files.Controllers;
-using Files.Controls;
+﻿using Files.Common;
+using Files.Controllers;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls.MultitaskingControl;
-using Files.View_Models;
-using Files.Views.Pages;
+using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.ObjectModel;
@@ -124,7 +123,7 @@ namespace Files.Views
                             }
                             else
                             {
-                                AddNewTabAsync();
+                                await AddNewTabAsync();
                             }
                         }
                         else if (App.AppSettings.ContinueLastSessionOnStartUp)
@@ -139,22 +138,22 @@ namespace Files.Views
                             }
                             else
                             {
-                                AddNewTabAsync();
+                                await AddNewTabAsync();
                             }
                         }
                         else
                         {
-                            AddNewTabAsync();
+                            await AddNewTabAsync();
                         }
                     }
                     catch (Exception)
                     {
-                        AddNewTabAsync();
+                        await AddNewTabAsync();
                     }
                 }
                 else if (string.IsNullOrEmpty(navArgs))
                 {
-                    AddNewTabAsync();
+                    await AddNewTabAsync();
                 }
                 else
                 {
@@ -266,6 +265,13 @@ namespace Files.Views
                             tabLocationHeader = (await KnownFolders.RemovableDevices.GetFolderAsync(path)).DisplayName;
                         }
                     }
+                }
+                else if (path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    var localSettings = ApplicationData.Current.LocalSettings;
+                    tabLocationHeader = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
+                    fontIconSource.FontFamily = Application.Current.Resources["RecycleBinIcons"] as FontFamily;
+                    fontIconSource.Glyph = "\xEF87";
                 }
                 else
                 {
