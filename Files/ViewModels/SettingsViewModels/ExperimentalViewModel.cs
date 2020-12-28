@@ -20,5 +20,22 @@ namespace Files.ViewModels.SettingsViewModels
                 }
             }
         }
+
+        private bool useFileListCache = App.AppSettings.UseFileListCache;
+
+        public bool UseFileListCache
+        {
+            get
+            {
+                return useFileListCache;
+            }
+            set
+            {
+                if (SetProperty(ref useFileListCache, value))
+                {
+                    App.AppSettings.UseFileListCache = value;
+                }
+            }
+        }
     }
 }
