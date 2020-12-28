@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
@@ -13,6 +14,7 @@ namespace Files.Helpers
     public class RecycleBinHelpers : IDisposable
     {
         #region Private Members
+        private static readonly Regex RECYCLE_BIN_PATH_REGEX = new Regex(@"\w:\\\$Recycle\.Bin\\.*");
 
         private IShellPage associatedInstance;
 
@@ -69,6 +71,11 @@ namespace Files.Helpers
             }
 
             return recycleBinItems.Any((shellItem) => shellItem.RecyclePath == path);
+        }
+
+        public bool IsPathUnderRecycleBin(string path)
+        {
+            return RECYCLE_BIN_PATH_REGEX.IsMatch(path);
         }
 
         #region IDisposable
