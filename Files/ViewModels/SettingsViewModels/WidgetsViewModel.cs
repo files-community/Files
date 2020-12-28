@@ -18,7 +18,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref showLibraryCardsWidget, value))
                 {
-                    App.AppSettings.ShowLibraryCardsWidget = showLibraryCardsWidget;
+                    App.AppSettings.ShowLibraryCardsWidget = value;
                 }
             }
         }
@@ -33,7 +33,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref showDrivesWidget, value))
                 {
-                    App.AppSettings.ShowDrivesWidget = showDrivesWidget;
+                    App.AppSettings.ShowDrivesWidget = value;
                 }
             }
         }
@@ -48,7 +48,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref showRecentFilesWidget, value))
                 {
-                    App.AppSettings.ShowRecentFilesWidget = showRecentFilesWidget;
+                    App.AppSettings.ShowRecentFilesWidget = value;
                 }
             }
         }

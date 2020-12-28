@@ -54,7 +54,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref openNewTabPageOnStartup, value))
                 {
-                    App.AppSettings.OpenNewTabPageOnStartup = openNewTabPageOnStartup;
+                    App.AppSettings.OpenNewTabPageOnStartup = value;
                 }
             }
         }
@@ -69,7 +69,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref continueLastSessionOnStartUp, value))
                 {
-                    App.AppSettings.ContinueLastSessionOnStartUp = continueLastSessionOnStartUp;
+                    App.AppSettings.ContinueLastSessionOnStartUp = value;
                 }
             }
         }
@@ -84,7 +84,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref openASpecificPageOnStartup, value))
                 {
-                    App.AppSettings.OpenASpecificPageOnStartup = openASpecificPageOnStartup;
+                    App.AppSettings.OpenASpecificPageOnStartup = value;
                 }
             }
         }
@@ -98,7 +98,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref selectedPageIndex, value))
                 {
-                    IsPageListEditEnabled = selectedPageIndex >= 0;
+                    IsPageListEditEnabled = value >= 0;
                 }
             }
         }

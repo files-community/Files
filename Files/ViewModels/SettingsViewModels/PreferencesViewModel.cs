@@ -34,9 +34,9 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref selectedLanguageIndex, value))
                 {
-                    App.AppSettings.DefaultLanguage = DefaultLanguages[SelectedLanguageIndex];
+                    App.AppSettings.DefaultLanguage = DefaultLanguages[value];
 
-                    if (App.AppSettings.CurrentLanguage.ID != DefaultLanguages[SelectedLanguageIndex].ID)
+                    if (App.AppSettings.CurrentLanguage.ID != DefaultLanguages[value].ID)
                     {
                         ShowRestartDialog = true;
                     }
@@ -63,7 +63,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref selectedTerminal, value))
                 {
-                    App.AppSettings.TerminalController.Model.DefaultTerminalPath = selectedTerminal.Path;
+                    App.AppSettings.TerminalController.Model.DefaultTerminalPath = value.Path;
                     App.AppSettings.TerminalController.SaveModel();
                 }
             }
@@ -81,7 +81,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref pinRecycleBinToSideBar, value))
                 {
-                    App.AppSettings.PinRecycleBinToSideBar = pinRecycleBinToSideBar;
+                    App.AppSettings.PinRecycleBinToSideBar = value;
                 }
             }
         }
@@ -96,7 +96,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref showConfirmDeleteDialog, value))
                 {
-                    App.AppSettings.ShowConfirmDeleteDialog = showConfirmDeleteDialog;
+                    App.AppSettings.ShowConfirmDeleteDialog = value;
                 }
             }
         }
@@ -111,7 +111,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref showAllContextMenuItems, value))
                 {
-                    App.AppSettings.ShowAllContextMenuItems = showAllContextMenuItems;
+                    App.AppSettings.ShowAllContextMenuItems = value;
                 }
             }
         }
@@ -126,7 +126,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref showCopyLocationOption, value))
                 {
-                    App.AppSettings.ShowCopyLocationOption = showCopyLocationOption;
+                    App.AppSettings.ShowCopyLocationOption = value;
                 }
             }
         }

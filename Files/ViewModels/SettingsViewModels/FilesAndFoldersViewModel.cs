@@ -21,7 +21,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref areHiddenItemsVisible, value))
                 {
-                    App.AppSettings.AreHiddenItemsVisible = areHiddenItemsVisible;
+                    App.AppSettings.AreHiddenItemsVisible = value;
                 }
             }
         }
@@ -36,7 +36,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref areSystemItemsHidden, value))
                 {
-                    App.AppSettings.AreSystemItemsHidden = areSystemItemsHidden;  
+                    App.AppSettings.AreSystemItemsHidden = value;  
                 }
             }
         }
@@ -51,7 +51,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref showFileExtensions, value))
                 {
-                    App.AppSettings.ShowFileExtensions = showFileExtensions;
+                    App.AppSettings.ShowFileExtensions = value;
                 }
             }
         }
@@ -66,7 +66,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref openItemsWithOneclick, value))
                 {
-                    App.AppSettings.OpenItemsWithOneclick = openItemsWithOneclick;
+                    App.AppSettings.OpenItemsWithOneclick = value;
                 }
             }
         }
@@ -81,7 +81,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref listAndSortDirectoriesAlongsideFiles, value))
                 {
-                    App.AppSettings.ListAndSortDirectoriesAlongsideFiles = listAndSortDirectoriesAlongsideFiles;
+                    App.AppSettings.ListAndSortDirectoriesAlongsideFiles = value;
                 }
             }
         }
@@ -96,7 +96,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref searchUnindexedItems, value))
                 {
-                    App.AppSettings.SearchUnindexedItems = searchUnindexedItems;
+                    App.AppSettings.SearchUnindexedItems = value;
                 }
             }
         }
@@ -113,7 +113,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref areLayoutPreferencesPerFolder, value))
                 {
-                    App.AppSettings.AreLayoutPreferencesPerFolder = areLayoutPreferencesPerFolder;
+                    App.AppSettings.AreLayoutPreferencesPerFolder = value;
                 }
             }
         }

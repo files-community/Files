@@ -39,7 +39,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref selectedThemeIndex, value))
                 {
-                    ThemeHelper.RootTheme = (ElementTheme)selectedThemeIndex;
+                    ThemeHelper.RootTheme = (ElementTheme)value;
                 }
             }
         }
@@ -56,7 +56,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref selectedDateFormatIndex, value))
                 {
-                    App.AppSettings.DisplayedTimeStyle = (TimeStyle)selectedDateFormatIndex;
+                    App.AppSettings.DisplayedTimeStyle = (TimeStyle)value;
                 }
             }
         }
@@ -71,7 +71,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref isAcrylicDisabled, value))
                 {
-                    App.AppSettings.IsAcrylicDisabled = isAcrylicDisabled;
+                    App.AppSettings.IsAcrylicDisabled = value;
                 }
             }
         }
