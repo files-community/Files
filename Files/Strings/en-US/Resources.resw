@@ -1557,6 +1557,9 @@
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>Original path</value>
   </data>
+  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
+    <value>Cache files and folders for better performance</value>
+  </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>Add</value>
   </data>

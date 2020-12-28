@@ -5,6 +5,7 @@ using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.Cloud;
 using Files.Helpers;
+using Files.Helpers.FileListCache;
 using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
@@ -59,6 +60,8 @@ namespace Files.ViewModels
         private readonly DispatcherTimer jumpTimer = new DispatcherTimer();
 
         private string _customPath;
+
+        private IFileListCache fileListCache = FileListCacheController.GetInstance();
 
         public string WorkingDirectory
         {
@@ -805,6 +808,17 @@ namespace Files.ViewModels
                 AssociatedInstance.NavigationToolbar.CanGoBack = AssociatedInstance.ContentFrame.CanGoBack;
                 AssociatedInstance.NavigationToolbar.CanGoForward = AssociatedInstance.ContentFrame.CanGoForward;
 
+                var cacheEntry = await fileListCache.ReadFileListFromCache(path);
+                if (cacheEntry != null)
+                {
+                    CurrentFolder = cacheEntry.CurrentFolder;
+                    var orderedList = OrderFiles2(cacheEntry.FileList);
+                    OrderFiles(orderedList);
+                    Debug.WriteLine($"Loading of items from cache in {WorkingDirectory} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
+                    App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
+                    IsLoadingItems = false;
+                }
+
                 if (path.StartsWith(AppSettings.RecycleBinPath))
                 {
                     // Recycle bin is special as files are enumerated by the fulltrust process
@@ -1167,6 +1181,12 @@ namespace Files.ViewModels
                             }
                         } while (hasNextFile);
 
+                        await fileListCache.SaveFileListToCache(path, new CacheEntry
+                        {
+                            CurrentFolder = CurrentFolder,
+                            FileList = tempList
+                        });
+
                         FindClose(hFile);
                     });
                     return true;
@@ -1229,6 +1249,11 @@ namespace Files.ViewModels
                 }
             }
             stopwatch.Stop();
+            await fileListCache.SaveFileListToCache(WorkingDirectory, new CacheEntry
+            {
+                CurrentFolder = CurrentFolder,
+                FileList = _filesAndFolders.ToList()
+            });
             Debug.WriteLine($"Enumerating items in {WorkingDirectory} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
         }
 

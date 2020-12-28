@@ -39,6 +39,12 @@
                     Header="Show Owner in properties"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowFileOwner, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Uid="SettingsUseFileListCache"
+                    Header="Cache files and folders for better performance"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{Binding UseFileListCache, Mode=TwoWay}" />                    
             </StackPanel>
         </ScrollViewer>
     </Grid>
