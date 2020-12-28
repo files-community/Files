@@ -758,6 +758,9 @@
     <PackageReference Include="NLog.Schema">
       <Version>4.7.6</Version>
     </PackageReference>
+    <PackageReference Include="PropertyChanged.Fody">
+      <Version>3.3.1</Version>
+    </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_green">
       <Version>2.0.4</Version>
     </PackageReference>
