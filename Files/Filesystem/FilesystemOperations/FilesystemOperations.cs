@@ -280,7 +280,7 @@ namespace Files.Filesystem
                                                      IProgress<FilesystemErrorCode> errorCode,
                                                      CancellationToken cancellationToken)
         {
-            if (Path.GetFileName(source.Path) == destination)
+            if (source.Path == destination)
             {
                 errorCode?.Report(FilesystemErrorCode.ERROR_SUCCESS);
                 return null;
