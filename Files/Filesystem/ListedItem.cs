@@ -3,6 +3,7 @@ using Files.Filesystem.Cloud;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
+using System.IO;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -188,7 +189,7 @@ namespace Files.Filesystem
             else
             {
                 ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-                string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+                string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
                 DateReturnFormat = returnformat;
             }
         }
@@ -264,6 +265,8 @@ namespace Files.Filesystem
 
         // For recycle bin elements (path + name)
         public string ItemOriginalPath { get; set; }
+        // For recycle bin elements (path)
+        public string ItemOriginalFolder => Path.IsPathRooted(ItemOriginalPath) ? Path.GetDirectoryName(ItemOriginalPath) : ItemOriginalPath;
     }
 
     public class ShortcutItem : ListedItem

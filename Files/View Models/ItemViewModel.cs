@@ -1,9 +1,11 @@
 using ByteSizeLib;
 using Files.Common;
 using Files.Enums;
+using Files.Extensions;
+using Files.Filesystem;
 using Files.Filesystem.Cloud;
 using Files.Helpers;
-using Files.View_Models;
+using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
@@ -24,18 +26,16 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using Windows.UI.Core;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
 using static Files.Helpers.NativeDirectoryChangesHelper;
-using static Files.Helpers.NativeFileOperationsHelper;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.Filesystem
+namespace Files.ViewModels
 {
     public class ItemViewModel : INotifyPropertyChanged, IDisposable
     {
@@ -46,6 +46,7 @@ namespace Files.Filesystem
         private BulkObservableCollection<ListedItem> _filesAndFolders;
         public ReadOnlyObservableCollection<ListedItem> FilesAndFolders { get; }
         public SettingsViewModel AppSettings => App.AppSettings;
+        public FolderSettingsViewModel FolderSettings => AssociatedInstance?.InstanceViewModel.FolderSettings;
         private bool shouldDisplayFileExtensions = false;
         public ListedItem CurrentFolder { get; private set; }
         public CollectionViewSource viewSource;
@@ -165,6 +166,7 @@ namespace Files.Filesystem
             NotifyPropertyChanged(nameof(IsSortedByDate));
             NotifyPropertyChanged(nameof(IsSortedByType));
             NotifyPropertyChanged(nameof(IsSortedBySize));
+            NotifyPropertyChanged(nameof(IsSortedByOriginalPath));
             OrderFiles();
         }
 
@@ -177,25 +179,38 @@ namespace Files.Filesystem
 
         public bool IsSortedByName
         {
-            get => AppSettings.DirectorySortOption == SortOption.Name;
+            get => FolderSettings.DirectorySortOption == SortOption.Name;
             set
             {
                 if (value)
                 {
-                    AppSettings.DirectorySortOption = SortOption.Name;
+                    FolderSettings.DirectorySortOption = SortOption.Name;
                     NotifyPropertyChanged(nameof(IsSortedByName));
+                }
+            }
+        }
+
+        public bool IsSortedByOriginalPath
+        {
+            get => FolderSettings.DirectorySortOption == SortOption.OriginalPath;
+            set
+            {
+                if (value)
+                {
+                    FolderSettings.DirectorySortOption = SortOption.OriginalPath;
+                    NotifyPropertyChanged(nameof(IsSortedByOriginalPath));
                 }
             }
         }
 
         public bool IsSortedByDate
         {
-            get => AppSettings.DirectorySortOption == SortOption.DateModified;
+            get => FolderSettings.DirectorySortOption == SortOption.DateModified;
             set
             {
                 if (value)
                 {
-                    AppSettings.DirectorySortOption = SortOption.DateModified;
+                    FolderSettings.DirectorySortOption = SortOption.DateModified;
                     NotifyPropertyChanged(nameof(IsSortedByDate));
                 }
             }
@@ -203,12 +218,12 @@ namespace Files.Filesystem
 
         public bool IsSortedByType
         {
-            get => AppSettings.DirectorySortOption == SortOption.FileType;
+            get => FolderSettings.DirectorySortOption == SortOption.FileType;
             set
             {
                 if (value)
                 {
-                    AppSettings.DirectorySortOption = SortOption.FileType;
+                    FolderSettings.DirectorySortOption = SortOption.FileType;
                     NotifyPropertyChanged(nameof(IsSortedByType));
                 }
             }
@@ -216,12 +231,12 @@ namespace Files.Filesystem
 
         public bool IsSortedBySize
         {
-            get => AppSettings.DirectorySortOption == SortOption.Size;
+            get => FolderSettings.DirectorySortOption == SortOption.Size;
             set
             {
                 if (value)
                 {
-                    AppSettings.DirectorySortOption = SortOption.Size;
+                    FolderSettings.DirectorySortOption = SortOption.Size;
                     NotifyPropertyChanged(nameof(IsSortedBySize));
                 }
             }
@@ -229,10 +244,10 @@ namespace Files.Filesystem
 
         public bool IsSortedAscending
         {
-            get => AppSettings.DirectorySortDirection == SortDirection.Ascending;
+            get => FolderSettings.DirectorySortDirection == SortDirection.Ascending;
             set
             {
-                AppSettings.DirectorySortDirection = value ? SortDirection.Ascending : SortDirection.Descending;
+                FolderSettings.DirectorySortDirection = value ? SortDirection.Ascending : SortDirection.Descending;
                 NotifyPropertyChanged(nameof(IsSortedAscending));
                 NotifyPropertyChanged(nameof(IsSortedDescending));
             }
@@ -243,7 +258,7 @@ namespace Files.Filesystem
             get => !IsSortedAscending;
             set
             {
-                AppSettings.DirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
+                FolderSettings.DirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
                 NotifyPropertyChanged(nameof(IsSortedAscending));
                 NotifyPropertyChanged(nameof(IsSortedDescending));
             }
@@ -334,27 +349,31 @@ namespace Files.Filesystem
                 var changeType = (string)args.Request.Message["Type"];
                 var newItem = JsonConvert.DeserializeObject<ShellFileItem>(args.Request.Message.Get("Item", ""));
                 Debug.WriteLine("{0}: {1}", folderPath, changeType);
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                // If we are currently displaying the reycle bin lets refresh the items
+                if (CurrentFolder?.ItemPath == folderPath)
                 {
-                    // If we are currently displaying the reycle bin lets refresh the items
-                    if (CurrentFolder?.ItemPath == folderPath)
+                    switch (changeType)
                     {
-                        switch (changeType)
-                        {
-                            case "Created":
-                                AddFileOrFolderFromShellFile(newItem);
-                                break;
+                        case "Created":
+                            var newListedItem = AddFileOrFolderFromShellFile(newItem);
+                            if (newListedItem != null)
+                            {
+                                await AddFileOrFolderAsync(newListedItem);
+                            }
+                            break;
 
-                            case "Deleted":
-                                await RemoveFileOrFolderAsync(itemPath);
-                                break;
+                        case "Deleted":
+                            await RemoveFileOrFolderAsync(itemPath);
+                            break;
 
-                            default:
+                        default:
+                            await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                            {
                                 RefreshItems(null);
-                                break;
-                        }
+                            });
+                            break;
                     }
-                });
+                }
             }
             // The fulltrust process signaled that a drive has been connected/disconnected
             else if (args.Request.Message.ContainsKey("DeviceID"))
@@ -399,7 +418,7 @@ namespace Files.Filesystem
             }
             else
             {
-                AssociatedInstance.NavigationToolbar.PathComponents.Add(new Views.Pages.PathBoxItem() { Path = null, Title = singleItemOverride });
+                AssociatedInstance.NavigationToolbar.PathComponents.Add(new Views.PathBoxItem() { Path = null, Title = singleItemOverride });
             }
         }
 
@@ -475,7 +494,7 @@ namespace Files.Filesystem
             static object orderByNameFunc(ListedItem item) => item.ItemName;
             Func<ListedItem, object> orderFunc = orderByNameFunc;
             NaturalStringComparer naturalStringComparer = new NaturalStringComparer();
-            switch (AppSettings.DirectorySortOption)
+            switch (FolderSettings.DirectorySortOption)
             {
                 case SortOption.Name:
                     orderFunc = orderByNameFunc;
@@ -492,6 +511,10 @@ namespace Files.Filesystem
                 case SortOption.Size:
                     orderFunc = item => item.FileSizeBytes;
                     break;
+
+                case SortOption.OriginalPath:
+                    orderFunc = item => ((RecycleBinItem)item).ItemOriginalFolder;
+                    break;
             }
 
             // In ascending order, show folders first, then files.
@@ -500,9 +523,9 @@ namespace Files.Filesystem
             IOrderedEnumerable<ListedItem> ordered;
             List<ListedItem> orderedList;
 
-            if (AppSettings.DirectorySortDirection == SortDirection.Ascending)
+            if (FolderSettings.DirectorySortDirection == SortDirection.Ascending)
             {
-                if (AppSettings.DirectorySortOption == SortOption.Name)
+                if (FolderSettings.DirectorySortOption == SortOption.Name)
                 {
                     if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
                     {
@@ -527,9 +550,9 @@ namespace Files.Filesystem
             }
             else
             {
-                if (AppSettings.DirectorySortOption == SortOption.FileType)
+                if (FolderSettings.DirectorySortOption == SortOption.FileType)
                 {
-                    if (AppSettings.DirectorySortOption == SortOption.Name)
+                    if (FolderSettings.DirectorySortOption == SortOption.Name)
                     {
                         if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
                         {
@@ -554,7 +577,7 @@ namespace Files.Filesystem
                 }
                 else
                 {
-                    if (AppSettings.DirectorySortOption == SortOption.Name)
+                    if (FolderSettings.DirectorySortOption == SortOption.Name)
                     {
                         if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
                         {
@@ -580,9 +603,9 @@ namespace Files.Filesystem
             }
 
             // Further order by name if applicable
-            if (AppSettings.DirectorySortOption != SortOption.Name)
+            if (FolderSettings.DirectorySortOption != SortOption.Name)
             {
-                if (AppSettings.DirectorySortDirection == SortDirection.Ascending)
+                if (FolderSettings.DirectorySortDirection == SortDirection.Ascending)
                 {
                     ordered = ordered.ThenBy(orderByNameFunc, naturalStringComparer);
                 }
@@ -880,7 +903,7 @@ namespace Files.Filesystem
         public async Task EnumerateItemsFromSpecialFolderAsync(string path)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
 
             CurrentFolder = new ListedItem(null, returnformat)
@@ -980,7 +1003,7 @@ namespace Files.Filesystem
             }
 
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
 
             if (await CheckBitlockerStatusAsync(_rootFolder))
@@ -1157,7 +1180,7 @@ namespace Files.Filesystem
             stopwatch.Start();
 
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
 
             uint count = 0;
@@ -1177,7 +1200,10 @@ namespace Files.Filesystem
                 {
                     break;
                 }
-                catch (Exception ex) when (ex is UnauthorizedAccessException || ex is FileNotFoundException)
+                catch (Exception ex) when (
+                    ex is UnauthorizedAccessException 
+                    || ex is FileNotFoundException
+                    || (uint)ex.HResult == 0x80070490) // ERROR_NOT_FOUND
                 {
                     ++count;
                     continue;
@@ -1241,6 +1267,10 @@ namespace Files.Filesystem
 
         private async Task<bool> CheckBitlockerStatusAsync(StorageFolder rootFolder)
         {
+            if (rootFolder == null || rootFolder.Properties == null)
+            {
+                return false;
+            }
             if (Path.IsPathRooted(WorkingDirectory) && Path.GetPathRoot(WorkingDirectory) == WorkingDirectory)
             {
                 IDictionary<string, object> extraProperties = await rootFolder.Properties.RetrievePropertiesAsync(new string[] { "System.Volume.BitLockerProtection" });
@@ -1274,11 +1304,11 @@ namespace Files.Filesystem
         private void WatchForDirectoryChanges(string path)
         {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
 
             Debug.WriteLine("WatchForDirectoryChanges: {0}", path);
-            hWatchDir = CreateFileFromApp(path, 1, 1 | 2 | 4,
-                IntPtr.Zero, 3, (uint)File_Attributes.BackupSemantics | (uint)File_Attributes.Overlapped, IntPtr.Zero);
+            hWatchDir = NativeFileOperationsHelper.CreateFileFromApp(path, 1, 1 | 2 | 4,
+                IntPtr.Zero, 3, (uint)NativeFileOperationsHelper.File_Attributes.BackupSemantics | (uint)NativeFileOperationsHelper.File_Attributes.Overlapped, IntPtr.Zero);
             if (hWatchDir.ToInt64() == -1)
             {
                 return;
@@ -1414,7 +1444,7 @@ namespace Files.Filesystem
             if (dateReturnFormat == null)
             {
                 ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-                dateReturnFormat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+                dateReturnFormat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
             }
 
             if (item.IsFolder)
@@ -1485,10 +1515,13 @@ namespace Files.Filesystem
             }
         }
 
-        private void AddFileOrFolder(ListedItem item)
+        private async Task AddFileOrFolderAsync(ListedItem item)
         {
-            _filesAndFolders.Add(item);
-            IsFolderEmptyTextDisplayed = false;
+            await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+            {
+                _filesAndFolders.Add(item);
+                IsFolderEmptyTextDisplayed = false;
+            });
         }
 
         private async Task AddFileOrFolderAsync(string fileOrFolderPath, string dateReturnFormat)
@@ -1517,6 +1550,7 @@ namespace Files.Filesystem
                 var orderedList = OrderFiles2(tempList);
                 await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                 {
+                    IsFolderEmptyTextDisplayed = false;
                     OrderFiles(orderedList);
                     UpdateDirectoryInfo();
                 });
@@ -1573,10 +1607,7 @@ namespace Files.Filesystem
             await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
             {
                 _filesAndFolders.Remove(item);
-                if (_filesAndFolders.Count == 0)
-                {
-                    IsFolderEmptyTextDisplayed = true;
-                }
+                IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
                 App.JumpList.RemoveFolder(item.ItemPath);
 
                 UpdateDirectoryInfo();

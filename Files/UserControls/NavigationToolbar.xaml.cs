@@ -2,9 +2,8 @@
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
-using Files.View_Models;
+using Files.ViewModels;
 using Files.Views;
-using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
@@ -632,8 +631,7 @@ namespace Files.UserControls
                             dragOverTimer.Stop();
                             ItemDraggedOverPathItem?.Invoke(this, new PathNavigationEventArgs()
                             {
-                                ItemPath = dragOverPath,
-                                LayoutType = AppSettings.GetLayoutType()
+                                ItemPath = dragOverPath
                             });
                             dragOverPath = null;
                         }
@@ -717,8 +715,7 @@ namespace Files.UserControls
             var itemTappedPath = ((sender as TextBlock).DataContext as PathBoxItem).Path;
             ToolbarPathItemInvoked?.Invoke(this, new PathNavigationEventArgs()
             {
-                ItemPath = itemTappedPath,
-                LayoutType = AppSettings.GetLayoutType()
+                ItemPath = itemTappedPath
             });
         }
 

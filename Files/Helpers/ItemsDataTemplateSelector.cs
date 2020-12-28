@@ -1,4 +1,4 @@
-﻿using Files.Views.Pages;
+﻿using Files.Views;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

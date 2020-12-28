@@ -139,8 +139,11 @@ namespace FilesFullTrust
                 if (hres == HRESULT.S_OK)
                 {
                     using var image = GetBitmapFromHBitmap(hbitmap);
-                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
-                    iconStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                    if (image != null)
+                    {
+                        byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(image, typeof(byte[]));
+                        iconStr = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                    }
                 }
                 //Marshal.ReleaseComObject(fctry);
             }
@@ -191,19 +194,23 @@ namespace FilesFullTrust
 
         private static Bitmap GetBitmapFromHBitmap(HBITMAP hBitmap)
         {
-            Bitmap bmp = hBitmap.ToBitmap();
-
-            if (Bitmap.GetPixelFormatSize(bmp.PixelFormat) < 32)
+            try
             {
+                Bitmap bmp = hBitmap.ToBitmap();
+                if (Image.GetPixelFormatSize(bmp.PixelFormat) < 32)
+                {
+                    return bmp;
+                }
+                if (IsAlphaBitmap(bmp, out var bmpData))
+                {
+                    return GetAlphaBitmapFromBitmapData(bmpData);
+                }
                 return bmp;
             }
-
-            if (IsAlphaBitmap(bmp, out var bmpData))
+            catch
             {
-                return GetAlphaBitmapFromBitmapData(bmpData);
+                return null;
             }
-
-            return bmp;
         }
 
         private static Bitmap GetAlphaBitmapFromBitmapData(BitmapData bmpData)

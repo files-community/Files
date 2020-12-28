@@ -903,18 +903,6 @@
   <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Applicazioni Terminale</value>
   </data>
-  <data name="SettingsPreferencesContextMenuSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostra tutti gli elementi nel menu contestuale</value>
-  </data>
-  <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostra un opzione per copiare il percorso dell'elemento selezionato</value>
-  </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Pinna il Cestino alla barra laterale</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostra una conferma prima di eliminare file e cartelle</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Modifica le app terminale</value>
   </data>
@@ -1454,5 +1442,17 @@
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>Nuovo File</value>
+  </data>
+  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
+    <value>Mostra contenuti non indicizzati durante la ricerca (più lento)</value>
+  </data>
+  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
+    <value>Abilita impostazioni di visualizzazione per cartella</value>
+  </data>
+  <data name="originalPathColumn.Header" xml:space="preserve">
+    <value>Percorso originale</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
+    <value>Percorso originale</value>
   </data>
 </root>

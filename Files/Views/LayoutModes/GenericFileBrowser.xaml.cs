@@ -23,7 +23,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
-namespace Files
+namespace Files.Views.LayoutModes
 {
     public sealed partial class GenericFileBrowser : BaseLayout
     {
@@ -43,23 +43,27 @@ namespace Files
             {
                 if (value == nameColumn)
                 {
-                    AppSettings.DirectorySortOption = SortOption.Name;
+                    FolderSettings.DirectorySortOption = SortOption.Name;
                 }
                 else if (value == dateColumn)
                 {
-                    AppSettings.DirectorySortOption = SortOption.DateModified;
+                    FolderSettings.DirectorySortOption = SortOption.DateModified;
                 }
                 else if (value == typeColumn)
                 {
-                    AppSettings.DirectorySortOption = SortOption.FileType;
+                    FolderSettings.DirectorySortOption = SortOption.FileType;
                 }
                 else if (value == sizeColumn)
                 {
-                    AppSettings.DirectorySortOption = SortOption.Size;
+                    FolderSettings.DirectorySortOption = SortOption.Size;
+                }
+                else if (value == originalPathColumn)
+                {
+                    FolderSettings.DirectorySortOption = SortOption.OriginalPath;
                 }
                 else
                 {
-                    AppSettings.DirectorySortOption = SortOption.Name;
+                    FolderSettings.DirectorySortOption = SortOption.Name;
                 }
 
                 if (value != sortedColumn)
@@ -70,7 +74,7 @@ namespace Files
                         sortedColumn.SortDirection = null;
                     }
                 }
-                value.SortDirection = AppSettings.DirectorySortDirection == SortDirection.Ascending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
+                value.SortDirection = FolderSettings.DirectorySortDirection == SortDirection.Ascending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
                 sortedColumn = value;
             }
         }
@@ -82,24 +86,6 @@ namespace Files
             base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
 
             tapDebounceTimer = new DispatcherTimer();
-            switch (AppSettings.DirectorySortOption)
-            {
-                case SortOption.Name:
-                    SortedColumn = nameColumn;
-                    break;
-
-                case SortOption.DateModified:
-                    SortedColumn = dateColumn;
-                    break;
-
-                case SortOption.FileType:
-                    SortedColumn = typeColumn;
-                    break;
-
-                case SortOption.Size:
-                    SortedColumn = sizeColumn;
-                    break;
-            }
 
             var selectionRectangle = RectangleSelection.Create(AllView, SelectionRectangle, AllView_SelectionChanged);
             selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
@@ -125,6 +111,7 @@ namespace Files
             base.OnNavigatedTo(eventArgs);
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged += ViewModel_PropertyChanged;
             AllView.LoadingRow += AllView_LoadingRow;
+            ViewModel_PropertyChanged(null, new PropertyChangedEventArgs("DirectorySortOption"));
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -197,7 +184,7 @@ namespace Files
         {
             if (e.PropertyName == "DirectorySortOption")
             {
-                switch (AppSettings.DirectorySortOption)
+                switch (FolderSettings.DirectorySortOption)
                 {
                     case SortOption.Name:
                         SortedColumn = nameColumn;
@@ -213,6 +200,10 @@ namespace Files
 
                     case SortOption.Size:
                         SortedColumn = sizeColumn;
+                        break;
+
+                    case SortOption.OriginalPath:
+                        SortedColumn = originalPathColumn;
                         break;
                 }
             }
@@ -285,6 +276,12 @@ namespace Files
                 return;
             }
 
+            if (SelectedItem == null)
+            {
+                AllView.CancelEdit(); // Cancel the edit operation
+                return;
+            }
+
             int extensionLength = SelectedItem.FileExtension?.Length ?? 0;
             oldItemName = SelectedItem.ItemName;
 
@@ -292,7 +289,7 @@ namespace Files
             renamingTextBox.Focus(FocusState.Programmatic); // Without this,the user cannot edit the text box when renaming via right-click
 
             int selectedTextLength = SelectedItem.ItemName.Length;
-            if (AppSettings.ShowFileExtensions)
+            if (!SelectedItem.IsShortcutItem && AppSettings.ShowFileExtensions)
             {
                 selectedTextLength -= extensionLength;
             }
@@ -363,7 +360,7 @@ namespace Files
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
             var cp = e.GetCurrentPoint((UIElement)sender);
-            if (cp.Position.Y <= 38 // Return if click is on the header(38 = header height)
+            if (cp.Position.Y <= AllView.ColumnHeaderHeight // Return if click is on the header
                 || cp.Properties.IsLeftButtonPressed // Return if dragging an item
                 || cp.Properties.IsRightButtonPressed // Return if the user right clicks an item
                 || ctrlPressed || shiftPressed) // Allow for Ctrl+Shift selection
@@ -538,6 +535,10 @@ namespace Files
 
                 case "sizeColumn":
                     args = new DataGridColumnEventArgs(sizeColumn);
+                    break;
+
+                case "originalPathColumn":
+                    args = new DataGridColumnEventArgs(originalPathColumn);
                     break;
             }
 

@@ -110,7 +110,7 @@ namespace Files.Helpers
                 Command = (string)key.GetValue("Command"),
                 //Name = (string)key.GetValue("ItemName"),
                 //IconPath = (string)key.GetValue("IconPath"),
-                Icon = thumbnail,
+                Icon = thumbnail?.Result,
                 Data = data
             };
 

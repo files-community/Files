@@ -1,4 +1,4 @@
-﻿using Files.View_Models;
+﻿using Files.ViewModels;
 using System;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
@@ -8,6 +8,7 @@ namespace Files.UserControls
     public sealed partial class StatusBarControl : UserControl
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+        public FolderSettingsViewModel FolderSettings { get; set; } = null;
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; set; } = null;
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; set; } = null;
         public ICommand SelectAllInvokedCommand { get; set; }

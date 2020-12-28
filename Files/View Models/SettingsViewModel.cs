@@ -22,15 +22,11 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
-namespace Files.View_Models
+namespace Files.ViewModels
 {
     public class SettingsViewModel : ObservableObject
     {
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-
-        public event EventHandler SortOptionPreferenceUpdated;
-
-        public event EventHandler SortDirectionPreferenceUpdated;
 
         public DrivesManager DrivesManager { get; }
 
@@ -42,7 +38,6 @@ namespace Files.View_Models
             PinSidebarLocationItems();
             DetectRecycleBinPreference();
             DetectQuickLook();
-            DetectGridViewSize();
             DrivesManager = new DrivesManager();
 
             //DetectWSLDistros();
@@ -86,59 +81,10 @@ namespace Files.View_Models
             await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/files-uwp/issues/new/choose"));
         }
 
-        public DefaultLanguageModel CurrentLanguage { get; set; } = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);
-
-        public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; }
-
-        public DefaultLanguageModel DefaultLanguage
-        {
-            get
-            {
-                return DefaultLanguages.FirstOrDefault(dl => dl.ID == ApplicationLanguages.PrimaryLanguageOverride) ??
-                           DefaultLanguages.FirstOrDefault();
-            }
-            set
-            {
-                ApplicationLanguages.PrimaryLanguageOverride = value.ID;
-            }
-        }
-
         public GridLength SidebarWidth
         {
             get => new GridLength(Math.Min(Math.Max(Get(200d), 200d), 500d), GridUnitType.Pixel);
             set => Set(value.Value);
-        }
-
-        public SortOption DirectorySortOption
-        {
-            get => (SortOption)SortOptionByte;
-            set
-            {
-                SortOptionByte = (byte)value;
-                SortOptionPreferenceUpdated?.Invoke(this, new EventArgs());
-            }
-        }
-
-        public SortDirection DirectorySortDirection
-        {
-            get => (SortDirection)SortDirectionByte;
-            set
-            {
-                SortDirectionByte = (byte)value;
-                SortDirectionPreferenceUpdated?.Invoke(this, new EventArgs());
-            }
-        }
-
-        private byte SortOptionByte
-        {
-            get => Get((byte)0);
-            set => Set(value);
-        }
-
-        private byte SortDirectionByte
-        {
-            get => Get((byte)0);
-            set => Set(value);
         }
 
         public async void DetectQuickLook()
@@ -146,6 +92,23 @@ namespace Files.View_Models
             // Detect QuickLook
             ApplicationData.Current.LocalSettings.Values["Arguments"] = "StartupTasks";
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+        }
+
+        private void DetectRecycleBinPreference()
+        {
+            if (localSettings.Values["PinRecycleBin"] == null)
+            {
+                localSettings.Values["PinRecycleBin"] = true;
+            }
+
+            if ((bool)localSettings.Values["PinRecycleBin"] == true)
+            {
+                PinRecycleBinToSideBar = true;
+            }
+            else
+            {
+                PinRecycleBinToSideBar = false;
+            }
         }
 
         private void PinSidebarLocationItems()
@@ -220,20 +183,20 @@ namespace Files.View_Models
 
         private void DetectDateTimeFormat()
         {
-            if (localSettings.Values[LocalSettings.DateTimeFormat] != null)
+            if (localSettings.Values[Constants.LocalSettings.DateTimeFormat] != null)
             {
-                if (localSettings.Values[LocalSettings.DateTimeFormat].ToString() == "Application")
+                if (localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString() == "Application")
                 {
                     DisplayedTimeStyle = TimeStyle.Application;
                 }
-                else if (localSettings.Values[LocalSettings.DateTimeFormat].ToString() == "System")
+                else if (localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString() == "System")
                 {
                     DisplayedTimeStyle = TimeStyle.System;
                 }
             }
             else
             {
-                localSettings.Values[LocalSettings.DateTimeFormat] = "Application";
+                localSettings.Values[Constants.LocalSettings.DateTimeFormat] = "Application";
             }
         }
 
@@ -247,21 +210,13 @@ namespace Files.View_Models
                 SetProperty(ref _DisplayedTimeStyle, value);
                 if (value.Equals(TimeStyle.Application))
                 {
-                    localSettings.Values[LocalSettings.DateTimeFormat] = "Application";
+                    localSettings.Values[Constants.LocalSettings.DateTimeFormat] = "Application";
                 }
                 else if (value.Equals(TimeStyle.System))
                 {
-                    localSettings.Values[LocalSettings.DateTimeFormat] = "System";
+                    localSettings.Values[Constants.LocalSettings.DateTimeFormat] = "System";
                 }
             }
-        }
-
-        private FormFactorMode _FormFactor = FormFactorMode.Regular;
-
-        public FormFactorMode FormFactor
-        {
-            get => _FormFactor;
-            set => SetProperty(ref _FormFactor, value);
         }
 
         public string OneDriveCommercialPath { get; set; } = Environment.GetEnvironmentVariable("OneDriveCommercial");
@@ -300,68 +255,9 @@ namespace Files.View_Models
             set => Set(value);
         }
 
-        // Any distinguishable path here is fine
-        // Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
-        public string RecycleBinPath { get; set; } = @"Shell:RecycleBinFolder";
-
-        private void DetectRecycleBinPreference()
-        {
-            if (localSettings.Values["PinRecycleBin"] == null)
-            {
-                localSettings.Values["PinRecycleBin"] = true;
-            }
-
-            if ((bool)localSettings.Values["PinRecycleBin"] == true)
-            {
-                PinRecycleBinToSideBar = true;
-            }
-            else
-            {
-                PinRecycleBinToSideBar = false;
-            }
-        }
-
-        private bool _PinRecycleBinToSideBar;
-
-        public bool PinRecycleBinToSideBar
-        {
-            get => _PinRecycleBinToSideBar;
-            set
-            {
-                if (value != _PinRecycleBinToSideBar)
-                {
-                    SetProperty(ref _PinRecycleBinToSideBar, value);
-                    if (value == true)
-                    {
-                        localSettings.Values["PinRecycleBin"] = true;
-                        var recycleBinItem = new LocationItem
-                        {
-                            Text = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
-                            Font = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
-                            Glyph = "\uEF87",
-                            IsDefaultLocation = true,
-                            Path = RecycleBinPath
-                        };
-                        // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
-                        // TODO: the very first time the app is launched localized name not available
-                        MainPage.SideBarItems.Insert(MainPage.SideBarItems.Where(item => item is LocationItem).Count(), recycleBinItem);
-                    }
-                    else
-                    {
-                        localSettings.Values["PinRecycleBin"] = false;
-                        foreach (INavigationControlItem item in MainPage.SideBarItems.ToList())
-                        {
-                            if (item is LocationItem && item.Path == RecycleBinPath)
-                            {
-                                MainPage.SideBarItems.Remove(item);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         #region CommonPaths
+
+        // Any distinguishable path here is fine
 
         public string DesktopPath { get; set; } = UserDataPaths.GetDefault().Desktop;
         public string DocumentsPath { get; set; } = UserDataPaths.GetDefault().Documents;
@@ -401,6 +297,9 @@ namespace Files.View_Models
             get => _WinDirPath;
             set => SetProperty(ref _WinDirPath, value);
         }
+
+        // Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
+        public string RecycleBinPath { get; set; } = @"Shell:RecycleBinFolder";
 
         #endregion CommonPaths
 
@@ -451,22 +350,49 @@ namespace Files.View_Models
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to search unindexed items.
+        /// </summary>
+        public bool SearchUnindexedItems
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Enables saving a unique layout mode, gridview size and sort direction per folder
+        /// </summary>
+        public bool AreLayoutPreferencesPerFolder
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
         #endregion FilesAndFolder
 
         #region Multitasking
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to automatically switch between the horizontal and vertical tab layout.
+        /// </summary>
         public bool IsMultitaskingExperienceAdaptive
         {
             get => Get(true);
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to enable the vertical tab layout.
+        /// </summary>
         public bool IsVerticalTabFlyoutEnabled
         {
             get => Get(false);
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to enable the horizontal tab layout.
+        /// </summary>
         public bool IsHorizontalTabStripEnabled
         {
             get => Get(false);
@@ -506,6 +432,8 @@ namespace Files.View_Models
 
         #endregion Widgets
 
+        #region Preferences
+
         /// <summary>
         /// Gets or sets a value indicating whether or not the confirm delete dialog should show when deleting items.
         /// </summary>
@@ -514,6 +442,96 @@ namespace Files.View_Models
             get => Get(true);
             set => Set(value);
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not some of the right click context menu items overflow into a sub menu.
+        /// </summary>
+        public bool ShowAllContextMenuItems
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the show copy location option is shown in the right click context menu.
+        /// </summary>
+        public bool ShowCopyLocationOption
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating the application language.
+        /// </summary>
+        public DefaultLanguageModel CurrentLanguage { get; set; } = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);
+
+        /// <summary>
+        /// Gets or sets an ObservableCollection of the support langauges.
+        /// </summary>
+        public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; }
+
+        /// <summary>
+        /// Gets or sets a value indicating the default language.
+        /// </summary>
+        public DefaultLanguageModel DefaultLanguage
+        {
+            get
+            {
+                return DefaultLanguages.FirstOrDefault(dl => dl.ID == ApplicationLanguages.PrimaryLanguageOverride) ??
+                           DefaultLanguages.FirstOrDefault();
+            }
+            set
+            {
+                ApplicationLanguages.PrimaryLanguageOverride = value.ID;
+            }
+        }
+
+        //TODO: This shouldn't pin recycle bin to the sidebar, it should only hold the value whether it should or shouldn't be pinned
+        /// <summary>
+        /// Gets or sets a value indicating whether or not recycle bin should be pinned to the sidebar.
+        /// </summary>
+        private bool _PinRecycleBinToSideBar;
+
+        public bool PinRecycleBinToSideBar
+        {
+            get => _PinRecycleBinToSideBar;
+            set
+            {
+                if (value != _PinRecycleBinToSideBar)
+                {
+                    SetProperty(ref _PinRecycleBinToSideBar, value);
+                    if (value == true)
+                    {
+                        localSettings.Values["PinRecycleBin"] = true;
+                        var recycleBinItem = new LocationItem
+                        {
+                            Text = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
+                            Font = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
+                            Glyph = "\uEF87",
+                            IsDefaultLocation = true,
+                            Path = RecycleBinPath
+                        };
+                        // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
+                        // TODO: the very first time the app is launched localized name not available
+                        MainPage.SideBarItems.Insert(MainPage.SideBarItems.Where(item => item is LocationItem).Count(), recycleBinItem);
+                    }
+                    else
+                    {
+                        localSettings.Values["PinRecycleBin"] = false;
+                        foreach (INavigationControlItem item in MainPage.SideBarItems.ToList())
+                        {
+                            if (item is LocationItem && item.Path == RecycleBinPath)
+                            {
+                                MainPage.SideBarItems.Remove(item);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        #endregion Preferences
 
         /// <summary>
         /// Gets or sets a value indicating whether or not WSL is supported.
@@ -593,24 +611,6 @@ namespace Files.View_Models
             set => Set(value);
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether or not some of the right click context menu items overflow into a sub menu.
-        /// </summary>
-        public bool ShowAllContextMenuItems
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the show copy location option is shown in the right click context menu.
-        /// </summary>
-        public bool ShowCopyLocationOption
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
         public string[] PagesOnStartupList
         {
             get => Get<string[]>(null);
@@ -632,154 +632,28 @@ namespace Files.View_Models
 
         public AcrylicTheme AcrylicTheme { get; set; }
 
-        public int LayoutMode
+        public FolderLayoutModes DefaultLayoutMode
         {
-            get => Get(0); // Details View
+            get => (FolderLayoutModes)Get((byte)FolderLayoutModes.DetailsView); // Details View
+            set => Set((byte)value);
+        }
+
+        public int DefaultGridViewSize
+        {
+            get => Get(Constants.Browser.GridViewBrowser.GridViewSizeSmall);
             set => Set(value);
         }
 
-        public Type GetLayoutType()
+        public SortDirection DefaultDirectorySortDirection
         {
-            Type type = null;
-            switch (LayoutMode)
-            {
-                case 0:
-                    type = typeof(GenericFileBrowser);
-                    break;
-
-                case 1:
-                    type = typeof(GridViewBrowser);
-                    break;
-
-                case 2:
-                    type = typeof(GridViewBrowser);
-                    break;
-
-                default:
-                    type = typeof(GenericFileBrowser);
-                    break;
-            }
-            return type;
+            get => (SortDirection)Get((byte)SortDirection.Ascending);
+            set => Set((byte)value);
         }
 
-        public event EventHandler LayoutModeChangeRequested;
-
-        public RelayCommand ToggleLayoutModeGridViewLarge => new RelayCommand(() =>
+        public SortOption DefaultDirectorySortOption
         {
-            LayoutMode = 2; // Grid View
-
-            GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeLarge; // Size
-
-            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
-        });
-
-        public RelayCommand ToggleLayoutModeGridViewMedium => new RelayCommand(() =>
-        {
-            LayoutMode = 2; // Grid View
-
-            GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeMedium; // Size
-
-            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
-        });
-
-        public RelayCommand ToggleLayoutModeGridViewSmall => new RelayCommand(() =>
-        {
-            LayoutMode = 2; // Grid View
-
-            GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Size
-
-            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
-        });
-
-        public RelayCommand ToggleLayoutModeTiles => new RelayCommand(() =>
-        {
-            LayoutMode = 1; // Tiles View
-
-            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
-        });
-
-        public RelayCommand ToggleLayoutModeDetailsView => new RelayCommand(() =>
-        {
-            LayoutMode = 0; // Details View
-
-            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
-        });
-
-        private void DetectGridViewSize()
-        {
-            gridViewSize = Get(Constants.Browser.GridViewBrowser.GridViewSizeSmall, "GridViewSize"); // Get GridView Size
-        }
-
-        private int gridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Default Size
-
-        public int GridViewSize
-        {
-            get => gridViewSize;
-            set
-            {
-                if (value < gridViewSize) // Size down
-                {
-                    if (LayoutMode == 1) // Size down from tiles to list
-                    {
-                        LayoutMode = 0;
-                        Set(0, "LayoutMode");
-                        LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
-                    }
-                    else if (LayoutMode == 2 && value < Constants.Browser.GridViewBrowser.GridViewSizeSmall) // Size down from grid to tiles
-                    {
-                        LayoutMode = 1;
-                        Set(1, "LayoutMode");
-                        LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
-                    }
-                    else if (LayoutMode != 0) // Resize grid view
-                    {
-                        gridViewSize = (value >= Constants.Browser.GridViewBrowser.GridViewSizeSmall) ? value : Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Set grid size to allow immediate UI update
-                        Set(value);
-
-                        if (LayoutMode != 2) // Only update layout mode if it isn't already in grid view
-                        {
-                            LayoutMode = 2;
-                            Set(2, "LayoutMode");
-                            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
-                        }
-
-                        GridViewSizeChangeRequested?.Invoke(this, EventArgs.Empty);
-                    }
-                }
-                else // Size up
-                {
-                    if (LayoutMode == 0) // Size up from list to tiles
-                    {
-                        LayoutMode = 1;
-                        Set(1, "LayoutMode");
-                        LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
-                    }
-                    else // Size up from tiles to grid
-                    {
-                        gridViewSize = (LayoutMode == 1) ? Constants.Browser.GridViewBrowser.GridViewSizeSmall : (value <= Constants.Browser.GridViewBrowser.GridViewSizeMax) ? value : Constants.Browser.GridViewBrowser.GridViewSizeMax; // Set grid size to allow immediate UI update
-                        Set(gridViewSize);
-
-                        if (LayoutMode != 2) // Only update layout mode if it isn't already in grid view
-                        {
-                            LayoutMode = 2;
-                            Set(2, "LayoutMode");
-                            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
-                        }
-
-                        if (value < Constants.Browser.GridViewBrowser.GridViewSizeMax) // Don't request a grid resize if it is already at the max size
-                        {
-                            GridViewSizeChangeRequested?.Invoke(this, EventArgs.Empty);
-                        }
-                    }
-                }
-            }
-        }
-
-        public event EventHandler GridViewSizeChangeRequested;
-
-        public void Dispose()
-        {
-            DrivesManager?.Dispose();
+            get => (SortOption)Get((byte)SortOption.Name);
+            set => Set((byte)value);
         }
 
         #region ReadAndSaveSettings
@@ -862,5 +736,10 @@ namespace Files.View_Models
         private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
 
         #endregion ReadAndSaveSettings
+
+        public void Dispose()
+        {
+            DrivesManager?.Dispose();
+        }
     }
 }

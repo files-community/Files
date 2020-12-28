@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
+using System.Text;
 
 namespace Files.Helpers
 {
@@ -36,6 +37,20 @@ namespace Files.Helpers
         }
 
         public const uint GENERIC_READ = 0x80000000;
+        public const uint GENERIC_WRITE = 0x40000000;
+
+        public const uint FILE_SHARE_READ = 0x00000001;
+        public const uint FILE_SHARE_WRITE = 0x00000002;
+        public const uint FILE_SHARE_DELETE = 0x00000004;
+
+        public const uint CREATE_ALWAYS = 2;
+        public const uint CREATE_NEW = 1;
+        public const uint OPEN_ALWAYS = 4;
+        public const uint OPEN_EXISTING = 3;
+        public const uint TRUNCATE_EXISTING = 5;
+
+        [DllImport("api-ms-win-core-handle-l1-1-0.dll")]
+        public static extern bool CloseHandle(IntPtr hObject);
 
         [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", CharSet = CharSet.Auto,
         CallingConvention = CallingConvention.StdCall,
@@ -105,6 +120,28 @@ namespace Files.Helpers
             string lpFileName,
             System.IO.FileAttributes dwFileAttributes);
 
+        [DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto,
+        CallingConvention = CallingConvention.StdCall,
+        SetLastError = true)]
+        public unsafe static extern bool ReadFile(
+            IntPtr hFile,
+            byte* lpBuffer,
+            int nBufferLength,
+            int* lpBytesReturned,
+            IntPtr lpOverlapped
+        );
+
+        [DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto,
+        CallingConvention = CallingConvention.StdCall,
+        SetLastError = true)]
+        public unsafe static extern bool WriteFile(
+            IntPtr hFile,
+            byte* lpBuffer,
+            int nBufferLength,
+            int* lpBytesWritten,
+            IntPtr lpOverlapped
+        );
+
         public enum GET_FILEEX_INFO_LEVELS
         {
             GetFileExInfoStandard,
@@ -149,6 +186,50 @@ namespace Files.Helpers
                 return false;
             }
             return SetFileAttributesFromApp(lpFileName, lpFileInfo.dwFileAttributes & ~dwAttrs);
+        }
+
+        public static string ReadStringFromFile(string filePath)
+        {
+            IntPtr hStream = CreateFileFromApp(filePath,
+                GENERIC_READ, 0, IntPtr.Zero, OPEN_EXISTING, (uint)File_Attributes.BackupSemantics, IntPtr.Zero);
+            if (hStream.ToInt64() == -1)
+            {
+                return null;
+            }
+            byte[] buff = new byte[4096];
+            int dwBytesRead;
+            string str = null;
+            unsafe
+            {
+                fixed (byte* pBuff = buff)
+                {
+                    ReadFile(hStream, pBuff, 4096 - 1, &dwBytesRead, IntPtr.Zero);
+                    str = Encoding.UTF8.GetString(pBuff, dwBytesRead);
+                }
+            }
+            CloseHandle(hStream);
+            return str;
+        }
+
+        public static bool WriteStringToFile(string filePath, string str)
+        {
+            IntPtr hStream = CreateFileFromApp(filePath,
+                GENERIC_WRITE, 0, IntPtr.Zero, CREATE_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero);
+            if (hStream.ToInt64() == -1)
+            {
+                return false;
+            }
+            byte[] buff = Encoding.UTF8.GetBytes(str);
+            int dwBytesWritten;
+            unsafe
+            {
+                fixed (byte* pBuff = buff)
+                {
+                    WriteFile(hStream, pBuff, buff.Length, &dwBytesWritten, IntPtr.Zero);
+                }
+            }
+            CloseHandle(hStream);
+            return true;
         }
     }
 }

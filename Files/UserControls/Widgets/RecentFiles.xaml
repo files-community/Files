@@ -1,9 +1,9 @@
 ﻿<UserControl
-    x:Class="Files.RecentFiles"
+    x:Class="Files.UserControls.Widgets.RecentFiles"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Files"
+    xmlns:local="using:Files.UserControls.Widgets"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -65,9 +65,9 @@
                                 <Grid.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem
-                                            x:Name="mfi_RemoveOneItem"
+                                            x:Name="RemoveRecentItem"
                                             x:Uid="RecentItemRemove"
-                                            Click="RemoveOneFrequentItem"
+                                            Click="RemoveRecentItem_Click"
                                             Text="Remove this item">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB3D;" />
@@ -75,7 +75,7 @@
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem
                                             x:Uid="RecentItemClearAll"
-                                            Click="MenuFlyoutItem_Click"
+                                            Click="ClearRecentItems_Click"
                                             Text="Clear all items">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9ED;" />
