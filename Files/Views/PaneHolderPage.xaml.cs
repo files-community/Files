@@ -1,12 +1,11 @@
-﻿using Files.Filesystem;
-using Files.Interacts;
-using Files.UserControls;
+﻿using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Windows.ApplicationModel.AppService;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -14,7 +13,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views
 {
-    public sealed partial class PaneHolderPage : Page, IShellPage, INotifyPropertyChanged
+    public sealed partial class PaneHolderPage : Page, ITabItemContent, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -100,40 +99,6 @@ namespace Files.Views
             }
         }
 
-        public StatusBarControl BottomStatusStripControl => ActivePane?.BottomStatusStripControl;
-
-        public Frame ContentFrame => ActivePane?.ContentFrame;
-
-        public Interaction InteractionOperations => ActivePane?.InteractionOperations;
-
-        public ItemViewModel FilesystemViewModel => ActivePane?.FilesystemViewModel;
-
-        public CurrentInstanceViewModel InstanceViewModel => ActivePane?.InstanceViewModel;
-
-        public AppServiceConnection ServiceConnection => ActivePane?.ServiceConnection;
-
-        BaseLayout IShellPage.ContentPage => ActivePane?.ContentPage;
-
-        public Control OperationsControl => ActivePane?.OperationsControl;
-
-        public Type CurrentPageType => ActivePane?.CurrentPageType;
-
-        public bool IsPageMainPane => true;
-
-        public INavigationControlItem SidebarSelectedItem
-        {
-            get => ActivePane?.SidebarSelectedItem;
-            set
-            {
-                if (ActivePane != null)
-                {
-                    ActivePane.SidebarSelectedItem = value;
-                }
-            }
-        }
-
-        public INavigationToolbar NavigationToolbar => ActivePane?.NavigationToolbar;
-
         private bool isCurrentInstance;
 
         public bool IsCurrentInstance
@@ -155,6 +120,7 @@ namespace Files.Views
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler<TabItemArguments> ContentChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
@@ -164,8 +130,20 @@ namespace Files.Views
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            NavParamsLeft = eventArgs.Parameter.ToString();
-            NavParamsRight = "NewTab".GetLocalized();
+            if (eventArgs.Parameter is string navPath)
+            {
+                NavParamsLeft = navPath;
+                NavParamsRight = "NewTab".GetLocalized();
+            }
+            if (eventArgs.Parameter is PaneNavigationArguments paneArgs)
+            {
+                NavParamsLeft = paneArgs.LeftPaneNavPathParam;
+                NavParamsRight = paneArgs.RightPaneNavPathParam;
+                IsRightPaneVisible = paneArgs.RightPaneNavPathParam != null;
+            }
+
+            NLog.LogManager.GetCurrentClassLogger().Info(NavParamsLeft);
+            NLog.LogManager.GetCurrentClassLogger().Info(NavParamsRight);
         }
 
         public void Clipboard_ContentChanged(object sender, object e)
@@ -202,5 +180,53 @@ namespace Files.Views
                 IsRightPaneVisible = false;
             }
         }
+
+        private TabItemArguments tabItemArguments;
+
+        public TabItemArguments TabItemArguments
+        {
+            get => tabItemArguments;
+            set
+            {
+                if (tabItemArguments != value)
+                {
+                    tabItemArguments = value;
+                    ContentChanged?.Invoke(this, value);
+                }
+            }
+        }
+
+        private void Pane_ContentChanged(object sender, TabItemArguments e)
+        {
+            TabItemArguments = new TabItemArguments()
+            {
+                InitialPageType = typeof(PaneHolderPage),
+                NavigationArg = new PaneNavigationArguments()
+                {
+                    LeftPaneNavPathParam = PaneLeft.TabItemArguments.NavigationArg as string,
+                    RightPaneNavPathParam = PaneRight?.TabItemArguments.NavigationArg as string
+                }
+            };
+        }
+
+        public DataPackageOperation TabItemDragOver(object sender, DragEventArgs e)
+        {
+            return ActivePane?.TabItemDragOver(sender, e) ?? DataPackageOperation.None;
+        }
+
+        public async Task<DataPackageOperation> TabItemDrop(object sender, DragEventArgs e)
+        {
+            if (ActivePane != null)
+            {
+                return await ActivePane.TabItemDrop(sender, e);
+            }
+            return DataPackageOperation.None;
+        }
+    }
+
+    public class PaneNavigationArguments
+    {
+        public string LeftPaneNavPathParam { get; set; } = null;
+        public string RightPaneNavPathParam { get; set; } = null;
     }
 }

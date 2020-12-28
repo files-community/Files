@@ -49,43 +49,19 @@ namespace Files.UserControls.MultitaskingControl
 
         private async void TabViewItem_Drop(object sender, DragEventArgs e)
         {
-            if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
-            {
-                // TODO: Add Simpler way to find TabItem working directory
-                string tabViewItemWorkingDir = ((((
-                    (sender as TabViewItem)
-                    .DataContext as TabItem)
-                    .Content as Grid).Children[0] as Frame)
-                    .Content as IShellPage)
-                    .FilesystemViewModel
-                    .WorkingDirectory;
-
-                await CurrentSelectedAppInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(
-                    DataPackageOperation.Move,
-                    e.DataView,
-                    tabViewItemWorkingDir,
-                    true);
-            }
-            else
-            {
-                e.AcceptedOperation = DataPackageOperation.None;
-            }
+            e.AcceptedOperation = await ((sender as TabViewItem).DataContext as TabItem).Control.TabItemContent.TabItemDrop(sender, e);
             HorizontalTabView.CanReorderTabs = true;
             tabHoverTimer.Stop();
         }
 
         private void TabViewItem_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
+            e.AcceptedOperation = ((sender as TabViewItem).DataContext as TabItem).Control.TabItemContent.TabItemDragOver(sender, e);
+            if (e.AcceptedOperation != DataPackageOperation.None)
             {
                 HorizontalTabView.CanReorderTabs = false;
-                e.AcceptedOperation = DataPackageOperation.Move;
                 tabHoverTimer.Start();
                 hoveredTabViewItem = sender as TabViewItem;
-            }
-            else
-            {
-                e.AcceptedOperation = DataPackageOperation.None;
             }
         }
 
@@ -107,8 +83,8 @@ namespace Files.UserControls.MultitaskingControl
 
         private void TabStrip_TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)
         {
-            var tabViewItemPath = ((((args.Item as TabItem).Content as Grid).Children[0] as Frame).Tag as TabItemContent).NavigationArg;
-            args.Data.Properties.Add(TabPathIdentifier, tabViewItemPath);
+            var tabViewItemArgs = (args.Item as TabItem).TabItemArguments;
+            args.Data.Properties.Add(TabPathIdentifier, tabViewItemArgs.Serialize());
             args.Data.RequestedOperation = DataPackageOperation.Move;
         }
 
@@ -133,7 +109,7 @@ namespace Files.UserControls.MultitaskingControl
             HorizontalTabView.CanReorderTabs = true;
         }
 
-        private async void TabStrip_TabStripDrop(object sender, DragEventArgs e)
+        private void TabStrip_TabStripDrop(object sender, DragEventArgs e)
         {
             HorizontalTabView.CanReorderTabs = true;
             if (!(sender is TabView tabStrip))
@@ -141,7 +117,7 @@ namespace Files.UserControls.MultitaskingControl
                 return;
             }
 
-            if (!e.DataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) || !(tabViewItemPathObj is string tabViewItemPath))
+            if (!e.DataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) || !(tabViewItemPathObj is string tabViewItemString))
             {
                 return;
             }
@@ -159,8 +135,9 @@ namespace Files.UserControls.MultitaskingControl
                 }
             }
 
+            var tabViewItemArgs = TabItemArguments.Deserialize(tabViewItemString);
             ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
-            await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), tabViewItemPath, index);
+            MainPage.AddNewTabByParam(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationArg, index);
         }
 
         private void TabStrip_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)
@@ -185,10 +162,10 @@ namespace Files.UserControls.MultitaskingControl
             }
 
             var indexOfTabViewItem = sender.TabItems.IndexOf(args.Tab);
-            var tabViewItemPath = ((((args.Item as TabItem).Content as Grid).Children[0] as Frame).Tag as TabItemContent).NavigationArg;
+            var tabViewItemArgs = (args.Item as TabItem).TabItemArguments;
             var selectedTabViewItemIndex = sender.SelectedIndex;
             RemoveTab(args.Item as TabItem);
-            if (!await Interaction.OpenPathInNewWindowAsync(tabViewItemPath))
+            if (!await Interaction.OpenTabInNewWindowAsync(tabViewItemArgs.Serialize()))
             {
                 sender.TabItems.Insert(indexOfTabViewItem, args.Tab);
                 sender.SelectedIndex = selectedTabViewItemIndex;

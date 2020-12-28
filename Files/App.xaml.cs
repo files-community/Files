@@ -3,6 +3,7 @@ using Files.Controllers;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
+using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
 using Microsoft.AppCenter;
@@ -11,6 +12,7 @@ using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NLog;
 using System;
@@ -197,8 +199,17 @@ namespace Files
                     }
                     else
                     {
-                        var trimmedPath = eventArgs.Uri.OriginalString.Split('=')[1];
-                        rootFrame.Navigate(typeof(MainPage), @trimmedPath, new SuppressNavigationTransitionInfo());
+                        var parsedArgs = eventArgs.Uri.Query.TrimStart('?').Split('=');
+                        var unescapedValue = Uri.UnescapeDataString(parsedArgs[1]);
+                        switch (parsedArgs[0])
+                        {
+                            case "tab":
+                                rootFrame.Navigate(typeof(MainPage), TabItemArguments.Deserialize(unescapedValue), new SuppressNavigationTransitionInfo());
+                                break;
+                            case "folder":
+                                rootFrame.Navigate(typeof(MainPage), unescapedValue, new SuppressNavigationTransitionInfo());
+                                break;
+                        }
                     }
 
                     // Ensure the current window is active.
@@ -319,7 +330,18 @@ namespace Files
 
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
         {
-            AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab => tab != null ? tab.Path ?? "NewTab".GetLocalized() : "NewTab".GetLocalized()).ToArray();
+            AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab =>
+            {
+                if (tab != null && tab.TabItemArguments != null)
+                {
+                    return tab.TabItemArguments.Serialize();
+                }
+                else
+                {
+                    var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "NewTab".GetLocalized() };
+                    return defaultArg.Serialize();
+                }
+            }).ToArray();
         }
 
         // Occurs when an exception is not handled on the UI thread.

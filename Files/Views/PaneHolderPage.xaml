@@ -106,7 +106,8 @@
             <local:ModernShellPage x:Name="PaneLeft"
                                    PointerPressed="PaneLeft_PointerPressed"
                                    IsPageMainPane="True"
-                                   NavParams="{x:Bind NavParamsLeft, Mode=OneWay}" />
+                                   NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"
+                                   ContentChanged="Pane_ContentChanged" />
         </Border>
 
         <Border x:Name="PaneRightLoader"
@@ -115,8 +116,8 @@
             <local:ModernShellPage x:Name="PaneRight"
                                    PointerPressed="PaneRight_PointerPressed"
                                    IsPageMainPane="False"
-                                   NavParams="{x:Bind NavParamsRight, Mode=OneWay}">
-            </local:ModernShellPage>
+                                   NavParams="{x:Bind NavParamsRight, Mode=OneWay}"
+                                   ContentChanged="Pane_ContentChanged" />
 
             <animations:Implicit.ShowAnimations>
                 <animations:ScalarAnimation Target="Translation.X"

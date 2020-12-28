@@ -175,7 +175,13 @@ namespace Files.Interacts
 
         public static async Task<bool> OpenPathInNewWindowAsync(string path)
         {
-            var folderUri = new Uri("files-uwp:" + "?folder=" + path);
+            var folderUri = new Uri("files-uwp:" + "?folder=" + Uri.EscapeDataString(path));
+            return await Launcher.LaunchUriAsync(folderUri);
+        }
+
+        public static async Task<bool> OpenTabInNewWindowAsync(string tabArgs)
+        {
+            var folderUri = new Uri("files-uwp:" + "?tab=" + Uri.EscapeDataString(tabArgs));
             return await Launcher.LaunchUriAsync(folderUri);
         }
 
@@ -608,11 +614,6 @@ namespace Files.Interacts
                     ContentOwnedViewModelInstance.RefreshItems(previousDir);
                 });
             }
-        }
-
-        public void CloseTab()
-        {
-            MainPage.MultitaskingControl.RemoveTab(MainPage.MultitaskingControl.Items.ElementAt(App.InteractionViewModel.TabStripSelectedIndex));
         }
 
         public RelayCommand OpenNewWindow => new RelayCommand(() => LaunchNewWindow());

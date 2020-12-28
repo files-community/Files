@@ -6,6 +6,7 @@ using Files.Filesystem.Search;
 using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
+using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -258,6 +259,13 @@ namespace Files.Views
         private void ModernShellPage_BackNavRequested(object sender, EventArgs e)
         {
             Back_Click();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+        {
+            base.OnNavigatedTo(eventArgs);
+            NLog.LogManager.GetCurrentClassLogger().Info(eventArgs.Parameter.ToString());
+            NavParams = eventArgs.Parameter.ToString();
         }
 
         private async void SidebarControl_RecycleBinItemRightTapped(object sender, EventArgs e)
@@ -749,7 +757,23 @@ namespace Files.Views
 
         public AppServiceConnection ServiceConnection { get; private set; }
 
+        private TabItemArguments tabItemArguments;
+
+        public TabItemArguments TabItemArguments
+        {
+            get => tabItemArguments;
+            set
+            {
+                if (tabItemArguments != value)
+                {
+                    tabItemArguments = value;
+                    ContentChanged?.Invoke(this, value);
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler<TabItemArguments> ContentChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
@@ -766,6 +790,8 @@ namespace Files.Views
             App.Current.LeavingBackground += OnLeavingBackground;
             FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
             string NavigationPath = ""; // path to navigate
+
+            NLog.LogManager.GetCurrentClassLogger().Info(NavParams);
 
             switch (NavParams)
             {
@@ -953,24 +979,12 @@ namespace Files.Views
                 // Reset DataGrid Rows that may be in "cut" command mode
                 ContentPage.ResetItemOpacity();
             }
-            
-            // Update tab header
             var parameters = e.Parameter as NavigationArguments;
-            if (e.SourcePageType == typeof(YourHome))
+            TabItemArguments = new TabItemArguments()
             {
-                MainPage.MultitaskingControl?.UpdateSelectedTab(parameters.NavPathParam, null, false);
-            }
-            else
-            {
-                if (parameters.IsSearchResultPage)
-                {
-                    MainPage.MultitaskingControl?.UpdateSelectedTab(null, null, true);
-                }
-                else
-                {
-                    MainPage.MultitaskingControl?.UpdateSelectedTab(new DirectoryInfo(parameters.NavPathParam).Name, parameters.NavPathParam, false);
-                }
-            }
+                InitialPageType = typeof(ModernShellPage),
+                NavigationArg = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
+            };
         }
 
         public void Clipboard_ContentChanged(object sender, object e)
@@ -1267,6 +1281,35 @@ namespace Files.Views
             SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
             SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
             SidebarControl.RecycleBinItemRightTapped += SidebarControl_RecycleBinItemRightTapped;
+        }
+
+        public DataPackageOperation TabItemDragOver(object sender, DragEventArgs e)
+        {
+            if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
+            {
+                if (InstanceViewModel.IsPageTypeNotHome && !InstanceViewModel.IsPageTypeSearchResults)
+                {
+                    return DataPackageOperation.Move;
+                }
+            }
+            return DataPackageOperation.None;
+        }
+
+        public async Task<DataPackageOperation> TabItemDrop(object sender, DragEventArgs e)
+        {
+            if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
+            {
+                if (InstanceViewModel.IsPageTypeNotHome && !InstanceViewModel.IsPageTypeSearchResults)
+                {
+                    await InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(
+                        DataPackageOperation.Move,
+                        e.DataView,
+                        FilesystemViewModel.WorkingDirectory,
+                        true);
+                    return DataPackageOperation.Move;
+                }
+            }
+            return DataPackageOperation.None;
         }
     }
 

@@ -5,6 +5,7 @@ using Files.Helpers;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.Extensions;
+using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -68,24 +69,10 @@ namespace Files.Views
                 FlowDirection = FlowDirection.RightToLeft;
             }
             AllowDrop = true;
-            AppInstances.CollectionChanged += AppInstances_CollectionChanged;
-        }
-
-        private void AppInstances_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.OldItems != null)
-            {
-                foreach (var removedTab in e.OldItems)
-                {
-                    // Cleanup resources for the closed tab
-                    ((((removedTab as TabItem).Content as Grid).Children[0] as Frame).Content as IShellPage)?.Dispose();
-                }
-            }
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
-            var navArgs = eventArgs.Parameter?.ToString();
             if (eventArgs.NavigationMode != NavigationMode.Back)
             {
                 App.AppSettings = new SettingsViewModel();
@@ -94,7 +81,7 @@ namespace Files.Views
 
                 Helpers.ThemeHelper.Initialize();
 
-                if (string.IsNullOrEmpty(navArgs))
+                if (eventArgs.Parameter == null || (eventArgs.Parameter is string eventStr && string.IsNullOrEmpty(eventStr)))
                 {
                     try
                     {
@@ -102,9 +89,10 @@ namespace Files.Views
                         {
                             App.AppSettings.ResumeAfterRestart = false;
 
-                            foreach (string path in App.AppSettings.LastSessionPages)
+                            foreach (string tabArgsString in App.AppSettings.LastSessionPages)
                             {
-                                await AddNewTabByPathAsync(typeof(PaneHolderPage), path);
+                                var tabArgs = TabItemArguments.Deserialize(tabArgsString);
+                                AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
                             }
 
                             if (!App.AppSettings.ContinueLastSessionOnStartUp)
@@ -130,11 +118,13 @@ namespace Files.Views
                         {
                             if (App.AppSettings.LastSessionPages != null)
                             {
-                                foreach (string path in App.AppSettings.LastSessionPages)
+                                foreach (string tabArgsString in App.AppSettings.LastSessionPages)
                                 {
-                                    await AddNewTabByPathAsync(typeof(PaneHolderPage), path);
+                                    var tabArgs = TabItemArguments.Deserialize(tabArgsString);
+                                    AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
                                 }
-                                App.AppSettings.LastSessionPages = new string[] { "NewTab".GetLocalized() };
+                                var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "NewTab".GetLocalized() };
+                                App.AppSettings.LastSessionPages = new string[] { defaultArg.Serialize() };
                             }
                             else
                             {
@@ -151,13 +141,16 @@ namespace Files.Views
                         await AddNewTabAsync();
                     }
                 }
-                else if (string.IsNullOrEmpty(navArgs))
-                {
-                    await AddNewTabAsync();
-                }
                 else
                 {
-                    await AddNewTabByPathAsync(typeof(PaneHolderPage), navArgs);
+                    if (eventArgs.Parameter is string navArgs)
+                    {
+                        await AddNewTabByPathAsync(typeof(PaneHolderPage), navArgs);
+                    }
+                    else if (eventArgs.Parameter is TabItemArguments tabArgs)
+                    {
+                        AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+                    }
                 }
 
                 // Check for required updates
@@ -178,42 +171,55 @@ namespace Files.Views
 
         public static async void AddNewTabAtIndex(object sender, RoutedEventArgs e)
         {
-            await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
+            await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
         }
 
         public static async void DuplicateTabAtIndex(object sender, RoutedEventArgs e)
         {
             var tabItem = ((FrameworkElement)sender).DataContext as TabItem;
-            var index = MainPage.AppInstances.IndexOf(tabItem);
+            var index = AppInstances.IndexOf(tabItem);
 
-            if (MainPage.AppInstances[index].Path != null)
+            if (AppInstances[index].TabItemArguments != null)
             {
-                await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), MainPage.AppInstances[index].Path);
+                var tabArgs = AppInstances[index].TabItemArguments;
+                AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
             }
             else
             {
-                await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
+                await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
             }
         }
 
         public static async void MoveTabToNewWindow(object sender, RoutedEventArgs e)
         {
             var tabItem = ((FrameworkElement)sender).DataContext as TabItem;
-            var index = MainPage.AppInstances.IndexOf(tabItem);
-            var path = MainPage.AppInstances[index].Path;
+            var index = AppInstances.IndexOf(tabItem);
+            var tabItemArguments = AppInstances[index].TabItemArguments;
 
-            MainPage.MultitaskingControl.Items.RemoveAt(index);
+            MultitaskingControl.Items.RemoveAt(index);
 
-            if (path != null)
+            if (tabItemArguments != null)
             {
-                var folderUri = new Uri("files-uwp:" + "?folder=" + path);
-                await Launcher.LaunchUriAsync(folderUri);
+                await Interacts.Interaction.OpenTabInNewWindowAsync(tabItemArguments.Serialize());
             }
             else
             {
-                var folderUri = new Uri("files-uwp:" + "?folder=" + "NewTab".GetLocalized());
-                await Launcher.LaunchUriAsync(folderUri);
+                await Interacts.Interaction.OpenPathInNewWindowAsync("NewTab".GetLocalized());
             }
+        }
+
+        public static void AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
+        {
+            TabItem tabItem = new TabItem()
+            {
+                Description = null
+            };
+            tabItem.Control.NavigationArguments = new TabItemArguments()
+            {
+                InitialPageType = type,
+                NavigationArg = tabViewItemArgs
+            };
+            AppInstances.Insert(atIndex == -1 ? AppInstances.Count : atIndex, tabItem);
         }
 
         public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
@@ -287,40 +293,15 @@ namespace Files.Views
             TabItem tabItem = new TabItem()
             {
                 Header = tabLocationHeader,
-                Path = path,
-                Content = new Grid()
-                {
-                    Children =
-                    {
-                        new Frame()
-                        {
-                            CacheSize = 0,
-                            Tag = new TabItemContent()
-                            {
-                                InitialPageType = type,
-                                NavigationArg = path
-                            }
-                        }
-                    },
-                    HorizontalAlignment = HorizontalAlignment.Stretch,
-                    VerticalAlignment = VerticalAlignment.Stretch
-                },
                 IconSource = fontIconSource,
                 Description = null
             };
-            AppInstances.Insert(atIndex == -1 ? AppInstances.Count : atIndex, tabItem);
-            var tabViewItemFrame = (tabItem.Content as Grid).Children[0] as Frame;
-            tabViewItemFrame.Loaded += TabViewItemFrame_Loaded;
-        }
-
-        private static void TabViewItemFrame_Loaded(object sender, RoutedEventArgs e)
-        {
-            var frame = sender as Frame;
-            if (frame.CurrentSourcePageType != typeof(PaneHolderPage))
+            tabItem.Control.NavigationArguments = new TabItemArguments()
             {
-                frame.Navigate((frame.Tag as TabItemContent).InitialPageType, (frame.Tag as TabItemContent).NavigationArg);
-                frame.Loaded -= TabViewItemFrame_Loaded;
-            }
+                InitialPageType = type,
+                NavigationArg = path
+            };
+            AppInstances.Insert(atIndex == -1 ? AppInstances.Count : atIndex, tabItem);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -413,7 +394,8 @@ namespace Files.Views
             {
                 if (!MultitaskingControl.RestoredRecentlyClosedTab && MultitaskingControl.Items.Count > 0)
                 {
-                    await AddNewTabByPathAsync(typeof(PaneHolderPage), MultitaskingControl.RecentlyClosedTabs.Last().Path);
+                    var tabArgs = MultitaskingControl.RecentlyClosedTabs.Last().TabItemArguments;
+                    AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
                     MultitaskingControl.RestoredRecentlyClosedTab = true;
                 }
             }

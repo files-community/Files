@@ -1,6 +1,7 @@
 ﻿using Files.Filesystem;
 using Files.Interacts;
 using Files.UserControls;
+using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using System;
 using Windows.ApplicationModel.AppService;
@@ -8,7 +9,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Files
 {
-    public interface IShellPage : IDisposable
+    public interface IShellPage : ITabItemContent, IDisposable
     {
         public StatusBarControl BottomStatusStripControl { get; }
         public Frame ContentFrame { get; }
@@ -21,7 +22,6 @@ namespace Files
         public Type CurrentPageType { get; }
         public INavigationControlItem SidebarSelectedItem { get; set; }
         public INavigationToolbar NavigationToolbar { get; }
-        public bool IsCurrentInstance { get; set; }
         public bool IsPageMainPane { get; }
 
         public abstract void Clipboard_ContentChanged(object sender, object e);

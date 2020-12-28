@@ -1,6 +1,9 @@
-﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Files.Views;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
+using Newtonsoft.Json;
 using System;
+using System.IO;
 
 namespace Files.UserControls.MultitaskingControl
 {
@@ -12,17 +15,6 @@ namespace Files.UserControls.MultitaskingControl
         {
             get => _Header;
             set => SetProperty(ref _Header, value);
-        }
-
-        private string _Path;
-
-        // Please, remember to update the Path whenever navigating to directory,
-        // currently the update is done in both methods SetSelectedTabInfo in
-        // classes HorizontalMultitaskingControl and VerticalTabView
-        public string Path
-        {
-            get => _Path;
-            set => SetProperty(ref _Path, value);
         }
 
         private string _Description = null;
@@ -41,9 +33,7 @@ namespace Files.UserControls.MultitaskingControl
             set => SetProperty(ref _IconSource, value);
         }
 
-        public object NavigationArgs { get; private set; }
-
-        public object Content { get; set; }
+        public TabItemControl Control { get; private set; }
 
         private bool _AllowStorageItemDrop = false;
 
@@ -53,20 +43,48 @@ namespace Files.UserControls.MultitaskingControl
             set => SetProperty(ref _AllowStorageItemDrop, value);
         }
 
+        private TabItemArguments _TabItemArguments;
+
+        public TabItemArguments TabItemArguments
+        {
+            get => Control?.TabItemContent?.TabItemArguments ?? _TabItemArguments;
+        }
+
+        public TabItem()
+        {
+            Control = new TabItemControl();
+        }
+
+        public void Unload()
+        {
+            _TabItemArguments = Control?.TabItemContent?.TabItemArguments;
+            Dispose();
+        }
+
         #region IDisposable
 
         public void Dispose()
         {
-            NavigationArgs = null;
-            Content = null;
+            Control?.Dispose();
+            Control = null;
         }
 
         #endregion IDisposable
     }
 
-    public class TabItemContent
+    public class TabItemArguments
     {
         public Type InitialPageType { get; set; }
-        public string NavigationArg { get; set; }
+        public object NavigationArg { get; set; }
+
+        public string Serialize() => JsonConvert.SerializeObject(this, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto
+        });
+
+        public static TabItemArguments Deserialize(string obj) => JsonConvert.DeserializeObject<TabItemArguments>(obj, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto
+        });
     }
 }

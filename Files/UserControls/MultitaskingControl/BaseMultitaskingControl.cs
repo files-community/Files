@@ -18,7 +18,7 @@ namespace Files.UserControls.MultitaskingControl
 {
     public class BaseMultitaskingControl : UserControl, IMultitaskingControl
     {
-        protected IShellPage CurrentSelectedAppInstance;
+        protected ITabItemContent CurrentSelectedAppInstance;
 
         public const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
 
@@ -41,7 +41,7 @@ namespace Files.UserControls.MultitaskingControl
 
         private void MultitaskingControl_CurrentInstanceChanged(object sender, CurrentInstanceChangedEventArgs e)
         {
-            foreach (IShellPage instance in e.ShellPageInstances)
+            foreach (ITabItemContent instance in e.PageInstances)
             {
                 if (instance != null)
                 {
@@ -66,9 +66,9 @@ namespace Files.UserControls.MultitaskingControl
         private async Task SetSelectedTabInfoAsync(string tabHeader, string currentPath = null)
         {
             var selectedTabItem = MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
-            selectedTabItem.AllowStorageItemDrop = CurrentSelectedAppInstance.InstanceViewModel.IsPageTypeNotHome;
+            //selectedTabItem.AllowStorageItemDrop = CurrentSelectedAppInstance.InstanceViewModel.IsPageTypeNotHome;
 
-            MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex].Path = currentPath;
+            //MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex].Path = currentPath; //TODO
 
             string tabLocationHeader;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
@@ -174,14 +174,14 @@ namespace Files.UserControls.MultitaskingControl
         {
             if (App.InteractionViewModel.TabStripSelectedIndex >= 0 && App.InteractionViewModel.TabStripSelectedIndex < Items.Count)
             {
-                CurrentSelectedAppInstance = GetCurrentSelectedTabInstance<IShellPage>();
+                CurrentSelectedAppInstance = GetCurrentSelectedTabInstance();
 
                 if (CurrentSelectedAppInstance != null)
                 {
                     CurrentInstanceChanged?.Invoke(this, new CurrentInstanceChangedEventArgs()
                     {
                         CurrentInstance = CurrentSelectedAppInstance,
-                        ShellPageInstances = GetAllTabInstances<IShellPage>()
+                        PageInstances = GetAllTabInstances()
                     });
                 }
             }
@@ -215,27 +215,14 @@ namespace Files.UserControls.MultitaskingControl
             }
         }
 
-        public TTab GetCurrentSelectedTabInstance<TTab>()
+        public ITabItemContent GetCurrentSelectedTabInstance()
         {
-            Grid selectedTabContent = MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex].Content as Grid;
-            foreach (UIElement uiElement in selectedTabContent.Children)
-            {
-                if (uiElement.GetType() == typeof(Frame))
-                {
-                    return (TTab)(uiElement as Frame).Content;
-                }
-            }
-            return default;
+            return MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex].Control?.TabItemContent;
         }
 
-        public List<TTab> GetAllTabInstances<TTab>()
+        public List<ITabItemContent> GetAllTabInstances()
         {
-            List<TTab> instances = new List<TTab>();
-            foreach (TabItem tabItem in MainPage.AppInstances)
-            {
-                instances.Add((TTab)((tabItem.Content as Grid).Children.First(element => element.GetType() == typeof(Frame)) as Frame).Content);
-            }
-            return instances;
+            return MainPage.AppInstances.Select(x => x.Control?.TabItemContent).ToList();
         }
 
         public void RemoveTab(TabItem tabItem)
@@ -247,7 +234,7 @@ namespace Files.UserControls.MultitaskingControl
             else if (Items.Count > 1)
             {
                 Items.Remove(tabItem);
-
+                tabItem?.Unload(); // Dispose and save tab arguments
                 RecentlyClosedTabs.Add((ITabItem)tabItem);
                 RestoredRecentlyClosedTab = false;
             }

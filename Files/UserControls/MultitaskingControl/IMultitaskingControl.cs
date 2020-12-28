@@ -18,16 +18,16 @@ namespace Files.UserControls.MultitaskingControl
 
         bool RestoredRecentlyClosedTab { get; set; }
 
-        public TTab GetCurrentSelectedTabInstance<TTab>();
+        public ITabItemContent GetCurrentSelectedTabInstance();
 
-        public List<TTab> GetAllTabInstances<TTab>();
+        public List<ITabItemContent> GetAllTabInstances();
 
         public void RemoveTab(TabItem tabItem);
     }
 
     public class CurrentInstanceChangedEventArgs : EventArgs
     {
-        public IShellPage CurrentInstance { get; set; }
-        public List<IShellPage> ShellPageInstances { get; set; }
+        public ITabItemContent CurrentInstance { get; set; }
+        public List<ITabItemContent> PageInstances { get; set; }
     }
 }
