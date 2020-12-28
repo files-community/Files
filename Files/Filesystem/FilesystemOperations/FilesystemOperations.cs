@@ -280,6 +280,12 @@ namespace Files.Filesystem
                                                      IProgress<FilesystemErrorCode> errorCode,
                                                      CancellationToken cancellationToken)
         {
+            if (Path.GetFileName(source.Path) == destination)
+            {
+                errorCode?.Report(FilesystemErrorCode.ERROR_SUCCESS);
+                return null;
+            }
+
             IStorageHistory history = await CopyAsync(source, destination, progress, errorCode, cancellationToken);
 
             if (string.IsNullOrWhiteSpace(source.Path))
