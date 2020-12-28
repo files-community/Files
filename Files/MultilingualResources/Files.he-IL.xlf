@@ -1926,14 +1926,6 @@
           <source>Context Menu</source>
           <target state="new">Context Menu</target>
         </trans-unit>
-        <trans-unit id="AddPaneTeachingTip.Subtitle" translate="yes" xml:space="preserve">
-          <source>Click to open the right pane</source>
-          <target state="new">Click to open the right pane</target>
-        </trans-unit>
-        <trans-unit id="AddPaneTeachingTip.Title" translate="yes" xml:space="preserve">
-          <source>Dual pane view</source>
-          <target state="new">Dual pane view</target>
-        </trans-unit>
         <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane.Header" translate="yes" xml:space="preserve">
           <source>Always open new tabs in dual pane mode</source>
           <target state="new">Always open new tabs in dual pane mode</target>

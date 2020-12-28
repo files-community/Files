@@ -12,13 +12,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
-// Il modello di elemento Pagina vuota è documentato all'indirizzo https://go.microsoft.com/fwlink/?LinkId=234238
-
 namespace Files.Views
 {
-    /// <summary>
-    /// Pagina vuota che può essere usata autonomamente oppure per l'esplorazione all'interno di un frame.
-    /// </summary>
     public sealed partial class PaneHolderPage : Page, IShellPage, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
@@ -205,51 +200,6 @@ namespace Files.Views
             if (PaneRight != null && PaneRight.ActualWidth <= 300)
             {
                 IsRightPaneVisible = false;
-            }
-        }
-
-        private void ShowPaneButton_Click(object sender, RoutedEventArgs e)
-        {
-            IsRightPaneVisible = true;
-        }
-
-        private void Page_PointerMoved(object sender, PointerRoutedEventArgs e)
-        {
-            if (!IsRightPaneVisible && AppSettings.IsDualPaneEnabled)
-            {
-                var position = e.GetCurrentPoint(null).Position;
-                if (position.X >= this.ActualWidth - 70 && Math.Abs(position.Y - Window.Current.Bounds.Height / 2) <= 70)
-                {
-                    AddPaneButton.Visibility = Visibility.Visible;
-                    AddPaneTeachingTip.IsOpen = false;
-                }
-                else
-                {
-                    AddPaneButton.Visibility = Visibility.Collapsed;
-                }
-            }
-        }
-
-        private void Page_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            if (!IsRightPaneVisible && AppSettings.IsDualPaneEnabled)
-            {
-                var position = e.GetCurrentPoint(null).Position;
-                if (position.X >= this.ActualWidth - 70 && Math.Abs(position.Y - Window.Current.Bounds.Height / 2) <= 70)
-                {
-                    AddPaneButton.Visibility = Visibility.Visible;
-                    AddPaneTeachingTip.IsOpen = false;
-                }
-            }
-        }
-
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (AppSettings.ShowDualPaneTeachingTip && AppSettings.IsDualPaneEnabled)
-            {
-                await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(2));
-                AddPaneTeachingTip.IsOpen = true;
-                AppSettings.ShowDualPaneTeachingTip = false;
             }
         }
     }

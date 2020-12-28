@@ -10,10 +10,7 @@
       xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      mc:Ignorable="d"
-      Loaded="Page_Loaded"
-      PointerMoved="Page_PointerMoved"
-      PointerPressed="Page_PointerPressed">
+      mc:Ignorable="d">
 
     <Page.Resources>
         <ResourceDictionary>
@@ -165,48 +162,6 @@
                 <TranslateTransform X="0" />
             </Custom:GridSplitter.RenderTransform>
         </Custom:GridSplitter>
-
-        <muxc:TeachingTip x:Name="AddPaneTeachingTip"
-                          x:Uid="AddPaneTeachingTip"
-                          Title="Dual pane view"
-                          Subtitle="Click to open the right pane"
-                          Target="{x:Bind TeachingTipTarget}" />
-
-        <Border x:Name="TeachingTipTarget"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Right" />
-
-        <Button x:Name="AddPaneButton"
-                Content="+"
-                FontSize="20"
-                VerticalAlignment="Center"
-                HorizontalAlignment="Right"
-                Click="ShowPaneButton_Click"
-                Visibility="Collapsed"
-                x:Load="{x:Bind IsRightPaneVisible, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-                Width="48"
-                Height="48">
-            <animations:Implicit.ShowAnimations>
-                <animations:ScalarAnimation Target="Translation.X"
-                                            Duration="0:0:0.2"
-                                            From="48"
-                                            To="0" />
-                <animations:ScalarAnimation Target="Opacity"
-                                            Duration="0:0:0.2"
-                                            From="0"
-                                            To="1" />
-            </animations:Implicit.ShowAnimations>
-            <animations:Implicit.HideAnimations>
-                <animations:ScalarAnimation Target="Translation.X"
-                                            Duration="0:0:0.2"
-                                            From="0"
-                                            To="48" />
-                <animations:ScalarAnimation Target="Opacity"
-                                            Duration="0:0:0.2"
-                                            From="1"
-                                            To="0" />
-            </animations:Implicit.HideAnimations>
-        </Button>
 
         <Interactivity:Interaction.Behaviors>
             <Core:DataTriggerBehavior Binding="{x:Bind IsLeftPaneActive, Mode=OneWay}"

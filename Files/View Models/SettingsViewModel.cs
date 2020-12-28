@@ -572,15 +572,6 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not to show a teaching tip informing the user about the dual pane option.
-        /// </summary>
-        public bool ShowDualPaneTeachingTip
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
         /// Gets or sets a value indicating whether or not to navigate to a specific location when launching the app.
         /// </summary>
         public bool OpenASpecificPageOnStartup

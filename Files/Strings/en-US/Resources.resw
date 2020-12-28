@@ -1557,12 +1557,6 @@
   <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
     <value>Context Menu</value>
   </data>
-  <data name="AddPaneTeachingTip.Subtitle" xml:space="preserve">
-    <value>Click to open the right pane</value>
-  </data>
-  <data name="AddPaneTeachingTip.Title" xml:space="preserve">
-    <value>Dual pane view</value>
-  </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
     <value>Always open new tabs in dual pane mode</value>
   </data>
