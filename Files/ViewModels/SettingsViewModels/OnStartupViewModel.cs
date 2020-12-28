@@ -52,11 +52,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (openNewTabPageOnStartup != value)
+                if (SetProperty(ref openNewTabPageOnStartup, value))
                 {
-                    openNewTabPageOnStartup = value;
                     App.AppSettings.OpenNewTabPageOnStartup = openNewTabPageOnStartup;
-                    OnPropertyChanged(nameof(OpenNewTabPageOnStartup));
                 }
             }
         }
@@ -69,11 +67,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (continueLastSessionOnStartUp != value)
+                if (SetProperty(ref continueLastSessionOnStartUp, value))
                 {
-                    continueLastSessionOnStartUp = value;
                     App.AppSettings.ContinueLastSessionOnStartUp = continueLastSessionOnStartUp;
-                    OnPropertyChanged(nameof(ContinueLastSessionOnStartUp));
                 }
             }
         }
@@ -86,11 +82,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (openASpecificPageOnStartup != value)
+                if (SetProperty(ref openASpecificPageOnStartup, value))
                 {
-                    openASpecificPageOnStartup = value;
                     App.AppSettings.OpenASpecificPageOnStartup = openASpecificPageOnStartup;
-                    OnPropertyChanged(nameof(OpenASpecificPageOnStartup));
                 }
             }
         }
@@ -102,22 +96,17 @@ namespace Files.ViewModels.SettingsViewModels
             get { return selectedPageIndex; }
             set
             {
-                selectedPageIndex = value;
-                IsPageListEditEnabled = selectedPageIndex >= 0;
+                if (SetProperty(ref selectedPageIndex, value))
+                {
+                    IsPageListEditEnabled = selectedPageIndex >= 0;
+                }
             }
         }
 
         public bool IsPageListEditEnabled
         {
-            get { return isPageListEditEnabled; }
-            set
-            {
-                if (isPageListEditEnabled != value)
-                {
-                    isPageListEditEnabled = value;
-                    OnPropertyChanged(nameof(IsPageListEditEnabled));
-                }
-            }
+            get => isPageListEditEnabled;
+            set => SetProperty(ref isPageListEditEnabled, value);
         }
 
         public RelayCommand ChangePageCommand => new RelayCommand(() => ChangePage());
@@ -132,11 +121,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (alwaysOpenANewInstance != value)
+                if (SetProperty(ref alwaysOpenANewInstance, value))
                 {
-                    alwaysOpenANewInstance = value;
                     App.AppSettings.AlwaysOpenANewInstance = alwaysOpenANewInstance;
-                    OnPropertyChanged(nameof(AlwaysOpenANewInstance));
                 }
             }
         }

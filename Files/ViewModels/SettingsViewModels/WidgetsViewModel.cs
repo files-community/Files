@@ -16,11 +16,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (showLibraryCardsWidget != value)
+                if (SetProperty(ref showLibraryCardsWidget, value))
                 {
-                    showLibraryCardsWidget = value;
                     App.AppSettings.ShowLibraryCardsWidget = showLibraryCardsWidget;
-                    OnPropertyChanged(nameof(ShowLibraryCardsWidget));
                 }
             }
         }
@@ -33,11 +31,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (showDrivesWidget != value)
+                if (SetProperty(ref showDrivesWidget, value))
                 {
-                    showDrivesWidget = value;
                     App.AppSettings.ShowDrivesWidget = showDrivesWidget;
-                    OnPropertyChanged(nameof(ShowDrivesWidget));
                 }
             }
         }
@@ -50,11 +46,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (showRecentFilesWidget != value)
+                if (SetProperty(ref showRecentFilesWidget, value))
                 {
-                    showRecentFilesWidget = value;
                     App.AppSettings.ShowRecentFilesWidget = showRecentFilesWidget;
-                    OnPropertyChanged(nameof(ShowRecentFilesWidget));
                 }
             }
         }

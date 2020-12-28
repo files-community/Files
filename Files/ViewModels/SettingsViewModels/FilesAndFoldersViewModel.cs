@@ -19,11 +19,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (areHiddenItemsVisible != value)
+                if (SetProperty(ref areHiddenItemsVisible, value))
                 {
-                    areHiddenItemsVisible = value;
                     App.AppSettings.AreHiddenItemsVisible = areHiddenItemsVisible;
-                    OnPropertyChanged(nameof(AreHiddenItemsVisible));
                 }
             }
         }
@@ -36,11 +34,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (areSystemItemsHidden != value)
+                if (SetProperty(ref areSystemItemsHidden, value))
                 {
-                    areSystemItemsHidden = value;
-                    App.AppSettings.AreSystemItemsHidden = areSystemItemsHidden;
-                    OnPropertyChanged(nameof(AreSystemItemsHidden));
+                    App.AppSettings.AreSystemItemsHidden = areSystemItemsHidden;  
                 }
             }
         }
@@ -53,11 +49,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (showFileExtensions != value)
+                if (SetProperty(ref showFileExtensions, value))
                 {
-                    showFileExtensions = value;
                     App.AppSettings.ShowFileExtensions = showFileExtensions;
-                    OnPropertyChanged(nameof(ShowFileExtensions));
                 }
             }
         }
@@ -70,11 +64,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (openItemsWithOneclick != value)
+                if (SetProperty(ref openItemsWithOneclick, value))
                 {
-                    openItemsWithOneclick = value;
                     App.AppSettings.OpenItemsWithOneclick = openItemsWithOneclick;
-                    OnPropertyChanged(nameof(OpenItemsWithOneclick));
                 }
             }
         }
@@ -87,11 +79,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (listAndSortDirectoriesAlongsideFiles != value)
+                if (SetProperty(ref listAndSortDirectoriesAlongsideFiles, value))
                 {
-                    listAndSortDirectoriesAlongsideFiles = value;
                     App.AppSettings.ListAndSortDirectoriesAlongsideFiles = listAndSortDirectoriesAlongsideFiles;
-                    OnPropertyChanged(nameof(ListAndSortDirectoriesAlongsideFiles));
                 }
             }
         }
@@ -104,11 +94,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (searchUnindexedItems != value)
+                if (SetProperty(ref searchUnindexedItems, value))
                 {
-                    searchUnindexedItems = value;
                     App.AppSettings.SearchUnindexedItems = searchUnindexedItems;
-                    OnPropertyChanged(nameof(SearchUnindexedItems));
                 }
             }
         }
@@ -123,11 +111,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (areLayoutPreferencesPerFolder != value)
+                if (SetProperty(ref areLayoutPreferencesPerFolder, value))
                 {
-                    areLayoutPreferencesPerFolder = value;
                     App.AppSettings.AreLayoutPreferencesPerFolder = areLayoutPreferencesPerFolder;
-                    OnPropertyChanged(nameof(AreLayoutPreferencesPerFolder));
                 }
             }
         }

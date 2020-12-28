@@ -16,11 +16,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (isMultitaskingExperienceAdaptive != value)
+                if (SetProperty(ref isMultitaskingExperienceAdaptive, value))
                 {
-                    isMultitaskingExperienceAdaptive = value;
                     App.AppSettings.IsMultitaskingExperienceAdaptive = isMultitaskingExperienceAdaptive;
-                    OnPropertyChanged(nameof(IsMultitaskingExperienceAdaptive));
                 }
             }
         }
@@ -33,11 +31,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (isHorizontalTabStripEnabled != value)
+                if (SetProperty(ref isHorizontalTabStripEnabled, value))
                 {
-                    isHorizontalTabStripEnabled = value;
                     App.AppSettings.IsHorizontalTabStripEnabled = isHorizontalTabStripEnabled;
-                    OnPropertyChanged(nameof(IsHorizontalTabStripEnabled));
                 }
             }
         }
@@ -50,11 +46,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (isVerticalTabFlyoutEnabled != value)
+                if (SetProperty(ref isHorizontalTabStripEnabled, value))
                 {
-                    isVerticalTabFlyoutEnabled = value;
                     App.AppSettings.IsVerticalTabFlyoutEnabled = isVerticalTabFlyoutEnabled;
-                    OnPropertyChanged(nameof(IsVerticalTabFlyoutEnabled));
                 }
             }
         }

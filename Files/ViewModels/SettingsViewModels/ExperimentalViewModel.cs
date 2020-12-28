@@ -14,11 +14,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (showFileOwner != value)
+                if (SetProperty(ref showFileOwner, value))
                 {
-                    showFileOwner = value;
                     App.AppSettings.ShowFileOwner = showFileOwner;
-                    OnPropertyChanged(nameof(ShowFileOwner));
                 }
             }
         }

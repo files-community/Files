@@ -32,33 +32,26 @@ namespace Files.ViewModels.SettingsViewModels
             get { return selectedLanguageIndex; }
             set
             {
-                selectedLanguageIndex = value;
-                OnPropertyChanged(nameof(SelectedLanguageIndex));
-
-                App.AppSettings.DefaultLanguage = DefaultLanguages[SelectedLanguageIndex];
-
-                if (App.AppSettings.CurrentLanguage.ID != DefaultLanguages[SelectedLanguageIndex].ID)
+                if (SetProperty(ref selectedLanguageIndex, value))
                 {
-                    ShowRestartDialog = true;
-                }
-                else
-                {
-                    ShowRestartDialog = false;
+                    App.AppSettings.DefaultLanguage = DefaultLanguages[SelectedLanguageIndex];
+
+                    if (App.AppSettings.CurrentLanguage.ID != DefaultLanguages[SelectedLanguageIndex].ID)
+                    {
+                        ShowRestartDialog = true;
+                    }
+                    else
+                    {
+                        ShowRestartDialog = false;
+                    }
                 }
             }
         }
 
         public bool ShowRestartDialog
         {
-            get { return showRestartDialog; }
-            set
-            {
-                if (showRestartDialog != value)
-                {
-                    showRestartDialog = value;
-                    OnPropertyChanged(nameof(ShowRestartDialog));
-                }
-            }
+            get => showRestartDialog;
+            set => SetProperty(ref showRestartDialog, value);
         }
 
         public List<Terminal> Terminals { get; set; }
@@ -68,11 +61,8 @@ namespace Files.ViewModels.SettingsViewModels
             get { return selectedTerminal; }
             set
             {
-                if (selectedTerminal != value)
+                if (SetProperty(ref selectedTerminal, value))
                 {
-                    selectedTerminal = value;
-                    OnPropertyChanged(nameof(SelectedTerminal));
-
                     App.AppSettings.TerminalController.Model.DefaultTerminalPath = selectedTerminal.Path;
                     App.AppSettings.TerminalController.SaveModel();
                 }
@@ -89,11 +79,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (pinRecycleBinToSideBar != value)
+                if (SetProperty(ref pinRecycleBinToSideBar, value))
                 {
-                    pinRecycleBinToSideBar = value;
                     App.AppSettings.PinRecycleBinToSideBar = pinRecycleBinToSideBar;
-                    OnPropertyChanged(nameof(PinRecycleBinToSideBar));
                 }
             }
         }
@@ -106,11 +94,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (showConfirmDeleteDialog != value)
+                if (SetProperty(ref showConfirmDeleteDialog, value))
                 {
-                    showConfirmDeleteDialog = value;
                     App.AppSettings.ShowConfirmDeleteDialog = showConfirmDeleteDialog;
-                    OnPropertyChanged(nameof(ShowConfirmDeleteDialog));
                 }
             }
         }
@@ -123,11 +109,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (showAllContextMenuItems != value)
+                if (SetProperty(ref showAllContextMenuItems, value))
                 {
-                    showAllContextMenuItems = value;
                     App.AppSettings.ShowAllContextMenuItems = showAllContextMenuItems;
-                    OnPropertyChanged(nameof(ShowAllContextMenuItems));
                 }
             }
         }
@@ -140,11 +124,9 @@ namespace Files.ViewModels.SettingsViewModels
             }
             set
             {
-                if (showCopyLocationOption != value)
+                if (SetProperty(ref showCopyLocationOption, value))
                 {
-                    showCopyLocationOption = value;
                     App.AppSettings.ShowCopyLocationOption = showCopyLocationOption;
-                    OnPropertyChanged(nameof(ShowCopyLocationOption));
                 }
             }
         }
