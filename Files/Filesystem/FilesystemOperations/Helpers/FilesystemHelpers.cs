@@ -107,7 +107,7 @@ namespace Files.Filesystem
             ReturnResult returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
-            var pathsUnderRecycleBin = getPathsUnderRecycleBin(source);
+            var pathsUnderRecycleBin = GetPathsUnderRecycleBin(source);
 
             if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
             {
@@ -173,7 +173,7 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
-        private ISet<string> getPathsUnderRecycleBin(IEnumerable<IStorageItemWithPath> source)
+        private ISet<string> GetPathsUnderRecycleBin(IEnumerable<IStorageItemWithPath> source)
         {
             return source.Select(item => item.Path).Where(path => recycleBinHelpers.IsPathUnderRecycleBin(path)).ToHashSet();
         }
