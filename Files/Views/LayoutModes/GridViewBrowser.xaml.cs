@@ -130,14 +130,7 @@ namespace Files.Views.LayoutModes
 
         private void GridViewBrowserViewer_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            if (e.GetCurrentPoint(sender as Page).Properties.IsLeftButtonPressed)
-            {
-                if (e.KeyModifiers != VirtualKeyModifiers.Control)
-                {
-                    ClearSelection();
-                }
-            }
-            else if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
+            if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
             {
                 ParentShellPageInstance.InteractionOperations.ItemPointerPressed(sender, e);
             }

@@ -863,17 +863,9 @@
           <source>Add a new page</source>
           <target state="translated">एक नया पन्ना जोड़ें</target>
         </trans-unit>
-        <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" translate="yes" xml:space="preserve">
-          <source>Change Page Location</source>
-          <target state="translated">पन्ने का स्थान बदलें</target>
-        </trans-unit>
         <trans-unit id="SettingsOnStartupPages.Text" translate="yes" xml:space="preserve">
           <source>Pages:</source>
           <target state="translated">पन्ने:</target>
-        </trans-unit>
-        <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" translate="yes" xml:space="preserve">
-          <source>Remove Page</source>
-          <target state="translated">पन्ने हटाएं</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
           <source>When launching an item from the jumplist</source>
@@ -1944,9 +1936,17 @@
           <source>Original path</source>
           <target state="new">Original path</target>
         </trans-unit>
-        <trans-unit id="SettingsUseFileListCache.Header" translate="yes" xml:space="preserve">
-          <source>Cache files and folders for better performance</source>
-          <target state="new">Cache files and folders for better performance</target>
+        <trans-unit id="AppBarButtonAdd.Label" translate="yes" xml:space="preserve">
+          <source>Add</source>
+          <target state="new">Add</target>
+        </trans-unit>
+        <trans-unit id="AppBarButtonEdit.Label" translate="yes" xml:space="preserve">
+          <source>Edit</source>
+          <target state="new">Edit</target>
+        </trans-unit>
+        <trans-unit id="AppBarButtonRemove.Label" translate="yes" xml:space="preserve">
+          <source>Remove</source>
+          <target state="new">Remove</target>
         </trans-unit>
       </group>
     </body>

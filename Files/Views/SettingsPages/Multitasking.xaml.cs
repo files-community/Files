@@ -1,21 +1,12 @@
-﻿using Files.ViewModels;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
+﻿using Windows.UI.Xaml.Controls;
 
 namespace Files.SettingsPages
 {
     public sealed partial class Multitasking : Page
     {
-        private SettingsViewModel AppSettings => App.AppSettings;
-
         public Multitasking()
         {
             InitializeComponent();
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
         }
     }
 }
