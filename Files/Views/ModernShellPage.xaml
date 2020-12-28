@@ -86,10 +86,6 @@
             Invoked="KeyboardAccelerator_Invoked"
             Modifiers="Control" />
         <KeyboardAccelerator
-            Key="T"
-            Invoked="KeyboardAccelerator_Invoked"
-            Modifiers="Control,Shift" />
-        <KeyboardAccelerator
             Key="N"
             Invoked="KeyboardAccelerator_Invoked"
             Modifiers="Control,Shift" />
@@ -111,18 +107,6 @@
             Modifiers="Control" />
         <KeyboardAccelerator
             Key="A"
-            Invoked="KeyboardAccelerator_Invoked"
-            Modifiers="Control" />
-        <KeyboardAccelerator
-            Key="N"
-            Invoked="KeyboardAccelerator_Invoked"
-            Modifiers="Control" />
-        <KeyboardAccelerator
-            Key="W"
-            Invoked="KeyboardAccelerator_Invoked"
-            Modifiers="Control" />
-        <KeyboardAccelerator
-            Key="F4"
             Invoked="KeyboardAccelerator_Invoked"
             Modifiers="Control" />
         <KeyboardAccelerator

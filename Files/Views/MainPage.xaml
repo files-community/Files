@@ -51,6 +51,14 @@
             Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
             Modifiers="Control" />
         <KeyboardAccelerator
+            Key="N"
+            Invoked="OpenNewWindowAccelerator_Invoked"
+            Modifiers="Control" />
+        <KeyboardAccelerator
+            Key="F4"
+            Invoked="CloseSelectedTabKeyboardAccelerator_Invoked"
+            Modifiers="Control" />
+        <KeyboardAccelerator
             Key="W"
             Invoked="CloseSelectedTabKeyboardAccelerator_Invoked"
             Modifiers="Control" />
@@ -58,6 +66,10 @@
             Key="T"
             Invoked="AddNewInstanceAccelerator_Invoked"
             Modifiers="Control" />
+        <KeyboardAccelerator
+            Key="T"
+            Invoked="AddNewInstanceAccelerator_Invoked"
+            Modifiers="Control,Shift" />
     </Page.KeyboardAccelerators>
 
     <Grid TabFocusNavigation="Cycle">

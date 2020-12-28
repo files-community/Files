@@ -1023,16 +1023,6 @@ namespace Files.Views
                     }
                     break;
 
-                case (true, true, false, _, VirtualKey.T): // ctrl + shif + t, restore recently closed tab
-                    {
-                        if (!MainPage.MultitaskingControl.RestoredRecentlyClosedTab && MainPage.MultitaskingControl.Items.Count > 0)
-                        {
-                            await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), MainPage.MultitaskingControl.RecentlyClosedTabs.Last().Path);
-                            MainPage.MultitaskingControl.RestoredRecentlyClosedTab = true;
-                        }
-                    }
-                    break;
-
                 case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
                     if (InstanceViewModel.CanCreateFileInPage)
                     {
@@ -1089,30 +1079,6 @@ namespace Files.Views
                         InteractionOperations.SelectAllItems();
                     }
 
-                    break;
-
-                case (true, false, false, false, VirtualKey.N): // ctrl + n, new window
-                    InteractionOperations.LaunchNewWindow();
-                    break;
-
-                case (true, false, false, false, VirtualKey.W): // ctrl + w, close tab
-                    InteractionOperations.CloseTab();
-                    break;
-
-                case (true, false, false, false, VirtualKey.F4): // ctrl + F4, close tab
-                    InteractionOperations.CloseTab();
-                    break;
-
-                case (true, false, false, true, VirtualKey.N): // ctrl + n, new window from layout mode
-                    InteractionOperations.LaunchNewWindow();
-                    break;
-
-                case (true, false, false, true, VirtualKey.W): // ctrl + w, close tab from layout mode
-                    InteractionOperations.CloseTab();
-                    break;
-
-                case (true, false, false, true, VirtualKey.F4): // ctrl + F4, close tab from layout mode
-                    InteractionOperations.CloseTab();
                     break;
 
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item

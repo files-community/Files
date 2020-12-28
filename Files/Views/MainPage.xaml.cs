@@ -404,8 +404,26 @@ namespace Files.Views
 
         private async void AddNewInstanceAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
+            var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
+            if (!shift)
+            {
+                await AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
+            }
+            else // ctrl + shif + t, restore recently closed tab
+            {
+                if (!MultitaskingControl.RestoredRecentlyClosedTab && MultitaskingControl.Items.Count > 0)
+                {
+                    await AddNewTabByPathAsync(typeof(PaneHolderPage), MultitaskingControl.RecentlyClosedTabs.Last().Path);
+                    MultitaskingControl.RestoredRecentlyClosedTab = true;
+                }
+            }
             args.Handled = true;
+        }
+
+        private async void OpenNewWindowAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
+            var filesUWPUri = new Uri("files-uwp:");
+            await Launcher.LaunchUriAsync(filesUWPUri);
         }
 
         private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
