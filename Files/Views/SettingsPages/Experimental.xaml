@@ -41,7 +41,7 @@
 
                 <ToggleSwitch
                     x:Uid="SettingsUseFileListCache"
-                    Header="Cache file list for performance boost (only memory cache for now)"
+                    Header="Cache files and folders for better performance"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{x:Bind AppSettings.UseFileListCache, Mode=TwoWay}" />
             </StackPanel>
