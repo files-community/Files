@@ -786,12 +786,6 @@
   <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
     <value>Add a new page</value>
   </data>
-  <data name="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" xml:space="preserve">
-    <value>Change Page Location</value>
-  </data>
-  <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
-    <value>Remove Page</value>
-  </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Pages:</value>
   </data>
@@ -1562,5 +1556,14 @@
   </data>
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>Original path</value>
+  </data>
+  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+    <value>Remove</value>
   </data>
 </root>

@@ -642,14 +642,8 @@
   <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
     <value>ஒரு புதியப் பக்கத்தைச் சேர்</value>
   </data>
-  <data name="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" xml:space="preserve">
-    <value>பக்க இருப்பிடத்தை மாற்று</value>
-  </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>பக்கங்கள்:</value>
-  </data>
-  <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
-    <value>பக்கத்தை அகற்று</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
     <value>பொருத்தப்பட்ட கோப்புறையை இயக்கும்பொது</value>

@@ -522,9 +522,6 @@
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Sayfa:</value>
   </data>
-  <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
-    <value>Sayfayı Kaldır</value>
-  </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows varsayılan</value>
   </data>

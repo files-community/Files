@@ -5,11 +5,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:datamodels="using:Files.DataModels"
     xmlns:dialogs="using:Files.Dialogs"
-    xmlns:local="using:Files.SettingsPages"
-    xmlns:local2="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
+    <Page.DataContext>
+        <settingsviewmodels:PreferencesViewModel />
+    </Page.DataContext>
 
     <Grid>
         <ScrollViewer>
@@ -38,10 +40,8 @@
                     AutomationProperties.Name="App Language"
                     Header="App Language"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    ItemsSource="{x:Bind AppSettings.DefaultLanguages}"
-                    PlaceholderText="{x:Bind AppSettings.DefaultLanguage}"
-                    SelectedItem="{x:Bind AppSettings.DefaultLanguage, Mode=TwoWay}"
-                    SelectionChanged="ComboAppLanguage_SelectionChanged">
+                    ItemsSource="{Binding DefaultLanguages}"
+                    SelectedIndex="{Binding SelectedLanguageIndex, Mode=TwoWay}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate x:DataType="datamodels:DefaultLanguageModel">
                             <TextBlock Text="{x:Bind Name}" />
@@ -64,8 +64,8 @@
                             AutomationProperties.Name="Terminal Applications"
                             Header="Terminal Applications"
                             HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                            ItemsSource="{x:Bind AppSettings.TerminalController.Model.Terminals}"
-                            SelectionChanged="TerminalApp_SelectionChanged">
+                            ItemsSource="{Binding Terminals}"
+                            SelectedItem="{Binding SelectedTerminal, Mode=TwoWay}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate x:DataType="datamodels:Terminal">
                                     <StackPanel Orientation="Horizontal">
@@ -79,7 +79,7 @@
                             x:Uid="SettingsPreferencesEditTerminalApplications"
                             VerticalAlignment="Bottom"
                             AutomationProperties.Name="Edit terminal applications"
-                            Click="EditTerminalApplications_Click"
+                            Command="{Binding EditTerminalApplicationsCommand}"
                             Content=""
                             FontFamily="Segoe MDL2 Assets"
                             Style="{ThemeResource TextBlockButtonStyle}" />
@@ -100,14 +100,14 @@
                     x:Uid="SettingsPreferencesRecycleBinSwitch"
                     Header="Pin Recycle Bin to the sidebar"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{x:Bind AppSettings.PinRecycleBinToSideBar, Mode=TwoWay}" />
+                    IsOn="{Binding PinRecycleBinToSideBar, Mode=TwoWay}" />
 
                 <ToggleSwitch
                     x:Name="ShowConfirmDeleteDialogSwitch"
                     x:Uid="SettingsPreferencesShowConfirmDeleteDialogSwitch"
                     Header="Show a confirmation dialog when deleting files or folders"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{x:Bind AppSettings.ShowConfirmDeleteDialog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}" />
 
                 <TextBlock
                     x:Uid="SettingsPreferencesContextMenu"
@@ -120,17 +120,20 @@
                     x:Uid="SettingsPreferencesContextMenuSwitch"
                     Header="Show all context menu items when right clicking an item"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{x:Bind AppSettings.ShowAllContextMenuItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    IsOn="{Binding ShowAllContextMenuItems, Mode=TwoWay}" />
 
                 <ToggleSwitch
                     x:Name="CopyLocationToggleSwitch"
                     x:Uid="SettingsPreferencesCopyLocationSwitch"
                     Header="Show an option to copy the location when right clicking an item"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{x:Bind AppSettings.ShowCopyLocationOption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    IsOn="{Binding ShowCopyLocationOption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </ScrollViewer>
 
-        <dialogs:RestartDialog x:Name="RestartDialog" VerticalAlignment="Bottom" />
+        <dialogs:RestartDialog
+            x:Name="RestartDialog"
+            VerticalAlignment="Bottom"
+            ShowDialog="{Binding ShowRestartDialog, Mode=TwoWay}"/>
     </Grid>
 </Page>
