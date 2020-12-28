@@ -904,7 +904,7 @@
     <value>Acceso Denegado</value>
   </data>
   <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
-    <value>Mostrar todos los elementos del menú contextual</value>
+    <value>Mostrar todas las opciones del menú contextual al hacer clic derecho en un elemento</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Mostrar la papelera de reciclaje en la barra lateral</value>
@@ -940,7 +940,7 @@
     <value>Centro de actividades</value>
   </data>
   <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
-    <value>Abrir elementos con un solo click</value>
+    <value>Abrir elementos con un solo clic</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>Mover aquí</value>
@@ -985,7 +985,7 @@
     <value>Elemento de acceso directo</value>
   </data>
   <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Mostrar en el menú contextual una opción para copiar la ubicación del archivo seleccionado</value>
+    <value>Mostrar "Copiar ubicación" al hacer clic derecho en un elemento</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
     <value>Mostrar archivos y carpetas ocultos</value>
@@ -1409,5 +1409,26 @@
   </data>
   <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
     <value>Habilitar preferencias individuales para directorios individuales</value>
+  </data>
+  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
+    <value>Menu Contextual</value>
+  </data>
+  <data name="originalPathColumn.Header" xml:space="preserve">
+    <value>Ubicación original</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
+    <value>Ubicación original</value>
+  </data>
+  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+    <value>Añadir</value>
+  </data>
+  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+    <value>Quitar</value>
+  </data>
+  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
+    <value>Almacenar archivos y carpetas en caché para mejorar el rendimiento</value>
   </data>
 </root>
