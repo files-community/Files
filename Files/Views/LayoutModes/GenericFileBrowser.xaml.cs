@@ -301,11 +301,10 @@ namespace Files.Views.LayoutModes
 
         private void EditingElement_LosingFocus(UIElement sender, LosingFocusEventArgs args)
         {
-            if (args.NewFocusedElement is Popup)
+            if (args.NewFocusedElement is Popup || args.NewFocusedElement is AppBarButton)
             {
                 args.Cancel = true;
                 args.TryCancel();
-                args.TrySetNewFocusedElement(args.OldFocusedElement);
             }
         }
 
