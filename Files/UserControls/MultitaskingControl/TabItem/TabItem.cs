@@ -47,7 +47,7 @@ namespace Files.UserControls.MultitaskingControl
 
         public TabItemArguments TabItemArguments
         {
-            get => Control?.TabItemContent?.TabItemArguments ?? _TabItemArguments;
+            get => Control?.NavigationArguments ?? _TabItemArguments;
         }
 
         public TabItem()
@@ -57,7 +57,7 @@ namespace Files.UserControls.MultitaskingControl
 
         public void Unload()
         {
-            _TabItemArguments = Control?.TabItemContent?.TabItemArguments;
+            _TabItemArguments = Control?.NavigationArguments;
             Dispose();
         }
 

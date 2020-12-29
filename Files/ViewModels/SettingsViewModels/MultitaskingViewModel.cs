@@ -52,5 +52,38 @@ namespace Files.ViewModels.SettingsViewModels
                 }
             }
         }
+
+        private bool isDualPaneEnabled = App.AppSettings.IsDualPaneEnabled;
+        private bool alwaysOpenDualPaneInNewTab = App.AppSettings.AlwaysOpenDualPaneInNewTab;
+
+        public bool IsDualPaneEnabled
+        {
+            get
+            {
+                return isDualPaneEnabled;
+            }
+            set
+            {
+                if (SetProperty(ref isDualPaneEnabled, value))
+                {
+                    App.AppSettings.IsDualPaneEnabled = value;
+                }
+            }
+        }
+
+        public bool AlwaysOpenDualPaneInNewTab
+        {
+            get
+            {
+                return alwaysOpenDualPaneInNewTab;
+            }
+            set
+            {
+                if (SetProperty(ref alwaysOpenDualPaneInNewTab, value))
+                {
+                    App.AppSettings.AlwaysOpenDualPaneInNewTab = value;
+                }
+            }
+        }
     }
 }

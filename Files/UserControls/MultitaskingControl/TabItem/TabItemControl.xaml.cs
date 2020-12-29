@@ -6,27 +6,27 @@ namespace Files.UserControls.MultitaskingControl
 {
     public sealed partial class TabItemControl : UserControl, ITabItemContainer, IDisposable
     {
-        public TabItemArguments NavigationArguments
-        {
-            get { return (TabItemArguments)GetValue(NavigationArgumentsProperty); }
-            set { SetValue(NavigationArgumentsProperty, value); }
-        }
-
-        public static readonly DependencyProperty NavigationArgumentsProperty =
-            DependencyProperty.Register("NavigationArguments", typeof(TabItemArguments), typeof(TabItemControl), new PropertyMetadata(null, new PropertyChangedCallback(OnNavigationArgumentsChanged)));
-
         public event EventHandler<TabItemArguments> ContentChanged;
 
-        private static void OnNavigationArgumentsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private TabItemArguments navigationArguments;
+
+        public TabItemArguments NavigationArguments
         {
-            var navArguments = e.NewValue as TabItemArguments;
-            if (navArguments != null)
+            get => navigationArguments;
+            set
             {
-                (d as TabItemControl).ContentFrame.Navigate(navArguments.InitialPageType, navArguments.NavigationArg);
-            }
-            else
-            {
-                (d as TabItemControl).ContentFrame.Content = null;
+                if (value != navigationArguments)
+                {
+                    navigationArguments = value;
+                    if (navigationArguments != null)
+                    {
+                        ContentFrame.Navigate(navigationArguments.InitialPageType, navigationArguments.NavigationArg);
+                    }
+                    else
+                    {
+                        ContentFrame.Content = null;
+                    }
+                }
             }
         }
 
@@ -56,6 +56,7 @@ namespace Files.UserControls.MultitaskingControl
 
         private void TabItemContent_ContentChanged(object sender, TabItemArguments e)
         {
+            navigationArguments = e;
             ContentChanged?.Invoke(this, e);
         }
     }

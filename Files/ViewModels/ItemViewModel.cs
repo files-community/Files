@@ -814,7 +814,6 @@ namespace Files.ViewModels
                     var orderedList = OrderFiles2(cacheEntry.FileList);
                     OrderFiles(orderedList);
                     Debug.WriteLine($"Loading of items from cache in {WorkingDirectory} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
-                    App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                     IsLoadingItems = false;
                 }
 

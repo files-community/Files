@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views
 {
-    public sealed partial class PaneHolderPage : Page, ITabItemContent, INotifyPropertyChanged
+    public sealed partial class PaneHolderPage : Page, ITabItemContent, IDisposable, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
 
