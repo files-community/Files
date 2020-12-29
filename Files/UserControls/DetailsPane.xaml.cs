@@ -1,4 +1,5 @@
-﻿using Files.View_Models;
+﻿using Files.Filesystem;
+using Files.View_Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,12 +21,34 @@ namespace Files.UserControls
 {
     public sealed partial class DetailsPane : UserControl
     {
-        private DependencyProperty selectedItemsPropertiesViewModelProperty = DependencyProperty.Register("SelectedItemsPropertiesViewModel", typeof(SelectedItemsPropertiesViewModel), typeof(DetailsPane), null);
-        public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel
+        private DependencyProperty selectedItemsProperty = DependencyProperty.Register("SelectedItems", typeof(List<ListedItem>), typeof(DetailsPane), null);
+        public List<ListedItem> SelectedItems
         {
-            get => (SelectedItemsPropertiesViewModel) GetValue(selectedItemsPropertiesViewModelProperty);
-            set => SetValue(selectedItemsPropertiesViewModelProperty, value);
+            get => (List<ListedItem>)GetValue(selectedItemsProperty);
+            set
+            {
+                if (value.Count == 1 && value[0].FileText != null)
+                {
+                    if (value[0].FileExtension.Equals("md"))
+                    {
+                        MarkdownTextPreview.Text = value[0].FileText;
+                        MarkdownTextPreview.Visibility = Visibility.Visible;
+                        TextPreview.Visibility = Visibility.Collapsed;
+                    } else
+                    {
+                        TextPreview.Text = value[0].FileText;
+                        MarkdownTextPreview.Visibility = Visibility.Collapsed;
+                        TextPreview.Visibility = Visibility.Visible;
+                    }
+                } else
+                {
+                    TextPreview.Text = "No preview avaliable";
+                }
+                SetValue(selectedItemsProperty, value);
+            }
         }
+
+        private bool isMarkDown = false;
 
         public DetailsPane()
         {

@@ -569,7 +569,7 @@
     "NameResource": "PropertyOrientation",
     "SectionResource": "PropertySectionVideo",
     "Property": "System.Video.Orientation",
-    "IsReadOnly": true,
+    "IsReadOnly": false,
     "ID": null
   }
 ]

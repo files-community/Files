@@ -662,6 +662,7 @@ namespace Files.Filesystem
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
                                 matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
                                 wasSyncStatusLoaded = true;
+                                item.FileText = await FileIO.ReadTextAsync(matchingStorageItem);
                             }
                         }
                     }
@@ -1705,7 +1706,6 @@ namespace Files.Filesystem
             {
                 return null;
             }
-
             if (findData.cFileName.EndsWith(".lnk") || findData.cFileName.EndsWith(".url"))
             {
                 if (Connection != null)
@@ -1764,7 +1764,7 @@ namespace Files.Filesystem
                             WorkingDirectory = (string)response.Message["WorkingDirectory"],
                             RunAsAdmin = (bool)response.Message["RunAsAdmin"],
                             IsUrl = isUrl,
-                            ContainsFilesOrFolders = containsFilesOrFolders
+                            ContainsFilesOrFolders = containsFilesOrFolders,
                         };
                     }
                 }
@@ -1851,6 +1851,8 @@ namespace Files.Filesystem
             var itemFolderImgVis = false;
             var itemFileExtension = file.FileType;
 
+            var textContents = await FileIO.ReadTextAsync(file);
+
             BitmapImage icon = new BitmapImage();
             bool itemThumbnailImgVis;
             bool itemEmptyImgVis;
@@ -1936,6 +1938,7 @@ namespace Files.Filesystem
                     ItemPath = itemPath,
                     FileSize = itemSize,
                     FileSizeBytes = (long)itemSizeBytes,
+                    FileText = textContents
                 });
             }
         }

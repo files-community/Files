@@ -581,10 +581,11 @@
 
     <Grid x:Name="RootGrid" Background="Transparent">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
+
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
                 Key="{x:Bind PlusKey}"
@@ -636,14 +637,12 @@
             x:Uid="FileNameTeachingTip"
             CloseButtonContent="OK"
             PreferredPlacement="Auto"
-            Subtitle="The item name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |" />
+            Subtitle="The item name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |" Grid.RowSpan="2" />
 
         <controls:DataGrid
             x:Name="AllView"
-            Grid.Row="3"
+            Grid.Row="2"
             Margin="12,12,12,0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
             x:FieldModifier="public"
             AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
             AutoGenerateColumns="False"
@@ -919,12 +918,10 @@
                 </controls:DataGridTextColumn>
             </controls:DataGrid.Columns>
         </controls:DataGrid>
-        
-        
+
+
         <Canvas
-            Margin="12,12,12,0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch">
+            Margin="12,12,12,0" Grid.RowSpan="2">
             <Rectangle
                 Name="SelectionRectangle"
                 Canvas.Left="0"
@@ -938,19 +935,11 @@
         </Canvas>
 
         <controls:GridSplitter
-            GripperCursor="Default"
-            HorizontalAlignment="Left"
-            Grid.Column="1"
-            ResizeDirection="Auto"
-            ResizeBehavior="BasedOnAlignment"
-            CursorBehavior="ChangeOnSplitterHover"
-            Style="{StaticResource DefaultGridSplitterStyle}"
-            Width="2">
-            
+            Grid.Column="1" Grid.Row="1"
+            Style="{StaticResource DefaultGridSplitterStyle}">
         </controls:GridSplitter>
-        <usercontrols:DetailsPane Grid.Column="3">
-            
+
+        <usercontrols:DetailsPane Grid.Column="2" Grid.Row="1" x:Name="PreviewPane" SelectedItems="{x:Bind SelectedItems, Mode=OneWay}">
         </usercontrols:DetailsPane>
-        
     </Grid>
 </local:BaseLayout>

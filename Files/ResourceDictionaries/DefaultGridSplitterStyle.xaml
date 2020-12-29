@@ -49,7 +49,7 @@
             <SolidColorBrush x:Key="SidebarBorderBrush" Color="Transparent" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
-            <SolidColorBrush x:Key="SidebarBorderBrush" Color="Gray" />
+            <SolidColorBrush x:Key="SidebarBorderBrush" Color="Transparent" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="HighContrast">
             <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />

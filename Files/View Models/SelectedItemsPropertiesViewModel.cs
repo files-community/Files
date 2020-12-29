@@ -673,6 +673,23 @@ namespace Files.View_Models
         {
             get => isHidden;
             set => SetProperty(ref isHidden, value);
+        }        
+        private string fileText;
+        /// <summary>
+        /// The text that the file contains. User for preview of text files.
+        /// </summary>
+        public string FileText
+        {
+            get => fileText;
+            set => SetProperty(ref fileText, value);
         }
+
+        private bool detailsPaneVisible;
+        public bool DetailsPaneVisible
+        {
+            get => detailsPaneVisible;
+            set => SetProperty(ref detailsPaneVisible, value);
+        }
+        
     }
 }
