@@ -160,6 +160,7 @@
             <controls:SidebarControl 
                 x:Name="SidebarControl"
                 x:Load="{x:Bind IsPageMainPane}"
+                CanOpenInNewPane="{x:Bind ShowMultiPaneControls, Mode=OneWay}"
                 Loaded="SidebarControl_Loaded"
                 EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}" />
         </Grid>
@@ -195,6 +196,7 @@
                             Grid.Column="0"
                             Margin="10"
                             x:FieldModifier="public"
+                            ShowMultiPaneControls="{x:Bind ShowMultiPaneControls, Mode=OneWay}"
                             CanCreateFileInPage="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                             CanOpenTerminalInPage="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
                             CopyPathInvokedCommand="{x:Bind InteractionOperations.CopyPathOfWorkingDirectory, Mode=OneWay}"
@@ -205,7 +207,8 @@
                             NewTabInvokedCommand="{x:Bind InteractionOperations.AddNewTabToMultitaskingControl, Mode=OneWay}"
                             NewWindowInvokedCommand="{x:Bind InteractionOperations.OpenNewWindow, Mode=OneWay}"
                             OpenInTerminalInvokedCommand="{x:Bind InteractionOperations.OpenDirectoryInDefaultTerminal, Mode=OneWay}"
-                            PasteInvokedCommand="{x:Bind InteractionOperations.PasteItemsFromClipboard, Mode=OneWay}" />
+                            PasteInvokedCommand="{x:Bind InteractionOperations.PasteItemsFromClipboard, Mode=OneWay}"
+                            NewPaneInvokedCommand="{x:Bind InteractionOperations.OpenNewPane, Mode=OneWay}"/>
                     </Grid>
 
                     <Frame

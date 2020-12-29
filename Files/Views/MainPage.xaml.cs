@@ -377,9 +377,9 @@ namespace Files.Views
         {
             if (navigationArg is PaneNavigationArguments paneArgs)
             {
-                var leftHeader = new DirectoryInfo(paneArgs.LeftPaneNavPathParam).Name;
+                var leftHeader = paneArgs.LeftPaneNavPathParam != null ? new DirectoryInfo(paneArgs.LeftPaneNavPathParam).Name : null;
                 var rightHeader = paneArgs.RightPaneNavPathParam != null ? new DirectoryInfo(paneArgs.RightPaneNavPathParam).Name : null;
-                if (rightHeader != null)
+                if (leftHeader != null && rightHeader != null)
                 {
                     await SetSelectedTabInfoAsync(tabItem, paneArgs.LeftPaneNavPathParam, $"{leftHeader} | {rightHeader}");
                 }

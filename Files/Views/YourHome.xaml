@@ -17,7 +17,9 @@
             </StackPanel.ChildrenTransitions>
             <widgets:LibraryCards x:Name="LibraryWidget" x:Load="{x:Bind AppSettings.ShowLibraryCardsWidget, Mode=OneWay}" />
 
-            <widgets:DrivesWidget x:Name="DrivesWidget" x:Load="{x:Bind AppSettings.ShowDrivesWidget, Mode=OneWay}" />
+            <widgets:DrivesWidget x:Name="DrivesWidget" 
+                                  x:Load="{x:Bind AppSettings.ShowDrivesWidget, Mode=OneWay}"
+                                  ShowMultiPaneControls="{x:Bind AppInstance.ShowMultiPaneControls, Mode=OneWay}"/>
 
             <widgets:RecentFiles x:Name="RecentFilesWidget" x:Load="{x:Bind AppSettings.ShowRecentFilesWidget, Mode=OneWay}" />
         </StackPanel>

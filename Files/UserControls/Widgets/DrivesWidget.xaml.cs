@@ -3,14 +3,16 @@ using Files.Interacts;
 using Files.ViewModels;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 
 namespace Files.UserControls.Widgets
 {
-    public sealed partial class DrivesWidget : UserControl
+    public sealed partial class DrivesWidget : UserControl, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -18,11 +20,22 @@ namespace Files.UserControls.Widgets
 
         public event DrivesWidgetInvokedEventHandler DrivesWidgetInvoked;
 
+        public delegate void DrivesWidgetNewPaneInvokedEventHandler(object sender, DrivesWidgetInvokedEventArgs e);
+
+        public event DrivesWidgetNewPaneInvokedEventHandler DrivesWidgetNewPaneInvoked;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public static ObservableCollection<INavigationControlItem> ItemsAdded = new ObservableCollection<INavigationControlItem>();
 
         public DrivesWidget()
         {
             InitializeComponent();
+        }
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private async void EjectDevice_Click(object sender, RoutedEventArgs e)
@@ -75,6 +88,38 @@ namespace Files.UserControls.Widgets
             var element = sender as UIElement;
             var visual = ElementCompositionPreview.GetElementVisual(element);
             visual.Scale = new Vector3(1);
+        }
+
+        private bool showMultiPaneControls;
+
+        public bool ShowMultiPaneControls
+        {
+            get => showMultiPaneControls;
+            set
+            {
+                if (value != showMultiPaneControls)
+                {
+                    showMultiPaneControls = value;
+                    NotifyPropertyChanged(nameof(ShowMultiPaneControls));
+                }
+            }
+        }
+
+        private void OpenInNewPane_Click(object sender, RoutedEventArgs e)
+        {
+            var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            DrivesWidgetNewPaneInvoked?.Invoke(this, new DrivesWidgetInvokedEventArgs()
+            {
+                Path = item.Path
+            });
+        }
+
+        private void MenuFlyout_Opening(object sender, object e)
+        {
+            if (FindName("OpenInNewPane") is MenuFlyoutItemBase menuItem) // Prevent crash if the MenuFlyoutItem is missing
+            {
+                menuItem.Visibility = ShowMultiPaneControls ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
     }
 }

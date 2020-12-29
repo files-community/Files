@@ -224,6 +224,25 @@ namespace Files.UserControls
             }
         }
 
+        public static readonly DependencyProperty NewPaneInvokedCommandProperty = DependencyProperty.Register(
+          "NewPaneInvokedCommand",
+          typeof(ICommand),
+          typeof(NavigationToolbar),
+          new PropertyMetadata(null)
+        );
+
+        public ICommand NewPaneInvokedCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(NewPaneInvokedCommandProperty);
+            }
+            set
+            {
+                SetValue(NewPaneInvokedCommandProperty, value);
+            }
+        }
+
         public static readonly DependencyProperty NewTabInvokedCommandProperty = DependencyProperty.Register(
           "NewTabInvokedCommand",
           typeof(ICommand),
@@ -347,6 +366,24 @@ namespace Files.UserControls
                 {
                     clickablePathLoaded = value;
                     NotifyPropertyChanged(nameof(ClickablePathLoaded));
+                }
+            }
+        }
+
+        private bool showMultiPaneControls;
+
+        public bool ShowMultiPaneControls
+        {
+            get
+            {
+                return showMultiPaneControls;
+            }
+            set
+            {
+                if (value != showMultiPaneControls)
+                {
+                    showMultiPaneControls = value;
+                    NotifyPropertyChanged(nameof(ShowMultiPaneControls));
                 }
             }
         }

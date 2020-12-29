@@ -745,10 +745,44 @@ namespace Files.Views
             }
         }
 
+        private string navParams;
+
         public string NavParams
         {
-            get { return (string)GetValue(NavParamsProperty); }
-            set { SetValue(NavParamsProperty, value); }
+            get => navParams;
+            set
+            {
+                if (value != navParams)
+                {
+                    navParams = value;
+                    if (IsLoaded)
+                    {
+                        OnNavigationParamsChanged();
+                    }
+                }
+            }
+        }
+
+        private void OnNavigationParamsChanged()
+        {
+            if (string.IsNullOrEmpty(NavParams) || NavParams == "NewTab".GetLocalized() || NavParams == "Home")
+            {
+                ItemDisplayFrame.Navigate(typeof(YourHome),
+                    new NavigationArguments()
+                    {
+                        NavPathParam = NavParams,
+                        AssociatedTabInstance = this
+                    });
+            }
+            else
+            {
+                ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(NavParams),
+                    new NavigationArguments()
+                    {
+                        NavPathParam = NavParams,
+                        AssociatedTabInstance = this
+                    });
+            }
         }
 
         public static readonly DependencyProperty NavParamsProperty =
@@ -771,7 +805,23 @@ namespace Files.Views
             }
         }
 
-        public IPaneHolder PaneHolder { get; set; }
+        public bool ShowMultiPaneControls => PaneHolder != null && IsPageMainPane;
+
+        private IPaneHolder paneHolder;
+
+        public IPaneHolder PaneHolder
+        {
+            get => paneHolder;
+            set
+            {
+                if (value != paneHolder)
+                {
+                    paneHolder = value;
+                    NotifyPropertyChanged(nameof(PaneHolder));
+                    NotifyPropertyChanged(nameof(ShowMultiPaneControls));
+                }
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<TabItemArguments> ContentChanged;
@@ -790,114 +840,7 @@ namespace Files.Views
             App.Current.Suspending += Current_Suspending;
             App.Current.LeavingBackground += OnLeavingBackground;
             FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
-            string NavigationPath = ""; // path to navigate
-
-            switch (NavParams)
-            {
-                case "Start":
-                    ItemDisplayFrame.Navigate(typeof(YourHome),
-                                              new NavigationArguments()
-                                              {
-                                                  NavPathParam = NavParams,
-                                                  AssociatedTabInstance = this
-                                              },
-                                              new SuppressNavigationTransitionInfo());
-                    SidebarSelectedItem = MainPage.SideBarItems.FirstOrDefault();
-                    break;
-
-                case "Desktop":
-                    NavigationPath = AppSettings.DesktopPath;
-                    SidebarSelectedItem =
-                        MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
-                    break;
-
-                case "Downloads":
-                    NavigationPath = AppSettings.DownloadsPath;
-                    SidebarSelectedItem =
-                        MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
-                    break;
-
-                case "Documents":
-                    NavigationPath = AppSettings.DocumentsPath;
-                    SidebarSelectedItem =
-                        MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
-                    break;
-
-                case "Pictures":
-                    NavigationPath = AppSettings.PicturesPath;
-                    SidebarSelectedItem =
-                        MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
-                    break;
-
-                case "Music":
-                    NavigationPath = AppSettings.MusicPath;
-                    SidebarSelectedItem =
-                        MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
-                    break;
-
-                case "Videos":
-                    NavigationPath = AppSettings.VideosPath;
-                    SidebarSelectedItem =
-                        MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
-                    break;
-
-                case "RecycleBin":
-                    NavigationPath = AppSettings.RecycleBinPath;
-                    SidebarSelectedItem =
-                        MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase));
-                    break;
-
-                default:
-                    if (NavParams == "NewTab".GetLocalized() || NavParams == "Home")
-                    {
-                        ItemDisplayFrame.Navigate(typeof(YourHome),
-                                                  new NavigationArguments()
-                                                  {
-                                                      NavPathParam = NavParams,
-                                                      AssociatedTabInstance = this
-                                                  },
-                                                  new SuppressNavigationTransitionInfo());
-                        SidebarSelectedItem = MainPage.SideBarItems[0];
-                    }
-                    else if (((NavParams[0] >= 'A' && NavParams[0] <= 'Z') || (NavParams[0] >= 'a' && NavParams[0] <= 'z'))
-                        && NavParams[1] == ':')
-                    {
-                        NavigationPath = NavParams;
-                        SidebarSelectedItem = AppSettings.DrivesManager.Drives
-                            .FirstOrDefault(x => x.Path.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
-                    }
-                    else if (NavParams.StartsWith("\\\\?\\")) // USB device
-                    {
-                        NavigationPath = NavParams;
-                        SidebarSelectedItem = App.AppSettings.DrivesManager.Drives
-                            .FirstOrDefault(x => x.Path.ToString().Equals($"{Path.GetPathRoot(NavParams)}", StringComparison.OrdinalIgnoreCase));
-                    }
-                    else if (NavParams.StartsWith("\\\\")) // Network share
-                    {
-                        NavigationPath = NavParams;
-                    }
-                    else if (NavParams.StartsWith(AppSettings.RecycleBinPath))
-                    {
-                        NavigationPath = NavParams;
-                    }
-                    else
-                    {
-                        SidebarSelectedItem = null;
-                    }
-                    break;
-            }
-
-            if (NavigationPath != "")
-            {
-                ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(NavigationPath),
-                                      new NavigationArguments()
-                                      {
-                                          NavPathParam = NavigationPath,
-                                          AssociatedTabInstance = this
-                                      },
-                                      new SuppressNavigationTransitionInfo());
-            }
-
+            OnNavigationParamsChanged();
             this.Loaded -= Page_Loaded;
         }
 
@@ -1242,6 +1185,7 @@ namespace Files.Views
                 SidebarControl.SidebarItemPropertiesInvoked -= SidebarControl_SidebarItemPropertiesInvoked;
                 SidebarControl.SidebarItemDropped -= SidebarControl_SidebarItemDropped;
                 SidebarControl.RecycleBinItemRightTapped -= SidebarControl_RecycleBinItemRightTapped;
+                SidebarControl.SidebarItemNewPaneInvoked -= SidebarControl_SidebarItemNewPaneInvoked;
             }
             NavigationToolbar.SearchQuerySubmitted -= ModernShellPage_SearchQuerySubmitted;
             NavigationToolbar.SearchTextChanged -= ModernShellPage_SearchTextChanged;
@@ -1280,6 +1224,15 @@ namespace Files.Views
             SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
             SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
             SidebarControl.RecycleBinItemRightTapped += SidebarControl_RecycleBinItemRightTapped;
+            SidebarControl.SidebarItemNewPaneInvoked += SidebarControl_SidebarItemNewPaneInvoked;
+        }
+
+        private void SidebarControl_SidebarItemNewPaneInvoked(object sender, SidebarItemNewPaneInvokedEventArgs e)
+        {
+            if (e.InvokedItemDataContext is INavigationControlItem navItem)
+            {
+                PaneHolder?.OpenPathInNewPane(navItem.Path);
+            }
         }
 
         public DataPackageOperation TabItemDragOver(object sender, DragEventArgs e)

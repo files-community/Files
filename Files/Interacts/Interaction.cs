@@ -139,6 +139,22 @@ namespace Files.Interacts
             }
         }
 
+        public void OpenDirectoryInNewPane_Click()
+        {
+            var listedItem = AssociatedInstance.ContentPage.SelectedItems.FirstOrDefault();
+            if (listedItem != null)
+            {
+                AssociatedInstance.PaneHolder?.OpenPathInNewPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+            }
+        }
+
+        public RelayCommand OpenNewPane => new RelayCommand(() => OpenNewPaneCommand());
+
+        public void OpenNewPaneCommand()
+        {
+            AssociatedInstance.PaneHolder?.OpenPathInNewPane("NewTab".GetLocalized());
+        }
+
         public async void OpenDirectoryInNewTab_Click()
         {
             foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)

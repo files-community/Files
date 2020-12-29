@@ -24,6 +24,7 @@ namespace Files
         public INavigationToolbar NavigationToolbar { get; }
         
         public bool IsPageMainPane { get; }
+        public bool ShowMultiPaneControls { get; }
         public IPaneHolder PaneHolder { get; }
 
         public abstract void Clipboard_ContentChanged(object sender, object e);

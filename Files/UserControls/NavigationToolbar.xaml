@@ -999,6 +999,21 @@
                     <MenuFlyout Placement="BottomEdgeAlignedRight"
                                 Opening="NavMoreButtonFlyout_Opening">
                         <MenuFlyoutItem
+                            x:Name="NavToolbarNewPane"
+                            x:Uid="NavigationToolbarNewPane"
+                            Command="{x:Bind NewPaneInvokedCommand, Mode=OneWay}"
+                            Text="New Pane">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA2F;" />
+                            </MenuFlyoutItem.Icon>
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator
+                                    Key="Right"
+                                    IsEnabled="False"
+                                    Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
                             x:Name="NavToolbarNewTab"
                             x:Uid="NavigationToolbarNewTab"
                             Command="{x:Bind NewTabInvokedCommand, Mode=OneWay}"

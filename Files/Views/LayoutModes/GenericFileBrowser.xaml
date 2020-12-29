@@ -353,6 +353,17 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
+                    x:Name="OpenInNewPane"
+                    x:Uid="BaseLayoutItemContextFlyoutOpenInNewPane"
+                    x:Load="{x:Bind ParentShellPageInstance.ShowMultiPaneControls, Mode=OneWay}"
+                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenDirectoryInNewPane_Click}"
+                    Tag="OpenPane_FlyoutItem"
+                    Text="Open in new pane">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA2F;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
                     x:Name="OpenInNewTab"
                     x:Uid="BaseLayoutItemContextFlyoutOpenInNewTab"
                     x:Load="False"
