@@ -23,6 +23,7 @@ namespace Files.UserControls.Selection
         private Dictionary<object, System.Drawing.Rectangle> itemsPosition;
         private IList<DataGridRow> dataGridRows;
         private List<object> prevSelectedItems;
+        private ItemSelectionStrategy selectionStrategy;
 
         public RectangleSelection_DataGrid(DataGrid uiElement, Rectangle selectionRectangle, SelectionChangedEventHandler selectionChanged = null)
         {
@@ -36,11 +37,6 @@ namespace Files.UserControls.Selection
 
         private void RectangleSelection_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            var selectedItems = new GenericItemsCollection<object>(uiElement.SelectedItems);
-            var selectionStrategy = e.KeyModifiers == VirtualKeyModifiers.Control ?
-                    (ItemSelectionStrategy)new ExtendPreviousItemSelectionStrategy(selectedItems, prevSelectedItems) :
-                    new IgnorePreviousItemSelectionStrategy(selectedItems);
-
             if (selectionState == SelectionState.Starting)
             {
                 uiElement.CancelEdit();
@@ -155,23 +151,28 @@ namespace Files.UserControls.Selection
                 // Trigger only on left click, do not trigger with touch
                 return;
             }
-            var clickedRow = Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
-            if (clickedRow == null)
-            {
-                // If user click outside, reset selection
-                uiElement.CancelEdit();
 
-                var extendExistingSelection = e.KeyModifiers == VirtualKeyModifiers.Control;
-                if (!extendExistingSelection)
-                {
-                    uiElement.SelectedItems.Clear();
-                }
-            }
-            else if (uiElement.SelectedItems.Contains(clickedRow.DataContext))
+            var clickedRow = Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
+            if (clickedRow != null && uiElement.SelectedItems.Contains(clickedRow.DataContext))
             {
                 // If the item under the pointer is selected do not trigger selection rectangle
                 return;
             }
+
+            var selectedItems = new GenericItemsCollection<object>(uiElement.SelectedItems);
+            selectionStrategy = e.KeyModifiers.HasFlag(VirtualKeyModifiers.Control) ?
+                    new InvertPreviousItemSelectionStrategy(selectedItems, prevSelectedItems) :
+                    e.KeyModifiers.HasFlag(VirtualKeyModifiers.Shift)?
+                        (ItemSelectionStrategy)new ExtendPreviousItemSelectionStrategy(selectedItems, prevSelectedItems) :
+                        new IgnorePreviousItemSelectionStrategy(selectedItems);
+
+            if (clickedRow == null)
+            {
+                // If user click outside, reset selection
+                uiElement.CancelEdit();
+                selectionStrategy.HandleNoItemSelected();
+            }
+
             uiElement.PointerMoved -= RectangleSelection_PointerMoved;
             uiElement.PointerMoved += RectangleSelection_PointerMoved;
             if (selectionChanged != null)
@@ -206,6 +207,8 @@ namespace Files.UserControls.Selection
             {
                 OnSelectionEnded();
             }
+
+            selectionStrategy = null;
             selectionState = SelectionState.Inactive;
         }
 

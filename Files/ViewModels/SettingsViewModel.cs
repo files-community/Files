@@ -229,6 +229,15 @@ namespace Files.ViewModels
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether or not to cache files and folders.
+        /// </summary>
+        public bool UseFileListCache
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether or not the date column should be visible.
         /// </summary>
         public bool ShowDateColumn
