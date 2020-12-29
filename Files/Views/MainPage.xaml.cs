@@ -182,7 +182,7 @@ namespace Files.Views
             if (AppInstances[index].TabItemArguments != null)
             {
                 var tabArgs = AppInstances[index].TabItemArguments;
-                await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+                await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg, index + 1);
             }
             else
             {
