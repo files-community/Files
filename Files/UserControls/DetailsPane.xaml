@@ -14,9 +14,13 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" x:Name="PreviewGrid">
-            <TextBlock x:Name="TextPreview"/>
-            <controls:MarkdownTextBlock Visibility="Collapsed" x:Name="MarkdownTextPreview" />
+        <Grid Grid.Row="0" x:Name="PreviewGrid" >
+            <ScrollViewer>
+                <Grid>
+                    <TextBlock x:Name="TextPreview"/>
+                    <controls:MarkdownTextBlock Visibility="Collapsed" x:Name="MarkdownTextPreview" />
+                </Grid>
+            </ScrollViewer>
         </Grid>
         <controls:GridSplitter Grid.Row="1" Style="{StaticResource DefaultGridSplitterStyle}" HorizontalAlignment="Stretch"/>
 

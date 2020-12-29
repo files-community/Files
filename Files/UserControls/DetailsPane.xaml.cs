@@ -29,7 +29,7 @@ namespace Files.UserControls
             {
                 if (value.Count == 1 && value[0].FileText != null)
                 {
-                    if (value[0].FileExtension.Equals("md"))
+                    if (value[0].FileExtension.Equals(".md"))
                     {
                         MarkdownTextPreview.Text = value[0].FileText;
                         MarkdownTextPreview.Visibility = Visibility.Visible;

@@ -18,7 +18,7 @@
                     <Grid
                                 x:Name="RootGrid"
                                 Background="Transparent"
-                                BorderBrush="{ThemeResource SidebarBorderBrush}"
+                                BorderBrush="{ThemeResource SystemBaseLowColor}"
                                 BorderThickness="1,0,0,0">
                         <ContentPresenter
                                     HorizontalContentAlignment="Stretch"
@@ -27,11 +27,7 @@
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="GridSplitterStates">
                                 <VisualState x:Name="Normal" />
-                                <VisualState x:Name="PointerOver">
-                                    <VisualState.Setters>
-                                        <Setter Target="RootGrid.Background" Value="Transparent" />
-                                    </VisualState.Setters>
-                                </VisualState>
+
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
                                         <Setter Target="RootGrid.Background" Value="Transparent" />
