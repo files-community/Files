@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -224,6 +225,30 @@ namespace Files.Views
         {
             IsRightPaneVisible = true;
             NavParamsRight = path;
+        }
+
+        private void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
+            args.Handled = true;
+            var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
+
+            switch (c: ctrl, k: args.KeyboardAccelerator.Key)
+            {
+                case (true, VirtualKey.Left):
+                    if (AppSettings.IsDualPaneEnabled)
+                    {
+                        ActivePane = PaneLeft;
+                    }
+                    break;
+
+                case (true, VirtualKey.Right):
+                    if (AppSettings.IsDualPaneEnabled)
+                    {
+                        isRightPaneVisible = true;
+                        ActivePane = PaneRight;
+                    }
+                    break;
+            }
         }
     }
 

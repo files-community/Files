@@ -203,4 +203,13 @@
             </Core:DataTriggerBehavior>
         </Interactivity:Interaction.Behaviors>
     </Grid>
+
+    <Page.KeyboardAccelerators>
+        <KeyboardAccelerator Key="Left"
+                             Invoked="KeyboardAccelerator_Invoked"
+                             Modifiers="Control" />
+        <KeyboardAccelerator Key="Right"
+                             Invoked="KeyboardAccelerator_Invoked"
+                             Modifiers="Control" />
+    </Page.KeyboardAccelerators>
 </Page>

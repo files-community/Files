@@ -186,9 +186,14 @@ namespace Files.Views
 
         private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(AppSettings.SidebarWidth))
+            switch (e.PropertyName)
             {
-                NotifyPropertyChanged(nameof(SidebarWidth));
+                case nameof(AppSettings.SidebarWidth):
+                    NotifyPropertyChanged(nameof(SidebarWidth));
+                    break;
+                case nameof(AppSettings.IsDualPaneEnabled):
+                    NotifyPropertyChanged(nameof(ShowMultiPaneControls));
+                    break;
             }
         }
 
@@ -805,7 +810,7 @@ namespace Files.Views
             }
         }
 
-        public bool ShowMultiPaneControls => PaneHolder != null && IsPageMainPane;
+        public bool ShowMultiPaneControls => PaneHolder != null && IsPageMainPane && AppSettings.IsDualPaneEnabled;
 
         private IPaneHolder paneHolder;
 
