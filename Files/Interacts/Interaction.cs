@@ -1079,6 +1079,7 @@ namespace Files.Interacts
             DataPackageView packageView = Clipboard.GetContent();
             string destinationPath = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
             await FilesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, destinationPath, true);
+            AssociatedInstance.ContentPage.ResetItemOpacity();
         }
 
         public async void CreateFileFromDialogResultType(AddItemType itemType, ShellNewEntry itemInfo)
