@@ -264,7 +264,6 @@ namespace Files.Views
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            NLog.LogManager.GetCurrentClassLogger().Info(eventArgs.Parameter.ToString());
             NavParams = eventArgs.Parameter.ToString();
         }
 
@@ -791,8 +790,6 @@ namespace Files.Views
             FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
             string NavigationPath = ""; // path to navigate
 
-            NLog.LogManager.GetCurrentClassLogger().Info(NavParams);
-
             switch (NavParams)
             {
                 case "Start":
@@ -849,7 +846,7 @@ namespace Files.Views
                     break;
 
                 default:
-                    if (NavParams == "NewTab".GetLocalized())
+                    if (NavParams == "NewTab".GetLocalized() || NavParams == "Home")
                     {
                         ItemDisplayFrame.Navigate(typeof(YourHome),
                                                   new NavigationArguments()

@@ -115,7 +115,7 @@ namespace Files.ViewModels
                 navigated = res;
             }
 
-            if (value == "Home")
+            if (value == "Home" || value == "NewTab".GetLocalized())
             {
                 _currentStorageFolder = null;
             }

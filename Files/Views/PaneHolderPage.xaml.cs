@@ -141,9 +141,6 @@ namespace Files.Views
                 NavParamsRight = paneArgs.RightPaneNavPathParam;
                 IsRightPaneVisible = paneArgs.RightPaneNavPathParam != null;
             }
-
-            NLog.LogManager.GetCurrentClassLogger().Info(NavParamsLeft);
-            NLog.LogManager.GetCurrentClassLogger().Info(NavParamsRight);
         }
 
         public void Clipboard_ContentChanged(object sender, object e)

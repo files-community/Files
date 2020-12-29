@@ -269,7 +269,7 @@ namespace Files.Views
                 tabLocationHeader = "SidebarSettings/Text".GetLocalized();
                 fontIconSource.Glyph = "\xeb5d";
             }
-            else if (currentPath == null || currentPath == "NewTab".GetLocalized())
+            else if (currentPath == null || currentPath == "NewTab".GetLocalized() || currentPath == "Home")
             {
                 tabLocationHeader = "NewTab".GetLocalized();
                 fontIconSource.Glyph = "\xe90c";
