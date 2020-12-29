@@ -20,8 +20,6 @@ namespace Files.Helpers.FileListCache
 
             bool schemaCreated = File.Exists(dbPath);
 
-            SQLitePCL.Batteries_V2.Init();
-
             connection = new SqliteConnection($"Data Source='{dbPath}'");
             connection.Open();
 

@@ -716,8 +716,8 @@
     <PackageReference Include="Microsoft.AppCenter.Crashes">
       <Version>4.0.0</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.Data.Sqlite.Core">
-      <Version>5.0.1</Version>
+    <PackageReference Include="Microsoft.Data.Sqlite">
+      <Version>1.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Caching.Memory">
       <Version>5.0.0</Version>
@@ -766,9 +766,6 @@
     </PackageReference>
     <PackageReference Include="NLog.Schema">
       <Version>4.7.6</Version>
-    </PackageReference>
-    <PackageReference Include="SQLitePCLRaw.bundle_green">
-      <Version>2.0.4</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
