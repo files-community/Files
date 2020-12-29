@@ -92,7 +92,7 @@ namespace Files.Views
                             foreach (string tabArgsString in App.AppSettings.LastSessionPages)
                             {
                                 var tabArgs = TabItemArguments.Deserialize(tabArgsString);
-                                AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+                                await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
                             }
 
                             if (!App.AppSettings.ContinueLastSessionOnStartUp)
@@ -121,7 +121,7 @@ namespace Files.Views
                                 foreach (string tabArgsString in App.AppSettings.LastSessionPages)
                                 {
                                     var tabArgs = TabItemArguments.Deserialize(tabArgsString);
-                                    AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+                                    await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
                                 }
                                 var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "NewTab".GetLocalized() };
                                 App.AppSettings.LastSessionPages = new string[] { defaultArg.Serialize() };
@@ -149,7 +149,7 @@ namespace Files.Views
                     }
                     else if (eventArgs.Parameter is TabItemArguments tabArgs)
                     {
-                        AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+                        await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
                     }
                 }
 
@@ -182,7 +182,7 @@ namespace Files.Views
             if (AppInstances[index].TabItemArguments != null)
             {
                 var tabArgs = AppInstances[index].TabItemArguments;
-                AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
+                await AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
             }
             else
             {
@@ -208,10 +208,15 @@ namespace Files.Views
             }
         }
 
-        public static void AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
+        public static async Task AddNewTabByParam(Type type, object tabViewItemArgs, int atIndex = -1)
         {
+            Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
+            fontIconSource.FontFamily = App.Current.Resources["FluentUIGlyphs"] as FontFamily;
+
             TabItem tabItem = new TabItem()
             {
+                Header = null,
+                IconSource = fontIconSource,
                 Description = null
             };
             tabItem.Control.NavigationArguments = new TabItemArguments()
@@ -219,12 +224,13 @@ namespace Files.Views
                 InitialPageType = type,
                 NavigationArg = tabViewItemArgs
             };
+            tabItem.Control.ContentChanged += Control_ContentChanged;
+            await UpdateTabInfo(tabItem, tabViewItemArgs);
             AppInstances.Insert(atIndex == -1 ? AppInstances.Count : atIndex, tabItem);
         }
 
         public static async Task AddNewTabByPathAsync(Type type, string path, int atIndex = -1)
         {
-            string tabLocationHeader = string.Empty;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
             fontIconSource.FontFamily = App.Current.Resources["FluentUIGlyphs"] as FontFamily;
 
@@ -233,66 +239,9 @@ namespace Files.Views
                 path = "NewTab".GetLocalized();
             }
 
-            if (path != null)
-            {
-                var isRoot = Path.GetPathRoot(path) == path;
-
-                if (Path.IsPathRooted(path) || isRoot) // Or is a directory or a root (drive)
-                {
-                    var normalizedPath = NormalizePath(path);
-
-                    var dirName = Path.GetDirectoryName(normalizedPath);
-                    if (dirName != null)
-                    {
-                        tabLocationHeader = Path.GetFileName(path);
-                        fontIconSource.Glyph = "\xea55";
-                    }
-                    else
-                    {
-                        // Pick the best icon for this tab
-                        var remDriveNames = (await KnownFolders.RemovableDevices.GetFoldersAsync()).Select(x => x.DisplayName);
-
-                        if (!remDriveNames.Contains(normalizedPath))
-                        {
-                            if (path != "A:" && path != "B:") // Check if it's using (generally) floppy-reserved letters.
-                            {
-                                fontIconSource.Glyph = "\xeb4a"; // Floppy Disk icon
-                            }
-                            else
-                            {
-                                fontIconSource.Glyph = "\xeb8b"; // Hard Disk icon
-                            }
-
-                            tabLocationHeader = normalizedPath;
-                        }
-                        else
-                        {
-                            fontIconSource.Glyph = "\xec0a";
-                            tabLocationHeader = (await KnownFolders.RemovableDevices.GetFolderAsync(path)).DisplayName;
-                        }
-                    }
-                }
-                else if (path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-                {
-                    var localSettings = ApplicationData.Current.LocalSettings;
-                    tabLocationHeader = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
-                    fontIconSource.FontFamily = Application.Current.Resources["RecycleBinIcons"] as FontFamily;
-                    fontIconSource.Glyph = "\xEF87";
-                }
-                else
-                {
-                    // Invalid path, open new tab instead (explorer opens Documents when it fails)
-                    Debug.WriteLine($"Invalid path \"{path}\" in InstanceTabsView.xaml.cs\\AddNewTab");
-
-                    path = "NewTab".GetLocalized();
-                    tabLocationHeader = "NewTab".GetLocalized();
-                    fontIconSource.Glyph = "\xe90c";
-                }
-            }
-
             TabItem tabItem = new TabItem()
             {
-                Header = tabLocationHeader,
+                Header = null,
                 IconSource = fontIconSource,
                 Description = null
             };
@@ -301,7 +250,148 @@ namespace Files.Views
                 InitialPageType = type,
                 NavigationArg = path
             };
+            tabItem.Control.ContentChanged += Control_ContentChanged;
+            await SetSelectedTabInfoAsync(tabItem, path);
             AppInstances.Insert(atIndex == -1 ? AppInstances.Count : atIndex, tabItem);
+        }
+
+        private static async Task SetSelectedTabInfoAsync(TabItem selectedTabItem, string currentPath, string tabHeader = null)
+        {
+            selectedTabItem.AllowStorageItemDrop = true;
+
+            string tabLocationHeader;
+            Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
+            Microsoft.UI.Xaml.Controls.IconSource tabIcon;
+            fontIconSource.FontFamily = App.Current.Resources["FluentUIGlyphs"] as FontFamily;
+
+            if (currentPath == null || currentPath == "SidebarSettings/Text".GetLocalized())
+            {
+                tabLocationHeader = "SidebarSettings/Text".GetLocalized();
+                fontIconSource.Glyph = "\xeb5d";
+            }
+            else if (currentPath == null || currentPath == "NewTab".GetLocalized())
+            {
+                tabLocationHeader = "NewTab".GetLocalized();
+                fontIconSource.Glyph = "\xe90c";
+            }
+            else if (currentPath.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
+            {
+                tabLocationHeader = "SidebarDesktop".GetLocalized();
+                fontIconSource.Glyph = "\xe9f1";
+            }
+            else if (currentPath.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
+            {
+                tabLocationHeader = "SidebarDownloads".GetLocalized();
+                fontIconSource.Glyph = "\xe91c";
+            }
+            else if (currentPath.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
+            {
+                tabLocationHeader = "SidebarDocuments".GetLocalized();
+                fontIconSource.Glyph = "\xEA11";
+            }
+            else if (currentPath.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
+            {
+                tabLocationHeader = "SidebarPictures".GetLocalized();
+                fontIconSource.Glyph = "\xEA83";
+            }
+            else if (currentPath.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
+            {
+                tabLocationHeader = "SidebarMusic".GetLocalized();
+                fontIconSource.Glyph = "\xead4";
+            }
+            else if (currentPath.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
+            {
+                tabLocationHeader = "SidebarVideos".GetLocalized();
+                fontIconSource.Glyph = "\xec0d";
+            }
+            else if (currentPath.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+            {
+                var localSettings = ApplicationData.Current.LocalSettings;
+                tabLocationHeader = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
+                fontIconSource.FontFamily = Application.Current.Resources["RecycleBinIcons"] as FontFamily;
+                fontIconSource.Glyph = "\xEF87";
+            }
+            else if (App.AppSettings.OneDrivePath != null && currentPath.Equals(App.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase))
+            {
+                tabLocationHeader = "OneDrive";
+                fontIconSource.Glyph = "\xe9b7";
+            }
+            else if (App.AppSettings.OneDriveCommercialPath != null && currentPath.Equals(App.AppSettings.OneDriveCommercialPath, StringComparison.OrdinalIgnoreCase))
+            {
+                tabLocationHeader = "OneDrive Commercial";
+                fontIconSource.Glyph = "\xe9b7";
+            }
+            else
+            {
+                // If path is a drive's root
+                if (NormalizePath(Path.GetPathRoot(currentPath)) == NormalizePath(currentPath))
+                {
+                    if (NormalizePath(currentPath) != NormalizePath("A:") && NormalizePath(currentPath) != NormalizePath("B:"))
+                    {
+                        var remDriveNames = (await KnownFolders.RemovableDevices.GetFoldersAsync()).Select(x => x.DisplayName);
+                        var matchingDriveName = remDriveNames.FirstOrDefault(x => NormalizePath(currentPath).Contains(x.ToUpperInvariant()));
+
+                        if (matchingDriveName == null)
+                        {
+                            fontIconSource.Glyph = "\xeb8b";
+                            tabLocationHeader = NormalizePath(currentPath);
+                        }
+                        else
+                        {
+                            fontIconSource.Glyph = "\xec0a";
+                            tabLocationHeader = matchingDriveName;
+                        }
+                    }
+                    else
+                    {
+                        fontIconSource.Glyph = "\xeb4a";
+                        tabLocationHeader = NormalizePath(currentPath);
+                    }
+                }
+                else
+                {
+                    fontIconSource.Glyph = "\xea55";
+                    tabLocationHeader = currentPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
+                }
+            }
+            if (tabHeader != null)
+            {
+                tabLocationHeader = tabHeader;
+            }
+            tabIcon = fontIconSource;
+            selectedTabItem.Header = tabLocationHeader;
+            selectedTabItem.IconSource = tabIcon;
+        }
+
+        private static async void Control_ContentChanged(object sender, TabItemArguments e)
+        {
+            var matchingTabItem = MainPage.AppInstances.SingleOrDefault(x => x.Control == sender);
+            if (matchingTabItem == null)
+            {
+                return;
+            }
+            await UpdateTabInfo(matchingTabItem, e.NavigationArg);
+        }
+
+        private static async Task UpdateTabInfo(TabItem tabItem, object navigationArg)
+        {
+            if (navigationArg is PaneNavigationArguments paneArgs)
+            {
+                var leftHeader = new DirectoryInfo(paneArgs.LeftPaneNavPathParam).Name;
+                var rightHeader = paneArgs.RightPaneNavPathParam != null ? new DirectoryInfo(paneArgs.RightPaneNavPathParam).Name : null;
+                if (rightHeader != null)
+                {
+                    await SetSelectedTabInfoAsync(tabItem, paneArgs.LeftPaneNavPathParam, $"{leftHeader} | {rightHeader}");
+                }
+                else
+                {
+                    await SetSelectedTabInfoAsync(tabItem, paneArgs.LeftPaneNavPathParam);
+                }
+            }
+            else if (navigationArg is string pathArgs)
+            {
+                await SetSelectedTabInfoAsync(tabItem, pathArgs);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -392,11 +482,11 @@ namespace Files.Views
             }
             else // ctrl + shif + t, restore recently closed tab
             {
-                if (!MultitaskingControl.RestoredRecentlyClosedTab && MultitaskingControl.Items.Count > 0)
+                if (MultitaskingControl.RecentlyClosedTabs.Any())
                 {
-                    var tabArgs = MultitaskingControl.RecentlyClosedTabs.Last().TabItemArguments;
-                    AddNewTabByParam(tabArgs.InitialPageType, tabArgs.NavigationArg);
-                    MultitaskingControl.RestoredRecentlyClosedTab = true;
+                    var lastTab = MultitaskingControl.RecentlyClosedTabs.Last();
+                    MultitaskingControl.RecentlyClosedTabs.Remove(lastTab);
+                    await AddNewTabByParam(lastTab.TabItemArguments.InitialPageType, lastTab.TabItemArguments.NavigationArg);
                 }
             }
             args.Handled = true;

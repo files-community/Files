@@ -203,8 +203,8 @@ namespace Files.Views
                 InitialPageType = typeof(PaneHolderPage),
                 NavigationArg = new PaneNavigationArguments()
                 {
-                    LeftPaneNavPathParam = PaneLeft.TabItemArguments.NavigationArg as string,
-                    RightPaneNavPathParam = PaneRight?.TabItemArguments.NavigationArg as string
+                    LeftPaneNavPathParam = PaneLeft.TabItemArguments?.NavigationArg as string,
+                    RightPaneNavPathParam = PaneRight?.TabItemArguments?.NavigationArg as string
                 }
             };
         }
