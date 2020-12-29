@@ -13,11 +13,7 @@ namespace Files.UserControls.Selection
 
         public override void HandleIntersectionWithItem(object item)
         {
-            if (prevSelectedItems.Contains(item))
-            {
-                selectedItems.Remove(item);
-            }
-            else if (!selectedItems.Contains(item))
+            if (!selectedItems.Contains(item))
             {
                 selectedItems.Add(item);
             }
@@ -26,14 +22,7 @@ namespace Files.UserControls.Selection
         public override void HandleNoIntersectionWithItem(object item)
         {
             // Restore selection on items not intersecting with the rectangle
-            if (prevSelectedItems.Contains(item))
-            {
-                if (!selectedItems.Contains(item))
-                {
-                    selectedItems.Add(item);
-                }
-            }
-            else
+            if (!prevSelectedItems.Contains(item))
             {
                 selectedItems.Remove(item);
             }

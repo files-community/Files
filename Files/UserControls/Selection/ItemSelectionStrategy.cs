@@ -19,5 +19,9 @@ namespace Files.UserControls.Selection
         public virtual void StartSelection()
         {
         }
+
+        public virtual void HandleNoItemSelected()
+        {
+        }
     }
 }

@@ -3,12 +3,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:datamodels="using:Files.DataModels"
-    xmlns:local="using:Files.SettingsPages"
-    xmlns:local2="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
+    <Page.DataContext>
+        <settingsviewmodels:MultitaskingViewModel />
+    </Page.DataContext>
 
     <Grid>
         <ScrollViewer>
@@ -35,8 +36,10 @@
                             x:Name="AdaptiveMultToggle"
                             x:Uid="SettingsMultitaskingAdaptive"
                             Content="Adaptive (Recommended)"
+                            Padding="8,3,0,0"
+                            FontSize="16"
                             GroupName="MultitaskingSettingRadioGroup"
-                            IsChecked="{x:Bind AppSettings.IsMultitaskingExperienceAdaptive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            IsChecked="{Binding IsMultitaskingExperienceAdaptive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock
                             x:Uid="SettingsMultitaskingAdaptiveDescription"
                             MaxWidth="450"
@@ -50,8 +53,10 @@
                             x:Uid="SettingsMultitaskingHorizontal"
                             Margin="0,18,0,0"
                             Content="Horizontal"
+                            Padding="8,3,0,0"
+                            FontSize="16"
                             GroupName="MultitaskingSettingRadioGroup"
-                            IsChecked="{x:Bind AppSettings.IsHorizontalTabStripEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            IsChecked="{Binding IsHorizontalTabStripEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock
                             x:Uid="SettingsMultitaskingHorizontalDescription"
                             MaxWidth="450"
@@ -65,8 +70,10 @@
                             x:Uid="SettingsMultitaskingVertical"
                             Margin="0,18,0,0"
                             Content="Vertical"
+                            Padding="8,3,0,0"
+                            FontSize="16"
                             GroupName="MultitaskingSettingRadioGroup"
-                            IsChecked="{x:Bind AppSettings.IsVerticalTabFlyoutEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            IsChecked="{Binding IsVerticalTabFlyoutEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock
                             x:Uid="SettingsMultitaskingVerticalDescription"
                             MaxWidth="450"
