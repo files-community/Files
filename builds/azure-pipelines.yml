@@ -6,7 +6,7 @@ pool:
 
 variables:
   solution: '**/*.sln'
-  buildPlatform: 'x86|x64|arm64'
+  buildPlatform: 'x64'
   buildConfiguration: 'Release'
   appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
 
@@ -17,8 +17,8 @@ steps:
     script: |
       [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\Files.Package\Package.appxmanifest
       $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
-      $xmlDoc.Package.Properties.DisplayName="Files - Preview"
-      $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files - Preview"
+      $xmlDoc.Package.Properties.DisplayName="Files​"
+      $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files​"
       $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
     failOnStderr: true
     
