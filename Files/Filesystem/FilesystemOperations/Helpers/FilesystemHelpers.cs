@@ -86,16 +86,6 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> DeleteItemsAsync(IEnumerable<IStorageItemWithPath> source, bool showDialog, bool permanently, bool registerHistory)
         {
-            bool deleteFromRecycleBin = false;
-            foreach (IStorageItemWithPath item in source)
-            {
-                if (await recycleBinHelpers.IsRecycleBinItem(item.Path))
-                {
-                    deleteFromRecycleBin = true;
-                    break;
-                }
-            }
-
             PostedStatusBanner banner;
             if (permanently)
             {
@@ -117,8 +107,12 @@ namespace Files.Filesystem
             ReturnResult returnStatus = ReturnResult.InProgress;
             banner.ErrorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 
+            var pathsUnderRecycleBin = GetPathsUnderRecycleBin(source);
+
             if (App.AppSettings.ShowConfirmDeleteDialog && showDialog) // Check if the setting to show a confirmation dialog is on
             {
+                var deleteFromRecycleBin = pathsUnderRecycleBin.Count > 0;
+
                 ConfirmDeleteDialog dialog = new ConfirmDeleteDialog(
                     deleteFromRecycleBin,
                     !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
@@ -144,7 +138,7 @@ namespace Files.Filesystem
             float progress;
             for (int i = 0; i < source.Count(); i++)
             {
-                if (await recycleBinHelpers.IsRecycleBinItem(source.ElementAt(i).Path))
+                if (pathsUnderRecycleBin.Contains(source.ElementAt(i).Path))
                 {
                     permanently = true;
                 }
@@ -179,10 +173,15 @@ namespace Files.Filesystem
             return returnStatus;
         }
 
+        private ISet<string> GetPathsUnderRecycleBin(IEnumerable<IStorageItemWithPath> source)
+        {
+            return source.Select(item => item.Path).Where(path => recycleBinHelpers.IsPathUnderRecycleBin(path)).ToHashSet();
+        }
+
         public async Task<ReturnResult> DeleteItemAsync(IStorageItemWithPath source, bool showDialog, bool permanently, bool registerHistory)
         {
             PostedStatusBanner banner;
-            bool deleteFromRecycleBin = await recycleBinHelpers.IsRecycleBinItem(source.Path);
+            bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
 
             if (deleteFromRecycleBin)
             {
@@ -253,7 +252,7 @@ namespace Files.Filesystem
         public async Task<ReturnResult> DeleteItemAsync(IStorageItem source, bool showDialog, bool permanently, bool registerHistory)
         {
             PostedStatusBanner banner;
-            bool deleteFromRecycleBin = await recycleBinHelpers.IsRecycleBinItem(source);
+            bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
 
             if (deleteFromRecycleBin)
             {
