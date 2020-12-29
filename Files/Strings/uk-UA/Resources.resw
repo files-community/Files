@@ -645,14 +645,8 @@
   <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
     <value>Додати нову сторінку</value>
   </data>
-  <data name="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" xml:space="preserve">
-    <value>Змінити розташування</value>
-  </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Сторінки:</value>
-  </data>
-  <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
-    <value>Видалити сторінку</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
     <value>При відкритті елемента зі списку швидкого запуску</value>

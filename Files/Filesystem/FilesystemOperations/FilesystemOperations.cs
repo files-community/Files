@@ -346,7 +346,7 @@ namespace Files.Filesystem
                                                        bool permanently,
                                                        CancellationToken cancellationToken)
         {
-            bool deleteFromRecycleBin = await recycleBinHelpers.IsRecycleBinItem(source.Path);
+            bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
 
             FilesystemResult fsResult = FilesystemErrorCode.ERROR_INPROGRESS;
 

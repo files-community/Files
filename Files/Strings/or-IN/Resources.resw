@@ -648,14 +648,8 @@
   <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
     <value>ଏକ ନୂତନ ପୃଷ୍ଠା ଯୋଡନ୍ତୁ</value>
   </data>
-  <data name="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" xml:space="preserve">
-    <value>ପୃଷ୍ଠା ଅବସ୍ଥାନ ପରିବର୍ତ୍ତନ କରନ୍ତୁ</value>
-  </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>ପୃଷ୍ଠାଗୁଡିକ:</value>
-  </data>
-  <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
-    <value>ପୃଷ୍ଠା ଅପସାରଣ କରନ୍ତୁ</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
     <value>ଏକ ପିନ୍ ହୋଇଥିବା ଫୋଲ୍ଡର୍ ଲଞ୍ଚ କରିବାବେଳେ</value>
