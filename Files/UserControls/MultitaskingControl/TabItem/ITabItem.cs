@@ -8,6 +8,8 @@ namespace Files.UserControls.MultitaskingControl
     public interface ITabItemContainer
     {
         public ITabItemContent TabItemContent { get; }
+
+        public event EventHandler<TabItemArguments> ContentChanged;
     }
 
     public interface ITabItemContent

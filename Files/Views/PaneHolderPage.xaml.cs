@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.Views
 {
-    public sealed partial class PaneHolderPage : Page, ITabItemContent, IDisposable, INotifyPropertyChanged
+    public sealed partial class PaneHolderPage : Page, IPaneHolder, ITabItemContent, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -218,6 +218,12 @@ namespace Files.Views
                 return await ActivePane.TabItemDrop(sender, e);
             }
             return DataPackageOperation.None;
+        }
+
+        public void OpenPathInNewPane(string path)
+        {
+            IsRightPaneVisible = true;
+            NavParamsRight = path;
         }
     }
 

@@ -107,6 +107,7 @@
                                    PointerPressed="PaneLeft_PointerPressed"
                                    IsPageMainPane="True"
                                    NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"
+                                   PaneHolder="{x:Bind}"
                                    ContentChanged="Pane_ContentChanged" />
         </Border>
 
@@ -117,6 +118,7 @@
                                    PointerPressed="PaneRight_PointerPressed"
                                    IsPageMainPane="False"
                                    NavParams="{x:Bind NavParamsRight, Mode=OneWay}"
+                                   PaneHolder="{x:Bind}"
                                    ContentChanged="Pane_ContentChanged" />
 
             <animations:Implicit.ShowAnimations>

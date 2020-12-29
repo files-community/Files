@@ -22,10 +22,17 @@ namespace Files
         public Type CurrentPageType { get; }
         public INavigationControlItem SidebarSelectedItem { get; set; }
         public INavigationToolbar NavigationToolbar { get; }
+        
         public bool IsPageMainPane { get; }
+        public IPaneHolder PaneHolder { get; }
 
         public abstract void Clipboard_ContentChanged(object sender, object e);
 
         public abstract void Refresh_Click();
+    }
+
+    public interface IPaneHolder : IDisposable
+    {
+        public void OpenPathInNewPane(string path);
     }
 }

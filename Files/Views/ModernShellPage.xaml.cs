@@ -771,6 +771,8 @@ namespace Files.Views
             }
         }
 
+        public IPaneHolder PaneHolder { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
         public event EventHandler<TabItemArguments> ContentChanged;
 
