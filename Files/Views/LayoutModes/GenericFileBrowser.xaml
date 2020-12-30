@@ -887,8 +887,7 @@
                         </Style>
                     </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
-                        <ToolTip
-                            Content="{Binding FolderTooltipText}" />
+                        <ToolTip Content="{Binding FolderTooltipText}" />
                     </ToolTipService.ToolTip>
                 </controls:DataGridTextColumn>
                 <controls:DataGridTextColumn

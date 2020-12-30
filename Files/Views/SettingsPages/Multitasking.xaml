@@ -31,8 +31,8 @@
                         <RadioButton
                             x:Name="AdaptiveMultToggle"
                             x:Uid="SettingsMultitaskingAdaptive"
-                            Content="Adaptive (Recommended)"
                             Padding="8,3,0,0"
+                            Content="Adaptive (Recommended)"
                             FontSize="16"
                             GroupName="MultitaskingSettingRadioGroup"
                             IsChecked="{x:Bind ViewModel.IsMultitaskingExperienceAdaptive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -48,8 +48,8 @@
                             x:Name="HorizontalMultToggle"
                             x:Uid="SettingsMultitaskingHorizontal"
                             Margin="0,18,0,0"
-                            Content="Horizontal"
                             Padding="8,3,0,0"
+                            Content="Horizontal"
                             FontSize="16"
                             GroupName="MultitaskingSettingRadioGroup"
                             IsChecked="{x:Bind ViewModel.IsHorizontalTabStripEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -65,8 +65,8 @@
                             x:Name="VerticalMultToggle"
                             x:Uid="SettingsMultitaskingVertical"
                             Margin="0,18,0,0"
-                            Content="Vertical"
                             Padding="8,3,0,0"
+                            Content="Vertical"
                             FontSize="16"
                             GroupName="MultitaskingSettingRadioGroup"
                             IsChecked="{x:Bind ViewModel.IsVerticalTabFlyoutEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

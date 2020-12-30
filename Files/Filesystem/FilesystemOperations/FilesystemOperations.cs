@@ -130,86 +130,89 @@ namespace Files.Filesystem
             }
 
             IStorageItem copiedItem = null;
-            long itemSize = await FilesystemHelpers.GetItemSize(await source.ToStorageItem(associatedInstance));
-            bool reportProgress = false; // TODO: The default value is false
+            //long itemSize = await FilesystemHelpers.GetItemSize(await source.ToStorageItem(associatedInstance));
 
             if (source.ItemType == FilesystemItemType.Directory)
             {
                 if (!string.IsNullOrWhiteSpace(source.Path) &&
                     Path.GetDirectoryName(destination).IsSubPathOf(source.Path)) // We check if user tried to copy anything above the source.ItemPath
                 {
-                    ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
-
-                    /*if (false)
+                    var destinationName = destination.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
+                    var sourceName = source.Path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
+                    ContentDialog dialog = new ContentDialog()
                     {
-                        var destinationName = destination.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
-                        var sourceName = source.Path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
-                        ContentDialog dialog = new ContentDialog()
-                        {
-                            Title = "ErrorDialogThisActionCannotBeDone".GetLocalized(),
-                            Content = "ErrorDialogTheDestinationFolder".GetLocalized() + " (" + destinationName + ") " + "ErrorDialogIsASubfolder".GetLocalized() + " (" + sourceName + ")",
-                            PrimaryButtonText = "ErrorDialogSkip".GetLocalized(),
-                            CloseButtonText = "ErrorDialogCancel".GetLocalized()
-                        };
-                        ContentDialogResult result = await dialog.ShowAsync();
-                        if (result == ContentDialogResult.Primary)
-                        {
-                            responseType = ImpossibleActionResponseTypes.Skip;
-                        }
-                        else if (result == ContentDialogResult.Primary)
-                        {
-                            responseType = ImpossibleActionResponseTypes.Abort;
-                        }
-                    }*/
+                        Title = "ErrorDialogThisActionCannotBeDone".GetLocalized(),
+                        Content = "ErrorDialogTheDestinationFolder".GetLocalized() + " (" + destinationName + ") " + "ErrorDialogIsASubfolder".GetLocalized() + " (" + sourceName + ")",
+                        //PrimaryButtonText = "ErrorDialogSkip".GetLocalized(),
+                        CloseButtonText = "ErrorDialogCancel".GetLocalized()
+                    };
 
-                    if (responseType == ImpossibleActionResponseTypes.Skip)
+                    ContentDialogResult result = await dialog.ShowAsync();
+
+                    if (result == ContentDialogResult.Primary)
                     {
                         progress?.Report(100.0f);
                         errorCode?.Report(FilesystemErrorCode.ERROR_INPROGRESS | FilesystemErrorCode.ERROR_SUCCESS);
                     }
-                    else if (responseType == ImpossibleActionResponseTypes.Abort)
+                    else
                     {
                         progress?.Report(100.0f);
                         errorCode?.Report(FilesystemErrorCode.ERROR_INPROGRESS | FilesystemErrorCode.ERROR_GENERIC);
                     }
-
                     return null;
                 }
                 else
                 {
-                    if (reportProgress)
-                    {
-                        progress?.Report((float)(itemSize * 100.0f / itemSize));
-                    }
+                    var fsSourceFolder = await source.ToStorageItemResult(associatedInstance);
+                    var fsDestinationFolder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
+                    var fsResult = (FilesystemResult)(fsSourceFolder.ErrorCode | fsDestinationFolder.ErrorCode);
 
-                    StorageFolder fsSourceFolder = (StorageFolder)await source.ToStorageItem(associatedInstance);
-                    StorageFolder fsDestinationFolder = (StorageFolder)await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
-
-                    if (fsSourceFolder != null && fsDestinationFolder != null)
+                    if (fsResult)
                     {
-                        FilesystemResult fsCopyResult = await FilesystemTasks.Wrap(async () =>
+                        var fsCopyResult = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((StorageFolder)fsSourceFolder, (StorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, CreationCollisionOption.FailIfExists));
+                        if (fsCopyResult == FilesystemErrorCode.ERROR_ALREADYEXIST)
                         {
-                            return await FilesystemHelpers.CloneDirectoryAsync(fsSourceFolder, fsDestinationFolder, fsSourceFolder.Name);
-                        })
-                        .OnSuccess(t =>
+                            var ItemAlreadyExistsDialog = new ContentDialog()
+                            {
+                                Title = "ItemAlreadyExistsDialogTitle".GetLocalized(),
+                                Content = "ItemAlreadyExistsDialogContent".GetLocalized(),
+                                PrimaryButtonText = "ItemAlreadyExistsDialogPrimaryButtonText".GetLocalized(),
+                                SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized(),
+                                CloseButtonText = "ItemAlreadyExistsDialogCloseButtonText".GetLocalized()
+                            };
+
+                            ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
+
+                            if (result == ContentDialogResult.Primary)
+                            {
+                                fsCopyResult = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((StorageFolder)fsSourceFolder, (StorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, CreationCollisionOption.GenerateUniqueName));
+                            }
+                            else if (result == ContentDialogResult.Secondary)
+                            {
+                                fsCopyResult = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((StorageFolder)fsSourceFolder, (StorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, CreationCollisionOption.ReplaceExisting));
+                                return null; // Cannot undo overwrite operation
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        }
+                        if (fsCopyResult)
                         {
                             if (associatedInstance.FilesystemViewModel.CheckFolderForHiddenAttribute(source.Path))
                             {
                                 // The source folder was hidden, apply hidden attribute to destination
-                                NativeFileOperationsHelper.SetFileAttribute(t.Path, FileAttributes.Hidden);
+                                NativeFileOperationsHelper.SetFileAttribute(fsCopyResult.Result.Path, FileAttributes.Hidden);
                             }
-                            copiedItem = t;
-                        });
+                            copiedItem = (StorageFolder)fsCopyResult;
+                        }
+                        fsResult = fsCopyResult;
                     }
+                    errorCode?.Report(fsResult.ErrorCode);
                 }
             }
             else if (source.ItemType == FilesystemItemType.File)
             {
-                if (reportProgress)
-                {
-                    progress?.Report((float)(itemSize * 100.0f / itemSize));
-                }
-
                 FilesystemResult<StorageFolder> destinationResult = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(destination));
                 var sourceResult = await source.ToStorageItemResult(associatedInstance);
                 var fsResult = (FilesystemResult)(sourceResult.ErrorCode | destinationResult.ErrorCode);
@@ -217,7 +220,34 @@ namespace Files.Filesystem
                 if (fsResult)
                 {
                     var file = (StorageFile)sourceResult;
-                    var fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), NameCollisionOption.GenerateUniqueName).AsTask());
+                    var fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), NameCollisionOption.FailIfExists).AsTask());
+                    if (fsResultCopy == FilesystemErrorCode.ERROR_ALREADYEXIST)
+                    {
+                        var ItemAlreadyExistsDialog = new ContentDialog()
+                        {
+                            Title = "ItemAlreadyExistsDialogTitle".GetLocalized(),
+                            Content = "ItemAlreadyExistsDialogContent".GetLocalized(),
+                            PrimaryButtonText = "ItemAlreadyExistsDialogPrimaryButtonText".GetLocalized(),
+                            SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized(),
+                            CloseButtonText = "ItemAlreadyExistsDialogCloseButtonText".GetLocalized()
+                        };
+
+                        ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
+
+                        if (result == ContentDialogResult.Primary)
+                        {
+                            fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), NameCollisionOption.GenerateUniqueName).AsTask());
+                        }
+                        else if (result == ContentDialogResult.Secondary)
+                        {
+                            fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), NameCollisionOption.ReplaceExisting).AsTask());
+                            return null; // Cannot undo overwrite operation
+                        }
+                        else
+                        {
+                            return null;
+                        }
+                    }
                     if (fsResultCopy)
                     {
                         copiedItem = fsResultCopy.Result;
@@ -493,7 +523,8 @@ namespace Files.Filesystem
                         Title = "ItemAlreadyExistsDialogTitle".GetLocalized(),
                         Content = "ItemAlreadyExistsDialogContent".GetLocalized(),
                         PrimaryButtonText = "ItemAlreadyExistsDialogPrimaryButtonText".GetLocalized(),
-                        SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized()
+                        SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized(),
+                        CloseButtonText = "ItemAlreadyExistsDialogCloseButtonText".GetLocalized()
                     };
 
                     ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
@@ -534,10 +565,10 @@ namespace Files.Filesystem
                 {
                     fsResult = await FilesystemTasks.Wrap(() =>
                     {
-                        return FilesystemHelpers.MoveDirectoryAsync(sourceFolder.Result,
-                                                                    destinationFolder.Result,
-                                                                    Path.GetFileName(destination),
-                                                                    CreationCollisionOption.FailIfExists);
+                        return MoveDirectoryAsync(sourceFolder.Result,
+                                                  destinationFolder.Result,
+                                                  Path.GetFileName(destination),
+                                                  CreationCollisionOption.FailIfExists);
                     }).OnSuccess(t => sourceFolder.Result.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask()); // TODO: we could use here FilesystemHelpers with registerHistory false?
                 }
                 errorCode?.Report(fsResult);
@@ -596,6 +627,48 @@ namespace Files.Filesystem
         }
 
         #endregion IFilesystemOperations
+
+        #region Helpers
+
+        private async static Task<StorageFolder> CloneDirectoryAsync(IStorageFolder sourceFolder, IStorageFolder destinationFolder, string sourceRootName, CreationCollisionOption collision = CreationCollisionOption.FailIfExists)
+        {
+            StorageFolder createdRoot = await destinationFolder.CreateFolderAsync(sourceRootName, collision);
+            destinationFolder = createdRoot;
+
+            foreach (IStorageFile fileInSourceDir in await sourceFolder.GetFilesAsync())
+            {
+                await fileInSourceDir.CopyAsync(destinationFolder, fileInSourceDir.Name, NameCollisionOption.GenerateUniqueName);
+            }
+
+            foreach (IStorageFolder folderinSourceDir in await sourceFolder.GetFoldersAsync())
+            {
+                await CloneDirectoryAsync(folderinSourceDir, destinationFolder, folderinSourceDir.Name);
+            }
+
+            return createdRoot;
+        }
+
+        private static async Task<StorageFolder> MoveDirectoryAsync(IStorageFolder sourceFolder, IStorageFolder destinationDirectory, string sourceRootName, CreationCollisionOption collision = CreationCollisionOption.FailIfExists)
+        {
+            StorageFolder createdRoot = await destinationDirectory.CreateFolderAsync(sourceRootName, collision);
+            destinationDirectory = createdRoot;
+
+            foreach (StorageFile fileInSourceDir in await sourceFolder.GetFilesAsync())
+            {
+                await fileInSourceDir.MoveAsync(destinationDirectory, fileInSourceDir.Name, NameCollisionOption.GenerateUniqueName);
+            }
+
+            foreach (StorageFolder folderinSourceDir in await sourceFolder.GetFoldersAsync())
+            {
+                await MoveDirectoryAsync(folderinSourceDir, destinationDirectory, folderinSourceDir.Name);
+            }
+
+            App.JumpList.RemoveFolder(sourceFolder.Path);
+
+            return createdRoot;
+        }
+
+        #endregion Helpers
 
         #region IDisposable
 

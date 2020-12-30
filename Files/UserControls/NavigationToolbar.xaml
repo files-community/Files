@@ -1005,8 +1005,7 @@
                 ToolTipService.ToolTip="More options"
                 Visibility="Visible">
                 <Button.Flyout>
-                    <MenuFlyout Placement="BottomEdgeAlignedRight"
-                                Opening="NavMoreButtonFlyout_Opening">
+                    <MenuFlyout Opening="NavMoreButtonFlyout_Opening" Placement="BottomEdgeAlignedRight">
                         <MenuFlyoutItem
                             x:Name="NavToolbarNewPane"
                             x:Uid="NavigationToolbarNewPane"
@@ -1118,7 +1117,7 @@
                                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA55;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutSeparator x:Name="NewMenuFileFolderSeparator"/>
+                            <MenuFlyoutSeparator x:Name="NewMenuFileFolderSeparator" />
                             <MenuFlyoutItem
                                 x:Name="NewFile"
                                 x:Uid="BaseLayoutContextFlyoutNewFile"

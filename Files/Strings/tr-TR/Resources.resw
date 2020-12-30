@@ -660,4 +660,355 @@
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>İleri Git</value>
   </data>
+  <data name="SettingsPreferencesAppLanguage.AutomationProperties.Name" xml:space="preserve">
+    <value>Uygulama Dili</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguage.Header" xml:space="preserve">
+    <value>Uygulama Dili</value>
+  </data>
+  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+    <value>Erişim engellendi</value>
+  </data>
+  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+    <value>Tarih biçimi</value>
+  </data>
+  <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
+    <value>Uygulama teması</value>
+  </data>
+  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Diğer seçenekler</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.AutomationProperties.Name" xml:space="preserve">
+    <value>Düzen modu</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Seçim seçenekleri</value>
+  </data>
+  <data name="FileItemAutomation" xml:space="preserve">
+    <value>Dosya</value>
+  </data>
+  <data name="FolderItemAutomation" xml:space="preserve">
+    <value>Klasör</value>
+  </data>
+  <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
+    <value>Buraya taşı</value>
+  </data>
+  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+    <value>Sürüşler</value>
+  </data>
+  <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
+    <value>Pencere Öğeleri</value>
+  </data>
+  <data name="SettingsWidgets.Content" xml:space="preserve">
+    <value>Pencere Öğeleri</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
+    <value>Gizli dosya ve klasörleri göster</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Gizli dosya ve klasörleri göster</value>
+  </data>
+  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+    <value>Çıkar</value>
+  </data>
+  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+    <value>Sekmeyi Yinele</value>
+  </data>
+  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+    <value>Yeni sekme</value>
+  </data>
+  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Ara</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
+    <value>Salt okunur</value>
+  </data>
+  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
+    <value>Gizli</value>
+  </data>
+  <data name="PropertyTitle" xml:space="preserve">
+    <value>Başlık</value>
+  </data>
+  <data name="PropertySubject" xml:space="preserve">
+    <value>Konu</value>
+  </data>
+  <data name="PropertyComment" xml:space="preserve">
+    <value>Yorum</value>
+  </data>
+  <data name="PropertyCopyright" xml:space="preserve">
+    <value>Telif Hakkı</value>
+  </data>
+  <data name="PropertyDateCreated" xml:space="preserve">
+    <value>Oluşturma Tarihi</value>
+  </data>
+  <data name="PropertyDateModified" xml:space="preserve">
+    <value>Değiştirilme Tarihi</value>
+  </data>
+  <data name="PropertyBitDepth" xml:space="preserve">
+    <value>Bit Derinliği</value>
+  </data>
+  <data name="PropertyDimensions" xml:space="preserve">
+    <value>Boyutlar</value>
+  </data>
+  <data name="PropertyHorizontalResolution" xml:space="preserve">
+    <value>Yatay Çözünürlük</value>
+  </data>
+  <data name="PropertyVerticalResolution" xml:space="preserve">
+    <value>Dikey Çözünürlük</value>
+  </data>
+  <data name="PropertyHorizontalSize" xml:space="preserve">
+    <value>Yatay Boyut</value>
+  </data>
+  <data name="PropertyVerticalSize" xml:space="preserve">
+    <value>Dikey Boyut</value>
+  </data>
+  <data name="PropertyLatitude" xml:space="preserve">
+    <value>Enlem</value>
+  </data>
+  <data name="PropertyLongitude" xml:space="preserve">
+    <value>Boylam</value>
+  </data>
+  <data name="PropertyAltitude" xml:space="preserve">
+    <value>Yükseklik</value>
+  </data>
+  <data name="PropertyCameraModel" xml:space="preserve">
+    <value>Kamera Modeli</value>
+  </data>
+  <data name="PropertyExposureTime" xml:space="preserve">
+    <value>Pozlandırma Süresi</value>
+  </data>
+  <data name="PropertyFocalLength" xml:space="preserve">
+    <value>Odak Uzunluğu</value>
+  </data>
+  <data name="PropertyAperture" xml:space="preserve">
+    <value>Delik</value>
+  </data>
+  <data name="PropertyDateTaken" xml:space="preserve">
+    <value>Çekilme Tarihi</value>
+  </data>
+  <data name="PropertyChannelCount" xml:space="preserve">
+    <value>Kanal Sayısı</value>
+  </data>
+  <data name="PropertyCompression" xml:space="preserve">
+    <value>Sıkıştırma</value>
+  </data>
+  <data name="PropertyFormat" xml:space="preserve">
+    <value>Biçimlendir</value>
+  </data>
+  <data name="PropertySampleRate" xml:space="preserve">
+    <value>Örnek Hızı</value>
+  </data>
+  <data name="PropertyAlbumArtist" xml:space="preserve">
+    <value>Albüm Sanatçısı:</value>
+  </data>
+  <data name="PropertyAlbumTitle" xml:space="preserve">
+    <value>Albüm Adı</value>
+  </data>
+  <data name="PropertyArtist" xml:space="preserve">
+    <value>Sanatçı</value>
+  </data>
+  <data name="PropertyComposer" xml:space="preserve">
+    <value>Besteci</value>
+  </data>
+  <data name="PropertyConductor" xml:space="preserve">
+    <value>Şef</value>
+  </data>
+  <data name="PropertyGenre" xml:space="preserve">
+    <value>Tarz</value>
+  </data>
+  <data name="PropertyTrackNumber" xml:space="preserve">
+    <value>Parça Numarası</value>
+  </data>
+  <data name="PropertyDuration" xml:space="preserve">
+    <value>Süre</value>
+  </data>
+  <data name="PropertyFrameCount" xml:space="preserve">
+    <value>Kare Sayısı</value>
+  </data>
+  <data name="PropertyProtectionType" xml:space="preserve">
+    <value>Koruma Türü</value>
+  </data>
+  <data name="PropertyDateReleased" xml:space="preserve">
+    <value>Piyasaya Çıkış Tarihi</value>
+  </data>
+  <data name="PropertySeriesName" xml:space="preserve">
+    <value>Seri Adı</value>
+  </data>
+  <data name="PropertyProducer" xml:space="preserve">
+    <value>Yapımcı</value>
+  </data>
+  <data name="PropertyPublisher" xml:space="preserve">
+    <value>Yayımcı</value>
+  </data>
+  <data name="PropertyWriter" xml:space="preserve">
+    <value>Yazar</value>
+  </data>
+  <data name="PropertyYear" xml:space="preserve">
+    <value>Yıl</value>
+  </data>
+  <data name="PropertySectionCore" xml:space="preserve">
+    <value>Çekirdek</value>
+  </data>
+  <data name="PropertySectionImage" xml:space="preserve">
+    <value>Resim</value>
+  </data>
+  <data name="PropertySectionPhoto" xml:space="preserve">
+    <value>Fotoğraf</value>
+  </data>
+  <data name="PropertySectionGPS" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="PropertySectionMedia" xml:space="preserve">
+    <value>Medya</value>
+  </data>
+  <data name="PropertySectionAudio" xml:space="preserve">
+    <value>Ses</value>
+  </data>
+  <data name="PropertySectionMusic" xml:space="preserve">
+    <value>Müzik</value>
+  </data>
+  <data name="PropertyAddress" xml:space="preserve">
+    <value>Adres</value>
+  </data>
+  <data name="PropertyColorSpace" xml:space="preserve">
+    <value>Renk Alanı:</value>
+  </data>
+  <data name="PropertyPeopleNames" xml:space="preserve">
+    <value>Kişi Adları</value>
+  </data>
+  <data name="PropertyContributor" xml:space="preserve">
+    <value>Katkıda bulunan</value>
+  </data>
+  <data name="PropertyLastAuthor" xml:space="preserve">
+    <value>Son Yazar</value>
+  </data>
+  <data name="PropertyRevisionNumber" xml:space="preserve">
+    <value>Düzeltme Numarası</value>
+  </data>
+  <data name="PropertyVersion" xml:space="preserve">
+    <value>Sürüm</value>
+  </data>
+  <data name="PropertySectionVideo" xml:space="preserve">
+    <value>Görüntü</value>
+  </data>
+  <data name="PropertyDatePrinted" xml:space="preserve">
+    <value>[Date Printed]</value>
+  </data>
+  <data name="PropertyTotalEditingTime" xml:space="preserve">
+    <value>Toplam Düzenleme Süresi:</value>
+  </data>
+  <data name="PropertyTemplate" xml:space="preserve">
+    <value>Şablon</value>
+  </data>
+  <data name="PropertyWordCount" xml:space="preserve">
+    <value>Sözcük sayımı</value>
+  </data>
+  <data name="PropertyCharacterCount" xml:space="preserve">
+    <value>Karakter Sayısı</value>
+  </data>
+  <data name="PropertyLineCount" xml:space="preserve">
+    <value>Satır Sayısı</value>
+  </data>
+  <data name="PropertyParagraphCount" xml:space="preserve">
+    <value>Paragraf sayımı</value>
+  </data>
+  <data name="PropertyPageCount" xml:space="preserve">
+    <value>Sayfa Sayısı</value>
+  </data>
+  <data name="PropertyFrameRate" xml:space="preserve">
+    <value>Kare Hızı</value>
+  </data>
+  <data name="PropertyFrameWidth" xml:space="preserve">
+    <value>Çerçeve Genişliği</value>
+  </data>
+  <data name="PropertyFrameHeight" xml:space="preserve">
+    <value>Çerçeve Yüksekliği</value>
+  </data>
+  <data name="PropertyOrientation" xml:space="preserve">
+    <value>Yönlendirme</value>
+  </data>
+  <data name="PropertySectionDocument" xml:space="preserve">
+    <value>Belge</value>
+  </data>
+  <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
+    <value>Hatalı</value>
+  </data>
+  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Yeniden Dene</value>
+  </data>
+  <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Yine de kapat</value>
+  </data>
+  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
+    <value>İptal</value>
+  </data>
+  <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
+    <value>Temizle</value>
+  </data>
+  <data name="PropertyColorSpace_Value0" xml:space="preserve">
+    <value>sRGB</value>
+  </data>
+  <data name="PropertyColorSpace_Value65535" xml:space="preserve">
+    <value>Belirtilmemiş</value>
+  </data>
+  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
+    <value>Lisans</value>
+  </data>
+  <data name="SettingsAboutLicense.Content" xml:space="preserve">
+    <value>Lisans</value>
+  </data>
+  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
+    <value>Web Sitesi</value>
+  </data>
+  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
+    <value>Web Sitesi</value>
+  </data>
+  <data name="DragDropWindowText" xml:space="preserve">
+    <value>Buraya bırak...</value>
+  </data>
+  <data name="SearchTabHeaderText" xml:space="preserve">
+    <value>Arama sonuçları</value>
+  </data>
+  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+    <value>Ayrıntılar</value>
+  </data>
+  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+    <value>Hayır</value>
+  </data>
+  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
+    <value>Evet</value>
+  </data>
+  <data name="UpdateConsentDialogTitle" xml:space="preserve">
+    <value>Güncelleştirmeler Var</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
+    <value>Korunan işletim sistemi dosyalarını gizle (Önerilen)</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Korunan işletim sistemi dosyalarını gizle (Önerilen)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
+    <value>Dosya</value>
+  </data>
+  <data name="AddDialogListFileHeader" xml:space="preserve">
+    <value>Dosya</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>Yeni Dosya</value>
+  </data>
+  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
+    <value>Bağlam Menüsü</value>
+  </data>
+  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+    <value>Ekle</value>
+  </data>
+  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+    <value>Düzen</value>
+  </data>
+  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+    <value>Sil</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
+    <value>İptal</value>
+  </data>
 </root>

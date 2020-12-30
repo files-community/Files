@@ -162,7 +162,7 @@ namespace Files.UserControls.Selection
             var selectedItems = new GenericItemsCollection<object>(uiElement.SelectedItems);
             selectionStrategy = e.KeyModifiers.HasFlag(VirtualKeyModifiers.Control) ?
                     new InvertPreviousItemSelectionStrategy(selectedItems, prevSelectedItems) :
-                    e.KeyModifiers.HasFlag(VirtualKeyModifiers.Shift)?
+                    e.KeyModifiers.HasFlag(VirtualKeyModifiers.Shift) ?
                         (ItemSelectionStrategy)new ExtendPreviousItemSelectionStrategy(selectedItems, prevSelectedItems) :
                         new IgnorePreviousItemSelectionStrategy(selectedItems);
 

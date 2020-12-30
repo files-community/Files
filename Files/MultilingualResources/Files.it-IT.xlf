@@ -525,7 +525,7 @@
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Replace existing item</source>
-          <target state="translated">Sostituisci l'elemento esistente</target>
+          <target state="translated">Sostituisci l'elemento</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" translate="yes" xml:space="preserve">
           <source>Set as lockscreen background</source>
@@ -716,16 +716,18 @@
           <target state="translated">Annulla</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
-          <source>Are you sure you want to delete all items?</source>
-          <target state="translated">Sei sicuro di voler cancellare tutti gli elementi?</target>
+          <source>Are you sure you want to permanently delete all these items?</source>
+          <target state="needs-review-translation">Sei sicuro di voler cancellare tutti gli elementi?</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogTitle" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
           <target state="translated">Svuota il Cestino</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>OK</source>
-          <target state="translated">OK</target>
+          <source>Yes</source>
+          <target state="needs-review-translation">OK</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="ItemSizeBytes" translate="yes" xml:space="preserve">
           <source>bytes</source>
@@ -1919,7 +1921,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesContextMenu.Text" translate="yes" xml:space="preserve">
           <source>Context Menu</source>
-          <target state="new">Context Menu</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Menu di scelta rapida</target>
         </trans-unit>
         <trans-unit id="originalPathColumn.Header" translate="yes" xml:space="preserve">
           <source>Original path</source>
@@ -1931,19 +1933,23 @@
         </trans-unit>
         <trans-unit id="AppBarButtonAdd.Label" translate="yes" xml:space="preserve">
           <source>Add</source>
-          <target state="new">Add</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Aggiungi</target>
         </trans-unit>
         <trans-unit id="AppBarButtonEdit.Label" translate="yes" xml:space="preserve">
           <source>Edit</source>
-          <target state="new">Edit</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Modificare</target>
         </trans-unit>
         <trans-unit id="AppBarButtonRemove.Label" translate="yes" xml:space="preserve">
           <source>Remove</source>
-          <target state="new">Remove</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Rimuovi</target>
         </trans-unit>
         <trans-unit id="SettingsUseFileListCache.Header" translate="yes" xml:space="preserve">
           <source>Cache files and folders for better performance</source>
           <target state="new">Cache files and folders for better performance</target>
+        </trans-unit>
+        <trans-unit id="ItemAlreadyExistsDialogCloseButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">Annulla</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane.Header" translate="yes" xml:space="preserve">
           <source>Always open new tabs in dual pane mode</source>

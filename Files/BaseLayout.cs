@@ -813,7 +813,7 @@ namespace Files
 
             ListedItem item = GetItemFromElement(sender);
 
-            if(item is null && sender is GridViewItem gvi)
+            if (item is null && sender is GridViewItem gvi)
             {
                 item = gvi.Content as ListedItem;
             }

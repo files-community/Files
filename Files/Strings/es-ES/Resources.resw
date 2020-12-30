@@ -1431,4 +1431,7 @@
   <data name="SettingsUseFileListCache.Header" xml:space="preserve">
     <value>Almacenar archivos y carpetas en caché para mejorar el rendimiento</value>
   </data>
+  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
 </root>
