@@ -80,58 +80,72 @@
         <KeyboardAccelerator
             Key="Z"
             Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="Control" />
         <KeyboardAccelerator
             Key="Y"
             Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="Control" />
         <KeyboardAccelerator
             Key="N"
             Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="Control,Shift" />
         <KeyboardAccelerator
             Key="Delete"
             Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="Shift" />
         <KeyboardAccelerator
             Key="C"
             Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="Control" />
         <KeyboardAccelerator
             Key="V"
             Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="Control" />
         <KeyboardAccelerator
             Key="X"
             Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="Control" />
         <KeyboardAccelerator
             Key="A"
             Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="Control" />
         <KeyboardAccelerator
             Key="Delete"
             Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="None" />
         <KeyboardAccelerator
             Key="Space"
             Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="None" />
         <KeyboardAccelerator
             Key="R"
             Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="Control" />
         <KeyboardAccelerator
             Key="L"
             Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="Control" />
         <KeyboardAccelerator
             Key="D"
             Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="Menu" />
         <KeyboardAccelerator
             Key="F2"
             Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="None" />
     </Page.KeyboardAccelerators>
 
