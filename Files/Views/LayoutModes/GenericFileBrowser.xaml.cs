@@ -246,7 +246,7 @@ namespace Files.Views.LayoutModes
             {
                 // We know that previously the user clicked outside of AllView
                 // (which means that logically there is no current cell)
-                // and know clicks again on the cell that AllView believes to be current
+                // and now clicks again on the cell that AllView believes to be current
                 // (that is why Cell Editing is triggered).
                 // We want to cancel this editing as from end-user perspective it means
                 // single click triggering a rename
