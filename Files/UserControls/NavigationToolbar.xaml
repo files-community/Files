@@ -768,9 +768,13 @@
                     &#xe921;
                 </Button.Content>
                 <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="XButton1" />
-                    <KeyboardAccelerator Key="Back" />
-                    <KeyboardAccelerator Key="Left" Modifiers="Menu" />
+                    <KeyboardAccelerator Key="XButton1"
+                                         IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
+                    <KeyboardAccelerator Key="Back"
+                                         IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
+                    <KeyboardAccelerator Key="Left"
+                                         Modifiers="Menu"
+                                         IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
                 </Button.KeyboardAccelerators>
             </Button>
 
@@ -795,8 +799,10 @@
                     &#xe92b;
                 </Button.Content>
                 <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="XButton2" />
-                    <KeyboardAccelerator Key="Right" Modifiers="Menu" />
+                    <KeyboardAccelerator Key="XButton2"
+                                         IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
+                    <KeyboardAccelerator Key="Right" Modifiers="Menu"
+                                         IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
                 </Button.KeyboardAccelerators>
             </Button>
 
@@ -821,7 +827,9 @@
                     &#xe936;
                 </Button.Content>
                 <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="Up" Modifiers="Menu" />
+                    <KeyboardAccelerator Key="Up"
+                                         Modifiers="Menu"
+                                         IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
                 </Button.KeyboardAccelerators>
             </Button>
 
@@ -845,7 +853,8 @@
                     &#xe916;
                 </Button.Content>
                 <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="F5" />
+                    <KeyboardAccelerator Key="F5"
+                                         IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
                 </Button.KeyboardAccelerators>
             </Button>
         </StackPanel>

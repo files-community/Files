@@ -435,7 +435,7 @@ namespace Files.Views.LayoutModes
             }
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
             {
-                // Unfocus the GridView so keyboard shortcut can be handled
+                // Unfocus the ListView so keyboard shortcut can be handled
                 Focus(FocusState.Programmatic);
             }
         }

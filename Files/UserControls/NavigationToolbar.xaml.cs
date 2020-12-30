@@ -388,6 +388,24 @@ namespace Files.UserControls
             }
         }
 
+        private bool areKeyboardAcceleratorsEnabled;
+
+        public bool AreKeyboardAcceleratorsEnabled
+        {
+            get
+            {
+                return areKeyboardAcceleratorsEnabled;
+            }
+            set
+            {
+                if (value != areKeyboardAcceleratorsEnabled)
+                {
+                    areKeyboardAcceleratorsEnabled = value;
+                    NotifyPropertyChanged(nameof(AreKeyboardAcceleratorsEnabled));
+                }
+            }
+        }
+
         public string PathText { get; set; }
 
         private bool _IsSearchReigonVisible = false;

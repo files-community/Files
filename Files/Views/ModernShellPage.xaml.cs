@@ -43,7 +43,6 @@ namespace Files.Views
 
         private readonly IFilesystemHelpers filesystemHelpers;
         public SettingsViewModel AppSettings => App.AppSettings;
-        public bool IsCurrentInstance { get; set; } = false;
         public StatusBarControl BottomStatusStripControl => StatusBarControl;
         public Frame ContentFrame => ItemDisplayFrame;
         private Interaction interactionOperations = null;
@@ -60,6 +59,24 @@ namespace Files.Views
                 {
                     interactionOperations = value;
                     NotifyPropertyChanged("InteractionOperations");
+                }
+            }
+        }
+
+        private bool isCurrentInstance { get; set; } = false;
+
+        public bool IsCurrentInstance
+        {
+            get
+            {
+                return isCurrentInstance;
+            }
+            set
+            {
+                if (isCurrentInstance != value)
+                {
+                    isCurrentInstance = value;
+                    NotifyPropertyChanged(nameof(IsCurrentInstance));
                 }
             }
         }

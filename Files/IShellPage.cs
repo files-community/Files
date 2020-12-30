@@ -9,7 +9,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Files
 {
-    public interface IShellPage : ITabItemContent, IDisposable
+    public interface IShellPage : ITabItemContent, IMultiPaneInfo, IDisposable
     {
         public StatusBarControl BottomStatusStripControl { get; }
         public Frame ContentFrame { get; }
@@ -23,10 +23,6 @@ namespace Files
         public INavigationControlItem SidebarSelectedItem { get; set; }
         public INavigationToolbar NavigationToolbar { get; }
         
-        public bool IsPageMainPane { get; }
-        public bool ShowMultiPaneControls { get; }
-        public IPaneHolder PaneHolder { get; }
-
         public abstract void Clipboard_ContentChanged(object sender, object e);
 
         public abstract void Refresh_Click();
@@ -35,5 +31,12 @@ namespace Files
     public interface IPaneHolder : IDisposable
     {
         public void OpenPathInNewPane(string path);
+    }
+
+    public interface IMultiPaneInfo
+    {
+        public bool IsPageMainPane { get; }
+        public bool ShowMultiPaneControls { get; }
+        public IPaneHolder PaneHolder { get; }
     }
 }
