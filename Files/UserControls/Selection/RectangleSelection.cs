@@ -16,9 +16,7 @@ namespace Files.UserControls.Selection
         protected Rectangle selectionRectangle;
         protected SelectionState selectionState;
 
-        protected RectangleSelection()
-        {
-        }
+        protected RectangleSelection(){}
 
         /// <summary>
         /// Adds drag selection to a ListView, GridView or DataGrid
@@ -33,7 +31,7 @@ namespace Files.UserControls.Selection
             {
                 return new RectangleSelection_ListViewBase(uiElement as ListViewBase, selectionRectangle, selectionChanged);
             }
-            else if (uiElement is DataGrid)
+            else if(uiElement is DataGrid)
             {
                 return new RectangleSelection_DataGrid(uiElement as DataGrid, selectionRectangle, selectionChanged);
             }
@@ -74,7 +72,7 @@ namespace Files.UserControls.Selection
                 if (currentPoint.Position.Y <= originDragPointShifted.Y)
                 {
                     // Pointer was moved up and right
-                    Canvas.SetLeft(selectionRectangle, Math.Max(0, originDragPointShifted.X));
+                    Canvas.SetLeft(selectionRectangle, Math.Max(0,originDragPointShifted.X));
                     Canvas.SetTop(selectionRectangle, Math.Max(0, currentPoint.Position.Y));
                     selectionRectangle.Width = Math.Max(0, currentPoint.Position.X - Math.Max(0, originDragPointShifted.X));
                     selectionRectangle.Height = Math.Max(0, originDragPointShifted.Y - Math.Max(0, currentPoint.Position.Y));
