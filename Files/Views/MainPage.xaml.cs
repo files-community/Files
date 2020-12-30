@@ -453,25 +453,22 @@ namespace Files.Views
             args.Handled = true;
         }
 
-        private async void CloseSelectedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        private void CloseSelectedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            if (AppInstances.Count == 1)
+            if (App.InteractionViewModel.TabStripSelectedIndex >= AppInstances.Count)
             {
-                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                var tabItem = AppInstances[AppInstances.Count - 1];
+                MultitaskingControl?.RemoveTab(tabItem);
             }
             else
             {
-                if (App.InteractionViewModel.TabStripSelectedIndex >= AppInstances.Count)
-                {
-                    AppInstances.RemoveAt(AppInstances.Count - 1);
-                }
-                else
-                {
-                    AppInstances.RemoveAt(App.InteractionViewModel.TabStripSelectedIndex);
-                }
+                var tabItem = AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
+                MultitaskingControl?.RemoveTab(tabItem);
             }
             args.Handled = true;
         }
+
+        private bool isRestoringClosedTab = false; // Avoid reopening two tabs
 
         private async void AddNewInstanceAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
@@ -482,11 +479,13 @@ namespace Files.Views
             }
             else // ctrl + shif + t, restore recently closed tab
             {
-                if (MultitaskingControl.RecentlyClosedTabs.Any())
+                if (!isRestoringClosedTab && MultitaskingControl.RecentlyClosedTabs.Any())
                 {
+                    isRestoringClosedTab = true;
                     var lastTab = MultitaskingControl.RecentlyClosedTabs.Last();
                     MultitaskingControl.RecentlyClosedTabs.Remove(lastTab);
                     await AddNewTabByParam(lastTab.TabItemArguments.InitialPageType, lastTab.TabItemArguments.NavigationArg);
+                    isRestoringClosedTab = false;
                 }
             }
             args.Handled = true;
