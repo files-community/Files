@@ -23,5 +23,8 @@ jobs:
     - name: Install format tool
       run: dotnet tool install -g dotnet-format --version 5.0.142902 --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-tools/nuget/v3/index.json
 
+    - name: dotnet restore
+      run: dotnet restore
+
     - name: dotnet format
       run: dotnet-format --fix-style warn --check
