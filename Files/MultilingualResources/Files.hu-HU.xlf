@@ -1910,10 +1910,6 @@
           <source>New File</source>
           <target state="translated">Új Fájl</target>
         </trans-unit>
-        <trans-unit id="SettingsSearchUnindexeds.Header" translate="yes" xml:space="preserve">
-          <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
-          <target state="translated">Nem indexelt elemek mutatása fájl és mappa keresésekor (hosszabb keresési idő)</target>
-        </trans-unit>
         <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Header" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
           <target state="translated">Egyedi preferencia minden egyes mappához</target>
@@ -1950,7 +1946,7 @@
           <source>Cancel</source>
           <target state="translated">Mégse</target>
         </trans-unit>
-	<trans-unit id="StatusCenter.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusCenter.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Ongoing Tasks</source>
           <target state="translated">Feladatok folyamatban</target>
         </trans-unit>
@@ -1981,6 +1977,10 @@
         <trans-unit id="SettingsDualPane.Text" translate="yes" xml:space="preserve">
           <source>Dual Pane</source>
           <target state="new">Dual Pane</target>
+        </trans-unit>
+        <trans-unit id="SettingsSearchUnindexedItems.Header" translate="yes" xml:space="preserve">
+          <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
+          <target state="translated">Nem indexelt elemek mutatása fájl és mappa keresésekor (hosszabb keresési idő)</target>
         </trans-unit>
       </group>
     </body>
