@@ -4,6 +4,7 @@ pr: none
 pool:
   vmImage: 'windows-latest'
   timeoutInMinutes: 90
+  cancelTimeoutInMinutes: 0
 
 variables:
   solution: '**/*.sln'
