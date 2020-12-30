@@ -701,8 +701,11 @@ namespace Files
 
         protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
-            char letterPressed = Convert.ToChar(args.KeyCode);
-            ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
+            if (ParentShellPageInstance.IsCurrentInstance)
+            {
+                char letterPressed = Convert.ToChar(args.KeyCode);
+                ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
+            }
         }
 
         protected async void List_DragEnter(object sender, DragEventArgs e)
