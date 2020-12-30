@@ -21,7 +21,6 @@ namespace Files
         public Control OperationsControl { get; }
         public Type CurrentPageType { get; }
         public IFilesystemHelpers FilesystemHelpers { get; }
-        public INavigationControlItem SidebarSelectedItem { get; set; }
         public INavigationToolbar NavigationToolbar { get; }
         
         public abstract void Clipboard_ContentChanged(object sender, object e);
