@@ -1026,4 +1026,283 @@
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Вилучити</value>
   </data>
+  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+    <value>Копіювати вкладку</value>
+  </data>
+  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+    <value>Нова вкладка</value>
+  </data>
+  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Пошук</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
+    <value>Лише для читання</value>
+  </data>
+  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
+    <value>Прихований</value>
+  </data>
+  <data name="PropertyTitle" xml:space="preserve">
+    <value>Заголовок</value>
+  </data>
+  <data name="PropertySubject" xml:space="preserve">
+    <value>Об’єкт</value>
+  </data>
+  <data name="PropertyComment" xml:space="preserve">
+    <value>Коментар</value>
+  </data>
+  <data name="PropertyCopyright" xml:space="preserve">
+    <value>Авторське право</value>
+  </data>
+  <data name="PropertyDateCreated" xml:space="preserve">
+    <value>Дата створення</value>
+  </data>
+  <data name="PropertyDateModified" xml:space="preserve">
+    <value>Дата змінення</value>
+  </data>
+  <data name="PropertyBitDepth" xml:space="preserve">
+    <value>Глибина кольору</value>
+  </data>
+  <data name="PropertyDimensions" xml:space="preserve">
+    <value>Розміри</value>
+  </data>
+  <data name="PropertyHorizontalResolution" xml:space="preserve">
+    <value>Роздільна здатність по горизонталі</value>
+  </data>
+  <data name="PropertyVerticalResolution" xml:space="preserve">
+    <value>Роздільна здатність по вертикалі</value>
+  </data>
+  <data name="PropertyHorizontalSize" xml:space="preserve">
+    <value>Розмір по горизонталі</value>
+  </data>
+  <data name="PropertyVerticalSize" xml:space="preserve">
+    <value>Розмір по вертикалі</value>
+  </data>
+  <data name="PropertyLatitude" xml:space="preserve">
+    <value>Широта</value>
+  </data>
+  <data name="PropertyLongitude" xml:space="preserve">
+    <value>Довгота</value>
+  </data>
+  <data name="PropertyAltitude" xml:space="preserve">
+    <value>Висота</value>
+  </data>
+  <data name="PropertyCameraModel" xml:space="preserve">
+    <value>Модель камери</value>
+  </data>
+  <data name="PropertyExposureTime" xml:space="preserve">
+    <value>Час витримки</value>
+  </data>
+  <data name="PropertyFocalLength" xml:space="preserve">
+    <value>Фокусна відстань</value>
+  </data>
+  <data name="PropertyAperture" xml:space="preserve">
+    <value>Апертура</value>
+  </data>
+  <data name="PropertyDateTaken" xml:space="preserve">
+    <value>Дата зйомки</value>
+  </data>
+  <data name="PropertyChannelCount" xml:space="preserve">
+    <value>Кількість каналів</value>
+  </data>
+  <data name="PropertyCompression" xml:space="preserve">
+    <value>Стискання</value>
+  </data>
+  <data name="PropertyFormat" xml:space="preserve">
+    <value>Формат</value>
+  </data>
+  <data name="PropertySampleRate" xml:space="preserve">
+    <value>Частота дискретизації:</value>
+  </data>
+  <data name="PropertyAlbumArtist" xml:space="preserve">
+    <value>Виконавець альбому</value>
+  </data>
+  <data name="PropertyAlbumTitle" xml:space="preserve">
+    <value>Назва альбому</value>
+  </data>
+  <data name="PropertyArtist" xml:space="preserve">
+    <value>Виконавець</value>
+  </data>
+  <data name="PropertyComposer" xml:space="preserve">
+    <value>Композитор</value>
+  </data>
+  <data name="PropertyConductor" xml:space="preserve">
+    <value>Диригент</value>
+  </data>
+  <data name="PropertyGenre" xml:space="preserve">
+    <value>Жанр</value>
+  </data>
+  <data name="PropertyTrackNumber" xml:space="preserve">
+    <value>Номер запису</value>
+  </data>
+  <data name="PropertyDuration" xml:space="preserve">
+    <value>Тривалість</value>
+  </data>
+  <data name="PropertySeriesName" xml:space="preserve">
+    <value>Ім’я ряду</value>
+  </data>
+  <data name="PropertyProducer" xml:space="preserve">
+    <value>Продюсер</value>
+  </data>
+  <data name="PropertyPublisher" xml:space="preserve">
+    <value>Видавець</value>
+  </data>
+  <data name="PropertyWriter" xml:space="preserve">
+    <value>Автор</value>
+  </data>
+  <data name="PropertyYear" xml:space="preserve">
+    <value>Рік</value>
+  </data>
+  <data name="PropertySectionCore" xml:space="preserve">
+    <value>Кора</value>
+  </data>
+  <data name="PropertySectionImage" xml:space="preserve">
+    <value>Зображення</value>
+  </data>
+  <data name="PropertySectionPhoto" xml:space="preserve">
+    <value>Фото</value>
+  </data>
+  <data name="PropertySectionGPS" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="PropertySectionMedia" xml:space="preserve">
+    <value>Медіа</value>
+  </data>
+  <data name="PropertySectionAudio" xml:space="preserve">
+    <value>Аудіо</value>
+  </data>
+  <data name="PropertySectionMusic" xml:space="preserve">
+    <value>Музика</value>
+  </data>
+  <data name="PropertyAddress" xml:space="preserve">
+    <value>Адреса</value>
+  </data>
+  <data name="PropertyColorSpace" xml:space="preserve">
+    <value>Кольоровий простір:</value>
+  </data>
+  <data name="PropertyPeopleNames" xml:space="preserve">
+    <value>Імена людей</value>
+  </data>
+  <data name="PropertyContributor" xml:space="preserve">
+    <value>Співавтор</value>
+  </data>
+  <data name="PropertyLastAuthor" xml:space="preserve">
+    <value>Автор змін</value>
+  </data>
+  <data name="PropertyRevisionNumber" xml:space="preserve">
+    <value>Редакція:</value>
+  </data>
+  <data name="PropertyVersion" xml:space="preserve">
+    <value>Версія</value>
+  </data>
+  <data name="PropertySectionVideo" xml:space="preserve">
+    <value>Відео</value>
+  </data>
+  <data name="PropertyTotalEditingTime" xml:space="preserve">
+    <value>Загальний час редагування</value>
+  </data>
+  <data name="PropertyTemplate" xml:space="preserve">
+    <value>Шаблон</value>
+  </data>
+  <data name="PropertyWordCount" xml:space="preserve">
+    <value>Статистика</value>
+  </data>
+  <data name="PropertyPageCount" xml:space="preserve">
+    <value>Кількість сторінок</value>
+  </data>
+  <data name="PropertyFrameRate" xml:space="preserve">
+    <value>Частота кадрів</value>
+  </data>
+  <data name="PropertyFrameWidth" xml:space="preserve">
+    <value>Ширина рамки</value>
+  </data>
+  <data name="PropertyFrameHeight" xml:space="preserve">
+    <value>Висота рамки</value>
+  </data>
+  <data name="PropertyOrientation" xml:space="preserve">
+    <value>Орієнтація</value>
+  </data>
+  <data name="PropertySectionDocument" xml:space="preserve">
+    <value>Документ</value>
+  </data>
+  <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
+    <value>Помилка</value>
+  </data>
+  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Повторити</value>
+  </data>
+  <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Закрити</value>
+  </data>
+  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
+    <value>Скасувати</value>
+  </data>
+  <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
+    <value>Очистити</value>
+  </data>
+  <data name="PropertyColorSpace_Value0" xml:space="preserve">
+    <value>sRGB</value>
+  </data>
+  <data name="PropertyColorSpace_Value65535" xml:space="preserve">
+    <value>Не вказано</value>
+  </data>
+  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
+    <value>Ліцензія</value>
+  </data>
+  <data name="SettingsAboutLicense.Content" xml:space="preserve">
+    <value>Ліцензія</value>
+  </data>
+  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
+    <value>Веб-сайт</value>
+  </data>
+  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
+    <value>Веб-сайт</value>
+  </data>
+  <data name="DragDropWindowText" xml:space="preserve">
+    <value>Перетягніть сюди...</value>
+  </data>
+  <data name="SearchTabHeaderText" xml:space="preserve">
+    <value>Результати пошуку</value>
+  </data>
+  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+    <value>Докладно</value>
+  </data>
+  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+    <value>Ні</value>
+  </data>
+  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
+    <value>Так</value>
+  </data>
+  <data name="UpdateConsentDialogTitle" xml:space="preserve">
+    <value>Доступні оновлення</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
+    <value>Приховувати захищені системні файли (рекомендовано)</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Приховувати захищені системні файли (рекомендовано)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="AddDialogListFileHeader" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>Новий файл</value>
+  </data>
+  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
+    <value>Контекстне меню</value>
+  </data>
+  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+    <value>Додати</value>
+  </data>
+  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+    <value>Редагувати</value>
+  </data>
+  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+    <value>Вилучення</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
+    <value>Скасувати</value>
+  </data>
 </root>

@@ -14,6 +14,7 @@ namespace Files.Helpers
     public class RecycleBinHelpers : IDisposable
     {
         #region Private Members
+
         private static readonly Regex recycleBinPathRegex = new Regex(@"\w:\\\$Recycle\.Bin\\.*", RegexOptions.IgnoreCase);
 
         private IShellPage associatedInstance;

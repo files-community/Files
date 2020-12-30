@@ -131,25 +131,25 @@
                                     Orientation="Vertical">
                                     <TextBlock
                                         x:Name="ItemLocationName"
+                                        Margin="0,0,0,8"
+                                        VerticalAlignment="Center"
                                         FontSize="14"
                                         FontWeight="Medium"
                                         Text="{x:Bind Text, Mode=OneWay}"
-                                        TextWrapping="NoWrap"
-                                        VerticalAlignment="Center"
-                                        Margin="0,0,0,8"/>
+                                        TextWrapping="NoWrap" />
                                     <muxc:ProgressBar
+                                        Margin="0,0,0,8"
                                         AutomationProperties.AccessibilityView="Raw"
                                         Maximum="{x:Bind MaxSpace.GigaBytes, Mode=OneWay}"
-                                        Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}"
                                         Visibility="{x:Bind ShowDriveDetails, Mode=OneWay}"
-                                        Margin="0,0,0,8"/>
+                                        Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}" />
                                     <TextBlock
                                         FontSize="12"
                                         MaxLines="2"
                                         Text="{x:Bind SpaceText, Mode=OneWay}"
-                                        Visibility="{x:Bind ShowDriveDetails, Mode=OneWay}"
                                         TextWrapping="Wrap"
-                                        ToolTipService.ToolTip="{x:Bind SpaceText, Mode=OneWay}"/>
+                                        ToolTipService.ToolTip="{x:Bind SpaceText, Mode=OneWay}"
+                                        Visibility="{x:Bind ShowDriveDetails, Mode=OneWay}" />
                                 </StackPanel>
                             </Grid>
                         </Button>
