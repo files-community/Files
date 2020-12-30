@@ -293,17 +293,19 @@ namespace Files.Views
         {
             args.Handled = true;
             var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
+            var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
+            var menu = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
 
-            switch (c: ctrl, k: args.KeyboardAccelerator.Key)
+            switch (c: ctrl, s: shift, m: menu, k: args.KeyboardAccelerator.Key)
             {
-                case (true, VirtualKey.Left):
+                case (true, true, false, VirtualKey.Left): // ctrl + shift + "<-" select left pane
                     if (AppSettings.IsDualPaneEnabled)
                     {
                         ActivePane = PaneLeft;
                     }
                     break;
 
-                case (true, VirtualKey.Right):
+                case (true, true, false, VirtualKey.Right): // ctrl + shift + "->" select right pane
                     if (AppSettings.IsDualPaneEnabled)
                     {
                         if (string.IsNullOrEmpty(NavParamsRight))
@@ -312,6 +314,21 @@ namespace Files.Views
                         }
                         IsRightPaneVisible = true;
                         ActivePane = PaneRight;
+                    }
+                    break;
+
+                case (true, true, false, VirtualKey.W): // ctrl + shift + "W" close right pane
+                    IsRightPaneVisible = false;
+                    break;
+
+                case (false, true, true, VirtualKey.Add): // alt + shift + "+" open pane
+                    if (AppSettings.IsDualPaneEnabled)
+                    {
+                        if (string.IsNullOrEmpty(NavParamsRight))
+                        {
+                            NavParamsRight = "NewTab".GetLocalized();
+                        }
+                        IsRightPaneVisible = true;
                     }
                     break;
             }

@@ -78,6 +78,7 @@ namespace Files.Views
                 if (isCurrentInstance != value)
                 {
                     isCurrentInstance = value;
+                    ContentPage?.FocusFileList();
                     NotifyPropertyChanged(nameof(IsCurrentInstance));
                 }
             }
