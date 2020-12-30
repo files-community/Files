@@ -9,8 +9,8 @@ indent_style = space
 # Code files
 [*.{cs,csx,vb,vbx}]
 indent_size = 4
-insert_final_newline = true
-charset = utf-8-bom
+#insert_final_newline = true
+#charset = utf-8-bom
 
 # XML project files
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
