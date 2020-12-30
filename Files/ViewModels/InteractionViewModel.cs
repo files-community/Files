@@ -51,6 +51,9 @@ namespace Files.ViewModels
                     if (_TabStripSelectedIndex != value)
                     {
                         SetProperty(ref _TabStripSelectedIndex, value);
+                    }
+                    if (value < MainPage.MultitaskingControl.Items.Count)
+                    {
                         Frame rootFrame = Window.Current.Content as Frame;
                         var mainView = rootFrame.Content as MainPage;
                         mainView.SelectedTabItem = MainPage.MultitaskingControl.Items[value];

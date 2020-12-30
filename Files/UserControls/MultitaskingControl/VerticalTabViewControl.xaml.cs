@@ -137,6 +137,10 @@ namespace Files.UserControls.MultitaskingControl
             {
                 RemoveTab(args.Item as TabItem);
             }
+            else
+            {
+                VerticalTabView.SelectedItem = args.Tab;
+            }
 
             if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier))
             {

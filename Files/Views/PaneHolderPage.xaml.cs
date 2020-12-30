@@ -244,7 +244,11 @@ namespace Files.Views
                 case (true, VirtualKey.Right):
                     if (AppSettings.IsDualPaneEnabled)
                     {
-                        isRightPaneVisible = true;
+                        if (string.IsNullOrEmpty(NavParamsRight))
+                        {
+                            NavParamsRight = "NewTab".GetLocalized();
+                        }
+                        IsRightPaneVisible = true;
                         ActivePane = PaneRight;
                     }
                     break;
