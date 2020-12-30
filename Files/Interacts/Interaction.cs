@@ -46,7 +46,7 @@ namespace Files.Interacts
 {
     public class Interaction
     {
-        public readonly IFilesystemHelpers FilesystemHelpers;
+        public IFilesystemHelpers FilesystemHelpers => AssociatedInstance.FilesystemHelpers;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -61,7 +61,6 @@ namespace Files.Interacts
         public Interaction(IShellPage appInstance)
         {
             AssociatedInstance = appInstance;
-            FilesystemHelpers = new FilesystemHelpers(AssociatedInstance, App.CancellationToken);
         }
 
         public void List_ItemDoubleClick(object sender, DoubleTappedRoutedEventArgs e)
@@ -266,6 +265,12 @@ namespace Files.Interacts
         public async void GrantAccessPermissionHandler(IUICommand command)
         {
             await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess"));
+        }
+
+        public static bool IsAnyContentDialogOpen()
+        {
+            var openedPopups = VisualTreeHelper.GetOpenPopups(Window.Current);
+            return openedPopups.Any(popup => popup.Child is ContentDialog);
         }
 
         public static T FindChild<T>(DependencyObject startNode) where T : DependencyObject

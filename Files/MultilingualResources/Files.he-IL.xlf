@@ -1942,6 +1942,10 @@
           <source>Cache files and folders for better performance</source>
           <target state="new">Cache files and folders for better performance</target>
         </trans-unit>
+        <trans-unit id="ItemAlreadyExistsDialogCloseButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
       </group>
     </body>
   </file>

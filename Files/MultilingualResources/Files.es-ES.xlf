@@ -1942,6 +1942,10 @@
           <source>Cache files and folders for better performance</source>
           <target state="translated">Almacenar archivos y carpetas en caché para mejorar el rendimiento</target>
         </trans-unit>
+        <trans-unit id="ItemAlreadyExistsDialogCloseButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
       </group>
     </body>
   </file>

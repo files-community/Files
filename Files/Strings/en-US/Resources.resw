@@ -1569,4 +1569,7 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Remove</value>
   </data>
+  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
 </root>
