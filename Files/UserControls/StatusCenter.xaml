@@ -118,6 +118,7 @@
 
         <Grid BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}" BorderThickness="0,0,0,0.5">
             <TextBlock
+                x:Uid="StatusCenterFlyoutTitle"
                 Margin="10,8"
                 FontSize="14"
                 FontWeight="SemiBold"

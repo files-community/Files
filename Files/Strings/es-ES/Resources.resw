@@ -61,7 +61,7 @@
     <value>Licencias de terceros</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
-    <value>Acerca de Files UWP</value>
+    <value>Acerca de Files</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Apariencia</value>
@@ -70,7 +70,7 @@
     <value>Carpetas y archivos</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>Acerca de Files UWP</value>
+    <value>Acerca de Files</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Apariencia</value>
@@ -544,13 +544,13 @@
     <value>Cancelar</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>¿Estás seguro que quieres eliminar todos los elementos?</value>
+    <value>¿Estás seguro que quieres eliminar todos estos elementos?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Vaciar papelera de reciclaje</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Aceptar</value>
+    <value>Sí</value>
   </data>
   <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>Mas información acerca de formatos de fecha</value>
@@ -667,7 +667,7 @@
     <value>Crear acceso directo</value>
   </data>
   <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
-    <value>Abrir ubicación de archivo</value>
+    <value>Abrir ubicación del archivo</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
     <value>Argumentos:</value>
@@ -709,7 +709,7 @@
     <value>{0} - Acceso directo</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenFileLocation.Text" xml:space="preserve">
-    <value>Abrir ubicación de archivo</value>
+    <value>Abrir ubicación del archivo</value>
   </data>
   <data name="SettingsAboutContributors.Text" xml:space="preserve">
     <value>Contribuidores</value>
@@ -1411,7 +1411,7 @@
     <value>Habilitar preferencias individuales para directorios individuales</value>
   </data>
   <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>Menu Contextual</value>
+    <value>Menú Contextual</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Ubicación original</value>
@@ -1433,5 +1433,11 @@
   </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Cancelar</value>
+  </data>
+  <data name="StatusCenter.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Tareas en curso</value>
+  </data>
+  <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
+    <value>Tareas en curso</value>
   </data>
 </root>
