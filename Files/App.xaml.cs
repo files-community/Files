@@ -55,7 +55,7 @@ namespace Files
         {
             // Get the extensions that are available for this host.
             // Extensions that declare the same contract string as the host will be recognized.
-            internal static ExtensionManager ExtensionManager { get; set; } = new ExtensionManager("com.files.filepreview");
+            internal static ExtensionManager FilePreviewExtensionManager { get; set; } = new ExtensionManager("com.files.filepreview");
         }
 
         public App()
@@ -70,7 +70,7 @@ namespace Files
             // Initialize NLog
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
             LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
-            AppData.ExtensionManager.Initialize(Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher); // The extension manager can update UI, so pass it the UI dispatcher to use for UI updates
+            AppData.FilePreviewExtensionManager.Initialize(Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher); // The extension manager can update UI, so pass it the UI dispatcher to use for UI updates
 
             StartAppCenter();
         }

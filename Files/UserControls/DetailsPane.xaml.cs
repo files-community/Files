@@ -36,7 +36,7 @@ namespace Files.UserControls
             {
                 if (value.Count == 1 && value[0].FileText != null)
                 {
-                    foreach (var extension in AppData.ExtensionManager.Extensions)
+                    foreach (var extension in AppData.FilePreviewExtensionManager.Extensions)
                     {
                         if(extension.FileExtensions.Contains(value[0].FileExtension))
                         {
@@ -78,7 +78,7 @@ namespace Files.UserControls
         public async void UpdatePreviewControl(ListedItem item, Helpers.Extension extension)
         {
             var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
-            var path = AppData.ExtensionManager.Extensions[0].PublicFolderPath;
+            var path = AppData.FilePreviewExtensionManager.Extensions[0].PublicFolderPath;
 
             var buffer = await FileIO.ReadBufferAsync(file);
             var byteArray = new Byte[buffer.Length];
