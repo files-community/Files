@@ -951,6 +951,9 @@
   <data name="StatusBarControlLayoutMode.AutomationProperties.Name" xml:space="preserve">
     <value>Displosition</value>
   </data>
+  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>Options de sélection</value>
+  </data>
   <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
     <value>Ouvrir les éléments d'un seul clic</value>
   </data>
@@ -1095,20 +1098,68 @@
   <data name="PropertyAperture" xml:space="preserve">
     <value>Ouverture</value>
   </data>
+  <data name="PropertyDateTaken" xml:space="preserve">
+    <value>Date photo</value>
+  </data>
+  <data name="PropertyChannelCount" xml:space="preserve">
+    <value>Nombre de canaux</value>
+  </data>
+  <data name="PropertyCompression" xml:space="preserve">
+    <value>Compression</value>
+  </data>
   <data name="PropertyFormat" xml:space="preserve">
     <value>Format</value>
+  </data>
+  <data name="PropertySampleRate" xml:space="preserve">
+    <value>Taux d'échantillonnage</value>
+  </data>
+  <data name="PropertyAlbumArtist" xml:space="preserve">
+    <value>Artiste de l’album</value>
+  </data>
+  <data name="PropertyAlbumTitle" xml:space="preserve">
+    <value>Titre de l’album</value>
   </data>
   <data name="PropertyArtist" xml:space="preserve">
     <value>Artiste</value>
   </data>
+  <data name="PropertyComposer" xml:space="preserve">
+    <value>Compositeur :</value>
+  </data>
+  <data name="PropertyConductor" xml:space="preserve">
+    <value>Chef d'orchestre</value>
+  </data>
   <data name="PropertyGenre" xml:space="preserve">
     <value>Genre</value>
+  </data>
+  <data name="PropertyTrackNumber" xml:space="preserve">
+    <value>Numéro de piste</value>
   </data>
   <data name="PropertyDuration" xml:space="preserve">
     <value>Durée</value>
   </data>
+  <data name="PropertyFrameCount" xml:space="preserve">
+    <value>Nombre de trames</value>
+  </data>
+  <data name="PropertyProtectionType" xml:space="preserve">
+    <value>Type de protection</value>
+  </data>
+  <data name="PropertyContentDistributor" xml:space="preserve">
+    <value>Distributeur de contenu</value>
+  </data>
+  <data name="PropertyDateReleased" xml:space="preserve">
+    <value>Date de sortie</value>
+  </data>
+  <data name="PropertySeriesName" xml:space="preserve">
+    <value>Nom de série</value>
+  </data>
   <data name="PropertyProducer" xml:space="preserve">
     <value>Producteur</value>
+  </data>
+  <data name="PropertyPublisher" xml:space="preserve">
+    <value>Éditeur</value>
+  </data>
+  <data name="PropertyWriter" xml:space="preserve">
+    <value>Auteur</value>
   </data>
   <data name="PropertyYear" xml:space="preserve">
     <value>Année</value>
@@ -1119,17 +1170,77 @@
   <data name="PropertySectionImage" xml:space="preserve">
     <value>Image</value>
   </data>
+  <data name="PropertySectionPhoto" xml:space="preserve">
+    <value>Photos</value>
+  </data>
+  <data name="PropertySectionGPS" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="PropertySectionMedia" xml:space="preserve">
+    <value>Média</value>
+  </data>
+  <data name="PropertySectionAudio" xml:space="preserve">
+    <value>Fichier audio</value>
+  </data>
   <data name="PropertySectionMusic" xml:space="preserve">
     <value>Musique</value>
   </data>
+  <data name="PropertyAddress" xml:space="preserve">
+    <value>ADRESSE</value>
+  </data>
+  <data name="PropertyColorSpace" xml:space="preserve">
+    <value>Espace de couleurs :</value>
+  </data>
+  <data name="PropertyPeopleNames" xml:space="preserve">
+    <value>Noms de personne</value>
+  </data>
   <data name="PropertyContributor" xml:space="preserve">
     <value>Contributeur</value>
+  </data>
+  <data name="PropertyLastAuthor" xml:space="preserve">
+    <value>Dernier auteur</value>
+  </data>
+  <data name="PropertyRevisionNumber" xml:space="preserve">
+    <value>Numéro de révision</value>
   </data>
   <data name="PropertyVersion" xml:space="preserve">
     <value>Version</value>
   </data>
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>Vidéo</value>
+  </data>
+  <data name="PropertyDatePrinted" xml:space="preserve">
+    <value>Date imprimée</value>
+  </data>
+  <data name="PropertyTotalEditingTime" xml:space="preserve">
+    <value>Temps total d’édition :</value>
+  </data>
+  <data name="PropertyTemplate" xml:space="preserve">
+    <value>Modèle</value>
+  </data>
+  <data name="PropertyWordCount" xml:space="preserve">
+    <value>statistiques</value>
+  </data>
+  <data name="PropertyCharacterCount" xml:space="preserve">
+    <value>Nombre de caractères</value>
+  </data>
+  <data name="PropertyLineCount" xml:space="preserve">
+    <value>Nombre de lignes</value>
+  </data>
+  <data name="PropertyParagraphCount" xml:space="preserve">
+    <value>Nombre de paragraphes</value>
+  </data>
+  <data name="PropertyPageCount" xml:space="preserve">
+    <value>Nombre de pages</value>
+  </data>
+  <data name="PropertyFrameRate" xml:space="preserve">
+    <value>Fréquence d’images</value>
+  </data>
+  <data name="PropertyFrameWidth" xml:space="preserve">
+    <value>Largeur de cadre</value>
+  </data>
+  <data name="PropertyFrameHeight" xml:space="preserve">
+    <value>Hauteur de cadre</value>
   </data>
   <data name="PropertyOrientation" xml:space="preserve">
     <value>Orientation</value>
@@ -1143,11 +1254,17 @@
   <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
     <value>Réessayer</value>
   </data>
+  <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Fermer quand même</value>
+  </data>
   <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
     <value>Annuler</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Certaines propriétés peuvent contenir des informations personnelles.</value>
+  </data>
+  <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
+    <value>Effacer</value>
   </data>
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
     <value>Supprimer les propriétés</value>
@@ -1175,6 +1292,9 @@
   </data>
   <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
     <value>En savoir plus sur les formats de date</value>
+  </data>
+  <data name="DragDropWindowText" xml:space="preserve">
+    <value>Déposer ici...</value>
   </data>
   <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
     <value>Rechercher</value>
@@ -1229,5 +1349,26 @@
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>Nouveau fichier</value>
+  </data>
+  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
+    <value>Menu contextuel</value>
+  </data>
+  <data name="originalPathColumn.Header" xml:space="preserve">
+    <value>Chemin d'origine :</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
+    <value>Chemin d'origine :</value>
+  </data>
+  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+    <value>Ajouter</value>
+  </data>
+  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+    <value>Modifier</value>
+  </data>
+  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+    <value>Enlever</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
+    <value>Annuler</value>
   </data>
 </root>

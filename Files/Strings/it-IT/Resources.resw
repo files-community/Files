@@ -1443,11 +1443,23 @@
   <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
     <value>Abilita impostazioni di visualizzazione per cartella</value>
   </data>
+  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
+    <value>Menu di scelta rapida</value>
+  </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Percorso originale</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
     <value>Percorso originale</value>
+  </data>
+  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+    <value>Aggiungi</value>
+  </data>
+  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+    <value>Modificare</value>
+  </data>
+  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+    <value>Rimuovi</value>
   </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Annulla</value>

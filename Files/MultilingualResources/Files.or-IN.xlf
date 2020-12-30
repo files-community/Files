@@ -1232,7 +1232,7 @@
         </trans-unit>
         <trans-unit id="AccessDeniedCreateDialog.Title" translate="yes" xml:space="preserve">
           <source>Access Denied</source>
-          <target state="new">Access Denied</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ପ୍ରବେଶ ପ୍ରତ୍ୟାଖ୍ୟାତ</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesContextMenuSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show all context menu items when right clicking an item</source>
@@ -1256,7 +1256,7 @@
         </trans-unit>
         <trans-unit id="SettingsAppearanceDateFormat.Header" translate="yes" xml:space="preserve">
           <source>Date format</source>
-          <target state="new">Date format</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ତାରିଖ ଫର୍ମାଟ୍</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceTheme.Header" translate="yes" xml:space="preserve">
           <source>App theme</source>
@@ -1280,35 +1280,35 @@
         </trans-unit>
         <trans-unit id="PropertyTitle" translate="yes" xml:space="preserve">
           <source>Title</source>
-          <target state="new">Title</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଟାଇଟେଲ୍</target>
         </trans-unit>
         <trans-unit id="PropertySubject" translate="yes" xml:space="preserve">
           <source>Subject</source>
-          <target state="new">Subject</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବିଷୟ</target>
         </trans-unit>
         <trans-unit id="PropertyComment" translate="yes" xml:space="preserve">
           <source>Comment</source>
-          <target state="new">Comment</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ମନ୍ତବ୍ୟ</target>
         </trans-unit>
         <trans-unit id="PropertyCopyright" translate="yes" xml:space="preserve">
           <source>Copyright</source>
-          <target state="new">Copyright</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ସତ୍ତ୍ୱାଧିକାର</target>
         </trans-unit>
         <trans-unit id="PropertyDateCreated" translate="yes" xml:space="preserve">
           <source>Date Created</source>
-          <target state="new">Date Created</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ତାରିଖ ପ୍ରସ୍ଥୁତ</target>
         </trans-unit>
         <trans-unit id="PropertyDateModified" translate="yes" xml:space="preserve">
           <source>Date Modified</source>
-          <target state="new">Date Modified</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ତାରିଖ ସଂଶୋଧିତ</target>
         </trans-unit>
         <trans-unit id="PropertyBitDepth" translate="yes" xml:space="preserve">
           <source>Bit Depth</source>
-          <target state="new">Bit Depth</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବିଟ୍ ଗାଢ଼ତା</target>
         </trans-unit>
         <trans-unit id="PropertyDimensions" translate="yes" xml:space="preserve">
           <source>Dimensions</source>
-          <target state="new">Dimensions</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ପରିସରଗୁଡ଼ିକ</target>
         </trans-unit>
         <trans-unit id="PropertyHorizontalResolution" translate="yes" xml:space="preserve">
           <source>Horizontal Resolution</source>
@@ -1332,7 +1332,7 @@
         </trans-unit>
         <trans-unit id="PropertyLatitude" translate="yes" xml:space="preserve">
           <source>Latitude</source>
-          <target state="new">Latitude</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଅକ୍ଷାଂଶ</target>
         </trans-unit>
         <trans-unit id="PropertyLatitudeDecimal" translate="yes" xml:space="preserve">
           <source>Latitude Decimal</source>
@@ -1344,7 +1344,7 @@
         </trans-unit>
         <trans-unit id="PropertyLongitude" translate="yes" xml:space="preserve">
           <source>Longitude</source>
-          <target state="new">Longitude</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଦ୍ରାଘିମା</target>
         </trans-unit>
         <trans-unit id="PropertyLongitudeDecimal" translate="yes" xml:space="preserve">
           <source>Longitude Decimal</source>
@@ -1376,11 +1376,11 @@
         </trans-unit>
         <trans-unit id="PropertyAperture" translate="yes" xml:space="preserve">
           <source>Aperture</source>
-          <target state="new">Aperture</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଆପେଚର୍</target>
         </trans-unit>
         <trans-unit id="PropertyDateTaken" translate="yes" xml:space="preserve">
           <source>Date Taken</source>
-          <target state="new">Date Taken</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ନିଆଯାଇଥିବା ତାରିଖ:</target>
         </trans-unit>
         <trans-unit id="PropertyChannelCount" translate="yes" xml:space="preserve">
           <source>Channel Count</source>
@@ -1392,15 +1392,15 @@
         </trans-unit>
         <trans-unit id="PropertyCompression" translate="yes" xml:space="preserve">
           <source>Compression</source>
-          <target state="new">Compression</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ସଙ୍କୋଚନ:</target>
         </trans-unit>
         <trans-unit id="PropertyFormat" translate="yes" xml:space="preserve">
           <source>Format</source>
-          <target state="new">Format</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଫର୍ମାଟ୍...</target>
         </trans-unit>
         <trans-unit id="PropertySampleRate" translate="yes" xml:space="preserve">
           <source>Sample Rate</source>
-          <target state="new">Sample Rate</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ନମୂନା ମୂଲ୍ୟ</target>
         </trans-unit>
         <trans-unit id="PropertyDisplayArtist" translate="yes" xml:space="preserve">
           <source>Display Artist</source>
@@ -1408,15 +1408,15 @@
         </trans-unit>
         <trans-unit id="PropertyAlbumArtist" translate="yes" xml:space="preserve">
           <source>Album Artist</source>
-          <target state="new">Album Artist</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଆଲ୍‌ବମ୍ କଳାକାର</target>
         </trans-unit>
         <trans-unit id="PropertyAlbumTitle" translate="yes" xml:space="preserve">
           <source>Album Title</source>
-          <target state="new">Album Title</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଆଲ୍‌ବମ୍ ଟାଇଟେଲ୍</target>
         </trans-unit>
         <trans-unit id="PropertyArtist" translate="yes" xml:space="preserve">
           <source>Artist</source>
-          <target state="new">Artist</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">କଳାକାର:</target>
         </trans-unit>
         <trans-unit id="PropertyBeatsPerMinute" translate="yes" xml:space="preserve">
           <source>Beats Per Minute</source>
@@ -1424,11 +1424,11 @@
         </trans-unit>
         <trans-unit id="PropertyComposer" translate="yes" xml:space="preserve">
           <source>Composer</source>
-          <target state="new">Composer</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ରଚୟିତା</target>
         </trans-unit>
         <trans-unit id="PropertyConductor" translate="yes" xml:space="preserve">
           <source>Conductor</source>
-          <target state="new">Conductor</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">କଣ୍ଡକ୍ଟର</target>
         </trans-unit>
         <trans-unit id="PropertyDiscNumber" translate="yes" xml:space="preserve">
           <source>Disc Number</source>
@@ -1436,15 +1436,15 @@
         </trans-unit>
         <trans-unit id="PropertyGenre" translate="yes" xml:space="preserve">
           <source>Genre</source>
-          <target state="new">Genre</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଧରଣ</target>
         </trans-unit>
         <trans-unit id="PropertyTrackNumber" translate="yes" xml:space="preserve">
           <source>Track Number</source>
-          <target state="new">Track Number</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଟ୍ରାକ୍ ସଂଖ୍ୟା</target>
         </trans-unit>
         <trans-unit id="PropertyDuration" translate="yes" xml:space="preserve">
           <source>Duration</source>
-          <target state="new">Duration</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଅବଧି</target>
         </trans-unit>
         <trans-unit id="PropertyFrameCount" translate="yes" xml:space="preserve">
           <source>Frame Count</source>
@@ -1468,7 +1468,7 @@
         </trans-unit>
         <trans-unit id="PropertySeriesName" translate="yes" xml:space="preserve">
           <source>Series Name</source>
-          <target state="new">Series Name</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ପର୍ଯ୍ୟାୟ ନାମ</target>
         </trans-unit>
         <trans-unit id="PropertySeasonNumber" translate="yes" xml:space="preserve">
           <source>Season Number</source>
@@ -1480,7 +1480,7 @@
         </trans-unit>
         <trans-unit id="PropertyProducer" translate="yes" xml:space="preserve">
           <source>Producer</source>
-          <target state="new">Producer</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଉତ୍ପାଦକ</target>
         </trans-unit>
         <trans-unit id="PropertyPromotionUrl" translate="yes" xml:space="preserve">
           <source>Promotion Url</source>
@@ -1492,7 +1492,7 @@
         </trans-unit>
         <trans-unit id="PropertyPublisher" translate="yes" xml:space="preserve">
           <source>Publisher</source>
-          <target state="new">Publisher</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ପ୍ରକାଶକ</target>
         </trans-unit>
         <trans-unit id="PropertyThumbnailLargePath" translate="yes" xml:space="preserve">
           <source>Thumbnail Large Path</source>
@@ -1516,43 +1516,43 @@
         </trans-unit>
         <trans-unit id="PropertyWriter" translate="yes" xml:space="preserve">
           <source>Writer</source>
-          <target state="new">Writer</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ରାଇଟର୍</target>
         </trans-unit>
         <trans-unit id="PropertyYear" translate="yes" xml:space="preserve">
           <source>Year</source>
-          <target state="new">Year</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବର୍ଷ</target>
         </trans-unit>
         <trans-unit id="PropertySectionCore" translate="yes" xml:space="preserve">
           <source>Core</source>
-          <target state="new">Core</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">କେନ୍ଦ୍ର</target>
         </trans-unit>
         <trans-unit id="PropertySectionImage" translate="yes" xml:space="preserve">
           <source>Image</source>
-          <target state="new">Image</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ପ୍ରତିଛବି</target>
         </trans-unit>
         <trans-unit id="PropertySectionPhoto" translate="yes" xml:space="preserve">
           <source>Photo</source>
-          <target state="new">Photo</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଫଟୋ</target>
         </trans-unit>
         <trans-unit id="PropertySectionGPS" translate="yes" xml:space="preserve">
           <source>GPS</source>
-          <target state="new">GPS</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">GPS</target>
         </trans-unit>
         <trans-unit id="PropertySectionMedia" translate="yes" xml:space="preserve">
           <source>Media</source>
-          <target state="new">Media</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ମିଡିଆ</target>
         </trans-unit>
         <trans-unit id="PropertySectionAudio" translate="yes" xml:space="preserve">
           <source>Audio</source>
-          <target state="new">Audio</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଅଡ଼ିଓ</target>
         </trans-unit>
         <trans-unit id="PropertySectionMusic" translate="yes" xml:space="preserve">
           <source>Music</source>
-          <target state="new">Music</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ସଙ୍ଗୀତ</target>
         </trans-unit>
         <trans-unit id="PropertyAddress" translate="yes" xml:space="preserve">
           <source>Address</source>
-          <target state="new">Address</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଠିକଣା</target>
         </trans-unit>
         <trans-unit id="PropertyColorSpace" translate="yes" xml:space="preserve">
           <source>Color Space</source>
@@ -1564,23 +1564,23 @@
         </trans-unit>
         <trans-unit id="PropertyContributor" translate="yes" xml:space="preserve">
           <source>Contributor</source>
-          <target state="new">Contributor</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଯୋଗଦାନକର୍ତ୍ତା</target>
         </trans-unit>
         <trans-unit id="PropertyLastAuthor" translate="yes" xml:space="preserve">
           <source>Last Author</source>
-          <target state="new">Last Author</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଶେଷ ଗ୍ରନ୍ଥକର୍ତ୍ତା</target>
         </trans-unit>
         <trans-unit id="PropertyRevisionNumber" translate="yes" xml:space="preserve">
           <source>Revision Number</source>
-          <target state="new">Revision Number</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ପୁନରାବଲୋକନ ନମ୍ବର</target>
         </trans-unit>
         <trans-unit id="PropertyVersion" translate="yes" xml:space="preserve">
           <source>Version</source>
-          <target state="new">Version</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ସଂସ୍କରଣ</target>
         </trans-unit>
         <trans-unit id="PropertySectionVideo" translate="yes" xml:space="preserve">
           <source>Video</source>
-          <target state="new">Video</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଭିଡିଓ</target>
         </trans-unit>
         <trans-unit id="PropertyDateSaved" translate="yes" xml:space="preserve">
           <source>Date Saved</source>
@@ -1588,19 +1588,19 @@
         </trans-unit>
         <trans-unit id="PropertyDatePrinted" translate="yes" xml:space="preserve">
           <source>Date Printed</source>
-          <target state="new">Date Printed</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">[Date Printed]</target>
         </trans-unit>
         <trans-unit id="PropertyTotalEditingTime" translate="yes" xml:space="preserve">
           <source>Total Editing Time</source>
-          <target state="new">Total Editing Time</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ସମସ୍ତ ସଂପାଦନା ସମୟ</target>
         </trans-unit>
         <trans-unit id="PropertyTemplate" translate="yes" xml:space="preserve">
           <source>Template</source>
-          <target state="new">Template</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଟେମ୍ପଲେଟ୍‌</target>
         </trans-unit>
         <trans-unit id="PropertyWordCount" translate="yes" xml:space="preserve">
           <source>Word Count</source>
-          <target state="new">Word Count</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଶବ୍ଦ ଗଣନା</target>
         </trans-unit>
         <trans-unit id="PropertyCharacterCount" translate="yes" xml:space="preserve">
           <source>Character Count</source>
@@ -1636,15 +1636,15 @@
         </trans-unit>
         <trans-unit id="PropertyOrientation" translate="yes" xml:space="preserve">
           <source>Orientation</source>
-          <target state="new">Orientation</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଓରିଏଣ୍ଟେସନ୍</target>
         </trans-unit>
         <trans-unit id="PropertySectionDocument" translate="yes" xml:space="preserve">
           <source>Document</source>
-          <target state="new">Document</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଡକ୍ୟୁମେଣ୍ଟ୍</target>
         </trans-unit>
         <trans-unit id="NavMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More options</source>
-          <target state="new">More options</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଅଧିକ ବିକଳ୍ପସମୂହ</target>
         </trans-unit>
         <trans-unit id="StatusBarControlLayoutMode.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
@@ -1652,7 +1652,7 @@
         </trans-unit>
         <trans-unit id="StatusBarControlSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selection options</source>
-          <target state="new">Selection options</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଚୟନ ବିକଳ୍ପସମୂହ</target>
         </trans-unit>
         <trans-unit id="StatusCenter.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Status center</source>
@@ -1664,11 +1664,11 @@
         </trans-unit>
         <trans-unit id="FileItemAutomation" translate="yes" xml:space="preserve">
           <source>File</source>
-          <target state="new">File</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଫାଇଲ୍:</target>
         </trans-unit>
         <trans-unit id="FolderItemAutomation" translate="yes" xml:space="preserve">
           <source>Folder</source>
-          <target state="new">Folder</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଫୋଲ୍ଡର:</target>
         </trans-unit>
         <trans-unit id="RecycleBinItemAutomation" translate="yes" xml:space="preserve">
           <source>Recycle bin item</source>
@@ -1680,11 +1680,11 @@
         </trans-unit>
         <trans-unit id="PinToSidebarByDraggingCaptionText" translate="yes" xml:space="preserve">
           <source>Move here</source>
-          <target state="new">Move here</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଏଠାକୁ ଘୁଞ୍ଚନ୍ତୁ</target>
         </trans-unit>
         <trans-unit id="DrivesWidgetDescription.Text" translate="yes" xml:space="preserve">
           <source>Drives</source>
-          <target state="new">Drives</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଡ୍ରାଇଭ୍‌ସମୂହ:</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowLibraryCards.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show library cards on the home page</source>
@@ -1724,11 +1724,11 @@
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Header" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
-          <target state="new">Show hidden files and folders</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଲୁକ୍କାୟିତ ଫାଇଲ୍ ଏବଂ ଫୋଲ୍ଡର୍‌ଗୁଡିକକୁ ଦେଖାନ୍ତୁ</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
-          <target state="new">Show hidden files and folders</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଲୁକ୍କାୟିତ ଫାଇଲ୍ ଏବଂ ଫୋଲ୍ଡର୍‌ଗୁଡିକକୁ ଦେଖାନ୍ତୁ</target>
         </trans-unit>
         <trans-unit id="EjectNotificationHeader" translate="yes" xml:space="preserve">
           <source>Safe to remove hardware</source>
@@ -1748,11 +1748,11 @@
         </trans-unit>
         <trans-unit id="SideBarEjectDevice.Text" translate="yes" xml:space="preserve">
           <source>Eject</source>
-          <target state="new">Eject</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବହିଷ୍କାର</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlDuplicateTab.Text" translate="yes" xml:space="preserve">
           <source>Duplicate tab</source>
-          <target state="new">Duplicate tab</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ନକଲ ଟ୍ୟାବ୍</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlMoveTabToNewWindow.Text" translate="yes" xml:space="preserve">
           <source>Move tab to new window</source>
@@ -1760,35 +1760,35 @@
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlNewTab.Text" translate="yes" xml:space="preserve">
           <source>New tab</source>
-          <target state="new">New tab</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ନୂତନ ଟ୍ୟାବ୍</target>
         </trans-unit>
         <trans-unit id="NavSearchButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Search</source>
-          <target state="new">Search</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ସନ୍ଧାନ</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogReadOnly.Text" translate="yes" xml:space="preserve">
           <source>Read-only</source>
-          <target state="new">Read-only</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">କେବଳ-ପଠନ</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogHidden.Text" translate="yes" xml:space="preserve">
           <source>Hidden</source>
-          <target state="new">Hidden</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଲୁକ୍କାୟିତ</target>
         </trans-unit>
         <trans-unit id="PropertySaveErrorDialog.Title" translate="yes" xml:space="preserve">
           <source>Error</source>
-          <target state="new">Error</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ତ୍ରୁଟି</target>
         </trans-unit>
         <trans-unit id="PropertySaveErrorDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Retry</source>
-          <target state="new">Retry</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ପୁନଃଚେଷ୍ଟା</target>
         </trans-unit>
         <trans-unit id="PropertySaveErrorDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Close anyway</source>
-          <target state="new">Close anyway</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଯେକୌଣସିଭାବରେ ବନ୍ଦ କରିବା</target>
         </trans-unit>
         <trans-unit id="PropertySaveErrorDialog.CloseButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବାତିଲ୍</target>
         </trans-unit>
         <trans-unit id="PropertySaveErrorMessage.Text" translate="yes" xml:space="preserve">
           <source>There was an issue saving some properties.</source>
@@ -1800,7 +1800,7 @@
         </trans-unit>
         <trans-unit id="ClearPropertiesFlyoutConfirmation.Content" translate="yes" xml:space="preserve">
           <source>Clear</source>
-          <target state="new">Clear</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଖାଲି କରନ୍ତୁ</target>
         </trans-unit>
         <trans-unit id="ClearPropertiesButton.Content" translate="yes" xml:space="preserve">
           <source>Clear All Properties</source>
@@ -1812,7 +1812,7 @@
         </trans-unit>
         <trans-unit id="PropertyColorSpace_Value65535" translate="yes" xml:space="preserve">
           <source>Unspecified</source>
-          <target state="new">Unspecified</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଅନିର୍ଦ୍ଦିଷ୍ଟ</target>
         </trans-unit>
         <trans-unit id="StatusCenterTeachingTip.Subtitle" translate="yes" xml:space="preserve">
           <source>Check the status of file operations here</source>
@@ -1824,19 +1824,19 @@
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>License</source>
-          <target state="new">License</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଲାଇସେନ୍ସ</target>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Content" translate="yes" xml:space="preserve">
           <source>License</source>
-          <target state="new">License</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଲାଇସେନ୍ସ</target>
         </trans-unit>
         <trans-unit id="SettingsAboutWebsite.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Website</source>
-          <target state="new">Website</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ୱେବ୍‌ସାଇଟ୍</target>
         </trans-unit>
         <trans-unit id="SettingsAboutWebsite.Content" translate="yes" xml:space="preserve">
           <source>Website</source>
-          <target state="new">Website</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ୱେବ୍‌ସାଇଟ୍</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
@@ -1852,7 +1852,7 @@
         </trans-unit>
         <trans-unit id="SearchTabHeaderText" translate="yes" xml:space="preserve">
           <source>Search results</source>
-          <target state="new">Search results</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ସନ୍ଧାନ ଫଳାଫଳ</target>
         </trans-unit>
         <trans-unit id="SettingsAboutContributorsListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>See who contributed to Files</source>
@@ -1876,11 +1876,11 @@
         </trans-unit>
         <trans-unit id="PropertiesDialogTabDetails.Content" translate="yes" xml:space="preserve">
           <source>Details</source>
-          <target state="new">Details</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ସବିଶେଷ</target>
         </trans-unit>
         <trans-unit id="UpdateConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
           <source>No</source>
-          <target state="new">No</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ନାଁ</target>
         </trans-unit>
         <trans-unit id="UpdateConsentDialogContent" translate="yes" xml:space="preserve">
           <source>Do you want to download and install the latest version of Files?</source>
@@ -1888,27 +1888,27 @@
         </trans-unit>
         <trans-unit id="UpdateConsentDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Yes</source>
-          <target state="new">Yes</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ହଁ</target>
         </trans-unit>
         <trans-unit id="UpdateConsentDialogTitle" translate="yes" xml:space="preserve">
           <source>Updates Available</source>
-          <target state="new">Updates Available</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଅଦ୍ୟତନଗୁଡିକ ଉପଲବ୍ଧ</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersHideSystemItems.Header" translate="yes" xml:space="preserve">
           <source>Hide protected operating system files (Recommended)</source>
-          <target state="new">Hide protected operating system files (Recommended)</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ସୁରକ୍ଷିତ ଅପରେଟିଂ ସିଷ୍ଟମ୍ ଫାଇଲ୍‌ଗୁଡ଼ିକୁ (ଅନୁମୋଦିତ) ଲୁଚାନ୍ତୁ</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Hide protected operating system files (Recommended)</source>
-          <target state="new">Hide protected operating system files (Recommended)</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ସୁରକ୍ଷିତ ଅପରେଟିଂ ସିଷ୍ଟମ୍ ଫାଇଲ୍‌ଗୁଡ଼ିକୁ (ଅନୁମୋଦିତ) ଲୁଚାନ୍ତୁ</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNewFile.Text" translate="yes" xml:space="preserve">
           <source>File</source>
-          <target state="new">File</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଫାଇଲ୍:</target>
         </trans-unit>
         <trans-unit id="AddDialogListFileHeader" translate="yes" xml:space="preserve">
           <source>File</source>
-          <target state="new">File</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଫାଇଲ୍:</target>
         </trans-unit>
         <trans-unit id="AddDialogListFileSubHeader" translate="yes" xml:space="preserve">
           <source>Creates an empty file</source>
@@ -1916,7 +1916,7 @@
         </trans-unit>
         <trans-unit id="NewFile" translate="yes" xml:space="preserve">
           <source>New File</source>
-          <target state="new">New File</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ନୂତନ ଫାଇଲ୍</target>
         </trans-unit>
         <trans-unit id="SettingsSearchUnindexedItems.Header" translate="yes" xml:space="preserve">
           <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
@@ -1928,7 +1928,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesContextMenu.Text" translate="yes" xml:space="preserve">
           <source>Context Menu</source>
-          <target state="new">Context Menu</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ପ୍ରସଙ୍ଗ ମେନୁ</target>
         </trans-unit>
         <trans-unit id="originalPathColumn.Header" translate="yes" xml:space="preserve">
           <source>Original path</source>
@@ -1940,15 +1940,15 @@
         </trans-unit>
         <trans-unit id="AppBarButtonAdd.Label" translate="yes" xml:space="preserve">
           <source>Add</source>
-          <target state="new">Add</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଯୋଡନ୍ତୁ</target>
         </trans-unit>
         <trans-unit id="AppBarButtonEdit.Label" translate="yes" xml:space="preserve">
           <source>Edit</source>
-          <target state="new">Edit</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ସଂପାଦନା</target>
         </trans-unit>
         <trans-unit id="AppBarButtonRemove.Label" translate="yes" xml:space="preserve">
           <source>Remove</source>
-          <target state="new">Remove</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ଅପସାରଣ</target>
         </trans-unit>
         <trans-unit id="SettingsUseFileListCache.Header" translate="yes" xml:space="preserve">
           <source>Cache files and folders for better performance</source>
@@ -1956,7 +1956,7 @@
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogCloseButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ବାତିଲ୍</target>
         </trans-unit>
       </group>
     </body>
