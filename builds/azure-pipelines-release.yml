@@ -76,6 +76,7 @@ steps:
     PathtoPublish: '$(build.artifactstagingdirectory)'
     
 - task: store-flight@0
+  timeoutInMinutes: 0
   inputs:
     serviceEndpoint: 'Files'
     appId: '9NGHP3DX8HDX'
@@ -85,3 +86,4 @@ steps:
     skipPolling: false
     deletePackages: true
     numberOfPackagesToKeep: '5'
+    isMandatoryUpdate: true
