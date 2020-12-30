@@ -160,9 +160,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid>
-            <controls:SidebarControl 
-                x:Name="SidebarControl" 
-                EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}" />
+            <controls:SidebarControl x:Name="SidebarControl" EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}" />
         </Grid>
 
         <Grid Grid.Column="1">
@@ -221,10 +219,10 @@
                         x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                         ClearSelectionInvokedCommand="{x:Bind InteractionOperations.ClearContentPageSelection, Mode=OneWay}"
                         DirectoryPropertiesViewModel="{x:Bind ContentPage.DirectoryPropertiesViewModel, Mode=OneWay}"
+                        FolderSettings="{x:Bind InstanceViewModel.FolderSettings, Mode=OneWay}"
                         InvertSelectionInvokedCommand="{x:Bind InteractionOperations.InvertContentPageSelction, Mode=OneWay}"
                         SelectAllInvokedCommand="{x:Bind InteractionOperations.SelectAllContentPageItems, Mode=OneWay}"
-                        SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel, Mode=OneWay}"
-                        FolderSettings="{x:Bind InstanceViewModel.FolderSettings, Mode=OneWay}"/>
+                        SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel, Mode=OneWay}" />
                 </Grid>
             </Custom:DropShadowPanel>
         </Grid>

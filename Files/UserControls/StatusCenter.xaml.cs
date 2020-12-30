@@ -130,7 +130,8 @@ namespace Files.UserControls
         #region Public Properties
 
         private float progress = 0.0f;
-        public float Progress 
+
+        public float Progress
         {
             get => progress;
             set

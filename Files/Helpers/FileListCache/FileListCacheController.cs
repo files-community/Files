@@ -6,6 +6,7 @@ namespace Files.Helpers.FileListCache
     internal class FileListCacheController : IFileListCache
     {
         private static FileListCacheController instance;
+
         public static FileListCacheController GetInstance()
         {
             return instance ??= new FileListCacheController();

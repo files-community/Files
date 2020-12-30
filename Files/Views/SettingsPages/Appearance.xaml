@@ -40,9 +40,9 @@
                     MinWidth="200"
                     MaxWidth="250"
                     Header="App theme"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     ItemsSource="{Binding Themes}"
-                    SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}" />
+                    SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}" />
 
                 <StackPanel
                     Width="Auto"
@@ -55,9 +55,9 @@
                         MinWidth="200"
                         MaxWidth="250"
                         Header="Date format"
+                        HeaderTemplate="{StaticResource CustomHeaderStyle}"
                         ItemsSource="{Binding DateFormats}"
-                        SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}"
-                        HeaderTemplate="{StaticResource CustomHeaderStyle}" />
+                        SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}" />
 
                     <HyperlinkButton
                         x:Uid="SettingsAppearanceDateFormatsTip"

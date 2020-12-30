@@ -19,8 +19,8 @@
 
     <Grid RowSpacing="25">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid x:Name="SubtitleArea">
             <TextBlock
@@ -28,9 +28,10 @@
                 x:Uid="AddDialogDescription"
                 Text="Choose a type for this new item below" />
         </Grid>
-        <Grid x:Name="SelectionListContent"
-              Grid.Row="1"
-              HorizontalAlignment="Stretch">
+        <Grid
+            x:Name="SelectionListContent"
+            Grid.Row="1"
+            HorizontalAlignment="Stretch">
             <ListView
                 x:Name="AddItemsListView"
                 Width="400"
@@ -42,8 +43,7 @@
                     <DataTemplate x:DataType="local:AddListItem">
                         <Grid Height="50">
                             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                                <Grid Margin="0,0,10,0"
-                                      VerticalAlignment="Center">
+                                <Grid Margin="0,0,10,0" VerticalAlignment="Center">
                                     <Viewbox
                                         x:Name="IconRoot"
                                         Width="24"
