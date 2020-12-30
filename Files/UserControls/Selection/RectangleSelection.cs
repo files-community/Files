@@ -117,6 +117,5 @@ namespace Files.UserControls.Selection
             var deltaY = Math.Abs(originalY - currentY);
             return deltaX > MinSelectionDelta || deltaY > MinSelectionDelta;
         }
-
     }
 }
