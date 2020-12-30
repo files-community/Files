@@ -388,6 +388,46 @@ namespace Files.UserControls
             }
         }
 
+        private bool isMultiPaneActive;
+
+        public bool IsMultiPaneActive
+        {
+            get
+            {
+                return isMultiPaneActive;
+            }
+            set
+            {
+                if (value != isMultiPaneActive)
+                {
+                    isMultiPaneActive = value;
+                    NotifyPropertyChanged(nameof(IsMultiPaneActive));
+                    NotifyPropertyChanged(nameof(IsPageSecondaryPane));
+                }
+            }
+        }
+
+        public bool IsPageSecondaryPane => !IsMultiPaneActive || !IsPageMainPane;
+
+        private bool isPageMainPane;
+
+        public bool IsPageMainPane
+        {
+            get
+            {
+                return isPageMainPane;
+            }
+            set
+            {
+                if (value != isPageMainPane)
+                {
+                    isPageMainPane = value;
+                    NotifyPropertyChanged(nameof(IsPageMainPane));
+                    NotifyPropertyChanged(nameof(IsPageSecondaryPane));
+                }
+            }
+        }
+
         private bool areKeyboardAcceleratorsEnabled;
 
         public bool AreKeyboardAcceleratorsEnabled

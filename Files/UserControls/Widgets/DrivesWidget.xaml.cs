@@ -4,6 +4,7 @@ using Files.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
@@ -116,10 +117,8 @@ namespace Files.UserControls.Widgets
 
         private void MenuFlyout_Opening(object sender, object e)
         {
-            if (FindName("OpenInNewPane") is MenuFlyoutItemBase menuItem) // Prevent crash if the MenuFlyoutItem is missing
-            {
-                menuItem.Visibility = ShowMultiPaneControls ? Visibility.Visible : Visibility.Collapsed;
-            }
+            var newPaneMenuItem = (sender as MenuFlyout).Items.Single(x => x.Name == "OpenInNewPane");
+            newPaneMenuItem.Visibility = ShowMultiPaneControls ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }

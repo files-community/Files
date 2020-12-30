@@ -586,7 +586,8 @@ namespace Files
                 UnloadMenuFlyoutItemByName("SidebarPinItem");
                 UnloadMenuFlyoutItemByName("OpenInNewTab");
                 UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
-
+                UnloadMenuFlyoutItemByName("OpenInNewPane");
+                
                 if (SelectedItems.Count == 1)
                 {
                     if (!string.IsNullOrEmpty(SelectedItem.FileExtension))
@@ -682,6 +683,15 @@ namespace Files
                 {
                     UnloadMenuFlyoutItemByName("OpenInNewTab");
                     UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
+                }
+
+                if (SelectedItems.Count == 1 && ParentShellPageInstance.IsMultiPaneEnabled && ParentShellPageInstance.IsPageMainPane)
+                {
+                    LoadMenuFlyoutItemByName("OpenInNewPane");
+                }
+                else
+                {
+                    UnloadMenuFlyoutItemByName("OpenInNewPane");
                 }
             }
 
@@ -878,7 +888,10 @@ namespace Files
 
             e.Handled = true;
             ListedItem rowItem = GetItemFromElement(sender);
-            await ParentShellPageInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, true);
+            if (rowItem != null)
+            {
+                await ParentShellPageInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, true);
+            }
             deferral.Complete();
         }
 

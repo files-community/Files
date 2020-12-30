@@ -957,7 +957,7 @@
                 Width="36"
                 Height="32"
                 Margin="2,0,2,0"
-                x:Load="{x:Bind converters:MultiBooleanConverter.Convert(AppSettings.IsVerticalTabFlyoutEnabled, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible), Mode=OneWay}"
+                x:Load="{x:Bind converters:MultiBooleanConverter.OrAndConvert(AppSettings.IsVerticalTabFlyoutEnabled, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible, IsPageSecondaryPane), Mode=OneWay}"
                 AllowDrop="True"
                 AutomationProperties.Name="Vertical tab strip"
                 Background="Transparent"
@@ -1009,6 +1009,8 @@
                         <MenuFlyoutItem
                             x:Name="NavToolbarNewPane"
                             x:Uid="NavigationToolbarNewPane"
+                            x:Load="{x:Bind ShowMultiPaneControls, Mode=OneWay}"
+                            IsEnabled="{x:Bind IsMultiPaneActive, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
                             Command="{x:Bind NewPaneInvokedCommand, Mode=OneWay}"
                             Text="New Pane">
                             <MenuFlyoutItem.Icon>

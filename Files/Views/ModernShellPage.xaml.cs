@@ -103,10 +103,20 @@ namespace Files.Views
             }
         }
 
+        private bool isPageMainPane;
+
         public bool IsPageMainPane
         {
-            get { return (bool)GetValue(IsPageMainPaneProperty); }
-            set { SetValue(IsPageMainPaneProperty, value); }
+            get => isPageMainPane;
+            set
+            {
+                if (value != isPageMainPane)
+                {
+                    isPageMainPane = value;
+                    NotifyPropertyChanged(nameof(IsPageMainPane));
+                    NotifyPropertyChanged(nameof(IsPageSecondaryPane));
+                }
+            }
         }
 
         public static readonly DependencyProperty IsPageMainPaneProperty =
@@ -136,6 +146,8 @@ namespace Files.Views
                 }
             }
         }
+
+        public bool IsPageSecondaryPane => !IsMultiPaneActive || !IsPageMainPane;
 
         public Control OperationsControl => null;
         public Type CurrentPageType => ItemDisplayFrame.SourcePageType;
@@ -210,9 +222,6 @@ namespace Files.Views
             {
                 case nameof(AppSettings.SidebarWidth):
                     NotifyPropertyChanged(nameof(SidebarWidth));
-                    break;
-                case nameof(AppSettings.IsDualPaneEnabled):
-                    NotifyPropertyChanged(nameof(ShowMultiPaneControls));
                     break;
             }
         }
@@ -830,7 +839,36 @@ namespace Files.Views
             }
         }
 
-        public bool ShowMultiPaneControls => PaneHolder != null && IsPageMainPane && AppSettings.IsDualPaneEnabled;
+        private bool isMultiPaneActive;
+
+        public bool IsMultiPaneActive
+        {
+            get => isMultiPaneActive;
+            set
+            {
+                if (value != isMultiPaneActive)
+                {
+                    isMultiPaneActive = value;
+                    NotifyPropertyChanged(nameof(IsMultiPaneActive));
+                    NotifyPropertyChanged(nameof(IsPageSecondaryPane));
+                }
+            }
+        }
+
+        private bool isMultiPaneEnabled;
+
+        public bool IsMultiPaneEnabled
+        {
+            get => isMultiPaneEnabled;
+            set
+            {
+                if (value != isMultiPaneEnabled)
+                {
+                    isMultiPaneEnabled = value;
+                    NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
+                }
+            }
+        }
 
         private IPaneHolder paneHolder;
 
@@ -843,7 +881,6 @@ namespace Files.Views
                 {
                     paneHolder = value;
                     NotifyPropertyChanged(nameof(PaneHolder));
-                    NotifyPropertyChanged(nameof(ShowMultiPaneControls));
                 }
             }
         }

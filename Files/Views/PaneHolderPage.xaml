@@ -6,7 +6,7 @@
       xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
       xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-      xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+      xmlns:converters="using:Files.Converters"
       xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -84,11 +84,6 @@
 
             <SolidColorBrush x:Key="PaneSelectedBorderBrush"
                              Color="{ThemeResource SystemAccentColorLight1}" />
-
-            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
-            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"
-                                                  FalseValue="Collapsed"
-                                                  TrueValue="Visible" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -108,6 +103,8 @@
                                    IsPageMainPane="True"
                                    NavParams="{x:Bind NavParamsLeft, Mode=OneWay}"
                                    PaneHolder="{x:Bind}"
+                                   IsMultiPaneEnabled="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
+                                   IsMultiPaneActive="{x:Bind IsRightPaneVisible, Mode=OneWay}"
                                    ContentChanged="Pane_ContentChanged" />
         </Border>
 
@@ -119,6 +116,8 @@
                                    IsPageMainPane="False"
                                    NavParams="{x:Bind NavParamsRight, Mode=OneWay}"
                                    PaneHolder="{x:Bind}"
+                                   IsMultiPaneEnabled="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
+                                   IsMultiPaneActive="{x:Bind IsRightPaneVisible, Mode=OneWay}"
                                    ContentChanged="Pane_ContentChanged" />
 
             <animations:Implicit.ShowAnimations>
@@ -165,23 +164,29 @@
         </Custom:GridSplitter>
 
         <Interactivity:Interaction.Behaviors>
-            <Core:DataTriggerBehavior Binding="{x:Bind IsLeftPaneActive, Mode=OneWay}"
+            <Core:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsLeftPaneActive, IsRightPaneVisible), Mode=OneWay}"
                                       Value="True">
                 <Core:ChangePropertyAction PropertyName="CurrentInstanceBorderBrush"
                                            TargetObject="{Binding ElementName=PaneLeft}"
                                            Value="{StaticResource PaneSelectedBorderBrush}" />
-                <Core:ChangePropertyAction PropertyName="CurrentInstanceBorderBrush"
-                                           TargetObject="{Binding ElementName=PaneRight}"
-                                           Value="{ThemeResource SystemControlTransparentBrush}" />
             </Core:DataTriggerBehavior>
-            <Core:DataTriggerBehavior Binding="{x:Bind IsRightPaneActive, Mode=OneWay}"
-                                      Value="True">
+            <Core:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsLeftPaneActive, IsRightPaneVisible), Mode=OneWay}"
+                                      Value="False">
                 <Core:ChangePropertyAction PropertyName="CurrentInstanceBorderBrush"
                                            TargetObject="{Binding ElementName=PaneLeft}"
-                                           Value="{ThemeResource SystemControlTransparentBrush}" />
+                                           Value="{StaticResource SystemControlTransparentBrush}" />
+            </Core:DataTriggerBehavior>
+            <Core:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsRightPaneActive, IsRightPaneVisible), Mode=OneWay}"
+                                      Value="True">
                 <Core:ChangePropertyAction PropertyName="CurrentInstanceBorderBrush"
                                            TargetObject="{Binding ElementName=PaneRight}"
                                            Value="{StaticResource PaneSelectedBorderBrush}" />
+            </Core:DataTriggerBehavior>
+            <Core:DataTriggerBehavior Binding="{x:Bind converters:MultiBooleanConverter.AndConvert(IsRightPaneActive, IsRightPaneVisible), Mode=OneWay}"
+                                      Value="False">
+                <Core:ChangePropertyAction PropertyName="CurrentInstanceBorderBrush"
+                                           TargetObject="{Binding ElementName=PaneRight}"
+                                           Value="{StaticResource SystemControlTransparentBrush}" />
             </Core:DataTriggerBehavior>
             <Core:DataTriggerBehavior Binding="{x:Bind IsRightPaneVisible, Mode=OneWay}"
                                       Value="True">

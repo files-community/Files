@@ -73,6 +73,8 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+
+            <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
         </ResourceDictionary>
     </Page.Resources>
 
@@ -174,7 +176,7 @@
             <controls:SidebarControl 
                 x:Name="SidebarControl"
                 x:Load="{x:Bind IsPageMainPane}"
-                CanOpenInNewPane="{x:Bind ShowMultiPaneControls, Mode=OneWay}"
+                CanOpenInNewPane="{x:Bind IsMultiPaneEnabled, Mode=OneWay}"
                 Loaded="SidebarControl_Loaded"
                 EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}" />
         </Grid>
@@ -200,7 +202,7 @@
                     <Grid
                         x:Name="SmallWindowTitlebar"
                         Height="30"
-                        x:Load="{x:Bind converters1:MultiBooleanConverter.Convert(AppSettings.IsVerticalTabFlyoutEnabled, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible), Mode=OneWay}"
+                        x:Load="{x:Bind converters1:MultiBooleanConverter.OrConvert(AppSettings.IsVerticalTabFlyoutEnabled, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible), Mode=OneWay}"
                         Background="Transparent"
                         Loaded="SmallWindowTitlebar_Loaded" />
 
@@ -211,7 +213,9 @@
                             Margin="10"
                             x:FieldModifier="public"
                             AreKeyboardAcceleratorsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-                            ShowMultiPaneControls="{x:Bind ShowMultiPaneControls, Mode=OneWay}"
+                            ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}"
+                            IsMultiPaneActive="{x:Bind IsMultiPaneActive, Mode=OneWay}"
+                            IsPageMainPane="{x:Bind IsPageMainPane, Mode=OneWay}"
                             CanCreateFileInPage="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                             CanOpenTerminalInPage="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
                             CopyPathInvokedCommand="{x:Bind InteractionOperations.CopyPathOfWorkingDirectory, Mode=OneWay}"
@@ -238,6 +242,7 @@
                         x:Name="StatusBarControl"
                         Grid.Row="3"
                         x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                        ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}"
                         ClearSelectionInvokedCommand="{x:Bind InteractionOperations.ClearContentPageSelection, Mode=OneWay}"
                         DirectoryPropertiesViewModel="{x:Bind ContentPage.DirectoryPropertiesViewModel, Mode=OneWay}"
                         FolderSettings="{x:Bind InstanceViewModel.FolderSettings, Mode=OneWay}"
