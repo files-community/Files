@@ -115,7 +115,7 @@ namespace Files.ViewModels
                 navigated = res;
             }
 
-            if (value == "Home")
+            if (value == "Home" || value == "NewTab".GetLocalized())
             {
                 _currentStorageFolder = null;
             }
@@ -803,7 +803,6 @@ namespace Files.ViewModels
                 _filesAndFolders.Clear();
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
 
                 AssociatedInstance.NavigationToolbar.CanGoBack = AssociatedInstance.ContentFrame.CanGoBack;
                 AssociatedInstance.NavigationToolbar.CanGoForward = AssociatedInstance.ContentFrame.CanGoForward;
@@ -815,7 +814,6 @@ namespace Files.ViewModels
                     var orderedList = OrderFiles2(cacheEntry.FileList);
                     OrderFiles(orderedList);
                     Debug.WriteLine($"Loading of items from cache in {WorkingDirectory} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
-                    App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                     IsLoadingItems = false;
                 }
 
@@ -845,7 +843,6 @@ namespace Files.ViewModels
                 stopwatch.Stop();
                 Debug.WriteLine($"Loading of items in {WorkingDirectory} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
                 AssociatedInstance.NavigationToolbar.CanRefresh = true;
-                App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                 IsLoadingItems = false;
 
                 if (!string.IsNullOrWhiteSpace(previousDir))

@@ -65,6 +65,8 @@ namespace Files.ViewModels
             Analytics.TrackEvent("IsAcrylicDisabled " + IsAcrylicDisabled.ToString());
             Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
             Analytics.TrackEvent("IsHorizontalTabStripEnabled " + IsHorizontalTabStripEnabled.ToString());
+            Analytics.TrackEvent("IsDualPaneEnabled " + IsDualPaneEnabled.ToString());
+            Analytics.TrackEvent("AlwaysOpenDualPaneInNewTab " + AlwaysOpenDualPaneInNewTab.ToString());
             Analytics.TrackEvent("IsVerticalTabFlyoutEnabled " + IsVerticalTabFlyoutEnabled.ToString());
             Analytics.TrackEvent("AreHiddenItemsVisible " + AreHiddenItemsVisible.ToString());
             Analytics.TrackEvent("ShowDrivesWidget " + ShowDrivesWidget.ToString());
@@ -403,6 +405,24 @@ namespace Files.ViewModels
         /// Gets or sets a value indicating whether or not to enable the horizontal tab layout.
         /// </summary>
         public bool IsHorizontalTabStripEnabled
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to enable dual pane feature.
+        /// </summary>
+        public bool IsDualPaneEnabled
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to always open a second pane when opening a new tab.
+        /// </summary>
+        public bool AlwaysOpenDualPaneInNewTab
         {
             get => Get(false);
             set => Set(value);

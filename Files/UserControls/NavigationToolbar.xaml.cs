@@ -224,6 +224,25 @@ namespace Files.UserControls
             }
         }
 
+        public static readonly DependencyProperty NewPaneInvokedCommandProperty = DependencyProperty.Register(
+          "NewPaneInvokedCommand",
+          typeof(ICommand),
+          typeof(NavigationToolbar),
+          new PropertyMetadata(null)
+        );
+
+        public ICommand NewPaneInvokedCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(NewPaneInvokedCommandProperty);
+            }
+            set
+            {
+                SetValue(NewPaneInvokedCommandProperty, value);
+            }
+        }
+
         public static readonly DependencyProperty NewTabInvokedCommandProperty = DependencyProperty.Register(
           "NewTabInvokedCommand",
           typeof(ICommand),
@@ -347,6 +366,82 @@ namespace Files.UserControls
                 {
                     clickablePathLoaded = value;
                     NotifyPropertyChanged(nameof(ClickablePathLoaded));
+                }
+            }
+        }
+
+        private bool showMultiPaneControls;
+
+        public bool ShowMultiPaneControls
+        {
+            get
+            {
+                return showMultiPaneControls;
+            }
+            set
+            {
+                if (value != showMultiPaneControls)
+                {
+                    showMultiPaneControls = value;
+                    NotifyPropertyChanged(nameof(ShowMultiPaneControls));
+                }
+            }
+        }
+
+        private bool isMultiPaneActive;
+
+        public bool IsMultiPaneActive
+        {
+            get
+            {
+                return isMultiPaneActive;
+            }
+            set
+            {
+                if (value != isMultiPaneActive)
+                {
+                    isMultiPaneActive = value;
+                    NotifyPropertyChanged(nameof(IsMultiPaneActive));
+                    NotifyPropertyChanged(nameof(IsPageSecondaryPane));
+                }
+            }
+        }
+
+        public bool IsPageSecondaryPane => !IsMultiPaneActive || !IsPageMainPane;
+
+        private bool isPageMainPane;
+
+        public bool IsPageMainPane
+        {
+            get
+            {
+                return isPageMainPane;
+            }
+            set
+            {
+                if (value != isPageMainPane)
+                {
+                    isPageMainPane = value;
+                    NotifyPropertyChanged(nameof(IsPageMainPane));
+                    NotifyPropertyChanged(nameof(IsPageSecondaryPane));
+                }
+            }
+        }
+
+        private bool areKeyboardAcceleratorsEnabled;
+
+        public bool AreKeyboardAcceleratorsEnabled
+        {
+            get
+            {
+                return areKeyboardAcceleratorsEnabled;
+            }
+            set
+            {
+                if (value != areKeyboardAcceleratorsEnabled)
+                {
+                    areKeyboardAcceleratorsEnabled = value;
+                    NotifyPropertyChanged(nameof(AreKeyboardAcceleratorsEnabled));
                 }
             }
         }

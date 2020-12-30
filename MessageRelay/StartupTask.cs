@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,11 +13,11 @@ namespace MessageRelay
     {
         private Guid _thisConnectionGuid;
         private BackgroundTaskDeferral _backgroundTaskDeferral;
-        private static readonly Dictionary<Guid, AppServiceConnection> Connections;
+        private static readonly ConcurrentDictionary<Guid, AppServiceConnection> Connections;
 
         static StartupTask()
         {
-            Connections = new Dictionary<Guid, AppServiceConnection>();
+            Connections = new ConcurrentDictionary<Guid, AppServiceConnection>();
         }
 
         /// <summary>
@@ -42,7 +43,7 @@ namespace MessageRelay
                     return;
                 }
                 // Save the guid and connection in a *static* list of all connections
-                Connections.Add(_thisConnectionGuid, connection);
+                Connections.TryAdd(_thisConnectionGuid, connection);
                 System.Diagnostics.Debug.WriteLine("Connection opened: " + _thisConnectionGuid);
                 taskInstance.Canceled += OnTaskCancelled;
                 // Listen for incoming app service requests
@@ -147,10 +148,10 @@ namespace MessageRelay
 
         private void RemoveConnection(Guid key)
         {
-            var connection = Connections[key];
-            connection.Dispose();
-            connection = null;
-            Connections.Remove(key);
+            if (Connections.TryRemove(key, out var connection))
+            {
+                connection.Dispose();
+            }
         }
     }
 }

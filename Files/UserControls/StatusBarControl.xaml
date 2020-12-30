@@ -156,7 +156,8 @@
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
-            <Grid>
+            <Grid x:Name="StatusCenterGrid"
+                  Visibility="{x:Bind ShowStatusCenter, Mode=OneWay}">
                 <muxc:AnimatedVisualPlayer
                     x:Name="StatusCenterPulseVisualPlayer"
                     AutoPlay="False"

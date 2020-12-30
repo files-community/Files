@@ -1006,7 +1006,7 @@
     <value>Mostra file recenti nella schermata iniziale</value>
   </data>
   <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Mostra un'opzione per copiare il percorso dell'elemento selezionato</value>
+    <value>Mostra un'opzione per copiare il percorso nel menu contestuale</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
     <value>Mostra file e cartelle nascoste</value>
@@ -1456,12 +1456,30 @@
     <value>Aggiungi</value>
   </data>
   <data name="AppBarButtonEdit.Label" xml:space="preserve">
-    <value>Modificare</value>
+    <value>Modifica</value>
   </data>
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Rimuovi</value>
   </data>
+  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
+    <value>Memorizza file e cartelle nella cache per migliorare le prestazioni</value>
+  </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Annulla</value>
+  </data>
+  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
+    <value>Apri sempre le nuove schede in modalità doppia-finestra</value>
+  </data>
+  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
+    <value>Abilita la modalità doppia-finestra</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
+    <value>Apri nel pannello secondario</value>
+  </data>
+  <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
+    <value>Nuovo pannello</value>
+  </data>
+  <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
+    <value>Apri nel pannello secondario</value>
   </data>
 </root>

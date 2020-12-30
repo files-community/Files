@@ -768,9 +768,13 @@
                     &#xe921;
                 </Button.Content>
                 <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="XButton1" />
-                    <KeyboardAccelerator Key="Back" />
-                    <KeyboardAccelerator Key="Left" Modifiers="Menu" />
+                    <KeyboardAccelerator Key="XButton1"
+                                         IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
+                    <KeyboardAccelerator Key="Back"
+                                         IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
+                    <KeyboardAccelerator Key="Left"
+                                         Modifiers="Menu"
+                                         IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
                 </Button.KeyboardAccelerators>
             </Button>
 
@@ -795,8 +799,10 @@
                     &#xe92b;
                 </Button.Content>
                 <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="XButton2" />
-                    <KeyboardAccelerator Key="Right" Modifiers="Menu" />
+                    <KeyboardAccelerator Key="XButton2"
+                                         IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
+                    <KeyboardAccelerator Key="Right" Modifiers="Menu"
+                                         IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
                 </Button.KeyboardAccelerators>
             </Button>
 
@@ -821,7 +827,9 @@
                     &#xe936;
                 </Button.Content>
                 <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="Up" Modifiers="Menu" />
+                    <KeyboardAccelerator Key="Up"
+                                         Modifiers="Menu"
+                                         IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
                 </Button.KeyboardAccelerators>
             </Button>
 
@@ -845,7 +853,8 @@
                     &#xe916;
                 </Button.Content>
                 <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="F5" />
+                    <KeyboardAccelerator Key="F5"
+                                         IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
                 </Button.KeyboardAccelerators>
             </Button>
         </StackPanel>
@@ -948,7 +957,7 @@
                 Width="36"
                 Height="32"
                 Margin="2,0,2,0"
-                x:Load="{x:Bind converters:MultiBooleanConverter.Convert(AppSettings.IsVerticalTabFlyoutEnabled, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible), Mode=OneWay}"
+                x:Load="{x:Bind converters:MultiBooleanConverter.OrAndConvert(AppSettings.IsVerticalTabFlyoutEnabled, local1:App.InteractionViewModel.IsVerticalTabFlyoutVisible, IsPageSecondaryPane), Mode=OneWay}"
                 AllowDrop="True"
                 AutomationProperties.Name="Vertical tab strip"
                 Background="Transparent"
@@ -997,6 +1006,23 @@
                 Visibility="Visible">
                 <Button.Flyout>
                     <MenuFlyout Opening="NavMoreButtonFlyout_Opening" Placement="BottomEdgeAlignedRight">
+                        <MenuFlyoutItem
+                            x:Name="NavToolbarNewPane"
+                            x:Uid="NavigationToolbarNewPane"
+                            x:Load="{x:Bind ShowMultiPaneControls, Mode=OneWay}"
+                            IsEnabled="{x:Bind IsMultiPaneActive, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                            Command="{x:Bind NewPaneInvokedCommand, Mode=OneWay}"
+                            Text="New Pane">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA2F;" />
+                            </MenuFlyoutItem.Icon>
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator
+                                    Key="Right"
+                                    IsEnabled="False"
+                                    Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
                         <MenuFlyoutItem
                             x:Name="NavToolbarNewTab"
                             x:Uid="NavigationToolbarNewTab"
