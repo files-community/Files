@@ -269,6 +269,7 @@ namespace Files.Filesystem
 
         // For recycle bin elements (path + name)
         public string ItemOriginalPath { get; set; }
+
         // For recycle bin elements (path)
         public string ItemOriginalFolder => Path.IsPathRooted(ItemOriginalPath) ? Path.GetDirectoryName(ItemOriginalPath) : ItemOriginalPath;
     }

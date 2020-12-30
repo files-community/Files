@@ -19,6 +19,7 @@ namespace Files
         public BaseLayout ContentPage { get; }
         public Control OperationsControl { get; }
         public Type CurrentPageType { get; }
+        public IFilesystemHelpers FilesystemHelpers { get; }
         public INavigationControlItem SidebarSelectedItem { get; set; }
         public INavigationToolbar NavigationToolbar { get; }
         public bool IsCurrentInstance { get; set; }

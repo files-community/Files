@@ -1134,11 +1134,17 @@
   <data name="PropertyAperture" xml:space="preserve">
     <value>Rekesz</value>
   </data>
+  <data name="PropertyPeopleNames" xml:space="preserve">
+    <value>Személynevek</value>
+  </data>
   <data name="PropertyChannelCount" xml:space="preserve">
     <value>Csatornák száma</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
     <value>Formátum</value>
+  </data>
+  <data name="PropertySampleRate" xml:space="preserve">
+    <value>Mintavételi frekvencia</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>Album előadója</value>
@@ -1170,8 +1176,17 @@
   <data name="PropertyDuration" xml:space="preserve">
     <value>Hossz</value>
   </data>
+  <data name="PropertyFrameCount" xml:space="preserve">
+    <value>Képkockák száma</value>
+  </data>
+  <data name="PropertyProtectionType" xml:space="preserve">
+    <value>Védelem típusa</value>
+  </data>
   <data name="PropertyDateReleased" xml:space="preserve">
     <value>Megjelenés dátuma</value>
+  </data>
+  <data name="PropertySeriesName" xml:space="preserve">
+    <value>Adatsor neve</value>
   </data>
   <data name="PropertyProducer" xml:space="preserve">
     <value>Producer</value>
@@ -1199,6 +1214,9 @@
   </data>
   <data name="PropertyContributor" xml:space="preserve">
     <value>Közreműködő</value>
+  </data>
+  <data name="PropertyLastAuthor" xml:space="preserve">
+    <value>Legutóbb módosította</value>
   </data>
   <data name="PropertyRevisionNumber" xml:space="preserve">
     <value>Felülvizsgálat száma</value>
@@ -1388,5 +1406,26 @@
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>Új Fájl</value>
+  </data>
+  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
+    <value>Helyi menü</value>
+  </data>
+  <data name="originalPathColumn.Header" xml:space="preserve">
+    <value>Eredeti elérési út:</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
+    <value>Eredeti elérési út:</value>
+  </data>
+  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+    <value>Hozzáadás</value>
+  </data>
+  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+    <value>Szerkesztés parancsot.</value>
+  </data>
+  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+    <value>Törlés</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
+    <value>Mégse</value>
   </data>
 </root>

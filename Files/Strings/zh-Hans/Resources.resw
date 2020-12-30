@@ -1014,4 +1014,316 @@
   <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
     <value>显示隐藏的文件和文件夹</value>
   </data>
+  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+    <value>弹出</value>
+  </data>
+  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+    <value>重复打开选项卡</value>
+  </data>
+  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+    <value>新选项卡</value>
+  </data>
+  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
+    <value>搜索</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
+    <value>只读</value>
+  </data>
+  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
+    <value>隐藏</value>
+  </data>
+  <data name="PropertyTitle" xml:space="preserve">
+    <value>标题</value>
+  </data>
+  <data name="PropertySubject" xml:space="preserve">
+    <value>使用者</value>
+  </data>
+  <data name="PropertyComment" xml:space="preserve">
+    <value>评论</value>
+  </data>
+  <data name="PropertyCopyright" xml:space="preserve">
+    <value>版权</value>
+  </data>
+  <data name="PropertyDateCreated" xml:space="preserve">
+    <value>创建日期</value>
+  </data>
+  <data name="PropertyDateModified" xml:space="preserve">
+    <value>修改日期</value>
+  </data>
+  <data name="PropertyBitDepth" xml:space="preserve">
+    <value>位深度</value>
+  </data>
+  <data name="PropertyDimensions" xml:space="preserve">
+    <value>维度</value>
+  </data>
+  <data name="PropertyHorizontalResolution" xml:space="preserve">
+    <value>水平分辨率</value>
+  </data>
+  <data name="PropertyVerticalResolution" xml:space="preserve">
+    <value>垂直分辨率</value>
+  </data>
+  <data name="PropertyHorizontalSize" xml:space="preserve">
+    <value>水平大小</value>
+  </data>
+  <data name="PropertyVerticalSize" xml:space="preserve">
+    <value>垂直大小</value>
+  </data>
+  <data name="PropertyLatitude" xml:space="preserve">
+    <value>纬度</value>
+  </data>
+  <data name="PropertyLongitude" xml:space="preserve">
+    <value>经度</value>
+  </data>
+  <data name="PropertyAltitude" xml:space="preserve">
+    <value>高度</value>
+  </data>
+  <data name="PropertyCameraModel" xml:space="preserve">
+    <value>照相机型号</value>
+  </data>
+  <data name="PropertyExposureTime" xml:space="preserve">
+    <value>曝光时间</value>
+  </data>
+  <data name="PropertyFocalLength" xml:space="preserve">
+    <value>焦距</value>
+  </data>
+  <data name="PropertyAperture" xml:space="preserve">
+    <value>光圈</value>
+  </data>
+  <data name="PropertyDateTaken" xml:space="preserve">
+    <value>拍摄日期</value>
+  </data>
+  <data name="PropertyChannelCount" xml:space="preserve">
+    <value>频道计数</value>
+  </data>
+  <data name="PropertyCompression" xml:space="preserve">
+    <value>压缩</value>
+  </data>
+  <data name="PropertyFormat" xml:space="preserve">
+    <value>格式</value>
+  </data>
+  <data name="PropertySampleRate" xml:space="preserve">
+    <value>采样率</value>
+  </data>
+  <data name="PropertyAlbumArtist" xml:space="preserve">
+    <value>唱片集艺术家:</value>
+  </data>
+  <data name="PropertyAlbumTitle" xml:space="preserve">
+    <value>唱片集标题</value>
+  </data>
+  <data name="PropertyArtist" xml:space="preserve">
+    <value>艺术家</value>
+  </data>
+  <data name="PropertyComposer" xml:space="preserve">
+    <value>作曲</value>
+  </data>
+  <data name="PropertyConductor" xml:space="preserve">
+    <value>指挥家</value>
+  </data>
+  <data name="PropertyGenre" xml:space="preserve">
+    <value>类型</value>
+  </data>
+  <data name="PropertyTrackNumber" xml:space="preserve">
+    <value>曲目号</value>
+  </data>
+  <data name="PropertyDuration" xml:space="preserve">
+    <value>持续时间</value>
+  </data>
+  <data name="PropertyFrameCount" xml:space="preserve">
+    <value>帧数</value>
+  </data>
+  <data name="PropertyProtectionType" xml:space="preserve">
+    <value>保护类型</value>
+  </data>
+  <data name="PropertyContentDistributor" xml:space="preserve">
+    <value>内容分发商</value>
+  </data>
+  <data name="PropertyDateReleased" xml:space="preserve">
+    <value>发布日期</value>
+  </data>
+  <data name="PropertySeriesName" xml:space="preserve">
+    <value>系列名称</value>
+  </data>
+  <data name="PropertyProducer" xml:space="preserve">
+    <value>创建器</value>
+  </data>
+  <data name="PropertyPublisher" xml:space="preserve">
+    <value>发布者</value>
+  </data>
+  <data name="PropertyWriter" xml:space="preserve">
+    <value>作者</value>
+  </data>
+  <data name="PropertyYear" xml:space="preserve">
+    <value>年</value>
+  </data>
+  <data name="PropertySectionCore" xml:space="preserve">
+    <value>核心</value>
+  </data>
+  <data name="PropertySectionImage" xml:space="preserve">
+    <value>图像</value>
+  </data>
+  <data name="PropertySectionPhoto" xml:space="preserve">
+    <value>照片</value>
+  </data>
+  <data name="PropertySectionGPS" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="PropertySectionMedia" xml:space="preserve">
+    <value>媒体</value>
+  </data>
+  <data name="PropertySectionAudio" xml:space="preserve">
+    <value>音频</value>
+  </data>
+  <data name="PropertySectionMusic" xml:space="preserve">
+    <value>音乐</value>
+  </data>
+  <data name="PropertyAddress" xml:space="preserve">
+    <value>地址</value>
+  </data>
+  <data name="PropertyColorSpace" xml:space="preserve">
+    <value>颜色空间:</value>
+  </data>
+  <data name="PropertyPeopleNames" xml:space="preserve">
+    <value>人员姓名</value>
+  </data>
+  <data name="PropertyContributor" xml:space="preserve">
+    <value>参与者</value>
+  </data>
+  <data name="PropertyLastAuthor" xml:space="preserve">
+    <value>上一作者</value>
+  </data>
+  <data name="PropertyRevisionNumber" xml:space="preserve">
+    <value>修订号</value>
+  </data>
+  <data name="PropertyVersion" xml:space="preserve">
+    <value>版本号</value>
+  </data>
+  <data name="PropertySectionVideo" xml:space="preserve">
+    <value>视频</value>
+  </data>
+  <data name="PropertyDatePrinted" xml:space="preserve">
+    <value>[Date Printed]</value>
+  </data>
+  <data name="PropertyTotalEditingTime" xml:space="preserve">
+    <value>编辑时间总数:</value>
+  </data>
+  <data name="PropertyTemplate" xml:space="preserve">
+    <value>模板:</value>
+  </data>
+  <data name="PropertyWordCount" xml:space="preserve">
+    <value>字数统计</value>
+  </data>
+  <data name="PropertyCharacterCount" xml:space="preserve">
+    <value>字符数</value>
+  </data>
+  <data name="PropertyLineCount" xml:space="preserve">
+    <value>行数</value>
+  </data>
+  <data name="PropertyParagraphCount" xml:space="preserve">
+    <value>段落数</value>
+  </data>
+  <data name="PropertyPageCount" xml:space="preserve">
+    <value>页数</value>
+  </data>
+  <data name="PropertyFrameRate" xml:space="preserve">
+    <value>帧速率</value>
+  </data>
+  <data name="PropertyFrameWidth" xml:space="preserve">
+    <value>帧宽度</value>
+  </data>
+  <data name="PropertyFrameHeight" xml:space="preserve">
+    <value>帧高度</value>
+  </data>
+  <data name="PropertyOrientation" xml:space="preserve">
+    <value>方向</value>
+  </data>
+  <data name="PropertySectionDocument" xml:space="preserve">
+    <value>文档</value>
+  </data>
+  <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
+    <value>重试</value>
+  </data>
+  <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
+    <value>仍然关闭</value>
+  </data>
+  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
+    <value>清除</value>
+  </data>
+  <data name="PropertyColorSpace_Value0" xml:space="preserve">
+    <value>sRGB</value>
+  </data>
+  <data name="PropertyColorSpace_Value65535" xml:space="preserve">
+    <value>未指定</value>
+  </data>
+  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
+    <value>许可证</value>
+  </data>
+  <data name="SettingsAboutLicense.Content" xml:space="preserve">
+    <value>许可证</value>
+  </data>
+  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
+    <value>网站</value>
+  </data>
+  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
+    <value>网站</value>
+  </data>
+  <data name="DragDropWindowText" xml:space="preserve">
+    <value>拖放到此处...</value>
+  </data>
+  <data name="SearchTabHeaderText" xml:space="preserve">
+    <value>搜索结果</value>
+  </data>
+  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+    <value>详细信息</value>
+  </data>
+  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="UpdateConsentDialogTitle" xml:space="preserve">
+    <value>可用更新</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
+    <value>隐藏受保护的操作系统文件(推荐)</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
+    <value>隐藏受保护的操作系统文件(推荐)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="AddDialogListFileHeader" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>新建文件</value>
+  </data>
+  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
+    <value>上下文菜单</value>
+  </data>
+  <data name="originalPathColumn.Header" xml:space="preserve">
+    <value>原路径:</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
+    <value>原路径:</value>
+  </data>
+  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+    <value>移除</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
+    <value>取消</value>
+  </data>
 </root>

@@ -600,4 +600,322 @@
   <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
     <value>תבנית תאריך.</value>
   </data>
+  <data name="PropertyTitle" xml:space="preserve">
+    <value>כותרת</value>
+  </data>
+  <data name="PropertySubject" xml:space="preserve">
+    <value>נושא</value>
+  </data>
+  <data name="PropertyComment" xml:space="preserve">
+    <value>הערה</value>
+  </data>
+  <data name="PropertyCopyright" xml:space="preserve">
+    <value>זכויות יוצרים</value>
+  </data>
+  <data name="PropertyDateCreated" xml:space="preserve">
+    <value>תאריך יצירה</value>
+  </data>
+  <data name="PropertyDateModified" xml:space="preserve">
+    <value>תאריך שינוי</value>
+  </data>
+  <data name="PropertyBitDepth" xml:space="preserve">
+    <value>עומק סיביות</value>
+  </data>
+  <data name="PropertyDimensions" xml:space="preserve">
+    <value>ממדים</value>
+  </data>
+  <data name="PropertyHorizontalResolution" xml:space="preserve">
+    <value>רזולוציה אופקית</value>
+  </data>
+  <data name="PropertyVerticalResolution" xml:space="preserve">
+    <value>רזולוציה אנכית</value>
+  </data>
+  <data name="PropertyHorizontalSize" xml:space="preserve">
+    <value>גודל אופקי</value>
+  </data>
+  <data name="PropertyVerticalSize" xml:space="preserve">
+    <value>גודל אנכי</value>
+  </data>
+  <data name="PropertyLatitude" xml:space="preserve">
+    <value>קו רוחב</value>
+  </data>
+  <data name="PropertyLongitude" xml:space="preserve">
+    <value>קו אורך</value>
+  </data>
+  <data name="PropertyAltitude" xml:space="preserve">
+    <value>‏‏גובה</value>
+  </data>
+  <data name="PropertyCameraModel" xml:space="preserve">
+    <value>דגם מצלמה</value>
+  </data>
+  <data name="PropertyExposureTime" xml:space="preserve">
+    <value>זמן חשיפה</value>
+  </data>
+  <data name="PropertyFocalLength" xml:space="preserve">
+    <value>מרחק מהמוקד</value>
+  </data>
+  <data name="PropertyAperture" xml:space="preserve">
+    <value>‏‏פתח</value>
+  </data>
+  <data name="PropertyDateTaken" xml:space="preserve">
+    <value>תאריך צילום</value>
+  </data>
+  <data name="PropertyChannelCount" xml:space="preserve">
+    <value>ספירת ערוצים</value>
+  </data>
+  <data name="PropertyCompression" xml:space="preserve">
+    <value>דחיסה</value>
+  </data>
+  <data name="PropertyFormat" xml:space="preserve">
+    <value>עיצוב</value>
+  </data>
+  <data name="PropertySampleRate" xml:space="preserve">
+    <value>קצב דגימה</value>
+  </data>
+  <data name="PropertyAlbumArtist" xml:space="preserve">
+    <value>אמן האלבום:</value>
+  </data>
+  <data name="PropertyAlbumTitle" xml:space="preserve">
+    <value>שם אלבום</value>
+  </data>
+  <data name="PropertyArtist" xml:space="preserve">
+    <value>אמן</value>
+  </data>
+  <data name="PropertyComposer" xml:space="preserve">
+    <value>מלחין:</value>
+  </data>
+  <data name="PropertyConductor" xml:space="preserve">
+    <value>מנצח:</value>
+  </data>
+  <data name="PropertyGenre" xml:space="preserve">
+    <value>ז'אנר</value>
+  </data>
+  <data name="PropertyTrackNumber" xml:space="preserve">
+    <value>מספר רצועה</value>
+  </data>
+  <data name="PropertyDuration" xml:space="preserve">
+    <value>משך זמן</value>
+  </data>
+  <data name="PropertySeriesName" xml:space="preserve">
+    <value>שם סידרה</value>
+  </data>
+  <data name="PropertyProducer" xml:space="preserve">
+    <value>מפיק</value>
+  </data>
+  <data name="PropertyPublisher" xml:space="preserve">
+    <value>מפרסם</value>
+  </data>
+  <data name="PropertyWriter" xml:space="preserve">
+    <value>כתבן</value>
+  </data>
+  <data name="PropertyYear" xml:space="preserve">
+    <value>שנה</value>
+  </data>
+  <data name="PropertySectionCore" xml:space="preserve">
+    <value>ליבה</value>
+  </data>
+  <data name="PropertySectionImage" xml:space="preserve">
+    <value>רכיב תמונה</value>
+  </data>
+  <data name="PropertySectionPhoto" xml:space="preserve">
+    <value>תצלום</value>
+  </data>
+  <data name="PropertySectionGPS" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="PropertySectionMedia" xml:space="preserve">
+    <value>מדיה</value>
+  </data>
+  <data name="PropertySectionAudio" xml:space="preserve">
+    <value>שמע</value>
+  </data>
+  <data name="PropertySectionMusic" xml:space="preserve">
+    <value>מוסיקה</value>
+  </data>
+  <data name="PropertyAddress" xml:space="preserve">
+    <value>כתובת</value>
+  </data>
+  <data name="PropertyColorSpace" xml:space="preserve">
+    <value>מרחב צבעים:</value>
+  </data>
+  <data name="PropertyPeopleNames" xml:space="preserve">
+    <value>שמות של אנשים</value>
+  </data>
+  <data name="PropertyContributor" xml:space="preserve">
+    <value>משתתף</value>
+  </data>
+  <data name="PropertyLastAuthor" xml:space="preserve">
+    <value>מחבר אחרון</value>
+  </data>
+  <data name="PropertyRevisionNumber" xml:space="preserve">
+    <value>מספר מהדורה:</value>
+  </data>
+  <data name="PropertyVersion" xml:space="preserve">
+    <value>גירסה</value>
+  </data>
+  <data name="PropertySectionVideo" xml:space="preserve">
+    <value>וידאו</value>
+  </data>
+  <data name="PropertyDatePrinted" xml:space="preserve">
+    <value>[Date Printed]</value>
+  </data>
+  <data name="PropertyTotalEditingTime" xml:space="preserve">
+    <value>זמן עריכה כולל:</value>
+  </data>
+  <data name="PropertyTemplate" xml:space="preserve">
+    <value>תבנית</value>
+  </data>
+  <data name="PropertyWordCount" xml:space="preserve">
+    <value>ספירת מילים</value>
+  </data>
+  <data name="PropertyCharacterCount" xml:space="preserve">
+    <value>ספירת תווים</value>
+  </data>
+  <data name="PropertyLineCount" xml:space="preserve">
+    <value>ספירת שורות</value>
+  </data>
+  <data name="PropertyPageCount" xml:space="preserve">
+    <value>ספירת עמודים</value>
+  </data>
+  <data name="PropertyFrameRate" xml:space="preserve">
+    <value>קצב תמונות</value>
+  </data>
+  <data name="PropertyFrameWidth" xml:space="preserve">
+    <value>רוחב מסגרת</value>
+  </data>
+  <data name="PropertyFrameHeight" xml:space="preserve">
+    <value>גובה מסגרת</value>
+  </data>
+  <data name="PropertyOrientation" xml:space="preserve">
+    <value>כיוון</value>
+  </data>
+  <data name="PropertySectionDocument" xml:space="preserve">
+    <value>‏‏מסמך</value>
+  </data>
+  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>אפשרויות נוספות</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.AutomationProperties.Name" xml:space="preserve">
+    <value>מצב פריסה</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>אפשרויות בחירה</value>
+  </data>
+  <data name="FileItemAutomation" xml:space="preserve">
+    <value>קובץ</value>
+  </data>
+  <data name="FolderItemAutomation" xml:space="preserve">
+    <value>תיקיה</value>
+  </data>
+  <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
+    <value>‏‏העבר לכאן</value>
+  </data>
+  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+    <value>כוננים:</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
+    <value>‏‏הצג קבצים ותיקיות מוסתרים</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>‏‏הצג קבצים ותיקיות מוסתרים</value>
+  </data>
+  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+    <value>‏‏הוצא</value>
+  </data>
+  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+    <value>‏‏שכפל כרטיסיה</value>
+  </data>
+  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+    <value>כרטיסיה חדשה</value>
+  </data>
+  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
+    <value>חיפוש</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
+    <value>לקריאה בלבד</value>
+  </data>
+  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
+    <value>מוסתר</value>
+  </data>
+  <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
+    <value>‏‏ש‏גיאה</value>
+  </data>
+  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
+    <value>נסה שנית</value>
+  </data>
+  <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
+    <value>סגור בכל זאת</value>
+  </data>
+  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
+    <value>ביטול</value>
+  </data>
+  <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
+    <value>נקה</value>
+  </data>
+  <data name="PropertyColorSpace_Value0" xml:space="preserve">
+    <value>sRGB</value>
+  </data>
+  <data name="PropertyColorSpace_Value65535" xml:space="preserve">
+    <value>לא צוין</value>
+  </data>
+  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
+    <value>רשיון</value>
+  </data>
+  <data name="SettingsAboutLicense.Content" xml:space="preserve">
+    <value>רשיון</value>
+  </data>
+  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
+    <value>אתר אינטרנט</value>
+  </data>
+  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
+    <value>אתר אינטרנט</value>
+  </data>
+  <data name="DragDropWindowText" xml:space="preserve">
+    <value>שחרר כאן...</value>
+  </data>
+  <data name="SearchTabHeaderText" xml:space="preserve">
+    <value>תוצאות חיפוש</value>
+  </data>
+  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+    <value>פרטים</value>
+  </data>
+  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+    <value>לא</value>
+  </data>
+  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
+    <value>כן</value>
+  </data>
+  <data name="UpdateConsentDialogTitle" xml:space="preserve">
+    <value>קיימים עדכונים זמינים</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
+    <value>‏‏הסתר קבצים מוגנים של מערכת ההפעלה (מומלץ)</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
+    <value>‏‏הסתר קבצים מוגנים של מערכת ההפעלה (מומלץ)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
+    <value>קובץ</value>
+  </data>
+  <data name="AddDialogListFileHeader" xml:space="preserve">
+    <value>קובץ</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>‏‏קובץ חדש</value>
+  </data>
+  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
+    <value>תפריט תלוי הקשר</value>
+  </data>
+  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+    <value>הוסף</value>
+  </data>
+  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+    <value>ערוך</value>
+  </data>
+  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+    <value>הסר</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
+    <value>ביטול</value>
+  </data>
 </root>
