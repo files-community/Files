@@ -270,8 +270,9 @@ namespace Files.Views.LayoutModes
             if (e.EditingEventArgs is TappedRoutedEventArgs && AppSettings.OpenItemsWithOneclick)
             {
                 // This usually should not happen as the click is handled by ItemPressed
+                // We do not invoke click, as it still can happen
+                // (it is better to miss click, rather than perform an extra one)
                 AllView.CancelEdit(); // Cancel the edit operation
-                ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null); // Open selected files
                 return;
             }
 
