@@ -587,7 +587,7 @@
         </ResourceDictionary>
     </local:BaseLayout.Resources>
 
-    <Grid x:Name="RootGrid" Background="Transparent">
+    <Grid x:Name="RootGrid" Background="Transparent" Tapped="RootGrid_Tapped">
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
                 Key="{x:Bind PlusKey}"
@@ -655,6 +655,7 @@
             CanUserSortColumns="True"
             CellEditEnded="AllView_CellEditEnded"
             CellEditEnding="AllView_CellEditEnding"
+            CurrentCellChanged="AllView_CurrentCellChanged"
             ClipboardCopyMode="None"
             ColumnHeaderHeight="38"
             DoubleTapped="{x:Bind ParentShellPageInstance.InteractionOperations.List_ItemDoubleClick}"

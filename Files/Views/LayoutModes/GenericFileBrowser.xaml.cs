@@ -29,6 +29,7 @@ namespace Files.Views.LayoutModes
     {
         private string oldItemName;
         private DataGridColumn sortedColumn;
+        private bool isAllViewCurrentSlotValid = true;
 
         private static readonly MethodInfo SelectAllMethod = typeof(DataGrid)
             .GetMethod("SelectAll", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -241,6 +242,19 @@ namespace Files.Views.LayoutModes
 
         private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
+            if (!isAllViewCurrentSlotValid)
+            {
+                // We know that previously the user clicked outside of AllView
+                // (which means that logically there is no current cell)
+                // and know clicks again on the cell that AllView believes to be current
+                // (that is why Cell Editing is triggered).
+                // We want to cancel this editing as from end-user perspective it means
+                // single click triggering a rename
+                isAllViewCurrentSlotValid = true;
+                AllView.CancelEdit(); // Cancel the edit operation
+                return;
+            }
+
             if (ParentShellPageInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
             {
                 // Do not rename files and folders inside the recycle bin
@@ -558,6 +572,23 @@ namespace Files.Views.LayoutModes
             {
                 SortedColumn.SortDirection = DataGridSortDirection.Descending;
             }
+        }
+
+        private void RootGrid_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            // We tapped no item. Unfortunately this doesn't change the value of the
+            // CurrentSlot within AllView. As a result, next tap on the item
+            // that AllView considers as "current" will trigger renaming.
+            // To prevent this we remember that current slot is not valid,
+            // And will reset it to true upon selection of another cell
+            // or upon first attempt to edit this cell
+            isAllViewCurrentSlotValid = false;
+        }
+
+        private void AllView_CurrentCellChanged(object sender, EventArgs e)
+        {
+            // The current cell changed meaning that the CurrentSlot should be respected
+            isAllViewCurrentSlotValid = true;
         }
     }
 }
