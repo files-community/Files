@@ -118,10 +118,17 @@ namespace Files.Filesystem
                     !deleteFromRecycleBin ? permanently : deleteFromRecycleBin,
                     associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
 
+                if (Interacts.Interaction.IsAnyContentDialogOpen())
+                {
+                    // Can show only one dialog at a time
+                    banner.Remove();
+                    return ReturnResult.Cancelled;
+                }
                 await dialog.ShowAsync();
 
-                if (dialog.Result != DialogResult.Delete) // Delete selected  items if the result is Yes
+                if (dialog.Result != DialogResult.Delete) // Delete selected items if the result is Yes
                 {
+                    banner.Remove();
                     return ReturnResult.Cancelled; // Return if the result isn't delete
                 }
 
@@ -215,10 +222,17 @@ namespace Files.Filesystem
                     permanently,
                     associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
 
+                if (Interacts.Interaction.IsAnyContentDialogOpen())
+                {
+                    // Can show only one dialog at a time
+                    banner.Remove();
+                    return ReturnResult.Cancelled;
+                }
                 await dialog.ShowAsync();
 
                 if (dialog.Result != DialogResult.Delete) // Delete selected item if the result is Yes
                 {
+                    banner.Remove();
                     return ReturnResult.Cancelled; // Return if the result isn't delete
                 }
 
@@ -286,10 +300,17 @@ namespace Files.Filesystem
                     permanently,
                     associatedInstance.ContentPage.SelectedItemsPropertiesViewModel);
 
+                if (Interacts.Interaction.IsAnyContentDialogOpen())
+                {
+                    // Can show only one dialog at a time
+                    banner.Remove();
+                    return ReturnResult.Cancelled;
+                }
                 await dialog.ShowAsync();
 
                 if (dialog.Result != DialogResult.Delete) // Delete selected item if the result is Yes
                 {
+                    banner.Remove();
                     return ReturnResult.Cancelled; // Return if the result isn't delete
                 }
 
@@ -701,44 +722,6 @@ namespace Files.Filesystem
         #endregion IFilesystemHelpers
 
         #region Public Helpers
-
-        public async static Task<StorageFolder> CloneDirectoryAsync(IStorageFolder sourceFolder, IStorageFolder destinationFolder, string sourceRootName)
-        {
-            StorageFolder createdRoot = await destinationFolder.CreateFolderAsync(sourceRootName, CreationCollisionOption.GenerateUniqueName);
-            destinationFolder = createdRoot;
-
-            foreach (IStorageFile fileInSourceDir in await sourceFolder.GetFilesAsync())
-            {
-                await fileInSourceDir.CopyAsync(destinationFolder, fileInSourceDir.Name, NameCollisionOption.GenerateUniqueName);
-            }
-
-            foreach (IStorageFolder folderinSourceDir in await sourceFolder.GetFoldersAsync())
-            {
-                await CloneDirectoryAsync(folderinSourceDir, destinationFolder, folderinSourceDir.Name);
-            }
-
-            return createdRoot;
-        }
-
-        public static async Task<StorageFolder> MoveDirectoryAsync(IStorageFolder sourceFolder, IStorageFolder destinationDirectory, string sourceRootName, CreationCollisionOption collision = CreationCollisionOption.FailIfExists)
-        {
-            StorageFolder createdRoot = await destinationDirectory.CreateFolderAsync(sourceRootName, collision);
-            destinationDirectory = createdRoot;
-
-            foreach (StorageFile fileInSourceDir in await sourceFolder.GetFilesAsync())
-            {
-                await fileInSourceDir.MoveAsync(destinationDirectory, fileInSourceDir.Name, (NameCollisionOption)((int)collision));
-            }
-
-            foreach (StorageFolder folderinSourceDir in await sourceFolder.GetFoldersAsync())
-            {
-                await MoveDirectoryAsync(folderinSourceDir, destinationDirectory, folderinSourceDir.Name);
-            }
-
-            App.JumpList.RemoveFolder(sourceFolder.Path);
-
-            return createdRoot;
-        }
 
         public static async Task<long> GetItemSize(IStorageItem item)
         {

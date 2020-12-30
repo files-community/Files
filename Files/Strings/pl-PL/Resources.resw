@@ -963,6 +963,9 @@
   <data name="FileItemAutomation" xml:space="preserve">
     <value>Plik</value>
   </data>
+  <data name="FolderItemAutomation" xml:space="preserve">
+    <value>Skoroszyt</value>
+  </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Element Kosza</value>
   </data>
@@ -1031,6 +1034,9 @@
   </data>
   <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
     <value>Nowa karta</value>
+  </data>
+  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Wyszukaj</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>Tylko do odczytu</value>
@@ -1134,6 +1140,9 @@
   <data name="PropertyCompression" xml:space="preserve">
     <value>Kompresja</value>
   </data>
+  <data name="PropertyFormat" xml:space="preserve">
+    <value>Formatuj</value>
+  </data>
   <data name="PropertySampleRate" xml:space="preserve">
     <value>Ilość powtórzeń</value>
   </data>
@@ -1221,11 +1230,23 @@
   <data name="PropertySectionPhoto" xml:space="preserve">
     <value>Zdjęcie</value>
   </data>
+  <data name="PropertySectionGPS" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="PropertySectionMedia" xml:space="preserve">
+    <value>Multimedia</value>
+  </data>
+  <data name="PropertySectionAudio" xml:space="preserve">
+    <value>Dźwięk</value>
+  </data>
   <data name="PropertySectionMusic" xml:space="preserve">
     <value>Muzyka</value>
   </data>
   <data name="PropertyAddress" xml:space="preserve">
     <value>Adres</value>
+  </data>
+  <data name="PropertyColorSpace" xml:space="preserve">
+    <value>Przestrzeń kolorów:</value>
   </data>
   <data name="PropertyPeopleNames" xml:space="preserve">
     <value>Nazwa osób</value>
@@ -1313,5 +1334,77 @@
   </data>
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
     <value>Wyczyść wszystkie właściwości</value>
+  </data>
+  <data name="PropertyColorSpace_Value0" xml:space="preserve">
+    <value>sRGB</value>
+  </data>
+  <data name="PropertyColorSpace_Value65535" xml:space="preserve">
+    <value>Nieokreślone</value>
+  </data>
+  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
+    <value>Licencja</value>
+  </data>
+  <data name="SettingsAboutLicense.Content" xml:space="preserve">
+    <value>Licencja</value>
+  </data>
+  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
+    <value>Witryna internetowa</value>
+  </data>
+  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
+    <value>Witryna internetowa</value>
+  </data>
+  <data name="DragDropWindowText" xml:space="preserve">
+    <value>Upuść tutaj...</value>
+  </data>
+  <data name="SearchTabHeaderText" xml:space="preserve">
+    <value>Wyniki wyszukiwania</value>
+  </data>
+  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+    <value>Szczegóły</value>
+  </data>
+  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+    <value>Nie</value>
+  </data>
+  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
+    <value>Tak</value>
+  </data>
+  <data name="UpdateConsentDialogTitle" xml:space="preserve">
+    <value>Dostępne aktualizacje</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
+    <value>Ukryj chronione pliki systemu operacyjnego (zalecane)</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Ukryj chronione pliki systemu operacyjnego (zalecane)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
+    <value>Plik</value>
+  </data>
+  <data name="AddDialogListFileHeader" xml:space="preserve">
+    <value>Plik</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>Nowy plik</value>
+  </data>
+  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
+    <value>Menu kontekstowe</value>
+  </data>
+  <data name="originalPathColumn.Header" xml:space="preserve">
+    <value>Oryginalna ścieżka:</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
+    <value>Oryginalna ścieżka:</value>
+  </data>
+  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+    <value>Dodaj</value>
+  </data>
+  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+    <value>Edytuj</value>
+  </data>
+  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+    <value>Usuń</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
+    <value>Anuluj</value>
   </data>
 </root>

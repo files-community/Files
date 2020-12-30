@@ -38,10 +38,7 @@ namespace Files
     {
         private static bool ShowErrorNotification = false;
 
-        private readonly static CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-        public static CancellationToken CancellationToken = cancellationTokenSource.Token;
         public static SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
-
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
 
         public static SettingsViewModel AppSettings { get; set; }

@@ -36,7 +36,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref areSystemItemsHidden, value))
                 {
-                    App.AppSettings.AreSystemItemsHidden = value;  
+                    App.AppSettings.AreSystemItemsHidden = value;
                 }
             }
         }

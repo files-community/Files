@@ -2,7 +2,6 @@
 
 namespace Files.UserControls.Selection
 {
-
     public abstract class ItemSelectionStrategy
     {
         protected readonly ICollection<object> selectedItems;

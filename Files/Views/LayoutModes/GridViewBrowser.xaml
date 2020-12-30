@@ -12,12 +12,12 @@
     xmlns:local3="using:Files.Filesystem.Cloud"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    x:Name="PageRoot"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Enabled"
     PointerPressed="GridViewBrowserViewer_PointerPressed"
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
-    mc:Ignorable="d"
-    x:Name="PageRoot">
+    mc:Ignorable="d">
     <local:BaseLayout.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
         <converters:BoolToVisibilityConverter
@@ -588,8 +588,7 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
-                        <Viewbox MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
-                                 MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}">
+                        <Viewbox MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}" MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}">
                             <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA00;" />
                         </Viewbox>
                     </Grid>
@@ -609,8 +608,7 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
-                        <Viewbox MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
-                                 MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}">
+                        <Viewbox MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}" MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}">
                             <FontIcon
                                 FontFamily="{StaticResource FluentUIGlyphs}"
                                 FontSize="28"

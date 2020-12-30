@@ -914,7 +914,259 @@
   <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
     <value>Open items with a single click</value>
   </data>
+  <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
+    <value>இங்கே நகர்த்து</value>
+  </data>
+  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+    <value>இயக்ககங்கள்:</value>
+  </data>
+  <data name="FileItemAutomation" xml:space="preserve">
+    <value>கோப்பு</value>
+  </data>
+  <data name="FolderItemAutomation" xml:space="preserve">
+    <value>கோப்புறை</value>
+  </data>
   <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
     <value>தேர்வுசெய்யப்பட்ட உருப்படியின் இருப்பிடத்தை நகலெடுக்க ஒரு பொத்தானைக் காண்பி</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
+    <value>மறைந்த கோப்புகள் மற்றும் கோப்புறைகளைக் காண்பி</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>மறைந்த கோப்புகள் மற்றும் கோப்புறைகளைக் காண்பி</value>
+  </data>
+  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+    <value>வெளியேற்று</value>
+  </data>
+  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+    <value>பிரதி தாவல்</value>
+  </data>
+  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+    <value>புதிய தாவல்</value>
+  </data>
+  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
+    <value>தேடு</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
+    <value>படிக்க மட்டும்</value>
+  </data>
+  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
+    <value>மறைந்த</value>
+  </data>
+  <data name="PropertyTitle" xml:space="preserve">
+    <value>தலைப்பு</value>
+  </data>
+  <data name="PropertySubject" xml:space="preserve">
+    <value>பொருள்</value>
+  </data>
+  <data name="PropertyComment" xml:space="preserve">
+    <value>கருத்துரை</value>
+  </data>
+  <data name="PropertyCopyright" xml:space="preserve">
+    <value>பதிப்புரிமை</value>
+  </data>
+  <data name="PropertyDateCreated" xml:space="preserve">
+    <value>உருவாக்கிய தேதி</value>
+  </data>
+  <data name="PropertyDateModified" xml:space="preserve">
+    <value>திருத்திய தேதி</value>
+  </data>
+  <data name="PropertyBitDepth" xml:space="preserve">
+    <value>பிட் செறிவு</value>
+  </data>
+  <data name="PropertyDimensions" xml:space="preserve">
+    <value>பரிமாணங்கள்</value>
+  </data>
+  <data name="PropertyLatitude" xml:space="preserve">
+    <value>அட்சரேகை</value>
+  </data>
+  <data name="PropertyLongitude" xml:space="preserve">
+    <value>தீர்க்கரேகை</value>
+  </data>
+  <data name="PropertyAperture" xml:space="preserve">
+    <value>துளை</value>
+  </data>
+  <data name="PropertyDateTaken" xml:space="preserve">
+    <value>எடுக்கப்பட்ட தேதி:</value>
+  </data>
+  <data name="PropertyFormat" xml:space="preserve">
+    <value>வடிவமைப்பு</value>
+  </data>
+  <data name="PropertySampleRate" xml:space="preserve">
+    <value>மாதிரி விகிதம்</value>
+  </data>
+  <data name="PropertyAlbumArtist" xml:space="preserve">
+    <value>ஆல்பம் கலைஞர்:</value>
+  </data>
+  <data name="PropertyAlbumTitle" xml:space="preserve">
+    <value>ஆல்பம் தலைப்பு</value>
+  </data>
+  <data name="PropertyArtist" xml:space="preserve">
+    <value>கலைஞர்:</value>
+  </data>
+  <data name="PropertyComposer" xml:space="preserve">
+    <value>இயற்றுனர்</value>
+  </data>
+  <data name="PropertyConductor" xml:space="preserve">
+    <value>நடத்துபவர்</value>
+  </data>
+  <data name="PropertyGenre" xml:space="preserve">
+    <value>குழுவகை</value>
+  </data>
+  <data name="PropertyTrackNumber" xml:space="preserve">
+    <value>தடம் எண்</value>
+  </data>
+  <data name="PropertyDuration" xml:space="preserve">
+    <value>நேர அளவு</value>
+  </data>
+  <data name="PropertySeriesName" xml:space="preserve">
+    <value>தொடர் பெயர்</value>
+  </data>
+  <data name="PropertyProducer" xml:space="preserve">
+    <value>தயாரிப்பவர்</value>
+  </data>
+  <data name="PropertyPublisher" xml:space="preserve">
+    <value>வெளியீட்டாளர்</value>
+  </data>
+  <data name="PropertyWriter" xml:space="preserve">
+    <value>எழுதுபவர்</value>
+  </data>
+  <data name="PropertyYear" xml:space="preserve">
+    <value>ஆண்டு</value>
+  </data>
+  <data name="PropertySectionCore" xml:space="preserve">
+    <value>கோர்</value>
+  </data>
+  <data name="PropertySectionImage" xml:space="preserve">
+    <value>படம்</value>
+  </data>
+  <data name="PropertySectionPhoto" xml:space="preserve">
+    <value>புகைப்படம்</value>
+  </data>
+  <data name="PropertySectionGPS" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="PropertySectionMedia" xml:space="preserve">
+    <value>மீடியா</value>
+  </data>
+  <data name="PropertySectionAudio" xml:space="preserve">
+    <value>ஆடியோ</value>
+  </data>
+  <data name="PropertySectionMusic" xml:space="preserve">
+    <value>இசை</value>
+  </data>
+  <data name="PropertyAddress" xml:space="preserve">
+    <value>முகவரி</value>
+  </data>
+  <data name="PropertyContributor" xml:space="preserve">
+    <value>பங்களிப்பாளர்</value>
+  </data>
+  <data name="PropertyLastAuthor" xml:space="preserve">
+    <value>கடைசியாக எழுதியவர்</value>
+  </data>
+  <data name="PropertyRevisionNumber" xml:space="preserve">
+    <value>திருத்த எண்</value>
+  </data>
+  <data name="PropertyVersion" xml:space="preserve">
+    <value>பதிப்பு</value>
+  </data>
+  <data name="PropertySectionVideo" xml:space="preserve">
+    <value>வீடியோ</value>
+  </data>
+  <data name="PropertyDatePrinted" xml:space="preserve">
+    <value>[Date Printed]</value>
+  </data>
+  <data name="PropertyTotalEditingTime" xml:space="preserve">
+    <value>மொத்த திருத்தும் நேரம்</value>
+  </data>
+  <data name="PropertyTemplate" xml:space="preserve">
+    <value>டெம்ப்ளேட்</value>
+  </data>
+  <data name="PropertyWordCount" xml:space="preserve">
+    <value>சொல் எண்ணிக்கை</value>
+  </data>
+  <data name="PropertyFrameRate" xml:space="preserve">
+    <value>சட்டக விகிதம்</value>
+  </data>
+  <data name="PropertyOrientation" xml:space="preserve">
+    <value>திசை</value>
+  </data>
+  <data name="PropertySectionDocument" xml:space="preserve">
+    <value>ஆவணம்</value>
+  </data>
+  <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
+    <value>பிழை</value>
+  </data>
+  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
+    <value>மறுமுயற்சி</value>
+  </data>
+  <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
+    <value>எப்படியாயினும் மூடு</value>
+  </data>
+  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
+    <value>ரத்து</value>
+  </data>
+  <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
+    <value>அழி</value>
+  </data>
+  <data name="PropertyColorSpace_Value65535" xml:space="preserve">
+    <value>குறிப்பிடப்படாதது</value>
+  </data>
+  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
+    <value>உரிமம்</value>
+  </data>
+  <data name="SettingsAboutLicense.Content" xml:space="preserve">
+    <value>உரிமம்</value>
+  </data>
+  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
+    <value>வலைத்தளம்</value>
+  </data>
+  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
+    <value>வலைத்தளம்</value>
+  </data>
+  <data name="SearchTabHeaderText" xml:space="preserve">
+    <value>தேடல் முடிவுகள்</value>
+  </data>
+  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+    <value>விவரங்கள்</value>
+  </data>
+  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+    <value>இல்லை</value>
+  </data>
+  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
+    <value>ஆம்</value>
+  </data>
+  <data name="UpdateConsentDialogTitle" xml:space="preserve">
+    <value>புதுப்பித்தல்கள் கிடைக்கின்றன</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
+    <value>பாதுகாத்த இயக்க முறைமை அமைப்பு கோப்புகள் மறை (பரிந்துரைத்தது)</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
+    <value>பாதுகாத்த இயக்க முறைமை அமைப்பு கோப்புகள் மறை (பரிந்துரைத்தது)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
+    <value>கோப்பு</value>
+  </data>
+  <data name="AddDialogListFileHeader" xml:space="preserve">
+    <value>கோப்பு</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>புதிய கோப்பு</value>
+  </data>
+  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
+    <value>சூழல் மெனு</value>
+  </data>
+  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+    <value>சேர்</value>
+  </data>
+  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+    <value>திருத்து</value>
+  </data>
+  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+    <value>அகற்று</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
+    <value>ரத்து</value>
   </data>
 </root>
