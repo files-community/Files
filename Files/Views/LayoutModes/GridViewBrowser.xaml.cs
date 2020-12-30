@@ -389,7 +389,7 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
+        private void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
             if (args.ItemContainer == null)
             {
@@ -404,11 +404,8 @@ namespace Files.Views.LayoutModes
                 InitializeDrag(args.ItemContainer);
                 args.ItemContainer.CanDrag = args.ItemContainer.IsSelected; // Update CanDrag
 
-                await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                {
-                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
-                    item.ItemPropertiesInitialized = true;
-                });
+                ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
+                item.ItemPropertiesInitialized = true;
             }
         }
     }
