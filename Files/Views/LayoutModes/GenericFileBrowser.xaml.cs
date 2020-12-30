@@ -86,8 +86,6 @@ namespace Files.Views.LayoutModes
             base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
 
-            tapDebounceTimer = new DispatcherTimer();
-
             var selectionRectangle = RectangleSelection.Create(AllView, SelectionRectangle, AllView_SelectionChanged);
             selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
@@ -178,6 +176,7 @@ namespace Files.Views.LayoutModes
         public override void StartRenameItem()
         {
             AllView.CurrentColumn = AllView.Columns[1];
+            isAllViewCurrentSlotValid = true;
             AllView.BeginEdit();
         }
 
@@ -238,8 +237,6 @@ namespace Files.Views.LayoutModes
 
         private TextBox renamingTextBox;
 
-        private DispatcherTimer tapDebounceTimer;
-
         private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
             if (!isAllViewCurrentSlotValid)
@@ -258,34 +255,6 @@ namespace Files.Views.LayoutModes
             if (ParentShellPageInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
             {
                 // Do not rename files and folders inside the recycle bin
-                AllView.CancelEdit(); // Cancel the edit operation
-                return;
-            }
-
-            // Only cancel if this event was triggered by a tap
-            // Do not cancel when user presses F2 or context menu
-            if (e.EditingEventArgs is TappedRoutedEventArgs)
-            {
-                if (AppSettings.OpenItemsWithOneclick)
-                {
-                    AllView.CancelEdit(); // Cancel the edit operation
-                    return;
-                }
-
-                if (!tapDebounceTimer.IsEnabled)
-                {
-                    tapDebounceTimer.Debounce(() =>
-                    {
-                        tapDebounceTimer.Stop();
-                        AllView.BeginEdit(); // EditingEventArgs will be null
-                    }, TimeSpan.FromMilliseconds(700), false);
-                }
-                else
-                {
-                    tapDebounceTimer.Stop();
-                    ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null); // Open selected files
-                }
-
                 AllView.CancelEdit(); // Cancel the edit operation
                 return;
             }
