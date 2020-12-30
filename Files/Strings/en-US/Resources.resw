@@ -1573,7 +1573,7 @@
     <value>Cancel</value>
   </data>
   <data name="StatusCenter.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Ongoing tasks</value>
+    <value>Ongoing Tasks</value>
   </data>
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>Ongoing Tasks</value>
