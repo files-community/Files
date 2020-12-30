@@ -228,6 +228,9 @@ namespace Files.ViewModels
         {
             if (App.AppSettings.AreLayoutPreferencesPerFolder)
             {
+                // Sanitize the folderPath by removing the trailing '\\'. This has to be performed because paths to drives
+                // include an '\\' at the end (unlike paths to folders)
+                folderPath = folderPath.EndsWith('\\') ? folderPath.TrimEnd('\\') : folderPath;
                 if (!WriteLayoutPreferencesToAds(folderPath, prefs))
                 {
                     WriteLayoutPreferencesToSettings(folderPath, prefs);
