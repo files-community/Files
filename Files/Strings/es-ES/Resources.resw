@@ -1440,4 +1440,22 @@
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>Tareas en curso</value>
   </data>
+  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
+    <value>Abrir siempre las nuevas pestañas en modo panel doble</value>
+  </data>
+  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
+    <value>Habilitar vista de panel doble</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
+    <value>Abrir en panel secundario</value>
+  </data>
+  <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
+    <value>Nuevo panel</value>
+  </data>
+  <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
+    <value>Abrir en panel secundario</value>
+  </data>
+  <data name="SettingsDualPane.Text" xml:space="preserve">
+    <value>Panel Doble</value>
+  </data>
 </root>

@@ -937,7 +937,7 @@
     <value>Parancssor Programok</value>
   </data>
   <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
-    <value>Összes menü lehetőség megjelenítése</value>
+    <value>Összes menülehetőség megjelenítése</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Lomtár kitűzése az oldalsávra</value>
@@ -1188,6 +1188,12 @@
   <data name="PropertySeriesName" xml:space="preserve">
     <value>Adatsor neve</value>
   </data>
+  <data name="PropertySeasonNumber" xml:space="preserve">
+    <value>Évad</value>
+  </data>
+  <data name="PropertyEpisodeNumber" xml:space="preserve">
+    <value>Epizód</value>
+  </data>
   <data name="PropertyProducer" xml:space="preserve">
     <value>Producer</value>
   </data>
@@ -1332,6 +1338,9 @@
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>Nem meghatározott</value>
   </data>
+  <data name="StatusCenterTeachingTip.Subtitle" xml:space="preserve">
+    <value>Itt ellenőrizheti a fájlműveletek állapotát</value>
+  </data>
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Állapotsor</value>
   </data>
@@ -1407,6 +1416,9 @@
   <data name="NewFile" xml:space="preserve">
     <value>Új Fájl</value>
   </data>
+  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
+    <value>Egyedi preferencia minden egyes mappához</value>
+  </data>
   <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
     <value>Helyi menü</value>
   </data>
@@ -1425,7 +1437,19 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Törlés</value>
   </data>
+  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
+    <value>Fájlok és mappák gyorsítótárba való helyezése a jobb teljesítményért</value>
+  </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Mégse</value>
+  </data>
+  <data name="StatusCenter.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Feladatok folyamatban</value>
+  </data>
+  <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
+    <value>Feladatok folyamatban</value>
+  </data>
+  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
+    <value>Nem indexelt elemek mutatása fájl és mappa keresésekor (hosszabb keresési idő)</value>
   </data>
 </root>
