@@ -265,6 +265,16 @@ namespace Files.Views.LayoutModes
                 return;
             }
 
+            // Only cancel if this event was triggered by a tap
+            // Do not cancel when user presses F2 or context menu
+            if (e.EditingEventArgs is TappedRoutedEventArgs && AppSettings.OpenItemsWithOneclick)
+            {
+                // This usually should not happen as the click is handled by ItemPressed
+                AllView.CancelEdit(); // Cancel the edit operation
+                ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null); // Open selected files
+                return;
+            }
+
             int extensionLength = SelectedItem.FileExtension?.Length ?? 0;
             oldItemName = SelectedItem.ItemName;
 
