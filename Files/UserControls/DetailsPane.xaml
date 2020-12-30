@@ -14,15 +14,18 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" x:Name="PreviewGrid" >
+        <Grid Grid.Row="0" >
             <ScrollViewer>
-                <Grid>
-                    <TextBlock x:Name="TextPreview"/>
+                <Grid x:Name="PreviewGrid">
+                    <TextBlock x:Name="TextPreview" Visibility="Collapsed"/>
                     <controls:MarkdownTextBlock Visibility="Collapsed" x:Name="MarkdownTextPreview" />
+                    <Grid x:Name="CustomPreviewGrid">
+                        
+                    </Grid>
                 </Grid>
             </ScrollViewer>
         </Grid>
-        <controls:GridSplitter Grid.Row="1" Style="{StaticResource DefaultGridSplitterStyle}" HorizontalAlignment="Stretch"/>
+        <controls:GridSplitter Grid.Row="1" Style="{StaticResource DefaultHorizontalGridSplitterStyle}"/>
 
         <ListView SelectionMode="None" Grid.Row="2" x:Name="PropertiesGrid">
             <ListView.ItemContainerStyle>

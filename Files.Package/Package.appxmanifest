@@ -38,6 +38,11 @@
         <uap:Extension Category="windows.appService" EntryPoint="MessageRelay.StartupTask">
           <uap3:AppService Name="FilesInteropService" uap4:SupportsMultipleInstances="false"/>
         </uap:Extension>
+              <uap3:Extension Category="windows.appExtensionHost">
+                <uap3:AppExtensionHost>
+                  <uap3:Name>com.files.filepreview</uap3:Name>
+                </uap3:AppExtensionHost>
+              </uap3:Extension>
                 <desktop:Extension Category="windows.fullTrustProcess" Executable="Files.Launcher\FilesFullTrust.exe">
                     <desktop:FullTrustProcess>
                         <!--<desktop:ParameterGroup GroupId="DesktopAppExeGroup" Parameters="/DesktopApp"/>

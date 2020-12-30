@@ -183,6 +183,7 @@
     <Compile Include="Dialogs\RestartDialog.xaml.cs">
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ExtensionManager.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
     <Compile Include="UserControls\DetailsPane.xaml.cs">
       <DependentUpon>DetailsPane.xaml</DependentUpon>
