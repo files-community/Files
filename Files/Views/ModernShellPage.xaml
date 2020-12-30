@@ -7,7 +7,6 @@
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:controls="using:Files.UserControls"
-    xmlns:controls1="using:Files.UserControls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:converters1="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -169,6 +168,9 @@
                 <Core:ChangePropertyAction PropertyName="Width"
                                            TargetObject="{Binding ElementName=SidebarColumn}"
                                            Value="0" />
+                <Core:ChangePropertyAction PropertyName="ShadowOpacity"
+                                           TargetObject="{Binding ElementName=DropShadowPanel}"
+                                           Value="0" />
             </Core:DataTriggerBehavior>
         </Interactivity:Interaction.Behaviors>
         
@@ -185,6 +187,7 @@
               BorderThickness="0,0,0,2"
               BorderBrush="{x:Bind CurrentInstanceBorderBrush, Mode=OneWay}">
             <Custom:DropShadowPanel
+                x:Name="DropShadowPanel"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
                 BlurRadius="4"
@@ -207,7 +210,7 @@
                         Loaded="SmallWindowTitlebar_Loaded" />
 
                     <Grid Grid.Row="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                        <controls1:NavigationToolbar
+                        <controls:NavigationToolbar
                             x:Name="NavToolbar"
                             Grid.Column="0"
                             Margin="10"
@@ -238,7 +241,7 @@
                         CacheSize="2"
                         Navigated="ItemDisplayFrame_Navigated" />
 
-                    <controls1:StatusBarControl
+                    <controls:StatusBarControl
                         x:Name="StatusBarControl"
                         Grid.Row="3"
                         x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"

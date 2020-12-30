@@ -78,7 +78,14 @@ namespace Files.Views
                 if (isCurrentInstance != value)
                 {
                     isCurrentInstance = value;
-                    ContentPage?.FocusFileList();
+                    if (isCurrentInstance)
+                    {
+                        ContentPage?.FocusFileList();
+                    }
+                    else
+                    {
+                        NavigationToolbar.IsEditModeEnabled = false;
+                    }
                     NotifyPropertyChanged(nameof(IsCurrentInstance));
                 }
             }

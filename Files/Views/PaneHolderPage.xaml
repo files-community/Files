@@ -18,14 +18,20 @@
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="SidebarBorderBrush"
                                      Color="Transparent" />
+                    <SolidColorBrush x:Key="PaneBorderBrush"
+                                     Color="#FAF9F8" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
                     <SolidColorBrush x:Key="SidebarBorderBrush"
                                      Color="Transparent" />
+                    <SolidColorBrush x:Key="PaneBorderBrush"
+                                     Color="#323130" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
                     <SolidColorBrush x:Key="SidebarBorderBrush"
                                      Color="{ThemeResource SystemColorWindowTextColor}" />
+                    <SolidColorBrush x:Key="PaneBorderBrush"
+                                     Color="{ThemeResource SystemColorWindowColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
 
@@ -110,6 +116,8 @@
 
         <Border x:Name="PaneRightLoader"
                 x:Load="{x:Bind IsRightPaneVisible, Mode=OneWay}"
+                BorderThickness="2,0,0,0"
+                BorderBrush="{ThemeResource PaneBorderBrush}"
                 Grid.Column="1">
             <local:ModernShellPage x:Name="PaneRight"
                                    PointerPressed="PaneRight_PointerPressed"
