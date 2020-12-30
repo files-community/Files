@@ -180,7 +180,7 @@ namespace Files.Views.LayoutModes
             AllView.BeginEdit();
         }
 
-        private async void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "DirectorySortOption")
             {
@@ -211,27 +211,6 @@ namespace Files.Views.LayoutModes
             {
                 // Swap arrows
                 SortedColumn = sortedColumn;
-            }
-            else if (e.PropertyName == "IsLoadingItems")
-            {
-                if (!ParentShellPageInstance.FilesystemViewModel.IsLoadingItems
-                    && ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Count > 0)
-                {
-                    var allRows = new List<DataGridRow>();
-
-                    Interaction.FindChildren<DataGridRow>(allRows, AllView);
-                    foreach (DataGridRow row in allRows.Take(25))
-                    {
-                        if (!(row.DataContext as ListedItem).ItemPropertiesInitialized)
-                        {
-                            await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                            {
-                                ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(row.DataContext as ListedItem);
-                                (row.DataContext as ListedItem).ItemPropertiesInitialized = true;
-                            });
-                        }
-                    }
-                }
             }
         }
 
@@ -381,7 +360,7 @@ namespace Files.Views.LayoutModes
             SelectedItems = AllView.SelectedItems.Cast<ListedItem>().ToList();
         }
 
-        private async void AllView_Sorting(object sender, DataGridColumnEventArgs e)
+        private void AllView_Sorting(object sender, DataGridColumnEventArgs e)
         {
             if (e.Column == SortedColumn)
             {
@@ -393,25 +372,6 @@ namespace Files.Views.LayoutModes
                 SortedColumn = e.Column;
                 e.Column.SortDirection = DataGridSortDirection.Ascending;
                 ParentShellPageInstance.FilesystemViewModel.IsSortedAscending = true;
-            }
-
-            if (!ParentShellPageInstance.FilesystemViewModel.IsLoadingItems
-                && ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Count > 0)
-            {
-                var allRows = new List<DataGridRow>();
-
-                Interaction.FindChildren<DataGridRow>(allRows, AllView);
-                foreach (DataGridRow row in allRows.Take(25))
-                {
-                    if (!(row.DataContext as ListedItem).ItemPropertiesInitialized)
-                    {
-                        await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                        {
-                            ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(row.DataContext as ListedItem);
-                            (row.DataContext as ListedItem).ItemPropertiesInitialized = true;
-                        });
-                    }
-                }
             }
         }
 
@@ -507,17 +467,14 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private async void AllView_LoadingRow(object sender, DataGridRowEventArgs e)
+        private void AllView_LoadingRow(object sender, DataGridRowEventArgs e)
         {
             InitializeDrag(e.Row);
 
             if (e.Row.DataContext is ListedItem item && !item.ItemPropertiesInitialized)
             {
-                await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                {
-                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item);
-                    item.ItemPropertiesInitialized = true;
-                });
+                ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item);
+                item.ItemPropertiesInitialized = true;
             }
         }
 

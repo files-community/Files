@@ -177,7 +177,7 @@
                     FontFamily="Segoe MDL2 Assets"
                     FontSize="16"
                     Style="{StaticResource ToolBarButtonStyle}"
-                    ToolTipService.ToolTip="Ongoing tasks"
+                    ToolTipService.ToolTip="Ongoing Tasks"
                     Visibility="Visible">
                     <Button.Flyout>
                         <Flyout>
