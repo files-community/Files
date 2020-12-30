@@ -1987,6 +1987,10 @@
           <source>Open in secondary pane</source>
           <target state="new">Open in secondary pane</target>
         </trans-unit>
+        <trans-unit id="SettingsDualPane.Text" translate="yes" xml:space="preserve">
+          <source>Dual Pane</source>
+          <target state="new">Dual Pane</target>
+        </trans-unit>
       </group>
     </body>
   </file>

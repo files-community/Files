@@ -410,12 +410,18 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to enable dual pane feature.
+        /// </summary>
         public bool IsDualPaneEnabled
         {
             get => Get(false);
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to always open a second pane when opening a new tab.
+        /// </summary>
         public bool AlwaysOpenDualPaneInNewTab
         {
             get => Get(false);

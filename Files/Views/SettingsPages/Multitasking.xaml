@@ -80,17 +80,25 @@
                     </StackPanel>
                 </StackPanel>
 
-                <ToggleSwitch x:Uid="SettingsMultitaskingEnableDualPane"
-                              Header="Enable dual pane view"
-                              HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                              IsOn="{x:Bind ViewModel.IsDualPaneEnabled, Mode=TwoWay}" />
+                <TextBlock
+                    x:Uid="SettingsDualPane"
+                    Padding="0,10,0,0"
+                    FontSize="20"
+                    Text="Dual Pane" />
 
-                <ToggleSwitch x:Name="SettingsMultitaskingAlwaysOpenDualPane"
-                              x:Uid="SettingsMultitaskingAlwaysOpenDualPane"
-                              Header="Always open new tabs in dual pane mode"
-                              HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                              x:Load="{x:Bind ViewModel.IsDualPaneEnabled, Mode=OneWay}"
-                              IsOn="{x:Bind ViewModel.AlwaysOpenDualPaneInNewTab, Mode=TwoWay}" />
+                <ToggleSwitch
+                    x:Uid="SettingsMultitaskingEnableDualPane"
+                    Header="Enable dual pane view"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind ViewModel.IsDualPaneEnabled, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Name="SettingsMultitaskingAlwaysOpenDualPane"
+                    x:Uid="SettingsMultitaskingAlwaysOpenDualPane"
+                    Header="Always open new tabs in dual pane mode"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsEnabled="{x:Bind ViewModel.IsDualPaneEnabled, Mode=OneWay}"
+                    IsOn="{x:Bind ViewModel.AlwaysOpenDualPaneInNewTab, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

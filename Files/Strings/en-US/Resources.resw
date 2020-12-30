@@ -1593,4 +1593,7 @@
   <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
     <value>Open in secondary pane</value>
   </data>
+  <data name="SettingsDualPane.Text" xml:space="preserve">
+    <value>Dual Pane</value>
+  </data>
 </root>
