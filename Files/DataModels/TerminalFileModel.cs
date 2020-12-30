@@ -10,15 +10,15 @@ namespace Files.DataModels
         [JsonProperty("version")]
         public int Version { get; set; }
 
-        [JsonProperty("defaultTerminalPath")]
-        public string DefaultTerminalPath { get; set; }
+        [JsonProperty("DefaultTerminalName")]
+        public string DefaultTerminalName { get; set; }
 
         [JsonProperty("terminals")]
         public List<Terminal> Terminals { get; set; } = new List<Terminal>();
 
         public Terminal GetDefaultTerminal()
         {
-            Terminal terminal = Terminals.FirstOrDefault(x => x.Path.Equals(DefaultTerminalPath, StringComparison.OrdinalIgnoreCase));
+            Terminal terminal = Terminals.FirstOrDefault(x => x.Name.Equals(DefaultTerminalName, StringComparison.OrdinalIgnoreCase));
             if (terminal != null)
             {
                 return terminal;
@@ -33,13 +33,13 @@ namespace Files.DataModels
 
         public void ResetToDefaultTerminal()
         {
-            DefaultTerminalPath = "cmd.exe";
+            DefaultTerminalName = "cmd";
         }
 
         public void AddTerminal(Terminal terminal)
         {
             //Ensure terminal is not already in List
-            if (Terminals.FirstOrDefault(x => x.Path.Equals(terminal.Path, StringComparison.OrdinalIgnoreCase)) == null)
+            if (Terminals.FirstOrDefault(x => x.Name.Equals(terminal.Name, StringComparison.OrdinalIgnoreCase)) == null)
             {
                 Terminals.Add(terminal);
             }
@@ -47,13 +47,13 @@ namespace Files.DataModels
 
         public void RemoveTerminal(Terminal terminal)
         {
-            if (Terminals.Remove(Terminals.FirstOrDefault(x => x.Path.Equals(terminal.Path, StringComparison.OrdinalIgnoreCase))))
+            if (Terminals.Remove(Terminals.FirstOrDefault(x => x.Name.Equals(terminal.Name, StringComparison.OrdinalIgnoreCase))))
             {
-                if (string.IsNullOrWhiteSpace(DefaultTerminalPath))
+                if (string.IsNullOrWhiteSpace(DefaultTerminalName))
                 {
                     ResetToDefaultTerminal();
                 }
-                else if (DefaultTerminalPath.Equals(terminal.Path, StringComparison.OrdinalIgnoreCase))
+                else if (DefaultTerminalName.Equals(terminal.Name, StringComparison.OrdinalIgnoreCase))
                 {
                     ResetToDefaultTerminal();
                 }

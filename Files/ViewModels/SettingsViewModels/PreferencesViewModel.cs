@@ -63,7 +63,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref selectedTerminal, value))
                 {
-                    App.AppSettings.TerminalController.Model.DefaultTerminalPath = value.Path;
+                    App.AppSettings.TerminalController.Model.DefaultTerminalName = value.Name;
                     App.AppSettings.TerminalController.SaveModel();
                 }
             }
