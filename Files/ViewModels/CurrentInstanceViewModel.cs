@@ -18,89 +18,101 @@ namespace Files.ViewModels
             FolderSettings = new FolderSettingsViewModel(associatedInstance);
         }
 
-        private bool _IsPageTypeSearchResults = false;
+        private bool isPageTypeSearchResults = false;
 
         public bool IsPageTypeSearchResults
         {
-            get => _IsPageTypeSearchResults;
+            get => isPageTypeSearchResults;
             set
             {
-                SetProperty(ref _IsPageTypeSearchResults, value);
+                SetProperty(ref isPageTypeSearchResults, value);
                 OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
                 OnPropertyChanged(nameof(CanCreateFileInPage));
-                OnPropertyChanged(nameof(CanOpenTerminalInPage));
-            }
-        }
-
-        private bool _IsPageTypeNotHome = false;
-
-        public bool IsPageTypeNotHome
-        {
-            get => _IsPageTypeNotHome;
-            set
-            {
-                SetProperty(ref _IsPageTypeNotHome, value);
-                OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
-                OnPropertyChanged(nameof(CanCreateFileInPage));
-                OnPropertyChanged(nameof(CanOpenTerminalInPage));
-            }
-        }
-
-        private bool _IsPageTypeMtpDevice = false;
-
-        public bool IsPageTypeMtpDevice
-        {
-            get => _IsPageTypeMtpDevice;
-            set
-            {
-                SetProperty(ref _IsPageTypeMtpDevice, value);
-                OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
-                OnPropertyChanged(nameof(CanCreateFileInPage));
+                OnPropertyChanged(nameof(CanPasteInPage));
                 OnPropertyChanged(nameof(CanOpenTerminalInPage));
                 OnPropertyChanged(nameof(CanCopyPathInPage));
             }
         }
 
-        private bool _IsPageTypeRecycleBin = false;
+        private bool isPageTypeNotHome = false;
+
+        public bool IsPageTypeNotHome
+        {
+            get => isPageTypeNotHome;
+            set
+            {
+                SetProperty(ref isPageTypeNotHome, value);
+                OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
+                OnPropertyChanged(nameof(CanCreateFileInPage));
+                OnPropertyChanged(nameof(CanPasteInPage));
+                OnPropertyChanged(nameof(CanOpenTerminalInPage));
+                OnPropertyChanged(nameof(CanCopyPathInPage));
+            }
+        }
+
+        private bool isPageTypeMtpDevice = false;
+
+        public bool IsPageTypeMtpDevice
+        {
+            get => isPageTypeMtpDevice;
+            set
+            {
+                SetProperty(ref isPageTypeMtpDevice, value);
+                OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
+                OnPropertyChanged(nameof(CanCreateFileInPage));
+                OnPropertyChanged(nameof(CanPasteInPage));
+                OnPropertyChanged(nameof(CanOpenTerminalInPage));
+                OnPropertyChanged(nameof(CanCopyPathInPage));
+            }
+        }
+
+        private bool isPageTypeRecycleBin = false;
 
         public bool IsPageTypeRecycleBin
         {
-            get => _IsPageTypeRecycleBin;
+            get => isPageTypeRecycleBin;
             set
             {
-                SetProperty(ref _IsPageTypeRecycleBin, value);
+                SetProperty(ref isPageTypeRecycleBin, value);
                 OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
                 OnPropertyChanged(nameof(CanCreateFileInPage));
+                OnPropertyChanged(nameof(CanPasteInPage));
                 OnPropertyChanged(nameof(CanOpenTerminalInPage));
+                OnPropertyChanged(nameof(CanCopyPathInPage));
             }
         }
 
         public bool IsCreateButtonEnabledInPage
         {
-            get => !_IsPageTypeRecycleBin && IsPageTypeNotHome && !_IsPageTypeSearchResults;
+            get => !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults;
         }
 
         public bool CanCopyPathInPage
         {
-            get => !_IsPageTypeMtpDevice && !_IsPageTypeRecycleBin && IsPageTypeNotHome && !_IsPageTypeSearchResults;
+            get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults;
         }
 
         public bool CanCreateFileInPage
         {
-            get => !_IsPageTypeMtpDevice && !_IsPageTypeRecycleBin && IsPageTypeNotHome && !_IsPageTypeSearchResults;
+            get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults;
         }
 
         public bool CanOpenTerminalInPage
         {
-            get => !_IsPageTypeMtpDevice && !_IsPageTypeRecycleBin && IsPageTypeNotHome && !_IsPageTypeSearchResults;
+            get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults;
         }
 
-        private bool _IsPageTypeCloudDrive = false;
+        public bool CanPasteInPage
+        {
+            get => !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults;
+        }
+
+        private bool isPageTypeCloudDrive = false;
 
         public bool IsPageTypeCloudDrive
         {
-            get => _IsPageTypeCloudDrive;
-            set => SetProperty(ref _IsPageTypeCloudDrive, value);
+            get => isPageTypeCloudDrive;
+            set => SetProperty(ref isPageTypeCloudDrive, value);
         }
     }
 }

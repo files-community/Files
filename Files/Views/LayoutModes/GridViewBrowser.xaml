@@ -131,7 +131,7 @@
                 x:Name="PasteEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutPaste"
                 Command="{x:Bind ParentShellPageInstance.InteractionOperations.PasteItemsFromClipboard}"
-                IsEnabled="{x:Bind local:App.InteractionViewModel.IsPasteEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{x:Bind converters1:MultiBooleanConverter.AndConvert(InstanceViewModel.CanPasteInPage, local:App.InteractionViewModel.IsPasteEnabled), Mode=OneWay}"
                 Text="Paste">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe9b2;" />
