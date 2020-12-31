@@ -13,6 +13,8 @@ namespace Files.UserControls.Selection
     /// </summary>
     public class RectangleSelection
     {
+        private readonly double MinSelectionDelta = 5;
+
         protected Rectangle selectionRectangle;
         protected SelectionState selectionState;
 
@@ -107,6 +109,13 @@ namespace Files.UserControls.Selection
                     selectionRectangle.Height = Math.Max(0, currentPoint.Position.Y - Math.Max(0, originDragPointShifted.Y));
                 }
             }
+        }
+
+        protected bool HasMovedMinimalDelta(double originalX, double originalY, double currentX, double currentY)
+        {
+            var deltaX = Math.Abs(originalX - currentX);
+            var deltaY = Math.Abs(originalY - currentY);
+            return deltaX > MinSelectionDelta || deltaY > MinSelectionDelta;
         }
     }
 }
