@@ -1164,9 +1164,6 @@
   <data name="NewFile" xml:space="preserve">
     <value>Nieuw bestand</value>
   </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>Contextmenu</value>
-  </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Oorspronkelijk pad:</value>
   </data>

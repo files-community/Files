@@ -993,9 +993,6 @@
   <data name="NewFile" xml:space="preserve">
     <value>Yeni Dosya</value>
   </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>Bağlam Menüsü</value>
-  </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>Ekle</value>
   </data>

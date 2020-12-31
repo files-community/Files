@@ -1062,11 +1062,11 @@
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Terminal Applications</value>
   </data>
-  <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Show an option to copy the location when right clicking an item</value>
+  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
+    <value>Show copy location menu item</value>
   </data>
-  <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
-    <value>Show all context menu items when right clicking an item</value>
+  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
+    <value>Move overflow items into a sub menu</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Pin Recycle Bin to the sidebar</value>
@@ -1545,8 +1545,8 @@
   <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
     <value>Enable individual preferences for individual directories</value>
   </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>Context Menu</value>
+  <data name="SettingsContextMenu.Text" xml:space="preserve">
+    <value>Customize the right click context menu</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Original path</value>
@@ -1592,5 +1592,8 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dual Pane</value>
+  </data>
+  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
+    <value>Show open in new tab menu item</value>
   </data>
 </root>

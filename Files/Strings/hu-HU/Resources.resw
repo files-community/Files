@@ -933,9 +933,6 @@
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Parancssor Programok</value>
   </data>
-  <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
-    <value>Összes menülehetőség megjelenítése</value>
-  </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Lomtár kitűzése az oldalsávra</value>
   </data>
@@ -1001,9 +998,6 @@
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
     <value>Gyorsgomb elem</value>
-  </data>
-  <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Kijelölt elem helyének másolása lehetőség megjelenítése</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
     <value>Rejtett fájlok és mappák mutatása</value>
@@ -1416,9 +1410,6 @@
   <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
     <value>Egyedi preferencia minden egyes mappához</value>
   </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>Helyi menü</value>
-  </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Eredeti elérési út:</value>
   </data>
@@ -1445,6 +1436,24 @@
   </data>
   <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
     <value>Feladatok folyamatban</value>
+  </data>
+  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
+    <value>Mindig kettős nézetben nyissa meg az új lapokat</value>
+  </data>
+  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
+    <value>Kettős panel bekapcsolása</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
+    <value>Megnyitás második panelben</value>
+  </data>
+  <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
+    <value>Új panel</value>
+  </data>
+  <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
+    <value>Megnyités második panelben</value>
+  </data>
+  <data name="SettingsDualPane.Text" xml:space="preserve">
+    <value>Kettós panel</value>
   </data>
   <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
     <value>Nem indexelt elemek mutatása fájl és mappa keresésekor (hosszabb keresési idő)</value>
