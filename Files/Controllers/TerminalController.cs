@@ -1,5 +1,6 @@
 ﻿using Files.DataModels;
 using Files.Filesystem;
+using Files.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -115,12 +116,29 @@ namespace Files.Controllers
                 Icon = ""
             };
 
-            bool isWindowsTerminalAddedOrRemoved = await Model.AddOrRemoveTerminalAsync(windowsTerminal, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
-            bool isFluentTerminalAddedOrRemoved = await Model.AddOrRemoveTerminalAsync(fluentTerminal, "53621FSApps.FluentTerminal_87x1pks76srcp");
-            if (isWindowsTerminalAddedOrRemoved || isFluentTerminalAddedOrRemoved)
+            bool isWindowsTerminalInstalled = await PackageHelper.IsAppInstalledAsync("Microsoft.WindowsTerminal_8wekyb3d8bbwe");
+            bool isWindowsTerminalPreviewInstalled = await PackageHelper.IsAppInstalledAsync("Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe");
+            bool isFluentTerminalInstalled = await PackageHelper.IsAppInstalledAsync("53621FSApps.FluentTerminal_87x1pks76srcp");
+
+            if (isWindowsTerminalInstalled || isWindowsTerminalPreviewInstalled)
             {
-                SaveModel();
+                Model.AddTerminal(windowsTerminal);
             }
+            else
+            {
+                Model.RemoveTerminal(windowsTerminal);
+            }
+
+            if (isFluentTerminalInstalled)
+            {
+                Model.AddTerminal(fluentTerminal);
+            }
+            else
+            {
+                Model.RemoveTerminal(fluentTerminal);
+            }
+
+            SaveModel();
         }
 
         public void SaveModel()

@@ -258,6 +258,9 @@ namespace Files.Views.LayoutModes
 
         private void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+
             if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
             {
                 if (!IsRenamingItem)
@@ -284,6 +287,16 @@ namespace Files.Views.LayoutModes
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
             {
                 // Unfocus the GridView so keyboard shortcut can be handled
+                Focus(FocusState.Programmatic);
+            }
+            else if (ctrlPressed && shiftPressed && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.W))
+            {
+                // Unfocus the ListView so keyboard shortcut can be handled (ctrl + shift + W/"->"/"<-")
+                Focus(FocusState.Programmatic);
+            }
+            else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
+            {
+                // Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
                 Focus(FocusState.Programmatic);
             }
         }
@@ -389,7 +402,7 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
+        private void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
             if (args.ItemContainer == null)
             {
@@ -404,11 +417,8 @@ namespace Files.Views.LayoutModes
                 InitializeDrag(args.ItemContainer);
                 args.ItemContainer.CanDrag = args.ItemContainer.IsSelected; // Update CanDrag
 
-                await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                {
-                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
-                    item.ItemPropertiesInitialized = true;
-                });
+                ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
+                item.ItemPropertiesInitialized = true;
             }
         }
     }

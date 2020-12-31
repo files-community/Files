@@ -334,10 +334,9 @@ namespace Files
                 {
                     ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = true;
                 }
+
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
-
-                MainPage.MultitaskingControl?.UpdateSelectedTab(new DirectoryInfo(workingDir).Name, workingDir, false);
                 ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir);
                 ParentShellPageInstance.NavigationToolbar.PathControlDisplayText = parameters.NavPathParam;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
@@ -350,8 +349,6 @@ namespace Files
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
-
-                MainPage.MultitaskingControl?.UpdateSelectedTab(null, null, true);
                 ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(parameters.SearchResults, parameters.SearchPathParam);
             }
 
@@ -589,7 +586,8 @@ namespace Files
                 UnloadMenuFlyoutItemByName("SidebarPinItem");
                 UnloadMenuFlyoutItemByName("OpenInNewTab");
                 UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
-
+                UnloadMenuFlyoutItemByName("OpenInNewPane");
+                
                 if (SelectedItems.Count == 1)
                 {
                     if (!string.IsNullOrEmpty(SelectedItem.FileExtension))
@@ -686,6 +684,15 @@ namespace Files
                     UnloadMenuFlyoutItemByName("OpenInNewTab");
                     UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
                 }
+
+                if (SelectedItems.Count == 1 && ParentShellPageInstance.IsMultiPaneEnabled && ParentShellPageInstance.IsPageMainPane)
+                {
+                    LoadMenuFlyoutItemByName("OpenInNewPane");
+                }
+                else
+                {
+                    UnloadMenuFlyoutItemByName("OpenInNewPane");
+                }
             }
 
             //check the file extension of the selected item
@@ -694,8 +701,11 @@ namespace Files
 
         protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
-            char letterPressed = Convert.ToChar(args.KeyCode);
-            ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
+            if (ParentShellPageInstance.IsCurrentInstance)
+            {
+                char letterPressed = Convert.ToChar(args.KeyCode);
+                ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
+            }
         }
 
         protected async void List_DragEnter(object sender, DragEventArgs e)
@@ -816,7 +826,7 @@ namespace Files
 
             ListedItem item = GetItemFromElement(sender);
 
-            if(item is null && sender is GridViewItem gvi)
+            if (item is null && sender is GridViewItem gvi)
             {
                 item = gvi.Content as ListedItem;
             }
@@ -881,7 +891,10 @@ namespace Files
 
             e.Handled = true;
             ListedItem rowItem = GetItemFromElement(sender);
-            await ParentShellPageInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, true);
+            if (rowItem != null)
+            {
+                await ParentShellPageInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, true);
+            }
             deferral.Complete();
         }
 

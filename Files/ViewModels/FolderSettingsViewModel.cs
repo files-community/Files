@@ -74,6 +74,7 @@ namespace Files.ViewModels
         }
 
         public event EventHandler LayoutModeChangeRequested;
+
         public event EventHandler GridViewSizeChangeRequested;
 
         public RelayCommand ToggleLayoutModeGridViewLarge => new RelayCommand(() =>
@@ -287,6 +288,7 @@ namespace Files.ViewModels
             }
             dataContainer.Values[folderPath] = prefs.ToCompositeValue();
         }
+
         private LayoutPreferences LayoutPreference { get; set; }
 
         private class LayoutPreferences
