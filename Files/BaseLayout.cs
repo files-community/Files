@@ -672,6 +672,11 @@ namespace Files
                     LoadMenuFlyoutItemByName("SidebarPinItem");
                     LoadMenuFlyoutItemByName("CreateShortcut");
                     LoadMenuFlyoutItemByName("OpenItem");
+
+                    if (AppSettings.ShowCopyLocationMenuItem)
+                    {
+                        LoadMenuFlyoutItemByName("CopyLocationItem");
+                    }
                 }
                 else
                 {
