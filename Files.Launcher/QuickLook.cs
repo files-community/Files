@@ -58,10 +58,17 @@ namespace FilesFullTrust
                 }
             }
 
-            var result = QuickLookServerAvailable();
+            try
+            {
+                var result = QuickLookServerAvailable();
 
-            Logger.Info($"QuickLook detected: {result != 0}");
-            localSettings.Values["quicklook_enabled"] = result != 0;
+                Logger.Info($"QuickLook detected: {result != 0}");
+                localSettings.Values["quicklook_enabled"] = result != 0;
+            }
+            catch (Exception ex)
+            {
+                Logger.Info(ex, ex.Message);
+            }
         }
     }
 }
