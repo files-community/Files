@@ -90,8 +90,7 @@ namespace Files.UserControls.Widgets
             {
                 case "Downloads":
                     NavigationPath = AppSettings.DownloadsPath;
-                    break
-                        ;
+                    break;
                 case "Desktop":
                     NavigationPath = AppSettings.DesktopPath;
                     break;
