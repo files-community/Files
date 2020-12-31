@@ -220,8 +220,6 @@ namespace Files.Views
 
             Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
-            Clipboard.ContentChanged += Clipboard_ContentChanged;
-            Clipboard_ContentChanged(null, null);
         }
 
         private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -999,31 +997,6 @@ namespace Files.Views
             };
         }
 
-        public void Clipboard_ContentChanged(object sender, object e)
-        {
-            if (IsCurrentInstance)
-            {
-                try
-                {
-                    DataPackageView packageView = Clipboard.GetContent();
-                    if (packageView.Contains(StandardDataFormats.StorageItems)
-                        && CurrentPageType != typeof(YourHome)
-                        && !FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
-                    {
-                        App.InteractionViewModel.IsPasteEnabled = true;
-                    }
-                    else
-                    {
-                        App.InteractionViewModel.IsPasteEnabled = false;
-                    }
-                }
-                catch (Exception)
-                {
-                    App.InteractionViewModel.IsPasteEnabled = false;
-                }
-            }
-        }
-
         private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
             args.Handled = true;
@@ -1242,7 +1215,6 @@ namespace Files.Views
         {
             Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested -= ModernShellPage_BackRequested;
-            Clipboard.ContentChanged -= Clipboard_ContentChanged;
             App.Current.Suspending -= Current_Suspending;
             App.Current.LeavingBackground -= OnLeavingBackground;
             AppSettings.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;

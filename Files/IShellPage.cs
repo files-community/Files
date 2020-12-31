@@ -23,8 +23,6 @@ namespace Files
         public IFilesystemHelpers FilesystemHelpers { get; }
         public INavigationToolbar NavigationToolbar { get; }
         
-        public abstract void Clipboard_ContentChanged(object sender, object e);
-
         public abstract void Refresh_Click();
     }
 

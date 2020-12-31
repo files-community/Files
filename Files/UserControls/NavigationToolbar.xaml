@@ -1082,7 +1082,7 @@
                             x:Uid="NavigationToolbarPaste"
                             x:Load="{x:Bind IsPageTypeNotHome, Mode=OneWay}"
                             Command="{x:Bind PasteInvokedCommand, Mode=OneWay}"
-                            IsEnabled="{x:Bind local1:App.InteractionViewModel.IsPasteEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            IsEnabled="{x:Bind converters:MultiBooleanConverter.AndConvert(CanPasteInPage, local1:App.InteractionViewModel.IsPasteEnabled), Mode=OneWay}"
                             Text="Paste">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9B2;" />

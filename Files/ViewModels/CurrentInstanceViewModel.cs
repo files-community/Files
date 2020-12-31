@@ -28,7 +28,9 @@ namespace Files.ViewModels
                 SetProperty(ref _IsPageTypeSearchResults, value);
                 OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
                 OnPropertyChanged(nameof(CanCreateFileInPage));
+                OnPropertyChanged(nameof(CanPasteInPage));
                 OnPropertyChanged(nameof(CanOpenTerminalInPage));
+                OnPropertyChanged(nameof(CanCopyPathInPage));
             }
         }
 
@@ -42,7 +44,9 @@ namespace Files.ViewModels
                 SetProperty(ref _IsPageTypeNotHome, value);
                 OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
                 OnPropertyChanged(nameof(CanCreateFileInPage));
+                OnPropertyChanged(nameof(CanPasteInPage));
                 OnPropertyChanged(nameof(CanOpenTerminalInPage));
+                OnPropertyChanged(nameof(CanCopyPathInPage));
             }
         }
 
@@ -56,6 +60,7 @@ namespace Files.ViewModels
                 SetProperty(ref _IsPageTypeMtpDevice, value);
                 OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
                 OnPropertyChanged(nameof(CanCreateFileInPage));
+                OnPropertyChanged(nameof(CanPasteInPage));
                 OnPropertyChanged(nameof(CanOpenTerminalInPage));
                 OnPropertyChanged(nameof(CanCopyPathInPage));
             }
@@ -71,28 +76,35 @@ namespace Files.ViewModels
                 SetProperty(ref _IsPageTypeRecycleBin, value);
                 OnPropertyChanged(nameof(IsCreateButtonEnabledInPage));
                 OnPropertyChanged(nameof(CanCreateFileInPage));
+                OnPropertyChanged(nameof(CanPasteInPage));
                 OnPropertyChanged(nameof(CanOpenTerminalInPage));
+                OnPropertyChanged(nameof(CanCopyPathInPage));
             }
         }
 
         public bool IsCreateButtonEnabledInPage
         {
-            get => !_IsPageTypeRecycleBin && IsPageTypeNotHome && !_IsPageTypeSearchResults;
+            get => !_IsPageTypeRecycleBin && _IsPageTypeNotHome && !_IsPageTypeSearchResults;
         }
 
         public bool CanCopyPathInPage
         {
-            get => !_IsPageTypeMtpDevice && !_IsPageTypeRecycleBin && IsPageTypeNotHome && !_IsPageTypeSearchResults;
+            get => !_IsPageTypeMtpDevice && !_IsPageTypeRecycleBin && _IsPageTypeNotHome && !_IsPageTypeSearchResults;
         }
 
         public bool CanCreateFileInPage
         {
-            get => !_IsPageTypeMtpDevice && !_IsPageTypeRecycleBin && IsPageTypeNotHome && !_IsPageTypeSearchResults;
+            get => !_IsPageTypeMtpDevice && !_IsPageTypeRecycleBin && _IsPageTypeNotHome && !_IsPageTypeSearchResults;
         }
 
         public bool CanOpenTerminalInPage
         {
-            get => !_IsPageTypeMtpDevice && !_IsPageTypeRecycleBin && IsPageTypeNotHome && !_IsPageTypeSearchResults;
+            get => !_IsPageTypeMtpDevice && !_IsPageTypeRecycleBin && _IsPageTypeNotHome && !_IsPageTypeSearchResults;
+        }
+
+        public bool CanPasteInPage
+        {
+            get => !_IsPageTypeRecycleBin && _IsPageTypeNotHome && !_IsPageTypeSearchResults;
         }
 
         private bool _IsPageTypeCloudDrive = false;
