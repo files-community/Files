@@ -1029,9 +1029,6 @@
   <data name="NewFile" xml:space="preserve">
     <value>ନୂତନ ଫାଇଲ୍</value>
   </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>ପ୍ରସଙ୍ଗ ମେନୁ</value>
-  </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>ଯୋଡନ୍ତୁ</value>
   </data>

@@ -903,9 +903,6 @@
   <data name="NewFile" xml:space="preserve">
     <value>‏‏קובץ חדש</value>
   </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>תפריט תלוי הקשר</value>
-  </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>הוסף</value>
   </data>

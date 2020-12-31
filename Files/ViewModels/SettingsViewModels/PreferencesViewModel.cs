@@ -16,8 +16,6 @@ namespace Files.ViewModels.SettingsViewModels
         private Terminal selectedTerminal = App.AppSettings.TerminalController.Model.GetDefaultTerminal();
         private bool pinRecycleBinToSideBar = App.AppSettings.PinRecycleBinToSideBar;
         private bool showConfirmDeleteDialog = App.AppSettings.ShowConfirmDeleteDialog;
-        private bool showAllContextMenuItems = App.AppSettings.ShowAllContextMenuItems;
-        private bool showCopyLocationOption = App.AppSettings.ShowCopyLocationOption;
 
         public PreferencesViewModel()
         {
@@ -97,36 +95,6 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref showConfirmDeleteDialog, value))
                 {
                     App.AppSettings.ShowConfirmDeleteDialog = value;
-                }
-            }
-        }
-
-        public bool ShowAllContextMenuItems
-        {
-            get
-            {
-                return showAllContextMenuItems;
-            }
-            set
-            {
-                if (SetProperty(ref showAllContextMenuItems, value))
-                {
-                    App.AppSettings.ShowAllContextMenuItems = value;
-                }
-            }
-        }
-
-        public bool ShowCopyLocationOption
-        {
-            get
-            {
-                return showCopyLocationOption;
-            }
-            set
-            {
-                if (SetProperty(ref showCopyLocationOption, value))
-                {
-                    App.AppSettings.ShowCopyLocationOption = value;
                 }
             }
         }

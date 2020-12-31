@@ -473,24 +473,6 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not some of the right click context menu items overflow into a sub menu.
-        /// </summary>
-        public bool ShowAllContextMenuItems
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the show copy location option is shown in the right click context menu.
-        /// </summary>
-        public bool ShowCopyLocationOption
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
         /// Gets or sets a value indicating the application language.
         /// </summary>
         public DefaultLanguageModel CurrentLanguage { get; set; } = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);
@@ -561,6 +543,37 @@ namespace Files.ViewModels
         }
 
         #endregion Preferences
+
+        #region Appearance
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not some of the right click context menu items overflow into a sub menu.
+        /// </summary>
+        public bool ShowAllContextMenuItems
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the copy location menu item is shown in the right click context menu.
+        /// </summary>
+        public bool ShowCopyLocationMenuItem
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the open in new tab menu item is shown in the right click context menu.
+        /// </summary>
+        public bool ShowOpenInNewTabMenuItem
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        #endregion Appearance
 
         /// <summary>
         /// Gets or sets a value indicating whether or not WSL is supported.

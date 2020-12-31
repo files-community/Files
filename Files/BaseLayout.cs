@@ -570,11 +570,6 @@ namespace Files
                 && SelectedItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase);
             SetShellContextmenu(BaseLayoutItemContextFlyout, shiftPressed, showOpenMenu);
 
-            if (!AppSettings.ShowCopyLocationOption)
-            {
-                UnloadMenuFlyoutItemByName("CopyLocationItem");
-            }
-
             if (!DataTransferManager.IsSupported())
             {
                 UnloadMenuFlyoutItemByName("ShareItem");
@@ -676,7 +671,10 @@ namespace Files
 
                 if (SelectedItems.Count <= 5 && SelectedItems.Count > 0)
                 {
-                    LoadMenuFlyoutItemByName("OpenInNewTab");
+                    if (AppSettings.ShowOpenInNewTabMenuItem)
+                    {
+                        LoadMenuFlyoutItemByName("OpenInNewTab");
+                    }
                     LoadMenuFlyoutItemByName("OpenInNewWindowItem");
                 }
                 else if (SelectedItems.Count > 5)

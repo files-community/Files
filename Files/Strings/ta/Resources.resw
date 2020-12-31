@@ -878,9 +878,6 @@
     <value>Access Denied
 அணுகல் மறுக்கப்பட்டது</value>
   </data>
-  <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
-    <value>அனைத்து சூழல் மெனு உருப்படிகளையும் காண்பி</value>
-  </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Header" xml:space="preserve">
     <value>அறிந்த கோப்பு வகைகளுக்கு நீட்டிப்பைக் காண்பி</value>
   </data>
@@ -922,9 +919,6 @@
   </data>
   <data name="FolderItemAutomation" xml:space="preserve">
     <value>கோப்புறை</value>
-  </data>
-  <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
-    <value>தேர்வுசெய்யப்பட்ட உருப்படியின் இருப்பிடத்தை நகலெடுக்க ஒரு பொத்தானைக் காண்பி</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
     <value>மறைந்த கோப்புகள் மற்றும் கோப்புறைகளைக் காண்பி</value>
@@ -1150,9 +1144,6 @@
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>புதிய கோப்பு</value>
-  </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>சூழல் மெனு</value>
   </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>சேர்</value>
