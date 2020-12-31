@@ -1018,9 +1018,9 @@
                             </MenuFlyoutItem.Icon>
                             <MenuFlyoutItem.KeyboardAccelerators>
                                 <KeyboardAccelerator
-                                    Key="Right"
+                                    Key="Add"
                                     IsEnabled="False"
-                                    Modifiers="Control" />
+                                    Modifiers="Menu,Shift" />
                             </MenuFlyoutItem.KeyboardAccelerators>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
