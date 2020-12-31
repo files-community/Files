@@ -664,6 +664,7 @@
             Background="Transparent"
             CanUserReorderColumns="False"
             CanUserSortColumns="True"
+            BeginningEdit="AllView_BeginningEdit"
             CellEditEnded="AllView_CellEditEnded"
             CellEditEnding="AllView_CellEditEnding"
             CurrentCellChanged="AllView_CurrentCellChanged"

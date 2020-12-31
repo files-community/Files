@@ -218,43 +218,6 @@ namespace Files.Views.LayoutModes
 
         private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
-            if (!isAllViewCurrentSlotValid)
-            {
-                // We know that previously the user clicked outside of AllView
-                // (which means that logically there is no current cell)
-                // and now clicks again on the cell that AllView believes to be current
-                // (that is why Cell Editing is triggered).
-                // We want to cancel this editing as from end-user perspective it means
-                // single click triggering a rename
-                isAllViewCurrentSlotValid = true;
-                AllView.CancelEdit(); // Cancel the edit operation
-                return;
-            }
-
-            if (ParentShellPageInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
-            {
-                // Do not rename files and folders inside the recycle bin
-                AllView.CancelEdit(); // Cancel the edit operation
-                return;
-            }
-
-            if (SelectedItem == null)
-            {
-                AllView.CancelEdit(); // Cancel the edit operation
-                return;
-            }
-
-            // Only cancel if this event was triggered by a tap
-            // Do not cancel when user presses F2 or context menu
-            if (e.EditingEventArgs is TappedRoutedEventArgs && AppSettings.OpenItemsWithOneclick)
-            {
-                // This usually should not happen as the click is handled by ItemPressed
-                // We do not invoke click, as it still can happen
-                // (it is better to miss click, rather than perform an extra one)
-                AllView.CancelEdit(); // Cancel the edit operation
-                return;
-            }
-
             int extensionLength = SelectedItem.FileExtension?.Length ?? 0;
             oldItemName = SelectedItem.ItemName;
 
@@ -538,6 +501,45 @@ namespace Files.Views.LayoutModes
         {
             // The current cell changed meaning that the CurrentSlot should be respected
             isAllViewCurrentSlotValid = true;
+        }
+
+        private void AllView_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        {
+            if (!isAllViewCurrentSlotValid)
+            {
+                // We know that previously the user clicked outside of AllView
+                // (which means that logically there is no current cell)
+                // and now clicks again on the cell that AllView believes to be current
+                // (that is why Cell Editing is triggered).
+                // We want to cancel this editing as from end-user perspective it means
+                // single click triggering a rename
+                isAllViewCurrentSlotValid = true;
+                e.Cancel = true; // Cancel the edit operation
+                return;
+            }
+
+            if (ParentShellPageInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
+            {
+                // Do not rename files and folders inside the recycle bin
+                e.Cancel = true; // Cancel the edit operation
+                return;
+            }
+
+            if (SelectedItem == null)
+            {
+                e.Cancel = true; // Cancel the edit operation
+                return;
+            }
+
+            // Only cancel if this event was triggered by a tap
+            // Do not cancel when user presses F2 or context menu
+            if (e.EditingEventArgs is TappedRoutedEventArgs && AppSettings.OpenItemsWithOneclick)
+            {
+                // This usually should not happen as the click is handled by ItemPressed
+                // We do not invoke click, as it still can happen
+                // (it is better to miss click, rather than perform an extra one)
+                e.Cancel = true; // Cancel the edit operation
+            }
         }
     }
 }
