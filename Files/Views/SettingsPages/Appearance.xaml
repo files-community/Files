@@ -86,7 +86,7 @@
                 <ToggleSwitch
                     x:Name="ContextMenuToggleSwitch"
                     x:Uid="SettingsContextMenuSwitch"
-                    Header="Don't put overflow items into a sub menu"
+                    Header="Don't move overflow items into a sub menu"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowAllContextMenuItems, Mode=TwoWay}" />
 
