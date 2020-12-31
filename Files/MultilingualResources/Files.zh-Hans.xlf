@@ -1391,15 +1391,15 @@
         </trans-unit>
         <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
           <source>Rating Text</source>
-          <target state="translated">分级文本</target>
+          <target state="translated">分级</target>
         </trans-unit>
         <trans-unit id="PropertyItemFolderPathDisplay" translate="yes" xml:space="preserve">
           <source>Item Folder Path Display</source>
-          <target state="translated">项目文件夹路径显示</target>
+          <target state="translated">项目文件夹路径</target>
         </trans-unit>
         <trans-unit id="PropertyItemTypeText" translate="yes" xml:space="preserve">
           <source>Item Type Text</source>
-          <target state="translated">项目类型文本</target>
+          <target state="translated">项目类型</target>
         </trans-unit>
         <trans-unit id="PropertyTitle" translate="yes" xml:space="preserve">
           <source>Title</source>
@@ -1443,7 +1443,7 @@
         </trans-unit>
         <trans-unit id="PropertyCompressionText" translate="yes" xml:space="preserve">
           <source>Compression Text</source>
-          <target state="translated">压缩文本</target>
+          <target state="translated">压缩</target>
         </trans-unit>
         <trans-unit id="PropertyHorizontalSize" translate="yes" xml:space="preserve">
           <source>Horizontal Size</source>
