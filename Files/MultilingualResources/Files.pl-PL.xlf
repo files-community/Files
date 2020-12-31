@@ -1386,16 +1386,19 @@
           <target state="translated">Ukryte</target>
         </trans-unit>
         <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
-          <source>Rating Text</source>
-          <target state="translated">Tekst oceny</target>
+          <source>Rating</source>
+          <target state="needs-review-translation">Tekst oceny</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="PropertyItemFolderPathDisplay" translate="yes" xml:space="preserve">
-          <source>Item Folder Path Display</source>
-          <target state="translated">Element folderu ścieżki pokaż</target>
+          <source>Item Folder Path</source>
+          <target state="needs-review-translation">Element folderu ścieżki pokaż</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="PropertyItemTypeText" translate="yes" xml:space="preserve">
-          <source>Item Type Text</source>
-          <target state="translated">Typ elementu</target>
+          <source>Item Type</source>
+          <target state="needs-review-translation">Typ elementu</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="PropertyTitle" translate="yes" xml:space="preserve">
           <source>Title</source>
@@ -1438,8 +1441,9 @@
           <target state="translated">Rozdzielczość Pionowa</target>
         </trans-unit>
         <trans-unit id="PropertyCompressionText" translate="yes" xml:space="preserve">
-          <source>Compression Text</source>
-          <target state="translated">Tekst Kompresji</target>
+          <source>Compression</source>
+          <target state="needs-review-translation">Tekst Kompresji</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="PropertyHorizontalSize" translate="yes" xml:space="preserve">
           <source>Horizontal Size</source>
@@ -1522,8 +1526,9 @@
           <target state="translated">Ilość powtórzeń</target>
         </trans-unit>
         <trans-unit id="PropertyDisplayArtist" translate="yes" xml:space="preserve">
-          <source>Display Artist</source>
-          <target state="translated">Artysta</target>
+          <source>Artist</source>
+          <target state="needs-review-translation">Artysta</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="PropertyAlbumArtist" translate="yes" xml:space="preserve">
           <source>Album Artist</source>

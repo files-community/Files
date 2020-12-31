@@ -1382,16 +1382,16 @@
           <target state="needs-review-translation" state-qualifier="tm-suggestion">மறைந்த</target>
         </trans-unit>
         <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
-          <source>Rating Text</source>
-          <target state="new">Rating Text</target>
+          <source>Rating</source>
+          <target state="new">Rating</target>
         </trans-unit>
         <trans-unit id="PropertyItemFolderPathDisplay" translate="yes" xml:space="preserve">
-          <source>Item Folder Path Display</source>
-          <target state="new">Item Folder Path Display</target>
+          <source>Item Folder Path</source>
+          <target state="new">Item Folder Path</target>
         </trans-unit>
         <trans-unit id="PropertyItemTypeText" translate="yes" xml:space="preserve">
-          <source>Item Type Text</source>
-          <target state="new">Item Type Text</target>
+          <source>Item Type</source>
+          <target state="new">Item Type</target>
         </trans-unit>
         <trans-unit id="PropertyTitle" translate="yes" xml:space="preserve">
           <source>Title</source>
@@ -1434,8 +1434,8 @@
           <target state="new">Vertical Resolution</target>
         </trans-unit>
         <trans-unit id="PropertyCompressionText" translate="yes" xml:space="preserve">
-          <source>Compression Text</source>
-          <target state="new">Compression Text</target>
+          <source>Compression</source>
+          <target state="new">Compression</target>
         </trans-unit>
         <trans-unit id="PropertyHorizontalSize" translate="yes" xml:space="preserve">
           <source>Horizontal Size</source>
@@ -1518,8 +1518,8 @@
           <target state="needs-review-translation" state-qualifier="tm-suggestion">மாதிரி விகிதம்</target>
         </trans-unit>
         <trans-unit id="PropertyDisplayArtist" translate="yes" xml:space="preserve">
-          <source>Display Artist</source>
-          <target state="new">Display Artist</target>
+          <source>Artist</source>
+          <target state="new">Artist</target>
         </trans-unit>
         <trans-unit id="PropertyAlbumArtist" translate="yes" xml:space="preserve">
           <source>Album Artist</source>
