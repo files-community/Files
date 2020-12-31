@@ -204,15 +204,6 @@ namespace Files.Views
             }
         }
 
-        public void Clipboard_ContentChanged(object sender, object e)
-        {
-        }
-
-        public void Refresh_Click()
-        {
-            ActivePane?.Refresh_Click();
-        }
-
         public void Dispose()
         {
             PaneLeft?.Dispose();
