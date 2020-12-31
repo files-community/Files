@@ -118,6 +118,7 @@
 
         <Grid BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}" BorderThickness="0,0,0,0.5">
             <TextBlock
+                x:Uid="StatusCenterFlyoutTitle"
                 Margin="10,8"
                 FontSize="14"
                 FontWeight="SemiBold"
@@ -158,9 +159,9 @@
                                     Width="30"
                                     Height="30"
                                     x:Load="{x:Bind IsProgressing, Mode=OneWay}"
-                                    IsIndeterminate="False"
                                     IsActive="True"
-                                    Value="{x:Bind Progress, Mode=OneWay}"/>
+                                    IsIndeterminate="False"
+                                    Value="{x:Bind Progress, Mode=OneWay}" />
                                 <FontIcon
                                     FontFamily="{x:Bind ((FontIconSource)GlyphSource).FontFamily}"
                                     FontSize="14"

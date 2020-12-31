@@ -3,8 +3,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:widgets="using:Files.UserControls.Widgets"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:Files.Converters"
+    xmlns:widgets="using:Files.UserControls.Widgets"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
@@ -17,7 +18,9 @@
             </StackPanel.ChildrenTransitions>
             <widgets:LibraryCards x:Name="LibraryWidget" x:Load="{x:Bind AppSettings.ShowLibraryCardsWidget, Mode=OneWay}" />
 
-            <widgets:DrivesWidget x:Name="DrivesWidget" x:Load="{x:Bind AppSettings.ShowDrivesWidget, Mode=OneWay}" />
+            <widgets:DrivesWidget x:Name="DrivesWidget" 
+                                  x:Load="{x:Bind AppSettings.ShowDrivesWidget, Mode=OneWay}"
+                                  ShowMultiPaneControls="{x:Bind converters:MultiBooleanConverter.AndConvert(AppInstance.IsMultiPaneEnabled, AppInstance.IsPageMainPane), Mode=OneWay}"/>
 
             <widgets:RecentFiles x:Name="RecentFilesWidget" x:Load="{x:Bind AppSettings.ShowRecentFilesWidget, Mode=OneWay}" />
         </StackPanel>

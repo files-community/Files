@@ -8,7 +8,7 @@ using Windows.Storage;
 
 namespace Files.Helpers.FileListCache
 {
-    class PersistentSQLiteCacheAdapter : IFileListCache, IDisposable
+    internal class PersistentSQLiteCacheAdapter : IFileListCache, IDisposable
     {
         private readonly SqliteConnection connection;
         private bool disposedValue;
@@ -40,6 +40,7 @@ namespace Files.Helpers.FileListCache
 
             RunCleanupRoutine();
         }
+
         public async Task SaveFileListToCache(string path, CacheEntry cacheEntry)
         {
             try

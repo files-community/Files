@@ -26,6 +26,10 @@ namespace Files.UserControls
 
         public event SidebarItemInvokedEventHandler SidebarItemInvoked;
 
+        public delegate void SidebarItemNewPaneInvokedEventHandler(object sender, SidebarItemNewPaneInvokedEventArgs e);
+
+        public event SidebarItemNewPaneInvokedEventHandler SidebarItemNewPaneInvoked;
+
         public delegate void SidebarItemPropertiesInvokedEventHandler(object sender, SidebarItemPropertiesInvokedEventArgs e);
 
         public event SidebarItemPropertiesInvokedEventHandler SidebarItemPropertiesInvoked;
@@ -80,6 +84,24 @@ namespace Files.UserControls
                 {
                     _SelectedSidebarItem = value;
                     NotifyPropertyChanged(nameof(SelectedSidebarItem));
+                }
+            }
+        }
+
+        private bool _CanOpenInNewPane;
+
+        public bool CanOpenInNewPane
+        {
+            get
+            {
+                return _CanOpenInNewPane;
+            }
+            set
+            {
+                if (value != _CanOpenInNewPane)
+                {
+                    _CanOpenInNewPane = value;
+                    NotifyPropertyChanged(nameof(CanOpenInNewPane));
                 }
             }
         }
@@ -506,6 +528,12 @@ namespace Files.UserControls
 
             SidebarNavView.Loaded -= SidebarNavView_Loaded;
         }
+
+        private void OpenInNewPane_Click(object sender, RoutedEventArgs e)
+        {
+            var item = (sender as MenuFlyoutItem).DataContext;
+            SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(item));
+        }
     }
 
     public class SidebarItemDroppedEventArgs : EventArgs
@@ -530,6 +558,16 @@ namespace Files.UserControls
         public object InvokedItemDataContext { get; set; }
 
         public SidebarItemPropertiesInvokedEventArgs(object invokedItemDataContext)
+        {
+            InvokedItemDataContext = invokedItemDataContext;
+        }
+    }
+
+    public class SidebarItemNewPaneInvokedEventArgs : EventArgs
+    {
+        public object InvokedItemDataContext { get; set; }
+
+        public SidebarItemNewPaneInvokedEventArgs(object invokedItemDataContext)
         {
             InvokedItemDataContext = invokedItemDataContext;
         }
