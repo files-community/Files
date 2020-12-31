@@ -570,6 +570,11 @@ namespace Files
                 && SelectedItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase);
             SetShellContextmenu(BaseLayoutItemContextFlyout, shiftPressed, showOpenMenu);
 
+            if (!AppSettings.ShowCopyLocationMenuItem)
+            {
+                UnloadMenuFlyoutItemByName("CopyLocationItem");
+            }
+
             if (!DataTransferManager.IsSupported())
             {
                 UnloadMenuFlyoutItemByName("ShareItem");
