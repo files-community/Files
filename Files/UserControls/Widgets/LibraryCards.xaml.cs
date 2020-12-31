@@ -25,6 +25,12 @@ namespace Files.UserControls.Widgets
             itemsAdded.Clear();
             itemsAdded.Add(new FavoriteLocationItem()
             {
+                Icon = "\xe9f1",
+                Text = "SidebarDesktop".GetLocalized(),
+                Tag = "Desktop"
+            });
+            itemsAdded.Add(new FavoriteLocationItem()
+            {
                 Icon = "\xe91c",
                 Text = "SidebarDownloads".GetLocalized(),
                 Tag = "Downloads"
@@ -82,10 +88,14 @@ namespace Files.UserControls.Widgets
 
             switch (ClickedCard)
             {
+                case "Desktop":
+                    NavigationPath = AppSettings.DesktopPath;
+                    break;
+
                 case "Downloads":
                     NavigationPath = AppSettings.DownloadsPath;
                     break;
-
+                
                 case "Documents":
                     NavigationPath = AppSettings.DocumentsPath;
                     break;
@@ -100,10 +110,6 @@ namespace Files.UserControls.Widgets
 
                 case "Videos":
                     NavigationPath = AppSettings.VideosPath;
-                    break;
-
-                case "RecycleBin":
-                    NavigationPath = AppSettings.RecycleBinPath;
                     break;
             }
             LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs()
