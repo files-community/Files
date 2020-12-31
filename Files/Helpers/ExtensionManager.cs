@@ -19,7 +19,7 @@ namespace Files.Helpers
 {
     class ExtensionManager
     {
-        private CoreDispatcher _dispatcher; // used to run code on the UI thread for code that may update UI
+        //private CoreDispatcher _dispatcher; // used to run code on the UI thread for code that may update UI
         private AppExtensionCatalog _catalog; // the catalog of app extensions available to this host
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Files.Helpers
             // catalog & contract
             ExtensionContractName = extensionContractName;
             _catalog = AppExtensionCatalog.Open(ExtensionContractName);
-            _dispatcher = null;
+            //_dispatcher = null;
         }
 
         // The collection of extensions for this host
@@ -54,16 +54,16 @@ namespace Files.Helpers
         /// Be sure to call this from the UI thread.
         /// </summary>
         /// <param name="dispatcher"></param>
-        public void Initialize(CoreDispatcher dispatcher)
+        public void Initialize()
         {
             #region Error Checking & Dispatcher Setup
             // verify that we haven't already been initialized
-            if (_dispatcher != null)
-            {
-                throw new ExtensionManagerException("Extension Manager for " + this.ExtensionContractName + " is already initialized.");
-            }
+            //if (_dispatcher != null)
+            //{
+            //    throw new ExtensionManagerException("Extension Manager for " + this.ExtensionContractName + " is already initialized.");
+            //}
 
-            _dispatcher = dispatcher;
+            //_dispatcher = dispatcher;
             #endregion
 
             // handlers for extension management events
@@ -84,10 +84,10 @@ namespace Files.Helpers
         {
             #region Error Checking
             // Run on the UI thread because the Extensions Tab UI updates as extensions are added or removed
-            if (_dispatcher == null)
-            {
-                throw new ExtensionManagerException("Extension Manager for " + this.ExtensionContractName + " is not initialized.");
-            }
+            //if (_dispatcher == null)
+            //{
+            //    throw new ExtensionManagerException("Extension Manager for " + this.ExtensionContractName + " is not initialized.");
+            //}
             #endregion
 
             IReadOnlyList<AppExtension> extensions = await _catalog.FindAllAsync();
@@ -104,13 +104,11 @@ namespace Files.Helpers
         /// <param name="args">Contains the package that was installed</param>
         private async void Catalog_PackageInstalled(AppExtensionCatalog sender, AppExtensionPackageInstalledEventArgs args)
         {
-            // Run on the UI thread because the Extensions Tab UI updates as extensions are added or removed
-            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => {
-                foreach (AppExtension ext in args.Extensions)
-                {
-                    await LoadExtension(ext);
-                }
-            });
+            
+            foreach (AppExtension ext in args.Extensions)
+            {
+                await LoadExtension(ext);
+            }
         }
 
         /// <summary>
@@ -120,13 +118,10 @@ namespace Files.Helpers
         /// <param name="args">Contains the package that was updated</param>
         private async void Catalog_PackageUpdated(AppExtensionCatalog sender, AppExtensionPackageUpdatedEventArgs args)
         {
-            // Run on the UI thread because the Extensions Tab UI updates as extensions are added or removed
-            await _dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => {
-                foreach (AppExtension ext in args.Extensions)
-                {
-                    await LoadExtension(ext);
-                }
-            });
+            foreach (AppExtension ext in args.Extensions)
+            {
+                await LoadExtension(ext);
+            }
         }
 
         /// <summary>
@@ -236,10 +231,7 @@ namespace Files.Helpers
         /// <returns></returns>
         public async Task LoadExtensions(Package package)
         {
-            // Run on the UI thread because the Extensions Tab UI updates as extensions are added or removed
-            await _dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
-                Extensions.Where(ext => ext.AppExtension.Package.Id.FamilyName == package.Id.FamilyName).ToList().ForEach(async e => { await e.MarkAsLoaded(); });
-            });
+            Extensions.Where(ext => ext.AppExtension.Package.Id.FamilyName == package.Id.FamilyName).ToList().ForEach(async e => { await e.MarkAsLoaded(); });
         }
 
         /// <summary>
@@ -249,10 +241,10 @@ namespace Files.Helpers
         /// <returns></returns>
         public async Task UnloadExtensions(Package package)
         {
-            // Run on the UI thread because the Extensions Tab UI updates as extensions are added or removed
-            await _dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
-                Extensions.Where(ext => ext.AppExtension.Package.Id.FamilyName == package.Id.FamilyName).ToList().ForEach(e => { e.Unload(); });
-            });
+            Extensions.Where(ext => ext.AppExtension.Package.Id.FamilyName == package.Id.FamilyName).ToList().ForEach(e => { e.Unload(); });
+            //// Run on the UI thread because the Extensions Tab UI updates as extensions are added or removed
+            //await _dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
+            //});
         }
 
         /// <summary>
@@ -263,9 +255,7 @@ namespace Files.Helpers
         /// <returns></returns>
         public async Task RemoveExtensions(Package package)
         {
-            await _dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => {
-                Extensions.Where(ext => ext.AppExtension.Package.Id.FamilyName == package.Id.FamilyName).ToList().ForEach(e => { e.Unload(); Extensions.Remove(e); });
-            });
+            Extensions.Where(ext => ext.AppExtension.Package.Id.FamilyName == package.Id.FamilyName).ToList().ForEach(e => { e.Unload(); Extensions.Remove(e); });
         }
 
         /// <summary>

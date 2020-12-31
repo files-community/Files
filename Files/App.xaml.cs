@@ -70,7 +70,7 @@ namespace Files
             // Initialize NLog
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
             LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
-            AppData.FilePreviewExtensionManager.Initialize(Windows.UI.Core.CoreWindow.GetForCurrentThread().Dispatcher); // The extension manager can update UI, so pass it the UI dispatcher to use for UI updates
+            AppData.FilePreviewExtensionManager.Initialize(); // The extension manager can update UI, so pass it the UI dispatcher to use for UI updates
 
             StartAppCenter();
         }

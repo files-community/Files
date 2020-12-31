@@ -12,6 +12,7 @@ using Windows.ApplicationModel.AppExtensions;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -19,6 +20,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using static Files.App;
 
@@ -78,7 +80,6 @@ namespace Files.UserControls
         public async void UpdatePreviewControl(ListedItem item, Helpers.Extension extension)
         {
             var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
-            var path = AppData.FilePreviewExtensionManager.Extensions[0].PublicFolderPath;
 
             var buffer = await FileIO.ReadBufferAsync(file);
             var byteArray = new Byte[buffer.Length];
@@ -87,7 +88,7 @@ namespace Files.UserControls
             try
             {
                 CustomPreviewGrid.Children.Clear();
-                var result = await extension.Invoke(new ValueSet() { { "byteArray", byteArray } });
+                var result = await extension.Invoke(new ValueSet() { { "byteArray", byteArray }, { "filePath", item.ItemPath } });
                 var preview = result["preview"];
                 CustomPreviewGrid.Children.Add(XamlReader.Load(preview as string) as UIElement);
             } catch
