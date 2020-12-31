@@ -574,6 +574,11 @@ namespace Files
             {
                 UnloadMenuFlyoutItemByName("CopyLocationItem");
             }
+            
+            if (!AppSettings.ShowOpenInNewTabMenuItem)
+            {
+                UnloadMenuFlyoutItemByName("OpenInNewTab");
+            }
 
             if (!DataTransferManager.IsSupported())
             {
