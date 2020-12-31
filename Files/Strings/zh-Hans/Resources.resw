@@ -48,9 +48,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>文件资源管理器</value>
   </data>
-  <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
-    <value>特别感谢:</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>提交反馈</value>
   </data>
@@ -924,9 +921,6 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>拒绝访问</value>
   </data>
-  <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
-    <value>显示所有上下文菜单项</value>
-  </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>将回收站固定到侧边栏</value>
   </data>
@@ -1004,9 +998,6 @@
   </data>
   <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
     <value>在主页上显示最近的文件</value>
-  </data>
-  <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
-    <value>显示所选项目位置的复制选项</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
     <value>显示隐藏的文件和文件夹</value>
@@ -1304,9 +1295,6 @@
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>新建文件</value>
-  </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>上下文菜单</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>原路径:</value>

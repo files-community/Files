@@ -4,12 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
-    <Page.DataContext>
-        <settingsviewmodels:MultitaskingViewModel />
-    </Page.DataContext>
 
     <Grid>
         <ScrollViewer>
@@ -39,7 +35,7 @@
                             Content="Adaptive (Recommended)"
                             FontSize="16"
                             GroupName="MultitaskingSettingRadioGroup"
-                            IsChecked="{Binding IsMultitaskingExperienceAdaptive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            IsChecked="{x:Bind ViewModel.IsMultitaskingExperienceAdaptive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock
                             x:Uid="SettingsMultitaskingAdaptiveDescription"
                             MaxWidth="450"
@@ -56,7 +52,7 @@
                             Content="Horizontal"
                             FontSize="16"
                             GroupName="MultitaskingSettingRadioGroup"
-                            IsChecked="{Binding IsHorizontalTabStripEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            IsChecked="{x:Bind ViewModel.IsHorizontalTabStripEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock
                             x:Uid="SettingsMultitaskingHorizontalDescription"
                             MaxWidth="450"
@@ -73,7 +69,7 @@
                             Content="Vertical"
                             FontSize="16"
                             GroupName="MultitaskingSettingRadioGroup"
-                            IsChecked="{Binding IsVerticalTabFlyoutEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            IsChecked="{x:Bind ViewModel.IsVerticalTabFlyoutEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <TextBlock
                             x:Uid="SettingsMultitaskingVerticalDescription"
                             MaxWidth="450"
@@ -83,6 +79,26 @@
                             TextWrapping="WrapWholeWords" />
                     </StackPanel>
                 </StackPanel>
+
+                <TextBlock
+                    x:Uid="SettingsDualPane"
+                    Padding="0,10,0,0"
+                    FontSize="20"
+                    Text="Dual Pane" />
+
+                <ToggleSwitch
+                    x:Uid="SettingsMultitaskingEnableDualPane"
+                    Header="Enable dual pane view"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{x:Bind ViewModel.IsDualPaneEnabled, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Name="SettingsMultitaskingAlwaysOpenDualPane"
+                    x:Uid="SettingsMultitaskingAlwaysOpenDualPane"
+                    Header="Always open new tabs in dual pane mode"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsEnabled="{x:Bind ViewModel.IsDualPaneEnabled, Mode=OneWay}"
+                    IsOn="{x:Bind ViewModel.AlwaysOpenDualPaneInNewTab, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

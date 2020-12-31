@@ -124,7 +124,7 @@ namespace Files.Interacts
 
         private async void OpenNewTab()
         {
-            await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), "NewTab".GetLocalized());
+            await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
         }
 
         public async void OpenInNewWindowItem_Click()
@@ -138,13 +138,29 @@ namespace Files.Interacts
             }
         }
 
+        public void OpenDirectoryInNewPane_Click()
+        {
+            var listedItem = AssociatedInstance.ContentPage.SelectedItems.FirstOrDefault();
+            if (listedItem != null)
+            {
+                AssociatedInstance.PaneHolder?.OpenPathInNewPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+            }
+        }
+
+        public RelayCommand OpenNewPane => new RelayCommand(() => OpenNewPaneCommand());
+
+        public void OpenNewPaneCommand()
+        {
+            AssociatedInstance.PaneHolder?.OpenPathInNewPane("NewTab".GetLocalized());
+        }
+
         public async void OpenDirectoryInNewTab_Click()
         {
             foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
             {
                 await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
                 {
-                    await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+                    await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
                 });
             }
         }
@@ -169,12 +185,18 @@ namespace Files.Interacts
 
         public static async void OpenPathInNewTab(string path)
         {
-            await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), path);
+            await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
         }
 
         public static async Task<bool> OpenPathInNewWindowAsync(string path)
         {
-            var folderUri = new Uri("files-uwp:" + "?folder=" + path);
+            var folderUri = new Uri("files-uwp:" + "?folder=" + Uri.EscapeDataString(path));
+            return await Launcher.LaunchUriAsync(folderUri);
+        }
+
+        public static async Task<bool> OpenTabInNewWindowAsync(string tabArgs)
+        {
+            var folderUri = new Uri("files-uwp:" + "?tab=" + Uri.EscapeDataString(tabArgs));
             return await Launcher.LaunchUriAsync(folderUri);
         }
 
@@ -598,7 +620,7 @@ namespace Files.Interacts
                 }
                 foreach (ListedItem clickedOnItem in AssociatedInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder))
                 {
-                    await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), (clickedOnItem as ShortcutItem)?.TargetPath ?? clickedOnItem.ItemPath);
+                    await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), (clickedOnItem as ShortcutItem)?.TargetPath ?? clickedOnItem.ItemPath);
                 }
                 opened = (FilesystemResult)true;
             }
@@ -613,11 +635,6 @@ namespace Files.Interacts
                     ContentOwnedViewModelInstance.RefreshItems(previousDir);
                 });
             }
-        }
-
-        public void CloseTab()
-        {
-            MainPage.MultitaskingControl.RemoveTab(MainPage.MultitaskingControl.Items.ElementAt(App.InteractionViewModel.TabStripSelectedIndex));
         }
 
         public RelayCommand OpenNewWindow => new RelayCommand(() => LaunchNewWindow());

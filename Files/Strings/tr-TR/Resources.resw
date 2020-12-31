@@ -48,9 +48,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files UWP</value>
   </data>
-  <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
-    <value>Özel teşekkürler:</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Geri Bildirim Gönder</value>
   </data>
@@ -995,9 +992,6 @@
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>Yeni Dosya</value>
-  </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>Bağlam Menüsü</value>
   </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>Ekle</value>

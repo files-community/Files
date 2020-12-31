@@ -155,6 +155,16 @@
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
+                                x:Name="OpenInNewPane"
+                                x:Load="{x:Bind CanOpenInNewPane, Mode=OneWay}"
+                                x:Uid="SideBarOpenInNewPane"
+                                Click="OpenInNewPane_Click"
+                                Text="Open in new pane">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA2F;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
                                 x:Name="OpenInNewTab"
                                 x:Uid="SideBarOpenInNewTab"
                                 Click="OpenInNewTab_Click"

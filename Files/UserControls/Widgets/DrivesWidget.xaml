@@ -75,8 +75,19 @@
                             Tag="{x:Bind Path}"
                             ToolTipService.ToolTip="{x:Bind Text, Mode=OneWay}">
                             <Button.ContextFlyout>
-                                <MenuFlyout>
+                                <MenuFlyout Opening="MenuFlyout_Opening">
                                     <MenuFlyout.Items>
+                                        <MenuFlyoutItem
+                                            x:Name="OpenInNewPane"
+                                            x:Uid="SideBarOpenInNewPane"
+                                            Visibility="Collapsed"
+                                            Click="OpenInNewPane_Click"
+                                            DataContext="{x:Bind}"
+                                            Text="Open in new pane">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA2F;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
                                         <MenuFlyoutItem
                                             x:Name="OpenInNewTab"
                                             x:Uid="SideBarOpenInNewTab"

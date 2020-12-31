@@ -182,10 +182,6 @@
           <source>Files</source>
           <target state="translated" state-qualifier="tm-suggestion">קבצים</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
-          <source>Special thanks to:</source>
-          <target state="new">Special thanks to:</target>
-        </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
           <source>Submit Feedback</source>
           <target state="translated" state-qualifier="tm-suggestion">שלח משוב</target>
@@ -1223,10 +1219,6 @@
           <source>Access Denied</source>
           <target state="translated" state-qualifier="tm-suggestion">הגישה נדחתה</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesContextMenuSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show all context menu items when right clicking an item</source>
-          <target state="new">Show all context menu items when right clicking an item</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
           <target state="new">Pin Recycle Bin to the sidebar</target>
@@ -1707,10 +1699,6 @@
           <source>Show recent files on the home page</source>
           <target state="new">Show recent files on the home page</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show an option to copy the location when right clicking an item</source>
-          <target state="new">Show an option to copy the location when right clicking an item</target>
-        </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Header" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">‏‏הצג קבצים ותיקיות מוסתרים</target>
@@ -1915,10 +1903,6 @@
           <source>Enable individual preferences for individual directories</source>
           <target state="new">Enable individual preferences for individual directories</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesContextMenu.Text" translate="yes" xml:space="preserve">
-          <source>Context Menu</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">תפריט תלוי הקשר</target>
-        </trans-unit>
         <trans-unit id="originalPathColumn.Header" translate="yes" xml:space="preserve">
           <source>Original path</source>
           <target state="new">Original path</target>
@@ -1946,6 +1930,54 @@
         <trans-unit id="ItemAlreadyExistsDialogCloseButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ביטול</target>
+        </trans-unit>
+        <trans-unit id="StatusCenter.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Ongoing Tasks</source>
+          <target state="new">Ongoing Tasks</target>
+        </trans-unit>
+        <trans-unit id="StatusCenterFlyoutTitle.Text" translate="yes" xml:space="preserve">
+          <source>Ongoing Tasks</source>
+          <target state="new">Ongoing Tasks</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane.Header" translate="yes" xml:space="preserve">
+          <source>Always open new tabs in dual pane mode</source>
+          <target state="new">Always open new tabs in dual pane mode</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingEnableDualPane.Header" translate="yes" xml:space="preserve">
+          <source>Enable dual pane view</source>
+          <target state="new">Enable dual pane view</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane.Text" translate="yes" xml:space="preserve">
+          <source>Open in secondary pane</source>
+          <target state="new">Open in secondary pane</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarNewPane.Text" translate="yes" xml:space="preserve">
+          <source>New pane</source>
+          <target state="new">New pane</target>
+        </trans-unit>
+        <trans-unit id="SideBarOpenInNewPane.Text" translate="yes" xml:space="preserve">
+          <source>Open in secondary pane</source>
+          <target state="new">Open in secondary pane</target>
+        </trans-unit>
+        <trans-unit id="SettingsDualPane.Text" translate="yes" xml:space="preserve">
+          <source>Dual Pane</source>
+          <target state="new">Dual Pane</target>
+        </trans-unit>
+        <trans-unit id="SettingsCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Show copy location menu item</source>
+          <target state="new">Show copy location menu item</target>
+        </trans-unit>
+        <trans-unit id="SettingsContextMenuOverflowSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Move overflow items into a sub menu</source>
+          <target state="new">Move overflow items into a sub menu</target>
+        </trans-unit>
+        <trans-unit id="SettingsContextMenu.Text" translate="yes" xml:space="preserve">
+          <source>Customize the right click context menu</source>
+          <target state="new">Customize the right click context menu</target>
+        </trans-unit>
+        <trans-unit id="SettingsOpenInNewTabSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Show open in new tab menu item</source>
+          <target state="new">Show open in new tab menu item</target>
         </trans-unit>
       </group>
     </body>

@@ -51,6 +51,14 @@
             Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
             Modifiers="Control" />
         <KeyboardAccelerator
+            Key="N"
+            Invoked="OpenNewWindowAccelerator_Invoked"
+            Modifiers="Control" />
+        <KeyboardAccelerator
+            Key="F4"
+            Invoked="CloseSelectedTabKeyboardAccelerator_Invoked"
+            Modifiers="Control" />
+        <KeyboardAccelerator
             Key="W"
             Invoked="CloseSelectedTabKeyboardAccelerator_Invoked"
             Modifiers="Control" />
@@ -58,6 +66,10 @@
             Key="T"
             Invoked="AddNewInstanceAccelerator_Invoked"
             Modifiers="Control" />
+        <KeyboardAccelerator
+            Key="T"
+            Invoked="AddNewInstanceAccelerator_Invoked"
+            Modifiers="Control,Shift" />
     </Page.KeyboardAccelerators>
 
     <Grid TabFocusNavigation="Cycle">
@@ -69,9 +81,9 @@
         <usercontrols:HorizontalMultitaskingControl
             x:Name="HorizontalMultitaskingControl"
             x:FieldModifier="public"
-            x:Load="{x:Bind converters:MultiBooleanConverter.Convert(AppSettings.IsHorizontalTabStripEnabled, local1:App.InteractionViewModel.IsHorizontalTabStripVisible), Mode=OneWay}"
+            x:Load="{x:Bind converters:MultiBooleanConverter.OrConvert(AppSettings.IsHorizontalTabStripEnabled, local1:App.InteractionViewModel.IsHorizontalTabStripVisible), Mode=OneWay}"
             Loaded="HorizontalMultitaskingControl_Loaded" />
 
-        <ContentPresenter Grid.Row="1" Content="{x:Bind ((usercontrols:TabItem)SelectedTabItem).Content, Mode=OneWay}" />
+        <ContentPresenter Grid.Row="1" Content="{x:Bind SelectedTabItem.Control, Mode=OneWay}" />
     </Grid>
 </Page>

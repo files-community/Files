@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -248,9 +248,6 @@
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
-  </data>
-  <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
-    <value>Special thanks to:</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Submit Feedback</value>
@@ -1065,11 +1062,11 @@
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Terminal Applications</value>
   </data>
-  <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Show an option to copy the location when right clicking an item</value>
+  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
+    <value>Show copy location menu item</value>
   </data>
-  <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
-    <value>Show all context menu items when right clicking an item</value>
+  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
+    <value>Move overflow items into a sub menu</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Pin Recycle Bin to the sidebar</value>
@@ -1548,8 +1545,8 @@
   <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
     <value>Enable individual preferences for individual directories</value>
   </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>Context Menu</value>
+  <data name="SettingsContextMenu.Text" xml:space="preserve">
+    <value>Customize the right click context menu</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Original path</value>
@@ -1571,5 +1568,32 @@
   </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Cancel</value>
+  </data>
+  <data name="StatusCenter.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Ongoing Tasks</value>
+  </data>
+  <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
+    <value>Ongoing Tasks</value>
+  </data>
+  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
+    <value>Always open new tabs in dual pane mode</value>
+  </data>
+  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
+    <value>Enable dual pane view</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
+    <value>Open in secondary pane</value>
+  </data>
+  <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
+    <value>New pane</value>
+  </data>
+  <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
+    <value>Open in secondary pane</value>
+  </data>
+  <data name="SettingsDualPane.Text" xml:space="preserve">
+    <value>Dual Pane</value>
+  </data>
+  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
+    <value>Show open in new tab menu item</value>
   </data>
 </root>

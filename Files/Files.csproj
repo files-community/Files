@@ -188,6 +188,9 @@
     <Compile Include="Helpers\FileListCache\IFileListCache.cs" />
     <Compile Include="Helpers\FileListCache\PersistentSQLiteCacheAdapter.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
+    <Compile Include="UserControls\MultitaskingControl\TabItem\TabItemControl.xaml.cs">
+      <DependentUpon>TabItemControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Selection\ExtendPreviousItemSelectionStrategy.cs" />
     <Compile Include="Helpers\GenericItemsCollection.cs" />
     <Compile Include="UserControls\Selection\IgnorePreviousItemSelectionStrategy.cs" />
@@ -342,6 +345,9 @@
     <Compile Include="ViewModels\SettingsViewModels\OnStartupViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\PreferencesViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModels\WidgetsViewModel.cs" />
+    <Compile Include="Views\PaneHolderPage.xaml.cs">
+      <DependentUpon>PaneHolderPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LayoutModes\GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
@@ -563,6 +569,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\MultitaskingControl\TabItem\TabItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\NavigationToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -614,6 +624,10 @@
     <Page Include="UserControls\Widgets\RecentFiles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PaneHolderPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LayoutModes\GenericFileBrowser.xaml">
       <SubType>Designer</SubType>

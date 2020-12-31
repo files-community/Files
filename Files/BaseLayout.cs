@@ -219,7 +219,7 @@ namespace Files
         {
             ClearShellContextMenus(menuFlyout);
             var currentBaseLayoutItemCount = menuFlyout.Items.Count;
-            var maxItems = AppSettings.ShowAllContextMenuItems ? int.MaxValue : shiftPressed ? 6 : 4;
+            var maxItems = !AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4;
             if (Connection != null)
             {
                 var response = Task.Run(() => Connection.SendMessageAsync(new ValueSet()
@@ -334,10 +334,9 @@ namespace Files
                 {
                     ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = true;
                 }
+
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
-
-                MainPage.MultitaskingControl?.UpdateSelectedTab(new DirectoryInfo(workingDir).Name, workingDir, false);
                 ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir);
                 ParentShellPageInstance.NavigationToolbar.PathControlDisplayText = parameters.NavPathParam;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
@@ -350,8 +349,6 @@ namespace Files
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
-
-                MainPage.MultitaskingControl?.UpdateSelectedTab(null, null, true);
                 ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(parameters.SearchResults, parameters.SearchPathParam);
             }
 
@@ -573,9 +570,14 @@ namespace Files
                 && SelectedItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase);
             SetShellContextmenu(BaseLayoutItemContextFlyout, shiftPressed, showOpenMenu);
 
-            if (!AppSettings.ShowCopyLocationOption)
+            if (!AppSettings.ShowCopyLocationMenuItem)
             {
                 UnloadMenuFlyoutItemByName("CopyLocationItem");
+            }
+            
+            if (!AppSettings.ShowOpenInNewTabMenuItem)
+            {
+                UnloadMenuFlyoutItemByName("OpenInNewTab");
             }
 
             if (!DataTransferManager.IsSupported())
@@ -589,7 +591,8 @@ namespace Files
                 UnloadMenuFlyoutItemByName("SidebarPinItem");
                 UnloadMenuFlyoutItemByName("OpenInNewTab");
                 UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
-
+                UnloadMenuFlyoutItemByName("OpenInNewPane");
+                
                 if (SelectedItems.Count == 1)
                 {
                     if (!string.IsNullOrEmpty(SelectedItem.FileExtension))
@@ -669,6 +672,11 @@ namespace Files
                     LoadMenuFlyoutItemByName("SidebarPinItem");
                     LoadMenuFlyoutItemByName("CreateShortcut");
                     LoadMenuFlyoutItemByName("OpenItem");
+
+                    if (AppSettings.ShowCopyLocationMenuItem)
+                    {
+                        LoadMenuFlyoutItemByName("CopyLocationItem");
+                    }
                 }
                 else
                 {
@@ -678,13 +686,25 @@ namespace Files
 
                 if (SelectedItems.Count <= 5 && SelectedItems.Count > 0)
                 {
-                    LoadMenuFlyoutItemByName("OpenInNewTab");
+                    if (AppSettings.ShowOpenInNewTabMenuItem)
+                    {
+                        LoadMenuFlyoutItemByName("OpenInNewTab");
+                    }
                     LoadMenuFlyoutItemByName("OpenInNewWindowItem");
                 }
                 else if (SelectedItems.Count > 5)
                 {
                     UnloadMenuFlyoutItemByName("OpenInNewTab");
                     UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
+                }
+
+                if (SelectedItems.Count == 1 && ParentShellPageInstance.IsMultiPaneEnabled && ParentShellPageInstance.IsPageMainPane)
+                {
+                    LoadMenuFlyoutItemByName("OpenInNewPane");
+                }
+                else
+                {
+                    UnloadMenuFlyoutItemByName("OpenInNewPane");
                 }
             }
 
@@ -694,8 +714,11 @@ namespace Files
 
         protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
-            char letterPressed = Convert.ToChar(args.KeyCode);
-            ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
+            if (ParentShellPageInstance.IsCurrentInstance)
+            {
+                char letterPressed = Convert.ToChar(args.KeyCode);
+                ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
+            }
         }
 
         protected async void List_DragEnter(object sender, DragEventArgs e)
@@ -881,7 +904,10 @@ namespace Files
 
             e.Handled = true;
             ListedItem rowItem = GetItemFromElement(sender);
-            await ParentShellPageInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, true);
+            if (rowItem != null)
+            {
+                await ParentShellPageInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, true);
+            }
             deferral.Complete();
         }
 

@@ -6,6 +6,7 @@
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:converters1="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
@@ -314,6 +315,16 @@
                 Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemShortcut, Mode=OneWay}">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA5A;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
+                x:Name="OpenInNewPane"
+                x:Uid="BaseLayoutItemContextFlyoutOpenInNewPane"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenDirectoryInNewPane_Click}"
+                Tag="OpenPane_FlyoutItem"
+                Text="Open in new pane">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA2F;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -880,7 +891,7 @@
         <muxc:ProgressBar
             x:Name="progBar"
             VerticalAlignment="Top"
-            x:Load="{x:Bind local:App.InteractionViewModel.IsContentLoadingIndicatorVisible, Mode=OneWay}"
+            x:Load="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsLoadingItems, Mode=OneWay}"
             Background="Transparent"
             IsIndeterminate="True" />
         <TextBlock

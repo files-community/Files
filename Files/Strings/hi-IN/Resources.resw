@@ -144,9 +144,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files UWP</value>
   </data>
-  <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
-    <value>विशेष धन्यवाद:</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>प्रतिक्रिया सबमिट करें</value>
   </data>
@@ -1079,9 +1076,6 @@
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>नई फ़ाइल</value>
-  </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>प्रसंग मेनू</value>
   </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>जोड़ें</value>

@@ -6,6 +6,7 @@ using Files.Filesystem.Search;
 using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
+using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -44,7 +45,6 @@ namespace Files.Views
         public IFilesystemHelpers FilesystemHelpers { get; private set; }
         private CancellationTokenSource cancellationTokenSource;
         public SettingsViewModel AppSettings => App.AppSettings;
-        public bool IsCurrentInstance { get; set; } = false;
         public StatusBarControl BottomStatusStripControl => StatusBarControl;
         public Frame ContentFrame => ItemDisplayFrame;
         private Interaction interactionOperations = null;
@@ -61,6 +61,32 @@ namespace Files.Views
                 {
                     interactionOperations = value;
                     NotifyPropertyChanged("InteractionOperations");
+                }
+            }
+        }
+
+        private bool isCurrentInstance { get; set; } = false;
+
+        public bool IsCurrentInstance
+        {
+            get
+            {
+                return isCurrentInstance;
+            }
+            set
+            {
+                if (isCurrentInstance != value)
+                {
+                    isCurrentInstance = value;
+                    if (isCurrentInstance)
+                    {
+                        ContentPage?.FocusFileList();
+                    }
+                    else
+                    {
+                        NavigationToolbar.IsEditModeEnabled = false;
+                    }
+                    NotifyPropertyChanged(nameof(IsCurrentInstance));
                 }
             }
         }
@@ -85,9 +111,65 @@ namespace Files.Views
             }
         }
 
+        private bool isPageMainPane;
+
+        public bool IsPageMainPane
+        {
+            get => isPageMainPane;
+            set
+            {
+                if (value != isPageMainPane)
+                {
+                    isPageMainPane = value;
+                    NotifyPropertyChanged(nameof(IsPageMainPane));
+                    NotifyPropertyChanged(nameof(IsPageSecondaryPane));
+                }
+            }
+        }
+
+        public static readonly DependencyProperty IsPageMainPaneProperty =
+            DependencyProperty.Register("IsPageMainPane", typeof(bool), typeof(ModernShellPage), new PropertyMetadata(true));
+
+        public SolidColorBrush CurrentInstanceBorderBrush
+        {
+            get { return (SolidColorBrush)GetValue(CurrentInstanceBorderBrushProperty); }
+            set { SetValue(CurrentInstanceBorderBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty CurrentInstanceBorderBrushProperty =
+            DependencyProperty.Register("CurrentInstanceBorderBrush", typeof(SolidColorBrush), typeof(ModernShellPage), new PropertyMetadata(null));
+
+        public GridLength SidebarWidth
+        {
+            get
+            {
+                return IsPageMainPane ? AppSettings.SidebarWidth : new GridLength(0);
+            }
+            set
+            {
+                if (IsPageMainPane && AppSettings.SidebarWidth != value)
+                {
+                    AppSettings.SidebarWidth = value;
+                    NotifyPropertyChanged("SidebarWidth");
+                }
+            }
+        }
+
+        public bool IsPageSecondaryPane => !IsMultiPaneActive || !IsPageMainPane;
+
         public Control OperationsControl => null;
         public Type CurrentPageType => ItemDisplayFrame.SourcePageType;
-        public INavigationControlItem SidebarSelectedItem { get => SidebarControl.SelectedSidebarItem; set => SidebarControl.SelectedSidebarItem = value; }
+        public INavigationControlItem SidebarSelectedItem
+        {
+            get => SidebarControl?.SelectedSidebarItem;
+            set
+            {
+                if (SidebarControl != null)
+                {
+                    SidebarControl.SelectedSidebarItem = value;
+                }
+            }
+        }
         public INavigationToolbar NavigationToolbar => NavToolbar;
 
         public ModernShellPage()
@@ -100,6 +182,7 @@ namespace Files.Views
             storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
 
             AppSettings.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
+            AppSettings.PropertyChanged += AppSettings_PropertyChanged;
             DisplayFilesystemConsentDialog();
 
             var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
@@ -109,10 +192,6 @@ namespace Files.Views
                 FlowDirection = FlowDirection.RightToLeft;
             }
 
-            SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
-            SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
-            SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
-            SidebarControl.RecycleBinItemRightTapped += SidebarControl_RecycleBinItemRightTapped;
             NavigationToolbar.EditModeEnabled += NavigationToolbar_EditModeEnabled;
             NavigationToolbar.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
             NavigationToolbar.SearchQuerySubmitted += ModernShellPage_SearchQuerySubmitted;
@@ -143,6 +222,16 @@ namespace Files.Views
             SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             Clipboard_ContentChanged(null, null);
+        }
+
+        private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(AppSettings.SidebarWidth):
+                    NotifyPropertyChanged(nameof(SidebarWidth));
+                    break;
+            }
         }
 
         private async void ModernShellPage_SearchSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
@@ -182,7 +271,7 @@ namespace Files.Views
         {
             if (args.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(args.QueryText))
             {
-                App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
+                FilesystemViewModel.IsLoadingItems = true;
                 ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
                 {
                     AssociatedTabInstance = this,
@@ -190,7 +279,7 @@ namespace Files.Views
                     SearchPathParam = FilesystemViewModel.WorkingDirectory,
                     SearchResults = await FolderSearch.SearchForUserQueryTextAsync(args.QueryText, FilesystemViewModel.WorkingDirectory, this, -1)
                 });
-                App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
+                FilesystemViewModel.IsLoadingItems = false;
             }
         }
 
@@ -212,6 +301,12 @@ namespace Files.Views
         private void ModernShellPage_BackNavRequested(object sender, EventArgs e)
         {
             Back_Click();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+        {
+            base.OnNavigatedTo(eventArgs);
+            NavParams = eventArgs.Parameter.ToString();
         }
 
         private async void SidebarControl_RecycleBinItemRightTapped(object sender, EventArgs e)
@@ -597,7 +692,7 @@ namespace Files.Views
                             foreach (var terminal in AppSettings.TerminalController.Model.Terminals)
                             {
                                 if (terminal.Path.Equals(currentInput, StringComparison.OrdinalIgnoreCase)
-                                    || terminal.Path.Equals(currentInput + ".exe", StringComparison.OrdinalIgnoreCase))
+                                    || terminal.Path.Equals(currentInput + ".exe", StringComparison.OrdinalIgnoreCase) || terminal.Name.Equals(currentInput, StringComparison.OrdinalIgnoreCase))
                                 {
                                     if (ServiceConnection != null)
                                     {
@@ -692,17 +787,114 @@ namespace Files.Views
             }
         }
 
-        private string NavParams = null;
+        private string navParams;
 
-        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+        public string NavParams
         {
-            base.OnNavigatedTo(eventArgs);
-            NavParams = eventArgs.Parameter.ToString();
+            get => navParams;
+            set
+            {
+                if (value != navParams)
+                {
+                    navParams = value;
+                    if (IsLoaded)
+                    {
+                        OnNavigationParamsChanged();
+                    }
+                }
+            }
         }
+
+        private void OnNavigationParamsChanged()
+        {
+            if (string.IsNullOrEmpty(NavParams) || NavParams == "NewTab".GetLocalized() || NavParams == "Home")
+            {
+                ItemDisplayFrame.Navigate(typeof(YourHome),
+                    new NavigationArguments()
+                    {
+                        NavPathParam = NavParams,
+                        AssociatedTabInstance = this
+                    });
+            }
+            else
+            {
+                ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(NavParams),
+                    new NavigationArguments()
+                    {
+                        NavPathParam = NavParams,
+                        AssociatedTabInstance = this
+                    });
+            }
+        }
+
+        public static readonly DependencyProperty NavParamsProperty =
+            DependencyProperty.Register("NavParams", typeof(string), typeof(ModernShellPage), new PropertyMetadata(null));
 
         public AppServiceConnection ServiceConnection { get; private set; }
 
+        private TabItemArguments tabItemArguments;
+
+        public TabItemArguments TabItemArguments
+        {
+            get => tabItemArguments;
+            set
+            {
+                if (tabItemArguments != value)
+                {
+                    tabItemArguments = value;
+                    ContentChanged?.Invoke(this, value);
+                }
+            }
+        }
+
+        private bool isMultiPaneActive;
+
+        public bool IsMultiPaneActive
+        {
+            get => isMultiPaneActive;
+            set
+            {
+                if (value != isMultiPaneActive)
+                {
+                    isMultiPaneActive = value;
+                    NotifyPropertyChanged(nameof(IsMultiPaneActive));
+                    NotifyPropertyChanged(nameof(IsPageSecondaryPane));
+                }
+            }
+        }
+
+        private bool isMultiPaneEnabled;
+
+        public bool IsMultiPaneEnabled
+        {
+            get => isMultiPaneEnabled;
+            set
+            {
+                if (value != isMultiPaneEnabled)
+                {
+                    isMultiPaneEnabled = value;
+                    NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
+                }
+            }
+        }
+
+        private IPaneHolder paneHolder;
+
+        public IPaneHolder PaneHolder
+        {
+            get => paneHolder;
+            set
+            {
+                if (value != paneHolder)
+                {
+                    paneHolder = value;
+                    NotifyPropertyChanged(nameof(PaneHolder));
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
+        public event EventHandler<TabItemArguments> ContentChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
@@ -718,114 +910,7 @@ namespace Files.Views
             App.Current.Suspending += Current_Suspending;
             App.Current.LeavingBackground += OnLeavingBackground;
             FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
-            string NavigationPath = ""; // path to navigate
-
-            switch (NavParams)
-            {
-                case "Start":
-                    ItemDisplayFrame.Navigate(typeof(YourHome),
-                                              new NavigationArguments()
-                                              {
-                                                  NavPathParam = NavParams,
-                                                  AssociatedTabInstance = this
-                                              },
-                                              new SuppressNavigationTransitionInfo());
-                    SidebarControl.SelectedSidebarItem = MainPage.SideBarItems.FirstOrDefault();
-                    break;
-
-                case "Desktop":
-                    NavigationPath = AppSettings.DesktopPath;
-                    SidebarControl.SelectedSidebarItem =
-                        MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
-                    break;
-
-                case "Downloads":
-                    NavigationPath = AppSettings.DownloadsPath;
-                    SidebarControl.SelectedSidebarItem =
-                        MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
-                    break;
-
-                case "Documents":
-                    NavigationPath = AppSettings.DocumentsPath;
-                    SidebarControl.SelectedSidebarItem =
-                        MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
-                    break;
-
-                case "Pictures":
-                    NavigationPath = AppSettings.PicturesPath;
-                    SidebarControl.SelectedSidebarItem =
-                        MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
-                    break;
-
-                case "Music":
-                    NavigationPath = AppSettings.MusicPath;
-                    SidebarControl.SelectedSidebarItem =
-                        MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
-                    break;
-
-                case "Videos":
-                    NavigationPath = AppSettings.VideosPath;
-                    SidebarControl.SelectedSidebarItem =
-                        MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
-                    break;
-
-                case "RecycleBin":
-                    NavigationPath = AppSettings.RecycleBinPath;
-                    SidebarControl.SelectedSidebarItem =
-                        MainPage.SideBarItems.FirstOrDefault(x => x.Path.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase));
-                    break;
-
-                default:
-                    if (NavParams == "NewTab".GetLocalized())
-                    {
-                        ItemDisplayFrame.Navigate(typeof(YourHome),
-                                                  new NavigationArguments()
-                                                  {
-                                                      NavPathParam = NavParams,
-                                                      AssociatedTabInstance = this
-                                                  },
-                                                  new SuppressNavigationTransitionInfo());
-                        SidebarControl.SelectedSidebarItem = MainPage.SideBarItems[0];
-                    }
-                    else if (((NavParams[0] >= 'A' && NavParams[0] <= 'Z') || (NavParams[0] >= 'a' && NavParams[0] <= 'z'))
-                        && NavParams[1] == ':')
-                    {
-                        NavigationPath = NavParams;
-                        SidebarControl.SelectedSidebarItem = AppSettings.DrivesManager.Drives
-                            .FirstOrDefault(x => x.Path.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
-                    }
-                    else if (NavParams.StartsWith("\\\\?\\")) // USB device
-                    {
-                        NavigationPath = NavParams;
-                        SidebarControl.SelectedSidebarItem = App.AppSettings.DrivesManager.Drives
-                            .FirstOrDefault(x => x.Path.ToString().Equals($"{Path.GetPathRoot(NavParams)}", StringComparison.OrdinalIgnoreCase));
-                    }
-                    else if (NavParams.StartsWith("\\\\")) // Network share
-                    {
-                        NavigationPath = NavParams;
-                    }
-                    else if (NavParams.StartsWith(AppSettings.RecycleBinPath))
-                    {
-                        NavigationPath = NavParams;
-                    }
-                    else
-                    {
-                        SidebarControl.SelectedSidebarItem = null;
-                    }
-                    break;
-            }
-
-            if (NavigationPath != "")
-            {
-                ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(NavigationPath),
-                                      new NavigationArguments()
-                                      {
-                                          NavPathParam = NavigationPath,
-                                          AssociatedTabInstance = this
-                                      },
-                                      new SuppressNavigationTransitionInfo());
-            }
-
+            OnNavigationParamsChanged();
             this.Loaded -= Page_Loaded;
         }
 
@@ -906,13 +991,19 @@ namespace Files.Views
                 // Reset DataGrid Rows that may be in "cut" command mode
                 ContentPage.ResetItemOpacity();
             }
+            var parameters = e.Parameter as NavigationArguments;
+            TabItemArguments = new TabItemArguments()
+            {
+                InitialPageType = typeof(ModernShellPage),
+                NavigationArg = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
+            };
         }
 
         public void Clipboard_ContentChanged(object sender, object e)
         {
-            try
+            if (IsCurrentInstance)
             {
-                if (IsCurrentInstance)
+                try
                 {
                     DataPackageView packageView = Clipboard.GetContent();
                     if (packageView.Contains(StandardDataFormats.StorageItems)
@@ -926,14 +1017,10 @@ namespace Files.Views
                         App.InteractionViewModel.IsPasteEnabled = false;
                     }
                 }
-                else
+                catch (Exception)
                 {
                     App.InteractionViewModel.IsPasteEnabled = false;
                 }
-            }
-            catch (Exception)
-            {
-                App.InteractionViewModel.IsPasteEnabled = false;
             }
         }
 
@@ -959,16 +1046,6 @@ namespace Files.Views
                     if (!InstanceViewModel.IsPageTypeSearchResults)
                     {
                         await storageHistoryHelpers.TryRedo();
-                    }
-                    break;
-
-                case (true, true, false, _, VirtualKey.T): // ctrl + shif + t, restore recently closed tab
-                    {
-                        if (!MainPage.MultitaskingControl.RestoredRecentlyClosedTab && MainPage.MultitaskingControl.Items.Count > 0)
-                        {
-                            await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), MainPage.MultitaskingControl.RecentlyClosedTabs.Last().Path);
-                            MainPage.MultitaskingControl.RestoredRecentlyClosedTab = true;
-                        }
                     }
                     break;
 
@@ -1030,30 +1107,6 @@ namespace Files.Views
 
                     break;
 
-                case (true, false, false, false, VirtualKey.N): // ctrl + n, new window
-                    InteractionOperations.LaunchNewWindow();
-                    break;
-
-                case (true, false, false, false, VirtualKey.W): // ctrl + w, close tab
-                    InteractionOperations.CloseTab();
-                    break;
-
-                case (true, false, false, false, VirtualKey.F4): // ctrl + F4, close tab
-                    InteractionOperations.CloseTab();
-                    break;
-
-                case (true, false, false, true, VirtualKey.N): // ctrl + n, new window from layout mode
-                    InteractionOperations.LaunchNewWindow();
-                    break;
-
-                case (true, false, false, true, VirtualKey.W): // ctrl + w, close tab from layout mode
-                    InteractionOperations.CloseTab();
-                    break;
-
-                case (true, false, false, true, VirtualKey.F4): // ctrl + F4, close tab from layout mode
-                    InteractionOperations.CloseTab();
-                    break;
-
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
                     if (ContentPage.IsItemSelected && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults)
                     {
@@ -1106,7 +1159,7 @@ namespace Files.Views
         public async void Refresh_Click()
         {
             NavigationToolbar.CanRefresh = false;
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 var ContentOwnedViewModelInstance = FilesystemViewModel;
                 ContentOwnedViewModelInstance.RefreshItems(null);
@@ -1193,12 +1246,17 @@ namespace Files.Views
             App.Current.Suspending -= Current_Suspending;
             App.Current.LeavingBackground -= OnLeavingBackground;
             AppSettings.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
+            AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
             NavigationToolbar.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
             NavigationToolbar.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
-            SidebarControl.SidebarItemInvoked -= SidebarControl_SidebarItemInvoked;
-            SidebarControl.SidebarItemPropertiesInvoked -= SidebarControl_SidebarItemPropertiesInvoked;
-            SidebarControl.SidebarItemDropped -= SidebarControl_SidebarItemDropped;
-            SidebarControl.RecycleBinItemRightTapped -= SidebarControl_RecycleBinItemRightTapped;
+            if (SidebarControl != null)
+            {
+                SidebarControl.SidebarItemInvoked -= SidebarControl_SidebarItemInvoked;
+                SidebarControl.SidebarItemPropertiesInvoked -= SidebarControl_SidebarItemPropertiesInvoked;
+                SidebarControl.SidebarItemDropped -= SidebarControl_SidebarItemDropped;
+                SidebarControl.RecycleBinItemRightTapped -= SidebarControl_RecycleBinItemRightTapped;
+                SidebarControl.SidebarItemNewPaneInvoked -= SidebarControl_SidebarItemNewPaneInvoked;
+            }
             NavigationToolbar.SearchQuerySubmitted -= ModernShellPage_SearchQuerySubmitted;
             NavigationToolbar.SearchTextChanged -= ModernShellPage_SearchTextChanged;
             NavigationToolbar.SearchSuggestionChosen -= ModernShellPage_SearchSuggestionChosen;
@@ -1228,6 +1286,52 @@ namespace Files.Views
 
             ServiceConnection?.Dispose();
             ServiceConnection = null;
+        }
+
+        private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            SidebarControl.SidebarItemInvoked += SidebarControl_SidebarItemInvoked;
+            SidebarControl.SidebarItemPropertiesInvoked += SidebarControl_SidebarItemPropertiesInvoked;
+            SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
+            SidebarControl.RecycleBinItemRightTapped += SidebarControl_RecycleBinItemRightTapped;
+            SidebarControl.SidebarItemNewPaneInvoked += SidebarControl_SidebarItemNewPaneInvoked;
+        }
+
+        private void SidebarControl_SidebarItemNewPaneInvoked(object sender, SidebarItemNewPaneInvokedEventArgs e)
+        {
+            if (e.InvokedItemDataContext is INavigationControlItem navItem)
+            {
+                PaneHolder?.OpenPathInNewPane(navItem.Path);
+            }
+        }
+
+        public DataPackageOperation TabItemDragOver(object sender, DragEventArgs e)
+        {
+            if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
+            {
+                if (InstanceViewModel.IsPageTypeNotHome && !InstanceViewModel.IsPageTypeSearchResults)
+                {
+                    return DataPackageOperation.Move;
+                }
+            }
+            return DataPackageOperation.None;
+        }
+
+        public async Task<DataPackageOperation> TabItemDrop(object sender, DragEventArgs e)
+        {
+            if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
+            {
+                if (InstanceViewModel.IsPageTypeNotHome && !InstanceViewModel.IsPageTypeSearchResults)
+                {
+                    await InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(
+                        DataPackageOperation.Move,
+                        e.DataView,
+                        FilesystemViewModel.WorkingDirectory,
+                        true);
+                    return DataPackageOperation.Move;
+                }
+            }
+            return DataPackageOperation.None;
         }
     }
 

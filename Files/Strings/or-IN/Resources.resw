@@ -144,9 +144,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files UWP</value>
   </data>
-  <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
-    <value>ବିଶେଷ ଧନ୍ୟବାଦ:</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>ମତାମତ ଦାଖଲ କରନ୍ତୁ</value>
   </data>
@@ -1031,9 +1028,6 @@
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>ନୂତନ ଫାଇଲ୍</value>
-  </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>ପ୍ରସଙ୍ଗ ମେନୁ</value>
   </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>ଯୋଡନ୍ତୁ</value>

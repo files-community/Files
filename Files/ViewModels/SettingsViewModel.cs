@@ -65,6 +65,8 @@ namespace Files.ViewModels
             Analytics.TrackEvent("IsAcrylicDisabled " + IsAcrylicDisabled.ToString());
             Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
             Analytics.TrackEvent("IsHorizontalTabStripEnabled " + IsHorizontalTabStripEnabled.ToString());
+            Analytics.TrackEvent("IsDualPaneEnabled " + IsDualPaneEnabled.ToString());
+            Analytics.TrackEvent("AlwaysOpenDualPaneInNewTab " + AlwaysOpenDualPaneInNewTab.ToString());
             Analytics.TrackEvent("IsVerticalTabFlyoutEnabled " + IsVerticalTabFlyoutEnabled.ToString());
             Analytics.TrackEvent("AreHiddenItemsVisible " + AreHiddenItemsVisible.ToString());
             Analytics.TrackEvent("ShowDrivesWidget " + ShowDrivesWidget.ToString());
@@ -408,6 +410,24 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to enable dual pane feature.
+        /// </summary>
+        public bool IsDualPaneEnabled
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to always open a second pane when opening a new tab.
+        /// </summary>
+        public bool AlwaysOpenDualPaneInNewTab
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         #endregion Multitasking
 
         #region Widgets
@@ -447,24 +467,6 @@ namespace Files.ViewModels
         /// Gets or sets a value indicating whether or not the confirm delete dialog should show when deleting items.
         /// </summary>
         public bool ShowConfirmDeleteDialog
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not some of the right click context menu items overflow into a sub menu.
-        /// </summary>
-        public bool ShowAllContextMenuItems
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the show copy location option is shown in the right click context menu.
-        /// </summary>
-        public bool ShowCopyLocationOption
         {
             get => Get(true);
             set => Set(value);
@@ -541,6 +543,37 @@ namespace Files.ViewModels
         }
 
         #endregion Preferences
+
+        #region Appearance
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to move overflow menu items into a sub menu.
+        /// </summary>
+        public bool MoveOverflowMenuItemsToSubMenu
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the copy location menu item is shown in the right click context menu.
+        /// </summary>
+        public bool ShowCopyLocationMenuItem
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the open in new tab menu item is shown in the right click context menu.
+        /// </summary>
+        public bool ShowOpenInNewTabMenuItem
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        #endregion Appearance
 
         /// <summary>
         /// Gets or sets a value indicating whether or not WSL is supported.
