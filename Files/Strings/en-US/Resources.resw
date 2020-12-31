@@ -1114,13 +1114,13 @@
     <value>Cancel</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
-    <value>Rating Text</value>
+    <value>Rating</value>
   </data>
   <data name="PropertyItemFolderPathDisplay" xml:space="preserve">
-    <value>Item Folder Path Display</value>
+    <value>Item Folder Path</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
-    <value>Item Type Text</value>
+    <value>Item Type</value>
   </data>
   <data name="PropertyTitle" xml:space="preserve">
     <value>Title</value>
@@ -1156,7 +1156,7 @@
     <value>Vertical Resolution</value>
   </data>
   <data name="PropertyCompressionText" xml:space="preserve">
-    <value>Compression Text</value>
+    <value>Compression</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
     <value>Color Space</value>
@@ -1219,7 +1219,7 @@
     <value>Sample Rate</value>
   </data>
   <data name="PropertyDisplayArtist" xml:space="preserve">
-    <value>Display Artist</value>
+    <value>Artist</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>Album Artist</value>
