@@ -68,6 +68,7 @@ namespace FilesFullTrust
             catch (Exception ex)
             {
                 Logger.Info(ex, ex.Message);
+                localSettings.Values["quicklook_enabled"] = 0;
             }
         }
     }
