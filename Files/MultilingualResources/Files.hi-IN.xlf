@@ -1978,9 +1978,9 @@
           <source>Show copy location menu item</source>
           <target state="new">Show copy location menu item</target>
         </trans-unit>
-        <trans-unit id="SettingsContextMenuSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Don't move overflow items into a sub menu</source>
-          <target state="new">Don't move overflow items into a sub menu</target>
+        <trans-unit id="SettingsContextMenuOverflowSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Move overflow items into a sub menu</source>
+          <target state="new">Move overflow items into a sub menu</target>
         </trans-unit>
         <trans-unit id="SettingsContextMenu.Text" translate="yes" xml:space="preserve">
           <source>Customize the right click context menu</source>

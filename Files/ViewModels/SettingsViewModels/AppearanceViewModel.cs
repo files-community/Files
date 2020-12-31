@@ -13,7 +13,7 @@ namespace Files.ViewModels.SettingsViewModels
         private int selectedThemeIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
         private int selectedDateFormatIndex = (int)Enum.Parse(typeof(TimeStyle), App.AppSettings.DisplayedTimeStyle.ToString());
         private bool isAcrylicDisabled = App.AppSettings.IsAcrylicDisabled;
-        private bool showAllContextMenuItems = App.AppSettings.ShowAllContextMenuItems;
+        private bool moveOverflowMenuItemsToSubMenu = App.AppSettings.MoveOverflowMenuItemsToSubMenu;
         private bool showCopyLocationMenuItem = App.AppSettings.ShowCopyLocationMenuItem;
         private bool showOpenInNewTabMenuItem = App.AppSettings.ShowOpenInNewTabMenuItem;
 
@@ -79,17 +79,17 @@ namespace Files.ViewModels.SettingsViewModels
             }
         }
 
-        public bool ShowAllContextMenuItems
+        public bool MoveOverflowMenuItemsToSubMenu
         {
             get
             {
-                return showAllContextMenuItems;
+                return moveOverflowMenuItemsToSubMenu;
             }
             set
             {
-                if (SetProperty(ref showAllContextMenuItems, value))
+                if (SetProperty(ref moveOverflowMenuItemsToSubMenu, value))
                 {
-                    App.AppSettings.ShowAllContextMenuItems = value;
+                    App.AppSettings.MoveOverflowMenuItemsToSubMenu = value;
                 }
             }
         }

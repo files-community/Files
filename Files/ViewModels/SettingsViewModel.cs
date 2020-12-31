@@ -547,11 +547,11 @@ namespace Files.ViewModels
         #region Appearance
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not some of the right click context menu items overflow into a sub menu.
+        /// Gets or sets a value indicating whether or not to move overflow menu items into a sub menu.
         /// </summary>
-        public bool ShowAllContextMenuItems
+        public bool MoveOverflowMenuItemsToSubMenu
         {
-            get => Get(false);
+            get => Get(true);
             set => Set(value);
         }
 

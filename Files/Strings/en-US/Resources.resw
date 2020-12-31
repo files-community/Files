@@ -1065,8 +1065,8 @@
   <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
     <value>Show copy location menu item</value>
   </data>
-  <data name="SettingsContextMenuSwitch.Header" xml:space="preserve">
-    <value>Don't move overflow items into a sub menu</value>
+  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
+    <value>Move overflow items into a sub menu</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Pin Recycle Bin to the sidebar</value>
