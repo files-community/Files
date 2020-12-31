@@ -9,7 +9,7 @@ Files <a href="https://github.com/files-community/files-uwp/blob/master/CODE_OF_
 <img src="Files/Assets/FilesHome.png" width="600px"><br>
 ## Download Files 
 - <a href="https://www.microsoft.com/store/apps/9NGHP3DX8HDX">Microsoft Store</a>
-- <a href="https://github.com/files-community/files-uwp/releases/download/v0.14/FilesUWP-0.14.Msixbundle">GitHub</a>
+- <a href="https://github.com/files-community/Files/releases/download/v0.23.1/Files-0.23.1.Msixbundle">GitHub</a>
 ## What is Files?
 Files is a file explorer which leverages the latest features of the Windows platform including Fluent Design, seamless updates, and APIs which enable the performance and lifecycle behavior that users expect. Whether you want to simplify your experience with your files or try something new, Files is a one-stop solution to exploring your files on the fly.
 
