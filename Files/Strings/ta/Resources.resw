@@ -135,9 +135,6 @@
   <data name="RecentItems.Text" xml:space="preserve">
     <value>சமீபத்திய உருப்படிகள்</value>
   </data>
-  <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
-    <value>சிறப்பு நன்றிகள்:</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>பின்னூட்டத்தைச் சமர்ப்பி</value>
   </data>
