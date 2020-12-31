@@ -4,6 +4,7 @@ using Files.Extensions;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -219,6 +220,7 @@ namespace Files.Filesystem
             else if (source.ItemType == FilesystemItemType.File)
             {
                 var fsResult = (FilesystemResult)NativeFileOperationsHelper.CopyFileFromApp(source.Path, destination, true);
+
                 if (!fsResult)
                 {
                     Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
@@ -274,14 +276,18 @@ namespace Files.Filesystem
 
             if (Path.GetDirectoryName(destination) == associatedInstance.FilesystemViewModel.WorkingDirectory)
             {
-                List<ListedItem> copiedListedItems = associatedInstance.FilesystemViewModel.FilesAndFolders
+                _ = Windows.ApplicationModel.Core.CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
+                {
+                    await Task.Delay(50); // Small delay for the item to appear in the file list
+                    List<ListedItem> copiedListedItems = associatedInstance.FilesystemViewModel.FilesAndFolders
                         .Where(listedItem => destination.Contains(listedItem.ItemPath)).ToList();
 
-                if (copiedListedItems.Count > 0)
-                {
-                    associatedInstance.ContentPage.AddSelectedItemsOnUi(copiedListedItems);
-                    associatedInstance.ContentPage.FocusSelectedItems();
-                }
+                    if (copiedListedItems.Count > 0)
+                    {
+                        associatedInstance.ContentPage.AddSelectedItemsOnUi(copiedListedItems);
+                        associatedInstance.ContentPage.FocusSelectedItems();
+                    }
+                }, Windows.UI.Core.CoreDispatcherPriority.Low);
             }
 
             progress?.Report(100.0f);
@@ -372,6 +378,7 @@ namespace Files.Filesystem
                 else
                 {
                     var fsResult = (FilesystemResult)NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination);
+
                     if (!fsResult)
                     {
                         Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
@@ -480,14 +487,18 @@ namespace Files.Filesystem
 
             if (Path.GetDirectoryName(destination) == associatedInstance.FilesystemViewModel.WorkingDirectory)
             {
-                List<ListedItem> movedListedItems = associatedInstance.FilesystemViewModel.FilesAndFolders
+                _ = Windows.ApplicationModel.Core.CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
+                {
+                    await Task.Delay(50); // Small delay for the item to appear in the file list
+                    List<ListedItem> movedListedItems = associatedInstance.FilesystemViewModel.FilesAndFolders
                         .Where(listedItem => destination.Contains(listedItem.ItemPath)).ToList();
 
-                if (movedListedItems.Count > 0)
-                {
-                    associatedInstance.ContentPage.AddSelectedItemsOnUi(movedListedItems);
-                    associatedInstance.ContentPage.FocusSelectedItems();
-                }
+                    if (movedListedItems.Count > 0)
+                    {
+                        associatedInstance.ContentPage.AddSelectedItemsOnUi(movedListedItems);
+                        associatedInstance.ContentPage.FocusSelectedItems();
+                    }
+                }, Windows.UI.Core.CoreDispatcherPriority.Low);
             }
 
             progress?.Report(100.0f);
