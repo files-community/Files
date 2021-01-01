@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Files.MessageRelay", "Messa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{0533133F-2559-4B53-A0FD-0970BC0E312E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Files.FulltrustCpp", "Files.FulltrustCpp\FulltrustCpp.vcxproj", "{F3E126B8-C48A-4191-BA22-17761D5989BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -141,6 +143,20 @@ Global
 		{0533133F-2559-4B53-A0FD-0970BC0E312E}.Release|x64.Build.0 = Release|Any CPU
 		{0533133F-2559-4B53-A0FD-0970BC0E312E}.Release|x86.ActiveCfg = Release|Any CPU
 		{0533133F-2559-4B53-A0FD-0970BC0E312E}.Release|x86.Build.0 = Release|Any CPU
+		{F3E126B8-C48A-4191-BA22-17761D5989BD}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{F3E126B8-C48A-4191-BA22-17761D5989BD}.Debug|ARM.ActiveCfg = Debug|Win32
+		{F3E126B8-C48A-4191-BA22-17761D5989BD}.Debug|ARM64.ActiveCfg = Debug|Win32
+		{F3E126B8-C48A-4191-BA22-17761D5989BD}.Debug|x64.ActiveCfg = Debug|x64
+		{F3E126B8-C48A-4191-BA22-17761D5989BD}.Debug|x64.Build.0 = Debug|x64
+		{F3E126B8-C48A-4191-BA22-17761D5989BD}.Debug|x86.ActiveCfg = Debug|Win32
+		{F3E126B8-C48A-4191-BA22-17761D5989BD}.Debug|x86.Build.0 = Debug|Win32
+		{F3E126B8-C48A-4191-BA22-17761D5989BD}.Release|Any CPU.ActiveCfg = Release|Win32
+		{F3E126B8-C48A-4191-BA22-17761D5989BD}.Release|ARM.ActiveCfg = Release|Win32
+		{F3E126B8-C48A-4191-BA22-17761D5989BD}.Release|ARM64.ActiveCfg = Release|Win32
+		{F3E126B8-C48A-4191-BA22-17761D5989BD}.Release|x64.ActiveCfg = Release|x64
+		{F3E126B8-C48A-4191-BA22-17761D5989BD}.Release|x64.Build.0 = Release|x64
+		{F3E126B8-C48A-4191-BA22-17761D5989BD}.Release|x86.ActiveCfg = Release|Win32
+		{F3E126B8-C48A-4191-BA22-17761D5989BD}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
