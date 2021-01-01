@@ -16,6 +16,7 @@ namespace Files.ViewModels.SettingsViewModels
         private bool moveOverflowMenuItemsToSubMenu = App.AppSettings.MoveOverflowMenuItemsToSubMenu;
         private bool showCopyLocationMenuItem = App.AppSettings.ShowCopyLocationMenuItem;
         private bool showOpenInNewTabMenuItem = App.AppSettings.ShowOpenInNewTabMenuItem;
+        private bool areRightClickContentMenuAnimationsEnabled = App.AppSettings.AreRightClickContentMenuAnimationsEnabled;
 
         public AppearanceViewModel()
         {
@@ -120,6 +121,21 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref showOpenInNewTabMenuItem, value))
                 {
                     App.AppSettings.ShowOpenInNewTabMenuItem = value;
+                }
+            }
+        }
+
+        public bool AreRightClickContentMenuAnimationsEnabled
+        {
+            get
+            {
+                return areRightClickContentMenuAnimationsEnabled;
+            }
+            set
+            {
+                if (SetProperty(ref areRightClickContentMenuAnimationsEnabled, value))
+                {
+                    App.AppSettings.AreRightClickContentMenuAnimationsEnabled = value;
                 }
             }
         }
