@@ -71,6 +71,7 @@ namespace Files.ViewModels
             Analytics.TrackEvent("AreHiddenItemsVisible " + AreHiddenItemsVisible.ToString());
             Analytics.TrackEvent("ShowDrivesWidget " + ShowDrivesWidget.ToString());
             Analytics.TrackEvent("ListAndSortDirectoriesAlongsideFiles " + ListAndSortDirectoriesAlongsideFiles.ToString());
+            Analytics.TrackEvent("AreRightClickContentMenuAnimationsEnabled " + AreRightClickContentMenuAnimationsEnabled.ToString());
         }
 
         public static async void OpenLogLocation()

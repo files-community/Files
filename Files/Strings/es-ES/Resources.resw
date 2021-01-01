@@ -1198,7 +1198,7 @@
     <value>Año</value>
   </data>
   <data name="PropertySectionCore" xml:space="preserve">
-    <value>Núcleo</value>
+    <value>Archivo</value>
   </data>
   <data name="PropertySectionImage" xml:space="preserve">
     <value>Imagen</value>
@@ -1445,5 +1445,23 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Panel Doble</value>
+  </data>
+  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
+    <value>Mostrar "Copiar ubicación" en el menú contextual</value>
+  </data>
+  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
+    <value>Mover opciones adicionales a un sub menú</value>
+  </data>
+  <data name="SettingsContextMenu.Text" xml:space="preserve">
+    <value>Personaliza el menú contextual</value>
+  </data>
+  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
+    <value>Mostrar "Abrir en nueva pestaña" en el menú contextual</value>
+  </data>
+  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+    <value>Carpetas</value>
+  </data>
+  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
+    <value>Habilitar animaciones al abrir y cerrar el menú contextual</value>
   </data>
 </root>
