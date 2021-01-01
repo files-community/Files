@@ -219,6 +219,7 @@
                             ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}"
                             IsMultiPaneActive="{x:Bind IsMultiPaneActive, Mode=OneWay}"
                             IsPageMainPane="{x:Bind IsPageMainPane, Mode=OneWay}"
+                            CanPasteInPage="{x:Bind InstanceViewModel.CanPasteInPage, Mode=OneWay}"
                             CanCreateFileInPage="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                             CanOpenTerminalInPage="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
                             CopyPathInvokedCommand="{x:Bind InteractionOperations.CopyPathOfWorkingDirectory, Mode=OneWay}"

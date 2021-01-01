@@ -37,17 +37,28 @@ namespace Files.UserControls.Selection
 
         private void RectangleSelection_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
+            if (scrollBar == null)
+            {
+                return;
+            }
+
+            var currentPoint = e.GetCurrentPoint(uiElement);
+            var verticalOffset = scrollBar.Value - uiElement.ColumnHeaderHeight;
             if (selectionState == SelectionState.Starting)
             {
+                if (!HasMovedMinimalDelta(originDragPoint.X, originDragPoint.Y - verticalOffset, currentPoint.Position.X, currentPoint.Position.Y))
+                {
+                    return;
+                }
+
                 uiElement.CancelEdit();
                 selectionStrategy.StartSelection();
                 OnSelectionStarted();
                 selectionState = SelectionState.Active;
             }
-            var currentPoint = e.GetCurrentPoint(uiElement);
-            if (currentPoint.Properties.IsLeftButtonPressed && scrollBar != null)
+
+            if (currentPoint.Properties.IsLeftButtonPressed)
             {
-                var verticalOffset = scrollBar.Value - uiElement.ColumnHeaderHeight;
                 var originDragPointShifted = new Point(originDragPoint.X, originDragPoint.Y - verticalOffset); // Initial drag point relative to the topleft corner
                 base.DrawRectangle(currentPoint, originDragPointShifted);
                 // Selected area considering scrolled offset

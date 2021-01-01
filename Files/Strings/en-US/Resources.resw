@@ -1596,4 +1596,7 @@
   <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
     <value>Show open in new tab menu item</value>
   </data>
+  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+    <value>Folders</value>
+  </data>
 </root>

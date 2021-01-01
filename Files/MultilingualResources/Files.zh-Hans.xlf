@@ -1376,15 +1376,15 @@
           <target state="translated">隐藏</target>
         </trans-unit>
         <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
-          <source>Rating Text</source>
+          <source>Rating</source>
           <target state="translated">分级</target>
         </trans-unit>
         <trans-unit id="PropertyItemFolderPathDisplay" translate="yes" xml:space="preserve">
-          <source>Item Folder Path Display</source>
+          <source>Item Folder Path</source>
           <target state="translated">项目文件夹路径</target>
         </trans-unit>
         <trans-unit id="PropertyItemTypeText" translate="yes" xml:space="preserve">
-          <source>Item Type Text</source>
+          <source>Item Type</source>
           <target state="translated">项目类型</target>
         </trans-unit>
         <trans-unit id="PropertyTitle" translate="yes" xml:space="preserve">
@@ -1428,7 +1428,7 @@
           <target state="translated">垂直分辨率</target>
         </trans-unit>
         <trans-unit id="PropertyCompressionText" translate="yes" xml:space="preserve">
-          <source>Compression Text</source>
+          <source>Compression</source>
           <target state="translated">压缩</target>
         </trans-unit>
         <trans-unit id="PropertyHorizontalSize" translate="yes" xml:space="preserve">
@@ -1512,7 +1512,7 @@
           <target state="translated">采样频率</target>
         </trans-unit>
         <trans-unit id="PropertyDisplayArtist" translate="yes" xml:space="preserve">
-          <source>Display Artist</source>
+          <source>Artist</source>
           <target state="translated">艺术家</target>
         </trans-unit>
         <trans-unit id="PropertyAlbumArtist" translate="yes" xml:space="preserve">
@@ -1978,6 +1978,10 @@
         <trans-unit id="SettingsOpenInNewTabSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show open in new tab menu item</source>
           <target state="translated">显示在新标签页打开菜单项</target>
+        </trans-unit>
+        <trans-unit id="LibraryWidgetDescription.Text" translate="yes" xml:space="preserve">
+          <source>Folders</source>
+          <target state="translated">文件夹</target>
         </trans-unit>
       </group>
     </body>
