@@ -3,6 +3,7 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -15,9 +16,12 @@ namespace Files.UserControls.Selection
 {
     public class RectangleSelection_DataGrid : RectangleSelection
     {
-        private DataGrid uiElement;
+        private readonly DataGrid uiElement;
+        private readonly MethodInfo uiElementSetCurrentCellCore;
+
         private ScrollBar scrollBar;
         private SelectionChangedEventHandler selectionChanged;
+
 
         private Point originDragPoint;
         private Dictionary<object, System.Drawing.Rectangle> itemsPosition;
@@ -30,6 +34,9 @@ namespace Files.UserControls.Selection
             this.uiElement = uiElement;
             this.selectionRectangle = selectionRectangle;
             this.selectionChanged = selectionChanged;
+
+            uiElementSetCurrentCellCore = typeof(DataGrid).GetMethod("SetCurrentCellCore", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(int), typeof(int) }, null);
+
             itemsPosition = new Dictionary<object, System.Drawing.Rectangle>();
             dataGridRows = new List<DataGridRow>();
             InitEvents(null, null);
@@ -181,6 +188,7 @@ namespace Files.UserControls.Selection
             {
                 // If user click outside, reset selection
                 uiElement.CancelEdit();
+                DeselectGridCell();
                 selectionStrategy.HandleNoItemSelected();
             }
 
@@ -193,6 +201,11 @@ namespace Files.UserControls.Selection
             }
             uiElement.CapturePointer(e.Pointer);
             selectionState = SelectionState.Starting;
+        }
+
+        private void DeselectGridCell()
+        {
+            uiElementSetCurrentCellCore.Invoke(uiElement, new object[] { -1, -1 });
         }
 
         private void RectangleSelection_PointerReleased(object sender, PointerRoutedEventArgs e)
