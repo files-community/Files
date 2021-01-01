@@ -22,7 +22,6 @@ namespace Files.UserControls.Selection
         private ScrollBar scrollBar;
         private SelectionChangedEventHandler selectionChanged;
 
-
         private Point originDragPoint;
         private Dictionary<object, System.Drawing.Rectangle> itemsPosition;
         private IList<DataGridRow> dataGridRows;
