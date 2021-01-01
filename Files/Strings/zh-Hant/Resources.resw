@@ -48,9 +48,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>通用檔案管理器</value>
   </data>
-  <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
-    <value>特別感謝：</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>提交問題</value>
   </data>
@@ -1088,9 +1085,6 @@
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>新檔案</value>
-  </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>內容功能表</value>
   </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>新增</value>

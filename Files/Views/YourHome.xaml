@@ -10,7 +10,7 @@
     mc:Ignorable="d">
 
     <ScrollViewer>
-        <StackPanel Margin="14" Spacing="24">
+        <StackPanel Margin="14,0,14,14" Spacing="24">
             <StackPanel.ChildrenTransitions>
                 <TransitionCollection>
                     <EntranceThemeTransition />

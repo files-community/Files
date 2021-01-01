@@ -54,10 +54,6 @@
           <source>Files</source>
           <target state="translated">Files</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
-          <source>Special thanks to:</source>
-          <target state="translated">Agradecimientos especiales a:</target>
-        </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
           <source>Submit Feedback</source>
           <target state="translated">Enviar opiniones</target>
@@ -1222,10 +1218,6 @@
           <source>Access Denied</source>
           <target state="translated">Acceso Denegado</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesContextMenuSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show all context menu items when right clicking an item</source>
-          <target state="translated">Mostrar todas las opciones del menú contextual al hacer clic derecho en un elemento</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
           <target state="translated">Mostrar la papelera de reciclaje en la barra lateral</target>
@@ -1330,10 +1322,6 @@
           <source>Shortcut item</source>
           <target state="translated">Elemento de acceso directo</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show an option to copy the location when right clicking an item</source>
-          <target state="translated">Mostrar "Copiar ubicación" al hacer clic derecho en un elemento</target>
-        </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Header" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
           <target state="translated">Mostrar archivos y carpetas ocultos</target>
@@ -1387,15 +1375,15 @@
           <target state="translated">Oculto</target>
         </trans-unit>
         <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
-          <source>Rating Text</source>
+          <source>Rating</source>
           <target state="translated">Clasificación</target>
         </trans-unit>
         <trans-unit id="PropertyItemFolderPathDisplay" translate="yes" xml:space="preserve">
-          <source>Item Folder Path Display</source>
+          <source>Item Folder Path</source>
           <target state="translated">Ruta de acceso a la carpeta</target>
         </trans-unit>
         <trans-unit id="PropertyItemTypeText" translate="yes" xml:space="preserve">
-          <source>Item Type Text</source>
+          <source>Item Type</source>
           <target state="translated">Tipo de elemento</target>
         </trans-unit>
         <trans-unit id="PropertyTitle" translate="yes" xml:space="preserve">
@@ -1439,7 +1427,7 @@
           <target state="translated">Resolución vertical</target>
         </trans-unit>
         <trans-unit id="PropertyCompressionText" translate="yes" xml:space="preserve">
-          <source>Compression Text</source>
+          <source>Compression</source>
           <target state="translated">Compresión</target>
         </trans-unit>
         <trans-unit id="PropertyHorizontalSize" translate="yes" xml:space="preserve">
@@ -1523,7 +1511,7 @@
           <target state="translated">Velocidad de muestra de sonido</target>
         </trans-unit>
         <trans-unit id="PropertyDisplayArtist" translate="yes" xml:space="preserve">
-          <source>Display Artist</source>
+          <source>Artist</source>
           <target state="translated">Intérpretes colaboradores</target>
         </trans-unit>
         <trans-unit id="PropertyAlbumArtist" translate="yes" xml:space="preserve">
@@ -1644,7 +1632,7 @@
         </trans-unit>
         <trans-unit id="PropertySectionCore" translate="yes" xml:space="preserve">
           <source>Core</source>
-          <target state="translated">Núcleo</target>
+          <target state="translated">Archivo</target>
         </trans-unit>
         <trans-unit id="PropertySectionImage" translate="yes" xml:space="preserve">
           <source>Image</source>
@@ -1914,10 +1902,6 @@
           <source>Enable individual preferences for individual directories</source>
           <target state="translated">Habilitar preferencias individuales para directorios individuales</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesContextMenu.Text" translate="yes" xml:space="preserve">
-          <source>Context Menu</source>
-          <target state="translated">Menú Contextual</target>
-        </trans-unit>
         <trans-unit id="originalPathColumn.Header" translate="yes" xml:space="preserve">
           <source>Original path</source>
           <target state="translated">Ubicación original</target>
@@ -1977,6 +1961,30 @@
         <trans-unit id="SettingsDualPane.Text" translate="yes" xml:space="preserve">
           <source>Dual Pane</source>
           <target state="translated">Panel Doble</target>
+        </trans-unit>
+        <trans-unit id="SettingsCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Show copy location menu item</source>
+          <target state="translated">Mostrar "Copiar ubicación" en el menú contextual</target>
+        </trans-unit>
+        <trans-unit id="SettingsContextMenuOverflowSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Move overflow items into a sub menu</source>
+          <target state="translated">Mover opciones adicionales a un sub menú</target>
+        </trans-unit>
+        <trans-unit id="SettingsContextMenu.Text" translate="yes" xml:space="preserve">
+          <source>Customize the right click context menu</source>
+          <target state="translated">Personaliza el menú contextual</target>
+        </trans-unit>
+        <trans-unit id="SettingsOpenInNewTabSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Show open in new tab menu item</source>
+          <target state="translated">Mostrar "Abrir en nueva pestaña" en el menú contextual</target>
+        </trans-unit>
+        <trans-unit id="LibraryWidgetDescription.Text" translate="yes" xml:space="preserve">
+          <source>Folders</source>
+          <target state="translated">Carpetas</target>
+        </trans-unit>
+        <trans-unit id="SettingsContextMenuAnimationsSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Enable animations when opening and closing the context menu</source>
+          <target state="translated">Habilitar animaciones al abrir y cerrar el menú contextual</target>
         </trans-unit>
       </group>
     </body>

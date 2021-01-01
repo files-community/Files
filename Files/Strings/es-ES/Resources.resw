@@ -48,9 +48,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
-  <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
-    <value>Agradecimientos especiales a:</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Enviar opiniones</value>
   </data>
@@ -903,9 +900,6 @@
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Acceso Denegado</value>
   </data>
-  <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
-    <value>Mostrar todas las opciones del menú contextual al hacer clic derecho en un elemento</value>
-  </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Mostrar la papelera de reciclaje en la barra lateral</value>
   </data>
@@ -983,9 +977,6 @@
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
     <value>Elemento de acceso directo</value>
-  </data>
-  <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Mostrar "Copiar ubicación" al hacer clic derecho en un elemento</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
     <value>Mostrar archivos y carpetas ocultos</value>
@@ -1207,7 +1198,7 @@
     <value>Año</value>
   </data>
   <data name="PropertySectionCore" xml:space="preserve">
-    <value>Núcleo</value>
+    <value>Archivo</value>
   </data>
   <data name="PropertySectionImage" xml:space="preserve">
     <value>Imagen</value>
@@ -1410,9 +1401,6 @@
   <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
     <value>Habilitar preferencias individuales para directorios individuales</value>
   </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>Menú Contextual</value>
-  </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Ubicación original</value>
   </data>
@@ -1457,5 +1445,23 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Panel Doble</value>
+  </data>
+  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
+    <value>Mostrar "Copiar ubicación" en el menú contextual</value>
+  </data>
+  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
+    <value>Mover opciones adicionales a un sub menú</value>
+  </data>
+  <data name="SettingsContextMenu.Text" xml:space="preserve">
+    <value>Personaliza el menú contextual</value>
+  </data>
+  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
+    <value>Mostrar "Abrir en nueva pestaña" en el menú contextual</value>
+  </data>
+  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+    <value>Carpetas</value>
+  </data>
+  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
+    <value>Habilitar animaciones al abrir y cerrar el menú contextual</value>
   </data>
 </root>

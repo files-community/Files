@@ -71,6 +71,7 @@ namespace Files.ViewModels
             Analytics.TrackEvent("AreHiddenItemsVisible " + AreHiddenItemsVisible.ToString());
             Analytics.TrackEvent("ShowDrivesWidget " + ShowDrivesWidget.ToString());
             Analytics.TrackEvent("ListAndSortDirectoriesAlongsideFiles " + ListAndSortDirectoriesAlongsideFiles.ToString());
+            Analytics.TrackEvent("AreRightClickContentMenuAnimationsEnabled " + AreRightClickContentMenuAnimationsEnabled.ToString());
         }
 
         public static async void OpenLogLocation()
@@ -92,8 +93,15 @@ namespace Files.ViewModels
         public async void DetectQuickLook()
         {
             // Detect QuickLook
-            ApplicationData.Current.LocalSettings.Values["Arguments"] = "StartupTasks";
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+            try
+            {
+                ApplicationData.Current.LocalSettings.Values["Arguments"] = "StartupTasks";
+                await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+            }            
         }
 
         private void DetectRecycleBinPreference()
@@ -473,24 +481,6 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not some of the right click context menu items overflow into a sub menu.
-        /// </summary>
-        public bool ShowAllContextMenuItems
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the show copy location option is shown in the right click context menu.
-        /// </summary>
-        public bool ShowCopyLocationOption
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
         /// Gets or sets a value indicating the application language.
         /// </summary>
         public DefaultLanguageModel CurrentLanguage { get; set; } = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);
@@ -562,6 +552,55 @@ namespace Files.ViewModels
 
         #endregion Preferences
 
+        #region Appearance
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not acrylic is enabled.
+        /// </summary>
+        public bool IsAcrylicDisabled
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not right click context menu animations are enabled.
+        /// </summary>
+        public bool AreRightClickContentMenuAnimationsEnabled
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to move overflow menu items into a sub menu.
+        /// </summary>
+        public bool MoveOverflowMenuItemsToSubMenu
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the copy location menu item is shown in the right click context menu.
+        /// </summary>
+        public bool ShowCopyLocationMenuItem
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the open in new tab menu item is shown in the right click context menu.
+        /// </summary>
+        public bool ShowOpenInNewTabMenuItem
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        #endregion Appearance
+
         /// <summary>
         /// Gets or sets a value indicating whether or not WSL is supported.
         /// </summary>
@@ -630,16 +669,7 @@ namespace Files.ViewModels
             get => Get(false);
             set => Set(value);
         }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not acrylic is enabled.
-        /// </summary>
-        public bool IsAcrylicDisabled
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
+                
         public string[] PagesOnStartupList
         {
             get => Get<string[]>(null);

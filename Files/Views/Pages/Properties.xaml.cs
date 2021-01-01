@@ -6,6 +6,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.Resources.Core;
 using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI;
@@ -36,6 +37,13 @@ namespace Files.Views
         public Properties()
         {
             InitializeComponent();
+
+            var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
+
+            if (flowDirectionSetting == "RTL")
+            {
+                FlowDirection = FlowDirection.RightToLeft;
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

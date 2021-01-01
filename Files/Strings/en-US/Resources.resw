@@ -249,9 +249,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
-  <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
-    <value>Special thanks to:</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Submit Feedback</value>
   </data>
@@ -1065,11 +1062,11 @@
   <data name="SettingsPreferencesTerminalApplications.Header" xml:space="preserve">
     <value>Terminal Applications</value>
   </data>
-  <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Show an option to copy the location when right clicking an item</value>
+  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
+    <value>Show copy location menu item</value>
   </data>
-  <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
-    <value>Show all context menu items when right clicking an item</value>
+  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
+    <value>Move overflow items into a sub menu</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Pin Recycle Bin to the sidebar</value>
@@ -1096,13 +1093,13 @@
     <value>Cancel</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
-    <value>Rating Text</value>
+    <value>Rating</value>
   </data>
   <data name="PropertyItemFolderPathDisplay" xml:space="preserve">
-    <value>Item Folder Path Display</value>
+    <value>Item Folder Path</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
-    <value>Item Type Text</value>
+    <value>Item Type</value>
   </data>
   <data name="PropertyTitle" xml:space="preserve">
     <value>Title</value>
@@ -1138,7 +1135,7 @@
     <value>Vertical Resolution</value>
   </data>
   <data name="PropertyCompressionText" xml:space="preserve">
-    <value>Compression Text</value>
+    <value>Compression</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
     <value>Color Space</value>
@@ -1201,7 +1198,7 @@
     <value>Sample Rate</value>
   </data>
   <data name="PropertyDisplayArtist" xml:space="preserve">
-    <value>Display Artist</value>
+    <value>Artist</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>Album Artist</value>
@@ -1548,8 +1545,8 @@
   <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
     <value>Enable individual preferences for individual directories</value>
   </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>Context Menu</value>
+  <data name="SettingsContextMenu.Text" xml:space="preserve">
+    <value>Customize the right click context menu</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Original path</value>
@@ -1595,5 +1592,14 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Dual Pane</value>
+  </data>
+  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
+    <value>Show open in new tab menu item</value>
+  </data>
+  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+    <value>Folders</value>
+  </data>
+  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
+    <value>Enable animations when opening and closing the context menu</value>
   </data>
 </root>

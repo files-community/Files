@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.UI.Core;
@@ -57,7 +58,7 @@ namespace Files
             InitializeComponent();
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
-
+            Clipboard.ContentChanged += Clipboard_ContentChanged;
             // Initialize NLog
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
             LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
@@ -169,6 +170,29 @@ namespace Files
             {
                 ShowErrorNotification = true;
                 ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
+                Clipboard_ContentChanged(null, null);
+            }
+        }
+
+        private void Clipboard_ContentChanged(object sender, object e)
+        {
+            try
+            {
+                // Clipboard.GetContent() will throw UnauthorizedAccessException
+                // if the app window is not in the foreground and active
+                DataPackageView packageView = Clipboard.GetContent();
+                if (packageView.Contains(StandardDataFormats.StorageItems))
+                {
+                    App.InteractionViewModel.IsPasteEnabled = true;
+                }
+                else
+                {
+                    App.InteractionViewModel.IsPasteEnabled = false;
+                }
+            }
+            catch
+            {
+                App.InteractionViewModel.IsPasteEnabled = false;
             }
         }
 

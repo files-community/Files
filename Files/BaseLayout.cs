@@ -219,7 +219,7 @@ namespace Files
         {
             ClearShellContextMenus(menuFlyout);
             var currentBaseLayoutItemCount = menuFlyout.Items.Count;
-            var maxItems = AppSettings.ShowAllContextMenuItems ? int.MaxValue : shiftPressed ? 6 : 4;
+            var maxItems = !AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4;
             if (Connection != null)
             {
                 var response = Task.Run(() => Connection.SendMessageAsync(new ValueSet()
@@ -353,7 +353,6 @@ namespace Files
             }
 
             ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
-            ParentShellPageInstance.Clipboard_ContentChanged(null, null);
 
             FolderSettings.IsLayoutModeChanging = false;
 
@@ -570,9 +569,14 @@ namespace Files
                 && SelectedItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase);
             SetShellContextmenu(BaseLayoutItemContextFlyout, shiftPressed, showOpenMenu);
 
-            if (!AppSettings.ShowCopyLocationOption)
+            if (!AppSettings.ShowCopyLocationMenuItem)
             {
                 UnloadMenuFlyoutItemByName("CopyLocationItem");
+            }
+            
+            if (!AppSettings.ShowOpenInNewTabMenuItem)
+            {
+                UnloadMenuFlyoutItemByName("OpenInNewTab");
             }
 
             if (!DataTransferManager.IsSupported())
@@ -667,6 +671,11 @@ namespace Files
                     LoadMenuFlyoutItemByName("SidebarPinItem");
                     LoadMenuFlyoutItemByName("CreateShortcut");
                     LoadMenuFlyoutItemByName("OpenItem");
+
+                    if (AppSettings.ShowCopyLocationMenuItem)
+                    {
+                        LoadMenuFlyoutItemByName("CopyLocationItem");
+                    }
                 }
                 else
                 {
@@ -676,7 +685,10 @@ namespace Files
 
                 if (SelectedItems.Count <= 5 && SelectedItems.Count > 0)
                 {
-                    LoadMenuFlyoutItemByName("OpenInNewTab");
+                    if (AppSettings.ShowOpenInNewTabMenuItem)
+                    {
+                        LoadMenuFlyoutItemByName("OpenInNewTab");
+                    }
                     LoadMenuFlyoutItemByName("OpenInNewWindowItem");
                 }
                 else if (SelectedItems.Count > 5)

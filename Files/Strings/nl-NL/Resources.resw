@@ -48,9 +48,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files UWP</value>
   </data>
-  <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
-    <value>Speciale dank aan:</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Verstuur Feedback</value>
   </data>
@@ -1166,9 +1163,6 @@
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>Nieuw bestand</value>
-  </data>
-  <data name="SettingsPreferencesContextMenu.Text" xml:space="preserve">
-    <value>Contextmenu</value>
   </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Oorspronkelijk pad:</value>

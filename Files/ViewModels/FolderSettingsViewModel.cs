@@ -218,8 +218,8 @@ namespace Files.ViewModels
         {
             if (App.AppSettings.AreLayoutPreferencesPerFolder)
             {
-                var layoutPrefs = ReadLayoutPreferencesFromAds(folderPath);
-                return layoutPrefs ?? ReadLayoutPreferencesFromSettings(folderPath);
+                var layoutPrefs = ReadLayoutPreferencesFromAds(folderPath.TrimEnd('\\'));
+                return layoutPrefs ?? ReadLayoutPreferencesFromSettings(folderPath.Replace('\\', '_'));
             }
             return LayoutPreferences.DefaultLayoutPreferences;
         }
@@ -230,10 +230,9 @@ namespace Files.ViewModels
             {
                 // Sanitize the folderPath by removing the trailing '\\'. This has to be performed because paths to drives
                 // include an '\\' at the end (unlike paths to folders)
-                folderPath = folderPath.EndsWith('\\') ? folderPath.TrimEnd('\\') : folderPath;
-                if (!WriteLayoutPreferencesToAds(folderPath, prefs))
+                if (!WriteLayoutPreferencesToAds(folderPath.TrimEnd('\\'), prefs))
                 {
-                    WriteLayoutPreferencesToSettings(folderPath, prefs);
+                    WriteLayoutPreferencesToSettings(folderPath.Replace('\\', '_'), prefs);
                 }
             }
             else
