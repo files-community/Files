@@ -45,7 +45,7 @@ namespace Files.ViewModels
         public Type GetLayoutType(string folderPath)
         {
             var oldLayoutMode = LayoutPreference.LayoutMode;
-            LayoutPreference = GetLayoutPreferencesForPath(folderPath.TrimEnd('\\'));
+            LayoutPreference = GetLayoutPreferencesForPath(folderPath);
             if (oldLayoutMode != LayoutPreference.LayoutMode)
             {
                 IsLayoutModeChanging = true;
