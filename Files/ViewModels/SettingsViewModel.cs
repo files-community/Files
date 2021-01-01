@@ -554,6 +554,24 @@ namespace Files.ViewModels
         #region Appearance
 
         /// <summary>
+        /// Gets or sets a value indicating whether or not acrylic is enabled.
+        /// </summary>
+        public bool IsAcrylicDisabled
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not right click context menu animations are enabled.
+        /// </summary>
+        public bool AreRightClickContentMenuAnimationsEnabled
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether or not to move overflow menu items into a sub menu.
         /// </summary>
         public bool MoveOverflowMenuItemsToSubMenu
@@ -650,16 +668,7 @@ namespace Files.ViewModels
             get => Get(false);
             set => Set(value);
         }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not acrylic is enabled.
-        /// </summary>
-        public bool IsAcrylicDisabled
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
+                
         public string[] PagesOnStartupList
         {
             get => Get<string[]>(null);

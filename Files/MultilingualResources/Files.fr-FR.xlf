@@ -1986,6 +1986,10 @@
           <source>Folders</source>
           <target state="new">Folders</target>
         </trans-unit>
+        <trans-unit id="SettingsContextMenuAnimationsSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Enable animations when opening and closing the context menu</source>
+          <target state="new">Enable animations when opening and closing the context menu</target>
+        </trans-unit>
       </group>
     </body>
   </file>
