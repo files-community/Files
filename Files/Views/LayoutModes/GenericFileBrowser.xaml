@@ -664,6 +664,7 @@
             AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
             AutoGenerateColumns="False"
             Background="Transparent"
+            BeginningEdit="AllView_BeginningEdit"
             CanUserReorderColumns="False"
             CanUserSortColumns="True"
             CellEditEnded="AllView_CellEditEnded"

@@ -217,50 +217,25 @@ namespace Files.Views.LayoutModes
         private TextBox renamingTextBox;
 
         private DispatcherTimer tapDebounceTimer;
-
-        private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
+        private void AllView_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
             if (ParentShellPageInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
             {
                 // Do not rename files and folders inside the recycle bin
-                AllView.CancelEdit(); // Cancel the edit operation
+                e.Cancel = true;
                 return;
             }
 
-            // Only cancel if this event was triggered by a tap
-            // Do not cancel when user presses F2 or context menu
-            if (e.EditingEventArgs is TappedRoutedEventArgs)
+            if (e.EditingEventArgs is TappedRoutedEventArgs && AppSettings.OpenItemsWithOneclick)
             {
-                if (AppSettings.OpenItemsWithOneclick)
-                {
-                    AllView.CancelEdit(); // Cancel the edit operation
-                    return;
-                }
-
-                if (!tapDebounceTimer.IsEnabled)
-                {
-                    tapDebounceTimer.Debounce(() =>
-                    {
-                        tapDebounceTimer.Stop();
-                        AllView.BeginEdit(); // EditingEventArgs will be null
-                    }, TimeSpan.FromMilliseconds(700), false);
-                }
-                else
-                {
-                    tapDebounceTimer.Stop();
-                    ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null); // Open selected files
-                }
-
-                AllView.CancelEdit(); // Cancel the edit operation
+                // If for some reason we started renaming by a click in a one-click mode, cancel it
+                e.Cancel = true;
                 return;
             }
+        }
 
-            if (SelectedItem == null)
-            {
-                AllView.CancelEdit(); // Cancel the edit operation
-                return;
-            }
-
+        private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
+        {
             int extensionLength = SelectedItem.FileExtension?.Length ?? 0;
             oldItemName = SelectedItem.ItemName;
 
