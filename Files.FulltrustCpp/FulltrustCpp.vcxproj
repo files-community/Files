@@ -101,15 +101,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AppServiceManager.h" />
+    <ClInclude Include="MessageHandler.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Win32API_ContextMenu.h" />
+    <ClInclude Include="MsgHandler_ContextMenu.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AppServiceManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Win32API_ContextMenu.cpp" />
+    <ClCompile Include="MsgHandler_ContextMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

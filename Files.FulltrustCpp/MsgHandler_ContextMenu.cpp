@@ -1,12 +1,12 @@
 #include "pch.h"
-#include "Win32API_ContextMenu.h"
+#include "MsgHandler_ContextMenu.h"
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uiMsg, WPARAM wParam, LPARAM lParam)
 {
-	Win32API_ContextMenu* pThis;
+	MsgHandler_ContextMenu* pThis;
 	if (uiMsg == WM_NCCREATE)
 	{
-		pThis = static_cast<Win32API_ContextMenu*>(reinterpret_cast<CREATESTRUCT*>(lParam)->lpCreateParams);
+		pThis = static_cast<MsgHandler_ContextMenu*>(reinterpret_cast<CREATESTRUCT*>(lParam)->lpCreateParams);
 
 		SetLastError(0);
 		if (!SetWindowLongPtr(hwnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pThis)))
@@ -17,7 +17,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uiMsg, WPARAM wParam, LPARAM lParam)
 	}
 	else
 	{
-		pThis = reinterpret_cast<Win32API_ContextMenu*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+		pThis = reinterpret_cast<MsgHandler_ContextMenu*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 	}
 	if (pThis)
 	{
@@ -36,7 +36,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uiMsg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hwnd, uiMsg, wParam, lParam);
 }
 
-void Win32API_ContextMenu::ShowContextMenuForFile(LPCWSTR filePath, UINT menuFlags, HINSTANCE hInstance)
+void MsgHandler_ContextMenu::ShowContextMenuForFile(LPCWSTR filePath, UINT menuFlags, HINSTANCE hInstance)
 {
 	// Register the window class.
 	const wchar_t CLASS_NAME[] = L"Files Window Class";
@@ -101,7 +101,7 @@ void Win32API_ContextMenu::ShowContextMenuForFile(LPCWSTR filePath, UINT menuFla
 	}
 }
 
-HRESULT Win32API_ContextMenu::GetUIObjectOfFile(HWND hwnd, LPCWSTR pszPath, REFIID riid, void** ppv)
+HRESULT MsgHandler_ContextMenu::GetUIObjectOfFile(HWND hwnd, LPCWSTR pszPath, REFIID riid, void** ppv)
 {
 	*ppv = NULL;
 	HRESULT hr;
@@ -118,17 +118,17 @@ HRESULT Win32API_ContextMenu::GetUIObjectOfFile(HWND hwnd, LPCWSTR pszPath, REFI
 			//psf->GetDisplayNameOf(pidlChild, SHGDN_FORPARSING, &strDispName);
 			//StrRetToBuf(&strDispName, pidlChild, pszParseName, MAX_PATH);
 
-			/*SHELLEXECUTEINFO ShExecInfo;
-			ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
-			ShExecInfo.fMask = NULL;
-			ShExecInfo.hwnd = NULL;
-			ShExecInfo.lpVerb = NULL;
-			ShExecInfo.lpFile = pszParseName;
-			ShExecInfo.lpParameters = NULL;
-			ShExecInfo.lpDirectory = NULL;
-			ShExecInfo.nShow = SW_MAXIMIZE;
-			ShExecInfo.hInstApp = NULL;
-			ShellExecuteEx(&ShExecInfo);*/
+			//SHELLEXECUTEINFO ShExecInfo;
+			//ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+			//ShExecInfo.fMask = NULL;
+			//ShExecInfo.hwnd = NULL;
+			//ShExecInfo.lpVerb = NULL;
+			//ShExecInfo.lpFile = pszParseName;
+			//ShExecInfo.lpParameters = NULL;
+			//ShExecInfo.lpDirectory = NULL;
+			//ShExecInfo.nShow = SW_MAXIMIZE;
+			//ShExecInfo.hInstApp = NULL;
+			//ShellExecuteEx(&ShExecInfo);
 
 			hr = psf->GetUIObjectOf(hwnd, 1, &pidlChild, riid, NULL, ppv);
 			psf->Release();
@@ -136,4 +136,21 @@ HRESULT Win32API_ContextMenu::GetUIObjectOfFile(HWND hwnd, LPCWSTR pszPath, REFI
 		CoTaskMemFree(pidl);
 	}
 	return hr;
+}
+
+IAsyncOperation<bool> MsgHandler_ContextMenu::ParseArgumentsAsync(AppServiceManager const& manager, AppServiceRequestReceivedEventArgs const& args)
+{
+	if (args.Request().Message().HasKey(L"Arguments"))
+	{
+		auto arguments = args.Request().Message().Lookup(L"Arguments").as<hstring>();
+		if (arguments == L"LoadContextMenu")
+		{
+			auto filePath = args.Request().Message().Lookup(L"FilePath").as<hstring>();
+			auto extendedMenu = args.Request().Message().Lookup(L"ExtendedMenu").as<bool>();
+			auto showOpenMenu = args.Request().Message().Lookup(L"ShowOpenMenu").as<bool>();
+			ShowContextMenuForFile(filePath.c_str(), CMF_NORMAL, GetModuleHandle(0));
+			co_return TRUE;
+		}
+	}
+	co_return FALSE;
 }

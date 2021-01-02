@@ -1,4 +1,12 @@
 ﻿#pragma once
+#pragma comment (lib, "Shell32.lib")
+#pragma comment (lib, "Shlwapi.lib")
+
+#include <shlobj.h>
+#include <shellapi.h>
+#include <shlwapi.h>
+#include <windows.h>
+
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.Storage.h>
