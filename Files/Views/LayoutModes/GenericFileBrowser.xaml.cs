@@ -225,6 +225,13 @@ namespace Files.Views.LayoutModes
                 e.Cancel = true;
                 return;
             }
+
+            if (e.EditingEventArgs is TappedRoutedEventArgs && AppSettings.OpenItemsWithOneclick)
+            {
+                // If for some reason we started renaming by a click in a one-click mode, cancel it
+                e.Cancel = true;
+                return;
+            }
         }
 
         private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
