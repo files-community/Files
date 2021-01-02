@@ -52,7 +52,7 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarCopyPath.Text" translate="yes" xml:space="preserve">
           <source>Copy location</source>
-          <target state="translated" state-qualifier="tm-suggestion">העתק נתיב</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">העתק מיקום</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarPaste.Text" translate="yes" xml:space="preserve">
           <source>Paste</source>
@@ -80,7 +80,7 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarOpenInTerminal.Text" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
-          <target state="new">Open in Terminal...</target>
+          <target state="needs-review-translation">פתח באפליקציית מסוף</target>
         </trans-unit>
         <trans-unit id="PropertiesCreated.Text" translate="yes" xml:space="preserve">
           <source>Created:</source>
@@ -152,11 +152,11 @@
         </trans-unit>
         <trans-unit id="RecentItemClearAll.Text" translate="yes" xml:space="preserve">
           <source>Clear all items</source>
-          <target state="new">Clear all items</target>
+          <target state="needs-review-translation">נקה את כל פריטים</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarVisiblePath.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter a path</source>
-          <target state="new">Enter a path</target>
+          <target state="needs-review-translation">הזן נתיב</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarSearchReigon.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Search</source>
@@ -164,7 +164,7 @@
         </trans-unit>
         <trans-unit id="RecentItemDescription.Text" translate="yes" xml:space="preserve">
           <source>Files you've previously accessed will show up here</source>
-          <target state="new">Files you've previously accessed will show up here</target>
+          <target state="needs_review-translation">הקבצים שניגשת אליהם בעבר יופיעו כאן</target>
         </trans-unit>
         <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
@@ -188,11 +188,11 @@
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
           <source>Send the developers an issue report with detailed information</source>
-          <target state="new">Send the developers an issue report with detailed information</target>
+          <target state="needs-review-translation">שלח למפתחים דיווח עם מידע מפורט</target>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
           <source>Third Party Licenses</source>
-          <target state="new">Third Party Licenses</target>
+          <target state="needs-review-translation">רישיונות צד שלישי</target>
         </trans-unit>
         <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
           <source>About</source>
@@ -208,7 +208,7 @@
         </trans-unit>
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
-          <target state="new">Experimental</target>
+          <target state="needs-review-translation">תכונות ניסיוניות</target>
         </trans-unit>
         <trans-unit id="SettingsPageHeader.Text" translate="yes" xml:space="preserve">
           <source>Settings</source>
@@ -224,7 +224,7 @@
         </trans-unit>
         <trans-unit id="SettingsNavExperimental.Content" translate="yes" xml:space="preserve">
           <source>Experimental</source>
-          <target state="new">Experimental</target>
+          <target state="needs-review-translation">תכונות ניסיוניות</target>
         </trans-unit>
         <trans-unit id="SettingsNavFilesAndFolders.Content" translate="yes" xml:space="preserve">
           <source>Files and Folders</source>
@@ -232,7 +232,7 @@
         </trans-unit>
         <trans-unit id="SettingsNavOnStartup.Content" translate="yes" xml:space="preserve">
           <source>On Startup</source>
-          <target state="new">On Startup</target>
+          <target state="needs-review-translation">בזמן העלייה</target>
         </trans-unit>
         <trans-unit id="SettingsNavPreferences.Content" translate="yes" xml:space="preserve">
           <source>Preferences</source>
@@ -240,11 +240,11 @@
         </trans-unit>
         <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
           <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
-          <target state="new">WARNING: EXPERIMENTAL FEATURES AHEAD!</target>
+          <target state="needs-review-translation">אזהרה: תכונות ניסיוניות!</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupContinueWhereYouLeftOff.Content" translate="yes" xml:space="preserve">
           <source>Continue where you left off</source>
-          <target state="new">Continue where you left off</target>
+          <target state="needs-review-translation">המשך מאיפה שעצרת</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenANewTab.Content" translate="yes" xml:space="preserve">
           <source>Open a new tab</source>
@@ -252,15 +252,15 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
           <source>Open a specific page or pages</source>
-          <target state="new">Open a specific page or pages</target>
+          <target state="needs-review-translation">פתח דף או דפים מסוימים</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
           <source>On Startup</source>
-          <target state="new">On Startup</target>
+          <target state="needs-review-translation">בזמן העלייה</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
           <source>Terminal Applications</source>
-          <target state="new">Terminal Applications</target>
+          <target state="needs-review-translation">אפליקציות מסוף תוכנה</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTitle.Text" translate="yes" xml:space="preserve">
           <source>Preferences</source>
@@ -428,11 +428,11 @@
         </trans-unit>
         <trans-unit id="RenameDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter an item name</source>
-          <target state="new">Enter an item name</target>
+          <target state="needs-review-translation">הזן שם פריט</target>
         </trans-unit>
         <trans-unit id="RenameDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter an item name</source>
-          <target state="new">Enter an item name</target>
+          <target state="needs-review-translation">הזן שם פריט</target>
         </trans-unit>
         <trans-unit id="RenameDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Set Name</source>
@@ -512,19 +512,19 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>View sample profiles</source>
-          <target state="new">View sample profiles</target>
+          <target state="needs-review-translation">ראה פרופילים לדוגמה</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogContent" translate="yes" xml:space="preserve">
           <source>An item with this name already exists in this directory.</source>
-          <target state="new">An item with this name already exists in this directory.</target>
+          <target state="needs-review-translation">פריט עם שם זהה כבר קיים בתיקייה זו</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
-          <target state="new">Generate new name</target>
+          <target state="needs-review-translation">חולל שם חדש</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Replace existing item</source>
-          <target state="new">Replace existing item</target>
+          <target state="needs-review-translation">החלף פריט קיים</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogTitle" translate="yes" xml:space="preserve">
           <source>Item already exists</source>
@@ -564,7 +564,7 @@
         </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Text" translate="yes" xml:space="preserve">
           <source>Please insert the necessary drive to access this item.</source>
-          <target state="new">Please insert the necessary drive to access this item.</target>
+          <target state="needs-review-translation">אנא חבר את הכוננן הנדרש עבור גישה לפריט זה</target>
         </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Title" translate="yes" xml:space="preserve">
           <source>Drive Unplugged</source>
@@ -572,7 +572,7 @@
         </trans-unit>
         <trans-unit id="FileNotFoundDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you are attempting to access may have been moved or deleted.</source>
-          <target state="new">The file you are attempting to access may have been moved or deleted.</target>
+          <target state="needs-review-translation">הקובץ אליו אתה מנסה לגשת עשוי להיות מוזז או מחוק</target>
         </trans-unit>
         <trans-unit id="FileNotFoundDialog.Title" translate="yes" xml:space="preserve">
           <source>File Not Found</source>
@@ -580,23 +580,23 @@
         </trans-unit>
         <trans-unit id="FileNotFoundPreviewDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you are attempting to preview may have been moved or deleted.</source>
-          <target state="new">The file you are attempting to preview may have been moved or deleted.</target>
+          <target state="needs-review-translation">הקובץ שאת תצוגתו המקדימה אתה מנסה לראות עשוי להיות מוזז או מחוק</target>
         </trans-unit>
         <trans-unit id="FolderNotFoundDialog.Text" translate="yes" xml:space="preserve">
           <source>The folder you are attempting to access may have been moved or deleted.</source>
-          <target state="new">The folder you are attempting to access may have been moved or deleted.</target>
+          <target state="needs-review-translation">התיקייה אליה אתה מנסה לגשת עשויה להיות מוזזת או מחוקה</target>
         </trans-unit>
         <trans-unit id="FolderNotFoundDialog.Title" translate="yes" xml:space="preserve">
           <source>Did you delete this folder?</source>
-          <target state="new">Did you delete this folder?</target>
+          <target state="needs-review-translation">האם מחקת תיקייה זו?</target>
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you're trying to delete is currently being used by an another application.</source>
-          <target state="new">The file you're trying to delete is currently being used by an another application.</target>
+          <target state="needs-review-translation">הקובץ אותו אתה מנסה למחוק נמצא בשימוש של תוכנה אחרת</target>
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>File is in use</source>
-          <target state="new">File is in use</target>
+          <target state="needs-review-translation">הקובץ בשימוש</target>
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Try again</source>
@@ -789,7 +789,7 @@
         </trans-unit>
         <trans-unit id="BitlockerInvalidPwDialog.Text" translate="yes" xml:space="preserve">
           <source>Please check the password and try again.</source>
-          <target state="new">Please check the password and try again.</target>
+          <target state="needs-review-translation">אנא ודא סיסמה ונסה שוב</target>
         </trans-unit>
         <trans-unit id="BitlockerInvalidPwDialog.Title" translate="yes" xml:space="preserve">
           <source>BitLocker error</source>
@@ -861,11 +861,11 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
           <source>Always open a new instance</source>
-          <target state="new">Always open a new instance</target>
+          <target state="needs-review-translation">תמיד תפתח מופע חדש</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewTab.Content" translate="yes" xml:space="preserve">
           <source>Open folder in a new tab</source>
-          <target state="new">Open folder in a new tab</target>
+          <target state="needs-review-translation">פתח את התיקיה בכרטיסיה חדשה</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
           <source>Windows default</source>
@@ -873,7 +873,7 @@
         </trans-unit>
         <trans-unit id="TabStripDragAndDropUIOverrideCaption" translate="yes" xml:space="preserve">
           <source>Move tab here</source>
-          <target state="new">Move tab here</target>
+          <target state="needs-review-translation">הזז כרטיסיה לכאן</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarVisiblePathNoResults" translate="yes" xml:space="preserve">
           <source>No results</source>
@@ -989,7 +989,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutContributorsDescription.Text" translate="yes" xml:space="preserve">
           <source>See who contributed to Files</source>
-          <target state="new">See who contributed to Files</target>
+          <target state="needs-review-translation">ראה מי תרם ל-Files</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotes.Text" translate="yes" xml:space="preserve">
           <source>Release Notes</source>
@@ -997,7 +997,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotesDescription.Text" translate="yes" xml:space="preserve">
           <source>Find out what's new in Files</source>
-          <target state="new">Find out what's new in Files</target>
+          <target state="needs-review-translation">גלה מה החדש ב-Files</target>
         </trans-unit>
         <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
           <source>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</source>
@@ -1017,11 +1017,11 @@
         </trans-unit>
         <trans-unit id="ShareDialogMultipleItemsDescription" translate="yes" xml:space="preserve">
           <source>The items you've selected will be shared</source>
-          <target state="new">The items you've selected will be shared</target>
+          <target state="needs-review-translation">הפריטים שבחרו ישותפו</target>
         </trans-unit>
         <trans-unit id="ShareDialogSingleItemDescription" translate="yes" xml:space="preserve">
           <source>The selected item will be shared</source>
-          <target state="new">The selected item will be shared</target>
+          <target state="needs-review-translation">הפריט הנבחר ישותף</target>
         </trans-unit>
         <trans-unit id="ShareDialogTitle" translate="yes" xml:space="preserve">
           <source>Sharing {0}</source>
@@ -1033,27 +1033,27 @@
         </trans-unit>
         <trans-unit id="RenameError.ItemDeleted.Text" translate="yes" xml:space="preserve">
           <source>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</source>
-          <target state="new">The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</target>
+          <target state="needs-review-translation">הפריט המיועד לעדכון שם אינו קיימם יותר. אנא ודא את המיקם הנכון של הפריט.</target>
         </trans-unit>
         <trans-unit id="RenameError.ItemDeleted.Title" translate="yes" xml:space="preserve">
           <source>Item no longer exists</source>
-          <target state="new">Item no longer exists</target>
+          <target state="needs-review-translation">הפריט לא קיים יותר</target>
         </trans-unit>
         <trans-unit id="RenameError.NameInvalid.Text" translate="yes" xml:space="preserve">
           <source>The name specified was invalid. Please check the desired item name and try again.</source>
-          <target state="new">The name specified was invalid. Please check the desired item name and try again.</target>
+          <target state="needs-review-translation">השם שסופק אינו חוקי. אנא ודא את השם הרצוי ונסה שוב.</target>
         </trans-unit>
         <trans-unit id="RenameError.NameInvalid.Title" translate="yes" xml:space="preserve">
           <source>Invalid item name</source>
-          <target state="new">Invalid item name</target>
+          <target state="needs-review-translation">שם הפריט לא חוקי</target>
         </trans-unit>
         <trans-unit id="RenameError.TooLong.Text" translate="yes" xml:space="preserve">
           <source>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</source>
-          <target state="new">The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</target>
+          <target state="needs-review-translation">שם הפריט ארוך מהמותר. אנא ודא את השם הרצוי ונסה שוב.</target>
         </trans-unit>
         <trans-unit id="RenameError.TooLong.Title" translate="yes" xml:space="preserve">
           <source>Item name was too long</source>
-          <target state="new">Item name was too long</target>
+          <target state="needs-review-translation">שם הפריט ארוך מדי</target>
         </trans-unit>
         <trans-unit id="ContextMenuMoreItemsLabel" translate="yes" xml:space="preserve">
           <source>More</source>
@@ -1117,7 +1117,7 @@
         </trans-unit>
         <trans-unit id="VerticalTabViewHeader.Text" translate="yes" xml:space="preserve">
           <source>Open tabs</source>
-          <target state="new">Open tabs</target>
+          <target state="needs-review-translation">פתח כרטיסיות</target>
         </trans-unit>
         <trans-unit id="ButtonNo.Content" translate="yes" xml:space="preserve">
           <source>No</source>
@@ -1129,11 +1129,11 @@
         </trans-unit>
         <trans-unit id="RestartNotificationText.Text" translate="yes" xml:space="preserve">
           <source>The application needs to be restarted in order to apply the language setting, would you like to restart the app?</source>
-          <target state="new">The application needs to be restarted in order to apply the language setting, would you like to restart the app?</target>
+          <target state="needs-review-translation">על מנת להחיל הגדרות שפה יש להפעיל את האפליקציה מחדש, האם ברצונך לבצע זאת כעת?</target>
         </trans-unit>
         <trans-unit id="AddDialog.Title" translate="yes" xml:space="preserve">
           <source>Create a New Item</source>
-          <target state="new">Create a New Item</target>
+          <target state="needs-review-translation">ייצר פריט חדש</target>
         </trans-unit>
         <trans-unit id="AddDialogDescription.Text" translate="yes" xml:space="preserve">
           <source>Choose a type for this new item below</source>
@@ -1149,7 +1149,7 @@
         </trans-unit>
         <trans-unit id="AddDialogListFolderSubHeader" translate="yes" xml:space="preserve">
           <source>Creates an empty folder</source>
-          <target state="new">Creates an empty folder</target>
+          <target state="needs-review-translation">מייצר תיקייה ריקה</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutLayoutMode.Text" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
@@ -1165,11 +1165,11 @@
         </trans-unit>
         <trans-unit id="NavResfreshButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Refresh the directory</source>
-          <target state="new">Refresh the directory</target>
+          <target state="needs-review-translation">רענן את התיקייה</target>
         </trans-unit>
         <trans-unit id="NavUpButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Go up one directory</source>
-          <target state="new">Go up one directory</target>
+          <target state="needs-review-translation">עלה תיקייה אחת למעלה</target>
         </trans-unit>
         <trans-unit id="VerticalTabStrip.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Vertical tab strip</source>
@@ -1177,43 +1177,43 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>App Language</source>
-          <target state="new">App Language</target>
+          <target state="needs-review-translation">שפת האפליקצה</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Terminal Applications</source>
-          <target state="new">Terminal Applications</target>
+          <target state="needs-review-translation">אפליקציות מסוף תוכנה</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Edit terminal applications</source>
-          <target state="new">Edit terminal applications</target>
+          <target state="needs-review-translation">ערוך אפליקציות מסוף תוכנה</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesEditTerminalApplications.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Edit terminal applications</source>
-          <target state="new">Edit terminal applications</target>
+          <target state="needs-review-translation">ערוך אפליקציות מסוף תוכנה</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>View sample profiles</source>
-          <target state="new">View sample profiles</target>
+          <target state="needs-review-translation">ראה פרופיל לדוגמה</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.Header" translate="yes" xml:space="preserve">
           <source>App Language</source>
-          <target state="new">App Language</target>
+          <target state="needs-review-translation">שפת האפליקצה</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Header" translate="yes" xml:space="preserve">
           <source>Terminal Applications</source>
-          <target state="new">Terminal Applications</target>
+          <target state="needs-review-translation">אפליקציות מסוף תוכנה</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUs.Text" translate="yes" xml:space="preserve">
           <source>Support us</source>
-          <target state="new">Support us</target>
+          <target state="needs-review-translation">תמכו בנו</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUsDescription.Text" translate="yes" xml:space="preserve">
           <source>Support us on PayPal</source>
-          <target state="new">Support us on PayPal</target>
+          <target state="needs-review-translation">תמכו בנו באמצעות PayPal</target>
         </trans-unit>
         <trans-unit id="AccessDeniedCreateDialog.Text" translate="yes" xml:space="preserve">
           <source>We weren't able to create this item</source>
-          <target state="new">We weren't able to create this item</target>
+          <target state="needs-review-translation">לא הצלחנו לייצר פריט זה</target>
         </trans-unit>
         <trans-unit id="AccessDeniedCreateDialog.Title" translate="yes" xml:space="preserve">
           <source>Access Denied</source>
@@ -1229,7 +1229,7 @@
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Header" translate="yes" xml:space="preserve">
           <source>Show extensions for known file types</source>
-          <target state="new">Show extensions for known file types</target>
+          <target state="needs-review-translation">הצג סיומות לסוגי קבצים ידועים</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Header" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>
@@ -1245,11 +1245,11 @@
         </trans-unit>
         <trans-unit id="SettingsShowFileOwnerInProperties.Header" translate="yes" xml:space="preserve">
           <source>Show Owner in properties</source>
-          <target state="new">Show Owner in properties</target>
+          <target state="needs-review-translation">הצג בעלים במסך המאפיינים</target>
         </trans-unit>
         <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
           <source>Rating</source>
-          <target state="new">Rating</target>
+          <target state="needs-review-translation">דירוג</target>
         </trans-unit>
         <trans-unit id="PropertyItemFolderPathDisplay" translate="yes" xml:space="preserve">
           <source>Item Folder Path</source>
@@ -1257,7 +1257,7 @@
         </trans-unit>
         <trans-unit id="PropertyItemTypeText" translate="yes" xml:space="preserve">
           <source>Item Type</source>
-          <target state="new">Item Type</target>
+          <target state="needs-review-translation">סוג פריט</target>
         </trans-unit>
         <trans-unit id="PropertyTitle" translate="yes" xml:space="preserve">
           <source>Title</source>
@@ -1341,7 +1341,7 @@
         </trans-unit>
         <trans-unit id="PropertyCameraManufacturer" translate="yes" xml:space="preserve">
           <source>Camera Manufacturer</source>
-          <target state="new">Camera Manufacturer</target>
+          <target state="needs-review-translation">יצרן מצלמה</target>
         </trans-unit>
         <trans-unit id="PropertyCameraModel" translate="yes" xml:space="preserve">
           <source>Camera Model</source>
@@ -1385,7 +1385,7 @@
         </trans-unit>
         <trans-unit id="PropertyDisplayArtist" translate="yes" xml:space="preserve">
           <source>Artist</source>
-          <target state="new">Artist</target>
+          <target state="needs-review-translation">אמן</target>
         </trans-unit>
         <trans-unit id="PropertyAlbumArtist" translate="yes" xml:space="preserve">
           <source>Album Artist</source>
@@ -1448,16 +1448,16 @@
           <target state="new">Date Released</target>
         </trans-unit>
         <trans-unit id="PropertySeriesName" translate="yes" xml:space="preserve">
-          <source>Series Name</source>
+          <source>שם הסידרה</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">שם סידרה</target>
         </trans-unit>
         <trans-unit id="PropertySeasonNumber" translate="yes" xml:space="preserve">
           <source>Season Number</source>
-          <target state="new">Season Number</target>
+          <target state="needs-review-translation">מספר העונה</target>
         </trans-unit>
         <trans-unit id="PropertyEpisodeNumber" translate="yes" xml:space="preserve">
           <source>Episode Number</source>
-          <target state="new">Episode Number</target>
+          <target state="needs-review-translation">מספר הפרק</target>
         </trans-unit>
         <trans-unit id="PropertyProducer" translate="yes" xml:space="preserve">
           <source>Producer</source>
@@ -1641,7 +1641,7 @@
         </trans-unit>
         <trans-unit id="SettingsOpenItemsWithOneclick.Header" translate="yes" xml:space="preserve">
           <source>Open items with a single click</source>
-          <target state="new">Open items with a single click</target>
+          <target state="needs-review-translation">פתח פריטים בלחיצה בודדת</target>
         </trans-unit>
         <trans-unit id="FileItemAutomation" translate="yes" xml:space="preserve">
           <source>File</source>
@@ -1653,11 +1653,11 @@
         </trans-unit>
         <trans-unit id="RecycleBinItemAutomation" translate="yes" xml:space="preserve">
           <source>Recycle bin item</source>
-          <target state="new">Recycle bin item</target>
+          <target state="needs-review-translation">פריט סל המיחזור</target>
         </trans-unit>
         <trans-unit id="ShortcutItemAutomation" translate="yes" xml:space="preserve">
           <source>Shortcut item</source>
-          <target state="new">Shortcut item</target>
+          <target state="needs-review-translation">קיצור דרך</target>
         </trans-unit>
         <trans-unit id="PinToSidebarByDraggingCaptionText" translate="yes" xml:space="preserve">
           <source>Move here</source>
@@ -1685,19 +1685,19 @@
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowDrives.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show drives on the home page</source>
-          <target state="new">Show drives on the home page</target>
+          <target state="needs-review-translation">הצג כוננים בדף הבית</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowDrives.Header" translate="yes" xml:space="preserve">
           <source>Show drives on the home page</source>
-          <target state="new">Show drives on the home page</target>
+          <target state="needs-review-translation">הצג כוננים בדף הבית</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowRecentFiles.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Show recent files on the home page</source>
-          <target state="new">Show recent files on the home page</target>
+          <target state="needs-review-translation">הצג קבצים שנגשו לאחרונה בדף הבית</target>
         </trans-unit>
         <trans-unit id="SettingsWidgetsShowRecentFiles.Header" translate="yes" xml:space="preserve">
           <source>Show recent files on the home page</source>
-          <target state="new">Show recent files on the home page</target>
+          <target state="needs-review-translation">הצג קבצים שנגשו לאחרונה בדף הבית</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Header" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
@@ -1709,19 +1709,19 @@
         </trans-unit>
         <trans-unit id="EjectNotificationHeader" translate="yes" xml:space="preserve">
           <source>Safe to remove hardware</source>
-          <target state="new">Safe to remove hardware</target>
+          <target state="needs-review-translation">ניתן להסיר חומרה בבטחה</target>
         </trans-unit>
         <trans-unit id="EjectNotificationBody" translate="yes" xml:space="preserve">
           <source>The device can now be safely removed from the computer.</source>
-          <target state="new">The device can now be safely removed from the computer.</target>
+          <target state="needs-review-translation">כעת ניתן להסיר את ההתקן בבטחה ממחשב זה</target>
         </trans-unit>
         <trans-unit id="EjectNotificationErrorDialogHeader" translate="yes" xml:space="preserve">
           <source>Problem Ejecting Device</source>
-          <target state="new">Problem Ejecting Device</target>
+          <target state="needs-review-translation">הוצאת התקן לא צלחה</target>
         </trans-unit>
         <trans-unit id="EjectNotificationErrorDialogBody" translate="yes" xml:space="preserve">
           <source>This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</source>
-          <target state="new">This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</target>
+          <target state="needs-review-translation">ההתקן נמצא בשימוש. אנא סגור את כל התוכנות, חולונות או חלוניות שעשויים לעשות שימוש בהתקן ואז נסה שוב.</target>
         </trans-unit>
         <trans-unit id="SideBarEjectDevice.Text" translate="yes" xml:space="preserve">
           <source>Eject</source>
@@ -1733,7 +1733,7 @@
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlMoveTabToNewWindow.Text" translate="yes" xml:space="preserve">
           <source>Move tab to new window</source>
-          <target state="new">Move tab to new window</target>
+          <target state="needs-review-translation">הזז כרטיסיה לחלון חדש</target>
         </trans-unit>
         <trans-unit id="HorizontalMultitaskingControlNewTab.Text" translate="yes" xml:space="preserve">
           <source>New tab</source>
@@ -1773,7 +1773,7 @@
         </trans-unit>
         <trans-unit id="ClearPropertiesFlyoutText.Text" translate="yes" xml:space="preserve">
           <source>Some properties may contain personal information.</source>
-          <target state="new">Some properties may contain personal information.</target>
+          <target state="needs-review-translation">חלק מהמאפיינים עשויים להכיל מידע פרטי</target>
         </trans-unit>
         <trans-unit id="ClearPropertiesFlyoutConfirmation.Content" translate="yes" xml:space="preserve">
           <source>Clear</source>
@@ -1781,7 +1781,7 @@
         </trans-unit>
         <trans-unit id="ClearPropertiesButton.Content" translate="yes" xml:space="preserve">
           <source>Clear All Properties</source>
-          <target state="new">Clear All Properties</target>
+          <target state="needs-review-translation">נקה את כל המאפיינים</target>
         </trans-unit>
         <trans-unit id="PropertyColorSpace_Value0" translate="yes" xml:space="preserve">
           <source>sRGB</source>
@@ -1837,19 +1837,19 @@
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Find out what's new in Files</source>
-          <target state="new">Find out what's new in Files</target>
+          <target state="needs-review-translation">גלה מה חדש ב-Files</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Send the developers an issue report with more information</source>
-          <target state="new">Send the developers an issue report with more information</target>
+          <target state="needs-review-translation">שלח למפתחים דיווח עם יותר מידע</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Support us on PayPal</source>
-          <target state="new">Support us on PayPal</target>
+          <target state="needs-review-translation">תמכו בנו באמצעות PayPal</target>
         </trans-unit>
         <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles.Header" translate="yes" xml:space="preserve">
           <source>List and sort directories alongside files</source>
-          <target state="new">List and sort directories alongside files</target>
+          <target state="needs-review-translation">הצג ומיין תיקיות בשילוב עם קבצים</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogTabDetails.Content" translate="yes" xml:space="preserve">
           <source>Details</source>
@@ -1861,7 +1861,7 @@
         </trans-unit>
         <trans-unit id="UpdateConsentDialogContent" translate="yes" xml:space="preserve">
           <source>Do you want to download and install the latest version of Files?</source>
-          <target state="new">Do you want to download and install the latest version of Files?</target>
+          <target state="needs-review-translation">האם ברצונך להוריד ולהתקין את הגירסה העדכנית ביותר של Files?</target>
         </trans-unit>
         <trans-unit id="UpdateConsentDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Yes</source>
@@ -1897,11 +1897,11 @@
         </trans-unit>
         <trans-unit id="SettingsSearchUnindexedItems.Header" translate="yes" xml:space="preserve">
           <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
-          <target state="new">Show unindexed items when searching for files and folders (searches may take longer)</target>
+          <target state="needs-review-translation">הצג פריטים לא מאונדקסים במהלך החיפוש של קבצים ותיקיות (משך החיפוש עשוי לגדול)</target>
         </trans-unit>
         <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Header" translate="yes" xml:space="preserve">
           <source>Enable individual preferences for individual directories</source>
-          <target state="new">Enable individual preferences for individual directories</target>
+          <target state="needs-review-translation">אפשר העדפות יחודיות ברמת תיקיה בודדת</target>
         </trans-unit>
         <trans-unit id="originalPathColumn.Header" translate="yes" xml:space="preserve">
           <source>Original path</source>
@@ -1925,7 +1925,7 @@
         </trans-unit>
         <trans-unit id="SettingsUseFileListCache.Header" translate="yes" xml:space="preserve">
           <source>Cache files and folders for better performance</source>
-          <target state="new">Cache files and folders for better performance</target>
+          <target state="needs-review-translation">לשיפור ביצועים שמור קבצים ותיקיות בזכרון מטמון</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogCloseButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
@@ -1941,51 +1941,51 @@
         </trans-unit>
         <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane.Header" translate="yes" xml:space="preserve">
           <source>Always open new tabs in dual pane mode</source>
-          <target state="new">Always open new tabs in dual pane mode</target>
+          <target state="needs-review-translation">תמיד תפתח כרטיסיות חדשות במצב של כפל חלוניות</target>
         </trans-unit>
         <trans-unit id="SettingsMultitaskingEnableDualPane.Header" translate="yes" xml:space="preserve">
           <source>Enable dual pane view</source>
-          <target state="new">Enable dual pane view</target>
+          <target state="needs-review-translation">אפשר תצוגת כפל חלוניות</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in secondary pane</source>
-          <target state="new">Open in secondary pane</target>
+          <target state="needs-review-translation">פתח בחלונית משנית</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewPane.Text" translate="yes" xml:space="preserve">
           <source>New pane</source>
-          <target state="new">New pane</target>
+          <target state="needs-review-translation">חלונית חדשה</target>
         </trans-unit>
         <trans-unit id="SideBarOpenInNewPane.Text" translate="yes" xml:space="preserve">
           <source>Open in secondary pane</source>
-          <target state="new">Open in secondary pane</target>
+          <target state="needs-review-translation">פתח בחלונית משנית</target>
         </trans-unit>
         <trans-unit id="SettingsDualPane.Text" translate="yes" xml:space="preserve">
           <source>Dual Pane</source>
-          <target state="new">Dual Pane</target>
+          <target state="needs-review-translation">כפל חלוניות</target>
         </trans-unit>
         <trans-unit id="SettingsCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show copy location menu item</source>
-          <target state="new">Show copy location menu item</target>
+          <target state="needs-review-translation">הצג "העתק מיקום" כחלק מהתפריט</target>
         </trans-unit>
         <trans-unit id="SettingsContextMenuOverflowSwitch.Header" translate="yes" xml:space="preserve">
           <source>Move overflow items into a sub menu</source>
-          <target state="new">Move overflow items into a sub menu</target>
+          <target state="needs-review-translation">במקרה של ריבוי פריטים הצג את הפריטים העודפים בתת תפריט</target>
         </trans-unit>
         <trans-unit id="SettingsContextMenu.Text" translate="yes" xml:space="preserve">
           <source>Customize the right click context menu</source>
-          <target state="new">Customize the right click context menu</target>
+          <target state="needs-review-translation">התאם אישית את התפריט תלוי-ההקשר המופעל בלחיצה ימנית</target>
         </trans-unit>
         <trans-unit id="SettingsOpenInNewTabSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show open in new tab menu item</source>
-          <target state="new">Show open in new tab menu item</target>
+          <target state="needs-review-translation">הצג "פתח בכרטיסיה חדשה" כחלק מהתפריט</target>
         </trans-unit>
         <trans-unit id="LibraryWidgetDescription.Text" translate="yes" xml:space="preserve">
           <source>Folders</source>
-          <target state="new">Folders</target>
+          <target state="needs-review-translation">תיקיות</target>
         </trans-unit>
         <trans-unit id="SettingsContextMenuAnimationsSwitch.Header" translate="yes" xml:space="preserve">
           <source>Enable animations when opening and closing the context menu</source>
-          <target state="new">Enable animations when opening and closing the context menu</target>
+          <target state="needs-review-translation">אפשר הנפשות בפתיחה וסגירה של התפריט תלוי-ההקשר</target>
         </trans-unit>
       </group>
     </body>
