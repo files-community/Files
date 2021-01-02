@@ -157,7 +157,7 @@
     <value>O aplikaci</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>Postranní panel s akrylovým efektem</value>
+    <value>Průhledný postranní panel</value>
   </data>
   <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
     <value>Formát data</value>
