@@ -1115,17 +1115,17 @@ namespace Files.Views
                     break;
             };
 
-            if (CurrentPageType == typeof(GridViewBrowser))
+            switch (args.KeyboardAccelerator.Key)
             {
-                switch (args.KeyboardAccelerator.Key)
-                {
-                    case VirtualKey.F2: //F2, rename
+                case VirtualKey.F2: //F2, rename
+                    if (CurrentPageType == typeof(GenericFileBrowser) || CurrentPageType == typeof(GridViewBrowser))
+                    {
                         if (ContentPage.IsItemSelected)
                         {
                             InteractionOperations.RenameItem_Click(null, null);
                         }
-                        break;
-                }
+                    }
+                    break;
             }
         }
 
