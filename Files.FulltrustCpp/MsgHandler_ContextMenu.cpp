@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "MsgHandler_ContextMenu.h"
+#include <sstream>
+//#include <windowsx.h>
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uiMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -15,20 +17,34 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uiMsg, WPARAM wParam, LPARAM lParam)
 				return FALSE;
 		}
 	}
+	else if (uiMsg == WM_DESTROY)
+	{
+		PostQuitMessage(0);
+		pThis = NULL;
+	}
 	else
 	{
 		pThis = reinterpret_cast<MsgHandler_ContextMenu*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 	}
 	if (pThis)
 	{
-		if (pThis->g_pcm3) {
+		if (uiMsg == WM_CONTEXTMENU)
+		{
+			pThis->ShowContextMenuForFile(reinterpret_cast<MenuArgs*>(lParam));
+			SetEvent(reinterpret_cast<HANDLE>(wParam));
+		}
+		else if (pThis->g_pcm3)
+		{
 			LRESULT lres;
-			if (SUCCEEDED(pThis->g_pcm3->HandleMenuMsg2(uiMsg, wParam, lParam, &lres))) {
+			if (SUCCEEDED(pThis->g_pcm3->HandleMenuMsg2(uiMsg, wParam, lParam, &lres)))
+			{
 				return lres;
 			}
 		}
-		else if (pThis->g_pcm2) {
-			if (SUCCEEDED(pThis->g_pcm2->HandleMenuMsg(uiMsg, wParam, lParam))) {
+		else if (pThis->g_pcm2)
+		{
+			if (SUCCEEDED(pThis->g_pcm2->HandleMenuMsg(uiMsg, wParam, lParam)))
+			{
 				return 0;
 			}
 		}
@@ -36,8 +52,120 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uiMsg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hwnd, uiMsg, wParam, lParam);
 }
 
-void MsgHandler_ContextMenu::ShowContextMenuForFile(LPCWSTR filePath, UINT menuFlags, HINSTANCE hInstance)
+void MsgHandler_ContextMenu::ShowContextMenuForFile(MenuArgs* args)
 {
+	HWND hwnd = this->hiddenWindow;
+	IContextMenu* pcm;
+	if (SUCCEEDED(GetUIObjectOfFile(hwnd, args->FileList[0].c_str(), IID_IContextMenu, (void**)&pcm)))
+	{
+		pcm->QueryInterface(IID_IContextMenu2, (void**)&g_pcm2);
+		pcm->QueryInterface(IID_IContextMenu3, (void**)&g_pcm3);
+		HMENU hmenu = CreatePopupMenu();
+		if (hmenu)
+		{
+			if (SUCCEEDED(pcm->QueryContextMenu(hmenu, 0,
+				SCRATCH_QCM_FIRST, SCRATCH_QCM_LAST,
+				args->ExtendedMenu ? CMF_EXTENDEDVERBS : CMF_NORMAL)))
+			{
+				POINT pt;
+				GetCursorPos(&pt);
+				//auto itemCount = GetMenuItemCount(hmenu);
+				int iCmd = TrackPopupMenuEx(hmenu, TPM_RETURNCMD, pt.x, pt.y, hwnd, NULL);
+				this->clickedItem = iCmd;
+				if (iCmd > 0)
+				{
+					//char pszName[MAX_PATH];
+					//pcm->GetCommandString(iCmd - SCRATCH_QCM_FIRST, GCS_VERBA, NULL, pszName, MAX_PATH);
+					CMINVOKECOMMANDINFOEX info = { 0 };
+					info.cbSize = sizeof(info);
+					info.fMask = CMIC_MASK_UNICODE;
+					info.hwnd = hwnd;
+					info.lpVerb = MAKEINTRESOURCEA(iCmd - SCRATCH_QCM_FIRST);
+					info.lpVerbW = MAKEINTRESOURCEW(iCmd - SCRATCH_QCM_FIRST);
+					info.nShow = SW_SHOW;
+					pcm->InvokeCommand((LPCMINVOKECOMMANDINFO)&info);
+				}
+			}
+			DestroyMenu(hmenu);
+		}
+		if (g_pcm2)
+		{
+			g_pcm2->Release();
+			g_pcm2 = NULL;
+		}
+		if (g_pcm3)
+		{
+			g_pcm3->Release();
+			g_pcm3 = NULL;
+		}
+		pcm->Release();
+	}
+}
+
+HRESULT MsgHandler_ContextMenu::GetUIObjectOfFile(HWND hwnd, LPCWSTR pszPath, REFIID riid, void** ppv)
+{
+	*ppv = NULL;
+	HRESULT hr;
+	LPITEMIDLIST pidl;
+	SFGAOF sfgao;
+	if (SUCCEEDED(hr = SHParseDisplayName(pszPath, NULL, &pidl, 0, &sfgao)))
+	{
+		IShellFolder* psf;
+		LPCITEMIDLIST pidlChild;
+		if (SUCCEEDED(hr = SHBindToParent(pidl, IID_IShellFolder,
+			(void**)&psf, &pidlChild)))
+		{
+			hr = psf->GetUIObjectOf(hwnd, 1, &pidlChild, riid, NULL, ppv);
+			psf->Release();
+		}
+		CoTaskMemFree(pidl);
+	}
+	return hr;
+}
+
+IAsyncOperation<bool> MsgHandler_ContextMenu::ParseArgumentsAsync(AppServiceManager const& manager, AppServiceRequestReceivedEventArgs const& args)
+{
+	if (args.Request().Message().HasKey(L"Arguments"))
+	{
+		auto arguments = args.Request().Message().Lookup(L"Arguments").as<hstring>();
+		if (arguments == L"LoadContextMenu")
+		{
+			auto filePath = args.Request().Message().Lookup(L"FilePath").as<hstring>();
+			auto extendedMenu = args.Request().Message().Lookup(L"ExtendedMenu").as<bool>();
+			auto showOpenMenu = args.Request().Message().Lookup(L"ShowOpenMenu").as<bool>();
+
+			MenuArgs* args = new MenuArgs();
+			args->ExtendedMenu = extendedMenu;
+			args->ShowOpenMenu = showOpenMenu;			
+			std::wstringstream stringStream(filePath.c_str());
+			std::wstring item;
+			while (std::getline(stringStream, item, L'|'))
+			{
+				args->FileList.push_back(item);
+			}
+
+			if (this->hiddenWindow != NULL)
+			{
+				HANDLE ghMenuCloseEvent = CreateEvent(
+					NULL, TRUE, FALSE, TEXT("MenuCloseEvent"));
+				PostMessage(this->hiddenWindow, WM_CONTEXTMENU, reinterpret_cast<LONG_PTR>(ghMenuCloseEvent), reinterpret_cast<LONG_PTR>(args));
+				WaitForSingleObject(ghMenuCloseEvent, INFINITE);
+				CloseHandle(ghMenuCloseEvent);
+				printf("Clicked item: %d\n", clickedItem);
+			}
+
+			delete args;
+
+			co_return TRUE;
+		}
+	}
+	co_return FALSE;
+}
+
+void MsgHandler_ContextMenu::CreateHiddenWindow(HINSTANCE hInstance)
+{
+	(void)CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+
 	// Register the window class.
 	const wchar_t CLASS_NAME[] = L"Files Window Class";
 
@@ -62,95 +190,29 @@ void MsgHandler_ContextMenu::ShowContextMenuForFile(LPCWSTR filePath, UINT menuF
 
 	ShowWindow(hwnd, SW_SHOW);
 
-	IContextMenu* pcm;
-	if (SUCCEEDED(GetUIObjectOfFile(hwnd, filePath, IID_IContextMenu, (void**)&pcm)))
+	this->hiddenWindow = hwnd;
+
+	MSG msg;
+	while (GetMessage(&msg, NULL, 0, 0))
 	{
-		pcm->QueryInterface(IID_IContextMenu2, (void**)&g_pcm2);
-		pcm->QueryInterface(IID_IContextMenu3, (void**)&g_pcm3);
-		HMENU hmenu = CreatePopupMenu();
-		if (hmenu) {
-			if (SUCCEEDED(pcm->QueryContextMenu(hmenu, 0,
-				SCRATCH_QCM_FIRST, SCRATCH_QCM_LAST,
-				menuFlags))) {
-				//auto itemCount = GetMenuItemCount(hmenu);
-				int iCmd = TrackPopupMenuEx(hmenu, TPM_RETURNCMD, 0, 0, hwnd, NULL);
-				if (iCmd > 0) {
-					//char pszName[MAX_PATH];
-					//pcm->GetCommandString(iCmd - SCRATCH_QCM_FIRST, GCS_VERBA, NULL, pszName, MAX_PATH);
-					CMINVOKECOMMANDINFOEX info = { 0 };
-					info.cbSize = sizeof(info);
-					info.fMask = CMIC_MASK_UNICODE;
-					info.hwnd = hwnd;
-					info.lpVerb = MAKEINTRESOURCEA(iCmd - SCRATCH_QCM_FIRST);
-					info.lpVerbW = MAKEINTRESOURCEW(iCmd - SCRATCH_QCM_FIRST);
-					info.nShow = SW_SHOW;
-					pcm->InvokeCommand((LPCMINVOKECOMMANDINFO)&info);
-				}
-			}
-			DestroyMenu(hmenu);
-		}
-		if (g_pcm2) {
-			g_pcm2->Release();
-			g_pcm2 = NULL;
-		}
-		if (g_pcm3) {
-			g_pcm3->Release();
-			g_pcm3 = NULL;
-		}
-		pcm->Release();
+		//TranslateMessage(&msg);
+		DispatchMessage(&msg);
 	}
 }
 
-HRESULT MsgHandler_ContextMenu::GetUIObjectOfFile(HWND hwnd, LPCWSTR pszPath, REFIID riid, void** ppv)
+MsgHandler_ContextMenu::MsgHandler_ContextMenu(HINSTANCE hInstance)
 {
-	*ppv = NULL;
-	HRESULT hr;
-	LPITEMIDLIST pidl;
-	SFGAOF sfgao;
-	if (SUCCEEDED(hr = SHParseDisplayName(pszPath, NULL, &pidl, 0, &sfgao))) {
-		IShellFolder* psf;
-		LPCITEMIDLIST pidlChild;
-		if (SUCCEEDED(hr = SHBindToParent(pidl, IID_IShellFolder,
-			(void**)&psf, &pidlChild))) {
-
-			//STRRET strDispName;
-			//TCHAR pszParseName[MAX_PATH];
-			//psf->GetDisplayNameOf(pidlChild, SHGDN_FORPARSING, &strDispName);
-			//StrRetToBuf(&strDispName, pidlChild, pszParseName, MAX_PATH);
-
-			//SHELLEXECUTEINFO ShExecInfo;
-			//ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
-			//ShExecInfo.fMask = NULL;
-			//ShExecInfo.hwnd = NULL;
-			//ShExecInfo.lpVerb = NULL;
-			//ShExecInfo.lpFile = pszParseName;
-			//ShExecInfo.lpParameters = NULL;
-			//ShExecInfo.lpDirectory = NULL;
-			//ShExecInfo.nShow = SW_MAXIMIZE;
-			//ShExecInfo.hInstApp = NULL;
-			//ShellExecuteEx(&ShExecInfo);
-
-			hr = psf->GetUIObjectOf(hwnd, 1, &pidlChild, riid, NULL, ppv);
-			psf->Release();
-		}
-		CoTaskMemFree(pidl);
-	}
-	return hr;
+	this->windowThread = std::thread(&MsgHandler_ContextMenu::CreateHiddenWindow, this, hInstance);
 }
 
-IAsyncOperation<bool> MsgHandler_ContextMenu::ParseArgumentsAsync(AppServiceManager const& manager, AppServiceRequestReceivedEventArgs const& args)
+MsgHandler_ContextMenu::~MsgHandler_ContextMenu()
 {
-	if (args.Request().Message().HasKey(L"Arguments"))
+	if (this->hiddenWindow != NULL)
 	{
-		auto arguments = args.Request().Message().Lookup(L"Arguments").as<hstring>();
-		if (arguments == L"LoadContextMenu")
-		{
-			auto filePath = args.Request().Message().Lookup(L"FilePath").as<hstring>();
-			auto extendedMenu = args.Request().Message().Lookup(L"ExtendedMenu").as<bool>();
-			auto showOpenMenu = args.Request().Message().Lookup(L"ShowOpenMenu").as<bool>();
-			ShowContextMenuForFile(filePath.c_str(), CMF_NORMAL, GetModuleHandle(0));
-			co_return TRUE;
-		}
+		PostMessage(this->hiddenWindow, WM_CLOSE, NULL, NULL);
 	}
-	co_return FALSE;
+	if (this->windowThread.joinable())
+	{
+		this->windowThread.join();
+	}
 }

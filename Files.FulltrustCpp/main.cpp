@@ -30,7 +30,7 @@ int main()
 		auto manager = AppServiceManager::Init();
 		if (manager != NULL)
 		{
-			MsgHandler_ContextMenu cmHdl;
+			MsgHandler_ContextMenu cmHdl(GetModuleHandle(0)); //hInstance
 			manager->Register(&cmHdl);
 
 			manager->Loop();
