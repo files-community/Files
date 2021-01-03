@@ -176,8 +176,11 @@ namespace Files.Views.LayoutModes
 
         public override void StartRenameItem()
         {
-            AllView.CurrentColumn = AllView.Columns[1];
-            AllView.BeginEdit();
+            if (AllView.SelectedIndex != -1)
+            {
+                AllView.CurrentColumn = AllView.Columns[1];
+                AllView.BeginEdit();
+            }
         }
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
