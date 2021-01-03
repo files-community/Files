@@ -176,6 +176,11 @@ namespace Files
 
         private void Clipboard_ContentChanged(object sender, object e)
         {
+            if (App.InteractionViewModel == null)
+            {
+                return;
+            }
+
             try
             {
                 // Clipboard.GetContent() will throw UnauthorizedAccessException
