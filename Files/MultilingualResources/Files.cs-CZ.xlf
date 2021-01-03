@@ -5,7 +5,7 @@
       <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.1916.0" tool-company="Microsoft" />
     </header>
     <body>
-      <group id="ReswGroup" datatype="resx">
+      <group id="FILES/STRINGS/EN-US/RESOURCES.RESW" datatype="resx">
         <trans-unit id="ConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Delete Item(s)</source>
           <target state="translated">Odstranit položku/y</target>
