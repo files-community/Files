@@ -1553,6 +1553,13 @@ namespace Files.ViewModels
 
             IntPtr hFile = FindFirstFileExFromApp(fileOrFolderPath, findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
                                                   additionalFlags);
+            if (hFile.ToInt64() == -1)
+            {
+                // If we cannot find the file (probably since it doesn't exist anymore)
+                // simply exit without adding it
+                return;
+            }
+
             FindClose(hFile);
 
             ListedItem listedItem = null;

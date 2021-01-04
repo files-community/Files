@@ -101,7 +101,7 @@ namespace Files.ViewModels
             catch (Exception ex)
             {
                 NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
-            }            
+            }
         }
 
         private void DetectRecycleBinPreference()
@@ -229,23 +229,7 @@ namespace Files.ViewModels
             }
         }
 
-        public string OneDriveCommercialPath { get; set; } = Environment.GetEnvironmentVariable("OneDriveCommercial");
-        public string OneDrivePath { get; set; } = Environment.GetEnvironmentVariable("OneDriveConsumer");
-
-        public bool ShowFileOwner
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to cache files and folders.
-        /// </summary>
-        public bool UseFileListCache
-        {
-            get => Get(false);
-            set => Set(value);
-        }
+        #region DetailsView Column Settings
 
         /// <summary>
         /// Gets or sets a value indicating whether or not the date column should be visible.
@@ -274,10 +258,12 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        #endregion
+
         #region CommonPaths
 
-        // Any distinguishable path here is fine
-
+        public string OneDriveCommercialPath { get; set; } = Environment.GetEnvironmentVariable("OneDriveCommercial");
+        public string OneDrivePath { get; set; } = Environment.GetEnvironmentVariable("OneDriveConsumer");
         public string DesktopPath { get; set; } = UserDataPaths.GetDefault().Desktop;
         public string DocumentsPath { get; set; } = UserDataPaths.GetDefault().Documents;
         public string DownloadsPath { get; set; } = UserDataPaths.GetDefault().Downloads;
@@ -601,52 +587,34 @@ namespace Files.ViewModels
 
         #endregion Appearance
 
+        #region Experimental
+
         /// <summary>
-        /// Gets or sets a value indicating whether or not WSL is supported.
+        /// Gets or sets a value indicating whether or not to show the item owner in the properties window.
         /// </summary>
-        public bool AreLinuxFilesSupported
+        public bool ShowFileOwner
         {
             get => Get(false);
             set => Set(value);
         }
 
-        public bool OpenNewTabPageOnStartup
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to cache files and folders.
+        /// </summary>
+        public bool UseFileListCache
         {
             get => Get(true);
             set => Set(value);
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to show a teaching tip informing the user about the status center.
-        /// </summary>
-        public bool ShowStatusCenterTeachingTip
-        {
-            get => Get(true);
-            set => Set(value);
-        }
+        #endregion Experimental
+
+        #region Startup
 
         /// <summary>
         /// Gets or sets a value indicating whether or not to navigate to a specific location when launching the app.
         /// </summary>
         public bool OpenASpecificPageOnStartup
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not continue the last session whenever the app is launched.
-        /// </summary>
-        public bool ContinueLastSessionOnStartUp
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to restore tabs after restarting the app.
-        /// </summary>
-        public bool ResumeAfterRestart
         {
             get => Get(false);
             set => Set(value);
@@ -662,6 +630,24 @@ namespace Files.ViewModels
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether or not continue the last session whenever the app is launched.
+        /// </summary>
+        public bool ContinueLastSessionOnStartUp
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to open a page when the app is launched.
+        /// </summary>
+        public bool OpenNewTabPageOnStartup
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether or not opening the app from the jumplist should open the directory in a new instance.
         /// </summary>
         public bool AlwaysOpenANewInstance
@@ -669,7 +655,7 @@ namespace Files.ViewModels
             get => Get(false);
             set => Set(value);
         }
-                
+
         public string[] PagesOnStartupList
         {
             get => Get<string[]>(null);
@@ -679,6 +665,35 @@ namespace Files.ViewModels
         public string[] LastSessionPages
         {
             get => Get<string[]>(null);
+            set => Set(value);
+        }
+
+        #endregion Startup
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not WSL is supported.
+        /// </summary>
+        public bool AreLinuxFilesSupported
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to show a teaching tip informing the user about the status center.
+        /// </summary>
+        public bool ShowStatusCenterTeachingTip
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to restore tabs after restarting the app.
+        /// </summary>
+        public bool ResumeAfterRestart
+        {
+            get => Get(false);
             set => Set(value);
         }
 
