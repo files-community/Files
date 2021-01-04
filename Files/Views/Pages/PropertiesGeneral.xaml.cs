@@ -47,6 +47,9 @@ namespace Files.Views
                           ViewModel.OriginalItemName,
                           ViewModel.ItemName));
                 }
+
+                // Handle the visibility attribute
+                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance.InteractionOperations.SetHiddenAttributeItems(item, ViewModel.IsHidden));
             }
         }
     }

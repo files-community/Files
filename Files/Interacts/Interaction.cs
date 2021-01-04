@@ -870,6 +870,24 @@ namespace Files.Interacts
             return false;
         }
 
+        public bool SetHiddenAttributeItems(ListedItem item, bool isHidden)
+        {
+            // Item is not null and therefore we have a single item which we need to update accordingly. In case item is null we have multiple
+            // items at once
+            if (item != null)
+            {
+                var viewItem = AssociatedInstance.ContentPage.SelectedItems.Where(p => p.ItemName == item.ItemName).FirstOrDefault();
+                if (viewItem != null)
+                {
+                    viewItem.IsHiddenItem = isHidden;
+                }
+
+                AssociatedInstance.ContentPage.ResetItemOpacity();
+            }
+
+            return true;
+        }
+
         public async void RestoreItem_Click(object sender, RoutedEventArgs e)
         {
             if (AssociatedInstance.ContentPage.IsItemSelected)
