@@ -81,6 +81,9 @@ public:
 
     IAsyncOperation<bool> ParseArgumentsAsync(AppServiceManager const& manager, AppServiceRequestReceivedEventArgs const& args);
 
+    void InvokeCommand(int menuId);
+    void InvokeCommand(std::string menuVerb);
+
     MsgHandler_ContextMenu(HINSTANCE hInstance);
     ~MsgHandler_ContextMenu();
 };

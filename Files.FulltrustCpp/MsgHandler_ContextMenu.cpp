@@ -100,7 +100,7 @@ void MsgHandler_ContextMenu::EnumMenuItems(IContextMenu* cMenu, HMENU hMenu, std
 			continue;
 		}
 		menuItem.Type = mii.fType;
-		menuItem.ID = (int)(mii.wID - 1); // wID - idCmdFirst
+		menuItem.ID = (int)mii.wID;
 		if (menuItem.Type == MFT_STRING)
 		{
 			wprintf(L"Item %d (%d): %s\n", ii, mii.wID, mii.dwTypeData);
@@ -297,6 +297,20 @@ IAsyncOperation<bool> MsgHandler_ContextMenu::ParseArgumentsAsync(AppServiceMana
 
 			co_return TRUE;
 		}
+		else if (arguments == L"ExecAndCloseContextMenu")
+		{
+			if (this->LoadedContextMenu)
+			{
+				if (args.Request().Message().HasKey(L"ItemID"))
+				{
+					auto menuId = args.Request().Message().Lookup(L"ItemID").as<int>();
+					this->InvokeCommand(menuId);
+				}
+				delete this->LoadedContextMenu;
+				this->LoadedContextMenu = NULL;
+			}
+			co_return TRUE;
+		}
 	}
 	co_return FALSE;
 }
@@ -353,5 +367,37 @@ MsgHandler_ContextMenu::~MsgHandler_ContextMenu()
 	if (this->windowThread.joinable())
 	{
 		this->windowThread.join();
+	}
+	delete this->LoadedContextMenu;
+	this->LoadedContextMenu = NULL;
+}
+
+void MsgHandler_ContextMenu::InvokeCommand(int menuId)
+{
+	if (this->LoadedContextMenu)
+	{
+		CMINVOKECOMMANDINFOEX info = { 0 };
+		info.cbSize = sizeof(info);
+		info.fMask = CMIC_MASK_UNICODE;
+		info.hwnd = this->hiddenWindow;
+		info.lpVerb = MAKEINTRESOURCEA(menuId - SCRATCH_QCM_FIRST);
+		info.lpVerbW = MAKEINTRESOURCEW(menuId - SCRATCH_QCM_FIRST);
+		info.nShow = SW_SHOW;
+		this->LoadedContextMenu->cMenu->InvokeCommand((LPCMINVOKECOMMANDINFO)&info);
+	}
+}
+
+void MsgHandler_ContextMenu::InvokeCommand(std::string menuVerb)
+{
+	if (this->LoadedContextMenu)
+	{
+		CMINVOKECOMMANDINFOEX info = { 0 };
+		info.cbSize = sizeof(info);
+		//info.fMask = CMIC_MASK_UNICODE;
+		info.hwnd = this->hiddenWindow;
+		info.lpVerb = menuVerb.c_str();
+		//info.lpVerbW = menuVerb.c_str();
+		info.nShow = SW_SHOW;
+		this->LoadedContextMenu->cMenu->InvokeCommand((LPCMINVOKECOMMANDINFO)&info);
 	}
 }
