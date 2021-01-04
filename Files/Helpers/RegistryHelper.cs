@@ -90,6 +90,7 @@ namespace Files.Helpers
                     case RegistryValueKind.Binary:
                         data = (byte[])dataObj;
                         break;
+
                     case RegistryValueKind.String:
                         data = UTF8Encoding.UTF8.GetBytes((string)dataObj);
                         break;
@@ -110,7 +111,7 @@ namespace Files.Helpers
                 Command = (string)key.GetValue("Command"),
                 //Name = (string)key.GetValue("ItemName"),
                 //IconPath = (string)key.GetValue("IconPath"),
-                Icon = thumbnail,
+                Icon = thumbnail?.Result,
                 Data = data
             };
 

@@ -4,10 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
+    <Page.DataContext>
+        <settingsviewmodels:OnStartupViewModel />
+    </Page.DataContext>
 
     <Page.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -34,33 +37,37 @@
                 <RadioButton
                     x:Uid="SettingsOnStartupOpenANewTab"
                     Grid.Column="0"
+                    Padding="8,3,0,0"
                     VerticalAlignment="Center"
                     Content="Open a new tab"
                     FontSize="16"
                     GroupName="StartupPageSettingRadioGroup"
-                    IsChecked="{x:Bind AppSettings.OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    IsChecked="{Binding OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <RadioButton
                     x:Uid="SettingsOnStartupContinueWhereYouLeftOff"
                     Grid.Column="0"
+                    Padding="8,3,0,0"
                     VerticalAlignment="Center"
                     Content="Continue where you left off"
                     FontSize="16"
                     GroupName="StartupPageSettingRadioGroup"
-                    IsChecked="{x:Bind AppSettings.ContinueLastSessionOnStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    IsChecked="{Binding ContinueLastSessionOnStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <RadioButton
                     x:Name="OpenSpecificPage"
                     x:Uid="SettingsOnStartupOpenASpecificPage"
                     Grid.Column="0"
+                    Padding="8,3,0,0"
                     VerticalAlignment="Center"
                     Content="Open a specific page or pages"
                     FontSize="16"
                     GroupName="StartupPageSettingRadioGroup"
-                    IsChecked="{x:Bind AppSettings.OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    IsChecked="{Binding OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <Grid
                     Width="Auto"
+                    Padding="0,0,10,0"
                     HorizontalAlignment="Left"
                     Visibility="{x:Bind OpenSpecificPage.IsChecked, Mode=OneWay}">
                     <Grid.ColumnDefinitions>
@@ -77,22 +84,49 @@
                         VerticalAlignment="Center"
                         FontSize="18"
                         Text="Pages: " />
-
-                    <Button
-                        x:Name="btnAddPage"
-                        x:Uid="SettingsOnStartupOpenAddPageButton"
+                    <CommandBar
                         Grid.Column="1"
-                        HorizontalAlignment="Right"
-                        BorderThickness="2,2,2,2"
-                        Click="ButtonAddPage_Click"
-                        Content="Add a new page" />
+                        Background="Transparent"
+                        DefaultLabelPosition="Right"
+                        IsOpen="False">
+                        <AppBarButton
+                            x:Uid="AppBarButtonAdd"
+                            Command="{Binding AddPageCommand}"
+                            Icon="Add"
+                            Label="Add" />
+                        <AppBarButton
+                            x:Uid="AppBarButtonEdit"
+                            Command="{Binding ChangePageCommand}"
+                            Icon="Edit"
+                            IsEnabled="{Binding IsPageListEditEnabled}"
+                            Label="Edit" />
+                        <AppBarButton
+                            x:Uid="AppBarButtonRemove"
+                            Command="{Binding RemovePageCommand}"
+                            Icon="Delete"
+                            IsEnabled="{Binding IsPageListEditEnabled}"
+                            Label="Remove" />
+                    </CommandBar>
 
-                    <StackPanel
-                        x:Name="PagesPanel"
+                    <ListView
+                        x:Name="PagesList"
                         Grid.Row="1"
                         Grid.ColumnSpan="2"
-                        Margin="0,10,0,20"
-                        HorizontalAlignment="Stretch" />
+                        Margin="0,10"
+                        HorizontalAlignment="Stretch"
+                        IsItemClickEnabled="True"
+                        ItemsSource="{Binding PagesOnStartupList, Mode=TwoWay}"
+                        SelectedIndex="{Binding SelectedPageIndex, Mode=TwoWay}"
+                        SelectionMode="Single">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Text="{Binding}"
+                                    TextTrimming="CharacterEllipsis"
+                                    ToolTipService.ToolTip="{Binding}" />
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </Grid>
 
                 <TextBlock
@@ -102,19 +136,21 @@
 
                 <RadioButton
                     x:Uid="SettingsOnStartupLaunchNewTab"
+                    Padding="8,3,0,0"
                     VerticalAlignment="Center"
                     Content="Open folder in a new tab"
                     FontSize="16"
                     GroupName="StartupPageLaunchRadioGroup"
-                    IsChecked="{x:Bind AppSettings.AlwaysOpenANewInstance, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}" />
+                    IsChecked="{Binding AlwaysOpenANewInstance, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}" />
 
                 <RadioButton
                     x:Uid="SettingsOnStartupLaunchNewInstance"
+                    Padding="8,3,0,0"
                     VerticalAlignment="Center"
                     Content="Always open a new instance"
                     FontSize="16"
                     GroupName="StartupPageLaunchRadioGroup"
-                    IsChecked="{x:Bind AppSettings.AlwaysOpenANewInstance, Mode=TwoWay}" />
+                    IsChecked="{Binding AlwaysOpenANewInstance, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

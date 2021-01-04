@@ -1,6 +1,6 @@
-﻿using Files.View_Models.Properties;
+﻿using Files.ViewModels.Properties;
 
-namespace Files
+namespace Files.Views
 {
     public sealed partial class PropertiesShortcut : PropertiesTab
     {

@@ -48,9 +48,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
-  <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
-    <value>Особые благодарности:</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Отправить отзыв</value>
   </data>
@@ -541,13 +538,13 @@
     <value>Отмена</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>Вы уверены, что хотите удалить все элементы?</value>
+    <value>Вы уверены, что хотите безвозвратно удалить все элементы?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Очистить корзину</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
-    <value>ОК</value>
+    <value>Да</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
     <value>байт</value>
@@ -645,14 +642,8 @@
   <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
     <value>Добавить новую страницу</value>
   </data>
-  <data name="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" xml:space="preserve">
-    <value>Изменить расположение</value>
-  </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Страницы:</value>
-  </data>
-  <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
-    <value>Удалить страницу</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
     <value>При открытии элемента из списка быстрого запуска</value>
@@ -900,18 +891,6 @@
   <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Стандартный терминал</value>
   </data>
-  <data name="SettingsPreferencesContextMenuSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Показать все пункты контекстного меню</value>
-  </data>
-  <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Показать возможность копирования местоположения выбранного элемента</value>
-  </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Закрепить Корзину на боковой панели</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Показывать диалоговое окно подтверждения при удалении файлов или папок</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Изменить профили терминалов</value>
   </data>
@@ -938,9 +917,6 @@
   </data>
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Отказано в доступе</value>
-  </data>
-  <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
-    <value>Показать все пункты контекстного меню</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Закрепить Корзину в боковой панели</value>
@@ -1020,9 +996,6 @@
   <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
     <value>Показывать последние файлы на домашней странице</value>
   </data>
-  <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Показать возможность копирования местоположения выбранного элемента</value>
-  </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
     <value>Показывать скрытые файлы и папки</value>
   </data>
@@ -1043,5 +1016,407 @@
   </data>
   <data name="SideBarEjectDevice.Text" xml:space="preserve">
     <value>Извлечь</value>
+  </data>
+  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+    <value>Создать копию вкладки</value>
+  </data>
+  <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
+    <value>Переместить вкладку в новое окно</value>
+  </data>
+  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+    <value>Новая вкладка</value>
+  </data>
+  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Поиск</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
+    <value>Только чтение</value>
+  </data>
+  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
+    <value>Скрытая</value>
+  </data>
+  <data name="PropertyRatingText" xml:space="preserve">
+    <value>Рейтинг</value>
+  </data>
+  <data name="PropertyItemFolderPathDisplay" xml:space="preserve">
+    <value>Путь</value>
+  </data>
+  <data name="PropertyItemTypeText" xml:space="preserve">
+    <value>Тип файла</value>
+  </data>
+  <data name="PropertyTitle" xml:space="preserve">
+    <value>Заглавие</value>
+  </data>
+  <data name="PropertySubject" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="PropertyComment" xml:space="preserve">
+    <value>Комментарий</value>
+  </data>
+  <data name="PropertyCopyright" xml:space="preserve">
+    <value>Авторские права</value>
+  </data>
+  <data name="PropertyDateCreated" xml:space="preserve">
+    <value>Дата создания</value>
+  </data>
+  <data name="PropertyDateModified" xml:space="preserve">
+    <value>Дата изменения</value>
+  </data>
+  <data name="PropertyBitDepth" xml:space="preserve">
+    <value>Глубина цвета</value>
+  </data>
+  <data name="PropertyDimensions" xml:space="preserve">
+    <value>Размеры</value>
+  </data>
+  <data name="PropertyHorizontalResolution" xml:space="preserve">
+    <value>Разрешение по горизонтали</value>
+  </data>
+  <data name="PropertyVerticalResolution" xml:space="preserve">
+    <value>Разрешение по вертикали</value>
+  </data>
+  <data name="PropertyCompressionText" xml:space="preserve">
+    <value>Сжатие</value>
+  </data>
+  <data name="PropertyHorizontalSize" xml:space="preserve">
+    <value>Размер по горизонтали</value>
+  </data>
+  <data name="PropertyVerticalSize" xml:space="preserve">
+    <value>Размер по вертикали</value>
+  </data>
+  <data name="PropertyLatitude" xml:space="preserve">
+    <value>Широта</value>
+  </data>
+  <data name="PropertyLongitude" xml:space="preserve">
+    <value>Долгота</value>
+  </data>
+  <data name="PropertyAltitude" xml:space="preserve">
+    <value>Высота</value>
+  </data>
+  <data name="PropertyCameraManufacturer" xml:space="preserve">
+    <value>Производитель камеры</value>
+  </data>
+  <data name="PropertyCameraModel" xml:space="preserve">
+    <value>Модель камеры</value>
+  </data>
+  <data name="PropertyExposureTime" xml:space="preserve">
+    <value>Выдержка</value>
+  </data>
+  <data name="PropertyFocalLength" xml:space="preserve">
+    <value>Фокусное расстояние</value>
+  </data>
+  <data name="PropertyAperture" xml:space="preserve">
+    <value>Диафрагма</value>
+  </data>
+  <data name="PropertyDateTaken" xml:space="preserve">
+    <value>Дата съемки</value>
+  </data>
+  <data name="PropertyChannelCount" xml:space="preserve">
+    <value>Число каналов</value>
+  </data>
+  <data name="PropertyEncodingBitrate" xml:space="preserve">
+    <value>Скорость потока</value>
+  </data>
+  <data name="PropertyCompression" xml:space="preserve">
+    <value>Сжатие</value>
+  </data>
+  <data name="PropertyFormat" xml:space="preserve">
+    <value>Формат</value>
+  </data>
+  <data name="PropertySampleRate" xml:space="preserve">
+    <value>Частота дискретизации</value>
+  </data>
+  <data name="PropertyDisplayArtist" xml:space="preserve">
+    <value>Исполнитель</value>
+  </data>
+  <data name="PropertyAlbumArtist" xml:space="preserve">
+    <value>Исполнитель альбома</value>
+  </data>
+  <data name="PropertyAlbumTitle" xml:space="preserve">
+    <value>Название альбома</value>
+  </data>
+  <data name="PropertyArtist" xml:space="preserve">
+    <value>Исполнитель</value>
+  </data>
+  <data name="PropertyBeatsPerMinute" xml:space="preserve">
+    <value>Ударов в минуту</value>
+  </data>
+  <data name="PropertyComposer" xml:space="preserve">
+    <value>Композитор</value>
+  </data>
+  <data name="PropertyConductor" xml:space="preserve">
+    <value>Дирижер</value>
+  </data>
+  <data name="PropertyDiscNumber" xml:space="preserve">
+    <value>№ диска</value>
+  </data>
+  <data name="PropertyGenre" xml:space="preserve">
+    <value>Жанр</value>
+  </data>
+  <data name="PropertyTrackNumber" xml:space="preserve">
+    <value>Номер дорожки</value>
+  </data>
+  <data name="PropertyDuration" xml:space="preserve">
+    <value>Длительность</value>
+  </data>
+  <data name="PropertyProtectionType" xml:space="preserve">
+    <value>Тип защиты</value>
+  </data>
+  <data name="PropertyDateReleased" xml:space="preserve">
+    <value>Дата выпуска</value>
+  </data>
+  <data name="PropertyProducer" xml:space="preserve">
+    <value>Продюсер</value>
+  </data>
+  <data name="PropertyPublisher" xml:space="preserve">
+    <value>Издатель</value>
+  </data>
+  <data name="PropertyWriter" xml:space="preserve">
+    <value>Сценарист</value>
+  </data>
+  <data name="PropertyYear" xml:space="preserve">
+    <value>Год</value>
+  </data>
+  <data name="PropertySectionCore" xml:space="preserve">
+    <value>Главное</value>
+  </data>
+  <data name="PropertySectionImage" xml:space="preserve">
+    <value>Изображения</value>
+  </data>
+  <data name="PropertySectionPhoto" xml:space="preserve">
+    <value>Фото</value>
+  </data>
+  <data name="PropertySectionGPS" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="PropertySectionMedia" xml:space="preserve">
+    <value>Медиа</value>
+  </data>
+  <data name="PropertySectionAudio" xml:space="preserve">
+    <value>Аудио</value>
+  </data>
+  <data name="PropertySectionMusic" xml:space="preserve">
+    <value>Музыка</value>
+  </data>
+  <data name="PropertyAddress" xml:space="preserve">
+    <value>Адрес</value>
+  </data>
+  <data name="PropertyColorSpace" xml:space="preserve">
+    <value>Цветовое пространство</value>
+  </data>
+  <data name="PropertyPeopleNames" xml:space="preserve">
+    <value>Имена людей</value>
+  </data>
+  <data name="PropertyContributor" xml:space="preserve">
+    <value>Соавтор</value>
+  </data>
+  <data name="PropertyLastAuthor" xml:space="preserve">
+    <value>Автор изменений</value>
+  </data>
+  <data name="PropertyRevisionNumber" xml:space="preserve">
+    <value>Номер редакции</value>
+  </data>
+  <data name="PropertyVersion" xml:space="preserve">
+    <value>Версия</value>
+  </data>
+  <data name="PropertySectionVideo" xml:space="preserve">
+    <value>Видео</value>
+  </data>
+  <data name="PropertyDateSaved" xml:space="preserve">
+    <value>Дата сохранения</value>
+  </data>
+  <data name="PropertyTotalEditingTime" xml:space="preserve">
+    <value>Общее время правки</value>
+  </data>
+  <data name="PropertyTemplate" xml:space="preserve">
+    <value>Шаблон</value>
+  </data>
+  <data name="PropertyWordCount" xml:space="preserve">
+    <value>Количество слов</value>
+  </data>
+  <data name="PropertyCharacterCount" xml:space="preserve">
+    <value>Количество знаков</value>
+  </data>
+  <data name="PropertyLineCount" xml:space="preserve">
+    <value>Количество строк</value>
+  </data>
+  <data name="PropertyParagraphCount" xml:space="preserve">
+    <value>Количество абзацев</value>
+  </data>
+  <data name="PropertyPageCount" xml:space="preserve">
+    <value>Количество страниц</value>
+  </data>
+  <data name="PropertyFrameRate" xml:space="preserve">
+    <value>Частота кадров</value>
+  </data>
+  <data name="PropertyFrameWidth" xml:space="preserve">
+    <value>Ширина кадра</value>
+  </data>
+  <data name="PropertyFrameHeight" xml:space="preserve">
+    <value>Высота кадра</value>
+  </data>
+  <data name="PropertyOrientation" xml:space="preserve">
+    <value>Ориентация</value>
+  </data>
+  <data name="PropertySectionDocument" xml:space="preserve">
+    <value>Документ</value>
+  </data>
+  <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Повторить</value>
+  </data>
+  <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
+    <value>При сохранении некоторых свойств возникла проблема.</value>
+  </data>
+  <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
+    <value>Некоторые свойства могут содержать личную информацию.</value>
+  </data>
+  <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
+    <value>Очистить</value>
+  </data>
+  <data name="ClearPropertiesButton.Content" xml:space="preserve">
+    <value>Очистить все свойства</value>
+  </data>
+  <data name="PropertyColorSpace_Value0" xml:space="preserve">
+    <value>sRGB</value>
+  </data>
+  <data name="PropertyColorSpace_Value65535" xml:space="preserve">
+    <value>Не указано</value>
+  </data>
+  <data name="StatusCenterTeachingTip.Subtitle" xml:space="preserve">
+    <value>Проверить статус файловых операций здесь</value>
+  </data>
+  <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
+    <value>Центр операций</value>
+  </data>
+  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
+    <value>Лицензия</value>
+  </data>
+  <data name="SettingsAboutLicense.Content" xml:space="preserve">
+    <value>Лицензия</value>
+  </data>
+  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
+    <value>Веб-сайт</value>
+  </data>
+  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
+    <value>Веб-сайт</value>
+  </data>
+  <data name="SettingsAppearanceDateFormatsTip.AutomationProperties.Name" xml:space="preserve">
+    <value>Узнайте больше о форматах даты</value>
+  </data>
+  <data name="DragDropWindowText" xml:space="preserve">
+    <value>Перетащите сюда</value>
+  </data>
+  <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
+    <value>Результаты поиска в </value>
+  </data>
+  <data name="SearchTabHeaderText" xml:space="preserve">
+    <value>Результаты поиска</value>
+  </data>
+  <data name="SettingsAboutContributorsListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Узнайте, кто участвовал в разработке Files</value>
+  </data>
+  <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Узнайте, что нового в Files</value>
+  </data>
+  <data name="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Отправить отчет о проблеме, чтобы предоставить разработчикам больше информации о ней</value>
+  </data>
+  <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Поддержите нас через PayPal</value>
+  </data>
+  <data name="SettingsListAndSortDirectoriesAlongsideFiles.Header" xml:space="preserve">
+    <value>Сортировать файлы и папки вместе</value>
+  </data>
+  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+    <value>Подробно</value>
+  </data>
+  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="UpdateConsentDialogContent" xml:space="preserve">
+    <value>Вы хотите загрузить и установить последнюю версию Files?</value>
+  </data>
+  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
+    <value>Да</value>
+  </data>
+  <data name="UpdateConsentDialogTitle" xml:space="preserve">
+    <value>Доступны обновления</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
+    <value>Скрывать защищенные системные файлы (рекомендуется)</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Скрывать защищенные системные файлы (рекомендуется)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="AddDialogListFileHeader" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="AddDialogListFileSubHeader" xml:space="preserve">
+    <value>Создает пустой файл</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>Новый файл</value>
+  </data>
+  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
+    <value>Показывать неиндексированные элементы при поиске файлов и папок (поиск может занять больше времени)</value>
+  </data>
+  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
+    <value>Включить индивидуальные настройки отображения для отдельных каталогов</value>
+  </data>
+  <data name="originalPathColumn.Header" xml:space="preserve">
+    <value>Исходный путь</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByOriginalPath.Text" xml:space="preserve">
+    <value>Исходный путь</value>
+  </data>
+  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
+  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
+  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+    <value>Убрать</value>
+  </data>
+  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
+    <value>Кэшировать файлы и папки для повышения производительности</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="StatusCenter.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Текущие операции</value>
+  </data>
+  <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
+    <value>Текущие операции</value>
+  </data>
+  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
+    <value>Всегда открывать новые вкладки в режиме двойной панели</value>
+  </data>
+  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
+    <value>Включить режим двойной панели</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
+    <value>Открыть на дополнительной панели</value>
+  </data>
+  <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
+    <value>Новая панель</value>
+  </data>
+  <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
+    <value>Открыть на дополнительной панели</value>
+  </data>
+  <data name="SettingsDualPane.Text" xml:space="preserve">
+    <value>Двойная панель</value>
   </data>
 </root>

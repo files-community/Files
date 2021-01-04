@@ -1,13 +1,16 @@
-﻿using Files.View_Models;
+﻿using Files.ViewModels;
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls
 {
-    public sealed partial class StatusBarControl : UserControl
+    public sealed partial class StatusBarControl : UserControl, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+        public FolderSettingsViewModel FolderSettings { get; set; } = null;
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; set; } = null;
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; set; } = null;
         public ICommand SelectAllInvokedCommand { get; set; }
@@ -37,6 +40,28 @@ namespace Files.UserControls
             await StatusCenterPulseVisualPlayer.PlayAsync(0, 1, false);
             await StatusCenterPulseVisualPlayer.PlayAsync(0, 1, false);
             StatusCenterPulseVisualPlayer.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private bool showStatusCenter;
+
+        public bool ShowStatusCenter
+        {
+            get => showStatusCenter;
+            set
+            {
+                if (value != showStatusCenter)
+                {
+                    showStatusCenter = value;
+                    NotifyPropertyChanged(nameof(ShowStatusCenter));
+                }
+            }
         }
     }
 }

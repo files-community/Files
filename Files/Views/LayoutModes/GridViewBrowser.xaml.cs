@@ -1,61 +1,43 @@
-﻿using Files.Filesystem;
+﻿using Files.Enums;
+using Files.Filesystem;
 using Files.UserControls.Selection;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.System;
-using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Navigation;
 using Interaction = Files.Interacts.Interaction;
 
-namespace Files
+namespace Files.Views.LayoutModes
 {
     public sealed partial class GridViewBrowser : BaseLayout
     {
         public string oldItemName;
-        private Compositor compositor;
-        private ImplicitAnimationCollection elementImplicitAnimation;
 
         public GridViewBrowser()
         {
             InitializeComponent();
-
+            this.DataContext = this;
             base.BaseLayoutContextFlyout = BaseLayoutContextFlyout;
             base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
 
             var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
-            App.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
-
-            SetItemTemplate(); // Set ItemTemplate
-
-            compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
-            // Create ImplicitAnimations Collection.
-            elementImplicitAnimation = compositor.CreateImplicitAnimationCollection();
-
-            //Define trigger and animation that should play when the trigger is triggered.
-            elementImplicitAnimation["Offset"] = CreateOffsetAnimation();
         }
 
-        private void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
-            var elementVisual = ElementCompositionPreview.GetElementVisual(args.ItemContainer);
-            if (args.InRecycleQueue)
-            {
-                elementVisual.ImplicitAnimations = null;
-            }
-            else
-            {
-                //Add implicit animation to each visual
-                elementVisual.ImplicitAnimations = elementImplicitAnimation;
-            }
+            base.OnNavigatedTo(eventArgs);
+            currentIconSize = GetIconSize();
+            FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+            FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
+            SetItemTemplate(); // Set ItemTemplate
         }
 
         private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
@@ -69,24 +51,25 @@ namespace Files
             FileList.Focus(FocusState.Programmatic);
         }
 
-        private void AppSettings_LayoutModeChangeRequested(object sender, EventArgs e)
+        private void FolderSettings_LayoutModeChangeRequested(object sender, EventArgs e)
         {
             SetItemTemplate(); // Set ItemTemplate
         }
 
         private void SetItemTemplate()
         {
-            FileList.ItemTemplate = (App.AppSettings.LayoutMode == 1) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
+            FileList.ItemTemplate = (FolderSettings.LayoutMode == FolderLayoutModes.TilesView) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
 
             // Set GridViewSize event handlers
-            if (App.AppSettings.LayoutMode == 1)
+            if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
             {
-                App.AppSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
+                FolderSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
             }
-            else if (App.AppSettings.LayoutMode == 2)
+            else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
             {
                 currentIconSize = GetIconSize(); // Get icon size for jumps from other layouts directly to a grid size
-                App.AppSettings.GridViewSizeChangeRequested += AppSettings_GridViewSizeChangeRequested;
+                FolderSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
+                FolderSettings.GridViewSizeChangeRequested += AppSettings_GridViewSizeChangeRequested;
             }
         }
 
@@ -116,14 +99,9 @@ namespace Files
             {
                 foreach (ListedItem listedItem in FileList.Items)
                 {
-                    GridViewItem gridViewItem = FileList.ContainerFromItem(listedItem) as GridViewItem;
-
-                    if (gridViewItem != null)
+                    if (FileList.ContainerFromItem(listedItem) is GridViewItem gridViewItem)
                     {
-                        List<Grid> grids = new List<Grid>();
-                        Interaction.FindChildren(grids, gridViewItem);
-                        var rootItem = grids.Find(x => x.Tag?.ToString() == "ItemRoot");
-                        rootItem.CanDrag = SelectedItems.Contains(listedItem);
+                        gridViewItem.CanDrag = gridViewItem.IsSelected;
                     }
                 }
             }
@@ -142,7 +120,7 @@ namespace Files
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             var parentContainer = Interaction.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
-            if (FileList.SelectedItems.Contains(FileList.ItemFromContainer(parentContainer)))
+            if (parentContainer.IsSelected)
             {
                 return;
             }
@@ -152,11 +130,7 @@ namespace Files
 
         private void GridViewBrowserViewer_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            if (e.GetCurrentPoint(sender as Page).Properties.IsLeftButtonPressed)
-            {
-                ClearSelection();
-            }
-            else if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
+            if (e.GetCurrentPoint(null).Properties.IsMiddleButtonPressed)
             {
                 ParentShellPageInstance.InteractionOperations.ItemPointerPressed(sender, e);
             }
@@ -177,7 +151,7 @@ namespace Files
             TextBox textBox = null;
 
             // Handle layout differences between tiles browser and photo album
-            if (App.AppSettings.LayoutMode == 2)
+            if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
             {
                 Popup popup = (gridViewItem.ContentTemplateRoot as Grid).FindName("EditPopup") as Popup;
                 TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
@@ -201,7 +175,7 @@ namespace Files
             textBox.KeyDown += RenameTextBox_KeyDown;
 
             int selectedTextLength = SelectedItem.ItemName.Length;
-            if (App.AppSettings.ShowFileExtensions)
+            if (!SelectedItem.IsShortcutItem && App.AppSettings.ShowFileExtensions)
             {
                 selectedTextLength -= extensionLength;
             }
@@ -262,7 +236,7 @@ namespace Files
 
         private void EndRename(TextBox textBox)
         {
-            if (App.AppSettings.LayoutMode == 2)
+            if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
             {
                 Popup popup = textBox.Parent as Popup;
                 TextBlock textBlock = (popup.Parent as Grid).Children[1] as TextBlock;
@@ -284,6 +258,9 @@ namespace Files
 
         private void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+
             if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
             {
                 if (!IsRenamingItem)
@@ -312,6 +289,16 @@ namespace Files
                 // Unfocus the GridView so keyboard shortcut can be handled
                 Focus(FocusState.Programmatic);
             }
+            else if (ctrlPressed && shiftPressed && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.W))
+            {
+                // Unfocus the ListView so keyboard shortcut can be handled (ctrl + shift + W/"->"/"<-")
+                Focus(FocusState.Programmatic);
+            }
+            else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
+            {
+                // Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
+                Focus(FocusState.Programmatic);
+            }
         }
 
         protected override void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
@@ -337,67 +324,44 @@ namespace Files
             }
         }
 
-        private async void Grid_EffectiveViewportChanged(FrameworkElement sender, EffectiveViewportChangedEventArgs args)
-        {
-            if (sender.DataContext is ListedItem item && (!item.ItemPropertiesInitialized) && (args.BringIntoViewDistanceX < sender.ActualHeight))
-            {
-                await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                {
-                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
-                    item.ItemPropertiesInitialized = true;
-                });
-
-                sender.CanDrag = FileList.SelectedItems.Contains(item); // Update CanDrag
-            }
-        }
-
         protected override ListedItem GetItemFromElement(object element)
         {
-            FrameworkElement gridItem = element as FrameworkElement;
-            return gridItem.DataContext as ListedItem;
-        }
-
-        private void FileListGridItem_DataContextChanged(object sender, DataContextChangedEventArgs e)
-        {
-            InitializeDrag(sender as UIElement);
+            return (element as GridViewItem).DataContext as ListedItem;
         }
 
         private void FileListGridItem_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (e.KeyModifiers == VirtualKeyModifiers.Control)
             {
-                var listedItem = (sender as Grid).DataContext as ListedItem;
-                if (FileList.SelectedItems.Contains(listedItem))
+                if ((sender as SelectorItem).IsSelected)
                 {
-                    FileList.SelectedItems.Remove(listedItem);
+                    (sender as SelectorItem).IsSelected = false;
                     // Prevent issues arising caused by the default handlers attempting to select the item that has just been deselected by ctrl + click
                     e.Handled = true;
                 }
             }
             else if (e.GetCurrentPoint(sender as UIElement).Properties.IsLeftButtonPressed)
             {
-                var listedItem = (sender as Grid).DataContext as ListedItem;
-
-                if (!FileList.SelectedItems.Contains(listedItem))
+                if (!(sender as SelectorItem).IsSelected)
                 {
-                    SetSelectedItemOnUi(listedItem);
+                    (sender as SelectorItem).IsSelected = true;
                 }
             }
         }
 
-        private uint currentIconSize = GetIconSize();
+        private uint currentIconSize;
 
-        private static uint GetIconSize()
+        private uint GetIconSize()
         {
-            if (App.AppSettings.LayoutMode == 1 || App.AppSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeSmall + 75)
+            if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView || FolderSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeSmall + 75)
             {
                 return 80; // Small thumbnail
             }
-            else if (App.AppSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium + 25)
+            else if (FolderSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium + 25)
             {
                 return 120; // Medium thumbnail
             }
-            else if (App.AppSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium - 50)
+            else if (FolderSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium - 50)
             {
                 return 160; // Large thumbnail
             }
@@ -438,35 +402,24 @@ namespace Files
             }
         }
 
-        #region Animation
-
-        private CompositionAnimationGroup CreateOffsetAnimation()
+        private void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
-            //Define Offset Animation for the ANimation group
-            Vector3KeyFrameAnimation offsetAnimation = compositor.CreateVector3KeyFrameAnimation();
-            offsetAnimation.InsertExpressionKeyFrame(1.0f, "this.FinalValue");
-            offsetAnimation.Duration = TimeSpan.FromSeconds(.4);
+            if (args.ItemContainer == null)
+            {
+                GridViewItem gvi = new GridViewItem();
+                args.ItemContainer = gvi;
+            }
+            args.ItemContainer.DataContext = args.Item;
 
-            //Define Animation Target for this animation to animate using definition.
-            offsetAnimation.Target = "Offset";
+            if (args.Item is ListedItem item && (!item.ItemPropertiesInitialized))
+            {
+                args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
+                InitializeDrag(args.ItemContainer);
+                args.ItemContainer.CanDrag = args.ItemContainer.IsSelected; // Update CanDrag
 
-            //Define Rotation Animation for Animation Group.
-            ScalarKeyFrameAnimation rotationAnimation = compositor.CreateScalarKeyFrameAnimation();
-            rotationAnimation.InsertKeyFrame(.5f, 0.160f);
-            rotationAnimation.InsertKeyFrame(1f, 0f);
-            rotationAnimation.Duration = TimeSpan.FromSeconds(.4);
-
-            //Define Animation Target for this animation to animate using definition.
-            rotationAnimation.Target = "RotationAngle";
-
-            //Add Animations to Animation group.
-            CompositionAnimationGroup animationGroup = compositor.CreateAnimationGroup();
-            animationGroup.Add(offsetAnimation);
-            animationGroup.Add(rotationAnimation);
-
-            return animationGroup;
+                ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
+                item.ItemPropertiesInitialized = true;
+            }
         }
-
-        #endregion Animation
     }
 }

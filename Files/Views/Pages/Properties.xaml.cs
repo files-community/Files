@@ -1,11 +1,12 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
-using Files.View_Models;
+using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.Resources.Core;
 using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI;
@@ -17,7 +18,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace Files
+namespace Files.Views
 {
     public sealed partial class Properties : Page
     {
@@ -36,6 +37,13 @@ namespace Files
         public Properties()
         {
             InitializeComponent();
+
+            var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
+
+            if (flowDirectionSetting == "RTL")
+            {
+                FlowDirection = FlowDirection.RightToLeft;
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

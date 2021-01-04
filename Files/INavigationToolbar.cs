@@ -1,4 +1,4 @@
-﻿using Files.Views.Pages;
+﻿using Files.Views;
 using System;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel.DataTransfer;
@@ -53,7 +53,6 @@ namespace Files.UserControls
 
     public class PathNavigationEventArgs
     {
-        public Type LayoutType { get; set; }
         public string ItemPath { get; set; }
     }
 

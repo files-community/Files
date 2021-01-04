@@ -144,9 +144,6 @@
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files</value>
   </data>
-  <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
-    <value>Agradecimentos especiais para:</value>
-  </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Enviar Comentários</value>
   </data>
@@ -648,14 +645,8 @@
   <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
     <value>Adicionar uma nova página</value>
   </data>
-  <data name="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" xml:space="preserve">
-    <value>Alterar local da página</value>
-  </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Páginas:</value>
-  </data>
-  <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
-    <value>Remover Página</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
     <value>Ao iniciar um item da lista fixada</value>
@@ -903,18 +894,6 @@
   <data name="SettingsPreferencesTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Aplicativos de Terminal</value>
   </data>
-  <data name="SettingsPreferencesContextMenuSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostrar todos os itens do menu de contexto</value>
-  </data>
-  <data name="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostra uma opção para copiar a localização do item selecionado</value>
-  </data>
-  <data name="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Fixar a lixeira na barra lateral</value>
-  </data>
-  <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.AutomationProperties.Name" xml:space="preserve">
-    <value>Mostra uma caixa de diálogo de confirmação ao deletar arquivos ou pastas</value>
-  </data>
   <data name="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" xml:space="preserve">
     <value>Editar aplicativos de terminal</value>
   </data>
@@ -941,9 +920,6 @@
   </data>
   <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
     <value>Acesso negado</value>
-  </data>
-  <data name="SettingsPreferencesContextMenuSwitch.Header" xml:space="preserve">
-    <value>Mostrar todos os itens do menu de contexto</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
     <value>Fixar a lixeira na barra lateral</value>
@@ -1023,7 +999,310 @@
   <data name="SettingsWidgetsShowRecentFiles.Header" xml:space="preserve">
     <value>Mostrar arquivos recentes na página inicial</value>
   </data>
-  <data name="SettingsPreferencesCopyLocationSwitch.Header" xml:space="preserve">
-    <value>Mostra uma opção para copiar a localização do item selecionado</value>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
+    <value>Mostrar arquivos e pastas ocultos</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Mostrar arquivos e pastas ocultos</value>
+  </data>
+  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+    <value>Ejetar</value>
+  </data>
+  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+    <value>Duplicar guia</value>
+  </data>
+  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+    <value>Nova guia</value>
+  </data>
+  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
+    <value>Pesquisar</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
+    <value>Somente leitura</value>
+  </data>
+  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
+    <value>Oculto</value>
+  </data>
+  <data name="PropertyTitle" xml:space="preserve">
+    <value>Cargo</value>
+  </data>
+  <data name="PropertySubject" xml:space="preserve">
+    <value>Assunto</value>
+  </data>
+  <data name="PropertyComment" xml:space="preserve">
+    <value>Comentário</value>
+  </data>
+  <data name="PropertyCopyright" xml:space="preserve">
+    <value>Direitos Autorais</value>
+  </data>
+  <data name="PropertyDateCreated" xml:space="preserve">
+    <value>Data de Criação</value>
+  </data>
+  <data name="PropertyDateModified" xml:space="preserve">
+    <value>Data de Modificação</value>
+  </data>
+  <data name="PropertyBitDepth" xml:space="preserve">
+    <value>Intensidade de Bits</value>
+  </data>
+  <data name="PropertyDimensions" xml:space="preserve">
+    <value>Dimensões</value>
+  </data>
+  <data name="PropertyHorizontalResolution" xml:space="preserve">
+    <value>Resolução Horizontal</value>
+  </data>
+  <data name="PropertyVerticalResolution" xml:space="preserve">
+    <value>Resolução Vertical</value>
+  </data>
+  <data name="PropertyHorizontalSize" xml:space="preserve">
+    <value>Tamanho Horizontal</value>
+  </data>
+  <data name="PropertyVerticalSize" xml:space="preserve">
+    <value>Tamanho Vertical</value>
+  </data>
+  <data name="PropertyLatitude" xml:space="preserve">
+    <value>Latitude</value>
+  </data>
+  <data name="PropertyLongitude" xml:space="preserve">
+    <value>Longitude</value>
+  </data>
+  <data name="PropertyAltitude" xml:space="preserve">
+    <value>Altitude</value>
+  </data>
+  <data name="PropertyCameraModel" xml:space="preserve">
+    <value>Modelo da Câmera</value>
+  </data>
+  <data name="PropertyExposureTime" xml:space="preserve">
+    <value>Tempo de Exposição</value>
+  </data>
+  <data name="PropertyFocalLength" xml:space="preserve">
+    <value>Comprimento Focal</value>
+  </data>
+  <data name="PropertyAperture" xml:space="preserve">
+    <value>Abertura</value>
+  </data>
+  <data name="PropertyDateTaken" xml:space="preserve">
+    <value>Tirada em</value>
+  </data>
+  <data name="PropertyChannelCount" xml:space="preserve">
+    <value>Contagem de Canais</value>
+  </data>
+  <data name="PropertyCompression" xml:space="preserve">
+    <value>Compactação</value>
+  </data>
+  <data name="PropertyFormat" xml:space="preserve">
+    <value>Formatar</value>
+  </data>
+  <data name="PropertySampleRate" xml:space="preserve">
+    <value>Taxa de Amostra</value>
+  </data>
+  <data name="PropertyAlbumArtist" xml:space="preserve">
+    <value>Artista do Álbum</value>
+  </data>
+  <data name="PropertyAlbumTitle" xml:space="preserve">
+    <value>Título do Álbum</value>
+  </data>
+  <data name="PropertyArtist" xml:space="preserve">
+    <value>Artista</value>
+  </data>
+  <data name="PropertyComposer" xml:space="preserve">
+    <value>Compositor</value>
+  </data>
+  <data name="PropertyConductor" xml:space="preserve">
+    <value>Regente</value>
+  </data>
+  <data name="PropertyGenre" xml:space="preserve">
+    <value>Gênero:</value>
+  </data>
+  <data name="PropertyTrackNumber" xml:space="preserve">
+    <value>Número da Faixa</value>
+  </data>
+  <data name="PropertyDuration" xml:space="preserve">
+    <value>Duração</value>
+  </data>
+  <data name="PropertyFrameCount" xml:space="preserve">
+    <value>Contagem de Quadros</value>
+  </data>
+  <data name="PropertyProtectionType" xml:space="preserve">
+    <value>Tipo de Proteção</value>
+  </data>
+  <data name="PropertyDateReleased" xml:space="preserve">
+    <value>Data de lançamento</value>
+  </data>
+  <data name="PropertySeriesName" xml:space="preserve">
+    <value>Nome da Série</value>
+  </data>
+  <data name="PropertyProducer" xml:space="preserve">
+    <value>Produtor</value>
+  </data>
+  <data name="PropertyPublisher" xml:space="preserve">
+    <value>Editor</value>
+  </data>
+  <data name="PropertyWriter" xml:space="preserve">
+    <value>Escritor</value>
+  </data>
+  <data name="PropertyYear" xml:space="preserve">
+    <value>Ano</value>
+  </data>
+  <data name="PropertySectionCore" xml:space="preserve">
+    <value>Núcleo</value>
+  </data>
+  <data name="PropertySectionImage" xml:space="preserve">
+    <value>Imagem</value>
+  </data>
+  <data name="PropertySectionPhoto" xml:space="preserve">
+    <value>Foto</value>
+  </data>
+  <data name="PropertySectionGPS" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="PropertySectionMedia" xml:space="preserve">
+    <value>Mídia</value>
+  </data>
+  <data name="PropertySectionAudio" xml:space="preserve">
+    <value>Áudio</value>
+  </data>
+  <data name="PropertySectionMusic" xml:space="preserve">
+    <value>Música</value>
+  </data>
+  <data name="PropertyAddress" xml:space="preserve">
+    <value>Endereço</value>
+  </data>
+  <data name="PropertyColorSpace" xml:space="preserve">
+    <value>Espaço de Cores:</value>
+  </data>
+  <data name="PropertyPeopleNames" xml:space="preserve">
+    <value>Nomes de Pessoas</value>
+  </data>
+  <data name="PropertyContributor" xml:space="preserve">
+    <value>Colaborador</value>
+  </data>
+  <data name="PropertyLastAuthor" xml:space="preserve">
+    <value>Último autor</value>
+  </data>
+  <data name="PropertyRevisionNumber" xml:space="preserve">
+    <value>Número de revisão</value>
+  </data>
+  <data name="PropertyVersion" xml:space="preserve">
+    <value>Versão</value>
+  </data>
+  <data name="PropertySectionVideo" xml:space="preserve">
+    <value>Vídeo</value>
+  </data>
+  <data name="PropertyDatePrinted" xml:space="preserve">
+    <value>[Date Printed]</value>
+  </data>
+  <data name="PropertyTotalEditingTime" xml:space="preserve">
+    <value>Tempo total de edição:</value>
+  </data>
+  <data name="PropertyTemplate" xml:space="preserve">
+    <value>Modelo</value>
+  </data>
+  <data name="PropertyWordCount" xml:space="preserve">
+    <value>Contagem de Palavras</value>
+  </data>
+  <data name="PropertyCharacterCount" xml:space="preserve">
+    <value>Contagem de caracteres</value>
+  </data>
+  <data name="PropertyLineCount" xml:space="preserve">
+    <value>Contagem de linhas</value>
+  </data>
+  <data name="PropertyParagraphCount" xml:space="preserve">
+    <value>Contagem de parágrafos</value>
+  </data>
+  <data name="PropertyPageCount" xml:space="preserve">
+    <value>Contagem de Páginas</value>
+  </data>
+  <data name="PropertyFrameRate" xml:space="preserve">
+    <value>Taxa de Quadros</value>
+  </data>
+  <data name="PropertyFrameWidth" xml:space="preserve">
+    <value>Largura do Quadro</value>
+  </data>
+  <data name="PropertyFrameHeight" xml:space="preserve">
+    <value>Altura do Quadro</value>
+  </data>
+  <data name="PropertyOrientation" xml:space="preserve">
+    <value>Orientação</value>
+  </data>
+  <data name="PropertySectionDocument" xml:space="preserve">
+    <value>Documento</value>
+  </data>
+  <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
+    <value>Erro</value>
+  </data>
+  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Tentar Novamente</value>
+  </data>
+  <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Fechar mesmo assim</value>
+  </data>
+  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
+    <value>Limpar</value>
+  </data>
+  <data name="PropertyColorSpace_Value0" xml:space="preserve">
+    <value>sRGB</value>
+  </data>
+  <data name="PropertyColorSpace_Value65535" xml:space="preserve">
+    <value>Não especificada</value>
+  </data>
+  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
+    <value>Licença</value>
+  </data>
+  <data name="SettingsAboutLicense.Content" xml:space="preserve">
+    <value>Licença</value>
+  </data>
+  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
+    <value>Site</value>
+  </data>
+  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
+    <value>Site</value>
+  </data>
+  <data name="DragDropWindowText" xml:space="preserve">
+    <value>Soltar aqui...</value>
+  </data>
+  <data name="SearchTabHeaderText" xml:space="preserve">
+    <value>Resultados da pesquisa</value>
+  </data>
+  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+    <value>Detalhes</value>
+  </data>
+  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="UpdateConsentDialogTitle" xml:space="preserve">
+    <value>Atualizações Disponíveis</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
+    <value>Ocultar arquivos protegidos do sistema operacional (Recomendado)</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
+    <value>Ocultar arquivos protegidos do sistema operacional (Recomendado)</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
+    <value>Arquivo</value>
+  </data>
+  <data name="AddDialogListFileHeader" xml:space="preserve">
+    <value>Arquivo</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>Novo Arquivo</value>
+  </data>
+  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+    <value>Adicionar</value>
+  </data>
+  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+    <value>Remover</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
+    <value>Cancelar</value>
   </data>
 </root>

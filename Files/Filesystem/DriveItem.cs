@@ -1,6 +1,6 @@
 ﻿using ByteSizeLib;
 using Files.Common;
-using Files.Helpers;
+using Files.Extensions;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
@@ -42,6 +42,11 @@ namespace Files.Filesystem
         {
             get => spaceUsed;
             set => SetProperty(ref spaceUsed, value);
+        }
+
+        public Visibility ShowDriveDetails
+        {
+            get => MaxSpace.Bytes > 0d ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private DriveType type;

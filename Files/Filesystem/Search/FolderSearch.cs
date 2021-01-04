@@ -118,9 +118,18 @@ namespace Files.Filesystem.Search
             QueryOptions options = new QueryOptions()
             {
                 FolderDepth = FolderDepth.Deep,
-                IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties,
                 UserSearchFilter = string.IsNullOrWhiteSpace(userText) ? null : userText,
             };
+
+            if (App.AppSettings.SearchUnindexedItems)
+            {
+                options.IndexerOption = IndexerOption.DoNotUseIndexer;
+            }
+            else
+            {
+                options.IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties;
+            }
+
             options.SortOrder.Clear();
             options.SortOrder.Add(new SortEntry()
             {

@@ -1,4 +1,4 @@
-﻿using Files.View_Models;
+﻿using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
 
-namespace Files
+namespace Files.UserControls.Widgets
 {
     public sealed partial class LibraryCards : UserControl
     {
@@ -23,6 +23,12 @@ namespace Files
         {
             InitializeComponent();
             itemsAdded.Clear();
+            itemsAdded.Add(new FavoriteLocationItem()
+            {
+                Icon = "\xe9f1",
+                Text = "SidebarDesktop".GetLocalized(),
+                Tag = "Desktop"
+            });
             itemsAdded.Add(new FavoriteLocationItem()
             {
                 Icon = "\xe91c",
@@ -82,10 +88,14 @@ namespace Files
 
             switch (ClickedCard)
             {
+                case "Desktop":
+                    NavigationPath = AppSettings.DesktopPath;
+                    break;
+
                 case "Downloads":
                     NavigationPath = AppSettings.DownloadsPath;
                     break;
-
+                
                 case "Documents":
                     NavigationPath = AppSettings.DocumentsPath;
                     break;
@@ -101,22 +111,16 @@ namespace Files
                 case "Videos":
                     NavigationPath = AppSettings.VideosPath;
                     break;
-
-                case "RecycleBin":
-                    NavigationPath = AppSettings.RecycleBinPath;
-                    break;
             }
             LibraryCardInvoked?.Invoke(this, new LibraryCardInvokedEventArgs()
             {
-                Path = NavigationPath,
-                LayoutType = AppSettings.GetLayoutType()
+                Path = NavigationPath
             });
         }
     }
 
     public class LibraryCardInvokedEventArgs : EventArgs
     {
-        public Type LayoutType { get; set; }
         public string Path { get; set; }
     }
 
