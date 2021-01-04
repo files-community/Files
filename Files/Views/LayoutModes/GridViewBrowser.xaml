@@ -596,16 +596,6 @@
                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA00;" />
                     </Viewbox>
-                    <Image
-                        x:Name="IconOverlay"
-                        Width="64"
-                        Height="64"
-                        Margin="12"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Bottom"
-                        x:Load="True"
-                        Source="{x:Bind IconOverlay, Mode=OneWay}"
-                        Stretch="Uniform" />
                     <Viewbox
                         x:Name="WebShortcutGlyph"
                         MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
