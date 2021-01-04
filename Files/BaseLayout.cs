@@ -91,7 +91,7 @@ namespace Files
                 if (value != selectedItems)
                 {
                     selectedItems = value;
-                    if (selectedItems.Count == 0)
+                    if (selectedItems.Count == 0 || selectedItems[0] == null)
                     {
                         IsItemSelected = false;
                         SelectedItem = null;
