@@ -557,15 +557,6 @@
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe935;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-                <!--<MenuFlyoutItem
-                    x:Name="CutRecycleBinItem"
-                    x:Uid="BaseLayoutItemContextFlyoutCut"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.CutItem_Click}"
-                    Text="Cut">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE8C6;" />
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>-->
                 <MenuFlyoutSeparator />
                 <MenuFlyoutItem
                     x:Name="DeleteRecycleBinItem"
