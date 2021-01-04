@@ -21,7 +21,13 @@ int main()
 		return 0;
 	}
 
+	// Init WinRT
 	init_apartment();
+
+	// Init GDIPlus
+	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+	ULONG_PTR gdiplusToken;
+	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
 	printf("Files Fulltrust\n");
 
@@ -34,6 +40,9 @@ int main()
 		manager->Loop();
 		delete manager;
 	}
+
+	// Unload GDIPlus
+	Gdiplus::GdiplusShutdown(gdiplusToken);
 
 	CloseHandle(ghMutex);
 

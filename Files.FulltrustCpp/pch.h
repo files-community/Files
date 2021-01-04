@@ -1,13 +1,17 @@
 ﻿#pragma once
 #define STRICT_TYPED_ITEMIDS
+#define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
 
 #pragma comment (lib, "Shell32.lib")
 #pragma comment (lib, "Shlwapi.lib")
+#pragma comment (lib, "Gdi32.lib")
+#pragma comment (lib, "Gdiplus.lib")
 
 #include <shlobj.h>
 #include <shellapi.h>
 #include <shlwapi.h>
 #include <windows.h>
+#include <gdiplus.h>
 
 #include <nlohmann/json.hpp>
 
