@@ -14,7 +14,7 @@ struct MenuArgs
 class MsgHandler_ContextMenu : public MessageHandler
 {
 private:
-    HRESULT GetUIObjectOfFile(HWND hwnd, LPCWSTR pszPath, REFIID riid, void** ppv);
+    HRESULT GetUIObjectOfFile(HWND hwnd, std::vector<std::wstring> pszPath, REFIID riid, void** ppv);
 
     HWND hiddenWindow;
     std::thread windowThread;

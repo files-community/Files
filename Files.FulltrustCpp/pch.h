@@ -1,4 +1,6 @@
 ﻿#pragma once
+#define STRICT_TYPED_ITEMIDS
+
 #pragma comment (lib, "Shell32.lib")
 #pragma comment (lib, "Shlwapi.lib")
 

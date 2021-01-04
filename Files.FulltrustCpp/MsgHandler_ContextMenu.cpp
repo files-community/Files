@@ -56,7 +56,7 @@ void MsgHandler_ContextMenu::ShowContextMenuForFile(MenuArgs* args)
 {
 	HWND hwnd = this->hiddenWindow;
 	IContextMenu* pcm;
-	if (SUCCEEDED(GetUIObjectOfFile(hwnd, args->FileList[0].c_str(), IID_IContextMenu, (void**)&pcm)))
+	if (SUCCEEDED(GetUIObjectOfFile(hwnd, args->FileList, IID_IContextMenu, (void**)&pcm)))
 	{
 		pcm->QueryInterface(IID_IContextMenu2, (void**)&g_pcm2);
 		pcm->QueryInterface(IID_IContextMenu3, (void**)&g_pcm3);
@@ -102,20 +102,52 @@ void MsgHandler_ContextMenu::ShowContextMenuForFile(MenuArgs* args)
 	}
 }
 
-HRESULT MsgHandler_ContextMenu::GetUIObjectOfFile(HWND hwnd, LPCWSTR pszPath, REFIID riid, void** ppv)
+HRESULT MsgHandler_ContextMenu::GetUIObjectOfFile(HWND hwnd, std::vector<std::wstring> fileList, REFIID riid, void** ppv)
 {
 	*ppv = NULL;
 	HRESULT hr;
-	LPITEMIDLIST pidl;
+	PIDLIST_ABSOLUTE pidl;
 	SFGAOF sfgao;
-	if (SUCCEEDED(hr = SHParseDisplayName(pszPath, NULL, &pidl, 0, &sfgao)))
+	if (fileList.empty())
+	{
+		return -1;
+	}
+
+	auto firstElem = fileList[0].c_str();
+	if (SUCCEEDED(hr = SHParseDisplayName(firstElem, NULL, &pidl, 0, &sfgao)))
 	{
 		IShellFolder* psf;
-		LPCITEMIDLIST pidlChild;
 		if (SUCCEEDED(hr = SHBindToParent(pidl, IID_IShellFolder,
-			(void**)&psf, &pidlChild)))
+			(void**)&psf, NULL)))
 		{
-			hr = psf->GetUIObjectOf(hwnd, 1, &pidlChild, riid, NULL, ppv);
+			PUITEMID_CHILD* rgpidl = (PUITEMID_CHILD*)CoTaskMemAlloc(sizeof(PUITEMID_CHILD) * fileList.size());
+			if (rgpidl != NULL)
+			{
+				int parsedChildren = 0;
+				for (; parsedChildren < fileList.size(); parsedChildren++)
+				{
+					PIDLIST_ABSOLUTE pidlChild;
+					if (SUCCEEDED(hr = SHParseDisplayName(fileList[parsedChildren].c_str(), NULL, &pidlChild, 0, &sfgao)))
+					{
+						// if (ILFindChild(pidl, pidlChild) == NULL) // Not a child of parent folder
+						rgpidl[parsedChildren] = (PUITEMID_CHILD)(ILClone(ILFindLastID(pidlChild)));
+						CoTaskMemFree(pidlChild);
+					}
+					else
+					{
+						break;
+					}
+				}
+				if (SUCCEEDED(hr))
+				{
+					hr = psf->GetUIObjectOf(hwnd, fileList.size(), rgpidl, riid, NULL, ppv);
+				}
+				for (int freeIdx = 0; freeIdx < parsedChildren; freeIdx++)
+				{
+					CoTaskMemFree(rgpidl[freeIdx]);
+				}
+				CoTaskMemFree(rgpidl);
+			}
 			psf->Release();
 		}
 		CoTaskMemFree(pidl);
@@ -136,7 +168,7 @@ IAsyncOperation<bool> MsgHandler_ContextMenu::ParseArgumentsAsync(AppServiceMana
 
 			MenuArgs* args = new MenuArgs();
 			args->ExtendedMenu = extendedMenu;
-			args->ShowOpenMenu = showOpenMenu;			
+			args->ShowOpenMenu = showOpenMenu;
 			std::wstringstream stringStream(filePath.c_str());
 			std::wstring item;
 			while (std::getline(stringStream, item, L'|'))
