@@ -21,27 +21,18 @@ int main()
 		return 0;
 	}
 
-	try
+	init_apartment();
+
+	printf("Files Fulltrust\n");
+
+	auto manager = AppServiceManager::Init();
+	if (manager != NULL)
 	{
-		init_apartment();
+		MsgHandler_ContextMenu cmHdl(GetModuleHandle(0)); //hInstance
+		manager->Register(&cmHdl);
 
-		printf("Files Fulltrust\n");
-
-		auto manager = AppServiceManager::Init();
-		if (manager != NULL)
-		{
-			MsgHandler_ContextMenu cmHdl(GetModuleHandle(0)); //hInstance
-			manager->Register(&cmHdl);
-
-			manager->Loop();
-			delete manager;
-		}
-	}
-	catch (std::exception e)
-	{
-		CloseHandle(ghMutex);
-		printf(e.what());
-		return 1;
+		manager->Loop();
+		delete manager;
 	}
 
 	CloseHandle(ghMutex);

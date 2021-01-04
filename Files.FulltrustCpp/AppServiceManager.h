@@ -23,8 +23,8 @@ private:
 
 public:
 	static AppServiceManager* Init();
-	void Loop();
-	IAsyncOperation<AppServiceResponse> Send(ValueSet message);
+	void Loop() const;
+	IAsyncOperation<AppServiceResponse> Send(ValueSet message) const;
 	void Register(MessageHandler* hdl)
 	{
 		messageHandlers.remove(hdl);

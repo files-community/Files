@@ -16,7 +16,7 @@ AppServiceManager* AppServiceManager::Init()
 	return manager;
 }
 
-void AppServiceManager::Loop()
+void AppServiceManager::Loop() const
 {
 	WaitForSingleObject(ghConnectionCloseEvent, INFINITE);
 	CloseHandle(ghConnectionCloseEvent);
@@ -52,14 +52,7 @@ IAsyncAction AppServiceManager::Connection_RequestReceived(AppServiceConnection 
 		co_return;
 	}
 
-	try
-	{
-		co_await ParseArgumentsAsync(args);
-	}
-	catch (std::exception e)
-	{
-		printf(e.what());
-	}
+	co_await ParseArgumentsAsync(args);
 
 	messageDeferral.Complete();
 }
@@ -91,7 +84,7 @@ void AppServiceManager::Connection_ServiceClosed(AppServiceConnection const& sen
 	SetEvent(ghConnectionCloseEvent);
 }
 
-IAsyncOperation<AppServiceResponse> AppServiceManager::Send(ValueSet message)
+IAsyncOperation<AppServiceResponse> AppServiceManager::Send(ValueSet message) const
 {
 	if (connection != NULL)
 	{

@@ -9,6 +9,8 @@
 #include <shlwapi.h>
 #include <windows.h>
 
+#include <nlohmann/json.hpp>
+
 #include <winrt/Windows.Foundation.h>
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.Storage.h>

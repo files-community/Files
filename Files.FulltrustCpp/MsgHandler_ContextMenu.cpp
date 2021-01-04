@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "MsgHandler_ContextMenu.h"
 #include <sstream>
-//#include <windowsx.h>
+#include <codecvt>
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uiMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -30,20 +30,20 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uiMsg, WPARAM wParam, LPARAM lParam)
 	{
 		if (uiMsg == WM_CONTEXTMENU)
 		{
-			pThis->ShowContextMenuForFile(reinterpret_cast<MenuArgs*>(lParam));
+			pThis->LoadContextMenuForFile(reinterpret_cast<MenuArgs*>(lParam));
 			SetEvent(reinterpret_cast<HANDLE>(wParam));
 		}
-		else if (pThis->g_pcm3)
+		else if (pThis->LoadedContextMenu && pThis->LoadedContextMenu->g_pcm3)
 		{
 			LRESULT lres;
-			if (SUCCEEDED(pThis->g_pcm3->HandleMenuMsg2(uiMsg, wParam, lParam, &lres)))
+			if (SUCCEEDED(pThis->LoadedContextMenu->g_pcm3->HandleMenuMsg2(uiMsg, wParam, lParam, &lres)))
 			{
 				return lres;
 			}
 		}
-		else if (pThis->g_pcm2)
+		else if (pThis->LoadedContextMenu && pThis->LoadedContextMenu->g_pcm2)
 		{
-			if (SUCCEEDED(pThis->g_pcm2->HandleMenuMsg(uiMsg, wParam, lParam)))
+			if (SUCCEEDED(pThis->LoadedContextMenu->g_pcm2->HandleMenuMsg(uiMsg, wParam, lParam)))
 			{
 				return 0;
 			}
@@ -52,53 +52,74 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uiMsg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hwnd, uiMsg, wParam, lParam);
 }
 
-void MsgHandler_ContextMenu::ShowContextMenuForFile(MenuArgs* args)
+void MsgHandler_ContextMenu::LoadContextMenuForFile(MenuArgs* args)
 {
+	if (this->LoadedContextMenu != NULL)
+	{
+		delete this->LoadedContextMenu;
+	}
+	this->LoadedContextMenu = new Win32ContextMenu();
+
 	HWND hwnd = this->hiddenWindow;
 	IContextMenu* pcm;
-	if (SUCCEEDED(GetUIObjectOfFile(hwnd, args->FileList, IID_IContextMenu, (void**)&pcm)))
+	if (SUCCEEDED(GetUIObjectOfFile(hwnd, args->FileList, IID_IContextMenu, (void**)&(pcm))))
 	{
-		pcm->QueryInterface(IID_IContextMenu2, (void**)&g_pcm2);
-		pcm->QueryInterface(IID_IContextMenu3, (void**)&g_pcm3);
-		HMENU hmenu = CreatePopupMenu();
-		if (hmenu)
+		this->LoadedContextMenu->cMenu = pcm;
+		pcm->QueryInterface(IID_IContextMenu2, (void**)&(this->LoadedContextMenu->g_pcm2));
+		pcm->QueryInterface(IID_IContextMenu3, (void**)&(this->LoadedContextMenu->g_pcm3));
+		this->LoadedContextMenu->hMenu = CreatePopupMenu();
+		if (this->LoadedContextMenu->hMenu)
 		{
-			if (SUCCEEDED(pcm->QueryContextMenu(hmenu, 0,
+			if (SUCCEEDED(pcm->QueryContextMenu(this->LoadedContextMenu->hMenu, 0,
 				SCRATCH_QCM_FIRST, SCRATCH_QCM_LAST,
 				args->ExtendedMenu ? CMF_EXTENDEDVERBS : CMF_NORMAL)))
 			{
-				POINT pt;
-				GetCursorPos(&pt);
-				//auto itemCount = GetMenuItemCount(hmenu);
-				int iCmd = TrackPopupMenuEx(hmenu, TPM_RETURNCMD, pt.x, pt.y, hwnd, NULL);
-				this->clickedItem = iCmd;
-				if (iCmd > 0)
+				EnumMenuItems(this->LoadedContextMenu->cMenu, this->LoadedContextMenu->hMenu, this->LoadedContextMenu->Items);
+			}
+		}
+	}
+}
+
+void MsgHandler_ContextMenu::EnumMenuItems(IContextMenu* cMenu, HMENU hMenu, std::vector<Win32ContextMenuItem>& menuItemsResult)
+{
+	auto itemCount = GetMenuItemCount(hMenu);
+	MENUITEMINFO mii;
+	mii.cbSize = sizeof(mii);
+	mii.fMask = MIIM_BITMAP | MIIM_FTYPE | MIIM_STRING | MIIM_ID | MIIM_SUBMENU;
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
+	for (int ii = 0; ii < itemCount; ii++)
+	{
+		Win32ContextMenuItem menuItem;
+		wchar_t container[512];
+		mii.dwTypeData = container;
+		mii.cch = sizeof(container) / sizeof(*container) - 1; // https://devblogs.microsoft.com/oldnewthing/20040928-00/?p=37723
+		auto retval = GetMenuItemInfo(hMenu, ii, true, &mii);
+		if (!retval)
+		{
+			continue;
+		}
+		menuItem.Type = mii.fType;
+		menuItem.ID = (int)(mii.wID - 1); // wID - idCmdFirst
+		if (menuItem.Type == MFT_STRING)
+		{
+			wprintf(L"Item %d (%d): %s\n", ii, mii.wID, mii.dwTypeData);
+			menuItem.Label = myconv.to_bytes(mii.dwTypeData);
+			CHAR pszName[512];
+			// Hackish workaround to avoid an AccessViolationException on some items,
+			// notably the "Run with graphic processor" menu item of NVidia cards
+			if (mii.wID <= 5000)
+			{
+				if (SUCCEEDED(cMenu->GetCommandString(mii.wID - SCRATCH_QCM_FIRST, GCS_VERBA, NULL, pszName, 512)))
 				{
-					//char pszName[MAX_PATH];
-					//pcm->GetCommandString(iCmd - SCRATCH_QCM_FIRST, GCS_VERBA, NULL, pszName, MAX_PATH);
-					CMINVOKECOMMANDINFOEX info = { 0 };
-					info.cbSize = sizeof(info);
-					info.fMask = CMIC_MASK_UNICODE;
-					info.hwnd = hwnd;
-					info.lpVerb = MAKEINTRESOURCEA(iCmd - SCRATCH_QCM_FIRST);
-					info.lpVerbW = MAKEINTRESOURCEW(iCmd - SCRATCH_QCM_FIRST);
-					info.nShow = SW_SHOW;
-					pcm->InvokeCommand((LPCMINVOKECOMMANDINFO)&info);
+					menuItem.CommandString = pszName;
 				}
 			}
-			DestroyMenu(hmenu);
 		}
-		if (g_pcm2)
+		else
 		{
-			g_pcm2->Release();
-			g_pcm2 = NULL;
+			printf("Item %d: %d\n", ii, mii.fType);
 		}
-		if (g_pcm3)
-		{
-			g_pcm3->Release();
-			g_pcm3 = NULL;
-		}
-		pcm->Release();
+		menuItemsResult.push_back(menuItem);
 	}
 }
 
@@ -140,7 +161,7 @@ HRESULT MsgHandler_ContextMenu::GetUIObjectOfFile(HWND hwnd, std::vector<std::ws
 				}
 				if (SUCCEEDED(hr))
 				{
-					hr = psf->GetUIObjectOf(hwnd, fileList.size(), rgpidl, riid, NULL, ppv);
+					hr = psf->GetUIObjectOf(hwnd, (UINT)fileList.size(), rgpidl, riid, NULL, ppv);
 				}
 				for (int freeIdx = 0; freeIdx < parsedChildren; freeIdx++)
 				{
@@ -166,27 +187,35 @@ IAsyncOperation<bool> MsgHandler_ContextMenu::ParseArgumentsAsync(AppServiceMana
 			auto extendedMenu = args.Request().Message().Lookup(L"ExtendedMenu").as<bool>();
 			auto showOpenMenu = args.Request().Message().Lookup(L"ShowOpenMenu").as<bool>();
 
-			MenuArgs* args = new MenuArgs();
-			args->ExtendedMenu = extendedMenu;
-			args->ShowOpenMenu = showOpenMenu;
+			MenuArgs* menuArgs = new MenuArgs();
+			menuArgs->ExtendedMenu = extendedMenu;
+			menuArgs->ShowOpenMenu = showOpenMenu;
 			std::wstringstream stringStream(filePath.c_str());
 			std::wstring item;
 			while (std::getline(stringStream, item, L'|'))
 			{
-				args->FileList.push_back(item);
+				menuArgs->FileList.push_back(item);
 			}
 
 			if (this->hiddenWindow != NULL)
 			{
 				HANDLE ghMenuCloseEvent = CreateEvent(
 					NULL, TRUE, FALSE, TEXT("MenuCloseEvent"));
-				PostMessage(this->hiddenWindow, WM_CONTEXTMENU, reinterpret_cast<LONG_PTR>(ghMenuCloseEvent), reinterpret_cast<LONG_PTR>(args));
+				PostMessage(this->hiddenWindow, WM_CONTEXTMENU, reinterpret_cast<LONG_PTR>(ghMenuCloseEvent), reinterpret_cast<LONG_PTR>(menuArgs));
 				WaitForSingleObject(ghMenuCloseEvent, INFINITE);
 				CloseHandle(ghMenuCloseEvent);
-				printf("Clicked item: %d\n", clickedItem);
+				if (this->LoadedContextMenu != NULL)
+				{
+					auto serializedMenu = json(*this->LoadedContextMenu).dump();
+					ValueSet valueSet;
+					valueSet.Insert(L"Handle", winrt::box_value(L"HANDLE"));
+					valueSet.Insert(L"ContextMenu", winrt::box_value(winrt::to_hstring(serializedMenu)));
+					//printf("%s\n", serializedMenu.c_str());
+					co_await args.Request().SendResponseAsync(valueSet);
+				}
 			}
 
-			delete args;
+			delete menuArgs;
 
 			co_return TRUE;
 		}
