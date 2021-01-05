@@ -40,8 +40,8 @@
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
             PaneDisplayMode="Top"
-            SelectedItem="{x:Bind TabGeneral}"
             SelectionChanged="NavigationView_SelectionChanged"
+            SelectedItem="{x:Bind TabGeneral}"
             SelectionFollowsFocus="Enabled">
 
             <!--  Tabs  -->
