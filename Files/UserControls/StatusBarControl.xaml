@@ -143,7 +143,7 @@
                                     ToolTipService.ToolTip="Details View">
                                     <FontIcon
                                         FontFamily="{StaticResource CustomGlyph}"
-                                        FontSize="15"
+                                        FontSize="16"
                                         Glyph="&#xF101;" />
                                 </Button>
                                 <Button
@@ -155,7 +155,7 @@
                                     ToolTipService.ToolTip="Tiles View">
                                     <FontIcon
                                         FontFamily="{StaticResource CustomGlyph}"
-                                        FontSize="15"
+                                        FontSize="16"
                                         Glyph="&#xF100;" />
                                 </Button>
                                 <Button
@@ -167,7 +167,7 @@
                                     ToolTipService.ToolTip="Grid View (Small)">
                                     <FontIcon
                                         FontFamily="{StaticResource FluentUIGlyphs}"
-                                        FontSize="15"
+                                        FontSize="16"
                                         Glyph="&#xEBA1;" />
                                 </Button>
                                 <Button
@@ -179,7 +179,7 @@
                                     ToolTipService.ToolTip="Grid View (Medium)">
                                     <FontIcon
                                         FontFamily="{StaticResource FluentUIGlyphs}"
-                                        FontSize="15"
+                                        FontSize="16"
                                         Glyph="&#xEA72;" />
                                 </Button>
                                 <Button
@@ -191,7 +191,7 @@
                                     ToolTipService.ToolTip="Grid View (Large)">
                                     <FontIcon
                                         FontFamily="{StaticResource FluentUIGlyphs}"
-                                        FontSize="15"
+                                        FontSize="16"
                                         Glyph="&#xE9A0;" />
                                 </Button>
                             </StackPanel>
