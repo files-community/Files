@@ -75,7 +75,7 @@
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE152;" />
                 </MenuFlyoutSubItem.Icon>
                 <MenuFlyoutItem
-                    x:Uid="StatusBarControlGridViewLarge"
+                    x:Uid="BaseLayoutContextFlyoutGridViewLarge"
                     Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewLarge}"
                     Text="Grid View (Large)">
                     <MenuFlyoutItem.Icon>
@@ -83,7 +83,7 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
-                    x:Uid="StatusBarControlGridViewMedium"
+                    x:Uid="BaseLayoutContextFlyoutGridViewMedium"
                     Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
                     Text="Grid View (Medium)">
                     <MenuFlyoutItem.Icon>
@@ -91,7 +91,7 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
-                    x:Uid="StatusBarControlGridViewSmall"
+                    x:Uid="BaseLayoutContextFlyoutGridViewSmall"
                     Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
                     Text="Grid View (Small)">
                     <MenuFlyoutItem.Icon>
@@ -99,7 +99,7 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
-                    x:Uid="StatusBarControlTilesView"
+                    x:Uid="BaseLayoutContextFlyoutTilesView"
                     Command="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
                     Text="Tiles View">
                     <MenuFlyoutItem.Icon>
@@ -107,7 +107,7 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
-                    x:Uid="StatusBarControlDetailsView"
+                    x:Uid="BaseLayoutContextFlyoutDetails"
                     Command="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"
                     Text="Details View">
                     <MenuFlyoutItem.Icon>
