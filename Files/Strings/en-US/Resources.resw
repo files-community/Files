@@ -1638,10 +1638,10 @@
   <data name="StatusBarControlTilesView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Tiles View</value>
   </data>
-  <data name="StatusBarControlShowFileExtensions.Content" xml:space="preserve">
+  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
     <value>Show file extensions</value>
   </data>
-  <data name="StatusBarControlShowHiddenItems.Content" xml:space="preserve">
+  <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
     <value>Show hidden items</value>
   </data>
 </root>

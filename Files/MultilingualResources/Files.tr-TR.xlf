@@ -2042,11 +2042,11 @@
           <source>Tiles View</source>
           <target state="new">Tiles View</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlShowFileExtensions.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlShowFileExtensions.Header" translate="yes" xml:space="preserve">
           <source>Show file extensions</source>
           <target state="new">Show file extensions</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlShowHiddenItems.Content" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlShowHiddenItems.Header" translate="yes" xml:space="preserve">
           <source>Show hidden items</source>
           <target state="new">Show hidden items</target>
         </trans-unit>

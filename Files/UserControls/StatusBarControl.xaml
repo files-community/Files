@@ -119,14 +119,14 @@
                                 FontWeight="Medium"
                                 Text="Display Options" />
                             <StackPanel Spacing="4">
-                                <CheckBox
+                                <ToggleSwitch
                                     x:Uid="StatusBarControlShowHiddenItems"
-                                    Content="Show hidden items"
-                                    IsChecked="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}" />
-                                <CheckBox
+                                    Header="Show hidden items"
+                                    IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}" />
+                                <ToggleSwitch
                                     x:Uid="StatusBarControlShowFileExtensions"
-                                    Content="Show file extensions"
-                                    IsChecked="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
+                                    Header="Show file extensions"
+                                    IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
                             </StackPanel>
 
                             <TextBlock
@@ -141,12 +141,10 @@
                                     CornerRadius="2"
                                     Style="{StaticResource ToolBarButtonStyle}"
                                     ToolTipService.ToolTip="Details View">
-                                    <StackPanel Orientation="Horizontal">
-                                        <FontIcon
-                                            FontFamily="{StaticResource CustomGlyph}"
-                                            FontSize="15"
-                                            Glyph="&#xF101;" />
-                                    </StackPanel>
+                                    <FontIcon
+                                        FontFamily="{StaticResource CustomGlyph}"
+                                        FontSize="15"
+                                        Glyph="&#xF101;" />
                                 </Button>
                                 <Button
                                     x:Uid="StatusBarControlTilesViews"
