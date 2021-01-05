@@ -105,7 +105,7 @@
                                     <FontIcon
                                         x:Name="FolderImg"
                                         x:Load="{x:Bind FolderImg}"
-                                        x:Phase="2"
+                                        x:Phase="1"
                                         FontFamily="{StaticResource FluentUIGlyphs}"
                                         FontSize="24"
                                         Foreground="#ffe793"
@@ -113,7 +113,7 @@
                                     <FontIcon
                                         x:Name="EmptyImg"
                                         x:Load="{x:Bind EmptyImgVis}"
-                                        x:Phase="2"
+                                        x:Phase="1"
                                         FontFamily="{StaticResource FluentUIGlyphs}"
                                         FontSize="24"
                                         Glyph="&#xEA00;" />
@@ -122,14 +122,13 @@
                                         Width="24"
                                         Height="24"
                                         x:Load="{x:Bind FileIconVis}"
-                                        x:Phase="2"
+                                        x:Phase="1"
                                         Source="{x:Bind FileImg}"
                                         Stretch="UniformToFill" />
                                 </Grid>
                                 <TextBlock
                                     Grid.Column="1"
                                     VerticalAlignment="Center"
-                                    x:Phase="1"
                                     Text="{x:Bind Name}"
                                     TextTrimming="CharacterEllipsis"
                                     TextWrapping="NoWrap" />
@@ -137,7 +136,6 @@
                                     Grid.Column="2"
                                     Margin="0,0,0,0"
                                     VerticalAlignment="Center"
-                                    x:Phase="2"
                                     FontSize="10"
                                     Foreground="DimGray"
                                     Text="{x:Bind RecentPath}"
