@@ -72,7 +72,9 @@ private:
 
     void CreateHiddenWindow(HINSTANCE hInstance);
 
-    void EnumMenuItems(IContextMenu* cMenu, HMENU hMenu, std::vector<Win32ContextMenuItem>& menuItemsResult);
+    void EnumMenuItems(IContextMenu* cMenu, HMENU hMenu, std::vector<Win32ContextMenuItem>& menuItemsResult, MenuArgs* menuArgs);
+
+    static std::vector<std::string> FilteredItems;
 
 public:
     Win32ContextMenu* LoadedContextMenu = NULL;

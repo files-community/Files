@@ -1,8 +1,10 @@
 #include "pch.h"
 #include "MsgHandler_ContextMenu.h"
 #include "base64.h"
+#include "NativeMethods.h"
 #include <sstream>
 #include <codecvt>
+#include <algorithm>
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uiMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -53,7 +55,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uiMsg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hwnd, uiMsg, wParam, lParam);
 }
 
-void MsgHandler_ContextMenu::LoadContextMenuForFile(MenuArgs* args)
+void MsgHandler_ContextMenu::LoadContextMenuForFile(MenuArgs* menuArgs)
 {
 	if (this->LoadedContextMenu != NULL)
 	{
@@ -63,7 +65,7 @@ void MsgHandler_ContextMenu::LoadContextMenuForFile(MenuArgs* args)
 
 	HWND hwnd = this->hiddenWindow;
 	IContextMenu* pcm;
-	if (SUCCEEDED(GetUIObjectOfFile(hwnd, args->FileList, IID_IContextMenu, (void**)&(pcm))))
+	if (SUCCEEDED(GetUIObjectOfFile(hwnd, menuArgs->FileList, IID_IContextMenu, (void**)&(pcm))))
 	{
 		this->LoadedContextMenu->cMenu = pcm;
 		pcm->QueryInterface(IID_IContextMenu2, (void**)&(this->LoadedContextMenu->g_pcm2));
@@ -73,15 +75,15 @@ void MsgHandler_ContextMenu::LoadContextMenuForFile(MenuArgs* args)
 		{
 			if (SUCCEEDED(pcm->QueryContextMenu(this->LoadedContextMenu->hMenu, 0,
 				SCRATCH_QCM_FIRST, SCRATCH_QCM_LAST,
-				args->ExtendedMenu ? CMF_EXTENDEDVERBS : CMF_NORMAL)))
+				menuArgs->ExtendedMenu ? CMF_EXTENDEDVERBS : CMF_NORMAL)))
 			{
-				EnumMenuItems(this->LoadedContextMenu->cMenu, this->LoadedContextMenu->hMenu, this->LoadedContextMenu->Items);
+				EnumMenuItems(this->LoadedContextMenu->cMenu, this->LoadedContextMenu->hMenu, this->LoadedContextMenu->Items, menuArgs);
 			}
 		}
 	}
 }
 
-void MsgHandler_ContextMenu::EnumMenuItems(IContextMenu* cMenu, HMENU hMenu, std::vector<Win32ContextMenuItem>& menuItemsResult)
+void MsgHandler_ContextMenu::EnumMenuItems(IContextMenu* cMenu, HMENU hMenu, std::vector<Win32ContextMenuItem>& menuItemsResult, MenuArgs *menuArgs)
 {
 	auto itemCount = GetMenuItemCount(hMenu);
 	MENUITEMINFO mii;
@@ -103,7 +105,6 @@ void MsgHandler_ContextMenu::EnumMenuItems(IContextMenu* cMenu, HMENU hMenu, std
 		menuItem.ID = (int)mii.wID;
 		if (menuItem.Type == MFT_STRING)
 		{
-			wprintf(L"Item %d (%d): %s\n", ii, mii.wID, mii.dwTypeData);
 			menuItem.Label = myconv.to_bytes(mii.dwTypeData);
 			CHAR pszName[512];
 			// Hackish workaround to avoid an AccessViolationException on some items,
@@ -115,7 +116,14 @@ void MsgHandler_ContextMenu::EnumMenuItems(IContextMenu* cMenu, HMENU hMenu, std
 					menuItem.CommandString = pszName;
 				}
 			}
-			// TODO: Filter, skip items implemented in UWP
+			printf("Item %d (%d): %s, %s\n", ii, mii.wID, menuItem.Label.c_str(), menuItem.CommandString.c_str());
+			// Skip items implemented in UWP/not working
+			if ((!menuArgs->ShowOpenMenu && menuItem.CommandString == "open") ||
+				std::any_of(FilteredItems.begin(), FilteredItems.end(),
+					[menuItem](std::string s) { return s == menuItem.CommandString || s == menuItem.Label; }))
+			{
+				continue;
+			}
 			if (mii.hbmpItem != NULL && mii.hbmpItem > HBMMENU_POPUP_MINIMIZE)
 			{
 				BITMAP nativeBitmap;
@@ -131,8 +139,8 @@ void MsgHandler_ContextMenu::EnumMenuItems(IContextMenu* cMenu, HMENU hMenu, std
 					for (int ll = 0; ll < nativeBitmap.bmHeight; ll++)
 					{
 						// Flip image upside-down, check winrar icon
-						memcpy((char*)data.Scan0 + nativeBitmap.bmWidthBytes * ll, 
-							(char*)nativeBitmap.bmBits + nativeBitmap.bmWidthBytes * (nativeBitmap.bmHeight - 1 - ll), 
+						memcpy((char*)data.Scan0 + nativeBitmap.bmWidthBytes * ll,
+							(char*)nativeBitmap.bmBits + nativeBitmap.bmWidthBytes * (nativeBitmap.bmHeight - 1 - ll),
 							nativeBitmap.bmWidthBytes);
 					}
 					gdiBitmap->UnlockBits(&data);
@@ -188,7 +196,7 @@ void MsgHandler_ContextMenu::EnumMenuItems(IContextMenu* cMenu, HMENU hMenu, std
 				{
 					this->LoadedContextMenu->g_pcm2->HandleMenuMsg(WM_INITMENUPOPUP, reinterpret_cast<LONG_PTR>(mii.hSubMenu), ii);
 				}
-				EnumMenuItems(cMenu, mii.hSubMenu, subItems);
+				EnumMenuItems(cMenu, mii.hSubMenu, subItems, menuArgs);
 				menuItem.SubItems = subItems;
 				printf("Item %d: done submenu\n", ii);
 			}
@@ -401,3 +409,13 @@ void MsgHandler_ContextMenu::InvokeCommand(std::string menuVerb)
 		this->LoadedContextMenu->cMenu->InvokeCommand((LPCMINVOKECOMMANDINFO)&info);
 	}
 }
+
+std::vector<std::string> MsgHandler_ContextMenu::FilteredItems = {
+	"opennew", "openas", "opencontaining", "opennewprocess",
+	"runas", "runasuser", "pintohome", "PinToStartScreen",
+	"cut", "copy", "paste", "delete", "properties", "link",
+	"Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
+	"eject",
+	ExtractStringFromDLL(L"shell32.dll", 30312), // SendTo menu
+	ExtractStringFromDLL(L"shell32.dll", 34593), // Add to collection
+};
