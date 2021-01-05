@@ -36,6 +36,10 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uiMsg, WPARAM wParam, LPARAM lParam)
 			pThis->LoadContextMenuForFile(reinterpret_cast<MenuArgs*>(lParam));
 			SetEvent(reinterpret_cast<HANDLE>(wParam));
 		}
+		else if (uiMsg == WM_USER + 1)
+		{
+			pThis->InvokeCommand((int)lParam);
+		}
 		else if (pThis->LoadedContextMenu && pThis->LoadedContextMenu->g_pcm3)
 		{
 			LRESULT lres;
@@ -209,7 +213,7 @@ void MsgHandler_ContextMenu::EnumMenuItems(IContextMenu* cMenu, HMENU hMenu, std
 	}
 }
 
-HRESULT MsgHandler_ContextMenu::GetUIObjectOfFile(HWND hwnd, std::vector<std::wstring> fileList, REFIID riid, void** ppv)
+HRESULT MsgHandler_ContextMenu::GetUIObjectOfFile(HWND hwnd, std::vector<std::wstring> const& fileList, REFIID riid, void** ppv)
 {
 	*ppv = NULL;
 	HRESULT hr;
@@ -312,10 +316,10 @@ IAsyncOperation<bool> MsgHandler_ContextMenu::ParseArgumentsAsync(AppServiceMana
 				if (args.Request().Message().HasKey(L"ItemID"))
 				{
 					auto menuId = args.Request().Message().Lookup(L"ItemID").as<int>();
-					this->InvokeCommand(menuId);
+					PostMessage(this->hiddenWindow, WM_USER + 1, NULL, menuId);
 				}
-				delete this->LoadedContextMenu;
-				this->LoadedContextMenu = NULL;
+				//delete this->LoadedContextMenu; // Menu destroyed on next menu opening or app exit
+				//this->LoadedContextMenu = NULL;
 			}
 			co_return TRUE;
 		}
@@ -413,8 +417,8 @@ void MsgHandler_ContextMenu::InvokeCommand(std::string menuVerb)
 std::vector<std::string> MsgHandler_ContextMenu::FilteredItems = {
 	"opennew", "openas", "opencontaining", "opennewprocess",
 	"runas", "runasuser", "pintohome", "PinToStartScreen",
-	"cut", "copy", "paste", "delete", "properties", "link",
-	"Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
+	"cut", "copy", "paste", "delete", "link", //, "properties"
+	"Windows.ModernShare", "setdesktopwallpaper", //, "Windows.Share"
 	"eject",
 	ExtractStringFromDLL(L"shell32.dll", 30312), // SendTo menu
 	ExtractStringFromDLL(L"shell32.dll", 34593), // Add to collection

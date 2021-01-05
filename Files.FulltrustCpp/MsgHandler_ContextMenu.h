@@ -65,7 +65,7 @@ public:
 class MsgHandler_ContextMenu : public MessageHandler
 {
 private:
-    HRESULT GetUIObjectOfFile(HWND hwnd, std::vector<std::wstring> pszPath, REFIID riid, void** ppv);
+    HRESULT GetUIObjectOfFile(HWND hwnd, std::vector<std::wstring> const& fileList, REFIID riid, void** ppv);
 
     HWND hiddenWindow;
     std::thread windowThread;
