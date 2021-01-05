@@ -80,10 +80,10 @@
                                         <MenuFlyoutItem
                                             x:Name="OpenInNewPane"
                                             x:Uid="SideBarOpenInNewPane"
-                                            Visibility="Collapsed"
                                             Click="OpenInNewPane_Click"
                                             DataContext="{x:Bind}"
-                                            Text="Open in new pane">
+                                            Text="Open in new pane"
+                                            Visibility="Collapsed">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA2F;" />
                                             </MenuFlyoutItem.Icon>
@@ -132,6 +132,7 @@
                                 </Grid.ColumnDefinitions>
                                 <FontIcon
                                     Grid.Column="0"
+                                    x:Phase="2"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     FontSize="28"
                                     Glyph="{x:Bind Glyph}" />
@@ -144,17 +145,20 @@
                                         x:Name="ItemLocationName"
                                         Margin="0,0,0,8"
                                         VerticalAlignment="Center"
+                                        x:Phase="1"
                                         FontSize="14"
                                         FontWeight="Medium"
                                         Text="{x:Bind Text, Mode=OneWay}"
                                         TextWrapping="NoWrap" />
                                     <muxc:ProgressBar
                                         Margin="0,0,0,8"
+                                        x:Phase="1"
                                         AutomationProperties.AccessibilityView="Raw"
                                         Maximum="{x:Bind MaxSpace.GigaBytes, Mode=OneWay}"
                                         Visibility="{x:Bind ShowDriveDetails, Mode=OneWay}"
                                         Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}" />
                                     <TextBlock
+                                        x:Phase="2"
                                         FontSize="12"
                                         MaxLines="2"
                                         Text="{x:Bind SpaceText, Mode=OneWay}"
