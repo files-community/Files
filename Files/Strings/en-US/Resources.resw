@@ -1599,4 +1599,7 @@
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Folders</value>
   </data>
+  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
+    <value>Enable animations when opening and closing the context menu</value>
+  </data>
 </root>

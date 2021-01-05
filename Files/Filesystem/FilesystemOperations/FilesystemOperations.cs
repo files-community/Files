@@ -209,6 +209,10 @@ namespace Files.Filesystem
                         fsResult = fsCopyResult;
                     }
                     errorCode?.Report(fsResult.ErrorCode);
+                    if (!fsResult)
+                    {
+                        return null;
+                    }
                 }
             }
             else if (source.ItemType == FilesystemItemType.File)
@@ -267,6 +271,10 @@ namespace Files.Filesystem
                     }
                 }
                 errorCode?.Report(fsResult.ErrorCode);
+                if (!fsResult)
+                {
+                    return null;
+                }
             }
 
             if (Path.GetDirectoryName(destination) == associatedInstance.FilesystemViewModel.WorkingDirectory)

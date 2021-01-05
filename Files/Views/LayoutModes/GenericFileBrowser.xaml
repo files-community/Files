@@ -39,6 +39,7 @@
             <MenuFlyout
                 x:Key="BaseLayoutContextFlyout"
                 x:Name="BaseLayoutContextFlyout"
+                AreOpenCloseAnimationsEnabled="{x:Bind AppSettings.AreRightClickContentMenuAnimationsEnabled, Mode=OneWay}"
                 Opening="RightClickContextMenu_Opening">
                 <MenuFlyoutSubItem
                     x:Name="SortByEmptySpace"
@@ -233,7 +234,7 @@
                 </MenuFlyoutItem>
             </MenuFlyout>
 
-            <MenuFlyout x:Key="BaseLayoutRecycleBinContextFlyout">
+            <MenuFlyout x:Key="BaseLayoutRecycleBinContextFlyout" AreOpenCloseAnimationsEnabled="{x:Bind AppSettings.AreRightClickContentMenuAnimationsEnabled, Mode=OneWay}">
                 <MenuFlyoutSubItem
                     x:Name="RecycleBinSortByEmptySpace"
                     x:Uid="BaseLayoutContextFlyoutSortBy"
@@ -320,6 +321,7 @@
             <MenuFlyout
                 x:Key="BaseLayoutItemContextFlyout"
                 x:Name="BaseLayoutItemContextFlyout"
+                AreOpenCloseAnimationsEnabled="{x:Bind AppSettings.AreRightClickContentMenuAnimationsEnabled, Mode=OneWay}"
                 Opening="RightClickItemContextMenu_Opening">
                 <MenuFlyoutItem
                     x:Name="OpenItem"
@@ -545,7 +547,7 @@
                 </MenuFlyoutItem>
             </MenuFlyout>
 
-            <MenuFlyout x:Key="BaseLayoutRecycleBinItemContextFlyout">
+            <MenuFlyout x:Key="BaseLayoutRecycleBinItemContextFlyout" AreOpenCloseAnimationsEnabled="{x:Bind AppSettings.AreRightClickContentMenuAnimationsEnabled, Mode=OneWay}">
                 <MenuFlyoutItem
                     x:Name="RestoreRecycleBinItem"
                     x:Uid="BaseLayoutItemContextFlyoutRestore"
@@ -555,15 +557,6 @@
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe935;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-                <!--<MenuFlyoutItem
-                    x:Name="CutRecycleBinItem"
-                    x:Uid="BaseLayoutItemContextFlyoutCut"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.CutItem_Click}"
-                    Text="Cut">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE8C6;" />
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>-->
                 <MenuFlyoutSeparator />
                 <MenuFlyoutItem
                     x:Name="DeleteRecycleBinItem"
@@ -662,6 +655,7 @@
             AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
             AutoGenerateColumns="False"
             Background="Transparent"
+            BeginningEdit="AllView_BeginningEdit"
             CanUserReorderColumns="False"
             CanUserSortColumns="True"
             CellEditEnded="AllView_CellEditEnded"
