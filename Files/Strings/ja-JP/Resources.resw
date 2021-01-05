@@ -220,7 +220,7 @@
     <value>ピクチャ</value>
   </data>
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>サイドバーから固定を解除</value>
+    <value>サイド バーから固定を解除</value>
   </data>
   <data name="SidebarVideos" xml:space="preserve">
     <value>ビデオ</value>
@@ -298,7 +298,7 @@
     <value>名前の変更</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>サイドバーに固定</value>
+    <value>サイド バーに固定</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>プロパティ</value>
@@ -442,7 +442,7 @@
     <value>ターゲットフォルダが移動または削除された可能性があります。</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>このフォルダを削除してもよろしいですか？</value>
+    <value>このフォルダを削除してもよろしいですか?</value>
   </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
     <value>ターゲットファイルは他のプログラムによって使用されています。</value>
@@ -529,7 +529,7 @@
     <value>項目</value>
   </data>
   <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
-    <value>サイドバーに固定</value>
+    <value>サイド バーに固定</value>
   </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>アクセス日時:</value>
@@ -541,7 +541,7 @@
     <value>キャンセル</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>すべての項目を削除してもよろしいですか？</value>
+    <value>すべての項目を削除してもよろしいですか?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>ごみ箱を空にする</value>
@@ -787,7 +787,7 @@
     <value>項目はもうなくなりました</value>
   </data>
   <data name="RenameError.NameInvalid.Text" xml:space="preserve">
-    <value>指定された名前が無効でした。 目的の項目名を確認して、再試行してください。</value>
+    <value>指定された名前は無効です。 目的の項目名を確認して、再試行してください。</value>
   </data>
   <data name="RenameError.NameInvalid.Title" xml:space="preserve">
     <value>無効な項目名</value>
@@ -853,7 +853,7 @@
     <value>はい</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>言語設定を適用するには、アプリケーションを再起動する必要があります。アプリを再起動しますか？</value>
+    <value>言語設定を適用するには、アプリケーションを再起動する必要があります。再起動しますか？</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
     <value>新しい項目の作成</value>
@@ -922,7 +922,7 @@
     <value>アクセスが拒否されました</value>
   </data>
   <data name="SettingsPreferencesRecycleBinSwitch.Header" xml:space="preserve">
-    <value>ごみ箱をサイドバーに固定する</value>
+    <value>ごみ箱をサイド バーに固定する</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialogSwitch.Header" xml:space="preserve">
     <value>ファイルやフォルダを削除するときに確認ダイアログを表示する</value>
@@ -931,10 +931,10 @@
     <value>既知のファイルタイプの拡張子を表示する</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Header" xml:space="preserve">
-    <value>透明なサイドバー</value>
+    <value>透明なサイド バー</value>
   </data>
   <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
-    <value>日付形式</value>
+    <value>日付の書式</value>
   </data>
   <data name="SettingsAppearanceTheme.Header" xml:space="preserve">
     <value>テーマ</value>
