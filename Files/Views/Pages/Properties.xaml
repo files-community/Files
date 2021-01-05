@@ -41,7 +41,8 @@
             IsSettingsVisible="False"
             PaneDisplayMode="Top"
             SelectionChanged="NavigationView_SelectionChanged"
-            SelectedItem="{x:Bind TabGeneral}">
+            SelectedItem="{x:Bind TabGeneral}"
+            SelectionFollowsFocus="Enabled">
 
             <!--  Tabs  -->
             <NavigationView.MenuItems>
