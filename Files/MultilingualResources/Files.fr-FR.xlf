@@ -54,10 +54,6 @@
           <source>Files</source>
           <target state="translated">Files</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
-          <source>Special thanks to:</source>
-          <target state="translated">Remerciements particuliers à :</target>
-        </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
           <source>Submit Feedback</source>
           <target state="translated">Soumettre un commentaire</target>
@@ -715,16 +711,18 @@
           <target state="translated" state-qualifier="tm-suggestion">Annuler</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
-          <source>Are you sure you want to delete all items?</source>
-          <target state="translated">Etes-vous sûr de vouloir supprimer tous les éléments ?</target>
+          <source>Are you sure you want to permanently delete all these items?</source>
+          <target state="needs-review-translation">Etes-vous sûr de vouloir supprimer tous les éléments ?</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogTitle" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
           <target state="translated" state-qualifier="tm-suggestion">Vider la Corbeille</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>OK</source>
-          <target state="translated">OK</target>
+          <source>Yes</source>
+          <target state="needs-review-translation">OK</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="ItemSizeBytes" translate="yes" xml:space="preserve">
           <source>bytes</source>
@@ -854,17 +852,9 @@
           <source>Add a new page</source>
           <target state="translated">Ajouter une nouvelle page</target>
         </trans-unit>
-        <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" translate="yes" xml:space="preserve">
-          <source>Change Page Location</source>
-          <target state="translated">Changer l'emplacement de la page</target>
-        </trans-unit>
         <trans-unit id="SettingsOnStartupPages.Text" translate="yes" xml:space="preserve">
           <source>Pages:</source>
           <target state="translated">Pages :</target>
-        </trans-unit>
-        <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" translate="yes" xml:space="preserve">
-          <source>Remove Page</source>
-          <target state="translated">Supprimer la page</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
           <source>When launching an item from the jumplist</source>
@@ -1194,22 +1184,6 @@
           <source>Terminal Applications</source>
           <target state="translated">Applications de terminal</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesContextMenuSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Show all context menu items</source>
-          <target state="translated">Afficher tous les éléments du menu contextuel</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesCopyLocationSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Show an option to copy the location of the selected item</source>
-          <target state="translated">Afficher une option pour copier le chemin de l'élément</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesRecycleBinSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Pin Recycle Bin to the sidebar</source>
-          <target state="translated">Épingler la Corbeille à la barre latérale</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialogSwitch.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="translated">Demander une confirmation lors de la suppression de fichiers ou dossiers</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesEditTerminalApplications.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Edit terminal applications</source>
           <target state="translated">Éditer les applications de terminal</target>
@@ -1245,10 +1219,6 @@
         <trans-unit id="AccessDeniedCreateDialog.Title" translate="yes" xml:space="preserve">
           <source>Access Denied</source>
           <target state="translated">Accès refusé</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesContextMenuSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show all context menu items</source>
-          <target state="translated">Afficher tous les éléments du menu contextuel</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
@@ -1288,7 +1258,7 @@
         </trans-unit>
         <trans-unit id="StatusBarControlSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selection options</source>
-          <target state="new">Selection options</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Options de sélection</target>
         </trans-unit>
         <trans-unit id="StatusCenter.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Status center</source>
@@ -1354,10 +1324,6 @@
           <source>Show recent files on the home page</source>
           <target state="translated">Afficher les fichiers récents sur la page d'accueil</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show an option to copy the location of the selected item</source>
-          <target state="translated">Afficher une option pour copier l'emplacement de l'élément sélectionné</target>
-        </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Header" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
           <target state="translated">Afficher les fichiers et dossiers cachés</target>
@@ -1407,16 +1373,18 @@
           <target state="translated">Caché</target>
         </trans-unit>
         <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
-          <source>Rating Text</source>
-          <target state="new">Rating Text</target>
+          <source>Rating</source>
+          <target state="new">Rating</target>
         </trans-unit>
         <trans-unit id="PropertyItemFolderPathDisplay" translate="yes" xml:space="preserve">
-          <source>Item Folder Path Display</source>
-          <target state="new">Item Folder Path Display</target>
+          <source>Item Folder Path</source>
+          <target state="needs-review-translation">Chemin du dossier</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="PropertyItemTypeText" translate="yes" xml:space="preserve">
-          <source>Item Type Text</source>
-          <target state="new">Item Type Text</target>
+          <source>Item Type</source>
+          <target state="needs-review-translation">Type d'élément</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="PropertyTitle" translate="yes" xml:space="preserve">
           <source>Title</source>
@@ -1424,7 +1392,7 @@
         </trans-unit>
         <trans-unit id="PropertySubject" translate="yes" xml:space="preserve">
           <source>Subject</source>
-          <target state="new">Subject</target>
+          <target state="translated">Objet</target>
         </trans-unit>
         <trans-unit id="PropertyComment" translate="yes" xml:space="preserve">
           <source>Comment</source>
@@ -1436,11 +1404,11 @@
         </trans-unit>
         <trans-unit id="PropertyDateCreated" translate="yes" xml:space="preserve">
           <source>Date Created</source>
-          <target state="new">Date Created</target>
+          <target state="translated">Date de création</target>
         </trans-unit>
         <trans-unit id="PropertyDateModified" translate="yes" xml:space="preserve">
           <source>Date Modified</source>
-          <target state="new">Date Modified</target>
+          <target state="translated">Date de modification</target>
         </trans-unit>
         <trans-unit id="PropertyBitDepth" translate="yes" xml:space="preserve">
           <source>Bit Depth</source>
@@ -1459,16 +1427,16 @@
           <target state="translated">Résolution verticale</target>
         </trans-unit>
         <trans-unit id="PropertyCompressionText" translate="yes" xml:space="preserve">
-          <source>Compression Text</source>
-          <target state="new">Compression Text</target>
+          <source>Compression</source>
+          <target state="new">Compression</target>
         </trans-unit>
         <trans-unit id="PropertyHorizontalSize" translate="yes" xml:space="preserve">
           <source>Horizontal Size</source>
-          <target state="new">Horizontal Size</target>
+          <target state="translated">Largeur</target>
         </trans-unit>
         <trans-unit id="PropertyVerticalSize" translate="yes" xml:space="preserve">
           <source>Vertical Size</source>
-          <target state="new">Vertical Size</target>
+          <target state="translated">Hauteur</target>
         </trans-unit>
         <trans-unit id="PropertyLatitude" translate="yes" xml:space="preserve">
           <source>Latitude</source>
@@ -1520,11 +1488,11 @@
         </trans-unit>
         <trans-unit id="PropertyDateTaken" translate="yes" xml:space="preserve">
           <source>Date Taken</source>
-          <target state="new">Date Taken</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Date photo</target>
         </trans-unit>
         <trans-unit id="PropertyChannelCount" translate="yes" xml:space="preserve">
           <source>Channel Count</source>
-          <target state="new">Channel Count</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Nombre de canaux</target>
         </trans-unit>
         <trans-unit id="PropertyEncodingBitrate" translate="yes" xml:space="preserve">
           <source>Encoding Bitrate</source>
@@ -1532,7 +1500,7 @@
         </trans-unit>
         <trans-unit id="PropertyCompression" translate="yes" xml:space="preserve">
           <source>Compression</source>
-          <target state="new">Compression</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Compression</target>
         </trans-unit>
         <trans-unit id="PropertyFormat" translate="yes" xml:space="preserve">
           <source>Format</source>
@@ -1540,19 +1508,19 @@
         </trans-unit>
         <trans-unit id="PropertySampleRate" translate="yes" xml:space="preserve">
           <source>Sample Rate</source>
-          <target state="new">Sample Rate</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Taux d'échantillonnage</target>
         </trans-unit>
         <trans-unit id="PropertyDisplayArtist" translate="yes" xml:space="preserve">
-          <source>Display Artist</source>
-          <target state="new">Display Artist</target>
+          <source>Artist</source>
+          <target state="new">Artist</target>
         </trans-unit>
         <trans-unit id="PropertyAlbumArtist" translate="yes" xml:space="preserve">
           <source>Album Artist</source>
-          <target state="new">Album Artist</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Artiste de l’album</target>
         </trans-unit>
         <trans-unit id="PropertyAlbumTitle" translate="yes" xml:space="preserve">
           <source>Album Title</source>
-          <target state="new">Album Title</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Titre de l’album</target>
         </trans-unit>
         <trans-unit id="PropertyArtist" translate="yes" xml:space="preserve">
           <source>Artist</source>
@@ -1564,11 +1532,11 @@
         </trans-unit>
         <trans-unit id="PropertyComposer" translate="yes" xml:space="preserve">
           <source>Composer</source>
-          <target state="new">Composer</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Compositeur :</target>
         </trans-unit>
         <trans-unit id="PropertyConductor" translate="yes" xml:space="preserve">
           <source>Conductor</source>
-          <target state="new">Conductor</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Chef d'orchestre</target>
         </trans-unit>
         <trans-unit id="PropertyDiscNumber" translate="yes" xml:space="preserve">
           <source>Disc Number</source>
@@ -1580,7 +1548,7 @@
         </trans-unit>
         <trans-unit id="PropertyTrackNumber" translate="yes" xml:space="preserve">
           <source>Track Number</source>
-          <target state="new">Track Number</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Numéro de piste</target>
         </trans-unit>
         <trans-unit id="PropertyDuration" translate="yes" xml:space="preserve">
           <source>Duration</source>
@@ -1588,11 +1556,11 @@
         </trans-unit>
         <trans-unit id="PropertyFrameCount" translate="yes" xml:space="preserve">
           <source>Frame Count</source>
-          <target state="new">Frame Count</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Nombre de trames</target>
         </trans-unit>
         <trans-unit id="PropertyProtectionType" translate="yes" xml:space="preserve">
           <source>Protection Type</source>
-          <target state="new">Protection Type</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Type de protection</target>
         </trans-unit>
         <trans-unit id="PropertyAuthorUrl" translate="yes" xml:space="preserve">
           <source>Author Url</source>
@@ -1600,15 +1568,15 @@
         </trans-unit>
         <trans-unit id="PropertyContentDistributor" translate="yes" xml:space="preserve">
           <source>Content Distributor</source>
-          <target state="new">Content Distributor</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Distributeur de contenu</target>
         </trans-unit>
         <trans-unit id="PropertyDateReleased" translate="yes" xml:space="preserve">
           <source>Date Released</source>
-          <target state="new">Date Released</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Date de sortie</target>
         </trans-unit>
         <trans-unit id="PropertySeriesName" translate="yes" xml:space="preserve">
           <source>Series Name</source>
-          <target state="new">Series Name</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Nom de série</target>
         </trans-unit>
         <trans-unit id="PropertySeasonNumber" translate="yes" xml:space="preserve">
           <source>Season Number</source>
@@ -1632,7 +1600,7 @@
         </trans-unit>
         <trans-unit id="PropertyPublisher" translate="yes" xml:space="preserve">
           <source>Publisher</source>
-          <target state="new">Publisher</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Éditeur</target>
         </trans-unit>
         <trans-unit id="PropertyThumbnailLargePath" translate="yes" xml:space="preserve">
           <source>Thumbnail Large Path</source>
@@ -1656,7 +1624,7 @@
         </trans-unit>
         <trans-unit id="PropertyWriter" translate="yes" xml:space="preserve">
           <source>Writer</source>
-          <target state="new">Writer</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Auteur</target>
         </trans-unit>
         <trans-unit id="PropertyYear" translate="yes" xml:space="preserve">
           <source>Year</source>
@@ -1664,55 +1632,55 @@
         </trans-unit>
         <trans-unit id="PropertySectionCore" translate="yes" xml:space="preserve">
           <source>Core</source>
-          <target state="new">Core</target>
+          <target state="translated">Fichier</target>
         </trans-unit>
         <trans-unit id="PropertySectionImage" translate="yes" xml:space="preserve">
           <source>Image</source>
-          <target state="new">Image</target>
+          <target state="translated">Image</target>
         </trans-unit>
         <trans-unit id="PropertySectionPhoto" translate="yes" xml:space="preserve">
           <source>Photo</source>
-          <target state="new">Photo</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Photos</target>
         </trans-unit>
         <trans-unit id="PropertySectionGPS" translate="yes" xml:space="preserve">
           <source>GPS</source>
-          <target state="new">GPS</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">GPS</target>
         </trans-unit>
         <trans-unit id="PropertySectionMedia" translate="yes" xml:space="preserve">
           <source>Media</source>
-          <target state="new">Media</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Média</target>
         </trans-unit>
         <trans-unit id="PropertySectionAudio" translate="yes" xml:space="preserve">
           <source>Audio</source>
-          <target state="new">Audio</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Fichier audio</target>
         </trans-unit>
         <trans-unit id="PropertySectionMusic" translate="yes" xml:space="preserve">
           <source>Music</source>
-          <target state="new">Music</target>
+          <target state="translated">Musique</target>
         </trans-unit>
         <trans-unit id="PropertyAddress" translate="yes" xml:space="preserve">
           <source>Address</source>
-          <target state="new">Address</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ADRESSE</target>
         </trans-unit>
         <trans-unit id="PropertyColorSpace" translate="yes" xml:space="preserve">
           <source>Color Space</source>
-          <target state="new">Color Space</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Espace de couleurs :</target>
         </trans-unit>
         <trans-unit id="PropertyPeopleNames" translate="yes" xml:space="preserve">
           <source>People Names</source>
-          <target state="new">People Names</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Noms de personne</target>
         </trans-unit>
         <trans-unit id="PropertyContributor" translate="yes" xml:space="preserve">
           <source>Contributor</source>
-          <target state="new">Contributor</target>
+          <target state="translated">Contributeur</target>
         </trans-unit>
         <trans-unit id="PropertyLastAuthor" translate="yes" xml:space="preserve">
           <source>Last Author</source>
-          <target state="new">Last Author</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Dernier auteur</target>
         </trans-unit>
         <trans-unit id="PropertyRevisionNumber" translate="yes" xml:space="preserve">
           <source>Revision Number</source>
-          <target state="new">Revision Number</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Numéro de révision</target>
         </trans-unit>
         <trans-unit id="PropertyVersion" translate="yes" xml:space="preserve">
           <source>Version</source>
@@ -1728,35 +1696,35 @@
         </trans-unit>
         <trans-unit id="PropertyDatePrinted" translate="yes" xml:space="preserve">
           <source>Date Printed</source>
-          <target state="new">Date Printed</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Date imprimée</target>
         </trans-unit>
         <trans-unit id="PropertyTotalEditingTime" translate="yes" xml:space="preserve">
           <source>Total Editing Time</source>
-          <target state="new">Total Editing Time</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Temps total d’édition :</target>
         </trans-unit>
         <trans-unit id="PropertyTemplate" translate="yes" xml:space="preserve">
           <source>Template</source>
-          <target state="new">Template</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Modèle</target>
         </trans-unit>
         <trans-unit id="PropertyWordCount" translate="yes" xml:space="preserve">
           <source>Word Count</source>
-          <target state="new">Word Count</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">statistiques</target>
         </trans-unit>
         <trans-unit id="PropertyCharacterCount" translate="yes" xml:space="preserve">
           <source>Character Count</source>
-          <target state="new">Character Count</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Nombre de caractères</target>
         </trans-unit>
         <trans-unit id="PropertyLineCount" translate="yes" xml:space="preserve">
           <source>Line Count</source>
-          <target state="new">Line Count</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Nombre de lignes</target>
         </trans-unit>
         <trans-unit id="PropertyParagraphCount" translate="yes" xml:space="preserve">
           <source>Paragraph Count</source>
-          <target state="new">Paragraph Count</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Nombre de paragraphes</target>
         </trans-unit>
         <trans-unit id="PropertyPageCount" translate="yes" xml:space="preserve">
           <source>Page Count</source>
-          <target state="new">Page Count</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Nombre de pages</target>
         </trans-unit>
         <trans-unit id="PropertySlideCount" translate="yes" xml:space="preserve">
           <source>Slide Count</source>
@@ -1764,15 +1732,15 @@
         </trans-unit>
         <trans-unit id="PropertyFrameRate" translate="yes" xml:space="preserve">
           <source>Frame Rate</source>
-          <target state="new">Frame Rate</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Fréquence d’images</target>
         </trans-unit>
         <trans-unit id="PropertyFrameWidth" translate="yes" xml:space="preserve">
           <source>Frame Width</source>
-          <target state="new">Frame Width</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Largeur de cadre</target>
         </trans-unit>
         <trans-unit id="PropertyFrameHeight" translate="yes" xml:space="preserve">
           <source>Frame Height</source>
-          <target state="new">Frame Height</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Hauteur de cadre</target>
         </trans-unit>
         <trans-unit id="PropertyOrientation" translate="yes" xml:space="preserve">
           <source>Orientation</source>
@@ -1792,7 +1760,7 @@
         </trans-unit>
         <trans-unit id="PropertySaveErrorDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Close anyway</source>
-          <target state="new">Close anyway</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Fermer quand même</target>
         </trans-unit>
         <trans-unit id="PropertySaveErrorDialog.CloseButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
@@ -1808,7 +1776,7 @@
         </trans-unit>
         <trans-unit id="ClearPropertiesFlyoutConfirmation.Content" translate="yes" xml:space="preserve">
           <source>Clear</source>
-          <target state="new">Clear</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Effacer</target>
         </trans-unit>
         <trans-unit id="ClearPropertiesButton.Content" translate="yes" xml:space="preserve">
           <source>Clear All Properties</source>
@@ -1828,7 +1796,7 @@
         </trans-unit>
         <trans-unit id="StatusCenterTeachingTip.Title" translate="yes" xml:space="preserve">
           <source>Status Center</source>
-          <target state="new">Status Center</target>
+          <target state="translated">Centre de status</target>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>License</source>
@@ -1852,27 +1820,27 @@
         </trans-unit>
         <trans-unit id="DragDropWindowText" translate="yes" xml:space="preserve">
           <source>Drop here</source>
-          <target state="new">Drop here</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Déposer ici...</target>
         </trans-unit>
         <trans-unit id="NavSearchButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Search</source>
-          <target state="new">Search</target>
+          <target state="translated">Rechercher</target>
         </trans-unit>
         <trans-unit id="SearchPagePathBoxOverrideText" translate="yes" xml:space="preserve">
           <source>Search results in</source>
-          <target state="new">Search results in</target>
+          <target state="translated">Résultats de recherche dans</target>
         </trans-unit>
         <trans-unit id="SearchTabHeaderText" translate="yes" xml:space="preserve">
           <source>Search results</source>
-          <target state="new">Search results</target>
+          <target state="translated">Résultats de recherche</target>
         </trans-unit>
         <trans-unit id="SettingsAboutContributorsListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>See who contributed to Files</source>
-          <target state="new">See who contributed to Files</target>
+          <target state="translated">Voir qui a contribué à Files</target>
         </trans-unit>
         <trans-unit id="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Find out what's new in Files</source>
-          <target state="new">Find out what's new in Files</target>
+          <target state="translated">Découvrez les nouveautés de Files</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Send the developers an issue report with more information</source>
@@ -1880,55 +1848,147 @@
         </trans-unit>
         <trans-unit id="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Support us on PayPal</source>
-          <target state="new">Support us on PayPal</target>
+          <target state="translated">Soutenez-nous sur PayPal</target>
         </trans-unit>
         <trans-unit id="SettingsListAndSortDirectoriesAlongsideFiles.Header" translate="yes" xml:space="preserve">
           <source>List and sort directories alongside files</source>
-          <target state="new">List and sort directories alongside files</target>
+          <target state="translated">Lister et trier les dossiers au milieu des fichiers</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogTabDetails.Content" translate="yes" xml:space="preserve">
           <source>Details</source>
-          <target state="new">Details</target>
+          <target state="translated">Détails</target>
         </trans-unit>
         <trans-unit id="UpdateConsentDialogCloseButtonText" translate="yes" xml:space="preserve">
           <source>No</source>
-          <target state="new">No</target>
+          <target state="translated">Non</target>
         </trans-unit>
         <trans-unit id="UpdateConsentDialogContent" translate="yes" xml:space="preserve">
           <source>Do you want to download and install the latest version of Files?</source>
-          <target state="new">Do you want to download and install the latest version of Files?</target>
+          <target state="translated">Voulez-vous télécharger et installer la dernière version de Files ?</target>
         </trans-unit>
         <trans-unit id="UpdateConsentDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Yes</source>
-          <target state="new">Yes</target>
+          <target state="translated">Oui</target>
         </trans-unit>
         <trans-unit id="UpdateConsentDialogTitle" translate="yes" xml:space="preserve">
           <source>Updates Available</source>
-          <target state="new">Updates Available</target>
+          <target state="translated">Mise à jour disponible</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersHideSystemItems.Header" translate="yes" xml:space="preserve">
           <source>Hide protected operating system files (Recommended)</source>
-          <target state="new">Hide protected operating system files (Recommended)</target>
+          <target state="translated">Masquer les fichiers protégés du système (Recommandé)</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Hide protected operating system files (Recommended)</source>
-          <target state="new">Hide protected operating system files (Recommended)</target>
+          <target state="translated">Masquer les fichiers protégés du système (Recommandé)</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNewFile.Text" translate="yes" xml:space="preserve">
           <source>File</source>
-          <target state="new">File</target>
+          <target state="translated">Fichier</target>
         </trans-unit>
         <trans-unit id="AddDialogListFileHeader" translate="yes" xml:space="preserve">
           <source>File</source>
-          <target state="new">File</target>
+          <target state="translated">Fichier</target>
         </trans-unit>
         <trans-unit id="AddDialogListFileSubHeader" translate="yes" xml:space="preserve">
           <source>Creates an empty file</source>
-          <target state="new">Creates an empty file</target>
+          <target state="translated">Crée un fichier vide</target>
         </trans-unit>
         <trans-unit id="NewFile" translate="yes" xml:space="preserve">
           <source>New File</source>
-          <target state="new">New File</target>
+          <target state="translated">Nouveau fichier</target>
+        </trans-unit>
+        <trans-unit id="SettingsSearchUnindexedItems.Header" translate="yes" xml:space="preserve">
+          <source>Show unindexed items when searching for files and folders (searches may take longer)</source>
+          <target state="new">Show unindexed items when searching for files and folders (searches may take longer)</target>
+        </trans-unit>
+        <trans-unit id="SettingsEnableLayoutPreferencesPerFolder.Header" translate="yes" xml:space="preserve">
+          <source>Enable individual preferences for individual directories</source>
+          <target state="new">Enable individual preferences for individual directories</target>
+        </trans-unit>
+        <trans-unit id="originalPathColumn.Header" translate="yes" xml:space="preserve">
+          <source>Original path</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Chemin d'origine :</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortByOriginalPath.Text" translate="yes" xml:space="preserve">
+          <source>Original path</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Chemin d'origine :</target>
+        </trans-unit>
+        <trans-unit id="AppBarButtonAdd.Label" translate="yes" xml:space="preserve">
+          <source>Add</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ajouter</target>
+        </trans-unit>
+        <trans-unit id="AppBarButtonEdit.Label" translate="yes" xml:space="preserve">
+          <source>Edit</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Modifier</target>
+        </trans-unit>
+        <trans-unit id="AppBarButtonRemove.Label" translate="yes" xml:space="preserve">
+          <source>Remove</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Enlever</target>
+        </trans-unit>
+        <trans-unit id="SettingsUseFileListCache.Header" translate="yes" xml:space="preserve">
+          <source>Cache files and folders for better performance</source>
+          <target state="new">Cache files and folders for better performance</target>
+        </trans-unit>
+        <trans-unit id="ItemAlreadyExistsDialogCloseButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Annuler</target>
+        </trans-unit>
+        <trans-unit id="StatusCenter.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Ongoing Tasks</source>
+          <target state="new">Ongoing Tasks</target>
+        </trans-unit>
+        <trans-unit id="StatusCenterFlyoutTitle.Text" translate="yes" xml:space="preserve">
+          <source>Ongoing Tasks</source>
+          <target state="new">Ongoing Tasks</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane.Header" translate="yes" xml:space="preserve">
+          <source>Always open new tabs in dual pane mode</source>
+          <target state="new">Always open new tabs in dual pane mode</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingEnableDualPane.Header" translate="yes" xml:space="preserve">
+          <source>Enable dual pane view</source>
+          <target state="new">Enable dual pane view</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane.Text" translate="yes" xml:space="preserve">
+          <source>Open in secondary pane</source>
+          <target state="new">Open in secondary pane</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarNewPane.Text" translate="yes" xml:space="preserve">
+          <source>New pane</source>
+          <target state="new">New pane</target>
+        </trans-unit>
+        <trans-unit id="SideBarOpenInNewPane.Text" translate="yes" xml:space="preserve">
+          <source>Open in secondary pane</source>
+          <target state="new">Open in secondary pane</target>
+        </trans-unit>
+        <trans-unit id="SettingsDualPane.Text" translate="yes" xml:space="preserve">
+          <source>Dual Pane</source>
+          <target state="new">Dual Pane</target>
+        </trans-unit>
+        <trans-unit id="SettingsCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Show copy location menu item</source>
+          <target state="new">Show copy location menu item</target>
+        </trans-unit>
+        <trans-unit id="SettingsContextMenuOverflowSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Move overflow items into a sub menu</source>
+          <target state="new">Move overflow items into a sub menu</target>
+        </trans-unit>
+        <trans-unit id="SettingsContextMenu.Text" translate="yes" xml:space="preserve">
+          <source>Customize the right click context menu</source>
+          <target state="new">Customize the right click context menu</target>
+        </trans-unit>
+        <trans-unit id="SettingsOpenInNewTabSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Show open in new tab menu item</source>
+          <target state="new">Show open in new tab menu item</target>
+        </trans-unit>
+        <trans-unit id="LibraryWidgetDescription.Text" translate="yes" xml:space="preserve">
+          <source>Folders</source>
+          <target state="new">Folders</target>
+        </trans-unit>
+        <trans-unit id="SettingsContextMenuAnimationsSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Enable animations when opening and closing the context menu</source>
+          <target state="new">Enable animations when opening and closing the context menu</target>
         </trans-unit>
       </group>
     </body>

@@ -1,12 +1,12 @@
 ﻿<UserControl
-    x:Class="Files.DrivesWidget"
+    x:Class="Files.UserControls.Widgets.DrivesWidget"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-    xmlns:local="using:Files"
+    xmlns:local="using:Files.UserControls.Widgets"
     xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
@@ -75,8 +75,19 @@
                             Tag="{x:Bind Path}"
                             ToolTipService.ToolTip="{x:Bind Text, Mode=OneWay}">
                             <Button.ContextFlyout>
-                                <MenuFlyout>
+                                <MenuFlyout Opening="MenuFlyout_Opening">
                                     <MenuFlyout.Items>
+                                        <MenuFlyoutItem
+                                            x:Name="OpenInNewPane"
+                                            x:Uid="SideBarOpenInNewPane"
+                                            Visibility="Collapsed"
+                                            Click="OpenInNewPane_Click"
+                                            DataContext="{x:Bind}"
+                                            Text="Open in new pane">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA2F;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
                                         <MenuFlyoutItem
                                             x:Name="OpenInNewTab"
                                             x:Uid="SideBarOpenInNewTab"
@@ -128,24 +139,28 @@
                                     Grid.Column="1"
                                     Margin="12,0,0,0"
                                     VerticalAlignment="Center"
-                                    Orientation="Vertical"
-                                    Spacing="8">
+                                    Orientation="Vertical">
                                     <TextBlock
                                         x:Name="ItemLocationName"
+                                        Margin="0,0,0,8"
+                                        VerticalAlignment="Center"
                                         FontSize="14"
                                         FontWeight="Medium"
                                         Text="{x:Bind Text, Mode=OneWay}"
                                         TextWrapping="NoWrap" />
                                     <muxc:ProgressBar
+                                        Margin="0,0,0,8"
                                         AutomationProperties.AccessibilityView="Raw"
                                         Maximum="{x:Bind MaxSpace.GigaBytes, Mode=OneWay}"
+                                        Visibility="{x:Bind ShowDriveDetails, Mode=OneWay}"
                                         Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}" />
                                     <TextBlock
                                         FontSize="12"
                                         MaxLines="2"
                                         Text="{x:Bind SpaceText, Mode=OneWay}"
                                         TextWrapping="Wrap"
-                                        ToolTipService.ToolTip="{x:Bind SpaceText, Mode=OneWay}" />
+                                        ToolTipService.ToolTip="{x:Bind SpaceText, Mode=OneWay}"
+                                        Visibility="{x:Bind ShowDriveDetails, Mode=OneWay}" />
                                 </StackPanel>
                             </Grid>
                         </Button>

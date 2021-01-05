@@ -1,9 +1,8 @@
 ﻿using Files.Dialogs;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.View_Models;
-using Files.Views;
-using Files.Views.Pages;
+using Files.UserControls.Widgets;
+using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.IO;
@@ -12,12 +11,13 @@ using Windows.ApplicationModel.AppService;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
-namespace Files
+namespace Files.Views
 {
     public sealed partial class YourHome : Page
     {
+        private IShellPage AppInstance = null;
         public SettingsViewModel AppSettings => App.AppSettings;
-        public IShellPage AppInstance = null;
+        public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
         public AppServiceConnection Connection => AppInstance?.ServiceConnection;
 
         public YourHome()
@@ -30,18 +30,23 @@ namespace Files
         {
             if (DrivesWidget != null)
             {
+                DrivesWidget.DrivesWidgetInvoked -= DrivesWidget_DrivesWidgetInvoked;
+                DrivesWidget.DrivesWidgetNewPaneInvoked -= DrivesWidget_DrivesWidgetNewPaneInvoked;
                 DrivesWidget.DrivesWidgetInvoked += DrivesWidget_DrivesWidgetInvoked;
+                DrivesWidget.DrivesWidgetNewPaneInvoked += DrivesWidget_DrivesWidgetNewPaneInvoked;
             }
             if (LibraryWidget != null)
             {
+                LibraryWidget.LibraryCardInvoked -= LibraryLocationCardsWidget_LibraryCardInvoked;
                 LibraryWidget.LibraryCardInvoked += LibraryLocationCardsWidget_LibraryCardInvoked;
             }
             if (RecentFilesWidget != null)
             {
+                RecentFilesWidget.RecentFilesOpenLocationInvoked -= RecentFilesWidget_RecentFilesOpenLocationInvoked;
+                RecentFilesWidget.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;
                 RecentFilesWidget.RecentFilesOpenLocationInvoked += RecentFilesWidget_RecentFilesOpenLocationInvoked;
                 RecentFilesWidget.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
             }
-            this.Loaded -= YourHome_Loaded;
         }
 
         private async void RecentFilesWidget_RecentFileInvoked(object sender, UserControls.PathNavigationEventArgs e)
@@ -60,7 +65,7 @@ namespace Files
             {
                 if (new DirectoryInfo(e.ItemPath).Root.ToString().Contains(@"C:\"))
                 {
-                    AppInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments()
+                    AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
                     {
                         AssociatedTabInstance = AppInstance,
                         NavPathParam = e.ItemPath
@@ -72,7 +77,7 @@ namespace Files
                     {
                         if (drive.Path.ToString() == new DirectoryInfo(e.ItemPath).Root.ToString())
                         {
-                            AppInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments()
+                            AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
                             {
                                 AssociatedTabInstance = AppInstance,
                                 NavPathParam = e.ItemPath
@@ -92,7 +97,7 @@ namespace Files
 
         private void RecentFilesWidget_RecentFilesOpenLocationInvoked(object sender, UserControls.PathNavigationEventArgs e)
         {
-            AppInstance.ContentFrame.Navigate(e.LayoutType, new NavigationArguments()
+            AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
             {
                 NavPathParam = e.ItemPath,
                 AssociatedTabInstance = AppInstance
@@ -101,7 +106,7 @@ namespace Files
 
         private void LibraryLocationCardsWidget_LibraryCardInvoked(object sender, LibraryCardInvokedEventArgs e)
         {
-            AppInstance.ContentFrame.Navigate(e.LayoutType, new NavigationArguments()
+            AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
             {
                 NavPathParam = e.Path,
                 AssociatedTabInstance = AppInstance
@@ -109,9 +114,14 @@ namespace Files
             AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page
         }
 
+        private void DrivesWidget_DrivesWidgetNewPaneInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)
+        {
+            AppInstance.PaneHolder?.OpenPathInNewPane(e.Path);
+        }
+
         private void DrivesWidget_DrivesWidgetInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)
         {
-            AppInstance.ContentFrame.Navigate(e.LayoutType, new NavigationArguments()
+            AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
             {
                 NavPathParam = e.Path,
                 AssociatedTabInstance = AppInstance
@@ -129,7 +139,6 @@ namespace Files
             AppInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
             AppInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
             AppInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
-            MainPage.MultitaskingControl?.UpdateSelectedTab(parameters.NavPathParam, null, false);
             AppInstance.NavigationToolbar.CanRefresh = false;
             AppInstance.NavigationToolbar.CanGoBack = AppInstance.ContentFrame.CanGoBack;
             AppInstance.NavigationToolbar.CanGoForward = AppInstance.ContentFrame.CanGoForward;

@@ -1,7 +1,7 @@
 ﻿using Files.DataModels;
 using Files.Filesystem;
 using Files.Interacts;
-using Files.View_Models;
+using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
-namespace Files.Controls
+namespace Files.UserControls
 {
     public sealed partial class SidebarControl : UserControl, INotifyPropertyChanged
     {
@@ -25,6 +25,10 @@ namespace Files.Controls
         public delegate void SidebarItemInvokedEventHandler(object sender, SidebarItemInvokedEventArgs e);
 
         public event SidebarItemInvokedEventHandler SidebarItemInvoked;
+
+        public delegate void SidebarItemNewPaneInvokedEventHandler(object sender, SidebarItemNewPaneInvokedEventArgs e);
+
+        public event SidebarItemNewPaneInvokedEventHandler SidebarItemNewPaneInvoked;
 
         public delegate void SidebarItemPropertiesInvokedEventHandler(object sender, SidebarItemPropertiesInvokedEventArgs e);
 
@@ -80,6 +84,24 @@ namespace Files.Controls
                 {
                     _SelectedSidebarItem = value;
                     NotifyPropertyChanged(nameof(SelectedSidebarItem));
+                }
+            }
+        }
+
+        private bool _CanOpenInNewPane;
+
+        public bool CanOpenInNewPane
+        {
+            get
+            {
+                return _CanOpenInNewPane;
+            }
+            set
+            {
+                if (value != _CanOpenInNewPane)
+                {
+                    _CanOpenInNewPane = value;
+                    NotifyPropertyChanged(nameof(CanOpenInNewPane));
                 }
             }
         }
@@ -483,7 +505,7 @@ namespace Files.Controls
         private void SettingsButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
-            rootFrame.Navigate(typeof(Settings));
+            rootFrame.Navigate(typeof(Views.Settings));
 
             return;
         }
@@ -505,6 +527,12 @@ namespace Files.Controls
             };
 
             SidebarNavView.Loaded -= SidebarNavView_Loaded;
+        }
+
+        private void OpenInNewPane_Click(object sender, RoutedEventArgs e)
+        {
+            var item = (sender as MenuFlyoutItem).DataContext;
+            SidebarItemNewPaneInvoked?.Invoke(this, new SidebarItemNewPaneInvokedEventArgs(item));
         }
     }
 
@@ -530,6 +558,16 @@ namespace Files.Controls
         public object InvokedItemDataContext { get; set; }
 
         public SidebarItemPropertiesInvokedEventArgs(object invokedItemDataContext)
+        {
+            InvokedItemDataContext = invokedItemDataContext;
+        }
+    }
+
+    public class SidebarItemNewPaneInvokedEventArgs : EventArgs
+    {
+        public object InvokedItemDataContext { get; set; }
+
+        public SidebarItemNewPaneInvokedEventArgs(object invokedItemDataContext)
         {
             InvokedItemDataContext = invokedItemDataContext;
         }

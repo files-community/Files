@@ -3,9 +3,8 @@ using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.View_Models;
+using Files.ViewModels;
 using Files.Views;
-using Files.Views.Pages;
 using Microsoft.Toolkit.Mvvm.Input;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Notifications;
@@ -41,13 +40,13 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using static Files.Properties;
+using static Files.Views.Properties;
 
 namespace Files.Interacts
 {
     public class Interaction
     {
-        public readonly IFilesystemHelpers FilesystemHelpers;
+        public IFilesystemHelpers FilesystemHelpers => AssociatedInstance.FilesystemHelpers;
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -55,17 +54,19 @@ namespace Files.Interacts
 
         public SettingsViewModel AppSettings => App.AppSettings;
 
+        public FolderSettingsViewModel FolderSettings => AssociatedInstance?.InstanceViewModel.FolderSettings;
+
         private AppServiceConnection Connection => AssociatedInstance?.ServiceConnection;
 
         public Interaction(IShellPage appInstance)
         {
             AssociatedInstance = appInstance;
-            FilesystemHelpers = new FilesystemHelpers(AssociatedInstance, App.CancellationToken);
         }
 
         public void List_ItemDoubleClick(object sender, DoubleTappedRoutedEventArgs e)
         {
-            if (!AppSettings.OpenItemsWithOneclick)
+            // Skip opening selected items if the double tap doesn't capture an item
+            if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
                 OpenSelectedItems(false);
             }
@@ -123,7 +124,7 @@ namespace Files.Interacts
 
         private async void OpenNewTab()
         {
-            await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), "NewTab".GetLocalized());
+            await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), "NewTab".GetLocalized());
         }
 
         public async void OpenInNewWindowItem_Click()
@@ -137,13 +138,29 @@ namespace Files.Interacts
             }
         }
 
+        public void OpenDirectoryInNewPane_Click()
+        {
+            var listedItem = AssociatedInstance.ContentPage.SelectedItems.FirstOrDefault();
+            if (listedItem != null)
+            {
+                AssociatedInstance.PaneHolder?.OpenPathInNewPane((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+            }
+        }
+
+        public RelayCommand OpenNewPane => new RelayCommand(() => OpenNewPaneCommand());
+
+        public void OpenNewPaneCommand()
+        {
+            AssociatedInstance.PaneHolder?.OpenPathInNewPane("NewTab".GetLocalized());
+        }
+
         public async void OpenDirectoryInNewTab_Click()
         {
             foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
             {
                 await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
                 {
-                    await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
+                    await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath);
                 });
             }
         }
@@ -168,12 +185,18 @@ namespace Files.Interacts
 
         public static async void OpenPathInNewTab(string path)
         {
-            await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), path);
+            await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), path);
         }
 
         public static async Task<bool> OpenPathInNewWindowAsync(string path)
         {
-            var folderUri = new Uri("files-uwp:" + "?folder=" + path);
+            var folderUri = new Uri("files-uwp:" + "?folder=" + Uri.EscapeDataString(path));
+            return await Launcher.LaunchUriAsync(folderUri);
+        }
+
+        public static async Task<bool> OpenTabInNewWindowAsync(string tabArgs)
+        {
+            var folderUri = new Uri("files-uwp:" + "?tab=" + Uri.EscapeDataString(tabArgs));
             return await Launcher.LaunchUriAsync(folderUri);
         }
 
@@ -264,6 +287,12 @@ namespace Files.Interacts
         public async void GrantAccessPermissionHandler(IUICommand command)
         {
             await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess"));
+        }
+
+        public static bool IsAnyContentDialogOpen()
+        {
+            var openedPopups = VisualTreeHelper.GetOpenPopups(Window.Current);
+            return openedPopups.Any(popup => popup.Child is ContentDialog);
         }
 
         public static T FindChild<T>(DependencyObject startNode) where T : DependencyObject
@@ -370,7 +399,7 @@ namespace Files.Interacts
             var destFolder = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
             if (destFolder)
             {
-                AssociatedInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), new NavigationArguments()
+                AssociatedInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
                 {
                     NavPathParam = folderPath,
                     AssociatedTabInstance = AssociatedInstance
@@ -396,7 +425,6 @@ namespace Files.Interacts
             }
 
             int selectedItemCount;
-            Type sourcePageType = AssociatedInstance.CurrentPageType;
             selectedItemCount = AssociatedInstance.ContentPage.SelectedItems.Count;
             var opened = (FilesystemResult)false;
             string previousDir = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
@@ -423,11 +451,8 @@ namespace Files.Interacts
                     }
                     if (opened)
                     {
-                        await AssociatedInstance.FilesystemViewModel.SetWorkingDirectoryAsync(folderPath);
                         AssociatedInstance.NavigationToolbar.PathControlDisplayText = folderPath;
-
-                        AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
-                        AssociatedInstance.ContentFrame.Navigate(sourcePageType, new NavigationArguments()
+                        AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
                         {
                             NavPathParam = folderPath,
                             AssociatedTabInstance = AssociatedInstance
@@ -438,11 +463,8 @@ namespace Files.Interacts
                 {
                     if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
-                        await AssociatedInstance.FilesystemViewModel.SetWorkingDirectoryAsync(clickedOnItemPath);
                         AssociatedInstance.NavigationToolbar.PathControlDisplayText = clickedOnItemPath;
-
-                        AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
-                        AssociatedInstance.ContentFrame.Navigate(sourcePageType, new NavigationArguments()
+                        AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(clickedOnItemPath), new NavigationArguments()
                         {
                             NavPathParam = clickedOnItemPath,
                             AssociatedTabInstance = AssociatedInstance
@@ -508,12 +530,12 @@ namespace Files.Interacts
                                     //We can have many sort entries
                                     SortEntry sortEntry = new SortEntry()
                                     {
-                                        AscendingOrder = AppSettings.DirectorySortDirection == Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending
+                                        AscendingOrder = FolderSettings.DirectorySortDirection == Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending
                                     };
 
                                     //Basically we tell to the launched app to follow how we sorted the files in the directory.
 
-                                    var sortOption = AppSettings.DirectorySortOption;
+                                    var sortOption = FolderSettings.DirectorySortOption;
 
                                     switch (sortOption)
                                     {
@@ -598,7 +620,7 @@ namespace Files.Interacts
                 }
                 foreach (ListedItem clickedOnItem in AssociatedInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder))
                 {
-                    await MainPage.AddNewTabByPathAsync(typeof(ModernShellPage), (clickedOnItem as ShortcutItem)?.TargetPath ?? clickedOnItem.ItemPath);
+                    await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), (clickedOnItem as ShortcutItem)?.TargetPath ?? clickedOnItem.ItemPath);
                 }
                 opened = (FilesystemResult)true;
             }
@@ -613,11 +635,6 @@ namespace Files.Interacts
                     ContentOwnedViewModelInstance.RefreshItems(previousDir);
                 });
             }
-        }
-
-        public void CloseTab()
-        {
-            MainPage.MultitaskingControl.RemoveTab(MainPage.MultitaskingControl.Items.ElementAt(App.InteractionViewModel.TabStripSelectedIndex));
         }
 
         public RelayCommand OpenNewWindow => new RelayCommand(() => LaunchNewWindow());
@@ -828,96 +845,27 @@ namespace Files.Interacts
                 return true;
             }
 
-            if (!string.IsNullOrWhiteSpace(newName)
-                && !Filesystem.FilesystemHelpers.ContainsRestrictedCharacters(newName)
-                && !Filesystem.FilesystemHelpers.ContainsRestrictedFileName(newName))
+            var renamed = ReturnResult.InProgress;
+            if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
-                var renamed = (FilesystemResult)false;
-                if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                renamed = await FilesystemHelpers.RenameAsync(StorageItemHelpers.FromPathAndType(item.ItemPath, FilesystemItemType.Directory),
+                    newName, NameCollisionOption.FailIfExists, true);
+            }
+            else
+            {
+                if (item.IsShortcutItem || !AppSettings.ShowFileExtensions)
                 {
-                    renamed = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
-                        .OnSuccess(async (t) => await FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.FailIfExists, true));
+                    newName += item.FileExtension;
                 }
-                else
-                {
-                    if (!AppSettings.ShowFileExtensions)
-                    {
-                        newName += item.FileExtension;
-                    }
 
-                    renamed = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
-                        .OnSuccess(async (t) => await FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.FailIfExists, true));
-                }
-                if (renamed == FilesystemErrorCode.ERROR_UNAUTHORIZED)
-                {
-                    // Try again with MoveFileFromApp
-                    if (!NativeFileOperationsHelper.MoveFileFromApp(item.ItemPath, Path.Combine(Path.GetDirectoryName(item.ItemPath), newName)))
-                    {
-                        Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
-                        return false;
-                    }
-                }
-                else if (renamed == FilesystemErrorCode.ERROR_NOTAFILE || renamed == FilesystemErrorCode.ERROR_NOTAFOLDER)
-                {
-                    await DialogDisplayHelper.ShowDialogAsync("RenameError.NameInvalid.Title".GetLocalized(), "RenameError.NameInvalid.Text".GetLocalized());
-                }
-                else if (renamed == FilesystemErrorCode.ERROR_NAMETOOLONG)
-                {
-                    await DialogDisplayHelper.ShowDialogAsync("RenameError.TooLong.Title".GetLocalized(), "RenameError.TooLong.Text".GetLocalized());
-                }
-                else if (renamed == FilesystemErrorCode.ERROR_INUSE)
-                {
-                    // TODO: proper dialog, retry
-                    await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), "");
-                }
-                else if (renamed == FilesystemErrorCode.ERROR_NOTFOUND)
-                {
-                    await DialogDisplayHelper.ShowDialogAsync("RenameError.ItemDeleted.Title".GetLocalized(), "RenameError.ItemDeleted.Text".GetLocalized());
-                }
-                else if (renamed == FilesystemErrorCode.ERROR_ALREADYEXIST)
-                {
-                    var ItemAlreadyExistsDialog = new ContentDialog()
-                    {
-                        Title = "ItemAlreadyExistsDialogTitle".GetLocalized(),
-                        Content = "ItemAlreadyExistsDialogContent".GetLocalized(),
-                        PrimaryButtonText = "ItemAlreadyExistsDialogPrimaryButtonText".GetLocalized(),
-                        SecondaryButtonText = "ItemAlreadyExistsDialogSecondaryButtonText".GetLocalized()
-                    };
+                renamed = await FilesystemHelpers.RenameAsync(StorageItemHelpers.FromPathAndType(item.ItemPath, FilesystemItemType.File),
+                    newName, NameCollisionOption.FailIfExists, true);
+            }
 
-                    ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
-
-                    if (result == ContentDialogResult.Primary)
-                    {
-                        if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                        {
-                            renamed = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
-                                .OnSuccess(async (t) => await FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.GenerateUniqueName, true));
-                        }
-                        else
-                        {
-                            renamed = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
-                                .OnSuccess(async (t) => await FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.GenerateUniqueName, true));
-                        }
-                    }
-                    else if (result == ContentDialogResult.Secondary)
-                    {
-                        if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                        {
-                            renamed = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(item.ItemPath)
-                                .OnSuccess(async (t) => await FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.ReplaceExisting, true));
-                        }
-                        else
-                        {
-                            renamed = await AssociatedInstance.FilesystemViewModel.GetFileFromPathAsync(item.ItemPath)
-                                .OnSuccess(async (t) => await FilesystemHelpers.RenameAsync(t, newName, NameCollisionOption.ReplaceExisting, true));
-                        }
-                    }
-                }
-                if (renamed)
-                {
-                    AssociatedInstance.NavigationToolbar.CanGoForward = false;
-                    return true;
-                }
+            if (renamed == ReturnResult.Success)
+            {
+                AssociatedInstance.NavigationToolbar.CanGoForward = false;
+                return true;
             }
             return false;
         }
@@ -1005,9 +953,9 @@ namespace Files.Interacts
                 return;
             }
             dataPackage.SetStorageItems(items);
-            Clipboard.SetContent(dataPackage);
             try
             {
+                Clipboard.SetContent(dataPackage);
                 Clipboard.Flush();
             }
             catch
@@ -1152,9 +1100,8 @@ namespace Files.Interacts
         {
             DataPackageView packageView = Clipboard.GetContent();
             string destinationPath = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
-
             await FilesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, destinationPath, true);
-            AssociatedInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
+            AssociatedInstance.ContentPage.ResetItemOpacity();
         }
 
         public async void CreateFileFromDialogResultType(AddItemType itemType, ShellNewEntry itemInfo)

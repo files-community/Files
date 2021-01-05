@@ -90,6 +90,7 @@ namespace Files.Helpers
                     case RegistryValueKind.Binary:
                         data = (byte[])dataObj;
                         break;
+
                     case RegistryValueKind.String:
                         data = UTF8Encoding.UTF8.GetBytes((string)dataObj);
                         break;
@@ -100,7 +101,7 @@ namespace Files.Helpers
                 .OnSuccess(t => t.CreateFileAsync("file" + extension, CreationCollisionOption.OpenIfExists).AsTask());
 
             var displayType = sampleFile ? sampleFile.Result.DisplayType : string.Format("{0} {1}", "file", extension);
-            var thumbnail = sampleFile ? await sampleFile.Result.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale) : null;
+            var thumbnail = sampleFile ? await FilesystemTasks.Wrap(() => sampleFile.Result.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale).AsTask()) : null;
 
             var entry = new ShellNewEntry()
             {
@@ -110,7 +111,7 @@ namespace Files.Helpers
                 Command = (string)key.GetValue("Command"),
                 //Name = (string)key.GetValue("ItemName"),
                 //IconPath = (string)key.GetValue("IconPath"),
-                Icon = thumbnail,
+                Icon = thumbnail?.Result,
                 Data = data
             };
 

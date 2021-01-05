@@ -1,12 +1,12 @@
 using Files.Filesystem;
-using Files.View_Models.Properties;
+using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
 
-namespace Files
+namespace Files.Views
 {
     public sealed partial class PropertiesGeneral : PropertiesTab
     {

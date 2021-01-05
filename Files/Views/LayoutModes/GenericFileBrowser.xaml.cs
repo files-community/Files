@@ -23,7 +23,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
-namespace Files
+namespace Files.Views.LayoutModes
 {
     public sealed partial class GenericFileBrowser : BaseLayout
     {
@@ -43,23 +43,27 @@ namespace Files
             {
                 if (value == nameColumn)
                 {
-                    AppSettings.DirectorySortOption = SortOption.Name;
+                    FolderSettings.DirectorySortOption = SortOption.Name;
                 }
                 else if (value == dateColumn)
                 {
-                    AppSettings.DirectorySortOption = SortOption.DateModified;
+                    FolderSettings.DirectorySortOption = SortOption.DateModified;
                 }
                 else if (value == typeColumn)
                 {
-                    AppSettings.DirectorySortOption = SortOption.FileType;
+                    FolderSettings.DirectorySortOption = SortOption.FileType;
                 }
                 else if (value == sizeColumn)
                 {
-                    AppSettings.DirectorySortOption = SortOption.Size;
+                    FolderSettings.DirectorySortOption = SortOption.Size;
+                }
+                else if (value == originalPathColumn)
+                {
+                    FolderSettings.DirectorySortOption = SortOption.OriginalPath;
                 }
                 else
                 {
-                    AppSettings.DirectorySortOption = SortOption.Name;
+                    FolderSettings.DirectorySortOption = SortOption.Name;
                 }
 
                 if (value != sortedColumn)
@@ -70,7 +74,7 @@ namespace Files
                         sortedColumn.SortDirection = null;
                     }
                 }
-                value.SortDirection = AppSettings.DirectorySortDirection == SortDirection.Ascending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
+                value.SortDirection = FolderSettings.DirectorySortDirection == SortDirection.Ascending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
                 sortedColumn = value;
             }
         }
@@ -82,24 +86,6 @@ namespace Files
             base.BaseLayoutItemContextFlyout = BaseLayoutItemContextFlyout;
 
             tapDebounceTimer = new DispatcherTimer();
-            switch (AppSettings.DirectorySortOption)
-            {
-                case SortOption.Name:
-                    SortedColumn = nameColumn;
-                    break;
-
-                case SortOption.DateModified:
-                    SortedColumn = dateColumn;
-                    break;
-
-                case SortOption.FileType:
-                    SortedColumn = typeColumn;
-                    break;
-
-                case SortOption.Size:
-                    SortedColumn = sizeColumn;
-                    break;
-            }
 
             var selectionRectangle = RectangleSelection.Create(AllView, SelectionRectangle, AllView_SelectionChanged);
             selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
@@ -124,12 +110,15 @@ namespace Files
         {
             base.OnNavigatedTo(eventArgs);
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged += ViewModel_PropertyChanged;
+            AllView.LoadingRow += AllView_LoadingRow;
+            ViewModel_PropertyChanged(null, new PropertyChangedEventArgs("DirectorySortOption"));
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged -= ViewModel_PropertyChanged;
+            AllView.LoadingRow -= AllView_LoadingRow;
         }
 
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
@@ -187,15 +176,18 @@ namespace Files
 
         public override void StartRenameItem()
         {
-            AllView.CurrentColumn = AllView.Columns[1];
-            AllView.BeginEdit();
+            if (AllView.SelectedIndex != -1)
+            {
+                AllView.CurrentColumn = AllView.Columns[1];
+                AllView.BeginEdit();
+            }
         }
 
-        private async void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "DirectorySortOption")
             {
-                switch (AppSettings.DirectorySortOption)
+                switch (FolderSettings.DirectorySortOption)
                 {
                     case SortOption.Name:
                         SortedColumn = nameColumn;
@@ -212,6 +204,10 @@ namespace Files
                     case SortOption.Size:
                         SortedColumn = sizeColumn;
                         break;
+
+                    case SortOption.OriginalPath:
+                        SortedColumn = originalPathColumn;
+                        break;
                 }
             }
             else if (e.PropertyName == "DirectorySortDirection")
@@ -219,70 +215,30 @@ namespace Files
                 // Swap arrows
                 SortedColumn = sortedColumn;
             }
-            else if (e.PropertyName == "IsLoadingItems")
-            {
-                if (!ParentShellPageInstance.FilesystemViewModel.IsLoadingItems
-                    && ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Count > 0)
-                {
-                    var allRows = new List<DataGridRow>();
-
-                    Interaction.FindChildren<DataGridRow>(allRows, AllView);
-                    foreach (DataGridRow row in allRows.Take(25))
-                    {
-                        if (!(row.DataContext as ListedItem).ItemPropertiesInitialized)
-                        {
-                            await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                            {
-                                ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(row.DataContext as ListedItem);
-                                (row.DataContext as ListedItem).ItemPropertiesInitialized = true;
-                            });
-                        }
-                    }
-                }
-            }
         }
 
         private TextBox renamingTextBox;
 
         private DispatcherTimer tapDebounceTimer;
-
-        private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
+        private void AllView_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
             if (ParentShellPageInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
             {
                 // Do not rename files and folders inside the recycle bin
-                AllView.CancelEdit(); // Cancel the edit operation
+                e.Cancel = true;
                 return;
             }
 
-            // Only cancel if this event was triggered by a tap
-            // Do not cancel when user presses F2 or context menu
-            if (e.EditingEventArgs is TappedRoutedEventArgs)
+            if (e.EditingEventArgs is TappedRoutedEventArgs && AppSettings.OpenItemsWithOneclick)
             {
-                if (AppSettings.OpenItemsWithOneclick)
-                {
-                    AllView.CancelEdit(); // Cancel the edit operation
-                    return;
-                }
-
-                if (!tapDebounceTimer.IsEnabled)
-                {
-                    tapDebounceTimer.Debounce(() =>
-                    {
-                        tapDebounceTimer.Stop();
-                        AllView.BeginEdit(); // EditingEventArgs will be null
-                    }, TimeSpan.FromMilliseconds(700), false);
-                }
-                else
-                {
-                    tapDebounceTimer.Stop();
-                    ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null); // Open selected files
-                }
-
-                AllView.CancelEdit(); // Cancel the edit operation
+                // If for some reason we started renaming by a click in a one-click mode, cancel it
+                e.Cancel = true;
                 return;
             }
+        }
 
+        private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
+        {
             int extensionLength = SelectedItem.FileExtension?.Length ?? 0;
             oldItemName = SelectedItem.ItemName;
 
@@ -290,7 +246,7 @@ namespace Files
             renamingTextBox.Focus(FocusState.Programmatic); // Without this,the user cannot edit the text box when renaming via right-click
 
             int selectedTextLength = SelectedItem.ItemName.Length;
-            if (AppSettings.ShowFileExtensions)
+            if (!SelectedItem.IsShortcutItem && AppSettings.ShowFileExtensions)
             {
                 selectedTextLength -= extensionLength;
             }
@@ -302,11 +258,10 @@ namespace Files
 
         private void EditingElement_LosingFocus(UIElement sender, LosingFocusEventArgs args)
         {
-            if (args.NewFocusedElement is Popup)
+            if (args.NewFocusedElement is Popup || args.NewFocusedElement is AppBarButton)
             {
                 args.Cancel = true;
                 args.TryCancel();
-                args.TrySetNewFocusedElement(args.OldFocusedElement);
             }
         }
 
@@ -361,7 +316,7 @@ namespace Files
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
             var cp = e.GetCurrentPoint((UIElement)sender);
-            if (cp.Position.Y <= 38 // Return if click is on the header(38 = header height)
+            if (cp.Position.Y <= AllView.ColumnHeaderHeight // Return if click is on the header
                 || cp.Properties.IsLeftButtonPressed // Return if dragging an item
                 || cp.Properties.IsRightButtonPressed // Return if the user right clicks an item
                 || ctrlPressed || shiftPressed) // Allow for Ctrl+Shift selection
@@ -383,7 +338,7 @@ namespace Files
             SelectedItems = AllView.SelectedItems.Cast<ListedItem>().ToList();
         }
 
-        private async void AllView_Sorting(object sender, DataGridColumnEventArgs e)
+        private void AllView_Sorting(object sender, DataGridColumnEventArgs e)
         {
             if (e.Column == SortedColumn)
             {
@@ -396,29 +351,13 @@ namespace Files
                 e.Column.SortDirection = DataGridSortDirection.Ascending;
                 ParentShellPageInstance.FilesystemViewModel.IsSortedAscending = true;
             }
-
-            if (!ParentShellPageInstance.FilesystemViewModel.IsLoadingItems
-                && ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Count > 0)
-            {
-                var allRows = new List<DataGridRow>();
-
-                Interaction.FindChildren<DataGridRow>(allRows, AllView);
-                foreach (DataGridRow row in allRows.Take(25))
-                {
-                    if (!(row.DataContext as ListedItem).ItemPropertiesInitialized)
-                    {
-                        await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                        {
-                            ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(row.DataContext as ListedItem);
-                            (row.DataContext as ListedItem).ItemPropertiesInitialized = true;
-                        });
-                    }
-                }
-            }
         }
 
         private void AllView_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+
             if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
             {
                 if (IsRenamingItem)
@@ -437,7 +376,17 @@ namespace Files
             }
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
             {
-                // Unfocus the GridView so keyboard shortcut can be handled
+                // Unfocus the ListView so keyboard shortcut can be handled
+                Focus(FocusState.Programmatic);
+            }
+            else if (ctrlPressed && shiftPressed && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.W))
+            {
+                // Unfocus the ListView so keyboard shortcut can be handled (ctrl + shift + W/"->"/"<-")
+                Focus(FocusState.Programmatic);
+            }
+            else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
+            {
+                // Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
                 Focus(FocusState.Programmatic);
             }
         }
@@ -496,17 +445,14 @@ namespace Files
             }
         }
 
-        private async void AllView_LoadingRow(object sender, DataGridRowEventArgs e)
+        private void AllView_LoadingRow(object sender, DataGridRowEventArgs e)
         {
             InitializeDrag(e.Row);
 
             if (e.Row.DataContext is ListedItem item && !item.ItemPropertiesInitialized)
             {
-                await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                {
-                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item);
-                    item.ItemPropertiesInitialized = true;
-                });
+                ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item);
+                item.ItemPropertiesInitialized = true;
             }
         }
 
@@ -536,6 +482,10 @@ namespace Files
 
                 case "sizeColumn":
                     args = new DataGridColumnEventArgs(sizeColumn);
+                    break;
+
+                case "originalPathColumn":
+                    args = new DataGridColumnEventArgs(originalPathColumn);
                     break;
             }
 

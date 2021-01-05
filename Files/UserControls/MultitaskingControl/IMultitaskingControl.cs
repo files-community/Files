@@ -6,28 +6,22 @@ namespace Files.UserControls.MultitaskingControl
 {
     public interface IMultitaskingControl
     {
-        public delegate void CurrentInstanceChangedEventHandler(object sender, CurrentInstanceChangedEventArgs e);
+        public event EventHandler<CurrentInstanceChangedEventArgs> CurrentInstanceChanged;
 
-        public void UpdateSelectedTab(string tabHeader, string workingDirectoryPath, bool isSearchResultsPage);
+        public ObservableCollection<TabItem> Items { get; }
 
-        event CurrentInstanceChangedEventHandler CurrentInstanceChanged;
+        public List<ITabItem> RecentlyClosedTabs { get; }
 
-        ObservableCollection<TabItem> Items { get; }
+        public ITabItemContent GetCurrentSelectedTabInstance();
 
-        List<ITabItem> RecentlyClosedTabs { get; }
-
-        bool RestoredRecentlyClosedTab { get; set; }
-
-        public TTab GetCurrentSelectedTabInstance<TTab>();
-
-        public List<TTab> GetAllTabInstances<TTab>();
+        public List<ITabItemContent> GetAllTabInstances();
 
         public void RemoveTab(TabItem tabItem);
     }
 
     public class CurrentInstanceChangedEventArgs : EventArgs
     {
-        public IShellPage CurrentInstance { get; set; }
-        public List<IShellPage> ShellPageInstances { get; set; }
+        public ITabItemContent CurrentInstance { get; set; }
+        public List<ITabItemContent> PageInstances { get; set; }
     }
 }

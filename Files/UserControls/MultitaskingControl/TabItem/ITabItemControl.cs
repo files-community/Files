@@ -3,7 +3,7 @@ using System;
 
 namespace Files.UserControls.MultitaskingControl
 {
-    public interface ITabItemControl : IDisposable
+    public interface ITabItemControl
     {
         string Header { get; }
 
@@ -11,7 +11,7 @@ namespace Files.UserControls.MultitaskingControl
 
         IconSource IconSource { get; }
 
-        object Content { get; }
+        TabItemControl Control { get; }
 
         bool AllowStorageItemDrop { get; }
     }
