@@ -913,7 +913,7 @@
     <value>支援する</value>
   </data>
   <data name="SettingsAboutSupportUsDescription.Text" xml:space="preserve">
-    <value>PayPalで支援する</value>
+    <value>PayPal で支援する</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>この項目を作成できませんでした</value>
