@@ -573,7 +573,7 @@ namespace Files
             {
                 UnloadMenuFlyoutItemByName("CopyLocationItem");
             }
-            
+
             if (!AppSettings.ShowOpenInNewTabMenuItem)
             {
                 UnloadMenuFlyoutItemByName("OpenInNewTab");
@@ -591,7 +591,7 @@ namespace Files
                 UnloadMenuFlyoutItemByName("OpenInNewTab");
                 UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
                 UnloadMenuFlyoutItemByName("OpenInNewPane");
-                
+
                 if (SelectedItems.Count == 1)
                 {
                     if (!string.IsNullOrEmpty(SelectedItem.FileExtension))
@@ -613,7 +613,7 @@ namespace Files
                             LoadMenuFlyoutItemByName("CreateShortcut");
                         }
                         else if (SelectedItem.FileExtension.Equals(".exe", StringComparison.OrdinalIgnoreCase)
-                            || SelectedItem.FileExtension.Equals(".bat", StringComparison.OrdinalIgnoreCase))
+                            || SelectedItem.FileExtension.Equals(".bat", StringComparison.OrdinalIgnoreCase) || SelectedItem.FileExtension.Equals(".cmd", StringComparison.OrdinalIgnoreCase))
                         {
                             LoadMenuFlyoutItemByName("OpenItem");
                             UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
