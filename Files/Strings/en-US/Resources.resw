@@ -1602,7 +1602,7 @@
   <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Details View</value>
   </data>
-  <data name="StatusBarControlDetailsViews.AutomationProperties.Name" xml:space="preserve">
+  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
     <value>Details View</value>
   </data>
   <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">

@@ -2008,10 +2008,6 @@
           <source>Layout Mode</source>
           <target state="new">Layout Mode</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlDetailsViews.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Details View</source>
-          <target state="new">Details View</target>
-        </trans-unit>
         <trans-unit id="StatusBarControlDisplayOptions.Text" translate="yes" xml:space="preserve">
           <source>Display Options</source>
           <target state="new">Display Options</target>
@@ -2047,6 +2043,10 @@
         <trans-unit id="StatusBarControlShowHiddenItems.Header" translate="yes" xml:space="preserve">
           <source>Show hidden items</source>
           <target state="new">Show hidden items</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlDetailsView.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Details View</source>
+          <target state="new">Details View</target>
         </trans-unit>
       </group>
     </body>
