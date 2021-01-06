@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "AppServiceManager.h"
 #include "MsgHandler_ContextMenu.h"
+#include "MsgHandler_FileOperations.h"
 
 using namespace winrt;
 
@@ -36,6 +37,8 @@ int main()
 	{
 		MsgHandler_ContextMenu cmHdl(GetModuleHandle(0)); //hInstance
 		manager->Register(&cmHdl);
+		MsgHandler_FileOperations foHdl;
+		manager->Register(&foHdl);
 
 		manager->Loop();
 		delete manager;

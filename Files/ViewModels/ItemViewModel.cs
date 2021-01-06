@@ -743,7 +743,7 @@ namespace Files.ViewModels
                     && response.Message.Get("HasCustomIcon", false);
                 BitmapImage iconImage = null, overlayImage = null;
                 var icon = response.Message.Get("Icon", (string)null);
-                if (icon != null)
+                if (!string.IsNullOrEmpty(icon))
                 {
                     iconImage = new BitmapImage();
                     byte[] bitmapData = Convert.FromBase64String(icon);
@@ -753,7 +753,7 @@ namespace Files.ViewModels
                     }
                 }
                 var overlay = response.Message.Get("Overlay", (string)null);
-                if (overlay != null)
+                if (!string.IsNullOrEmpty(overlay))
                 {
                     overlayImage = new BitmapImage();
                     byte[] bitmapData = Convert.FromBase64String(overlay);

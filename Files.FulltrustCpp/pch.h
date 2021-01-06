@@ -13,6 +13,7 @@
 #include <shlwapi.h>
 #include <windows.h>
 #include <gdiplus.h>
+#include "CommonControls.h"
 
 #include <nlohmann/json.hpp>
 
