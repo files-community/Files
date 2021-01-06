@@ -707,6 +707,7 @@ namespace Files.ViewModels
                             StorageFolder matchingStorageItem = await GetFolderFromPathAsync(item.ItemPath);
                             if (matchingStorageItem != null)
                             {
+                                matchingItem.ItemName = matchingStorageItem.DisplayName;
                                 matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                                 matchingItem.ItemType = matchingStorageItem.DisplayType;
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
@@ -1053,7 +1054,7 @@ namespace Files.ViewModels
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemPropertiesInitialized = true,
-                    ItemName = _rootFolder.Name,
+                    ItemName = _rootFolder.DisplayName,
                     ItemDateModifiedReal = (await _rootFolder.GetBasicPropertiesAsync()).DateModified,
                     ItemType = _rootFolder.DisplayType,
                     LoadFolderGlyph = true,
@@ -1891,7 +1892,7 @@ namespace Files.ViewModels
                 _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId, dateReturnFormat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemName = folder.Name,
+                    ItemName = folder.DisplayName,
                     ItemDateModifiedReal = basicProperties.DateModified,
                     ItemType = folder.DisplayType,
                     IsHiddenItem = false,
