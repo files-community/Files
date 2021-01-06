@@ -415,7 +415,7 @@ void MsgHandler_ContextMenu::InvokeCommand(std::string menuVerb)
 }
 
 std::vector<std::string> MsgHandler_ContextMenu::FilteredItems = {
-	"opennew", "openas", "opencontaining", "opennewprocess",
+	"opennew", "opencontaining", "opennewprocess", //, "openas"
 	"runas", "runasuser", "pintohome", "PinToStartScreen",
 	"cut", "copy", "paste", "delete", "link", //, "properties"
 	"Windows.ModernShare", "setdesktopwallpaper", //, "Windows.Share"
