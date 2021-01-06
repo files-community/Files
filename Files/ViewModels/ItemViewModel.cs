@@ -487,6 +487,21 @@ namespace Files.ViewModels
             //_filesAndFolders.EndBulkOperation();
         }
 
+        public void InsertFileInOrder(ListedItem item, IList<ListedItem> orderedList = null)
+        {
+            if (orderedList == null)
+            {
+                orderedList = OrderFiles2(_filesAndFolders);
+            }
+            var oldIndex = _filesAndFolders.IndexOf(item);
+            var newIndex = orderedList.IndexOf(item);
+            if (newIndex != oldIndex)
+            {
+                _filesAndFolders.RemoveAt(oldIndex);
+                _filesAndFolders.Insert(newIndex, item);
+            }
+        }
+
         private IList<ListedItem> OrderFiles2(IList<ListedItem> listToSort)
         {
             if (listToSort.Count == 0)
@@ -707,7 +722,14 @@ namespace Files.ViewModels
                             StorageFolder matchingStorageItem = await GetFolderFromPathAsync(item.ItemPath);
                             if (matchingStorageItem != null)
                             {
-                                matchingItem.ItemName = matchingStorageItem.DisplayName;
+                                if (matchingStorageItem.DisplayName != matchingStorageItem.Name)
+                                {
+                                    matchingItem.ItemName = matchingStorageItem.DisplayName;
+                                    if (FolderSettings.DirectorySortOption == SortOption.Name && !_isLoadingItems)
+                                    {
+                                        InsertFileInOrder(matchingItem);
+                                    }
+                                }
                                 matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                                 matchingItem.ItemType = matchingStorageItem.DisplayType;
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
