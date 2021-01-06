@@ -527,6 +527,17 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
+                    x:Name="SidebarUnpinItem"
+                    x:Uid="SideBarUnpinFromSideBar"
+                    x:Load="False"
+                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.UnpinItem_Click}"
+                    Tag="PinItem_FlyoutItem"
+                    Text="Unpin from sidebar">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeb1f;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
                     x:Name="PropertiesItem"
                     x:Uid="BaseLayoutItemContextFlyoutProperties"
                     Click="{x:Bind ParentShellPageInstance.InteractionOperations.ShowPropertiesButton_Click}"

@@ -588,6 +588,7 @@ namespace Files
             if (SelectedItems.Any(x => x.PrimaryItemAttribute != StorageItemTypes.Folder))
             {
                 UnloadMenuFlyoutItemByName("SidebarPinItem");
+                UnloadMenuFlyoutItemByName("SidebarUnpinItem");
                 UnloadMenuFlyoutItemByName("OpenInNewTab");
                 UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
                 UnloadMenuFlyoutItemByName("OpenInNewPane");
@@ -668,7 +669,6 @@ namespace Files
                 }
                 else if (SelectedItems.Count == 1)
                 {
-                    LoadMenuFlyoutItemByName("SidebarPinItem");
                     LoadMenuFlyoutItemByName("CreateShortcut");
                     LoadMenuFlyoutItemByName("OpenItem");
 
@@ -681,6 +681,20 @@ namespace Files
                 {
                     LoadMenuFlyoutItemByName("SidebarPinItem");
                     UnloadMenuFlyoutItemByName("CreateShortcut");
+                }
+
+                if (selectedItems.All(x => !x.IsShortcutItem))
+                {
+                    if (selectedItems.All(x => x.IsPinned))
+                    {
+                        LoadMenuFlyoutItemByName("SidebarUnpinItem");
+                        UnloadMenuFlyoutItemByName("SidebarPinItem");
+                    }
+                    else
+                    {
+                        LoadMenuFlyoutItemByName("SidebarPinItem");
+                        UnloadMenuFlyoutItemByName("SidebarUnpinItem");
+                    }
                 }
 
                 if (SelectedItems.Count <= 5 && SelectedItems.Count > 0)
