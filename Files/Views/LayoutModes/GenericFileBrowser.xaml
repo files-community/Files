@@ -534,7 +534,7 @@
                     Tag="PinItem_FlyoutItem"
                     Text="Unpin from sidebar">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeb1f;" />
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB20;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
