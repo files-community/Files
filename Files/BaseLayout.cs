@@ -329,9 +329,6 @@ namespace Files
             {
                 ParentShellPageInstance.NavigationToolbar.CanRefresh = true;
                 ParentShellPageInstance.NavigationToolbar.CanCopyPathInPage = true;
-                ParentShellPageInstance.NavigationToolbar.CanGoForward = true;
-                ParentShellPageInstance.NavigationToolbar.CanGoBack = true;
-
                 string previousDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
                 await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.NavPathParam);
 
@@ -355,6 +352,10 @@ namespace Files
                 if (!navigationArguments.IsLayoutSwitch)
                 {
                     ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir);
+                }
+                else
+                {
+                    ParentShellPageInstance.NavigationToolbar.CanGoForward = false;
                 }
             }
             else
