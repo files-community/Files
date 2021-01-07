@@ -1320,5 +1320,6 @@ namespace Files.Views
         public bool IsSearchResultPage { get; set; } = false;
         public ObservableCollection<ListedItem> SearchResults { get; set; } = new ObservableCollection<ListedItem>();
         public string SearchPathParam { get; set; } = null;
+        public bool IsLayoutSwitch { get; set; } = false;
     }
 }

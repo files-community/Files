@@ -379,14 +379,19 @@ namespace Files.Views.LayoutModes
             if (requestedIconSize != currentIconSize)
             {
                 currentIconSize = requestedIconSize; // Update icon size before refreshing
-                foreach (ListedItem listedItem in FileList.Items)
+                ReloadItemIcons();
+            }
+        }
+
+        private void ReloadItemIcons()
+        {
+            foreach (ListedItem listedItem in FileList.Items)
+            {
+                listedItem.ItemPropertiesInitialized = false;
+                if (FileList.ContainerFromItem(listedItem) != null)
                 {
-                    listedItem.ItemPropertiesInitialized = false;
-                    if (FileList.ContainerFromItem(listedItem) is GridViewItem gridViewItem)
-                    {
-                        ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
-                        listedItem.ItemPropertiesInitialized = true;
-                    }
+                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
+                    listedItem.ItemPropertiesInitialized = true;
                 }
             }
         }
