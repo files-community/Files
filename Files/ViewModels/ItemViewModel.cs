@@ -425,7 +425,7 @@ namespace Files.ViewModels
             }
         }
 
-        private void CancelLoadAndClearFiles()
+        public void CancelLoadAndClearFiles()
         {
             Debug.WriteLine("CancelLoadAndClearFiles");
             CloseWatcher();
@@ -599,21 +599,36 @@ namespace Files.ViewModels
             return orderedList;
         }
 
-        private bool _isLoadingItems = false;
+        private bool isLoadingIndicatorActive = false;
+
+        public bool IsLoadingIndicatorActive
+        {
+            get
+            {
+                return isLoadingIndicatorActive;
+            }
+            set
+            {
+                if (isLoadingIndicatorActive != value)
+                {
+                    isLoadingIndicatorActive = value;
+                    NotifyPropertyChanged(nameof(IsLoadingIndicatorActive));
+                }
+            }
+        }
+
+        private bool isLoadingItems = false;
 
         public bool IsLoadingItems
         {
             get
             {
-                return _isLoadingItems;
+                return isLoadingItems;
             }
-            internal set
+            set
             {
-                if (_isLoadingItems != value)
-                {
-                    _isLoadingItems = value;
-                    NotifyPropertyChanged(nameof(IsLoadingItems));
-                }
+                isLoadingItems = value;
+                IsLoadingIndicatorActive = value;
             }
         }
 
@@ -791,7 +806,7 @@ namespace Files.ViewModels
                     var orderedList = OrderFiles2(cacheEntry.FileList);
                     OrderFiles(orderedList);
                     Debug.WriteLine($"Loading of items from cache in {WorkingDirectory} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
-                    IsLoadingItems = false;
+                    IsLoadingIndicatorActive = false;
                 }
 
                 if (path.StartsWith(AppSettings.RecycleBinPath))

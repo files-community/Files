@@ -269,7 +269,7 @@ namespace Files.Views
         {
             if (args.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(args.QueryText))
             {
-                FilesystemViewModel.IsLoadingItems = true;
+                FilesystemViewModel.IsLoadingIndicatorActive = true;
                 ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
                 {
                     AssociatedTabInstance = this,
@@ -277,7 +277,7 @@ namespace Files.Views
                     SearchPathParam = FilesystemViewModel.WorkingDirectory,
                     SearchResults = await FolderSearch.SearchForUserQueryTextAsync(args.QueryText, FilesystemViewModel.WorkingDirectory, this, -1)
                 });
-                FilesystemViewModel.IsLoadingItems = false;
+                FilesystemViewModel.IsLoadingIndicatorActive = false;
             }
         }
 
@@ -580,7 +580,7 @@ namespace Files.Views
 
             var workingPath = NavigationToolbar.PathComponents
                     [NavigationToolbar.PathComponents.Count - 1].
-                    Path.TrimEnd(Path.DirectorySeparatorChar);
+                    Path?.TrimEnd(Path.DirectorySeparatorChar);
             foreach (var childFolder in childFolders)
             {
                 var isPathItemFocused = childFolder.Item.Name == nextPathItemTitle;

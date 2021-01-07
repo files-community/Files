@@ -56,8 +56,6 @@ namespace Files
 
         public IShellPage ParentShellPageInstance { get; private set; } = null;
 
-        private bool isSearchResultPage = false;
-
         public bool IsRenamingItem { get; set; } = false;
 
         private NavigationArguments navigationArguments;
@@ -319,16 +317,14 @@ namespace Files
             // Add item jumping handler
             Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
             navigationArguments = (NavigationArguments)eventArgs.Parameter;
-            isSearchResultPage = navigationArguments.IsSearchResultPage;
             ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
             IsItemSelected = false;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
 
-            if (!isSearchResultPage)
+            if (!navigationArguments.IsSearchResultPage)
             {
                 ParentShellPageInstance.NavigationToolbar.CanRefresh = true;
-                ParentShellPageInstance.NavigationToolbar.CanCopyPathInPage = true;
                 string previousDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
                 await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.NavPathParam);
 
@@ -347,8 +343,8 @@ namespace Files
 
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
-                ParentShellPageInstance.NavigationToolbar.PathControlDisplayText = navigationArguments.NavPathParam;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
+                ParentShellPageInstance.NavigationToolbar.PathControlDisplayText = navigationArguments.NavPathParam;
                 if (!navigationArguments.IsLayoutSwitch)
                 {
                     ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir);
@@ -361,7 +357,6 @@ namespace Files
             else
             {
                 ParentShellPageInstance.NavigationToolbar.CanRefresh = false;
-                ParentShellPageInstance.NavigationToolbar.CanCopyPathInPage = false;
                 ParentShellPageInstance.NavigationToolbar.CanGoForward = false;
                 ParentShellPageInstance.NavigationToolbar.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.
                 ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
@@ -389,6 +384,15 @@ namespace Files
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            var parameter = e.Parameter as NavigationArguments;
+            if (!parameter.IsLayoutSwitch)
+            {
+                ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles();
+            }
         }
 
         private void UnloadMenuFlyoutItemByName(string nameToUnload)
