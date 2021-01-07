@@ -1888,7 +1888,7 @@ namespace Files.ViewModels
             RapidAddItemsToCollectionAsync(path, previousDir);
         }
 
-        public async Task<ListedItem> AddFolderAsync(StorageFolder folder, string dateReturnFormat)
+        private async Task<ListedItem> AddFolderAsync(StorageFolder folder, string dateReturnFormat)
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
 
@@ -1915,7 +1915,7 @@ namespace Files.ViewModels
             return null;
         }
 
-        public async Task<ListedItem> AddFileAsync(StorageFile file, string dateReturnFormat, bool suppressThumbnailLoading = false)
+        private async Task<ListedItem> AddFileAsync(StorageFile file, string dateReturnFormat, bool suppressThumbnailLoading = false)
         {
             var basicProperties = await file.GetBasicPropertiesAsync();
             // Display name does not include extension
