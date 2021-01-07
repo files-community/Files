@@ -384,7 +384,7 @@
 									Glyph="&#xe919;"
 									FontSize="20"/>
 								<TextBlock
-									Text="Drag and drop any folder or &#10;file here to&#10;quickly access it"
+									Text="Drag and drop any folder or &#10;file here to quickly access it!"
 									FontSize="12"
 									FontFamily="Segoe UI"
 									VerticalAlignment="Bottom"
