@@ -12,9 +12,52 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="*" x:Name="PropertiesRow"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*" x:Name="PropertiesColumn"/>
+        </Grid.ColumnDefinitions>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1000"/>
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="RootPropertiesGrid.(Grid.Row)" Value="3"/>
+                        <Setter Target="RootPropertiesGrid.(Grid.Column)" Value="0"/>
+                        <Setter Target="HorizontalGridSplitter.Visibility" Value="Visible"/>
+                        <Setter Target="VerticalGridSplitter.Visibility" Value="Collapsed"/>
+                        <Setter Target="PropertiesRow.Height" Value="*"/>
+                        <Setter Target="PropertiesColumn.Width" Value="0"/>
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState>
+
+                    <VisualState.StateTriggers >
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="RootPropertiesGrid.(Grid.Row)" Value="0"/>
+                        <Setter Target="RootPropertiesGrid.(Grid.Column)" Value="3"/>
+                        <Setter Target="HorizontalGridSplitter.Visibility" Value="Collapsed"/>
+                        <Setter Target="VerticalGridSplitter.Visibility" Value="Visible"/>
+                        <Setter Target="PropertiesRow.Height" Value="0"/>
+                        <Setter Target="PropertiesColumn.Width" Value="*"/>
+                        
+                    </VisualState.Setters>
+                </VisualState>
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid Grid.Row="0" x:Name="RootPreviewGrid">
             <TextBlock x:Name="PreviewNotAvaliableText" Visibility="Collapsed" Text="No preview avaliable"/>
             <Grid x:Name="PreviewGrid">
                 <ScrollViewer>
@@ -24,9 +67,11 @@
                 </ScrollViewer>
             </Grid>
         </Grid>
-        <controls:GridSplitter Grid.Row="1" Style="{StaticResource DefaultHorizontalGridSplitterStyle}"/>
 
-        <ListView SelectionMode="None" Grid.Row="2" x:Name="PropertiesGrid">
+        <controls:GridSplitter Grid.Row="1" Style="{StaticResource DefaultHorizontalGridSplitterStyle}" x:Name="HorizontalGridSplitter"/>
+        <controls:GridSplitter Grid.Row="0" Grid.Column="1" Style="{StaticResource DefaultGridSplitterStyle}" x:Name="VerticalGridSplitter"/>
+
+        <ListView SelectionMode="None" Grid.Row="2" x:Name="RootPropertiesGrid">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />

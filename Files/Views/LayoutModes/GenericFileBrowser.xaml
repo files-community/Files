@@ -598,8 +598,14 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition />
+            <ColumnDefinition x:Name="PreviewPaneColumn"/>
         </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition x:Name="PreviewPaneRow"/>
+        </Grid.RowDefinitions>
 
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
@@ -631,6 +637,42 @@
                     Value="{x:Null}" />
             </Core:DataTriggerBehavior>
         </Interactivity:Interaction.Behaviors>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+
+                <VisualState>
+
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1000"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="PreviewPane.(Grid.Row)" Value="0"/>
+                        <Setter Target="PreviewPane.(Grid.Column)" Value="3"/>
+                        <Setter Target="VerticalGridSplitter.Visibility" Value="Visible"/>
+                        <Setter Target="HorizontalGridSplitter.Visibility" Value="Collapsed"/>
+                        <Setter Target="PreviewPaneColumn.Width" Value="2*"/>
+                        <Setter Target="PreviewPaneRow.Height" Value="0"/>
+                    </VisualState.Setters>
+                </VisualState>
+
+
+                <VisualState>
+                    <VisualState.StateTriggers >
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="PreviewPane.(Grid.Row)" Value="2"/>
+                        <Setter Target="PreviewPane.(Grid.Column)" Value="0"/>
+                        <Setter Target="VerticalGridSplitter.Visibility" Value="Collapsed"/>
+                        <Setter Target="HorizontalGridSplitter.Visibility" Value="Visible"/>
+                        <Setter Target="PreviewPaneColumn.Width" Value="0"/>
+                        <Setter Target="PreviewPaneRow.Height" Value="2*"/>
+                    </VisualState.Setters>
+                </VisualState>
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <muxc:ProgressBar
             x:Name="progBar"
             VerticalAlignment="Top"
@@ -656,7 +698,6 @@
 
         <controls:DataGrid
             x:Name="AllView"
-            Grid.Row="2"
             Margin="12,12,12,0"
             x:FieldModifier="public"
             AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
@@ -971,11 +1012,19 @@
         </Canvas>
 
         <controls:GridSplitter
-            Grid.Column="1" Grid.Row="1"
-            Style="{StaticResource DefaultGridSplitterStyle}">
+            Grid.Column="1" Grid.Row="0"
+            Style="{StaticResource DefaultGridSplitterStyle}"
+            x:Name="VerticalGridSplitter">
+        </controls:GridSplitter>
+        
+        <controls:GridSplitter
+            Grid.Column="0" Grid.Row="1"
+            Style="{StaticResource DefaultHorizontalGridSplitterStyle}"
+            x:Name="HorizontalGridSplitter">
         </controls:GridSplitter>
 
         <usercontrols:DetailsPane Grid.Column="2" Grid.Row="1" x:Name="PreviewPane" SelectedItems="{x:Bind SelectedItems, Mode=OneWay}">
+            
         </usercontrols:DetailsPane>
     </Grid>
 </local:BaseLayout>
