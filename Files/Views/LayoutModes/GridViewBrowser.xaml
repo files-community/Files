@@ -583,7 +583,13 @@
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                         Source="{x:Bind FileImage, Mode=OneWay}"
-                        Stretch="Uniform" />
+                        Stretch="Uniform">
+                        <Image.Transitions>
+                            <TransitionCollection>
+                                <AddDeleteThemeTransition />
+                            </TransitionCollection>
+                        </Image.Transitions>
+                    </Image>
                     <Image
                         x:Name="FolderGlyph"
                         HorizontalAlignment="Stretch"
@@ -596,6 +602,11 @@
                                 RasterizePixelWidth="900"
                                 UriSource="{x:Bind FolderIconSourceLarge}" />
                         </Image.Source>
+                        <Image.Transitions>
+                            <TransitionCollection>
+                                <AddDeleteThemeTransition />
+                            </TransitionCollection>
+                        </Image.Transitions>
                     </Image>
                     <Viewbox
                         x:Name="TypeUnknownGlyph"
@@ -731,7 +742,13 @@
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                         Source="{x:Bind FileImage, Mode=OneWay}"
-                        Stretch="Uniform" />
+                        Stretch="Uniform">
+                        <Image.Transitions>
+                            <TransitionCollection>
+                                <AddDeleteThemeTransition />
+                            </TransitionCollection>
+                        </Image.Transitions>
+                    </Image>
                     <Image
                         x:Name="FolderGlyph"
                         Width="74"
@@ -746,6 +763,11 @@
                                 RasterizePixelWidth="128"
                                 UriSource="{x:Bind FolderIconSource}" />
                         </Image.Source>
+                        <Image.Transitions>
+                            <TransitionCollection>
+                                <AddDeleteThemeTransition />
+                            </TransitionCollection>
+                        </Image.Transitions>
                     </Image>
                     <FontIcon
                         x:Name="TypeUnknownGlyph"
