@@ -88,6 +88,7 @@ namespace Files.ViewModels.Bundles
 		public BundleContainerViewModel(IShellPage associatedInstance)
 		{
 			this.associatedInstance = associatedInstance;
+			this.BundleRenameText = BundleName;
 
 			// Create commands
 			RemoveBundleCommand = new RelayCommand(RemoveBundle);
@@ -156,16 +157,16 @@ namespace Files.ViewModels.Bundles
 		}
 
 		private void RenameTextKeyDown(KeyRoutedEventArgs e)
-        {
+		{
 			if (e.Key == VirtualKey.Enter)
-            {
+			{
 				RenameBundleConfirm();
-            }
+			}
 			else if (e.Key == VirtualKey.Escape)
-            {
+			{
 				CloseRename();
-            }
-        }
+			}
+		}
 
 		private void DragOver(DragEventArgs e)
 		{
@@ -228,7 +229,7 @@ namespace Files.ViewModels.Bundles
 		private void CloseRename()
 		{
 			BundleRenameVisibility = Visibility.Collapsed;
-			BundleRenameText = string.Empty;
+			BundleRenameText = BundleName;
 		}
 
 		#endregion

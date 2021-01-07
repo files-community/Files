@@ -109,7 +109,8 @@ namespace Files.ViewModels.Bundles
 
 			Items.Add(new BundleContainerViewModel(associatedInstance)
 			{
-				BundleName = savedBundleNameTextInput
+				BundleName = savedBundleNameTextInput,
+				BundleRenameText = savedBundleNameTextInput
 			});
 
 			// Save bundles
@@ -173,7 +174,8 @@ namespace Files.ViewModels.Bundles
 					// Fill current bundle with collected bundle items
 					Items.Add(new BundleContainerViewModel(associatedInstance)
 					{
-						BundleName = bundle.Key
+						BundleName = bundle.Key,
+						BundleRenameText = bundle.Key
 					}.SetBundleItems(bundleItems));
 				}
 			}
