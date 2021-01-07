@@ -5,11 +5,19 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Files.Filesystem;
+using Files.SettingsInterfaces;
+using System.Collections.Generic;
 
 namespace Files.ViewModels.Bundles
 {
 	public class BundleItemViewModel : ObservableObject, IDisposable
 	{
+		#region Singleton
+
+		private IJsonSettings JsonSettings => associatedInstance?.InstanceViewModel.JsonSettings;
+
+		#endregion
+
 		#region Private Members
 
 		private readonly IShellPage associatedInstance;
@@ -17,6 +25,11 @@ namespace Files.ViewModels.Bundles
 		#endregion
 
 		#region Public Properties
+
+		/// <summary>
+		/// The name of a bundle this item is contained within
+		/// </summary>
+		public string OriginBundleName { get; set; }
 
 		public string Path { get; set; }
 
@@ -46,7 +59,9 @@ namespace Files.ViewModels.Bundles
 
 		#region Commands
 
-		public ICommand ConfirmCommand { get; set; }
+		public ICommand OpenItemCommand { get; set; }
+
+		public ICommand RemoveItemCommand { get; set; }
 
 		#endregion
 
@@ -57,16 +72,27 @@ namespace Files.ViewModels.Bundles
 			this.associatedInstance = associatedInstance;
 
 			// Create commands
-			ConfirmCommand = new RelayCommand(async () => await Confirm());
+			OpenItemCommand = new RelayCommand(Confirm);
+			RemoveItemCommand = new RelayCommand(RemoveItem);
 		}
 
 		#endregion
 
 		#region Command Implementation
 
-		private async Task Confirm()
+		private async void Confirm()
 		{
 			await associatedInstance.InteractionOperations.OpenPath(Path, TargetType);
+		}
+
+		private void RemoveItem()
+		{
+			if (JsonSettings.SavedBundles.ContainsKey(OriginBundleName))
+			{
+				Dictionary<string, List<string>> allBundles = JsonSettings.SavedBundles; // We need to do it this way for Set() to be called
+				allBundles[OriginBundleName].Remove(Path);
+				JsonSettings.SavedBundles = allBundles;
+			}
 		}
 
 		#endregion

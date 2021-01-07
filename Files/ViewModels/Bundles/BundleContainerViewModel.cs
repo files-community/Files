@@ -129,6 +129,12 @@ namespace Files.ViewModels.Bundles
 						if (item.Key == BundleName) // Item matches to-rename name
 						{
 							newBundles.Add(BundleRenameText, item.Value);
+
+							// We need to remember to change BundleItemViewModel.OriginBundleName!
+							foreach (var bundleItem in Contents)
+							{
+								bundleItem.OriginBundleName = BundleRenameText;
+							}
 						}
 						else // Ignore, and add existing values
 						{
@@ -168,6 +174,7 @@ namespace Files.ViewModels.Bundles
 						{
 							AddBundleItem(new BundleItemViewModel(associatedInstance)
 							{
+								OriginBundleName = BundleName,
 								Path = item.Path,
 								TargetType = item.IsOfType(StorageItemTypes.Folder) ? Filesystem.FilesystemItemType.Directory : Filesystem.FilesystemItemType.File
 							});

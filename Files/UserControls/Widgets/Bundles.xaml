@@ -295,7 +295,7 @@
 												BorderThickness="1"
 												Width="120"
 												Height="35"
-												Command="{Binding ConfirmCommand, Mode=OneWay}">
+												Command="{Binding OpenItemCommand, Mode=OneWay}">
 
 												<StackPanel Orientation="Horizontal" Spacing="3">
 													<!-- Icon -->
@@ -310,6 +310,18 @@
 														VerticalAlignment="Center"
 														HorizontalAlignment="Center"/>
 												</StackPanel>
+
+												<Button.Flyout>
+													<MenuFlyout>
+														<MenuFlyoutItem
+															Text="Remove Item"
+															Command="{Binding RemoveItemCommand, Mode=OneWay}">
+															<MenuFlyoutItem.Icon>
+																<FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe9ed;"/>
+															</MenuFlyoutItem.Icon>
+														</MenuFlyoutItem>
+													</MenuFlyout>
+												</Button.Flyout>
 
 												<ToolTipService.ToolTip>
 													<ToolTip Content="{Binding Path, Mode=OneWay}"/>

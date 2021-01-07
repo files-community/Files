@@ -82,12 +82,12 @@ namespace Files.ViewModels.Bundles
 		#region Command Implementation
 
 		private void InputTextKeyDown(KeyRoutedEventArgs e)
-        {
+		{
 			if (e.Key == VirtualKey.Enter)
-            {
+			{
 				AddBundle();
-            }
-        }
+			}
+		}
 
 		private void AddBundle()
 		{
@@ -165,6 +165,7 @@ namespace Files.ViewModels.Bundles
 						{
 							bundleItems.Add(new BundleItemViewModel(associatedInstance)
 							{
+								OriginBundleName = bundle.Key,
 								Path = bundleItem, // As Path
 								TargetType = await StorageItemHelpers.GetTypeFromPath(bundleItem, associatedInstance)
 							});
