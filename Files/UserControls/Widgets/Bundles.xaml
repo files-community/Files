@@ -370,6 +370,11 @@
 										</Grid>
 									</DataTemplate>
 								</GridView.ItemTemplate>
+								<GridView.ItemsPanel>
+									<ItemsPanelTemplate>
+										<StackPanel Spacing="7" Orientation="Horizontal"/>
+									</ItemsPanelTemplate>
+								</GridView.ItemsPanel>
 							</GridView>
 
 							<!-- No Bundle contents text info -->
