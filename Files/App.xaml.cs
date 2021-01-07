@@ -1,10 +1,10 @@
 using Files.CommandLine;
 using Files.Controllers;
-using Files.Controls;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
-using Files.View_Models;
+using Files.UserControls.MultitaskingControl;
+using Files.ViewModels;
 using Files.Views;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
@@ -12,6 +12,7 @@ using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NLog;
 using System;
@@ -23,6 +24,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.UI.Core;
@@ -39,10 +41,7 @@ namespace Files
     {
         private static bool ShowErrorNotification = false;
 
-        private readonly static CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-        public static CancellationToken CancellationToken = cancellationTokenSource.Token;
         public static SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
-
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
 
         public static SettingsViewModel AppSettings { get; set; }
@@ -66,7 +65,7 @@ namespace Files
             InitializeComponent();
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
-
+            Clipboard.ContentChanged += Clipboard_ContentChanged;
             // Initialize NLog
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
             LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
@@ -163,7 +162,7 @@ namespace Files
                 }
                 else
                 {
-                    await MainPage.AddNewTabByPathAsync(typeof(Views.Pages.ModernShellPage), e.Arguments);
+                    await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), e.Arguments);
                 }
 
                 // Ensure the current window is active
@@ -179,6 +178,34 @@ namespace Files
             {
                 ShowErrorNotification = true;
                 ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
+                Clipboard_ContentChanged(null, null);
+            }
+        }
+
+        private void Clipboard_ContentChanged(object sender, object e)
+        {
+            if (App.InteractionViewModel == null)
+            {
+                return;
+            }
+
+            try
+            {
+                // Clipboard.GetContent() will throw UnauthorizedAccessException
+                // if the app window is not in the foreground and active
+                DataPackageView packageView = Clipboard.GetContent();
+                if (packageView.Contains(StandardDataFormats.StorageItems))
+                {
+                    App.InteractionViewModel.IsPasteEnabled = true;
+                }
+                else
+                {
+                    App.InteractionViewModel.IsPasteEnabled = false;
+                }
+            }
+            catch
+            {
+                App.InteractionViewModel.IsPasteEnabled = false;
             }
         }
 
@@ -206,8 +233,17 @@ namespace Files
                     }
                     else
                     {
-                        var trimmedPath = eventArgs.Uri.OriginalString.Split('=')[1];
-                        rootFrame.Navigate(typeof(MainPage), @trimmedPath, new SuppressNavigationTransitionInfo());
+                        var parsedArgs = eventArgs.Uri.Query.TrimStart('?').Split('=');
+                        var unescapedValue = Uri.UnescapeDataString(parsedArgs[1]);
+                        switch (parsedArgs[0])
+                        {
+                            case "tab":
+                                rootFrame.Navigate(typeof(MainPage), TabItemArguments.Deserialize(unescapedValue), new SuppressNavigationTransitionInfo());
+                                break;
+                            case "folder":
+                                rootFrame.Navigate(typeof(MainPage), unescapedValue, new SuppressNavigationTransitionInfo());
+                                break;
+                        }
                     }
 
                     // Ensure the current window is active.
@@ -328,7 +364,18 @@ namespace Files
 
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
         {
-            AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab => tab != null ? tab.Path ?? "NewTab".GetLocalized() : "NewTab".GetLocalized()).ToArray();
+            AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab =>
+            {
+                if (tab != null && tab.TabItemArguments != null)
+                {
+                    return tab.TabItemArguments.Serialize();
+                }
+                else
+                {
+                    var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "NewTab".GetLocalized() };
+                    return defaultArg.Serialize();
+                }
+            }).ToArray();
         }
 
         // Occurs when an exception is not handled on the UI thread.

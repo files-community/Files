@@ -36,7 +36,7 @@ namespace Files.UserControls
         /// <param name="status"></param>
         /// <param name="operation"></param>
         /// <returns>A StatusBanner object which may be used to track/update the progress of an operation.</returns>
-        public PostedStatusBanner PostBanner(string title, string message, uint initialProgress, ReturnResult status, FileOperationType operation)
+        public PostedStatusBanner PostBanner(string title, string message, float initialProgress, ReturnResult status, FileOperationType operation)
         {
             StatusBanner item = new StatusBanner(message, title, initialProgress, status, operation);
             StatusBannersSource.Add(item);
@@ -94,7 +94,9 @@ namespace Files.UserControls
         {
             if (value <= 100.0f)
             {
-                Banner.FullTitle = Banner.Title + " (" + value + "%)";
+                Banner.IsProgressing = true;
+                Banner.Progress = value;
+                Banner.FullTitle = Banner.Title + " (" + value.ToString("0.00") + "%)";
             }
             else
             {
@@ -119,7 +121,7 @@ namespace Files.UserControls
     {
         #region Private Members
 
-        private float initialProgress = 0.0f;
+        private readonly float initialProgress = 0.0f;
 
         private string fullTitle;
 
@@ -127,7 +129,18 @@ namespace Files.UserControls
 
         #region Public Properties
 
-        public bool IsProgressing { get; private set; } = false;
+        private float progress = 0.0f;
+
+        public float Progress
+        {
+            get => progress;
+            set
+            {
+                SetProperty(ref progress, value);
+            }
+        }
+
+        public bool IsProgressing { get; set; } = false;
 
         public string Title { get; private set; }
 
@@ -146,6 +159,7 @@ namespace Files.UserControls
         public string SecondaryButtonText { get; set; } = "Cancel";
 
         public Action PrimaryButtonClick { get; }
+
         public bool SolutionButtonsVisible { get; } = false;
 
         public string FullTitle
@@ -156,7 +170,7 @@ namespace Files.UserControls
 
         #endregion Public Properties
 
-        public StatusBanner(string message, string title, uint progress, ReturnResult status, FileOperationType operation)
+        public StatusBanner(string message, string title, float progress, ReturnResult status, FileOperationType operation)
         {
             Message = message;
             Title = title;

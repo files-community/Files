@@ -1,7 +1,7 @@
 **Privacy Policy**
 
 *Personal Information Collection* 
-Files UWP does not collect, store, share or publish any personal information.
+Files does not collect, store, share or publish any personal information.
 
 *Non-personal Information Collection*
 

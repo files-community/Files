@@ -1,9 +1,9 @@
 ﻿<UserControl
-    x:Class="Files.RecentFiles"
+    x:Class="Files.UserControls.Widgets.RecentFiles"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Files"
+    xmlns:local="using:Files.UserControls.Widgets"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -33,6 +33,7 @@
                     Opacity=".8"
                     Text="Recent files" />
                 <TextBlock
+                    x:Name="RecentItemDescription"
                     x:Uid="RecentItemDescription"
                     Margin="0,24,0,0"
                     HorizontalAlignment="Stretch"
@@ -65,9 +66,9 @@
                                 <Grid.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem
-                                            x:Name="mfi_RemoveOneItem"
+                                            x:Name="RemoveRecentItem"
                                             x:Uid="RecentItemRemove"
-                                            Click="RemoveOneFrequentItem"
+                                            Click="RemoveRecentItem_Click"
                                             Text="Remove this item">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB3D;" />
@@ -75,7 +76,7 @@
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem
                                             x:Uid="RecentItemClearAll"
-                                            Click="MenuFlyoutItem_Click"
+                                            Click="ClearRecentItems_Click"
                                             Text="Clear all items">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9ED;" />
@@ -102,22 +103,28 @@
                                     Margin="0,0,0,0"
                                     VerticalAlignment="Stretch">
                                     <FontIcon
+                                        x:Name="FolderImg"
+                                        x:Load="{x:Bind FolderImg}"
+                                        x:Phase="1"
                                         FontFamily="{StaticResource FluentUIGlyphs}"
                                         FontSize="24"
                                         Foreground="#ffe793"
-                                        Glyph="&#xEA55;"
-                                        Visibility="{x:Bind FolderImg}" />
+                                        Glyph="&#xEA55;" />
                                     <FontIcon
+                                        x:Name="EmptyImg"
+                                        x:Load="{x:Bind EmptyImgVis}"
+                                        x:Phase="1"
                                         FontFamily="{StaticResource FluentUIGlyphs}"
                                         FontSize="24"
-                                        Glyph="&#xEA00;"
-                                        Visibility="{x:Bind EmptyImgVis}" />
+                                        Glyph="&#xEA00;" />
                                     <Image
+                                        x:Name="FileImg"
                                         Width="24"
                                         Height="24"
+                                        x:Load="{x:Bind FileIconVis}"
+                                        x:Phase="1"
                                         Source="{x:Bind FileImg}"
-                                        Stretch="UniformToFill"
-                                        Visibility="{x:Bind FileIconVis}" />
+                                        Stretch="UniformToFill" />
                                 </Grid>
                                 <TextBlock
                                     Grid.Column="1"

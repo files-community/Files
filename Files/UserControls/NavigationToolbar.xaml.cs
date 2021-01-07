@@ -2,9 +2,8 @@
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
-using Files.View_Models;
+using Files.ViewModels;
 using Files.Views;
-using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
@@ -118,13 +117,6 @@ namespace Files.UserControls
           new PropertyMetadata(null)
         );
 
-        public static readonly DependencyProperty CanCopyPathInPageProperty = DependencyProperty.Register(
-          "CanCopyPathInPage",
-          typeof(bool),
-          typeof(NavigationToolbar),
-          new PropertyMetadata(null)
-        );
-
         public bool CanCreateFileInPage
         {
             get
@@ -137,6 +129,13 @@ namespace Files.UserControls
             }
         }
 
+        public static readonly DependencyProperty CanCopyPathInPageProperty = DependencyProperty.Register(
+          "CanCopyPathInPage",
+          typeof(bool),
+          typeof(NavigationToolbar),
+          new PropertyMetadata(null)
+        );
+
         public bool CanCopyPathInPage
         {
             get
@@ -146,6 +145,25 @@ namespace Files.UserControls
             set
             {
                 SetValue(CanCopyPathInPageProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty CanPasteInPageProperty = DependencyProperty.Register(
+          "CanPasteInPage",
+          typeof(bool),
+          typeof(NavigationToolbar),
+          new PropertyMetadata(null)
+        );
+
+        public bool CanPasteInPage
+        {
+            get
+            {
+                return (bool)GetValue(CanPasteInPageProperty);
+            }
+            set
+            {
+                SetValue(CanPasteInPageProperty, value);
             }
         }
 
@@ -222,6 +240,25 @@ namespace Files.UserControls
             set
             {
                 SetValue(CopyPathInvokedCommandProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty NewPaneInvokedCommandProperty = DependencyProperty.Register(
+          "NewPaneInvokedCommand",
+          typeof(ICommand),
+          typeof(NavigationToolbar),
+          new PropertyMetadata(null)
+        );
+
+        public ICommand NewPaneInvokedCommand
+        {
+            get
+            {
+                return (ICommand)GetValue(NewPaneInvokedCommandProperty);
+            }
+            set
+            {
+                SetValue(NewPaneInvokedCommandProperty, value);
             }
         }
 
@@ -348,6 +385,82 @@ namespace Files.UserControls
                 {
                     clickablePathLoaded = value;
                     NotifyPropertyChanged(nameof(ClickablePathLoaded));
+                }
+            }
+        }
+
+        private bool showMultiPaneControls;
+
+        public bool ShowMultiPaneControls
+        {
+            get
+            {
+                return showMultiPaneControls;
+            }
+            set
+            {
+                if (value != showMultiPaneControls)
+                {
+                    showMultiPaneControls = value;
+                    NotifyPropertyChanged(nameof(ShowMultiPaneControls));
+                }
+            }
+        }
+
+        private bool isMultiPaneActive;
+
+        public bool IsMultiPaneActive
+        {
+            get
+            {
+                return isMultiPaneActive;
+            }
+            set
+            {
+                if (value != isMultiPaneActive)
+                {
+                    isMultiPaneActive = value;
+                    NotifyPropertyChanged(nameof(IsMultiPaneActive));
+                    NotifyPropertyChanged(nameof(IsPageSecondaryPane));
+                }
+            }
+        }
+
+        public bool IsPageSecondaryPane => !IsMultiPaneActive || !IsPageMainPane;
+
+        private bool isPageMainPane;
+
+        public bool IsPageMainPane
+        {
+            get
+            {
+                return isPageMainPane;
+            }
+            set
+            {
+                if (value != isPageMainPane)
+                {
+                    isPageMainPane = value;
+                    NotifyPropertyChanged(nameof(IsPageMainPane));
+                    NotifyPropertyChanged(nameof(IsPageSecondaryPane));
+                }
+            }
+        }
+
+        private bool areKeyboardAcceleratorsEnabled;
+
+        public bool AreKeyboardAcceleratorsEnabled
+        {
+            get
+            {
+                return areKeyboardAcceleratorsEnabled;
+            }
+            set
+            {
+                if (value != areKeyboardAcceleratorsEnabled)
+                {
+                    areKeyboardAcceleratorsEnabled = value;
+                    NotifyPropertyChanged(nameof(AreKeyboardAcceleratorsEnabled));
                 }
             }
         }
@@ -632,8 +745,7 @@ namespace Files.UserControls
                             dragOverTimer.Stop();
                             ItemDraggedOverPathItem?.Invoke(this, new PathNavigationEventArgs()
                             {
-                                ItemPath = dragOverPath,
-                                LayoutType = AppSettings.GetLayoutType()
+                                ItemPath = dragOverPath
                             });
                             dragOverPath = null;
                         }
@@ -717,8 +829,7 @@ namespace Files.UserControls
             var itemTappedPath = ((sender as TextBlock).DataContext as PathBoxItem).Path;
             ToolbarPathItemInvoked?.Invoke(this, new PathNavigationEventArgs()
             {
-                ItemPath = itemTappedPath,
-                LayoutType = AppSettings.GetLayoutType()
+                ItemPath = itemTappedPath
             });
         }
 

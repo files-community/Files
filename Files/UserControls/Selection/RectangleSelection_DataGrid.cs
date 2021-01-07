@@ -3,7 +3,9 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Windows.Foundation;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -14,7 +16,9 @@ namespace Files.UserControls.Selection
 {
     public class RectangleSelection_DataGrid : RectangleSelection
     {
-        private DataGrid uiElement;
+        private readonly DataGrid uiElement;
+        private readonly MethodInfo uiElementSetCurrentCellCore;
+
         private ScrollBar scrollBar;
         private SelectionChangedEventHandler selectionChanged;
 
@@ -22,12 +26,16 @@ namespace Files.UserControls.Selection
         private Dictionary<object, System.Drawing.Rectangle> itemsPosition;
         private IList<DataGridRow> dataGridRows;
         private List<object> prevSelectedItems;
+        private ItemSelectionStrategy selectionStrategy;
 
         public RectangleSelection_DataGrid(DataGrid uiElement, Rectangle selectionRectangle, SelectionChangedEventHandler selectionChanged = null)
         {
             this.uiElement = uiElement;
             this.selectionRectangle = selectionRectangle;
             this.selectionChanged = selectionChanged;
+
+            uiElementSetCurrentCellCore = typeof(DataGrid).GetMethod("SetCurrentCellCore", BindingFlags.NonPublic | BindingFlags.Instance, null, new Type[] { typeof(int), typeof(int) }, null);
+
             itemsPosition = new Dictionary<object, System.Drawing.Rectangle>();
             dataGridRows = new List<DataGridRow>();
             InitEvents(null, null);
@@ -35,17 +43,28 @@ namespace Files.UserControls.Selection
 
         private void RectangleSelection_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
+            if (scrollBar == null)
+            {
+                return;
+            }
+
+            var currentPoint = e.GetCurrentPoint(uiElement);
+            var verticalOffset = scrollBar.Value - uiElement.ColumnHeaderHeight;
             if (selectionState == SelectionState.Starting)
             {
-                // Clear selected items once if the pointer is pressed and moved
-                uiElement.SelectedItems.Clear();
+                if (!HasMovedMinimalDelta(originDragPoint.X, originDragPoint.Y - verticalOffset, currentPoint.Position.X, currentPoint.Position.Y))
+                {
+                    return;
+                }
+
+                uiElement.CancelEdit();
+                selectionStrategy.StartSelection();
                 OnSelectionStarted();
                 selectionState = SelectionState.Active;
             }
-            var currentPoint = e.GetCurrentPoint(uiElement);
-            if (currentPoint.Properties.IsLeftButtonPressed && scrollBar != null)
+
+            if (currentPoint.Properties.IsLeftButtonPressed)
             {
-                var verticalOffset = scrollBar.Value - 38; // Header height
                 var originDragPointShifted = new Point(originDragPoint.X, originDragPoint.Y - verticalOffset); // Initial drag point relative to the topleft corner
                 base.DrawRectangle(currentPoint, originDragPointShifted);
                 // Selected area considering scrolled offset
@@ -72,22 +91,18 @@ namespace Files.UserControls.Selection
                     itemsPosition[row.DataContext] = itemRect; // Update item position
                     dataGridRowsPosition[row] = itemRect; // Update ui row position
                 }
+
                 foreach (var item in itemsPosition.ToList())
                 {
                     try
                     {
-                        // Update selected items
                         if (rect.IntersectsWith(item.Value))
                         {
-                            // Selection rectangle intersects item, add to selected items
-                            if (!uiElement.SelectedItems.Contains(item.Key))
-                            {
-                                uiElement.SelectedItems.Add(item.Key);
-                            }
+                            selectionStrategy.HandleIntersectionWithItem(item.Key);
                         }
                         else
                         {
-                            uiElement.SelectedItems.Remove(item.Key);
+                            selectionStrategy.HandleNoIntersectionWithItem(item.Key);
                         }
                     }
                     catch (ArgumentException)
@@ -146,24 +161,36 @@ namespace Files.UserControls.Selection
             Interaction.FindChildren<DataGridRow>(dataGridRows, uiElement); // Find visible/loaded rows
             prevSelectedItems = uiElement.SelectedItems.Cast<object>().ToList(); // Save current selected items
             originDragPoint = new Point(e.GetCurrentPoint(uiElement).Position.X, e.GetCurrentPoint(uiElement).Position.Y); // Initial drag point relative to the topleft corner
-            var verticalOffset = (scrollBar?.Value ?? 0) - 38; // Header height
+            var verticalOffset = (scrollBar?.Value ?? 0) - uiElement.ColumnHeaderHeight;
             originDragPoint.Y += verticalOffset; // Initial drag point relative to the top of the list (considering scrolled offset)
             if (!e.GetCurrentPoint(uiElement).Properties.IsLeftButtonPressed || e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
             {
                 // Trigger only on left click, do not trigger with touch
                 return;
             }
+
             var clickedRow = Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
-            if (clickedRow == null)
-            {
-                // If user click outside, reset selection
-                uiElement.SelectedItems.Clear();
-            }
-            else if (uiElement.SelectedItems.Contains(clickedRow.DataContext))
+            if (clickedRow != null && uiElement.SelectedItems.Contains(clickedRow.DataContext))
             {
                 // If the item under the pointer is selected do not trigger selection rectangle
                 return;
             }
+
+            var selectedItems = new GenericItemsCollection<object>(uiElement.SelectedItems);
+            selectionStrategy = e.KeyModifiers.HasFlag(VirtualKeyModifiers.Control) ?
+                    new InvertPreviousItemSelectionStrategy(selectedItems, prevSelectedItems) :
+                    e.KeyModifiers.HasFlag(VirtualKeyModifiers.Shift) ?
+                        (ItemSelectionStrategy)new ExtendPreviousItemSelectionStrategy(selectedItems, prevSelectedItems) :
+                        new IgnorePreviousItemSelectionStrategy(selectedItems);
+
+            if (clickedRow == null)
+            {
+                // If user click outside, reset selection
+                uiElement.CancelEdit();
+                DeselectGridCell();
+                selectionStrategy.HandleNoItemSelected();
+            }
+
             uiElement.PointerMoved -= RectangleSelection_PointerMoved;
             uiElement.PointerMoved += RectangleSelection_PointerMoved;
             if (selectionChanged != null)
@@ -173,6 +200,11 @@ namespace Files.UserControls.Selection
             }
             uiElement.CapturePointer(e.Pointer);
             selectionState = SelectionState.Starting;
+        }
+
+        private void DeselectGridCell()
+        {
+            uiElementSetCurrentCellCore.Invoke(uiElement, new object[] { -1, -1 });
         }
 
         private void RectangleSelection_PointerReleased(object sender, PointerRoutedEventArgs e)
@@ -198,6 +230,8 @@ namespace Files.UserControls.Selection
             {
                 OnSelectionEnded();
             }
+
+            selectionStrategy = null;
             selectionState = SelectionState.Inactive;
         }
 

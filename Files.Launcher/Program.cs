@@ -462,12 +462,12 @@ namespace FilesFullTrust
                         }
                         using var shi = new ShellItem(fileToDeletePath);
                         op.QueueDeleteOperation(shi);
-                        op.PostDeleteItem += async (s, e) =>
-                        {
-                            await args.Request.SendResponseAsync(new ValueSet() {
-                                { "Success", e.Result.Succeeded } });
-                        };
+                        var deleteTcs = new TaskCompletionSource<bool>();
+                        op.PostDeleteItem += (s, e) => deleteTcs.TrySetResult(e.Result.Succeeded);
                         op.PerformOperations();
+                        var result = await deleteTcs.Task;
+                        await args.Request.SendResponseAsync(new ValueSet() {
+                            { "Success", result } });
                     }
                     break;
 

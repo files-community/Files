@@ -1,12 +1,12 @@
 ﻿using Files.Dialogs;
-using Files.View_Models.Properties;
+using Files.ViewModels.Properties;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace Files
+namespace Files.Views
 {
     public sealed partial class PropertiesDetails : PropertiesTab
     {
