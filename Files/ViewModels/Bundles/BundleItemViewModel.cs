@@ -46,7 +46,10 @@ namespace Files.ViewModels.Bundles
 			{
 				if (TargetType == FilesystemItemType.Directory) // OpenDirectory
 				{
-					return (BitmapImage)null;
+					return new BitmapImage
+					{
+						UriSource = new Uri("ms-appx:///Assets/FolderIcon.svg")
+					};
 				}
 				else // NotADirectory
 				{

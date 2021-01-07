@@ -263,7 +263,7 @@
 												Text="Remove Bundle"
 												Command="{Binding RemoveBundleCommand, Mode=OneWay}">
 												<MenuFlyoutItem.Icon>
-													<FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe9ed;"/>
+													<FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB3D;"/>
 												</MenuFlyoutItem.Icon>
 											</MenuFlyoutItem>
 											<MenuFlyoutItem
@@ -319,7 +319,7 @@
 															Text="Remove Item"
 															Command="{Binding RemoveItemCommand, Mode=OneWay}">
 															<MenuFlyoutItem.Icon>
-																<FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe9ed;"/>
+																<FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB3D;"/>
 															</MenuFlyoutItem.Icon>
 														</MenuFlyoutItem>
 													</MenuFlyout>
