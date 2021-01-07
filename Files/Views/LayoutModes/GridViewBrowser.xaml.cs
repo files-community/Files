@@ -38,6 +38,11 @@ namespace Files.Views.LayoutModes
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             SetItemTemplate(); // Set ItemTemplate
+            var parameters = (NavigationArguments)eventArgs.Parameter;
+            if (parameters.IsLayoutSwitch)
+            {
+                ReloadItemIcons();
+            }
         }
 
         private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
@@ -385,7 +390,7 @@ namespace Files.Views.LayoutModes
 
         private void ReloadItemIcons()
         {
-            foreach (ListedItem listedItem in FileList.Items)
+            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders)
             {
                 listedItem.ItemPropertiesInitialized = false;
                 if (FileList.ContainerFromItem(listedItem) != null)

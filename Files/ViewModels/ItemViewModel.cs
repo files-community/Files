@@ -425,38 +425,15 @@ namespace Files.ViewModels
             }
         }
 
-        public void CancelLoadAndClearFiles(bool isSearchResultPage = false)
+        private void CancelLoadAndClearFiles()
         {
             Debug.WriteLine("CancelLoadAndClearFiles");
-            if (!isSearchResultPage)
+            CloseWatcher();
+            if (IsLoadingItems)
             {
-                CloseWatcher();
-
-                AssociatedInstance.NavigationToolbar.CanRefresh = true;
-                if (IsLoadingItems == false)
-                {
-                    return;
-                }
-
                 _addFilesCTS.Cancel();
-                AssociatedInstance.NavigationToolbar.CanGoForward = true;
             }
-            else
-            {
-                AssociatedInstance.NavigationToolbar.CanRefresh = false;
-                AssociatedInstance.NavigationToolbar.CanGoForward = false;
-                AssociatedInstance.NavigationToolbar.CanNavigateToParent = false;
-                AssociatedInstance.NavigationToolbar.CanCopyPathInPage = false;
-            }
-
-            AssociatedInstance.NavigationToolbar.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.
             _filesAndFolders.Clear();
-
-            if (!(WorkingDirectory?.StartsWith(AppSettings.RecycleBinPath) ?? false) && !isSearchResultPage)
-            {
-                // Can't go up from recycle bin
-                AssociatedInstance.NavigationToolbar.CanNavigateToParent = true;
-            }
         }
 
         public void OrderFiles(IList<ListedItem> orderedList = null)

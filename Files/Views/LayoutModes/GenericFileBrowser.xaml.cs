@@ -112,6 +112,26 @@ namespace Files.Views.LayoutModes
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged += ViewModel_PropertyChanged;
             AllView.LoadingRow += AllView_LoadingRow;
             ViewModel_PropertyChanged(null, new PropertyChangedEventArgs("DirectorySortOption"));
+            var parameters = (NavigationArguments)eventArgs.Parameter;
+            if (parameters.IsLayoutSwitch)
+            {
+                ReloadItemIcons();
+            }
+        }
+
+        private void ReloadItemIcons()
+        {
+            var rows = new List<DataGridRow>();
+            Interaction.FindChildren<DataGridRow>(rows, AllView);
+            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders)
+            {
+                listedItem.ItemPropertiesInitialized = false;
+                if (rows.Any(x => x.DataContext == listedItem))
+                {
+                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem);
+                    listedItem.ItemPropertiesInitialized = true;
+                }
+            }
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

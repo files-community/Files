@@ -1147,6 +1147,7 @@ namespace Files.Views
             {
                 var previousPageContent = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1];
                 var previousPageNavPath = previousPageContent.Parameter as NavigationArguments;
+                previousPageNavPath.IsLayoutSwitch = false;
                 if (previousPageContent.SourcePageType != typeof(YourHome))
                 {
                     // Update layout type
@@ -1165,6 +1166,7 @@ namespace Files.Views
             {
                 var incomingPageContent = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1];
                 var incomingPageNavPath = incomingPageContent.Parameter as NavigationArguments;
+                incomingPageNavPath.IsLayoutSwitch = false;
                 if (incomingPageContent.SourcePageType != typeof(YourHome))
                 {
                     // Update layout type
