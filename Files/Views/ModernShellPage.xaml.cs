@@ -106,7 +106,7 @@ namespace Files.Views
                 if (value != contentPage)
                 {
                     contentPage = value;
-                    NotifyPropertyChanged("ContentPage");
+                    NotifyPropertyChanged(nameof(ContentPage));
                 }
             }
         }
