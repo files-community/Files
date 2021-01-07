@@ -5,7 +5,6 @@ using Files.Interacts;
 using Files.UserControls.Selection;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections;
@@ -358,7 +357,6 @@ namespace Files.Views.LayoutModes
             {
                 AllView.SelectedItems.Add(item);
             }
-
         }
 
         private void AllView_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
