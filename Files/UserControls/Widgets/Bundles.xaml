@@ -71,7 +71,7 @@
 					HorizontalAlignment="Center"/>
 
 				<Button.Flyout>
-					<Flyout>
+					<Flyout Placement="Bottom">
 						<Border MinWidth="280">
 							<Grid Padding="5 3 5 3" RowSpacing="7">
 								<Grid.RowDefinitions>
@@ -157,6 +157,7 @@
 
 		<!-- Collection of bundles -->
 		<GridView
+			SelectionMode="None"
 			ItemsSource="{Binding Items, Mode=OneWay}"
 			HorizontalAlignment="Stretch">
 
@@ -279,6 +280,7 @@
 
 							<!-- List of Bundle Items -->
 							<GridView
+								SelectionMode="None"
 								VerticalAlignment="Stretch"
 								HorizontalAlignment="Stretch"
 								ItemsSource="{Binding Contents, Mode=OneWay}">
@@ -311,7 +313,7 @@
 														HorizontalAlignment="Center"/>
 												</StackPanel>
 
-												<Button.Flyout>
+												<Button.ContextFlyout>
 													<MenuFlyout>
 														<MenuFlyoutItem
 															Text="Remove Item"
@@ -321,7 +323,7 @@
 															</MenuFlyoutItem.Icon>
 														</MenuFlyoutItem>
 													</MenuFlyout>
-												</Button.Flyout>
+												</Button.ContextFlyout>
 
 												<ToolTipService.ToolTip>
 													<ToolTip Content="{Binding Path, Mode=OneWay}"/>
