@@ -259,8 +259,6 @@ namespace Files.Filesystem
         public bool IsRecycleBinItem => this is RecycleBinItem;
         public bool IsShortcutItem => this is ShortcutItem;
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
-
-        public string FileText { get; set; }
     }
 
     public class RecycleBinItem : ListedItem

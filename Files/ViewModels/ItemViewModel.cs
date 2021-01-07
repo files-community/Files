@@ -688,7 +688,6 @@ namespace Files.ViewModels
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
                                 matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
                                 wasSyncStatusLoaded = true;
-                                item.FileText = await FileIO.ReadTextAsync(matchingStorageItem);
                             }
                         }
                     }
@@ -1919,8 +1918,6 @@ namespace Files.ViewModels
             var itemFolderImgVis = false;
             var itemFileExtension = file.FileType;
 
-            var textContents = await FileIO.ReadTextAsync(file);
-
             BitmapImage icon = new BitmapImage();
             bool itemThumbnailImgVis;
             bool itemEmptyImgVis;
@@ -2006,7 +2003,6 @@ namespace Files.ViewModels
                     ItemPath = itemPath,
                     FileSize = itemSize,
                     FileSizeBytes = (long)itemSizeBytes,
-                    FileText = textContents
                 });
             }
         }
