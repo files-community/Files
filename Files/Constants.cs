@@ -26,7 +26,7 @@
         {
             public static class Bundles
             {
-                public const int MaxAmountOfItemsInBundle = 6;
+                public const int MaxAmountOfItemsInBundle = 8;
             }
         }
 

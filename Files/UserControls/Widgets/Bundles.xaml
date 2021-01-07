@@ -54,7 +54,7 @@
 				Text="Bundles"/>
 
 			<!-- Add Bundle button-->
-			<Button 
+			<Button
 				Background="Transparent"
 				VerticalAlignment="Center"
 				HorizontalAlignment="Right"
@@ -76,7 +76,7 @@
 				<Button.Flyout>
 					<Flyout Placement="Bottom">
 						<Border MinWidth="280">
-							<Grid Padding="5 3 5 3" RowSpacing="7">
+							<Grid Padding="6 3 6 3" RowSpacing="7">
 								<Grid.RowDefinitions>
 									<!-- Header -->
 									<RowDefinition/>
@@ -191,7 +191,7 @@
 						</Grid.Resources>
 
 						<!-- Contents of a Bundle -->
-						<StackPanel Spacing="8" Padding="12" AllowDrop="True">
+						<StackPanel Spacing="9" Padding="14" AllowDrop="True" HorizontalAlignment="Center">
 							<i:Interaction.Behaviors>
 								<!-- No need to specify CommandParameter - `e` is passed by default -->
 								<core:EventTriggerBehavior EventName="DragOver">
@@ -208,7 +208,6 @@
 									<ColumnDefinition Width="Auto"/>
 								</Grid.ColumnDefinitions>
 
-								
 								<Grid Grid.Column="0" ColumnSpacing="5">
 
 									<Grid.ColumnDefinitions>
@@ -310,7 +309,7 @@
 												Height="35"
 												Command="{Binding OpenItemCommand, Mode=OneWay}">
 
-												<Grid ColumnSpacing="4" Padding="3 2 3 2">
+												<Grid ColumnSpacing="8" Padding="5 2 5 2">
 													<Grid.ColumnDefinitions>
 														<ColumnDefinition Width="Auto"/>
 														<ColumnDefinition/>
