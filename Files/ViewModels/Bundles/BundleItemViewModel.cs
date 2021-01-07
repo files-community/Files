@@ -133,7 +133,6 @@ namespace Files.ViewModels.Bundles
 			}
 		}
 
-
 		#endregion
 
 		#region IDisposable

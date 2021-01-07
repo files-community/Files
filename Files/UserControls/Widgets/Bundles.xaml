@@ -55,6 +55,7 @@
 
 			<!-- Add Bundle button-->
 			<Button 
+				Background="Transparent"
 				VerticalAlignment="Center"
 				HorizontalAlignment="Right"
 				Height="20"
@@ -216,7 +217,7 @@
 									</Grid.ColumnDefinitions>
 
 									<!-- Bundle Name -->
-									<TextBlock 
+									<TextBlock
 										Text="{Binding BundleName, Mode=OneWay}"
 										FontFamily="Segoe UI"
 										FontWeight="SemiBold"
@@ -231,9 +232,9 @@
 										Visibility="{Binding BundleRenameVisibility, Mode=OneWay}"
 										Text="{Binding BundleRenameText, Mode=TwoWay}"
 										PlaceholderText="New name..."
-										Grid.Column="0"
 										VerticalAlignment="Center"
-										HorizontalAlignment="Stretch">
+										HorizontalAlignment="Stretch"
+										Grid.Column="0">
 										<i:Interaction.Behaviors>
 											<!-- No need to specify CommandParameter - `e` is passed by default -->
 											<core:EventTriggerBehavior EventName="KeyDown">
@@ -384,7 +385,7 @@
 									Glyph="&#xe919;"
 									FontSize="20"/>
 								<TextBlock
-									Text="Drag and drop any folder or &#10;file here to quickly access it!"
+									Text="Drag and drop any folder or &#10;file here to quickly access it"
 									FontSize="12"
 									FontFamily="Segoe UI"
 									VerticalAlignment="Bottom"
