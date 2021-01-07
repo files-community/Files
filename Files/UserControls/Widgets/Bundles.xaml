@@ -191,7 +191,7 @@
 						</Grid.Resources>
 
 						<!-- Contents of a Bundle -->
-						<StackPanel Spacing="9" Padding="14" AllowDrop="True" HorizontalAlignment="Center">
+						<StackPanel Spacing="9" Padding="14" AllowDrop="True" HorizontalAlignment="Stretch">
 							<i:Interaction.Behaviors>
 								<!-- No need to specify CommandParameter - `e` is passed by default -->
 								<core:EventTriggerBehavior EventName="DragOver">
@@ -202,7 +202,7 @@
 								</core:EventTriggerBehavior>
 							</i:Interaction.Behaviors>
 
-							<Grid ColumnSpacing="6">
+							<Grid ColumnSpacing="6" HorizontalAlignment="Stretch">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition/>
 									<ColumnDefinition Width="Auto"/>
@@ -258,9 +258,9 @@
 								<Button 
 									Content="&#xe712;" 
 									FontFamily="Segoe MDL2 Assets"
-									FontSize="9"
-									Height="25"
-									Width="30"
+									FontSize="12"
+									Height="30"
+									Width="34"
 									VerticalAlignment="Center"
 									HorizontalAlignment="Right"
 									VerticalContentAlignment="Center"
