@@ -233,7 +233,14 @@
 										PlaceholderText="New name..."
 										Grid.Column="0"
 										VerticalAlignment="Center"
-										HorizontalAlignment="Stretch"/>
+										HorizontalAlignment="Stretch">
+										<i:Interaction.Behaviors>
+											<!-- No need to specify CommandParameter - `e` is passed by default -->
+											<core:EventTriggerBehavior EventName="KeyDown">
+												<core:InvokeCommandAction Command="{Binding RenameTextKeyDownCommand, Mode=OneWay}"/>
+											</core:EventTriggerBehavior>
+										</i:Interaction.Behaviors>
+									</TextBox>
 									
 									<!-- Bundle Rename Confirm -->
 									<Button
@@ -252,13 +259,14 @@
 									Content="&#xe712;" 
 									FontFamily="Segoe MDL2 Assets"
 									FontSize="9"
-									Height="28"
-									Width="28"
+									Height="25"
+									Width="30"
 									VerticalAlignment="Center"
 									HorizontalAlignment="Right"
 									VerticalContentAlignment="Center"
 									HorizontalContentAlignment="Center"
-									Grid.Column="1">
+									Grid.Column="1"
+									Background="{ThemeResource YourHomeCardBackgroundColor}">
 									<Button.Flyout>
 										<MenuFlyout>
 											<MenuFlyoutItem

@@ -9,7 +9,9 @@ using System.Linq;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Input;
 
 namespace Files.ViewModels.Bundles
 {
@@ -73,6 +75,8 @@ namespace Files.ViewModels.Bundles
 
 		public ICommand RenameBundleConfirmCommand { get; set; }
 
+		public ICommand RenameTextKeyDownCommand { get; set; }
+
 		public ICommand DragOverCommand { get; set; }
 
 		public ICommand DropCommand { get; set; }
@@ -89,6 +93,7 @@ namespace Files.ViewModels.Bundles
 			RemoveBundleCommand = new RelayCommand(RemoveBundle);
 			RenameBundleCommand = new RelayCommand(RenameBundle);
 			RenameBundleConfirmCommand = new RelayCommand(RenameBundleConfirm);
+			RenameTextKeyDownCommand = new RelayParameterizedCommand((e) => RenameTextKeyDown(e as KeyRoutedEventArgs));
 			DragOverCommand = new RelayParameterizedCommand((e) => DragOver(e as DragEventArgs));
 			DropCommand = new RelayParameterizedCommand((e) => Drop(e as DragEventArgs));
 		}
@@ -149,6 +154,18 @@ namespace Files.ViewModels.Bundles
 
 			CloseRename();
 		}
+
+		private void RenameTextKeyDown(KeyRoutedEventArgs e)
+        {
+			if (e.Key == VirtualKey.Enter)
+            {
+				RenameBundleConfirm();
+            }
+			else if (e.Key == VirtualKey.Escape)
+            {
+				CloseRename();
+            }
+        }
 
 		private void DragOver(DragEventArgs e)
 		{
