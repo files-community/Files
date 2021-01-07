@@ -8,7 +8,7 @@ using Windows.UI.Xaml;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Files.Helpers;
-using Files.Settings;
+using Files.SettingsInterfaces;
 
 namespace Files.ViewModels.Bundles
 {

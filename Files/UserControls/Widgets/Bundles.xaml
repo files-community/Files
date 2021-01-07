@@ -155,7 +155,7 @@
 				<DataTemplate>
 					<Grid
 						CornerRadius="5"
-						Width="250"
+						Width="280"
 						Height="220"
 						extensions:VisualExtensions.CenterPoint="135,45,0"
 						Background="{ThemeResource YourHomeCardBackgroundColor}">
@@ -189,6 +189,7 @@
 								</core:EventTriggerBehavior>
 							</i:Interaction.Behaviors>
 
+							<!-- Bundle Name -->
 							<TextBlock 
 								Text="{Binding BundleName, Mode=OneWay}"
 								FontFamily="Segoe UI"
@@ -215,7 +216,7 @@
 												Height="35"
 												Command="{Binding ConfirmCommand, Mode=OneWay}">
 
-												<StackPanel Orientation="Horizontal" Spacing="10">
+												<StackPanel Orientation="Horizontal" Spacing="3">
 													<!-- Icon -->
 													<Image
 														Width="20"
@@ -225,7 +226,8 @@
 														Text="{Binding Name, Mode=OneWay}"
 														FontSize="14"
 														TextWrapping="Wrap"
-														VerticalAlignment="Center"/>
+														VerticalAlignment="Center"
+														HorizontalAlignment="Center"/>
 												</StackPanel>
 
 												<ToolTipService.ToolTip>

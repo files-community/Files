@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Files.SettingsInterfaces;
 
 namespace Files.ViewModels
 {

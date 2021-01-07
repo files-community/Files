@@ -1,5 +1,5 @@
 ﻿using Files.Commands;
-using Files.Settings;
+using Files.SettingsInterfaces;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;

@@ -1,5 +1,5 @@
 ﻿using Files.Helpers;
-using Files.Settings;
+using Files.SettingsInterfaces;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
 using System;

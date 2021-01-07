@@ -205,7 +205,7 @@
     <Compile Include="ViewModels\Bundles\BundleItemViewModel.cs" />
     <Compile Include="ViewModels\Bundles\BundlesViewModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
-    <Compile Include="Settings\IJsonSettings.cs" />
+    <Compile Include="SettingsInterfaces\IJsonSettings.cs" />
     <Compile Include="ViewModels\JsonSettingsViewModel.cs" />
     <Compile Include="ViewModels\Properties\FileProperty.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
