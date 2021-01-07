@@ -15,15 +15,14 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" >
-            <ScrollViewer>
-                <Grid x:Name="PreviewGrid">
-                    <TextBlock x:Name="TextPreview" Visibility="Collapsed"/>
-                    <controls:MarkdownTextBlock Visibility="Collapsed" x:Name="MarkdownTextPreview" />
+            <TextBlock x:Name="PreviewNotAvaliableText" Visibility="Collapsed" Text="No preview avaliable"/>
+            <Grid x:Name="PreviewGrid">
+                <ScrollViewer>
                     <Grid x:Name="CustomPreviewGrid">
                         
                     </Grid>
-                </Grid>
-            </ScrollViewer>
+                </ScrollViewer>
+            </Grid>
         </Grid>
         <controls:GridSplitter Grid.Row="1" Style="{StaticResource DefaultHorizontalGridSplitterStyle}"/>
 

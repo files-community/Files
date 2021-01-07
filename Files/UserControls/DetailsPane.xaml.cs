@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.UserControls.Preview;
 using Files.View_Models;
 using System;
 using System.Collections.Generic;
@@ -36,35 +37,31 @@ namespace Files.UserControls
             get => (List<ListedItem>)GetValue(selectedItemsProperty);
             set
             {
-                if (value.Count == 1 && value[0].FileText != null)
+                PreviewGrid.Children.Clear();
+                PreviewNotAvaliableText.Visibility = Visibility.Collapsed;
+                SetValue(selectedItemsProperty, value);
+                if (value.Count == 1)
                 {
                     foreach (var extension in AppData.FilePreviewExtensionManager.Extensions)
                     {
                         if(extension.FileExtensions.Contains(value[0].FileExtension))
                         {
                             UpdatePreviewControl(value[0], extension);
-                            break;
+                            return;
                         }
                     }
-                    //if (value[0].FileExtension.Equals(".md"))
-                    //{
-                    //    UpdatePreviewControl(value[0]);
-                    //    //MarkdownTextPreview.Text = value[0].FileText;
-                    //    //MarkdownTextPreview.Visibility = Visibility.Visible;
-                    //    //TextPreview.Visibility = Visibility.Collapsed;
-                    //}
-                    //else
-                    //{
-                    //    //TextPreview.Text = value[0].FileText;
-                    //    //MarkdownTextPreview.Visibility = Visibility.Collapsed;
-                    //    //TextPreview.Visibility = Visibility.Visible;
-                    //}
+                    var control = PreviewBase.GetControlFromExtension(value[0].FileExtension);
+                    if (control != null)
+                    {
+                        control.SetFile(value[0].ItemPath);
+                        control.HorizontalAlignment = HorizontalAlignment.Stretch;
+                        control.VerticalAlignment = VerticalAlignment.Stretch;
+                        PreviewGrid.Children.Add(control);
+                        return;
+                    }
                 }
-                else
-                {
-                    TextPreview.Text = "No preview avaliable";
-                }
-                SetValue(selectedItemsProperty, value);
+
+                PreviewNotAvaliableText.Visibility = Visibility.Visible;
             }
         }
 
@@ -87,7 +84,6 @@ namespace Files.UserControls
 
             try
             {
-                CustomPreviewGrid.Children.Clear();
                 var result = await extension.Invoke(new ValueSet() { { "byteArray", byteArray }, { "filePath", item.ItemPath } });
                 var preview = result["preview"];
                 CustomPreviewGrid.Children.Add(XamlReader.Load(preview as string) as UIElement);

@@ -188,6 +188,10 @@
     <Compile Include="UserControls\DetailsPane.xaml.cs">
       <DependentUpon>DetailsPane.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Preview\ImagePreview.xaml.cs">
+      <DependentUpon>ImagePreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Preview\PreviewBase.cs" />
     <Compile Include="View Models\Properties\FileProperty.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
@@ -592,6 +596,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\PropertySaveError.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Preview\ImagePreview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
