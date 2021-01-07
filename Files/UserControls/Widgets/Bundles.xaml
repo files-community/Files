@@ -61,11 +61,12 @@
 				Margin="0 0 5 0">
 				
 				<!-- Add Bundle button-->
-				<TextBlock 
-					Text="+" 
+				<FontIcon
+					FontFamily="{StaticResource FluentUIGlyphs}"
+					Glyph="&#xe903;"
+					FontSize="14"
 					VerticalAlignment="Center"
-					HorizontalAlignment="Center"
-					Margin="0 0 0 4"/>
+					HorizontalAlignment="Center"/>
 
 				<Button.Flyout>
 					<Flyout>
@@ -134,7 +135,7 @@
 			</Button>
 		</Grid>
 
-		<!-- No Bundles Warning -->
+		<!-- No Bundles Info -->
 		<TextBlock
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Center"
@@ -177,7 +178,6 @@
 						</Grid.Resources>
 
 						<!-- Contents of a Bundle -->
-
 						<StackPanel Spacing="8" Padding="12" AllowDrop="True">
 							<i:Interaction.Behaviors>
 								<!-- No need to specify CommandParameter - `e` is passed by default -->
@@ -238,6 +238,26 @@
 									</DataTemplate>
 								</GridView.ItemTemplate>
 							</GridView>
+
+							<!-- No Bundle contents text info -->
+							<Grid VerticalAlignment="Center" HorizontalAlignment="Center" RowSpacing="3" Visibility="{Binding NoBundleContentsTextVisibility, Mode=OneWay}">
+								<Grid.RowDefinitions>
+									<RowDefinition/>
+									<RowDefinition/>
+								</Grid.RowDefinitions>
+
+								<FontIcon
+									FontFamily="{StaticResource FluentUIGlyphs}"
+									Glyph=""/>
+								<TextBlock
+									Text="Drag and drop any folder,&#10;file or program here to&#10;quickly access it"
+									FontSize="12"
+									FontFamily="Segoe UI"
+									VerticalAlignment="Bottom"
+									HorizontalAlignment="Center"
+									TextAlignment="Center"
+									Grid.Row="1"/>
+							</Grid>
 						</StackPanel>
 					</Grid>
 				</DataTemplate>

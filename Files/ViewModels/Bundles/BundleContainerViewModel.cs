@@ -38,6 +38,11 @@ namespace Files.ViewModels.Bundles
 
 		public string BundleName { get; set; } = "Bundle1";
 
+		public Visibility NoBundleContentsTextVisibility
+		{
+			get => Contents.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
+		}
+
 		#endregion
 
 		#region Commands
