@@ -340,6 +340,7 @@ namespace Files.Views.LayoutModes
 
         private void AllView_Sorting(object sender, DataGridColumnEventArgs e)
         {
+            var previouslySelectedItems = SelectedItems;
             if (e.Column == SortedColumn)
             {
                 ParentShellPageInstance.FilesystemViewModel.IsSortedAscending = !ParentShellPageInstance.FilesystemViewModel.IsSortedAscending;
@@ -351,6 +352,13 @@ namespace Files.Views.LayoutModes
                 e.Column.SortDirection = DataGridSortDirection.Ascending;
                 ParentShellPageInstance.FilesystemViewModel.IsSortedAscending = true;
             }
+
+            AllView.SelectedItems.Clear();
+            foreach (var item in previouslySelectedItems)
+            {
+                AllView.SelectedItems.Add(item);
+            }
+
         }
 
         private void AllView_PreviewKeyDown(object sender, KeyRoutedEventArgs e)

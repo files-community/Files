@@ -169,6 +169,12 @@ namespace Files.UserControls.Selection
                 return;
             }
 
+            if (originDragPoint.Y < 0)
+            {
+                // Do not trigger if clicked on the header
+                return;
+            }
+
             var clickedRow = Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
             if (clickedRow != null && uiElement.SelectedItems.Contains(clickedRow.DataContext))
             {
