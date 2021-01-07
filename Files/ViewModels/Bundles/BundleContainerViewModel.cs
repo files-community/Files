@@ -1,6 +1,7 @@
 ﻿using Files.Commands;
 using Files.SettingsInterfaces;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -36,16 +37,41 @@ namespace Files.ViewModels.Bundles
 		/// </summary>
 		public ObservableCollection<BundleItemViewModel> Contents { get; private set; } = new ObservableCollection<BundleItemViewModel>();
 
-		public string BundleName { get; set; } = "Bundle1";
+		private string _BundleName = "DefaultBundle";
+		public string BundleName
+		{
+			get => _BundleName;
+			set => SetProperty(ref _BundleName, value);
+		}
 
 		public Visibility NoBundleContentsTextVisibility
 		{
 			get => Contents.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
 		}
 
+		private string _BundleRenameText = string.Empty;
+		public string BundleRenameText
+		{
+			get => _BundleRenameText;
+			set => SetProperty(ref _BundleRenameText, value);
+		}
+
+		private Visibility _BundleRenameVisibility = Visibility.Collapsed;
+		public Visibility BundleRenameVisibility
+		{
+			get => _BundleRenameVisibility;
+			set => SetProperty(ref _BundleRenameVisibility, value);
+		}
+
 		#endregion
 
 		#region Commands
+
+		public ICommand RemoveBundleCommand { get; set; }
+
+		public ICommand RenameBundleCommand { get; set; }
+
+		public ICommand RenameBundleConfirmCommand { get; set; }
 
 		public ICommand DragOverCommand { get; set; }
 
@@ -60,6 +86,9 @@ namespace Files.ViewModels.Bundles
 			this.associatedInstance = associatedInstance;
 
 			// Create commands
+			RemoveBundleCommand = new RelayCommand(RemoveBundle);
+			RenameBundleCommand = new RelayCommand(RenameBundle);
+			RenameBundleConfirmCommand = new RelayCommand(RenameBundleConfirm);
 			DragOverCommand = new RelayParameterizedCommand((e) => DragOver(e as DragEventArgs));
 			DropCommand = new RelayParameterizedCommand((e) => Drop(e as DragEventArgs));
 		}
@@ -67,6 +96,53 @@ namespace Files.ViewModels.Bundles
 		#endregion
 
 		#region Command Implementation
+
+		private void RemoveBundle()
+		{
+			if (JsonSettings.SavedBundles.ContainsKey(BundleName))
+			{
+				Dictionary<string, List<string>> allBundles = JsonSettings.SavedBundles; // We need to do it this way for Set() to be called
+				allBundles.Remove(BundleName);
+				JsonSettings.SavedBundles = allBundles;
+			}
+		}
+
+		private void RenameBundle()
+		{
+			if (BundleRenameVisibility == Visibility.Visible)
+				BundleRenameVisibility = Visibility.Collapsed;
+			else
+				BundleRenameVisibility = Visibility.Visible;
+		}
+
+		private void RenameBundleConfirm()
+		{
+			if (CanRenameBundle(BundleRenameText))
+			{
+				if (JsonSettings.SavedBundles.ContainsKey(BundleName))
+				{
+					Dictionary<string, List<string>> allBundles = JsonSettings.SavedBundles; // We need to do it this way for Set() to be called
+					Dictionary<string, List<string>> newBundles = new Dictionary<string, List<string>>();
+
+					foreach (var item in allBundles)
+					{
+						if (item.Key == BundleName) // Item matches to-rename name
+						{
+							newBundles.Add(BundleRenameText, item.Value);
+						}
+						else // Ignore, and add existing values
+						{
+							newBundles.Add(item.Key, item.Value);
+						}
+					}
+
+					JsonSettings.SavedBundles = newBundles;
+					BundleName = BundleRenameText;
+				}
+			}
+
+			CloseRename();
+		}
 
 		private void DragOver(DragEventArgs e)
 		{
@@ -127,6 +203,12 @@ namespace Files.ViewModels.Bundles
 			return false;
 		}
 
+		private void CloseRename()
+		{
+			BundleRenameVisibility = Visibility.Collapsed;
+			BundleRenameText = string.Empty;
+		}
+
 		#endregion
 
 		#region Public Helpers
@@ -143,6 +225,23 @@ namespace Files.ViewModels.Bundles
 			Contents = new ObservableCollection<BundleItemViewModel>(items);
 
 			return this;
+		}
+
+		public bool CanRenameBundle(string name)
+		{
+			if (string.IsNullOrWhiteSpace(name))
+			{
+				return false;
+			}
+
+			if (!JsonSettings.SavedBundles.Any((item) => item.Key == name))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		#endregion

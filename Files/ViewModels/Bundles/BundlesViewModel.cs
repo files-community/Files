@@ -9,6 +9,9 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Files.Helpers;
 using Files.SettingsInterfaces;
+using Files.Commands;
+using Windows.UI.Xaml.Input;
+using Windows.System;
 
 namespace Files.ViewModels.Bundles
 {
@@ -59,6 +62,8 @@ namespace Files.ViewModels.Bundles
 
 		#region Commands
 
+		public ICommand InputTextKeyDownCommand { get; set; }
+
 		public ICommand AddBundleCommand { get; set; }
 
 		#endregion
@@ -68,12 +73,21 @@ namespace Files.ViewModels.Bundles
 		public BundlesViewModel()
 		{
 			// Create commands
+			InputTextKeyDownCommand = new RelayParameterizedCommand((e) => InputTextKeyDown(e as KeyRoutedEventArgs));
 			AddBundleCommand = new RelayCommand(AddBundle);
 		}
 
 		#endregion
 
 		#region Command Implementation
+
+		private void InputTextKeyDown(KeyRoutedEventArgs e)
+        {
+			if (e.Key == VirtualKey.Enter)
+            {
+				AddBundle();
+            }
+        }
 
 		private void AddBundle()
 		{

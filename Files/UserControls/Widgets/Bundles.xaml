@@ -10,6 +10,7 @@
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:core="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:vm="using:Files.ViewModels.Bundles"
+	xmlns:vc="using:Files.Converters"
 	mc:Ignorable="d"
 	d:DesignHeight="300"
 	d:DesignWidth="400">
@@ -20,6 +21,7 @@
 
 	<UserControl.Resources>
 		<ResourceDictionary>
+			<vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter"/>
 			<ResourceDictionary.ThemeDictionaries>
 				<ResourceDictionary x:Name="Light">
 					<SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef"/>
@@ -49,6 +51,7 @@
 				Opacity="0.8"
 				Text="Bundles"/>
 
+			<!-- Add Bundle button-->
 			<Button 
 				VerticalAlignment="Center"
 				HorizontalAlignment="Right"
@@ -60,7 +63,6 @@
 				Padding="0"
 				Margin="0 0 5 0">
 				
-				<!-- Add Bundle button-->
 				<FontIcon
 					FontFamily="{StaticResource FluentUIGlyphs}"
 					Glyph="&#xe903;"
@@ -100,7 +102,14 @@
 									VerticalAlignment="Center"
 									HorizontalAlignment="Stretch"
 									Grid.Row="1"
-									PlaceholderText="Enter bundle name"/>
+									PlaceholderText="Enter bundle name">
+									<i:Interaction.Behaviors>
+										<!-- No need to specify CommandParameter - `e` is passed by default -->
+										<core:EventTriggerBehavior EventName="KeyDown">
+											<core:InvokeCommandAction Command="{Binding InputTextKeyDownCommand, Mode=OneWay}"/>
+										</core:EventTriggerBehavior>
+									</i:Interaction.Behaviors>
+								</TextBox>
 
 								<Grid Grid.Row="2" ColumnSpacing="5">
 									<Grid.ColumnDefinitions>
@@ -189,12 +198,84 @@
 								</core:EventTriggerBehavior>
 							</i:Interaction.Behaviors>
 
-							<!-- Bundle Name -->
-							<TextBlock 
-								Text="{Binding BundleName, Mode=OneWay}"
-								FontFamily="Segoe UI"
-								FontWeight="SemiBold"
-								Opacity="0.9"/>
+							<Grid ColumnSpacing="6">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition/>
+									<ColumnDefinition Width="Auto"/>
+								</Grid.ColumnDefinitions>
+
+								
+								<Grid Grid.Column="0" ColumnSpacing="5">
+
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition/>
+										<ColumnDefinition/>
+									</Grid.ColumnDefinitions>
+
+									<!-- Bundle Name -->
+									<TextBlock 
+										Text="{Binding BundleName, Mode=OneWay}"
+										FontFamily="Segoe UI"
+										FontWeight="SemiBold"
+										Opacity="0.9"
+										VerticalAlignment="Center"
+										HorizontalAlignment="Left"
+										Grid.Column="0"
+										Visibility="{Binding BundleRenameVisibility, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}"/>
+
+									<!-- Bundle Name edit box -->
+									<TextBox
+										Visibility="{Binding BundleRenameVisibility, Mode=OneWay}"
+										Text="{Binding BundleRenameText, Mode=TwoWay}"
+										PlaceholderText="New name..."
+										Grid.Column="0"
+										VerticalAlignment="Center"
+										HorizontalAlignment="Stretch"/>
+									
+									<!-- Bundle Rename Confirm -->
+									<Button
+										Content="Confirm"
+										VerticalAlignment="Center"
+										HorizontalAlignment="Left"
+										VerticalContentAlignment="Center"
+										HorizontalContentAlignment="Center"
+										Command="{Binding RenameBundleConfirmCommand, Mode=OneWay}"
+										Visibility="{Binding BundleRenameVisibility}"
+										Grid.Column="1"/>
+								</Grid>
+
+								<!-- Bundle Options -->
+								<Button 
+									Content="&#xe712;" 
+									FontFamily="Segoe MDL2 Assets"
+									FontSize="9"
+									Height="30"
+									Width="30"
+									VerticalAlignment="Center"
+									HorizontalAlignment="Right"
+									VerticalContentAlignment="Center"
+									HorizontalContentAlignment="Center"
+									Grid.Column="1">
+									<Button.Flyout>
+										<MenuFlyout>
+											<MenuFlyoutItem
+												Text="Remove Bundle"
+												Command="{Binding RemoveBundleCommand, Mode=OneWay}">
+												<MenuFlyoutItem.Icon>
+													<FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe9ed;"/>
+												</MenuFlyoutItem.Icon>
+											</MenuFlyoutItem>
+											<MenuFlyoutItem
+												Text="Rename Bundle"
+												Command="{Binding RenameBundleCommand, Mode=OneWay}">
+												<MenuFlyoutItem.Icon>
+													<FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeb3f;"/>
+												</MenuFlyoutItem.Icon>
+											</MenuFlyoutItem>
+										</MenuFlyout>
+									</Button.Flyout>
+								</Button>
+							</Grid>
 
 							<!-- List of Bundle Items -->
 							<GridView
