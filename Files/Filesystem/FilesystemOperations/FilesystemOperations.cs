@@ -507,7 +507,7 @@ namespace Files.Filesystem
                         Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
                     }
                 }
-                else if (renamed == FilesystemErrorCode.ERROR_NOTAFILE || renamed == FilesystemErrorCode.ERROR_NOTAFOLDER)
+                else if (renamed == FilesystemErrorCode.ERROR_NOTAFILE || renamed == FilesystemErrorCode.ERROR_NOTADIRECTORY)
                 {
                     await DialogDisplayHelper.ShowDialogAsync("RenameError/NameInvalid/Title".GetLocalized(), "RenameError/NameInvalid/Text".GetLocalized());
                 }

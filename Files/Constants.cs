@@ -22,10 +22,21 @@
             }
         }
 
+        public static class Widgets
+        {
+            public static class Bundles
+            {
+                public const int MaxAmountOfItemsInBundle = 6;
+            }
+        }
+
         public static class LocalSettings
         {
             public const string DateTimeFormat = "datetimeformat";
+
             public const string Theme = "theme";
+
+            public const string JsonSettingsFileName = "settingsjson.json";
         }
     }
 }

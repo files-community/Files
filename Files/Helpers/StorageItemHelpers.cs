@@ -41,6 +41,44 @@ namespace Files.Helpers
                     (IStorageItemWithPath)new StorageFolderWithPath(null, customPath);
         }
 
+        public static async Task<FilesystemItemType> GetTypeFromPath(string path, IShellPage associatedInstance = null)
+        {
+            FilesystemResult<StorageFolder> folder;
+
+            if (associatedInstance == null)
+            {
+                folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+            }
+            else
+            {
+                folder = await associatedInstance.FilesystemViewModel.GetFolderFromPathAsync(path);
+            }
+
+            if (folder)
+                return FilesystemItemType.Directory;
+            else
+                return FilesystemItemType.File;
+        }
+
+        public static async Task<bool> Exists(string path, IShellPage associatedInstance = null)
+        {
+            FilesystemResult<StorageFile> file;
+            FilesystemResult<StorageFolder> folder;
+
+            if (associatedInstance == null)
+            {
+                file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
+                folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+            }
+            else
+            {
+                file = await associatedInstance?.FilesystemViewModel?.GetFileFromPathAsync(path);
+                folder = await associatedInstance?.FilesystemViewModel?.GetFolderFromPathAsync(path);
+            }
+
+            return file || folder;
+        }
+
         public static IStorageItemWithPath FromStorageItem(this IStorageItem item, string customPath = null, FilesystemItemType? itemType = null)
         {
             if (item == null)

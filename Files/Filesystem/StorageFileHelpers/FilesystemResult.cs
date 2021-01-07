@@ -15,7 +15,7 @@ namespace Files.Filesystem
         ERROR_INUSE = 8,
         ERROR_NAMETOOLONG = 16,
         ERROR_ALREADYEXIST = 32,
-        ERROR_NOTAFOLDER = 64,
+        ERROR_NOTADIRECTORY = 64,
         ERROR_NOTAFILE = 128,
         ERROR_INPROGRESS = 256
     }
@@ -85,7 +85,7 @@ namespace Files.Filesystem
             else if (ex is ArgumentException) // Item was invalid
             {
                 return (T == typeof(StorageFolder) || T == typeof(StorageFolderWithPath)) ?
-                    FilesystemErrorCode.ERROR_NOTAFOLDER : FilesystemErrorCode.ERROR_NOTAFILE;
+                    FilesystemErrorCode.ERROR_NOTADIRECTORY : FilesystemErrorCode.ERROR_NOTAFILE;
             }
             else if ((uint)ex.HResult == 0x800700B7)
             {

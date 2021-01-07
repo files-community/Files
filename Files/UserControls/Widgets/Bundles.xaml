@@ -1,0 +1,179 @@
+﻿<UserControl
+	x:Class="Files.UserControls.Widgets.Bundles"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:Files.UserControls.Widgets"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+	xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+	xmlns:i="using:Microsoft.Xaml.Interactivity"
+	xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+	xmlns:vm="using:Files.ViewModels.Bundles"
+	mc:Ignorable="d"
+	d:DesignHeight="300"
+	d:DesignWidth="400">
+
+	<UserControl.DataContext>
+		<vm:BundleViewModel/>
+	</UserControl.DataContext>
+
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Name="Light">
+					<SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef"/>
+				</ResourceDictionary>
+				<ResourceDictionary x:Name="Dark">
+					<SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#161514"/>
+				</ResourceDictionary>
+				<ResourceDictionary x:Name="HighContrast">
+					<SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="{ThemeResource SystemColorButtonFaceColor}"/>
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
+
+
+	<StackPanel Spacing="12">
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+
+			<TextBlock
+				HorizontalAlignment="Left"
+				FontSize="14"
+				FontWeight="Medium"
+				Opacity="0.8"
+				Text="Bundles"/>
+
+			<Button 
+				VerticalAlignment="Center"
+				HorizontalAlignment="Right"
+				Height="20"
+				Width="20"
+				HorizontalContentAlignment="Center"
+				VerticalContentAlignment="Center"
+				Grid.Column="1"
+				Padding="0"
+				Margin="0 0 5 0"
+				Command="{Binding AddBundleCommand, Mode=OneWay}">
+				<TextBlock 
+					Text="+" 
+					VerticalAlignment="Center"
+					HorizontalAlignment="Center"
+					Margin="0 0 0 4"/>
+			</Button>
+		</Grid>
+
+		<!-- No Bundles Warning -->
+		<TextBlock
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Center"
+			TextAlignment="Center"
+			TextWrapping="WrapWholeWords"
+			FontSize="10"
+			Margin="0 24 0 0"
+			Visibility="{Binding NoBundlesTextVisibility, Mode=OneWay}"
+			Text="Add Bundles by pressing the '+' button"/>
+
+		<!-- Collection of bundles -->
+		<GridView
+			ItemsSource="{Binding Items, Mode=OneWay}"
+			HorizontalAlignment="Stretch">
+
+			<!-- Container -->
+			<GridView.ItemTemplate>
+				<DataTemplate>
+					<Grid
+						CornerRadius="5"
+						Width="250"
+						Height="220"
+						extensions:VisualExtensions.CenterPoint="135,45,0"
+						Background="{ThemeResource YourHomeCardBackgroundColor}">
+
+						<Grid.Resources>
+							<ResourceDictionary>
+								<ResourceDictionary.ThemeDictionaries>
+									<ResourceDictionary x:Name="Light">
+										<SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef" />
+									</ResourceDictionary>
+									<ResourceDictionary x:Name="Dark">
+										<SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#161514" />
+									</ResourceDictionary>
+									<ResourceDictionary x:Name="HighContrast">
+										<SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="{ThemeResource SystemColorButtonFaceColor}" />
+									</ResourceDictionary>
+								</ResourceDictionary.ThemeDictionaries>
+							</ResourceDictionary>
+						</Grid.Resources>
+
+						<!-- Contents of a Bundle -->
+
+						<StackPanel Spacing="8" Padding="12" AllowDrop="True">
+							<i:Interaction.Behaviors>
+								<!-- No need to specify CommandParameter - `e` is passed by default -->
+								<core:EventTriggerBehavior EventName="DragOver">
+									<core:InvokeCommandAction Command="{Binding DragOverCommand, Mode=OneWay}"/>
+								</core:EventTriggerBehavior>
+								<core:EventTriggerBehavior EventName="Drop">
+									<core:InvokeCommandAction Command="{Binding DropCommand, Mode=OneWay}"/>
+								</core:EventTriggerBehavior>
+							</i:Interaction.Behaviors>
+
+							<TextBlock 
+								Text="{Binding BundleName, Mode=OneWay}"
+								FontFamily="Segoe UI"
+								FontWeight="SemiBold"
+								Opacity="0.9"/>
+
+							<!-- List of Bundle Items -->
+							<GridView
+								VerticalAlignment="Stretch"
+								HorizontalAlignment="Stretch"
+								ItemsSource="{Binding Contents, Mode=OneWay}">
+								<GridView.ItemTemplate>
+									<!-- Bundle Item design -->
+									<DataTemplate>
+										<Grid>
+											<Button
+												Padding="0"
+												HorizontalAlignment="Stretch"
+												VerticalAlignment="Stretch"
+												HorizontalContentAlignment="Center"
+												VerticalContentAlignment="Center"
+												BorderThickness="1"
+												Width="120"
+												Height="35"
+												Command="{Binding ClickCommand, Mode=OneWay}">
+
+												<StackPanel Orientation="Horizontal" Spacing="10">
+													<!-- Icon -->
+													<Image
+														Width="20"
+														Height="20"
+														Source="{Binding Icon, Mode=OneWay}"/>
+													<TextBlock
+														Text="{Binding Name, Mode=OneWay}"
+														FontSize="14"
+														TextWrapping="Wrap"
+														VerticalAlignment="Center"/>
+												</StackPanel>
+
+												<ToolTipService.ToolTip>
+													<ToolTip Content="{Binding Path, Mode=OneWay}"/>
+												</ToolTipService.ToolTip>
+											</Button>
+										</Grid>
+									</DataTemplate>
+								</GridView.ItemTemplate>
+							</GridView>
+						</StackPanel>
+					</Grid>
+				</DataTemplate>
+			</GridView.ItemTemplate>
+		</GridView>
+	</StackPanel>
+</UserControl>

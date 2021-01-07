@@ -156,6 +156,7 @@
     <Compile Include="CommandLine\ParsedCommand.cs" />
     <Compile Include="CommandLine\ParsedCommands.cs" />
     <Compile Include="CommandLine\ParsedCommandType.cs" />
+    <Compile Include="Commands\RelayParameterizedCommand.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\IJson.cs" />
     <Compile Include="Controllers\SidebarPinnedController.cs" />
@@ -168,6 +169,7 @@
     <Compile Include="Converters\UInt32ToString.cs" />
     <Compile Include="DataModels\ShellNewEntry.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
+    <Compile Include="Extensions\GenericExtensions.cs" />
     <Compile Include="Helpers\AppUpdater.cs" />
     <Compile Include="DataModels\DefaultLanguageModel.cs" />
     <Compile Include="Enums\FileOperationType.cs" />
@@ -187,6 +189,7 @@
     <Compile Include="Helpers\FileListCache\FileListCacheController.cs" />
     <Compile Include="Helpers\FileListCache\IFileListCache.cs" />
     <Compile Include="Helpers\FileListCache\PersistentSQLiteCacheAdapter.cs" />
+    <Compile Include="Helpers\PathHelpers.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
     <Compile Include="UserControls\MultitaskingControl\TabItem\TabItemControl.xaml.cs">
       <DependentUpon>TabItemControl.xaml</DependentUpon>
@@ -196,7 +199,15 @@
     <Compile Include="UserControls\Selection\IgnorePreviousItemSelectionStrategy.cs" />
     <Compile Include="UserControls\Selection\InvertPreviousItemSelectionStrategy.cs" />
     <Compile Include="UserControls\Selection\ItemSelectionStrategy.cs" />
+    <Compile Include="UserControls\Widgets\Bundles.xaml.cs">
+      <DependentUpon>Bundles.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\Bundles\BundleContainerViewModel.cs" />
+    <Compile Include="ViewModels\Bundles\BundleItemViewModel.cs" />
+    <Compile Include="ViewModels\Bundles\BundleViewModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
+    <Compile Include="ViewModels\IJsonSettings.cs" />
+    <Compile Include="ViewModels\JsonSettingsViewModel.cs" />
     <Compile Include="ViewModels\Properties\FileProperty.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
@@ -711,6 +722,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\MultitaskingControl\VerticalTabViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Widgets\Bundles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -83,7 +83,7 @@ namespace Files.ViewModels
             var navigated = (FilesystemResult)true;
             if (string.IsNullOrWhiteSpace(value))
             {
-                return new FilesystemResult(FilesystemErrorCode.ERROR_NOTAFOLDER);
+                return new FilesystemResult(FilesystemErrorCode.ERROR_NOTADIRECTORY);
             }
 
             WorkingDirectoryModified?.Invoke(this, new WorkingDirectoryModifiedEventArgs() { Path = value });

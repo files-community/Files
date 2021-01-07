@@ -3,6 +3,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls.Widgets;
 using Files.ViewModels;
+using Files.ViewModels.Bundles;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.IO;
@@ -47,6 +48,7 @@ namespace Files.Views
                 RecentFilesWidget.RecentFilesOpenLocationInvoked += RecentFilesWidget_RecentFilesOpenLocationInvoked;
                 RecentFilesWidget.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
             }
+            (BundlesWidget?.DataContext as BundleViewModel)?.Load(this.AppInstance);
         }
 
         private async void RecentFilesWidget_RecentFileInvoked(object sender, UserControls.PathNavigationEventArgs e)

@@ -30,7 +30,7 @@ namespace Files.Helpers
                 case FilesystemErrorCode.ERROR_ALREADYEXIST:
                     return ReturnResult.Failed | ReturnResult.UnknownException;
 
-                case FilesystemErrorCode.ERROR_NOTAFOLDER:
+                case FilesystemErrorCode.ERROR_NOTADIRECTORY:
                     return ReturnResult.BadArgumentException | ReturnResult.IntegrityCheckFailed;
 
                 case FilesystemErrorCode.ERROR_NOTAFILE:
