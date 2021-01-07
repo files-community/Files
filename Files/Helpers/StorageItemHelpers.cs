@@ -14,6 +14,60 @@ namespace Files.Helpers
             return (await item.ToStorageItemResult(associatedInstance)).Result;
         }
 
+        public static async Task<IStorageItem> ToStorageItem(string path, IShellPage associatedInstance = null)
+        {
+            FilesystemResult<StorageFile> file;
+            FilesystemResult<StorageFolder> folder;
+
+            if (associatedInstance == null)
+            {
+                file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
+                folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+            }
+            else
+            {
+                file = await associatedInstance?.FilesystemViewModel?.GetFileFromPathAsync(path);
+                folder = await associatedInstance?.FilesystemViewModel?.GetFolderFromPathAsync(path);
+            }
+
+            if (file != null)
+                return (IStorageItem)file;
+            else
+                return (IStorageItem)folder;
+        }
+
+        public static async Task<StorageFile> ToStorageFile(string path, IShellPage associatedInstance = null)
+        {
+            FilesystemResult<StorageFile> file;
+
+            if (associatedInstance == null)
+            {
+                file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
+            }
+            else
+            {
+                file = await associatedInstance?.FilesystemViewModel?.GetFileFromPathAsync(path);
+            }
+
+            return file;
+        }
+
+        public static async Task<StorageFolder> ToStorageFolder(string path, IShellPage associatedInstance = null)
+        {
+            FilesystemResult<StorageFolder> folder;
+
+            if (associatedInstance == null)
+            {
+                folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+            }
+            else
+            {
+                folder = await associatedInstance?.FilesystemViewModel?.GetFolderFromPathAsync(path);
+            }
+
+            return folder;
+        }
+
         public static async Task<FilesystemResult<IStorageItem>> ToStorageItemResult(this IStorageItemWithPath item, IShellPage associatedInstance = null)
         {
             var returnedItem = new FilesystemResult<IStorageItem>(null, FilesystemErrorCode.ERROR_GENERIC);

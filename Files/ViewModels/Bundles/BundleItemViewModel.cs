@@ -7,6 +7,9 @@ using Windows.UI.Xaml.Media.Imaging;
 using Files.Filesystem;
 using Files.SettingsInterfaces;
 using System.Collections.Generic;
+using Windows.Storage.FileProperties;
+using Windows.Storage;
+using Files.Helpers;
 
 namespace Files.ViewModels.Bundles
 {
@@ -40,22 +43,11 @@ namespace Files.ViewModels.Bundles
 
 		public FilesystemItemType TargetType { get; set; } = FilesystemItemType.File;
 
+		private BitmapImage _Icon = null;
 		public BitmapImage Icon
 		{
-			get
-			{
-				if (TargetType == FilesystemItemType.Directory) // OpenDirectory
-				{
-					return new BitmapImage
-					{
-						UriSource = new Uri("ms-appx:///Assets/FolderIcon.svg")
-					};
-				}
-				else // NotADirectory
-				{
-					return Task.Run(async () => await associatedInstance.FilesystemViewModel.LoadIconOverlayAsync(Path, 80u)).GetAwaiter().GetResult().Icon;
-				}
-			}
+			get => _Icon;
+			set => SetProperty(ref _Icon, value);
 		}
 
 		#endregion
@@ -70,13 +62,17 @@ namespace Files.ViewModels.Bundles
 
 		#region Constructor
 
-		public BundleItemViewModel(IShellPage associatedInstance)
+		public BundleItemViewModel(IShellPage associatedInstance, string path, FilesystemItemType targetType)
 		{
 			this.associatedInstance = associatedInstance;
+			this.Path = path;
+			this.TargetType = targetType;
 
 			// Create commands
 			OpenItemCommand = new RelayCommand(Confirm);
 			RemoveItemCommand = new RelayCommand(RemoveItem);
+
+			SetIcon();
 		}
 
 		#endregion
@@ -97,6 +93,34 @@ namespace Files.ViewModels.Bundles
 				JsonSettings.SavedBundles = allBundles;
 			}
 		}
+
+		#endregion
+
+		#region Private Helpers
+
+		private async void SetIcon()
+		{
+			if (TargetType == FilesystemItemType.Directory) // OpenDirectory
+			{
+				Icon = new BitmapImage(new Uri("ms-appx:///Assets/FolderIcon.svg"));
+			}
+			else // NotADirectory
+			{
+				BitmapImage icon = new BitmapImage();
+				StorageFile file = await StorageItemHelpers.ToStorageFile(Path, associatedInstance);
+				StorageItemThumbnail thumbnail = await file.GetThumbnailAsync(ThumbnailMode.ListView, 24u, ThumbnailOptions.UseCurrentScale);
+
+				if (thumbnail != null)
+				{
+					await icon.SetSourceAsync(thumbnail);
+
+					Icon = icon;
+				}
+			}
+
+			OnPropertyChanged(nameof(Icon));
+		}
+
 
 		#endregion
 

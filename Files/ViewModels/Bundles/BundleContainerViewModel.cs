@@ -172,11 +172,9 @@ namespace Files.ViewModels.Bundles
 					{
 						if (!Contents.Any((i) => i.Path == item.Path)) // Don't add existing items!
 						{
-							AddBundleItem(new BundleItemViewModel(associatedInstance)
+							AddBundleItem(new BundleItemViewModel(associatedInstance, item.Path, item.IsOfType(StorageItemTypes.Folder) ? Filesystem.FilesystemItemType.Directory : Filesystem.FilesystemItemType.File)
 							{
 								OriginBundleName = BundleName,
-								Path = item.Path,
-								TargetType = item.IsOfType(StorageItemTypes.Folder) ? Filesystem.FilesystemItemType.Directory : Filesystem.FilesystemItemType.File
 							});
 							itemAdded = true;
 						}

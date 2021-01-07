@@ -250,8 +250,8 @@
 									Content="&#xe712;" 
 									FontFamily="Segoe MDL2 Assets"
 									FontSize="9"
-									Height="30"
-									Width="30"
+									Height="28"
+									Width="28"
 									VerticalAlignment="Center"
 									HorizontalAlignment="Right"
 									VerticalContentAlignment="Center"
@@ -292,26 +292,35 @@
 												Padding="0"
 												HorizontalAlignment="Stretch"
 												VerticalAlignment="Stretch"
-												HorizontalContentAlignment="Center"
+												HorizontalContentAlignment="Stretch"
 												VerticalContentAlignment="Center"
 												BorderThickness="1"
 												Width="120"
 												Height="35"
 												Command="{Binding OpenItemCommand, Mode=OneWay}">
 
-												<StackPanel Orientation="Horizontal" Spacing="3">
+												<Grid ColumnSpacing="4" Padding="2">
+													<Grid.ColumnDefinitions>
+														<ColumnDefinition Width="Auto"/>
+														<ColumnDefinition/>
+													</Grid.ColumnDefinitions>
+													
 													<!-- Icon -->
 													<Image
+														VerticalAlignment="Center"
+														HorizontalAlignment="Left"
 														Width="20"
 														Height="20"
-														Source="{Binding Icon, Mode=OneWay}"/>
+														Source="{Binding Icon, Mode=OneWay}"
+														Grid.Column="0"/>
 													<TextBlock
 														Text="{Binding Name, Mode=OneWay}"
 														FontSize="14"
 														TextWrapping="Wrap"
 														VerticalAlignment="Center"
-														HorizontalAlignment="Center"/>
-												</StackPanel>
+														HorizontalAlignment="Left"
+														Grid.Column="1"/>
+												</Grid>
 
 												<Button.ContextFlyout>
 													<MenuFlyout>
@@ -343,7 +352,8 @@
 
 								<FontIcon
 									FontFamily="{StaticResource FluentUIGlyphs}"
-									Glyph="&#xe919;"/>
+									Glyph="&#xe919;"
+									FontSize="20"/>
 								<TextBlock
 									Text="Drag and drop any folder or &#10;file here to&#10;quickly access it"
 									FontSize="12"

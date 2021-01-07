@@ -163,11 +163,9 @@ namespace Files.ViewModels.Bundles
 					{
 						if (bundleItem != null)
 						{
-							bundleItems.Add(new BundleItemViewModel(associatedInstance)
+							bundleItems.Add(new BundleItemViewModel(associatedInstance, bundleItem, await StorageItemHelpers.GetTypeFromPath(bundleItem, associatedInstance))
 							{
 								OriginBundleName = bundle.Key,
-								Path = bundleItem, // As Path
-								TargetType = await StorageItemHelpers.GetTypeFromPath(bundleItem, associatedInstance)
 							});
 						}
 					}
