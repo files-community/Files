@@ -1229,34 +1229,32 @@ namespace Files.ViewModels
                 if (item.IsOfType(StorageItemTypes.Folder))
                 {
                     var folder = await AddFolderAsync(item as StorageFolder, returnformat);
-                    tempList.Add(folder);
+                    if (folder != null)
+                    {
+                        tempList.Add(folder);
+                    }
                     ++count;
                 }
                 else
                 {
                     var file = item as StorageFile;
                     var fileEntry = await AddFileAsync(file, returnformat, true);
-                    tempList.Add(fileEntry);
+                    if (fileEntry != null)
+                    {
+                        tempList.Add(fileEntry);
+                    }
                     ++count;
                 }
                 if (_addFilesCTS.IsCancellationRequested)
                 {
                     break;
                 }
-                if (count % 300 == 0)
+                if (count == 32 || count % 300 == 0)
                 {
-                    var orderedList = OrderFiles2(tempList);
-                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
-                    {
-                        OrderFiles(orderedList);
-                    });
+                    OrderFiles(OrderFiles2(tempList));
                 }
             }
-            var orderedFinalList = OrderFiles2(tempList);
-            await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
-            {
-                OrderFiles(orderedFinalList);
-            });
+            OrderFiles(OrderFiles2(tempList));
             stopwatch.Stop();
             await fileListCache.SaveFileListToCache(WorkingDirectory, new CacheEntry
             {
@@ -1894,7 +1892,7 @@ namespace Files.ViewModels
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
 
-            if (!_addFilesCTS.IsCancellationRequested && ((AssociatedInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser)) || (AssociatedInstance.ContentFrame.SourcePageType == typeof(GridViewBrowser))))
+            if (!_addFilesCTS.IsCancellationRequested)
             {
                 return new ListedItem(folder.FolderRelativeId, dateReturnFormat)
                 {
