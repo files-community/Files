@@ -59,10 +59,10 @@ namespace Files.Helpers
                 return SafeNativeMethods.CompareStringEx(
                     SafeNativeMethods.LOCALE_NAME_USER_DEFAULT,
                     SafeNativeMethods.SORT_DIGITSASNUMBERS, // Add other flags if required.
-                    a.ToString(),
-                    a.ToString().Length,
-                    b.ToString(),
-                    b.ToString().Length,
+                    a?.ToString(),
+                    a?.ToString().Length ?? 0,
+                    b?.ToString(),
+                    b?.ToString().Length ?? 0,
                     IntPtr.Zero,
                     IntPtr.Zero,
                     0) - 2;
