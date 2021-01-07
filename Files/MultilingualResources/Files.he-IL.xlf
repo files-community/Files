@@ -291,8 +291,8 @@
           <target state="translated" state-qualifier="tm-suggestion">תמונות</target>
         </trans-unit>
         <trans-unit id="SideBarUnpinFromSideBar.Text" translate="yes" xml:space="preserve">
-          <source>Unpin from Sidebar</source>
-          <target state="new">Unpin from Sidebar</target>
+          <source>Unpin from sidebar</source>
+          <target state="new">Unpin from sidebar</target>
         </trans-unit>
         <trans-unit id="SidebarVideos" translate="yes" xml:space="preserve">
           <source>Videos</source>

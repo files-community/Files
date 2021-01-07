@@ -106,7 +106,7 @@ namespace Files.Views
                 if (value != contentPage)
                 {
                     contentPage = value;
-                    NotifyPropertyChanged("ContentPage");
+                    NotifyPropertyChanged(nameof(ContentPage));
                 }
             }
         }
@@ -1269,6 +1269,7 @@ namespace Files.Views
             SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
             SidebarControl.RecycleBinItemRightTapped += SidebarControl_RecycleBinItemRightTapped;
             SidebarControl.SidebarItemNewPaneInvoked += SidebarControl_SidebarItemNewPaneInvoked;
+            SidebarControl.Loaded -= SidebarControl_Loaded;
         }
 
         private void SidebarControl_SidebarItemNewPaneInvoked(object sender, SidebarItemNewPaneInvokedEventArgs e)
