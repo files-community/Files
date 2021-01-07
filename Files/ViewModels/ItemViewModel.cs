@@ -1200,6 +1200,7 @@ namespace Files.ViewModels
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
 
+            var tempList = new List<ListedItem>();
             uint count = 0;
             while (true)
             {
@@ -1227,13 +1228,15 @@ namespace Files.ViewModels
                 }
                 if (item.IsOfType(StorageItemTypes.Folder))
                 {
-                    await AddFolderAsync(item as StorageFolder, returnformat);
+                    var folder = await AddFolderAsync(item as StorageFolder, returnformat);
+                    tempList.Add(folder);
                     ++count;
                 }
                 else
                 {
                     var file = item as StorageFile;
-                    await AddFileAsync(file, returnformat, true);
+                    var fileEntry = await AddFileAsync(file, returnformat, true);
+                    tempList.Add(fileEntry);
                     ++count;
                 }
                 if (_addFilesCTS.IsCancellationRequested)
@@ -1242,14 +1245,23 @@ namespace Files.ViewModels
                 }
                 if (count % 300 == 0)
                 {
-                    OrderFiles();
+                    var orderedList = OrderFiles2(tempList);
+                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                    {
+                        OrderFiles(orderedList);
+                    });
                 }
             }
+            var orderedFinalList = OrderFiles2(tempList);
+            await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+            {
+                OrderFiles(orderedFinalList);
+            });
             stopwatch.Stop();
             await fileListCache.SaveFileListToCache(WorkingDirectory, new CacheEntry
             {
                 CurrentFolder = CurrentFolder,
-                FileList = _filesAndFolders.ToList()
+                FileList = tempList
             });
             Debug.WriteLine($"Enumerating items in {WorkingDirectory} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
         }
@@ -1878,17 +1890,13 @@ namespace Files.ViewModels
             RapidAddItemsToCollectionAsync(path, previousDir);
         }
 
-        public async Task AddFolderAsync(StorageFolder folder, string dateReturnFormat)
+        public async Task<ListedItem> AddFolderAsync(StorageFolder folder, string dateReturnFormat)
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
 
-            if ((AssociatedInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser)) || (AssociatedInstance.ContentFrame.SourcePageType == typeof(GridViewBrowser)))
+            if (!_addFilesCTS.IsCancellationRequested && ((AssociatedInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser)) || (AssociatedInstance.ContentFrame.SourcePageType == typeof(GridViewBrowser))))
             {
-                if (_addFilesCTS.IsCancellationRequested)
-                {
-                    return;
-                }
-                _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId, dateReturnFormat)
+                return new ListedItem(folder.FolderRelativeId, dateReturnFormat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemName = folder.Name,
@@ -1904,11 +1912,12 @@ namespace Files.ViewModels
                     FileSize = null,
                     FileSizeBytes = 0
                     //FolderTooltipText = tooltipString,
-                });
+                };
             }
+            return null;
         }
 
-        public async Task AddFileAsync(StorageFile file, string dateReturnFormat, bool suppressThumbnailLoading = false)
+        public async Task<ListedItem> AddFileAsync(StorageFile file, string dateReturnFormat, bool suppressThumbnailLoading = false)
         {
             var basicProperties = await file.GetBasicPropertiesAsync();
             // Display name does not include extension
@@ -1981,7 +1990,7 @@ namespace Files.ViewModels
             }
             if (_addFilesCTS.IsCancellationRequested)
             {
-                return;
+                return null;
             }
 
             if (file.Name.EndsWith(".lnk") || file.Name.EndsWith(".url"))
@@ -1991,7 +2000,7 @@ namespace Files.ViewModels
             }
             else
             {
-                _filesAndFolders.Add(new ListedItem(file.FolderRelativeId, dateReturnFormat)
+                return new ListedItem(file.FolderRelativeId, dateReturnFormat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.File,
                     FileExtension = itemFileExtension,
@@ -2007,8 +2016,9 @@ namespace Files.ViewModels
                     ItemPath = itemPath,
                     FileSize = itemSize,
                     FileSizeBytes = (long)itemSizeBytes,
-                });
+                };
             }
+            return null;
         }
 
         public void AddSearchResultsToCollection(ObservableCollection<ListedItem> searchItems, string currentSearchPath)
