@@ -288,6 +288,7 @@ namespace Files
 
                 if (layoutType != ParentShellPageInstance.CurrentPageType)
                 {
+                    FolderSettings.IsLayoutModeChanging = true;
                     ParentShellPageInstance.ContentFrame.Navigate(layoutType, new NavigationArguments()
                     {
                         NavPathParam = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory,
