@@ -16,8 +16,6 @@ namespace Files.ViewModels.SettingsViewModels
         private Terminal selectedTerminal = App.AppSettings.TerminalController.Model.GetDefaultTerminal();
         private bool pinRecycleBinToSideBar = App.AppSettings.PinRecycleBinToSideBar;
         private bool showConfirmDeleteDialog = App.AppSettings.ShowConfirmDeleteDialog;
-        private bool showAllContextMenuItems = App.AppSettings.ShowAllContextMenuItems;
-        private bool showCopyLocationOption = App.AppSettings.ShowCopyLocationOption;
 
         public PreferencesViewModel()
         {
@@ -63,7 +61,7 @@ namespace Files.ViewModels.SettingsViewModels
             {
                 if (SetProperty(ref selectedTerminal, value))
                 {
-                    App.AppSettings.TerminalController.Model.DefaultTerminalPath = value.Path;
+                    App.AppSettings.TerminalController.Model.DefaultTerminalName = value.Name;
                     App.AppSettings.TerminalController.SaveModel();
                 }
             }
@@ -97,36 +95,6 @@ namespace Files.ViewModels.SettingsViewModels
                 if (SetProperty(ref showConfirmDeleteDialog, value))
                 {
                     App.AppSettings.ShowConfirmDeleteDialog = value;
-                }
-            }
-        }
-
-        public bool ShowAllContextMenuItems
-        {
-            get
-            {
-                return showAllContextMenuItems;
-            }
-            set
-            {
-                if (SetProperty(ref showAllContextMenuItems, value))
-                {
-                    App.AppSettings.ShowAllContextMenuItems = value;
-                }
-            }
-        }
-
-        public bool ShowCopyLocationOption
-        {
-            get
-            {
-                return showCopyLocationOption;
-            }
-            set
-            {
-                if (SetProperty(ref showCopyLocationOption, value))
-                {
-                    App.AppSettings.ShowCopyLocationOption = value;
                 }
             }
         }

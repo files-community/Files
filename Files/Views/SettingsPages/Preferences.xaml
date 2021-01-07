@@ -108,32 +108,12 @@
                     Header="Show a confirmation dialog when deleting files or folders"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}" />
-
-                <TextBlock
-                    x:Uid="SettingsPreferencesContextMenu"
-                    Padding="0,10,0,0"
-                    FontSize="20"
-                    Text="Context Menu" />
-
-                <ToggleSwitch
-                    x:Name="ContextMenuToggleSwitch"
-                    x:Uid="SettingsPreferencesContextMenuSwitch"
-                    Header="Show all context menu items when right clicking an item"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding ShowAllContextMenuItems, Mode=TwoWay}" />
-
-                <ToggleSwitch
-                    x:Name="CopyLocationToggleSwitch"
-                    x:Uid="SettingsPreferencesCopyLocationSwitch"
-                    Header="Show an option to copy the location when right clicking an item"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
-                    IsOn="{Binding ShowCopyLocationOption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </ScrollViewer>
 
         <dialogs:RestartDialog
             x:Name="RestartDialog"
             VerticalAlignment="Bottom"
-            ShowDialog="{Binding ShowRestartDialog, Mode=TwoWay}"/>
+            ShowDialog="{Binding ShowRestartDialog, Mode=TwoWay}" />
     </Grid>
 </Page>

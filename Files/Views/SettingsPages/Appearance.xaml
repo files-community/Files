@@ -40,9 +40,9 @@
                     MinWidth="200"
                     MaxWidth="250"
                     Header="App theme"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     ItemsSource="{Binding Themes}"
-                    SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}"
-                    HeaderTemplate="{StaticResource CustomHeaderStyle}" />
+                    SelectedIndex="{Binding SelectedThemeIndex, Mode=TwoWay}" />
 
                 <StackPanel
                     Width="Auto"
@@ -55,9 +55,9 @@
                         MinWidth="200"
                         MaxWidth="250"
                         Header="Date format"
+                        HeaderTemplate="{StaticResource CustomHeaderStyle}"
                         ItemsSource="{Binding DateFormats}"
-                        SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}"
-                        HeaderTemplate="{StaticResource CustomHeaderStyle}" />
+                        SelectedIndex="{Binding SelectedDateFormatIndex, Mode=TwoWay}" />
 
                     <HyperlinkButton
                         x:Uid="SettingsAppearanceDateFormatsTip"
@@ -76,6 +76,39 @@
                     Header="Acrylic sidebar"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding IsAcrylicDisabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}" />
+
+                <TextBlock
+                    x:Uid="SettingsContextMenu"
+                    Padding="0,10,0,0"
+                    FontSize="20"
+                    Text="Customize the right click context menu" />
+
+                <ToggleSwitch
+                    x:Name="ContextMenuToggleSwitch"
+                    x:Uid="SettingsContextMenuOverflowSwitch"
+                    Header="Move overflow items into a sub menu"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{Binding MoveOverflowMenuItemsToSubMenu, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Uid="SettingsContextMenuAnimationsSwitch"
+                    Header="Enable animations when opening and closing the context menu"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{Binding AreRightClickContentMenuAnimationsEnabled, Mode=TwoWay}" />
+
+                <ToggleSwitch
+                    x:Name="ShowOpenInNewTabToggleSwitch"
+                    x:Uid="SettingsOpenInNewTabSwitch"
+                    Header="Show open in new tab menu item"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{Binding ShowOpenInNewTabMenuItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <ToggleSwitch
+                    x:Name="ShowCopyLocationToggleSwitch"
+                    x:Uid="SettingsCopyLocationSwitch"
+                    Header="Show copy location menu item"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{Binding ShowCopyLocationMenuItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -91,7 +91,7 @@ namespace Files
                 if (value != selectedItems)
                 {
                     selectedItems = value;
-                    if (selectedItems.Count == 0)
+                    if (selectedItems.Count == 0 || selectedItems[0] == null)
                     {
                         IsItemSelected = false;
                         SelectedItem = null;
@@ -219,7 +219,7 @@ namespace Files
         {
             ClearShellContextMenus(menuFlyout);
             var currentBaseLayoutItemCount = menuFlyout.Items.Count;
-            var maxItems = AppSettings.ShowAllContextMenuItems ? int.MaxValue : shiftPressed ? 6 : 4;
+            var maxItems = !AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4;
             if (Connection != null)
             {
                 var response = Task.Run(() => Connection.SendMessageAsync(new ValueSet()
@@ -334,10 +334,9 @@ namespace Files
                 {
                     ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = true;
                 }
+
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
-
-                MainPage.MultitaskingControl?.UpdateSelectedTab(new DirectoryInfo(workingDir).Name, workingDir, false);
                 ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir);
                 ParentShellPageInstance.NavigationToolbar.PathControlDisplayText = parameters.NavPathParam;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
@@ -350,13 +349,10 @@ namespace Files
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
-
-                MainPage.MultitaskingControl?.UpdateSelectedTab(null, null, true);
                 ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(parameters.SearchResults, parameters.SearchPathParam);
             }
 
             ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
-            ParentShellPageInstance.Clipboard_ContentChanged(null, null);
 
             FolderSettings.IsLayoutModeChanging = false;
 
@@ -573,9 +569,14 @@ namespace Files
                 && SelectedItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase);
             SetShellContextmenu(BaseLayoutItemContextFlyout, shiftPressed, showOpenMenu);
 
-            if (!AppSettings.ShowCopyLocationOption)
+            if (!AppSettings.ShowCopyLocationMenuItem)
             {
                 UnloadMenuFlyoutItemByName("CopyLocationItem");
+            }
+
+            if (!AppSettings.ShowOpenInNewTabMenuItem)
+            {
+                UnloadMenuFlyoutItemByName("OpenInNewTab");
             }
 
             if (!DataTransferManager.IsSupported())
@@ -587,8 +588,10 @@ namespace Files
             if (SelectedItems.Any(x => x.PrimaryItemAttribute != StorageItemTypes.Folder))
             {
                 UnloadMenuFlyoutItemByName("SidebarPinItem");
+                UnloadMenuFlyoutItemByName("SidebarUnpinItem");
                 UnloadMenuFlyoutItemByName("OpenInNewTab");
                 UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
+                UnloadMenuFlyoutItemByName("OpenInNewPane");
 
                 if (SelectedItems.Count == 1)
                 {
@@ -611,7 +614,7 @@ namespace Files
                             LoadMenuFlyoutItemByName("CreateShortcut");
                         }
                         else if (SelectedItem.FileExtension.Equals(".exe", StringComparison.OrdinalIgnoreCase)
-                            || SelectedItem.FileExtension.Equals(".bat", StringComparison.OrdinalIgnoreCase))
+                            || SelectedItem.FileExtension.Equals(".bat", StringComparison.OrdinalIgnoreCase) || SelectedItem.FileExtension.Equals(".cmd", StringComparison.OrdinalIgnoreCase))
                         {
                             LoadMenuFlyoutItemByName("OpenItem");
                             UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
@@ -666,9 +669,13 @@ namespace Files
                 }
                 else if (SelectedItems.Count == 1)
                 {
-                    LoadMenuFlyoutItemByName("SidebarPinItem");
                     LoadMenuFlyoutItemByName("CreateShortcut");
                     LoadMenuFlyoutItemByName("OpenItem");
+
+                    if (AppSettings.ShowCopyLocationMenuItem)
+                    {
+                        LoadMenuFlyoutItemByName("CopyLocationItem");
+                    }
                 }
                 else
                 {
@@ -676,15 +683,41 @@ namespace Files
                     UnloadMenuFlyoutItemByName("CreateShortcut");
                 }
 
+                if (selectedItems.All(x => !x.IsShortcutItem))
+                {
+                    if (selectedItems.All(x => x.IsPinned))
+                    {
+                        LoadMenuFlyoutItemByName("SidebarUnpinItem");
+                        UnloadMenuFlyoutItemByName("SidebarPinItem");
+                    }
+                    else
+                    {
+                        LoadMenuFlyoutItemByName("SidebarPinItem");
+                        UnloadMenuFlyoutItemByName("SidebarUnpinItem");
+                    }
+                }
+
                 if (SelectedItems.Count <= 5 && SelectedItems.Count > 0)
                 {
-                    LoadMenuFlyoutItemByName("OpenInNewTab");
+                    if (AppSettings.ShowOpenInNewTabMenuItem)
+                    {
+                        LoadMenuFlyoutItemByName("OpenInNewTab");
+                    }
                     LoadMenuFlyoutItemByName("OpenInNewWindowItem");
                 }
                 else if (SelectedItems.Count > 5)
                 {
                     UnloadMenuFlyoutItemByName("OpenInNewTab");
                     UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
+                }
+
+                if (SelectedItems.Count == 1 && ParentShellPageInstance.IsMultiPaneEnabled && ParentShellPageInstance.IsPageMainPane)
+                {
+                    LoadMenuFlyoutItemByName("OpenInNewPane");
+                }
+                else
+                {
+                    UnloadMenuFlyoutItemByName("OpenInNewPane");
                 }
             }
 
@@ -694,8 +727,11 @@ namespace Files
 
         protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
-            char letterPressed = Convert.ToChar(args.KeyCode);
-            ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
+            if (ParentShellPageInstance.IsCurrentInstance)
+            {
+                char letterPressed = Convert.ToChar(args.KeyCode);
+                ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
+            }
         }
 
         protected async void List_DragEnter(object sender, DragEventArgs e)
@@ -816,7 +852,7 @@ namespace Files
 
             ListedItem item = GetItemFromElement(sender);
 
-            if(item is null && sender is GridViewItem gvi)
+            if (item is null && sender is GridViewItem gvi)
             {
                 item = gvi.Content as ListedItem;
             }
@@ -881,7 +917,10 @@ namespace Files
 
             e.Handled = true;
             ListedItem rowItem = GetItemFromElement(sender);
-            await ParentShellPageInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, true);
+            if (rowItem != null)
+            {
+                await ParentShellPageInstance.InteractionOperations.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, true);
+            }
             deferral.Complete();
         }
 

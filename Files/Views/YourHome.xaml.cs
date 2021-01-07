@@ -30,18 +30,23 @@ namespace Files.Views
         {
             if (DrivesWidget != null)
             {
+                DrivesWidget.DrivesWidgetInvoked -= DrivesWidget_DrivesWidgetInvoked;
+                DrivesWidget.DrivesWidgetNewPaneInvoked -= DrivesWidget_DrivesWidgetNewPaneInvoked;
                 DrivesWidget.DrivesWidgetInvoked += DrivesWidget_DrivesWidgetInvoked;
+                DrivesWidget.DrivesWidgetNewPaneInvoked += DrivesWidget_DrivesWidgetNewPaneInvoked;
             }
             if (LibraryWidget != null)
             {
+                LibraryWidget.LibraryCardInvoked -= LibraryLocationCardsWidget_LibraryCardInvoked;
                 LibraryWidget.LibraryCardInvoked += LibraryLocationCardsWidget_LibraryCardInvoked;
             }
             if (RecentFilesWidget != null)
             {
+                RecentFilesWidget.RecentFilesOpenLocationInvoked -= RecentFilesWidget_RecentFilesOpenLocationInvoked;
+                RecentFilesWidget.RecentFileInvoked -= RecentFilesWidget_RecentFileInvoked;
                 RecentFilesWidget.RecentFilesOpenLocationInvoked += RecentFilesWidget_RecentFilesOpenLocationInvoked;
                 RecentFilesWidget.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
             }
-            this.Loaded -= YourHome_Loaded;
         }
 
         private async void RecentFilesWidget_RecentFileInvoked(object sender, UserControls.PathNavigationEventArgs e)
@@ -109,6 +114,11 @@ namespace Files.Views
             AppInstance.InstanceViewModel.IsPageTypeNotHome = true;     // show controls that were hidden on the home page
         }
 
+        private void DrivesWidget_DrivesWidgetNewPaneInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)
+        {
+            AppInstance.PaneHolder?.OpenPathInNewPane(e.Path);
+        }
+
         private void DrivesWidget_DrivesWidgetInvoked(object sender, DrivesWidget.DrivesWidgetInvokedEventArgs e)
         {
             AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.Path), new NavigationArguments()
@@ -129,7 +139,6 @@ namespace Files.Views
             AppInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
             AppInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
             AppInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
-            MainPage.MultitaskingControl?.UpdateSelectedTab(parameters.NavPathParam, null, false);
             AppInstance.NavigationToolbar.CanRefresh = false;
             AppInstance.NavigationToolbar.CanGoBack = AppInstance.ContentFrame.CanGoBack;
             AppInstance.NavigationToolbar.CanGoForward = AppInstance.ContentFrame.CanGoForward;

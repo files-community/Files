@@ -65,10 +65,13 @@ namespace Files.ViewModels
             Analytics.TrackEvent("IsAcrylicDisabled " + IsAcrylicDisabled.ToString());
             Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
             Analytics.TrackEvent("IsHorizontalTabStripEnabled " + IsHorizontalTabStripEnabled.ToString());
+            Analytics.TrackEvent("IsDualPaneEnabled " + IsDualPaneEnabled.ToString());
+            Analytics.TrackEvent("AlwaysOpenDualPaneInNewTab " + AlwaysOpenDualPaneInNewTab.ToString());
             Analytics.TrackEvent("IsVerticalTabFlyoutEnabled " + IsVerticalTabFlyoutEnabled.ToString());
             Analytics.TrackEvent("AreHiddenItemsVisible " + AreHiddenItemsVisible.ToString());
             Analytics.TrackEvent("ShowDrivesWidget " + ShowDrivesWidget.ToString());
             Analytics.TrackEvent("ListAndSortDirectoriesAlongsideFiles " + ListAndSortDirectoriesAlongsideFiles.ToString());
+            Analytics.TrackEvent("AreRightClickContentMenuAnimationsEnabled " + AreRightClickContentMenuAnimationsEnabled.ToString());
         }
 
         public static async void OpenLogLocation()
@@ -90,8 +93,15 @@ namespace Files.ViewModels
         public async void DetectQuickLook()
         {
             // Detect QuickLook
-            ApplicationData.Current.LocalSettings.Values["Arguments"] = "StartupTasks";
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+            try
+            {
+                ApplicationData.Current.LocalSettings.Values["Arguments"] = "StartupTasks";
+                await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+            }
         }
 
         private void DetectRecycleBinPreference()
@@ -219,23 +229,7 @@ namespace Files.ViewModels
             }
         }
 
-        public string OneDriveCommercialPath { get; set; } = Environment.GetEnvironmentVariable("OneDriveCommercial");
-        public string OneDrivePath { get; set; } = Environment.GetEnvironmentVariable("OneDriveConsumer");
-
-        public bool ShowFileOwner
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to cache files and folders.
-        /// </summary>
-        public bool UseFileListCache
-        {
-            get => Get(false);
-            set => Set(value);
-        }
+        #region DetailsView Column Settings
 
         /// <summary>
         /// Gets or sets a value indicating whether or not the date column should be visible.
@@ -264,10 +258,12 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        #endregion
+
         #region CommonPaths
 
-        // Any distinguishable path here is fine
-
+        public string OneDriveCommercialPath { get; set; } = Environment.GetEnvironmentVariable("OneDriveCommercial");
+        public string OneDrivePath { get; set; } = Environment.GetEnvironmentVariable("OneDriveConsumer");
         public string DesktopPath { get; set; } = UserDataPaths.GetDefault().Desktop;
         public string DocumentsPath { get; set; } = UserDataPaths.GetDefault().Documents;
         public string DownloadsPath { get; set; } = UserDataPaths.GetDefault().Downloads;
@@ -408,6 +404,24 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to enable dual pane feature.
+        /// </summary>
+        public bool IsDualPaneEnabled
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to always open a second pane when opening a new tab.
+        /// </summary>
+        public bool AlwaysOpenDualPaneInNewTab
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         #endregion Multitasking
 
         #region Widgets
@@ -447,24 +461,6 @@ namespace Files.ViewModels
         /// Gets or sets a value indicating whether or not the confirm delete dialog should show when deleting items.
         /// </summary>
         public bool ShowConfirmDeleteDialog
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not some of the right click context menu items overflow into a sub menu.
-        /// </summary>
-        public bool ShowAllContextMenuItems
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the show copy location option is shown in the right click context menu.
-        /// </summary>
-        public bool ShowCopyLocationOption
         {
             get => Get(true);
             set => Set(value);
@@ -542,52 +538,83 @@ namespace Files.ViewModels
 
         #endregion Preferences
 
+        #region Appearance
+
         /// <summary>
-        /// Gets or sets a value indicating whether or not WSL is supported.
+        /// Gets or sets a value indicating whether or not acrylic is enabled.
         /// </summary>
-        public bool AreLinuxFilesSupported
+        public bool IsAcrylicDisabled
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not right click context menu animations are enabled.
+        /// </summary>
+        public bool AreRightClickContentMenuAnimationsEnabled
         {
             get => Get(false);
             set => Set(value);
         }
 
-        public bool OpenNewTabPageOnStartup
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to move overflow menu items into a sub menu.
+        /// </summary>
+        public bool MoveOverflowMenuItemsToSubMenu
         {
             get => Get(true);
             set => Set(value);
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not to show a teaching tip informing the user about the status center.
+        /// Gets or sets a value indicating whether or not the copy location menu item is shown in the right click context menu.
         /// </summary>
-        public bool ShowStatusCenterTeachingTip
+        public bool ShowCopyLocationMenuItem
         {
             get => Get(true);
             set => Set(value);
         }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the open in new tab menu item is shown in the right click context menu.
+        /// </summary>
+        public bool ShowOpenInNewTabMenuItem
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        #endregion Appearance
+
+        #region Experimental
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to show the item owner in the properties window.
+        /// </summary>
+        public bool ShowFileOwner
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to cache files and folders.
+        /// </summary>
+        public bool UseFileListCache
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        #endregion Experimental
+
+        #region Startup
 
         /// <summary>
         /// Gets or sets a value indicating whether or not to navigate to a specific location when launching the app.
         /// </summary>
         public bool OpenASpecificPageOnStartup
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not continue the last session whenever the app is launched.
-        /// </summary>
-        public bool ContinueLastSessionOnStartUp
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not to restore tabs after restarting the app.
-        /// </summary>
-        public bool ResumeAfterRestart
         {
             get => Get(false);
             set => Set(value);
@@ -603,20 +630,29 @@ namespace Files.ViewModels
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not opening the app from the jumplist should open the directory in a new instance.
+        /// Gets or sets a value indicating whether or not continue the last session whenever the app is launched.
         /// </summary>
-        public bool AlwaysOpenANewInstance
+        public bool ContinueLastSessionOnStartUp
         {
             get => Get(false);
             set => Set(value);
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not acrylic is enabled.
+        /// Gets or sets a value indicating whether or not to open a page when the app is launched.
         /// </summary>
-        public bool IsAcrylicDisabled
+        public bool OpenNewTabPageOnStartup
         {
             get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not opening the app from the jumplist should open the directory in a new instance.
+        /// </summary>
+        public bool AlwaysOpenANewInstance
+        {
+            get => Get(false);
             set => Set(value);
         }
 
@@ -629,6 +665,35 @@ namespace Files.ViewModels
         public string[] LastSessionPages
         {
             get => Get<string[]>(null);
+            set => Set(value);
+        }
+
+        #endregion Startup
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not WSL is supported.
+        /// </summary>
+        public bool AreLinuxFilesSupported
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to show a teaching tip informing the user about the status center.
+        /// </summary>
+        public bool ShowStatusCenterTeachingTip
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not to restore tabs after restarting the app.
+        /// </summary>
+        public bool ResumeAfterRestart
+        {
+            get => Get(false);
             set => Set(value);
         }
 

@@ -90,6 +90,7 @@ namespace Files.Helpers
                     case RegistryValueKind.Binary:
                         data = (byte[])dataObj;
                         break;
+
                     case RegistryValueKind.String:
                         data = UTF8Encoding.UTF8.GetBytes((string)dataObj);
                         break;

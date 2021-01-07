@@ -4,6 +4,7 @@ pr: none
 pool:
   vmImage: 'windows-latest'
   timeoutInMinutes: 90
+  cancelTimeoutInMinutes: 0
 
 variables:
   solution: '**/*.sln'
@@ -18,8 +19,8 @@ steps:
     script: |
       [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\Files.Package\Package.appxmanifest
       $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
-      $xmlDoc.Package.Properties.DisplayName="Files - Preview"
-      $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files - Preview"
+      $xmlDoc.Package.Properties.DisplayName="Files"
+      $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
       $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
     failOnStderr: true
 
@@ -63,7 +64,20 @@ steps:
     msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
     maximumCpuCount: true
 
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+  inputs:
+    SourceFolder: '$(system.defaultworkingdirectory)'
+    Contents: '**\bin\$(BuildConfiguration)\**'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+    
 - task: store-flight@0
+  timeoutInMinutes: 0
   inputs:
     serviceEndpoint: 'Files'
     appId: '9NGHP3DX8HDX'
@@ -73,3 +87,4 @@ steps:
     skipPolling: false
     deletePackages: true
     numberOfPackagesToKeep: '5'
+    isMandatoryUpdate: true

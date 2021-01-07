@@ -1,10 +1,10 @@
-﻿using Files.ViewModels;
+﻿using Files.Filesystem;
+using Files.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.AccessCache;
@@ -60,12 +60,12 @@ namespace Files.UserControls.Widgets
             foreach (AccessListEntry entry in mostRecentlyUsed.Entries)
             {
                 string mruToken = entry.Token;
-                try
+                var added = await FilesystemTasks.Wrap(async () =>
                 {
                     IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
                     await AddItemToRecentListAsync(item, entry);
-                }
-                catch (UnauthorizedAccessException)
+                });
+                if (added == FilesystemErrorCode.ERROR_UNAUTHORIZED)
                 {
                     // Skip item until consent is provided
                 }
@@ -75,10 +75,14 @@ namespace Files.UserControls.Widgets
                 // 0x8000000A -> The data necessary to complete this operation is not yet available
                 // 0x80004005 -> Unspecified error
                 // 0x80270301 -> ?
-                catch (Exception ex)
+                else if (!added)
                 {
-                    mostRecentlyUsed.Remove(mruToken);
-                    System.Diagnostics.Debug.WriteLine(ex);
+                    await FilesystemTasks.Wrap(() =>
+                    {
+                        mostRecentlyUsed.Remove(mruToken);
+                        return Task.CompletedTask;
+                    });
+                    System.Diagnostics.Debug.WriteLine(added.ErrorCode);
                 }
             }
 
@@ -94,9 +98,9 @@ namespace Files.UserControls.Widgets
             string ItemPath;
             string ItemName;
             StorageItemTypes ItemType;
-            Visibility ItemFolderImgVis;
-            Visibility ItemEmptyImgVis;
-            Visibility ItemFileIconVis;
+            bool ItemFolderImgVis;
+            bool ItemEmptyImgVis;
+            bool ItemFileIconVis;
             if (item.IsOfType(StorageItemTypes.File))
             {
                 // Try to read the file to check if still exists
@@ -120,15 +124,15 @@ namespace Files.UserControls.Widgets
                 var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
                 if (thumbnail == null)
                 {
-                    ItemEmptyImgVis = Visibility.Visible;
+                    ItemEmptyImgVis = true;
                 }
                 else
                 {
                     await ItemImage.SetSourceAsync(thumbnail);
-                    ItemEmptyImgVis = Visibility.Collapsed;
+                    ItemEmptyImgVis = false;
                 }
-                ItemFolderImgVis = Visibility.Collapsed;
-                ItemFileIconVis = Visibility.Visible;
+                ItemFolderImgVis = false;
+                ItemFileIconVis = true;
                 recentItemsCollection.Add(new RecentItem()
                 {
                     RecentPath = ItemPath,
@@ -202,9 +206,9 @@ namespace Files.UserControls.Widgets
         public string Name { get; set; }
         public bool IsFile { get => Type == StorageItemTypes.File; }
         public StorageItemTypes Type { get; set; }
-        public Visibility FolderImg { get; set; }
-        public Visibility EmptyImgVis { get; set; }
-        public Visibility FileIconVis { get; set; }
+        public bool FolderImg { get; set; }
+        public bool EmptyImgVis { get; set; }
+        public bool FileIconVis { get; set; }
     }
 
     public class EmptyRecentsText : INotifyPropertyChanged

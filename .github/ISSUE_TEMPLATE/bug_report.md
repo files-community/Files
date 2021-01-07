@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us improve Files UWP
+about: Create a report to help us improve Files
 title: ''
 labels: bug
 assignees: ''
@@ -44,4 +44,4 @@ If applicable, add screenshots to help explain your problem.
 Add any other context about the problem here. Does this problem occur again after restarting the app?
 
 **Log file**
-Please post the log file here so that we can understand your problem better. You can access it from Settings->About->Open log location.
+Please upload the log file here so that we can understand your issue better. You can access it from Settings->About->Open log location. You can also find the log file manually by following [this](https://github.com/files-community/Files/wiki/Opening-the-log-file) guide.

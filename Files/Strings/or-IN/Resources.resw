@@ -108,7 +108,7 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>ଚୟନ ସଫା କରନ୍ତୁ</value>
   </data>
-  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
     <value>ତାଲିକା ଭ୍ୟୁ</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -143,9 +143,6 @@
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files UWP</value>
-  </data>
-  <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
-    <value>ବିଶେଷ ଧନ୍ୟବାଦ:</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>ମତାମତ ଦାଖଲ କରନ୍ତୁ</value>
@@ -411,16 +408,16 @@
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>ଲକ୍ସ୍କ୍ରିନ୍ ପୃଷ୍ଠଭୂମି ଭାବରେ ଚୟନ କରନ୍ତୁ</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewLarge.Text" xml:space="preserve">
     <value>ଗ୍ରୀଡ୍ ଭ୍ୟୁ (ବଡ଼)</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewMedium.Text" xml:space="preserve">
     <value>ଗ୍ରୀଡ୍ ଭ୍ୟୁ (ମଧ୍ୟମ)</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewSmall.Text" xml:space="preserve">
     <value>ଗ୍ରୀଡ୍ ଭ୍ୟୁ (ଛୋଟ)</value>
   </data>
-  <data name="StatusBarControlTilesView.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
     <value>ଟାଇଲ୍ସ ଭ୍ୟୁ</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
@@ -464,9 +461,6 @@
   </data>
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>ଠିକ୍ ଅଛି</value>
-  </data>
-  <data name="StatusBarControlLayoutMode.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ଲେଆଉଟ୍ ମୋଡ୍</value>
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>ଚୟନ ବିକଳ୍ପଗୁଡ଼ିକ</value>
@@ -782,5 +776,266 @@
   </data>
   <data name="NavForwardButton.AutomationProperties.Name" xml:space="preserve">
     <value>ଅଗ୍ରଗାମୀ ନେଭିଗେଟ୍ କରନ୍ତୁ</value>
+  </data>
+  <data name="AccessDeniedCreateDialog.Title" xml:space="preserve">
+    <value>ପ୍ରବେଶ ପ୍ରତ୍ୟାଖ୍ୟାତ</value>
+  </data>
+  <data name="SettingsAppearanceDateFormat.Header" xml:space="preserve">
+    <value>ତାରିଖ ଫର୍ମାଟ୍</value>
+  </data>
+  <data name="PropertyTitle" xml:space="preserve">
+    <value>ଟାଇଟେଲ୍</value>
+  </data>
+  <data name="PropertySubject" xml:space="preserve">
+    <value>ବିଷୟ</value>
+  </data>
+  <data name="PropertyComment" xml:space="preserve">
+    <value>ମନ୍ତବ୍ୟ</value>
+  </data>
+  <data name="PropertyCopyright" xml:space="preserve">
+    <value>ସତ୍ତ୍ୱାଧିକାର</value>
+  </data>
+  <data name="PropertyDateCreated" xml:space="preserve">
+    <value>ତାରିଖ ପ୍ରସ୍ଥୁତ</value>
+  </data>
+  <data name="PropertyDateModified" xml:space="preserve">
+    <value>ତାରିଖ ସଂଶୋଧିତ</value>
+  </data>
+  <data name="PropertyBitDepth" xml:space="preserve">
+    <value>ବିଟ୍ ଗାଢ଼ତା</value>
+  </data>
+  <data name="PropertyDimensions" xml:space="preserve">
+    <value>ପରିସରଗୁଡ଼ିକ</value>
+  </data>
+  <data name="PropertyLatitude" xml:space="preserve">
+    <value>ଅକ୍ଷାଂଶ</value>
+  </data>
+  <data name="PropertyLongitude" xml:space="preserve">
+    <value>ଦ୍ରାଘିମା</value>
+  </data>
+  <data name="PropertyAperture" xml:space="preserve">
+    <value>ଆପେଚର୍</value>
+  </data>
+  <data name="PropertyDateTaken" xml:space="preserve">
+    <value>ନିଆଯାଇଥିବା ତାରିଖ:</value>
+  </data>
+  <data name="PropertyCompression" xml:space="preserve">
+    <value>ସଙ୍କୋଚନ:</value>
+  </data>
+  <data name="PropertyFormat" xml:space="preserve">
+    <value>ଫର୍ମାଟ୍...</value>
+  </data>
+  <data name="PropertySampleRate" xml:space="preserve">
+    <value>ନମୂନା ମୂଲ୍ୟ</value>
+  </data>
+  <data name="PropertyAlbumArtist" xml:space="preserve">
+    <value>ଆଲ୍‌ବମ୍ କଳାକାର</value>
+  </data>
+  <data name="PropertyAlbumTitle" xml:space="preserve">
+    <value>ଆଲ୍‌ବମ୍ ଟାଇଟେଲ୍</value>
+  </data>
+  <data name="PropertyArtist" xml:space="preserve">
+    <value>କଳାକାର:</value>
+  </data>
+  <data name="PropertyComposer" xml:space="preserve">
+    <value>ରଚୟିତା</value>
+  </data>
+  <data name="PropertyConductor" xml:space="preserve">
+    <value>କଣ୍ଡକ୍ଟର</value>
+  </data>
+  <data name="PropertyGenre" xml:space="preserve">
+    <value>ଧରଣ</value>
+  </data>
+  <data name="PropertyTrackNumber" xml:space="preserve">
+    <value>ଟ୍ରାକ୍ ସଂଖ୍ୟା</value>
+  </data>
+  <data name="PropertyDuration" xml:space="preserve">
+    <value>ଅବଧି</value>
+  </data>
+  <data name="PropertySeriesName" xml:space="preserve">
+    <value>ପର୍ଯ୍ୟାୟ ନାମ</value>
+  </data>
+  <data name="PropertyProducer" xml:space="preserve">
+    <value>ଉତ୍ପାଦକ</value>
+  </data>
+  <data name="PropertyPublisher" xml:space="preserve">
+    <value>ପ୍ରକାଶକ</value>
+  </data>
+  <data name="PropertyWriter" xml:space="preserve">
+    <value>ରାଇଟର୍</value>
+  </data>
+  <data name="PropertyYear" xml:space="preserve">
+    <value>ବର୍ଷ</value>
+  </data>
+  <data name="PropertySectionCore" xml:space="preserve">
+    <value>କେନ୍ଦ୍ର</value>
+  </data>
+  <data name="PropertySectionImage" xml:space="preserve">
+    <value>ପ୍ରତିଛବି</value>
+  </data>
+  <data name="PropertySectionPhoto" xml:space="preserve">
+    <value>ଫଟୋ</value>
+  </data>
+  <data name="PropertySectionGPS" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="PropertySectionMedia" xml:space="preserve">
+    <value>ମିଡିଆ</value>
+  </data>
+  <data name="PropertySectionAudio" xml:space="preserve">
+    <value>ଅଡ଼ିଓ</value>
+  </data>
+  <data name="PropertySectionMusic" xml:space="preserve">
+    <value>ସଙ୍ଗୀତ</value>
+  </data>
+  <data name="PropertyAddress" xml:space="preserve">
+    <value>ଠିକଣା</value>
+  </data>
+  <data name="PropertyContributor" xml:space="preserve">
+    <value>ଯୋଗଦାନକର୍ତ୍ତା</value>
+  </data>
+  <data name="PropertyLastAuthor" xml:space="preserve">
+    <value>ଶେଷ ଗ୍ରନ୍ଥକର୍ତ୍ତା</value>
+  </data>
+  <data name="PropertyRevisionNumber" xml:space="preserve">
+    <value>ପୁନରାବଲୋକନ ନମ୍ବର</value>
+  </data>
+  <data name="PropertyVersion" xml:space="preserve">
+    <value>ସଂସ୍କରଣ</value>
+  </data>
+  <data name="PropertySectionVideo" xml:space="preserve">
+    <value>ଭିଡିଓ</value>
+  </data>
+  <data name="PropertyDatePrinted" xml:space="preserve">
+    <value>[Date Printed]</value>
+  </data>
+  <data name="PropertyTotalEditingTime" xml:space="preserve">
+    <value>ସମସ୍ତ ସଂପାଦନା ସମୟ</value>
+  </data>
+  <data name="PropertyTemplate" xml:space="preserve">
+    <value>ଟେମ୍ପଲେଟ୍‌</value>
+  </data>
+  <data name="PropertyWordCount" xml:space="preserve">
+    <value>ଶବ୍ଦ ଗଣନା</value>
+  </data>
+  <data name="PropertyOrientation" xml:space="preserve">
+    <value>ଓରିଏଣ୍ଟେସନ୍</value>
+  </data>
+  <data name="PropertySectionDocument" xml:space="preserve">
+    <value>ଡକ୍ୟୁମେଣ୍ଟ୍</value>
+  </data>
+  <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
+    <value>ଅଧିକ ବିକଳ୍ପସମୂହ</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
+    <value>ଚୟନ ବିକଳ୍ପସମୂହ</value>
+  </data>
+  <data name="FileItemAutomation" xml:space="preserve">
+    <value>ଫାଇଲ୍:</value>
+  </data>
+  <data name="FolderItemAutomation" xml:space="preserve">
+    <value>ଫୋଲ୍ଡର:</value>
+  </data>
+  <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
+    <value>ଏଠାକୁ ଘୁଞ୍ଚନ୍ତୁ</value>
+  </data>
+  <data name="DrivesWidgetDescription.Text" xml:space="preserve">
+    <value>ଡ୍ରାଇଭ୍‌ସମୂହ:</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.Header" xml:space="preserve">
+    <value>ଲୁକ୍କାୟିତ ଫାଇଲ୍ ଏବଂ ଫୋଲ୍ଡର୍‌ଗୁଡିକକୁ ଦେଖାନ୍ତୁ</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
+    <value>ଲୁକ୍କାୟିତ ଫାଇଲ୍ ଏବଂ ଫୋଲ୍ଡର୍‌ଗୁଡିକକୁ ଦେଖାନ୍ତୁ</value>
+  </data>
+  <data name="SideBarEjectDevice.Text" xml:space="preserve">
+    <value>ବହିଷ୍କାର</value>
+  </data>
+  <data name="HorizontalMultitaskingControlDuplicateTab.Text" xml:space="preserve">
+    <value>ନକଲ ଟ୍ୟାବ୍</value>
+  </data>
+  <data name="HorizontalMultitaskingControlNewTab.Text" xml:space="preserve">
+    <value>ନୂତନ ଟ୍ୟାବ୍</value>
+  </data>
+  <data name="NavSearchButton.AutomationProperties.Name" xml:space="preserve">
+    <value>ସନ୍ଧାନ</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
+    <value>କେବଳ-ପଠନ</value>
+  </data>
+  <data name="PropertiesDialogHidden.Text" xml:space="preserve">
+    <value>ଲୁକ୍କାୟିତ</value>
+  </data>
+  <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
+    <value>ତ୍ରୁଟି</value>
+  </data>
+  <data name="PropertySaveErrorDialog.PrimaryButtonText" xml:space="preserve">
+    <value>ପୁନଃଚେଷ୍ଟା</value>
+  </data>
+  <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
+    <value>ଯେକୌଣସିଭାବରେ ବନ୍ଦ କରିବା</value>
+  </data>
+  <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
+    <value>ବାତିଲ୍</value>
+  </data>
+  <data name="ClearPropertiesFlyoutConfirmation.Content" xml:space="preserve">
+    <value>ଖାଲି କରନ୍ତୁ</value>
+  </data>
+  <data name="PropertyColorSpace_Value65535" xml:space="preserve">
+    <value>ଅନିର୍ଦ୍ଦିଷ୍ଟ</value>
+  </data>
+  <data name="SettingsAboutLicense.AutomationProperties.Name" xml:space="preserve">
+    <value>ଲାଇସେନ୍ସ</value>
+  </data>
+  <data name="SettingsAboutLicense.Content" xml:space="preserve">
+    <value>ଲାଇସେନ୍ସ</value>
+  </data>
+  <data name="SettingsAboutWebsite.AutomationProperties.Name" xml:space="preserve">
+    <value>ୱେବ୍‌ସାଇଟ୍</value>
+  </data>
+  <data name="SettingsAboutWebsite.Content" xml:space="preserve">
+    <value>ୱେବ୍‌ସାଇଟ୍</value>
+  </data>
+  <data name="SearchTabHeaderText" xml:space="preserve">
+    <value>ସନ୍ଧାନ ଫଳାଫଳ</value>
+  </data>
+  <data name="PropertiesDialogTabDetails.Content" xml:space="preserve">
+    <value>ସବିଶେଷ</value>
+  </data>
+  <data name="UpdateConsentDialogCloseButtonText" xml:space="preserve">
+    <value>ନାଁ</value>
+  </data>
+  <data name="UpdateConsentDialogPrimaryButtonText" xml:space="preserve">
+    <value>ହଁ</value>
+  </data>
+  <data name="UpdateConsentDialogTitle" xml:space="preserve">
+    <value>ଅଦ୍ୟତନଗୁଡିକ ଉପଲବ୍ଧ</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
+    <value>ସୁରକ୍ଷିତ ଅପରେଟିଂ ସିଷ୍ଟମ୍ ଫାଇଲ୍‌ଗୁଡ଼ିକୁ (ଅନୁମୋଦିତ) ଲୁଚାନ୍ତୁ</value>
+  </data>
+  <data name="SettingsFilesAndFoldersHideSystemItems.AutomationProperties.Name" xml:space="preserve">
+    <value>ସୁରକ୍ଷିତ ଅପରେଟିଂ ସିଷ୍ଟମ୍ ଫାଇଲ୍‌ଗୁଡ଼ିକୁ (ଅନୁମୋଦିତ) ଲୁଚାନ୍ତୁ</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewFile.Text" xml:space="preserve">
+    <value>ଫାଇଲ୍:</value>
+  </data>
+  <data name="AddDialogListFileHeader" xml:space="preserve">
+    <value>ଫାଇଲ୍:</value>
+  </data>
+  <data name="NewFile" xml:space="preserve">
+    <value>ନୂତନ ଫାଇଲ୍</value>
+  </data>
+  <data name="AppBarButtonAdd.Label" xml:space="preserve">
+    <value>ଯୋଡନ୍ତୁ</value>
+  </data>
+  <data name="AppBarButtonEdit.Label" xml:space="preserve">
+    <value>ସଂପାଦନା</value>
+  </data>
+  <data name="AppBarButtonRemove.Label" xml:space="preserve">
+    <value>ଅପସାରଣ</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
+    <value>ବାତିଲ୍</value>
   </data>
 </root>

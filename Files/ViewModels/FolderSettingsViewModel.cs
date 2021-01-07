@@ -45,7 +45,7 @@ namespace Files.ViewModels
         public Type GetLayoutType(string folderPath)
         {
             var oldLayoutMode = LayoutPreference.LayoutMode;
-            LayoutPreference = GetLayoutPreferencesForPath(folderPath.TrimEnd('\\'));
+            LayoutPreference = GetLayoutPreferencesForPath(folderPath);
             if (oldLayoutMode != LayoutPreference.LayoutMode)
             {
                 IsLayoutModeChanging = true;
@@ -74,6 +74,7 @@ namespace Files.ViewModels
         }
 
         public event EventHandler LayoutModeChangeRequested;
+
         public event EventHandler GridViewSizeChangeRequested;
 
         public RelayCommand ToggleLayoutModeGridViewLarge => new RelayCommand(() =>
@@ -217,8 +218,8 @@ namespace Files.ViewModels
         {
             if (App.AppSettings.AreLayoutPreferencesPerFolder)
             {
-                var layoutPrefs = ReadLayoutPreferencesFromAds(folderPath);
-                return layoutPrefs ?? ReadLayoutPreferencesFromSettings(folderPath);
+                var layoutPrefs = ReadLayoutPreferencesFromAds(folderPath.TrimEnd('\\'));
+                return layoutPrefs ?? ReadLayoutPreferencesFromSettings(folderPath.Replace('\\', '_'));
             }
             return LayoutPreferences.DefaultLayoutPreferences;
         }
@@ -227,9 +228,11 @@ namespace Files.ViewModels
         {
             if (App.AppSettings.AreLayoutPreferencesPerFolder)
             {
-                if (!WriteLayoutPreferencesToAds(folderPath, prefs))
+                // Sanitize the folderPath by removing the trailing '\\'. This has to be performed because paths to drives
+                // include an '\\' at the end (unlike paths to folders)
+                if (!WriteLayoutPreferencesToAds(folderPath.TrimEnd('\\'), prefs))
                 {
-                    WriteLayoutPreferencesToSettings(folderPath, prefs);
+                    WriteLayoutPreferencesToSettings(folderPath.Replace('\\', '_'), prefs);
                 }
             }
             else
@@ -287,6 +290,7 @@ namespace Files.ViewModels
             }
             dataContainer.Values[folderPath] = prefs.ToCompositeValue();
         }
+
         private LayoutPreferences LayoutPreference { get; set; }
 
         private class LayoutPreferences

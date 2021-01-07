@@ -259,6 +259,8 @@ namespace Files.Filesystem
         public bool IsRecycleBinItem => this is RecycleBinItem;
         public bool IsShortcutItem => this is ShortcutItem;
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
+
+        public bool IsPinned { get; set; }
     }
 
     public class RecycleBinItem : ListedItem
@@ -269,6 +271,7 @@ namespace Files.Filesystem
 
         // For recycle bin elements (path + name)
         public string ItemOriginalPath { get; set; }
+
         // For recycle bin elements (path)
         public string ItemOriginalFolder => Path.IsPathRooted(ItemOriginalPath) ? Path.GetDirectoryName(ItemOriginalPath) : ItemOriginalPath;
     }

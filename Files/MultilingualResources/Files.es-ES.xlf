@@ -54,10 +54,6 @@
           <source>Files</source>
           <target state="translated">Files</target>
         </trans-unit>
-        <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
-          <source>Special thanks to:</source>
-          <target state="translated">Agradecimientos especiales a:</target>
-        </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
           <source>Submit Feedback</source>
           <target state="translated">Enviar opiniones</target>
@@ -72,7 +68,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
           <source>About</source>
-          <target state="translated">Acerca de Files UWP</target>
+          <target state="translated">Acerca de Files</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceTitle.Text" translate="yes" xml:space="preserve">
           <source>Appearance</source>
@@ -84,7 +80,7 @@
         </trans-unit>
         <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
           <source>About</source>
-          <target state="translated">Acerca de Files UWP</target>
+          <target state="translated">Acerca de Files</target>
         </trans-unit>
         <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
           <source>Appearance</source>
@@ -127,7 +123,7 @@
           <target state="translated">Preferencias</target>
         </trans-unit>
         <trans-unit id="SideBarUnpinFromSideBar.Text" translate="yes" xml:space="preserve">
-          <source>Unpin from Sidebar</source>
+          <source>Unpin from sidebar</source>
           <target state="translated">Desanclar de la barra lateral</target>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
@@ -322,7 +318,7 @@
           <source>Text Document</source>
           <target state="translated">Documento de Texto</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlDetailsView.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutDetails.Text" translate="yes" xml:space="preserve">
           <source>Details View</source>
           <target state="translated">Detalles</target>
         </trans-unit>
@@ -530,19 +526,19 @@
           <source>Set as lockscreen background</source>
           <target state="translated">Fondo de pantalla de bloqueo</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlGridViewLarge.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutGridViewLarge.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Large)</source>
           <target state="translated">Iconos grandes</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlGridViewMedium.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutGridViewMedium.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Medium)</source>
           <target state="translated">Iconos medianos</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlGridViewSmall.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutGridViewSmall.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Small)</source>
           <target state="translated">Iconos pequeños</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlTilesView.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutTilesView.Text" translate="yes" xml:space="preserve">
           <source>Tiles View</source>
           <target state="translated">Iconos</target>
         </trans-unit>
@@ -585,10 +581,6 @@
         <trans-unit id="FolderNotFoundDialog.Title" translate="yes" xml:space="preserve">
           <source>Did you delete this folder?</source>
           <target state="translated">¿Has eliminado esta carpeta?</target>
-        </trans-unit>
-        <trans-unit id="StatusBarControlLayoutMode.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Layout mode</source>
-          <target state="translated">Modo de vista</target>
         </trans-unit>
         <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
@@ -715,16 +707,16 @@
           <target state="translated">Cancelar</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
-          <source>Are you sure you want to delete all items?</source>
-          <target state="translated">¿Estás seguro que quieres eliminar todos los elementos?</target>
+          <source>Are you sure you want to permanently delete all these items?</source>
+          <target state="translated">¿Estás seguro que quieres eliminar todos estos elementos?</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogTitle" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
           <target state="translated">Vaciar papelera de reciclaje</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
-          <source>OK</source>
-          <target state="translated">Aceptar</target>
+          <source>Yes</source>
+          <target state="translated">Sí</target>
         </trans-unit>
         <trans-unit id="ItemSizeBytes" translate="no" xml:space="preserve">
           <source>bytes</source>
@@ -908,7 +900,7 @@
         </trans-unit>
         <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
           <source>Open file location</source>
-          <target state="translated">Abrir ubicación de archivo</target>
+          <target state="translated">Abrir ubicación del archivo</target>
         </trans-unit>
         <trans-unit id="PropertiesShortcutItemArgs.Text" translate="yes" xml:space="preserve">
           <source>Arguments:</source>
@@ -964,7 +956,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenFileLocation.Text" translate="yes" xml:space="preserve">
           <source>Open file location</source>
-          <target state="translated">Abrir ubicación de archivo</target>
+          <target state="translated">Abrir ubicación del archivo</target>
         </trans-unit>
         <trans-unit id="SettingsAboutContributors.Text" translate="yes" xml:space="preserve">
           <source>Contributors</source>
@@ -1222,10 +1214,6 @@
           <source>Access Denied</source>
           <target state="translated">Acceso Denegado</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesContextMenuSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show all context menu items when right clicking an item</source>
-          <target state="translated">Mostrar todas las opciones del menú contextual al hacer clic derecho en un elemento</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesRecycleBinSwitch.Header" translate="yes" xml:space="preserve">
           <source>Pin Recycle Bin to the sidebar</source>
           <target state="translated">Mostrar la papelera de reciclaje en la barra lateral</target>
@@ -1257,10 +1245,6 @@
         <trans-unit id="NavMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More options</source>
           <target state="translated">Más opciones</target>
-        </trans-unit>
-        <trans-unit id="StatusBarControlLayoutMode.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Layout mode</source>
-          <target state="translated">Modo de vista</target>
         </trans-unit>
         <trans-unit id="StatusBarControlSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selection options</source>
@@ -1330,10 +1314,6 @@
           <source>Shortcut item</source>
           <target state="translated">Elemento de acceso directo</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
-          <source>Show an option to copy the location when right clicking an item</source>
-          <target state="translated">Mostrar "Copiar ubicación" al hacer clic derecho en un elemento</target>
-        </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenItems.Header" translate="yes" xml:space="preserve">
           <source>Show hidden files and folders</source>
           <target state="translated">Mostrar archivos y carpetas ocultos</target>
@@ -1387,15 +1367,15 @@
           <target state="translated">Oculto</target>
         </trans-unit>
         <trans-unit id="PropertyRatingText" translate="yes" xml:space="preserve">
-          <source>Rating Text</source>
+          <source>Rating</source>
           <target state="translated">Clasificación</target>
         </trans-unit>
         <trans-unit id="PropertyItemFolderPathDisplay" translate="yes" xml:space="preserve">
-          <source>Item Folder Path Display</source>
+          <source>Item Folder Path</source>
           <target state="translated">Ruta de acceso a la carpeta</target>
         </trans-unit>
         <trans-unit id="PropertyItemTypeText" translate="yes" xml:space="preserve">
-          <source>Item Type Text</source>
+          <source>Item Type</source>
           <target state="translated">Tipo de elemento</target>
         </trans-unit>
         <trans-unit id="PropertyTitle" translate="yes" xml:space="preserve">
@@ -1439,7 +1419,7 @@
           <target state="translated">Resolución vertical</target>
         </trans-unit>
         <trans-unit id="PropertyCompressionText" translate="yes" xml:space="preserve">
-          <source>Compression Text</source>
+          <source>Compression</source>
           <target state="translated">Compresión</target>
         </trans-unit>
         <trans-unit id="PropertyHorizontalSize" translate="yes" xml:space="preserve">
@@ -1523,7 +1503,7 @@
           <target state="translated">Velocidad de muestra de sonido</target>
         </trans-unit>
         <trans-unit id="PropertyDisplayArtist" translate="yes" xml:space="preserve">
-          <source>Display Artist</source>
+          <source>Artist</source>
           <target state="translated">Intérpretes colaboradores</target>
         </trans-unit>
         <trans-unit id="PropertyAlbumArtist" translate="yes" xml:space="preserve">
@@ -1644,7 +1624,7 @@
         </trans-unit>
         <trans-unit id="PropertySectionCore" translate="yes" xml:space="preserve">
           <source>Core</source>
-          <target state="translated">Núcleo</target>
+          <target state="translated">Archivo</target>
         </trans-unit>
         <trans-unit id="PropertySectionImage" translate="yes" xml:space="preserve">
           <source>Image</source>
@@ -1914,10 +1894,6 @@
           <source>Enable individual preferences for individual directories</source>
           <target state="translated">Habilitar preferencias individuales para directorios individuales</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesContextMenu.Text" translate="yes" xml:space="preserve">
-          <source>Context Menu</source>
-          <target state="translated">Menu Contextual</target>
-        </trans-unit>
         <trans-unit id="originalPathColumn.Header" translate="yes" xml:space="preserve">
           <source>Original path</source>
           <target state="translated">Ubicación original</target>
@@ -1941,6 +1917,130 @@
         <trans-unit id="SettingsUseFileListCache.Header" translate="yes" xml:space="preserve">
           <source>Cache files and folders for better performance</source>
           <target state="translated">Almacenar archivos y carpetas en caché para mejorar el rendimiento</target>
+        </trans-unit>
+        <trans-unit id="ItemAlreadyExistsDialogCloseButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">Cancelar</target>
+        </trans-unit>
+        <trans-unit id="StatusCenter.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Ongoing Tasks</source>
+          <target state="translated">Tareas en curso</target>
+        </trans-unit>
+        <trans-unit id="StatusCenterFlyoutTitle.Text" translate="yes" xml:space="preserve">
+          <source>Ongoing Tasks</source>
+          <target state="translated">Tareas en curso</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingAlwaysOpenDualPane.Header" translate="yes" xml:space="preserve">
+          <source>Always open new tabs in dual pane mode</source>
+          <target state="translated">Abrir siempre las nuevas pestañas en modo panel doble</target>
+        </trans-unit>
+        <trans-unit id="SettingsMultitaskingEnableDualPane.Header" translate="yes" xml:space="preserve">
+          <source>Enable dual pane view</source>
+          <target state="translated">Habilitar vista de panel doble</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewPane.Text" translate="yes" xml:space="preserve">
+          <source>Open in secondary pane</source>
+          <target state="translated">Abrir en panel secundario</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarNewPane.Text" translate="yes" xml:space="preserve">
+          <source>New pane</source>
+          <target state="translated">Nuevo panel</target>
+        </trans-unit>
+        <trans-unit id="SideBarOpenInNewPane.Text" translate="yes" xml:space="preserve">
+          <source>Open in secondary pane</source>
+          <target state="translated">Abrir en panel secundario</target>
+        </trans-unit>
+        <trans-unit id="SettingsDualPane.Text" translate="yes" xml:space="preserve">
+          <source>Dual Pane</source>
+          <target state="translated">Panel Doble</target>
+        </trans-unit>
+        <trans-unit id="SettingsCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Show copy location menu item</source>
+          <target state="translated">Mostrar "Copiar ubicación" en el menú contextual</target>
+        </trans-unit>
+        <trans-unit id="SettingsContextMenuOverflowSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Move overflow items into a sub menu</source>
+          <target state="translated">Mover opciones adicionales a un sub menú</target>
+        </trans-unit>
+        <trans-unit id="SettingsContextMenu.Text" translate="yes" xml:space="preserve">
+          <source>Customize the right click context menu</source>
+          <target state="translated">Personaliza el menú contextual</target>
+        </trans-unit>
+        <trans-unit id="SettingsOpenInNewTabSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Show open in new tab menu item</source>
+          <target state="translated">Mostrar "Abrir en nueva pestaña" en el menú contextual</target>
+        </trans-unit>
+        <trans-unit id="LibraryWidgetDescription.Text" translate="yes" xml:space="preserve">
+          <source>Folders</source>
+          <target state="translated">Carpetas</target>
+        </trans-unit>
+        <trans-unit id="SettingsContextMenuAnimationsSwitch.Header" translate="yes" xml:space="preserve">
+          <source>Enable animations when opening and closing the context menu</source>
+          <target state="translated">Habilitar animaciones al abrir y cerrar el menú contextual</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlDetailsView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Details View</source>
+          <target state="translated">Detalles</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewLarge.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Grid View (Large)</source>
+          <target state="translated">Iconos grandes</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewMedium.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Grid View (Medium)</source>
+          <target state="translated">Iconos medianos</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewSmall.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Grid View (Small)</source>
+          <target state="translated">Iconos pequeños</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlTilesView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Tiles View</source>
+          <target state="translated">Iconos</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlLayoutMode.Text" translate="yes" xml:space="preserve">
+          <source>Layout Mode</source>
+          <target state="translated">Modo de vista</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlDisplayOptions.Text" translate="yes" xml:space="preserve">
+          <source>Display Options</source>
+          <target state="translated">Mostrar u ocultar</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Display Options</source>
+          <target state="translated">Opciones de vista</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Display options</source>
+          <target state="translated">Opciones de vista</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewLarge.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Grid View (Large)</source>
+          <target state="translated">Iconos grandes</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewMedium.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Grid View (Medium)</source>
+          <target state="translated">Iconos medianos</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewSmall.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Grid View (Small)</source>
+          <target state="translated">Iconos pequeños</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlTilesView.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Tiles View</source>
+          <target state="translated">Iconos</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlShowFileExtensions.Header" translate="yes" xml:space="preserve">
+          <source>Show file extensions</source>
+          <target state="translated">Mostrar extensión de archivos</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlShowHiddenItems.Header" translate="yes" xml:space="preserve">
+          <source>Show hidden items</source>
+          <target state="translated">Mostrar elementos ocultos</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlDetailsView.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Details View</source>
+          <target state="translated">Detalles</target>
         </trans-unit>
       </group>
     </body>

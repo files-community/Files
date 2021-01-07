@@ -11,6 +11,7 @@ namespace Files.ViewModels.SettingsViewModels
     public class AboutViewModel : ObservableObject
     {
         public RelayCommand OpenLogLocationCommand => new RelayCommand(() => SettingsViewModel.OpenLogLocation());
+
         public RelayCommand<ItemClickEventArgs> ClickAboutFeedbackItemCommand =>
             new RelayCommand<ItemClickEventArgs>(ClickAboutFeedbackItem);
 
@@ -31,15 +32,19 @@ namespace Files.ViewModels.SettingsViewModels
                 case "Feedback":
                     SettingsViewModel.ReportIssueOnGitHub();
                     break;
+
                 case "ReleaseNotes":
                     await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/files-uwp/releases"));
                     break;
+
                 case "Contributors":
                     await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/files-uwp/graphs/contributors"));
                     break;
+
                 case "SupportUs":
                     await Launcher.LaunchUriAsync(new Uri(@"https://paypal.me/yaichenbaum"));
                     break;
+
                 default:
                     break;
             }

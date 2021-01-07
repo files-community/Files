@@ -115,7 +115,7 @@ namespace Files.ViewModels
                 navigated = res;
             }
 
-            if (value == "Home")
+            if (value == "Home" || value == "NewTab".GetLocalized())
             {
                 _currentStorageFolder = null;
             }
@@ -803,7 +803,6 @@ namespace Files.ViewModels
                 _filesAndFolders.Clear();
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
 
                 AssociatedInstance.NavigationToolbar.CanGoBack = AssociatedInstance.ContentFrame.CanGoBack;
                 AssociatedInstance.NavigationToolbar.CanGoForward = AssociatedInstance.ContentFrame.CanGoForward;
@@ -815,7 +814,6 @@ namespace Files.ViewModels
                     var orderedList = OrderFiles2(cacheEntry.FileList);
                     OrderFiles(orderedList);
                     Debug.WriteLine($"Loading of items from cache in {WorkingDirectory} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
-                    App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                     IsLoadingItems = false;
                 }
 
@@ -845,7 +843,6 @@ namespace Files.ViewModels
                 stopwatch.Stop();
                 Debug.WriteLine($"Loading of items in {WorkingDirectory} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
                 AssociatedInstance.NavigationToolbar.CanRefresh = true;
-                App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                 IsLoadingItems = false;
 
                 if (!string.IsNullOrWhiteSpace(previousDir))
@@ -1221,7 +1218,7 @@ namespace Files.ViewModels
                     break;
                 }
                 catch (Exception ex) when (
-                    ex is UnauthorizedAccessException 
+                    ex is UnauthorizedAccessException
                     || ex is FileNotFoundException
                     || (uint)ex.HResult == 0x80070490) // ERROR_NOT_FOUND
                 {
@@ -1556,6 +1553,13 @@ namespace Files.ViewModels
 
             IntPtr hFile = FindFirstFileExFromApp(fileOrFolderPath, findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
                                                   additionalFlags);
+            if (hFile.ToInt64() == -1)
+            {
+                // If we cannot find the file (probably since it doesn't exist anymore)
+                // simply exit without adding it
+                return;
+            }
+
             FindClose(hFile);
 
             ListedItem listedItem = null;
@@ -1679,6 +1683,8 @@ namespace Files.ViewModels
                 opacity = 0.4;
             }
 
+            var pinned = App.SidebarPinnedController.Model.Items.Contains(itemPath);
+
             return new ListedItem(null, dateReturnFormat)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
@@ -1694,9 +1700,10 @@ namespace Files.ViewModels
                 LoadUnknownTypeGlyph = false,
                 FileSize = null,
                 FileSizeBytes = 0,
-                ContainsFilesOrFolders = CheckForFilesFolders(itemPath)
+                ContainsFilesOrFolders = CheckForFilesFolders(itemPath),
+                IsPinned = pinned,
                 //FolderTooltipText = tooltipString,
-            };
+        };
         }
 
         private async Task<ListedItem> AddFile(WIN32_FIND_DATA findData, string pathRoot, string dateReturnFormat)

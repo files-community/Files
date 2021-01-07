@@ -11,7 +11,16 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
-    <Grid>
+    <StackPanel Spacing="12">
+        <TextBlock
+            x:Uid="LibraryWidgetDescription"
+            HorizontalAlignment="Left"
+            FontFamily="Segoe UI"
+            FontSize="14"
+            FontWeight="Medium"
+            Opacity=".8"
+            Text="Folders" />
+
         <muxc:ItemsRepeater
             x:Name="CardsList"
             Grid.Row="0"
@@ -20,7 +29,7 @@
             <muxc:ItemsRepeater.Layout>
                 <muxc:UniformGridLayout
                     ItemsStretch="Fill"
-                    MaximumRowsOrColumns="5"
+                    MaximumRowsOrColumns="6"
                     MinColumnSpacing="8"
                     MinItemHeight="90"
                     MinItemWidth="100"
@@ -97,5 +106,5 @@
                 </DataTemplate>
             </muxc:ItemsRepeater.ItemTemplate>
         </muxc:ItemsRepeater>
-    </Grid>
+    </StackPanel>
 </UserControl>

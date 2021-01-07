@@ -91,7 +91,6 @@ namespace Files.Views.LayoutModes
             selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
             AllView.PointerCaptureLost += AllView_ItemPress;
-            AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
         }
 
         private void SelectionRectangle_SelectionStarted(object sender, EventArgs e)
@@ -111,6 +110,7 @@ namespace Files.Views.LayoutModes
             base.OnNavigatedTo(eventArgs);
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged += ViewModel_PropertyChanged;
             AllView.LoadingRow += AllView_LoadingRow;
+            AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
             ViewModel_PropertyChanged(null, new PropertyChangedEventArgs("DirectorySortOption"));
         }
 
@@ -119,6 +119,7 @@ namespace Files.Views.LayoutModes
             base.OnNavigatingFrom(e);
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged -= ViewModel_PropertyChanged;
             AllView.LoadingRow -= AllView_LoadingRow;
+            AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
         }
 
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
@@ -176,11 +177,14 @@ namespace Files.Views.LayoutModes
 
         public override void StartRenameItem()
         {
-            AllView.CurrentColumn = AllView.Columns[1];
-            AllView.BeginEdit();
+            if (AllView.SelectedIndex != -1)
+            {
+                AllView.CurrentColumn = AllView.Columns[1];
+                AllView.BeginEdit();
+            }
         }
 
-        private async void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "DirectorySortOption")
             {
@@ -212,76 +216,30 @@ namespace Files.Views.LayoutModes
                 // Swap arrows
                 SortedColumn = sortedColumn;
             }
-            else if (e.PropertyName == "IsLoadingItems")
-            {
-                if (!ParentShellPageInstance.FilesystemViewModel.IsLoadingItems
-                    && ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Count > 0)
-                {
-                    var allRows = new List<DataGridRow>();
-
-                    Interaction.FindChildren<DataGridRow>(allRows, AllView);
-                    foreach (DataGridRow row in allRows.Take(25))
-                    {
-                        if (!(row.DataContext as ListedItem).ItemPropertiesInitialized)
-                        {
-                            await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                            {
-                                ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(row.DataContext as ListedItem);
-                                (row.DataContext as ListedItem).ItemPropertiesInitialized = true;
-                            });
-                        }
-                    }
-                }
-            }
         }
 
         private TextBox renamingTextBox;
 
         private DispatcherTimer tapDebounceTimer;
-
-        private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
+        private void AllView_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
             if (ParentShellPageInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
             {
                 // Do not rename files and folders inside the recycle bin
-                AllView.CancelEdit(); // Cancel the edit operation
+                e.Cancel = true;
                 return;
             }
 
-            // Only cancel if this event was triggered by a tap
-            // Do not cancel when user presses F2 or context menu
-            if (e.EditingEventArgs is TappedRoutedEventArgs)
+            if (e.EditingEventArgs is TappedRoutedEventArgs && AppSettings.OpenItemsWithOneclick)
             {
-                if (AppSettings.OpenItemsWithOneclick)
-                {
-                    AllView.CancelEdit(); // Cancel the edit operation
-                    return;
-                }
-
-                if (!tapDebounceTimer.IsEnabled)
-                {
-                    tapDebounceTimer.Debounce(() =>
-                    {
-                        tapDebounceTimer.Stop();
-                        AllView.BeginEdit(); // EditingEventArgs will be null
-                    }, TimeSpan.FromMilliseconds(700), false);
-                }
-                else
-                {
-                    tapDebounceTimer.Stop();
-                    ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null); // Open selected files
-                }
-
-                AllView.CancelEdit(); // Cancel the edit operation
+                // If for some reason we started renaming by a click in a one-click mode, cancel it
+                e.Cancel = true;
                 return;
             }
+        }
 
-            if (SelectedItem == null)
-            {
-                AllView.CancelEdit(); // Cancel the edit operation
-                return;
-            }
-
+        private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
+        {
             int extensionLength = SelectedItem.FileExtension?.Length ?? 0;
             oldItemName = SelectedItem.ItemName;
 
@@ -301,11 +259,10 @@ namespace Files.Views.LayoutModes
 
         private void EditingElement_LosingFocus(UIElement sender, LosingFocusEventArgs args)
         {
-            if (args.NewFocusedElement is Popup)
+            if (args.NewFocusedElement is Popup || args.NewFocusedElement is AppBarButton)
             {
                 args.Cancel = true;
                 args.TryCancel();
-                args.TrySetNewFocusedElement(args.OldFocusedElement);
             }
         }
 
@@ -382,7 +339,7 @@ namespace Files.Views.LayoutModes
             SelectedItems = AllView.SelectedItems.Cast<ListedItem>().ToList();
         }
 
-        private async void AllView_Sorting(object sender, DataGridColumnEventArgs e)
+        private void AllView_Sorting(object sender, DataGridColumnEventArgs e)
         {
             if (e.Column == SortedColumn)
             {
@@ -395,29 +352,13 @@ namespace Files.Views.LayoutModes
                 e.Column.SortDirection = DataGridSortDirection.Ascending;
                 ParentShellPageInstance.FilesystemViewModel.IsSortedAscending = true;
             }
-
-            if (!ParentShellPageInstance.FilesystemViewModel.IsLoadingItems
-                && ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.Count > 0)
-            {
-                var allRows = new List<DataGridRow>();
-
-                Interaction.FindChildren<DataGridRow>(allRows, AllView);
-                foreach (DataGridRow row in allRows.Take(25))
-                {
-                    if (!(row.DataContext as ListedItem).ItemPropertiesInitialized)
-                    {
-                        await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                        {
-                            ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(row.DataContext as ListedItem);
-                            (row.DataContext as ListedItem).ItemPropertiesInitialized = true;
-                        });
-                    }
-                }
-            }
         }
 
         private void AllView_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
+            var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+
             if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
             {
                 if (IsRenamingItem)
@@ -436,7 +377,17 @@ namespace Files.Views.LayoutModes
             }
             else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
             {
-                // Unfocus the GridView so keyboard shortcut can be handled
+                // Unfocus the ListView so keyboard shortcut can be handled
+                Focus(FocusState.Programmatic);
+            }
+            else if (ctrlPressed && shiftPressed && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.W))
+            {
+                // Unfocus the ListView so keyboard shortcut can be handled (ctrl + shift + W/"->"/"<-")
+                Focus(FocusState.Programmatic);
+            }
+            else if (e.KeyStatus.IsMenuKeyDown && shiftPressed && e.Key == VirtualKey.Add)
+            {
+                // Unfocus the ListView so keyboard shortcut can be handled (alt + shift + "+")
                 Focus(FocusState.Programmatic);
             }
         }
@@ -495,17 +446,14 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private async void AllView_LoadingRow(object sender, DataGridRowEventArgs e)
+        private void AllView_LoadingRow(object sender, DataGridRowEventArgs e)
         {
             InitializeDrag(e.Row);
 
             if (e.Row.DataContext is ListedItem item && !item.ItemPropertiesInitialized)
             {
-                await Window.Current.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                {
-                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item);
-                    item.ItemPropertiesInitialized = true;
-                });
+                ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item);
+                item.ItemPropertiesInitialized = true;
             }
         }
 

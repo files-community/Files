@@ -8,6 +8,7 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:converters1="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
@@ -38,6 +39,7 @@
             <MenuFlyout
                 x:Key="BaseLayoutContextFlyout"
                 x:Name="BaseLayoutContextFlyout"
+                AreOpenCloseAnimationsEnabled="{x:Bind AppSettings.AreRightClickContentMenuAnimationsEnabled, Mode=OneWay}"
                 Opening="RightClickContextMenu_Opening">
                 <MenuFlyoutSubItem
                     x:Name="SortByEmptySpace"
@@ -95,7 +97,7 @@
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE152;" />
                     </MenuFlyoutSubItem.Icon>
                     <MenuFlyoutItem
-                        x:Uid="StatusBarControlGridViewLarge"
+                        x:Uid="BaseLayoutContextFlyoutGridViewLarge"
                         Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewLarge}"
                         Text="Grid View (Large)">
                         <MenuFlyoutItem.Icon>
@@ -103,7 +105,7 @@
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
-                        x:Uid="StatusBarControlGridViewMedium"
+                        x:Uid="BaseLayoutContextFlyoutGridViewMedium"
                         Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
                         Text="Grid View (Medium)">
                         <MenuFlyoutItem.Icon>
@@ -111,7 +113,7 @@
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
-                        x:Uid="StatusBarControlGridViewSmall"
+                        x:Uid="BaseLayoutContextFlyoutGridViewSmall"
                         Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
                         Text="Grid View (Small)">
                         <MenuFlyoutItem.Icon>
@@ -119,7 +121,7 @@
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
-                        x:Uid="StatusBarControlTilesView"
+                        x:Uid="BaseLayoutContextFlyoutTilesView"
                         Command="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
                         Text="Tiles View">
                         <MenuFlyoutItem.Icon>
@@ -127,7 +129,7 @@
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
-                        x:Uid="StatusBarControlDetailsView"
+                        x:Uid="BaseLayoutContextFlyoutDetails"
                         Command="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"
                         Text="Details View">
                         <MenuFlyoutItem.Icon>
@@ -152,7 +154,7 @@
                     x:Name="PasteEmptySpace"
                     x:Uid="BaseLayoutContextFlyoutPaste"
                     Command="{x:Bind ParentShellPageInstance.InteractionOperations.PasteItemsFromClipboard}"
-                    IsEnabled="{x:Bind local:App.InteractionViewModel.IsPasteEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    IsEnabled="{x:Bind converters1:MultiBooleanConverter.AndConvert(InstanceViewModel.CanPasteInPage, local:App.InteractionViewModel.IsPasteEnabled), Mode=OneWay}"
                     Text="Paste">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe9b2;" />
@@ -232,7 +234,7 @@
                 </MenuFlyoutItem>
             </MenuFlyout>
 
-            <MenuFlyout x:Key="BaseLayoutRecycleBinContextFlyout">
+            <MenuFlyout x:Key="BaseLayoutRecycleBinContextFlyout" AreOpenCloseAnimationsEnabled="{x:Bind AppSettings.AreRightClickContentMenuAnimationsEnabled, Mode=OneWay}">
                 <MenuFlyoutSubItem
                     x:Name="RecycleBinSortByEmptySpace"
                     x:Uid="BaseLayoutContextFlyoutSortBy"
@@ -319,6 +321,7 @@
             <MenuFlyout
                 x:Key="BaseLayoutItemContextFlyout"
                 x:Name="BaseLayoutItemContextFlyout"
+                AreOpenCloseAnimationsEnabled="{x:Bind AppSettings.AreRightClickContentMenuAnimationsEnabled, Mode=OneWay}"
                 Opening="RightClickItemContextMenu_Opening">
                 <MenuFlyoutItem
                     x:Name="OpenItem"
@@ -350,6 +353,16 @@
                     Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemShortcut, Mode=OneWay}">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA5A;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
+                    x:Name="OpenInNewPane"
+                    x:Uid="BaseLayoutItemContextFlyoutOpenInNewPane"
+                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.OpenDirectoryInNewPane_Click}"
+                    Tag="OpenPane_FlyoutItem"
+                    Text="Open in new pane">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA2F;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
@@ -514,6 +527,17 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
+                    x:Name="SidebarUnpinItem"
+                    x:Uid="SideBarUnpinFromSideBar"
+                    x:Load="False"
+                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.UnpinItem_Click}"
+                    Tag="PinItem_FlyoutItem"
+                    Text="Unpin from sidebar">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB20;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
                     x:Name="PropertiesItem"
                     x:Uid="BaseLayoutItemContextFlyoutProperties"
                     Click="{x:Bind ParentShellPageInstance.InteractionOperations.ShowPropertiesButton_Click}"
@@ -534,7 +558,7 @@
                 </MenuFlyoutItem>
             </MenuFlyout>
 
-            <MenuFlyout x:Key="BaseLayoutRecycleBinItemContextFlyout">
+            <MenuFlyout x:Key="BaseLayoutRecycleBinItemContextFlyout" AreOpenCloseAnimationsEnabled="{x:Bind AppSettings.AreRightClickContentMenuAnimationsEnabled, Mode=OneWay}">
                 <MenuFlyoutItem
                     x:Name="RestoreRecycleBinItem"
                     x:Uid="BaseLayoutItemContextFlyoutRestore"
@@ -544,15 +568,6 @@
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe935;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-                <!--<MenuFlyoutItem
-                    x:Name="CutRecycleBinItem"
-                    x:Uid="BaseLayoutItemContextFlyoutCut"
-                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.CutItem_Click}"
-                    Text="Cut">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE8C6;" />
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>-->
                 <MenuFlyoutSeparator />
                 <MenuFlyoutItem
                     x:Name="DeleteRecycleBinItem"
@@ -621,7 +636,7 @@
         <muxc:ProgressBar
             x:Name="progBar"
             VerticalAlignment="Top"
-            x:Load="{x:Bind local:App.InteractionViewModel.IsContentLoadingIndicatorVisible, Mode=OneWay}"
+            x:Load="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsLoadingItems, Mode=OneWay}"
             Background="Transparent"
             IsIndeterminate="True" />
         <TextBlock
@@ -651,6 +666,7 @@
             AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
             AutoGenerateColumns="False"
             Background="Transparent"
+            BeginningEdit="AllView_BeginningEdit"
             CanUserReorderColumns="False"
             CanUserSortColumns="True"
             CellEditEnded="AllView_CellEditEnded"
@@ -876,8 +892,7 @@
                         </Style>
                     </controls:DataGridTextColumn.CellStyle>
                     <ToolTipService.ToolTip>
-                        <ToolTip
-                            Content="{Binding FolderTooltipText}" />
+                        <ToolTip Content="{Binding FolderTooltipText}" />
                     </ToolTipService.ToolTip>
                 </controls:DataGridTextColumn>
                 <controls:DataGridTextColumn

@@ -75,8 +75,19 @@
                             Tag="{x:Bind Path}"
                             ToolTipService.ToolTip="{x:Bind Text, Mode=OneWay}">
                             <Button.ContextFlyout>
-                                <MenuFlyout>
+                                <MenuFlyout Opening="MenuFlyout_Opening">
                                     <MenuFlyout.Items>
+                                        <MenuFlyoutItem
+                                            x:Name="OpenInNewPane"
+                                            x:Uid="SideBarOpenInNewPane"
+                                            Click="OpenInNewPane_Click"
+                                            DataContext="{x:Bind}"
+                                            Text="Open in new pane"
+                                            Visibility="Collapsed">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA2F;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
                                         <MenuFlyoutItem
                                             x:Name="OpenInNewTab"
                                             x:Uid="SideBarOpenInNewTab"
@@ -121,6 +132,7 @@
                                 </Grid.ColumnDefinitions>
                                 <FontIcon
                                     Grid.Column="0"
+                                    x:Phase="1"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     FontSize="28"
                                     Glyph="{x:Bind Glyph}" />
@@ -131,25 +143,26 @@
                                     Orientation="Vertical">
                                     <TextBlock
                                         x:Name="ItemLocationName"
+                                        Margin="0,0,0,8"
+                                        VerticalAlignment="Center"
                                         FontSize="14"
                                         FontWeight="Medium"
                                         Text="{x:Bind Text, Mode=OneWay}"
-                                        TextWrapping="NoWrap"
-                                        VerticalAlignment="Center"
-                                        Margin="0,0,0,8"/>
+                                        TextWrapping="NoWrap" />
                                     <muxc:ProgressBar
+                                        Margin="0,0,0,8"
                                         AutomationProperties.AccessibilityView="Raw"
                                         Maximum="{x:Bind MaxSpace.GigaBytes, Mode=OneWay}"
-                                        Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}"
                                         Visibility="{x:Bind ShowDriveDetails, Mode=OneWay}"
-                                        Margin="0,0,0,8"/>
+                                        Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}" />
                                     <TextBlock
+                                        x:Phase="1"
                                         FontSize="12"
                                         MaxLines="2"
                                         Text="{x:Bind SpaceText, Mode=OneWay}"
-                                        Visibility="{x:Bind ShowDriveDetails, Mode=OneWay}"
                                         TextWrapping="Wrap"
-                                        ToolTipService.ToolTip="{x:Bind SpaceText, Mode=OneWay}"/>
+                                        ToolTipService.ToolTip="{x:Bind SpaceText, Mode=OneWay}"
+                                        Visibility="{x:Bind ShowDriveDetails, Mode=OneWay}" />
                                 </StackPanel>
                             </Grid>
                         </Button>
