@@ -379,7 +379,15 @@ namespace Files.Views.LayoutModes
             if (requestedIconSize != currentIconSize)
             {
                 currentIconSize = requestedIconSize; // Update icon size before refreshing
-                ParentShellPageInstance.Refresh_Click(); // Refresh icons
+                foreach (ListedItem listedItem in FileList.Items)
+                {
+                    listedItem.ItemPropertiesInitialized = false;
+                    if (FileList.ContainerFromItem(listedItem) is GridViewItem gridViewItem)
+                    {
+                        ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
+                        listedItem.ItemPropertiesInitialized = true;
+                    }
+                }
             }
         }
 

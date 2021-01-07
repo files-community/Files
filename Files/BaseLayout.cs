@@ -286,14 +286,17 @@ namespace Files
             {
                 var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
 
-                ParentShellPageInstance.ContentFrame.Navigate(layoutType, new NavigationArguments()
+                if (layoutType != ParentShellPageInstance.CurrentPageType)
                 {
-                    NavPathParam = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory,
-                    AssociatedTabInstance = ParentShellPageInstance
-                }, null);
+                    ParentShellPageInstance.ContentFrame.Navigate(layoutType, new NavigationArguments()
+                    {
+                        NavPathParam = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory,
+                        AssociatedTabInstance = ParentShellPageInstance
+                    }, null);
 
-                // Remove old layout from back stack
-                ParentShellPageInstance.ContentFrame.BackStack.RemoveAt(ParentShellPageInstance.ContentFrame.BackStack.Count - 1);
+                    // Remove old layout from back stack
+                    ParentShellPageInstance.ContentFrame.BackStack.RemoveAt(ParentShellPageInstance.ContentFrame.BackStack.Count - 1);
+                }
             }
         }
 
