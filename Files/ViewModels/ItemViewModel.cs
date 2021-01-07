@@ -496,7 +496,7 @@ namespace Files.ViewModels
 
             static object orderByNameFunc(ListedItem item) => item.ItemName;
             Func<ListedItem, object> orderFunc = orderByNameFunc;
-            NaturalStringComparer naturalStringComparer = new NaturalStringComparer();
+            var naturalStringComparer = NaturalStringComparer.GetForProcessor();
             switch (FolderSettings.DirectorySortOption)
             {
                 case SortOption.Name:
@@ -553,54 +553,26 @@ namespace Files.ViewModels
             }
             else
             {
-                if (FolderSettings.DirectorySortOption == SortOption.FileType)
+                if (FolderSettings.DirectorySortOption == SortOption.Name)
                 {
-                    if (FolderSettings.DirectorySortOption == SortOption.Name)
+                    if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
                     {
-                        if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
-                        {
-                            ordered = listToSort.OrderBy(orderFunc, naturalStringComparer);
-                        }
-                        else
-                        {
-                            ordered = listToSort.OrderByDescending(orderFunc, naturalStringComparer);
-                        }
+                        ordered = listToSort.OrderByDescending(orderFunc, naturalStringComparer);
                     }
                     else
                     {
-                        if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
-                        {
-                            ordered = listToSort.OrderByDescending(orderFunc);
-                        }
-                        else
-                        {
-                            ordered = listToSort.OrderBy(folderThenFileAsync).ThenByDescending(orderFunc);
-                        }
+                        ordered = listToSort.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc, naturalStringComparer);
                     }
                 }
                 else
                 {
-                    if (FolderSettings.DirectorySortOption == SortOption.Name)
+                    if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
                     {
-                        if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
-                        {
-                            ordered = listToSort.OrderByDescending(orderFunc, naturalStringComparer);
-                        }
-                        else
-                        {
-                            ordered = listToSort.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc, naturalStringComparer);
-                        }
+                        ordered = listToSort.OrderByDescending(orderFunc);
                     }
                     else
                     {
-                        if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
-                        {
-                            ordered = listToSort.OrderByDescending(orderFunc);
-                        }
-                        else
-                        {
-                            ordered = listToSort.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc);
-                        }
+                        ordered = listToSort.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc);
                     }
                 }
             }

@@ -35,20 +35,38 @@ namespace Files.Helpers
         );
     }
 
-    public class NaturalStringComparer : IComparer<object>
+    public class NaturalStringComparer
     {
-        public int Compare(object a, object b)
+        public static IComparer<object> GetForProcessor()
         {
-            return SafeNativeMethods.CompareStringEx(
-              SafeNativeMethods.LOCALE_NAME_USER_DEFAULT,
-              SafeNativeMethods.SORT_DIGITSASNUMBERS, // Add other flags if required.
-              a.ToString(),
-              a.ToString().Length,
-              b.ToString(),
-              b.ToString().Length,
-              IntPtr.Zero,
-              IntPtr.Zero,
-              0) - 2;
+            return NativeWinApiHelper.IsRunningOnArm ?
+                (IComparer<object>)new StringComparerArm64() :
+                (IComparer<object>)new StringComparerDefault();
+        }
+
+        private class StringComparerArm64 : IComparer<object>
+        {
+            public int Compare(object a, object b)
+            {
+                return StringComparer.CurrentCulture.Compare(a, b);
+            }
+        }
+
+        private class StringComparerDefault : IComparer<object>
+        {
+            public int Compare(object a, object b)
+            {
+                return SafeNativeMethods.CompareStringEx(
+                    SafeNativeMethods.LOCALE_NAME_USER_DEFAULT,
+                    SafeNativeMethods.SORT_DIGITSASNUMBERS, // Add other flags if required.
+                    a.ToString(),
+                    a.ToString().Length,
+                    b.ToString(),
+                    b.ToString().Length,
+                    IntPtr.Zero,
+                    IntPtr.Zero,
+                    0) - 2;
+            }
         }
     }
 }
