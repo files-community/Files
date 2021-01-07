@@ -11,11 +11,39 @@ namespace Files.UserControls
     {
         public SettingsViewModel AppSettings => App.AppSettings;
         public FolderSettingsViewModel FolderSettings { get; set; } = null;
-        public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; set; } = null;
-        public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; set; } = null;
         public ICommand SelectAllInvokedCommand { get; set; }
         public ICommand InvertSelectionInvokedCommand { get; set; }
         public ICommand ClearSelectionInvokedCommand { get; set; }
+
+        private DirectoryPropertiesViewModel directoryPropertiesViewModel;
+
+        public DirectoryPropertiesViewModel DirectoryPropertiesViewModel
+        {
+            get => directoryPropertiesViewModel;
+            set
+            {
+                if (value != directoryPropertiesViewModel)
+                {
+                    directoryPropertiesViewModel = value;
+                    NotifyPropertyChanged(nameof(DirectoryPropertiesViewModel));
+                }
+            }
+        }
+
+        private SelectedItemsPropertiesViewModel selectedItemsPropertiesViewModel;
+
+        public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel
+        {
+            get => selectedItemsPropertiesViewModel;
+            set
+            {
+                if (value != selectedItemsPropertiesViewModel)
+                {
+                    selectedItemsPropertiesViewModel = value;
+                    NotifyPropertyChanged(nameof(SelectedItemsPropertiesViewModel));
+                }
+            }
+        }
 
         public StatusBarControl()
         {
