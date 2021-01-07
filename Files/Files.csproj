@@ -169,7 +169,6 @@
     <Compile Include="Converters\UInt32ToString.cs" />
     <Compile Include="DataModels\ShellNewEntry.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
-    <Compile Include="Extensions\GenericExtensions.cs" />
     <Compile Include="Helpers\AppUpdater.cs" />
     <Compile Include="DataModels\DefaultLanguageModel.cs" />
     <Compile Include="Enums\FileOperationType.cs" />
@@ -204,9 +203,9 @@
     </Compile>
     <Compile Include="ViewModels\Bundles\BundleContainerViewModel.cs" />
     <Compile Include="ViewModels\Bundles\BundleItemViewModel.cs" />
-    <Compile Include="ViewModels\Bundles\BundleViewModel.cs" />
+    <Compile Include="ViewModels\Bundles\BundlesViewModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
-    <Compile Include="ViewModels\IJsonSettings.cs" />
+    <Compile Include="Settings\IJsonSettings.cs" />
     <Compile Include="ViewModels\JsonSettingsViewModel.cs" />
     <Compile Include="ViewModels\Properties\FileProperty.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />

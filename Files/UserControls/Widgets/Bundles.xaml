@@ -15,7 +15,7 @@
 	d:DesignWidth="400">
 
 	<UserControl.DataContext>
-		<vm:BundleViewModel/>
+		<vm:BundlesViewModel/>
 	</UserControl.DataContext>
 
 	<UserControl.Resources>
@@ -58,13 +58,79 @@
 				VerticalContentAlignment="Center"
 				Grid.Column="1"
 				Padding="0"
-				Margin="0 0 5 0"
-				Command="{Binding AddBundleCommand, Mode=OneWay}">
+				Margin="0 0 5 0">
+				
+				<!-- Add Bundle button-->
 				<TextBlock 
 					Text="+" 
 					VerticalAlignment="Center"
 					HorizontalAlignment="Center"
 					Margin="0 0 0 4"/>
+
+				<Button.Flyout>
+					<Flyout>
+						<Border MinWidth="280">
+							<Grid Padding="5 3 5 3" RowSpacing="7">
+								<Grid.RowDefinitions>
+									<!-- Header -->
+									<RowDefinition/>
+									<!-- Input TextBox -->
+									<RowDefinition/>
+									<!-- Confirm Button -->
+									<RowDefinition/>
+								</Grid.RowDefinitions>
+
+								<!-- Line separator grid -->
+								<Grid BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}" BorderThickness="0 0 0 .5" Grid.Row="0">
+									<!-- Header -->
+									<TextBlock
+										Text="Add Bundle"
+										VerticalAlignment="Center"
+										HorizontalAlignment="Left"
+										FontWeight="Medium"
+										FontSize="14"
+										FontFamily="Segoe UI"
+										Margin="0 0 0 5"/>
+								</Grid>
+								
+								<!-- Input TextBox -->
+								<TextBox 
+									Text="{Binding BundleNameTextInput, Mode=TwoWay}"
+									VerticalAlignment="Center"
+									HorizontalAlignment="Stretch"
+									Grid.Row="1"
+									PlaceholderText="Enter bundle name"/>
+
+								<Grid Grid.Row="2" ColumnSpacing="5">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition/>
+										<ColumnDefinition/>
+									</Grid.ColumnDefinitions>
+
+									<!-- Warning Error text -->
+									<TextBlock
+										Text="{Binding AddBundleErrorText, Mode=OneWay}"
+										VerticalAlignment="Center"
+										HorizontalAlignment="Left"
+										TextWrapping="Wrap"
+										FontSize="12"
+										FontFamily="Segoe UI"
+										Grid.Column="0"/>
+
+									<!-- Confirmation Button -->
+									<Button
+										Content="Confirm"
+										Command="{Binding AddBundleCommand, Mode=OneWay}"
+										VerticalAlignment="Center"
+										HorizontalAlignment="Right"
+										VerticalContentAlignment="Center"
+										HorizontalContentAlignment="Center"
+										Grid.Column="1"/>
+								</Grid>
+							</Grid>
+						</Border>
+					</Flyout>
+				</Button.Flyout>
 			</Button>
 		</Grid>
 
@@ -147,7 +213,7 @@
 												BorderThickness="1"
 												Width="120"
 												Height="35"
-												Command="{Binding ClickCommand, Mode=OneWay}">
+												Command="{Binding ConfirmCommand, Mode=OneWay}">
 
 												<StackPanel Orientation="Horizontal" Spacing="10">
 													<!-- Icon -->

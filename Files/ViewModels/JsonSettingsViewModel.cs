@@ -1,5 +1,5 @@
-﻿using Files.Extensions;
-using Files.Helpers;
+﻿using Files.Helpers;
+using Files.Settings;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
 using System;
@@ -85,32 +85,40 @@ namespace Files.ViewModels
 
 		private TValue Get<TValue>(TValue defaultValue, [CallerMemberName] string propertyName = "")
 		{
-			string settingsData = NativeFileOperationsHelper.ReadStringFromFile(settingsPath);
-
-			Dictionary<string, TValue> rawData = JsonConvert.DeserializeObject<Dictionary<string, TValue>>(settingsData);
-			Dictionary<string, object> convertedData = new Dictionary<string, object>();
-
-			foreach(var item in rawData)
+			try
 			{
-				convertedData.Add(item.Key, (TValue)item.Value);
+				string settingsData = NativeFileOperationsHelper.ReadStringFromFile(settingsPath);
+
+				Dictionary<string, TValue> rawData = JsonConvert.DeserializeObject<Dictionary<string, TValue>>(settingsData);
+				Dictionary<string, object> convertedData = new Dictionary<string, object>();
+
+				foreach (var item in rawData)
+				{
+					convertedData.Add(item.Key, (TValue)item.Value);
+				}
+
+				serializableSettings = convertedData;
+
+				if (serializableSettings == null)
+				{
+					serializableSettings = new Dictionary<string, object>();
+				}
+
+				if (!serializableSettings.ContainsKey(propertyName))
+				{
+					serializableSettings.Add(propertyName, defaultValue);
+
+					// Serialize
+					NativeFileOperationsHelper.WriteStringToFile(settingsPath, JsonConvert.SerializeObject(serializableSettings, Formatting.Indented));
+				}
+
+				return (TValue)serializableSettings[propertyName];
 			}
-
-			serializableSettings = convertedData;
-
-			if (serializableSettings == null)
+			catch (Exception e)
 			{
-				serializableSettings = new Dictionary<string, object>();
+				Debugger.Break();
+				return default(TValue);
 			}
-
-			if (!serializableSettings.ContainsKey(propertyName))
-			{
-				serializableSettings.Add(propertyName, defaultValue);
-
-				// Serialize
-				NativeFileOperationsHelper.WriteStringToFile(settingsPath, JsonConvert.SerializeObject(serializableSettings, Formatting.Indented));
-			}
-
-			return (TValue)serializableSettings[propertyName];
 		}
 
 		#endregion

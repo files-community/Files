@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Files.ViewModels
+namespace Files.Settings
 {
     public interface IJsonSettings
     {

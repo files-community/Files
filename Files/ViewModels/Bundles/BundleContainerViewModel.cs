@@ -1,4 +1,5 @@
 ﻿using Files.Commands;
+using Files.Settings;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
@@ -11,145 +12,148 @@ using Windows.UI.Xaml;
 
 namespace Files.ViewModels.Bundles
 {
-    /// <summary>
-    /// Bundle's contents view model
-    /// </summary>
-    public class BundleContainerViewModel : ObservableObject, IDisposable
-    {
-        #region Singleton
+	/// <summary>
+	/// Bundle's contents view model
+	/// </summary>
+	public class BundleContainerViewModel : ObservableObject, IDisposable
+	{
+		#region Singleton
 
-        private IJsonSettings JsonSettings => associatedInstance?.InstanceViewModel.JsonSettings;
+		private IJsonSettings JsonSettings => associatedInstance?.InstanceViewModel.JsonSettings;
 
-        #endregion
+		#endregion
 
-        #region Private Members
+		#region Private Members
 
-        private readonly IShellPage associatedInstance;
+		private readonly IShellPage associatedInstance;
 
-        #endregion
+		#endregion
 
-        #region Public Properties
+		#region Public Properties
 
-        /// <summary>
-        /// A list of Bundle's contents
-        /// </summary>
-        public ObservableCollection<BundleItemViewModel> Contents { get; private set; } = new ObservableCollection<BundleItemViewModel>();
+		/// <summary>
+		/// A list of Bundle's contents
+		/// </summary>
+		public ObservableCollection<BundleItemViewModel> Contents { get; private set; } = new ObservableCollection<BundleItemViewModel>();
 
-        public string BundleName { get; set; } = "Bundle1";
+		public string BundleName { get; set; } = "Bundle1";
 
-        #endregion
+		#endregion
 
-        #region Commands
+		#region Commands
 
-        public ICommand DragOverCommand { get; set; }
+		public ICommand DragOverCommand { get; set; }
 
-        public ICommand DropCommand { get; set; }
+		public ICommand DropCommand { get; set; }
 
-        #endregion
+		#endregion
 
-        #region Constructor
+		#region Constructor
 
-        public BundleContainerViewModel(IShellPage associatedInstance)
-        {
-            this.associatedInstance = associatedInstance;
+		public BundleContainerViewModel(IShellPage associatedInstance)
+		{
+			this.associatedInstance = associatedInstance;
 
-            // Create commands
-            DragOverCommand = new RelayParameterizedCommand((e) => DragOver(e as DragEventArgs));
-            DropCommand = new RelayParameterizedCommand((e) => Drop(e as DragEventArgs));
-        }
+			// Create commands
+			DragOverCommand = new RelayParameterizedCommand((e) => DragOver(e as DragEventArgs));
+			DropCommand = new RelayParameterizedCommand((e) => Drop(e as DragEventArgs));
+		}
 
-        #endregion
+		#endregion
 
-        #region Command Implementation
+		#region Command Implementation
 
-        private void DragOver(DragEventArgs e)
-        {
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
-            {
-                e.AcceptedOperation = DataPackageOperation.Move;
-                e.Handled = true;
-            }
-        }
+		private void DragOver(DragEventArgs e)
+		{
+			if (e.DataView.Contains(StandardDataFormats.StorageItems))
+			{
+				e.AcceptedOperation = DataPackageOperation.Move;
+				e.Handled = true;
+			}
+		}
 
-        private async void Drop(DragEventArgs e)
-        {
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
-            {
-                bool itemAdded = false;
-                IReadOnlyList<IStorageItem> items = await e.DataView.GetStorageItemsAsync();
+		private async void Drop(DragEventArgs e)
+		{
+			if (e.DataView.Contains(StandardDataFormats.StorageItems))
+			{
+				bool itemAdded = false;
+				IReadOnlyList<IStorageItem> items = await e.DataView.GetStorageItemsAsync();
 
-                foreach (IStorageItem item in items)
-                {
-                    if (items.Count < Constants.Widgets.Bundles.MaxAmountOfItemsInBundle)
-                    {
-                        AddBundleItem(new BundleItemViewModel(associatedInstance)
-                        {
-                            Path = item.Path,
-                            TargetType = item.IsOfType(StorageItemTypes.Folder) ? Filesystem.FilesystemItemType.Directory : Filesystem.FilesystemItemType.File
-                        });
-                        itemAdded = true;
-                    }
-                }
-                e.Handled = true;
+				foreach (IStorageItem item in items)
+				{
+					if (items.Count < Constants.Widgets.Bundles.MaxAmountOfItemsInBundle)
+					{
+						if (!Contents.Any((i) => i.Path == item.Path)) // Don't add existing items!
+						{
+							AddBundleItem(new BundleItemViewModel(associatedInstance)
+							{
+								Path = item.Path,
+								TargetType = item.IsOfType(StorageItemTypes.Folder) ? Filesystem.FilesystemItemType.Directory : Filesystem.FilesystemItemType.File
+							});
+							itemAdded = true;
+						}
+					}
+				}
+				e.Handled = true;
 
-                if (itemAdded)
-                {
-                    SaveBundle();
-                    // Log here?
-                }
-            }
-        }
+				if (itemAdded)
+				{
+					SaveBundle();
+					// Log here?
+				}
+			}
+		}
 
-        #endregion
+		#endregion
 
-        #region Private Helpers
+		#region Private Helpers
 
-        private bool SaveBundle()
-        {
-            if (JsonSettings.SavedBundles.ContainsKey(BundleName))
-            {
-                Dictionary<string, List<string>> allBundles = JsonSettings.SavedBundles; // We need to do it this way for Set() to be called
-                allBundles[BundleName] = Contents.Select((item) => item.Path).ToList();
-                JsonSettings.SavedBundles = allBundles;
+		private bool SaveBundle()
+		{
+			if (JsonSettings.SavedBundles.ContainsKey(BundleName))
+			{
+				Dictionary<string, List<string>> allBundles = JsonSettings.SavedBundles; // We need to do it this way for Set() to be called
+				allBundles[BundleName] = Contents.Select((item) => item.Path).ToList();
+				JsonSettings.SavedBundles = allBundles;
 
-                return true;
-            }
+				return true;
+			}
 
-            return false;
-        }
+			return false;
+		}
 
-        #endregion
+		#endregion
 
-        #region Public Helpers
+		#region Public Helpers
 
-        public BundleContainerViewModel AddBundleItem(BundleItemViewModel bundleItem)
-        {
-            Contents.Add(bundleItem);
+		public BundleContainerViewModel AddBundleItem(BundleItemViewModel bundleItem)
+		{
+			Contents.Add(bundleItem);
 
-            return this;
-        }
+			return this;
+		}
 
-        public BundleContainerViewModel SetBundleItems(List<BundleItemViewModel> items)
-        {
-            Contents = new ObservableCollection<BundleItemViewModel>(items);
+		public BundleContainerViewModel SetBundleItems(List<BundleItemViewModel> items)
+		{
+			Contents = new ObservableCollection<BundleItemViewModel>(items);
 
-            return this;
-        }
+			return this;
+		}
 
-        #endregion
+		#endregion
 
-        #region IDisposable
+		#region IDisposable
 
-        public void Dispose()
-        {
-            foreach (var item in Contents)
-            {
-                item?.Dispose();
-            }
+		public void Dispose()
+		{
+			foreach (var item in Contents)
+			{
+				item?.Dispose();
+			}
 
-            Contents = null;
-        }
+			Contents = null;
+		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

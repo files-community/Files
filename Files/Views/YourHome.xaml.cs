@@ -48,7 +48,8 @@ namespace Files.Views
                 RecentFilesWidget.RecentFilesOpenLocationInvoked += RecentFilesWidget_RecentFilesOpenLocationInvoked;
                 RecentFilesWidget.RecentFileInvoked += RecentFilesWidget_RecentFileInvoked;
             }
-            (BundlesWidget?.DataContext as BundleViewModel)?.Load(this.AppInstance);
+            (BundlesWidget?.DataContext as BundlesViewModel)?.Initialize(AppInstance);
+            (BundlesWidget?.DataContext as BundlesViewModel)?.Load();
         }
 
         private async void RecentFilesWidget_RecentFileInvoked(object sender, UserControls.PathNavigationEventArgs e)
