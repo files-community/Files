@@ -497,7 +497,8 @@ namespace Files.ViewModels
             var newIndex = orderedList.IndexOf(item);
             if (newIndex != oldIndex)
             {
-                _filesAndFolders.Move(oldIndex, newIndex);
+                _filesAndFolders.RemoveAt(oldIndex);
+                _filesAndFolders.Insert(newIndex, item);
             }
         }
 
