@@ -21,7 +21,9 @@
 
 	<UserControl.Resources>
 		<ResourceDictionary>
+			<!-- Converters -->
 			<vc:VisiblityInvertConverter x:Key="VisiblityInvertConverter"/>
+
 			<ResourceDictionary.ThemeDictionaries>
 				<ResourceDictionary x:Name="Light">
 					<SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef"/>
@@ -299,20 +301,39 @@
 												Height="35"
 												Command="{Binding OpenItemCommand, Mode=OneWay}">
 
-												<Grid ColumnSpacing="4" Padding="2">
+												<Grid ColumnSpacing="4" Padding="3 2 3 2">
 													<Grid.ColumnDefinitions>
 														<ColumnDefinition Width="Auto"/>
 														<ColumnDefinition/>
 													</Grid.ColumnDefinitions>
 													
 													<!-- Icon -->
+													
+													<!-- File Icon -->
 													<Image
 														VerticalAlignment="Center"
 														HorizontalAlignment="Left"
 														Width="20"
 														Height="20"
 														Source="{Binding Icon, Mode=OneWay}"
-														Grid.Column="0"/>
+														Grid.Column="0"
+														Visibility="{Binding FileIconVisibility}"/>
+													<!-- Folder Icon -->
+													<Image
+														VerticalAlignment="Center"
+														HorizontalAlignment="Left"
+														Width="20"
+														Height="20"
+														Grid.Column="0"
+														Visibility="{Binding FileIconVisibility, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
+														<Image.Source>
+															<SvgImageSource
+																RasterizePixelHeight="128"
+																RasterizePixelWidth="128"
+																UriSource="{Binding FolderIconUri, Mode=OneWay}"/>
+														</Image.Source>
+													</Image>
+													
 													<TextBlock
 														Text="{Binding Name, Mode=OneWay}"
 														FontSize="14"

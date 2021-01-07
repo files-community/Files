@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
@@ -10,6 +9,7 @@ using System.Collections.Generic;
 using Windows.Storage.FileProperties;
 using Windows.Storage;
 using Files.Helpers;
+using Windows.UI.Xaml;
 
 namespace Files.ViewModels.Bundles
 {
@@ -48,6 +48,18 @@ namespace Files.ViewModels.Bundles
 		{
 			get => _Icon;
 			set => SetProperty(ref _Icon, value);
+		}
+
+		public Uri FolderIconUri
+		{
+			get => new Uri("ms-appx:///Assets/FolderIcon.svg");
+		}
+
+		private Visibility _FileIconVisibility = Visibility.Visible;
+		public Visibility FileIconVisibility
+		{
+			get => _FileIconVisibility;
+			set => SetProperty(ref _FileIconVisibility, value);
 		}
 
 		#endregion
@@ -102,7 +114,7 @@ namespace Files.ViewModels.Bundles
 		{
 			if (TargetType == FilesystemItemType.Directory) // OpenDirectory
 			{
-				Icon = new BitmapImage(new Uri("ms-appx:///Assets/FolderIcon.svg"));
+				FileIconVisibility = Visibility.Collapsed;
 			}
 			else // NotADirectory
 			{
@@ -115,10 +127,10 @@ namespace Files.ViewModels.Bundles
 					await icon.SetSourceAsync(thumbnail);
 
 					Icon = icon;
+					FileIconVisibility = Visibility.Visible;
+					OnPropertyChanged(nameof(Icon));
 				}
 			}
-
-			OnPropertyChanged(nameof(Icon));
 		}
 
 
