@@ -458,7 +458,7 @@ namespace Files.ViewModels
         /// </summary>
         public bool ShowBundlesWidget
         {
-            get => Get(true);
+            get => Get(false);
             set => Set(value);
         }
 

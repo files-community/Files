@@ -343,9 +343,9 @@
 
 								<FontIcon
 									FontFamily="{StaticResource FluentUIGlyphs}"
-									Glyph=""/>
+									Glyph="&#xe919;"/>
 								<TextBlock
-									Text="Drag and drop any folder,&#10;file or program here to&#10;quickly access it"
+									Text="Drag and drop any folder or &#10;file here to&#10;quickly access it"
 									FontSize="12"
 									FontFamily="Segoe UI"
 									VerticalAlignment="Bottom"
