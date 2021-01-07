@@ -1,6 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.UserControls.Preview;
-using Files.View_Models;
+using Files.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
