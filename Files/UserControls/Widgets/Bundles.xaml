@@ -51,7 +51,8 @@
 				FontSize="14"
 				FontWeight="Medium"
 				Opacity="0.8"
-				Text="Bundles"/>
+				Text="Bundles"
+				TextTrimming="CharacterEllipsis"/>
 
 			<!-- Add Bundle button-->
 			<Button
@@ -343,14 +344,17 @@
 													</Image>
 
 													<!-- Bundle Item name -->
-													<TextBlock
-														Text="{Binding Name, Mode=OneWay}"
-														FontSize="14"
-														TextWrapping="Wrap"
-														VerticalAlignment="Center"
-														HorizontalAlignment="Left"
-														Grid.Column="1"
-														MaxLines="0"/>
+													<ScrollViewer 
+														Grid.Column="1" 
+														HorizontalScrollBarVisibility="Auto" 
+														VerticalScrollBarVisibility="Disabled">
+														<TextBlock
+															Text="{Binding Name, Mode=OneWay}"
+															FontSize="14"
+															TextWrapping="Wrap"
+															VerticalAlignment="Center"
+															HorizontalAlignment="Left"/>
+													</ScrollViewer>
 												</Grid>
 
 												<Button.ContextFlyout>
