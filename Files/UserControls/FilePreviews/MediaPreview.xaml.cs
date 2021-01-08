@@ -26,9 +26,9 @@ namespace Files.UserControls.FilePreviews
     {
         public static List<string> Extensions => new List<string>() {
             // Video
-            ".mp4", ".webm", ".ogg",
+            ".mp4", ".webm", ".ogg", ".mov", ".qt", ".mp4", ".m4v", ".mp4v", ".3g2", ".3gp2", ".3gp", ".3gpp",
             // Audio
-            ".mp3", ".m4a", ".wav", ".wma",
+            ".mp3", ".m4a", ".wav", ".wma", ".aac", ".adt", ".adts", ".cda",
         };
 
         public MediaPreview(string path)

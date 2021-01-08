@@ -43,13 +43,20 @@ namespace Files.UserControls
 
         private async void SetImageFromString(string encodedImage)
         {
-            var array = Convert.FromBase64String(encodedImage);
-            var buffer = array.AsBuffer();
-            var source = new BitmapImage();
-            var stream = buffer.AsStream();
-            var rastream = stream.AsRandomAccessStream();
-            await source.SetSourceAsync(rastream);
-            MainImage.Source = source;
+            try
+            {
+                var array = Convert.FromBase64String(encodedImage);
+                var buffer = array.AsBuffer();
+                var source = new BitmapImage();
+                var stream = buffer.AsStream();
+                var rastream = stream.AsRandomAccessStream();
+                await source.SetSourceAsync(rastream);
+                MainImage.Source = source;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"Loading image from string failed with the following exception: {e}");
+            }
         }
     }
 }
