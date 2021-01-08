@@ -49,7 +49,7 @@ namespace Files.Views.LayoutModes
         {
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-            FolderSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
+            FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
         }
 
         private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
@@ -65,7 +65,15 @@ namespace Files.Views.LayoutModes
 
         private void FolderSettings_LayoutModeChangeRequested(object sender, EventArgs e)
         {
-            SetItemTemplate(); // Set ItemTemplate
+            if (FolderSettings.LayoutMode == FolderLayoutModes.GridView || FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
+            {
+                var oldTemplate = FileList.ItemTemplate;
+                SetItemTemplate(); // Set ItemTemplate
+                if (oldTemplate != FileList.ItemTemplate)
+                {
+                    ReloadItemIcons();
+                }
+            }
         }
 
         private void SetItemTemplate()
@@ -75,13 +83,13 @@ namespace Files.Views.LayoutModes
             // Set GridViewSize event handlers
             if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
             {
-                FolderSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
+                FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
             }
             else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
             {
                 currentIconSize = GetIconSize(); // Get icon size for jumps from other layouts directly to a grid size
-                FolderSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
-                FolderSettings.GridViewSizeChangeRequested += AppSettings_GridViewSizeChangeRequested;
+                FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+                FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
             }
         }
 
@@ -365,17 +373,17 @@ namespace Files.Views.LayoutModes
 
         private uint GetIconSize()
         {
-            if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView || FolderSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeSmall + 75)
+            if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
             {
-                return 80; // Small thumbnail
+                return Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Small thumbnail
             }
-            else if (FolderSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium + 25)
+            else if (FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium)
             {
-                return 120; // Medium thumbnail
+                return Constants.Browser.GridViewBrowser.GridViewSizeMedium; // Medium thumbnail
             }
-            else if (FolderSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium - 50)
+            else if (FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeLarge)
             {
-                return 160; // Large thumbnail
+                return Constants.Browser.GridViewBrowser.GridViewSizeLarge; // Large thumbnail
             }
             else
             {
@@ -383,7 +391,7 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private void AppSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
+        private void FolderSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
         {
             var requestedIconSize = GetIconSize(); // Get new icon size
 
