@@ -32,6 +32,14 @@ namespace Files.ViewModels.Bundles
 
 		#endregion
 
+		#region Events
+
+		public Action<BundleContainerViewModel> NotifyItemRemoved { get; set; }
+
+		public Action<BundleContainerViewModel> NotifyItemRenamed { get; set; }
+
+		#endregion
+
 		#region Public Properties
 
 		/// <summary>
@@ -110,6 +118,7 @@ namespace Files.ViewModels.Bundles
 				Dictionary<string, List<string>> allBundles = JsonSettings.SavedBundles; // We need to do it this way for Set() to be called
 				allBundles.Remove(BundleName);
 				JsonSettings.SavedBundles = allBundles;
+				NotifyItemRemoved(this);
 			}
 		}
 
@@ -193,6 +202,7 @@ namespace Files.ViewModels.Bundles
 							AddBundleItem(new BundleItemViewModel(associatedInstance, item.Path, item.IsOfType(StorageItemTypes.Folder) ? Filesystem.FilesystemItemType.Directory : Filesystem.FilesystemItemType.File)
 							{
 								OriginBundleName = BundleName,
+								NotifyItemRemoved = NotifyItemRemovedHandle
 							});
 							itemAdded = true;
 						}
@@ -206,6 +216,19 @@ namespace Files.ViewModels.Bundles
 					// Log here?
 				}
 			}
+		}
+
+		#endregion
+
+		#region Handlers
+
+		/// <summary>
+		/// This function gets called when an item is removed to update the collection
+		/// </summary>
+		/// <param name="item"></param>
+		private void NotifyItemRemovedHandle(BundleItemViewModel item)
+		{
+			Contents.Remove(item);
 		}
 
 		#endregion

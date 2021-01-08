@@ -110,11 +110,50 @@ namespace Files.ViewModels.Bundles
 			Items.Add(new BundleContainerViewModel(associatedInstance)
 			{
 				BundleName = savedBundleNameTextInput,
-				BundleRenameText = savedBundleNameTextInput
+				BundleRenameText = savedBundleNameTextInput,
+				NotifyItemRemoved = NotifyItemRemovedHandle,
+				NotifyItemRenamed = NotifyItemRenamedHandle
 			});
 
 			// Save bundles
 			Save();
+		}
+
+		#endregion
+
+		#region Handlers
+
+		/// <summary>
+		/// This function gets called when an item is removed to update the collection
+		/// </summary>
+		/// <param name="item"></param>
+		private void NotifyItemRemovedHandle(BundleContainerViewModel item)
+		{
+			Items.Remove(item);
+		}
+
+		/// <summary>
+		/// This function gets called when an item is renamed to update the collection
+		/// </summary>
+		/// <param name="item"></param>
+		private void NotifyItemRenamedHandle(BundleContainerViewModel item)
+		{
+			//Items[Items.IndexOf(item)].
+		}
+
+		/// <summary>
+		/// This function gets called when an item is renamed to update the collection
+		/// </summary>
+		/// <param name="item"></param>
+		private void NotifyBundleItemRemovedHandle(BundleItemViewModel item)
+		{
+			foreach (var bundle in Items)
+			{
+				if (bundle.BundleName == item.OriginBundleName)
+				{
+					bundle.Contents.Remove(item);
+				}
+			}
 		}
 
 		#endregion
@@ -169,6 +208,7 @@ namespace Files.ViewModels.Bundles
 								bundleItems.Add(new BundleItemViewModel(associatedInstance, bundleItem, await StorageItemHelpers.GetTypeFromPath(bundleItem, associatedInstance))
 								{
 									OriginBundleName = bundle.Key,
+									NotifyItemRemoved = NotifyBundleItemRemovedHandle
 								});
 							}
 						}
@@ -178,7 +218,9 @@ namespace Files.ViewModels.Bundles
 					Items.Add(new BundleContainerViewModel(associatedInstance)
 					{
 						BundleName = bundle.Key,
-						BundleRenameText = bundle.Key
+						BundleRenameText = bundle.Key,
+						NotifyItemRemoved = NotifyItemRemovedHandle,
+						NotifyItemRenamed = NotifyItemRenamedHandle
 					}.SetBundleItems(bundleItems));
 				}
 			}

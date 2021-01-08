@@ -28,6 +28,12 @@ namespace Files.ViewModels.Bundles
 
 		#endregion
 
+		#region Actions
+
+		public Action<BundleItemViewModel> NotifyItemRemoved { private get; set; }
+
+		#endregion
+
 		#region Public Properties
 
 		/// <summary>
@@ -64,9 +70,9 @@ namespace Files.ViewModels.Bundles
 		}
 
 		public Visibility OpenInNewTabVisibility
-        {
+		{
 			get => TargetType == FilesystemItemType.Directory ? Visibility.Visible : Visibility.Collapsed;
-        }
+		}
 
 		#endregion
 
@@ -109,14 +115,14 @@ namespace Files.ViewModels.Bundles
 		}
 
 		private async void OpenInNewTab()
-        {
+		{
 			await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), Path);
-        }
+		}
 
 		private async void OpenItemLocation()
-        {
+		{
 			await associatedInstance.InteractionOperations.OpenPath(System.IO.Path.GetDirectoryName(Path), FilesystemItemType.Directory);
-        }
+		}
 
 		private void RemoveItem()
 		{
@@ -125,6 +131,7 @@ namespace Files.ViewModels.Bundles
 				Dictionary<string, List<string>> allBundles = JsonSettings.SavedBundles; // We need to do it this way for Set() to be called
 				allBundles[OriginBundleName].Remove(Path);
 				JsonSettings.SavedBundles = allBundles;
+				NotifyItemRemoved(this);
 			}
 		}
 
@@ -156,9 +163,9 @@ namespace Files.ViewModels.Bundles
 					}
 				}
 				catch (Exception e)
-                {
+				{
 					Icon = new BitmapImage(); // Set here no file image
-                }
+				}
 			}
 		}
 
