@@ -161,7 +161,7 @@
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <Grid
-                        Width="280"
+                        Width="270"
                         Height="220"
                         extensions:VisualExtensions.CenterPoint="135,45,0"
                         AllowDrop="True"
