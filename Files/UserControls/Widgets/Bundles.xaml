@@ -162,7 +162,17 @@
 						Width="280"
 						Height="220"
 						extensions:VisualExtensions.CenterPoint="135,45,0"
-						Background="{ThemeResource YourHomeCardBackgroundColor}">
+						Background="{ThemeResource YourHomeCardBackgroundColor}"
+						AllowDrop="True">
+						<i:Interaction.Behaviors>
+							<!-- No need to specify CommandParameter - `e` is passed by default -->
+							<core:EventTriggerBehavior EventName="DragOver">
+								<core:InvokeCommandAction Command="{Binding DragOverCommand, Mode=OneWay}"/>
+							</core:EventTriggerBehavior>
+							<core:EventTriggerBehavior EventName="Drop">
+								<core:InvokeCommandAction Command="{Binding DropCommand, Mode=OneWay}"/>
+							</core:EventTriggerBehavior>
+						</i:Interaction.Behaviors>
 
 						<Grid.Resources>
 							<ResourceDictionary>
@@ -182,15 +192,6 @@
 
 						<!-- Contents of a Bundle -->
 						<StackPanel Spacing="9" Padding="14" AllowDrop="True" HorizontalAlignment="Stretch">
-							<i:Interaction.Behaviors>
-								<!-- No need to specify CommandParameter - `e` is passed by default -->
-								<core:EventTriggerBehavior EventName="DragOver">
-									<core:InvokeCommandAction Command="{Binding DragOverCommand, Mode=OneWay}"/>
-								</core:EventTriggerBehavior>
-								<core:EventTriggerBehavior EventName="Drop">
-									<core:InvokeCommandAction Command="{Binding DropCommand, Mode=OneWay}"/>
-								</core:EventTriggerBehavior>
-							</i:Interaction.Behaviors>
 
 							<Grid ColumnSpacing="6" HorizontalAlignment="Stretch">
 								<Grid.ColumnDefinitions>

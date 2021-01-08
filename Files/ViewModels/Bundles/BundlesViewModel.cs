@@ -53,7 +53,7 @@ namespace Files.ViewModels.Bundles
 			set => SetProperty(ref _AddBundleErrorText, value);
 		}
 
-		public Visibility _NoBundlesAddItemVisibility = Visibility.Visible;
+		public Visibility _NoBundlesAddItemVisibility = Visibility.Collapsed;
 		public Visibility NoBundlesAddItemVisibility
 		{
 			get => _NoBundlesAddItemVisibility;
