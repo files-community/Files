@@ -67,10 +67,11 @@ namespace Files.Views.LayoutModes
         {
             if (FolderSettings.LayoutMode == FolderLayoutModes.GridView || FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
             {
-                var oldTemplate = FileList.ItemTemplate;
                 SetItemTemplate(); // Set ItemTemplate
-                if (oldTemplate != FileList.ItemTemplate)
+                var requestedIconSize = GetIconSize();
+                if (requestedIconSize != currentIconSize)
                 {
+                    currentIconSize = requestedIconSize;
                     ReloadItemIcons();
                 }
             }
@@ -87,7 +88,6 @@ namespace Files.Views.LayoutModes
             }
             else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
             {
-                currentIconSize = GetIconSize(); // Get icon size for jumps from other layouts directly to a grid size
                 FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
                 FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
             }
@@ -377,6 +377,10 @@ namespace Files.Views.LayoutModes
             {
                 return Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Small thumbnail
             }
+            else if (FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall)
+            {
+                return Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Small thumbnail
+            }
             else if (FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium)
             {
                 return Constants.Browser.GridViewBrowser.GridViewSizeMedium; // Medium thumbnail
@@ -387,7 +391,7 @@ namespace Files.Views.LayoutModes
             }
             else
             {
-                return 240; // Extra large thumbnail
+                return Constants.Browser.GridViewBrowser.GridViewSizeMax; // Extra large thumbnail
             }
         }
 
@@ -444,7 +448,7 @@ namespace Files.Views.LayoutModes
             }
             args.ItemContainer.DataContext = args.Item;
 
-            if (args.Item is ListedItem item && (!item.ItemPropertiesInitialized))
+            if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
             {
                 args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
                 InitializeDrag(args.ItemContainer);
