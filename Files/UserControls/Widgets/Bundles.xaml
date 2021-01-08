@@ -367,7 +367,14 @@
 																<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;"/>
 															</MenuFlyoutItem.Icon>
 														</MenuFlyoutItem>
-														<MenuFlyoutSeparator Visibility="{Binding OpenInNewTabVisibility, Mode=OneWay}"/>
+														<MenuFlyoutItem
+															Text="Open item location"
+															Command="{Binding OpenItemLocationCommand, Mode=OneWay}">
+															<MenuFlyoutItem.Icon>
+																<FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA5A;"/>
+															</MenuFlyoutItem.Icon>
+														</MenuFlyoutItem>
+														<MenuFlyoutSeparator/>
 														<MenuFlyoutItem
 															Text="Remove item"
 															Command="{Binding RemoveItemCommand, Mode=OneWay}">

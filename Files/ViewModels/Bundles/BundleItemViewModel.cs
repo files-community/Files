@@ -76,6 +76,8 @@ namespace Files.ViewModels.Bundles
 
 		public ICommand OpenInNewTabCommand { get; set; }
 
+		public ICommand OpenItemLocationCommand { get; set; }
+
 		public ICommand RemoveItemCommand { get; set; }
 
 		#endregion
@@ -91,6 +93,7 @@ namespace Files.ViewModels.Bundles
 			// Create commands
 			OpenItemCommand = new RelayCommand(OpenItem);
 			OpenInNewTabCommand = new RelayCommand(OpenInNewTab);
+			OpenItemLocationCommand = new RelayCommand(OpenItemLocation);
 			RemoveItemCommand = new RelayCommand(RemoveItem);
 
 			SetIcon();
@@ -108,6 +111,11 @@ namespace Files.ViewModels.Bundles
 		private async void OpenInNewTab()
         {
 			await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), Path);
+        }
+
+		private async void OpenItemLocation()
+        {
+			await associatedInstance.InteractionOperations.OpenPath(System.IO.Path.GetDirectoryName(Path), FilesystemItemType.Directory);
         }
 
 		private void RemoveItem()
