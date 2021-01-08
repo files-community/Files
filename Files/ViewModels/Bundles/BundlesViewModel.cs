@@ -280,9 +280,13 @@ namespace Files.ViewModels.Bundles
 		{
 			foreach (var item in Items)
 			{
+				item.NotifyItemRemoved -= NotifyItemRemovedHandle;
+				item.NotifyItemRenamed -= NotifyItemRenamedHandle;
 				item?.Dispose();
 			}
+			associatedInstance?.Dispose();
 
+			associatedInstance = null;
 			Items = null;
 		}
 

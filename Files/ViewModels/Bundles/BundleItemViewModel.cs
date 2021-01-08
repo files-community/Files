@@ -24,13 +24,13 @@ namespace Files.ViewModels.Bundles
 
 		#region Private Members
 
-		private readonly IShellPage associatedInstance;
+		private IShellPage associatedInstance;
 
 		#endregion
 
 		#region Actions
 
-		public Action<BundleItemViewModel> NotifyItemRemoved { private get; set; }
+		public Action<BundleItemViewModel> NotifyItemRemoved { get; set; }
 
 		#endregion
 
@@ -175,6 +175,9 @@ namespace Files.ViewModels.Bundles
 
 		public void Dispose()
 		{
+			associatedInstance?.Dispose();
+
+			associatedInstance = null;
 			Path = null;
 		}
 

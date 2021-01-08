@@ -27,7 +27,7 @@ namespace Files.ViewModels.Bundles
 
 		#region Private Members
 
-		private readonly IShellPage associatedInstance;
+		private IShellPage associatedInstance;
 
 		#endregion
 
@@ -313,9 +313,12 @@ namespace Files.ViewModels.Bundles
 		{
 			foreach (var item in Contents)
 			{
+				item.NotifyItemRemoved -= NotifyItemRemovedHandle;
 				item?.Dispose();
 			}
+			associatedInstance?.Dispose();
 
+			associatedInstance = null;
 			Contents = null;
 		}
 
