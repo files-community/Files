@@ -162,12 +162,15 @@ namespace Files.ViewModels.Bundles
 					// For every bundleItem in current bundle
 					foreach (var bundleItem in bundle.Value)
 					{
-						if (bundleItem != null)
+						if (bundleItems.Count <= Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
 						{
-							bundleItems.Add(new BundleItemViewModel(associatedInstance, bundleItem, await StorageItemHelpers.GetTypeFromPath(bundleItem, associatedInstance))
+							if (bundleItem != null)
 							{
-								OriginBundleName = bundle.Key,
-							});
+								bundleItems.Add(new BundleItemViewModel(associatedInstance, bundleItem, await StorageItemHelpers.GetTypeFromPath(bundleItem, associatedInstance))
+								{
+									OriginBundleName = bundle.Key,
+								});
+							}
 						}
 					}
 

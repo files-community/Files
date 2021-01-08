@@ -186,7 +186,7 @@ namespace Files.ViewModels.Bundles
 
 				foreach (IStorageItem item in items)
 				{
-					if (items.Count < Constants.Widgets.Bundles.MaxAmountOfItemsInBundle)
+					if (items.Count <= Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
 					{
 						if (!Contents.Any((i) => i.Path == item.Path)) // Don't add existing items!
 						{

@@ -297,7 +297,7 @@
 								<GridView.ItemTemplate>
 									<!-- Bundle Item design -->
 									<DataTemplate>
-										<Grid>
+										<Grid Padding="1 0 1 0">
 											<Button
 												Padding="0"
 												HorizontalAlignment="Stretch"
@@ -309,14 +309,14 @@
 												Height="35"
 												Command="{Binding OpenItemCommand, Mode=OneWay}">
 
-												<Grid ColumnSpacing="8" Padding="5 2 5 2">
+												<Grid ColumnSpacing="8" Padding="7 2 7 2">
 													<Grid.ColumnDefinitions>
 														<ColumnDefinition Width="Auto"/>
 														<ColumnDefinition/>
 													</Grid.ColumnDefinitions>
-													
+
 													<!-- Icon -->
-													
+
 													<!-- File Icon -->
 													<Image
 														VerticalAlignment="Center"
@@ -341,20 +341,22 @@
 																UriSource="{Binding FolderIconUri, Mode=OneWay}"/>
 														</Image.Source>
 													</Image>
-													
+
+													<!-- Bundle Item name -->
 													<TextBlock
 														Text="{Binding Name, Mode=OneWay}"
 														FontSize="14"
 														TextWrapping="Wrap"
 														VerticalAlignment="Center"
 														HorizontalAlignment="Left"
-														Grid.Column="1"/>
+														Grid.Column="1"
+														MaxLines="0"/>
 												</Grid>
 
 												<Button.ContextFlyout>
 													<MenuFlyout>
 														<MenuFlyoutItem
-															Text="Remove Item"
+															Text="Remove item"
 															Command="{Binding RemoveItemCommand, Mode=OneWay}">
 															<MenuFlyoutItem.Icon>
 																<FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB3D;"/>
@@ -370,11 +372,6 @@
 										</Grid>
 									</DataTemplate>
 								</GridView.ItemTemplate>
-								<GridView.ItemsPanel>
-									<ItemsPanelTemplate>
-										<StackPanel Spacing="7" Orientation="Horizontal"/>
-									</ItemsPanelTemplate>
-								</GridView.ItemsPanel>
 							</GridView>
 
 							<!-- No Bundle contents text info -->

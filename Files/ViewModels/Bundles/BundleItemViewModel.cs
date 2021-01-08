@@ -118,18 +118,25 @@ namespace Files.ViewModels.Bundles
 			}
 			else // NotADirectory
 			{
-				BitmapImage icon = new BitmapImage();
-				StorageFile file = await StorageItemHelpers.ToStorageFile(Path, associatedInstance);
-				StorageItemThumbnail thumbnail = await file.GetThumbnailAsync(ThumbnailMode.ListView, 24u, ThumbnailOptions.UseCurrentScale);
-
-				if (thumbnail != null)
+				try
 				{
-					await icon.SetSourceAsync(thumbnail);
+					BitmapImage icon = new BitmapImage();
+					StorageFile file = await StorageItemHelpers.ToStorageFile(Path, associatedInstance);
+					StorageItemThumbnail thumbnail = await file.GetThumbnailAsync(ThumbnailMode.ListView, 24u, ThumbnailOptions.UseCurrentScale);
 
-					Icon = icon;
-					FileIconVisibility = Visibility.Visible;
-					OnPropertyChanged(nameof(Icon));
+					if (thumbnail != null)
+					{
+						await icon.SetSourceAsync(thumbnail);
+
+						Icon = icon;
+						FileIconVisibility = Visibility.Visible;
+						OnPropertyChanged(nameof(Icon));
+					}
 				}
+				catch (Exception e)
+                {
+					Icon = new BitmapImage(); // Set here no file image
+                }
 			}
 		}
 
