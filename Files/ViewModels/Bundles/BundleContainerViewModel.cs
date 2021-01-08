@@ -54,9 +54,11 @@ namespace Files.ViewModels.Bundles
 			set => SetProperty(ref _BundleName, value);
 		}
 
+		private Visibility _NoBundleContentsTextVisibility;
 		public Visibility NoBundleContentsTextVisibility
 		{
-			get => Contents.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
+			get => _NoBundleContentsTextVisibility;
+			set => SetProperty(ref _NoBundleContentsTextVisibility, value);
 		}
 
 		private string _BundleRenameText = string.Empty;
@@ -229,6 +231,11 @@ namespace Files.ViewModels.Bundles
 		private void NotifyItemRemovedHandle(BundleItemViewModel item)
 		{
 			Contents.Remove(item);
+
+			if (Contents.Count == 0)
+			{
+				NoBundleContentsTextVisibility = Visibility.Visible;
+			}
 		}
 
 		#endregion
@@ -261,7 +268,11 @@ namespace Files.ViewModels.Bundles
 
 		public BundleContainerViewModel AddBundleItem(BundleItemViewModel bundleItem)
 		{
-			Contents.Add(bundleItem);
+			if (bundleItem != null)
+			{
+				Contents.Add(bundleItem);
+				NoBundleContentsTextVisibility = Visibility.Collapsed;
+			}
 
 			return this;
 		}
@@ -269,6 +280,11 @@ namespace Files.ViewModels.Bundles
 		public BundleContainerViewModel SetBundleItems(List<BundleItemViewModel> items)
 		{
 			Contents = new ObservableCollection<BundleItemViewModel>(items);
+
+			if (Contents.Count > 0)
+			{
+				NoBundleContentsTextVisibility = Visibility.Collapsed;
+			}
 
 			return this;
 		}

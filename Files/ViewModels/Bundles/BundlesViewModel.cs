@@ -152,6 +152,11 @@ namespace Files.ViewModels.Bundles
 				if (bundle.BundleName == item.OriginBundleName)
 				{
 					bundle.Contents.Remove(item);
+
+					if (bundle.Contents.Count == 0)
+					{
+						bundle.NoBundleContentsTextVisibility = Visibility.Visible;
+					}
 				}
 			}
 		}

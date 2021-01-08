@@ -256,7 +256,7 @@
 									VerticalContentAlignment="Center"
 									HorizontalContentAlignment="Center"
 									Grid.Column="1"
-									Background="{ThemeResource YourHomeCardBackgroundColor}">
+									Background="Transparent">
 									<Button.Flyout>
 										<MenuFlyout>
 											<MenuFlyoutItem
