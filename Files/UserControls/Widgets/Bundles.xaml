@@ -406,7 +406,7 @@
                                     FontSize="12"
                                     FontWeight="SemiLight"
                                     Opacity=".7"
-                                    Text="Drag and drop any item here to quickly access it"
+                                    Text="Drag and drop any file or folder here to quickly access it"
                                     TextAlignment="Center"
                                     TextWrapping="WrapWholeWords" />
                             </Grid>
