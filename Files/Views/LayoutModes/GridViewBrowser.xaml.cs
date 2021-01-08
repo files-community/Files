@@ -409,13 +409,11 @@ namespace Files.Views.LayoutModes
 
         private void ReloadItemIcons()
         {
-            System.Diagnostics.Debug.WriteLine("Reloading icons to size: {0}", currentIconSize);
             foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders)
             {
                 listedItem.ItemPropertiesInitialized = false;
                 if (FileList.ContainerFromItem(listedItem) != null)
                 {
-                    System.Diagnostics.Debug.WriteLine("Reloading icon size: {0}", currentIconSize);
                     ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
                     listedItem.ItemPropertiesInitialized = true;
                 }
@@ -456,7 +454,6 @@ namespace Files.Views.LayoutModes
                 InitializeDrag(args.ItemContainer);
                 args.ItemContainer.CanDrag = args.ItemContainer.IsSelected; // Update CanDrag
 
-                System.Diagnostics.Debug.WriteLine("Loading icon size: {0}", currentIconSize);
                 ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
                 item.ItemPropertiesInitialized = true;
             }
