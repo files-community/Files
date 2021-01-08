@@ -752,12 +752,20 @@
                         PropertyName="RowStyle"
                         TargetObject="{Binding ElementName=AllView}"
                         Value="{StaticResource DataGridRowRecycleBinContextFlyout}" />
+                    <Core:ChangePropertyAction
+                        PropertyName="DisplayIndex"
+                        TargetObject="{Binding ElementName=dateColumn}"
+                        Value="7" />
                 </Core:DataTriggerBehavior>
                 <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="False">
                     <Core:ChangePropertyAction
                         PropertyName="RowStyle"
                         TargetObject="{Binding ElementName=AllView}"
                         Value="{StaticResource DataGridRowStandardContextFlyout}" />
+                    <Core:ChangePropertyAction
+                        PropertyName="DisplayIndex"
+                        TargetObject="{Binding ElementName=dateColumn}"
+                        Value="5" />
                 </Core:DataTriggerBehavior>
             </Interactivity:Interaction.Behaviors>
             <controls:DataGrid.CellStyle>
