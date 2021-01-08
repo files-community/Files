@@ -360,6 +360,15 @@
 												<Button.ContextFlyout>
 													<MenuFlyout>
 														<MenuFlyoutItem
+															Text="Open in new tab"
+															Command="{Binding OpenInNewTabCommand, Mode=OneWay}"
+															Visibility="{Binding OpenInNewTabVisibility, Mode=OneWay}">
+															<MenuFlyoutItem.Icon>
+																<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;"/>
+															</MenuFlyoutItem.Icon>
+														</MenuFlyoutItem>
+														<MenuFlyoutSeparator Visibility="{Binding OpenInNewTabVisibility, Mode=OneWay}"/>
+														<MenuFlyoutItem
 															Text="Remove item"
 															Command="{Binding RemoveItemCommand, Mode=OneWay}">
 															<MenuFlyoutItem.Icon>

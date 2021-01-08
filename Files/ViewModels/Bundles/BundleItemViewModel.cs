@@ -10,6 +10,7 @@ using Windows.Storage.FileProperties;
 using Windows.Storage;
 using Files.Helpers;
 using Windows.UI.Xaml;
+using Files.Views;
 
 namespace Files.ViewModels.Bundles
 {
@@ -62,11 +63,18 @@ namespace Files.ViewModels.Bundles
 			set => SetProperty(ref _FileIconVisibility, value);
 		}
 
+		public Visibility OpenInNewTabVisibility
+        {
+			get => TargetType == FilesystemItemType.Directory ? Visibility.Visible : Visibility.Collapsed;
+        }
+
 		#endregion
 
 		#region Commands
 
 		public ICommand OpenItemCommand { get; set; }
+
+		public ICommand OpenInNewTabCommand { get; set; }
 
 		public ICommand RemoveItemCommand { get; set; }
 
@@ -81,7 +89,8 @@ namespace Files.ViewModels.Bundles
 			this.TargetType = targetType;
 
 			// Create commands
-			OpenItemCommand = new RelayCommand(Confirm);
+			OpenItemCommand = new RelayCommand(OpenItem);
+			OpenInNewTabCommand = new RelayCommand(OpenInNewTab);
 			RemoveItemCommand = new RelayCommand(RemoveItem);
 
 			SetIcon();
@@ -91,10 +100,15 @@ namespace Files.ViewModels.Bundles
 
 		#region Command Implementation
 
-		private async void Confirm()
+		private async void OpenItem()
 		{
 			await associatedInstance.InteractionOperations.OpenPath(Path, TargetType);
 		}
+
+		private async void OpenInNewTab()
+        {
+			await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), Path);
+        }
 
 		private void RemoveItem()
 		{
