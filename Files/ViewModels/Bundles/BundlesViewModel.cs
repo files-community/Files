@@ -116,7 +116,7 @@ namespace Files.ViewModels.Bundles
 				NotifyItemRemoved = NotifyItemRemovedHandle,
 				NotifyItemRenamed = NotifyItemRenamedHandle
 			});
-			NoBundlesAddItemVisibility = Visibility.Visible;
+			NoBundlesAddItemVisibility = Visibility.Collapsed;
 
 			// Save bundles
 			Save();
