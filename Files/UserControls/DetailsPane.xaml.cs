@@ -91,12 +91,12 @@ namespace Files.UserControls
                 return new MarkdownPreview(item.ItemPath);
             }
 
-            if(ImagePreview.Extensions.Contains(item.ItemPath))
+            if(ImagePreview.Extensions.Contains(item.FileExtension))
             {
                 return new ImagePreview(item.ItemPath);
             }
 
-            if(TextPreview.Extensions.Contains(item.ItemPath))
+            if(TextPreview.Extensions.Contains(item.FileExtension))
             {
                 return new TextPreview(item.ItemPath);
             }

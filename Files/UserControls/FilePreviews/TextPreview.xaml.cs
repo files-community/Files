@@ -25,7 +25,7 @@ namespace Files.UserControls.FilePreviews
         }
 
         public static List<string> Extensions => new List<string>() {
-            ".txt"
+            ".txt", ".cs", ".xml", ".xaml", ".fs"
         };
 
         public async void SetFile(string path)

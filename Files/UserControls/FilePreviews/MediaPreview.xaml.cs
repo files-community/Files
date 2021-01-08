@@ -25,7 +25,10 @@ namespace Files.UserControls.FilePreviews
     public sealed partial class MediaPreview : UserControl
     {
         public static List<string> Extensions => new List<string>() {
-            ".mp4", ".mp3", ".m4a",
+            // Video
+            ".mp4", ".webm", ".ogg",
+            // Audio
+            ".mp3", ".m4a", ".wav", ".wma",
         };
 
         public MediaPreview(string path)
