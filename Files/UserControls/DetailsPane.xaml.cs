@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppExtensions;
 using Windows.Foundation;
@@ -43,7 +44,8 @@ namespace Files.UserControls
 
                 if (value.Count == 1)
                 {
-                    if(LoadPreviewControl(value[0])) {
+                    if (TryLoadPreviewControl(value[0]))
+                    {
                         PreviewNotAvaliableText.Visibility = Visibility.Collapsed;
                     }
                 }
@@ -56,7 +58,7 @@ namespace Files.UserControls
         }
 
         
-        bool LoadPreviewControl(ListedItem item)
+        bool TryLoadPreviewControl(ListedItem item)
         {
             foreach (var extension in AppData.FilePreviewExtensionManager.Extensions)
             {
@@ -117,9 +119,9 @@ namespace Files.UserControls
                 var result = await extension.Invoke(new ValueSet() { { "byteArray", byteArray }, { "filePath", item.ItemPath } });
                 var preview = result["preview"];
                 PreviewGrid.Children.Add(XamlReader.Load(preview as string) as UIElement);
-            } catch
+            } catch (Exception e)
             {
-                Debug.WriteLine("Failed to parse xaml");
+                Debug.WriteLine(e.ToString());
             }
         }
     }
