@@ -60,11 +60,6 @@
         <Grid Grid.Row="0" x:Name="RootPreviewGrid">
             <TextBlock x:Name="PreviewNotAvaliableText" Visibility="Collapsed" Text="No preview avaliable"/>
             <Grid x:Name="PreviewGrid">
-                <ScrollViewer>
-                    <Grid x:Name="CustomPreviewGrid">
-                        
-                    </Grid>
-                </ScrollViewer>
             </Grid>
         </Grid>
 

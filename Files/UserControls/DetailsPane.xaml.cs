@@ -1,5 +1,5 @@
 ﻿using Files.Filesystem;
-using Files.UserControls.Preview;
+using Files.UserControls.FilePreviews;
 using Files.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -37,44 +37,74 @@ namespace Files.UserControls
             get => (List<ListedItem>)GetValue(selectedItemsProperty);
             set
             {
-                PreviewGrid.Children.Clear();
-                PreviewNotAvaliableText.Visibility = Visibility.Collapsed;
                 SetValue(selectedItemsProperty, value);
+                PreviewGrid.Children.Clear();
+                PreviewNotAvaliableText.Visibility = Visibility.Visible;
+
                 if (value.Count == 1)
                 {
-                    foreach (var extension in AppData.FilePreviewExtensionManager.Extensions)
-                    {
-                        if(extension.FileExtensions.Contains(value[0].FileExtension))
-                        {
-                            UpdatePreviewControl(value[0], extension);
-                            return;
-                        }
-                    }
-                    var control = PreviewBase.GetControlFromExtension(value[0].FileExtension);
-                    if (control != null)
-                    {
-                        control.SetFile(value[0].ItemPath);
-                        control.HorizontalAlignment = HorizontalAlignment.Stretch;
-                        control.VerticalAlignment = VerticalAlignment.Stretch;
-                        PreviewGrid.Children.Add(control);
-                        return;
+                    if(LoadPreviewControl(value[0])) {
+                        PreviewNotAvaliableText.Visibility = Visibility.Collapsed;
                     }
                 }
-
-                PreviewNotAvaliableText.Visibility = Visibility.Visible;
             }
         }
-
-        List<Package> OptionalPackages = new List<Package>();
-
-        private bool isMarkDown = false;
 
         public DetailsPane()
         {
             this.InitializeComponent();
         }
 
-        public async void UpdatePreviewControl(ListedItem item, Helpers.Extension extension)
+        
+        bool LoadPreviewControl(ListedItem item)
+        {
+            foreach (var extension in AppData.FilePreviewExtensionManager.Extensions)
+            {
+                if (extension.FileExtensions.Contains(item.FileExtension))
+                {
+                    LoadPreviewControlFromExtension(item, extension);
+                    return true;
+                }
+            }
+
+            var control = GetBuiltInPreviewControl(item);
+            if (control != null)
+            {
+                //control.HorizontalAlignment = HorizontalAlignment.Stretch;
+                //control.VerticalAlignment = VerticalAlignment.Stretch;
+                PreviewGrid.Children.Add(control);
+                return true;
+            }
+
+            return false;
+        }
+
+        UserControl GetBuiltInPreviewControl(ListedItem item)
+        {
+            if (MediaPreview.Extensions.Contains(item.FileExtension))
+            {
+                return new MediaPreview(item.ItemPath);
+            }
+
+            if(MarkdownPreview.Extensions.Contains(item.FileExtension))
+            {
+                return new MarkdownPreview(item.ItemPath);
+            }
+
+            if(ImagePreview.Extensions.Contains(item.ItemPath))
+            {
+                return new ImagePreview(item.ItemPath);
+            }
+
+            if(TextPreview.Extensions.Contains(item.ItemPath))
+            {
+                return new TextPreview(item.ItemPath);
+            }
+
+            return null;
+        }
+
+        async void LoadPreviewControlFromExtension(ListedItem item, Helpers.Extension extension)
         {
             var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
 
@@ -86,7 +116,7 @@ namespace Files.UserControls
             {
                 var result = await extension.Invoke(new ValueSet() { { "byteArray", byteArray }, { "filePath", item.ItemPath } });
                 var preview = result["preview"];
-                CustomPreviewGrid.Children.Add(XamlReader.Load(preview as string) as UIElement);
+                PreviewGrid.Children.Add(XamlReader.Load(preview as string) as UIElement);
             } catch
             {
                 Debug.WriteLine("Failed to parse xaml");

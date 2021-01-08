@@ -5,6 +5,8 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.Core;
+using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
@@ -18,30 +20,29 @@ using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Files.UserControls.Preview
+namespace Files.UserControls.FilePreviews
 {
-    public sealed partial class ImagePreview : PreviewBase
+    public sealed partial class MediaPreview : UserControl
     {
-        public override List<string> Extensions => new List<string>() {
-            ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tiff", ".ico", ".svg"
+        public static List<string> Extensions => new List<string>() {
+            ".mp4", ".mp3", ".m4a",
         };
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="path"></param>
-        public ImagePreview()
+        public MediaPreview(string path)
         {
             this.InitializeComponent();
+            SetFile(path);
         }
 
-        public override async void SetFile(string path)
+        public async void SetFile(string path)
         {
             var file = await StorageFile.GetFileFromPathAsync(path);
-            var bitmap = new BitmapImage(new Uri(ImageContent.BaseUri, path));
-            ImageContent.Source = bitmap;
-            FileRandomAccessStream stream = (FileRandomAccessStream)await file.OpenAsync(FileAccessMode.Read);
-            bitmap.SetSource(stream);
+            VideoPlayer.Source = MediaSource.CreateFromStorageFile(file);
+        }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            VideoPlayer.Source = null;
         }
     }
 }
