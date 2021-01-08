@@ -104,9 +104,9 @@ namespace Files.ViewModels.Bundles
 			RemoveBundleCommand = new RelayCommand(RemoveBundle);
 			RenameBundleCommand = new RelayCommand(RenameBundle);
 			RenameBundleConfirmCommand = new RelayCommand(RenameBundleConfirm);
-			RenameTextKeyDownCommand = new RelayParameterizedCommand((e) => RenameTextKeyDown(e as KeyRoutedEventArgs));
-			DragOverCommand = new RelayParameterizedCommand((e) => DragOver(e as DragEventArgs));
-			DropCommand = new RelayParameterizedCommand((e) => Drop(e as DragEventArgs));
+			RenameTextKeyDownCommand = new RelayCommand<KeyRoutedEventArgs>(RenameTextKeyDown);
+			DragOverCommand = new RelayCommand<DragEventArgs>(DragOver);
+			DropCommand = new RelayCommand<DragEventArgs>(Drop);
 		}
 
 		#endregion

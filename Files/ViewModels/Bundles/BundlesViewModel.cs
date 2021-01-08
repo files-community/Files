@@ -75,7 +75,7 @@ namespace Files.ViewModels.Bundles
 		public BundlesViewModel()
 		{
 			// Create commands
-			InputTextKeyDownCommand = new RelayParameterizedCommand((e) => InputTextKeyDown(e as KeyRoutedEventArgs));
+			InputTextKeyDownCommand = new RelayCommand<KeyRoutedEventArgs>(InputTextKeyDown);
 			AddBundleCommand = new RelayCommand(AddBundle);
 		}
 
