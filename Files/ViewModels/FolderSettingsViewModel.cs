@@ -30,6 +30,7 @@ namespace Files.ViewModels
                 if (SetProperty(ref LayoutPreference.LayoutMode, value, nameof(LayoutMode)))
                 {
                     UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
+                    LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -82,8 +83,6 @@ namespace Files.ViewModels
             LayoutMode = FolderLayoutModes.GridView; // Grid View
 
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeLarge; // Size
-
-            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
 
         public RelayCommand ToggleLayoutModeGridViewMedium => new RelayCommand(() =>
@@ -91,8 +90,6 @@ namespace Files.ViewModels
             LayoutMode = FolderLayoutModes.GridView; // Grid View
 
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeMedium; // Size
-
-            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
 
         public RelayCommand ToggleLayoutModeGridViewSmall => new RelayCommand(() =>
@@ -100,22 +97,16 @@ namespace Files.ViewModels
             LayoutMode = FolderLayoutModes.GridView; // Grid View
 
             GridViewSize = Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Size
-
-            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
 
         public RelayCommand ToggleLayoutModeTiles => new RelayCommand(() =>
         {
             LayoutMode = FolderLayoutModes.TilesView; // Tiles View
-
-            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
 
         public RelayCommand ToggleLayoutModeDetailsView => new RelayCommand(() =>
         {
             LayoutMode = FolderLayoutModes.DetailsView; // Details View
-
-            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
 
         public int GridViewSize
@@ -128,12 +119,10 @@ namespace Files.ViewModels
                     if (LayoutMode == FolderLayoutModes.TilesView) // Size down from tiles to list
                     {
                         LayoutMode = 0;
-                        LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                     }
                     else if (LayoutMode == FolderLayoutModes.GridView && value < Constants.Browser.GridViewBrowser.GridViewSizeSmall) // Size down from grid to tiles
                     {
                         LayoutMode = FolderLayoutModes.TilesView;
-                        LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                     }
                     else if (LayoutMode != FolderLayoutModes.DetailsView) // Resize grid view
                     {
@@ -143,7 +132,6 @@ namespace Files.ViewModels
                         if (LayoutMode != FolderLayoutModes.GridView) // Only update layout mode if it isn't already in grid view
                         {
                             LayoutMode = FolderLayoutModes.GridView;
-                            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                         }
                         else
                         {
@@ -158,7 +146,6 @@ namespace Files.ViewModels
                     if (LayoutMode == 0) // Size up from list to tiles
                     {
                         LayoutMode = FolderLayoutModes.TilesView;
-                        LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                     }
                     else // Size up from tiles to grid
                     {
@@ -168,7 +155,6 @@ namespace Files.ViewModels
                         if (LayoutMode != FolderLayoutModes.GridView) // Only update layout mode if it isn't already in grid view
                         {
                             LayoutMode = FolderLayoutModes.GridView;
-                            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                         }
                         else
                         {

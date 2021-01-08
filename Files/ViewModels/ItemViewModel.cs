@@ -425,38 +425,15 @@ namespace Files.ViewModels
             }
         }
 
-        public void CancelLoadAndClearFiles(bool isSearchResultPage = false)
+        public void CancelLoadAndClearFiles()
         {
             Debug.WriteLine("CancelLoadAndClearFiles");
-            if (!isSearchResultPage)
+            CloseWatcher();
+            if (IsLoadingItems)
             {
-                CloseWatcher();
-
-                AssociatedInstance.NavigationToolbar.CanRefresh = true;
-                if (IsLoadingItems == false)
-                {
-                    return;
-                }
-
                 _addFilesCTS.Cancel();
-                AssociatedInstance.NavigationToolbar.CanGoForward = true;
             }
-            else
-            {
-                AssociatedInstance.NavigationToolbar.CanRefresh = false;
-                AssociatedInstance.NavigationToolbar.CanGoForward = false;
-                AssociatedInstance.NavigationToolbar.CanNavigateToParent = false;
-                AssociatedInstance.NavigationToolbar.CanCopyPathInPage = false;
-            }
-
-            AssociatedInstance.NavigationToolbar.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.
             _filesAndFolders.Clear();
-
-            if (!(WorkingDirectory?.StartsWith(AppSettings.RecycleBinPath) ?? false) && !isSearchResultPage)
-            {
-                // Can't go up from recycle bin
-                AssociatedInstance.NavigationToolbar.CanNavigateToParent = true;
-            }
         }
 
         public void OrderFiles(IList<ListedItem> orderedList = null)
@@ -594,21 +571,36 @@ namespace Files.ViewModels
             return orderedList;
         }
 
-        private bool _isLoadingItems = false;
+        private bool isLoadingIndicatorActive = false;
+
+        public bool IsLoadingIndicatorActive
+        {
+            get
+            {
+                return isLoadingIndicatorActive;
+            }
+            set
+            {
+                if (isLoadingIndicatorActive != value)
+                {
+                    isLoadingIndicatorActive = value;
+                    NotifyPropertyChanged(nameof(IsLoadingIndicatorActive));
+                }
+            }
+        }
+
+        private bool isLoadingItems = false;
 
         public bool IsLoadingItems
         {
             get
             {
-                return _isLoadingItems;
+                return isLoadingItems;
             }
-            internal set
+            set
             {
-                if (_isLoadingItems != value)
-                {
-                    _isLoadingItems = value;
-                    NotifyPropertyChanged(nameof(IsLoadingItems));
-                }
+                isLoadingItems = value;
+                IsLoadingIndicatorActive = value;
             }
         }
 
@@ -786,7 +778,7 @@ namespace Files.ViewModels
                     var orderedList = OrderFiles2(cacheEntry.FileList);
                     OrderFiles(orderedList);
                     Debug.WriteLine($"Loading of items from cache in {WorkingDirectory} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
-                    IsLoadingItems = false;
+                    IsLoadingIndicatorActive = false;
                 }
 
                 if (path.StartsWith(AppSettings.RecycleBinPath))
