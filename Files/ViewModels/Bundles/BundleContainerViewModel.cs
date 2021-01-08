@@ -171,10 +171,12 @@ namespace Files.ViewModels.Bundles
 			if (e.Key == VirtualKey.Enter)
 			{
 				RenameBundleConfirm();
+				e.Handled = true;
 			}
 			else if (e.Key == VirtualKey.Escape)
 			{
 				CloseRename();
+				e.Handled = true;
 			}
 		}
 

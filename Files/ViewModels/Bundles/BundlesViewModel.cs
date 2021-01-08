@@ -87,6 +87,7 @@ namespace Files.ViewModels.Bundles
 			if (e.Key == VirtualKey.Enter)
 			{
 				AddBundle();
+				e.Handled = true;
 			}
 		}
 
