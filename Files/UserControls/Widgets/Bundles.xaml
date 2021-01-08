@@ -407,7 +407,8 @@
                                     FontWeight="SemiLight"
                                     Opacity=".7"
                                     Text="Drag and drop any item here to quickly access it"
-                                    TextAlignment="Center" />
+                                    TextAlignment="Center"
+                                    TextWrapping="WrapWholeWords" />
                             </Grid>
                         </StackPanel>
                     </Grid>
