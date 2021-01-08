@@ -1,5 +1,4 @@
-﻿using Files.Commands;
-using Files.SettingsInterfaces;
+﻿using Files.SettingsInterfaces;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;

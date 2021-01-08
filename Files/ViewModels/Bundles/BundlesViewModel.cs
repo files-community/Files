@@ -9,7 +9,6 @@ using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Files.Helpers;
 using Files.SettingsInterfaces;
-using Files.Commands;
 using Windows.UI.Xaml.Input;
 using Windows.System;
 
