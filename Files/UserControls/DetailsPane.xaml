@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Files.UserControls.DetailsPane" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="using:Files.UserControls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
+﻿<UserControl x:Class="Files.UserControls.DetailsPane" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="using:Files.UserControls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" xmlns:Core="using:Microsoft.Xaml.Interactions.Core" xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers" mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -8,7 +8,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid x:Name="RootGrid" HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
@@ -24,47 +24,31 @@
             <VisualStateGroup>
                 <VisualState>
 
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1000"/>
-                    </VisualState.StateTriggers>
-
-                    <VisualState.Setters>
-                        <Setter Target="RootPropertiesGrid.(Grid.Row)" Value="3"/>
-                        <Setter Target="RootPropertiesGrid.(Grid.Column)" Value="0"/>
-                        <Setter Target="HorizontalGridSplitter.Visibility" Value="Visible"/>
-                        <Setter Target="VerticalGridSplitter.Visibility" Value="Collapsed"/>
-                        <Setter Target="PropertiesRow.Height" Value="*"/>
-                        <Setter Target="PropertiesColumn.Width" Value="0"/>
-                    </VisualState.Setters>
-                </VisualState>
-
-                <VisualState>
-
                     <VisualState.StateTriggers >
-                        <AdaptiveTrigger MinWindowWidth="0"/>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind IsVertical, Mode=OneWay}" To="False"/>
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
                         <Setter Target="RootPropertiesGrid.(Grid.Row)" Value="0"/>
-                        <Setter Target="RootPropertiesGrid.(Grid.Column)" Value="3"/>
-                        <Setter Target="HorizontalGridSplitter.Visibility" Value="Collapsed"/>
-                        <Setter Target="VerticalGridSplitter.Visibility" Value="Visible"/>
+                        <Setter Target="RootPropertiesGrid.(Grid.Column)" Value="2"/>
+                        <Setter Target="HorizontalGridSplitter.(Grid.Row)" Value="0"/>
+                        <Setter Target="HorizontalGridSplitter.(Grid.Column)" Value="1"/>
                         <Setter Target="PropertiesRow.Height" Value="0"/>
                         <Setter Target="PropertiesColumn.Width" Value="*"/>
-                        
                     </VisualState.Setters>
                 </VisualState>
 
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
+
         <Grid Grid.Row="0" x:Name="RootPreviewGrid">
             <TextBlock x:Name="PreviewNotAvaliableText" Visibility="Collapsed" Text="No preview avaliable"/>
             <Grid x:Name="PreviewGrid">
             </Grid>
         </Grid>
 
-        <controls:GridSplitter Grid.Row="1" Style="{StaticResource DefaultHorizontalGridSplitterStyle}" x:Name="HorizontalGridSplitter"/>
-        <controls:GridSplitter Grid.Row="0" Grid.Column="1" Style="{StaticResource DefaultGridSplitterStyle}" x:Name="VerticalGridSplitter"/>
+        <controls:GridSplitter Margin="5, 5, 5, 5" Grid.Row="1" Grid.Column="0" x:Name="HorizontalGridSplitter" Style="{StaticResource PaneGridSplitter}"/>
+        <!--<controls:GridSplitter Margin="5, 5, 5, 5" Grid.Row="1" Style="{StaticResource DefaultHorizontalGridSplitterStyle}" x:Name="VerticalGridSplitter" ResizeDirection="Rows"/>-->
 
         <ListView SelectionMode="None" Grid.Row="2" x:Name="RootPropertiesGrid">
             <ListView.ItemContainerStyle>
@@ -93,6 +77,6 @@
                 </StackPanel>
             </Grid>
         </ListView>
-        
+
     </Grid>
 </UserControl>

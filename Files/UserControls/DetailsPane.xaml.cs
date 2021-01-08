@@ -32,13 +32,13 @@ namespace Files.UserControls
 {
     public sealed partial class DetailsPane : UserControl
     {
-        private DependencyProperty selectedItemsProperty = DependencyProperty.Register("SelectedItems", typeof(List<ListedItem>), typeof(DetailsPane), null);
+        public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.Register("SelectedItems", typeof(List<ListedItem>), typeof(DetailsPane), null);
         public List<ListedItem> SelectedItems
         {
-            get => (List<ListedItem>)GetValue(selectedItemsProperty);
+            get => (List<ListedItem>)GetValue(SelectedItemsProperty);
             set
             {
-                SetValue(selectedItemsProperty, value);
+                SetValue(SelectedItemsProperty, value);
                 PreviewGrid.Children.Clear();
                 PreviewNotAvaliableText.Visibility = Visibility.Visible;
 
@@ -50,6 +50,13 @@ namespace Files.UserControls
                     }
                 }
             }
+        }
+
+        public static readonly DependencyProperty IsVerticalProperty = DependencyProperty.Register("IsVertical", typeof(bool), typeof(DetailsPane), null);
+        public bool IsVertical
+        {
+            get => (bool)GetValue(IsVerticalProperty);
+            set => SetValue(IsVerticalProperty, value);
         }
 
         public DetailsPane()
