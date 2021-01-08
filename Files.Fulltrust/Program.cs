@@ -609,11 +609,14 @@ namespace FilesFullTrust
             bool isFolder = folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip";
             if (folderItem.Properties == null)
             {
-                return new ShellFileItem(isFolder, recyclePath, fileName, filePath, DateTime.Now, null, 0, null);
+                return new ShellFileItem(isFolder, recyclePath, fileName, filePath, DateTime.UtcNow.ToFileTime(), null, 0, null);
             }
-            folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
+            //folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
+            //Ole32.PROPERTYKEY.System.DateCreated, out var fileTime);
+            //var recycleDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
+            folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME>(
                 Ole32.PROPERTYKEY.System.DateCreated, out var fileTime);
-            var recycleDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
+            var recycleDate = (long)((ulong)fileTime.dwHighDateTime << 32) + (uint)fileTime.dwLowDateTime;
             string fileSize = folderItem.Properties.TryGetValue<ulong?>(
                 Ole32.PROPERTYKEY.System.Size, out var fileSizeBytes) ?
                 folderItem.Properties.GetPropertyString(Ole32.PROPERTYKEY.System.Size) : null;

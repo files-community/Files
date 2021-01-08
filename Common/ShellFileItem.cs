@@ -8,10 +8,12 @@ namespace Files.Common
         public string RecyclePath;
         public string FileName;
         public string FilePath;
-        public DateTime RecycleDate;
+        public long RecycleDate;
         public string FileSize;
         public ulong FileSizeBytes;
         public string FileType;
+
+        public DateTime RecycleDateDT => DateTime.FromFileTimeUtc(RecycleDate).ToLocalTime();
 
         public ShellFileItem()
         {
@@ -19,7 +21,7 @@ namespace Files.Common
 
         public ShellFileItem(
             bool isFolder, string recyclePath, string fileName, string filePath,
-            DateTime recycleDate, string fileSize, ulong fileSizeBytes, string fileType)
+            long recycleDate, string fileSize, ulong fileSizeBytes, string fileType)
         {
             this.IsFolder = isFolder;
             this.RecyclePath = recyclePath;

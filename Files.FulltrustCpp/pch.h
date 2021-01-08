@@ -7,6 +7,7 @@
 #pragma comment (lib, "Gdi32.lib")
 #pragma comment (lib, "Gdiplus.lib")
 #pragma comment (lib, "Kernel32.lib")
+#pragma comment (lib, "Propsys.lib")
 
 #include <shlobj.h>
 #include <shellapi.h>

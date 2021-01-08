@@ -105,6 +105,7 @@
     <ClInclude Include="base64.h" />
     <ClInclude Include="MessageHandler.h" />
     <ClInclude Include="MsgHandler_FileOperations.h" />
+    <ClInclude Include="MsgHandler_RecycleBin.h" />
     <ClInclude Include="NativeMethods.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="MsgHandler_ContextMenu.h" />
@@ -114,6 +115,7 @@
     <ClCompile Include="base64.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MsgHandler_FileOperations.cpp" />
+    <ClCompile Include="MsgHandler_RecycleBin.cpp" />
     <ClCompile Include="NativeMethods.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

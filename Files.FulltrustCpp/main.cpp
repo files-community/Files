@@ -2,6 +2,7 @@
 #include "AppServiceManager.h"
 #include "MsgHandler_ContextMenu.h"
 #include "MsgHandler_FileOperations.h"
+#include "MsgHandler_RecycleBin.h"
 
 using namespace winrt;
 
@@ -39,6 +40,8 @@ int main()
 		manager->Register(&cmHdl);
 		MsgHandler_FileOperations foHdl;
 		manager->Register(&foHdl);
+		MsgHandler_RecycleBin rbHdl;
+		manager->Register(&rbHdl);
 
 		manager->Loop();
 		delete manager;

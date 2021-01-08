@@ -2,6 +2,34 @@
 #include "NativeMethods.h"
 #include "base64.h"
 
+std::wstring GetDisplayName(IShellItem2* iItem, SIGDN flags)
+{
+	std::wstring result;
+	LPWSTR pszDisplayName;
+	if (SUCCEEDED(iItem->GetDisplayName(flags, &pszDisplayName)))
+	{
+		result = pszDisplayName;
+		CoTaskMemFree(pszDisplayName);
+	}
+	return result;
+}
+
+std::wstring GetDisplayName(IShellFolder *psf, PITEMID_CHILD pidl, int flags)
+{
+	std::wstring result;
+	STRRET strRet;
+	if (SUCCEEDED(psf->GetDisplayNameOf(pidl, flags, &strRet)))
+	{
+		LPWSTR outStr;
+		if (SUCCEEDED(StrRetToStr(&strRet, pidl, &outStr)))
+		{
+			result = outStr;
+			CoTaskMemFree(outStr);
+		}
+	}
+	return result;
+}
+
 std::string ExtractStringFromDLL(LPCWSTR dllName, int resourceIndex)
 {
 	HMODULE lib = LoadLibrary(dllName);

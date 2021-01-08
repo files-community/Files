@@ -1450,7 +1450,7 @@ namespace Files.ViewModels
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemName = item.FileName,
-                    ItemDateModifiedReal = item.RecycleDate,
+                    ItemDateModifiedReal = item.RecycleDateDT,
                     ItemType = item.FileType,
                     IsHiddenItem = false,
                     Opacity = 1,
@@ -1501,7 +1501,7 @@ namespace Files.ViewModels
                     IsHiddenItem = false,
                     Opacity = 1,
                     ItemName = itemName,
-                    ItemDateModifiedReal = item.RecycleDate,
+                    ItemDateModifiedReal = item.RecycleDateDT,
                     ItemType = item.FileType,
                     ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
                     ItemOriginalPath = item.FilePath,
