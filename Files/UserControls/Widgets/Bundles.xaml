@@ -421,20 +421,6 @@
 			HorizontalAlignment="Left"
 			Visibility="{Binding NoBundlesAddItemVisibility, Mode=OneWay}">
 
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition/>
-			</Grid.RowDefinitions>
-
-			<TextBlock
-				HorizontalAlignment="Stretch"
-				VerticalAlignment="Center"
-				TextAlignment="Center"
-				TextWrapping="WrapWholeWords"
-				FontSize="14"
-				Margin="0 24 0 0"
-				Text="Add Bundles by pressing the '+' button"/>
-
 			<!-- heh xD -->
 			<Button
 				Background="#25ffffff"
@@ -442,8 +428,7 @@
 				Width="50"
 				Height="50"
 				VerticalAlignment="Center"
-				HorizontalAlignment="Center"
-				Grid.Row="1">
+				HorizontalAlignment="Center">
 				<FontIcon
 					FontFamily="{StaticResource FluentUIGlyphs}"
 					Glyph="&#xe903;"
