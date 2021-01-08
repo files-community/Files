@@ -166,7 +166,7 @@
                         extensions:VisualExtensions.CenterPoint="135,45,0"
                         AllowDrop="True"
                         Background="{ThemeResource YourHomeCardBackgroundColor}"
-                        CornerRadius="5">
+                        CornerRadius="4">
                         <i:Interaction.Behaviors>
                             <!--  No need to specify CommandParameter - `e` is passed by default  -->
                             <core:EventTriggerBehavior EventName="DragOver">
