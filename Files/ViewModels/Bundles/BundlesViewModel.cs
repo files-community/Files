@@ -53,9 +53,11 @@ namespace Files.ViewModels.Bundles
 			set => SetProperty(ref _AddBundleErrorText, value);
 		}
 
+		public Visibility _NoBundlesAddItemVisibility = Visibility.Visible;
 		public Visibility NoBundlesAddItemVisibility
 		{
-			get => Items.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
+			get => _NoBundlesAddItemVisibility;
+			set => SetProperty(ref _NoBundlesAddItemVisibility, value);
 		}
 
 		#endregion
@@ -114,6 +116,7 @@ namespace Files.ViewModels.Bundles
 				NotifyItemRemoved = NotifyItemRemovedHandle,
 				NotifyItemRenamed = NotifyItemRenamedHandle
 			});
+			NoBundlesAddItemVisibility = Visibility.Visible;
 
 			// Save bundles
 			Save();
@@ -130,6 +133,11 @@ namespace Files.ViewModels.Bundles
 		private void NotifyItemRemovedHandle(BundleContainerViewModel item)
 		{
 			Items.Remove(item);
+
+			if (Items.Count == 0)
+			{
+				NoBundlesAddItemVisibility = Visibility.Visible;
+			}
 		}
 
 		/// <summary>
@@ -194,10 +202,10 @@ namespace Files.ViewModels.Bundles
 
 		public async Task Load()
 		{
-			Items.Clear();
-
 			if (JsonSettings.SavedBundles != null)
 			{
+				Items.Clear();
+
 				// For every bundle in saved bundle collection:
 				foreach (var bundle in JsonSettings.SavedBundles)
 				{
@@ -227,6 +235,15 @@ namespace Files.ViewModels.Bundles
 						NotifyItemRemoved = NotifyItemRemovedHandle,
 						NotifyItemRenamed = NotifyItemRenamedHandle
 					}.SetBundleItems(bundleItems));
+				}
+
+				if (Items.Count == 0)
+				{
+					NoBundlesAddItemVisibility = Visibility.Visible;
+				}
+				else
+				{
+					NoBundlesAddItemVisibility = Visibility.Collapsed;
 				}
 			}
 		}
