@@ -130,6 +130,7 @@ void MsgHandler_ContextMenu::EnumMenuItems(IContextMenu* cMenu, HMENU hMenu, std
 			if (mii.hbmpItem != NULL && mii.hbmpItem > HBMMENU_POPUP_MINIMIZE)
 			{
 				menuItem.IconBase64 = IconToBase64String(mii.hbmpItem);
+				//DeleteObject(mii.hbmpItem);
 			}
 			if (mii.hSubMenu != NULL)
 			{

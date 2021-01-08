@@ -9,17 +9,12 @@ std::wstring_convert<std::codecvt_utf8<wchar_t>> MsgHandler_RecycleBin::myconv;
 std::wstring MsgHandler_RecycleBin::GetRecycleBinDisplayName()
 {
 	std::wstring result;
-	PIDLIST_ABSOLUTE pidlRecycleBin;
-	if (SUCCEEDED(SHGetKnownFolderIDList(FOLDERID_RecycleBinFolder, 0, NULL, &pidlRecycleBin)))
+	IShellItem* psiRecycleBin;
+	if (SUCCEEDED(SHGetKnownFolderItem(FOLDERID_RecycleBinFolder, KF_FLAG_DEFAULT,
+		NULL, IID_PPV_ARGS(&psiRecycleBin))))
 	{
-		IShellFolder* psf;
-		PCUITEMID_CHILD relativePidl;
-		if (SUCCEEDED(SHBindToParent(pidlRecycleBin, IID_IShellFolder, (void**)&psf, &relativePidl)))
-		{
-			result = GetDisplayName(psf, (PITEMID_CHILD)relativePidl, SIGDN_NORMALDISPLAY);
-			psf->Release();
-		}
-		CoTaskMemFree(pidlRecycleBin);
+		result = GetDisplayName(psiRecycleBin, SIGDN_NORMALDISPLAY);
+		psiRecycleBin->Release();
 	}
 	return result;
 }
@@ -66,6 +61,7 @@ ShellFileItem MsgHandler_RecycleBin::GetShellItem(IShellItem2* iItem)
 				shellItem.FileSize = myconv.to_bytes(propAsStr);
 				CoTaskMemFree(propAsStr);
 			}
+			PropVariantClear(&propVar);
 		}
 		propDesc->Release();
 	}
@@ -76,39 +72,28 @@ ShellFileItem MsgHandler_RecycleBin::GetShellItem(IShellItem2* iItem)
 std::list<ShellFileItem> MsgHandler_RecycleBin::EnumerateRecycleBin()
 {
 	std::list<ShellFileItem> shellItems;
-	PIDLIST_ABSOLUTE pidlRecycleBin;
-	if (SUCCEEDED(SHGetKnownFolderIDList(FOLDERID_RecycleBinFolder, 0, NULL, &pidlRecycleBin)))
+	IShellItem* psiRecycleBin;
+	if (SUCCEEDED(SHGetKnownFolderItem(FOLDERID_RecycleBinFolder, KF_FLAG_DEFAULT,
+		NULL, IID_PPV_ARGS(&psiRecycleBin))))
 	{
-		IShellFolder* psf;
-		PCUITEMID_CHILD relativePidl;
-		if (SUCCEEDED(SHBindToParent(pidlRecycleBin, IID_IShellFolder, (void**)&psf, &relativePidl)))
+		IEnumShellItems* pesi;
+		if (SUCCEEDED(psiRecycleBin->BindToHandler(NULL, BHID_EnumItems, IID_PPV_ARGS(&pesi))))
 		{
-			IShellFolder* recycleBinFolder;
-			if (SUCCEEDED(psf->BindToObject(relativePidl, NULL, IID_IShellFolder, (LPVOID*)&recycleBinFolder)))
+			IShellItem* psi;
+			while (pesi->Next(1, &psi, NULL) == S_OK)
 			{
-				LPENUMIDLIST penumFiles;
-				if (SUCCEEDED(recycleBinFolder->EnumObjects(NULL, 
-					SHCONTF_FOLDERS | SHCONTF_NONFOLDERS | SHCONTF_INCLUDEHIDDEN, 
-					&penumFiles)))
+				IShellItem2* psi2;
+				if (SUCCEEDED(psi->QueryInterface(IID_PPV_ARGS(&psi2))))
 				{
-					PITEMID_CHILD pidl;
-					while (penumFiles->Next(1, &pidl, NULL) != S_FALSE)
-					{
-						IShellItem2* iItem;
-						if (SUCCEEDED(SHCreateItemWithParent(NULL, recycleBinFolder, pidl, IID_IShellItem2, (LPVOID*)&iItem)))
-						{
-							auto shellItem = GetShellItem(iItem);
-							shellItems.push_back(shellItem);
-							iItem->Release();
-						}
-					}
-					penumFiles->Release();
+					auto shellItem = GetShellItem(psi2);
+					shellItems.push_back(shellItem);
+					psi2->Release();
 				}
-				recycleBinFolder->Release();
+				psi->Release();
 			}
-			psf->Release();
+			pesi->Release();
 		}
-		CoTaskMemFree(pidlRecycleBin);
+		psiRecycleBin->Release();
 	}
 	return shellItems;
 }

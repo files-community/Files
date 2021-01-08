@@ -2,7 +2,7 @@
 #include "NativeMethods.h"
 #include "base64.h"
 
-std::wstring GetDisplayName(IShellItem2* iItem, SIGDN flags)
+std::wstring GetDisplayName(IShellItem* iItem, SIGDN flags)
 {
 	std::wstring result;
 	LPWSTR pszDisplayName;
@@ -10,22 +10,6 @@ std::wstring GetDisplayName(IShellItem2* iItem, SIGDN flags)
 	{
 		result = pszDisplayName;
 		CoTaskMemFree(pszDisplayName);
-	}
-	return result;
-}
-
-std::wstring GetDisplayName(IShellFolder *psf, PITEMID_CHILD pidl, int flags)
-{
-	std::wstring result;
-	STRRET strRet;
-	if (SUCCEEDED(psf->GetDisplayNameOf(pidl, flags, &strRet)))
-	{
-		LPWSTR outStr;
-		if (SUCCEEDED(StrRetToStr(&strRet, pidl, &outStr)))
-		{
-			result = outStr;
-			CoTaskMemFree(outStr);
-		}
 	}
 	return result;
 }
@@ -76,34 +60,35 @@ std::string IconToBase64String(HICON hIcon)
 
 		//write to IStream
 		IStream* istream = nullptr;
-		CreateStreamOnHGlobal(NULL, TRUE, &istream);
-
-		CLSID clsid_png;
-		CLSIDFromString(L"{557cf406-1a04-11d3-9a73-0000f81ef32e}", &clsid_png); // bmp: {557cf400-1a04-11d3-9a73-0000f81ef32e}
-		Gdiplus::Status status = gdiBitmap->Save(istream, &clsid_png);
-		if (status == Gdiplus::Status::Ok)
+		if (SUCCEEDED(CreateStreamOnHGlobal(NULL, TRUE, &istream)))
 		{
-			//get memory handle associated with istream
-			HGLOBAL hg = NULL;
-			GetHGlobalFromStream(istream, &hg);
+			CLSID clsid_png;
+			if (SUCCEEDED(CLSIDFromString(L"{557cf406-1a04-11d3-9a73-0000f81ef32e}", &clsid_png))) // bmp: {557cf400-1a04-11d3-9a73-0000f81ef32e}
+			{
+				Gdiplus::Status status = gdiBitmap->Save(istream, &clsid_png);
+				if (status == Gdiplus::Status::Ok)
+				{
+					//get memory handle associated with istream
+					HGLOBAL hg = NULL;
+					if (SUCCEEDED(GetHGlobalFromStream(istream, &hg)))
+					{
+						//copy IStream to buffer
+						SIZE_T bufsize = GlobalSize(hg);
+						data.resize(bufsize);
 
-			//copy IStream to buffer
-			SIZE_T bufsize = GlobalSize(hg);
-			data.resize(bufsize);
+						//lock & unlock memory
+						LPVOID pimage = GlobalLock(hg);
+						memcpy(&data[0], pimage, bufsize);
+						GlobalUnlock(hg);
 
-			//lock & unlock memory
-			LPVOID pimage = GlobalLock(hg);
-			memcpy(&data[0], pimage, bufsize);
-			GlobalUnlock(hg);
-
-			result = base64_encode(data.data(), data.size(), false);
+						result = base64_encode(data.data(), data.size(), false);
+					}
+				}
+			}
+			istream->Release();
 		}
-
-		istream->Release();
-		//DeleteObject(mii.hbmpItem);
 		delete gdiBitmap;
 	}
-
 	return result;
 }
 
@@ -140,33 +125,34 @@ std::string IconToBase64String(HBITMAP hBitmap)
 
 		//write to IStream
 		IStream* istream = nullptr;
-		CreateStreamOnHGlobal(NULL, TRUE, &istream);
-
-		CLSID clsid_png;
-		CLSIDFromString(L"{557cf406-1a04-11d3-9a73-0000f81ef32e}", &clsid_png); // bmp: {557cf400-1a04-11d3-9a73-0000f81ef32e}
-		Gdiplus::Status status = gdiBitmap->Save(istream, &clsid_png);
-		if (status == Gdiplus::Status::Ok)
+		if (SUCCEEDED(CreateStreamOnHGlobal(NULL, TRUE, &istream)))
 		{
-			//get memory handle associated with istream
-			HGLOBAL hg = NULL;
-			GetHGlobalFromStream(istream, &hg);
+			CLSID clsid_png;
+			if (SUCCEEDED(CLSIDFromString(L"{557cf406-1a04-11d3-9a73-0000f81ef32e}", &clsid_png))) // bmp: {557cf400-1a04-11d3-9a73-0000f81ef32e}
+			{
+				Gdiplus::Status status = gdiBitmap->Save(istream, &clsid_png);
+				if (status == Gdiplus::Status::Ok)
+				{
+					//get memory handle associated with istream
+					HGLOBAL hg = NULL;
+					if (SUCCEEDED(GetHGlobalFromStream(istream, &hg)))
+					{
+						//copy IStream to buffer
+						SIZE_T bufsize = GlobalSize(hg);
+						data.resize(bufsize);
 
-			//copy IStream to buffer
-			SIZE_T bufsize = GlobalSize(hg);
-			data.resize(bufsize);
+						//lock & unlock memory
+						LPVOID pimage = GlobalLock(hg);
+						memcpy(&data[0], pimage, bufsize);
+						GlobalUnlock(hg);
 
-			//lock & unlock memory
-			LPVOID pimage = GlobalLock(hg);
-			memcpy(&data[0], pimage, bufsize);
-			GlobalUnlock(hg);
-
-			result = base64_encode(data.data(), data.size(), false);
+						result = base64_encode(data.data(), data.size(), false);
+					}
+				}
+			}
+			istream->Release();
 		}
-
-		istream->Release();
-		//DeleteObject(mii.hbmpItem);
 		delete gdiBitmap;
 	}
-
 	return result;
 }
