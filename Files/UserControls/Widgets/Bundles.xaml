@@ -66,7 +66,7 @@
 				Grid.Column="1"
 				Padding="0"
 				Margin="0 0 5 0">
-				
+
 				<FontIcon
 					FontFamily="{StaticResource FluentUIGlyphs}"
 					Glyph="&#xe903;"
@@ -99,7 +99,7 @@
 										FontFamily="Segoe UI"
 										Margin="0 0 0 5"/>
 								</Grid>
-								
+
 								<!-- Input TextBox -->
 								<TextBox 
 									Text="{Binding BundleNameTextInput, Mode=TwoWay}"
@@ -147,17 +147,6 @@
 				</Button.Flyout>
 			</Button>
 		</Grid>
-
-		<!-- No Bundles Info -->
-		<TextBlock
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Center"
-			TextAlignment="Center"
-			TextWrapping="WrapWholeWords"
-			FontSize="10"
-			Margin="0 24 0 0"
-			Visibility="{Binding NoBundlesTextVisibility, Mode=OneWay}"
-			Text="Add Bundles by pressing the '+' button"/>
 
 		<!-- Collection of bundles -->
 		<GridView
@@ -419,5 +408,122 @@
 				</DataTemplate>
 			</GridView.ItemTemplate>
 		</GridView>
+
+		<!-- No Bundles Info -->
+		<Grid
+			CornerRadius="5"
+			Width="280"
+			Height="220"
+			extensions:VisualExtensions.CenterPoint="135,45,0"
+			Background="Transparent"
+			BorderBrush="Gray"
+			BorderThickness="1"
+			HorizontalAlignment="Left"
+			Visibility="{Binding NoBundlesAddItemVisibility, Mode=OneWay}">
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+
+			<TextBlock
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Center"
+				TextAlignment="Center"
+				TextWrapping="WrapWholeWords"
+				FontSize="14"
+				Margin="0 24 0 0"
+				Text="Add Bundles by pressing the '+' button"/>
+
+			<!-- heh xD -->
+			<Button
+				Background="#25ffffff"
+				CornerRadius="25"
+				Width="50"
+				Height="50"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Center"
+				Grid.Row="1">
+				<FontIcon
+					FontFamily="{StaticResource FluentUIGlyphs}"
+					Glyph="&#xe903;"
+					FontSize="18"
+					VerticalAlignment="Center"
+					HorizontalAlignment="Center"/>
+
+				<!-- Same as the top one -->
+				<Button.Flyout>
+					<Flyout Placement="Bottom">
+						<Border MinWidth="280">
+							<Grid Padding="6 3 6 3" RowSpacing="7">
+								<Grid.RowDefinitions>
+									<!-- Header -->
+									<RowDefinition/>
+									<!-- Input TextBox -->
+									<RowDefinition/>
+									<!-- Confirm Button -->
+									<RowDefinition/>
+								</Grid.RowDefinitions>
+
+								<!-- Line separator grid -->
+								<Grid BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}" BorderThickness="0 0 0 .5" Grid.Row="0">
+									<!-- Header -->
+									<TextBlock
+										Text="Add Bundle"
+										VerticalAlignment="Center"
+										HorizontalAlignment="Left"
+										FontWeight="Medium"
+										FontSize="14"
+										FontFamily="Segoe UI"
+										Margin="0 0 0 5"/>
+								</Grid>
+
+								<!-- Input TextBox -->
+								<TextBox 
+									Text="{Binding BundleNameTextInput, Mode=TwoWay}"
+									VerticalAlignment="Center"
+									HorizontalAlignment="Stretch"
+									Grid.Row="1"
+									PlaceholderText="Enter bundle name">
+									<i:Interaction.Behaviors>
+										<!-- No need to specify CommandParameter - `e` is passed by default -->
+										<core:EventTriggerBehavior EventName="KeyDown">
+											<core:InvokeCommandAction Command="{Binding InputTextKeyDownCommand, Mode=OneWay}"/>
+										</core:EventTriggerBehavior>
+									</i:Interaction.Behaviors>
+								</TextBox>
+
+								<Grid Grid.Row="2" ColumnSpacing="5">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition/>
+										<ColumnDefinition/>
+									</Grid.ColumnDefinitions>
+
+									<!-- Warning Error text -->
+									<TextBlock
+										Text="{Binding AddBundleErrorText, Mode=OneWay}"
+										VerticalAlignment="Center"
+										HorizontalAlignment="Left"
+										TextWrapping="Wrap"
+										FontSize="12"
+										FontFamily="Segoe UI"
+										Grid.Column="0"/>
+
+									<!-- Confirmation Button -->
+									<Button
+										Content="Confirm"
+										Command="{Binding AddBundleCommand, Mode=OneWay}"
+										VerticalAlignment="Center"
+										HorizontalAlignment="Right"
+										VerticalContentAlignment="Center"
+										HorizontalContentAlignment="Center"
+										Grid.Column="1"/>
+								</Grid>
+							</Grid>
+						</Border>
+					</Flyout>
+				</Button.Flyout>
+			</Button>
+		</Grid>
 	</StackPanel>
 </UserControl>
