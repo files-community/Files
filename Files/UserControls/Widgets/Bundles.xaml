@@ -59,7 +59,7 @@
                 Grid.Column="1"
                 Width="20"
                 Height="20"
-                Margin="0,0,5,0"
+                Margin="0,0,4,0"
                 Padding="0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
@@ -76,8 +76,8 @@
 
                 <Button.Flyout>
                     <Flyout Placement="Bottom">
-                        <Border MinWidth="280">
-                            <Grid Padding="6,3,6,3" RowSpacing="7">
+                        <Border MinWidth="270">
+                            <Grid Padding="8,4,8,4" RowSpacing="8">
                                 <Grid.RowDefinitions>
                                     <!--  Header  -->
                                     <RowDefinition />
@@ -94,7 +94,7 @@
                                     BorderThickness="0,0,0,.5">
                                     <!--  Header  -->
                                     <TextBlock
-                                        Margin="0,0,0,5"
+                                        Margin="0,0,0,4"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
                                         FontFamily="Segoe UI"
@@ -198,7 +198,7 @@
                             Padding="14"
                             HorizontalAlignment="Stretch"
                             AllowDrop="True"
-                            Spacing="9">
+                            Spacing="8">
 
                             <Grid HorizontalAlignment="Stretch" ColumnSpacing="6">
                                 <Grid.ColumnDefinitions>
@@ -206,7 +206,7 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
-                                <Grid Grid.Column="0" ColumnSpacing="5">
+                                <Grid Grid.Column="0" ColumnSpacing="4">
 
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
@@ -291,10 +291,10 @@
                                 <GridView.ItemTemplate>
                                     <!--  Bundle Item design  -->
                                     <DataTemplate>
-                                        <Grid Padding="1,0,1,0">
+                                        <Grid Padding="2,0,2,0">
                                             <Button
                                                 Width="120"
-                                                Height="35"
+                                                Height="36"
                                                 Padding="0"
                                                 HorizontalAlignment="Stretch"
                                                 VerticalAlignment="Stretch"
@@ -303,7 +303,7 @@
                                                 BorderThickness="1"
                                                 Command="{Binding OpenItemCommand, Mode=OneWay}">
 
-                                                <Grid Padding="7,2,7,2" ColumnSpacing="8">
+                                                <Grid Padding="8,2,8,2" ColumnSpacing="8">
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="Auto" />
                                                         <ColumnDefinition />
@@ -387,7 +387,7 @@
                             <Grid
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                RowSpacing="3"
+                                RowSpacing="4"
                                 Visibility="{Binding NoBundleContentsTextVisibility, Mode=OneWay}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition />
@@ -420,11 +420,10 @@
             Width="270"
             Height="220"
             HorizontalAlignment="Left"
-            extensions:VisualExtensions.CenterPoint="135,45,0"
             Background="Transparent"
             BorderBrush="Gray"
             BorderThickness="1"
-            CornerRadius="5"
+            CornerRadius="4"
             Visibility="{Binding NoBundlesAddItemVisibility, Mode=OneWay}">
 
             <!--  heh xD  -->
@@ -445,8 +444,8 @@
                 <!--  Same as the top one  -->
                 <Button.Flyout>
                     <Flyout Placement="Bottom">
-                        <Border MinWidth="280">
-                            <Grid Padding="6,3,6,3" RowSpacing="7">
+                        <Border MinWidth="270">
+                            <Grid Padding="8,4,8,4" RowSpacing="8">
                                 <Grid.RowDefinitions>
                                     <!--  Header  -->
                                     <RowDefinition />
@@ -463,7 +462,7 @@
                                     BorderThickness="0,0,0,.5">
                                     <!--  Header  -->
                                     <TextBlock
-                                        Margin="0,0,0,5"
+                                        Margin="0,0,0,4"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
                                         FontFamily="Segoe UI"
@@ -487,7 +486,7 @@
                                     </i:Interaction.Behaviors>
                                 </TextBox>
 
-                                <Grid Grid.Row="2" ColumnSpacing="5">
+                                <Grid Grid.Row="2" ColumnSpacing="4">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition />
                                         <ColumnDefinition />
