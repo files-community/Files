@@ -40,6 +40,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using Files.Common;
 using static Files.Views.Properties;
 
 namespace Files.Interacts
@@ -473,11 +474,13 @@ namespace Files.Interacts
 
                     if (response.Status == AppServiceResponseStatus.Success)
                     {
-                        s_targetPath = (string)response.Message["TargetPath"];
-                        s_arguments = (string)response.Message["Arguments"];
-                        s_workingDirectory = (string)response.Message["WorkingDirectory"];
-                        s_runAsAdmin = (bool)response.Message["RunAsAdmin"];
-                        s_isFolder = (bool)response.Message["IsFolder"];
+                        s_targetPath = response.Message.Get("TargetPath", string.Empty);
+                        s_arguments = response.Message.Get("Arguments", string.Empty);
+                        s_workingDirectory = response.Message.Get("WorkingDirectory", string.Empty);
+                        s_runAsAdmin = response.Message.Get("RunAsAdmin", false);
+                        s_isFolder = response.Message.Get("IsFolder", false);
+
+                        itemType = FilesystemItemType.File; // Set to file here, because the logic is the same in both scenarios
                     }
                     else
                     {
