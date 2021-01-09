@@ -17,7 +17,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="0" x:Name="PropertiesColumn"/>
+            <ColumnDefinition Width="*" x:Name="PropertiesColumn"/>
         </Grid.ColumnDefinitions>
 
         <VisualStateManager.VisualStateGroups>
@@ -33,7 +33,7 @@
                         <Setter Target="HorizontalGridSplitter.(Grid.Row)" Value="0"/>
                         <Setter Target="HorizontalGridSplitter.(Grid.Column)" Value="1"/>
                         <Setter Target="PropertiesRow.Height" Value="0"/>
-                        <Setter Target="PropertiesColumn.Width" Value="*"/>
+                        <!--<Setter Target="PropertiesColumn.Width" Value="*"/>-->
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -52,7 +52,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <Grid Grid.Row="0" x:Name="RootPreviewGrid" HorizontalAlignment="Stretch">
+        <Grid Grid.Row="0" x:Name="RootPreviewGrid">
             <TextBlock x:Name="PreviewNotAvaliableText" Visibility="Collapsed" Text="No preview avaliable"/>
             <Grid x:Name="PreviewGrid">
             </Grid>
