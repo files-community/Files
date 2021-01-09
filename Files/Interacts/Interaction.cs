@@ -439,7 +439,7 @@ namespace Files.Interacts
         // TODO: Split this function to call OpenFile() and OpenDirectory() separately
         {
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
-            bool isShortcutItem = false; // Determine
+            bool isShortcutItem = path.EndsWith(".lnk") || path.EndsWith(".url"); // Determine
             bool fileExists = await StorageItemHelpers.Exists(path, AssociatedInstance);
             bool openUsingApplicationPicker = false;
             FilesystemResult opened = (FilesystemResult)false;
@@ -498,25 +498,41 @@ namespace Files.Interacts
                 }
                 else if (isShortcutItem)
                 {
-                    //var shortcutItem = (ShortcutItem)clickedOnItem;
-                    //if (string.IsNullOrEmpty(shortcutItem.TargetPath))
-                    //{
-                    //    await InvokeWin32ComponentAsync(shortcutItem.ItemPath);
-                    //}
-                    //else
-                    //{
-                    //    if (!shortcutItem.IsUrl)
-                    //    {
-                    //        StorageFileWithPath childFile = await AssociatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(shortcutItem.TargetPath);
-                    //        if (childFile != null)
-                    //        {
-                    //            // Add location to MRU List
-                    //            mru.Add(childFile.File, childFile.Path);
-                    //        }
-                    //    }
-                    //    await InvokeWin32ComponentAsync(shortcutItem.TargetPath, shortcutItem.Arguments, shortcutItem.RunAsAdmin, shortcutItem.WorkingDirectory);
-                    //}
-                    //opened = (FilesystemResult)true;
+                    string targetPath;
+                    AppServiceResponse response = await Connection.SendMessageAsync(new ValueSet()
+                    {
+                        { "Arguments", "FileOperation" },
+                        { "fileop", "ParseLink" },
+                        { "filepath", path }
+                    });
+
+                    if (response.Status == AppServiceResponseStatus.Success)
+                    {
+                        targetPath = (string)response.Message["TargetPath"];
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                    if (string.IsNullOrEmpty(targetPath))
+                    {
+                        await InvokeWin32ComponentAsync(path);
+                    }
+                    else
+                    {
+                        if (!path.EndsWith(".url"))
+                        {
+                            StorageFileWithPath childFile = await AssociatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(targetPath);
+                            if (childFile != null)
+                            {
+                                // Add location to MRU List
+                                mru.Add(childFile.File, childFile.Path);
+                            }
+                        }
+                        await InvokeWin32ComponentAsync(targetPath, workingDir: System.IO.Path.GetDirectoryName(path));
+                    }
+                    opened = (FilesystemResult)true;
                 }
                 else
                 {
