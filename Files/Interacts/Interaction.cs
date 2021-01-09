@@ -444,7 +444,7 @@ namespace Files.Interacts
             bool openUsingApplicationPicker = false;
             FilesystemResult opened = (FilesystemResult)false;
 
-            if (!fileExists)
+            if (!fileExists && !isShortcutItem)
                 return false;
 
             if (itemType == null)
@@ -499,6 +499,11 @@ namespace Files.Interacts
                 else if (isShortcutItem)
                 {
                     string targetPath;
+
+                    string arguments;
+                    string workingDirectory;
+                    bool runAsAdmin;
+
                     AppServiceResponse response = await Connection.SendMessageAsync(new ValueSet()
                     {
                         { "Arguments", "FileOperation" },
@@ -509,6 +514,9 @@ namespace Files.Interacts
                     if (response.Status == AppServiceResponseStatus.Success)
                     {
                         targetPath = (string)response.Message["TargetPath"];
+                        arguments = (string)response.Message["Arguments"];
+                        workingDirectory = (string)response.Message["WorkingDirectory"];
+                        runAsAdmin = (bool)response.Message["RunAsAdmin"];
                     }
                     else
                     {
@@ -530,7 +538,7 @@ namespace Files.Interacts
                                 mru.Add(childFile.File, childFile.Path);
                             }
                         }
-                        await InvokeWin32ComponentAsync(targetPath, workingDir: System.IO.Path.GetDirectoryName(path));
+                        await InvokeWin32ComponentAsync(targetPath, arguments, runAsAdmin, workingDirectory);
                     }
                     opened = (FilesystemResult)true;
                 }
