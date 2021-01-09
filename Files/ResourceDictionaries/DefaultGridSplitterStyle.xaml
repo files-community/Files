@@ -51,8 +51,6 @@
         <Setter Property="MinHeight" Value="2" />
         <Setter Property="Background" Value="{StaticResource SystemBaseLowColor}" />
         <Setter Property="GripperForeground" Value="Transparent" />
-        <Setter Property="Width" Value="1"/>
-        <Setter Property="Width" Value="1"/>
     </Style>
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
