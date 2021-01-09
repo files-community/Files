@@ -439,6 +439,7 @@ namespace Files.Interacts
         // TODO: Split this function to call OpenFile() and OpenDirectory() separately
         {
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
+            bool isShortcutItem = false; // Determine
             bool fileExists = await StorageItemHelpers.Exists(path, AssociatedInstance);
             bool openUsingApplicationPicker = false;
             FilesystemResult opened = (FilesystemResult)false;
@@ -494,6 +495,28 @@ namespace Files.Interacts
                 if (isHiddenItem)
                 {
                     await InvokeWin32ComponentAsync(path);
+                }
+                else if (isShortcutItem)
+                {
+                    //var shortcutItem = (ShortcutItem)clickedOnItem;
+                    //if (string.IsNullOrEmpty(shortcutItem.TargetPath))
+                    //{
+                    //    await InvokeWin32ComponentAsync(shortcutItem.ItemPath);
+                    //}
+                    //else
+                    //{
+                    //    if (!shortcutItem.IsUrl)
+                    //    {
+                    //        StorageFileWithPath childFile = await AssociatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(shortcutItem.TargetPath);
+                    //        if (childFile != null)
+                    //        {
+                    //            // Add location to MRU List
+                    //            mru.Add(childFile.File, childFile.Path);
+                    //        }
+                    //    }
+                    //    await InvokeWin32ComponentAsync(shortcutItem.TargetPath, shortcutItem.Arguments, shortcutItem.RunAsAdmin, shortcutItem.WorkingDirectory);
+                    //}
+                    //opened = (FilesystemResult)true;
                 }
                 else
                 {
