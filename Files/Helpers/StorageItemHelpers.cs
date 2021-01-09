@@ -1,5 +1,8 @@
 ﻿using Files.Filesystem;
+using System;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.AppService;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 
 namespace Files.Helpers
@@ -16,34 +19,41 @@ namespace Files.Helpers
 
         public static async Task<TOut> ToStorageItem<TOut>(string path, IShellPage associatedInstance = null) where TOut : IStorageItem
         {
-            FilesystemResult<StorageFile> file = null;
-            FilesystemResult<StorageFolder> folder = null;
-
-            if (associatedInstance == null)
+            try
             {
-                file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
+                FilesystemResult<StorageFile> file = null;
+                FilesystemResult<StorageFolder> folder = null;
 
-                if (!file)
+                if (associatedInstance == null)
                 {
-                    folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+                    file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
+
+                    if (!file)
+                    {
+                        folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+                    }
                 }
+                else
+                {
+                    file = await associatedInstance?.FilesystemViewModel?.GetFileFromPathAsync(path);
+
+                    if (!file)
+                    {
+                        folder = await associatedInstance?.FilesystemViewModel?.GetFolderFromPathAsync(path);
+                    }
+                }
+
+                if (file)
+                    return (TOut)(IStorageItem)file.Result;
+                else if (folder)
+                    return (TOut)(IStorageItem)folder.Result;
+
+                return default(TOut);
             }
-            else
+            catch (Exception e)
             {
-                file = await associatedInstance?.FilesystemViewModel?.GetFileFromPathAsync(path);
-
-                if (!file)
-                {
-                    folder = await associatedInstance?.FilesystemViewModel?.GetFolderFromPathAsync(path);
-                }
+                return default(TOut);
             }
-
-            if (file)
-                return (TOut)(IStorageItem)file;
-            else if (folder)
-                return (TOut)(IStorageItem)folder;
-
-            return default(TOut);
         }
 
         public static async Task<FilesystemResult<IStorageItem>> ToStorageItemResult(this IStorageItemWithPath item, IShellPage associatedInstance = null)
@@ -75,12 +85,9 @@ namespace Files.Helpers
 
         public static async Task<FilesystemItemType> GetTypeFromPath(string path, IShellPage associatedInstance = null)
         {
-            StorageFile file = await ToStorageItem<StorageFile>(path, associatedInstance);
+            IStorageItem item = await ToStorageItem<IStorageItem>(path, associatedInstance);
 
-            if (file != null)
-                return FilesystemItemType.File;
-            else
-                return FilesystemItemType.Directory;
+            return item == null ? FilesystemItemType.File : (item.IsOfType(StorageItemTypes.Folder) ? FilesystemItemType.Directory : FilesystemItemType.File);
         }
 
         public static async Task<bool> Exists(string path, IShellPage associatedInstance = null)

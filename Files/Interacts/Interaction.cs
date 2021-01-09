@@ -68,7 +68,7 @@ namespace Files.Interacts
             // Skip opening selected items if the double tap doesn't capture an item
             if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem && !AppSettings.OpenItemsWithOneclick)
             {
-                OpenSelectedItems(false);
+                OpenSelectedItems2(false);
             }
         }
 
@@ -396,12 +396,12 @@ namespace Files.Interacts
 
         public void OpenItem_Click(object sender, RoutedEventArgs e)
         {
-            OpenSelectedItems(false);
+            OpenSelectedItems2(false);
         }
 
         public void OpenItemWithApplicationPicker_Click(object sender, RoutedEventArgs e)
         {
-            OpenSelectedItems(true);
+            OpenSelectedItems2(true);
         }
 
         public async void OpenFileLocation_Click(object sender, RoutedEventArgs e)
@@ -427,29 +427,67 @@ namespace Files.Interacts
                 await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalized(),
                     string.Format("InvalidItemDialogContent".GetLocalized()), Environment.NewLine, destFolder.ErrorCode.ToString());
             }
-        }/// <summary>
-         /// Navigates to a directory or opens file
-         /// </summary>
-         /// <param name="path"></param>
-         /// <param name="itemType"></param>
-         /// <param name="openSilent">Determines whether history of opened item is saved (... to Recent Items/Windows Timeline)</param>
-        public async Task<bool> OpenPath(string path, FilesystemItemType? itemType = null, bool openSilent = false)
-        // TODO: This Function is not ready yet! It is not fully merged from OpenSelectedItems() because of ListedItem restriction, halp needed plz
+        }
+
+        /// <summary>
+        /// Navigates to a directory or opens file
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="itemType"></param>
+        /// <param name="openSilent">Determines whether history of opened item is saved (... to Recent Items/Windows Timeline/opening in background)</param>
+        /// <param name="openViaApplicationPicker">Determines whether open file using application picker</param>
+        public async Task<bool> OpenPath(string path, FilesystemItemType? itemType = null, bool openSilent = false, bool openViaApplicationPicker = false)
         // TODO: This function reliability has not been extensively tested
         // TODO: Split this function to call OpenFile() and OpenDirectory() separately
         {
+            string previousDir = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
             bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
             bool isShortcutItem = path.EndsWith(".lnk") || path.EndsWith(".url"); // Determine
             bool fileExists = await StorageItemHelpers.Exists(path, AssociatedInstance);
-            bool openUsingApplicationPicker = false;
             FilesystemResult opened = (FilesystemResult)false;
 
-            if (!fileExists && !isShortcutItem)
+            // Shortcut item variables
+            string s_targetPath = null;
+            string s_arguments = null;
+            string s_workingDirectory = null;
+            bool s_runAsAdmin = false;
+            bool s_isFolder = false;
+
+            if (!fileExists && (!isShortcutItem || !isHiddenItem))
                 return false;
 
-            if (itemType == null)
+            if (itemType == null || isShortcutItem || isHiddenItem)
             {
-                itemType = await StorageItemHelpers.GetTypeFromPath(path, AssociatedInstance);
+                if (isHiddenItem)
+                {
+                    itemType = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory) ? FilesystemItemType.Directory : FilesystemItemType.File;
+                }
+                else if (isShortcutItem)
+                {
+                    AppServiceResponse response = await Connection.SendMessageAsync(new ValueSet()
+                    {
+                        { "Arguments", "FileOperation" },
+                        { "fileop", "ParseLink" },
+                        { "filepath", path }
+                    });
+
+                    if (response.Status == AppServiceResponseStatus.Success)
+                    {
+                        s_targetPath = (string)response.Message["TargetPath"];
+                        s_arguments = (string)response.Message["Arguments"];
+                        s_workingDirectory = (string)response.Message["WorkingDirectory"];
+                        s_runAsAdmin = (bool)response.Message["RunAsAdmin"];
+                        s_isFolder = (bool)response.Message["IsFolder"];
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    itemType = await StorageItemHelpers.GetTypeFromPath(path, AssociatedInstance);
+                }
             }
 
             var mru = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
@@ -498,32 +536,7 @@ namespace Files.Interacts
                 }
                 else if (isShortcutItem)
                 {
-                    string targetPath;
-
-                    string arguments;
-                    string workingDirectory;
-                    bool runAsAdmin;
-
-                    AppServiceResponse response = await Connection.SendMessageAsync(new ValueSet()
-                    {
-                        { "Arguments", "FileOperation" },
-                        { "fileop", "ParseLink" },
-                        { "filepath", path }
-                    });
-
-                    if (response.Status == AppServiceResponseStatus.Success)
-                    {
-                        targetPath = (string)response.Message["TargetPath"];
-                        arguments = (string)response.Message["Arguments"];
-                        workingDirectory = (string)response.Message["WorkingDirectory"];
-                        runAsAdmin = (bool)response.Message["RunAsAdmin"];
-                    }
-                    else
-                    {
-                        return false;
-                    }
-
-                    if (string.IsNullOrEmpty(targetPath))
+                    if (string.IsNullOrEmpty(s_targetPath))
                     {
                         await InvokeWin32ComponentAsync(path);
                     }
@@ -531,14 +544,14 @@ namespace Files.Interacts
                     {
                         if (!path.EndsWith(".url"))
                         {
-                            StorageFileWithPath childFile = await AssociatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(targetPath);
+                            StorageFileWithPath childFile = await AssociatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(s_targetPath);
                             if (childFile != null)
                             {
                                 // Add location to MRU List
                                 mru.Add(childFile.File, childFile.Path);
                             }
                         }
-                        await InvokeWin32ComponentAsync(targetPath, arguments, runAsAdmin, workingDirectory);
+                        await InvokeWin32ComponentAsync(s_targetPath, s_arguments, s_runAsAdmin, s_workingDirectory);
                     }
                     opened = (FilesystemResult)true;
                 }
@@ -550,7 +563,7 @@ namespace Files.Interacts
                             // Add location to MRU List
                             mru.Add(childFile.File, childFile.Path);
 
-                            if (openUsingApplicationPicker)
+                            if (openViaApplicationPicker)
                             {
                                 LauncherOptions options = new LauncherOptions
                                 {
@@ -638,10 +651,45 @@ namespace Files.Interacts
                 }
             }
 
+            if (opened.ErrorCode == FilesystemErrorCode.ERROR_NOTFOUND && !openSilent)
+            {
+                await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
+                AssociatedInstance.NavigationToolbar.CanRefresh = false;
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    var ContentOwnedViewModelInstance = AssociatedInstance.FilesystemViewModel;
+                    ContentOwnedViewModelInstance.RefreshItems(previousDir);
+                });
+            }
+
             return opened;
         }
 
-        //[Obsolete("[DEPRECATED] Please use OpenPath() instead!")]
+        private async void OpenSelectedItems2(bool openViaApplicationPicker = false)
+        {
+            if (AssociatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
+            {
+                // Do not open files and folders inside the recycle bin
+                return;
+            }
+
+            int selectedItemsCount = AssociatedInstance.ContentPage.SelectedItems.Count;
+
+            if (selectedItemsCount == 1)
+            {
+                await OpenPath(AssociatedInstance.ContentPage.SelectedItem.ItemPath, null, false, openViaApplicationPicker);
+            }
+            else // > 0
+            {
+                foreach (ListedItem item in AssociatedInstance.ContentPage.SelectedItems)
+                {
+                    await OpenPath(item.ItemPath, null, false, openViaApplicationPicker);
+                }
+            }
+        }
+
+        // TODO: This function can be removed since better alternative exists: OpenPath(), OpenSelectedItems2()
+        [Obsolete("[DEPRECATED] Please use OpenPath() or OpenSelectedItems2() instead.")]
         private async void OpenSelectedItems(bool displayApplicationPicker)
         {
             if (AssociatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
