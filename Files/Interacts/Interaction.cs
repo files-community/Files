@@ -453,7 +453,7 @@ namespace Files.Interacts
             bool s_runAsAdmin = false;
             bool s_isFolder = false;
 
-            if (!fileExists && (!isShortcutItem || !isHiddenItem))
+            if (!fileExists && !isShortcutItem && !isHiddenItem)
                 return false;
 
             if (itemType == null || isShortcutItem || isHiddenItem)
