@@ -11,13 +11,17 @@
     xmlns:converters1="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local1="using:Files"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
     Loaded="Page_Loaded"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="SidebarBorderBrush" Color="Transparent" />
@@ -149,8 +153,49 @@
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="None" />
     </Page.KeyboardAccelerators>
-
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers >
+                        <!--<triggers:CompareStateTrigger Value="{x:Bind ActualWidth, Mode=OneWay}"  To="700" Comparison="LessThanOrEqual" />-->
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="PreviewPane.(Grid.Row)" Value="4"/>
+                        <Setter Target="PreviewPane.(Grid.Column)" Value="0"/>
+
+                        <Setter Target="PreviewPaneGridSplitter.(Grid.Row)" Value="3"/>
+                        <Setter Target="PreviewPaneGridSplitter.(Grid.Column)" Value="0"/>
+
+                        <Setter Target="PreviewPaneColumn.Width" Value="0"/>
+                        <Setter Target="PreviewPaneRow.Height" Value="*"/>
+                        <Setter Target="PreviewPane.IsHorizontal" Value="True"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers >
+                        <!--<triggers:CompareStateTrigger Value="{x:Bind Width, Mode=OneWay}"  To="700" Comparison="GreaterThan" />-->
+                        <AdaptiveTrigger MinWindowWidth="900"/>
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="PreviewPane.(Grid.Row)" Value="2"/>
+                        <Setter Target="PreviewPane.(Grid.Column)" Value="2"/>
+
+                        <Setter Target="PreviewPaneGridSplitter.(Grid.Row)" Value="2"/>
+                        <Setter Target="PreviewPaneGridSplitter.(Grid.Column)" Value="1"/>
+
+                        <Setter Target="PreviewPaneColumn.Width" Value="2*"/>
+                        <Setter Target="PreviewPaneRow.Height" Value="0"/>
+                        <Setter Target="PreviewPane.IsHorizontal" Value="False"/>
+                    </VisualState.Setters>
+                </VisualState>
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition
                 x:Name="SidebarColumn"
@@ -184,7 +229,6 @@
             EmptyRecycleBinCommand="{x:Bind InteractionOperations.EmptyRecycleBin, Mode=OneWay}"
             Loaded="SidebarControl_Loaded" />
 
-
         <Custom:DropShadowPanel
             x:Name="DropShadowPanel"
             Grid.Column="1"
@@ -197,12 +241,21 @@
             OffsetX="-2"
             ShadowOpacity=".04">
             <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" x:Name="PreviewPaneRow"/>
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition x:Name="PreviewPaneColumn"/>
+                </Grid.ColumnDefinitions>
 
                 <Grid
                     x:Name="SmallWindowTitlebar"
@@ -234,7 +287,8 @@
                     NewWindowInvokedCommand="{x:Bind InteractionOperations.OpenNewWindow, Mode=OneWay}"
                     OpenInTerminalInvokedCommand="{x:Bind InteractionOperations.OpenDirectoryInDefaultTerminal, Mode=OneWay}"
                     PasteInvokedCommand="{x:Bind InteractionOperations.PasteItemsFromClipboard, Mode=OneWay}"
-                    ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}" />
+                    ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}" 
+                    Grid.ColumnSpan="3"/>
 
                 <Frame
                     x:Name="ItemDisplayFrame"
@@ -244,9 +298,18 @@
                     CacheSize="2"
                     Navigated="ItemDisplayFrame_Navigated" />
 
+                <Custom:GridSplitter
+                    Grid.Column="1" Grid.Row="1"
+                    Style="{StaticResource DefaultGridSplitterStyle}"
+                    x:Name="PreviewPaneGridSplitter">
+                </Custom:GridSplitter>
+
+                <controls:DetailsPane Margin="0, 0, 5, 0" Grid.Row="1" Grid.Column="2" x:Name="PreviewPane" SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" >
+                </controls:DetailsPane>
+                
                 <controls:StatusBarControl
                     x:Name="StatusBarControl"
-                    Grid.Row="3"
+                    Grid.Row="5"
                     x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                     ClearSelectionInvokedCommand="{x:Bind InteractionOperations.ClearContentPageSelection, Mode=OneWay}"
                     DirectoryPropertiesViewModel="{x:Bind ContentPage.DirectoryPropertiesViewModel, Mode=OneWay}"
@@ -254,7 +317,8 @@
                     InvertSelectionInvokedCommand="{x:Bind InteractionOperations.InvertContentPageSelction, Mode=OneWay}"
                     SelectAllInvokedCommand="{x:Bind InteractionOperations.SelectAllContentPageItems, Mode=OneWay}"
                     SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel, Mode=OneWay}"
-                    ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}" />
+                    ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}" 
+                    Grid.ColumnSpan="3"/>
             </Grid>
         </Custom:DropShadowPanel>
 

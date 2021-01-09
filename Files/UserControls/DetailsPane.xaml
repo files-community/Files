@@ -17,15 +17,14 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*" x:Name="PropertiesColumn"/>
+            <ColumnDefinition Width="0" x:Name="PropertiesColumn"/>
         </Grid.ColumnDefinitions>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
-
                     <VisualState.StateTriggers >
-                        <triggers:IsEqualStateTrigger Value="{x:Bind IsVertical, Mode=OneWay}" To="False"/>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind IsHorizontal, Mode=OneWay}" To="True"/>
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
@@ -37,11 +36,23 @@
                         <Setter Target="PropertiesColumn.Width" Value="*"/>
                     </VisualState.Setters>
                 </VisualState>
-
+                <VisualState>
+                    <VisualState.StateTriggers >
+                        <triggers:IsEqualStateTrigger Value="{x:Bind IsHorizontal, Mode=OneWay}" To="False"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="RootPropertiesGrid.(Grid.Row)" Value="2"/>
+                        <Setter Target="RootPropertiesGrid.(Grid.Column)" Value="0"/>
+                        <Setter Target="HorizontalGridSplitter.(Grid.Row)" Value="1"/>
+                        <Setter Target="HorizontalGridSplitter.(Grid.Column)" Value="0"/>
+                        <Setter Target="PropertiesRow.Height" Value="*"/>
+                        <Setter Target="PropertiesColumn.Width" Value="0"/>
+                    </VisualState.Setters>
+                </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <Grid Grid.Row="0" x:Name="RootPreviewGrid">
+        <Grid Grid.Row="0" x:Name="RootPreviewGrid" HorizontalAlignment="Stretch">
             <TextBlock x:Name="PreviewNotAvaliableText" Visibility="Collapsed" Text="No preview avaliable"/>
             <Grid x:Name="PreviewGrid">
             </Grid>

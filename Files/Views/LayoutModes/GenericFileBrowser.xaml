@@ -24,7 +24,6 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionaries/CustomDataGridStyle.xaml" />
-                <ResourceDictionary Source="/ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -637,46 +636,6 @@
                     Value="{x:Null}" />
             </Core:DataTriggerBehavior>
         </Interactivity:Interaction.Behaviors>
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="1000"/>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="PreviewPane.(Grid.Row)" Value="0"/>
-                        <Setter Target="PreviewPane.(Grid.Column)" Value="3"/>
-                        
-                        <Setter Target="PreviewPaneGridSplitter.(Grid.Row)" Value="0"/>
-                        <Setter Target="PreviewPaneGridSplitter.(Grid.Column)" Value="1"/>
-                        
-                        <Setter Target="PreviewPaneColumn.Width" Value="2*"/>
-                        
-                        <Setter Target="PreviewPaneRow.Height" Value="0"/>
-                        <Setter Target="PreviewPane.IsVertical" Value="True"/>
-                    </VisualState.Setters>
-                </VisualState>
-
-                <VisualState>
-                    <VisualState.StateTriggers >
-                        <AdaptiveTrigger MinWindowWidth="0"/>
-                    </VisualState.StateTriggers>
-
-                    <VisualState.Setters>
-                        <Setter Target="PreviewPane.(Grid.Row)" Value="2"/>
-                        <Setter Target="PreviewPane.(Grid.Column)" Value="0"/>
-                        
-                        <Setter Target="PreviewPaneGridSplitter.(Grid.Row)" Value="1"/>
-                        <Setter Target="PreviewPaneGridSplitter.(Grid.Column)" Value="0"/>
-                        
-                        <Setter Target="PreviewPaneColumn.Width" Value="0"/>
-                        <Setter Target="PreviewPaneRow.Height" Value="2*"/>
-                        <Setter Target="PreviewPane.IsVertical" Value="False"/>
-                    </VisualState.Setters>
-                </VisualState>
-
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
         <muxc:ProgressBar
             x:Name="progBar"
             VerticalAlignment="Top"
@@ -1014,15 +973,5 @@
                 Stroke="{ThemeResource SystemAccentColorLight1}"
                 StrokeThickness="1" />
         </Canvas>
-
-        <controls:GridSplitter
-            Grid.Column="1" Grid.Row="0"
-            Style="{StaticResource PaneGridSplitter}"
-            x:Name="PreviewPaneGridSplitter">
-        </controls:GridSplitter>
-
-        <usercontrols:DetailsPane Grid.Column="2" x:Name="PreviewPane" SelectedItems="{x:Bind SelectedItems, Mode=OneWay}">
-            
-        </usercontrols:DetailsPane>
     </Grid>
 </local:BaseLayout>

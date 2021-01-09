@@ -32,7 +32,7 @@ namespace Files.UserControls
 {
     public sealed partial class DetailsPane : UserControl
     {
-        public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.Register("SelectedItems", typeof(List<ListedItem>), typeof(DetailsPane), null);
+        public static DependencyProperty SelectedItemsProperty { get; } = DependencyProperty.Register("SelectedItems", typeof(List<ListedItem>), typeof(DetailsPane), new PropertyMetadata(null));
         public List<ListedItem> SelectedItems
         {
             get => (List<ListedItem>)GetValue(SelectedItemsProperty);
@@ -52,8 +52,8 @@ namespace Files.UserControls
             }
         }
 
-        public static readonly DependencyProperty IsVerticalProperty = DependencyProperty.Register("IsVertical", typeof(bool), typeof(DetailsPane), null);
-        public bool IsVertical
+        public static DependencyProperty IsVerticalProperty { get; } = DependencyProperty.Register("IsHorizontal", typeof(bool), typeof(DetailsPane), new PropertyMetadata(null));
+        public bool IsHorizontal
         {
             get => (bool)GetValue(IsVerticalProperty);
             set => SetValue(IsVerticalProperty, value);

@@ -43,6 +43,8 @@ namespace Files.UserControls.FilePreviews
             VideoPlayer.Source = MediaSource.CreateFromStorageFile(file);
         }
 
+        // Calling this function when the control is unloaded fixes a bug where media would continue to play after 
+        // being destroyed
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
             VideoPlayer.Source = null;
