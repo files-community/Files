@@ -153,12 +153,13 @@
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="None" />
     </Page.KeyboardAccelerators>
-    <Grid>
+    <Grid x:Name="RootGrid" SizeChanged="RootGrid_SizeChanged">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers >
-                        <AdaptiveTrigger MinWindowWidth="0"/>
+                        <triggers:CompareStateTrigger Value="{x:Bind RootGridWidth, Mode=OneWay}"  To="900" Comparison="LessThanOrEqual" />
+                        <!--<AdaptiveTrigger MinWindowWidth="0"/>-->
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
@@ -174,7 +175,8 @@
                 </VisualState>
                 <VisualState>
                     <VisualState.StateTriggers >
-                        <AdaptiveTrigger MinWindowWidth="900"/>
+                        <triggers:CompareStateTrigger Value="{x:Bind RootGridWidth, Mode=OneWay}"  To="900" Comparison="GreaterThan" />
+                        <!--<AdaptiveTrigger MinWindowWidth="900"/>-->
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>

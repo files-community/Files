@@ -1305,6 +1305,19 @@ namespace Files.Views
             }
             return DataPackageOperation.None;
         }
+
+
+        // Binding directly to the actual width raise property changed notifications
+        // This is a workaroumd
+        public double RootGridWidth
+        {
+            get => RootGrid.ActualWidth;
+        }
+
+        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            NotifyPropertyChanged(nameof(RootGridWidth));
+        }
     }
 
     public class PathBoxItem
