@@ -448,11 +448,11 @@ namespace Files.Interacts
             FilesystemResult opened = (FilesystemResult)false;
 
             // Shortcut item variables
-            string s_targetPath = null;
-            string s_arguments = null;
-            string s_workingDirectory = null;
-            bool s_runAsAdmin = false;
-            bool s_isFolder = false;
+            string sTargetPath = null;
+            string sArguments = null;
+            string sWorkingDirectory = null;
+            bool sRunAsAdmin = false;
+            bool sIsFolder = false;
 
             if (!fileExists && !isShortcutItem && !isHiddenItem)
                 return false;
@@ -474,11 +474,11 @@ namespace Files.Interacts
 
                     if (response.Status == AppServiceResponseStatus.Success)
                     {
-                        s_targetPath = response.Message.Get("TargetPath", string.Empty);
-                        s_arguments = response.Message.Get("Arguments", string.Empty);
-                        s_workingDirectory = response.Message.Get("WorkingDirectory", string.Empty);
-                        s_runAsAdmin = response.Message.Get("RunAsAdmin", false);
-                        s_isFolder = response.Message.Get("IsFolder", false);
+                        sTargetPath = response.Message.Get("TargetPath", string.Empty);
+                        sArguments = response.Message.Get("Arguments", string.Empty);
+                        sWorkingDirectory = response.Message.Get("WorkingDirectory", string.Empty);
+                        sRunAsAdmin = response.Message.Get("RunAsAdmin", false);
+                        sIsFolder = response.Message.Get("IsFolder", false);
 
                         itemType = FilesystemItemType.File; // Set to file here, because the logic is the same in both scenarios
                     }
@@ -539,7 +539,7 @@ namespace Files.Interacts
                 }
                 else if (isShortcutItem)
                 {
-                    if (string.IsNullOrEmpty(s_targetPath))
+                    if (string.IsNullOrEmpty(sTargetPath))
                     {
                         await InvokeWin32ComponentAsync(path);
                     }
@@ -547,14 +547,14 @@ namespace Files.Interacts
                     {
                         if (!path.EndsWith(".url"))
                         {
-                            StorageFileWithPath childFile = await AssociatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(s_targetPath);
+                            StorageFileWithPath childFile = await AssociatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(sTargetPath);
                             if (childFile != null)
                             {
                                 // Add location to MRU List
                                 mru.Add(childFile.File, childFile.Path);
                             }
                         }
-                        await InvokeWin32ComponentAsync(s_targetPath, s_arguments, s_runAsAdmin, s_workingDirectory);
+                        await InvokeWin32ComponentAsync(sTargetPath, sArguments, sRunAsAdmin, sWorkingDirectory);
                     }
                     opened = (FilesystemResult)true;
                 }
