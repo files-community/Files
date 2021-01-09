@@ -19,41 +19,34 @@ namespace Files.Helpers
 
         public static async Task<TOut> ToStorageItem<TOut>(string path, IShellPage associatedInstance = null) where TOut : IStorageItem
         {
-            try
+            FilesystemResult<StorageFile> file = null;
+            FilesystemResult<StorageFolder> folder = null;
+
+            if (associatedInstance == null)
             {
-                FilesystemResult<StorageFile> file = null;
-                FilesystemResult<StorageFolder> folder = null;
+                file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
 
-                if (associatedInstance == null)
+                if (!file)
                 {
-                    file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(path));
-
-                    if (!file)
-                    {
-                        folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
-                    }
+                    folder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
                 }
-                else
-                {
-                    file = await associatedInstance?.FilesystemViewModel?.GetFileFromPathAsync(path);
-
-                    if (!file)
-                    {
-                        folder = await associatedInstance?.FilesystemViewModel?.GetFolderFromPathAsync(path);
-                    }
-                }
-
-                if (file)
-                    return (TOut)(IStorageItem)file.Result;
-                else if (folder)
-                    return (TOut)(IStorageItem)folder.Result;
-
-                return default(TOut);
             }
-            catch (Exception e)
+            else
             {
-                return default(TOut);
+                file = await associatedInstance?.FilesystemViewModel?.GetFileFromPathAsync(path);
+
+                if (!file)
+                {
+                    folder = await associatedInstance?.FilesystemViewModel?.GetFolderFromPathAsync(path);
+                }
             }
+
+            if (file)
+                return (TOut)(IStorageItem)file.Result;
+            else if (folder)
+                return (TOut)(IStorageItem)folder.Result;
+
+            return default(TOut);
         }
 
         public static async Task<FilesystemResult<IStorageItem>> ToStorageItemResult(this IStorageItemWithPath item, IShellPage associatedInstance = null)
