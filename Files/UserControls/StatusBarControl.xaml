@@ -199,6 +199,18 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
+            <Button FontFamily="{StaticResource FluentUIGlyphs}" Content="&#xEAF1;"
+                Width="36"
+                Height="32"
+                Margin="2,0,2,0"
+                AutomationProperties.Name="Selection options"
+                Background="Transparent"
+                CornerRadius="2"
+                FontSize="16"
+                Style="{StaticResource ToolBarButtonStyle}"
+                Click="Button_Click">
+            </Button>
+            
             <Grid x:Name="StatusCenterGrid" Visibility="{x:Bind ShowStatusCenter, Mode=OneWay}">
                 <muxc:AnimatedVisualPlayer
                     x:Name="StatusCenterPulseVisualPlayer"

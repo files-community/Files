@@ -39,12 +39,13 @@ namespace Files.UserControls
             get => (List<ListedItem>)GetValue(SelectedItemsProperty);
             set
             {
-                // Don't update if the value is the same to avoid refreshing the control
-                if(value.Equals(SelectedItems))
+                SetValue(SelectedItemsProperty, value);
+
+                if(value == null)
                 {
                     return;
                 }
-                SetValue(SelectedItemsProperty, value);
+
                 PreviewGrid.Children.Clear();
                 PreviewNotAvaliableText.Visibility = Visibility.Visible;
 

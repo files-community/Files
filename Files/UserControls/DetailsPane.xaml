@@ -55,6 +55,10 @@
                         <Setter Target="PropertiesColumn.Width" Value="0"/>
                     </VisualState.Setters>
                 </VisualState>
+
+                <VisualState>
+                    
+                </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 

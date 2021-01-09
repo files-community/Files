@@ -21,7 +21,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
+
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Light">
                     <SolidColorBrush x:Key="SidebarBorderBrush" Color="Transparent" />
@@ -33,6 +33,7 @@
                     <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
+            <converters1:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
             <Style x:Key="DefaultGridSplitterStyle" TargetType="Custom:GridSplitter">
                 <Setter Property="IsTabStop" Value="True" />
@@ -158,7 +159,7 @@
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers >
-                        <triggers:CompareStateTrigger Value="{x:Bind RootGridWidth, Mode=OneWay}"  To="900" Comparison="LessThanOrEqual" />
+                        <triggers:CompareStateTrigger Value="{x:Bind RootGridWidth, Mode=OneWay}"  To="1000" Comparison="LessThanOrEqual" />
                         <!--<AdaptiveTrigger MinWindowWidth="0"/>-->
                     </VisualState.StateTriggers>
 
@@ -175,7 +176,7 @@
                 </VisualState>
                 <VisualState>
                     <VisualState.StateTriggers >
-                        <triggers:CompareStateTrigger Value="{x:Bind RootGridWidth, Mode=OneWay}"  To="900" Comparison="GreaterThan" />
+                        <triggers:CompareStateTrigger Value="{x:Bind RootGridWidth, Mode=OneWay}"  To="1000" Comparison="GreaterThan" />
                         <!--<AdaptiveTrigger MinWindowWidth="900"/>-->
                     </VisualState.StateTriggers>
 
@@ -191,6 +192,15 @@
                     </VisualState.Setters>
                 </VisualState>
 
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind StatusBarControl.PreviewPaneEnabled, Mode=OneWay}"  To="False"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="PreviewPaneRow.Height" Value="0"/>
+                        <Setter Target="PreviewPaneColumn.Width" Value="0"/>
+                    </VisualState.Setters>
+                </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
         
@@ -245,14 +255,14 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" x:Name="PreviewPaneRow"/>
+                    <RowDefinition Height="Auto" x:Name="PreviewPaneRow"/>
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition x:Name="PreviewPaneColumn"/>
+                    <ColumnDefinition Width="Auto" x:Name="PreviewPaneColumn"/>
                 </Grid.ColumnDefinitions>
 
                 <Grid
@@ -295,14 +305,15 @@
                     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                     CacheSize="2"
                     Navigated="ItemDisplayFrame_Navigated" />
-
+                
                 <Custom:GridSplitter
                     Grid.Column="1" Grid.Row="1"
                     Style="{StaticResource PaneGridSplitter}"
-                    x:Name="PreviewPaneGridSplitter">
+                    x:Name="PreviewPaneGridSplitter" Visibility="{x:Bind StatusBarControl.PreviewPaneEnabled, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
                 </Custom:GridSplitter>
 
-                <controls:DetailsPane Grid.Row="1" Grid.Column="2" x:Name="PreviewPane" SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" Margin="5,5,5,5">
+                <controls:DetailsPane Grid.Row="1" Grid.Column="2" x:Name="PreviewPane" SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" 
+                                      Margin="5,5,5,5" Visibility="{x:Bind StatusBarControl.PreviewPaneEnabled, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" >
                 </controls:DetailsPane>
                 
                 <controls:StatusBarControl
