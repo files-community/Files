@@ -638,7 +638,7 @@ namespace Files.Interacts
                                         NeighboringFilesQuery = fileQueryResult
                                     };
 
-                                    //Now launch file with options.
+                                    // Now launch file with options.
                                     launchSuccess = await Launcher.LaunchFileAsync(childFile.File, options);
                                 }
 
@@ -673,18 +673,9 @@ namespace Files.Interacts
                 return;
             }
 
-            int selectedItemsCount = AssociatedInstance.ContentPage.SelectedItems.Count;
-
-            if (selectedItemsCount == 1)
+            foreach (ListedItem item in AssociatedInstance.ContentPage.SelectedItems)
             {
-                await OpenPath(AssociatedInstance.ContentPage.SelectedItem.ItemPath, null, false, openViaApplicationPicker);
-            }
-            else // > 0
-            {
-                foreach (ListedItem item in AssociatedInstance.ContentPage.SelectedItems)
-                {
-                    await OpenPath(item.ItemPath, null, false, openViaApplicationPicker);
-                }
+                await OpenPath(item.ItemPath, null, false, openViaApplicationPicker);
             }
         }
 
