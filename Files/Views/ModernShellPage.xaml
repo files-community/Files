@@ -187,7 +187,6 @@
                         <Setter Target="PreviewPaneGridSplitter.(Grid.Row)" Value="2"/>
                         <Setter Target="PreviewPaneGridSplitter.(Grid.Column)" Value="1"/>
 
-                        <Setter Target="PreviewPaneColumn.Width" Value="2*"/>
                         <Setter Target="PreviewPaneRow.Height" Value="0"/>
                         <Setter Target="PreviewPane.IsHorizontal" Value="False"/>
                     </VisualState.Setters>
@@ -300,11 +299,11 @@
 
                 <Custom:GridSplitter
                     Grid.Column="1" Grid.Row="1"
-                    Style="{StaticResource DefaultGridSplitterStyle}"
+                    Style="{StaticResource PaneGridSplitter}"
                     x:Name="PreviewPaneGridSplitter">
                 </Custom:GridSplitter>
 
-                <controls:DetailsPane Margin="0, 0, 5, 0" Grid.Row="1" Grid.Column="2" x:Name="PreviewPane" SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" >
+                <controls:DetailsPane Grid.Row="1" Grid.Column="2" x:Name="PreviewPane" SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" Margin="5,5,5,5">
                 </controls:DetailsPane>
                 
                 <controls:StatusBarControl
