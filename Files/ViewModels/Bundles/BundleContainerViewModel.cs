@@ -46,25 +46,25 @@ namespace Files.ViewModels.Bundles
 		/// </summary>
 		public ObservableCollection<BundleItemViewModel> Contents { get; private set; } = new ObservableCollection<BundleItemViewModel>();
 
-		private string _BundleName = "DefaultBundle";
+		private string pBundleName = "DefaultBundle";
 		public string BundleName
 		{
-			get => _BundleName;
-			set => SetProperty(ref _BundleName, value);
+			get => pBundleName;
+			set => SetProperty(ref pBundleName, value);
 		}
 
-		private Visibility _NoBundleContentsTextVisibility;
+		private Visibility pNoBundleContentsTextVisibility;
 		public Visibility NoBundleContentsTextVisibility
 		{
-			get => _NoBundleContentsTextVisibility;
-			set => SetProperty(ref _NoBundleContentsTextVisibility, value);
+			get => pNoBundleContentsTextVisibility;
+			set => SetProperty(ref pNoBundleContentsTextVisibility, value);
 		}
 
-		private string _BundleRenameText = string.Empty;
+		private string pBundleRenameText = string.Empty;
 		public string BundleRenameText
 		{
-			get => _BundleRenameText;
-			set => SetProperty(ref _BundleRenameText, value);
+			get => pBundleRenameText;
+			set => SetProperty(ref pBundleRenameText, value);
 		}
 
 		private Visibility _BundleRenameVisibility = Visibility.Collapsed;

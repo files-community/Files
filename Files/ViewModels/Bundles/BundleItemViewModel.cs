@@ -50,11 +50,11 @@ namespace Files.ViewModels.Bundles
 
 		public FilesystemItemType TargetType { get; set; } = FilesystemItemType.File;
 
-		private BitmapImage _Icon = null;
+		private BitmapImage pIcon = null;
 		public BitmapImage Icon
 		{
-			get => _Icon;
-			set => SetProperty(ref _Icon, value);
+			get => pIcon;
+			set => SetProperty(ref pIcon, value);
 		}
 
 		public Uri FolderIconUri

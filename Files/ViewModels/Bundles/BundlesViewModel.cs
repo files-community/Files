@@ -38,25 +38,25 @@ namespace Files.ViewModels.Bundles
 		/// </summary>
 		public ObservableCollection<BundleContainerViewModel> Items { get; set; } = new ObservableCollection<BundleContainerViewModel>();
 
-		private string _BundleNameTextInput = string.Empty;
+		private string pBundleNameTextInput = string.Empty;
 		public string BundleNameTextInput
 		{
-			get => _BundleNameTextInput;
-			set => SetProperty(ref _BundleNameTextInput, value);
+			get => pBundleNameTextInput;
+			set => SetProperty(ref pBundleNameTextInput, value);
 		}
 
-		private string _AddBundleErrorText = string.Empty;
+		private string pAddBundleErrorText = string.Empty;
 		public string AddBundleErrorText
 		{
-			get => _AddBundleErrorText;
-			set => SetProperty(ref _AddBundleErrorText, value);
+			get => pAddBundleErrorText;
+			set => SetProperty(ref pAddBundleErrorText, value);
 		}
 
-		public Visibility _NoBundlesAddItemVisibility = Visibility.Collapsed;
+		public Visibility pNoBundlesAddItemVisibility = Visibility.Collapsed;
 		public Visibility NoBundlesAddItemVisibility
 		{
-			get => _NoBundlesAddItemVisibility;
-			set => SetProperty(ref _NoBundlesAddItemVisibility, value);
+			get => pNoBundlesAddItemVisibility;
+			set => SetProperty(ref pNoBundlesAddItemVisibility, value);
 		}
 
 		#endregion
