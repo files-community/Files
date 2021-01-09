@@ -3,6 +3,7 @@ using Files.UserControls.FilePreviews;
 using Files.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -30,7 +31,7 @@ using static Files.App;
 
 namespace Files.UserControls
 {
-    public sealed partial class DetailsPane : UserControl
+    public sealed partial class DetailsPane : UserControl, INotifyPropertyChanged
     {
         public static DependencyProperty SelectedItemsProperty { get; } = DependencyProperty.Register("SelectedItems", typeof(List<ListedItem>), typeof(DetailsPane), new PropertyMetadata(null));
         public List<ListedItem> SelectedItems
@@ -52,19 +53,42 @@ namespace Files.UserControls
             }
         }
 
-        public static DependencyProperty IsVerticalProperty { get; } = DependencyProperty.Register("IsHorizontal", typeof(bool), typeof(DetailsPane), new PropertyMetadata(null));
+        private long isVerticalCallback;
+
+        public static DependencyProperty IsHorizontalProperty { get; } = DependencyProperty.Register("IsHorizontal", typeof(bool), typeof(DetailsPane), new PropertyMetadata(null));
         public bool IsHorizontal
         {
-            get => (bool)GetValue(IsVerticalProperty);
-            set => SetValue(IsVerticalProperty, value);
+            get => (bool)GetValue(IsHorizontalProperty);
+            set => SetValue(IsHorizontalProperty, value);
+        }
+
+
+        // For some reason, the visual state wouldn't raise propertychangedevents with the normal property
+        bool _isHorizontalInternal;
+        bool isHorizontalInternal {
+            get => _isHorizontalInternal;
+            set
+            {
+                _isHorizontalInternal = value;
+                RaisePropertyChanged(nameof(isHorizontalInternal));
+            } 
         }
 
         public DetailsPane()
         {
             this.InitializeComponent();
+            isVerticalCallback = RegisterPropertyChangedCallback(IsHorizontalProperty, isVerticalChangedCallback);
         }
 
-        
+        public event PropertyChangedEventHandler PropertyChanged;
+        void RaisePropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
         bool TryLoadPreviewControl(ListedItem item)
         {
             foreach (var extension in AppData.FilePreviewExtensionManager.Extensions)
@@ -95,17 +119,17 @@ namespace Files.UserControls
                 return new MediaPreview(item.ItemPath);
             }
 
-            if(MarkdownPreview.Extensions.Contains(item.FileExtension))
+            if (MarkdownPreview.Extensions.Contains(item.FileExtension))
             {
                 return new MarkdownPreview(item.ItemPath);
             }
 
-            if(ImagePreview.Extensions.Contains(item.FileExtension))
+            if (ImagePreview.Extensions.Contains(item.FileExtension))
             {
                 return new ImagePreview(item.ItemPath);
             }
 
-            if(TextPreview.Extensions.Contains(item.FileExtension))
+            if (TextPreview.Extensions.Contains(item.FileExtension))
             {
                 return new TextPreview(item.ItemPath);
             }
@@ -126,10 +150,16 @@ namespace Files.UserControls
                 var result = await extension.Invoke(new ValueSet() { { "byteArray", byteArray }, { "filePath", item.ItemPath } });
                 var preview = result["preview"];
                 PreviewGrid.Children.Add(XamlReader.Load(preview as string) as UIElement);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 Debug.WriteLine(e.ToString());
             }
+        }
+
+        private void isVerticalChangedCallback(DependencyObject sender, DependencyProperty dp)
+        {
+            isHorizontalInternal = IsHorizontal;
         }
     }
 }

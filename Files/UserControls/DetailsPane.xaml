@@ -24,7 +24,7 @@
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers >
-                        <triggers:IsEqualStateTrigger Value="{x:Bind IsHorizontal, Mode=OneWay}" To="True"/>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind isHorizontalInternal, Mode=OneWay}" To="True"/>
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
@@ -38,7 +38,7 @@
                 </VisualState>
                 <VisualState>
                     <VisualState.StateTriggers >
-                        <triggers:IsEqualStateTrigger Value="{x:Bind IsHorizontal, Mode=OneWay}" To="False"/>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind isHorizontalInternal, Mode=OneWay}" To="False"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="RootPropertiesGrid.(Grid.Row)" Value="2"/>
