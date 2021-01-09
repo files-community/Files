@@ -438,7 +438,7 @@ namespace Files.Interacts
         // TODO: This function reliability has not been extensively tested
         // TODO: Split this function to call OpenFile() and OpenDirectory() separately
         {
-            bool isHiddenItem = false; // TODO: Determine
+            bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
             bool fileExists = await StorageItemHelpers.Exists(path, AssociatedInstance);
             bool openUsingApplicationPicker = false;
             FilesystemResult opened = (FilesystemResult)false;

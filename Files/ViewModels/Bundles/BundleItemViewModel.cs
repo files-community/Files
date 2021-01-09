@@ -150,7 +150,7 @@ namespace Files.ViewModels.Bundles
 				try
 				{
 					BitmapImage icon = new BitmapImage();
-					StorageFile file = await StorageItemHelpers.ToStorageFile(Path, associatedInstance);
+					StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>(Path, associatedInstance);
 					StorageItemThumbnail thumbnail = await file.GetThumbnailAsync(ThumbnailMode.ListView, 24u, ThumbnailOptions.UseCurrentScale);
 
 					if (thumbnail != null)
@@ -175,10 +175,15 @@ namespace Files.ViewModels.Bundles
 
 		public void Dispose()
 		{
-			associatedInstance?.Dispose();
+			Path = null;
+			Icon = null;
+
+			OpenItemCommand = null;
+			OpenInNewTabCommand = null;
+			OpenItemLocationCommand = null;
+			RemoveItemCommand = null;
 
 			associatedInstance = null;
-			Path = null;
 		}
 
 		#endregion

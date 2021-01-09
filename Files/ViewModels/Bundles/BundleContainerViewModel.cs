@@ -67,11 +67,11 @@ namespace Files.ViewModels.Bundles
 			set => SetProperty(ref pBundleRenameText, value);
 		}
 
-		private Visibility _BundleRenameVisibility = Visibility.Collapsed;
+		private Visibility pBundleRenameVisibility = Visibility.Collapsed;
 		public Visibility BundleRenameVisibility
 		{
-			get => _BundleRenameVisibility;
-			set => SetProperty(ref _BundleRenameVisibility, value);
+			get => pBundleRenameVisibility;
+			set => SetProperty(ref pBundleRenameVisibility, value);
 		}
 
 		#endregion
@@ -232,6 +232,7 @@ namespace Files.ViewModels.Bundles
 		private void NotifyItemRemovedHandle(BundleItemViewModel item)
 		{
 			Contents.Remove(item);
+			item?.Dispose();
 
 			if (Contents.Count == 0)
 			{
@@ -318,7 +319,16 @@ namespace Files.ViewModels.Bundles
 				item.NotifyItemRemoved -= NotifyItemRemovedHandle;
 				item?.Dispose();
 			}
-			associatedInstance?.Dispose();
+
+			BundleName = null;
+			BundleRenameText = null;
+
+			RemoveBundleCommand = null;
+			RenameBundleCommand = null;
+			RenameBundleConfirmCommand = null;
+			RenameTextKeyDownCommand = null;
+			DragOverCommand = null;
+			DropCommand = null;
 
 			associatedInstance = null;
 			Contents = null;

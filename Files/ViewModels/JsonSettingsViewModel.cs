@@ -16,19 +16,15 @@ namespace Files.ViewModels
 
 		private readonly string settingsPath;
 
-		private readonly IShellPage associatedInstance;
-
 		private Dictionary<string, object> serializableSettings = new Dictionary<string, object>();
 
 		#endregion
 
 		#region Constructor
 
-		public JsonSettingsViewModel(IShellPage associatedInstance)
+		public JsonSettingsViewModel()
 		{
-			this.associatedInstance = associatedInstance;
-
-			settingsPath = PathHelpers.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.JsonSettingsFileName);
+			settingsPath = PathHelpers.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.JsonSettingsFileName);
 			serializableSettings = new Dictionary<string, object>();
 			Init();
 		}
@@ -39,10 +35,7 @@ namespace Files.ViewModels
 
 		private async void Init()
 		{
-			if (!(await StorageItemHelpers.Exists(settingsPath, null)))
-			{
-				await ApplicationData.Current.LocalFolder.CreateFileAsync(Constants.LocalSettings.JsonSettingsFileName);
-			}
+			await ApplicationData.Current.LocalFolder.CreateFileAsync(PathHelpers.Combine(Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.JsonSettingsFileName), CreationCollisionOption.OpenIfExists);
 		}
 
 		#endregion
@@ -92,9 +85,12 @@ namespace Files.ViewModels
 				Dictionary<string, TValue> rawData = JsonConvert.DeserializeObject<Dictionary<string, TValue>>(settingsData);
 				Dictionary<string, object> convertedData = new Dictionary<string, object>();
 
-				foreach (var item in rawData)
+				if (rawData != null)
 				{
-					convertedData.Add(item.Key, (TValue)item.Value);
+					foreach (var item in rawData)
+					{
+						convertedData.Add(item.Key, (TValue)item.Value);
+					}
 				}
 
 				serializableSettings = convertedData;

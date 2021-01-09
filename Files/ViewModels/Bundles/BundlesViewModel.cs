@@ -133,6 +133,7 @@ namespace Files.ViewModels.Bundles
 		private void NotifyItemRemovedHandle(BundleContainerViewModel item)
 		{
 			Items.Remove(item);
+			item?.Dispose();
 
 			if (Items.Count == 0)
 			{
@@ -160,6 +161,7 @@ namespace Files.ViewModels.Bundles
 				if (bundle.BundleName == item.OriginBundleName)
 				{
 					bundle.Contents.Remove(item);
+					item?.Dispose();
 
 					if (bundle.Contents.Count == 0)
 					{
@@ -246,6 +248,10 @@ namespace Files.ViewModels.Bundles
 					NoBundlesAddItemVisibility = Visibility.Collapsed;
 				}
 			}
+			else // Null, therefore no items :)
+            {
+				NoBundlesAddItemVisibility = Visibility.Visible;
+			}
 		}
 
 		public void Initialize(IShellPage associatedInstance)
@@ -285,7 +291,6 @@ namespace Files.ViewModels.Bundles
 				item.NotifyItemRenamed -= NotifyItemRenamedHandle;
 				item?.Dispose();
 			}
-			associatedInstance?.Dispose();
 
 			associatedInstance = null;
 			Items = null;

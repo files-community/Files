@@ -19,7 +19,7 @@ namespace Files.ViewModels
         public CurrentInstanceViewModel(IShellPage associatedInstance)
         {
             FolderSettings = new FolderSettingsViewModel(associatedInstance);
-            JsonSettings = new JsonSettingsViewModel(associatedInstance);
+            JsonSettings = new JsonSettingsViewModel();
         }
 
         private bool isPageTypeSearchResults = false;

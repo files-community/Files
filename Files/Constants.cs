@@ -36,7 +36,9 @@
 
             public const string Theme = "theme";
 
-            public const string JsonSettingsFileName = "settingsjson.json";
+            public const string SettingsFolderName = "settings";
+
+            public const string JsonSettingsFileName = "settings.json";
         }
     }
 }
