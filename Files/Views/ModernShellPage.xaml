@@ -153,10 +153,24 @@
             Invoked="KeyboardAccelerator_Invoked"
             IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
             Modifiers="None" />
+        <KeyboardAccelerator
+            Key="P"
+            Invoked="KeyboardAccelerator_Invoked"
+            IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
+            Modifiers="Control" />
     </Page.KeyboardAccelerators>
     <Grid x:Name="RootGrid" SizeChanged="RootGrid_SizeChanged">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind AppSettings.PreviewPaneEnabled, Mode=OneWay}"  To="False"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="PreviewPaneRow.Height" Value="0"/>
+                        <Setter Target="PreviewPaneColumn.Width" Value="0"/>
+                    </VisualState.Setters>
+                </VisualState>
                 <VisualState>
                     <VisualState.StateTriggers >
                         <triggers:CompareStateTrigger Value="{x:Bind RootGridWidth, Mode=OneWay}"  To="1000" Comparison="LessThanOrEqual" />
@@ -189,16 +203,6 @@
 
                         <Setter Target="PreviewPaneRow.Height" Value="0"/>
                         <Setter Target="PreviewPane.IsHorizontal" Value="False"/>
-                    </VisualState.Setters>
-                </VisualState>
-
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <triggers:IsEqualStateTrigger Value="{x:Bind StatusBarControl.PreviewPaneEnabled, Mode=OneWay}"  To="False"/>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="PreviewPaneRow.Height" Value="0"/>
-                        <Setter Target="PreviewPaneColumn.Width" Value="0"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -262,7 +266,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto" x:Name="PreviewPaneColumn"/>
+                    <ColumnDefinition Width="Auto" x:Name="PreviewPaneColumn" MaxWidth="600"/>
                 </Grid.ColumnDefinitions>
 
                 <Grid
@@ -309,11 +313,12 @@
                 <Custom:GridSplitter
                     Grid.Column="1" Grid.Row="1"
                     Style="{StaticResource PaneGridSplitter}"
-                    x:Name="PreviewPaneGridSplitter" Visibility="{x:Bind StatusBarControl.PreviewPaneEnabled, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    ResizeBehavior="BasedOnAlignment"
+                    x:Name="PreviewPaneGridSplitter" Visibility="{x:Bind AppSettings.PreviewPaneEnabled, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
                 </Custom:GridSplitter>
 
                 <controls:DetailsPane Grid.Row="1" Grid.Column="2" x:Name="PreviewPane" SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" 
-                                      Margin="5,5,5,5" Visibility="{x:Bind StatusBarControl.PreviewPaneEnabled, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" >
+                                      Margin="5,5,5,5" Visibility="{x:Bind AppSettings.PreviewPaneEnabled, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" >
                 </controls:DetailsPane>
                 
                 <controls:StatusBarControl

@@ -730,6 +730,12 @@ namespace Files.ViewModels
             set => Set((byte)value);
         }
 
+        public bool PreviewPaneEnabled
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         #region ReadAndSaveSettings
 
         public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)

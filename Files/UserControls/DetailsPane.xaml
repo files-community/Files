@@ -6,7 +6,7 @@
              xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" 
              xmlns:Core="using:Microsoft.Xaml.Interactions.Core" 
              xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers" 
-             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400" MinWidth="90">
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400" MinWidth="90" >
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -62,7 +62,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <Grid Grid.Row="0" x:Name="RootPreviewGrid">
+        <Grid Grid.Row="0" x:Name="RootPreviewGrid" VerticalAlignment="Center">
             <TextBlock x:Name="PreviewNotAvaliableText" Visibility="Collapsed" Text="No preview avaliable"/>
             <Grid x:Name="PreviewGrid">
             </Grid>

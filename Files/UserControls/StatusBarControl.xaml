@@ -203,7 +203,7 @@
                 Width="36"
                 Height="32"
                 Margin="2,0,2,0"
-                AutomationProperties.Name="Selection options"
+                AutomationProperties.Name="Open preview pane"
                 Background="Transparent"
                 CornerRadius="2"
                 FontSize="16"

@@ -64,20 +64,9 @@ namespace Files.UserControls
             }
         }
 
-        private bool previewPaneEnabled;
-        public bool PreviewPaneEnabled
-        {
-            get => previewPaneEnabled;
-            set
-            {
-                previewPaneEnabled = value;
-                NotifyPropertyChanged(nameof(PreviewPaneEnabled));
-            }
-        }
-
         private void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            PreviewPaneEnabled = !previewPaneEnabled;
+            AppSettings.PreviewPaneEnabled = !AppSettings.PreviewPaneEnabled;
         }
     }
 }
