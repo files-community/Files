@@ -249,7 +249,7 @@ namespace Files.ViewModels.Bundles
 				}
 			}
 			else // Null, therefore no items :)
-            {
+			{
 				NoBundlesAddItemVisibility = Visibility.Visible;
 			}
 		}
