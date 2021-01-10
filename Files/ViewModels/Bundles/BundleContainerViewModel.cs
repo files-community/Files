@@ -21,7 +21,7 @@ namespace Files.ViewModels.Bundles
     {
         #region Singleton
 
-        private IJsonSettings JsonSettings => associatedInstance?.InstanceViewModel.JsonSettings;
+        private IJsonSettings JsonSettings => App.JsonSettings;
 
         #endregion
 
@@ -35,8 +35,6 @@ namespace Files.ViewModels.Bundles
 
         public Action<BundleContainerViewModel> NotifyItemRemoved { get; set; }
 
-        public Action<BundleContainerViewModel> NotifyItemRenamed { get; set; }
-
         #endregion
 
         #region Public Properties
@@ -46,32 +44,32 @@ namespace Files.ViewModels.Bundles
         /// </summary>
         public ObservableCollection<BundleItemViewModel> Contents { get; private set; } = new ObservableCollection<BundleItemViewModel>();
 
-        private string pBundleName = "DefaultBundle";
+        private string bundleName = "DefaultBundle";
         public string BundleName
         {
-            get => pBundleName;
-            set => SetProperty(ref pBundleName, value);
+            get => bundleName;
+            set => SetProperty(ref bundleName, value);
         }
 
-        private Visibility pNoBundleContentsTextVisibility;
+        private Visibility noBundleContentsTextVisibility;
         public Visibility NoBundleContentsTextVisibility
         {
-            get => pNoBundleContentsTextVisibility;
-            set => SetProperty(ref pNoBundleContentsTextVisibility, value);
+            get => noBundleContentsTextVisibility;
+            set => SetProperty(ref noBundleContentsTextVisibility, value);
         }
 
-        private string pBundleRenameText = string.Empty;
+        private string bundleRenameText = string.Empty;
         public string BundleRenameText
         {
-            get => pBundleRenameText;
-            set => SetProperty(ref pBundleRenameText, value);
+            get => bundleRenameText;
+            set => SetProperty(ref bundleRenameText, value);
         }
 
-        private Visibility pBundleRenameVisibility = Visibility.Collapsed;
+        private Visibility bundleRenameVisibility = Visibility.Collapsed;
         public Visibility BundleRenameVisibility
         {
-            get => pBundleRenameVisibility;
-            set => SetProperty(ref pBundleRenameVisibility, value);
+            get => bundleRenameVisibility;
+            set => SetProperty(ref bundleRenameVisibility, value);
         }
 
         #endregion

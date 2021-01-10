@@ -21,7 +21,7 @@ namespace Files.ViewModels.Bundles
     {
         #region Singleton
 
-        private IJsonSettings JsonSettings => associatedInstance?.InstanceViewModel.JsonSettings;
+        private IJsonSettings JsonSettings => App.JsonSettings;
 
         #endregion
 
@@ -38,25 +38,25 @@ namespace Files.ViewModels.Bundles
         /// </summary>
         public ObservableCollection<BundleContainerViewModel> Items { get; set; } = new ObservableCollection<BundleContainerViewModel>();
 
-        private string pBundleNameTextInput = string.Empty;
+        private string bundleNameTextInput = string.Empty;
         public string BundleNameTextInput
         {
-            get => pBundleNameTextInput;
-            set => SetProperty(ref pBundleNameTextInput, value);
+            get => bundleNameTextInput;
+            set => SetProperty(ref bundleNameTextInput, value);
         }
 
-        private string pAddBundleErrorText = string.Empty;
+        private string addBundleErrorText = string.Empty;
         public string AddBundleErrorText
         {
-            get => pAddBundleErrorText;
-            set => SetProperty(ref pAddBundleErrorText, value);
+            get => addBundleErrorText;
+            set => SetProperty(ref addBundleErrorText, value);
         }
 
-        public Visibility pNoBundlesAddItemVisibility = Visibility.Collapsed;
+        public Visibility noBundlesAddItemVisibility = Visibility.Collapsed;
         public Visibility NoBundlesAddItemVisibility
         {
-            get => pNoBundlesAddItemVisibility;
-            set => SetProperty(ref pNoBundlesAddItemVisibility, value);
+            get => noBundlesAddItemVisibility;
+            set => SetProperty(ref noBundlesAddItemVisibility, value);
         }
 
         #endregion
@@ -114,7 +114,6 @@ namespace Files.ViewModels.Bundles
                 BundleName = savedBundleNameTextInput,
                 BundleRenameText = savedBundleNameTextInput,
                 NotifyItemRemoved = NotifyItemRemovedHandle,
-                NotifyItemRenamed = NotifyItemRenamedHandle
             });
             NoBundlesAddItemVisibility = Visibility.Collapsed;
 
@@ -139,15 +138,6 @@ namespace Files.ViewModels.Bundles
             {
                 NoBundlesAddItemVisibility = Visibility.Visible;
             }
-        }
-
-        /// <summary>
-        /// This function gets called when an item is renamed to update the collection
-        /// </summary>
-        /// <param name="item"></param>
-        private void NotifyItemRenamedHandle(BundleContainerViewModel item)
-        {
-            //Items[Items.IndexOf(item)].
         }
 
         /// <summary>
@@ -235,7 +225,6 @@ namespace Files.ViewModels.Bundles
                         BundleName = bundle.Key,
                         BundleRenameText = bundle.Key,
                         NotifyItemRemoved = NotifyItemRemovedHandle,
-                        NotifyItemRenamed = NotifyItemRenamedHandle
                     }.SetBundleItems(bundleItems));
                 }
 
@@ -288,7 +277,6 @@ namespace Files.ViewModels.Bundles
             foreach (var item in Items)
             {
                 item.NotifyItemRemoved -= NotifyItemRemovedHandle;
-                item.NotifyItemRenamed -= NotifyItemRenamedHandle;
                 item?.Dispose();
             }
 

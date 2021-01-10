@@ -12,14 +12,11 @@ namespace Files.ViewModels
          * values being manipulated inside the setter blocks.
          */
 
-        public IJsonSettings JsonSettings { get; }
-
         public FolderSettingsViewModel FolderSettings { get; }
 
         public CurrentInstanceViewModel(IShellPage associatedInstance)
         {
             FolderSettings = new FolderSettingsViewModel(associatedInstance);
-            JsonSettings = new JsonSettingsViewModel();
         }
 
         private bool isPageTypeSearchResults = false;

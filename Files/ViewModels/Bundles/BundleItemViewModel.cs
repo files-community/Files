@@ -18,7 +18,7 @@ namespace Files.ViewModels.Bundles
     {
         #region Singleton
 
-        private IJsonSettings JsonSettings => associatedInstance?.InstanceViewModel.JsonSettings;
+        private IJsonSettings JsonSettings => App.JsonSettings;
 
         #endregion
 
@@ -50,11 +50,11 @@ namespace Files.ViewModels.Bundles
 
         public FilesystemItemType TargetType { get; set; } = FilesystemItemType.File;
 
-        private BitmapImage pIcon = null;
+        private BitmapImage icon = null;
         public BitmapImage Icon
         {
-            get => pIcon;
-            set => SetProperty(ref pIcon, value);
+            get => icon;
+            set => SetProperty(ref icon, value);
         }
 
         public Uri FolderIconUri
@@ -62,11 +62,11 @@ namespace Files.ViewModels.Bundles
             get => new Uri("ms-appx:///Assets/FolderIcon.svg");
         }
 
-        private Visibility _FileIconVisibility = Visibility.Visible;
+        private Visibility fileIconVisibility = Visibility.Visible;
         public Visibility FileIconVisibility
         {
-            get => _FileIconVisibility;
-            set => SetProperty(ref _FileIconVisibility, value);
+            get => fileIconVisibility;
+            set => SetProperty(ref fileIconVisibility, value);
         }
 
         public Visibility OpenInNewTabVisibility
