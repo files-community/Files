@@ -42,9 +42,13 @@ namespace Files.Helpers
             }
 
             if (file)
+            {
                 return (TOut)(IStorageItem)file.Result;
+            }
             else if (folder)
+            {
                 return (TOut)(IStorageItem)folder.Result;
+            }
 
             return default(TOut);
         }
