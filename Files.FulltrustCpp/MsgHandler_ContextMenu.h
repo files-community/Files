@@ -14,9 +14,8 @@ struct MenuArgs
     std::vector<std::wstring> FileList;
 };
 
-class Win32ContextMenuItem
+struct Win32ContextMenuItem
 {
-public:
     std::string IconBase64;
     int ID;
     std::string Label;
@@ -27,9 +26,8 @@ public:
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(Win32ContextMenuItem, IconBase64, ID, Label, CommandString, Type, SubItems)
 };
 
-class Win32ContextMenu
+struct Win32ContextMenu
 {    
-public:
     IContextMenu2* g_pcm2 = NULL;
     IContextMenu3* g_pcm3 = NULL;
     IContextMenu* cMenu = NULL;

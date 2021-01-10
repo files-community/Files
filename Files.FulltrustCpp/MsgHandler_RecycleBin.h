@@ -5,9 +5,8 @@
 
 using json = nlohmann::json;
 
-class ShellFileItem
+struct ShellFileItem
 {
-public:
     bool IsFolder;
     std::string RecyclePath;
     std::string FileName;
