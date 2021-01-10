@@ -57,8 +57,8 @@
             <!--  Add Bundle button  -->
             <Button
                 Grid.Column="1"
-                Width="30"
-                Height="30"
+                Width="25"
+                Height="25"
                 Padding="0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
@@ -161,7 +161,7 @@
                 <DataTemplate>
                     <Grid
                         Width="270"
-                        Height="250"
+                        Height="256"
                         AllowDrop="True"
                         Background="{ThemeResource YourHomeCardBackgroundColor}"
                         ColumnSpacing="8"
@@ -193,13 +193,19 @@
                         </Grid.Resources>
 
                         <!--  Contents of a Bundle  -->
-                        <StackPanel
+                        <Grid
                             Padding="8"
                             HorizontalAlignment="Stretch"
                             AllowDrop="True"
-                            Spacing="8">
+                            RowSpacing="8">
 
-                            <Grid HorizontalAlignment="Stretch" ColumnSpacing="4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            
+                            <Grid HorizontalAlignment="Stretch" ColumnSpacing="4" Grid.Row="0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition Width="Auto" />
@@ -287,7 +293,8 @@
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 ItemsSource="{Binding Contents, Mode=OneWay}"
-                                SelectionMode="None">
+                                SelectionMode="None"
+                                Grid.Row="1">
                                 <GridView.ItemTemplate>
                                     <!--  Bundle Item design  -->
                                     <DataTemplate>
@@ -345,7 +352,7 @@
                                                         FontSize="12"
                                                         MaxLines="1"
                                                         Text="{Binding Name, Mode=OneWay}"
-                                                        TextWrapping="Wrap" />
+                                                        TextTrimming="CharacterEllipsis" />
                                                 </Grid>
 
                                                 <Button.ContextFlyout>
@@ -385,11 +392,12 @@
                             <Grid
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                RowSpacing="4"
-                                Visibility="{Binding NoBundleContentsTextVisibility, Mode=OneWay}">
+                                RowSpacing="5"
+                                Visibility="{Binding NoBundleContentsTextVisibility, Mode=OneWay}"
+                                Grid.Row="2">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition />
-                                    <RowDefinition />
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
                                 <FontIcon
@@ -408,7 +416,7 @@
                                     TextAlignment="Center"
                                     TextWrapping="WrapWholeWords" />
                             </Grid>
-                        </StackPanel>
+                        </Grid>
                     </Grid>
                 </DataTemplate>
             </GridView.ItemTemplate>
@@ -417,7 +425,7 @@
         <!--  No Bundles Info  -->
         <Grid
             Width="270"
-            Height="250"
+            Height="256"
             HorizontalAlignment="Left"
             Background="Transparent"
             BorderBrush="Gray"
