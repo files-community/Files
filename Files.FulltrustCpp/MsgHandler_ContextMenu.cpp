@@ -119,7 +119,7 @@ void MsgHandler_ContextMenu::EnumMenuItems(IContextMenu* cMenu, HMENU hMenu, std
 					menuItem.CommandString = pszName;
 				}
 			}
-			printf("Item %d (%d): %s, %s\n", ii, mii.wID, menuItem.Label.c_str(), menuItem.CommandString.c_str());
+			//printf("Item %d (%d): %s, %s\n", ii, mii.wID, menuItem.Label.c_str(), menuItem.CommandString.c_str());
 			// Skip items implemented in UWP/not working
 			if ((!menuArgs->ShowOpenMenu && menuItem.CommandString == "open") ||
 				std::any_of(FilteredItems.begin(), FilteredItems.end(),
@@ -134,7 +134,7 @@ void MsgHandler_ContextMenu::EnumMenuItems(IContextMenu* cMenu, HMENU hMenu, std
 			}
 			if (mii.hSubMenu != NULL)
 			{
-				printf("Item %d: has submenu\n", ii);
+				//printf("Item %d: has submenu\n", ii);
 				auto subItems = std::vector<Win32ContextMenuItem>();
 				if (this->LoadedContextMenu->g_pcm3)
 				{
@@ -146,12 +146,12 @@ void MsgHandler_ContextMenu::EnumMenuItems(IContextMenu* cMenu, HMENU hMenu, std
 				}
 				EnumMenuItems(cMenu, mii.hSubMenu, subItems, menuArgs);
 				menuItem.SubItems = subItems;
-				printf("Item %d: done submenu\n", ii);
+				//printf("Item %d: done submenu\n", ii);
 			}
 		}
 		else
 		{
-			printf("Item %d: %d\n", ii, mii.fType);
+			//printf("Item %d: %d\n", ii, mii.fType);
 		}
 		menuItemsResult.push_back(menuItem);
 	}
