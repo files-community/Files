@@ -492,7 +492,7 @@ namespace Files.Interacts
                 }
             }
 
-            var mru = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
+            var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
 
             if (itemType == FilesystemItemType.Directory) // OpenDirectory
             {
@@ -513,7 +513,7 @@ namespace Files.Interacts
                         .OnSuccess(childFolder =>
                         {
                             // Add location to MRU List
-                            mru.Add(childFolder.Folder, childFolder.Path);
+                            mostRecentlyUsed.Add(childFolder.Folder, childFolder.Path);
                         });
                     if (!opened)
                     {
@@ -550,7 +550,7 @@ namespace Files.Interacts
                             if (childFile != null)
                             {
                                 // Add location to MRU List
-                                mru.Add(childFile.File, childFile.Path);
+                                mostRecentlyUsed.Add(childFile.File, childFile.Path);
                             }
                         }
                         await InvokeWin32ComponentAsync(shortcutTargetPath, shortcutArguments, shortcutRunAsAdmin, shortcutWorkingDirectory);
@@ -563,7 +563,7 @@ namespace Files.Interacts
                         .OnSuccess(async childFile =>
                         {
                             // Add location to MRU List
-                            mru.Add(childFile.File, childFile.Path);
+                            mostRecentlyUsed.Add(childFile.File, childFile.Path);
 
                             if (openViaApplicationPicker)
                             {
