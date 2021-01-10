@@ -4,6 +4,8 @@
 #include <propkey.h>
 #include <filesystem>
 
+const SHCOLUMNID SCID_DateDeleted = { PSGUID_DISPLACED, PID_DISPLACED_DATE };
+
 std::wstring_convert<std::codecvt_utf8<wchar_t>> MsgHandler_RecycleBin::myconv;
 
 std::wstring MsgHandler_RecycleBin::GetRecycleBinDisplayName()
@@ -37,6 +39,16 @@ ShellFileItem MsgHandler_RecycleBin::GetShellItem(IShellItem2* iItem)
 	if (SUCCEEDED(iItem->GetFileTime(PKEY_DateCreated, &createFt)))
 	{
 		shellItem.RecycleDate = ((ULONGLONG)createFt.dwHighDateTime << 32) + (UINT)createFt.dwLowDateTime;
+	}
+	FILETIME deletedFt = { 0 };
+	if (SUCCEEDED(iItem->GetFileTime(SCID_DateDeleted, &deletedFt)))
+	{
+		shellItem.RecycleDate = ((ULONGLONG)deletedFt.dwHighDateTime << 32) + (UINT)deletedFt.dwLowDateTime;
+	}
+	FILETIME modifiedFt = { 0 };
+	if (SUCCEEDED(iItem->GetFileTime(PKEY_DateModified, &modifiedFt)))
+	{
+		shellItem.ModifiedDate = ((ULONGLONG)modifiedFt.dwHighDateTime << 32) + (UINT)modifiedFt.dwLowDateTime;
 	}
 	ULONG fileSizeBytes = 0;
 	if (SUCCEEDED(iItem->GetUInt32(PKEY_Size, &fileSizeBytes)))

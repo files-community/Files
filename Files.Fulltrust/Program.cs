@@ -612,7 +612,7 @@ namespace FilesFullTrust
                 return new ShellFileItem(isFolder, recyclePath, fileName, filePath, DateTime.UtcNow.ToFileTime(), DateTime.UtcNow.ToFileTime(), null, 0, null);
             }
             folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME>(
-                Ole32.PROPERTYKEY.System.DateCreated, out var fileTime);
+                Ole32.PROPERTYKEY.System.Recycle.DateDeleted, out var fileTime);
             var recycleDate = (long)((ulong)fileTime.dwHighDateTime << 32) + (uint)fileTime.dwLowDateTime;
             folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME>(
                 Ole32.PROPERTYKEY.System.DateModified, out fileTime);

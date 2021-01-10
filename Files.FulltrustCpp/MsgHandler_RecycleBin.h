@@ -12,11 +12,12 @@ struct ShellFileItem
     std::string FileName;
     std::string FilePath;
     LONGLONG RecycleDate;
+    LONGLONG ModifiedDate;
     std::string FileSize;
     ULONG FileSizeBytes;
     std::string FileType;
 
-    NLOHMANN_DEFINE_TYPE_INTRUSIVE(ShellFileItem, IsFolder, RecyclePath, FileName, FilePath, RecycleDate, FileSize, FileSizeBytes, FileType);
+    NLOHMANN_DEFINE_TYPE_INTRUSIVE(ShellFileItem, IsFolder, RecyclePath, FileName, FilePath, RecycleDate, ModifiedDate, FileSize, FileSizeBytes, FileType);
 };
 
 class MsgHandler_RecycleBin : public MessageHandler
