@@ -140,6 +140,11 @@ namespace Files.UserControls
                 return new TextPreview(item.ItemPath);
             }
 
+            if(PDFPreview.Extensions.Contains(item.FileExtension))
+            {
+                return new PDFPreview(item.ItemPath);
+            }
+
             return null;
         }
 

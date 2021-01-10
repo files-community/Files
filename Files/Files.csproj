@@ -197,6 +197,9 @@
     <Compile Include="UserControls\FilePreviews\MediaPreview.xaml.cs">
       <DependentUpon>MediaPreview.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\FilePreviews\PDFPreview.xaml.cs">
+      <DependentUpon>PDFPreview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\FilePreviews\TextPreview.xaml.cs">
       <DependentUpon>TextPreview.xaml</DependentUpon>
     </Compile>
@@ -698,6 +701,10 @@
     <Page Include="UserControls\FilePreviews\MediaPreview.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\FilePreviews\PDFPreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\FilePreviews\TextPreview.xaml">
       <Generator>MSBuild:Compile</Generator>
