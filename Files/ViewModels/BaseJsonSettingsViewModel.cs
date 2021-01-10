@@ -8,7 +8,7 @@ using Windows.Storage;
 
 namespace Files.ViewModels
 {
-    public class BaseJsonSettingsViewModel
+    public abstract class BaseJsonSettingsViewModel
     {
         #region Private Members
 
