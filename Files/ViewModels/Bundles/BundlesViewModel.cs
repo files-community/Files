@@ -21,7 +21,7 @@ namespace Files.ViewModels.Bundles
     {
         #region Singleton
 
-        private IWidgetsSettings JsonSettings => App.JsonSettings;
+        private IWidgetsSettings WidgetsSettings => App.WidgetsSettings;
 
         #endregion
 
@@ -101,9 +101,9 @@ namespace Files.ViewModels.Bundles
             string savedBundleNameTextInput = BundleNameTextInput;
             BundleNameTextInput = string.Empty;
 
-            if (JsonSettings.SavedBundles == null || (JsonSettings.SavedBundles?.ContainsKey(savedBundleNameTextInput) ?? false)) // Init
+            if (WidgetsSettings.SavedBundles == null || (WidgetsSettings.SavedBundles?.ContainsKey(savedBundleNameTextInput) ?? false)) // Init
             {
-                JsonSettings.SavedBundles = new Dictionary<string, List<string>>()
+                WidgetsSettings.SavedBundles = new Dictionary<string, List<string>>()
                 {
                     { savedBundleNameTextInput, new List<string>() { null } }
                 };
@@ -167,7 +167,7 @@ namespace Files.ViewModels.Bundles
 
         public void Save()
         {
-            if (JsonSettings.SavedBundles != null)
+            if (WidgetsSettings.SavedBundles != null)
             {
                 Dictionary<string, List<string>> bundles = new Dictionary<string, List<string>>();
 
@@ -188,18 +188,18 @@ namespace Files.ViewModels.Bundles
                     bundles.Add(bundle.BundleName, bundleItems);
                 }
 
-                JsonSettings.SavedBundles = bundles; // Calls Set()
+                WidgetsSettings.SavedBundles = bundles; // Calls Set()
             }
         }
 
         public async Task Load()
         {
-            if (JsonSettings.SavedBundles != null)
+            if (WidgetsSettings.SavedBundles != null)
             {
                 Items.Clear();
 
                 // For every bundle in saved bundle collection:
-                foreach (var bundle in JsonSettings.SavedBundles)
+                foreach (var bundle in WidgetsSettings.SavedBundles)
                 {
                     List<BundleItemViewModel> bundleItems = new List<BundleItemViewModel>();
 

@@ -18,7 +18,7 @@ namespace Files.ViewModels.Bundles
     {
         #region Singleton
 
-        private IWidgetsSettings JsonSettings => App.JsonSettings;
+        private IWidgetsSettings WidgetsSettings => App.WidgetsSettings;
 
         #endregion
 
@@ -126,11 +126,11 @@ namespace Files.ViewModels.Bundles
 
         private void RemoveItem()
         {
-            if (JsonSettings.SavedBundles.ContainsKey(OriginBundleName))
+            if (WidgetsSettings.SavedBundles.ContainsKey(OriginBundleName))
             {
-                Dictionary<string, List<string>> allBundles = JsonSettings.SavedBundles; // We need to do it this way for Set() to be called
+                Dictionary<string, List<string>> allBundles = WidgetsSettings.SavedBundles; // We need to do it this way for Set() to be called
                 allBundles[OriginBundleName].Remove(Path);
-                JsonSettings.SavedBundles = allBundles;
+                WidgetsSettings.SavedBundles = allBundles;
                 NotifyItemRemoved(this);
             }
         }
