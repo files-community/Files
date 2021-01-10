@@ -454,7 +454,9 @@ namespace Files.Interacts
             bool shortcutIsFolder = false;
 
             if (!fileExists && !isShortcutItem && !isHiddenItem)
+            {
                 return false;
+            }
 
             if (itemType == null || isShortcutItem || isHiddenItem)
             {
