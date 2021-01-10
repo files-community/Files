@@ -30,49 +30,7 @@ std::string ExtractStringFromDLL(LPCWSTR dllName, int resourceIndex)
 std::string IconToBase64String(HICON hIcon)
 {
 	std::string result;
-	BITMAP nativeBitmap;
-	Gdiplus::Bitmap* gdiBitmap = NULL;
-	if (GetObject(hIcon, sizeof(nativeBitmap), (LPVOID)&nativeBitmap) && nativeBitmap.bmBits)
-	{
-		gdiBitmap = new Gdiplus::Bitmap(nativeBitmap.bmWidth, nativeBitmap.bmHeight, PixelFormat32bppARGB);
-		if (gdiBitmap->GetLastStatus() != Gdiplus::Status::Ok)
-		{
-			delete gdiBitmap;
-			return result;
-		}
-		Gdiplus::BitmapData data;
-		Gdiplus::Rect rect(0, 0, nativeBitmap.bmWidth, nativeBitmap.bmHeight);
-		gdiBitmap->LockBits(&rect,
-			Gdiplus::ImageLockModeWrite, gdiBitmap->GetPixelFormat(), &data);
-		if (gdiBitmap->GetLastStatus() != Gdiplus::Status::Ok)
-		{
-			delete gdiBitmap;
-			return result;
-		}
-		if (data.Stride != nativeBitmap.bmWidthBytes)
-		{
-			delete gdiBitmap; // pixel_format is wrong
-			return result;
-		}
-		//memcpy(data.Scan0, nativeBitmap.bmBits, nativeBitmap.bmHeight * nativeBitmap.bmWidthBytes);
-		for (int ll = 0; ll < nativeBitmap.bmHeight; ll++)
-		{
-			// Flip image upside-down, check winrar icon
-			memcpy((char*)data.Scan0 + nativeBitmap.bmWidthBytes * ll,
-				(char*)nativeBitmap.bmBits + nativeBitmap.bmWidthBytes * (nativeBitmap.bmHeight - 1 - ll),
-				nativeBitmap.bmWidthBytes);
-		}
-		gdiBitmap->UnlockBits(&data);
-		if (gdiBitmap->GetLastStatus() != Gdiplus::Status::Ok)
-		{
-			delete gdiBitmap;
-			return result;
-		}
-	}
-	else
-	{
-		return result;
-	}
+	Gdiplus::Bitmap* gdiBitmap = Gdiplus::Bitmap::FromHICON(hIcon);
 
 	if (gdiBitmap != NULL)
 	{
@@ -112,51 +70,30 @@ std::string IconToBase64String(HICON hIcon)
 	return result;
 }
 
-std::string IconToBase64String(HBITMAP hBitmap)
+std::string IconToBase64String(HBITMAP hBitmap, bool isBottomUp)
 {
 	std::string result;
-	BITMAP nativeBitmap;
+	DIBSECTION dibSection;
 	Gdiplus::Bitmap* gdiBitmap = NULL;
-	if (GetObject(hBitmap, sizeof(nativeBitmap), (LPVOID)&nativeBitmap) && nativeBitmap.bmBits)
+	if (!GetObject(hBitmap, sizeof(dibSection), (LPVOID)&dibSection) || dibSection.dsBmih.biBitCount != 32)
 	{
-		gdiBitmap = new Gdiplus::Bitmap(nativeBitmap.bmWidth, nativeBitmap.bmHeight, PixelFormat32bppARGB);
-		if (gdiBitmap->GetLastStatus() != Gdiplus::Status::Ok)
-		{
-			delete gdiBitmap;
-			return result;
-		}
-		Gdiplus::BitmapData data;
-		Gdiplus::Rect rect(0, 0, nativeBitmap.bmWidth, nativeBitmap.bmHeight);
-		gdiBitmap->LockBits(&rect,
-			Gdiplus::ImageLockModeWrite, gdiBitmap->GetPixelFormat(), &data);
-		if (gdiBitmap->GetLastStatus() != Gdiplus::Status::Ok)
-		{
-			delete gdiBitmap;
-			return result;
-		}
-		if (data.Stride != nativeBitmap.bmWidthBytes)
-		{
-			delete gdiBitmap; // pixel_format is wrong
-			return result;
-		}
-		//memcpy(data.Scan0, nativeBitmap.bmBits, nativeBitmap.bmHeight * nativeBitmap.bmWidthBytes);
-		for (int ll = 0; ll < nativeBitmap.bmHeight; ll++)
-		{
-			// Flip image upside-down, check winrar icon
-			memcpy((char*)data.Scan0 + nativeBitmap.bmWidthBytes * ll,
-				(char*)nativeBitmap.bmBits + nativeBitmap.bmWidthBytes * (nativeBitmap.bmHeight - 1 - ll),
-				nativeBitmap.bmWidthBytes);
-		}
-		gdiBitmap->UnlockBits(&data);
-		if (gdiBitmap->GetLastStatus() != Gdiplus::Status::Ok)
-		{
-			delete gdiBitmap;
-			return result;
-		}
+		gdiBitmap = new Gdiplus::Bitmap(hBitmap, nullptr);
 	}
 	else
 	{
-		gdiBitmap = new Gdiplus::Bitmap(hBitmap, nullptr);
+		BITMAP nativeBitmap = dibSection.dsBm;
+		if (!nativeBitmap.bmBits)
+		{
+			return result;
+		}
+		if (isBottomUp)
+		{
+			gdiBitmap = new Gdiplus::Bitmap(nativeBitmap.bmWidth, nativeBitmap.bmHeight, -nativeBitmap.bmWidthBytes, PixelFormat32bppARGB, (BYTE*)nativeBitmap.bmBits + nativeBitmap.bmWidthBytes * (nativeBitmap.bmHeight - 1));
+		}
+		else
+		{
+			gdiBitmap = new Gdiplus::Bitmap(nativeBitmap.bmWidth, nativeBitmap.bmHeight, nativeBitmap.bmWidthBytes, PixelFormat32bppARGB, (BYTE*)nativeBitmap.bmBits);
+		}
 	}
 
 	if (gdiBitmap != NULL)

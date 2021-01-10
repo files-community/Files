@@ -119,15 +119,29 @@ IconResponse MsgHandler_FileOperations::GetFileIconAndOverlay(LPCWSTR fileIconPa
 		IShellItemImageFactory* psiif = NULL;
 		if (SUCCEEDED(psi->QueryInterface(IID_IShellItemImageFactory, (void**)&psiif)))
 		{
-			int flags = SIIGBF_BIGGERSIZEOK;
-			if (thumbnailSize < 80) flags = flags | SIIGBF_ICONONLY;
-
 			HBITMAP hBitmap = NULL;
 			SIZE iconSize = { thumbnailSize, thumbnailSize };
-			if (SUCCEEDED(psiif->GetImage(iconSize, flags, &hBitmap)))
+			int flags = SIIGBF_BIGGERSIZEOK;
+			if (thumbnailSize < 80)
 			{
-				resp.Icon = IconToBase64String(hBitmap);
-				DeleteObject(hBitmap);
+				if (SUCCEEDED(psiif->GetImage(iconSize, flags | SIIGBF_ICONONLY, &hBitmap)))
+				{
+					resp.Icon = IconToBase64String(hBitmap);
+					DeleteObject(hBitmap);
+				}
+			}
+			else
+			{
+				if (SUCCEEDED(psiif->GetImage(iconSize, flags | SIIGBF_THUMBNAILONLY, &hBitmap)))
+				{
+					resp.Icon = IconToBase64String(hBitmap, false);
+					DeleteObject(hBitmap);
+				}
+				else if(SUCCEEDED(psiif->GetImage(iconSize, SIIGBF_BIGGERSIZEOK, &hBitmap)))
+				{
+					resp.Icon = IconToBase64String(hBitmap);
+					DeleteObject(hBitmap);
+				}
 			}
 
 			psiif->Release();
