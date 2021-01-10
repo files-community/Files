@@ -108,6 +108,7 @@ namespace Files.Views.LayoutModes
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
+            AllView.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged += ViewModel_PropertyChanged;
             AllView.LoadingRow += AllView_LoadingRow;
             AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
@@ -140,6 +141,7 @@ namespace Files.Views.LayoutModes
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged -= ViewModel_PropertyChanged;
             AllView.LoadingRow -= AllView_LoadingRow;
             AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
+            AllView.ItemsSource = null;
         }
 
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)

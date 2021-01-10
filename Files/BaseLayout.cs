@@ -384,16 +384,18 @@ namespace Files
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-        }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
             var parameter = e.Parameter as NavigationArguments;
             if (!parameter.IsLayoutSwitch)
             {
                 ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles();
             }
         }
+
+        //protected override void OnNavigatedFrom(NavigationEventArgs e)
+        //{
+
+        //}
 
         private void UnloadMenuFlyoutItemByName(string nameToUnload)
         {
