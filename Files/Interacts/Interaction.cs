@@ -447,11 +447,11 @@ namespace Files.Interacts
             FilesystemResult opened = (FilesystemResult)false;
 
             // Shortcut item variables
-            string sTargetPath = null;
-            string sArguments = null;
-            string sWorkingDirectory = null;
-            bool sRunAsAdmin = false;
-            bool sIsFolder = false;
+            string shortcutTargetPath = null;
+            string shortcutArguments = null;
+            string shortcutWorkingDirectory = null;
+            bool shortcutRunAsAdmin = false;
+            bool shortcutIsFolder = false;
 
             if (!fileExists && !isShortcutItem && !isHiddenItem)
                 return false;
@@ -473,11 +473,11 @@ namespace Files.Interacts
 
                     if (response.Status == AppServiceResponseStatus.Success)
                     {
-                        sTargetPath = response.Message.Get("TargetPath", string.Empty);
-                        sArguments = response.Message.Get("Arguments", string.Empty);
-                        sWorkingDirectory = response.Message.Get("WorkingDirectory", string.Empty);
-                        sRunAsAdmin = response.Message.Get("RunAsAdmin", false);
-                        sIsFolder = response.Message.Get("IsFolder", false);
+                        shortcutTargetPath = response.Message.Get("TargetPath", string.Empty);
+                        shortcutArguments = response.Message.Get("Arguments", string.Empty);
+                        shortcutWorkingDirectory = response.Message.Get("WorkingDirectory", string.Empty);
+                        shortcutRunAsAdmin = response.Message.Get("RunAsAdmin", false);
+                        shortcutIsFolder = response.Message.Get("IsFolder", false);
 
                         itemType = FilesystemItemType.File; // Set to file here, because the logic is the same in both scenarios
                     }
@@ -538,7 +538,7 @@ namespace Files.Interacts
                 }
                 else if (isShortcutItem)
                 {
-                    if (string.IsNullOrEmpty(sTargetPath))
+                    if (string.IsNullOrEmpty(shortcutTargetPath))
                     {
                         await InvokeWin32ComponentAsync(path);
                     }
@@ -546,14 +546,14 @@ namespace Files.Interacts
                     {
                         if (!path.EndsWith(".url"))
                         {
-                            StorageFileWithPath childFile = await AssociatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(sTargetPath);
+                            StorageFileWithPath childFile = await AssociatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(shortcutTargetPath);
                             if (childFile != null)
                             {
                                 // Add location to MRU List
                                 mru.Add(childFile.File, childFile.Path);
                             }
                         }
-                        await InvokeWin32ComponentAsync(sTargetPath, sArguments, sRunAsAdmin, sWorkingDirectory);
+                        await InvokeWin32ComponentAsync(shortcutTargetPath, shortcutArguments, shortcutRunAsAdmin, shortcutWorkingDirectory);
                     }
                     opened = (FilesystemResult)true;
                 }
