@@ -14,178 +14,185 @@ using Files.Views;
 
 namespace Files.ViewModels.Bundles
 {
-	public class BundleItemViewModel : ObservableObject, IDisposable
-	{
-		#region Singleton
+    public class BundleItemViewModel : ObservableObject, IDisposable
+    {
+        #region Singleton
 
-		private IJsonSettings JsonSettings => associatedInstance?.InstanceViewModel.JsonSettings;
+        private IJsonSettings JsonSettings => associatedInstance?.InstanceViewModel.JsonSettings;
 
-		#endregion
+        #endregion
 
-		#region Private Members
+        #region Private Members
 
-		private IShellPage associatedInstance;
+        private IShellPage associatedInstance;
 
-		#endregion
+        #endregion
 
-		#region Actions
+        #region Actions
 
-		public Action<BundleItemViewModel> NotifyItemRemoved { get; set; }
+        public Action<BundleItemViewModel> NotifyItemRemoved { get; set; }
 
-		#endregion
+        #endregion
 
-		#region Public Properties
+        #region Public Properties
 
-		/// <summary>
-		/// The name of a bundle this item is contained within
-		/// </summary>
-		public string OriginBundleName { get; set; }
+        /// <summary>
+        /// The name of a bundle this item is contained within
+        /// </summary>
+        public string OriginBundleName { get; set; }
 
-		public string Path { get; set; }
+        public string Path { get; set; }
 
-		public string Name
-		{
-			get => System.IO.Path.GetFileName(this.Path);
-		}
+        public string Name
+        {
+            get => System.IO.Path.GetFileName(this.Path);
+        }
 
-		public FilesystemItemType TargetType { get; set; } = FilesystemItemType.File;
+        public FilesystemItemType TargetType { get; set; } = FilesystemItemType.File;
 
-		private BitmapImage pIcon = null;
-		public BitmapImage Icon
-		{
-			get => pIcon;
-			set => SetProperty(ref pIcon, value);
-		}
+        private BitmapImage pIcon = null;
+        public BitmapImage Icon
+        {
+            get => pIcon;
+            set => SetProperty(ref pIcon, value);
+        }
 
-		public Uri FolderIconUri
-		{
-			get => new Uri("ms-appx:///Assets/FolderIcon.svg");
-		}
+        public Uri FolderIconUri
+        {
+            get => new Uri("ms-appx:///Assets/FolderIcon.svg");
+        }
 
-		private Visibility _FileIconVisibility = Visibility.Visible;
-		public Visibility FileIconVisibility
-		{
-			get => _FileIconVisibility;
-			set => SetProperty(ref _FileIconVisibility, value);
-		}
+        private Visibility _FileIconVisibility = Visibility.Visible;
+        public Visibility FileIconVisibility
+        {
+            get => _FileIconVisibility;
+            set => SetProperty(ref _FileIconVisibility, value);
+        }
 
-		public Visibility OpenInNewTabVisibility
-		{
-			get => TargetType == FilesystemItemType.Directory ? Visibility.Visible : Visibility.Collapsed;
-		}
+        public Visibility OpenInNewTabVisibility
+        {
+            get => TargetType == FilesystemItemType.Directory ? Visibility.Visible : Visibility.Collapsed;
+        }
 
-		#endregion
+        #endregion
 
-		#region Commands
+        #region Commands
 
-		public ICommand OpenItemCommand { get; set; }
+        public ICommand OpenItemCommand { get; set; }
 
-		public ICommand OpenInNewTabCommand { get; set; }
+        public ICommand OpenInNewTabCommand { get; set; }
 
-		public ICommand OpenItemLocationCommand { get; set; }
+        public ICommand OpenItemLocationCommand { get; set; }
 
-		public ICommand RemoveItemCommand { get; set; }
+        public ICommand RemoveItemCommand { get; set; }
 
-		#endregion
+        #endregion
 
-		#region Constructor
+        #region Constructor
 
-		public BundleItemViewModel(IShellPage associatedInstance, string path, FilesystemItemType targetType)
-		{
-			this.associatedInstance = associatedInstance;
-			this.Path = path;
-			this.TargetType = targetType;
+        public BundleItemViewModel(IShellPage associatedInstance, string path, FilesystemItemType targetType)
+        {
+            this.associatedInstance = associatedInstance;
+            this.Path = path;
+            this.TargetType = targetType;
 
-			// Create commands
-			OpenItemCommand = new RelayCommand(OpenItem);
-			OpenInNewTabCommand = new RelayCommand(OpenInNewTab);
-			OpenItemLocationCommand = new RelayCommand(OpenItemLocation);
-			RemoveItemCommand = new RelayCommand(RemoveItem);
+            // Create commands
+            OpenItemCommand = new RelayCommand(OpenItem);
+            OpenInNewTabCommand = new RelayCommand(OpenInNewTab);
+            OpenItemLocationCommand = new RelayCommand(OpenItemLocation);
+            RemoveItemCommand = new RelayCommand(RemoveItem);
 
-			SetIcon();
-		}
+            SetIcon();
+        }
 
-		#endregion
+        #endregion
 
-		#region Command Implementation
+        #region Command Implementation
 
-		private async void OpenItem()
-		{
-			await associatedInstance.InteractionOperations.OpenPath(Path, TargetType);
-		}
+        private async void OpenItem()
+        {
+            await associatedInstance.InteractionOperations.OpenPath(Path, TargetType);
+        }
 
-		private async void OpenInNewTab()
-		{
-			await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), Path);
-		}
+        private async void OpenInNewTab()
+        {
+            await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), Path);
+        }
 
-		private async void OpenItemLocation()
-		{
-			await associatedInstance.InteractionOperations.OpenPath(System.IO.Path.GetDirectoryName(Path), FilesystemItemType.Directory);
-		}
+        private async void OpenItemLocation()
+        {
+            await associatedInstance.InteractionOperations.OpenPath(System.IO.Path.GetDirectoryName(Path), FilesystemItemType.Directory);
+        }
 
-		private void RemoveItem()
-		{
-			if (JsonSettings.SavedBundles.ContainsKey(OriginBundleName))
-			{
-				Dictionary<string, List<string>> allBundles = JsonSettings.SavedBundles; // We need to do it this way for Set() to be called
-				allBundles[OriginBundleName].Remove(Path);
-				JsonSettings.SavedBundles = allBundles;
-				NotifyItemRemoved(this);
-			}
-		}
+        private void RemoveItem()
+        {
+            if (JsonSettings.SavedBundles.ContainsKey(OriginBundleName))
+            {
+                Dictionary<string, List<string>> allBundles = JsonSettings.SavedBundles; // We need to do it this way for Set() to be called
+                allBundles[OriginBundleName].Remove(Path);
+                JsonSettings.SavedBundles = allBundles;
+                NotifyItemRemoved(this);
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region Private Helpers
+        #region Private Helpers
 
-		private async void SetIcon()
-		{
-			if (TargetType == FilesystemItemType.Directory) // OpenDirectory
-			{
-				FileIconVisibility = Visibility.Collapsed;
-			}
-			else // NotADirectory
-			{
-				try
-				{
-					BitmapImage icon = new BitmapImage();
-					StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>(Path, associatedInstance);
-					StorageItemThumbnail thumbnail = await file.GetThumbnailAsync(ThumbnailMode.ListView, 24u, ThumbnailOptions.UseCurrentScale);
+        private async void SetIcon()
+        {
+            if (TargetType == FilesystemItemType.Directory) // OpenDirectory
+            {
+                FileIconVisibility = Visibility.Collapsed;
+            }
+            else // NotADirectory
+            {
+                try
+                {
+                    BitmapImage icon = new BitmapImage();
+                    StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>(Path, associatedInstance);
 
-					if (thumbnail != null)
-					{
-						await icon.SetSourceAsync(thumbnail);
+                    if (file == null) // No file found
+                    {
+                        Icon = new BitmapImage();
+                        return;
+                    }
 
-						Icon = icon;
-						FileIconVisibility = Visibility.Visible;
-						OnPropertyChanged(nameof(Icon));
-					}
-				}
-				catch (Exception e)
-				{
-					Icon = new BitmapImage(); // Set here no file image
-				}
-			}
-		}
+                    StorageItemThumbnail thumbnail = await file.GetThumbnailAsync(ThumbnailMode.ListView, 24u, ThumbnailOptions.UseCurrentScale);
 
-		#endregion
+                    if (thumbnail != null)
+                    {
+                        await icon.SetSourceAsync(thumbnail);
 
-		#region IDisposable
+                        Icon = icon;
+                        FileIconVisibility = Visibility.Visible;
+                        OnPropertyChanged(nameof(Icon));
+                    }
+                }
+                catch (Exception e)
+                {
+                    Icon = new BitmapImage(); // Set here no file image
+                }
+            }
+        }
 
-		public void Dispose()
-		{
-			Path = null;
-			Icon = null;
+        #endregion
 
-			OpenItemCommand = null;
-			OpenInNewTabCommand = null;
-			OpenItemLocationCommand = null;
-			RemoveItemCommand = null;
+        #region IDisposable
 
-			associatedInstance = null;
-		}
+        public void Dispose()
+        {
+            Path = null;
+            Icon = null;
 
-		#endregion
-	}
+            OpenItemCommand = null;
+            OpenInNewTabCommand = null;
+            OpenItemLocationCommand = null;
+            RemoveItemCommand = null;
+
+            associatedInstance = null;
+        }
+
+        #endregion
+    }
 }

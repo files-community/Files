@@ -161,7 +161,7 @@
                 <DataTemplate>
                     <Grid
                         Width="270"
-                        Height="220"
+                        Height="250"
                         AllowDrop="True"
                         Background="{ThemeResource YourHomeCardBackgroundColor}"
                         ColumnSpacing="8"
@@ -417,7 +417,7 @@
         <!--  No Bundles Info  -->
         <Grid
             Width="270"
-            Height="220"
+            Height="250"
             HorizontalAlignment="Left"
             Background="Transparent"
             BorderBrush="Gray"
