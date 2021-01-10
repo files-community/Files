@@ -216,7 +216,7 @@ namespace Files.ViewModels.Bundles
                     // For every bundleItem in current bundle
                     foreach (var bundleItem in bundle.Value)
                     {
-                        if (bundleItems.Count <= Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
+                        if (bundleItems.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
                         {
                             if (bundleItem != null)
                             {

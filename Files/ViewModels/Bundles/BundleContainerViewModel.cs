@@ -198,9 +198,9 @@ namespace Files.ViewModels.Bundles
 
                 foreach (IStorageItem item in items)
                 {
-                    if (!Contents.Any((i) => i.Path == item.Path)) // Don't add existing items!
+                    if (Contents.Count < Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
                     {
-                        if (Contents.Count <= Constants.Widgets.Bundles.MaxAmountOfItemsPerBundle)
+                        if (!Contents.Any((i) => i.Path == item.Path)) // Don't add existing items!
                         {
                             AddBundleItem(new BundleItemViewModel(associatedInstance, item.Path, item.IsOfType(StorageItemTypes.Folder) ? Filesystem.FilesystemItemType.Directory : Filesystem.FilesystemItemType.File)
                             {
