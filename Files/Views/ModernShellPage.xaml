@@ -261,14 +261,14 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" x:Name="PreviewPaneRow"/>
+                    <RowDefinition Height="2*" x:Name="PreviewPaneRow"/>
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto" x:Name="PreviewPaneColumn" MaxWidth="600"/>
+                    <ColumnDefinition Width="2*" x:Name="PreviewPaneColumn" MaxWidth="600"/>
                 </Grid.ColumnDefinitions>
 
                 <Grid
@@ -316,11 +316,13 @@
                     Grid.Column="1" Grid.Row="1"
                     Style="{StaticResource PaneGridSplitter}"
                     ResizeBehavior="BasedOnAlignment"
+                    x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                     x:Name="PreviewPaneGridSplitter" Visibility="{x:Bind AppSettings.PreviewPaneEnabled, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
                 </Custom:GridSplitter>
 
                 <controls:DetailsPane Grid.Row="1" Grid.Column="2" x:Name="PreviewPane" SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" 
-                                      Visibility="{x:Bind AppSettings.PreviewPaneEnabled, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" >
+                                      x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                                      >
                 </controls:DetailsPane>
                 
                 <controls:StatusBarControl

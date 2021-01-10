@@ -68,7 +68,7 @@
         </VisualStateManager.VisualStateGroups>
 
         <Grid Grid.Row="0" x:Name="RootPreviewGrid" VerticalAlignment="Center" Margin="5, 5, 5, 5">
-            <TextBlock x:Name="PreviewNotAvaliableText" Visibility="Collapsed" Text="No preview avaliable"/>
+            <TextBlock x:Name="PreviewNotAvaliableText" x:Uid="DetailsPanePreviewNotAvaliableText" Visibility="Collapsed" Text="No preview avaliable"/>
             <Grid x:Name="PreviewGrid">
             </Grid>
         </Grid>

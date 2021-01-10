@@ -59,6 +59,7 @@
                 CornerRadius="2"
                 FontSize="16"
                 Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="Toggle the details pane (Ctrl + P)"
                 Click="Button_Click">
             </Button>
             

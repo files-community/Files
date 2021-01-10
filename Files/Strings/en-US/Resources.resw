@@ -1644,4 +1644,11 @@
   <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
     <value>Show hidden items</value>
   </data>
+  <data name="DetailsPane.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Toggle the details pane (Ctrl + P)</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+    <value>No preview avaliable</value>
+  </data>
+
 </root>
