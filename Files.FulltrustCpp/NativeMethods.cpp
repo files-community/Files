@@ -29,44 +29,11 @@ std::string ExtractStringFromDLL(LPCWSTR dllName, int resourceIndex)
 
 std::string IconToBase64String(HICON hIcon)
 {
-	std::string result;
-	Gdiplus::Bitmap* gdiBitmap = Gdiplus::Bitmap::FromHICON(hIcon);
-
-	if (gdiBitmap != NULL)
-	{
-		std::vector<BYTE> data;
-
-		//write to IStream
-		IStream* istream = nullptr;
-		if (SUCCEEDED(CreateStreamOnHGlobal(NULL, TRUE, &istream)))
-		{
-			CLSID clsid_png;
-			if (SUCCEEDED(CLSIDFromString(L"{557cf406-1a04-11d3-9a73-0000f81ef32e}", &clsid_png))) // bmp: {557cf400-1a04-11d3-9a73-0000f81ef32e}
-			{
-				Gdiplus::Status status = gdiBitmap->Save(istream, &clsid_png);
-				if (status == Gdiplus::Status::Ok)
-				{
-					//get memory handle associated with istream
-					HGLOBAL hg = NULL;
-					if (SUCCEEDED(GetHGlobalFromStream(istream, &hg)))
-					{
-						//copy IStream to buffer
-						SIZE_T bufsize = GlobalSize(hg);
-						data.resize(bufsize);
-
-						//lock & unlock memory
-						LPVOID pimage = GlobalLock(hg);
-						memcpy(&data[0], pimage, bufsize);
-						GlobalUnlock(hg);
-
-						result = base64_encode(data.data(), data.size(), false);
-					}
-				}
-			}
-			istream->Release();
-		}
-		delete gdiBitmap;
-	}
+	ICONINFO iconinfo;
+	GetIconInfo(hIcon, &iconinfo);
+	auto hBitmap = (HBITMAP)CopyImage(iconinfo.hbmColor, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION);
+	auto result = IconToBase64String(hBitmap);
+	DeleteObject(hBitmap);
 	return result;
 }
 
