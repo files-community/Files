@@ -198,7 +198,7 @@ namespace Files.Filesystem
             }
         }
 
-        private string DateReturnFormat { get; }
+        protected string DateReturnFormat { get; }
 
         public static string GetFriendlyDateFromFormat(DateTimeOffset d, string returnFormat)
         {
@@ -268,6 +268,20 @@ namespace Files.Filesystem
         public RecycleBinItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
         {
         }
+
+        public string ItemDateDeleted { get; private set; }
+
+        public DateTimeOffset ItemDateDeletedReal
+        {
+            get => itemDateDeletedReal;
+            set
+            {
+                ItemDateDeleted = GetFriendlyDateFromFormat(value, DateReturnFormat);
+                itemDateDeletedReal = value;
+            }
+        }
+
+        private DateTimeOffset itemDateDeletedReal;
 
         // For recycle bin elements (path + name)
         public string ItemOriginalPath { get; set; }
