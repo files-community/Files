@@ -21,7 +21,7 @@ namespace Files.ViewModels.Bundles
     {
         #region Singleton
 
-        private IJsonSettings JsonSettings => App.JsonSettings;
+        private IWidgetsSettings JsonSettings => App.JsonSettings;
 
         #endregion
 

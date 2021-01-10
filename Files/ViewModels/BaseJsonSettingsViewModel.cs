@@ -1,6 +1,4 @@
 ﻿using Files.Helpers;
-using Files.SettingsInterfaces;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,28 +8,35 @@ using Windows.Storage;
 
 namespace Files.ViewModels
 {
-    public class JsonSettingsViewModel : ObservableObject, IJsonSettings
+    public class BaseJsonSettingsViewModel
     {
         #region Private Members
-
-        private readonly string settingsPath;
 
         private Dictionary<string, object> serializableSettings = new Dictionary<string, object>();
 
         #endregion
 
+        #region Protected Members
+
+        protected readonly string settingsPath;
+
+        #endregion
+
         #region Constructor
 
-        public JsonSettingsViewModel()
+        /// <summary>
+        /// Initializes an instance of <see cref="BaseJsonSettingsViewModel"/>, <see cref="Init"/> is called by default
+        /// </summary>
+        /// <param name="settingsPath"></param>
+        public BaseJsonSettingsViewModel(string settingsPath)
         {
-            settingsPath = PathHelpers.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.JsonSettingsFileName);
-            serializableSettings = new Dictionary<string, object>();
+            this.settingsPath = settingsPath;
             Init();
         }
 
         #endregion
 
-        #region Private Helpers
+        #region Protected Helpers
 
         private async void Init()
         {
@@ -40,19 +45,9 @@ namespace Files.ViewModels
 
         #endregion
 
-        #region IJsonSettings
-
-        public Dictionary<string, List<string>> SavedBundles
-        {
-            get => Get<Dictionary<string, List<string>>>(null);
-            set => Set(value);
-        }
-
-        #endregion
-
         #region Get, Set
 
-        private bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = "")
+        protected virtual bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = "")
         {
             try
             {
@@ -76,7 +71,7 @@ namespace Files.ViewModels
             return true;
         }
 
-        private TValue Get<TValue>(TValue defaultValue, [CallerMemberName] string propertyName = "")
+        protected virtual TValue Get<TValue>(TValue defaultValue, [CallerMemberName] string propertyName = "")
         {
             try
             {

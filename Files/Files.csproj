@@ -201,12 +201,13 @@
     <Compile Include="UserControls\Widgets\Bundles.xaml.cs">
       <DependentUpon>Bundles.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\BaseJsonSettingsViewModel.cs" />
     <Compile Include="ViewModels\Bundles\BundleContainerViewModel.cs" />
     <Compile Include="ViewModels\Bundles\BundleItemViewModel.cs" />
     <Compile Include="ViewModels\Bundles\BundlesViewModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
-    <Compile Include="SettingsInterfaces\IJsonSettings.cs" />
-    <Compile Include="ViewModels\JsonSettingsViewModel.cs" />
+    <Compile Include="SettingsInterfaces\IWidgetsSettings.cs" />
+    <Compile Include="ViewModels\WidgetsSettingsViewModel.cs" />
     <Compile Include="ViewModels\Properties\FileProperty.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />

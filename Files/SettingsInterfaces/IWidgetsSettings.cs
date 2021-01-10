@@ -2,7 +2,7 @@
 
 namespace Files.SettingsInterfaces
 {
-    public interface IJsonSettings
+    public interface IWidgetsSettings
     {
         Dictionary<string, List<string>> SavedBundles { get; set; }
     }

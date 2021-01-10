@@ -45,7 +45,7 @@ namespace Files
         public static SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
 
-        public static IJsonSettings JsonSettings = new JsonSettingsViewModel();
+        public static IWidgetsSettings JsonSettings = new WidgetsSettingsViewModel();
 
         public static SettingsViewModel AppSettings { get; set; }
         public static InteractionViewModel InteractionViewModel { get; set; }
