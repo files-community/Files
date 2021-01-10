@@ -7,12 +7,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="400"
+    Unloaded="UserControl_Unloaded">
 
     <ListView x:Name="PageList" SelectionMode="None" ItemsSource="{x:Bind pages, Mode=OneWay}">
         <ListView.ItemTemplate>
             <DataTemplate x:DataType="Page">
-                <Grid>
+                <Grid Margin="0, 5, 0, 5">
                     <Image Source="{Binding PageImage}"/>
                 </Grid>
             </DataTemplate>

@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
+using System.Threading.Tasks;
 using Windows.Data.Pdf;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -31,21 +33,28 @@ namespace Files.UserControls.FilePreviews
         public PDFPreview(string path)
         {
             this.InitializeComponent();
-            initialize(path);
+            _ = initialize(path, tokenSource.Token);
         }
 
-        ObservableCollection<Page> pages = new ObservableCollection<Page>(); 
+        ObservableCollection<Page> pages = new ObservableCollection<Page>();
 
-        private async void initialize(string path)
+        CancellationTokenSource tokenSource = new CancellationTokenSource();
+
+        private async Task initialize(string path, CancellationToken token)
         {
             var file = await StorageFile.GetFileFromPathAsync(path);
             var pdf = await PdfDocument.LoadFromFileAsync(file);
-
             for (uint i = 0; i < pdf.PageCount; i++)
             {
+                // Stop loading if the user has cancelled
+                if(token.IsCancellationRequested)
+                {
+                    return;
+                }
+
                 var page = pdf.GetPage(i);
                 await page.PreparePageAsync();
-                var stream = new InMemoryRandomAccessStream();
+                using var stream = new InMemoryRandomAccessStream();
                 await page.RenderToStreamAsync(stream);
 
                 var src = new BitmapImage();
@@ -58,7 +67,6 @@ namespace Files.UserControls.FilePreviews
 
                 pages.Add(pageData);
             }
-
             LoadingRing.Visibility = Visibility.Collapsed;
         }
 
@@ -66,6 +74,11 @@ namespace Files.UserControls.FilePreviews
         {
             public int PageNumber {get; set;}
             public BitmapImage PageImage { get; set; }
+        }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            tokenSource.Cancel();
         }
     }
 }
