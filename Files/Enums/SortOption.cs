@@ -6,6 +6,7 @@
         DateModified,
         Size,
         FileType,
-        OriginalPath
+        OriginalPath,
+        DateDeleted
     }
 }

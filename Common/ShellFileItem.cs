@@ -9,11 +9,13 @@ namespace Files.Common
         public string FileName;
         public string FilePath;
         public long RecycleDate;
+        public long ModifiedDate;
         public string FileSize;
         public ulong FileSizeBytes;
         public string FileType;
 
         public DateTime RecycleDateDT => DateTime.FromFileTimeUtc(RecycleDate).ToLocalTime();
+        public DateTime ModifiedDateDT => DateTime.FromFileTimeUtc(ModifiedDate).ToLocalTime();
 
         public ShellFileItem()
         {
@@ -21,13 +23,14 @@ namespace Files.Common
 
         public ShellFileItem(
             bool isFolder, string recyclePath, string fileName, string filePath,
-            long recycleDate, string fileSize, ulong fileSizeBytes, string fileType)
+            long recycleDate, long modifiedDate, string fileSize, ulong fileSizeBytes, string fileType)
         {
             this.IsFolder = isFolder;
             this.RecyclePath = recyclePath;
             this.FileName = fileName;
             this.FilePath = filePath;
             this.RecycleDate = recycleDate;
+            this.ModifiedDate = modifiedDate;
             this.FileSize = fileSize;
             this.FileSizeBytes = fileSizeBytes;
             this.FileType = fileType;

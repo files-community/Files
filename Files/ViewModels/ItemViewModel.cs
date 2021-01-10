@@ -170,6 +170,7 @@ namespace Files.ViewModels
             NotifyPropertyChanged(nameof(IsSortedByType));
             NotifyPropertyChanged(nameof(IsSortedBySize));
             NotifyPropertyChanged(nameof(IsSortedByOriginalPath));
+            NotifyPropertyChanged(nameof(IsSortedByDateDeleted));
             OrderFiles();
         }
 
@@ -202,6 +203,19 @@ namespace Files.ViewModels
                 {
                     FolderSettings.DirectorySortOption = SortOption.OriginalPath;
                     NotifyPropertyChanged(nameof(IsSortedByOriginalPath));
+                }
+            }
+        }
+
+        public bool IsSortedByDateDeleted
+        {
+            get => FolderSettings.DirectorySortOption == SortOption.DateDeleted;
+            set
+            {
+                if (value)
+                {
+                    FolderSettings.DirectorySortOption = SortOption.DateDeleted;
+                    NotifyPropertyChanged(nameof(IsSortedByDateDeleted));
                 }
             }
         }
@@ -494,6 +508,10 @@ namespace Files.ViewModels
 
                 case SortOption.OriginalPath:
                     orderFunc = item => ((RecycleBinItem)item).ItemOriginalFolder;
+                    break;
+
+                case SortOption.DateDeleted:
+                    orderFunc = item => ((RecycleBinItem)item).ItemDateDeletedReal;
                     break;
             }
 
@@ -1450,7 +1468,8 @@ namespace Files.ViewModels
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemName = item.FileName,
-                    ItemDateModifiedReal = item.RecycleDateDT,
+                    ItemDateModifiedReal = item.ModifiedDateDT,
+                    ItemDateDeletedReal = item.RecycleDateDT,
                     ItemType = item.FileType,
                     IsHiddenItem = false,
                     Opacity = 1,
@@ -1501,7 +1520,8 @@ namespace Files.ViewModels
                     IsHiddenItem = false,
                     Opacity = 1,
                     ItemName = itemName,
-                    ItemDateModifiedReal = item.RecycleDateDT,
+                    ItemDateModifiedReal = item.ModifiedDateDT,
+                    ItemDateDeletedReal = item.RecycleDateDT,
                     ItemType = item.FileType,
                     ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
                     ItemOriginalPath = item.FilePath,
