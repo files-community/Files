@@ -34,11 +34,26 @@ std::string IconToBase64String(HICON hIcon)
 	Gdiplus::Bitmap* gdiBitmap = NULL;
 	if (GetObject(hIcon, sizeof(nativeBitmap), (LPVOID)&nativeBitmap) && nativeBitmap.bmBits)
 	{
-		gdiBitmap = new Gdiplus::Bitmap(nativeBitmap.bmWidth, nativeBitmap.bmWidth, PixelFormat32bppARGB);
+		gdiBitmap = new Gdiplus::Bitmap(nativeBitmap.bmWidth, nativeBitmap.bmHeight, PixelFormat32bppARGB);
+		if (gdiBitmap->GetLastStatus() != Gdiplus::Status::Ok)
+		{
+			delete gdiBitmap;
+			return result;
+		}
 		Gdiplus::BitmapData data;
 		Gdiplus::Rect rect(0, 0, nativeBitmap.bmWidth, nativeBitmap.bmHeight);
 		gdiBitmap->LockBits(&rect,
 			Gdiplus::ImageLockModeWrite, gdiBitmap->GetPixelFormat(), &data);
+		if (gdiBitmap->GetLastStatus() != Gdiplus::Status::Ok)
+		{
+			delete gdiBitmap;
+			return result;
+		}
+		if (data.Stride != nativeBitmap.bmWidthBytes)
+		{
+			delete gdiBitmap; // pixel_format is wrong
+			return result;
+		}
 		//memcpy(data.Scan0, nativeBitmap.bmBits, nativeBitmap.bmHeight * nativeBitmap.bmWidthBytes);
 		for (int ll = 0; ll < nativeBitmap.bmHeight; ll++)
 		{
@@ -48,6 +63,11 @@ std::string IconToBase64String(HICON hIcon)
 				nativeBitmap.bmWidthBytes);
 		}
 		gdiBitmap->UnlockBits(&data);
+		if (gdiBitmap->GetLastStatus() != Gdiplus::Status::Ok)
+		{
+			delete gdiBitmap;
+			return result;
+		}
 	}
 	else
 	{
@@ -99,11 +119,26 @@ std::string IconToBase64String(HBITMAP hBitmap)
 	Gdiplus::Bitmap* gdiBitmap = NULL;
 	if (GetObject(hBitmap, sizeof(nativeBitmap), (LPVOID)&nativeBitmap) && nativeBitmap.bmBits)
 	{
-		gdiBitmap = new Gdiplus::Bitmap(nativeBitmap.bmWidth, nativeBitmap.bmWidth, PixelFormat32bppARGB);
+		gdiBitmap = new Gdiplus::Bitmap(nativeBitmap.bmWidth, nativeBitmap.bmHeight, PixelFormat32bppARGB);
+		if (gdiBitmap->GetLastStatus() != Gdiplus::Status::Ok)
+		{
+			delete gdiBitmap;
+			return result;
+		}
 		Gdiplus::BitmapData data;
 		Gdiplus::Rect rect(0, 0, nativeBitmap.bmWidth, nativeBitmap.bmHeight);
 		gdiBitmap->LockBits(&rect,
 			Gdiplus::ImageLockModeWrite, gdiBitmap->GetPixelFormat(), &data);
+		if (gdiBitmap->GetLastStatus() != Gdiplus::Status::Ok)
+		{
+			delete gdiBitmap;
+			return result;
+		}
+		if (data.Stride != nativeBitmap.bmWidthBytes)
+		{
+			delete gdiBitmap; // pixel_format is wrong
+			return result;
+		}
 		//memcpy(data.Scan0, nativeBitmap.bmBits, nativeBitmap.bmHeight * nativeBitmap.bmWidthBytes);
 		for (int ll = 0; ll < nativeBitmap.bmHeight; ll++)
 		{
@@ -113,6 +148,11 @@ std::string IconToBase64String(HBITMAP hBitmap)
 				nativeBitmap.bmWidthBytes);
 		}
 		gdiBitmap->UnlockBits(&data);
+		if (gdiBitmap->GetLastStatus() != Gdiplus::Status::Ok)
+		{
+			delete gdiBitmap;
+			return result;
+		}
 	}
 	else
 	{
