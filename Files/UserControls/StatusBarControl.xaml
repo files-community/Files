@@ -46,6 +46,22 @@
             Padding="2"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
+            
+            <Button 
+                x:Name="DetailsPane"
+                x:Uid="DetailsPaneToggle"
+                FontFamily="{StaticResource FluentUIGlyphs}" Content="&#xEA8D;"
+                Width="36"
+                Height="32"
+                Margin="2,0,2,0"
+                AutomationProperties.Name="Open preview pane"
+                Background="Transparent"
+                CornerRadius="2"
+                FontSize="16"
+                Style="{StaticResource ToolBarButtonStyle}"
+                Click="Button_Click">
+            </Button>
+            
             <Button
                 x:Uid="StatusBarControlSelectionOptions"
                 Width="36"
@@ -199,18 +215,7 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
-            <Button FontFamily="{StaticResource FluentUIGlyphs}" Content="&#xEAF1;"
-                Width="36"
-                Height="32"
-                Margin="2,0,2,0"
-                AutomationProperties.Name="Open preview pane"
-                Background="Transparent"
-                CornerRadius="2"
-                FontSize="16"
-                Style="{StaticResource ToolBarButtonStyle}"
-                Click="Button_Click">
-            </Button>
-            
+
             <Grid x:Name="StatusCenterGrid" Visibility="{x:Bind ShowStatusCenter, Mode=OneWay}">
                 <muxc:AnimatedVisualPlayer
                     x:Name="StatusCenterPulseVisualPlayer"

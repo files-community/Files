@@ -40,6 +40,9 @@
                         <Setter Target="RootPropertiesGrid.(Grid.Column)" Value="2"/>
                         <Setter Target="HorizontalGridSplitter.(Grid.Row)" Value="0"/>
                         <Setter Target="HorizontalGridSplitter.(Grid.Column)" Value="1"/>
+                        <Setter Target="HorizontalGridSplitter.BorderThickness" Value="0, 1, 0, 0"/>
+                        <Setter Target="HorizontalGridSplitter.Width" Value="2"/>
+
                         <Setter Target="PropertiesRow.Height" Value="0"/>
                     </VisualState.Setters>
                 </VisualState>
@@ -52,6 +55,8 @@
                         <Setter Target="RootPropertiesGrid.(Grid.Column)" Value="0"/>
                         <Setter Target="HorizontalGridSplitter.(Grid.Row)" Value="1"/>
                         <Setter Target="HorizontalGridSplitter.(Grid.Column)" Value="0"/>
+                        <Setter Target="HorizontalGridSplitter.Height" Value="2"/>
+
                         <Setter Target="PropertiesColumn.Width" Value="0"/>
                     </VisualState.Setters>
                 </VisualState>
@@ -62,7 +67,7 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <Grid Grid.Row="0" x:Name="RootPreviewGrid" VerticalAlignment="Center">
+        <Grid Grid.Row="0" x:Name="RootPreviewGrid" VerticalAlignment="Center" Margin="5, 5, 5, 5">
             <TextBlock x:Name="PreviewNotAvaliableText" Visibility="Collapsed" Text="No preview avaliable"/>
             <Grid x:Name="PreviewGrid">
             </Grid>

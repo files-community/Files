@@ -49,8 +49,8 @@
         <Setter Property="IsFocusEngagementEnabled" Value="True" />
         <Setter Property="MinWidth" Value="2" />
         <Setter Property="MinHeight" Value="2" />
-        <Setter Property="Background" Value="{StaticResource SystemBaseLowColor}" />
-        <Setter Property="GripperForeground" Value="Transparent" />
+        <Setter Property="Background" Value="{ThemeResource SystemBaseLowColor}" />
+        <Setter Property="GripperForeground" Value="{ThemeResource SystemBaseLowColor}" />
     </Style>
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">

@@ -597,13 +597,11 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition x:Name="PreviewPaneColumn"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition x:Name="PreviewPaneRow"/>
         </Grid.RowDefinitions>
 
         <Grid.KeyboardAccelerators>
