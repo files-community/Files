@@ -49,9 +49,9 @@ namespace Files.UserControls
                 PreviewGrid.Children.Clear();
                 PreviewNotAvaliableText.Visibility = Visibility.Visible;
 
-                if (value.Count == 1)
+                if (SelectedItems.Count == 1)
                 {
-                    if (TryLoadPreviewControl(value[0]))
+                    if (TryLoadPreviewControl(SelectedItems[0]))
                     {
                         PreviewNotAvaliableText.Visibility = Visibility.Collapsed;
                     }
@@ -83,7 +83,7 @@ namespace Files.UserControls
         public DetailsPane()
         {
             this.InitializeComponent();
-            isVerticalCallback = RegisterPropertyChangedCallback(IsHorizontalProperty, isVerticalChangedCallback);
+            isVerticalCallback = RegisterPropertyChangedCallback(IsHorizontalProperty, IsVerticalChangedCallback);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -94,6 +94,7 @@ namespace Files.UserControls
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
         }
+
 
         bool TryLoadPreviewControl(ListedItem item)
         {
@@ -168,7 +169,7 @@ namespace Files.UserControls
             }
         }
 
-        private void isVerticalChangedCallback(DependencyObject sender, DependencyProperty dp)
+        private void IsVerticalChangedCallback(DependencyObject sender, DependencyProperty dp)
         {
             isHorizontalInternal = IsHorizontal;
         }

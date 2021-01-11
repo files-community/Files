@@ -25,7 +25,7 @@ namespace Files.UserControls.FilePreviews
         }
 
         public static List<string> Extensions => new List<string>() {
-            ".md"
+            ".md", ".markdown",
         };
 
         public async void SetFile(string path)
