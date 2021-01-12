@@ -20,7 +20,6 @@ namespace Files.Filesystem.StorageEnumerators
             StorageFolder rootFolder,
             StorageFolderWithPath currentStorageFolder,
             string returnformat,
-            bool shouldDisplayFileExtensions,
             Type sourcePageType,
             CancellationToken cancellationToken,
             Func<List<ListedItem>, Task> intermediateAction
@@ -33,7 +32,13 @@ namespace Files.Filesystem.StorageEnumerators
             {
                 IReadOnlyList<IStorageItem> items;
                 uint maxItemsToRetrieve = 300;
-                if (firstRound)
+
+                if (intermediateAction == null)
+                {
+                    // without intermediate action increase batches significantly
+                    maxItemsToRetrieve = 1000;
+                }
+                else if (firstRound)
                 {
                     maxItemsToRetrieve = 32;
                     firstRound = false;
@@ -71,7 +76,7 @@ namespace Files.Filesystem.StorageEnumerators
                     else
                     {
                         var file = item as StorageFile;
-                        var fileEntry = await AddFileAsync(file, currentStorageFolder, returnformat, shouldDisplayFileExtensions, true, sourcePageType, cancellationToken);
+                        var fileEntry = await AddFileAsync(file, currentStorageFolder, returnformat, true, sourcePageType, cancellationToken);
                         if (fileEntry != null)
                         {
                             tempList.Add(fileEntry);
@@ -153,7 +158,6 @@ namespace Files.Filesystem.StorageEnumerators
             StorageFile file,
             StorageFolderWithPath currentStorageFolder,
             string dateReturnFormat,
-            bool shouldDisplayFileExtensions,
             bool suppressThumbnailLoading,
             Type sourcePageType,
             CancellationToken cancellationToken
@@ -161,7 +165,7 @@ namespace Files.Filesystem.StorageEnumerators
         {
             var basicProperties = await file.GetBasicPropertiesAsync();
             // Display name does not include extension
-            var itemName = string.IsNullOrEmpty(file.DisplayName) || shouldDisplayFileExtensions ?
+            var itemName = string.IsNullOrEmpty(file.DisplayName) || App.AppSettings.ShowFileExtensions ?
                 file.Name : file.DisplayName;
             var itemDate = basicProperties.DateModified;
             var itemPath = string.IsNullOrEmpty(file.Path) ? Path.Combine(currentStorageFolder.Path, file.Name) : file.Path;

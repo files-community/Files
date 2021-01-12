@@ -22,7 +22,6 @@ namespace Files.Filesystem.StorageEnumerators
             string returnformat,
             IntPtr hFile,
             WIN32_FIND_DATA findData,
-            bool shouldDisplayFileExtensions,
             AppServiceConnection connection,
             CancellationToken cancellationToken,
             Func<List<ListedItem>, Task> intermediateAction
@@ -40,7 +39,7 @@ namespace Files.Filesystem.StorageEnumerators
                     {
                         if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                         {
-                            var listedItem = await GetFile(findData, path, returnformat, shouldDisplayFileExtensions, connection, cancellationToken);
+                            var listedItem = await GetFile(findData, path, returnformat, connection, cancellationToken);
                             if (listedItem != null)
                             {
                                 tempList.Add(listedItem);
@@ -143,7 +142,6 @@ namespace Files.Filesystem.StorageEnumerators
             WIN32_FIND_DATA findData,
             string pathRoot,
             string dateReturnFormat,
-            bool shouldDisplayFileExtensions,
             AppServiceConnection connection,
             CancellationToken cancellationToken
         )
@@ -151,7 +149,7 @@ namespace Files.Filesystem.StorageEnumerators
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
             string itemName;
-            if (shouldDisplayFileExtensions && !findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
+            if (App.AppSettings.ShowFileExtensions && !findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
             {
                 itemName = findData.cFileName; // never show extension for shortcuts
             }

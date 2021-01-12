@@ -168,6 +168,7 @@
     <Compile Include="Converters\UInt32ToString.cs" />
     <Compile Include="DataModels\ShellNewEntry.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
+    <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
     <Compile Include="Filesystem\StorageEnumerators\UniversalStorageEnumerator.cs" />
     <Compile Include="Filesystem\StorageEnumerators\Win32StorageEnumerator.cs" />
