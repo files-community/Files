@@ -751,7 +751,7 @@ namespace Files.ViewModels
 
         public void RefreshItems(string previousDir)
         {
-            AddItemsToCollectionAsync(WorkingDirectory, previousDir);
+            RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir);
         }
 
         public async void RapidAddItemsToCollectionAsync(string path, string previousDir)
@@ -971,7 +971,7 @@ namespace Files.ViewModels
                 _rootFolder = _currentStorageFolder.Folder;
                 enumFromStorageFolder = true;
             }
-            else if (!CheckFolderAccessWithWin32(path)) // The folder is really inaccessible
+            else if (!FolderHelpers.CheckFolderAccessWithWin32(path)) // The folder is really inaccessible
             {
                 if (res == FilesystemErrorCode.ERROR_UNAUTHORIZED)
                 {
@@ -999,7 +999,7 @@ namespace Files.ViewModels
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
 
-            if (await CheckBitlockerStatusAsync(_rootFolder))
+            if (await FolderHelpers.CheckBitlockerStatusAsync(_rootFolder, WorkingDirectory))
             {
                 var bitlockerDialog = new Dialogs.BitlockerDialog(Path.GetPathRoot(WorkingDirectory));
                 var bitlockerResult = await bitlockerDialog.ShowAsync();
@@ -1015,7 +1015,7 @@ namespace Files.ViewModels
                         value.Add("password", userInput);
                         await Connection.SendMessageAsync(value);
 
-                        if (await CheckBitlockerStatusAsync(_rootFolder))
+                        if (await FolderHelpers.CheckBitlockerStatusAsync(_rootFolder, WorkingDirectory))
                         {
                             // Drive is still locked
                             await DialogDisplayHelper.ShowDialogAsync("BitlockerInvalidPwDialog/Title".GetLocalized(), "BitlockerInvalidPwDialog/Text".GetLocalized());
@@ -1097,7 +1097,6 @@ namespace Files.ViewModels
                     FileSizeBytes = 0
                 };
 
-                var count = 0;
                 if (hFile == IntPtr.Zero)
                 {
                     await DialogDisplayHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalized(), "");
@@ -1112,61 +1111,27 @@ namespace Files.ViewModels
                 {
                     await Task.Run(async () =>
                     {
-                        var tempList = new List<ListedItem>();
-                        var hasNextFile = false;
-                        do
+                        
+                        var fileList = await Win32StorageEnumerator.ListEntriesWin32(path, returnformat, hFile, findData, shouldDisplayFileExtensions, Connection, _addFilesCTS.Token, intermediateAction: async (intermediateList) =>
                         {
-                            var itemPath = Path.Combine(path, findData.cFileName);
-                            if (((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System || !AppSettings.AreSystemItemsHidden)
+                            var orderedList = OrderFiles2(intermediateList);
+                            await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                             {
-                                if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) != FileAttributes.Hidden || AppSettings.AreHiddenItemsVisible)
-                                {
-                                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
-                                    {
-                                        var listedItem = await AddFile(findData, path, returnformat);
-                                        if (listedItem != null)
-                                        {
-                                            tempList.Add(listedItem);
-                                            ++count;
-                                        }
-                                    }
-                                    else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
-                                    {
-                                        if (findData.cFileName != "." && findData.cFileName != "..")
-                                        {
-                                            var listedItem = AddFolder(findData, path, returnformat);
-                                            if (listedItem != null)
-                                            {
-                                                tempList.Add(listedItem);
-                                                ++count;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            if (_addFilesCTS.IsCancellationRequested)
-                            {
-                                break;
-                            }
+                                OrderFiles(orderedList);
+                            });
+                        });
 
-                            hasNextFile = FindNextFile(hFile, out findData);
-                            if (count == 32 || count % 300 == 0 || !hasNextFile)
-                            {
-                                var orderedList = OrderFiles2(tempList);
-                                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
-                                {
-                                    OrderFiles(orderedList);
-                                });
-                            }
-                        } while (hasNextFile);
+                        var finalList = OrderFiles2(fileList);
+                        await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                        {
+                            OrderFiles(finalList);
+                        });
 
                         await fileListCache.SaveFileListToCache(path, new CacheEntry
                         {
                             CurrentFolder = CurrentFolder,
-                            FileList = tempList
+                            FileList = fileList
                         });
-
-                        FindClose(hFile);
                     });
                     return true;
                 }
@@ -1246,52 +1211,7 @@ namespace Files.ViewModels
             Debug.WriteLine($"Enumerating items in {WorkingDirectory} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
         }
 
-        public bool CheckFolderAccessWithWin32(string path)
-        {
-            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-            IntPtr hFileTsk = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
-                additionalFlags);
-            if (hFileTsk.ToInt64() != -1)
-            {
-                FindClose(hFileTsk);
-                return true;
-            }
-            return false;
-        }
-
-        public bool CheckFolderForHiddenAttribute(string path)
-        {
-            if (string.IsNullOrEmpty(path))
-            {
-                return false;
-            }
-            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-            IntPtr hFileTsk = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findDataTsk, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
-                additionalFlags);
-            if (hFileTsk.ToInt64() == -1)
-            {
-                return false;
-            }
-            var isHidden = ((FileAttributes)findDataTsk.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
-            FindClose(hFileTsk);
-            return isHidden;
-        }
-
-        private async Task<bool> CheckBitlockerStatusAsync(StorageFolder rootFolder)
-        {
-            if (rootFolder == null || rootFolder.Properties == null)
-            {
-                return false;
-            }
-            if (Path.IsPathRooted(WorkingDirectory) && Path.GetPathRoot(WorkingDirectory) == WorkingDirectory)
-            {
-                IDictionary<string, object> extraProperties = await rootFolder.Properties.RetrievePropertiesAsync(new string[] { "System.Volume.BitLockerProtection" });
-                return (int?)extraProperties["System.Volume.BitLockerProtection"] == 6; // Drive is bitlocker protected and locked
-            }
-            return false;
-        }
+        
 
         private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
         {
@@ -1559,11 +1479,11 @@ namespace Files.ViewModels
             ListedItem listedItem = null;
             if ((findData.dwFileAttributes & 0x10) > 0) // FILE_ATTRIBUTE_DIRECTORY
             {
-                listedItem = AddFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat);
+                listedItem = Win32StorageEnumerator.AddFolderWin32(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat, _addFilesCTS.Token);
             }
             else
             {
-                listedItem = await AddFile(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat);
+                listedItem = await Win32StorageEnumerator.AddFileWin32(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat, shouldDisplayFileExtensions, Connection, _addFilesCTS.Token);
             }
 
             if (listedItem != null)
@@ -1644,232 +1564,6 @@ namespace Files.ViewModels
             {
                 await RemoveFileOrFolderAsync(matchingItem);
             }
-        }
-
-        private ListedItem AddFolder(WIN32_FIND_DATA findData, string pathRoot, string dateReturnFormat)
-        {
-            if (_addFilesCTS.IsCancellationRequested)
-            {
-                return null;
-            }
-
-            DateTime itemDate;
-            try
-            {
-                FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemTimeOutput);
-                itemDate = new DateTime(
-                    systemTimeOutput.Year, systemTimeOutput.Month, systemTimeOutput.Day,
-                    systemTimeOutput.Hour, systemTimeOutput.Minute, systemTimeOutput.Second, systemTimeOutput.Milliseconds,
-                    DateTimeKind.Utc);
-            }
-            catch (ArgumentException)
-            {
-                // Invalid date means invalid findData, do not add to list
-                return null;
-            }
-            var itemPath = Path.Combine(pathRoot, findData.cFileName);
-
-            bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
-            double opacity = 1;
-
-            if (isHidden)
-            {
-                opacity = 0.4;
-            }
-
-            var pinned = App.SidebarPinnedController.Model.Items.Contains(itemPath);
-
-            return new ListedItem(null, dateReturnFormat)
-            {
-                PrimaryItemAttribute = StorageItemTypes.Folder,
-                ItemName = findData.cFileName,
-                ItemDateModifiedReal = itemDate,
-                ItemType = "FileFolderListItem".GetLocalized(),
-                LoadFolderGlyph = true,
-                FileImage = null,
-                IsHiddenItem = isHidden,
-                Opacity = opacity,
-                LoadFileIcon = false,
-                ItemPath = itemPath,
-                LoadUnknownTypeGlyph = false,
-                FileSize = null,
-                FileSizeBytes = 0,
-                ContainsFilesOrFolders = CheckForFilesFolders(itemPath),
-                IsPinned = pinned,
-                //FolderTooltipText = tooltipString,
-        };
-        }
-
-        private async Task<ListedItem> AddFile(WIN32_FIND_DATA findData, string pathRoot, string dateReturnFormat)
-        {
-            var itemPath = Path.Combine(pathRoot, findData.cFileName);
-
-            string itemName;
-            if (shouldDisplayFileExtensions && !findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
-            {
-                itemName = findData.cFileName; // never show extension for shortcuts
-            }
-            else
-            {
-                if (findData.cFileName.StartsWith("."))
-                {
-                    itemName = findData.cFileName; // Always show full name for dotfiles.
-                }
-                else
-                {
-                    itemName = Path.GetFileNameWithoutExtension(itemPath);
-                }
-            }
-
-            DateTime itemModifiedDate, itemCreatedDate, itemLastAccessDate;
-            try
-            {
-                FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemModifiedDateOutput);
-                itemModifiedDate = new DateTime(
-                    systemModifiedDateOutput.Year, systemModifiedDateOutput.Month, systemModifiedDateOutput.Day,
-                    systemModifiedDateOutput.Hour, systemModifiedDateOutput.Minute, systemModifiedDateOutput.Second, systemModifiedDateOutput.Milliseconds,
-                    DateTimeKind.Utc);
-
-                FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedDateOutput);
-                itemCreatedDate = new DateTime(
-                    systemCreatedDateOutput.Year, systemCreatedDateOutput.Month, systemCreatedDateOutput.Day,
-                    systemCreatedDateOutput.Hour, systemCreatedDateOutput.Minute, systemCreatedDateOutput.Second, systemCreatedDateOutput.Milliseconds,
-                    DateTimeKind.Utc);
-
-                FileTimeToSystemTime(ref findData.ftLastAccessTime, out SYSTEMTIME systemLastAccessOutput);
-                itemLastAccessDate = new DateTime(
-                    systemLastAccessOutput.Year, systemLastAccessOutput.Month, systemLastAccessOutput.Day,
-                    systemLastAccessOutput.Hour, systemLastAccessOutput.Minute, systemLastAccessOutput.Second, systemLastAccessOutput.Milliseconds,
-                    DateTimeKind.Utc);
-            }
-            catch (ArgumentException)
-            {
-                // Invalid date means invalid findData, do not add to list
-                return null;
-            }
-
-            long itemSizeBytes = findData.GetSize();
-            var itemSize = ByteSize.FromBytes(itemSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
-            string itemType = "ItemTypeFile".GetLocalized();
-            string itemFileExtension = null;
-
-            if (findData.cFileName.Contains('.'))
-            {
-                itemFileExtension = Path.GetExtension(itemPath);
-                itemType = itemFileExtension.Trim('.') + " " + itemType;
-            }
-
-            bool itemFolderImgVis = false;
-            bool itemThumbnailImgVis;
-            bool itemEmptyImgVis;
-
-            itemEmptyImgVis = true;
-            itemThumbnailImgVis = false;
-
-            if (_addFilesCTS.IsCancellationRequested)
-            {
-                return null;
-            }
-
-            if (findData.cFileName.EndsWith(".lnk") || findData.cFileName.EndsWith(".url"))
-            {
-                if (Connection != null)
-                {
-                    var response = await Connection.SendMessageAsync(new ValueSet()
-                    {
-                        { "Arguments", "FileOperation" },
-                        { "fileop", "ParseLink" },
-                        { "filepath", itemPath }
-                    });
-                    // If the request was canceled return now
-                    if (_addFilesCTS.IsCancellationRequested)
-                    {
-                        return null;
-                    }
-                    if (response.Status == AppServiceResponseStatus.Success
-                        && response.Message.ContainsKey("TargetPath"))
-                    {
-                        var isUrl = findData.cFileName.EndsWith(".url");
-                        string target = (string)response.Message["TargetPath"];
-                        bool containsFilesOrFolders = false;
-
-                        if ((bool)response.Message["IsFolder"])
-                        {
-                            containsFilesOrFolders = CheckForFilesFolders(target);
-                        }
-
-                        bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
-                        double opacity = 1;
-
-                        if (isHidden)
-                        {
-                            opacity = 0.4;
-                        }
-
-                        return new ShortcutItem(null, dateReturnFormat)
-                        {
-                            PrimaryItemAttribute = (bool)response.Message["IsFolder"] ? StorageItemTypes.Folder : StorageItemTypes.File,
-                            FileExtension = itemFileExtension,
-                            IsHiddenItem = isHidden,
-                            Opacity = opacity,
-                            FileImage = null,
-                            LoadFileIcon = !(bool)response.Message["IsFolder"] && itemThumbnailImgVis,
-                            LoadUnknownTypeGlyph = !(bool)response.Message["IsFolder"] && !isUrl && itemEmptyImgVis,
-                            LoadFolderGlyph = (bool)response.Message["IsFolder"],
-                            ItemName = itemName,
-                            ItemDateModifiedReal = itemModifiedDate,
-                            ItemDateAccessedReal = itemLastAccessDate,
-                            ItemDateCreatedReal = itemCreatedDate,
-                            ItemType = isUrl ? "ShortcutWebLinkFileType".GetLocalized() : "ShortcutFileType".GetLocalized(),
-                            ItemPath = itemPath,
-                            FileSize = itemSize,
-                            FileSizeBytes = itemSizeBytes,
-                            TargetPath = target,
-                            Arguments = (string)response.Message["Arguments"],
-                            WorkingDirectory = (string)response.Message["WorkingDirectory"],
-                            RunAsAdmin = (bool)response.Message["RunAsAdmin"],
-                            IsUrl = isUrl,
-                            ContainsFilesOrFolders = containsFilesOrFolders
-                        };
-                    }
-                }
-            }
-            else
-            {
-                bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
-                double opacity = 1;
-
-                if (isHidden)
-                {
-                    opacity = 0.4;
-                }
-
-                return new ListedItem(null, dateReturnFormat)
-                {
-                    PrimaryItemAttribute = StorageItemTypes.File,
-                    FileExtension = itemFileExtension,
-                    LoadUnknownTypeGlyph = itemEmptyImgVis,
-                    FileImage = null,
-                    LoadFileIcon = itemThumbnailImgVis,
-                    LoadFolderGlyph = itemFolderImgVis,
-                    ItemName = itemName,
-                    IsHiddenItem = isHidden,
-                    Opacity = opacity,
-                    ItemDateModifiedReal = itemModifiedDate,
-                    ItemDateAccessedReal = itemLastAccessDate,
-                    ItemDateCreatedReal = itemCreatedDate,
-                    ItemType = itemType,
-                    ItemPath = itemPath,
-                    FileSize = itemSize,
-                    FileSizeBytes = itemSizeBytes
-                };
-            }
-            return null;
-        }
-
-        public void AddItemsToCollectionAsync(string path, string previousDir)
-        {
-            RapidAddItemsToCollectionAsync(path, previousDir);
         }
 
         private async Task<ListedItem> AddFolderAsync(StorageFolder folder, string dateReturnFormat)
@@ -2028,23 +1722,6 @@ namespace Files.ViewModels
             _addFilesCTS?.Dispose();
             _semaphoreCTS?.Dispose();
             CloseWatcher();
-        }
-
-        /// <summary>
-        /// This function is used to determine whether or not a folder has any contents.
-        /// </summary>
-        /// <param name="targetPath">The path to the target folder</param>
-        ///
-        public bool CheckForFilesFolders(string targetPath)
-        {
-            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-
-            IntPtr hFile = FindFirstFileExFromApp(targetPath + "\\*.*", findInfoLevel, out WIN32_FIND_DATA _, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
-            FindNextFile(hFile, out _);
-            var result = FindNextFile(hFile, out _);
-            FindClose(hFile);
-            return result;
         }
     }
 

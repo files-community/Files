@@ -460,7 +460,7 @@ namespace Files.Interacts
                         });
                     if (!opened)
                     {
-                        opened = (FilesystemResult)AssociatedInstance.FilesystemViewModel.CheckFolderAccessWithWin32(folderPath);
+                        opened = (FilesystemResult)FolderHelpers.CheckFolderAccessWithWin32(folderPath);
                     }
                     if (opened)
                     {
