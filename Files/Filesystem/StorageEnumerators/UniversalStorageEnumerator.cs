@@ -28,12 +28,78 @@ namespace Files.Filesystem.StorageEnumerators
         {
             var tempList = new List<ListedItem>();
             uint count = 0;
+            var firstRound = true;
             while (true)
             {
-                IStorageItem item = null;
+                IReadOnlyList<IStorageItem> items;
+                uint maxItemsToRetrieve = 300;
+                if (firstRound)
+                {
+                    maxItemsToRetrieve = 32;
+                    firstRound = false;
+                }
                 try
                 {
-                    var results = await rootFolder.GetItemsAsync(count, 1);
+                    items = await rootFolder.GetItemsAsync(count, maxItemsToRetrieve);
+                    if (items == null || items.Count == 0)
+                    {
+                        break;
+                    }
+                }
+                catch (NotImplementedException)
+                {
+                    break;
+                }
+                catch (Exception ex) when (
+                    ex is UnauthorizedAccessException
+                    || ex is FileNotFoundException
+                    || (uint)ex.HResult == 0x80070490) // ERROR_NOT_FOUND
+                {
+                    // If some unexpected exception is thrown - enumerate this folder file by file - just to be sure
+                    items = await EnumerateFileByFile(rootFolder, count, maxItemsToRetrieve);
+                }
+                foreach (var item in items)
+                {
+                    if (item.IsOfType(StorageItemTypes.Folder))
+                    {
+                        var folder = await AddFolderAsync(item as StorageFolder, currentStorageFolder, returnformat, cancellationToken);
+                        if (folder != null)
+                        {
+                            tempList.Add(folder);
+                        }
+                    }
+                    else
+                    {
+                        var file = item as StorageFile;
+                        var fileEntry = await AddFileAsync(file, currentStorageFolder, returnformat, shouldDisplayFileExtensions, true, sourcePageType, cancellationToken);
+                        if (fileEntry != null)
+                        {
+                            tempList.Add(fileEntry);
+                        }
+                    }
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        break;
+                    }
+                }
+                count += maxItemsToRetrieve;
+                if (intermediateAction != null && count % 300 == 32 && items.Count == maxItemsToRetrieve)
+                {
+                    await intermediateAction(tempList);
+                }
+            }
+            return tempList;
+        }
+
+        private static async Task<IReadOnlyList<IStorageItem>> EnumerateFileByFile(StorageFolder rootFolder, uint startFrom, uint itemsToIterate)
+        {
+            var tempList = new List<IStorageItem>();
+            for (var i = startFrom; i < startFrom + itemsToIterate; i++)
+            {
+                IStorageItem item;
+                try
+                {
+                    var results = await rootFolder.GetItemsAsync(i, 1);
                     item = results?.FirstOrDefault();
                     if (item == null)
                     {
@@ -49,36 +115,9 @@ namespace Files.Filesystem.StorageEnumerators
                     || ex is FileNotFoundException
                     || (uint)ex.HResult == 0x80070490) // ERROR_NOT_FOUND
                 {
-                    ++count;
                     continue;
                 }
-                if (item.IsOfType(StorageItemTypes.Folder))
-                {
-                    var folder = await AddFolderAsync(item as StorageFolder, currentStorageFolder, returnformat, cancellationToken);
-                    if (folder != null)
-                    {
-                        tempList.Add(folder);
-                    }
-                    ++count;
-                }
-                else
-                {
-                    var file = item as StorageFile;
-                    var fileEntry = await AddFileAsync(file, currentStorageFolder, returnformat, shouldDisplayFileExtensions, true, sourcePageType, cancellationToken);
-                    if (fileEntry != null)
-                    {
-                        tempList.Add(fileEntry);
-                    }
-                    ++count;
-                }
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    break;
-                }
-                if (intermediateAction != null && (count == 32 || count % 300 == 0))
-                {
-                    await intermediateAction(tempList);
-                }
+                tempList.Add(item);
             }
             return tempList;
         }
@@ -136,7 +175,7 @@ namespace Files.Filesystem.StorageEnumerators
             bool itemThumbnailImgVis;
             bool itemEmptyImgVis;
 
-            if (!(sourcePageType == typeof(GridViewBrowser)))
+            if (sourcePageType != typeof(GridViewBrowser))
             {
                 try
                 {
