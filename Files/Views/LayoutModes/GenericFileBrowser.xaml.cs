@@ -141,10 +141,19 @@ namespace Files.Views.LayoutModes
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
+            var rows = new List<DataGridRow>();
+            Interaction.FindChildren<DataGridRow>(rows, AllView);
+            foreach (DataGridRow row in rows)
+            {
+                row.CanDrag = false;
+                base.UninitializeDrag(row);
+            }
+            rows.Clear();
             base.OnNavigatingFrom(e);
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged -= ViewModel_PropertyChanged;
             AllView.LoadingRow -= AllView_LoadingRow;
             AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
+            
             AllView.ItemsSource = null;
         }
 

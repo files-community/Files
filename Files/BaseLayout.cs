@@ -972,6 +972,15 @@ namespace Files
             }
         }
 
+        protected void UninitializeDrag(UIElement element)
+        {
+            element.AllowDrop = false;
+            element.DragStarting -= Item_DragStarting;
+            element.DragOver -= Item_DragOver;
+            element.DragLeave -= Item_DragLeave;
+            element.Drop -= Item_Drop;
+        }
+
         // VirtualKey doesn't support / accept plus and minus by default.
         public readonly VirtualKey PlusKey = (VirtualKey)187;
 
