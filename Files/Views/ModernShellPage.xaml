@@ -311,17 +311,16 @@
                     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                     CacheSize="2"
                     Navigated="ItemDisplayFrame_Navigated" />
-                
+
                 <Custom:GridSplitter
                     Grid.Column="1" Grid.Row="1"
                     Style="{StaticResource PaneGridSplitter}"
                     ResizeBehavior="BasedOnAlignment"
-                    x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                    x:Load="{x:Bind AppSettings.PreviewPaneEnabled, Mode=OneWay}"
                     x:Name="PreviewPaneGridSplitter" Visibility="{x:Bind AppSettings.PreviewPaneEnabled, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
                 </Custom:GridSplitter>
-
                 <controls:DetailsPane Grid.Row="1" Grid.Column="2" x:Name="PreviewPane" SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" 
-                                      x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                                      x:Load="{x:Bind AppSettings.PreviewPaneEnabled, Mode=OneWay}"
                                       >
                 </controls:DetailsPane>
                 
