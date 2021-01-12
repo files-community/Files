@@ -1668,7 +1668,7 @@
         </trans-unit>
         <trans-unit id="PropertyColorSpace" translate="yes" xml:space="preserve">
           <source>Color Space</source>
-          <target state="translated"">Przestrzeń kolorów</target>
+          <target state="translated">Przestrzeń kolorów</target>
         </trans-unit>
         <trans-unit id="PropertyPeopleNames" translate="yes" xml:space="preserve">
           <source>People Names</source>
