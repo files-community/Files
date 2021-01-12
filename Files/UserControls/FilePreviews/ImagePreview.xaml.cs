@@ -39,10 +39,20 @@ namespace Files.UserControls.FilePreviews
         public async void SetFile(string path)
         {
             var file = await StorageFile.GetFileFromPathAsync(path);
-            var bitmap = new BitmapImage(new Uri(ImageContent.BaseUri, path));
-            ImageContent.Source = bitmap;
             FileRandomAccessStream stream = (FileRandomAccessStream)await file.OpenAsync(FileAccessMode.Read);
-            bitmap.SetSource(stream);
+
+            // svg files require a different type of source
+            if (!path.EndsWith(".svg"))
+            {
+                var bitmap = new BitmapImage();
+                ImageContent.Source = bitmap;
+                await bitmap.SetSourceAsync(stream);
+            } else
+            {
+                var bitmap = new SvgImageSource();
+                ImageContent.Source = bitmap;
+                await bitmap.SetSourceAsync(stream);
+            }
         }
     }
 }
