@@ -1,12 +1,10 @@
-using ByteSizeLib;
 using Files.Common;
 using Files.Enums;
-using Files.Extensions;
 using Files.Filesystem;
 using Files.Filesystem.Cloud;
+using Files.Filesystem.StorageEnumerators;
 using Files.Helpers;
 using Files.Helpers.FileListCache;
-using Files.Views.LayoutModes;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
@@ -1111,8 +1109,8 @@ namespace Files.ViewModels
                 {
                     await Task.Run(async () =>
                     {
-                        
-                        var fileList = await Win32StorageEnumerator.ListEntriesWin32(path, returnformat, hFile, findData, shouldDisplayFileExtensions, Connection, _addFilesCTS.Token, intermediateAction: async (intermediateList) =>
+
+                        var fileList = await Win32StorageEnumerator.ListEntries(path, returnformat, hFile, findData, shouldDisplayFileExtensions, Connection, _addFilesCTS.Token, intermediateAction: async (intermediateList) =>
                         {
                             var orderedList = OrderFiles2(intermediateList);
                             await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
@@ -1147,71 +1145,29 @@ namespace Files.ViewModels
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
 
-            var tempList = new List<ListedItem>();
-            uint count = 0;
-            while (true)
+            var finalList = await UniversalStorageEnumerator.ListEntries(
+                _rootFolder,
+                _currentStorageFolder,
+                returnformat,
+                shouldDisplayFileExtensions,
+                AssociatedInstance.ContentFrame.SourcePageType,
+                _addFilesCTS.Token,
+                (intermediateList) =>
             {
-                IStorageItem item = null;
-                try
-                {
-                    var results = await _rootFolder.GetItemsAsync(count, 1);
-                    item = results?.FirstOrDefault();
-                    if (item == null)
-                    {
-                        break;
-                    }
-                }
-                catch (NotImplementedException)
-                {
-                    break;
-                }
-                catch (Exception ex) when (
-                    ex is UnauthorizedAccessException
-                    || ex is FileNotFoundException
-                    || (uint)ex.HResult == 0x80070490) // ERROR_NOT_FOUND
-                {
-                    ++count;
-                    continue;
-                }
-                if (item.IsOfType(StorageItemTypes.Folder))
-                {
-                    var folder = await AddFolderAsync(item as StorageFolder, returnformat);
-                    if (folder != null)
-                    {
-                        tempList.Add(folder);
-                    }
-                    ++count;
-                }
-                else
-                {
-                    var file = item as StorageFile;
-                    var fileEntry = await AddFileAsync(file, returnformat, true);
-                    if (fileEntry != null)
-                    {
-                        tempList.Add(fileEntry);
-                    }
-                    ++count;
-                }
-                if (_addFilesCTS.IsCancellationRequested)
-                {
-                    break;
-                }
-                if (count == 32 || count % 300 == 0)
-                {
-                    OrderFiles(OrderFiles2(tempList));
-                }
-            }
-            OrderFiles(OrderFiles2(tempList));
+                OrderFiles(OrderFiles2(intermediateList));
+                return Task.CompletedTask;
+            });
+            OrderFiles(OrderFiles2(finalList));
             stopwatch.Stop();
             await fileListCache.SaveFileListToCache(WorkingDirectory, new CacheEntry
             {
                 CurrentFolder = CurrentFolder,
-                FileList = tempList
+                FileList = finalList
             });
             Debug.WriteLine($"Enumerating items in {WorkingDirectory} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
         }
 
-        
+
 
         private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
         {
@@ -1479,11 +1435,11 @@ namespace Files.ViewModels
             ListedItem listedItem = null;
             if ((findData.dwFileAttributes & 0x10) > 0) // FILE_ATTRIBUTE_DIRECTORY
             {
-                listedItem = Win32StorageEnumerator.AddFolderWin32(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat, _addFilesCTS.Token);
+                listedItem = Win32StorageEnumerator.GetFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat, _addFilesCTS.Token);
             }
             else
             {
-                listedItem = await Win32StorageEnumerator.AddFileWin32(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat, shouldDisplayFileExtensions, Connection, _addFilesCTS.Token);
+                listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat, shouldDisplayFileExtensions, Connection, _addFilesCTS.Token);
             }
 
             if (listedItem != null)
@@ -1564,137 +1520,6 @@ namespace Files.ViewModels
             {
                 await RemoveFileOrFolderAsync(matchingItem);
             }
-        }
-
-        private async Task<ListedItem> AddFolderAsync(StorageFolder folder, string dateReturnFormat)
-        {
-            var basicProperties = await folder.GetBasicPropertiesAsync();
-
-            if (!_addFilesCTS.IsCancellationRequested)
-            {
-                return new ListedItem(folder.FolderRelativeId, dateReturnFormat)
-                {
-                    PrimaryItemAttribute = StorageItemTypes.Folder,
-                    ItemName = folder.Name,
-                    ItemDateModifiedReal = basicProperties.DateModified,
-                    ItemType = folder.DisplayType,
-                    IsHiddenItem = false,
-                    Opacity = 1,
-                    LoadFolderGlyph = true,
-                    FileImage = null,
-                    LoadFileIcon = false,
-                    ItemPath = string.IsNullOrEmpty(folder.Path) ? Path.Combine(_currentStorageFolder.Path, folder.Name) : folder.Path,
-                    LoadUnknownTypeGlyph = false,
-                    FileSize = null,
-                    FileSizeBytes = 0
-                    //FolderTooltipText = tooltipString,
-                };
-            }
-            return null;
-        }
-
-        private async Task<ListedItem> AddFileAsync(StorageFile file, string dateReturnFormat, bool suppressThumbnailLoading = false)
-        {
-            var basicProperties = await file.GetBasicPropertiesAsync();
-            // Display name does not include extension
-            var itemName = string.IsNullOrEmpty(file.DisplayName) || shouldDisplayFileExtensions ?
-                file.Name : file.DisplayName;
-            var itemDate = basicProperties.DateModified;
-            var itemPath = string.IsNullOrEmpty(file.Path) ? Path.Combine(_currentStorageFolder.Path, file.Name) : file.Path;
-            var itemSize = ByteSize.FromBytes(basicProperties.Size).ToBinaryString().ConvertSizeAbbreviation();
-            var itemSizeBytes = basicProperties.Size;
-            var itemType = file.DisplayType;
-            var itemFolderImgVis = false;
-            var itemFileExtension = file.FileType;
-
-            BitmapImage icon = new BitmapImage();
-            bool itemThumbnailImgVis;
-            bool itemEmptyImgVis;
-
-            if (!(AssociatedInstance.ContentFrame.SourcePageType == typeof(GridViewBrowser)))
-            {
-                try
-                {
-                    var itemThumbnailImg = suppressThumbnailLoading ? null :
-                        await file.GetThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.UseCurrentScale);
-                    if (itemThumbnailImg != null)
-                    {
-                        itemEmptyImgVis = false;
-                        itemThumbnailImgVis = true;
-                        icon.DecodePixelWidth = 40;
-                        icon.DecodePixelHeight = 40;
-                        await icon.SetSourceAsync(itemThumbnailImg);
-                    }
-                    else
-                    {
-                        itemEmptyImgVis = true;
-                        itemThumbnailImgVis = false;
-                    }
-                }
-                catch
-                {
-                    itemEmptyImgVis = true;
-                    itemThumbnailImgVis = false;
-                    // Catch here to avoid crash
-                }
-            }
-            else
-            {
-                try
-                {
-                    var itemThumbnailImg = suppressThumbnailLoading ? null :
-                        await file.GetThumbnailAsync(ThumbnailMode.ListView, 80, ThumbnailOptions.UseCurrentScale);
-                    if (itemThumbnailImg != null)
-                    {
-                        itemEmptyImgVis = false;
-                        itemThumbnailImgVis = true;
-                        icon.DecodePixelWidth = 80;
-                        icon.DecodePixelHeight = 80;
-                        await icon.SetSourceAsync(itemThumbnailImg);
-                    }
-                    else
-                    {
-                        itemEmptyImgVis = true;
-                        itemThumbnailImgVis = false;
-                    }
-                }
-                catch
-                {
-                    itemEmptyImgVis = true;
-                    itemThumbnailImgVis = false;
-                }
-            }
-            if (_addFilesCTS.IsCancellationRequested)
-            {
-                return null;
-            }
-
-            if (file.Name.EndsWith(".lnk") || file.Name.EndsWith(".url"))
-            {
-                // This shouldn't happen, StorageFile api does not support shortcuts
-                Debug.WriteLine("Something strange: StorageFile api returned a shortcut");
-            }
-            else
-            {
-                return new ListedItem(file.FolderRelativeId, dateReturnFormat)
-                {
-                    PrimaryItemAttribute = StorageItemTypes.File,
-                    FileExtension = itemFileExtension,
-                    IsHiddenItem = false,
-                    Opacity = 1,
-                    LoadUnknownTypeGlyph = itemEmptyImgVis,
-                    FileImage = icon,
-                    LoadFileIcon = itemThumbnailImgVis,
-                    LoadFolderGlyph = itemFolderImgVis,
-                    ItemName = itemName,
-                    ItemDateModifiedReal = itemDate,
-                    ItemType = itemType,
-                    ItemPath = itemPath,
-                    FileSize = itemSize,
-                    FileSizeBytes = (long)itemSizeBytes,
-                };
-            }
-            return null;
         }
 
         public void AddSearchResultsToCollection(ObservableCollection<ListedItem> searchItems, string currentSearchPath)

@@ -169,7 +169,8 @@
     <Compile Include="DataModels\ShellNewEntry.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="Filesystem\FolderHelpers.cs" />
-    <Compile Include="Filesystem\Win32StorageEnumerator.cs" />
+    <Compile Include="Filesystem\StorageEnumerators\UniversalStorageEnumerator.cs" />
+    <Compile Include="Filesystem\StorageEnumerators\Win32StorageEnumerator.cs" />
     <Compile Include="Helpers\AppUpdater.cs" />
     <Compile Include="DataModels\DefaultLanguageModel.cs" />
     <Compile Include="Enums\FileOperationType.cs" />

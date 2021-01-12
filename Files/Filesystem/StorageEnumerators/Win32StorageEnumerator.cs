@@ -13,11 +13,11 @@ using Windows.Storage;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
-namespace Files.Filesystem
+namespace Files.Filesystem.StorageEnumerators
 {
     public static class Win32StorageEnumerator
     {
-        public static async Task<List<ListedItem>> ListEntriesWin32(
+        public static async Task<List<ListedItem>> ListEntries(
             string path,
             string returnformat,
             IntPtr hFile,
@@ -40,7 +40,7 @@ namespace Files.Filesystem
                     {
                         if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                         {
-                            var listedItem = await AddFileWin32(findData, path, returnformat, shouldDisplayFileExtensions, connection, cancellationToken);
+                            var listedItem = await GetFile(findData, path, returnformat, shouldDisplayFileExtensions, connection, cancellationToken);
                             if (listedItem != null)
                             {
                                 tempList.Add(listedItem);
@@ -51,7 +51,7 @@ namespace Files.Filesystem
                         {
                             if (findData.cFileName != "." && findData.cFileName != "..")
                             {
-                                var listedItem = AddFolderWin32(findData, path, returnformat, cancellationToken);
+                                var listedItem = GetFolder(findData, path, returnformat, cancellationToken);
                                 if (listedItem != null)
                                 {
                                     tempList.Add(listedItem);
@@ -80,7 +80,7 @@ namespace Files.Filesystem
             return tempList;
         }
 
-        public static ListedItem AddFolderWin32(
+        public static ListedItem GetFolder(
             WIN32_FIND_DATA findData,
             string pathRoot,
             string dateReturnFormat,
@@ -139,7 +139,7 @@ namespace Files.Filesystem
             };
         }
 
-        public static async Task<ListedItem> AddFileWin32(
+        public static async Task<ListedItem> GetFile(
             WIN32_FIND_DATA findData,
             string pathRoot,
             string dateReturnFormat,
