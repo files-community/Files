@@ -1800,7 +1800,7 @@
         </trans-unit>
         <trans-unit id="StatusCenterTeachingTip.Title" translate="yes" xml:space="preserve">
           <source>Status Center</source>
-          <target state="new">Centrum stanu</target>
+          <target state="translated">Centrum stanu</target>
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>License</source>
