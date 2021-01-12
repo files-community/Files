@@ -69,11 +69,8 @@ namespace Files.Filesystem.StorageEnumerators
                 if (intermediateAction != null && (count == 32 || count % 300 == 0))
                 {
                     await intermediateAction(tempList);
-
                 }
             } while (hasNextFile);
-
-
 
             FindClose(hFile);
             return tempList;

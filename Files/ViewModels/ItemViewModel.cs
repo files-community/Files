@@ -1228,8 +1228,6 @@ namespace Files.ViewModels
             Debug.WriteLine($"Enumerating items in {WorkingDirectory} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
         }
 
-
-
         private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatusAsync(IStorageItem item)
         {
             int? syncStatus = null;
