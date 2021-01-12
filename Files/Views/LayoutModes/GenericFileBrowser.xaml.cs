@@ -61,6 +61,10 @@ namespace Files.Views.LayoutModes
                 {
                     FolderSettings.DirectorySortOption = SortOption.OriginalPath;
                 }
+                else if (value == dateDeletedColumn)
+                {
+                    FolderSettings.DirectorySortOption = SortOption.DateDeleted;
+                }
                 else
                 {
                     FolderSettings.DirectorySortOption = SortOption.Name;
@@ -112,6 +116,26 @@ namespace Files.Views.LayoutModes
             AllView.LoadingRow += AllView_LoadingRow;
             AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
             ViewModel_PropertyChanged(null, new PropertyChangedEventArgs("DirectorySortOption"));
+            var parameters = (NavigationArguments)eventArgs.Parameter;
+            if (parameters.IsLayoutSwitch)
+            {
+                ReloadItemIcons();
+            }
+        }
+
+        private void ReloadItemIcons()
+        {
+            var rows = new List<DataGridRow>();
+            Interaction.FindChildren<DataGridRow>(rows, AllView);
+            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders)
+            {
+                listedItem.ItemPropertiesInitialized = false;
+                if (rows.Any(x => x.DataContext == listedItem))
+                {
+                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem);
+                    listedItem.ItemPropertiesInitialized = true;
+                }
+            }
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -208,6 +232,10 @@ namespace Files.Views.LayoutModes
 
                     case SortOption.OriginalPath:
                         SortedColumn = originalPathColumn;
+                        break;
+
+                    case SortOption.DateDeleted:
+                        SortedColumn = dateDeletedColumn;
                         break;
                 }
             }
@@ -487,6 +515,10 @@ namespace Files.Views.LayoutModes
 
                 case "originalPathColumn":
                     args = new DataGridColumnEventArgs(originalPathColumn);
+                    break;
+
+                case "dateDeletedColumn":
+                    args = new DataGridColumnEventArgs(dateDeletedColumn);
                     break;
             }
 
