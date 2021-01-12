@@ -28,10 +28,6 @@
 
             <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
             <converters:BoolToVisibilityConverter
-                x:Key="BoolToVisibilityConverter"
-                FalseValue="Collapsed"
-                TrueValue="Visible" />
-            <converters:BoolToVisibilityConverter
                 x:Key="NegatedBoolToVisibilityConverter"
                 FalseValue="Visible"
                 TrueValue="Collapsed" />
@@ -257,12 +253,12 @@
                         Tag="originalPathColumn"
                         Text="Original path" />
                     <muxc:RadioMenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutSortByDate"
+                        x:Uid="BaseLayoutContextFlyoutSortByDateDeleted"
                         Click="RadioMenuSortColumn_Click"
                         GroupName="SortGroup"
-                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDate, Mode=TwoWay}"
-                        Tag="dateColumn"
-                        Text="Date modified" />
+                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDateDeleted, Mode=TwoWay}"
+                        Tag="dateDeletedColumn"
+                        Text="Date deleted" />
                     <muxc:RadioMenuFlyoutItem
                         x:Uid="BaseLayoutContextFlyoutSortByType"
                         Click="RadioMenuSortColumn_Click"
@@ -277,6 +273,13 @@
                         IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedBySize, Mode=TwoWay}"
                         Tag="sizeColumn"
                         Text="Size" />
+                    <muxc:RadioMenuFlyoutItem
+                        x:Uid="BaseLayoutContextFlyoutSortByDate"
+                        Click="RadioMenuSortColumn_Click"
+                        GroupName="SortGroup"
+                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDate, Mode=TwoWay}"
+                        Tag="dateColumn"
+                        Text="Date modified" />
                     <MenuFlyoutSeparator />
                     <muxc:RadioMenuFlyoutItem
                         x:Uid="BaseLayoutContextFlyoutSortByAscending"
@@ -748,12 +751,20 @@
                         PropertyName="RowStyle"
                         TargetObject="{Binding ElementName=AllView}"
                         Value="{StaticResource DataGridRowRecycleBinContextFlyout}" />
+                    <Core:ChangePropertyAction
+                        PropertyName="DisplayIndex"
+                        TargetObject="{Binding ElementName=dateColumn}"
+                        Value="7" />
                 </Core:DataTriggerBehavior>
                 <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="False">
                     <Core:ChangePropertyAction
                         PropertyName="RowStyle"
                         TargetObject="{Binding ElementName=AllView}"
                         Value="{StaticResource DataGridRowStandardContextFlyout}" />
+                    <Core:ChangePropertyAction
+                        PropertyName="DisplayIndex"
+                        TargetObject="{Binding ElementName=dateColumn}"
+                        Value="5" />
                 </Core:DataTriggerBehavior>
             </Interactivity:Interaction.Behaviors>
             <controls:DataGrid.CellStyle>
@@ -861,7 +872,7 @@
                     Header="Status"
                     IsReadOnly="True"
                     Tag="Status"
-                    Visibility="{x:Bind InstanceViewModel.IsPageTypeCloudDrive, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                    Visibility="{x:Bind InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}">
                     <controls:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate x:DataType="local2:ListedItem">
                             <FontIcon
@@ -884,7 +895,27 @@
                     Header="Original path"
                     IsReadOnly="True"
                     Tag="OriginalPath"
-                    Visibility="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                    Visibility="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}">
+                    <controls:DataGridTextColumn.CellStyle>
+                        <Style TargetType="controls:DataGridCell">
+                            <Setter Property="Opacity" Value="0.6" />
+                        </Style>
+                    </controls:DataGridTextColumn.CellStyle>
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{Binding FolderTooltipText}" />
+                    </ToolTipService.ToolTip>
+                </controls:DataGridTextColumn>
+                <controls:DataGridTextColumn
+                    x:Name="dateDeletedColumn"
+                    x:Uid="dateDeletedColumn"
+                    Width="Auto"
+                    Binding="{Binding ItemDateDeleted}"
+                    DisplayIndex="4"
+                    FontSize="12"
+                    Header="Date deleted"
+                    IsReadOnly="True"
+                    Tag="Date"
+                    Visibility="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}">
                     <controls:DataGridTextColumn.CellStyle>
                         <Style TargetType="controls:DataGridCell">
                             <Setter Property="Opacity" Value="0.6" />
@@ -899,7 +930,7 @@
                     x:Uid="dateColumn"
                     Width="Auto"
                     Binding="{Binding ItemDateModified}"
-                    DisplayIndex="4"
+                    DisplayIndex="5"
                     FontSize="12"
                     Header="Date modified"
                     IsReadOnly="True"
@@ -919,7 +950,7 @@
                     x:Uid="typeColumn"
                     Width="150"
                     Binding="{Binding ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    DisplayIndex="5"
+                    DisplayIndex="6"
                     FontSize="12"
                     Header="Type"
                     IsReadOnly="True"
@@ -940,7 +971,7 @@
                     Width="Auto"
                     MinWidth="100"
                     Binding="{Binding FileSize}"
-                    DisplayIndex="6"
+                    DisplayIndex="7"
                     FontSize="12"
                     Header="Size"
                     IsReadOnly="True"

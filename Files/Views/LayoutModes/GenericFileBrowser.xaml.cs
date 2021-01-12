@@ -61,6 +61,10 @@ namespace Files.Views.LayoutModes
                 {
                     FolderSettings.DirectorySortOption = SortOption.OriginalPath;
                 }
+                else if (value == dateDeletedColumn)
+                {
+                    FolderSettings.DirectorySortOption = SortOption.DateDeleted;
+                }
                 else
                 {
                     FolderSettings.DirectorySortOption = SortOption.Name;
@@ -230,6 +234,10 @@ namespace Files.Views.LayoutModes
 
                     case SortOption.OriginalPath:
                         SortedColumn = originalPathColumn;
+                        break;
+
+                    case SortOption.DateDeleted:
+                        SortedColumn = dateDeletedColumn;
                         break;
                 }
             }
@@ -509,6 +517,10 @@ namespace Files.Views.LayoutModes
 
                 case "originalPathColumn":
                     args = new DataGridColumnEventArgs(originalPathColumn);
+                    break;
+
+                case "dateDeletedColumn":
+                    args = new DataGridColumnEventArgs(dateDeletedColumn);
                     break;
             }
 
