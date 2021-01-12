@@ -808,7 +808,8 @@ namespace Files.ViewModels
                         WatchForDirectoryChanges(path);
                     }
 
-                    if (App.AppSettings.UseFileListCache && !_addFilesCTS.IsCancellationRequested)
+                    var parallelLimit = App.AppSettings.PreemptiveCacheParallelLimit;
+                    if (App.AppSettings.UseFileListCache && parallelLimit > 0 && !_addFilesCTS.IsCancellationRequested)
                     {
                         // run background tasks to iterate through folders and cache all of them preemptively
                         var folders = _filesAndFolders.Where(e => e.PrimaryItemAttribute == StorageItemTypes.Folder);
@@ -832,7 +833,7 @@ namespace Files.ViewModels
                                         }
                                     }
                                     await EnumerateItemsFromStandardFolderAsync(path, storageFolder, sourcePageType, _addFilesCTS.Token, cacheOnly: true);
-                                }, maxDegreeOfParallelism: 5);
+                                }, maxDegreeOfParallelism: parallelLimit);
                             }
                             catch (Exception e)
                             {

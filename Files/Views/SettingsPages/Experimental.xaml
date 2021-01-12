@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:settingsviewmodels="using:Files.ViewModels.SettingsViewModels"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <Page.DataContext>
@@ -45,6 +46,16 @@
                     Header="Cache files and folders for better performance"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding UseFileListCache, Mode=TwoWay}" />
+
+                <controls:NumberBox 
+                    x:Uid="PreemptiveCacheParallelLimits"
+                    HorizontalAlignment="Left"
+                    Header="Preemptive cache parallel limit (0 turns off the preemptive cache)" 
+                    FontSize="17"
+                    SpinButtonPlacementMode="Inline"
+                    Width="300"
+                    Value="{Binding PreemptiveCacheParallelLimit, Mode=TwoWay}" 
+                    Minimum="0" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

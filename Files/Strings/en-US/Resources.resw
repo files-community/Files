@@ -1554,6 +1554,9 @@
   <data name="SettingsUseFileListCache.Header" xml:space="preserve">
     <value>Cache files and folders for better performance</value>
   </data>
+  <data name="PreemptiveCacheParallelLimit.Header" xml:space="preserve">
+    <value>Preemptive cache parallel limit (0 turns off the preemptive cache)</value>
+  </data>
   <data name="AppBarButtonAdd.Label" xml:space="preserve">
     <value>Add</value>
   </data>

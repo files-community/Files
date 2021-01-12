@@ -607,6 +607,15 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating the limit of parallel preemptive cache loading limit.
+        /// </summary>
+        public int PreemptiveCacheParallelLimit
+        {
+            get => Get(5);
+            set => Set(value);
+        }
+
         #endregion Experimental
 
         #region Startup

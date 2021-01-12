@@ -37,5 +37,22 @@ namespace Files.ViewModels.SettingsViewModels
                 }
             }
         }
+
+        private int preemptiveCacheParallelLimit = App.AppSettings.PreemptiveCacheParallelLimit;
+
+        public int PreemptiveCacheParallelLimit
+        {
+            get
+            {
+                return preemptiveCacheParallelLimit;
+            }
+            set
+            {
+                if (SetProperty(ref preemptiveCacheParallelLimit, value))
+                {
+                    App.AppSettings.PreemptiveCacheParallelLimit = value;
+                }
+            }
+        }
     }
 }
