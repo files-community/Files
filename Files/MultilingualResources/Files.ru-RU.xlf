@@ -269,7 +269,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutShare.Text" translate="yes" xml:space="preserve">
           <source>Share</source>
-          <target state="translated">Поделится</target>
+          <target state="translated">Поделиться</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutCut.Text" translate="yes" xml:space="preserve">
           <source>Cut</source>
