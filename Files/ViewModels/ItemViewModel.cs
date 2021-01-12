@@ -802,7 +802,8 @@ namespace Files.ViewModels
                 }
                 else
                 {
-                    if (await EnumerateItemsFromStandardFolderAsync(path, _currentStorageFolder, _addFilesCTS.Token, cacheOnly: false))
+                    var sourcePageType = AssociatedInstance.ContentFrame.SourcePageType;
+                    if (await EnumerateItemsFromStandardFolderAsync(path, _currentStorageFolder, sourcePageType, _addFilesCTS.Token, cacheOnly: false))
                     {
                         WatchForDirectoryChanges(path);
                     }
@@ -810,25 +811,34 @@ namespace Files.ViewModels
                     if (App.AppSettings.UseFileListCache && !_addFilesCTS.IsCancellationRequested)
                     {
                         // run background tasks to iterate through folders and cache all of them preemptively
+                        var folders = _filesAndFolders.Where(e => e.PrimaryItemAttribute == StorageItemTypes.Folder);
+                        var currentStorageFolderSnapshot = _currentStorageFolder;
                         Task.Run(async () =>
                         {
-                            var folders = _filesAndFolders.Where(e => e.PrimaryItemAttribute == StorageItemTypes.Folder);
-                            await folders.AsyncParallelForEach(async (folder) =>
+                            try
                             {
-                                if (_addFilesCTS.IsCancellationRequested) return;
-
-                                var path = folder.ItemPath;
-                                StorageFolderWithPath storageFolder = null;
-                                if (Path.IsPathRooted(path))
+                                await folders.AsyncParallelForEach(async (folder) =>
                                 {
-                                    var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path, null, parentFolder: _currentStorageFolder));
-                                    if (res)
+                                    if (_addFilesCTS.IsCancellationRequested) return;
+
+                                    var path = folder.ItemPath;
+                                    StorageFolderWithPath storageFolder = null;
+                                    if (Path.IsPathRooted(path))
                                     {
-                                        storageFolder = res.Result;
+                                        var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path, null, parentFolder: currentStorageFolderSnapshot));
+                                        if (res)
+                                        {
+                                            storageFolder = res.Result;
+                                        }
                                     }
-                                }
-                                await EnumerateItemsFromStandardFolderAsync(path, storageFolder, _addFilesCTS.Token, cacheOnly: true);
-                            }, maxDegreeOfParallelism: 5);
+                                    await EnumerateItemsFromStandardFolderAsync(path, storageFolder, sourcePageType, _addFilesCTS.Token, cacheOnly: true);
+                                }, maxDegreeOfParallelism: 5);
+                            }
+                            catch (Exception e)
+                            {
+                                // ignore exception. This is fine, it's only a caching that can fail
+                                Debug.WriteLine(e.ToString());
+                            }
                         }).Forget();
                     }
                 }
@@ -976,7 +986,7 @@ namespace Files.ViewModels
             });
         }
 
-        public async Task<bool> EnumerateItemsFromStandardFolderAsync(string path, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken, bool cacheOnly = false)
+        public async Task<bool> EnumerateItemsFromStandardFolderAsync(string path, StorageFolderWithPath currentStorageFolder, Type sourcePageType, CancellationToken cancellationToken, bool cacheOnly = false)
         {
             // Flag to use FindFirstFileExFromApp or StorageFolder enumeration
             bool enumFromStorageFolder = false;
@@ -1073,7 +1083,7 @@ namespace Files.ViewModels
                 };
                 if (!cacheOnly)
                     CurrentFolder = currentFolder;
-                await EnumFromStorageFolderAsync(currentFolder, rootFolder, currentStorageFolder, cancellationToken, cacheOnly);
+                await EnumFromStorageFolderAsync(currentFolder, rootFolder, currentStorageFolder, sourcePageType, cancellationToken, cacheOnly);
                 return true;
             }
             else
@@ -1134,7 +1144,7 @@ namespace Files.ViewModels
                 }
                 else if (hFile.ToInt64() == -1)
                 {
-                    await EnumFromStorageFolderAsync(currentFolder, rootFolder, currentStorageFolder, cancellationToken, cacheOnly);
+                    await EnumFromStorageFolderAsync(currentFolder, rootFolder, currentStorageFolder, sourcePageType, cancellationToken, cacheOnly);
                     return false;
                 }
                 else
@@ -1175,7 +1185,7 @@ namespace Files.ViewModels
             }
         }
 
-        private async Task EnumFromStorageFolderAsync(ListedItem currentFolder, StorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken, bool cacheOnly)
+        private async Task EnumFromStorageFolderAsync(ListedItem currentFolder, StorageFolder rootFolder, StorageFolderWithPath currentStorageFolder, Type sourcePageType, CancellationToken cancellationToken, bool cacheOnly)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -1190,7 +1200,7 @@ namespace Files.ViewModels
                     rootFolder,
                     currentStorageFolder,
                     returnformat,
-                    AssociatedInstance.ContentFrame.SourcePageType,
+                    sourcePageType,
                     cancellationToken,
                     null);
             }
@@ -1200,7 +1210,7 @@ namespace Files.ViewModels
                     rootFolder,
                     currentStorageFolder,
                     returnformat,
-                    AssociatedInstance.ContentFrame.SourcePageType,
+                    sourcePageType,
                     cancellationToken,
                     (intermediateList) =>
                 {
