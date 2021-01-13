@@ -1968,11 +1968,11 @@
         </trans-unit>
         <trans-unit id="SettingsCopyLocationSwitch.Header" translate="yes" xml:space="preserve">
           <source>Show copy location menu item</source>
-          <target state="translated">Pokaż element kopiowania lokalizacji w menu/target>
+          <target state="translated">Pokaż element kopiowania lokalizacji w menu</target>
         </trans-unit>
         <trans-unit id="SettingsContextMenuOverflowSwitch.Header" translate="yes" xml:space="preserve">
           <source>Move overflow items into a sub menu</source>
-          <target state="translated"Przenieś elementy, które się nie mieszczą do podmenu</target>
+          <target state="translated">Przenieś elementy, które się nie mieszczą do podmenu</target>
         </trans-unit>
         <trans-unit id="SettingsContextMenu.Text" translate="yes" xml:space="preserve">
           <source>Customize the right click context menu</source>
