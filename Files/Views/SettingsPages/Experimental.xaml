@@ -51,10 +51,11 @@
                     x:Uid="PreemptiveCacheParallelLimits"
                     HorizontalAlignment="Left"
                     Header="Preemptive cache parallel limit (0 turns off the preemptive cache)" 
-                    FontSize="17"
                     SpinButtonPlacementMode="Inline"
-                    Width="300"
+                    Width="450"
                     Value="{Binding PreemptiveCacheParallelLimit, Mode=TwoWay}" 
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsEnabled="{Binding UseFileListCache, Mode=OneWay}"
                     Minimum="0" />
             </StackPanel>
         </ScrollViewer>
