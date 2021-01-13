@@ -767,14 +767,6 @@
                         Value="5" />
                 </Core:DataTriggerBehavior>
             </Interactivity:Interaction.Behaviors>
-            <controls:DataGrid.CellStyle>
-                <Style TargetType="controls:DataGridCell">
-                    <Setter Property="BorderThickness" Value="0" />
-                    <Setter Property="AllowFocusOnInteraction" Value="True" />
-                    <Setter Property="FocusVisualPrimaryThickness" Value="0" />
-                    <Setter Property="FocusVisualSecondaryThickness" Value="0" />
-                </Style>
-            </controls:DataGrid.CellStyle>
             <controls:DataGrid.Columns>
                 <controls:DataGridTemplateColumn
                     x:Name="iconColumn"
