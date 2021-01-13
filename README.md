@@ -1,5 +1,5 @@
 ## Files
-Meet Files, an enthusiast take on what Windows File Explorer explorer <b>should</b> be.
+Meet Files, an enthusiast take on what modern File Explorer explorer <b>should</b> be.
 <br><br>
 Files <a href="https://github.com/files-community/files-uwp/blob/master/CODE_OF_CONDUCT.md">code of conduct</a>
 
@@ -10,8 +10,9 @@ Files <a href="https://github.com/files-community/files-uwp/blob/master/CODE_OF_
 ## Download Files 
 - <a href="https://www.microsoft.com/store/apps/9NGHP3DX8HDX">Microsoft Store</a>
 - <a href="https://github.com/files-community/Files/releases">GitHub</a>
+
 ## What is Files?
-Files is a file explorer which leverages the latest features of the Windows platform including Fluent Design, seamless updates, and APIs which enable the performance and lifecycle behavior that users expect. Whether you want to simplify your experience with your files or try something new, Files is a one-stop solution to exploring your files on the fly.
+Files is a file manager which leverages the latest features of the Windows platform including Fluent Design, seamless updates, and APIs which enable the performance and lifecycle behavior that users expect. Whether you want to simplify your experience with your files or try something new, Files is a one-stop solution for exploring your files on the fly.
 
 ## Why should I contribute?
 We can confidently assert Files is the platform's best file explorer project to bring your innovations to. We focus heavily on extensibility and code modularity and have no plans to stop doing so. When you contribute to this project, you're helping everyone by fixing reported bugs, adding new features, or correcting existing behavior. These changes are quickly included in the final product for all users to benefit from.
@@ -26,4 +27,4 @@ In the short term, we plan to focus on crucial functionality to achieve parity w
 - Launch the package project.
 
 ## FAQ
-Have any questions? Check out [FAQ](FAQ.md)!
+Have any questions? Check out our documentation [site](https://files-community.github.io/docs/#/)!
