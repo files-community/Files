@@ -90,7 +90,7 @@
                             AutomationProperties.Name="View sample profiles"
                             Content="&#xE946;"
                             FontFamily="Segoe MDL2 Assets"
-                            NavigateUri="https://github.com/files-community/files-uwp/wiki/Sample-terminal-profiles"
+                            NavigateUri="https://files-community.github.io/docs/#/articles/terminal-profiles"
                             Style="{ThemeResource TextBlockButtonStyle}"
                             ToolTipService.ToolTip="View sample profiles" />
                     </StackPanel>
