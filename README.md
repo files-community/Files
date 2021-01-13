@@ -1,5 +1,5 @@
 ## Files
-Meet Files, an enthusiast take on what modern File Explorer explorer <b>should</b> be.
+Meet Files, an enthusiast take on what a modern file explorer should be.
 <br><br>
 Files <a href="https://github.com/files-community/files-uwp/blob/master/CODE_OF_CONDUCT.md">code of conduct</a>
 
