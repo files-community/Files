@@ -29,6 +29,7 @@ namespace Files.Views.LayoutModes
     {
         private string oldItemName;
         private DataGridColumn sortedColumn;
+        private DispatcherTimer tapDebounceTimer;
 
         private static readonly MethodInfo SelectAllMethod = typeof(DataGrid)
             .GetMethod("SelectAll", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -248,7 +249,6 @@ namespace Files.Views.LayoutModes
 
         private TextBox renamingTextBox;
 
-        private DispatcherTimer tapDebounceTimer;
         private void AllView_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
             if (ParentShellPageInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
@@ -263,6 +263,28 @@ namespace Files.Views.LayoutModes
                 // If for some reason we started renaming by a click in a one-click mode, cancel it
                 e.Cancel = true;
                 return;
+            }
+
+            if (tapDebounceTimer.IsEnabled)
+            {
+                // If we got another click during debounce time, it is a double tap.
+                // Cancel the edit an let the double tap to kick in.
+                tapDebounceTimer.Stop();
+                e.Cancel = true;
+                return;
+            }
+
+            if (e.EditingEventArgs is TappedRoutedEventArgs)
+            {
+                // We have an edit as a result of a tap.
+                // Let's wait to see if there is another tap (double click).
+                tapDebounceTimer.Debounce(() =>
+                {
+                    tapDebounceTimer.Stop();
+                    AllView.BeginEdit(); // EditingEventArgs will be null
+                }, TimeSpan.FromMilliseconds(700), false);
+
+                e.Cancel = true;
             }
         }
 
@@ -364,6 +386,7 @@ namespace Files.Views.LayoutModes
         private void AllView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             AllView.CommitEdit();
+            tapDebounceTimer.Stop();
             SelectedItems = AllView.SelectedItems.Cast<ListedItem>().ToList();
         }
 
@@ -538,6 +561,12 @@ namespace Files.Views.LayoutModes
             {
                 SortedColumn.SortDirection = DataGridSortDirection.Descending;
             }
+        }
+
+        private void AllView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            tapDebounceTimer.Stop();
+            ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
         }
     }
 }
