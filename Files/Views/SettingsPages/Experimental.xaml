@@ -56,7 +56,9 @@
                     Value="{Binding PreemptiveCacheParallelLimit, Mode=TwoWay}" 
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsEnabled="{Binding UseFileListCache, Mode=OneWay}"
-                    Minimum="0" />
+                    Minimum="0" 
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsEnabled="{Binding UseFileListCache, Mode=OneWay}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>
