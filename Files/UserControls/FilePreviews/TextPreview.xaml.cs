@@ -49,7 +49,7 @@ namespace Files.UserControls.FilePreviews
                 var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
                 var text = await FileIO.ReadTextAsync(file);
 
-                // This is apparently the best way to check if a file is binary
+                // Check if file is binary
                 if (text.Contains("\0\0\0\0"))
                 {
                     return null;

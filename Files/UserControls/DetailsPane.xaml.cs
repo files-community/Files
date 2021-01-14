@@ -1,8 +1,10 @@
 ﻿using Files.Filesystem;
 using Files.UserControls.FilePreviews;
 using Files.ViewModels;
+using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -51,6 +53,7 @@ namespace Files.UserControls
                 if (SelectedItems.Count == 1)
                 {
                     LoadPreviewControlAsync(SelectedItems[0]);
+                    LoadPropertiesAsync(SelectedItems[0]);
                     return;
                 }
 
@@ -67,6 +70,12 @@ namespace Files.UserControls
             set => SetValue(IsHorizontalProperty, value);
         }
 
+        public static DependencyProperty ViewModelProperty { get; } = DependencyProperty.Register("ViewModel", typeof(SelectedItemsPropertiesViewModel), typeof(DetailsPane), new PropertyMetadata(null));
+        public SelectedItemsPropertiesViewModel ViewModel
+        {
+            get => (SelectedItemsPropertiesViewModel)GetValue(ViewModelProperty);
+            set => SetValue(ViewModelProperty, value);
+        }
 
         // For some reason, the visual state wouldn't raise propertychangedevents with the normal property
         bool _isHorizontalInternal;
@@ -78,6 +87,8 @@ namespace Files.UserControls
                 RaisePropertyChanged(nameof(isHorizontalInternal));
             } 
         }
+
+        FileProperties Properties { get; set; }
 
         public DetailsPane()
         {
@@ -129,6 +140,16 @@ namespace Files.UserControls
 
             PreviewNotAvaliableText.Visibility = Visibility.Visible;
 
+        }
+
+        void LoadPropertiesAsync(ListedItem item)
+        {
+            if(ViewModel == null)
+            {
+                return;
+            }
+            Properties = new FileProperties(ViewModel, item);
+            Properties.GetSystemFileProperties();
         }
 
         UserControl GetBuiltInPreviewControl(ListedItem item)

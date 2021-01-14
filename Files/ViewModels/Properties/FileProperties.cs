@@ -42,6 +42,14 @@ namespace Files.ViewModels.Properties
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
+        public FileProperties(SelectedItemsPropertiesViewModel viewModel, ListedItem item)
+        {
+            ViewModel = viewModel;
+            Item = item;
+
+            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+        }
+
         public override void GetBaseProperties()
         {
             if (Item != null)
@@ -156,7 +164,7 @@ namespace Files.ViewModels.Properties
 
         public async void GetSystemFileProperties()
         {
-            StorageFile file = await AppInstance.FilesystemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
+            StorageFile file = await StorageFile.GetFileFromPathAsync(Item.ItemPath);
             if (file == null)
             {
                 // Could not access file, can't show any other property

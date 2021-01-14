@@ -5,14 +5,20 @@
              xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls" 
              xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" 
              xmlns:Core="using:Microsoft.Xaml.Interactions.Core" 
-             xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers" 
+             xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers" xmlns:properties="using:Files.ViewModels.Properties"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400" MinWidth="90" >
 
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
+                <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            
+            <CollectionViewSource
+                        x:Name="PropertiesSource"
+                        IsSourceGrouped="True"
+                        Source="{x:Bind ViewModel.PropertySections, Mode=OneWay}" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -75,32 +81,51 @@
 
         <controls:GridSplitter Margin="5, 5, 5, 5" Grid.Row="1" Grid.Column="0" x:Name="HorizontalGridSplitter" Style="{StaticResource PaneGridSplitter}"/>
 
-        <ListView SelectionMode="None" Grid.Row="2" x:Name="RootPropertiesGrid">
+        <ListView SelectionMode="None" Grid.Row="2" x:Name="RootPropertiesGrid" ItemsSource="{x:Bind PropertiesSource.View, Mode=OneWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="properties:FileProperty">
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock
+                            Grid.Row="0"
+                            HorizontalAlignment="Stretch"
+                            Style="{StaticResource PropertyName}"
+                            Text="{x:Bind Name, Mode=OneWay}" />
+                        <TextBox
+                            x:Name="PropertyValueTemplateTextBox"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}"
+                            Style="{StaticResource PropertyValueTextBox}"
+                            Text="{x:Bind ValueText, Mode=TwoWay}" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate x:DataType="properties:FilePropertySection">
+                            <Grid/>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ListView.GroupStyle>
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 </Style>
             </ListView.ItemContainerStyle>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="10" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" FontSize="24" Glyph="&#xE922;" Grid.Column="0" VerticalAlignment="Center" />
-                <TextBlock Grid.Column="2" Text="260x260" VerticalAlignment="Center" />
-            </Grid>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="15" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" VerticalAlignment="Center" FontSize="24" Glyph="&#xE972;" Grid.Column="0" />
-
-                <StackPanel Orientation="Vertical" Grid.Column="2">
-                </StackPanel>
-            </Grid>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsStackPanel AreStickyGroupHeadersEnabled="False" />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
         </ListView>
 
     </Grid>

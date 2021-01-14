@@ -33,6 +33,7 @@ namespace Files.UserControls.FilePreviews
         {
             var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
             var text = await FileIO.ReadTextAsync(file);
+            // Use the MarkDownTextBlock's built in code highlighting
             TextPreviewControl.Text = $"```{GetCodeLanguage(item.FileExtension)}\n{text}\n```";
         }
 
@@ -40,14 +41,15 @@ namespace Files.UserControls.FilePreviews
         {
             {"xml",  new List<string> {".xml", ".axml", ".xaml" } },
             {"json",  new List<string> {".json" } },
-            {"python",  new List<string> {".py", ".py3" } },
-            {"cs",  new List<string> {".cs" } },
-            {"fs",  new List<string> {".fs" } },
+            {"yaml", new List<string> {".yml"} },
+            {"python",  new List<string> {".py", ".py3", ".py", ".cgi", ".fcgi", ".gyp", ".gypi", ".lmi", ".py3", ".pyde", ".pyi", ".pyp", ".pyt", ".pyw", ".rpy", ".smk", ".spec", ".tac", ".wsgi", ".xpy" } },
+            {"cs",  new List<string> {".cs", ".cake", ".csx", ".linq" } },
+            {"fs",  new List<string> {".fs", "fsi", "fsx" } },
             {"java",  new List<string> {".java" } },
-            {"vb",  new List<string> {".vb" } },
+            {"vbnet",  new List<string> {".vb", "vbhtml" } },
             {"c",  new List<string> {".c" } },
-            {"cpp",  new List<string> {".cpp" } },
-
+            {"cpp",  new List<string> {".cpp", "c++", ".cc", ".cp", ".cxx", ".h", ".h++", ".hh", ".hpp", ".hxx", ".inc", ".inl", ".ino", ".ipp", ".re", ".tcc", ".tpp" } },
+            {"powershell",  new List<string> {".pwsh", ".ps1", "psd1", ".psm1" } },
         };
 
         static string GetCodeLanguage(string ext)
