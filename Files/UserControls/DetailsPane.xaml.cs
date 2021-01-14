@@ -45,17 +45,16 @@ namespace Files.UserControls
                 {
                     return;
                 }
-
+                
                 PreviewGrid.Children.Clear();
-                PreviewNotAvaliableText.Visibility = Visibility.Visible;
 
                 if (SelectedItems.Count == 1)
                 {
-                    if (TryLoadPreviewControl(SelectedItems[0]))
-                    {
-                        PreviewNotAvaliableText.Visibility = Visibility.Collapsed;
-                    }
+                    LoadPreviewControlAsync(SelectedItems[0]);
+                    return;
                 }
+
+                PreviewNotAvaliableText.Visibility = Visibility.Visible;
             }
         }
 
@@ -96,27 +95,40 @@ namespace Files.UserControls
         }
 
 
-        bool TryLoadPreviewControl(ListedItem item)
+        async void LoadPreviewControlAsync(ListedItem item)
         {
+            PreviewNotAvaliableText.Visibility = Visibility.Collapsed;
+
+            if (item.FileExtension == null)
+            {
+                return;
+            }
+
             foreach (var extension in AppData.FilePreviewExtensionManager.Extensions)
             {
                 if (extension.FileExtensions.Contains(item.FileExtension))
                 {
                     LoadPreviewControlFromExtension(item, extension);
-                    return true;
+                    return;
                 }
             }
 
             var control = GetBuiltInPreviewControl(item);
             if (control != null)
             {
-                //control.HorizontalAlignment = HorizontalAlignment.Stretch;
-                //control.VerticalAlignment = VerticalAlignment.Stretch;
                 PreviewGrid.Children.Add(control);
-                return true;
+                return;
             }
 
-            return false;
+            control = await TextPreview.TryLoadAsTextAsync(item);
+            if(control != null)
+            {
+                PreviewGrid.Children.Add(control);
+                return;
+            }
+
+            PreviewNotAvaliableText.Visibility = Visibility.Visible;
+
         }
 
         UserControl GetBuiltInPreviewControl(ListedItem item)
@@ -144,6 +156,21 @@ namespace Files.UserControls
             if(PDFPreview.Extensions.Contains(item.FileExtension))
             {
                 return new PDFPreview(item.ItemPath);
+            }
+
+            if (HtmlPreview.Extensions.Contains(item.FileExtension))
+            {
+                return new HtmlPreview(item);
+            }
+
+            if (RichTextPreview.Extensions.Contains(item.FileExtension))
+            {
+                return new RichTextPreview(item);
+            }
+
+            if(CodePreview.Extensions.Contains(item.FileExtension))
+            {
+                return new CodePreview(item);
             }
 
             return null;
