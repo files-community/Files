@@ -1,4 +1,5 @@
 using Files.Common;
+using Files.Enums;
 using Files.Filesystem.Cloud;
 using Files.UserControls.Widgets;
 using Files.ViewModels;
@@ -236,7 +237,7 @@ namespace Files.Filesystem
                 }
                 catch (Exception e)
                 {
-                    Logger.Warn("Can't get storage device name: " + e.Message + ", skipping...");
+                    Logger.Warn($"Can't get storage device name: {e.Message}, skipping...");
                 }
             }
 
@@ -251,7 +252,7 @@ namespace Files.Filesystem
             foreach (var drive in drives)
             {
                 var res = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Name).AsTask());
-                if (res == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+                if (res == FileSystemStatusCode.Unauthorized)
                 {
                     unauthorizedAccessDetected = true;
                     Logger.Warn($"{res.ErrorCode}: Attemting to add the device, {drive.Name}, failed at the StorageFolder initialization step. This device will be ignored.");

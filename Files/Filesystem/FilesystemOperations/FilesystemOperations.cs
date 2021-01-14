@@ -48,7 +48,7 @@ namespace Files.Filesystem
 
         #region IFilesystemOperations
 
-        public async Task<IStorageHistory> CreateAsync(IStorageItemWithPath source, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken)
+        public async Task<IStorageHistory> CreateAsync(IStorageItemWithPath source, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace Files.Filesystem
                         break;
                 }
 
-                errorCode?.Report(FilesystemErrorCode.ERROR_SUCCESS);
+                errorCode?.Report(FileSystemStatusCode.Success);
                 return new StorageHistory(FileOperationType.CreateNew, source.CreateEnumerable(), null);
             }
             catch (Exception e)
@@ -102,7 +102,7 @@ namespace Files.Filesystem
         public async Task<IStorageHistory> CopyAsync(IStorageItem source,
                                                      string destination,
                                                      IProgress<float> progress,
-                                                     IProgress<FilesystemErrorCode> errorCode,
+                                                     IProgress<FileSystemStatusCode> errorCode,
                                                      CancellationToken cancellationToken)
         {
             return await CopyAsync(source.FromStorageItem(),
@@ -115,12 +115,12 @@ namespace Files.Filesystem
         public async Task<IStorageHistory> CopyAsync(IStorageItemWithPath source,
                                                      string destination,
                                                      IProgress<float> progress,
-                                                     IProgress<FilesystemErrorCode> errorCode,
+                                                     IProgress<FileSystemStatusCode> errorCode,
                                                      CancellationToken cancellationToken)
         {
             if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
             {
-                errorCode?.Report(FilesystemErrorCode.ERROR_UNAUTHORIZED);
+                errorCode?.Report(FileSystemStatusCode.Unauthorized);
                 progress?.Report(100.0f);
 
                 // Do not paste files and folders inside the recycle bin
@@ -143,7 +143,7 @@ namespace Files.Filesystem
                     ContentDialog dialog = new ContentDialog()
                     {
                         Title = "ErrorDialogThisActionCannotBeDone".GetLocalized(),
-                        Content = "ErrorDialogTheDestinationFolder".GetLocalized() + " (" + destinationName + ") " + "ErrorDialogIsASubfolder".GetLocalized() + " (" + sourceName + ")",
+                        Content = $"{"ErrorDialogTheDestinationFolder".GetLocalized()} ({destinationName}) {"ErrorDialogIsASubfolder".GetLocalized()} (sourceName)",
                         //PrimaryButtonText = "ErrorDialogSkip".GetLocalized(),
                         CloseButtonText = "ErrorDialogCancel".GetLocalized()
                     };
@@ -153,12 +153,12 @@ namespace Files.Filesystem
                     if (result == ContentDialogResult.Primary)
                     {
                         progress?.Report(100.0f);
-                        errorCode?.Report(FilesystemErrorCode.ERROR_INPROGRESS | FilesystemErrorCode.ERROR_SUCCESS);
+                        errorCode?.Report(FileSystemStatusCode.InProgress | FileSystemStatusCode.Success);
                     }
                     else
                     {
                         progress?.Report(100.0f);
-                        errorCode?.Report(FilesystemErrorCode.ERROR_INPROGRESS | FilesystemErrorCode.ERROR_GENERIC);
+                        errorCode?.Report(FileSystemStatusCode.InProgress | FileSystemStatusCode.Generic);
                     }
                     return null;
                 }
@@ -172,7 +172,7 @@ namespace Files.Filesystem
                     if (fsResult)
                     {
                         var fsCopyResult = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((StorageFolder)fsSourceFolder, (StorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, CreationCollisionOption.FailIfExists));
-                        if (fsCopyResult == FilesystemErrorCode.ERROR_ALREADYEXIST)
+                        if (fsCopyResult == FileSystemStatusCode.AlreadyExists)
                         {
                             var ItemAlreadyExistsDialog = new ContentDialog()
                             {
@@ -233,7 +233,7 @@ namespace Files.Filesystem
                     {
                         var file = (StorageFile)sourceResult;
                         var fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), NameCollisionOption.FailIfExists).AsTask());
-                        if (fsResultCopy == FilesystemErrorCode.ERROR_ALREADYEXIST)
+                        if (fsResultCopy == FileSystemStatusCode.AlreadyExists)
                         {
                             var ItemAlreadyExistsDialog = new ContentDialog()
                             {
@@ -300,7 +300,7 @@ namespace Files.Filesystem
         public async Task<IStorageHistory> MoveAsync(IStorageItem source,
                                                      string destination,
                                                      IProgress<float> progress,
-                                                     IProgress<FilesystemErrorCode> errorCode,
+                                                     IProgress<FileSystemStatusCode> errorCode,
                                                      CancellationToken cancellationToken)
         {
             return await MoveAsync(source.FromStorageItem(),
@@ -313,13 +313,13 @@ namespace Files.Filesystem
         public async Task<IStorageHistory> MoveAsync(IStorageItemWithPath source,
                                                      string destination,
                                                      IProgress<float> progress,
-                                                     IProgress<FilesystemErrorCode> errorCode,
+                                                     IProgress<FileSystemStatusCode> errorCode,
                                                      CancellationToken cancellationToken)
         {
             if (source.Path == destination)
             {
                 progress?.Report(100.0f);
-                errorCode?.Report(FilesystemErrorCode.ERROR_SUCCESS);
+                errorCode?.Report(FileSystemStatusCode.Success);
                 return null;
             }
 
@@ -333,7 +333,7 @@ namespace Files.Filesystem
 
             if (associatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
             {
-                errorCode?.Report(FilesystemErrorCode.ERROR_UNAUTHORIZED);
+                errorCode?.Report(FileSystemStatusCode.Unauthorized);
                 progress?.Report(100.0f);
 
                 // Do not paste files and folders inside the recycle bin
@@ -366,12 +366,12 @@ namespace Files.Filesystem
                     if (result == ContentDialogResult.Primary)
                     {
                         progress?.Report(100.0f);
-                        errorCode?.Report(FilesystemErrorCode.ERROR_INPROGRESS | FilesystemErrorCode.ERROR_SUCCESS);
+                        errorCode?.Report(FileSystemStatusCode.InProgress | FileSystemStatusCode.Success);
                     }
                     else
                     {
                         progress?.Report(100.0f);
-                        errorCode?.Report(FilesystemErrorCode.ERROR_INPROGRESS | FilesystemErrorCode.ERROR_GENERIC);
+                        errorCode?.Report(FileSystemStatusCode.InProgress | FileSystemStatusCode.Generic);
                     }
                     return null;
                 }
@@ -390,7 +390,7 @@ namespace Files.Filesystem
                         if (fsResult)
                         {
                             var fsResultMove = await FilesystemTasks.Wrap(() => MoveDirectoryAsync((StorageFolder)fsSourceFolder, (StorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, CreationCollisionOption.FailIfExists, true));
-                            if (fsResultMove == FilesystemErrorCode.ERROR_ALREADYEXIST)
+                            if (fsResultMove == FileSystemStatusCode.AlreadyExists)
                             {
                                 var ItemAlreadyExistsDialog = new ContentDialog()
                                 {
@@ -448,7 +448,7 @@ namespace Files.Filesystem
                     {
                         var file = (StorageFile)sourceResult;
                         var fsResultMove = await FilesystemTasks.Wrap(() => file.MoveAsync(destinationResult.Result, Path.GetFileName(file.Name), NameCollisionOption.FailIfExists).AsTask());
-                        if (fsResultMove == FilesystemErrorCode.ERROR_ALREADYEXIST)
+                        if (fsResultMove == FileSystemStatusCode.AlreadyExists)
                         {
                             var ItemAlreadyExistsDialog = new ContentDialog()
                             {
@@ -510,7 +510,7 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> DeleteAsync(IStorageItem source,
                                                        IProgress<float> progress,
-                                                       IProgress<FilesystemErrorCode> errorCode,
+                                                       IProgress<FileSystemStatusCode> errorCode,
                                                        bool permanently,
                                                        CancellationToken cancellationToken)
         {
@@ -523,13 +523,13 @@ namespace Files.Filesystem
 
         public async Task<IStorageHistory> DeleteAsync(IStorageItemWithPath source,
                                                        IProgress<float> progress,
-                                                       IProgress<FilesystemErrorCode> errorCode,
+                                                       IProgress<FileSystemStatusCode> errorCode,
                                                        bool permanently,
                                                        CancellationToken cancellationToken)
         {
             bool deleteFromRecycleBin = recycleBinHelpers.IsPathUnderRecycleBin(source.Path);
 
-            FilesystemResult fsResult = FilesystemErrorCode.ERROR_INPROGRESS;
+            FilesystemResult fsResult = FileSystemStatusCode.InProgress;
 
             errorCode?.Report(fsResult);
             progress?.Report(0.0f);
@@ -547,7 +547,7 @@ namespace Files.Filesystem
 
             errorCode?.Report(fsResult);
 
-            if (fsResult == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+            if (fsResult == FileSystemStatusCode.Unauthorized)
             {
                 // Try again with fulltrust process
                 if (associatedInstance.FilesystemViewModel.Connection != null)
@@ -563,7 +563,7 @@ namespace Files.Filesystem
                         && response.Message.Get("Success", false));
                 }
             }
-            else if (fsResult == FilesystemErrorCode.ERROR_INUSE)
+            else if (fsResult == FileSystemStatusCode.InUse)
             {
                 // TODO: retry or show dialog
                 await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), "FileInUseDeleteDialog/Text".GetLocalized());
@@ -620,7 +620,7 @@ namespace Files.Filesystem
         public async Task<IStorageHistory> RenameAsync(IStorageItem source,
                                                        string newName,
                                                        NameCollisionOption collision,
-                                                       IProgress<FilesystemErrorCode> errorCode,
+                                                       IProgress<FileSystemStatusCode> errorCode,
                                                        CancellationToken cancellationToken)
         {
             return await RenameAsync(StorageItemHelpers.FromStorageItem(source), newName, collision, errorCode, cancellationToken);
@@ -629,12 +629,12 @@ namespace Files.Filesystem
         public async Task<IStorageHistory> RenameAsync(IStorageItemWithPath source,
                                                        string newName,
                                                        NameCollisionOption collision,
-                                                       IProgress<FilesystemErrorCode> errorCode,
+                                                       IProgress<FileSystemStatusCode> errorCode,
                                                        CancellationToken cancellationToken)
         {
             if (Path.GetFileName(source.Path) == newName && collision == NameCollisionOption.FailIfExists)
             {
-                errorCode?.Report(FilesystemErrorCode.ERROR_ALREADYEXIST);
+                errorCode?.Report(FileSystemStatusCode.AlreadyExists);
                 return null;
             }
 
@@ -651,16 +651,16 @@ namespace Files.Filesystem
 
                 if (renamed)
                 {
-                    errorCode?.Report(FilesystemErrorCode.ERROR_SUCCESS);
+                    errorCode?.Report(FileSystemStatusCode.Success);
                     return new StorageHistory(FileOperationType.Rename, source, renamed.Result.FromStorageItem());
                 }
-                else if (renamed == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+                else if (renamed == FileSystemStatusCode.Unauthorized)
                 {
                     // Try again with MoveFileFromApp
                     var destination = Path.Combine(Path.GetDirectoryName(source.Path), newName);
                     if (NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination))
                     {
-                        errorCode?.Report(FilesystemErrorCode.ERROR_SUCCESS);
+                        errorCode?.Report(FileSystemStatusCode.Success);
                         return new StorageHistory(FileOperationType.Rename, source, StorageItemHelpers.FromPathAndType(destination, source.ItemType));
                     }
                     else
@@ -668,24 +668,24 @@ namespace Files.Filesystem
                         Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
                     }
                 }
-                else if (renamed == FilesystemErrorCode.ERROR_NOTAFILE || renamed == FilesystemErrorCode.ERROR_NOTAFOLDER)
+                else if (renamed == FileSystemStatusCode.NotAFile || renamed == FileSystemStatusCode.NotAFolder)
                 {
                     await DialogDisplayHelper.ShowDialogAsync("RenameError/NameInvalid/Title".GetLocalized(), "RenameError/NameInvalid/Text".GetLocalized());
                 }
-                else if (renamed == FilesystemErrorCode.ERROR_NAMETOOLONG)
+                else if (renamed == FileSystemStatusCode.NameTooLong)
                 {
                     await DialogDisplayHelper.ShowDialogAsync("RenameError/TooLong/Title".GetLocalized(), "RenameError/TooLong/Text".GetLocalized());
                 }
-                else if (renamed == FilesystemErrorCode.ERROR_INUSE)
+                else if (renamed == FileSystemStatusCode.InUse)
                 {
                     // TODO: proper dialog, retry
                     await DialogDisplayHelper.ShowDialogAsync("FileInUseDeleteDialog/Title".GetLocalized(), "");
                 }
-                else if (renamed == FilesystemErrorCode.ERROR_NOTFOUND)
+                else if (renamed == FileSystemStatusCode.NotFound)
                 {
                     await DialogDisplayHelper.ShowDialogAsync("RenameError/ItemDeleted/Title".GetLocalized(), "RenameError/ItemDeleted/Text".GetLocalized());
                 }
-                else if (renamed == FilesystemErrorCode.ERROR_ALREADYEXIST)
+                else if (renamed == FileSystemStatusCode.AlreadyExists)
                 {
                     var ItemAlreadyExistsDialog = new ContentDialog()
                     {
@@ -716,10 +716,10 @@ namespace Files.Filesystem
         public async Task<IStorageHistory> RestoreFromTrashAsync(IStorageItemWithPath source,
                                                                  string destination,
                                                                  IProgress<float> progress,
-                                                                 IProgress<FilesystemErrorCode> errorCode,
+                                                                 IProgress<FileSystemStatusCode> errorCode,
                                                                  CancellationToken cancellationToken)
         {
-            FilesystemResult fsResult = FilesystemErrorCode.ERROR_INPROGRESS;
+            FilesystemResult fsResult = FileSystemStatusCode.InProgress;
             errorCode?.Report(fsResult);
 
             if (source.ItemType == FilesystemItemType.Directory)
@@ -760,7 +760,7 @@ namespace Files.Filesystem
                                                            NameCollisionOption.GenerateUniqueName).AsTask();
                     });
                 }
-                else if (fsResult == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+                else if (fsResult == FileSystemStatusCode.Unauthorized)
                 {
                     // Try again with MoveFileFromApp
                     fsResult = (FilesystemResult)NativeFileOperationsHelper.MoveFileFromApp(source.Path, destination);
@@ -777,17 +777,17 @@ namespace Files.Filesystem
             }
 
             errorCode?.Report(fsResult);
-            if (fsResult != FilesystemErrorCode.ERROR_SUCCESS)
+            if (fsResult != FileSystemStatusCode.Success)
             {
-                if (((FilesystemErrorCode)fsResult).HasFlag(FilesystemErrorCode.ERROR_UNAUTHORIZED))
+                if (((FileSystemStatusCode)fsResult).HasFlag(FileSystemStatusCode.Unauthorized))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("AccessDeniedDeleteDialog/Title".GetLocalized(), "AccessDeniedDeleteDialog/Text".GetLocalized());
                 }
-                else if (((FilesystemErrorCode)fsResult).HasFlag(FilesystemErrorCode.ERROR_UNAUTHORIZED))
+                else if (((FileSystemStatusCode)fsResult).HasFlag(FileSystemStatusCode.Unauthorized))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 }
-                else if (((FilesystemErrorCode)fsResult).HasFlag(FilesystemErrorCode.ERROR_ALREADYEXIST))
+                else if (((FileSystemStatusCode)fsResult).HasFlag(FileSystemStatusCode.AlreadyExists))
                 {
                     await DialogDisplayHelper.ShowDialogAsync("ItemAlreadyExistsDialogTitle".GetLocalized(), "ItemAlreadyExistsDialogContent".GetLocalized());
                 }
