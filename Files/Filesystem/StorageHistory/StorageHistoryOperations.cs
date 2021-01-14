@@ -42,7 +42,7 @@ namespace Files.Filesystem.FilesystemHistory
         public async Task<ReturnResult> Redo(IStorageHistory history)
         {
             ReturnResult returnStatus = ReturnResult.InProgress;
-            Progress<FilesystemErrorCode> errorCode = new Progress<FilesystemErrorCode>();
+            Progress<FileSystemStatusCode> errorCode = new Progress<FileSystemStatusCode>();
 
             errorCode.ProgressChanged += (s, e) => { returnStatus = e.ToStatus(); };
 
@@ -177,7 +177,7 @@ namespace Files.Filesystem.FilesystemHistory
         public async Task<ReturnResult> Undo(IStorageHistory history)
         {
             ReturnResult returnStatus = ReturnResult.InProgress;
-            Progress<FilesystemErrorCode> errorCode = new Progress<FilesystemErrorCode>();
+            Progress<FileSystemStatusCode> errorCode = new Progress<FileSystemStatusCode>();
 
             errorCode.ProgressChanged += (s, e) => returnStatus = e.ToStatus();
 

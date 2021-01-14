@@ -66,8 +66,8 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> CreateAsync(IStorageItemWithPath source, bool registerHistory)
         {
-            FilesystemErrorCode returnCode = FilesystemErrorCode.ERROR_INPROGRESS;
-            Progress<FilesystemErrorCode> errorCode = new Progress<FilesystemErrorCode>();
+            FileSystemStatusCode returnCode = FileSystemStatusCode.InProgress;
+            Progress<FileSystemStatusCode> errorCode = new Progress<FileSystemStatusCode>();
             errorCode.ProgressChanged += (s, e) => returnCode = e;
 
             IStorageHistory history = await filesystemOperations.CreateAsync(source, errorCode, cancellationToken);
@@ -340,8 +340,8 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> RestoreFromTrashAsync(IStorageItemWithPath source, string destination, bool registerHistory)
         {
-            FilesystemErrorCode returnCode = FilesystemErrorCode.ERROR_INPROGRESS;
-            Progress<FilesystemErrorCode> errorCode = new Progress<FilesystemErrorCode>();
+            FileSystemStatusCode returnCode = FileSystemStatusCode.InProgress;
+            Progress<FileSystemStatusCode> errorCode = new Progress<FileSystemStatusCode>();
             errorCode.ProgressChanged += (s, e) => returnCode = e;
 
             IStorageHistory history = await filesystemOperations.RestoreFromTrashAsync(source, destination, null, errorCode, cancellationToken);
@@ -687,8 +687,8 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory)
         {
-            FilesystemErrorCode returnCode = FilesystemErrorCode.ERROR_INPROGRESS;
-            Progress<FilesystemErrorCode> errorCode = new Progress<FilesystemErrorCode>();
+            FileSystemStatusCode returnCode = FileSystemStatusCode.InProgress;
+            Progress<FileSystemStatusCode> errorCode = new Progress<FileSystemStatusCode>();
             errorCode.ProgressChanged += (s, e) => returnCode = e;
 
             IStorageHistory history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
@@ -703,8 +703,8 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory)
         {
-            FilesystemErrorCode returnCode = FilesystemErrorCode.ERROR_INPROGRESS;
-            Progress<FilesystemErrorCode> errorCode = new Progress<FilesystemErrorCode>();
+            FileSystemStatusCode returnCode = FileSystemStatusCode.InProgress;
+            Progress<FileSystemStatusCode> errorCode = new Progress<FileSystemStatusCode>();
             errorCode.ProgressChanged += (s, e) => returnCode = e;
 
             IStorageHistory history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
@@ -814,7 +814,7 @@ namespace Files.Filesystem
                     size += findData.GetSize();
                 }
                 FindClose(hFile);
-                Debug.WriteLine("Individual file size for Progress UI will be reported as: " + size.ToString() + " bytes");
+                Debug.WriteLine($"Individual file size for Progress UI will be reported as: {size} bytes");
                 return size;
             }
             else

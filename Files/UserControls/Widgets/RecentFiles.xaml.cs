@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Enums;
+using Files.Filesystem;
 using Files.ViewModels;
 using System;
 using System.Collections.ObjectModel;
@@ -65,7 +66,7 @@ namespace Files.UserControls.Widgets
                     IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
                     await AddItemToRecentListAsync(item, entry);
                 });
-                if (added == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+                if (added == FileSystemStatusCode.Unauthorized)
                 {
                     // Skip item until consent is provided
                 }

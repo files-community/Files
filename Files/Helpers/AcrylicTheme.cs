@@ -7,36 +7,36 @@ namespace Files.Helpers
 {
     public class AcrylicTheme : INotifyPropertyChanged
     {
-        private Color _FallbackColor;
-        private Color _TintColor;
-        private double _TintOpacity;
+        private Color fallbackColor;
+        private Color tintColor;
+        private double tintOpacity;
 
         public Color FallbackColor
         {
-            get { return _FallbackColor; }
+            get { return fallbackColor; }
             set
             {
-                _FallbackColor = value;
+                fallbackColor = value;
                 NotifyPropertyChanged(nameof(FallbackColor));
             }
         }
 
         public Color TintColor
         {
-            get { return _TintColor; }
+            get { return tintColor; }
             set
             {
-                _TintColor = value;
+                tintColor = value;
                 NotifyPropertyChanged(nameof(TintColor));
             }
         }
 
         public double TintOpacity
         {
-            get { return _TintOpacity; }
+            get { return tintOpacity; }
             set
             {
-                _TintOpacity = value;
+                tintOpacity = value;
                 NotifyPropertyChanged(nameof(TintOpacity));
             }
         }
