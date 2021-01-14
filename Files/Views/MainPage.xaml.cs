@@ -36,17 +36,17 @@ namespace Files.Views
         public SettingsViewModel AppSettings => App.AppSettings;
         public static IMultitaskingControl MultitaskingControl { get; set; }
 
-        private TabItem _SelectedTabItem;
+        private TabItem selectedTabItem;
 
         public TabItem SelectedTabItem
         {
             get
             {
-                return _SelectedTabItem;
+                return selectedTabItem;
             }
             set
             {
-                _SelectedTabItem = value;
+                selectedTabItem = value;
                 NotifyPropertyChanged(nameof(SelectedTabItem));
             }
         }

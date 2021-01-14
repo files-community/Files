@@ -467,20 +467,20 @@ namespace Files.UserControls
 
         public string PathText { get; set; }
 
-        private bool _IsSearchRegionVisible = false;
+        private bool isSearchRegionVisible;
 
         public bool IsSearchRegionVisible
         {
             get
             {
-                return _IsSearchRegionVisible;
+                return isSearchRegionVisible;
             }
             set
             {
-                if (value != _IsSearchRegionVisible)
+                if (value != isSearchRegionVisible)
                 {
-                    _IsSearchRegionVisible = value;
-                    NotifyPropertyChanged("IsSearchRegionVisible");
+                    isSearchRegionVisible = value;
+                    NotifyPropertyChanged(nameof(IsSearchRegionVisible));
                 }
             }
         }
