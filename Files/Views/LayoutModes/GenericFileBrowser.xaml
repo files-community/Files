@@ -676,7 +676,7 @@
             CellEditEnding="AllView_CellEditEnding"
             ClipboardCopyMode="None"
             ColumnHeaderHeight="38"
-            DoubleTapped="{x:Bind ParentShellPageInstance.InteractionOperations.List_ItemDoubleClick}"
+            DoubleTapped="AllView_DoubleTapped"
             DragEnter="List_DragEnter"
             Drop="List_Drop"
             FocusVisualPrimaryThickness="0"
