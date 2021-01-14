@@ -258,33 +258,36 @@ namespace Files.Views.LayoutModes
                 return;
             }
 
-            if (e.EditingEventArgs is TappedRoutedEventArgs && AppSettings.OpenItemsWithOneclick)
-            {
-                // If for some reason we started renaming by a click in a one-click mode, cancel it
-                e.Cancel = true;
-                return;
-            }
-
-            if (tapDebounceTimer.IsEnabled)
-            {
-                // If we got another click during debounce time, it is a double tap.
-                // Cancel the edit an let the double tap to kick in.
-                tapDebounceTimer.Stop();
-                e.Cancel = true;
-                return;
-            }
-
             if (e.EditingEventArgs is TappedRoutedEventArgs)
             {
-                // We have an edit as a result of a tap.
-                // Let's wait to see if there is another tap (double click).
-                tapDebounceTimer.Debounce(() =>
-                {
-                    tapDebounceTimer.Stop();
-                    AllView.BeginEdit(); // EditingEventArgs will be null
-                }, TimeSpan.FromMilliseconds(700), false);
-
+                // A tap should never trigger an immediate edit
                 e.Cancel = true;
+
+                if (AppSettings.OpenItemsWithOneclick || tapDebounceTimer.IsEnabled)
+                {
+                    // If we handle a tap in one-click mode or handling a second tap within a timer duration,
+                    // just stop the timer (to avoid extra edits).
+                    // The relevant handlers (item pressed / double-click) will kick in and handle this tap
+                    tapDebounceTimer.Stop();
+                }
+                else
+                {
+                    // We have an edit due to the first tap in the double-click mode
+                    // Let's wait to see if there is another tap (double click).
+                    tapDebounceTimer.Debounce(() =>
+                    {
+                        tapDebounceTimer.Stop();
+
+                        // EditingEventArgs will be null allowing us to know this edit is not originated by tap
+                        AllView.BeginEdit();
+                    }, TimeSpan.FromMilliseconds(700), false);
+                }
+            }
+            else
+            {
+                // If we got here, then the edit is not triggered by tap.
+                // We proceed with the edit, and stop the timer to avoid extra edits.
+                tapDebounceTimer.Stop();
             }
         }
 
@@ -378,6 +381,7 @@ namespace Files.Views.LayoutModes
             // Check if the setting to open items with a single click is turned on
             if (AppSettings.OpenItemsWithOneclick)
             {
+                tapDebounceTimer.Stop();
                 await Task.Delay(200); // The delay gives time for the item to be selected
                 ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
             }
