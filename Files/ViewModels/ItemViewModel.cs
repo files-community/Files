@@ -41,7 +41,8 @@ namespace Files.ViewModels
     public class ItemViewModel : INotifyPropertyChanged, IDisposable
     {
         private IShellPage AssociatedInstance = null;
-        private static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
+        private SemaphoreSlim enumFolderSemaphore = new SemaphoreSlim(1, 1);
+        private SemaphoreSlim loadExtendedPropsSemaphore = new SemaphoreSlim(2, 2);
         private IntPtr hWatchDir;
         private IAsyncAction aWatcherAction;
         private BulkObservableCollection<ListedItem> filesAndFolders;
@@ -51,7 +52,7 @@ namespace Files.ViewModels
         private bool shouldDisplayFileExtensions = false;
         public ListedItem CurrentFolder { get; private set; }
         public CollectionViewSource viewSource;
-        private CancellationTokenSource addFilesCTS, semaphoreCTS;
+        private CancellationTokenSource addFilesCTS, semaphoreCTS, loadPropsCTS;
         private StorageFolder rootFolder;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -339,6 +340,7 @@ namespace Files.ViewModels
             FilesAndFolders = new ReadOnlyObservableCollection<ListedItem>(filesAndFolders);
             addFilesCTS = new CancellationTokenSource();
             semaphoreCTS = new CancellationTokenSource();
+            loadPropsCTS = new CancellationTokenSource();
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
             jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
             jumpTimer.Tick += JumpTimer_Tick;
@@ -447,7 +449,15 @@ namespace Files.ViewModels
             {
                 addFilesCTS.Cancel();
             }
+            CancelExtendedPropertiesLoading();
             filesAndFolders.Clear();
+        }
+
+        public void CancelExtendedPropertiesLoading()
+        {
+            loadPropsCTS.Cancel();
+            loadPropsCTS.Dispose();
+            loadPropsCTS = new CancellationTokenSource();
         }
 
         public void OrderFiles(IList<ListedItem> orderedList = null)
@@ -634,6 +644,14 @@ namespace Files.ViewModels
                     item.ItemPropertiesInitialized = true;
                     return;
                 }
+                try
+                {
+                    await loadExtendedPropsSemaphore.WaitAsync(loadPropsCTS.Token);
+                }
+                catch (Exception ex) when (ex is OperationCanceledException || ex is ObjectDisposedException)
+                {
+                    return;
+                }
                 var wasSyncStatusLoaded = false;
                 try
                 {
@@ -708,6 +726,7 @@ namespace Files.ViewModels
                         matchingItem.SyncStatusUI = new CloudDriveSyncStatusUI() { LoadSyncStatus = false }; // Reset cloud sync status icon
                     }
                     item.ItemPropertiesInitialized = true;
+                    loadExtendedPropsSemaphore.Release();
                 }
             }
         }
@@ -766,7 +785,7 @@ namespace Files.ViewModels
                 // Wait here until the previous one has ended
                 // If we're waiting and a new update request comes through
                 // simply drop this instance
-                await semaphoreSlim.WaitAsync(semaphoreCTS.Token);
+                await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
             }
             catch (Exception ex) when (ex is OperationCanceledException || ex is ObjectDisposedException)
             {
@@ -870,7 +889,7 @@ namespace Files.ViewModels
             }
             finally
             {
-                semaphoreSlim.Release();
+                enumFolderSemaphore.Release();
             }
 
             UpdateDirectoryInfo();
@@ -2027,6 +2046,7 @@ namespace Files.ViewModels
         {
             addFilesCTS?.Dispose();
             semaphoreCTS?.Dispose();
+            loadPropsCTS?.Dispose();
             CloseWatcher();
         }
 
