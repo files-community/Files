@@ -127,6 +127,7 @@ namespace Files.Views.LayoutModes
         {
             var rows = new List<DataGridRow>();
             Interaction.FindChildren<DataGridRow>(rows, AllView);
+            ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
             foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders)
             {
                 listedItem.ItemPropertiesInitialized = false;

@@ -52,7 +52,7 @@ namespace Files.ViewModels
         private bool shouldDisplayFileExtensions = false;
         public ListedItem CurrentFolder { get; private set; }
         public CollectionViewSource viewSource;
-        private CancellationTokenSource _addFilesCTS, _semaphoreCTS;
+        private CancellationTokenSource _addFilesCTS, _semaphoreCTS, _loadPropsCTS;
         private StorageFolder _rootFolder;
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -340,6 +340,7 @@ namespace Files.ViewModels
             FilesAndFolders = new ReadOnlyObservableCollection<ListedItem>(_filesAndFolders);
             _addFilesCTS = new CancellationTokenSource();
             _semaphoreCTS = new CancellationTokenSource();
+            _loadPropsCTS = new CancellationTokenSource();
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
             jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
             jumpTimer.Tick += JumpTimer_Tick;
@@ -448,7 +449,15 @@ namespace Files.ViewModels
             {
                 _addFilesCTS.Cancel();
             }
+            CancelExtendedPropertiesLoading();
             _filesAndFolders.Clear();
+        }
+
+        public void CancelExtendedPropertiesLoading()
+        {
+            _loadPropsCTS.Cancel();
+            _loadPropsCTS.Dispose();
+            _loadPropsCTS = new CancellationTokenSource();
         }
 
         public void OrderFiles(IList<ListedItem> orderedList = null)
@@ -637,7 +646,7 @@ namespace Files.ViewModels
                 }
                 try
                 {
-                    await loadExtendedPropsSemaphore.WaitAsync(_addFilesCTS.Token);
+                    await loadExtendedPropsSemaphore.WaitAsync(_loadPropsCTS.Token);
                 }
                 catch (Exception ex) when (ex is OperationCanceledException || ex is ObjectDisposedException)
                 {
@@ -2037,6 +2046,7 @@ namespace Files.ViewModels
         {
             _addFilesCTS?.Dispose();
             _semaphoreCTS?.Dispose();
+            _loadPropsCTS?.Dispose();
             CloseWatcher();
         }
 
