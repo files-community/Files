@@ -37,7 +37,7 @@ namespace Files.Filesystem
                             MainPage.SideBarItems
                                 .FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive &&
                                     x.Path.Contains(component, StringComparison.OrdinalIgnoreCase)).Text :
-                            @"Drive (" + component + @"\)",
+                            $@"Drive ({component}\)",
                     Path = path,
                 };
             }

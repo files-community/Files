@@ -63,17 +63,17 @@ namespace FilesFullTrust
                 var sid = System.Security.Principal.WindowsIdentity.GetCurrent().User.ToString();
                 foreach (var drive in DriveInfo.GetDrives())
                 {
-                    var recycle_path = Path.Combine(drive.Name, "$Recycle.Bin", sid);
-                    if (drive.DriveType == DriveType.Network || !Directory.Exists(recycle_path))
+                    var recyclePath = Path.Combine(drive.Name, "$Recycle.Bin", sid);
+                    if (drive.DriveType == DriveType.Network || !Directory.Exists(recyclePath))
                     {
                         continue;
                     }
-                    var watcher = new FileSystemWatcher();
-                    watcher.Path = recycle_path;
-                    watcher.Filter = "*.*";
-                    watcher.NotifyFilter = NotifyFilters.LastWrite
-                                 | NotifyFilters.FileName
-                                 | NotifyFilters.DirectoryName;
+                    var watcher = new FileSystemWatcher
+                    {
+                        Path = recyclePath,
+                        Filter = "*.*",
+                        NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName
+                    };
                     watcher.Created += Watcher_Changed;
                     watcher.Deleted += Watcher_Changed;
                     watcher.EnableRaisingEvents = true;

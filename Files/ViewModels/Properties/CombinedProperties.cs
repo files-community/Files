@@ -94,8 +94,7 @@ namespace Files.ViewModels.Properties
             ViewModel.ItemSizeProgressVisibility = Visibility.Collapsed;
 
             totalSize = filesSize + foldersSize;
-            ViewModel.ItemSize = ByteSize.FromBytes(totalSize).ToBinaryString().ConvertSizeAbbreviation()
-                + " (" + ByteSize.FromBytes(totalSize).Bytes.ToString("#,##0") + " " + "ItemSizeBytes".GetLocalized() + ")";
+            ViewModel.ItemSize = $"{ByteSize.FromBytes(totalSize).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(totalSize).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
             SetItemsCountString();
         }
 
