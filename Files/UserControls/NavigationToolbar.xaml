@@ -801,30 +801,6 @@
             </Button>
 
             <Button
-                x:Name="Up"
-                x:Uid="NavUpButton"
-                Width="36"
-                Height="32"
-                x:FieldModifier="public"
-                x:Load="False"
-                AutomationProperties.Name="Go up one directory"
-                Background="Transparent"
-                Click="Up_Click"
-                Content="&#xe936;"
-                CornerRadius="2"
-                FontFamily="{StaticResource FluentUIGlyphs}"
-                FontSize="16"
-                Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Up (Alt + Up Arrow)">
-                <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator
-                        Key="Up"
-                        IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}"
-                        Modifiers="Menu" />
-                </Button.KeyboardAccelerators>
-            </Button>
-
-            <Button
                 x:Name="Refresh"
                 x:Uid="NavRefreshButton"
                 Width="36"
@@ -844,6 +820,30 @@
                 </Button.KeyboardAccelerators>
             </Button>
         </StackPanel>
+
+        <Button
+            x:Name="Up"
+            x:Uid="NavUpButton"
+            Width="36"
+            Height="32"
+            x:FieldModifier="public"
+            AutomationProperties.Name="Go up one directory"
+            Background="Transparent"
+            Click="Up_Click"
+            Content="&#xe936;"
+            CornerRadius="2"
+            FontFamily="{StaticResource FluentUIGlyphs}"
+            FontSize="16"
+            Style="{StaticResource ToolBarButtonStyle}"
+            ToolTipService.ToolTip="Up (Alt + Up Arrow)"
+            Visibility="Collapsed">
+            <Button.KeyboardAccelerators>
+                <KeyboardAccelerator
+                    Key="Up"
+                    IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}"
+                    Modifiers="Menu" />
+            </Button.KeyboardAccelerators>
+        </Button>
 
         <StackPanel
             Grid.Row="1"
