@@ -632,7 +632,7 @@ namespace Files.Views
 
         public async void CheckPathInput(ItemViewModel instance, string currentInput, string currentSelectedPath)
         {
-            if (currentSelectedPath == currentInput)
+            if (currentSelectedPath == currentInput || string.IsNullOrWhiteSpace(currentInput))
             {
                 return;
             }
