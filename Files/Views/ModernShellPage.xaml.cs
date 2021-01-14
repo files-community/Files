@@ -453,7 +453,7 @@ namespace Files.Views
         private async void SetAddressBarSuggestions(AutoSuggestBox sender, int maxSuggestions = 7)
         {
             var mNavToolbar = (NavigationToolbar as NavigationToolbar);
-            if (mNavToolbar != null)
+            if (mNavToolbar != null && !string.IsNullOrWhiteSpace(sender.Text))
             {
                 try
                 {
@@ -632,7 +632,7 @@ namespace Files.Views
 
         public async void CheckPathInput(ItemViewModel instance, string currentInput, string currentSelectedPath)
         {
-            if (currentSelectedPath == currentInput)
+            if (currentSelectedPath == currentInput || string.IsNullOrWhiteSpace(currentInput))
             {
                 return;
             }
