@@ -980,8 +980,7 @@
                 FontFamily="Segoe MDL2 Assets"
                 FontSize="16"
                 Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="More options"
-                Visibility="Visible">
+                ToolTipService.ToolTip="More options">
                 <Button.Flyout>
                     <MenuFlyout Opening="NavMoreButtonFlyout_Opening" Placement="BottomEdgeAlignedRight">
                         <MenuFlyoutItem
