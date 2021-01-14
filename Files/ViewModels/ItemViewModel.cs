@@ -337,7 +337,7 @@ namespace Files.ViewModels
         {
             AssociatedInstance = appInstance;
             filesAndFolders = new BulkObservableCollection<ListedItem>();
-            FilesAndFolders = new ReadOnlyObservableCollection<ListedItem>(_filesAndFolders);
+            FilesAndFolders = new ReadOnlyObservableCollection<ListedItem>(filesAndFolders);
             addFilesCTS = new CancellationTokenSource();
             semaphoreCTS = new CancellationTokenSource();
             loadPropsCTS = new CancellationTokenSource();
