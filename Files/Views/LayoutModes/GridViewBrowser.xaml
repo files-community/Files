@@ -75,7 +75,7 @@
                     <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE152;" />
                 </MenuFlyoutSubItem.Icon>
                 <MenuFlyoutItem
-                    x:Uid="StatusBarControlGridViewLarge"
+                    x:Uid="BaseLayoutContextFlyoutGridViewLarge"
                     Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewLarge}"
                     Text="Grid View (Large)">
                     <MenuFlyoutItem.Icon>
@@ -83,7 +83,7 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
-                    x:Uid="StatusBarControlGridViewMedium"
+                    x:Uid="BaseLayoutContextFlyoutGridViewMedium"
                     Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
                     Text="Grid View (Medium)">
                     <MenuFlyoutItem.Icon>
@@ -91,7 +91,7 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
-                    x:Uid="StatusBarControlGridViewSmall"
+                    x:Uid="BaseLayoutContextFlyoutGridViewSmall"
                     Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
                     Text="Grid View (Small)">
                     <MenuFlyoutItem.Icon>
@@ -99,7 +99,7 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
-                    x:Uid="StatusBarControlTilesView"
+                    x:Uid="BaseLayoutContextFlyoutTilesView"
                     Command="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
                     Text="Tiles View">
                     <MenuFlyoutItem.Icon>
@@ -107,7 +107,7 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
-                    x:Uid="StatusBarControlDetailsView"
+                    x:Uid="BaseLayoutContextFlyoutDetails"
                     Command="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"
                     Text="Details View">
                     <MenuFlyoutItem.Icon>
@@ -231,10 +231,10 @@
                     IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByOriginalPath, Mode=TwoWay}"
                     Text="Original path" />
                 <muxc:RadioMenuFlyoutItem
-                    x:Uid="BaseLayoutContextFlyoutSortByDate"
+                    x:Uid="BaseLayoutContextFlyoutSortByDateDeleted"
                     GroupName="SortGroup"
-                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDate, Mode=TwoWay}"
-                    Text="Date modified" />
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDateDeleted, Mode=TwoWay}"
+                    Text="Date deleted" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByType"
                     GroupName="SortGroup"
@@ -245,6 +245,11 @@
                     GroupName="SortGroup"
                     IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedBySize, Mode=TwoWay}"
                     Text="Size" />
+                <muxc:RadioMenuFlyoutItem
+                    x:Uid="BaseLayoutContextFlyoutSortByDate"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDate, Mode=TwoWay}"
+                    Text="Date modified" />
                 <MenuFlyoutSeparator />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByAscending"
@@ -490,6 +495,17 @@
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
+                x:Name="SidebarUnpinItem"
+                x:Uid="SideBarUnpinFromSideBar"
+                x:Load="False"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.UnpinItem_Click}"
+                Tag="PinItem_FlyoutItem"
+                Text="Unpin from sidebar">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB20;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
                 x:Name="PropertiesItem"
                 x:Uid="BaseLayoutItemContextFlyoutProperties"
                 Click="{x:Bind ParentShellPageInstance.InteractionOperations.ShowPropertiesButton_Click}"
@@ -520,15 +536,6 @@
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe935;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-            <!--<MenuFlyoutItem
-                x:Name="CutRecycleBinItem"
-                x:Uid="BaseLayoutItemContextFlyoutCut"
-                Click="{x:Bind ParentShellPageInstance.InteractionOperations.CutItem_Click}"
-                Text="Cut">
-                <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xE8C6;" />
-                </MenuFlyoutItem.Icon>
-            </MenuFlyoutItem>-->
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
                 x:Name="DeleteRecycleBinItem"
@@ -574,14 +581,14 @@
                     Height="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
                     Opacity="{x:Bind Opacity, Mode=OneWay}"
                     Tag="ItemImage">
-                    <Grid
+                    <Image
                         x:Name="Picture"
-                        Padding="12"
+                        Margin="12"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind LoadFileIcon, Mode=OneWay}">
-                        <Image Source="{x:Bind FileImage, Mode=OneWay}" Stretch="Uniform" />
-                    </Grid>
+                        x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
+                        Source="{x:Bind FileImage, Mode=OneWay}"
+                        Stretch="Uniform" />
                     <Image
                         x:Name="FolderGlyph"
                         HorizontalAlignment="Stretch"
@@ -595,39 +602,39 @@
                                 UriSource="{x:Bind FolderIconSourceLarge}" />
                         </Image.Source>
                     </Image>
-                    <Grid
+                    <Viewbox
                         x:Name="TypeUnknownGlyph"
-                        Padding="12"
+                        MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+                        MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+                        Margin="12"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
-                        <Viewbox MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}" MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}">
-                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA00;" />
-                        </Viewbox>
-                    </Grid>
-                    <Grid
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA00;" />
+                    </Viewbox>
+                    <Image
                         x:Name="IconOverlay"
-                        Width="64"
-                        Height="64"
-                        Padding="12"
+                        Width="60"
+                        Height="60"
+                        Margin="8,0,0,8"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
-                        x:Load="True">
-                        <Image Source="{x:Bind IconOverlay, Mode=OneWay}" Stretch="Uniform" />
-                    </Grid>
-                    <Grid
+                        x:Load="True"
+                        Source="{x:Bind IconOverlay, Mode=OneWay}"
+                        Stretch="Uniform" />
+                    <Viewbox
                         x:Name="WebShortcutGlyph"
-                        Padding="12"
+                        MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+                        MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}"
+                        Margin="12"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
-                        <Viewbox MaxWidth="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}" MaxHeight="{Binding FolderSettings.GridViewSize, ElementName=PageRoot, Mode=OneWay}">
-                            <FontIcon
-                                FontFamily="{StaticResource FluentUIGlyphs}"
-                                FontSize="28"
-                                Glyph="&#xEAAB;" />
-                        </Viewbox>
-                    </Grid>
+                        <FontIcon
+                            FontFamily="{StaticResource FluentUIGlyphs}"
+                            FontSize="28"
+                            Glyph="&#xEAAB;" />
+                    </Viewbox>
                     <Border
                         x:Name="ShortcutGlyphElement"
                         Margin="8,0,0,8"
@@ -721,15 +728,15 @@
                     MinHeight="100"
                     Opacity="{x:Bind Opacity, Mode=OneWay}"
                     Tag="ItemImage">
-                    <Grid
+                    <Image
                         x:Name="Picture"
                         Width="74"
-                        Padding="0,12,0,12"
+                        Margin="0,12,0,12"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind LoadFileIcon, Mode=OneWay}">
-                        <Image Source="{x:Bind FileImage, Mode=OneWay}" Stretch="Uniform" />
-                    </Grid>
+                        x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
+                        Source="{x:Bind FileImage, Mode=OneWay}"
+                        Stretch="Uniform" />
                     <Image
                         x:Name="FolderGlyph"
                         Width="74"
@@ -745,42 +752,36 @@
                                 UriSource="{x:Bind FolderIconSource}" />
                         </Image.Source>
                     </Image>
-                    <Grid
+                    <FontIcon
                         x:Name="TypeUnknownGlyph"
                         Width="74"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
-                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <FontIcon
-                                FontFamily="{StaticResource FluentUIGlyphs}"
-                                FontSize="74"
-                                Glyph="&#xEA00;" />
-                        </Grid>
-                    </Grid>
-                    <Grid
+                        x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
+                        FontFamily="{StaticResource FluentUIGlyphs}"
+                        FontSize="74"
+                        Glyph="&#xEA00;" />
+                    <Image
                         x:Name="IconOverlay"
                         Width="48"
                         Height="48"
-                        Padding="8"
+                        Margin="8"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
-                        x:Load="True">
-                        <Image Source="{x:Bind IconOverlay, Mode=OneWay}" Stretch="Uniform" />
-                    </Grid>
-                    <Grid
+                        x:Load="True"
+                        Source="{x:Bind IconOverlay, Mode=OneWay}"
+                        Stretch="Uniform" />
+                    <Viewbox
                         x:Name="WebShortcutGlyph"
-                        Width="74"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
+                        MaxWidth="74"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
-                        <Viewbox MaxWidth="74">
-                            <FontIcon
-                                FontFamily="{StaticResource FluentUIGlyphs}"
-                                FontSize="28"
-                                Glyph="&#xEAAB;" />
-                        </Viewbox>
-                    </Grid>
+                        <FontIcon
+                            FontFamily="{StaticResource FluentUIGlyphs}"
+                            FontSize="28"
+                            Glyph="&#xEAAB;" />
+                    </Viewbox>
                     <Border
                         x:Name="ShortcutGlyphElement"
                         Margin="8,0,0,8"
@@ -893,7 +894,7 @@
         <muxc:ProgressBar
             x:Name="progBar"
             VerticalAlignment="Top"
-            x:Load="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsLoadingItems, Mode=OneWay}"
+            x:Load="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsLoadingIndicatorActive, Mode=OneWay}"
             Background="Transparent"
             IsIndeterminate="True" />
         <TextBlock

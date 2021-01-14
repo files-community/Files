@@ -108,7 +108,7 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>Vymazat výběr</value>
   </data>
-  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
     <value>Podrobnosti</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -432,16 +432,16 @@
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>Nastavit jako pozadí zamykací obrazovky</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewLarge.Text" xml:space="preserve">
     <value>Mřížka (velká)</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewMedium.Text" xml:space="preserve">
     <value>Mřížka (střední)</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewSmall.Text" xml:space="preserve">
     <value>Mřížka (malá)</value>
   </data>
-  <data name="StatusBarControlTilesView.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
     <value>Dlaždice</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
@@ -485,9 +485,6 @@
   </data>
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>OK</value>
-  </data>
-  <data name="StatusBarControlLayoutMode.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Režim rozložení</value>
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Možnosti výběru</value>
@@ -1277,9 +1274,6 @@
   </data>
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Více možností</value>
-  </data>
-  <data name="StatusBarControlLayoutMode.AutomationProperties.Name" xml:space="preserve">
-    <value>Režim rozložení</value>
   </data>
   <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Možnosti výběru</value>

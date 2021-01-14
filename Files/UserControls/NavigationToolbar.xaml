@@ -870,7 +870,7 @@
                 Width="36"
                 Height="32"
                 Margin="0,0,4,0"
-                x:Load="{x:Bind IsSearchReigonVisible, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+                x:Load="{x:Bind IsSearchRegionVisible, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                 AutomationProperties.Name="Search"
                 Background="Transparent"
                 Click="SearchButton_Click"
@@ -887,20 +887,20 @@
             </Button>
 
             <AutoSuggestBox
-                x:Name="SearchReigon"
+                x:Name="SearchRegion"
                 x:Uid="NavigationToolbarSearchReigon"
                 Width="300"
                 Margin="0,0,4,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
-                LostFocus="SearchReigon_LostFocus"
+                LostFocus="SearchRegion_LostFocus"
                 PlaceholderText="Search"
-                QuerySubmitted="SearchReigon_QuerySubmitted"
-                SuggestionChosen="SearchReigon_SuggestionChosen"
+                QuerySubmitted="SearchRegion_QuerySubmitted"
+                SuggestionChosen="SearchRegion_SuggestionChosen"
                 TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxStyleFixed}"
-                TextChanged="SearchReigon_TextChanged"
+                TextChanged="SearchRegion_TextChanged"
                 UpdateTextOnSelect="False"
-                Visibility="{x:Bind IsSearchReigonVisible, Mode=OneWay}">
+                Visibility="{x:Bind IsSearchRegionVisible, Mode=OneWay}">
                 <AutoSuggestBox.QueryIcon>
                     <FontIcon
                         FontFamily="{StaticResource FluentUIGlyphs}"

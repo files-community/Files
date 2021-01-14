@@ -128,8 +128,9 @@
           <target state="translated">Özellikler</target>
         </trans-unit>
         <trans-unit id="SideBarUnpinFromSideBar.Text" translate="yes" xml:space="preserve">
-          <source>Unpin from Sidebar</source>
-          <target state="translated">Kenar Çubuğundan sabitlemeyi kaldır</target>
+          <source>Unpin from sidebar</source>
+          <target state="needs-review-translation">Kenar Çubuğundan sabitlemeyi kaldır</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Delete Item(s)</source>
@@ -325,7 +326,7 @@
           <source>Text Document</source>
           <target state="translated">Metin Belgesi</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlDetailsView.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutDetails.Text" translate="yes" xml:space="preserve">
           <source>Details View</source>
           <target state="translated">Liste Görünümü</target>
         </trans-unit>
@@ -533,19 +534,19 @@
           <source>Set as lockscreen background</source>
           <target state="new">Set as lockscreen background</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlGridViewLarge.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutGridViewLarge.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Large)</source>
           <target state="new">Grid View (Large)</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlGridViewMedium.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutGridViewMedium.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Medium)</source>
           <target state="new">Grid View (Medium)</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlGridViewSmall.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutGridViewSmall.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Small)</source>
           <target state="new">Grid View (Small)</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlTilesView.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="BaseLayoutContextFlyoutTilesView.Text" translate="yes" xml:space="preserve">
           <source>Tiles View</source>
           <target state="new">Tiles View</target>
         </trans-unit>
@@ -588,10 +589,6 @@
         <trans-unit id="FolderNotFoundDialog.Title" translate="yes" xml:space="preserve">
           <source>Did you delete this folder?</source>
           <target state="new">Did you delete this folder?</target>
-        </trans-unit>
-        <trans-unit id="StatusBarControlLayoutMode.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Layout mode</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Düzen modu</target>
         </trans-unit>
         <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
@@ -1257,10 +1254,6 @@
         <trans-unit id="NavMoreButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>More options</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Diğer seçenekler</target>
-        </trans-unit>
-        <trans-unit id="StatusBarControlLayoutMode.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Layout mode</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Düzen modu</target>
         </trans-unit>
         <trans-unit id="StatusBarControlSelectionOptions.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Selection options</source>
@@ -1993,6 +1986,78 @@
         <trans-unit id="SettingsContextMenuAnimationsSwitch.Header" translate="yes" xml:space="preserve">
           <source>Enable animations when opening and closing the context menu</source>
           <target state="new">Enable animations when opening and closing the context menu</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlDetailsView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Details View</source>
+          <target state="new">Details View</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewLarge.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Grid View (Large)</source>
+          <target state="new">Grid View (Large)</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewMedium.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Grid View (Medium)</source>
+          <target state="new">Grid View (Medium)</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewSmall.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Grid View (Small)</source>
+          <target state="new">Grid View (Small)</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlTilesView.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Tiles View</source>
+          <target state="new">Tiles View</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlLayoutMode.Text" translate="yes" xml:space="preserve">
+          <source>Layout Mode</source>
+          <target state="new">Layout Mode</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlDisplayOptions.Text" translate="yes" xml:space="preserve">
+          <source>Display Options</source>
+          <target state="new">Display Options</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlDisplayOptionsButton.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Display Options</source>
+          <target state="new">Display Options</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlDisplayOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Display options</source>
+          <target state="new">Display options</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewLarge.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Grid View (Large)</source>
+          <target state="new">Grid View (Large)</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewMedium.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Grid View (Medium)</source>
+          <target state="new">Grid View (Medium)</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewSmall.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Grid View (Small)</source>
+          <target state="new">Grid View (Small)</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlTilesView.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Tiles View</source>
+          <target state="new">Tiles View</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlShowFileExtensions.Header" translate="yes" xml:space="preserve">
+          <source>Show file extensions</source>
+          <target state="new">Show file extensions</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlShowHiddenItems.Header" translate="yes" xml:space="preserve">
+          <source>Show hidden items</source>
+          <target state="new">Show hidden items</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlDetailsView.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Details View</source>
+          <target state="new">Details View</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortByDateDeleted.Text" translate="yes" xml:space="preserve">
+          <source>Date deleted</source>
+          <target state="new">Date deleted</target>
+        </trans-unit>
+        <trans-unit id="dateDeletedColumn.Header" translate="yes" xml:space="preserve">
+          <source>Date deleted</source>
+          <target state="new">Date deleted</target>
         </trans-unit>
       </group>
     </body>

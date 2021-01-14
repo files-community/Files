@@ -462,12 +462,12 @@ namespace FilesFullTrust
                         }
                         using var shi = new ShellItem(fileToDeletePath);
                         op.QueueDeleteOperation(shi);
-                        op.PostDeleteItem += async (s, e) =>
-                        {
-                            await args.Request.SendResponseAsync(new ValueSet() {
-                                { "Success", e.Result.Succeeded } });
-                        };
+                        var deleteTcs = new TaskCompletionSource<bool>();
+                        op.PostDeleteItem += (s, e) => deleteTcs.TrySetResult(e.Result.Succeeded);
                         op.PerformOperations();
+                        var result = await deleteTcs.Task;
+                        await args.Request.SendResponseAsync(new ValueSet() {
+                            { "Success", result } });
                     }
                     break;
 
@@ -609,17 +609,20 @@ namespace FilesFullTrust
             bool isFolder = folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip";
             if (folderItem.Properties == null)
             {
-                return new ShellFileItem(isFolder, recyclePath, fileName, filePath, DateTime.Now, null, 0, null);
+                return new ShellFileItem(isFolder, recyclePath, fileName, filePath, DateTime.Now, DateTime.Now, null, 0, null);
             }
             folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
-                Ole32.PROPERTYKEY.System.DateCreated, out var fileTime);
+                Ole32.PROPERTYKEY.System.Recycle.DateDeleted, out var fileTime);
             var recycleDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
+            folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
+                Ole32.PROPERTYKEY.System.DateModified, out fileTime);
+            var modifiedDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
             string fileSize = folderItem.Properties.TryGetValue<ulong?>(
                 Ole32.PROPERTYKEY.System.Size, out var fileSizeBytes) ?
                 folderItem.Properties.GetPropertyString(Ole32.PROPERTYKEY.System.Size) : null;
             folderItem.Properties.TryGetValue<string>(
                 Ole32.PROPERTYKEY.System.ItemTypeText, out var fileType);
-            return new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, fileSize, fileSizeBytes ?? 0, fileType);
+            return new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, modifiedDate, fileSize, fileSizeBytes ?? 0, fileType);
         }
 
         private static void HandleApplicationsLaunch(IEnumerable<string> applications, AppServiceRequestReceivedEventArgs args)

@@ -226,6 +226,19 @@ namespace Files.Interacts
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
                     App.SidebarPinnedController.Model.AddItem(listedItem.ItemPath);
+                    listedItem.IsPinned = true;
+                }
+            }
+        }
+
+        public void UnpinItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (AssociatedInstance.ContentPage != null)
+            {
+                foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
+                {
+                    App.SidebarPinnedController.Model.RemoveItem(listedItem.ItemPath);
+                    listedItem.IsPinned = false;
                 }
             }
         }

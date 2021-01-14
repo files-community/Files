@@ -170,6 +170,7 @@ namespace Files.ViewModels
             NotifyPropertyChanged(nameof(IsSortedByType));
             NotifyPropertyChanged(nameof(IsSortedBySize));
             NotifyPropertyChanged(nameof(IsSortedByOriginalPath));
+            NotifyPropertyChanged(nameof(IsSortedByDateDeleted));
             OrderFiles();
         }
 
@@ -202,6 +203,19 @@ namespace Files.ViewModels
                 {
                     FolderSettings.DirectorySortOption = SortOption.OriginalPath;
                     NotifyPropertyChanged(nameof(IsSortedByOriginalPath));
+                }
+            }
+        }
+
+        public bool IsSortedByDateDeleted
+        {
+            get => FolderSettings.DirectorySortOption == SortOption.DateDeleted;
+            set
+            {
+                if (value)
+                {
+                    FolderSettings.DirectorySortOption = SortOption.DateDeleted;
+                    NotifyPropertyChanged(nameof(IsSortedByDateDeleted));
                 }
             }
         }
@@ -425,38 +439,15 @@ namespace Files.ViewModels
             }
         }
 
-        public void CancelLoadAndClearFiles(bool isSearchResultPage = false)
+        public void CancelLoadAndClearFiles()
         {
             Debug.WriteLine("CancelLoadAndClearFiles");
-            if (!isSearchResultPage)
+            CloseWatcher();
+            if (IsLoadingItems)
             {
-                CloseWatcher();
-
-                AssociatedInstance.NavigationToolbar.CanRefresh = true;
-                if (IsLoadingItems == false)
-                {
-                    return;
-                }
-
                 _addFilesCTS.Cancel();
-                AssociatedInstance.NavigationToolbar.CanGoForward = true;
             }
-            else
-            {
-                AssociatedInstance.NavigationToolbar.CanRefresh = false;
-                AssociatedInstance.NavigationToolbar.CanGoForward = false;
-                AssociatedInstance.NavigationToolbar.CanNavigateToParent = false;
-                AssociatedInstance.NavigationToolbar.CanCopyPathInPage = false;
-            }
-
-            AssociatedInstance.NavigationToolbar.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.
             _filesAndFolders.Clear();
-
-            if (!(WorkingDirectory?.StartsWith(AppSettings.RecycleBinPath) ?? false) && !isSearchResultPage)
-            {
-                // Can't go up from recycle bin
-                AssociatedInstance.NavigationToolbar.CanNavigateToParent = true;
-            }
         }
 
         public void OrderFiles(IList<ListedItem> orderedList = null)
@@ -496,7 +487,7 @@ namespace Files.ViewModels
 
             static object orderByNameFunc(ListedItem item) => item.ItemName;
             Func<ListedItem, object> orderFunc = orderByNameFunc;
-            NaturalStringComparer naturalStringComparer = new NaturalStringComparer();
+            var naturalStringComparer = NaturalStringComparer.GetForProcessor();
             switch (FolderSettings.DirectorySortOption)
             {
                 case SortOption.Name:
@@ -517,6 +508,10 @@ namespace Files.ViewModels
 
                 case SortOption.OriginalPath:
                     orderFunc = item => ((RecycleBinItem)item).ItemOriginalFolder;
+                    break;
+
+                case SortOption.DateDeleted:
+                    orderFunc = item => ((RecycleBinItem)item).ItemDateDeletedReal;
                     break;
             }
 
@@ -553,54 +548,26 @@ namespace Files.ViewModels
             }
             else
             {
-                if (FolderSettings.DirectorySortOption == SortOption.FileType)
+                if (FolderSettings.DirectorySortOption == SortOption.Name)
                 {
-                    if (FolderSettings.DirectorySortOption == SortOption.Name)
+                    if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
                     {
-                        if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
-                        {
-                            ordered = listToSort.OrderBy(orderFunc, naturalStringComparer);
-                        }
-                        else
-                        {
-                            ordered = listToSort.OrderByDescending(orderFunc, naturalStringComparer);
-                        }
+                        ordered = listToSort.OrderByDescending(orderFunc, naturalStringComparer);
                     }
                     else
                     {
-                        if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
-                        {
-                            ordered = listToSort.OrderByDescending(orderFunc);
-                        }
-                        else
-                        {
-                            ordered = listToSort.OrderBy(folderThenFileAsync).ThenByDescending(orderFunc);
-                        }
+                        ordered = listToSort.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc, naturalStringComparer);
                     }
                 }
                 else
                 {
-                    if (FolderSettings.DirectorySortOption == SortOption.Name)
+                    if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
                     {
-                        if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
-                        {
-                            ordered = listToSort.OrderByDescending(orderFunc, naturalStringComparer);
-                        }
-                        else
-                        {
-                            ordered = listToSort.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc, naturalStringComparer);
-                        }
+                        ordered = listToSort.OrderByDescending(orderFunc);
                     }
                     else
                     {
-                        if (AppSettings.ListAndSortDirectoriesAlongsideFiles)
-                        {
-                            ordered = listToSort.OrderByDescending(orderFunc);
-                        }
-                        else
-                        {
-                            ordered = listToSort.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc);
-                        }
+                        ordered = listToSort.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc);
                     }
                 }
             }
@@ -622,21 +589,36 @@ namespace Files.ViewModels
             return orderedList;
         }
 
-        private bool _isLoadingItems = false;
+        private bool isLoadingIndicatorActive = false;
+
+        public bool IsLoadingIndicatorActive
+        {
+            get
+            {
+                return isLoadingIndicatorActive;
+            }
+            set
+            {
+                if (isLoadingIndicatorActive != value)
+                {
+                    isLoadingIndicatorActive = value;
+                    NotifyPropertyChanged(nameof(IsLoadingIndicatorActive));
+                }
+            }
+        }
+
+        private bool isLoadingItems = false;
 
         public bool IsLoadingItems
         {
             get
             {
-                return _isLoadingItems;
+                return isLoadingItems;
             }
-            internal set
+            set
             {
-                if (_isLoadingItems != value)
-                {
-                    _isLoadingItems = value;
-                    NotifyPropertyChanged(nameof(IsLoadingItems));
-                }
+                isLoadingItems = value;
+                IsLoadingIndicatorActive = value;
             }
         }
 
@@ -814,7 +796,7 @@ namespace Files.ViewModels
                     var orderedList = OrderFiles2(cacheEntry.FileList);
                     OrderFiles(orderedList);
                     Debug.WriteLine($"Loading of items from cache in {WorkingDirectory} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
-                    IsLoadingItems = false;
+                    IsLoadingIndicatorActive = false;
                 }
 
                 if (path.StartsWith(AppSettings.RecycleBinPath))
@@ -1200,6 +1182,7 @@ namespace Files.ViewModels
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
 
+            var tempList = new List<ListedItem>();
             uint count = 0;
             while (true)
             {
@@ -1227,29 +1210,38 @@ namespace Files.ViewModels
                 }
                 if (item.IsOfType(StorageItemTypes.Folder))
                 {
-                    await AddFolderAsync(item as StorageFolder, returnformat);
+                    var folder = await AddFolderAsync(item as StorageFolder, returnformat);
+                    if (folder != null)
+                    {
+                        tempList.Add(folder);
+                    }
                     ++count;
                 }
                 else
                 {
                     var file = item as StorageFile;
-                    await AddFileAsync(file, returnformat, true);
+                    var fileEntry = await AddFileAsync(file, returnformat, true);
+                    if (fileEntry != null)
+                    {
+                        tempList.Add(fileEntry);
+                    }
                     ++count;
                 }
                 if (_addFilesCTS.IsCancellationRequested)
                 {
                     break;
                 }
-                if (count % 300 == 0)
+                if (count == 32 || count % 300 == 0)
                 {
-                    OrderFiles();
+                    OrderFiles(OrderFiles2(tempList));
                 }
             }
+            OrderFiles(OrderFiles2(tempList));
             stopwatch.Stop();
             await fileListCache.SaveFileListToCache(WorkingDirectory, new CacheEntry
             {
                 CurrentFolder = CurrentFolder,
-                FileList = _filesAndFolders.ToList()
+                FileList = tempList
             });
             Debug.WriteLine($"Enumerating items in {WorkingDirectory} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
         }
@@ -1476,7 +1468,8 @@ namespace Files.ViewModels
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemName = item.FileName,
-                    ItemDateModifiedReal = item.RecycleDate,
+                    ItemDateModifiedReal = item.ModifiedDate,
+                    ItemDateDeletedReal = item.RecycleDate,
                     ItemType = item.FileType,
                     IsHiddenItem = false,
                     Opacity = 1,
@@ -1527,7 +1520,8 @@ namespace Files.ViewModels
                     IsHiddenItem = false,
                     Opacity = 1,
                     ItemName = itemName,
-                    ItemDateModifiedReal = item.RecycleDate,
+                    ItemDateModifiedReal = item.ModifiedDate,
+                    ItemDateDeletedReal = item.RecycleDate,
                     ItemType = item.FileType,
                     ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
                     ItemOriginalPath = item.FilePath,
@@ -1683,6 +1677,8 @@ namespace Files.ViewModels
                 opacity = 0.4;
             }
 
+            var pinned = App.SidebarPinnedController.Model.Items.Contains(itemPath);
+
             return new ListedItem(null, dateReturnFormat)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
@@ -1698,9 +1694,10 @@ namespace Files.ViewModels
                 LoadUnknownTypeGlyph = false,
                 FileSize = null,
                 FileSizeBytes = 0,
-                ContainsFilesOrFolders = CheckForFilesFolders(itemPath)
+                ContainsFilesOrFolders = CheckForFilesFolders(itemPath),
+                IsPinned = pinned,
                 //FolderTooltipText = tooltipString,
-            };
+        };
         }
 
         private async Task<ListedItem> AddFile(WIN32_FIND_DATA findData, string pathRoot, string dateReturnFormat)
@@ -1875,17 +1872,13 @@ namespace Files.ViewModels
             RapidAddItemsToCollectionAsync(path, previousDir);
         }
 
-        public async Task AddFolderAsync(StorageFolder folder, string dateReturnFormat)
+        private async Task<ListedItem> AddFolderAsync(StorageFolder folder, string dateReturnFormat)
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
 
-            if ((AssociatedInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser)) || (AssociatedInstance.ContentFrame.SourcePageType == typeof(GridViewBrowser)))
+            if (!_addFilesCTS.IsCancellationRequested)
             {
-                if (_addFilesCTS.IsCancellationRequested)
-                {
-                    return;
-                }
-                _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId, dateReturnFormat)
+                return new ListedItem(folder.FolderRelativeId, dateReturnFormat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemName = folder.Name,
@@ -1901,11 +1894,12 @@ namespace Files.ViewModels
                     FileSize = null,
                     FileSizeBytes = 0
                     //FolderTooltipText = tooltipString,
-                });
+                };
             }
+            return null;
         }
 
-        public async Task AddFileAsync(StorageFile file, string dateReturnFormat, bool suppressThumbnailLoading = false)
+        private async Task<ListedItem> AddFileAsync(StorageFile file, string dateReturnFormat, bool suppressThumbnailLoading = false)
         {
             var basicProperties = await file.GetBasicPropertiesAsync();
             // Display name does not include extension
@@ -1978,7 +1972,7 @@ namespace Files.ViewModels
             }
             if (_addFilesCTS.IsCancellationRequested)
             {
-                return;
+                return null;
             }
 
             if (file.Name.EndsWith(".lnk") || file.Name.EndsWith(".url"))
@@ -1988,7 +1982,7 @@ namespace Files.ViewModels
             }
             else
             {
-                _filesAndFolders.Add(new ListedItem(file.FolderRelativeId, dateReturnFormat)
+                return new ListedItem(file.FolderRelativeId, dateReturnFormat)
                 {
                     PrimaryItemAttribute = StorageItemTypes.File,
                     FileExtension = itemFileExtension,
@@ -2004,8 +1998,9 @@ namespace Files.ViewModels
                     ItemPath = itemPath,
                     FileSize = itemSize,
                     FileSizeBytes = (long)itemSizeBytes,
-                });
+                };
             }
+            return null;
         }
 
         public void AddSearchResultsToCollection(ObservableCollection<ListedItem> searchItems, string currentSearchPath)

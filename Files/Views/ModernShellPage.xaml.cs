@@ -106,7 +106,7 @@ namespace Files.Views
                 if (value != contentPage)
                 {
                     contentPage = value;
-                    NotifyPropertyChanged("ContentPage");
+                    NotifyPropertyChanged(nameof(ContentPage));
                 }
             }
         }
@@ -269,7 +269,7 @@ namespace Files.Views
         {
             if (args.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(args.QueryText))
             {
-                FilesystemViewModel.IsLoadingItems = true;
+                FilesystemViewModel.IsLoadingIndicatorActive = true;
                 ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
                 {
                     AssociatedTabInstance = this,
@@ -277,7 +277,7 @@ namespace Files.Views
                     SearchPathParam = FilesystemViewModel.WorkingDirectory,
                     SearchResults = await FolderSearch.SearchForUserQueryTextAsync(args.QueryText, FilesystemViewModel.WorkingDirectory, this, -1)
                 });
-                FilesystemViewModel.IsLoadingItems = false;
+                FilesystemViewModel.IsLoadingIndicatorActive = false;
             }
         }
 
@@ -453,7 +453,7 @@ namespace Files.Views
         private async void SetAddressBarSuggestions(AutoSuggestBox sender, int maxSuggestions = 7)
         {
             var mNavToolbar = (NavigationToolbar as NavigationToolbar);
-            if (mNavToolbar != null)
+            if (mNavToolbar != null && !string.IsNullOrWhiteSpace(sender.Text))
             {
                 try
                 {
@@ -580,7 +580,7 @@ namespace Files.Views
 
             var workingPath = NavigationToolbar.PathComponents
                     [NavigationToolbar.PathComponents.Count - 1].
-                    Path.TrimEnd(Path.DirectorySeparatorChar);
+                    Path?.TrimEnd(Path.DirectorySeparatorChar);
             foreach (var childFolder in childFolders)
             {
                 var isPathItemFocused = childFolder.Item.Name == nextPathItemTitle;
@@ -632,7 +632,7 @@ namespace Files.Views
 
         public async void CheckPathInput(ItemViewModel instance, string currentInput, string currentSelectedPath)
         {
-            if (currentSelectedPath == currentInput)
+            if (currentSelectedPath == currentInput || string.IsNullOrWhiteSpace(currentInput))
             {
                 return;
             }
@@ -1093,7 +1093,7 @@ namespace Files.Views
                     break;
 
                 case (false, false, false, true, VirtualKey.Space): // space, quick look
-                    if (!NavigationToolbar.IsEditModeEnabled && !NavigationToolbar.IsSearchReigonVisible)
+                    if (!NavigationToolbar.IsEditModeEnabled && !NavigationToolbar.IsSearchRegionVisible)
                     {
                         if (ContentPage.IsQuickLookEnabled)
                         {
@@ -1147,6 +1147,7 @@ namespace Files.Views
             {
                 var previousPageContent = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1];
                 var previousPageNavPath = previousPageContent.Parameter as NavigationArguments;
+                previousPageNavPath.IsLayoutSwitch = false;
                 if (previousPageContent.SourcePageType != typeof(YourHome))
                 {
                     // Update layout type
@@ -1165,6 +1166,7 @@ namespace Files.Views
             {
                 var incomingPageContent = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1];
                 var incomingPageNavPath = incomingPageContent.Parameter as NavigationArguments;
+                incomingPageNavPath.IsLayoutSwitch = false;
                 if (incomingPageContent.SourcePageType != typeof(YourHome))
                 {
                     // Update layout type
@@ -1267,6 +1269,7 @@ namespace Files.Views
             SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
             SidebarControl.RecycleBinItemRightTapped += SidebarControl_RecycleBinItemRightTapped;
             SidebarControl.SidebarItemNewPaneInvoked += SidebarControl_SidebarItemNewPaneInvoked;
+            SidebarControl.Loaded -= SidebarControl_Loaded;
         }
 
         private void SidebarControl_SidebarItemNewPaneInvoked(object sender, SidebarItemNewPaneInvokedEventArgs e)
@@ -1320,5 +1323,6 @@ namespace Files.Views
         public bool IsSearchResultPage { get; set; } = false;
         public ObservableCollection<ListedItem> SearchResults { get; set; } = new ObservableCollection<ListedItem>();
         public string SearchPathParam { get; set; } = null;
+        public bool IsLayoutSwitch { get; set; } = false;
     }
 }

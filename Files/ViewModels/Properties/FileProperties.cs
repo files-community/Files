@@ -170,9 +170,9 @@ namespace Files.ViewModels.Properties
 
             var query = list
                 .Where(fileProp => !(fileProp.Value == null && fileProp.IsReadOnly))
-                .GroupBy(fileProp => fileProp.Section)
-                .OrderBy(group => group.Key)
+                .GroupBy(fileProp => fileProp.SectionResource)
                 .Select(group => new FilePropertySection(group) { Key = group.Key })
+                .OrderBy(group => group.Priority)
                 .Where(section => !section.All(fileProp => fileProp.Value == null));
             ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
         }
