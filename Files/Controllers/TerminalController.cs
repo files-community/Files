@@ -1,4 +1,5 @@
 ﻿using Files.DataModels;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Newtonsoft.Json;
@@ -36,7 +37,7 @@ namespace Files.Controllers
             var JsonFile = await FilesystemTasks.Wrap(() => Folder.GetFileAsync(JsonFileName).AsTask());
             if (!JsonFile)
             {
-                if (JsonFile == FilesystemErrorCode.ERROR_NOTFOUND)
+                if (JsonFile == FileSystemStatusCode.NotFound)
                 {
                     Model = await GetDefaultTerminalFileModel();
                     SaveModel();

@@ -60,7 +60,7 @@ namespace Files.Views
                 if (interactionOperations != value)
                 {
                     interactionOperations = value;
-                    NotifyPropertyChanged("InteractionOperations");
+                    NotifyPropertyChanged(nameof(InteractionOperations));
                 }
             }
         }
@@ -150,7 +150,7 @@ namespace Files.Views
                 if (IsPageMainPane && AppSettings.SidebarWidth != value)
                 {
                     AppSettings.SidebarWidth = value;
-                    NotifyPropertyChanged("SidebarWidth");
+                    NotifyPropertyChanged(nameof(SidebarWidth));
                 }
             }
         }
@@ -453,7 +453,7 @@ namespace Files.Views
         private async void SetAddressBarSuggestions(AutoSuggestBox sender, int maxSuggestions = 7)
         {
             var mNavToolbar = (NavigationToolbar as NavigationToolbar);
-            if (mNavToolbar != null)
+            if (mNavToolbar != null && !string.IsNullOrWhiteSpace(sender.Text))
             {
                 try
                 {
@@ -632,7 +632,7 @@ namespace Files.Views
 
         public async void CheckPathInput(ItemViewModel instance, string currentInput, string currentSelectedPath)
         {
-            if (currentSelectedPath == currentInput)
+            if (currentSelectedPath == currentInput || string.IsNullOrWhiteSpace(currentInput))
             {
                 return;
             }
@@ -1093,7 +1093,7 @@ namespace Files.Views
                     break;
 
                 case (false, false, false, true, VirtualKey.Space): // space, quick look
-                    if (!NavigationToolbar.IsEditModeEnabled && !NavigationToolbar.IsSearchReigonVisible)
+                    if (!NavigationToolbar.IsEditModeEnabled && !NavigationToolbar.IsSearchRegionVisible)
                     {
                         if (ContentPage.IsQuickLookEnabled)
                         {
