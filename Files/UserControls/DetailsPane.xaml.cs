@@ -78,8 +78,6 @@ namespace Files.UserControls
             set => SetValue(ViewModelProperty, value);
         }
 
-        public IPreviewControl previewControl { get; set; }
-
         // For some reason, the visual state wouldn't raise propertychangedevents with the normal property
         bool _isHorizontalInternal;
         bool isHorizontalInternal {
