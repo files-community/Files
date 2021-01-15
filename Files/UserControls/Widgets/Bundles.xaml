@@ -156,6 +156,23 @@
             ItemsSource="{Binding Items, Mode=OneWay}"
             SelectionMode="None">
 
+            <!--  Remove Reveal Highlight Effect  -->
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="GridViewItem">
+                                <ListViewItemPresenter
+                                    x:Name="Root"
+                                    RevealBorderThickness="0"
+                                    RevealBorderBrush="{ThemeResource GridViewItemRevealBorderBrush}"
+                                    RevealBackground="{ThemeResource GridViewItemRevealBackground}"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </GridView.ItemContainerStyle>
+
             <!--  Container  -->
             <GridView.ItemTemplate>
                 <DataTemplate>
@@ -295,6 +312,24 @@
                                 ItemsSource="{Binding Contents, Mode=OneWay}"
                                 SelectionMode="None"
                                 Grid.Row="1">
+
+                                <!--  Remove Reveal Highlight Effect  -->
+                                <GridView.ItemContainerStyle>
+                                    <Style TargetType="GridViewItem">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="GridViewItem">
+                                                    <ListViewItemPresenter
+                                                        x:Name="Root"
+                                                        RevealBorderThickness="0"
+                                                        RevealBorderBrush="{ThemeResource GridViewItemRevealBorderBrush}"
+                                                        RevealBackground="{ThemeResource GridViewItemRevealBackground}"/>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GridView.ItemContainerStyle>
+
                                 <GridView.ItemTemplate>
                                     <!--  Bundle Item design  -->
                                     <DataTemplate>

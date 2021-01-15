@@ -123,14 +123,7 @@ namespace Files.ViewModels.Bundles
 
         private void RenameBundle()
         {
-            if (BundleRenameVisibility == Visibility.Visible)
-            {
-                BundleRenameVisibility = Visibility.Collapsed;
-            }
-            else
-            {
-                BundleRenameVisibility = Visibility.Visible;
-            }
+            BundleRenameVisibility = BundleRenameVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private void RenameBundleConfirm()
