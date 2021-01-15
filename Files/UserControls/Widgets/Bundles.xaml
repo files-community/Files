@@ -107,7 +107,7 @@
                                     Grid.Row="1"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
-                                    PlaceholderText="Enter bundle name"
+                                    PlaceholderText="Enter Bundle name"
                                     Text="{Binding BundleNameTextInput, Mode=TwoWay}">
                                     <i:Interaction.Behaviors>
                                         <!--  No need to specify CommandParameter - `e` is passed by default  -->
@@ -518,7 +518,7 @@
                                     Grid.Row="1"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
-                                    PlaceholderText="Enter bundle name"
+                                    PlaceholderText="Enter Bundle name"
                                     Text="{Binding BundleNameTextInput, Mode=TwoWay}">
                                     <i:Interaction.Behaviors>
                                         <!--  No need to specify CommandParameter - `e` is passed by default  -->
