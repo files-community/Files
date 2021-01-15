@@ -736,6 +736,12 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        public bool EnableAdaptivePreviewPane
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
         #region ReadAndSaveSettings
 
         public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)

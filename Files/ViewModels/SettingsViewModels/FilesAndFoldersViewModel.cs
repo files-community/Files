@@ -117,5 +117,18 @@ namespace Files.ViewModels.SettingsViewModels
                 }
             }
         }
+
+        private bool enableAdaptivePreviewPane = App.AppSettings.EnableAdaptivePreviewPane;
+        public bool EnableAdaptivePreviewPane
+        {
+            get => enableAdaptivePreviewPane;
+            set
+            {
+                if (SetProperty(ref enableAdaptivePreviewPane, value))
+                {
+                    App.AppSettings.EnableAdaptivePreviewPane = value;
+                }
+            }
+        }
     }
 }

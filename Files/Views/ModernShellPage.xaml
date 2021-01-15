@@ -175,6 +175,24 @@
                 </VisualState>
                 <VisualState>
                     <VisualState.StateTriggers >
+                        <triggers:IsEqualStateTrigger Value="{x:Bind AppSettings.EnableAdaptivePreviewPane, Mode=OneWay}" To="False"/>
+                        <triggers:CompareStateTrigger Value="{x:Bind RootGridWidth, Mode=OneWay}"  To="1000" Comparison="GreaterThan" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="PreviewPane.(Grid.Row)" Value="2"/>
+                        <Setter Target="PreviewPane.(Grid.Column)" Value="2"/>
+
+                        <Setter Target="PreviewPaneGridSplitter.(Grid.Row)" Value="2"/>
+                        <Setter Target="PreviewPaneGridSplitter.(Grid.Column)" Value="1"/>
+                        <Setter Target="PreviewPaneGridSplitter.Width" Value="2"/>
+
+                        <Setter Target="PreviewPaneRow.Height" Value="4"/>
+                        <Setter Target="PreviewPane.IsHorizontal" Value="False"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers >
                         <triggers:CompareStateTrigger Value="{x:Bind RootGridWidth, Mode=OneWay}"  To="1000" Comparison="LessThanOrEqual" />
                         <!--<AdaptiveTrigger MinWindowWidth="0"/>-->
                     </VisualState.StateTriggers>
@@ -189,24 +207,6 @@
 
                         <Setter Target="PreviewPaneColumn.Width" Value="0"/>
                         <Setter Target="PreviewPane.IsHorizontal" Value="True"/>
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState>
-                    <VisualState.StateTriggers >
-                        <triggers:CompareStateTrigger Value="{x:Bind RootGridWidth, Mode=OneWay}"  To="1000" Comparison="GreaterThan" />
-                        <!--<AdaptiveTrigger MinWindowWidth="900"/>-->
-                    </VisualState.StateTriggers>
-
-                    <VisualState.Setters>
-                        <Setter Target="PreviewPane.(Grid.Row)" Value="2"/>
-                        <Setter Target="PreviewPane.(Grid.Column)" Value="2"/>
-
-                        <Setter Target="PreviewPaneGridSplitter.(Grid.Row)" Value="2"/>
-                        <Setter Target="PreviewPaneGridSplitter.(Grid.Column)" Value="1"/>
-                        <Setter Target="PreviewPaneGridSplitter.Width" Value="2"/>
-
-                        <Setter Target="PreviewPaneRow.Height" Value="4"/>
-                        <Setter Target="PreviewPane.IsHorizontal" Value="False"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
