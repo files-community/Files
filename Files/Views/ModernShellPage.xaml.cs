@@ -60,7 +60,7 @@ namespace Files.Views
                 if (interactionOperations != value)
                 {
                     interactionOperations = value;
-                    NotifyPropertyChanged("InteractionOperations");
+                    NotifyPropertyChanged(nameof(InteractionOperations));
                 }
             }
         }
@@ -150,7 +150,7 @@ namespace Files.Views
                 if (IsPageMainPane && AppSettings.SidebarWidth != value)
                 {
                     AppSettings.SidebarWidth = value;
-                    NotifyPropertyChanged("SidebarWidth");
+                    NotifyPropertyChanged(nameof(SidebarWidth));
                 }
             }
         }

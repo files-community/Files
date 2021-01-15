@@ -15,7 +15,7 @@ namespace FilesFullTrust
         {
             Logger.Info("Toggle QuickLook");
 
-            string PipeName = "QuickLook.App.Pipe." + WindowsIdentity.GetCurrent().User?.Value;
+            string PipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
             string Toggle = "QuickLook.App.PipeMessages.Toggle";
 
             using (var client = new NamedPipeClientStream(".", PipeName, PipeDirection.Out))
@@ -34,7 +34,7 @@ namespace FilesFullTrust
         {
             static int QuickLookServerAvailable()
             {
-                string PipeName = "QuickLook.App.Pipe." + WindowsIdentity.GetCurrent().User?.Value;
+                string PipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
                 string Switch = "QuickLook.App.PipeMessages.Switch";
 
                 using var client = new NamedPipeClientStream(".", PipeName, PipeDirection.Out);
