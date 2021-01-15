@@ -248,6 +248,14 @@ namespace Files.Filesystem
             }
         }
 
+
+        private ObservableCollection<FileProperty> fileDetails = new ObservableCollection<FileProperty>();
+        public ObservableCollection<FileProperty> FileDetails
+        {
+            get => fileDetails;
+            set => SetProperty(ref fileDetails, value);
+        }
+
         public override string ToString()
         {
             string suffix;

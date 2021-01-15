@@ -1,4 +1,6 @@
 ﻿using Files.Filesystem;
+using Files.ViewModels;
+using Files.ViewModels.Properties;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -21,17 +23,33 @@ namespace Files.UserControls.FilePreviews
 {
     public sealed partial class TextPreview : UserControl
     {
-        public TextPreview(string path)
+        public TextPreview(ListedItem item)
         {
             this.InitializeComponent();
-            SetFile(path);
+            Item = item;
+            SetFile(item);
         }
 
         public string TextValue
         {
             get => Text.Text;
-            set => Text.Text = value;
+            set
+            {
+                Text.Text = value;
+                Item.FileDetails.Add(new FileProperty()
+                {
+                    NameResource = "PropertyLineCount",
+                    Value = value.Split("\n").Length,
+                });
+                Item.FileDetails.Add(new FileProperty()
+                {
+                    NameResource = "PropertyWordCount",
+                    Value = value.Split(" ").Length,
+                });
+            }
         }
+
+        private ListedItem Item { get; set; }
 
         TextPreview()
         {
@@ -56,7 +74,8 @@ namespace Files.UserControls.FilePreviews
                 }
                 return new TextPreview()
                 {
-                    TextValue = text
+                    Item = item,
+                    TextValue = text,
                 };
             } catch
             {
@@ -64,11 +83,11 @@ namespace Files.UserControls.FilePreviews
             }
         }
 
-        private async void SetFile(string path)
+        private async void SetFile(ListedItem item)
         {
-            var file = await StorageFile.GetFileFromPathAsync(path);
+            var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
             var text = await FileIO.ReadTextAsync(file);
-            Text.Text = text;
+            TextValue = text;
         }
     }
 }

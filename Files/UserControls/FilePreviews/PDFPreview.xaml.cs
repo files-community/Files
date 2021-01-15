@@ -1,4 +1,5 @@
-﻿using Files.ViewModels;
+﻿using Files.Filesystem;
+using Files.ViewModels;
 using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
@@ -32,27 +33,23 @@ namespace Files.UserControls.FilePreviews
         {
             ".pdf",
         };
-        public PDFPreview(string path, SelectedItemsPropertiesViewModel viewModel)
+        public PDFPreview(ListedItem item)
         {
             this.InitializeComponent();
-            ViewModel = viewModel;
-            _ = initialize(path, tokenSource.Token);
+            _ = initialize(item, tokenSource.Token);
         }
 
         ObservableCollection<Page> pages = new ObservableCollection<Page>();
 
         CancellationTokenSource tokenSource = new CancellationTokenSource();
 
-        public SelectedItemsPropertiesViewModel ViewModel { get; set; }
-
-
-        private async Task initialize(string path, CancellationToken token)
+        private async Task initialize(ListedItem item, CancellationToken token)
         {
-            var file = await StorageFile.GetFileFromPathAsync(path);
+            var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
             var pdf = await PdfDocument.LoadFromFileAsync(file);
 
             // Add the number of pages to the details
-            ViewModel.FileProperties.Add(new FileProperty() {
+            item.FileDetails.Add(new FileProperty() {
                 NameResource = "PropertyPageCount",
                 Value = pdf.PageCount,
             });

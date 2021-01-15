@@ -76,7 +76,7 @@
 
         <controls:GridSplitter Margin="5, 5, 5, 5" Grid.Row="1" Grid.Column="0" x:Name="HorizontalGridSplitter" Style="{StaticResource PaneGridSplitter}"/>
 
-        <ListView SelectionMode="None" Grid.Row="2" x:Name="RootPropertiesGrid" ItemsSource="{x:Bind ViewModel.FileProperties, Mode=OneWay}">
+        <ListView SelectionMode="None" Grid.Row="2" x:Name="RootPropertiesGrid" ItemsSource="{x:Bind SelectedItem.FileDetails, Mode=OneWay}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="properties:FileProperty">
                     <Grid HorizontalAlignment="Stretch">

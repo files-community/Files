@@ -45,22 +45,38 @@ namespace Files.UserControls
 
                 if(value == null)
                 {
+                    SelectedItem = null;
                     return;
                 }
                 
                 PreviewGrid.Children.Clear();
 
+                // stahp sending null viewmodels
                 if (SelectedItems.Count == 1)
                 {
-                    ViewModel.FileProperties.Clear();
+                    SelectedItem = SelectedItems[0];
+                    SelectedItems[0].FileDetails.Clear();
                     LoadPreviewControlAsync(SelectedItems[0]);
                     LoadPropertiesAsync(SelectedItems[0]);
                     return;
                 }
 
+                // Simple making the item null doesn't clear the list, so clear it before hand
+                SelectedItem?.FileDetails.Clear();
+                SelectedItem = null;
+
                 PreviewNotAvaliableText.Visibility = Visibility.Visible;
             }
         }
+
+
+        public static DependencyProperty SelectedItemProperty { get; } = DependencyProperty.Register("SelectedItem", typeof(ListedItem), typeof(DetailsPane), new PropertyMetadata(null));
+        public ListedItem SelectedItem
+        {
+            get => (ListedItem)GetValue(SelectedItemProperty);
+            set => SetValue(SelectedItemProperty, value);
+        }
+
 
         private long isVerticalCallback;
 
@@ -69,13 +85,6 @@ namespace Files.UserControls
         {
             get => (bool)GetValue(IsHorizontalProperty);
             set => SetValue(IsHorizontalProperty, value);
-        }
-
-        public static DependencyProperty ViewModelProperty { get; } = DependencyProperty.Register("ViewModel", typeof(SelectedItemsPropertiesViewModel), typeof(DetailsPane), new PropertyMetadata(null));
-        public SelectedItemsPropertiesViewModel ViewModel
-        {
-            get => (SelectedItemsPropertiesViewModel)GetValue(ViewModelProperty);
-            set => SetValue(ViewModelProperty, value);
         }
 
         // For some reason, the visual state wouldn't raise propertychangedevents with the normal property
@@ -145,10 +154,11 @@ namespace Files.UserControls
 
         async void LoadPropertiesAsync(ListedItem item)
         {
-            if (ViewModel == null || item.IsShortcutItem)
+            if (item.IsShortcutItem)
             {
                 return;
             }
+
             StorageFile file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
             if (file == null)
             {
@@ -161,7 +171,7 @@ namespace Files.UserControls
             list.Find(x => x.ID == "address").Value = await FileProperties.GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
                                                                                            (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 
-            list.Where(i => i.Value != null).ToList().ForEach(x => ViewModel.FileProperties.Add(x));
+            list.Where(i => i.Value != null).ToList().ForEach(x => SelectedItems[0].FileDetails.Add(x));
             //ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value != null));
         }
 
@@ -184,12 +194,12 @@ namespace Files.UserControls
 
             if (TextPreview.Extensions.Contains(item.FileExtension))
             {
-                return new TextPreview(item.ItemPath);
+                return new TextPreview(item);
             }
 
             if(PDFPreview.Extensions.Contains(item.FileExtension))
             {
-                return new PDFPreview(item.ItemPath, ViewModel);
+                return new PDFPreview(item);
 
             }
 
