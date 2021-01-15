@@ -38,13 +38,18 @@ namespace Files.Views.LayoutModes
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             SetItemTemplate(); // Set ItemTemplate
+            var parameters = (NavigationArguments)eventArgs.Parameter;
+            if (parameters.IsLayoutSwitch)
+            {
+                ReloadItemIcons();
+            }
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-            FolderSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
+            FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
         }
 
         private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
@@ -60,7 +65,16 @@ namespace Files.Views.LayoutModes
 
         private void FolderSettings_LayoutModeChangeRequested(object sender, EventArgs e)
         {
-            SetItemTemplate(); // Set ItemTemplate
+            if (FolderSettings.LayoutMode == FolderLayoutModes.GridView || FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
+            {
+                SetItemTemplate(); // Set ItemTemplate
+                var requestedIconSize = GetIconSize();
+                if (requestedIconSize != currentIconSize)
+                {
+                    currentIconSize = requestedIconSize;
+                    ReloadItemIcons();
+                }
+            }
         }
 
         private void SetItemTemplate()
@@ -70,13 +84,12 @@ namespace Files.Views.LayoutModes
             // Set GridViewSize event handlers
             if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
             {
-                FolderSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
+                FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
             }
             else if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
             {
-                currentIconSize = GetIconSize(); // Get icon size for jumps from other layouts directly to a grid size
-                FolderSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
-                FolderSettings.GridViewSizeChangeRequested += AppSettings_GridViewSizeChangeRequested;
+                FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
+                FolderSettings.GridViewSizeChangeRequested += FolderSettings_GridViewSizeChangeRequested;
             }
         }
 
@@ -360,25 +373,29 @@ namespace Files.Views.LayoutModes
 
         private uint GetIconSize()
         {
-            if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView || FolderSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeSmall + 75)
+            if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView)
             {
-                return 80; // Small thumbnail
+                return Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Small thumbnail
             }
-            else if (FolderSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium + 25)
+            else if (FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeSmall)
             {
-                return 120; // Medium thumbnail
+                return Constants.Browser.GridViewBrowser.GridViewSizeSmall; // Small thumbnail
             }
-            else if (FolderSettings.GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium - 50)
+            else if (FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeMedium)
             {
-                return 160; // Large thumbnail
+                return Constants.Browser.GridViewBrowser.GridViewSizeMedium; // Medium thumbnail
+            }
+            else if (FolderSettings.GridViewSize <= Constants.Browser.GridViewBrowser.GridViewSizeLarge)
+            {
+                return Constants.Browser.GridViewBrowser.GridViewSizeLarge; // Large thumbnail
             }
             else
             {
-                return 240; // Extra large thumbnail
+                return Constants.Browser.GridViewBrowser.GridViewSizeMax; // Extra large thumbnail
             }
         }
 
-        private void AppSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
+        private void FolderSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
         {
             var requestedIconSize = GetIconSize(); // Get new icon size
 
@@ -386,7 +403,21 @@ namespace Files.Views.LayoutModes
             if (requestedIconSize != currentIconSize)
             {
                 currentIconSize = requestedIconSize; // Update icon size before refreshing
-                ParentShellPageInstance.Refresh_Click(); // Refresh icons
+                ReloadItemIcons();
+            }
+        }
+
+        private void ReloadItemIcons()
+        {
+            ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders)
+            {
+                listedItem.ItemPropertiesInitialized = false;
+                if (FileList.ContainerFromItem(listedItem) != null)
+                {
+                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
+                    listedItem.ItemPropertiesInitialized = true;
+                }
             }
         }
 
@@ -418,7 +449,7 @@ namespace Files.Views.LayoutModes
             }
             args.ItemContainer.DataContext = args.Item;
 
-            if (args.Item is ListedItem item && (!item.ItemPropertiesInitialized))
+            if (args.Item is ListedItem item && !item.ItemPropertiesInitialized)
             {
                 args.ItemContainer.PointerPressed += FileListGridItem_PointerPressed;
                 InitializeDrag(args.ItemContainer);

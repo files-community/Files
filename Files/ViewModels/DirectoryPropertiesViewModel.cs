@@ -4,12 +4,12 @@ namespace Files.ViewModels
 {
     public class DirectoryPropertiesViewModel : ObservableObject
     {
-        private string _DirectoryItemCount;
+        private string directoryItemCount;
 
         public string DirectoryItemCount
         {
-            get => _DirectoryItemCount;
-            set => SetProperty(ref _DirectoryItemCount, value);
+            get => directoryItemCount;
+            set => SetProperty(ref directoryItemCount, value);
         }
     }
 }

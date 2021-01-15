@@ -29,6 +29,7 @@ namespace Files.Views.LayoutModes
     {
         private string oldItemName;
         private DataGridColumn sortedColumn;
+        private DispatcherTimer tapDebounceTimer;
 
         private static readonly MethodInfo SelectAllMethod = typeof(DataGrid)
             .GetMethod("SelectAll", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance);
@@ -60,6 +61,10 @@ namespace Files.Views.LayoutModes
                 else if (value == originalPathColumn)
                 {
                     FolderSettings.DirectorySortOption = SortOption.OriginalPath;
+                }
+                else if (value == dateDeletedColumn)
+                {
+                    FolderSettings.DirectorySortOption = SortOption.DateDeleted;
                 }
                 else
                 {
@@ -112,6 +117,27 @@ namespace Files.Views.LayoutModes
             AllView.LoadingRow += AllView_LoadingRow;
             AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
             ViewModel_PropertyChanged(null, new PropertyChangedEventArgs("DirectorySortOption"));
+            var parameters = (NavigationArguments)eventArgs.Parameter;
+            if (parameters.IsLayoutSwitch)
+            {
+                ReloadItemIcons();
+            }
+        }
+
+        private void ReloadItemIcons()
+        {
+            var rows = new List<DataGridRow>();
+            Interaction.FindChildren<DataGridRow>(rows, AllView);
+            ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+            foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders)
+            {
+                listedItem.ItemPropertiesInitialized = false;
+                if (rows.Any(x => x.DataContext == listedItem))
+                {
+                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem);
+                    listedItem.ItemPropertiesInitialized = true;
+                }
+            }
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -209,6 +235,10 @@ namespace Files.Views.LayoutModes
                     case SortOption.OriginalPath:
                         SortedColumn = originalPathColumn;
                         break;
+
+                    case SortOption.DateDeleted:
+                        SortedColumn = dateDeletedColumn;
+                        break;
                 }
             }
             else if (e.PropertyName == "DirectorySortDirection")
@@ -220,7 +250,6 @@ namespace Files.Views.LayoutModes
 
         private TextBox renamingTextBox;
 
-        private DispatcherTimer tapDebounceTimer;
         private void AllView_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
             if (ParentShellPageInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
@@ -230,11 +259,36 @@ namespace Files.Views.LayoutModes
                 return;
             }
 
-            if (e.EditingEventArgs is TappedRoutedEventArgs && AppSettings.OpenItemsWithOneclick)
+            if (e.EditingEventArgs is TappedRoutedEventArgs)
             {
-                // If for some reason we started renaming by a click in a one-click mode, cancel it
+                // A tap should never trigger an immediate edit
                 e.Cancel = true;
-                return;
+
+                if (AppSettings.OpenItemsWithOneclick || tapDebounceTimer.IsEnabled)
+                {
+                    // If we handle a tap in one-click mode or handling a second tap within a timer duration,
+                    // just stop the timer (to avoid extra edits).
+                    // The relevant handlers (item pressed / double-click) will kick in and handle this tap
+                    tapDebounceTimer.Stop();
+                }
+                else
+                {
+                    // We have an edit due to the first tap in the double-click mode
+                    // Let's wait to see if there is another tap (double click).
+                    tapDebounceTimer.Debounce(() =>
+                    {
+                        tapDebounceTimer.Stop();
+
+                        // EditingEventArgs will be null allowing us to know this edit is not originated by tap
+                        AllView.BeginEdit();
+                    }, TimeSpan.FromMilliseconds(700), false);
+                }
+            }
+            else
+            {
+                // If we got here, then the edit is not triggered by tap.
+                // We proceed with the edit, and stop the timer to avoid extra edits.
+                tapDebounceTimer.Stop();
             }
         }
 
@@ -328,6 +382,7 @@ namespace Files.Views.LayoutModes
             // Check if the setting to open items with a single click is turned on
             if (AppSettings.OpenItemsWithOneclick)
             {
+                tapDebounceTimer.Stop();
                 await Task.Delay(200); // The delay gives time for the item to be selected
                 ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
             }
@@ -336,6 +391,7 @@ namespace Files.Views.LayoutModes
         private void AllView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             AllView.CommitEdit();
+            tapDebounceTimer.Stop();
             SelectedItems = AllView.SelectedItems.Cast<ListedItem>().ToList();
         }
 
@@ -488,6 +544,10 @@ namespace Files.Views.LayoutModes
                 case "originalPathColumn":
                     args = new DataGridColumnEventArgs(originalPathColumn);
                     break;
+
+                case "dateDeletedColumn":
+                    args = new DataGridColumnEventArgs(dateDeletedColumn);
+                    break;
             }
 
             if (args != null)
@@ -506,6 +566,12 @@ namespace Files.Views.LayoutModes
             {
                 SortedColumn.SortDirection = DataGridSortDirection.Descending;
             }
+        }
+
+        private void AllView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            tapDebounceTimer.Stop();
+            ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
         }
     }
 }

@@ -134,7 +134,7 @@ namespace Files.Interacts
             foreach (ListedItem listedItem in items)
             {
                 var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
-                var folderUri = new Uri("files-uwp:" + "?folder=" + @selectedItemPath);
+                var folderUri = new Uri($"files-uwp:?folder={@selectedItemPath}");
                 await Launcher.LaunchUriAsync(folderUri);
             }
         }
@@ -191,13 +191,13 @@ namespace Files.Interacts
 
         public static async Task<bool> OpenPathInNewWindowAsync(string path)
         {
-            var folderUri = new Uri("files-uwp:" + "?folder=" + Uri.EscapeDataString(path));
+            var folderUri = new Uri($"files-uwp:?folder={Uri.EscapeDataString(path)}");
             return await Launcher.LaunchUriAsync(folderUri);
         }
 
         public static async Task<bool> OpenTabInNewWindowAsync(string tabArgs)
         {
-            var folderUri = new Uri("files-uwp:" + "?tab=" + Uri.EscapeDataString(tabArgs));
+            var folderUri = new Uri($"files-uwp:?tab={Uri.EscapeDataString(tabArgs)}");
             return await Launcher.LaunchUriAsync(folderUri);
         }
 
@@ -419,7 +419,7 @@ namespace Files.Interacts
                     AssociatedTabInstance = AssociatedInstance
                 });
             }
-            else if (destFolder == FilesystemErrorCode.ERROR_NOTFOUND)
+            else if (destFolder == FileSystemStatusCode.NotFound)
             {
                 await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
             }
@@ -655,7 +655,7 @@ namespace Files.Interacts
                 }
             }
 
-            if (opened.ErrorCode == FilesystemErrorCode.ERROR_NOTFOUND && !openSilent)
+            if (opened.ErrorCode == FileSystemStatusCode.NotFound && !openSilent)
             {
                 await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 AssociatedInstance.NavigationToolbar.CanRefresh = false;
@@ -967,12 +967,12 @@ namespace Files.Interacts
                         }
                     }
                 }
-                if (cut.ErrorCode == FilesystemErrorCode.ERROR_NOTFOUND)
+                if (cut.ErrorCode == FileSystemStatusCode.NotFound)
                 {
                     AssociatedInstance.ContentPage.ResetItemOpacity();
                     return;
                 }
-                else if (cut.ErrorCode == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+                else if (cut.ErrorCode == FileSystemStatusCode.Unauthorized)
                 {
                     // Try again with fulltrust process
                     if (Connection != null)
@@ -1046,7 +1046,7 @@ namespace Files.Interacts
                         }
                     }
                 }
-                if (copied.ErrorCode == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+                if (copied.ErrorCode == FileSystemStatusCode.Unauthorized)
                 {
                     // Try again with fulltrust process
                     if (Connection != null)
@@ -1195,7 +1195,7 @@ namespace Files.Interacts
                         break;
                 }
             }
-            if (created == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+            if (created == FileSystemStatusCode.Unauthorized)
             {
                 await DialogDisplayHelper.ShowDialogAsync("AccessDeniedCreateDialog/Title".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
             }
