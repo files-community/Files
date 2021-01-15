@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,23 +20,22 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.UserControls.FilePreviews
 {
-    public sealed partial class RichTextPreview : UserControl
+    public sealed partial class RichTextPreview : PreviewControlBase
     {
         public static List<string> Extensions => new List<string>() {
             ".rtf", ".doc"
         };
 
-        public RichTextPreview(ListedItem item)
+        public RichTextPreview(ListedItem item) : base(item)
         {
             this.InitializeComponent();
-            SetFile(item);
         }
 
-        public async void SetFile(ListedItem item)
+        public async override void LoadPreviewAndDetails()
         {
-            var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
-            var stream = await file.OpenReadAsync();
+            var stream = await ItemFile.OpenReadAsync();
             TextPreviewControl.Document.LoadFromStream(Windows.UI.Text.TextSetOptions.FormatRtf, stream);
+            LoadSystemFileProperties();
         }
     }
 }

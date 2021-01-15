@@ -27,37 +27,38 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.UserControls.FilePreviews
 {
-    public sealed partial class PDFPreview : UserControl
+    public sealed partial class PDFPreview : PreviewControlBase
     {
         public static List<string> Extensions = new List<string>()
         {
             ".pdf",
         };
-        public PDFPreview(ListedItem item)
+
+        public PDFPreview(ListedItem item) : base(item)
         {
             this.InitializeComponent();
-            _ = initialize(item, tokenSource.Token);
         }
 
         ObservableCollection<Page> pages = new ObservableCollection<Page>();
 
         CancellationTokenSource tokenSource = new CancellationTokenSource();
 
-        private async Task initialize(ListedItem item, CancellationToken token)
+        public async override void LoadPreviewAndDetails()
         {
-            var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
-            var pdf = await PdfDocument.LoadFromFileAsync(file);
+            var pdf = await PdfDocument.LoadFromFileAsync(ItemFile);
 
             // Add the number of pages to the details
-            item.FileDetails.Add(new FileProperty() {
+            Item.FileDetails.Add(new FileProperty() {
                 NameResource = "PropertyPageCount",
                 Value = pdf.PageCount,
             });
 
+            LoadSystemFileProperties();
+
             for (uint i = 0; i < pdf.PageCount; i++)
             {
                 // Stop loading if the user has cancelled
-                if(token.IsCancellationRequested)
+                if (LoadCancelledTokenSource.Token.IsCancellationRequested)
                 {
                     return;
                 }
@@ -84,11 +85,6 @@ namespace Files.UserControls.FilePreviews
         {
             public int PageNumber {get; set;}
             public BitmapImage PageImage { get; set; }
-        }
-
-        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
-        {
-            tokenSource.Cancel();
         }
     }
 }

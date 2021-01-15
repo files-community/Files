@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<local:PreviewControlBase
     x:Class="Files.UserControls.FilePreviews.CodePreview"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -14,4 +14,4 @@
             <controls:MarkdownTextBlock x:Name="TextPreviewControl"/>
         </ScrollViewer>
     </Grid>
-</UserControl>
+</local:PreviewControlBase>

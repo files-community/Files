@@ -1378,10 +1378,6 @@
           <source>Rating</source>
           <target state="new">Rating</target>
         </trans-unit>
-        <trans-unit id="PropertyItemFolderPathDisplay" translate="yes" xml:space="preserve">
-          <source>Item Folder Path</source>
-          <target state="new">Item Folder Path</target>
-        </trans-unit>
         <trans-unit id="PropertyItemTypeText" translate="yes" xml:space="preserve">
           <source>Item Type</source>
           <target state="new">Item Type</target>
@@ -2049,6 +2045,22 @@
         <trans-unit id="StatusBarControlShowHiddenItems.Header" translate="yes" xml:space="preserve">
           <source>Show hidden items</source>
           <target state="new">Show hidden items</target>
+        </trans-unit>
+        <trans-unit id="PropertyItemPathDisplay" translate="yes" xml:space="preserve">
+          <source>Item Path</source>
+          <target state="new">Item Path</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
+          <source>Enable adaptive preview pane</source>
+          <target state="new">Enable adaptive preview pane</target>
+        </trans-unit>
+        <trans-unit id="DetailsPane.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Toggle the details pane (Ctrl + P)</source>
+          <target state="new">Toggle the details pane (Ctrl + P)</target>
+        </trans-unit>
+        <trans-unit id="DetailsPanePreviewNotAvaliableText" translate="yes" xml:space="preserve">
+          <source>No preview avaliable</source>
+          <target state="new">No preview avaliable</target>
         </trans-unit>
       </group>
     </body>

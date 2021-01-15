@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Files.Filesystem;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,7 +23,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.UserControls.FilePreviews
 {
-    public sealed partial class MediaPreview : UserControl
+    public sealed partial class MediaPreview : PreviewControlBase
     {
         public static List<string> Extensions => new List<string>() {
             // Video
@@ -31,23 +32,21 @@ namespace Files.UserControls.FilePreviews
             ".mp3", ".m4a", ".wav", ".wma", ".aac", ".adt", ".adts", ".cda",
         };
 
-        public MediaPreview(string path)
+        public MediaPreview(ListedItem item) : base(item)
         {
             this.InitializeComponent();
-            SetFile(path);
         }
 
-        public async void SetFile(string path)
+        public override void LoadPreviewAndDetails()
         {
-            var file = await StorageFile.GetFileFromPathAsync(path);
-            VideoPlayer.Source = MediaSource.CreateFromStorageFile(file);
+            VideoPlayer.Source = MediaSource.CreateFromStorageFile(ItemFile);
+            base.LoadSystemFileProperties();
         }
 
-        // Calling this function when the control is unloaded fixes a bug where media would continue to play after 
-        // being destroyed
-        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        public override void PreviewControlBase_Unloaded(object sender, RoutedEventArgs e)
         {
             VideoPlayer.Source = null;
+            base.PreviewControlBase_Unloaded(sender, e);
         }
     }
 }

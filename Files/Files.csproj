@@ -206,6 +206,7 @@
     <Compile Include="UserControls\FilePreviews\PDFPreview.xaml.cs">
       <DependentUpon>PDFPreview.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\FilePreviews\PreviewControlBase.cs" />
     <Compile Include="UserControls\FilePreviews\RichTextPreview.xaml.cs">
       <DependentUpon>RichTextPreview.xaml</DependentUpon>
     </Compile>

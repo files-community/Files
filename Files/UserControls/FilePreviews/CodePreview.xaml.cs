@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,22 +20,28 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.UserControls.FilePreviews
 {
-    public sealed partial class CodePreview : UserControl
+    public sealed partial class CodePreview : PreviewControlBase
     {
-        public CodePreview(ListedItem item)
+        public CodePreview(ListedItem item) : base(item)
         {
             this.InitializeComponent();
-            SetFile(item);
         }
 
         public static List<string> Extensions => (new List<List<string>>(languageExtensions.Values).SelectMany(i => i).Distinct()).ToList();
 
-        async void SetFile(ListedItem item)
+        public override async void LoadPreviewAndDetails()
         {
-            var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
-            var text = await FileIO.ReadTextAsync(file);
+            var text = await FileIO.ReadTextAsync(ItemFile);
             // Use the MarkDownTextBlock's built in code highlighting
-            TextPreviewControl.Text = $"```{GetCodeLanguage(item.FileExtension)}\n{text}\n```";
+            TextPreviewControl.Text = $"```{GetCodeLanguage(Item.FileExtension)}\n{text}\n```";
+
+            Item.FileDetails.Add(new FileProperty()
+            {
+                NameResource = "PropertyLineCount",
+                Value = text.Split("\n").Length,
+            });
+
+            base.LoadSystemFileProperties();
         }
 
         static Dictionary<string, List<string>> languageExtensions = new Dictionary<string, List<string>>()

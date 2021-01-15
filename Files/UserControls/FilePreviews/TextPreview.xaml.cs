@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -21,39 +22,17 @@ using Windows.UI.Xaml.Documents;
 
 namespace Files.UserControls.FilePreviews
 {
-    public sealed partial class TextPreview : UserControl
+    public sealed partial class TextPreview : PreviewControlBase
     {
-        public TextPreview(ListedItem item)
+        public TextPreview(ListedItem item) : base(item)
         {
             this.InitializeComponent();
-            Item = item;
-            SetFile(item);
         }
 
         public string TextValue
         {
             get => Text.Text;
-            set
-            {
-                Text.Text = value;
-                Item.FileDetails.Add(new FileProperty()
-                {
-                    NameResource = "PropertyLineCount",
-                    Value = value.Split("\n").Length,
-                });
-                Item.FileDetails.Add(new FileProperty()
-                {
-                    NameResource = "PropertyWordCount",
-                    Value = value.Split(" ").Length,
-                });
-            }
-        }
-
-        private ListedItem Item { get; set; }
-
-        TextPreview()
-        {
-            this.InitializeComponent();
+            set => Text.Text = value;
         }
 
         public static List<string> Extensions => new List<string>() {
@@ -72,10 +51,9 @@ namespace Files.UserControls.FilePreviews
                 {
                     return null;
                 }
-                return new TextPreview()
+                return new TextPreview(item)
                 {
-                    Item = item,
-                    TextValue = text,
+                    ItemFile = file,
                 };
             } catch
             {
@@ -83,11 +61,23 @@ namespace Files.UserControls.FilePreviews
             }
         }
 
-        private async void SetFile(ListedItem item)
+        public async override void LoadPreviewAndDetails()
         {
-            var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
-            var text = await FileIO.ReadTextAsync(file);
+            var text = await FileIO.ReadTextAsync(ItemFile);
             TextValue = text;
+
+            Item.FileDetails.Add(new FileProperty()
+            {
+                NameResource = "PropertyLineCount",
+                Value = text.Split("\n").Length,
+            });
+            Item.FileDetails.Add(new FileProperty()
+            {
+                NameResource = "PropertyWordCount",
+                Value = text.Split(" ").Length,
+            });
+
+            base.LoadSystemFileProperties();
         }
     }
 }

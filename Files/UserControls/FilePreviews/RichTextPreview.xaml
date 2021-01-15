@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<local:PreviewControlBase
     x:Class="Files.UserControls.FilePreviews.RichTextPreview"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -13,4 +13,4 @@
         <RichEditBox IsReadOnly="True" x:Name="TextPreviewControl">
         </RichEditBox>
     </Grid>
-</UserControl>
+</local:PreviewControlBase>

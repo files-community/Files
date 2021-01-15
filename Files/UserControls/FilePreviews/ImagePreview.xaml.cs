@@ -1,4 +1,5 @@
-﻿using Files.ViewModels.Properties;
+﻿using Files.Filesystem;
+using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,39 +22,36 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.UserControls.FilePreviews
 {
-    public sealed partial class ImagePreview : UserControl
+    public sealed partial class ImagePreview : PreviewControlBase
     {
         public static List<string> Extensions => new List<string>() {
             ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tiff", ".ico", ".svg"
         };
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="path"></param>
-        public ImagePreview(string path)
+        public ImagePreview(ListedItem item) : base(item)
         {
             this.InitializeComponent();
-            SetFile(path);
         }
 
-        public async void SetFile(string path)
+        public override async void LoadPreviewAndDetails()
         {
-            var file = await StorageFile.GetFileFromPathAsync(path);
-            FileRandomAccessStream stream = (FileRandomAccessStream)await file.OpenAsync(FileAccessMode.Read);
+            FileRandomAccessStream stream = (FileRandomAccessStream)await ItemFile.OpenAsync(FileAccessMode.Read);
 
             // svg files require a different type of source
-            if (!path.EndsWith(".svg"))
+            if (!Item.ItemPath.EndsWith(".svg"))
             {
                 var bitmap = new BitmapImage();
                 ImageContent.Source = bitmap;
                 await bitmap.SetSourceAsync(stream);
-            } else
+            }
+            else
             {
                 var bitmap = new SvgImageSource();
                 ImageContent.Source = bitmap;
                 await bitmap.SetSourceAsync(stream);
             }
+
+            base.LoadSystemFileProperties();
         }
     }
 }

@@ -1095,8 +1095,8 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Rating</value>
   </data>
-  <data name="PropertyItemFolderPathDisplay" xml:space="preserve">
-    <value>Item Folder Path</value>
+  <data name="PropertyItemPathDisplay" xml:space="preserve">
+    <value>Item Path</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
     <value>Item Type</value>

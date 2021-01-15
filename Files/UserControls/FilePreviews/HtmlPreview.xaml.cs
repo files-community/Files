@@ -19,7 +19,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.UserControls.FilePreviews
 {
-    public sealed partial class HtmlPreview : UserControl
+    public sealed partial class HtmlPreview : PreviewControlBase
     {
         public static List<string> Extensions => new List<string>() {
             ".html", ".htm",
@@ -27,17 +27,17 @@ namespace Files.UserControls.FilePreviews
 
         // TODO: Move to WebView2 on WinUI 3.0 release
 
-        public HtmlPreview(ListedItem item)
+        public HtmlPreview(ListedItem item) : base(item)
         {
             this.InitializeComponent();
-            SetFileAsync(item);
         }
 
-        async void SetFileAsync(ListedItem item)
+
+        public async override void LoadPreviewAndDetails()
         {
-            var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
-            var text = await FileIO.ReadTextAsync(file);
+            var text = await FileIO.ReadTextAsync(ItemFile);
             WebViewControl.NavigateToString(text);
+            base.LoadSystemFileProperties();
         }
     }
 }

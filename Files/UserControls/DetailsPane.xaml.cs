@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppExtensions;
@@ -51,17 +52,15 @@ namespace Files.UserControls
                 
                 PreviewGrid.Children.Clear();
 
-                // stahp sending null viewmodels
                 if (SelectedItems.Count == 1)
                 {
                     SelectedItem = SelectedItems[0];
                     SelectedItems[0].FileDetails.Clear();
                     LoadPreviewControlAsync(SelectedItems[0]);
-                    LoadPropertiesAsync(SelectedItems[0]);
                     return;
                 }
 
-                // Simple making the item null doesn't clear the list, so clear it before hand
+                // Simple making the item null doesn't clear the ListView, so clear it
                 SelectedItem?.FileDetails.Clear();
                 SelectedItem = null;
 
@@ -97,8 +96,6 @@ namespace Files.UserControls
                 RaisePropertyChanged(nameof(isHorizontalInternal));
             } 
         }
-
-        FileProperties Properties { get; set; }
 
         public DetailsPane()
         {
@@ -152,44 +149,21 @@ namespace Files.UserControls
 
         }
 
-        async void LoadPropertiesAsync(ListedItem item)
-        {
-            if (item.IsShortcutItem)
-            {
-                return;
-            }
-
-            StorageFile file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
-            if (file == null)
-            {
-                // Could not access file, can't show any other property
-                return;
-            }
-
-            var list = await FileProperty.RetrieveAndInitializePropertiesAsync(file);
-
-            list.Find(x => x.ID == "address").Value = await FileProperties.GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
-                                                                                           (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
-
-            list.Where(i => i.Value != null).ToList().ForEach(x => SelectedItems[0].FileDetails.Add(x));
-            //ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value != null));
-        }
-
         UserControl GetBuiltInPreviewControl(ListedItem item)
         {
             if (MediaPreview.Extensions.Contains(item.FileExtension))
             {
-                return new MediaPreview(item.ItemPath);
+                return new MediaPreview(item);
             }
 
             if (MarkdownPreview.Extensions.Contains(item.FileExtension))
             {
-                return new MarkdownPreview(item.ItemPath);
+                return new MarkdownPreview(item);
             }
 
             if (ImagePreview.Extensions.Contains(item.FileExtension))
             {
-                return new ImagePreview(item.ItemPath);
+                return new ImagePreview(item);
             }
 
             if (TextPreview.Extensions.Contains(item.FileExtension))
@@ -234,6 +208,10 @@ namespace Files.UserControls
                 var result = await extension.Invoke(new ValueSet() { { "byteArray", byteArray }, { "filePath", item.ItemPath } });
                 var preview = result["preview"];
                 PreviewGrid.Children.Add(XamlReader.Load(preview as string) as UIElement);
+
+                var details = result["details"] as string;
+                var detailsList = JsonSerializer.Deserialize<List<FileProperty>>(details);
+                detailsList.ForEach(i => SelectedItem.FileDetails.Add(i));
             }
             catch (Exception e)
             {
