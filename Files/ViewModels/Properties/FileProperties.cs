@@ -42,14 +42,6 @@ namespace Files.ViewModels.Properties
             ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
-        public FileProperties(SelectedItemsPropertiesViewModel viewModel, ListedItem item)
-        {
-            ViewModel = viewModel;
-            Item = item;
-
-            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
-        }
-
         public override void GetBaseProperties()
         {
             if (Item != null)
@@ -183,9 +175,10 @@ namespace Files.ViewModels.Properties
                 .OrderBy(group => group.Priority)
                 .Where(section => !section.All(fileProp => fileProp.Value == null));
             ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
+            ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value != null));
         }
 
-        private async Task<string> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)
+        public static async Task<string> GetAddressFromCoordinatesAsync(double? Lat, double? Lon)
         {
             if (!Lat.HasValue || !Lon.HasValue)
             {

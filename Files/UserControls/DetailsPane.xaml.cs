@@ -52,6 +52,7 @@ namespace Files.UserControls
 
                 if (SelectedItems.Count == 1)
                 {
+                    ViewModel.FileProperties.Clear();
                     LoadPreviewControlAsync(SelectedItems[0]);
                     LoadPropertiesAsync(SelectedItems[0]);
                     return;
@@ -76,6 +77,8 @@ namespace Files.UserControls
             get => (SelectedItemsPropertiesViewModel)GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
         }
+
+        public IPreviewControl previewControl { get; set; }
 
         // For some reason, the visual state wouldn't raise propertychangedevents with the normal property
         bool _isHorizontalInternal;
@@ -142,14 +145,26 @@ namespace Files.UserControls
 
         }
 
-        void LoadPropertiesAsync(ListedItem item)
+        async void LoadPropertiesAsync(ListedItem item)
         {
-            if(ViewModel == null)
+            if (ViewModel == null || item.IsShortcutItem)
             {
                 return;
             }
-            Properties = new FileProperties(ViewModel, item);
-            Properties.GetSystemFileProperties();
+            StorageFile file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
+            if (file == null)
+            {
+                // Could not access file, can't show any other property
+                return;
+            }
+
+            var list = await FileProperty.RetrieveAndInitializePropertiesAsync(file);
+
+            list.Find(x => x.ID == "address").Value = await FileProperties.GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
+                                                                                           (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+
+            list.Where(i => i.Value != null).ToList().ForEach(x => ViewModel.FileProperties.Add(x));
+            //ViewModel.FileProperties = new ObservableCollection<FileProperty>(list.Where(i => i.Value != null));
         }
 
         UserControl GetBuiltInPreviewControl(ListedItem item)
@@ -176,7 +191,8 @@ namespace Files.UserControls
 
             if(PDFPreview.Extensions.Contains(item.FileExtension))
             {
-                return new PDFPreview(item.ItemPath);
+                return new PDFPreview(item.ItemPath, ViewModel);
+
             }
 
             if (HtmlPreview.Extensions.Contains(item.FileExtension))

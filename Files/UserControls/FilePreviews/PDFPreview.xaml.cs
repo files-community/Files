@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Files.ViewModels;
+using Files.ViewModels.Properties;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -30,9 +32,10 @@ namespace Files.UserControls.FilePreviews
         {
             ".pdf",
         };
-        public PDFPreview(string path)
+        public PDFPreview(string path, SelectedItemsPropertiesViewModel viewModel)
         {
             this.InitializeComponent();
+            ViewModel = viewModel;
             _ = initialize(path, tokenSource.Token);
         }
 
@@ -40,10 +43,20 @@ namespace Files.UserControls.FilePreviews
 
         CancellationTokenSource tokenSource = new CancellationTokenSource();
 
+        public SelectedItemsPropertiesViewModel ViewModel { get; set; }
+
+
         private async Task initialize(string path, CancellationToken token)
         {
             var file = await StorageFile.GetFileFromPathAsync(path);
             var pdf = await PdfDocument.LoadFromFileAsync(file);
+
+            // Add the number of pages to the details
+            ViewModel.FileProperties.Add(new FileProperty() {
+                NameResource = "PropertyPageCount",
+                Value = pdf.PageCount,
+            });
+
             for (uint i = 0; i < pdf.PageCount; i++)
             {
                 // Stop loading if the user has cancelled

@@ -647,6 +647,20 @@ namespace Files.ViewModels
             set => SetProperty(ref propertySections, value);
         }
 
+        private ObservableCollection<FileProperty> fileProperties = new ObservableCollection<FileProperty>();
+        public ObservableCollection<FileProperty> FileProperties
+        {
+            get => fileProperties;
+            set => SetProperty(ref fileProperties, value);
+        }
+
+        private ObservableCollection<FileProperty> fileDetails = new ObservableCollection<FileProperty>();
+        public ObservableCollection<FileProperty> FileDetails
+        {
+            get => fileDetails;
+            set => SetProperty(ref fileDetails, value);
+        }
+
         private bool isReadOnly;
 
         public bool IsReadOnly
@@ -673,23 +687,6 @@ namespace Files.ViewModels
         {
             get => isHidden;
             set => SetProperty(ref isHidden, value);
-        }        
-        private string fileText;
-        /// <summary>
-        /// The text that the file contains. User for preview of text files.
-        /// </summary>
-        public string FileText
-        {
-            get => fileText;
-            set => SetProperty(ref fileText, value);
         }
-
-        private bool detailsPaneVisible;
-        public bool DetailsPaneVisible
-        {
-            get => detailsPaneVisible;
-            set => SetProperty(ref detailsPaneVisible, value);
-        }
-        
     }
 }
