@@ -348,7 +348,7 @@
         </trans-unit>
         <trans-unit id="WelcomeDialog.Title" translate="yes" xml:space="preserve">
           <source>Welcome to Files!</source>
-          <target state="new">Dosyalara hoş geldiniz!</target>
+          <target state="new">Files'a hoş geldiniz!</target>
         </trans-unit>
         <trans-unit id="WelcomeDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Grant Permission</source>
