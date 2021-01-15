@@ -129,7 +129,7 @@ namespace Files.Filesystem.StorageEnumerators
                 LoadUnknownTypeGlyph = false,
                 FileSize = null,
                 FileSizeBytes = 0,
-                ContainsFilesOrFolders = CheckForFilesFolders(itemPath),
+                ContainsFilesOrFolders = FolderHelpers.CheckForFilesFolders(itemPath),
                 IsPinned = pinned,
                 //FolderTooltipText = tooltipString,
             };
@@ -236,7 +236,7 @@ namespace Files.Filesystem.StorageEnumerators
 
                         if ((bool)response.Message["IsFolder"])
                         {
-                            containsFilesOrFolders = CheckForFilesFolders(target);
+                            containsFilesOrFolders = FolderHelpers.CheckForFilesFolders(target);
                         }
 
                         bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
@@ -306,23 +306,6 @@ namespace Files.Filesystem.StorageEnumerators
                 };
             }
             return null;
-        }
-
-        /// <summary>
-        /// This function is used to determine whether or not a folder has any contents.
-        /// </summary>
-        /// <param name="targetPath">The path to the target folder</param>
-        ///
-        private static bool CheckForFilesFolders(string targetPath)
-        {
-            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-
-            IntPtr hFile = FindFirstFileExFromApp(targetPath + "\\*.*", findInfoLevel, out WIN32_FIND_DATA _, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, additionalFlags);
-            FindNextFile(hFile, out _);
-            var result = FindNextFile(hFile, out _);
-            FindClose(hFile);
-            return result;
         }
     }
 }

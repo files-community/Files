@@ -822,24 +822,24 @@ namespace Files.ViewModels
                 else
                 {
                     var sourcePageType = AssociatedInstance.ContentFrame.SourcePageType;
-                    if (await EnumerateItemsFromStandardFolderAsync(path, _currentStorageFolder, sourcePageType, _addFilesCTS.Token, cacheOnly: false))
+                    if (await EnumerateItemsFromStandardFolderAsync(path, currentStorageFolder, sourcePageType, addFilesCTS.Token, cacheOnly: false))
                     {
                         WatchForDirectoryChanges(path);
                     }
 
                     var parallelLimit = App.AppSettings.PreemptiveCacheParallelLimit;
-                    if (App.AppSettings.UseFileListCache && parallelLimit > 0 && !_addFilesCTS.IsCancellationRequested)
+                    if (App.AppSettings.UseFileListCache && parallelLimit > 0 && !addFilesCTS.IsCancellationRequested)
                     {
                         // run background tasks to iterate through folders and cache all of them preemptively
-                        var folders = _filesAndFolders.Where(e => e.PrimaryItemAttribute == StorageItemTypes.Folder);
-                        var currentStorageFolderSnapshot = _currentStorageFolder;
+                        var folders = filesAndFolders.Where(e => e.PrimaryItemAttribute == StorageItemTypes.Folder);
+                        var currentStorageFolderSnapshot = currentStorageFolder;
                         Task.Run(async () =>
                         {
                             try
                             {
                                 await folders.AsyncParallelForEach(async (folder) =>
                                 {
-                                    if (_addFilesCTS.IsCancellationRequested) return;
+                                    if (addFilesCTS.IsCancellationRequested) return;
 
                                     var path = folder.ItemPath;
                                     StorageFolderWithPath storageFolder = null;
@@ -851,7 +851,7 @@ namespace Files.ViewModels
                                             storageFolder = res.Result;
                                         }
                                     }
-                                    await EnumerateItemsFromStandardFolderAsync(path, storageFolder, sourcePageType, _addFilesCTS.Token, cacheOnly: true);
+                                    await EnumerateItemsFromStandardFolderAsync(path, storageFolder, sourcePageType, addFilesCTS.Token, cacheOnly: true);
                                 }, maxDegreeOfParallelism: parallelLimit);
                             }
                             catch (Exception e)
@@ -1006,7 +1006,7 @@ namespace Files.ViewModels
             });
         }
 
-        public async Task<bool> EnumerateItemsFromStandardFolderAsync(string path, StorageFolderWithPath currentStorageFolder, Type sourcePageType, CancellationToken cancellationToken, bool cacheOnly = false)
+        public async Task<bool> EnumerateItemsFromStandardFolderAsync(string path, StorageFolderWithPath storageFolderForGivenPath, Type sourcePageType, CancellationToken cancellationToken, bool cacheOnly = false)
         {
             // Flag to use FindFirstFileExFromApp or StorageFolder enumeration
             bool enumFromStorageFolder = false;
@@ -1019,12 +1019,15 @@ namespace Files.ViewModels
             }
             else if (workingRoot != null)
             {
-                rootFolder = currentStorageFolder.Folder;
+                rootFolder = storageFolderForGivenPath.Folder;
                 enumFromStorageFolder = true;
             }
             else if (!FolderHelpers.CheckFolderAccessWithWin32(path)) // The folder is really inaccessible
             {
-                if (cacheOnly) return false;
+                if (cacheOnly)
+                {
+                    return false;
+                }
 
                 if (res == FileSystemStatusCode.Unauthorized)
                 {
@@ -1096,14 +1099,16 @@ namespace Files.ViewModels
                     LoadFolderGlyph = true,
                     FileImage = null,
                     LoadFileIcon = false,
-                    ItemPath = string.IsNullOrEmpty(rootFolder.Path) ? currentStorageFolder.Path : rootFolder.Path,
+                    ItemPath = string.IsNullOrEmpty(rootFolder.Path) ? storageFolderForGivenPath.Path : rootFolder.Path,
                     LoadUnknownTypeGlyph = false,
                     FileSize = null,
                     FileSizeBytes = 0
                 };
                 if (!cacheOnly)
+                {
                     CurrentFolder = currentFolder;
-                await EnumFromStorageFolderAsync(currentFolder, rootFolder, currentStorageFolder, sourcePageType, cancellationToken, cacheOnly);
+                }
+                await EnumFromStorageFolderAsync(currentFolder, rootFolder, storageFolderForGivenPath, sourcePageType, cancellationToken, cacheOnly);
                 return true;
             }
             else
@@ -1154,17 +1159,21 @@ namespace Files.ViewModels
                     FileSizeBytes = 0
                 };
                 if (!cacheOnly)
+                {
                     CurrentFolder = currentFolder;
+                }
 
                 if (hFile == IntPtr.Zero)
                 {
                     if (!cacheOnly)
+                    {
                         await DialogDisplayHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalized(), "");
+                    }
                     return false;
                 }
                 else if (hFile.ToInt64() == -1)
                 {
-                    await EnumFromStorageFolderAsync(currentFolder, rootFolder, currentStorageFolder, sourcePageType, cancellationToken, cacheOnly);
+                    await EnumFromStorageFolderAsync(currentFolder, rootFolder, storageFolderForGivenPath, sourcePageType, cancellationToken, cacheOnly);
                     return false;
                 }
                 else
@@ -1514,11 +1523,11 @@ namespace Files.ViewModels
             ListedItem listedItem = null;
             if ((findData.dwFileAttributes & 0x10) > 0) // FILE_ATTRIBUTE_DIRECTORY
             {
-                listedItem = Win32StorageEnumerator.GetFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat, _addFilesCTS.Token);
+                listedItem = Win32StorageEnumerator.GetFolder(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat, addFilesCTS.Token);
             }
             else
             {
-                listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat, Connection, _addFilesCTS.Token);
+                listedItem = await Win32StorageEnumerator.GetFile(findData, Directory.GetParent(fileOrFolderPath).FullName, dateReturnFormat, Connection, addFilesCTS.Token);
             }
 
             if (listedItem != null)
