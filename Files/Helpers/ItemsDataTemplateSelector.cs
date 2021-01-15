@@ -13,8 +13,7 @@ namespace Files.Helpers
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
             var itemsControl = ItemsControl.ItemsControlFromItemContainer(container);
-            DataTemplate _returnTemplate = itemsControl.IndexFromContainer(container) == (itemsControl.ItemsSource as ObservableCollection<PathBoxItem>).Count - 1 ? CurrentItem : ParentItems;
-            return _returnTemplate;
+            return itemsControl.IndexFromContainer(container) == (itemsControl.ItemsSource as ObservableCollection<PathBoxItem>).Count - 1 ? CurrentItem : ParentItems;
         }
     }
 }

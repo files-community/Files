@@ -676,7 +676,7 @@
             CellEditEnding="AllView_CellEditEnding"
             ClipboardCopyMode="None"
             ColumnHeaderHeight="38"
-            DoubleTapped="{x:Bind ParentShellPageInstance.InteractionOperations.List_ItemDoubleClick}"
+            DoubleTapped="AllView_DoubleTapped"
             DragEnter="List_DragEnter"
             Drop="List_Drop"
             FocusVisualPrimaryThickness="0"
@@ -797,6 +797,7 @@
                                     x:Name="FolderGlyphElement"
                                     Width="24"
                                     Height="24"
+                                    x:Phase="1"
                                     x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}">
                                     <Image.Source>
                                         <SvgImageSource
@@ -808,11 +809,13 @@
                                 <FontIcon
                                     x:Name="UnknownFileTypeElement"
                                     x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
+                                    x:Phase="1"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     Glyph="&#xEA00;" />
                                 <FontIcon
                                     x:Name="WebShortcutGlyph"
                                     x:Load="{x:Bind IsLinkItem, Mode=OneWay}"
+                                    x:Phase="1"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     Glyph="&#xEAAB;" />
                                 <Image
@@ -820,6 +823,7 @@
                                     Width="20"
                                     Height="20"
                                     x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
+                                    x:Phase="1"
                                     Source="{x:Bind FileImage, Mode=OneWay}"
                                     Stretch="UniformToFill" />
                                 <Image
@@ -830,6 +834,7 @@
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     x:Load="True"
+                                    x:Phase="1"
                                     Source="{x:Bind IconOverlay, Mode=OneWay}"
                                     Stretch="Uniform" />
                                 <Border
@@ -839,6 +844,7 @@
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     x:Load="{x:Bind IsShortcutItem}"
+                                    x:Phase="1"
                                     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                                     BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
                                     BorderThickness="1">

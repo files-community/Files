@@ -26,7 +26,7 @@ namespace Files.Interacts
 
             if (handle.ToInt32() == INVALID_HANDLE_VALUE)
             {
-                Debug.WriteLine("Unable to open drive " + driveLetter);
+                Debug.WriteLine($"Unable to open drive {driveLetter}");
                 return false;
             }
 

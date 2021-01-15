@@ -5,16 +5,16 @@ namespace Files.Helpers
 {
     public class BulkObservableCollection<T> : ObservableCollection<T>
     {
-        private bool _isBulkOperationStarted;
+        private bool isBulkOperationStarted;
 
         public void BeginBulkOperation()
         {
-            _isBulkOperationStarted = true;
+            isBulkOperationStarted = true;
         }
 
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-            if (!_isBulkOperationStarted)
+            if (!isBulkOperationStarted)
             {
                 base.OnCollectionChanged(e);
             }
@@ -23,7 +23,7 @@ namespace Files.Helpers
         public void EndBulkOperation()
         {
             base.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-            _isBulkOperationStarted = false;
+            isBulkOperationStarted = false;
         }
     }
 }

@@ -73,7 +73,7 @@ namespace Files.Dialogs
                 offendingMethod = "(Method name unknown)";
             }
 
-            Summary.Text = message + " within method " + offendingMethod;
+            Summary.Text = $"{message} within method {offendingMethod}";
             ErrorInfo.Text = stackTrace;
         }
     }

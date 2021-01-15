@@ -110,12 +110,12 @@ namespace Files
 
                         if (SelectedItems.Count == 1)
                         {
-                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = SelectedItems.Count.ToString() + " " + "ItemSelected/Text".GetLocalized();
+                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemSelected/Text".GetLocalized()}";
                             SelectedItemsPropertiesViewModel.ItemSize = SelectedItem.FileSize;
                         }
                         else
                         {
-                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = SelectedItems.Count.ToString() + " " + "ItemsSelected/Text".GetLocalized();
+                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemsSelected/Text".GetLocalized()}";
 
                             if (SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File))
                             {
@@ -411,13 +411,17 @@ namespace Files
             }
         }
 
-        private void LoadMenuFlyoutItem(IList<MenuFlyoutItemBase> MenuItemsList, IEnumerable<Win32ContextMenuItem> menuFlyoutItems, string menuHandle, bool showIcons = true, int itemsBeforeOverflow = int.MaxValue)
+        private void LoadMenuFlyoutItem(IList<MenuFlyoutItemBase> MenuItemsList,
+                                        IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
+                                        string menuHandle,
+                                        bool showIcons = true,
+                                        int itemsBeforeOverflow = int.MaxValue)
         {
-            var items_count = 0; // Separators do not count for reaching the overflow threshold
-            var menu_items = menuFlyoutItems.TakeWhile(x => x.Type == MenuItemType.MFT_SEPARATOR || ++items_count <= itemsBeforeOverflow).ToList();
-            var overflow_items = menuFlyoutItems.Except(menu_items).ToList();
+            var itemsCount = 0; // Separators do not count for reaching the overflow threshold
+            var menuItems = menuFlyoutItems.TakeWhile(x => x.Type == MenuItemType.MFT_SEPARATOR || ++itemsCount <= itemsBeforeOverflow).ToList();
+            var overflowItems = menuFlyoutItems.Except(menuItems).ToList();
 
-            if (overflow_items.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any())
+            if (overflowItems.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any())
             {
                 var menuLayoutSubItem = new MenuFlyoutSubItem()
                 {
@@ -429,10 +433,10 @@ namespace Files
                         Glyph = "\xEAD0"
                     }
                 };
-                LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflow_items, menuHandle, false);
+                LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflowItems, menuHandle, false);
                 MenuItemsList.Insert(0, menuLayoutSubItem);
             }
-            foreach (var menuFlyoutItem in menu_items
+            foreach (var menuFlyoutItem in menuItems
                 .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR) // Remove leading seperators
                 .Reverse()
                 .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR)) // Remove trailing separators
