@@ -64,7 +64,7 @@ namespace Files.Filesystem
 
             for (var i = 0; i < value.Length; i++)
             {
-                if (value[i] == '\\' || value[i] == '?')
+                if (value[i] == '\\' || value[i] == '/' || value[i] == '?')
                 {
                     if (lastIndex == i)
                     {
