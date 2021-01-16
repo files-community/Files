@@ -1,4 +1,4 @@
-using Files.Common;
+﻿using Files.Common;
 using Files.Dialogs;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;

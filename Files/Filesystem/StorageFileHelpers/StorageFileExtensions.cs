@@ -216,6 +216,11 @@ namespace Files.Filesystem
 
         public static string GetPathWithoutEnvironmentVariable(string path)
         {
+            if (path.StartsWith("~/") || path.StartsWith("~\\"))
+            {
+                path = $"{AppSettings.HomePath}{path.Remove(0, 1)}";
+            }
+
             if (path.Contains("%temp%", StringComparison.OrdinalIgnoreCase))
             {
                 path = path.Replace("%temp%", AppSettings.TempPath, StringComparison.OrdinalIgnoreCase);
