@@ -1,6 +1,7 @@
 ﻿using Files.Enums;
-using System;
+using Microsoft.Win32;
 using System.Collections.Generic;
+using System.Security;
 using System.Threading.Tasks;
 
 namespace Files.Filesystem.Cloud.Providers
@@ -13,16 +14,28 @@ namespace Files.Filesystem.Cloud.Providers
             {
                 await Task.Run(() =>
                 {
-                    var onedrivePersonal = Environment.GetEnvironmentVariable("OneDriveConsumer");
-                    if (!string.IsNullOrEmpty(onedrivePersonal))
+                    try
                     {
-                        cloudProviders.Add(new CloudProvider()
+                        var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts", false);
+
+                        foreach (var account in oneDriveAccountsKey.GetSubKeyNames())
                         {
-                            ID = CloudProviders.OneDrive,
-                            Name = "OneDrive",
-                            SyncFolder = onedrivePersonal
-                        });
+                            var accountKeyName = @$"{oneDriveAccountsKey.Name}\{account}";
+                            var displayName = (string)Registry.GetValue(accountKeyName, "DisplayName", null);
+                            var userFolder = (string)Registry.GetValue(accountKeyName, "UserFolder", null);
+
+                            if (!string.IsNullOrWhiteSpace(displayName) && !string.IsNullOrWhiteSpace(userFolder))
+                            {
+                                cloudProviders.Add(new CloudProvider()
+                                {
+                                    ID = CloudProviders.OneDrive,
+                                    Name = $"OneDrive - {displayName}",
+                                    SyncFolder = userFolder
+                                });
+                            }
+                        }
                     }
+                    catch (SecurityException) { }
                 });
             }
             catch
