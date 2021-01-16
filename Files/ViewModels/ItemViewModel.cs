@@ -532,10 +532,7 @@ namespace Files.ViewModels
             {
                 try
                 {
-                    if (updateDataGridSemaphore.CurrentCount == 0)
-                    {
-                        updateDataGridSemaphore.Release();
-                    }
+                    updateDataGridSemaphore.Release();
                 }
                 catch
                 {
@@ -784,7 +781,14 @@ namespace Files.ViewModels
                         item.SyncStatusUI = new CloudDriveSyncStatusUI() { LoadSyncStatus = false }; // Reset cloud sync status icon
                     }
                     item.ItemPropertiesInitialized = true;
-                    loadExtendedPropsSemaphore.Release();
+                    try
+                    {
+                        loadExtendedPropsSemaphore.Release();
+                    }
+                    catch
+                    {
+                        // ignored
+                    }
                 }
             }
         }
@@ -979,7 +983,14 @@ namespace Files.ViewModels
             }
             finally
             {
-                enumFolderSemaphore.Release();
+                try
+                {
+                    enumFolderSemaphore.Release();
+                }
+                catch
+                {
+                    // ignored
+                }
             }
         }
 
@@ -1740,7 +1751,14 @@ namespace Files.ViewModels
             }
             finally
             {
-                enumFolderSemaphore.Release();
+                try
+                {
+                    enumFolderSemaphore.Release();
+                }
+                catch
+                {
+                    // ignored
+                }
             }
         }
 
