@@ -301,8 +301,16 @@ namespace Files.ViewModels
                 ListedItem previouslySelectedItem = null;
 
                 // prevent enumerating from a modified collection
-                await updateDataGridSemaphore.WaitAsync();
-                // use FilesAndFolders because only displayed entries should be jumpped to
+                try
+                {
+                    await updateDataGridSemaphore.WaitAsync(addFilesCTS.Token);
+                }
+                catch (Exception ex) when (ex is OperationCanceledException || ex is ObjectDisposedException)
+                {
+                    return;
+                }
+
+                // use FilesAndFolders because only displayed entries should be jumped to
                 var candidateItems = FilesAndFolders.Where(f => f.ItemName.Length >= value.Length && f.ItemName.Substring(0, value.Length).ToLower() == value);
 
                 if (AssociatedInstance.ContentPage.IsItemSelected)
@@ -473,7 +481,14 @@ namespace Files.ViewModels
             try
             {
                 await updateDataGridSemaphore.WaitAsync(addFilesCTS.Token);
+            }
+            catch (Exception ex) when (ex is OperationCanceledException || ex is ObjectDisposedException)
+            {
+                return;
+            }
 
+            try
+            {
                 if (filesAndFolders == null || filesAndFolders.Count == 0)
                 {
                     await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
@@ -525,24 +540,13 @@ namespace Files.ViewModels
                     UpdateDirectoryInfo();
                 });
             }
-            catch (OperationCanceledException)
-            {
-                // ignored
-            }
             catch (Exception ex)
             {
                 NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
             }
             finally
             {
-                try
-                {
-                    updateDataGridSemaphore.Release();
-                }
-                catch
-                {
-                    // ignored
-                }
+                updateDataGridSemaphore.Release();
             }
         }
 
@@ -786,14 +790,7 @@ namespace Files.ViewModels
                         item.SyncStatusUI = new CloudDriveSyncStatusUI() { LoadSyncStatus = false }; // Reset cloud sync status icon
                     }
                     item.ItemPropertiesInitialized = true;
-                    try
-                    {
-                        loadExtendedPropsSemaphore.Release();
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
+                    loadExtendedPropsSemaphore.Release();
                 }
             }
         }
@@ -992,14 +989,7 @@ namespace Files.ViewModels
             }
             finally
             {
-                try
-                {
-                    enumFolderSemaphore.Release();
-                }
-                catch
-                {
-                    // ignored
-                }
+                enumFolderSemaphore.Release();
             }
         }
 
@@ -1749,6 +1739,14 @@ namespace Files.ViewModels
             try
             {
                 await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
+            }
+            catch (Exception ex) when (ex is OperationCanceledException || ex is ObjectDisposedException)
+            {
+                return;
+            }
+
+            try
+            {
                 var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath.Equals(path));
 
                 if (matchingItem != null)
@@ -1756,20 +1754,9 @@ namespace Files.ViewModels
                     await UpdateFileOrFolderAsync(matchingItem);
                 }
             }
-            catch (TaskCanceledException)
-            {
-                // ignored
-            }
             finally
             {
-                try
-                {
-                    enumFolderSemaphore.Release();
-                }
-                catch
-                {
-                    // ignored
-                }
+                enumFolderSemaphore.Release();
             }
         }
 
@@ -1799,6 +1786,14 @@ namespace Files.ViewModels
             try
             {
                 await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
+            }
+            catch (Exception ex) when (ex is OperationCanceledException || ex is ObjectDisposedException)
+            {
+                return;
+            }
+
+            try
+            {
                 var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath.Equals(path));
 
                 if (matchingItem != null)
@@ -1806,20 +1801,9 @@ namespace Files.ViewModels
                     await RemoveFileOrFolderAsync(matchingItem);
                 }
             }
-            catch (TaskCanceledException)
-            {
-                // ignored
-            }
             finally
             {
-                try
-                {
-                    enumFolderSemaphore.Release();
-                }
-                catch
-                {
-                    // ignored
-                }
+                enumFolderSemaphore.Release();
             }
         }
 
