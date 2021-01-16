@@ -910,6 +910,7 @@ namespace Files.ViewModels
                         if (itemToSelect != null)
                         {
                             AssociatedInstance.ContentPage.SetSelectedItemOnUi(itemToSelect);
+                            AssociatedInstance.ContentPage.ScrollIntoView(itemToSelect);
                         }
                     }
                 }

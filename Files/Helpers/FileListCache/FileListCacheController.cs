@@ -33,8 +33,7 @@ namespace Files.Helpers.FileListCache
             });
 
             // save entry to persistent cache in background
-            Task.Run(async () => await persistentAdapter.SaveFileListToCache(path, cacheEntry));
-            return Task.CompletedTask;
+            return persistentAdapter.SaveFileListToCache(path, cacheEntry);
         }
 
         public async Task<CacheEntry> ReadFileListFromCache(string path)
