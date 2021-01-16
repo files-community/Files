@@ -789,12 +789,12 @@ namespace Files.ViewModels
             return (null, null, false);
         }
 
-        public void RefreshItems(string previousDir)
+        public void RefreshItems(string previousDir, bool useCache = true)
         {
-            AddItemsToCollectionAsync(WorkingDirectory, previousDir);
+            AddItemsToCollectionAsync(WorkingDirectory, previousDir, useCache);
         }
 
-        public async void RapidAddItemsToCollectionAsync(string path, string previousDir)
+        public async void RapidAddItemsToCollectionAsync(string path, string previousDir, bool useCache = true)
         {
             AssociatedInstance.NavigationToolbar.CanRefresh = false;
 
@@ -829,7 +829,7 @@ namespace Files.ViewModels
                 AssociatedInstance.NavigationToolbar.CanGoBack = AssociatedInstance.ContentFrame.CanGoBack;
                 AssociatedInstance.NavigationToolbar.CanGoForward = AssociatedInstance.ContentFrame.CanGoForward;
 
-                var cacheEntry = await fileListCache.ReadFileListFromCache(path);
+                var cacheEntry = useCache ? await fileListCache.ReadFileListFromCache(path) : null;
                 if (cacheEntry != null)
                 {
                     CurrentFolder = cacheEntry.CurrentFolder;
@@ -842,8 +842,6 @@ namespace Files.ViewModels
                             await ApplyFilesAndFoldersChangesAsync();
                         }
                     }
-                    await OrderFilesAndFoldersAsync();
-                    await ApplyFilesAndFoldersChangesAsync();
                     Debug.WriteLine($"Loading of items from cache in {WorkingDirectory} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
                     IsLoadingIndicatorActive = false;
                 }
@@ -1936,9 +1934,9 @@ namespace Files.ViewModels
             return null;
         }
 
-        public void AddItemsToCollectionAsync(string path, string previousDir)
+        public void AddItemsToCollectionAsync(string path, string previousDir, bool useCache = true)
         {
-            RapidAddItemsToCollectionAsync(path, previousDir);
+            RapidAddItemsToCollectionAsync(path, previousDir, useCache);
         }
 
         private async Task<ListedItem> AddFolderAsync(StorageFolder folder, string dateReturnFormat)
