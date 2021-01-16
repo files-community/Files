@@ -27,20 +27,25 @@ namespace Files.Helpers.FileListCache
         public Task SaveFileListToCache(string path, CacheEntry cacheEntry)
         {
             if (!App.AppSettings.UseFileListCache) return Task.CompletedTask;
+            if (cacheEntry == null)
+            {
+                filesCache.Remove(path);
+                return persistentAdapter.SaveFileListToCache(path, cacheEntry);
+            }
             filesCache.Set(path, cacheEntry, new MemoryCacheEntryOptions
             {
                 Size = cacheEntry.FileList.Count
             });
 
             // save entry to persistent cache in background
-            return Task.Run(() => persistentAdapter.SaveFileListToCache(path, cacheEntry));
+            return persistentAdapter.SaveFileListToCache(path, cacheEntry);
         }
 
         public async Task<CacheEntry> ReadFileListFromCache(string path)
         {
             if (!App.AppSettings.UseFileListCache) return null;
             var entry = filesCache.Get<CacheEntry>(path);
-            return entry ?? await Task.Run(() => persistentAdapter.ReadFileListFromCache(path));
+            return entry ?? await persistentAdapter.ReadFileListFromCache(path);
         }
     }
 }

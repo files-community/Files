@@ -842,18 +842,21 @@ namespace Files.ViewModels
                 if (cacheEntry != null)
                 {
                     CurrentFolder = cacheEntry.CurrentFolder;
-                    for (var i = 0; i < cacheEntry.FileList.Count; i++)
+                    await Task.Run(async () =>
                     {
-                        filesAndFolders.Add(cacheEntry.FileList[i]);
-                        if (addFilesCTS.IsCancellationRequested) break;
-                        if (i == 32 || i % 300 == 0 || i == cacheEntry.FileList.Count - 1)
+                        for (var i = 0; i < cacheEntry.FileList.Count; i++)
                         {
-                            await OrderFilesAndFoldersAsync();
-                            await ApplyFilesAndFoldersChangesAsync();
+                            filesAndFolders.Add(cacheEntry.FileList[i]);
+                            if (addFilesCTS.IsCancellationRequested) break;
+                            if (i == 32 || i % 300 == 0 || i == cacheEntry.FileList.Count - 1)
+                            {
+                                await OrderFilesAndFoldersAsync();
+                                await ApplyFilesAndFoldersChangesAsync();
+                            }
                         }
-                    }
+                    });
 
-                    Debug.WriteLine($"Loading of items from cache in {WorkingDirectory} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
+                    Debug.WriteLine($"Loading of items from cache in {path} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
                     IsLoadingIndicatorActive = false;
                 }
                 else
@@ -881,16 +884,16 @@ namespace Files.ViewModels
                 }
 
                 stopwatch.Stop();
-                Debug.WriteLine($"Loading of items in {WorkingDirectory} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
+                Debug.WriteLine($"Loading of items in {path} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
                 AssociatedInstance.NavigationToolbar.CanRefresh = true;
                 IsLoadingItems = false;
 
                 if (!string.IsNullOrWhiteSpace(previousDir))
                 {
-                    if (previousDir.Contains(WorkingDirectory) && !previousDir.Contains("Shell:RecycleBinFolder"))
+                    if (previousDir.Contains(path) && !previousDir.Contains("Shell:RecycleBinFolder"))
                     {
                         // Remove the WorkingDir from previous dir
-                        previousDir = previousDir.Replace(WorkingDirectory, string.Empty);
+                        previousDir = previousDir.Replace(path, string.Empty);
 
                         // Get previous dir name
                         if (previousDir.StartsWith('\\'))
@@ -903,7 +906,7 @@ namespace Files.ViewModels
                         }
 
                         // Get the first folder and combine it with WorkingDir
-                        string folderToSelect = string.Format("{0}\\{1}", WorkingDirectory, previousDir);
+                        string folderToSelect = string.Format("{0}\\{1}", path, previousDir);
 
                         // Make sure we don't get double \\ in the path
                         folderToSelect = folderToSelect.Replace("\\\\", "\\");
@@ -1054,7 +1057,7 @@ namespace Files.ViewModels
 
             if (await CheckBitlockerStatusAsync(rootFolder))
             {
-                var bitlockerDialog = new Dialogs.BitlockerDialog(Path.GetPathRoot(WorkingDirectory));
+                var bitlockerDialog = new Dialogs.BitlockerDialog(Path.GetPathRoot(path));
                 var bitlockerResult = await bitlockerDialog.ShowAsync();
                 if (bitlockerResult == ContentDialogResult.Primary)
                 {
@@ -1064,7 +1067,7 @@ namespace Files.ViewModels
                         var value = new ValueSet();
                         value.Add("Arguments", "Bitlocker");
                         value.Add("action", "Unlock");
-                        value.Add("drive", Path.GetPathRoot(WorkingDirectory));
+                        value.Add("drive", Path.GetPathRoot(path));
                         value.Add("password", userInput);
                         await Connection.SendMessageAsync(value);
 
@@ -1099,7 +1102,7 @@ namespace Files.ViewModels
                     FileSize = null,
                     FileSizeBytes = 0
                 };
-                await EnumFromStorageFolderAsync();
+                await EnumFromStorageFolderAsync(path);
                 return true;
             }
             else
@@ -1158,7 +1161,7 @@ namespace Files.ViewModels
                 }
                 else if (hFile.ToInt64() == -1)
                 {
-                    await EnumFromStorageFolderAsync();
+                    await EnumFromStorageFolderAsync(path);
                     return false;
                 }
                 else
@@ -1218,6 +1221,10 @@ namespace Files.ViewModels
                             FileList = filesAndFolders
                         });
                     }
+                    else
+                    {
+                        await fileListCache.SaveFileListToCache(path, null);
+                    }
 
                     FindClose(hFile);
 
@@ -1226,7 +1233,7 @@ namespace Files.ViewModels
             }
         }
 
-        private async Task EnumFromStorageFolderAsync()
+        private async Task EnumFromStorageFolderAsync(string path)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -1295,13 +1302,17 @@ namespace Files.ViewModels
             stopwatch.Stop();
             if (!addFilesCTS.IsCancellationRequested)
             {
-                await fileListCache.SaveFileListToCache(WorkingDirectory, new CacheEntry
+                await fileListCache.SaveFileListToCache(path, new CacheEntry
                 {
                     CurrentFolder = CurrentFolder,
                     FileList = filesAndFolders
                 });
             }
-            Debug.WriteLine($"Enumerating items in {WorkingDirectory} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
+            else
+            {
+                await fileListCache.SaveFileListToCache(path, null);
+            }
+            Debug.WriteLine($"Enumerating items in {path} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
         }
 
         public bool CheckFolderAccessWithWin32(string path)
@@ -2073,7 +2084,6 @@ namespace Files.ViewModels
             }
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
-            UpdateDirectoryInfo();
             WorkingDirectoryChanged($"{"SearchPagePathBoxOverrideText".GetLocalized()} {currentSearchPath}");
         }
 
