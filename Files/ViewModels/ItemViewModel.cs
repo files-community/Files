@@ -1750,7 +1750,7 @@ namespace Files.ViewModels
             {
                 CurrentFolder = CurrentFolder,
                 // since filesAndFolders could be mutated, memory cache needs a copy of current list
-                FileList = filesAndFolders.ToArray().ToList()
+                FileList = filesAndFolders.ToList()
             });
         }
 
