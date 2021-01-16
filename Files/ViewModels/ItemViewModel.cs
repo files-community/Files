@@ -832,9 +832,18 @@ namespace Files.ViewModels
                 var cacheEntry = await fileListCache.ReadFileListFromCache(path);
                 if (cacheEntry != null)
                 {
-                    await ApplyFilesAndFoldersChangesAsync();
                     CurrentFolder = cacheEntry.CurrentFolder;
-                    filesAndFolders = cacheEntry.FileList;
+                    for (var i = 0; i < cacheEntry.FileList.Count; i++)
+                    {
+                        filesAndFolders.Add(cacheEntry.FileList[i]);
+                        if (i == 32 || i % 300 == 0)
+                        {
+                            await OrderFilesAndFoldersAsync();
+                            await ApplyFilesAndFoldersChangesAsync();
+                        }
+                    }
+                    await OrderFilesAndFoldersAsync();
+                    await ApplyFilesAndFoldersChangesAsync();
                     Debug.WriteLine($"Loading of items from cache in {WorkingDirectory} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
                     IsLoadingIndicatorActive = false;
                 }
@@ -1198,12 +1207,14 @@ namespace Files.ViewModels
                             }
                         } while (hasNextFile);
                     });
-
-                    await fileListCache.SaveFileListToCache(path, new CacheEntry
+                    if (!addFilesCTS.IsCancellationRequested)
                     {
-                        CurrentFolder = CurrentFolder,
-                        FileList = filesAndFolders
-                    });
+                        await fileListCache.SaveFileListToCache(path, new CacheEntry
+                        {
+                            CurrentFolder = CurrentFolder,
+                            FileList = filesAndFolders
+                        });
+                    }
 
                     FindClose(hFile);
 
@@ -1278,11 +1289,14 @@ namespace Files.ViewModels
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
             stopwatch.Stop();
-            await fileListCache.SaveFileListToCache(WorkingDirectory, new CacheEntry
+            if (!addFilesCTS.IsCancellationRequested)
             {
-                CurrentFolder = CurrentFolder,
-                FileList = filesAndFolders
-            });
+                await fileListCache.SaveFileListToCache(WorkingDirectory, new CacheEntry
+                {
+                    CurrentFolder = CurrentFolder,
+                    FileList = filesAndFolders
+                });
+            }
             Debug.WriteLine($"Enumerating items in {WorkingDirectory} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
         }
 
