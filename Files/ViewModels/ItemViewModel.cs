@@ -287,54 +287,56 @@ namespace Files.ViewModels
             }
         }
 
-        public string JumpString
+        public async Task SetJumpStringAsync(string value)
         {
-            get
+            // If current string is "a", and the next character typed is "a",
+            // search for next file that starts with "a" (a.k.a. _jumpString = "a")
+            if (jumpString.Length == 1 && value == jumpString + jumpString)
             {
-                return jumpString;
+                value = jumpString;
             }
-            set
+            if (value != "")
             {
-                // If current string is "a", and the next character typed is "a",
-                // search for next file that starts with "a" (a.k.a. _jumpString = "a")
-                if (jumpString.Length == 1 && value == jumpString + jumpString)
+                ListedItem jumpedToItem = null;
+                ListedItem previouslySelectedItem = null;
+
+                // prevent enumerating from a modified collection
+                await updateDataGridSemaphore.WaitAsync();
+                // use FilesAndFolders because only displayed entries should be jumpped to
+                var candidateItems = FilesAndFolders.Where(f => f.ItemName.Length >= value.Length && f.ItemName.Substring(0, value.Length).ToLower() == value);
+
+                if (AssociatedInstance.ContentPage.IsItemSelected)
                 {
-                    value = jumpString;
+                    previouslySelectedItem = AssociatedInstance.ContentPage.SelectedItem;
                 }
-                if (value != "")
+
+                // If the user is trying to cycle through items
+                // starting with the same letter
+                if (value.Length == 1 && previouslySelectedItem != null)
                 {
-                    ListedItem jumpedToItem = null;
-                    ListedItem previouslySelectedItem = null;
-                    var candidateItems = filesAndFolders.Where(f => f.ItemName.Length >= value.Length && f.ItemName.Substring(0, value.Length).ToLower() == value);
-                    if (AssociatedInstance.ContentPage.IsItemSelected)
-                    {
-                        previouslySelectedItem = AssociatedInstance.ContentPage.SelectedItem;
-                    }
-
-                    // If the user is trying to cycle through items
-                    // starting with the same letter
-                    if (value.Length == 1 && previouslySelectedItem != null)
-                    {
-                        // Try to select item lexicographically bigger than the previous item
-                        jumpedToItem = candidateItems.FirstOrDefault(f => f.ItemName.CompareTo(previouslySelectedItem.ItemName) > 0);
-                    }
-                    if (jumpedToItem == null)
-                    {
-                        jumpedToItem = candidateItems.FirstOrDefault();
-                    }
-
-                    if (jumpedToItem != null)
-                    {
-                        AssociatedInstance.ContentPage.SetSelectedItemOnUi(jumpedToItem);
-                        AssociatedInstance.ContentPage.ScrollIntoView(jumpedToItem);
-                    }
-
-                    // Restart the timer
-                    jumpTimer.Start();
+                    // Try to select item lexicographically bigger than the previous item
+                    jumpedToItem = candidateItems.FirstOrDefault(f => f.ItemName.CompareTo(previouslySelectedItem.ItemName) > 0);
                 }
-                jumpString = value;
+                if (jumpedToItem == null)
+                {
+                    jumpedToItem = candidateItems.FirstOrDefault();
+                }
+
+                updateDataGridSemaphore.Release();
+
+                if (jumpedToItem != null)
+                {
+                    AssociatedInstance.ContentPage.SetSelectedItemOnUi(jumpedToItem);
+                    AssociatedInstance.ContentPage.ScrollIntoView(jumpedToItem);
+                }
+
+                // Restart the timer
+                jumpTimer.Start();
             }
+            jumpString = value;
         }
+
+        public string JumpString => jumpString;
 
         public AppServiceConnection Connection => AssociatedInstance?.ServiceConnection;
 
@@ -1748,6 +1750,7 @@ namespace Files.ViewModels
             {
                 await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
                 var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath.Equals(path));
+
                 if (matchingItem != null)
                 {
                     await UpdateFileOrFolderAsync(matchingItem);
@@ -1791,14 +1794,33 @@ namespace Files.ViewModels
             await SaveCurrentListToCacheAsync(WorkingDirectory);
         }
 
-        public Task RemoveFileOrFolderAsync(string path)
+        public async Task RemoveFileOrFolderAsync(string path)
         {
-            var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath.Equals(path));
-            if (matchingItem != null)
+            try
             {
-                return RemoveFileOrFolderAsync(matchingItem);
+                await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
+                var matchingItem = filesAndFolders.FirstOrDefault(x => x.ItemPath.Equals(path));
+
+                if (matchingItem != null)
+                {
+                    await RemoveFileOrFolderAsync(matchingItem);
+                }
             }
-            return Task.CompletedTask;
+            catch (TaskCanceledException)
+            {
+                // ignored
+            }
+            finally
+            {
+                try
+                {
+                    enumFolderSemaphore.Release();
+                }
+                catch
+                {
+                    // ignored
+                }
+            }
         }
 
         private ListedItem AddFolder(WIN32_FIND_DATA findData, string pathRoot, string dateReturnFormat)
