@@ -46,7 +46,18 @@ namespace Files.Helpers.FileListCache
         {
             if (!App.AppSettings.UseFileListCache) return null;
             var entry = filesCache.Get<CacheEntry>(path);
-            return entry ?? await persistentAdapter.ReadFileListFromCache(path, cancellationToken);
+            if (entry == null)
+            {
+                entry = await persistentAdapter.ReadFileListFromCache(path, cancellationToken);
+                if (entry?.FileList != null)
+                {
+                    filesCache.Set(path, entry, new MemoryCacheEntryOptions
+                    {
+                        Size = entry.FileList.Count
+                    });
+                }
+            }
+            return entry;
         }
     }
 }
