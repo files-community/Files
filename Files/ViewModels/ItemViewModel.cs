@@ -1350,12 +1350,7 @@ namespace Files.ViewModels
             stopwatch.Stop();
             if (!addFilesCTS.IsCancellationRequested)
             {
-                await fileListCache.SaveFileListToCache(path, new CacheEntry
-                {
-                    CurrentFolder = CurrentFolder,
-                    // since filesAndFolders could be mutated, memory cache needs a copy of current list
-                    FileList = filesAndFolders.ToArray().ToList()
-                });
+                await SaveCurrentListToCacheAsync(path);
             }
             else
             {
@@ -1654,6 +1649,7 @@ namespace Files.ViewModels
             filesAndFolders.Add(item);
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
+            await SaveCurrentListToCacheAsync(WorkingDirectory);
         }
 
         private async Task AddFileOrFolderAsync(string fileOrFolderPath, string dateReturnFormat)
@@ -1687,6 +1683,7 @@ namespace Files.ViewModels
                 filesAndFolders.Add(listedItem);
                 await OrderFilesAndFoldersAsync();
                 await ApplyFilesAndFoldersChangesAsync();
+                await SaveCurrentListToCacheAsync(WorkingDirectory);
             }
         }
 
@@ -1747,6 +1744,16 @@ namespace Files.ViewModels
             }
         }
 
+        private Task SaveCurrentListToCacheAsync(string path)
+        {
+            return fileListCache.SaveFileListToCache(path, new CacheEntry
+            {
+                CurrentFolder = CurrentFolder,
+                // since filesAndFolders could be mutated, memory cache needs a copy of current list
+                FileList = filesAndFolders.ToArray().ToList()
+            });
+        }
+
         public async Task RemoveFileOrFolderAsync(ListedItem item)
         {
             filesAndFolders.Remove(item);
@@ -1755,6 +1762,7 @@ namespace Files.ViewModels
             {
                 App.JumpList.RemoveFolder(item.ItemPath);
             });
+            await SaveCurrentListToCacheAsync(WorkingDirectory);
         }
 
         public Task RemoveFileOrFolderAsync(string path)
