@@ -33,7 +33,7 @@
                     <SolidColorBrush x:Key="SidebarBorderBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
-            <converters1:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <converters:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
             <Style x:Key="DefaultGridSplitterStyle" TargetType="Custom:GridSplitter">
                 <Setter Property="IsTabStop" Value="True" />

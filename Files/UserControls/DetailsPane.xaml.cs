@@ -151,43 +151,44 @@ namespace Files.UserControls
 
         UserControl GetBuiltInPreviewControl(ListedItem item)
         {
-            if (MediaPreview.Extensions.Contains(item.FileExtension))
+            var ext = item.FileExtension.ToLower();
+            if (MediaPreview.Extensions.Contains(ext))
             {
                 return new MediaPreview(item);
             }
 
-            if (MarkdownPreview.Extensions.Contains(item.FileExtension))
+            if (MarkdownPreview.Extensions.Contains(ext))
             {
                 return new MarkdownPreview(item);
             }
 
-            if (ImagePreview.Extensions.Contains(item.FileExtension))
+            if (ImagePreview.Extensions.Contains(ext))
             {
                 return new ImagePreview(item);
             }
 
-            if (TextPreview.Extensions.Contains(item.FileExtension))
+            if (TextPreview.Extensions.Contains(ext))
             {
                 return new TextPreview(item);
             }
 
-            if(PDFPreview.Extensions.Contains(item.FileExtension))
+            if(PDFPreview.Extensions.Contains(ext))
             {
                 return new PDFPreview(item);
 
             }
 
-            if (HtmlPreview.Extensions.Contains(item.FileExtension))
+            if (HtmlPreview.Extensions.Contains(ext))
             {
                 return new HtmlPreview(item);
             }
 
-            if (RichTextPreview.Extensions.Contains(item.FileExtension))
+            if (RichTextPreview.Extensions.Contains(ext))
             {
                 return new RichTextPreview(item);
             }
 
-            if(CodePreview.Extensions.Contains(item.FileExtension))
+            if(CodePreview.Extensions.Contains(ext))
             {
                 return new CodePreview(item);
             }
