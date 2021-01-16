@@ -1,4 +1,4 @@
-﻿using Files.Common;
+using Files.Common;
 using Files.Dialogs;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
@@ -1184,6 +1184,11 @@ namespace Files.Views
             var instance = FilesystemViewModel;
             string parentDirectoryOfPath = instance.WorkingDirectory.TrimEnd('\\');
             var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");
+            if (lastSlashIndex == -1)
+            {
+                lastSlashIndex = parentDirectoryOfPath.LastIndexOf('/');
+            }
+
             if (lastSlashIndex != -1)
             {
                 parentDirectoryOfPath = instance.WorkingDirectory.Remove(lastSlashIndex);
