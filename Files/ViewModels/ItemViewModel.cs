@@ -466,20 +466,23 @@ namespace Files.ViewModels
         }
 
         // apply changes immediately after manipulating on filesAndFolders completed
-        public async Task ApplyFilesAndFoldersChangesAsync([CallerFilePath] string filePath = null, [CallerLineNumber] int line = 0, [CallerMemberName] string memberName = null)
+        public async Task ApplyFilesAndFoldersChangesAsync()
         {
-            Debug.WriteLine($"List update triggered by {filePath}:{line}, {memberName}, new list items count: {filesAndFolders.Count}");
-            if (filesAndFolders == null || filesAndFolders.Count == 0)
-            {
-                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
-                {
-                    FilesAndFolders.Clear();
-                });
-                return;
-            }
             try
             {
                 await updateDataGridSemaphore.WaitAsync(addFilesCTS.Token);
+
+                if (filesAndFolders == null || filesAndFolders.Count == 0)
+                {
+                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                    {
+                        FilesAndFolders.Clear();
+                        IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
+                        UpdateDirectoryInfo();
+                    });
+                    return;
+                }
+
                 // ObservableCollection.CollectionChanged will cause UI update, which may cause
                 // significant performance degradation, so suppress ObservableCollection.CollectionChanged
                 // event here while loading items heavily
