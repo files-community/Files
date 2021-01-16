@@ -33,14 +33,14 @@ namespace Files.Helpers.FileListCache
             });
 
             // save entry to persistent cache in background
-            return persistentAdapter.SaveFileListToCache(path, cacheEntry);
+            return Task.Run(() => persistentAdapter.SaveFileListToCache(path, cacheEntry));
         }
 
         public async Task<CacheEntry> ReadFileListFromCache(string path)
         {
             if (!App.AppSettings.UseFileListCache) return null;
             var entry = filesCache.Get<CacheEntry>(path);
-            return entry ?? await persistentAdapter.ReadFileListFromCache(path);
+            return entry ?? await Task.Run(() => persistentAdapter.ReadFileListFromCache(path));
         }
     }
 }

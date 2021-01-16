@@ -470,7 +470,10 @@ namespace Files.ViewModels
             Debug.WriteLine($"List update triggered by {filePath}:{line}, {memberName}, new list items count: {filesAndFolders.Count}");
             if (filesAndFolders == null || filesAndFolders.Count == 0)
             {
-                FilesAndFolders.Clear();
+                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                {
+                    FilesAndFolders.Clear();
+                });
                 return;
             }
             // ObservableCollection.CollectionChanged will cause UI update, which may cause
@@ -501,9 +504,15 @@ namespace Files.ViewModels
                     FilesAndFolders.RemoveAt(FilesAndFolders.Count - 1);
                 }
             });
-            // trigger ObservableCollection.CollectionChanged once
-            // loading is completed so that UI can be updated
-            FilesAndFolders.EndBulkOperation();
+
+            await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+            {
+                // trigger ObservableCollection.CollectionChanged once
+                // loading is completed so that UI can be updated
+                FilesAndFolders.EndBulkOperation();
+                IsFolderEmptyTextDisplayed = filesAndFolders.Count == 0;
+                UpdateDirectoryInfo();
+            });
             return;
         }
 
@@ -821,8 +830,8 @@ namespace Files.ViewModels
                 semaphoreCTS = new CancellationTokenSource();
 
                 IsLoadingItems = true;
-                IsFolderEmptyTextDisplayed = false;
                 filesAndFolders.Clear();
+                await ApplyFilesAndFoldersChangesAsync();
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
 
@@ -836,12 +845,14 @@ namespace Files.ViewModels
                     for (var i = 0; i < cacheEntry.FileList.Count; i++)
                     {
                         filesAndFolders.Add(cacheEntry.FileList[i]);
-                        if (i == 32 || i % 300 == 0)
+                        if (addFilesCTS.IsCancellationRequested) break;
+                        if (i == 32 || i % 300 == 0 || i == cacheEntry.FileList.Count - 1)
                         {
                             await OrderFilesAndFoldersAsync();
                             await ApplyFilesAndFoldersChangesAsync();
                         }
                     }
+
                     Debug.WriteLine($"Loading of items from cache in {WorkingDirectory} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
                     IsLoadingIndicatorActive = false;
                 }
@@ -861,7 +872,6 @@ namespace Files.ViewModels
                     }
                 }
 
-                IsFolderEmptyTextDisplayed = filesAndFolders.Count == 0;
                 if (addFilesCTS.IsCancellationRequested)
                 {
                     addFilesCTS.Dispose();
@@ -870,8 +880,6 @@ namespace Files.ViewModels
                     return;
                 }
 
-                await OrderFilesAndFoldersAsync();
-                await ApplyFilesAndFoldersChangesAsync();
                 stopwatch.Stop();
                 Debug.WriteLine($"Loading of items in {WorkingDirectory} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
                 AssociatedInstance.NavigationToolbar.CanRefresh = true;
@@ -923,8 +931,6 @@ namespace Files.ViewModels
             {
                 enumFolderSemaphore.Release();
             }
-
-            UpdateDirectoryInfo();
         }
 
         public void CloseWatcher()
@@ -968,38 +974,38 @@ namespace Files.ViewModels
 
             if (Connection != null)
             {
-                var value = new ValueSet();
-                value.Add("Arguments", "RecycleBin");
-                value.Add("action", "Enumerate");
-                // Send request to fulltrust process to enumerate recyclebin items
-                var response = await Connection.SendMessageAsync(value);
-                // If the request was canceled return now
-                if (addFilesCTS.IsCancellationRequested)
+                await Task.Run(async () =>
                 {
-                    return;
-                }
-                if (response.Status == AppServiceResponseStatus.Success
-                    && response.Message.ContainsKey("Enumerate"))
-                {
-                    var folderContentsList = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response.Message["Enumerate"]);
-                    for (int count = 0; count < folderContentsList.Count; count++)
+                    var value = new ValueSet();
+                    value.Add("Arguments", "RecycleBin");
+                    value.Add("action", "Enumerate");
+                    // Send request to fulltrust process to enumerate recyclebin items
+                    var response = await Connection.SendMessageAsync(value);
+                    // If the request was canceled return now
+                    if (addFilesCTS.IsCancellationRequested)
                     {
-                        var item = folderContentsList[count];
-                        var listedItem = AddFileOrFolderFromShellFile(item, returnformat);
-                        if (listedItem != null)
+                        return;
+                    }
+                    if (response.Status == AppServiceResponseStatus.Success
+                        && response.Message.ContainsKey("Enumerate"))
+                    {
+                        var folderContentsList = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response.Message["Enumerate"]);
+                        for (int count = 0; count < folderContentsList.Count; count++)
                         {
-                            filesAndFolders.Add(listedItem);
-                        }
-                        if (count == 32 || count % 300 == 0 || count == folderContentsList.Count - 1)
-                        {
-                            await OrderFilesAndFoldersAsync();
-                            await CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
+                            var item = folderContentsList[count];
+                            var listedItem = AddFileOrFolderFromShellFile(item, returnformat);
+                            if (listedItem != null)
                             {
+                                filesAndFolders.Add(listedItem);
+                            }
+                            if (count == 32 || count % 300 == 0 || count == folderContentsList.Count - 1)
+                            {
+                                await OrderFilesAndFoldersAsync();
                                 await ApplyFilesAndFoldersChangesAsync();
-                            });
+                            }
                         }
                     }
-                }
+                });
             }
         }
 
@@ -1199,13 +1205,11 @@ namespace Files.ViewModels
                             if (count == 32 || count % 300 == 0 || !hasNextFile)
                             {
                                 await OrderFilesAndFoldersAsync();
-                                await CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
-                                {
-                                    await ApplyFilesAndFoldersChangesAsync();
-                                });
+                                await ApplyFilesAndFoldersChangesAsync();
                             }
                         } while (hasNextFile);
                     });
+
                     if (!addFilesCTS.IsCancellationRequested)
                     {
                         await fileListCache.SaveFileListToCache(path, new CacheEntry
@@ -1285,6 +1289,7 @@ namespace Files.ViewModels
                     await ApplyFilesAndFoldersChangesAsync();
                 }
             }
+
             await OrderFilesAndFoldersAsync();
             await ApplyFilesAndFoldersChangesAsync();
             stopwatch.Stop();
@@ -1588,11 +1593,7 @@ namespace Files.ViewModels
         {
             filesAndFolders.Add(item);
             await OrderFilesAndFoldersAsync();
-            await CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
-            {
-                await ApplyFilesAndFoldersChangesAsync();
-                IsFolderEmptyTextDisplayed = false;
-            });
+            await ApplyFilesAndFoldersChangesAsync();
         }
 
         private async Task AddFileOrFolderAsync(string fileOrFolderPath, string dateReturnFormat)
@@ -1625,12 +1626,7 @@ namespace Files.ViewModels
             {
                 filesAndFolders.Add(listedItem);
                 await OrderFilesAndFoldersAsync();
-                await CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
-                {
-                    IsFolderEmptyTextDisplayed = false;
-                    await ApplyFilesAndFoldersChangesAsync();
-                    UpdateDirectoryInfo();
-                });
+                await ApplyFilesAndFoldersChangesAsync();
             }
         }
 
@@ -1691,16 +1687,13 @@ namespace Files.ViewModels
             }
         }
 
-        public Task RemoveFileOrFolderAsync(ListedItem item)
+        public async Task RemoveFileOrFolderAsync(ListedItem item)
         {
             filesAndFolders.Remove(item);
-            return CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
+            await ApplyFilesAndFoldersChangesAsync();
+            await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
             {
-                await ApplyFilesAndFoldersChangesAsync();
-                IsFolderEmptyTextDisplayed = filesAndFolders.Count == 0;
                 App.JumpList.RemoveFolder(item.ItemPath);
-
-                UpdateDirectoryInfo();
             });
         }
 
