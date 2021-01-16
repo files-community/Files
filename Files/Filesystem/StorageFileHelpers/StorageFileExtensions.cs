@@ -64,7 +64,7 @@ namespace Files.Filesystem
 
             for (var i = 0; i < value.Length; i++)
             {
-                if (value[i] == '\\' || value[i] == '/' || value[i] == '?')
+                if (value[i] == '\\' || value[i] == '?')
                 {
                     if (lastIndex == i)
                     {
@@ -216,6 +216,8 @@ namespace Files.Filesystem
 
         public static string GetPathWithoutEnvironmentVariable(string path)
         {
+            path = path.Replace('/', '\\');
+
             if (path.Contains("%temp%", StringComparison.OrdinalIgnoreCase))
             {
                 path = path.Replace("%temp%", AppSettings.TempPath, StringComparison.OrdinalIgnoreCase);

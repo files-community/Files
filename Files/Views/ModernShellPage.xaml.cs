@@ -1184,10 +1184,6 @@ namespace Files.Views
             var instance = FilesystemViewModel;
             string parentDirectoryOfPath = instance.WorkingDirectory.TrimEnd('\\');
             var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");
-            if (lastSlashIndex == -1)
-            {
-                lastSlashIndex = parentDirectoryOfPath.LastIndexOf('/');
-            }
 
             if (lastSlashIndex != -1)
             {
