@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -81,14 +82,14 @@ namespace Files.Helpers.FileListCache
             }
         }
 
-        public async Task<CacheEntry> ReadFileListFromCache(string path)
+        public async Task<CacheEntry> ReadFileListFromCache(string path, CancellationToken cancellationToken)
         {
             try
             {
                 using var cmd = new SqliteCommand("SELECT Timestamp, Entry FROM FileListCache WHERE Id = @Id", connection);
                 cmd.Parameters.Add("@Id", SqliteType.Text).Value = path;
 
-                using var reader = await cmd.ExecuteReaderAsync();
+                using var reader = await cmd.ExecuteReaderAsync(cancellationToken);
                 if (!await reader.ReadAsync())
                 {
                     return null;

@@ -41,8 +41,9 @@ namespace Files.ViewModels
     public class ItemViewModel : INotifyPropertyChanged, IDisposable
     {
         private IShellPage AssociatedInstance = null;
-        private SemaphoreSlim enumFolderSemaphore = new SemaphoreSlim(1, 1);
-        private SemaphoreSlim loadExtendedPropsSemaphore = new SemaphoreSlim(Environment.ProcessorCount, Environment.ProcessorCount);
+        private readonly SemaphoreSlim enumFolderSemaphore = new SemaphoreSlim(1, 1);
+        private readonly SemaphoreSlim loadExtendedPropsSemaphore = new SemaphoreSlim(Environment.ProcessorCount, Environment.ProcessorCount);
+        private readonly SemaphoreSlim updateDataGridSemaphore = new SemaphoreSlim(1, 1);
         private IntPtr hWatchDir;
         private IAsyncAction aWatcherAction;
         // files and folders list for manipulating
@@ -476,44 +477,71 @@ namespace Files.ViewModels
                 });
                 return;
             }
-            // ObservableCollection.CollectionChanged will cause UI update, which may cause
-            // significant performance degradation, so suppress ObservableCollection.CollectionChanged
-            // event here while loading items heavily
-            FilesAndFolders.BeginBulkOperation();
-            // After calling BeginBulkOperation, ObservableCollection.CollectionChanged is suppressed
-            // so modifies to FilesAndFolders won't trigger UI updates, hence below operations can be
-            // run safely without needs of dispatching to UI thread
-            await Task.Run(() =>
+            try
             {
-                for (var i = 0; i < filesAndFolders.Count; i++)
+                await updateDataGridSemaphore.WaitAsync(addFilesCTS.Token);
+                // ObservableCollection.CollectionChanged will cause UI update, which may cause
+                // significant performance degradation, so suppress ObservableCollection.CollectionChanged
+                // event here while loading items heavily
+                FilesAndFolders.BeginBulkOperation();
+                // After calling BeginBulkOperation, ObservableCollection.CollectionChanged is suppressed
+                // so modifies to FilesAndFolders won't trigger UI updates, hence below operations can be
+                // run safely without needs of dispatching to UI thread
+                await Task.Run(() =>
                 {
-                    if (i < FilesAndFolders.Count)
+                    for (var i = 0; i < filesAndFolders.Count; i++)
                     {
-                        if (FilesAndFolders[i] != filesAndFolders[i])
+                        if (addFilesCTS.IsCancellationRequested) return;
+                        if (i < FilesAndFolders.Count)
                         {
-                            FilesAndFolders.Insert(i, filesAndFolders[i]);
+                            if (FilesAndFolders[i] != filesAndFolders[i])
+                            {
+                                FilesAndFolders.Insert(i, filesAndFolders[i]);
+                            }
+                        }
+                        else
+                        {
+                            FilesAndFolders.Add(filesAndFolders[i]);
                         }
                     }
-                    else
+                    while (FilesAndFolders.Count > filesAndFolders.Count)
                     {
-                        FilesAndFolders.Add(filesAndFolders[i]);
+                        if (addFilesCTS.IsCancellationRequested) return;
+                        FilesAndFolders.RemoveAt(FilesAndFolders.Count - 1);
+                    }
+                });
+
+                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                {
+                    // trigger ObservableCollection.CollectionChanged once
+                    // loading is completed so that UI can be updated
+                    FilesAndFolders.EndBulkOperation();
+                    IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
+                    UpdateDirectoryInfo();
+                });
+            }
+            catch (OperationCanceledException)
+            {
+                // ignored
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+            }
+            finally
+            {
+                try
+                {
+                    if (updateDataGridSemaphore.CurrentCount == 0)
+                    {
+                        updateDataGridSemaphore.Release();
                     }
                 }
-                while (FilesAndFolders.Count > filesAndFolders.Count)
+                catch
                 {
-                    FilesAndFolders.RemoveAt(FilesAndFolders.Count - 1);
+                    // ignored
                 }
-            });
-
-            await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
-            {
-                // trigger ObservableCollection.CollectionChanged once
-                // loading is completed so that UI can be updated
-                FilesAndFolders.EndBulkOperation();
-                IsFolderEmptyTextDisplayed = filesAndFolders.Count == 0;
-                UpdateDirectoryInfo();
-            });
-            return;
+            }
         }
 
         private Task OrderFilesAndFoldersAsync()
@@ -838,24 +866,43 @@ namespace Files.ViewModels
                 AssociatedInstance.NavigationToolbar.CanGoBack = AssociatedInstance.ContentFrame.CanGoBack;
                 AssociatedInstance.NavigationToolbar.CanGoForward = AssociatedInstance.ContentFrame.CanGoForward;
 
-                var cacheEntry = useCache ? await fileListCache.ReadFileListFromCache(path) : null;
-                if (cacheEntry != null)
-                {
-                    CurrentFolder = cacheEntry.CurrentFolder;
-                    await Task.Run(async () =>
-                    {
-                        for (var i = 0; i < cacheEntry.FileList.Count; i++)
-                        {
-                            filesAndFolders.Add(cacheEntry.FileList[i]);
-                            if (addFilesCTS.IsCancellationRequested) break;
-                            if (i == 32 || i % 300 == 0 || i == cacheEntry.FileList.Count - 1)
-                            {
-                                await OrderFilesAndFoldersAsync();
-                                await ApplyFilesAndFoldersChangesAsync();
-                            }
-                        }
-                    });
+                (bool LoadedFromCache, ListedItem CurrentFolder) cacheResult = (false, null);
 
+                if (useCache)
+                {
+                    cacheResult = await Task.Run(async () =>
+                    {
+                        CacheEntry cacheEntry;
+                        try
+                        {
+                            cacheEntry = await fileListCache.ReadFileListFromCache(path, addFilesCTS.Token);
+                        }
+                        catch
+                        {
+                            cacheEntry = null;
+                        }
+
+                        if (cacheEntry != null)
+                        {
+                            for (var i = 0; i < cacheEntry.FileList.Count; i++)
+                            {
+                                filesAndFolders.Add(cacheEntry.FileList[i]);
+                                if (addFilesCTS.IsCancellationRequested) break;
+                                if (i == 32 || i % 300 == 0 || i == cacheEntry.FileList.Count - 1)
+                                {
+                                    await OrderFilesAndFoldersAsync();
+                                    await ApplyFilesAndFoldersChangesAsync();
+                                }
+                            }
+                            return (true, cacheEntry.CurrentFolder);
+                        }
+                        return (false, null);
+                    });
+                }
+
+                if (cacheResult.LoadedFromCache)
+                {
+                    CurrentFolder = cacheResult.CurrentFolder;
                     Debug.WriteLine($"Loading of items from cache in {path} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
                     IsLoadingIndicatorActive = false;
                 }
@@ -1218,7 +1265,8 @@ namespace Files.ViewModels
                         await fileListCache.SaveFileListToCache(path, new CacheEntry
                         {
                             CurrentFolder = CurrentFolder,
-                            FileList = filesAndFolders
+                            // since filesAndFolders could be mutated, memory cache needs a copy of current list
+                            FileList = filesAndFolders.ToArray().ToList()
                         });
                     }
                     else
@@ -1305,7 +1353,8 @@ namespace Files.ViewModels
                 await fileListCache.SaveFileListToCache(path, new CacheEntry
                 {
                     CurrentFolder = CurrentFolder,
-                    FileList = filesAndFolders
+                    // since filesAndFolders could be mutated, memory cache needs a copy of current list
+                    FileList = filesAndFolders.ToArray().ToList()
                 });
             }
             else

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Files.Helpers.FileListCache
@@ -41,11 +42,11 @@ namespace Files.Helpers.FileListCache
             return persistentAdapter.SaveFileListToCache(path, cacheEntry);
         }
 
-        public async Task<CacheEntry> ReadFileListFromCache(string path)
+        public async Task<CacheEntry> ReadFileListFromCache(string path, CancellationToken cancellationToken)
         {
             if (!App.AppSettings.UseFileListCache) return null;
             var entry = filesCache.Get<CacheEntry>(path);
-            return entry ?? await persistentAdapter.ReadFileListFromCache(path);
+            return entry ?? await persistentAdapter.ReadFileListFromCache(path, cancellationToken);
         }
     }
 }
