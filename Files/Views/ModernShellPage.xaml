@@ -15,7 +15,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
     Loaded="Page_Loaded"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    x:Name="RootPage">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -188,7 +189,7 @@
                         <Setter Target="PreviewPaneGridSplitter.Width" Value="2"/>
 
                         <Setter Target="PreviewPaneRow.Height" Value="4"/>
-                        <Setter Target="PreviewPane.IsHorizontal" Value="False"/>
+                        <!--<Setter Target="PreviewPane.IsHorizontal" Value="False"/>-->
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -206,7 +207,7 @@
                         <Setter Target="PreviewPaneGridSplitter.Height" Value="2"/>
 
                         <Setter Target="PreviewPaneColumn.Width" Value="0"/>
-                        <Setter Target="PreviewPane.IsHorizontal" Value="True"/>
+                        <!--<Setter Target="PreviewPane.IsHorizontal" Value="True"/>-->
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -263,7 +264,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="2*" x:Name="PreviewPaneRow"/>
+                    <RowDefinition Height="2*" x:Name="PreviewPaneRow" MaxHeight="400"/>
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
@@ -323,7 +324,7 @@
 
                 <controls:DetailsPane Grid.Row="1" Grid.Column="2" x:Name="PreviewPane" 
                                     SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}"
-                                    x:Load="{x:Bind AppSettings.PreviewPaneEnabled, Mode=OneWay}">
+                                    x:Load="{x:Bind AppSettings.PreviewPaneEnabled, Mode=OneWay}" >
                 </controls:DetailsPane>
 
                 <controls:StatusBarControl

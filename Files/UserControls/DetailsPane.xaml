@@ -6,7 +6,8 @@
              xmlns:Interactivity="using:Microsoft.Xaml.Interactivity" 
              xmlns:Core="using:Microsoft.Xaml.Interactions.Core" 
              xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers" xmlns:properties="using:Files.ViewModels.Properties"
-             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400" MinWidth="90" >
+             mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400" MinWidth="90" 
+             SizeChanged="UserControl_SizeChanged">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -19,10 +20,10 @@
 
     <UserControl.Transitions>
         <TransitionCollection>
-            <PaneThemeTransition Edge="{x:Bind EdgeTransitionLocation, Mode=OneWay}"/>
+            <PaneThemeTransition x:Name="PreviewPaneTransition" Edge="{x:Bind EdgeTransitionLocation, Mode=OneWay}"/>
         </TransitionCollection>
     </UserControl.Transitions>
-
+    
     <Grid x:Name="RootGrid" HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />

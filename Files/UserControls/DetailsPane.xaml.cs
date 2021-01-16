@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text.Json;
@@ -83,14 +84,9 @@ namespace Files.UserControls
         public bool IsHorizontal
         {
             get => (bool)GetValue(IsHorizontalProperty);
-            set
-            {
-                SetValue(IsHorizontalProperty, value);
-                RaisePropertyChanged(nameof(EdgeTransitionLocation));
-            }
+            set => SetValue(IsHorizontalProperty, value);
         }
 
-        public EdgeTransitionLocation EdgeTransitionLocation => isHorizontalInternal ? EdgeTransitionLocation.Bottom : EdgeTransitionLocation.Right;
 
         // For some reason, the visual state wouldn't raise propertychangedevents with the normal property
         bool _isHorizontalInternal;
@@ -100,8 +96,13 @@ namespace Files.UserControls
             {
                 _isHorizontalInternal = value;
                 RaisePropertyChanged(nameof(isHorizontalInternal));
-            } 
+                RaisePropertyChanged(nameof(EdgeTransitionLocation));
+            }
         }
+
+        EdgeTransitionLocation EdgeTransitionLocation => isHorizontalInternal ? EdgeTransitionLocation.Bottom : EdgeTransitionLocation.Right;
+
+        Vector2 PaneSize { get; set; }
 
         public DetailsPane()
         {
@@ -230,5 +231,17 @@ namespace Files.UserControls
         {
             isHorizontalInternal = IsHorizontal;
         }
+
+        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if(ActualHeight/ActualWidth <= 0.5)
+            {
+                isHorizontalInternal = true;
+            } else
+            {
+                isHorizontalInternal = false;
+            }
+        }
+
     }
 }
