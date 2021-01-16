@@ -213,7 +213,6 @@
     <Compile Include="Filesystem\Cloud\ICloudProviderDetector.cs" />
     <Compile Include="Filesystem\Cloud\Providers\MegaCloudProvider.cs" />
     <Compile Include="Filesystem\Cloud\Providers\OneDriveCloudProvider.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\OneDriveCommercialCloudProvider.cs" />
     <Compile Include="Filesystem\FilesystemOperations\FilesystemItemType.cs" />
     <Compile Include="Filesystem\FilesystemOperations\FilesystemOperations.cs" />
     <Compile Include="Filesystem\FilesystemOperations\Helpers\FilesystemHelpers.cs" />
