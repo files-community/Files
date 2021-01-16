@@ -43,9 +43,10 @@
 
         <StackPanel
             Grid.Column="1"
-            Padding="2"
+            Padding="0,2,4,2"
             HorizontalAlignment="Right"
-            Orientation="Horizontal">
+            Orientation="Horizontal"
+            Spacing="2">
             
             <Button 
                 x:Name="DetailsPane"
@@ -67,7 +68,6 @@
                 x:Uid="StatusBarControlSelectionOptions"
                 Width="36"
                 Height="32"
-                Margin="2,0,2,0"
                 AutomationProperties.Name="Selection options"
                 Background="Transparent"
                 Content="&#xEAD3;"
@@ -152,7 +152,7 @@
                                 Text="Layout Mode" />
                             <StackPanel Orientation="Horizontal" Spacing="4">
                                 <Button
-                                    x:Uid="StatusBarControlDetailsViews"
+                                    x:Uid="StatusBarControlDetailsView"
                                     Height="32"
                                     Command="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"
                                     CornerRadius="2"
@@ -164,7 +164,7 @@
                                         Glyph="&#xF101;" />
                                 </Button>
                                 <Button
-                                    x:Uid="StatusBarControlTilesViews"
+                                    x:Uid="StatusBarControlTilesView"
                                     Height="32"
                                     Command="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
                                     CornerRadius="2"

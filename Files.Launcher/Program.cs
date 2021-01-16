@@ -63,17 +63,17 @@ namespace FilesFullTrust
                 var sid = System.Security.Principal.WindowsIdentity.GetCurrent().User.ToString();
                 foreach (var drive in DriveInfo.GetDrives())
                 {
-                    var recycle_path = Path.Combine(drive.Name, "$Recycle.Bin", sid);
-                    if (drive.DriveType == DriveType.Network || !Directory.Exists(recycle_path))
+                    var recyclePath = Path.Combine(drive.Name, "$Recycle.Bin", sid);
+                    if (drive.DriveType == DriveType.Network || !Directory.Exists(recyclePath))
                     {
                         continue;
                     }
-                    var watcher = new FileSystemWatcher();
-                    watcher.Path = recycle_path;
-                    watcher.Filter = "*.*";
-                    watcher.NotifyFilter = NotifyFilters.LastWrite
-                                 | NotifyFilters.FileName
-                                 | NotifyFilters.DirectoryName;
+                    var watcher = new FileSystemWatcher
+                    {
+                        Path = recyclePath,
+                        Filter = "*.*",
+                        NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName
+                    };
                     watcher.Created += Watcher_Changed;
                     watcher.Deleted += Watcher_Changed;
                     watcher.EnableRaisingEvents = true;
@@ -609,17 +609,20 @@ namespace FilesFullTrust
             bool isFolder = folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip";
             if (folderItem.Properties == null)
             {
-                return new ShellFileItem(isFolder, recyclePath, fileName, filePath, DateTime.Now, null, 0, null);
+                return new ShellFileItem(isFolder, recyclePath, fileName, filePath, DateTime.Now, DateTime.Now, null, 0, null);
             }
             folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
-                Ole32.PROPERTYKEY.System.DateCreated, out var fileTime);
+                Ole32.PROPERTYKEY.System.Recycle.DateDeleted, out var fileTime);
             var recycleDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
+            folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
+                Ole32.PROPERTYKEY.System.DateModified, out fileTime);
+            var modifiedDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
             string fileSize = folderItem.Properties.TryGetValue<ulong?>(
                 Ole32.PROPERTYKEY.System.Size, out var fileSizeBytes) ?
                 folderItem.Properties.GetPropertyString(Ole32.PROPERTYKEY.System.Size) : null;
             folderItem.Properties.TryGetValue<string>(
                 Ole32.PROPERTYKEY.System.ItemTypeText, out var fileType);
-            return new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, fileSize, fileSizeBytes ?? 0, fileType);
+            return new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, modifiedDate, fileSize, fileSizeBytes ?? 0, fileType);
         }
 
         private static void HandleApplicationsLaunch(IEnumerable<string> applications, AppServiceRequestReceivedEventArgs args)

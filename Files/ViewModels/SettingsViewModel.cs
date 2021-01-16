@@ -57,21 +57,21 @@ namespace Files.ViewModels
 
         private void TrackAnalytics()
         {
-            Analytics.TrackEvent("DisplayedTimeStyle " + DisplayedTimeStyle.ToString());
-            Analytics.TrackEvent("ThemeValue " + ThemeHelper.RootTheme.ToString());
-            Analytics.TrackEvent("PinRecycleBinToSideBar " + PinRecycleBinToSideBar.ToString());
-            Analytics.TrackEvent("ShowFileExtensions " + ShowFileExtensions.ToString());
-            Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
-            Analytics.TrackEvent("IsAcrylicDisabled " + IsAcrylicDisabled.ToString());
-            Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
-            Analytics.TrackEvent("IsHorizontalTabStripEnabled " + IsHorizontalTabStripEnabled.ToString());
-            Analytics.TrackEvent("IsDualPaneEnabled " + IsDualPaneEnabled.ToString());
-            Analytics.TrackEvent("AlwaysOpenDualPaneInNewTab " + AlwaysOpenDualPaneInNewTab.ToString());
-            Analytics.TrackEvent("IsVerticalTabFlyoutEnabled " + IsVerticalTabFlyoutEnabled.ToString());
-            Analytics.TrackEvent("AreHiddenItemsVisible " + AreHiddenItemsVisible.ToString());
-            Analytics.TrackEvent("ShowDrivesWidget " + ShowDrivesWidget.ToString());
-            Analytics.TrackEvent("ListAndSortDirectoriesAlongsideFiles " + ListAndSortDirectoriesAlongsideFiles.ToString());
-            Analytics.TrackEvent("AreRightClickContentMenuAnimationsEnabled " + AreRightClickContentMenuAnimationsEnabled.ToString());
+            Analytics.TrackEvent($"{nameof(DisplayedTimeStyle)} {DisplayedTimeStyle}");
+            Analytics.TrackEvent($"{nameof(ThemeHelper.RootTheme)} {ThemeHelper.RootTheme}");
+            Analytics.TrackEvent($"{nameof(PinRecycleBinToSideBar)} {PinRecycleBinToSideBar}");
+            Analytics.TrackEvent($"{nameof(ShowFileExtensions)} {ShowFileExtensions}");
+            Analytics.TrackEvent($"{nameof(ShowConfirmDeleteDialog)} {ShowConfirmDeleteDialog}");
+            Analytics.TrackEvent($"{nameof(IsAcrylicDisabled)} {IsAcrylicDisabled}");
+            Analytics.TrackEvent($"{nameof(ShowFileOwner)} {ShowFileOwner}");
+            Analytics.TrackEvent($"{nameof(IsHorizontalTabStripEnabled)} {IsHorizontalTabStripEnabled}");
+            Analytics.TrackEvent($"{nameof(IsDualPaneEnabled)} {IsDualPaneEnabled}");
+            Analytics.TrackEvent($"{nameof(AlwaysOpenDualPaneInNewTab)} {AlwaysOpenDualPaneInNewTab}");
+            Analytics.TrackEvent($"{nameof(IsVerticalTabFlyoutEnabled)} {IsVerticalTabFlyoutEnabled}");
+            Analytics.TrackEvent($"{nameof(AreHiddenItemsVisible)} {AreHiddenItemsVisible}");
+            Analytics.TrackEvent($"{nameof(ShowDrivesWidget)} {ShowDrivesWidget}");
+            Analytics.TrackEvent($"{nameof(ListAndSortDirectoriesAlongsideFiles)} {ListAndSortDirectoriesAlongsideFiles}");
+            Analytics.TrackEvent($"{nameof(AreRightClickContentMenuAnimationsEnabled)} {AreRightClickContentMenuAnimationsEnabled}");
         }
 
         public static async void OpenLogLocation()
@@ -210,14 +210,14 @@ namespace Files.ViewModels
             }
         }
 
-        private TimeStyle _DisplayedTimeStyle = TimeStyle.Application;
+        private TimeStyle displayedTimeStyle = TimeStyle.Application;
 
         public TimeStyle DisplayedTimeStyle
         {
-            get => _DisplayedTimeStyle;
+            get => displayedTimeStyle;
             set
             {
-                SetProperty(ref _DisplayedTimeStyle, value);
+                SetProperty(ref displayedTimeStyle, value);
                 if (value.Equals(TimeStyle.Application))
                 {
                     localSettings.Values[Constants.LocalSettings.DateTimeFormat] = "Application";
@@ -271,36 +271,36 @@ namespace Files.ViewModels
         public string MusicPath { get; set; } = UserDataPaths.GetDefault().Music;
         public string VideosPath { get; set; } = UserDataPaths.GetDefault().Videos;
 
-        private string _TempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
+        private string tempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
 
         public string TempPath
         {
-            get => _TempPath;
-            set => SetProperty(ref _TempPath, value);
+            get => tempPath;
+            set => SetProperty(ref tempPath, value);
         }
 
-        private string _LocalAppDataPath = UserDataPaths.GetDefault().LocalAppData;
+        private string localAppDataPath = UserDataPaths.GetDefault().LocalAppData;
 
         public string LocalAppDataPath
         {
-            get => _LocalAppDataPath;
-            set => SetProperty(ref _LocalAppDataPath, value);
+            get => localAppDataPath;
+            set => SetProperty(ref localAppDataPath, value);
         }
 
-        private string _HomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        private string homePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 
         public string HomePath
         {
-            get => _HomePath;
-            set => SetProperty(ref _HomePath, value);
+            get => homePath;
+            set => SetProperty(ref homePath, value);
         }
 
-        private string _WinDirPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
+        private string winDirPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
 
         public string WinDirPath
         {
-            get => _WinDirPath;
-            set => SetProperty(ref _WinDirPath, value);
+            get => winDirPath;
+            set => SetProperty(ref winDirPath, value);
         }
 
         // Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
@@ -496,16 +496,16 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets a value indicating whether or not recycle bin should be pinned to the sidebar.
         /// </summary>
-        private bool _PinRecycleBinToSideBar;
+        private bool pinRecycleBinToSideBar;
 
         public bool PinRecycleBinToSideBar
         {
-            get => _PinRecycleBinToSideBar;
+            get => pinRecycleBinToSideBar;
             set
             {
-                if (value != _PinRecycleBinToSideBar)
+                if (value != pinRecycleBinToSideBar)
                 {
-                    SetProperty(ref _PinRecycleBinToSideBar, value);
+                    SetProperty(ref pinRecycleBinToSideBar, value);
                     if (value == true)
                     {
                         localSettings.Values["PinRecycleBin"] = true;

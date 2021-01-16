@@ -28,10 +28,6 @@
 
             <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
             <converters:BoolToVisibilityConverter
-                x:Key="BoolToVisibilityConverter"
-                FalseValue="Collapsed"
-                TrueValue="Visible" />
-            <converters:BoolToVisibilityConverter
                 x:Key="NegatedBoolToVisibilityConverter"
                 FalseValue="Visible"
                 TrueValue="Collapsed" />
@@ -257,12 +253,12 @@
                         Tag="originalPathColumn"
                         Text="Original path" />
                     <muxc:RadioMenuFlyoutItem
-                        x:Uid="BaseLayoutContextFlyoutSortByDate"
+                        x:Uid="BaseLayoutContextFlyoutSortByDateDeleted"
                         Click="RadioMenuSortColumn_Click"
                         GroupName="SortGroup"
-                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDate, Mode=TwoWay}"
-                        Tag="dateColumn"
-                        Text="Date modified" />
+                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDateDeleted, Mode=TwoWay}"
+                        Tag="dateDeletedColumn"
+                        Text="Date deleted" />
                     <muxc:RadioMenuFlyoutItem
                         x:Uid="BaseLayoutContextFlyoutSortByType"
                         Click="RadioMenuSortColumn_Click"
@@ -277,6 +273,13 @@
                         IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedBySize, Mode=TwoWay}"
                         Tag="sizeColumn"
                         Text="Size" />
+                    <muxc:RadioMenuFlyoutItem
+                        x:Uid="BaseLayoutContextFlyoutSortByDate"
+                        Click="RadioMenuSortColumn_Click"
+                        GroupName="SortGroup"
+                        IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDate, Mode=TwoWay}"
+                        Tag="dateColumn"
+                        Text="Date modified" />
                     <MenuFlyoutSeparator />
                     <muxc:RadioMenuFlyoutItem
                         x:Uid="BaseLayoutContextFlyoutSortByAscending"
@@ -527,6 +530,17 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
+                    x:Name="SidebarUnpinItem"
+                    x:Uid="SideBarUnpinFromSideBar"
+                    x:Load="False"
+                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.UnpinItem_Click}"
+                    Tag="PinItem_FlyoutItem"
+                    Text="Unpin from sidebar">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB20;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
                     x:Name="PropertiesItem"
                     x:Uid="BaseLayoutItemContextFlyoutProperties"
                     Click="{x:Bind ParentShellPageInstance.InteractionOperations.ShowPropertiesButton_Click}"
@@ -637,7 +651,7 @@
         <muxc:ProgressBar
             x:Name="progBar"
             VerticalAlignment="Top"
-            x:Load="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsLoadingItems, Mode=OneWay}"
+            x:Load="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsLoadingIndicatorActive, Mode=OneWay}"
             Background="Transparent"
             IsIndeterminate="True" />
         <TextBlock
@@ -671,7 +685,7 @@
             CellEditEnding="AllView_CellEditEnding"
             ClipboardCopyMode="None"
             ColumnHeaderHeight="38"
-            DoubleTapped="{x:Bind ParentShellPageInstance.InteractionOperations.List_ItemDoubleClick}"
+            DoubleTapped="AllView_DoubleTapped"
             DragEnter="List_DragEnter"
             Drop="List_Drop"
             FocusVisualPrimaryThickness="0"
@@ -747,12 +761,20 @@
                         PropertyName="RowStyle"
                         TargetObject="{Binding ElementName=AllView}"
                         Value="{StaticResource DataGridRowRecycleBinContextFlyout}" />
+                    <Core:ChangePropertyAction
+                        PropertyName="DisplayIndex"
+                        TargetObject="{Binding ElementName=dateColumn}"
+                        Value="7" />
                 </Core:DataTriggerBehavior>
                 <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="False">
                     <Core:ChangePropertyAction
                         PropertyName="RowStyle"
                         TargetObject="{Binding ElementName=AllView}"
                         Value="{StaticResource DataGridRowStandardContextFlyout}" />
+                    <Core:ChangePropertyAction
+                        PropertyName="DisplayIndex"
+                        TargetObject="{Binding ElementName=dateColumn}"
+                        Value="5" />
                 </Core:DataTriggerBehavior>
             </Interactivity:Interaction.Behaviors>
             <controls:DataGrid.CellStyle>
@@ -784,6 +806,7 @@
                                     x:Name="FolderGlyphElement"
                                     Width="24"
                                     Height="24"
+                                    x:Phase="1"
                                     x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}">
                                     <Image.Source>
                                         <SvgImageSource
@@ -795,11 +818,13 @@
                                 <FontIcon
                                     x:Name="UnknownFileTypeElement"
                                     x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
+                                    x:Phase="1"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     Glyph="&#xEA00;" />
                                 <FontIcon
                                     x:Name="WebShortcutGlyph"
                                     x:Load="{x:Bind IsLinkItem, Mode=OneWay}"
+                                    x:Phase="1"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     Glyph="&#xEAAB;" />
                                 <Image
@@ -807,6 +832,7 @@
                                     Width="20"
                                     Height="20"
                                     x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
+                                    x:Phase="1"
                                     Source="{x:Bind FileImage, Mode=OneWay}"
                                     Stretch="UniformToFill" />
                                 <Image
@@ -817,6 +843,7 @@
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     x:Load="True"
+                                    x:Phase="1"
                                     Source="{x:Bind IconOverlay, Mode=OneWay}"
                                     Stretch="Uniform" />
                                 <Border
@@ -826,6 +853,7 @@
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     x:Load="{x:Bind IsShortcutItem}"
+                                    x:Phase="1"
                                     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                                     BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
                                     BorderThickness="1">
@@ -860,7 +888,7 @@
                     Header="Status"
                     IsReadOnly="True"
                     Tag="Status"
-                    Visibility="{x:Bind InstanceViewModel.IsPageTypeCloudDrive, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                    Visibility="{x:Bind InstanceViewModel.IsPageTypeCloudDrive, Mode=OneWay}">
                     <controls:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate x:DataType="local2:ListedItem">
                             <FontIcon
@@ -883,7 +911,27 @@
                     Header="Original path"
                     IsReadOnly="True"
                     Tag="OriginalPath"
-                    Visibility="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                    Visibility="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}">
+                    <controls:DataGridTextColumn.CellStyle>
+                        <Style TargetType="controls:DataGridCell">
+                            <Setter Property="Opacity" Value="0.6" />
+                        </Style>
+                    </controls:DataGridTextColumn.CellStyle>
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{Binding FolderTooltipText}" />
+                    </ToolTipService.ToolTip>
+                </controls:DataGridTextColumn>
+                <controls:DataGridTextColumn
+                    x:Name="dateDeletedColumn"
+                    x:Uid="dateDeletedColumn"
+                    Width="Auto"
+                    Binding="{Binding ItemDateDeleted}"
+                    DisplayIndex="4"
+                    FontSize="12"
+                    Header="Date deleted"
+                    IsReadOnly="True"
+                    Tag="Date"
+                    Visibility="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}">
                     <controls:DataGridTextColumn.CellStyle>
                         <Style TargetType="controls:DataGridCell">
                             <Setter Property="Opacity" Value="0.6" />
@@ -898,7 +946,7 @@
                     x:Uid="dateColumn"
                     Width="Auto"
                     Binding="{Binding ItemDateModified}"
-                    DisplayIndex="4"
+                    DisplayIndex="5"
                     FontSize="12"
                     Header="Date modified"
                     IsReadOnly="True"
@@ -918,7 +966,7 @@
                     x:Uid="typeColumn"
                     Width="150"
                     Binding="{Binding ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    DisplayIndex="5"
+                    DisplayIndex="6"
                     FontSize="12"
                     Header="Type"
                     IsReadOnly="True"
@@ -939,7 +987,7 @@
                     Width="Auto"
                     MinWidth="100"
                     Binding="{Binding FileSize}"
-                    DisplayIndex="6"
+                    DisplayIndex="7"
                     FontSize="12"
                     Header="Size"
                     IsReadOnly="True"
