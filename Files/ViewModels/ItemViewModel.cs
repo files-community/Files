@@ -876,6 +876,7 @@ namespace Files.ViewModels
                 {
                     cacheResult = await Task.Run(async () =>
                     {
+                        var sampler = new IntervalSampler(500);
                         CacheEntry cacheEntry;
                         try
                         {
@@ -892,7 +893,7 @@ namespace Files.ViewModels
                             {
                                 filesAndFolders.Add(cacheEntry.FileList[i]);
                                 if (addFilesCTS.IsCancellationRequested) break;
-                                if (i == 32 || i % 300 == 0 || i == cacheEntry.FileList.Count - 1)
+                                if (i == 32 || sampler.CheckNow())
                                 {
                                     await OrderFilesAndFoldersAsync();
                                     await ApplyFilesAndFoldersChangesAsync();
@@ -933,6 +934,9 @@ namespace Files.ViewModels
                     IsLoadingItems = false;
                     return;
                 }
+
+                await OrderFilesAndFoldersAsync();
+                await ApplyFilesAndFoldersChangesAsync();
 
                 stopwatch.Stop();
                 Debug.WriteLine($"Loading of items in {path} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
@@ -1037,6 +1041,7 @@ namespace Files.ViewModels
             {
                 await Task.Run(async () =>
                 {
+                    var sampler = new IntervalSampler(500);
                     var value = new ValueSet();
                     value.Add("Arguments", "RecycleBin");
                     value.Add("action", "Enumerate");
@@ -1059,7 +1064,7 @@ namespace Files.ViewModels
                             {
                                 filesAndFolders.Add(listedItem);
                             }
-                            if (count == 32 || count % 300 == 0 || count == folderContentsList.Count - 1)
+                            if (count == 32 || sampler.CheckNow())
                             {
                                 await OrderFilesAndFoldersAsync();
                                 await ApplyFilesAndFoldersChangesAsync();
@@ -1227,6 +1232,7 @@ namespace Files.ViewModels
                     await Task.Run(async () =>
                     {
                         var hasNextFile = false;
+                        var sampler = new IntervalSampler(500);
                         do
                         {
                             var itemPath = Path.Combine(path, findData.cFileName);
@@ -1263,7 +1269,7 @@ namespace Files.ViewModels
                             }
 
                             hasNextFile = FindNextFile(hFile, out findData);
-                            if (count == 32 || count % 300 == 0 || !hasNextFile)
+                            if (count == 32 || sampler.CheckNow())
                             {
                                 await OrderFilesAndFoldersAsync();
                                 await ApplyFilesAndFoldersChangesAsync();
@@ -1302,6 +1308,7 @@ namespace Files.ViewModels
             shouldDisplayFileExtensions = App.AppSettings.ShowFileExtensions;
 
             uint count = 0;
+            var sampler = new IntervalSampler(500);
             while (true)
             {
                 IStorageItem item = null;
@@ -1349,15 +1356,13 @@ namespace Files.ViewModels
                 {
                     break;
                 }
-                if (count == 32 || count % 300 == 0)
+                if (count == 32 || sampler.CheckNow())
                 {
                     await OrderFilesAndFoldersAsync();
                     await ApplyFilesAndFoldersChangesAsync();
                 }
             }
 
-            await OrderFilesAndFoldersAsync();
-            await ApplyFilesAndFoldersChangesAsync();
             stopwatch.Stop();
             if (!addFilesCTS.IsCancellationRequested)
             {

@@ -189,6 +189,7 @@
     <Compile Include="Helpers\FileListCache\FileListCacheController.cs" />
     <Compile Include="Helpers\FileListCache\IFileListCache.cs" />
     <Compile Include="Helpers\FileListCache\PersistentSQLiteCacheAdapter.cs" />
+    <Compile Include="Helpers\IntervalSampler.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
     <Compile Include="UserControls\MultitaskingControl\TabItem\TabItemControl.xaml.cs">
       <DependentUpon>TabItemControl.xaml</DependentUpon>
