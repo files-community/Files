@@ -83,8 +83,14 @@ namespace Files.UserControls
         public bool IsHorizontal
         {
             get => (bool)GetValue(IsHorizontalProperty);
-            set => SetValue(IsHorizontalProperty, value);
+            set
+            {
+                SetValue(IsHorizontalProperty, value);
+                RaisePropertyChanged(nameof(EdgeTransitionLocation));
+            }
         }
+
+        public EdgeTransitionLocation EdgeTransitionLocation => isHorizontalInternal ? EdgeTransitionLocation.Bottom : EdgeTransitionLocation.Right;
 
         // For some reason, the visual state wouldn't raise propertychangedevents with the normal property
         bool _isHorizontalInternal;

@@ -320,7 +320,7 @@
                     ResizeBehavior="BasedOnAlignment"
                     x:Name="PreviewPaneGridSplitter" Visibility="{x:Bind AppSettings.PreviewPaneEnabled, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
                 </Custom:GridSplitter>
-                
+
                 <controls:DetailsPane Grid.Row="1" Grid.Column="2" x:Name="PreviewPane" 
                                     SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}"
                                     x:Load="{x:Bind AppSettings.PreviewPaneEnabled, Mode=OneWay}">

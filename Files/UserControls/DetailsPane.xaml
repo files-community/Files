@@ -17,6 +17,12 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
+    <UserControl.Transitions>
+        <TransitionCollection>
+            <PaneThemeTransition Edge="{x:Bind EdgeTransitionLocation, Mode=OneWay}"/>
+        </TransitionCollection>
+    </UserControl.Transitions>
+
     <Grid x:Name="RootGrid" HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
