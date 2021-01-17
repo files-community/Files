@@ -64,6 +64,7 @@ namespace Files
             LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
 
             StartAppCenter();
+            StartAppServiceConnection();
         }
 
         private async void StartAppCenter()
@@ -81,6 +82,11 @@ namespace Files
             }
 
             AppCenter.Start((string)obj.SelectToken("key"), typeof(Analytics), typeof(Crashes));
+        }
+
+        private async void StartAppServiceConnection()
+        {
+            await AppServiceConnectionHelper.Initialize();
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)

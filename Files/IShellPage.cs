@@ -16,13 +16,12 @@ namespace Files
         public Interaction InteractionOperations { get; }
         public ItemViewModel FilesystemViewModel { get; }
         public CurrentInstanceViewModel InstanceViewModel { get; }
-        public AppServiceConnection ServiceConnection { get; }
         public BaseLayout ContentPage { get; }
         public Control OperationsControl { get; }
         public Type CurrentPageType { get; }
         public IFilesystemHelpers FilesystemHelpers { get; }
         public INavigationToolbar NavigationToolbar { get; }
-        
+
         public abstract void Refresh_Click();
     }
 

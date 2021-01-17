@@ -9,5 +9,10 @@ namespace Files.Filesystem.Cloud
         public string Name { get; set; }
 
         public string SyncFolder { get; set; }
+
+        public override int GetHashCode()
+        {
+            return (ID, Name, SyncFolder).GetHashCode();
+        }
     }
 }

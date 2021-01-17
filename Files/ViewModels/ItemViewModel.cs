@@ -331,8 +331,6 @@ namespace Files.ViewModels
             }
         }
 
-        public AppServiceConnection Connection => AssociatedInstance?.ServiceConnection;
-
         public ItemViewModel(IShellPage appInstance)
         {
             AssociatedInstance = appInstance;

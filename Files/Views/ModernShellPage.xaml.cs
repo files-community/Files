@@ -310,14 +310,14 @@ namespace Files.Views
         private async void SidebarControl_RecycleBinItemRightTapped(object sender, EventArgs e)
         {
             var recycleBinHasItems = false;
-            if (ServiceConnection != null)
+            if (AppServiceConnectionHelper.Connection != null)
             {
                 var value = new ValueSet
                 {
                     { "Arguments", "RecycleBin" },
                     { "action", "Query" }
                 };
-                var response = await ServiceConnection.SendMessageAsync(value);
+                var response = await AppServiceConnectionHelper.Connection.SendMessageAsync(value);
                 if (response.Status == AppServiceResponseStatus.Success && response.Message.TryGetValue("NumItems", out var numItems))
                 {
                     recycleBinHasItems = (long)numItems > 0;
@@ -692,7 +692,7 @@ namespace Files.Views
                                 if (terminal.Path.Equals(currentInput, StringComparison.OrdinalIgnoreCase)
                                     || terminal.Path.Equals(currentInput + ".exe", StringComparison.OrdinalIgnoreCase) || terminal.Name.Equals(currentInput, StringComparison.OrdinalIgnoreCase))
                                 {
-                                    if (ServiceConnection != null)
+                                    if (AppServiceConnectionHelper.Connection != null)
                                     {
                                         var value = new ValueSet
                                         {
@@ -700,7 +700,7 @@ namespace Files.Views
                                             { "Application", terminal.Path },
                                             { "Arguments", string.Format(terminal.Arguments, workingDir) }
                                         };
-                                        await ServiceConnection.SendMessageAsync(value);
+                                        await AppServiceConnectionHelper.Connection.SendMessageAsync(value);
                                     }
                                     return;
                                 }
@@ -827,8 +827,6 @@ namespace Files.Views
 
         public static readonly DependencyProperty NavParamsProperty =
             DependencyProperty.Register("NavParams", typeof(string), typeof(ModernShellPage), new PropertyMetadata(null));
-
-        public AppServiceConnection ServiceConnection { get; private set; }
 
         private TabItemArguments tabItemArguments;
 
@@ -1234,9 +1232,6 @@ namespace Files.Views
                 FilesystemViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
                 FilesystemViewModel.Dispose();
             }
-
-            ServiceConnection?.Dispose();
-            ServiceConnection = null;
         }
 
         private void SidebarControl_Loaded(object sender, RoutedEventArgs e)

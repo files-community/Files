@@ -222,6 +222,31 @@ namespace FilesFullTrust
         {
             switch (arguments)
             {
+                case "Marco":
+                    var timestamp = args.Request.Message["Timestamp"];
+                    await args.Request.SendResponseAsync(new ValueSet() { { "Marco", "Polo" }, { "Timestamp", timestamp } });
+                    break;
+
+                case "GetOneDriveAccounts":
+                    using (var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts", false))
+                    {
+                        var oneDriveAccounts = new ValueSet();
+                        foreach (var account in oneDriveAccountsKey.GetSubKeyNames())
+                        {
+                            var accountKeyName = @$"{oneDriveAccountsKey.Name}\{account}";
+                            var displayName = (string)Registry.GetValue(accountKeyName, "DisplayName", null);
+                            var userFolder = (string)Registry.GetValue(accountKeyName, "UserFolder", null);
+
+                            var accountName = string.IsNullOrWhiteSpace(displayName) ? "OneDrive - Personal" : $"OneDrive - {displayName}";
+                            if (!string.IsNullOrWhiteSpace(userFolder) && !oneDriveAccounts.ContainsKey(accountName))
+                            {
+                                oneDriveAccounts.Add(accountName, userFolder);
+                            }
+                        }
+                        await args.Request.SendResponseAsync(oneDriveAccounts);
+                    }
+                    break;
+
                 case "Terminate":
                     // Exit fulltrust process (UWP is closed or suspended)
                     appServiceExit.Set();
