@@ -39,8 +39,8 @@ namespace Files.UserControls.FilePreviews
 
         public override void LoadPreviewAndDetails()
         {
-            VideoPlayer.Source = MediaSource.CreateFromStorageFile(ItemFile);
             base.LoadSystemFileProperties();
+            VideoPlayer.Source = MediaSource.CreateFromStorageFile(ItemFile);
         }
 
         public override void PreviewControlBase_Unloaded(object sender, RoutedEventArgs e)

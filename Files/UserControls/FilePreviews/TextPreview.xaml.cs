@@ -64,7 +64,6 @@ namespace Files.UserControls.FilePreviews
         public async override void LoadPreviewAndDetails()
         {
             var text = await FileIO.ReadTextAsync(ItemFile);
-            TextValue = text;
 
             Item.FileDetails.Add(new FileProperty()
             {
@@ -76,6 +75,9 @@ namespace Files.UserControls.FilePreviews
                 NameResource = "PropertyWordCount",
                 Value = text.Split(" ").Length,
             });
+
+            var displayText = text.Length < Constants.PreviewPane.TextCharacterLimit ? text : text.Remove(Constants.PreviewPane.TextCharacterLimit);
+            TextValue = displayText;
 
             base.LoadSystemFileProperties();
         }

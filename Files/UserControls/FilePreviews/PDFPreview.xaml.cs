@@ -55,7 +55,11 @@ namespace Files.UserControls.FilePreviews
 
             LoadSystemFileProperties();
 
-            for (uint i = 0; i < pdf.PageCount; i++)
+            // This fixes an issue where loading an absurdly large PDF would take to much RAM
+            // and eventually cause a crash
+            var limit = Math.Clamp(pdf.PageCount, 0, Constants.PreviewPane.PDFPageLimit);
+
+            for (uint i = 0; i < limit; i++)
             {
                 // Stop loading if the user has cancelled
                 if (LoadCancelledTokenSource.Token.IsCancellationRequested)
@@ -75,7 +79,6 @@ namespace Files.UserControls.FilePreviews
                     PageImage = src,
                     PageNumber = (int)i,
                 };
-
                 pages.Add(pageData);
             }
             LoadingRing.Visibility = Visibility.Collapsed;

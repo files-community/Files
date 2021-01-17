@@ -31,7 +31,8 @@ namespace Files.UserControls.FilePreviews
         public override async void LoadPreviewAndDetails()
         {
             var text = await FileIO.ReadTextAsync(ItemFile);
-            MarkdownTextPreview.Text = text;
+            var displayText = text.Length < Constants.PreviewPane.TextCharacterLimit ? text : text.Remove(Constants.PreviewPane.TextCharacterLimit);
+            MarkdownTextPreview.Text = displayText;
             base.LoadSystemFileProperties();
         }
     }
