@@ -331,8 +331,6 @@ namespace Files.ViewModels
             }
         }
 
-        public AppServiceConnection Connection => AssociatedInstance?.ServiceConnection;
-
         public ItemViewModel(IShellPage appInstance)
         {
             AssociatedInstance = appInstance;
@@ -348,9 +346,9 @@ namespace Files.ViewModels
 
         public void OnAppServiceConnectionChanged()
         {
-            if (Connection != null)
+            if (AppServiceConnectionHelper.Connection != null)
             {
-                Connection.RequestReceived += Connection_RequestReceived;
+                AppServiceConnectionHelper.Connection.RequestReceived += Connection_RequestReceived;
             }
         }
 
@@ -733,13 +731,13 @@ namespace Files.ViewModels
 
         public async Task<(BitmapImage Icon, BitmapImage Overlay, bool IsCustom)> LoadIconOverlayAsync(string filePath, uint thumbnailSize)
         {
-            if (Connection != null)
+            if (AppServiceConnectionHelper.Connection != null)
             {
                 var value = new ValueSet();
                 value.Add("Arguments", "GetIconOverlay");
                 value.Add("filePath", filePath);
                 value.Add("thumbnailSize", (int)thumbnailSize);
-                var response = await Connection.SendMessageAsync(value);
+                var response = await AppServiceConnectionHelper.Connection.SendMessageAsync(value);
                 var hasCustomIcon = (response.Status == AppServiceResponseStatus.Success)
                     && response.Message.Get("HasCustomIcon", false);
                 BitmapImage iconImage = null, overlayImage = null;
@@ -936,13 +934,13 @@ namespace Files.ViewModels
 
             await Task.Run(async () =>
             {
-                if (Connection != null)
+                if (AppServiceConnectionHelper.Connection != null)
                 {
                     var value = new ValueSet();
                     value.Add("Arguments", "RecycleBin");
                     value.Add("action", "Enumerate");
                     // Send request to fulltrust process to enumerate recyclebin items
-                    var response = await Connection.SendMessageAsync(value);
+                    var response = await AppServiceConnectionHelper.Connection.SendMessageAsync(value);
                     // If the request was canceled return now
                     if (addFilesCTS.IsCancellationRequested)
                     {
@@ -1025,14 +1023,14 @@ namespace Files.ViewModels
                 if (bitlockerResult == ContentDialogResult.Primary)
                 {
                     var userInput = bitlockerDialog.storedPasswordInput;
-                    if (Connection != null)
+                    if (AppServiceConnectionHelper.Connection != null)
                     {
                         var value = new ValueSet();
                         value.Add("Arguments", "Bitlocker");
                         value.Add("action", "Unlock");
                         value.Add("drive", Path.GetPathRoot(WorkingDirectory));
                         value.Add("password", userInput);
-                        await Connection.SendMessageAsync(value);
+                        await AppServiceConnectionHelper.Connection.SendMessageAsync(value);
 
                         if (await CheckBitlockerStatusAsync(rootFolder))
                         {
@@ -1792,9 +1790,9 @@ namespace Files.ViewModels
 
             if (findData.cFileName.EndsWith(".lnk") || findData.cFileName.EndsWith(".url"))
             {
-                if (Connection != null)
+                if (AppServiceConnectionHelper.Connection != null)
                 {
-                    var response = await Connection.SendMessageAsync(new ValueSet()
+                    var response = await AppServiceConnectionHelper.Connection.SendMessageAsync(new ValueSet()
                     {
                         { "Arguments", "FileOperation" },
                         { "fileop", "ParseLink" },

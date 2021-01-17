@@ -318,7 +318,7 @@ namespace Files.ViewModels.Properties
                     var tmpItem = (ShortcutItem)Item;
                     if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
                         return;
-                    if (AppInstance.FilesystemViewModel.Connection != null)
+                    if (AppServiceConnectionHelper.Connection != null)
                     {
                         var value = new ValueSet()
                         {
@@ -330,7 +330,7 @@ namespace Files.ViewModels.Properties
                             { "workingdir", ViewModel.ShortcutItemWorkingDir },
                             { "runasadmin", tmpItem.RunAsAdmin },
                         };
-                        await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(value);
+                        await AppServiceConnectionHelper.Connection.SendMessageAsync(value);
                     }
                     break;
             }

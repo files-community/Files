@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem.Cloud.Providers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,12 +33,19 @@ namespace Files.Filesystem.Cloud
             set => cloudProviders = value;
         }
 
-        public async Task DetectInstalledCloudProvidersAsync()
+        public void DetectInstalledCloudProviders()
         {
+            var tasks = new List<Task<IEnumerable<CloudProvider>>>();
+
             foreach (var provider in CloudProviderDetectors)
             {
-                await provider.DetectAsync(cloudProviders);
+                provider.DetectAsync().ContinueWith(taskResult =>
+                {
+                    CloudProviderUpdated?.Invoke(this, taskResult.Result);
+                });
             }
         }
+
+        public event EventHandler<IEnumerable<CloudProvider>> CloudProviderUpdated;
     }
 }

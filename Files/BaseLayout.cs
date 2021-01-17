@@ -36,8 +36,6 @@ namespace Files
     /// </summary>
     public abstract class BaseLayout : Page, INotifyPropertyChanged
     {
-        private AppServiceConnection Connection => ParentShellPageInstance?.ServiceConnection;
-
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
 
         public SettingsViewModel AppSettings => App.AppSettings;
@@ -220,9 +218,9 @@ namespace Files
             ClearShellContextMenus(menuFlyout);
             var currentBaseLayoutItemCount = menuFlyout.Items.Count;
             var maxItems = !AppSettings.MoveOverflowMenuItemsToSubMenu ? int.MaxValue : shiftPressed ? 6 : 4;
-            if (Connection != null)
+            if (AppServiceConnectionHelper.Connection != null)
             {
-                var response = Task.Run(() => Connection.SendMessageAsync(new ValueSet()
+                var response = Task.Run(() => AppServiceConnectionHelper.Connection.SendMessageAsync(new ValueSet()
                 {
                     { "Arguments", "LoadContextMenu" },
                     { "FilePath", IsItemSelected ?
@@ -331,7 +329,7 @@ namespace Files
                 // pathRoot will be empty on recycle bin path
                 var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
                 string pathRoot = Path.GetPathRoot(workingDir);
-                if (string.IsNullOrEmpty(pathRoot) || workingDir == pathRoot 
+                if (string.IsNullOrEmpty(pathRoot) || workingDir == pathRoot
                     || workingDir.StartsWith(AppSettings.RecycleBinPath)) // Can't go up from recycle bin
                 {
                     ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
@@ -513,9 +511,9 @@ namespace Files
             if (currentMenuLayoutItem != null)
             {
                 var (menuItem, menuHandle) = ParseContextMenuTag(currentMenuLayoutItem.Tag);
-                if (Connection != null)
+                if (AppServiceConnectionHelper.Connection != null)
                 {
-                    await Connection.SendMessageAsync(new ValueSet()
+                    await AppServiceConnectionHelper.Connection.SendMessageAsync(new ValueSet()
                     {
                         { "Arguments", "ExecAndCloseContextMenu" },
                         { "Handle", menuHandle },
@@ -530,9 +528,9 @@ namespace Files
         {
             var shellContextMenuTag = (sender as MenuFlyout).Items.Where(x => x.Tag != null)
                 .Select(x => ParseContextMenuTag(x.Tag)).FirstOrDefault(x => x.menuItem != null);
-            if (shellContextMenuTag.menuItem != null && Connection != null)
+            if (shellContextMenuTag.menuItem != null && AppServiceConnectionHelper.Connection != null)
             {
-                await Connection.SendMessageAsync(new ValueSet()
+                await AppServiceConnectionHelper.Connection.SendMessageAsync(new ValueSet()
                 {
                     { "Arguments", "ExecAndCloseContextMenu" },
                     { "Handle", shellContextMenuTag.menuHandle }
@@ -779,9 +777,9 @@ namespace Files
                 }
                 catch (Exception dropEx) when ((uint)dropEx.HResult == 0x80040064)
                 {
-                    if (Connection != null)
+                    if (AppServiceConnectionHelper.Connection != null)
                     {
-                        await Connection.SendMessageAsync(new ValueSet() {
+                        await AppServiceConnectionHelper.Connection.SendMessageAsync(new ValueSet() {
                             { "Arguments", "FileOperation" },
                             { "fileop", "DragDrop" },
                             { "droptext", "DragDropWindowText".GetLocalized() },

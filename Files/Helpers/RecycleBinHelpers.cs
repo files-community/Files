@@ -19,8 +19,6 @@ namespace Files.Helpers
 
         private IShellPage associatedInstance;
 
-        private AppServiceConnection Connection => associatedInstance?.ServiceConnection;
-
         #endregion Private Members
 
         public RecycleBinHelpers(IShellPage associatedInstance)
@@ -30,14 +28,14 @@ namespace Files.Helpers
 
         public async Task<List<ShellFileItem>> EnumerateRecycleBin()
         {
-            if (Connection != null)
+            if (AppServiceConnectionHelper.Connection != null)
             {
                 ValueSet value = new ValueSet
                 {
                     { "Arguments", "RecycleBin" },
                     { "action", "Enumerate" }
                 };
-                AppServiceResponse response = await Connection.SendMessageAsync(value);
+                AppServiceResponse response = await AppServiceConnectionHelper.Connection.SendMessageAsync(value);
 
                 if (response.Status == AppServiceResponseStatus.Success
                     && response.Message.ContainsKey("Enumerate"))
@@ -83,9 +81,7 @@ namespace Files.Helpers
 
         public void Dispose()
         {
-            Connection?.Dispose();
             associatedInstance?.Dispose();
-
             associatedInstance = null;
         }
 
