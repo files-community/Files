@@ -842,6 +842,13 @@
                     <KeyboardAccelerator Key="F5" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
                 </Button.KeyboardAccelerators>
             </Button>
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="1"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal"
+            Spacing="2">
 
             <Button 
                 x:Name="PreviewPane"
@@ -857,13 +864,6 @@
                 ToolTipService.ToolTip="Toggle the preview pane (Ctrl + P)"
                 Click="PreviewPane_Click">
             </Button>
-        </StackPanel>
-
-        <StackPanel
-            Grid.Row="1"
-            HorizontalAlignment="Right"
-            Orientation="Horizontal"
-            Spacing="2">
 
             <Button
                 x:Name="SearchButton"
