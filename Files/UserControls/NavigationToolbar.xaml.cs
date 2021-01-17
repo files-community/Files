@@ -972,5 +972,10 @@ namespace Files.UserControls
                 }
             }
         }
+
+        private void PreviewPane_Click(object sender, RoutedEventArgs e)
+        {
+            AppSettings.PreviewPaneEnabled = !AppSettings.PreviewPaneEnabled;
+        }
     }
 }

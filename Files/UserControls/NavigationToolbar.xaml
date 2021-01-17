@@ -842,6 +842,21 @@
                     <KeyboardAccelerator Key="F5" IsEnabled="{x:Bind AreKeyboardAcceleratorsEnabled, Mode=OneWay}" />
                 </Button.KeyboardAccelerators>
             </Button>
+
+            <Button 
+                x:Name="PreviewPane"
+                x:Uid="PreviewPaneToggle"
+                FontFamily="{StaticResource FluentUIGlyphs}" Content="&#xEA8D;"
+                Width="36"
+                Height="32"
+                AutomationProperties.Name="Toggle preview pane"
+                Background="Transparent"
+                CornerRadius="2"
+                FontSize="16"
+                Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="Toggle the preview pane (Ctrl + P)"
+                Click="PreviewPane_Click">
+            </Button>
         </StackPanel>
 
         <StackPanel

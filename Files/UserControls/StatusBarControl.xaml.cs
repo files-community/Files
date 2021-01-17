@@ -91,10 +91,5 @@ namespace Files.UserControls
                 }
             }
         }
-
-        private void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            AppSettings.PreviewPaneEnabled = !AppSettings.PreviewPaneEnabled;
-        }
     }
 }
