@@ -49,18 +49,18 @@
             Spacing="2">
             
             <Button 
-                x:Name="DetailsPane"
-                x:Uid="DetailsPaneToggle"
+                x:Name="PreviewPane"
+                x:Uid="PreviewPaneToggle"
                 FontFamily="{StaticResource FluentUIGlyphs}" Content="&#xEA8D;"
                 Width="36"
                 Height="32"
                 Margin="2,0,2,0"
-                AutomationProperties.Name="Open preview pane"
+                AutomationProperties.Name="Toggle preview pane"
                 Background="Transparent"
                 CornerRadius="2"
                 FontSize="16"
                 Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Toggle the details pane (Ctrl + P)"
+                ToolTipService.ToolTip="Toggle the preview pane (Ctrl + P)"
                 Click="Button_Click">
             </Button>
             

@@ -226,8 +226,8 @@
     </Compile>
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
     <Compile Include="ViewModels\Properties\FileProperty.cs" />
-    <Compile Include="UserControls\DetailsPane.xaml.cs">
-      <DependentUpon>DetailsPane.xaml</DependentUpon>
+    <Compile Include="UserControls\PreviewPane.xaml.cs">
+      <DependentUpon>PreviewPane.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\FilePreviews\ImagePreview.xaml.cs">
       <DependentUpon>ImagePreview.xaml</DependentUpon>
@@ -696,7 +696,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControls\DetailsPane.xaml">
+    <Page Include="UserControls\PreviewPane.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

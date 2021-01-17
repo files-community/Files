@@ -41,8 +41,6 @@ namespace Files.UserControls.FilePreviews
 
         ObservableCollection<Page> pages = new ObservableCollection<Page>();
 
-        CancellationTokenSource tokenSource = new CancellationTokenSource();
-
         public async override void LoadPreviewAndDetails()
         {
             var pdf = await PdfDocument.LoadFromFileAsync(ItemFile);
@@ -82,11 +80,12 @@ namespace Files.UserControls.FilePreviews
                 pages.Add(pageData);
             }
             LoadingRing.Visibility = Visibility.Collapsed;
+
         }
 
         internal struct Page
         {
-            public int PageNumber {get; set;}
+            public int PageNumber { get; set; }
             public BitmapImage PageImage { get; set; }
         }
     }

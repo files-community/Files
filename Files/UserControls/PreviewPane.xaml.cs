@@ -35,9 +35,9 @@ using static Files.App;
 
 namespace Files.UserControls
 {
-    public sealed partial class DetailsPane : UserControl, INotifyPropertyChanged
+    public sealed partial class PreviewPane : UserControl, INotifyPropertyChanged
     {
-        public static DependencyProperty SelectedItemsProperty { get; } = DependencyProperty.Register("SelectedItems", typeof(List<ListedItem>), typeof(DetailsPane), new PropertyMetadata(null));
+        public static DependencyProperty SelectedItemsProperty { get; } = DependencyProperty.Register("SelectedItems", typeof(List<ListedItem>), typeof(PreviewPane), new PropertyMetadata(null));
         public List<ListedItem> SelectedItems
         {
             get => (List<ListedItem>)GetValue(SelectedItemsProperty);
@@ -69,45 +69,30 @@ namespace Files.UserControls
             }
         }
 
-
-        public static DependencyProperty SelectedItemProperty { get; } = DependencyProperty.Register("SelectedItem", typeof(ListedItem), typeof(DetailsPane), new PropertyMetadata(null));
+        public static DependencyProperty SelectedItemProperty { get; } = DependencyProperty.Register("SelectedItem", typeof(ListedItem), typeof(PreviewPane), new PropertyMetadata(null));
         public ListedItem SelectedItem
         {
             get => (ListedItem)GetValue(SelectedItemProperty);
             set => SetValue(SelectedItemProperty, value);
         }
 
-
-        private long isVerticalCallback;
-
-        public static DependencyProperty IsHorizontalProperty { get; } = DependencyProperty.Register("IsHorizontal", typeof(bool), typeof(DetailsPane), new PropertyMetadata(null));
+        public static DependencyProperty IsHorizontalProperty { get; } = DependencyProperty.Register("IsHorizontal", typeof(bool), typeof(PreviewPane), new PropertyMetadata(null));
         public bool IsHorizontal
         {
             get => (bool)GetValue(IsHorizontalProperty);
             set => SetValue(IsHorizontalProperty, value);
         }
+        public static DependencyProperty EdgeTransitionLocationProperty = DependencyProperty.Register("EdgeTransitionLocation", typeof(EdgeTransitionLocation), typeof(PreviewPane), new PropertyMetadata(null));
 
-
-        // For some reason, the visual state wouldn't raise propertychangedevents with the normal property
-        bool _isHorizontalInternal;
-        bool isHorizontalInternal {
-            get => _isHorizontalInternal;
-            set
-            {
-                _isHorizontalInternal = value;
-                RaisePropertyChanged(nameof(isHorizontalInternal));
-                RaisePropertyChanged(nameof(EdgeTransitionLocation));
-            }
+        EdgeTransitionLocation EdgeTransitionLocation {
+            get => (EdgeTransitionLocation)GetValue(EdgeTransitionLocationProperty);
+            set => SetValue(EdgeTransitionLocationProperty, value);
         }
 
-        EdgeTransitionLocation EdgeTransitionLocation { get; set; } = EdgeTransitionLocation.Left;
-
-        Vector2 PaneSize { get; set; }
-
-        public DetailsPane()
+        public PreviewPane()
         {
             this.InitializeComponent();
-            isVerticalCallback = RegisterPropertyChangedCallback(IsHorizontalProperty, IsVerticalChangedCallback);
+            RegisterPropertyChangedCallback(Grid.RowProperty, GridRowChangedCallback);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -118,7 +103,6 @@ namespace Files.UserControls
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
         }
-
 
         async void LoadPreviewControlAsync(ListedItem item)
         {
@@ -153,7 +137,6 @@ namespace Files.UserControls
             }
 
             PreviewNotAvaliableText.Visibility = Visibility.Visible;
-
         }
 
         UserControl GetBuiltInPreviewControl(ListedItem item)
@@ -227,27 +210,29 @@ namespace Files.UserControls
             }
         }
 
-        private void IsVerticalChangedCallback(DependencyObject sender, DependencyProperty dp)
+        private void GridRowChangedCallback(DependencyObject sender, DependencyProperty dp)
         {
-            isHorizontalInternal = IsHorizontal;
+            UpdatePreviewLayout();
         }
 
-        private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void UpdatePreviewLayout()
         {
             // Checking what row the details pane is located in is a reliable way to check where the pane is
-            if((int)GetValue(Grid.ColumnProperty) == 0)
+            if ((int)GetValue(Grid.ColumnProperty) == 0)
             {
                 EdgeTransitionLocation = EdgeTransitionLocation.Bottom;
-                isHorizontalInternal = true;
+                IsHorizontal = true;
             }
             else
             {
                 EdgeTransitionLocation = EdgeTransitionLocation.Right;
-                isHorizontalInternal = false;
+                IsHorizontal = false;
             }
-
-            RaisePropertyChanged(nameof(EdgeTransitionLocation));
         }
 
+        private void UserControl_Loading(FrameworkElement sender, object args)
+        {
+            UpdatePreviewLayout();
+        }
     }
 }

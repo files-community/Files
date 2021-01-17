@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Files.UserControls.DetailsPane" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+﻿<UserControl x:Class="Files.UserControls.PreviewPane" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="using:Files.UserControls" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,7 +7,7 @@
              xmlns:Core="using:Microsoft.Xaml.Interactions.Core" 
              xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers" xmlns:properties="using:Files.ViewModels.Properties"
              mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="400" MinWidth="90" 
-             SizeChanged="UserControl_SizeChanged">
+             Loading="UserControl_Loading">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -40,7 +40,7 @@
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers >
-                        <triggers:IsEqualStateTrigger Value="{x:Bind isHorizontalInternal, Mode=OneWay}" To="True"/>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind IsHorizontal, Mode=OneWay}" To="True"/>
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
@@ -56,7 +56,7 @@
                 </VisualState>
                 <VisualState>
                     <VisualState.StateTriggers >
-                        <triggers:IsEqualStateTrigger Value="{x:Bind isHorizontalInternal, Mode=OneWay}" To="False"/>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind IsHorizontal, Mode=OneWay}" To="False"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="RootPropertiesGrid.(Grid.Row)" Value="2"/>

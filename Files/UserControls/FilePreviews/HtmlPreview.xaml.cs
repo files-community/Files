@@ -32,7 +32,6 @@ namespace Files.UserControls.FilePreviews
             this.InitializeComponent();
         }
 
-
         public async override void LoadPreviewAndDetails()
         {
             var text = await FileIO.ReadTextAsync(ItemFile);

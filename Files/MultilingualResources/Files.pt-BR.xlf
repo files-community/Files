@@ -2057,13 +2057,13 @@
           <source>Enable adaptive preview pane</source>
           <target state="new">Enable adaptive preview pane</target>
         </trans-unit>
-        <trans-unit id="DetailsPane.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Toggle the details pane (Ctrl + P)</source>
-          <target state="new">Toggle the details pane (Ctrl + P)</target>
-        </trans-unit>
         <trans-unit id="DetailsPanePreviewNotAvaliableText" translate="yes" xml:space="preserve">
           <source>No preview avaliable</source>
           <target state="new">No preview avaliable</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneToggle.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Toggle the preview pane (Ctrl + P)</source>
+          <target state="new">Toggle the preview pane (Ctrl + P)</target>
         </trans-unit>
       </group>
     </body>
