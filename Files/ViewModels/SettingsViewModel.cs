@@ -241,6 +241,15 @@ namespace Files.ViewModels
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether or not the date created column should be visible.
+        /// </summary>
+        public bool ShowDateCreatedColumn
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether or not the type column should be visible.
         /// </summary>
         public bool ShowTypeColumn

@@ -239,6 +239,10 @@ namespace Files.Views.LayoutModes
                     case SortOption.DateDeleted:
                         SortedColumn = dateDeletedColumn;
                         break;
+
+                    case SortOption.DateCreated:
+                        SortedColumn = dateCreatedColumn;
+                        break;
                 }
             }
             else if (e.PropertyName == "DirectorySortDirection")
@@ -547,6 +551,9 @@ namespace Files.Views.LayoutModes
 
                 case "dateDeletedColumn":
                     args = new DataGridColumnEventArgs(dateDeletedColumn);
+                    break;
+                case "dateCreatedColumn":
+                    args = new DataGridColumnEventArgs(dateCreatedColumn);
                     break;
             }
 
