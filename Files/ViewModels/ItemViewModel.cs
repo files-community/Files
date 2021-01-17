@@ -492,14 +492,14 @@ namespace Files.ViewModels
         {
             if (orderedList == null)
             {
-                orderedList = OrderFiles2(_filesAndFolders);
+                orderedList = OrderFiles2(filesAndFolders);
             }
-            var oldIndex = _filesAndFolders.IndexOf(item);
+            var oldIndex = filesAndFolders.IndexOf(item);
             var newIndex = orderedList.IndexOf(item);
             if (newIndex != oldIndex)
             {
-                _filesAndFolders.RemoveAt(oldIndex);
-                _filesAndFolders.Insert(newIndex, item);
+                filesAndFolders.RemoveAt(oldIndex);
+                filesAndFolders.Insert(newIndex, item);
             }
         }
 
@@ -725,7 +725,7 @@ namespace Files.ViewModels
                                 if (matchingStorageItem.DisplayName != matchingStorageItem.Name)
                                 {
                                     matchingItem.ItemName = matchingStorageItem.DisplayName;
-                                    if (FolderSettings.DirectorySortOption == SortOption.Name && !_isLoadingItems)
+                                    if (FolderSettings.DirectorySortOption == SortOption.Name && !isLoadingItems)
                                     {
                                         InsertFileInOrder(matchingItem);
                                     }
