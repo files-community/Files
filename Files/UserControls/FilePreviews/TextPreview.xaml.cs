@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -63,21 +64,28 @@ namespace Files.UserControls.FilePreviews
 
         public async override void LoadPreviewAndDetails()
         {
-            var text = await FileIO.ReadTextAsync(ItemFile);
-
-            Item.FileDetails.Add(new FileProperty()
+            try
             {
-                NameResource = "PropertyLineCount",
-                Value = text.Split("\n").Length,
-            });
-            Item.FileDetails.Add(new FileProperty()
-            {
-                NameResource = "PropertyWordCount",
-                Value = text.Split(" ").Length,
-            });
+                var text = await FileIO.ReadTextAsync(ItemFile);
 
-            var displayText = text.Length < Constants.PreviewPane.TextCharacterLimit ? text : text.Remove(Constants.PreviewPane.TextCharacterLimit);
-            TextValue = displayText;
+                Item.FileDetails.Add(new FileProperty()
+                {
+                    NameResource = "PropertyLineCount",
+                    Value = text.Split("\n").Length,
+                });
+                Item.FileDetails.Add(new FileProperty()
+                {
+                    NameResource = "PropertyWordCount",
+                    Value = text.Split(" ").Length,
+                });
+
+                var displayText = text.Length < Constants.PreviewPane.TextCharacterLimit ? text : text.Remove(Constants.PreviewPane.TextCharacterLimit);
+                TextValue = displayText;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
 
             base.LoadSystemFileProperties();
         }

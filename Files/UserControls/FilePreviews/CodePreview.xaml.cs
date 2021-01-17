@@ -2,6 +2,7 @@
 using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -31,16 +32,23 @@ namespace Files.UserControls.FilePreviews
 
         public override async void LoadPreviewAndDetails()
         {
-            var text = await FileIO.ReadTextAsync(ItemFile);
-            var displayText = text.Length < Constants.PreviewPane.TextCharacterLimit ? text : text.Remove(Constants.PreviewPane.TextCharacterLimit);
-            // Use the MarkDownTextBlock's built in code highlighting
-            TextPreviewControl.Text = $"```{GetCodeLanguage(Item.FileExtension)}\n{displayText}\n```";
-
-            Item.FileDetails.Add(new FileProperty()
+            try
             {
-                NameResource = "PropertyLineCount",
-                Value = text.Split("\n").Length,
-            });
+                var text = await FileIO.ReadTextAsync(ItemFile);
+                var displayText = text.Length < Constants.PreviewPane.TextCharacterLimit ? text : text.Remove(Constants.PreviewPane.TextCharacterLimit);
+                // Use the MarkDownTextBlock's built in code highlighting
+                TextPreviewControl.Text = $"```{GetCodeLanguage(Item.FileExtension)}\n{displayText}\n```";
+
+                Item.FileDetails.Add(new FileProperty()
+                {
+                    NameResource = "PropertyLineCount",
+                    Value = text.Split("\n").Length,
+                });
+
+            } catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
 
             base.LoadSystemFileProperties();
         }

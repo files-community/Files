@@ -2,6 +2,7 @@
 using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -33,8 +34,16 @@ namespace Files.UserControls.FilePreviews
 
         public async override void LoadPreviewAndDetails()
         {
-            var stream = await ItemFile.OpenReadAsync();
-            TextPreviewControl.Document.LoadFromStream(Windows.UI.Text.TextSetOptions.FormatRtf, stream);
+            try
+            {
+                var stream = await ItemFile.OpenReadAsync();
+                TextPreviewControl.Document.LoadFromStream(Windows.UI.Text.TextSetOptions.FormatRtf, stream);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+
             LoadSystemFileProperties();
         }
     }

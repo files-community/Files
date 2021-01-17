@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -30,9 +31,17 @@ namespace Files.UserControls.FilePreviews
 
         public override async void LoadPreviewAndDetails()
         {
-            var text = await FileIO.ReadTextAsync(ItemFile);
-            var displayText = text.Length < Constants.PreviewPane.TextCharacterLimit ? text : text.Remove(Constants.PreviewPane.TextCharacterLimit);
-            MarkdownTextPreview.Text = displayText;
+            try
+            {
+                var text = await FileIO.ReadTextAsync(ItemFile);
+                var displayText = text.Length < Constants.PreviewPane.TextCharacterLimit ? text : text.Remove(Constants.PreviewPane.TextCharacterLimit);
+                MarkdownTextPreview.Text = displayText;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+
             base.LoadSystemFileProperties();
         }
     }

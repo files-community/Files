@@ -1,6 +1,7 @@
 ﻿using Files.Filesystem;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -34,8 +35,15 @@ namespace Files.UserControls.FilePreviews
 
         public async override void LoadPreviewAndDetails()
         {
-            var text = await FileIO.ReadTextAsync(ItemFile);
-            WebViewControl.NavigateToString(text);
+            try
+            {
+                var text = await FileIO.ReadTextAsync(ItemFile);
+                WebViewControl.NavigateToString(text);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
             base.LoadSystemFileProperties();
         }
     }
