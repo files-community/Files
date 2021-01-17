@@ -42,12 +42,18 @@ namespace Files.UserControls.FilePreviews
                 return;
             }
 
-            var list = await FileProperty.RetrieveAndInitializePropertiesAsync(ItemFile);
+            try
+            {
+                var list = await FileProperty.RetrieveAndInitializePropertiesAsync(ItemFile);
 
-            list.Find(x => x.ID == "address").Value = await FileProperties.GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
-                                                                                           (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+                list.Find(x => x.ID == "address").Value = await FileProperties.GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
+                                                                                               (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 
-            list.Where(i => i.Value != null).ToList().ForEach(x => Item.FileDetails.Add(x));
+                list.Where(i => i.Value != null).ToList().ForEach(x => Item.FileDetails.Add(x));
+            } catch(Exception e)
+            {
+                Debug.WriteLine(e);
+            }
         }
 
         private async void Load()

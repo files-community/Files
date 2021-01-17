@@ -2,6 +2,7 @@
 using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -35,20 +36,27 @@ namespace Files.UserControls.FilePreviews
 
         public override async void LoadPreviewAndDetails()
         {
-            FileRandomAccessStream stream = (FileRandomAccessStream)await ItemFile.OpenAsync(FileAccessMode.Read);
+            try
+            {
+                FileRandomAccessStream stream = (FileRandomAccessStream)await ItemFile.OpenAsync(FileAccessMode.Read);
 
-            // svg files require a different type of source
-            if (!Item.ItemPath.EndsWith(".svg"))
-            {
-                var bitmap = new BitmapImage();
-                ImageContent.Source = bitmap;
-                await bitmap.SetSourceAsync(stream);
+                // svg files require a different type of source
+                if (!Item.ItemPath.EndsWith(".svg"))
+                {
+                    var bitmap = new BitmapImage();
+                    ImageContent.Source = bitmap;
+                    await bitmap.SetSourceAsync(stream);
+                }
+                else
+                {
+                    var bitmap = new SvgImageSource();
+                    ImageContent.Source = bitmap;
+                    await bitmap.SetSourceAsync(stream);
+                }
             }
-            else
+            catch (Exception e)
             {
-                var bitmap = new SvgImageSource();
-                ImageContent.Source = bitmap;
-                await bitmap.SetSourceAsync(stream);
+                Debug.WriteLine(e);
             }
 
             base.LoadSystemFileProperties();
