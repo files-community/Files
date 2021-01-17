@@ -392,11 +392,6 @@ namespace Files
             }
         }
 
-        //protected override void OnNavigatedFrom(NavigationEventArgs e)
-        //{
-
-        //}
-
         private void UnloadMenuFlyoutItemByName(string nameToUnload)
         {
             if (FindName(nameToUnload) is MenuFlyoutItemBase menuItem) // Prevent crash if the MenuFlyoutItem is missing
