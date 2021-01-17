@@ -243,18 +243,6 @@ namespace Files.Interacts
             }
         }
 
-        public void GetPath_Click(object sender, RoutedEventArgs e)
-        {
-            if (AssociatedInstance.ContentPage != null)
-            {
-                Clipboard.Clear();
-                DataPackage data = new DataPackage();
-                data.SetText(AssociatedInstance.FilesystemViewModel.WorkingDirectory);
-                Clipboard.SetContent(data);
-                Clipboard.Flush();
-            }
-        }
-
         public async Task InvokeWin32ComponentAsync(string applicationPath, string arguments = null, bool runAsAdmin = false, string workingDir = null)
         {
             await InvokeWin32ComponentsAsync(new List<string>() { applicationPath }, arguments, runAsAdmin, workingDir);
@@ -1034,9 +1022,9 @@ namespace Files.Interacts
             if (items?.Count > 0)
             {
                 dataPackage.SetStorageItems(items);
-                Clipboard.SetContent(dataPackage);
                 try
                 {
+                    Clipboard.SetContent(dataPackage);
                     Clipboard.Flush();
                 }
                 catch
@@ -1050,13 +1038,19 @@ namespace Files.Interacts
 
         private void CopyLocation()
         {
-            if (AssociatedInstance.ContentPage != null)
+            try
             {
-                Clipboard.Clear();
-                DataPackage data = new DataPackage();
-                data.SetText(AssociatedInstance.ContentPage.SelectedItem.ItemPath);
-                Clipboard.SetContent(data);
-                Clipboard.Flush();
+                if (AssociatedInstance.ContentPage != null)
+                {
+                    Clipboard.Clear();
+                    DataPackage data = new DataPackage();
+                    data.SetText(AssociatedInstance.ContentPage.SelectedItem.ItemPath);
+                    Clipboard.SetContent(data);
+                    Clipboard.Flush();
+                }
+            }
+            catch
+            {
             }
         }
 
@@ -1064,13 +1058,19 @@ namespace Files.Interacts
 
         private void CopyWorkingLocation()
         {
-            if (AssociatedInstance.ContentPage != null)
+            try
             {
-                Clipboard.Clear();
-                DataPackage data = new DataPackage();
-                data.SetText(AssociatedInstance.FilesystemViewModel.WorkingDirectory);
-                Clipboard.SetContent(data);
-                Clipboard.Flush();
+                if (AssociatedInstance.ContentPage != null)
+                {
+                    Clipboard.Clear();
+                    DataPackage data = new DataPackage();
+                    data.SetText(AssociatedInstance.FilesystemViewModel.WorkingDirectory);
+                    Clipboard.SetContent(data);
+                    Clipboard.Flush();
+                }
+            }
+            catch
+            {
             }
         }
 
@@ -1111,10 +1111,13 @@ namespace Files.Interacts
 
         public async Task PasteItemAsync()
         {
-            DataPackageView packageView = Clipboard.GetContent();
-            string destinationPath = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
-            await FilesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, destinationPath, true);
-            AssociatedInstance.ContentPage.ResetItemOpacity();
+            DataPackageView packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
+            if (packageView != null)
+            {
+                string destinationPath = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
+                await FilesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, destinationPath, true);
+                AssociatedInstance.ContentPage.ResetItemOpacity();
+            }
         }
 
         public async void CreateFileFromDialogResultType(AddItemType itemType, ShellNewEntry itemInfo)
