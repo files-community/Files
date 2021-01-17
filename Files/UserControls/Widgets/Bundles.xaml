@@ -159,6 +159,8 @@
             <!--  Remove Reveal Highlight Effect  -->
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
+                    <!--  Spacing -->
+                    <Setter Property="Margin" Value="0,0,8,8"/>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="GridViewItem">
