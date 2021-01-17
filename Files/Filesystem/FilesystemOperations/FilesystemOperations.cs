@@ -645,7 +645,14 @@ namespace Files.Filesystem
                 var renamed = await source.ToStorageItemResult(associatedInstance)
                     .OnSuccess(async (t) =>
                     {
-                        await t.RenameAsync(newName, collision);
+                        if (t.Name.Equals(newName, StringComparison.CurrentCultureIgnoreCase))
+                        {
+                            await t.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+                        }
+                        else
+                        {
+                            await t.RenameAsync(newName, collision);
+                        }
                         return t;
                     });
 
