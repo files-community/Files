@@ -9,7 +9,7 @@ namespace Files.UserControls
 {
     public interface INavigationToolbar
     {
-        public bool IsSearchReigonVisible { get; set; }
+        public bool IsSearchRegionVisible { get; set; }
         public bool IsEditModeEnabled { get; set; }
         public bool CanRefresh { get; set; }
         public bool CanCopyPathInPage { get; set; }

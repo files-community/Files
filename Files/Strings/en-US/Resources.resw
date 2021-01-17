@@ -1602,7 +1602,7 @@
   <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
     <value>Details View</value>
   </data>
-  <data name="StatusBarControlDetailsViews.AutomationProperties.Name" xml:space="preserve">
+  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
     <value>Details View</value>
   </data>
   <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
@@ -1643,5 +1643,11 @@
   </data>
   <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
     <value>Show hidden items</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
+    <value>Date deleted</value>
+  </data>
+  <data name="dateDeletedColumn.Header" xml:space="preserve">
+    <value>Date deleted</value>
   </data>
 </root>

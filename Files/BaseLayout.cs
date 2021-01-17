@@ -56,9 +56,9 @@ namespace Files
 
         public IShellPage ParentShellPageInstance { get; private set; } = null;
 
-        private bool isSearchResultPage = false;
-
         public bool IsRenamingItem { get; set; } = false;
+
+        private NavigationArguments navigationArguments;
 
         private bool isItemSelected = false;
 
@@ -110,12 +110,12 @@ namespace Files
 
                         if (SelectedItems.Count == 1)
                         {
-                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = SelectedItems.Count.ToString() + " " + "ItemSelected/Text".GetLocalized();
+                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemSelected/Text".GetLocalized()}";
                             SelectedItemsPropertiesViewModel.ItemSize = SelectedItem.FileSize;
                         }
                         else
                         {
-                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = SelectedItems.Count.ToString() + " " + "ItemsSelected/Text".GetLocalized();
+                            SelectedItemsPropertiesViewModel.SelectedItemsCountString = $"{SelectedItems.Count} {"ItemsSelected/Text".GetLocalized()}";
 
                             if (SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File))
                             {
@@ -286,14 +286,21 @@ namespace Files
             {
                 var layoutType = FolderSettings.GetLayoutType(ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
 
-                ParentShellPageInstance.ContentFrame.Navigate(layoutType, new NavigationArguments()
+                if (layoutType != ParentShellPageInstance.CurrentPageType)
                 {
-                    NavPathParam = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory,
-                    AssociatedTabInstance = ParentShellPageInstance
-                }, null);
+                    ParentShellPageInstance.ContentFrame.Navigate(layoutType, new NavigationArguments()
+                    {
+                        NavPathParam = navigationArguments.NavPathParam,
+                        IsSearchResultPage = navigationArguments.IsSearchResultPage,
+                        SearchPathParam = navigationArguments.SearchPathParam,
+                        SearchResults = navigationArguments.SearchResults,
+                        IsLayoutSwitch = true,
+                        AssociatedTabInstance = ParentShellPageInstance
+                    }, null);
 
-                // Remove old layout from back stack
-                ParentShellPageInstance.ContentFrame.BackStack.RemoveAt(ParentShellPageInstance.ContentFrame.BackStack.Count - 1);
+                    // Remove old layout from back stack
+                    ParentShellPageInstance.ContentFrame.BackStack.RemoveAt(ParentShellPageInstance.ContentFrame.BackStack.Count - 1);
+                }
             }
         }
 
@@ -309,24 +316,23 @@ namespace Files
             base.OnNavigatedTo(eventArgs);
             // Add item jumping handler
             Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
-            var parameters = (NavigationArguments)eventArgs.Parameter;
-            isSearchResultPage = parameters.IsSearchResultPage;
-            ParentShellPageInstance = parameters.AssociatedTabInstance;
+            navigationArguments = (NavigationArguments)eventArgs.Parameter;
+            ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
             IsItemSelected = false;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
 
-            if (!isSearchResultPage)
+            if (!navigationArguments.IsSearchResultPage)
             {
                 ParentShellPageInstance.NavigationToolbar.CanRefresh = true;
-                ParentShellPageInstance.NavigationToolbar.CanCopyPathInPage = true;
                 string previousDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
-                await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(parameters.NavPathParam);
+                await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(navigationArguments.NavPathParam);
 
                 // pathRoot will be empty on recycle bin path
                 var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
                 string pathRoot = Path.GetPathRoot(workingDir);
-                if (string.IsNullOrEmpty(pathRoot) || workingDir == pathRoot)
+                if (string.IsNullOrEmpty(pathRoot) || workingDir == pathRoot 
+                    || workingDir.StartsWith(AppSettings.RecycleBinPath)) // Can't go up from recycle bin
                 {
                     ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
                 }
@@ -337,19 +343,30 @@ namespace Files
 
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
-                ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir);
-                ParentShellPageInstance.NavigationToolbar.PathControlDisplayText = parameters.NavPathParam;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
+                ParentShellPageInstance.NavigationToolbar.PathControlDisplayText = navigationArguments.NavPathParam;
+                if (!navigationArguments.IsLayoutSwitch)
+                {
+                    ParentShellPageInstance.FilesystemViewModel.RefreshItems(previousDir);
+                }
+                else
+                {
+                    ParentShellPageInstance.NavigationToolbar.CanGoForward = false;
+                }
             }
             else
             {
                 ParentShellPageInstance.NavigationToolbar.CanRefresh = false;
-                ParentShellPageInstance.NavigationToolbar.CanCopyPathInPage = false;
+                ParentShellPageInstance.NavigationToolbar.CanGoForward = false;
+                ParentShellPageInstance.NavigationToolbar.CanGoBack = true;  // Impose no artificial restrictions on back navigation. Even in a search results page.
                 ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
-                ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(parameters.SearchResults, parameters.SearchPathParam);
+                if (!navigationArguments.IsLayoutSwitch)
+                {
+                    ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(navigationArguments.SearchResults, navigationArguments.SearchPathParam);
+                }
             }
 
             ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
@@ -364,10 +381,15 @@ namespace Files
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles(isSearchResultPage);
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+
+            var parameter = e.Parameter as NavigationArguments;
+            if (!parameter.IsLayoutSwitch)
+            {
+                ParentShellPageInstance.FilesystemViewModel.CancelLoadAndClearFiles();
+            }
         }
 
         private void UnloadMenuFlyoutItemByName(string nameToUnload)
@@ -386,13 +408,17 @@ namespace Files
             }
         }
 
-        private void LoadMenuFlyoutItem(IList<MenuFlyoutItemBase> MenuItemsList, IEnumerable<Win32ContextMenuItem> menuFlyoutItems, string menuHandle, bool showIcons = true, int itemsBeforeOverflow = int.MaxValue)
+        private void LoadMenuFlyoutItem(IList<MenuFlyoutItemBase> MenuItemsList,
+                                        IEnumerable<Win32ContextMenuItem> menuFlyoutItems,
+                                        string menuHandle,
+                                        bool showIcons = true,
+                                        int itemsBeforeOverflow = int.MaxValue)
         {
-            var items_count = 0; // Separators do not count for reaching the overflow threshold
-            var menu_items = menuFlyoutItems.TakeWhile(x => x.Type == MenuItemType.MFT_SEPARATOR || ++items_count <= itemsBeforeOverflow).ToList();
-            var overflow_items = menuFlyoutItems.Except(menu_items).ToList();
+            var itemsCount = 0; // Separators do not count for reaching the overflow threshold
+            var menuItems = menuFlyoutItems.TakeWhile(x => x.Type == MenuItemType.MFT_SEPARATOR || ++itemsCount <= itemsBeforeOverflow).ToList();
+            var overflowItems = menuFlyoutItems.Except(menuItems).ToList();
 
-            if (overflow_items.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any())
+            if (overflowItems.Where(x => x.Type != MenuItemType.MFT_SEPARATOR).Any())
             {
                 var menuLayoutSubItem = new MenuFlyoutSubItem()
                 {
@@ -404,10 +430,10 @@ namespace Files
                         Glyph = "\xEAD0"
                     }
                 };
-                LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflow_items, menuHandle, false);
+                LoadMenuFlyoutItem(menuLayoutSubItem.Items, overflowItems, menuHandle, false);
                 MenuItemsList.Insert(0, menuLayoutSubItem);
             }
-            foreach (var menuFlyoutItem in menu_items
+            foreach (var menuFlyoutItem in menuItems
                 .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR) // Remove leading seperators
                 .Reverse()
                 .SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR)) // Remove trailing separators
@@ -943,6 +969,15 @@ namespace Files
                     element.Drop += Item_Drop;
                 }
             }
+        }
+
+        protected void UninitializeDrag(UIElement element)
+        {
+            element.AllowDrop = false;
+            element.DragStarting -= Item_DragStarting;
+            element.DragOver -= Item_DragOver;
+            element.DragLeave -= Item_DragLeave;
+            element.Drop -= Item_Drop;
         }
 
         // VirtualKey doesn't support / accept plus and minus by default.

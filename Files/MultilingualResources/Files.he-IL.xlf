@@ -291,8 +291,8 @@
           <target state="translated" state-qualifier="tm-suggestion">תמונות</target>
         </trans-unit>
         <trans-unit id="SideBarUnpinFromSideBar.Text" translate="yes" xml:space="preserve">
-          <source>Unpin from Sidebar</source>
-          <target state="new">Unpin from Sidebar</target>
+          <source>Unpin from sidebar</source>
+          <target state="new">Unpin from sidebar</target>
         </trans-unit>
         <trans-unit id="SidebarVideos" translate="yes" xml:space="preserve">
           <source>Videos</source>
@@ -2004,10 +2004,6 @@
           <source>Layout Mode</source>
           <target state="new">Layout Mode</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlDetailsViews.AutomationProperties.Name" translate="yes" xml:space="preserve">
-          <source>Details View</source>
-          <target state="new">Details View</target>
-        </trans-unit>
         <trans-unit id="StatusBarControlDisplayOptions.Text" translate="yes" xml:space="preserve">
           <source>Display Options</source>
           <target state="new">Display Options</target>
@@ -2043,6 +2039,18 @@
         <trans-unit id="StatusBarControlShowHiddenItems.Header" translate="yes" xml:space="preserve">
           <source>Show hidden items</source>
           <target state="new">Show hidden items</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlDetailsView.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Details View</source>
+          <target state="new">Details View</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortByDateDeleted.Text" translate="yes" xml:space="preserve">
+          <source>Date deleted</source>
+          <target state="new">Date deleted</target>
+        </trans-unit>
+        <trans-unit id="dateDeletedColumn.Header" translate="yes" xml:space="preserve">
+          <source>Date deleted</source>
+          <target state="new">Date deleted</target>
         </trans-unit>
       </group>
     </body>

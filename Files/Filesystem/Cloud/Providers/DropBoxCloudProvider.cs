@@ -18,14 +18,28 @@ namespace Files.Filesystem.Cloud.Providers
                 var jsonPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, infoPath);
                 var configFile = await StorageFile.GetFileFromPathAsync(jsonPath);
                 var jsonObj = JObject.Parse(await FileIO.ReadTextAsync(configFile));
-                var dropboxPath = (string)jsonObj["personal"]["path"];
 
-                cloudProviders.Add(new CloudProvider()
+                if (jsonObj.ContainsKey("personal"))
                 {
-                    ID = CloudProviders.DropBox,
-                    Name = "Dropbox",
-                    SyncFolder = dropboxPath
-                });
+                    var dropboxPath = (string)jsonObj["personal"]["path"];
+                    cloudProviders.Add(new CloudProvider()
+                    {
+                        ID = CloudProviders.DropBox,
+                        Name = "Dropbox",
+                        SyncFolder = dropboxPath
+                    });
+                }
+
+                if (jsonObj.ContainsKey("business"))
+                {
+                    var dropboxPath = (string)jsonObj["business"]["path"];
+                    cloudProviders.Add(new CloudProvider()
+                    {
+                        ID = CloudProviders.DropBox,
+                        Name = "Dropbox Business",
+                        SyncFolder = dropboxPath
+                    });
+                }
             }
             catch
             {

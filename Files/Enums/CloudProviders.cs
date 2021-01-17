@@ -8,6 +8,7 @@
         GoogleDrive,
         DropBox,
         AppleCloud,
+        AmazonDrive,
         Box
     }
 }
