@@ -2,6 +2,7 @@
 using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -51,8 +52,16 @@ namespace Files.UserControls.FilePreviews
 
         private async void Load()
         {
-            ItemFile ??= await StorageFile.GetFileFromPathAsync(Item.ItemPath);
-            LoadPreviewAndDetails();
+            // Files can be corrupt, in use, and stuff
+            try
+            {
+                ItemFile ??= await StorageFile.GetFileFromPathAsync(Item.ItemPath);
+                LoadPreviewAndDetails();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
         }
     }
 }

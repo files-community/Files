@@ -103,7 +103,7 @@
                             Grid.Row="0"
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
-                            IsReadOnly="{x:Bind IsReadOnly, Mode=OneWay}"
+                            IsReadOnly="True"
                             Style="{StaticResource PropertyValueTextBox}"
                             Text="{x:Bind ValueText, Mode=TwoWay}" />
                     </Grid>

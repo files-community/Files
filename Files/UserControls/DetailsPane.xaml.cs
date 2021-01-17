@@ -100,7 +100,7 @@ namespace Files.UserControls
             }
         }
 
-        EdgeTransitionLocation EdgeTransitionLocation => isHorizontalInternal ? EdgeTransitionLocation.Bottom : EdgeTransitionLocation.Right;
+        EdgeTransitionLocation EdgeTransitionLocation { get; set; } = EdgeTransitionLocation.Left;
 
         Vector2 PaneSize { get; set; }
 
@@ -234,13 +234,19 @@ namespace Files.UserControls
 
         private void UserControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if(ActualHeight/ActualWidth <= 0.5)
+            // Checking what row the details pane is located in is a reliable way to check where the pane is
+            if((int)GetValue(Grid.ColumnProperty) == 0)
             {
+                EdgeTransitionLocation = EdgeTransitionLocation.Bottom;
                 isHorizontalInternal = true;
-            } else
+            }
+            else
             {
+                EdgeTransitionLocation = EdgeTransitionLocation.Right;
                 isHorizontalInternal = false;
             }
+
+            RaisePropertyChanged(nameof(EdgeTransitionLocation));
         }
 
     }
