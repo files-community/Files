@@ -241,7 +241,6 @@
                     Grid.Row="2"
                     x:FieldModifier="public"
                     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                    CacheSize="2"
                     Navigated="ItemDisplayFrame_Navigated" />
 
                 <controls:StatusBarControl
