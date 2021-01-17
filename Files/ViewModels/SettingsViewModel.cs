@@ -536,6 +536,18 @@ namespace Files.ViewModels
             }
         }
 
+        public bool PreviewPaneEnabled
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        public bool EnableAdaptivePreviewPane
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
         #endregion Preferences
 
         #region Appearance
@@ -728,18 +740,6 @@ namespace Files.ViewModels
         {
             get => (SortOption)Get((byte)SortOption.Name);
             set => Set((byte)value);
-        }
-
-        public bool PreviewPaneEnabled
-        {
-            get => Get(false);
-            set => Set(value);
-        }
-
-        public bool EnableAdaptivePreviewPane
-        {
-            get => Get(true);
-            set => Set(value);
         }
 
         #region ReadAndSaveSettings
