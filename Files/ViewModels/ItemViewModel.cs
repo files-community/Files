@@ -12,6 +12,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -44,6 +45,8 @@ namespace Files.ViewModels
         private readonly SemaphoreSlim enumFolderSemaphore = new SemaphoreSlim(1, 1);
         private readonly SemaphoreSlim loadExtendedPropsSemaphore = new SemaphoreSlim(Environment.ProcessorCount, Environment.ProcessorCount);
         private readonly SemaphoreSlim updateDataGridSemaphore = new SemaphoreSlim(1, 1);
+        private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue = new ConcurrentQueue<(uint Action, string FileName)>();
+        private readonly SemaphoreSlim operationSemaphore = new SemaphoreSlim(1, 1);
         private IntPtr hWatchDir;
         private IAsyncAction aWatcherAction;
         // files and folders list for manipulating
@@ -542,7 +545,7 @@ namespace Files.ViewModels
             }
             catch (Exception ex)
             {
-                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
             }
             finally
             {
@@ -1441,9 +1444,6 @@ namespace Files.ViewModels
 
         private void WatchForDirectoryChanges(string path)
         {
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
-
             Debug.WriteLine("WatchForDirectoryChanges: {0}", path);
             hWatchDir = NativeFileOperationsHelper.CreateFileFromApp(path, 1, 1 | 2 | 4,
                 IntPtr.Zero, 3, (uint)NativeFileOperationsHelper.File_Attributes.BackupSemantics | (uint)NativeFileOperationsHelper.File_Attributes.Overlapped, IntPtr.Zero);
@@ -1452,10 +1452,12 @@ namespace Files.ViewModels
                 return;
             }
 
-            byte[] buff = new byte[4096];
+            var cts = new CancellationTokenSource();
+            _ = Windows.System.Threading.ThreadPool.RunAsync((x) => ProcessOperationQueue(cts.Token));
 
             aWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>
             {
+                byte[] buff = new byte[4096];
                 var rand = Guid.NewGuid();
                 buff = new byte[4096];
                 int notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME;
@@ -1495,12 +1497,6 @@ namespace Files.ViewModels
                             var rc = WaitForSingleObjectEx(overlapped.hEvent, INFINITE, true);
                             Debug.WriteLine("wait done: {0}", rand);
 
-                            const uint FILE_ACTION_ADDED = 0x00000001;
-                            const uint FILE_ACTION_REMOVED = 0x00000002;
-                            const uint FILE_ACTION_MODIFIED = 0x00000003;
-                            const uint FILE_ACTION_RENAMED_OLD_NAME = 0x00000004;
-                            const uint FILE_ACTION_RENAMED_NEW_NAME = 0x00000005;
-
                             uint offset = 0;
                             ref var notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
                             if (x.Status == AsyncStatus.Canceled)
@@ -1523,43 +1519,16 @@ namespace Files.ViewModels
                                 uint action = notifyInfo.Action;
 
                                 Debug.WriteLine("action: {0}", action);
+
+                                operationQueue.Enqueue((action, FileName));
+
                                 try
                                 {
-                                    switch (action)
-                                    {
-                                        case FILE_ACTION_ADDED:
-                                            Debug.WriteLine($"File {FileName} added to working directory.");
-                                            AddFileOrFolderAsync(FileName, returnformat).GetAwaiter().GetResult();
-                                            break;
-
-                                        case FILE_ACTION_REMOVED:
-                                            Debug.WriteLine($"File {FileName} removed from working directory.");
-                                            RemoveFileOrFolderAsync(FileName).GetAwaiter().GetResult();
-                                            break;
-
-                                        case FILE_ACTION_MODIFIED:
-                                            Debug.WriteLine($"File {FileName} had attributes modified in the working directory.");
-                                            UpdateFileOrFolderAsync(FileName).GetAwaiter().GetResult();
-                                            break;
-
-                                        case FILE_ACTION_RENAMED_OLD_NAME:
-                                            Debug.WriteLine($"File {FileName} will be renamed in the working directory.");
-                                            RemoveFileOrFolderAsync(FileName).GetAwaiter().GetResult();
-                                            break;
-
-                                        case FILE_ACTION_RENAMED_NEW_NAME:
-                                            Debug.WriteLine($"File {FileName} was renamed in the working directory.");
-                                            AddFileOrFolderAsync(FileName, returnformat).GetAwaiter().GetResult();
-                                            break;
-
-                                        default:
-                                            Debug.WriteLine($"File {FileName} performed an action in the working directory.");
-                                            break;
-                                    }
+                                    operationSemaphore.Release();
                                 }
                                 catch (Exception)
                                 {
-                                    // Prevent invalid operations
+                                    // Prevent semaphore handles exceeding
                                 }
 
                                 offset += notifyInfo.NextEntryOffset;
@@ -1571,10 +1540,62 @@ namespace Files.ViewModels
                     }
                 }
                 CloseHandle(overlapped.hEvent);
+                operationQueue.Clear();
+                cts.Cancel();
+                cts.Dispose();
                 Debug.WriteLine("aWatcherAction done: {0}", rand);
             });
 
             Debug.WriteLine("Task exiting...");
+        }
+
+        private async void ProcessOperationQueue(CancellationToken cancellationToken)
+        {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[Constants.LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
+
+            const uint FILE_ACTION_ADDED = 0x00000001;
+            const uint FILE_ACTION_REMOVED = 0x00000002;
+            const uint FILE_ACTION_MODIFIED = 0x00000003;
+            const uint FILE_ACTION_RENAMED_OLD_NAME = 0x00000004;
+            const uint FILE_ACTION_RENAMED_NEW_NAME = 0x00000005;
+
+            try
+            {
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    await operationSemaphore.WaitAsync(cancellationToken);
+                    while (operationQueue.TryDequeue(out var operation))
+                    {
+                        if (cancellationToken.IsCancellationRequested) break;
+                        try
+                        {
+                            switch (operation.Action)
+                            {
+                                case FILE_ACTION_ADDED:
+                                case FILE_ACTION_RENAMED_NEW_NAME:
+                                    await AddFileOrFolderAsync(operation.FileName, returnformat);
+                                    break;
+                                case FILE_ACTION_MODIFIED:
+                                    await UpdateFileOrFolderAsync(operation.FileName);
+                                    break;
+                                case FILE_ACTION_REMOVED:
+                                case FILE_ACTION_RENAMED_OLD_NAME:
+                                    await RemoveFileOrFolderAsync(operation.FileName);
+                                    break;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // Prevent disposed cancellation token
+            }
         }
 
         public ListedItem AddFileOrFolderFromShellFile(ShellFileItem item, string dateReturnFormat = null)
