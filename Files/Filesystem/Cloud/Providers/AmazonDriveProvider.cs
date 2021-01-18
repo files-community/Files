@@ -17,14 +17,17 @@ namespace Files.Filesystem.Cloud.Providers
                 await Task.Run(() =>
                 {
                     using var key = Registry.ClassesRoot.OpenSubKey(@"CLSID\{9B57F475-CCB0-4C85-88A9-2AA9A6C0809A}\Instance\InitPropertyBag");
-                    var syncedFolder = (string)key.GetValue("TargetFolderPath");
-
-                    cloudProviders.Add(new CloudProvider()
+                    if (key != null)
                     {
-                        ID = CloudProviders.AmazonDrive,
-                        Name = "Amazon Drive",
-                        SyncFolder = syncedFolder
-                    });
+                        var syncedFolder = (string)key.GetValue("TargetFolderPath");
+
+                        cloudProviders.Add(new CloudProvider()
+                        {
+                            ID = CloudProviders.AmazonDrive,
+                            Name = "Amazon Drive",
+                            SyncFolder = syncedFolder
+                        });
+                    }
                 });
             }
             catch
