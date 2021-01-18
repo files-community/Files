@@ -99,7 +99,7 @@
                 HorizontalAlignment="Right"
                 Click="OKButton_Click"
                 Content="OK"
-                Style="{StaticResource AccentButtonStyle}" />
+                Style="{ThemeResource AccentButtonStyle}" />
             <Button
                 x:Name="CancelButton"
                 x:Uid="PropertiesDialogCancelButton"
