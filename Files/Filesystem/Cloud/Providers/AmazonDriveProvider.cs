@@ -1,9 +1,6 @@
 ﻿using Files.Enums;
 using Microsoft.Win32;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Files.Filesystem.Cloud.Providers
@@ -19,7 +16,10 @@ namespace Files.Filesystem.Cloud.Providers
                     using var key = Registry.ClassesRoot.OpenSubKey(@"CLSID\{9B57F475-CCB0-4C85-88A9-2AA9A6C0809A}\Instance\InitPropertyBag");
                     var syncedFolder = (string)key?.GetValue("TargetFolderPath");
 
-                    if (syncedFolder == null) return;
+                    if (syncedFolder == null)
+                    {
+                        return;
+                    }
 
                     cloudProviders.Add(new CloudProvider()
                     {

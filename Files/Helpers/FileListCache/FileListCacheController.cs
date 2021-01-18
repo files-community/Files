@@ -27,7 +27,11 @@ namespace Files.Helpers.FileListCache
 
         public Task SaveFileListToCache(string path, CacheEntry cacheEntry)
         {
-            if (!App.AppSettings.UseFileListCache) return Task.CompletedTask;
+            if (!App.AppSettings.UseFileListCache)
+            {
+                return Task.CompletedTask;
+            }
+
             if (cacheEntry == null)
             {
                 filesCache.Remove(path);
@@ -44,7 +48,11 @@ namespace Files.Helpers.FileListCache
 
         public async Task<CacheEntry> ReadFileListFromCache(string path, CancellationToken cancellationToken)
         {
-            if (!App.AppSettings.UseFileListCache) return null;
+            if (!App.AppSettings.UseFileListCache)
+            {
+                return null;
+            }
+
             var entry = filesCache.Get<CacheEntry>(path);
             if (entry == null)
             {

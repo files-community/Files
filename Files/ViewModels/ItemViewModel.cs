@@ -49,10 +49,13 @@ namespace Files.ViewModels
         private readonly SemaphoreSlim operationSemaphore = new SemaphoreSlim(1, 1);
         private IntPtr hWatchDir;
         private IAsyncAction aWatcherAction;
+
         // files and folders list for manipulating
         private List<ListedItem> filesAndFolders;
+
         // only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
         public BulkObservableCollection<ListedItem> FilesAndFolders { get; }
+
         public SettingsViewModel AppSettings => App.AppSettings;
         public FolderSettingsViewModel FolderSettings => AssociatedInstance?.InstanceViewModel.FolderSettings;
         private bool shouldDisplayFileExtensions = false;
@@ -514,7 +517,11 @@ namespace Files.ViewModels
                 {
                     for (var i = 0; i < filesAndFolders.Count; i++)
                     {
-                        if (addFilesCTS.IsCancellationRequested) return;
+                        if (addFilesCTS.IsCancellationRequested)
+                        {
+                            return;
+                        }
+
                         if (i < FilesAndFolders.Count)
                         {
                             if (FilesAndFolders[i] != filesAndFolders[i])
@@ -529,7 +536,11 @@ namespace Files.ViewModels
                     }
                     while (FilesAndFolders.Count > filesAndFolders.Count)
                     {
-                        if (addFilesCTS.IsCancellationRequested) return;
+                        if (addFilesCTS.IsCancellationRequested)
+                        {
+                            return;
+                        }
+
                         FilesAndFolders.RemoveAt(FilesAndFolders.Count - 1);
                     }
                 });
@@ -706,7 +717,10 @@ namespace Files.ViewModels
         {
             await Task.Run(async () =>
             {
-                if (item == null) return;
+                if (item == null)
+                {
+                    return;
+                }
 
                 try
                 {
@@ -900,7 +914,11 @@ namespace Files.ViewModels
                             for (var i = 0; i < cacheEntry.FileList.Count; i++)
                             {
                                 filesAndFolders.Add(cacheEntry.FileList[i]);
-                                if (addFilesCTS.IsCancellationRequested) break;
+                                if (addFilesCTS.IsCancellationRequested)
+                                {
+                                    break;
+                                }
+
                                 if (i == 32 || sampler.CheckNow())
                                 {
                                     await OrderFilesAndFoldersAsync();
@@ -1618,9 +1636,11 @@ namespace Files.ViewModels
                                 case FILE_ACTION_RENAMED_NEW_NAME:
                                     await AddFileOrFolderAsync(operation.FileName, returnformat);
                                     break;
+
                                 case FILE_ACTION_MODIFIED:
                                     await UpdateFileOrFolderAsync(operation.FileName);
                                     break;
+
                                 case FILE_ACTION_REMOVED:
                                 case FILE_ACTION_RENAMED_OLD_NAME:
                                     await RemoveFileOrFolderAsync(operation.FileName);
