@@ -104,8 +104,21 @@
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
                             IsReadOnly="True"
-                            Style="{StaticResource PropertyValueTextBox}"
-                            Text="{x:Bind ValueText, Mode=TwoWay}"/>
+                            Style="{StaticResource DetailsValueTextBox}"
+                            Text="{x:Bind ValueText, Mode=TwoWay}">
+                            <TextBox.Resources>
+                                <ResourceDictionary>
+                                    <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="Transparent"/>
+                                    <SolidColorBrush x:Key="TextControlBorderFocused" Color="Transparent"/>
+                                    <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="Transparent"/>
+                                    <SolidColorBrush x:Key="TextBoxButtonPointerOverBackgroundThemeBrush" Color="Transparent"/>
+                                    <SolidColorBrush x:Key="TextBoxButtonPressedBackgroundThemeBrush" Color="Transparent"/>
+                                    <SolidColorBrush x:Key="TextBoxBackgroundThemeBrush" Color="Transparent"/>
+                                    <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="Transparent"/>
+                                    <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="Transparent"/>
+                                </ResourceDictionary>
+                            </TextBox.Resources>
+                        </TextBox>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
