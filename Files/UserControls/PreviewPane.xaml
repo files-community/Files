@@ -84,9 +84,6 @@
         <controls:GridSplitter Grid.Row="1" Grid.Column="0" x:Name="HorizontalGridSplitter" Style="{StaticResource PaneGridSplitter}" GripperCursor="Arrow"/>
 
         <ListView SelectionMode="None" Grid.Row="2" x:Name="RootPropertiesGrid" ItemsSource="{x:Bind SelectedItem.FileDetails, Mode=OneWay}">
-            <ListView.Header>
-                <TextBlock HorizontalAlignment="Center" Text="{x:Bind SelectedItem.ItemName, Mode=OneWay}" FontSize="18"  IsTextSelectionEnabled="True"/>
-            </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="properties:FileProperty">
                     <Grid HorizontalAlignment="Stretch">

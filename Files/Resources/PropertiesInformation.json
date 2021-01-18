@@ -510,6 +510,13 @@
     "ID": null
   },
   {
+    "NameResource": "PropertyItemName",
+    "SectionResource": "PropertySectionCore",
+    "Property": "System.ItemNameDisplay",
+    "IsReadOnly": true,
+    "ID": null
+  },
+  {
     "NameResource": "PropertyRatingText",
     "SectionResource": "PropertySectionCore",
     "Property": "System.RatingText",

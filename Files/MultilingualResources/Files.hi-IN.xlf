@@ -2083,6 +2083,10 @@
           <source>When Launching Files</source>
           <target state="new">When Launching Files</target>
         </trans-unit>
+        <trans-unit id="PropertyItemName" translate="yes" xml:space="preserve">
+          <source>Item Name</source>
+          <target state="new">Item Name</target>
+        </trans-unit>
       </group>
     </body>
   </file>

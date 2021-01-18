@@ -64,10 +64,6 @@ namespace Files.UserControls
 
                 // Making the item null doesn't clear the ListView, so clear it
                 SelectedItem?.FileDetails.Clear();
-                if(SelectedItem != null)
-                {
-                    SelectedItem.ItemName = "";
-                }
                 SelectedItem = null;
 
                 PreviewNotAvaliableText.Visibility = Visibility.Visible;
