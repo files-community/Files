@@ -246,7 +246,7 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Document texte</value>
   </data>
-  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
     <value>Vue liste</value>
   </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
@@ -402,16 +402,16 @@
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>Définir en tant qu'écran de verrouillage</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewLarge.Text" xml:space="preserve">
     <value>Vue grille (Grand)</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewMedium.Text" xml:space="preserve">
     <value>Vue grille (Moyen)</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewSmall.Text" xml:space="preserve">
     <value>Vue grille (Petit)</value>
   </data>
-  <data name="StatusBarControlTilesView.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
     <value>Vue tuiles</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
@@ -443,9 +443,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Avez-vous supprimé ce dossier ?</value>
-  </data>
-  <data name="StatusBarControlLayoutMode.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Disposition</value>
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Options de sélection</value>
@@ -942,11 +939,11 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Plus d'options</value>
   </data>
-  <data name="StatusBarControlLayoutMode.AutomationProperties.Name" xml:space="preserve">
-    <value>Displosition</value>
-  </data>
   <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Options de sélection</value>
+  </data>
+  <data name="StatusCenter.AutomationProperties.Name" xml:space="preserve">
+    <value>Centre de statut</value>
   </data>
   <data name="SettingsOpenItemsWithOneclick.Header" xml:space="preserve">
     <value>Ouvrir les éléments d'un seul clic</value>
@@ -995,6 +992,9 @@
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
     <value>Afficher les fichiers et dossiers cachés</value>
+  </data>
+  <data name="EjectNotificationHeader" xml:space="preserve">
+    <value>Le matériel peut être retiré en toute sécurité</value>
   </data>
   <data name="EjectNotificationBody" xml:space="preserve">
     <value>Le périphériques peut maintenant être retiré en tout sécurité de l'ordinateur.</value>
@@ -1058,6 +1058,9 @@
   </data>
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>Résolution verticale</value>
+  </data>
+  <data name="PropertyCompressionText" xml:space="preserve">
+    <value>Compression</value>
   </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
     <value>Largeur</value>
@@ -1251,6 +1254,9 @@
   <data name="PropertySaveErrorDialog.CloseButtonText" xml:space="preserve">
     <value>Annuler</value>
   </data>
+  <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
+    <value>Il y a eu un problème lors de l'enregistrement de certaines propriétés.</value>
+  </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Certaines propriétés peuvent contenir des informations personnelles.</value>
   </data>
@@ -1265,6 +1271,9 @@
   </data>
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
     <value>Non spécifié</value>
+  </data>
+  <data name="StatusCenterTeachingTip.Subtitle" xml:space="preserve">
+    <value>Vérifiez le statut des opérations de fichiers ici</value>
   </data>
   <data name="StatusCenterTeachingTip.Title" xml:space="preserve">
     <value>Centre de status</value>
@@ -1301,6 +1310,9 @@
   </data>
   <data name="SettingsAboutReleaseNotesListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Découvrez les nouveautés de Files</value>
+  </data>
+  <data name="SettingsAboutSubmitFeedbackListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Envoyer aux développeurs un rapport d'incident avec des informations détaillées</value>
   </data>
   <data name="SettingsAboutSupportUsListViewItem.AutomationProperties.Name" xml:space="preserve">
     <value>Soutenez-nous sur PayPal</value>
@@ -1341,6 +1353,12 @@
   <data name="NewFile" xml:space="preserve">
     <value>Nouveau fichier</value>
   </data>
+  <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
+    <value>Afficher les éléments non indexés lors de la recherche (peut augmenter la durée de recherche)</value>
+  </data>
+  <data name="SettingsEnableLayoutPreferencesPerFolder.Header" xml:space="preserve">
+    <value>Activer les préférences individuelles par dossiers</value>
+  </data>
   <data name="originalPathColumn.Header" xml:space="preserve">
     <value>Chemin d'origine :</value>
   </data>
@@ -1356,7 +1374,94 @@
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Enlever</value>
   </data>
+  <data name="SettingsUseFileListCache.Header" xml:space="preserve">
+    <value>Mettre en cache les fichiers et dossiers pour de meilleures performantes</value>
+  </data>
   <data name="ItemAlreadyExistsDialogCloseButtonText" xml:space="preserve">
     <value>Annuler</value>
+  </data>
+  <data name="StatusCenter.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Tâches en cours</value>
+  </data>
+  <data name="StatusCenterFlyoutTitle.Text" xml:space="preserve">
+    <value>Tâches en cours</value>
+  </data>
+  <data name="SettingsMultitaskingAlwaysOpenDualPane.Header" xml:space="preserve">
+    <value>Toujours ouvrir les nouveaux onglets en mode double panneau</value>
+  </data>
+  <data name="SettingsMultitaskingEnableDualPane.Header" xml:space="preserve">
+    <value>Activer la vue double panneau</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenInNewPane.Text" xml:space="preserve">
+    <value>Ouvrir dans un panneau secondaire</value>
+  </data>
+  <data name="NavigationToolbarNewPane.Text" xml:space="preserve">
+    <value>Nouveau panneau</value>
+  </data>
+  <data name="SideBarOpenInNewPane.Text" xml:space="preserve">
+    <value>Ouvrir dans un panneau secondaire</value>
+  </data>
+  <data name="SettingsDualPane.Text" xml:space="preserve">
+    <value>Double peanneau</value>
+  </data>
+  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
+    <value>Afficher l'élément de menu de copie de l'emplacement</value>
+  </data>
+  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
+    <value>Déplacer les éléments superflus dans un sous-menu</value>
+  </data>
+  <data name="SettingsContextMenu.Text" xml:space="preserve">
+    <value>Personnaliser le menu contextuel du clic droit</value>
+  </data>
+  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
+    <value>Afficher l'élément de menu d'ouverture dans un nouvel onglet</value>
+  </data>
+  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+    <value>Dossiers</value>
+  </data>
+  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
+    <value>Activer les animations à l'ouverture et à la fermeture du menu contextuel</value>
+  </data>
+  <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Vue détaillée</value>
+  </data>
+  <data name="StatusBarControlGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Vue grille (Grande)</value>
+  </data>
+  <data name="StatusBarControlGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Vue grille (Moyenne)</value>
+  </data>
+  <data name="StatusBarControlGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Vue grille (Petite)</value>
+  </data>
+  <data name="StatusBarControlTilesView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Vue tuiles</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.Text" xml:space="preserve">
+    <value>Disposition</value>
+  </data>
+  <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
+    <value>Display Options</value>
+  </data>
+  <data name="StatusBarControlGridViewLarge.AutomationProperties.Name" xml:space="preserve">
+    <value>Vue grille (Grande)</value>
+  </data>
+  <data name="StatusBarControlGridViewMedium.AutomationProperties.Name" xml:space="preserve">
+    <value>Vue grille (Moyenne)</value>
+  </data>
+  <data name="StatusBarControlGridViewSmall.AutomationProperties.Name" xml:space="preserve">
+    <value>Vue grille (Petite)</value>
+  </data>
+  <data name="StatusBarControlTilesView.AutomationProperties.Name" xml:space="preserve">
+    <value>Vue tuiles</value>
+  </data>
+  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
+    <value>Afficher les extensions de fichier</value>
+  </data>
+  <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
+    <value>Afficher les éléments cachés</value>
+  </data>
+  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
+    <value>Vue détaillée</value>
   </data>
 </root>

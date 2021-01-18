@@ -18,8 +18,8 @@ namespace Files.Filesystem
         public string FolderTooltipText { get; set; }
         public string FolderRelativeId { get; set; }
         public bool ContainsFilesOrFolders { get; set; }
-        private bool _LoadFolderGlyph;
-        private bool _LoadFileIcon;
+        private bool loadFolderGlyph;
+        private bool loadFileIcon;
 
         public Uri FolderIconSource
         {
@@ -39,22 +39,22 @@ namespace Files.Filesystem
 
         public bool LoadFolderGlyph
         {
-            get => _LoadFolderGlyph;
-            set => SetProperty(ref _LoadFolderGlyph, value);
+            get => loadFolderGlyph;
+            set => SetProperty(ref loadFolderGlyph, value);
         }
 
         public bool LoadFileIcon
         {
-            get => _LoadFileIcon;
-            set => SetProperty(ref _LoadFileIcon, value);
+            get => loadFileIcon;
+            set => SetProperty(ref loadFileIcon, value);
         }
 
-        private bool _LoadUnknownTypeGlyph;
+        private bool loadUnknownTypeGlyph;
 
         public bool LoadUnknownTypeGlyph
         {
-            get => _LoadUnknownTypeGlyph;
-            set => SetProperty(ref _LoadUnknownTypeGlyph, value);
+            get => loadUnknownTypeGlyph;
+            set => SetProperty(ref loadUnknownTypeGlyph, value);
         }
 
         private double opacity;
@@ -65,71 +65,71 @@ namespace Files.Filesystem
             set => SetProperty(ref opacity, value);
         }
 
-        private CloudDriveSyncStatusUI _SyncStatusUI;
+        private CloudDriveSyncStatusUI syncStatusUI;
 
         [JsonIgnore]
         public CloudDriveSyncStatusUI SyncStatusUI
         {
-            get => _SyncStatusUI;
-            set => SetProperty(ref _SyncStatusUI, value);
+            get => syncStatusUI;
+            set => SetProperty(ref syncStatusUI, value);
         }
 
-        private BitmapImage _FileImage;
+        private BitmapImage fileImage;
 
         [JsonIgnore]
         public BitmapImage FileImage
         {
-            get => _FileImage;
+            get => fileImage;
             set
             {
                 if (value != null)
                 {
-                    SetProperty(ref _FileImage, value);
+                    SetProperty(ref fileImage, value);
                 }
             }
         }
 
-        private BitmapImage _IconOverlay;
+        private BitmapImage iconOverlay;
 
         [JsonIgnore]
         public BitmapImage IconOverlay
         {
-            get => _IconOverlay;
+            get => iconOverlay;
             set
             {
                 if (value != null)
                 {
-                    SetProperty(ref _IconOverlay, value);
+                    SetProperty(ref iconOverlay, value);
                 }
             }
         }
 
-        private string _ItemPath;
+        private string itemPath;
 
         public string ItemPath
         {
-            get => _ItemPath;
-            set => SetProperty(ref _ItemPath, value);
+            get => itemPath;
+            set => SetProperty(ref itemPath, value);
         }
 
-        private string _ItemName;
+        private string itemName;
 
         public string ItemName
         {
-            get => _ItemName;
-            set => SetProperty(ref _ItemName, value);
+            get => itemName;
+            set => SetProperty(ref itemName, value);
         }
 
-        private string _ItemType;
+        private string itemType;
 
         public string ItemType
         {
-            get => _ItemType;
+            get => itemType;
             set
             {
                 if (value != null)
                 {
-                    SetProperty(ref _ItemType, value);
+                    SetProperty(ref itemType, value);
                 }
             }
         }
@@ -144,39 +144,39 @@ namespace Files.Filesystem
 
         public DateTimeOffset ItemDateModifiedReal
         {
-            get => _itemDateModifiedReal;
+            get => itemDateModifiedReal;
             set
             {
                 ItemDateModified = GetFriendlyDateFromFormat(value, DateReturnFormat);
-                _itemDateModifiedReal = value;
+                itemDateModifiedReal = value;
             }
         }
 
-        private DateTimeOffset _itemDateModifiedReal;
+        private DateTimeOffset itemDateModifiedReal;
 
         public DateTimeOffset ItemDateCreatedReal
         {
-            get => _itemDateCreatedReal;
+            get => itemDateCreatedReal;
             set
             {
                 ItemDateCreated = GetFriendlyDateFromFormat(value, DateReturnFormat);
-                _itemDateCreatedReal = value;
+                itemDateCreatedReal = value;
             }
         }
 
-        private DateTimeOffset _itemDateCreatedReal;
+        private DateTimeOffset itemDateCreatedReal;
 
         public DateTimeOffset ItemDateAccessedReal
         {
-            get => _itemDateAccessedReal;
+            get => itemDateAccessedReal;
             set
             {
                 ItemDateAccessed = GetFriendlyDateFromFormat(value, DateReturnFormat);
-                _itemDateAccessedReal = value;
+                itemDateAccessedReal = value;
             }
         }
 
-        private DateTimeOffset _itemDateAccessedReal;
+        private DateTimeOffset itemDateAccessedReal;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ListedItem" /> class, optionally with an explicitly-specified dateReturnFormat.
@@ -198,7 +198,7 @@ namespace Files.Filesystem
             }
         }
 
-        private string DateReturnFormat { get; }
+        protected string DateReturnFormat { get; }
 
         public static string GetFriendlyDateFromFormat(DateTimeOffset d, string returnFormat)
         {
@@ -259,6 +259,8 @@ namespace Files.Filesystem
         public bool IsRecycleBinItem => this is RecycleBinItem;
         public bool IsShortcutItem => this is ShortcutItem;
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
+
+        public bool IsPinned { get; set; }
     }
 
     public class RecycleBinItem : ListedItem
@@ -266,6 +268,20 @@ namespace Files.Filesystem
         public RecycleBinItem(string folderRelativeId, string returnFormat) : base(folderRelativeId, returnFormat)
         {
         }
+
+        public string ItemDateDeleted { get; private set; }
+
+        public DateTimeOffset ItemDateDeletedReal
+        {
+            get => itemDateDeletedReal;
+            set
+            {
+                ItemDateDeleted = GetFriendlyDateFromFormat(value, DateReturnFormat);
+                itemDateDeletedReal = value;
+            }
+        }
+
+        private DateTimeOffset itemDateDeletedReal;
 
         // For recycle bin elements (path + name)
         public string ItemOriginalPath { get; set; }

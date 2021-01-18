@@ -61,8 +61,8 @@
             <GroupStyle>
                 <GroupStyle.HeaderTemplate>
                     <DataTemplate x:DataType="properties:FilePropertySection">
-                        <Border AutomationProperties.Name="{x:Bind Key}">
-                            <TextBlock Style="{ThemeResource SeparatorText}" Text="{x:Bind Key}" />
+                        <Border AutomationProperties.Name="{x:Bind Title}">
+                            <TextBlock Style="{ThemeResource SeparatorText}" Text="{x:Bind Title}" />
                         </Border>
                     </DataTemplate>
                 </GroupStyle.HeaderTemplate>

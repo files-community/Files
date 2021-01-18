@@ -83,7 +83,7 @@ namespace Files.ViewModels.Properties
                         }
                         else
                         {
-                            var folderUri = new Uri("files-uwp:" + "?folder=" + Path.GetDirectoryName(ViewModel.ShortcutItemPath));
+                            var folderUri = new Uri($"files-uwp:?folder={Path.GetDirectoryName(ViewModel.ShortcutItemPath)}");
                             await Windows.System.Launcher.LaunchUriAsync(folderUri);
                         }
                     }, () =>
@@ -102,8 +102,7 @@ namespace Files.ViewModels.Properties
                 Item.ItemPath, System.IO.FileAttributes.Hidden);
 
             ViewModel.ItemSizeVisibility = Visibility.Visible;
-            ViewModel.ItemSize = ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()
-                + " (" + ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + "ItemSizeBytes".GetLocalized() + ")";
+            ViewModel.ItemSize = $"{ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(Item.FileSizeBytes).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
 
             var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
             if (fileIconInfo.Icon != null && !Item.IsLinkItem)
@@ -170,9 +169,9 @@ namespace Files.ViewModels.Properties
 
             var query = list
                 .Where(fileProp => !(fileProp.Value == null && fileProp.IsReadOnly))
-                .GroupBy(fileProp => fileProp.Section)
-                .OrderBy(group => group.Key)
+                .GroupBy(fileProp => fileProp.SectionResource)
                 .Select(group => new FilePropertySection(group) { Key = group.Key })
+                .OrderBy(group => group.Priority)
                 .Where(section => !section.All(fileProp => fileProp.Value == null));
             ViewModel.PropertySections = new ObservableCollection<FilePropertySection>(query);
         }

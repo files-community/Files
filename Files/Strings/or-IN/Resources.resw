@@ -108,7 +108,7 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>ଚୟନ ସଫା କରନ୍ତୁ</value>
   </data>
-  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
     <value>ତାଲିକା ଭ୍ୟୁ</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -408,16 +408,16 @@
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>ଲକ୍ସ୍କ୍ରିନ୍ ପୃଷ୍ଠଭୂମି ଭାବରେ ଚୟନ କରନ୍ତୁ</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewLarge.Text" xml:space="preserve">
     <value>ଗ୍ରୀଡ୍ ଭ୍ୟୁ (ବଡ଼)</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewMedium.Text" xml:space="preserve">
     <value>ଗ୍ରୀଡ୍ ଭ୍ୟୁ (ମଧ୍ୟମ)</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewSmall.Text" xml:space="preserve">
     <value>ଗ୍ରୀଡ୍ ଭ୍ୟୁ (ଛୋଟ)</value>
   </data>
-  <data name="StatusBarControlTilesView.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
     <value>ଟାଇଲ୍ସ ଭ୍ୟୁ</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
@@ -461,9 +461,6 @@
   </data>
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>ଠିକ୍ ଅଛି</value>
-  </data>
-  <data name="StatusBarControlLayoutMode.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ଲେଆଉଟ୍ ମୋଡ୍</value>
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>ଚୟନ ବିକଳ୍ପଗୁଡ଼ିକ</value>

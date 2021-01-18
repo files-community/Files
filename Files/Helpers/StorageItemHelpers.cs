@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Enums;
+using Files.Filesystem;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -16,7 +17,7 @@ namespace Files.Helpers
 
         public static async Task<FilesystemResult<IStorageItem>> ToStorageItemResult(this IStorageItemWithPath item, IShellPage associatedInstance = null)
         {
-            var returnedItem = new FilesystemResult<IStorageItem>(null, FilesystemErrorCode.ERROR_GENERIC);
+            var returnedItem = new FilesystemResult<IStorageItem>(null, FileSystemStatusCode.Generic);
             if (!string.IsNullOrEmpty(item.Path))
             {
                 returnedItem = (item.ItemType == FilesystemItemType.File) ?
@@ -29,7 +30,7 @@ namespace Files.Helpers
             }
             if (returnedItem.Result == null && item.Item != null)
             {
-                returnedItem = new FilesystemResult<IStorageItem>(item.Item, FilesystemErrorCode.ERROR_SUCCESS);
+                returnedItem = new FilesystemResult<IStorageItem>(item.Item, FileSystemStatusCode.Success);
             }
             return returnedItem;
         }

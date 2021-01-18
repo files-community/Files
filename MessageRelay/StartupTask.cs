@@ -11,8 +11,8 @@ namespace MessageRelay
 {
     public sealed class StartupTask : IBackgroundTask
     {
-        private Guid _thisConnectionGuid;
-        private BackgroundTaskDeferral _backgroundTaskDeferral;
+        private Guid thisConnectionGuid;
+        private BackgroundTaskDeferral backgroundTaskDeferral;
         private static readonly ConcurrentDictionary<Guid, AppServiceConnection> Connections;
 
         static StartupTask()
@@ -31,20 +31,20 @@ namespace MessageRelay
             try
             {
                 // Get a service deferral so the service isn't terminated upon completion of Run()
-                _backgroundTaskDeferral = taskInstance.GetDeferral();
+                backgroundTaskDeferral = taskInstance.GetDeferral();
                 // Save a unique identifier for each connection
-                _thisConnectionGuid = Guid.NewGuid();
+                thisConnectionGuid = Guid.NewGuid();
                 var triggerDetails = taskInstance.TriggerDetails as AppServiceTriggerDetails;
                 var connection = triggerDetails?.AppServiceConnection;
                 if (connection == null)
                 {
                     System.Diagnostics.Debug.WriteLine("AppServiceConnection was null, ignorning this request");
-                    _backgroundTaskDeferral.Complete();
+                    backgroundTaskDeferral.Complete();
                     return;
                 }
                 // Save the guid and connection in a *static* list of all connections
-                Connections.TryAdd(_thisConnectionGuid, connection);
-                System.Diagnostics.Debug.WriteLine("Connection opened: " + _thisConnectionGuid);
+                Connections.TryAdd(thisConnectionGuid, connection);
+                System.Diagnostics.Debug.WriteLine($"Connection opened: {thisConnectionGuid}");
                 taskInstance.Canceled += OnTaskCancelled;
                 // Listen for incoming app service requests
                 connection.RequestReceived += ConnectionRequestReceived;
@@ -52,7 +52,7 @@ namespace MessageRelay
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Error in startup: " + ex);
+                System.Diagnostics.Debug.WriteLine($"Error in startup: {ex}");
             }
         }
 
@@ -61,8 +61,8 @@ namespace MessageRelay
         /// </summary>
         private async void OnTaskCancelled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
         {
-            System.Diagnostics.Debug.WriteLine("MessageRelay was cancelled, removing " + _thisConnectionGuid + " from the list of active connections.");
-            RemoveConnection(_thisConnectionGuid);
+            System.Diagnostics.Debug.WriteLine($"MessageRelay was cancelled, removing {thisConnectionGuid} from the list of active connections.");
+            RemoveConnection(thisConnectionGuid);
 
             if (Connections.Count == 1)
             {
@@ -72,18 +72,18 @@ namespace MessageRelay
                 await SendMessageAsync(Connections.Single(), value);
             }
 
-            if (_backgroundTaskDeferral != null)
+            if (backgroundTaskDeferral != null)
             {
-                _backgroundTaskDeferral.Complete();
-                _backgroundTaskDeferral = null;
+                backgroundTaskDeferral.Complete();
+                backgroundTaskDeferral = null;
             }
         }
 
         private void ConnectionOnServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
         {
             // I don't think this ever happens
-            System.Diagnostics.Debug.WriteLine("Connection closed: " + _thisConnectionGuid);
-            RemoveConnection(_thisConnectionGuid);
+            System.Diagnostics.Debug.WriteLine($"Connection closed: {thisConnectionGuid}");
+            RemoveConnection(thisConnectionGuid);
         }
 
         private async void ConnectionRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
@@ -92,11 +92,11 @@ namespace MessageRelay
             var appServiceDeferral = args.GetDeferral();
             try
             {
-                System.Diagnostics.Debug.WriteLine("Request initiated by " + _thisConnectionGuid);
+                System.Diagnostics.Debug.WriteLine($"Request initiated by {thisConnectionGuid}");
 
                 // .ToList() required since connections may get removed during SendMessage()
                 var otherConnections = Connections
-                    .Where(i => i.Key != _thisConnectionGuid)
+                    .Where(i => i.Key != thisConnectionGuid)
                     .ToList();
                 foreach (var connection in otherConnections)
                 {
@@ -123,7 +123,7 @@ namespace MessageRelay
                 var result = await connection.Value.SendMessageAsync(valueSet);
                 if (result.Status == AppServiceResponseStatus.Success)
                 {
-                    System.Diagnostics.Debug.WriteLine("Successfully sent message to " + connection.Key + ". Result = " + result.Message);
+                    System.Diagnostics.Debug.WriteLine($"Successfully sent message to {connection.Key}. Result = {result.Message}");
                     return result;
                 }
                 if (result.Status == AppServiceResponseStatus.Failure)
@@ -132,16 +132,16 @@ namespace MessageRelay
                     //      to dispose of its connection, the connection object remains
                     //      in Connections.  When someone tries to send to it, it gets
                     //      an AppServiceResponseStatus.Failure response
-                    System.Diagnostics.Debug.WriteLine("Error sending to " + connection.Key + ".  Removing it from the list of active connections.");
+                    System.Diagnostics.Debug.WriteLine($"Error sending to {connection.Key}.  Removing it from the list of active connections.");
                     RemoveConnection(connection.Key);
                     return result;
                 }
-                System.Diagnostics.Debug.WriteLine("Error sending to " + connection.Key + " - " + result.Status);
+                System.Diagnostics.Debug.WriteLine($"Error sending to {connection.Key} - {result.Status}");
                 return result;
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Error SendMessage to " + connection.Key + ": " + ex);
+                System.Diagnostics.Debug.WriteLine($"Error SendMessage to {connection.Key}: {ex}");
                 return null;
             }
         }

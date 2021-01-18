@@ -43,14 +43,14 @@
 
         <StackPanel
             Grid.Column="1"
-            Padding="2"
+            Padding="0,2,4,2"
             HorizontalAlignment="Right"
-            Orientation="Horizontal">
+            Orientation="Horizontal"
+            Spacing="2">
             <Button
                 x:Uid="StatusBarControlSelectionOptions"
                 Width="36"
                 Height="32"
-                Margin="2,0,2,0"
                 AutomationProperties.Name="Selection options"
                 Background="Transparent"
                 Content="&#xEAD3;"
@@ -99,65 +99,107 @@
             </Button>
 
             <Button
-                x:Uid="StatusBarControlLayoutMode"
+                x:Uid="StatusBarControlDisplayOptionsButton"
                 Width="36"
                 Height="32"
                 Margin="2,0,2,0"
-                AutomationProperties.Name="Layout mode"
+                AutomationProperties.Name="Display Options"
                 Background="Transparent"
                 Content="&#xE152;"
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
                 FontSize="16"
                 Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Layout mode">
+                ToolTipService.ToolTip="Display Options">
                 <Button.Flyout>
-                    <MenuFlyout>
-                        <MenuFlyoutItem
-                            x:Uid="StatusBarControlGridViewLarge"
-                            Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewLarge}"
-                            Text="Grid View (Large)">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9A0;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            x:Uid="StatusBarControlGridViewMedium"
-                            Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
-                            Text="Grid View (Medium)">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA72;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            x:Uid="StatusBarControlGridViewSmall"
-                            Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
-                            Text="Grid View (Small)">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEBA1;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            x:Uid="StatusBarControlTilesView"
-                            Command="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
-                            Text="Tiles View">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF100;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            x:Uid="StatusBarControlDetailsView"
-                            Command="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"
-                            Text="Details View">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF101;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                    </MenuFlyout>
+                    <Flyout>
+                        <StackPanel Spacing="12">
+                            <TextBlock
+                                x:Uid="StatusBarControlDisplayOptions"
+                                FontWeight="Medium"
+                                Text="Display Options" />
+                            <StackPanel Spacing="4">
+                                <ToggleSwitch
+                                    x:Uid="StatusBarControlShowHiddenItems"
+                                    Header="Show hidden items"
+                                    IsOn="{x:Bind AppSettings.AreHiddenItemsVisible, Mode=TwoWay}" />
+                                <ToggleSwitch
+                                    x:Uid="StatusBarControlShowFileExtensions"
+                                    Header="Show file extensions"
+                                    IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
+                            </StackPanel>
+
+                            <TextBlock
+                                x:Uid="StatusBarControlLayoutMode"
+                                FontWeight="Medium"
+                                Text="Layout Mode" />
+                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                <Button
+                                    x:Uid="StatusBarControlDetailsView"
+                                    Height="32"
+                                    Command="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"
+                                    CornerRadius="2"
+                                    Style="{StaticResource ToolBarButtonStyle}"
+                                    ToolTipService.ToolTip="Details View">
+                                    <FontIcon
+                                        FontFamily="{StaticResource CustomGlyph}"
+                                        FontSize="16"
+                                        Glyph="&#xF101;" />
+                                </Button>
+                                <Button
+                                    x:Uid="StatusBarControlTilesView"
+                                    Height="32"
+                                    Command="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
+                                    CornerRadius="2"
+                                    Style="{StaticResource ToolBarButtonStyle}"
+                                    ToolTipService.ToolTip="Tiles View">
+                                    <FontIcon
+                                        FontFamily="{StaticResource CustomGlyph}"
+                                        FontSize="16"
+                                        Glyph="&#xF100;" />
+                                </Button>
+                                <Button
+                                    x:Uid="StatusBarControlGridViewSmall"
+                                    Height="32"
+                                    Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
+                                    CornerRadius="2"
+                                    Style="{StaticResource ToolBarButtonStyle}"
+                                    ToolTipService.ToolTip="Grid View (Small)">
+                                    <FontIcon
+                                        FontFamily="{StaticResource FluentUIGlyphs}"
+                                        FontSize="16"
+                                        Glyph="&#xEBA1;" />
+                                </Button>
+                                <Button
+                                    x:Uid="StatusBarControlGridViewMedium"
+                                    Height="32"
+                                    Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
+                                    CornerRadius="2"
+                                    Style="{StaticResource ToolBarButtonStyle}"
+                                    ToolTipService.ToolTip="Grid View (Medium)">
+                                    <FontIcon
+                                        FontFamily="{StaticResource FluentUIGlyphs}"
+                                        FontSize="16"
+                                        Glyph="&#xEA72;" />
+                                </Button>
+                                <Button
+                                    x:Uid="StatusBarControlGridViewLarge"
+                                    Height="32"
+                                    Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewLarge}"
+                                    CornerRadius="2"
+                                    Style="{StaticResource ToolBarButtonStyle}"
+                                    ToolTipService.ToolTip="Grid View (Large)">
+                                    <FontIcon
+                                        FontFamily="{StaticResource FluentUIGlyphs}"
+                                        FontSize="16"
+                                        Glyph="&#xE9A0;" />
+                                </Button>
+                            </StackPanel>
+                        </StackPanel>
+                    </Flyout>
                 </Button.Flyout>
             </Button>
-            <Grid x:Name="StatusCenterGrid"
-                  Visibility="{x:Bind ShowStatusCenter, Mode=OneWay}">
+            <Grid x:Name="StatusCenterGrid" Visibility="{x:Bind ShowStatusCenter, Mode=OneWay}">
                 <muxc:AnimatedVisualPlayer
                     x:Name="StatusCenterPulseVisualPlayer"
                     AutoPlay="False"

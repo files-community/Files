@@ -133,7 +133,7 @@ namespace Files.Interacts
             foreach (ListedItem listedItem in items)
             {
                 var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
-                var folderUri = new Uri("files-uwp:" + "?folder=" + @selectedItemPath);
+                var folderUri = new Uri($"files-uwp:?folder={@selectedItemPath}");
                 await Launcher.LaunchUriAsync(folderUri);
             }
         }
@@ -190,13 +190,13 @@ namespace Files.Interacts
 
         public static async Task<bool> OpenPathInNewWindowAsync(string path)
         {
-            var folderUri = new Uri("files-uwp:" + "?folder=" + Uri.EscapeDataString(path));
+            var folderUri = new Uri($"files-uwp:?folder={Uri.EscapeDataString(path)}");
             return await Launcher.LaunchUriAsync(folderUri);
         }
 
         public static async Task<bool> OpenTabInNewWindowAsync(string tabArgs)
         {
-            var folderUri = new Uri("files-uwp:" + "?tab=" + Uri.EscapeDataString(tabArgs));
+            var folderUri = new Uri($"files-uwp:?tab={Uri.EscapeDataString(tabArgs)}");
             return await Launcher.LaunchUriAsync(folderUri);
         }
 
@@ -226,19 +226,20 @@ namespace Files.Interacts
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
                     App.SidebarPinnedController.Model.AddItem(listedItem.ItemPath);
+                    listedItem.IsPinned = true;
                 }
             }
         }
 
-        public void GetPath_Click(object sender, RoutedEventArgs e)
+        public void UnpinItem_Click(object sender, RoutedEventArgs e)
         {
             if (AssociatedInstance.ContentPage != null)
             {
-                Clipboard.Clear();
-                DataPackage data = new DataPackage();
-                data.SetText(AssociatedInstance.FilesystemViewModel.WorkingDirectory);
-                Clipboard.SetContent(data);
-                Clipboard.Flush();
+                foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
+                {
+                    App.SidebarPinnedController.Model.RemoveItem(listedItem.ItemPath);
+                    listedItem.IsPinned = false;
+                }
             }
         }
 
@@ -405,7 +406,7 @@ namespace Files.Interacts
                     AssociatedTabInstance = AssociatedInstance
                 });
             }
-            else if (destFolder == FilesystemErrorCode.ERROR_NOTFOUND)
+            else if (destFolder == FileSystemStatusCode.NotFound)
             {
                 await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
             }
@@ -625,7 +626,7 @@ namespace Files.Interacts
                 opened = (FilesystemResult)true;
             }
 
-            if (opened.ErrorCode == FilesystemErrorCode.ERROR_NOTFOUND)
+            if (opened.ErrorCode == FileSystemStatusCode.NotFound)
             {
                 await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 AssociatedInstance.NavigationToolbar.CanRefresh = false;
@@ -921,12 +922,12 @@ namespace Files.Interacts
                         }
                     }
                 }
-                if (cut.ErrorCode == FilesystemErrorCode.ERROR_NOTFOUND)
+                if (cut.ErrorCode == FileSystemStatusCode.NotFound)
                 {
                     AssociatedInstance.ContentPage.ResetItemOpacity();
                     return;
                 }
-                else if (cut.ErrorCode == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+                else if (cut.ErrorCode == FileSystemStatusCode.Unauthorized)
                 {
                     // Try again with fulltrust process
                     if (Connection != null)
@@ -1000,7 +1001,7 @@ namespace Files.Interacts
                         }
                     }
                 }
-                if (copied.ErrorCode == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+                if (copied.ErrorCode == FileSystemStatusCode.Unauthorized)
                 {
                     // Try again with fulltrust process
                     if (Connection != null)
@@ -1021,9 +1022,9 @@ namespace Files.Interacts
             if (items?.Count > 0)
             {
                 dataPackage.SetStorageItems(items);
-                Clipboard.SetContent(dataPackage);
                 try
                 {
+                    Clipboard.SetContent(dataPackage);
                     Clipboard.Flush();
                 }
                 catch
@@ -1037,13 +1038,19 @@ namespace Files.Interacts
 
         private void CopyLocation()
         {
-            if (AssociatedInstance.ContentPage != null)
+            try
             {
-                Clipboard.Clear();
-                DataPackage data = new DataPackage();
-                data.SetText(AssociatedInstance.ContentPage.SelectedItem.ItemPath);
-                Clipboard.SetContent(data);
-                Clipboard.Flush();
+                if (AssociatedInstance.ContentPage != null)
+                {
+                    Clipboard.Clear();
+                    DataPackage data = new DataPackage();
+                    data.SetText(AssociatedInstance.ContentPage.SelectedItem.ItemPath);
+                    Clipboard.SetContent(data);
+                    Clipboard.Flush();
+                }
+            }
+            catch
+            {
             }
         }
 
@@ -1051,13 +1058,19 @@ namespace Files.Interacts
 
         private void CopyWorkingLocation()
         {
-            if (AssociatedInstance.ContentPage != null)
+            try
             {
-                Clipboard.Clear();
-                DataPackage data = new DataPackage();
-                data.SetText(AssociatedInstance.FilesystemViewModel.WorkingDirectory);
-                Clipboard.SetContent(data);
-                Clipboard.Flush();
+                if (AssociatedInstance.ContentPage != null)
+                {
+                    Clipboard.Clear();
+                    DataPackage data = new DataPackage();
+                    data.SetText(AssociatedInstance.FilesystemViewModel.WorkingDirectory);
+                    Clipboard.SetContent(data);
+                    Clipboard.Flush();
+                }
+            }
+            catch
+            {
             }
         }
 
@@ -1098,10 +1111,13 @@ namespace Files.Interacts
 
         public async Task PasteItemAsync()
         {
-            DataPackageView packageView = Clipboard.GetContent();
-            string destinationPath = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
-            await FilesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, destinationPath, true);
-            AssociatedInstance.ContentPage.ResetItemOpacity();
+            DataPackageView packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
+            if (packageView != null)
+            {
+                string destinationPath = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
+                await FilesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, destinationPath, true);
+                AssociatedInstance.ContentPage.ResetItemOpacity();
+            }
         }
 
         public async void CreateFileFromDialogResultType(AddItemType itemType, ShellNewEntry itemInfo)
@@ -1149,7 +1165,7 @@ namespace Files.Interacts
                         break;
                 }
             }
-            if (created == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+            if (created == FileSystemStatusCode.Unauthorized)
             {
                 await DialogDisplayHelper.ShowDialogAsync("AccessDeniedCreateDialog/Title".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
             }

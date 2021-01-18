@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Enums;
+using Files.Filesystem;
 using Files.ViewModels;
 using System;
 using System.Collections.ObjectModel;
@@ -65,7 +66,7 @@ namespace Files.UserControls.Widgets
                     IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken, AccessCacheOptions.FastLocationsOnly);
                     await AddItemToRecentListAsync(item, entry);
                 });
-                if (added == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+                if (added == FileSystemStatusCode.Unauthorized)
                 {
                     // Skip item until consent is provided
                 }
@@ -98,9 +99,9 @@ namespace Files.UserControls.Widgets
             string ItemPath;
             string ItemName;
             StorageItemTypes ItemType;
-            Visibility ItemFolderImgVis;
-            Visibility ItemEmptyImgVis;
-            Visibility ItemFileIconVis;
+            bool ItemFolderImgVis;
+            bool ItemEmptyImgVis;
+            bool ItemFileIconVis;
             if (item.IsOfType(StorageItemTypes.File))
             {
                 // Try to read the file to check if still exists
@@ -124,15 +125,15 @@ namespace Files.UserControls.Widgets
                 var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
                 if (thumbnail == null)
                 {
-                    ItemEmptyImgVis = Visibility.Visible;
+                    ItemEmptyImgVis = true;
                 }
                 else
                 {
                     await ItemImage.SetSourceAsync(thumbnail);
-                    ItemEmptyImgVis = Visibility.Collapsed;
+                    ItemEmptyImgVis = false;
                 }
-                ItemFolderImgVis = Visibility.Collapsed;
-                ItemFileIconVis = Visibility.Visible;
+                ItemFolderImgVis = false;
+                ItemFileIconVis = true;
                 recentItemsCollection.Add(new RecentItem()
                 {
                     RecentPath = ItemPath,
@@ -206,9 +207,9 @@ namespace Files.UserControls.Widgets
         public string Name { get; set; }
         public bool IsFile { get => Type == StorageItemTypes.File; }
         public StorageItemTypes Type { get; set; }
-        public Visibility FolderImg { get; set; }
-        public Visibility EmptyImgVis { get; set; }
-        public Visibility FileIconVis { get; set; }
+        public bool FolderImg { get; set; }
+        public bool EmptyImgVis { get; set; }
+        public bool FileIconVis { get; set; }
     }
 
     public class EmptyRecentsText : INotifyPropertyChanged
