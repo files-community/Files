@@ -50,10 +50,10 @@
 
         <StackPanel
             Grid.Column="1"
-            Padding="0,2,4,2"
+            Padding="0,2,8,4"
             HorizontalAlignment="Right"
             Orientation="Horizontal"
-            Spacing="2">
+            Spacing="4">
             <Button
                 x:Uid="StatusBarControlSelectionOptions"
                 Width="36"
@@ -109,7 +109,6 @@
                 x:Uid="StatusBarControlDisplayOptionsButton"
                 Width="36"
                 Height="32"
-                Margin="2,0,2,0"
                 AutomationProperties.Name="Display Options"
                 Background="Transparent"
                 Content="&#xE152;"
@@ -228,7 +227,6 @@
                     x:Uid="StatusCenter"
                     Width="36"
                     Height="32"
-                    Margin="2,0,2,0"
                     AutomationProperties.Name="Status center"
                     Background="Transparent"
                     Content="&#xF16A;"
