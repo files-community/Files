@@ -313,7 +313,7 @@
     <value>Diğer seçenekler</value>
   </data>
   <data name="SidebarDrives" xml:space="preserve">
-    <value>Sürüşler</value>
+    <value>Sürücüler</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Dosya</value>
@@ -685,7 +685,7 @@
     <value>Buraya taşı</value>
   </data>
   <data name="DrivesWidgetDescription.Text" xml:space="preserve">
-    <value>Sürüşler</value>
+    <value>Sürücüler</value>
   </data>
   <data name="SettingsWidgetsTitle.Text" xml:space="preserve">
     <value>Pencere Öğeleri</value>
