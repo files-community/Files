@@ -55,7 +55,8 @@ namespace Files.UserControls.FilePreviews
 
         static Dictionary<string, List<string>> languageExtensions = new Dictionary<string, List<string>>()
         {
-            {"xml",  new List<string> {".xml", ".axml", ".xaml" } },
+            // TODO: Debug color issue then reenable xml support
+            //{"xml",  new List<string> {".xml", ".axml", ".xaml" } },
             {"json",  new List<string> {".json" } },
             {"yaml", new List<string> {".yml"} },
             {"python",  new List<string> {".py", ".py3", ".py", ".cgi", ".fcgi", ".gyp", ".gypi", ".lmi", ".py3", ".pyde", ".pyi", ".pyp", ".pyt", ".pyw", ".rpy", ".smk", ".spec", ".tac", ".wsgi", ".xpy" } },
