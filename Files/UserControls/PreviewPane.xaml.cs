@@ -193,13 +193,18 @@ namespace Files.UserControls
         {
             var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
 
-            var buffer = await FileIO.ReadBufferAsync(file);
-            var byteArray = new Byte[buffer.Length];
-            buffer.CopyTo(byteArray);
+            byte[] byteArray = null;
+
+            if (item.FileSizeBytes < Constants.PreviewPane.MaxFileSizeToSendToExtensionBytes)
+            {
+                var buffer = await FileIO.ReadBufferAsync(file);
+                byteArray = new Byte[buffer.Length];
+                buffer.CopyTo(byteArray);
+            }
 
             try
             {
-                var result = await extension.Invoke(new ValueSet() { { "byteArray", byteArray }, { "filePath", item.ItemPath } });
+                var result = await extension.Invoke(new ValueSet() { { "byteArray", byteArray}, { "filePath", item.ItemPath } });
                 var preview = result["preview"];
                 PreviewGrid.Children.Add(XamlReader.Load(preview as string) as UIElement);
 
