@@ -143,7 +143,7 @@
                                     Height="32"
                                     Command="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"
                                     CornerRadius="2"
-                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay}"
+                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter={Binding Tag}}"
                                     Style="{StaticResource ToolBarToggleButtonStyle}"
                                     ToolTipService.ToolTip="Details View">
                                     <FontIcon
@@ -159,7 +159,7 @@
                                     Height="32"
                                     Command="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
                                     CornerRadius="2"
-                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay}"
+                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter={Binding Tag}}"
                                     Style="{StaticResource ToolBarToggleButtonStyle}"
                                     ToolTipService.ToolTip="Tiles View">
                                     <FontIcon
@@ -175,7 +175,7 @@
                                     Height="32"
                                     Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
                                     CornerRadius="2"
-                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay}"
+                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter={Binding Tag}}"
                                     Style="{StaticResource ToolBarToggleButtonStyle}"
                                     ToolTipService.ToolTip="Grid View (Small)">
                                     <FontIcon
@@ -191,7 +191,7 @@
                                     Height="32"
                                     Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
                                     CornerRadius="2"
-                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay}"
+                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter={Binding Tag}}"
                                     Style="{StaticResource ToolBarToggleButtonStyle}"
                                     ToolTipService.ToolTip="Grid View (Medium)">
                                     <FontIcon
@@ -207,7 +207,7 @@
                                     Height="32"
                                     Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewLarge}"
                                     CornerRadius="2"
-                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay}"
+                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter={Binding Tag}}"
                                     Style="{StaticResource ToolBarToggleButtonStyle}"
                                     ToolTipService.ToolTip="Grid View (Large)">
                                     <FontIcon
