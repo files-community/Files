@@ -2,6 +2,7 @@
 using Files.UserControls.FilePreviews;
 using Files.ViewModels;
 using Files.ViewModels.Properties;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -201,7 +202,7 @@ namespace Files.UserControls
                 PreviewGrid.Children.Add(XamlReader.Load(preview as string) as UIElement);
 
                 var details = result["details"] as string;
-                var detailsList = JsonSerializer.Deserialize<List<FileProperty>>(details);
+                var detailsList = JsonConvert.DeserializeObject<List<FileProperty>>(details);
                 detailsList.ForEach(i => SelectedItem.FileDetails.Add(i));
             }
             catch (Exception e)
