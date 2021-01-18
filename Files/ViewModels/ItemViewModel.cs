@@ -702,15 +702,12 @@ namespace Files.ViewModels
 
         // This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
         // for file inside the recycle bin (but not on the recycle bin folder itself)
-        public async void LoadExtendedItemProperties(ListedItem item, uint thumbnailSize = 20)
+        public async Task LoadExtendedItemProperties(ListedItem item, uint thumbnailSize = 20)
         {
-            if (!item.ItemPropertiesInitialized)
+            await Task.Run(async () =>
             {
-                if (item == null)
-                {
-                    item.ItemPropertiesInitialized = true;
-                    return;
-                }
+                if (item == null) return;
+
                 try
                 {
                     await loadExtendedPropsSemaphore.WaitAsync(loadPropsCTS.Token);
@@ -725,13 +722,17 @@ namespace Files.ViewModels
                     if (item.PrimaryItemAttribute == StorageItemTypes.File)
                     {
                         var fileIconInfo = await LoadIconOverlayAsync(item.ItemPath, thumbnailSize);
-                        if (fileIconInfo.Icon != null && !item.IsLinkItem)
+
+                        await CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
                         {
-                            item.FileImage = fileIconInfo.Icon;
-                            item.LoadUnknownTypeGlyph = false;
-                            item.LoadFileIcon = true;
-                        }
-                        item.IconOverlay = fileIconInfo.Overlay;
+                            if (fileIconInfo.IconData != null && !item.IsLinkItem)
+                            {
+                                item.FileImage = await fileIconInfo.IconData.ToBitmapAsync();
+                                item.LoadUnknownTypeGlyph = false;
+                                item.LoadFileIcon = true;
+                            }
+                            item.IconOverlay = await fileIconInfo.OverlayData.ToBitmapAsync();
+                        }, Windows.UI.Core.CoreDispatcherPriority.Low);
                         if (!item.IsShortcutItem && !item.IsHiddenItem)
                         {
                             StorageFile matchingStorageItem = await GetFileFromPathAsync(item.ItemPath);
@@ -743,17 +744,24 @@ namespace Files.ViewModels
                                     {
                                         if (Thumbnail != null)
                                         {
-                                            item.FileImage = new BitmapImage();
-                                            await item.FileImage.SetSourceAsync(Thumbnail);
-                                            item.LoadUnknownTypeGlyph = false;
-                                            item.LoadFileIcon = true;
+                                            await CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
+                                            {
+                                                item.FileImage = new BitmapImage();
+                                                await item.FileImage.SetSourceAsync(Thumbnail);
+                                                item.LoadUnknownTypeGlyph = false;
+                                                item.LoadFileIcon = true;
+                                            });
                                         }
                                     }
                                 }
-                                item.FolderRelativeId = matchingStorageItem.FolderRelativeId;
-                                item.ItemType = matchingStorageItem.DisplayType;
+
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
-                                item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+                                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                                {
+                                    item.FolderRelativeId = matchingStorageItem.FolderRelativeId;
+                                    item.ItemType = matchingStorageItem.DisplayType;
+                                    item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+                                }, Windows.UI.Core.CoreDispatcherPriority.Low);
                                 wasSyncStatusLoaded = true;
                             }
                         }
@@ -761,24 +769,31 @@ namespace Files.ViewModels
                     else
                     {
                         var fileIconInfo = await LoadIconOverlayAsync(item.ItemPath, thumbnailSize);
-                        if (fileIconInfo.Icon != null && fileIconInfo.IsCustom) // Only set folder icon if it's a custom icon
+
+                        await CoreApplication.MainView.ExecuteOnUIThreadAsync(async () =>
                         {
-                            item.FileImage = fileIconInfo.Icon;
-                            item.LoadUnknownTypeGlyph = false;
-                            item.LoadFolderGlyph = false;
-                            item.LoadFileIcon = true;
-                        }
-                        item.IconOverlay = fileIconInfo.Overlay;
+                            if (fileIconInfo.IconData != null && fileIconInfo.IsCustom) // Only set folder icon if it's a custom icon
+                            {
+                                item.FileImage = await fileIconInfo.IconData.ToBitmapAsync();
+                                item.LoadUnknownTypeGlyph = false;
+                                item.LoadFolderGlyph = false;
+                                item.LoadFileIcon = true;
+                            }
+                            item.IconOverlay = await fileIconInfo.OverlayData.ToBitmapAsync();
+                        }, Windows.UI.Core.CoreDispatcherPriority.Low);
                         if (!item.IsShortcutItem && !item.IsHiddenItem)
                         {
                             StorageFolder matchingStorageItem = await GetFolderFromPathAsync(item.ItemPath);
                             if (matchingStorageItem != null)
                             {
-                                item.FolderRelativeId = matchingStorageItem.FolderRelativeId;
-                                item.ItemType = matchingStorageItem.DisplayType;
                                 var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageItem);
-                                item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
-                                wasSyncStatusLoaded = true;
+                                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                                {
+                                    item.FolderRelativeId = matchingStorageItem.FolderRelativeId;
+                                    item.ItemType = matchingStorageItem.DisplayType;
+                                    item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+                                    wasSyncStatusLoaded = true;
+                                }, Windows.UI.Core.CoreDispatcherPriority.Low);
                             }
                         }
                     }
@@ -790,15 +805,17 @@ namespace Files.ViewModels
                 {
                     if (!wasSyncStatusLoaded)
                     {
-                        item.SyncStatusUI = new CloudDriveSyncStatusUI() { LoadSyncStatus = false }; // Reset cloud sync status icon
+                        await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
+                        {
+                            item.SyncStatusUI = new CloudDriveSyncStatusUI() { LoadSyncStatus = false }; // Reset cloud sync status icon
+                        }, Windows.UI.Core.CoreDispatcherPriority.Low);
                     }
-                    item.ItemPropertiesInitialized = true;
                     loadExtendedPropsSemaphore.Release();
                 }
-            }
+            });
         }
 
-        public async Task<(BitmapImage Icon, BitmapImage Overlay, bool IsCustom)> LoadIconOverlayAsync(string filePath, uint thumbnailSize)
+        public async Task<(byte[] IconData, byte[] OverlayData, bool IsCustom)> LoadIconOverlayAsync(string filePath, uint thumbnailSize)
         {
             if (Connection != null)
             {
@@ -809,28 +826,14 @@ namespace Files.ViewModels
                 var response = await Connection.SendMessageAsync(value);
                 var hasCustomIcon = (response.Status == AppServiceResponseStatus.Success)
                     && response.Message.Get("HasCustomIcon", false);
-                BitmapImage iconImage = null, overlayImage = null;
                 var icon = response.Message.Get("Icon", (string)null);
-                if (icon != null)
-                {
-                    iconImage = new BitmapImage();
-                    byte[] bitmapData = Convert.FromBase64String(icon);
-                    using (var ms = new MemoryStream(bitmapData))
-                    {
-                        await iconImage.SetSourceAsync(ms.AsRandomAccessStream());
-                    }
-                }
                 var overlay = response.Message.Get("Overlay", (string)null);
-                if (overlay != null)
-                {
-                    overlayImage = new BitmapImage();
-                    byte[] bitmapData = Convert.FromBase64String(overlay);
-                    using (var ms = new MemoryStream(bitmapData))
-                    {
-                        await overlayImage.SetSourceAsync(ms.AsRandomAccessStream());
-                    }
-                }
-                return (iconImage, overlayImage, hasCustomIcon);
+
+                // BitmapImage can only be created on UI thread, so return raw data and create
+                // BitmapImage later to prevent exceptions once SynchorizationContext lost
+                return (icon == null ? null : Convert.FromBase64String(icon),
+                    overlay == null ? null : Convert.FromBase64String(overlay),
+                    hasCustomIcon);
             }
             return (null, null, false);
         }
