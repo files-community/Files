@@ -107,8 +107,7 @@
                 MinWidth="100"
                 HorizontalAlignment="Right"
                 Click="CancelButton_Click"
-                Content="Cancel"
-                Style="{ThemeResource ButtonRevealStyle}" />
+                Content="Cancel" />
         </Grid>
     </Grid>
 </Page>
