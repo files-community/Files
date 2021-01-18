@@ -990,9 +990,6 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Bedømmelse</value>
   </data>
-  <data name="PropertyItemFolderPathDisplay" xml:space="preserve">
-    <value>Emne mappe sti</value>
-  </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
     <value>Emnetype</value>
   </data>

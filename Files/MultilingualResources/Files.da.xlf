@@ -1310,10 +1310,6 @@
           <source>Rating</source>
           <target state="translated">Bedømmelse</target>
         </trans-unit>
-        <trans-unit id="PropertyItemFolderPathDisplay" translate="yes" xml:space="preserve">
-          <source>Item Folder Path</source>
-          <target state="translated">Emne mappe sti</target>
-        </trans-unit>
         <trans-unit id="PropertyItemTypeText" translate="yes" xml:space="preserve">
           <source>Item Type</source>
           <target state="translated">Emnetype</target>
@@ -2057,6 +2053,22 @@
         <trans-unit id="SettingsWhenLaunchingFiles.Text" translate="yes" xml:space="preserve">
           <source>When Launching Files</source>
           <target state="new">When Launching Files</target>
+        </trans-unit>
+        <trans-unit id="PropertyItemPathDisplay" translate="yes" xml:space="preserve">
+          <source>Item Path</source>
+          <target state="new">Item Path</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
+          <source>Enable adaptive preview pane</source>
+          <target state="new">Enable adaptive preview pane</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneToggle.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Toggle the preview pane (Ctrl + P)</source>
+          <target state="new">Toggle the preview pane (Ctrl + P)</target>
+        </trans-unit>
+        <trans-unit id="DetailsPanePreviewNotAvaliableText" translate="yes" xml:space="preserve">
+          <source>No preview available</source>
+          <target state="new">No preview available</target>
         </trans-unit>
       </group>
     </body>

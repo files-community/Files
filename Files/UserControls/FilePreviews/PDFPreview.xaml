@@ -19,7 +19,7 @@
         </ListView.ItemTemplate>
         
         <ListView.Footer>
-            <muxc:ProgressRing x:Name="LoadingRing" IsActive="True" />
+            <muxc:ProgressBar x:Name="LoadingRing" IsIndeterminate="True"/>
         </ListView.Footer>
     </ListView>
 </local:PreviewControlBase>
