@@ -108,7 +108,7 @@
                 HorizontalAlignment="Right"
                 Click="CancelButton_Click"
                 Content="Cancel"
-                Style="{ThemeResource ButtonRevealStyle}" />
+                Style="{StaticResource ButtonRevealStyle}" />
         </Grid>
     </Grid>
 </Page>
