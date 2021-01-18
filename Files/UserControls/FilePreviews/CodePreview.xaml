@@ -10,8 +10,8 @@
     d:DesignWidth="400">
 
     <Grid>
-        <ScrollViewer>
-            <controls:MarkdownTextBlock x:Name="TextPreviewControl"/>
+        <ScrollViewer HorizontalScrollMode="Auto">
+            <controls:MarkdownTextBlock x:Name="TextPreviewControl" CodeBackground="Transparent" Background="Transparent"/>
         </ScrollViewer>
     </Grid>
 </local:PreviewControlBase>

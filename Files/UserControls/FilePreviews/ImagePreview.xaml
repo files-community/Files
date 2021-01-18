@@ -10,8 +10,6 @@
     d:DesignWidth="400">
 
     <Grid>
-        <ScrollViewer ZoomMode="Enabled">
-            <Image x:Name="ImageContent"/>
-        </ScrollViewer>
+        <Image x:Name="ImageContent"/>
     </Grid>
 </local:PreviewControlBase>

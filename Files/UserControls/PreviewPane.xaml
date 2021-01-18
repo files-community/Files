@@ -50,7 +50,7 @@
                         <Setter Target="HorizontalGridSplitter.(Grid.Column)" Value="1"/>
                         <Setter Target="HorizontalGridSplitter.BorderThickness" Value="0, 1, 0, 0"/>
                         <Setter Target="HorizontalGridSplitter.Width" Value="2"/>
-
+                        
                         <Setter Target="PropertiesRow.Height" Value="0"/>
                     </VisualState.Setters>
                 </VisualState>
@@ -76,28 +76,31 @@
         </VisualStateManager.VisualStateGroups>
 
         <Grid Grid.Row="0" x:Name="RootPreviewGrid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5, 5, 5, 5">
-            <TextBlock x:Name="PreviewNotAvaliableText" x:Uid="DetailsPanePreviewNotAvaliableText" Visibility="Collapsed" Text="No preview avaliable"/>
+            <TextBlock x:Name="PreviewNotAvaliableText" x:Uid="DetailsPanePreviewNotAvaliableText" Visibility="Collapsed" Text="No preview available" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <Grid x:Name="PreviewGrid">
             </Grid>
         </Grid>
 
-        <controls:GridSplitter Margin="5, 5, 5, 5" Grid.Row="1" Grid.Column="0" x:Name="HorizontalGridSplitter" Style="{StaticResource PaneGridSplitter}"/>
+        <controls:GridSplitter Grid.Row="1" Grid.Column="0" x:Name="HorizontalGridSplitter" Style="{StaticResource PaneGridSplitter}" GripperCursor="Arrow"/>
 
         <ListView SelectionMode="None" Grid.Row="2" x:Name="RootPropertiesGrid" ItemsSource="{x:Bind SelectedItem.FileDetails, Mode=OneWay}">
+            <ListView.Header>
+                <TextBlock HorizontalAlignment="Center" Text="{x:Bind SelectedItem.ItemName, Mode=OneWay}" FontSize="18"  IsTextSelectionEnabled="True"/>
+            </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="properties:FileProperty">
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="3*" />
                         </Grid.ColumnDefinitions>
 
                         <TextBlock
                             Grid.Row="0"
                             HorizontalAlignment="Stretch"
                             Style="{StaticResource PropertyName}"
-                            Text="{x:Bind Name, Mode=OneWay}" />
+                            Text="{x:Bind Name, Mode=OneWay}"
+                            ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}"/>
                         <TextBox
                             x:Name="PropertyValueTemplateTextBox"
                             Grid.Row="0"
@@ -105,7 +108,7 @@
                             HorizontalAlignment="Stretch"
                             IsReadOnly="True"
                             Style="{StaticResource PropertyValueTextBox}"
-                            Text="{x:Bind ValueText, Mode=TwoWay}" />
+                            Text="{x:Bind ValueText, Mode=TwoWay}"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

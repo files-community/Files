@@ -62,8 +62,12 @@ namespace Files.UserControls
                     return;
                 }
 
-                // Simple making the item null doesn't clear the ListView, so clear it
+                // Making the item null doesn't clear the ListView, so clear it
                 SelectedItem?.FileDetails.Clear();
+                if(SelectedItem != null)
+                {
+                    SelectedItem.ItemName = "";
+                }
                 SelectedItem = null;
 
                 PreviewNotAvaliableText.Visibility = Visibility.Visible;
@@ -109,8 +113,10 @@ namespace Files.UserControls
         {
             PreviewNotAvaliableText.Visibility = Visibility.Collapsed;
 
+            // Folders not supported yet
             if (item.FileExtension == null)
             {
+                PreviewNotAvaliableText.Visibility = Visibility.Visible;
                 return;
             }
 

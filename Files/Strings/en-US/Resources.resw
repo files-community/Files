@@ -1657,6 +1657,6 @@
     <value>Toggle the preview pane (Ctrl + P)</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
-    <value>No preview avaliable</value>
+    <value>No preview available</value>
   </data>
 </root>

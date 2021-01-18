@@ -2055,8 +2055,8 @@
           <target state="new">Enable adaptive preview pane</target>
         </trans-unit>
         <trans-unit id="DetailsPanePreviewNotAvaliableText" translate="yes" xml:space="preserve">
-          <source>No preview avaliable</source>
-          <target state="new">No preview avaliable</target>
+          <source>No preview available</source>
+          <target state="new">No preview available</target>
         </trans-unit>
         <trans-unit id="PreviewPaneToggle.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Toggle the preview pane (Ctrl + P)</source>

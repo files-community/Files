@@ -24,7 +24,7 @@ namespace Files.UserControls.FilePreviews
     public sealed partial class RichTextPreview : PreviewControlBase
     {
         public static List<string> Extensions => new List<string>() {
-            ".rtf", ".doc"
+            ".rtf"
         };
 
         public RichTextPreview(ListedItem item) : base(item)
