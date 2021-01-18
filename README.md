@@ -1,5 +1,6 @@
 ## Files
 Meet Files, an enthusiast take on what a modern file explorer should be.
+
 Files [code of conduct](https://github.com/files-community/files-uwp/blob/master/CODE_OF_CONDUCT.md)
 
 [![Build Status](https://dev.azure.com/lukeblevins150823/Files%20UWP/_apis/build/status/Build%20Pipeline?branchName=main)](https://dev.azure.com/lukeblevins150823/Files%20UWP/_build/latest?definitionId=4&branchName=master)
