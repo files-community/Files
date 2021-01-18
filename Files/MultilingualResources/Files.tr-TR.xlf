@@ -523,8 +523,9 @@
           <target state="translated">Yeni isim oluştur</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogTitle" translate="yes" xml:space="preserve">
-          <source>Öğe zaten mevcut</source>
+          <source>Item already exists</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Öğe zaten mevcut</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Replace existing item</source>
@@ -2058,6 +2059,14 @@
         <trans-unit id="dateDeletedColumn.Header" translate="yes" xml:space="preserve">
           <source>Date deleted</source>
           <target state="translated">Tarih silindi</target>
+        </trans-unit>
+        <trans-unit id="SettingsTabCustomization.Text" translate="yes" xml:space="preserve">
+          <source>Tab Customization</source>
+          <target state="new">Tab Customization</target>
+        </trans-unit>
+        <trans-unit id="SettingsWhenLaunchingFiles.Text" translate="yes" xml:space="preserve">
+          <source>When Launching Files</source>
+          <target state="new">When Launching Files</target>
         </trans-unit>
       </group>
     </body>

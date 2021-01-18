@@ -55,7 +55,7 @@
     <value>Отправить отчет о проблеме, чтобы предоставить разработчикам больше информации о ней</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Third Party Licenses</value>
+    <value>Сторонние лицензии</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>О приложении</value>
@@ -1412,5 +1412,29 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Двойная панель</value>
+  </data>
+  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
+    <value>Отображать пункт "Копировать местоположение"</value>
+  </data>
+  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
+    <value>Переносить непомещающиеся пункты в подменю</value>
+  </data>
+  <data name="SettingsContextMenu.Text" xml:space="preserve">
+    <value>Настройки контекстного меню</value>
+  </data>
+  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
+    <value>Отображать пункт "Открыть в новой вкладке"</value>
+  </data>
+  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+    <value>Папки</value>
+  </data>
+  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
+    <value>Использовать анимации при открытии и закрытии контекстного меню</value>
+  </data>
+  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
+    <value>Отображать расширения файлов</value>
+  </data>
+  <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
+    <value>Отображать скрытые файлы</value>
   </data>
 </root>

@@ -34,10 +34,15 @@
                     FontWeight="Medium"
                     Text="On Startup" />
 
+                <TextBlock
+                    x:Uid="SettingsWhenLaunchingFiles"
+                    FontSize="18"
+                    Text="When Launching Files" />
+
                 <RadioButton
                     x:Uid="SettingsOnStartupOpenANewTab"
                     Grid.Column="0"
-                    Padding="8,3,0,0"
+                    Padding="8,4,0,0"
                     VerticalAlignment="Center"
                     Content="Open a new tab"
                     FontSize="16"
@@ -47,7 +52,7 @@
                 <RadioButton
                     x:Uid="SettingsOnStartupContinueWhereYouLeftOff"
                     Grid.Column="0"
-                    Padding="8,3,0,0"
+                    Padding="8,4,0,0"
                     VerticalAlignment="Center"
                     Content="Continue where you left off"
                     FontSize="16"
@@ -58,7 +63,7 @@
                     x:Name="OpenSpecificPage"
                     x:Uid="SettingsOnStartupOpenASpecificPage"
                     Grid.Column="0"
-                    Padding="8,3,0,0"
+                    Padding="8,4,0,0"
                     VerticalAlignment="Center"
                     Content="Open a specific page or pages"
                     FontSize="16"
@@ -131,7 +136,7 @@
 
                 <TextBlock
                     x:Uid="SettingsOnStartupNewInstanceBehavior"
-                    FontSize="17"
+                    FontSize="18"
                     Text="When launching an item from the jumplist" />
 
                 <RadioButton
