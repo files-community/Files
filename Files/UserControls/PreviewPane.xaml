@@ -52,6 +52,7 @@
                         <Setter Target="HorizontalGridSplitter.Width" Value="2"/>
                         
                         <Setter Target="PropertiesRow.Height" Value="0"/>
+                        <Setter Target="GripperGlyphTextBlock.Text" Value="&#xE9FC;"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState>
@@ -81,9 +82,17 @@
             </Grid>
         </Grid>
 
-        <controls:GridSplitter Grid.Row="1" Grid.Column="0" x:Name="HorizontalGridSplitter" Style="{StaticResource PaneGridSplitter}" GripperCursor="Arrow"/>
+        <controls:GridSplitter Grid.Row="1" Grid.Column="0" x:Name="HorizontalGridSplitter" Background="Transparent">
+            <controls:GridSplitter.Element>
+                    <Grid>
+                        <TextBlock HorizontalAlignment="Center" IsHitTestVisible="False" VerticalAlignment="Center" x:Name="GripperGlyphTextBlock"
+                               Text="&#xEB3D;" FontSize="36" Foreground="{StaticResource ApplicationForegroundThemeBrush}" FontFamily="{StaticResource FluentUIGlyphs}">
+                        </TextBlock>
+                    </Grid>
+                </controls:GridSplitter.Element>
+        </controls:GridSplitter>
 
-        <ListView SelectionMode="None" Grid.Row="2" x:Name="RootPropertiesGrid" ItemsSource="{x:Bind SelectedItem.FileDetails, Mode=OneWay}">
+            <ListView SelectionMode="None" Grid.Row="2" x:Name="RootPropertiesGrid" ItemsSource="{x:Bind SelectedItem.FileDetails, Mode=OneWay}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="properties:FileProperty">
                     <Grid HorizontalAlignment="Stretch">
