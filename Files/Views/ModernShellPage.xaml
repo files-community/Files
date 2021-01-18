@@ -318,7 +318,7 @@
                     Grid.Column="1" Grid.Row="1"
                     Style="{StaticResource PaneGridSplitter}"
                     ResizeBehavior="BasedOnAlignment"
-                    x:Name="PreviewPaneGridSplitter" Visibility="{x:Bind AppSettings.PreviewPaneEnabled, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    x:Name="PreviewPaneGridSplitter" x:Load="{x:Bind AppSettings.PreviewPaneEnabled, Mode=OneWay}">
                 </Custom:GridSplitter>
 
                 <controls:PreviewPane Grid.Row="1" Grid.Column="2" x:Name="PreviewPane" 

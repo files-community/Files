@@ -84,12 +84,12 @@
 
         <controls:GridSplitter Grid.Row="1" Grid.Column="0" x:Name="HorizontalGridSplitter" Background="Transparent">
             <controls:GridSplitter.Element>
-                    <Grid>
-                        <TextBlock HorizontalAlignment="Center" IsHitTestVisible="False" VerticalAlignment="Center" x:Name="GripperGlyphTextBlock"
-                               Text="&#xEB3D;" FontSize="36" Foreground="{StaticResource ApplicationForegroundThemeBrush}" FontFamily="{StaticResource FluentUIGlyphs}">
-                        </TextBlock>
-                    </Grid>
-                </controls:GridSplitter.Element>
+                <Grid>
+                    <TextBlock HorizontalAlignment="Center" IsHitTestVisible="False" VerticalAlignment="Center" x:Name="GripperGlyphTextBlock"
+                               Text="&#xEB3D;" FontSize="36" Foreground="{StaticResource SystemChromeHighColor}" FontFamily="{StaticResource FluentUIGlyphs}">
+                    </TextBlock>
+                </Grid>
+            </controls:GridSplitter.Element>
         </controls:GridSplitter>
 
             <ListView SelectionMode="None" Grid.Row="2" x:Name="RootPropertiesGrid" ItemsSource="{x:Bind SelectedItem.FileDetails, Mode=OneWay}">
@@ -98,7 +98,7 @@
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="2*" />
                         </Grid.ColumnDefinitions>
 
                         <TextBlock
