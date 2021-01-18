@@ -1,4 +1,5 @@
 ﻿using Files.Enums;
+using Files.UserControls;
 using Files.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,8 @@ namespace Files.Converters
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (parameter is FolderLayoutInformation param && value is FolderLayoutInformation layoutModeValue && layoutModeValue.Mode == param.Mode)
+            if ((App.Current.Resources[parameter as string] as FolderLayoutInformation) is FolderLayoutInformation param 
+                && value is FolderLayoutInformation layoutModeValue && layoutModeValue.Mode == param.Mode)
             {
                 if (layoutModeValue.Mode != FolderLayoutModes.GridView)
                 {

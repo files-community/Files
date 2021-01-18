@@ -4,16 +4,22 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:fsvm="using:Files.ViewModels"
     xmlns:local="using:Files.UserControls"
     xmlns:local1="using:Files"
     xmlns:lottie="using:Microsoft.Toolkit.Uwp.UI.Lottie"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:fsvm="using:Files.ViewModels"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="40"
     d:DesignWidth="400"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <converters:LayoutModeToBoolConverter x:Key="LayoutModeBoolConverter" />
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid
@@ -112,9 +118,6 @@
                 FontSize="16"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Display Options">
-                <Button.Resources>
-                    <converters:LayoutModeToBoolConverter x:Key="LayoutModeBoolConverter" />
-                </Button.Resources>
                 <Button.Flyout>
                     <Flyout>
                         <StackPanel Spacing="12">
@@ -138,86 +141,76 @@
                                 FontWeight="Medium"
                                 Text="Layout Mode" />
                             <StackPanel Orientation="Horizontal" Spacing="4">
-                                <ToggleButton
+                                <RadioButton
                                     x:Uid="StatusBarControlDetailsView"
                                     Height="32"
+                                    MinWidth="0"
                                     Command="{x:Bind FolderSettings.ToggleLayoutModeDetailsView}"
                                     CornerRadius="2"
-                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter={Binding Tag}}"
-                                    Style="{StaticResource ToolBarToggleButtonStyle}"
+                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter=DetailsInfo}"
+                                    Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Details View">
                                     <FontIcon
                                         FontFamily="{StaticResource CustomGlyph}"
                                         FontSize="16"
                                         Glyph="&#xF101;" />
-                                    <ToggleButton.Tag>
-                                        <fsvm:FolderLayoutInformation Mode="DetailsView" />
-                                    </ToggleButton.Tag>
-                                </ToggleButton>
-                                <ToggleButton
+                                </RadioButton>
+                                <RadioButton
                                     x:Uid="StatusBarControlTilesView"
                                     Height="32"
+                                    MinWidth="0"
                                     Command="{x:Bind FolderSettings.ToggleLayoutModeTiles}"
                                     CornerRadius="2"
-                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter={Binding Tag}}"
-                                    Style="{StaticResource ToolBarToggleButtonStyle}"
+                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter=TilesInfo}"
+                                    Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Tiles View">
                                     <FontIcon
                                         FontFamily="{StaticResource CustomGlyph}"
                                         FontSize="16"
                                         Glyph="&#xF100;" />
-                                    <ToggleButton.Tag>
-                                        <fsvm:FolderLayoutInformation Mode="TilesView" />
-                                    </ToggleButton.Tag>
-                                </ToggleButton>
-                                <ToggleButton
+                                </RadioButton>
+                                <RadioButton
                                     x:Uid="StatusBarControlGridViewSmall"
                                     Height="32"
+                                    MinWidth="0"
                                     Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewSmall}"
                                     CornerRadius="2"
-                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter={Binding Tag}}"
-                                    Style="{StaticResource ToolBarToggleButtonStyle}"
+                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
+                                    Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Grid View (Small)">
                                     <FontIcon
                                         FontFamily="{StaticResource FluentUIGlyphs}"
                                         FontSize="16"
                                         Glyph="&#xEBA1;" />
-                                    <ToggleButton.Tag>
-                                        <fsvm:FolderLayoutInformation Mode="GridView" SizeKind="Small" />
-                                    </ToggleButton.Tag>
-                                </ToggleButton>
-                                <ToggleButton
+                                </RadioButton>
+                                <RadioButton
                                     x:Uid="StatusBarControlGridViewMedium"
                                     Height="32"
+                                    MinWidth="0"
                                     Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewMedium}"
                                     CornerRadius="2"
-                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter={Binding Tag}}"
-                                    Style="{StaticResource ToolBarToggleButtonStyle}"
+                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
+                                    Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Grid View (Medium)">
                                     <FontIcon
                                         FontFamily="{StaticResource FluentUIGlyphs}"
                                         FontSize="16"
                                         Glyph="&#xEA72;" />
-                                    <ToggleButton.Tag>
-                                        <fsvm:FolderLayoutInformation Mode="GridView" SizeKind="Medium" />
-                                    </ToggleButton.Tag>
-                                </ToggleButton>
-                                <ToggleButton
+                                </RadioButton>
+                                <RadioButton
                                     x:Uid="StatusBarControlGridViewLarge"
                                     Height="32"
+                                    MinWidth="0"
                                     Command="{x:Bind FolderSettings.ToggleLayoutModeGridViewLarge}"
                                     CornerRadius="2"
-                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter={Binding Tag}}"
-                                    Style="{StaticResource ToolBarToggleButtonStyle}"
+                                    IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter=LargeGridInfo}"
+                                    Style="{StaticResource ToggleButtonRevealStyle}"
                                     ToolTipService.ToolTip="Grid View (Large)">
                                     <FontIcon
                                         FontFamily="{StaticResource FluentUIGlyphs}"
                                         FontSize="16"
                                         Glyph="&#xE9A0;" />
-                                    <ToggleButton.Tag>
-                                        <fsvm:FolderLayoutInformation Mode="GridView" SizeKind="Large" />
-                                    </ToggleButton.Tag>
-                                </ToggleButton>
+                                </RadioButton>
                             </StackPanel>
                         </StackPanel>
                     </Flyout>

@@ -21,6 +21,8 @@ namespace Files.ViewModels
         {
             this.associatedInstance = associatedInstance;
             this.LayoutPreference = new LayoutPreferences();
+
+            SetLayoutInformation();
         }
 
         public FolderLayoutModes LayoutMode
@@ -30,11 +32,7 @@ namespace Files.ViewModels
             {
                 if (SetProperty(ref LayoutPreference.LayoutMode, value, nameof(LayoutMode)))
                 {
-                    LayoutModeInformation = new FolderLayoutInformation()
-                    {
-                        Mode = LayoutMode,
-                        SizeKind = GridViewSizeKind
-                    };
+                    SetLayoutInformation();
                     UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
                 }
             }
@@ -46,6 +44,15 @@ namespace Files.ViewModels
         {
             get => layoutModeInformation;
             set => SetProperty(ref layoutModeInformation, value);
+        }
+
+        public void SetLayoutInformation()
+        {
+            LayoutModeInformation = new FolderLayoutInformation()
+            {
+                Mode = LayoutMode,
+                SizeKind = GridViewSizeKind
+            };
         }
 
         private bool isLayoutModeChanging;
@@ -214,6 +221,8 @@ namespace Files.ViewModels
                         }
                     }
                 }
+
+                SetLayoutInformation();
             }
         }
 
