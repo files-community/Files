@@ -384,10 +384,7 @@ namespace Files
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-        }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
             var parameter = e.Parameter as NavigationArguments;
             if (!parameter.IsLayoutSwitch)
             {
@@ -972,6 +969,15 @@ namespace Files
                     element.Drop += Item_Drop;
                 }
             }
+        }
+
+        protected void UninitializeDrag(UIElement element)
+        {
+            element.AllowDrop = false;
+            element.DragStarting -= Item_DragStarting;
+            element.DragOver -= Item_DragOver;
+            element.DragLeave -= Item_DragLeave;
+            element.Drop -= Item_Drop;
         }
 
         // VirtualKey doesn't support / accept plus and minus by default.

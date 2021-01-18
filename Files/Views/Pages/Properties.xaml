@@ -99,7 +99,7 @@
                 HorizontalAlignment="Right"
                 Click="OKButton_Click"
                 Content="OK"
-                Style="{ThemeResource ButtonRevealStyle}" />
+                Style="{StaticResource AccentButtonStyle}" />
             <Button
                 x:Name="CancelButton"
                 x:Uid="PropertiesDialogCancelButton"
@@ -107,8 +107,7 @@
                 MinWidth="100"
                 HorizontalAlignment="Right"
                 Click="CancelButton_Click"
-                Content="Cancel"
-                Style="{ThemeResource ButtonRevealStyle}" />
+                Content="Cancel" />
         </Grid>
     </Grid>
 </Page>

@@ -113,8 +113,10 @@ namespace Files.Views.LayoutModes
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
+            AllView.ItemsSource = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged += ViewModel_PropertyChanged;
             AllView.LoadingRow += AllView_LoadingRow;
+            AllView.UnloadingRow += AllView_UnloadingRow;
             AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
             ViewModel_PropertyChanged(null, new PropertyChangedEventArgs("DirectorySortOption"));
             var parameters = (NavigationArguments)eventArgs.Parameter;
@@ -122,6 +124,12 @@ namespace Files.Views.LayoutModes
             {
                 ReloadItemIcons();
             }
+        }
+
+        private void AllView_UnloadingRow(object sender, DataGridRowEventArgs e)
+        {
+            e.Row.CanDrag = false;
+            base.UninitializeDrag(e.Row);
         }
 
         private void ReloadItemIcons()
@@ -145,7 +153,10 @@ namespace Files.Views.LayoutModes
             base.OnNavigatingFrom(e);
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged -= ViewModel_PropertyChanged;
             AllView.LoadingRow -= AllView_LoadingRow;
+            AllView.UnloadingRow -= AllView_UnloadingRow;
             AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
+            
+            AllView.ItemsSource = null;
         }
 
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
@@ -179,6 +190,7 @@ namespace Files.Views.LayoutModes
             {
                 var rows = new List<DataGridRow>();
                 Interaction.FindChildren<DataGridRow>(rows, AllView);
+                
                 foreach (DataGridRow row in rows)
                 {
                     row.CanDrag = SelectedItems.Contains(row.DataContext);
@@ -505,7 +517,7 @@ namespace Files.Views.LayoutModes
         private void AllView_LoadingRow(object sender, DataGridRowEventArgs e)
         {
             InitializeDrag(e.Row);
-
+ 
             if (e.Row.DataContext is ListedItem item && !item.ItemPropertiesInitialized)
             {
                 ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item);

@@ -19,7 +19,8 @@ namespace Files.Filesystem.Cloud
                 new OneDriveCommercialCloudProvider(),
                 new MegaCloudProvider(),
                 new BoxCloudProvider(),
-                new AppleCloudProvider()
+                new AppleCloudProvider(),
+                new AmazonDriveProvider()
             };
 
             CloudProviders = new List<CloudProvider>();

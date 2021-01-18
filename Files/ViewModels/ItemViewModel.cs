@@ -566,7 +566,7 @@ namespace Files.ViewModels
                     }
                     else
                     {
-                        ordered = listToSort.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc, naturalStringComparer);
+                        ordered = listToSort.OrderBy(folderThenFileAsync).ThenByDescending(orderFunc, naturalStringComparer);
                     }
                 }
                 else
@@ -577,7 +577,7 @@ namespace Files.ViewModels
                     }
                     else
                     {
-                        ordered = listToSort.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc);
+                        ordered = listToSort.OrderBy(folderThenFileAsync).ThenByDescending(orderFunc);
                     }
                 }
             }

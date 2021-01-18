@@ -8,7 +8,7 @@
             <TextBlock
                 MaxWidth="440"
                 Padding="0,0,0,8"
-                FontSize="17"
+                FontSize="16"
                 Text="{Binding}"
                 TextWrapping="Wrap" />
         </StackPanel>
