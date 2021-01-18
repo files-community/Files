@@ -2056,6 +2056,14 @@
           <source>Date deleted</source>
           <target state="new">Date deleted</target>
         </trans-unit>
+        <trans-unit id="SettingsTabCustomization.Text" translate="yes" xml:space="preserve">
+          <source>Tab Customization</source>
+          <target state="new">Tab Customization</target>
+        </trans-unit>
+        <trans-unit id="SettingsWhenLaunchingFiles.Text" translate="yes" xml:space="preserve">
+          <source>When Launching Files</source>
+          <target state="new">When Launching Files</target>
+        </trans-unit>
       </group>
     </body>
   </file>

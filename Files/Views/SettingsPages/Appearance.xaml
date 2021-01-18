@@ -80,7 +80,7 @@
                 <TextBlock
                     x:Uid="SettingsContextMenu"
                     Padding="0,10,0,0"
-                    FontSize="20"
+                    FontSize="18"
                     Text="Customize the right click context menu" />
 
                 <ToggleSwitch

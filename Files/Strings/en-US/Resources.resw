@@ -1650,4 +1650,10 @@
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>Date deleted</value>
   </data>
+  <data name="SettingsTabCustomization.Text" xml:space="preserve">
+    <value>Tab Customization</value>
+  </data>
+  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
+    <value>When Launching Files</value>
+  </data>
 </root>
