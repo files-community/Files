@@ -878,7 +878,7 @@ namespace Files.ViewModels
                 AssociatedInstance.NavigationToolbar.CanGoBack = AssociatedInstance.ContentFrame.CanGoBack;
                 AssociatedInstance.NavigationToolbar.CanGoForward = AssociatedInstance.ContentFrame.CanGoForward;
 
-                (bool LoadedFromCache, ListedItem CurrentFolder) cacheResult = (false, null);
+                List<string> cacheResult = null;
 
                 if (useCache)
                 {
@@ -907,31 +907,22 @@ namespace Files.ViewModels
                                     await ApplyFilesAndFoldersChangesAsync();
                                 }
                             }
-                            return (true, cacheEntry.CurrentFolder);
+                            return filesAndFolders.Select(i => i.ItemPath).ToList();
                         }
-                        return (false, null);
+                        return null;
                     });
                 }
 
-                if (cacheResult.LoadedFromCache)
+                if (path.StartsWith(AppSettings.RecycleBinPath))
                 {
-                    CurrentFolder = cacheResult.CurrentFolder;
-                    Debug.WriteLine($"Loading of items from cache in {path} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
-                    IsLoadingIndicatorActive = false;
+                    // Recycle bin is special as files are enumerated by the fulltrust process
+                    await EnumerateItemsFromSpecialFolderAsync(path);
                 }
                 else
                 {
-                    if (path.StartsWith(AppSettings.RecycleBinPath))
+                    if (await EnumerateItemsFromStandardFolderAsync(path, cacheResult))
                     {
-                        // Recycle bin is special as files are enumerated by the fulltrust process
-                        await EnumerateItemsFromSpecialFolderAsync(path);
-                    }
-                    else
-                    {
-                        if (await EnumerateItemsFromStandardFolderAsync(path))
-                        {
-                            WatchForDirectoryChanges(path);
-                        }
+                        WatchForDirectoryChanges(path);
                     }
                 }
 
@@ -1076,7 +1067,7 @@ namespace Files.ViewModels
             }
         }
 
-        public async Task<bool> EnumerateItemsFromStandardFolderAsync(string path)
+        public async Task<bool> EnumerateItemsFromStandardFolderAsync(string path, List<string> skipItems)
         {
             // Flag to use FindFirstFileExFromApp or StorageFolder enumeration
             bool enumFromStorageFolder = false;
@@ -1166,7 +1157,7 @@ namespace Files.ViewModels
                     FileSize = null,
                     FileSizeBytes = 0
                 };
-                await EnumFromStorageFolderAsync(path);
+                await EnumFromStorageFolderAsync(path, skipItems);
                 return true;
             }
             else
@@ -1225,7 +1216,7 @@ namespace Files.ViewModels
                 }
                 else if (hFile.ToInt64() == -1)
                 {
-                    await EnumFromStorageFolderAsync(path);
+                    await EnumFromStorageFolderAsync(path, skipItems);
                     return false;
                 }
                 else
@@ -1246,7 +1237,14 @@ namespace Files.ViewModels
                                         var listedItem = await AddFile(findData, path, returnformat);
                                         if (listedItem != null)
                                         {
-                                            filesAndFolders.Add(listedItem);
+                                            if (skipItems?.Contains(listedItem.ItemPath) ?? false)
+                                            {
+                                                skipItems.Remove(listedItem.ItemPath);
+                                            }
+                                            else
+                                            {
+                                                filesAndFolders.Add(listedItem);
+                                            }
                                             ++count;
                                         }
                                     }
@@ -1257,7 +1255,14 @@ namespace Files.ViewModels
                                             var listedItem = AddFolder(findData, path, returnformat);
                                             if (listedItem != null)
                                             {
-                                                filesAndFolders.Add(listedItem);
+                                                if (skipItems?.Contains(listedItem.ItemPath) ?? false)
+                                                {
+                                                    skipItems.Remove(listedItem.ItemPath);
+                                                }
+                                                else
+                                                {
+                                                    filesAndFolders.Add(listedItem);
+                                                }
                                                 ++count;
                                             }
                                         }
@@ -1277,6 +1282,16 @@ namespace Files.ViewModels
                             }
                         } while (hasNextFile);
                     });
+
+                    if (skipItems != null)
+                    {
+                        // remove invalid cache entries
+                        var invalidEntries = filesAndFolders.Where(i => skipItems.Contains(i.ItemPath)).ToList();
+                        foreach (var i in invalidEntries)
+                        {
+                            filesAndFolders.Remove(i);
+                        }
+                    }
 
                     if (!addFilesCTS.IsCancellationRequested)
                     {
@@ -1299,7 +1314,7 @@ namespace Files.ViewModels
             }
         }
 
-        private async Task EnumFromStorageFolderAsync(string path)
+        private async Task EnumFromStorageFolderAsync(string path, List<string> skipItems)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -1339,7 +1354,14 @@ namespace Files.ViewModels
                     var folder = await AddFolderAsync(item as StorageFolder, returnformat);
                     if (folder != null)
                     {
-                        filesAndFolders.Add(folder);
+                        if (skipItems?.Contains(folder.ItemPath) ?? false)
+                        {
+                            skipItems.Remove(folder.ItemPath);
+                        }
+                        else
+                        {
+                            filesAndFolders.Add(folder);
+                        }
                     }
                     ++count;
                 }
@@ -1349,7 +1371,14 @@ namespace Files.ViewModels
                     var fileEntry = await AddFileAsync(file, returnformat, true);
                     if (fileEntry != null)
                     {
-                        filesAndFolders.Add(fileEntry);
+                        if (skipItems?.Contains(fileEntry.ItemPath) ?? false)
+                        {
+                            skipItems.Remove(fileEntry.ItemPath);
+                        }
+                        else
+                        {
+                            filesAndFolders.Add(fileEntry);
+                        }
                     }
                     ++count;
                 }
@@ -1361,6 +1390,16 @@ namespace Files.ViewModels
                 {
                     await OrderFilesAndFoldersAsync();
                     await ApplyFilesAndFoldersChangesAsync();
+                }
+            }
+
+            if (skipItems != null)
+            {
+                // remove invalid cache entries
+                var invalidEntries = filesAndFolders.Where(i => skipItems.Contains(i.ItemPath)).ToList();
+                foreach (var i in invalidEntries)
+                {
+                    filesAndFolders.Remove(i);
                 }
             }
 

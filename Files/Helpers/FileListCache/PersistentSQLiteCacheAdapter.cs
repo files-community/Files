@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -44,6 +45,7 @@ namespace Files.Helpers.FileListCache
 
         public async Task SaveFileListToCache(string path, CacheEntry cacheEntry)
         {
+            const int maxCachedEntries = 128;
             try
             {
                 if (cacheEntry == null)
@@ -52,6 +54,11 @@ namespace Files.Helpers.FileListCache
                     deleteCommand.Parameters.Add("@Id", SqliteType.Text).Value = path;
                     await deleteCommand.ExecuteNonQueryAsync();
                     return;
+                }
+
+                if (cacheEntry.FileList.Count > maxCachedEntries)
+                {
+                    cacheEntry.FileList = cacheEntry.FileList.Take(maxCachedEntries).ToList();
                 }
 
                 using var cmd = new SqliteCommand("SELECT Id FROM FileListCache WHERE Id = @Id", connection);
