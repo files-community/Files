@@ -7,6 +7,7 @@ using Microsoft.Toolkit.Uwp.UI;
 using Newtonsoft.Json;
 using System;
 using Windows.Storage;
+using static Files.ViewModels.FolderLayoutInformation;
 
 namespace Files.ViewModels
 {
@@ -29,9 +30,22 @@ namespace Files.ViewModels
             {
                 if (SetProperty(ref LayoutPreference.LayoutMode, value, nameof(LayoutMode)))
                 {
+                    LayoutModeInformation = new FolderLayoutInformation()
+                    {
+                        Mode = LayoutMode,
+                        SizeKind = GridViewSizeKind
+                    };
                     UpdateLayoutPreferencesForPath(associatedInstance.FilesystemViewModel.WorkingDirectory, LayoutPreference);
                 }
             }
+        }
+
+        private FolderLayoutInformation layoutModeInformation;
+
+        public FolderLayoutInformation LayoutModeInformation
+        {
+            get => layoutModeInformation;
+            set => SetProperty(ref layoutModeInformation, value);
         }
 
         private bool isLayoutModeChanging;
@@ -117,6 +131,25 @@ namespace Files.ViewModels
 
             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
+
+        public GridViewSizeKind GridViewSizeKind
+        {
+            get
+            {
+                if (GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeMedium)
+                {
+                    return GridViewSizeKind.Small;
+                }
+                else if (GridViewSize >= Constants.Browser.GridViewBrowser.GridViewSizeMedium && GridViewSize < Constants.Browser.GridViewBrowser.GridViewSizeLarge)
+                {
+                    return GridViewSizeKind.Medium;
+                }
+                else
+                {
+                    return GridViewSizeKind.Large;
+                }
+            }
+        } 
 
         public int GridViewSize
         {
@@ -358,6 +391,19 @@ namespace Files.ViewModels
             {
                 return base.GetHashCode();
             }
+        }
+    }
+
+    public class FolderLayoutInformation
+    {
+        public FolderLayoutModes Mode { get; set; }
+        public GridViewSizeKind SizeKind { get; set; }
+
+        public enum GridViewSizeKind
+        {
+            Small,
+            Medium,
+            Large
         }
     }
 }
