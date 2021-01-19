@@ -872,7 +872,11 @@ namespace Files.Interacts
 
         public void SetHiddenAttributeItems(ListedItem item, bool isHidden)
         {
-            item.IsHiddenItem = isHidden;
+            // When multiple files are selected to be made hidden at once item gets null
+            if (item != null)
+            {
+                item.IsHiddenItem = isHidden;
+            }
             // The view area needs a refresh when the hidden flag had been set
             AssociatedInstance.ContentPage.ResetItemOpacity();
         }
