@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Controls;
 using Newtonsoft.Json;
 using Windows.Storage.Pickers;
 using Windows.Storage;
+using Microsoft.Toolkit.Uwp.Extensions;
 
 namespace Files.ViewModels.Bundles
 {
@@ -290,7 +291,7 @@ namespace Files.ViewModels.Bundles
         {
             if (string.IsNullOrWhiteSpace(name))
             {
-                AddBundleErrorText = "Input field cannot be empty!";
+                AddBundleErrorText = "BundlesWidgetAddBundleErrorInputEmpty".GetLocalized();
                 return false;
             }
 
@@ -301,7 +302,7 @@ namespace Files.ViewModels.Bundles
             }
             else
             {
-                AddBundleErrorText = "Bundle with the same name already exists!";
+                AddBundleErrorText = "BundlesWidgetAddBundleErrorAlreadyExists".GetLocalized();
                 return false;
             }
         }

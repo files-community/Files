@@ -3,6 +3,7 @@ using Files.SettingsInterfaces;
 using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -107,16 +108,16 @@ namespace Files.ViewModels.Bundles
         {
             TextBox inputTextBox = new TextBox();
             inputTextBox.KeyDown += RenameTextKeyDown;
-            inputTextBox.PlaceholderText = "Desired name";
+            inputTextBox.PlaceholderText = "BundlesWidgetRenameBundleDialogInputPlaceholderText".GetLocalized();
 
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
                 DisplayControl = inputTextBox,
                 DynamicButtons = DynamicButtons.Primary | DynamicButtons.Cancel,
-                TitleText = $"Rename \"{BundleName}\"",
-                SubtitleText = "Enter new name",
-                PrimaryButtonText = "Confirm",
-                CloseButtonText = "Cancel",
+                TitleText = string.Format("BundlesWidgetRenameBundleDialogTitleText".GetLocalized(), BundleName),
+                SubtitleText = "BundlesWidgetRenameBundleDialogSubtitleText".GetLocalized(),
+                PrimaryButtonText = "BundlesWidgetRenameBundleDialogPrimaryButtonText".GetLocalized(),
+                CloseButtonText = "BundlesWidgetRenameBundleDialogCloseButtonText".GetLocalized(),
                 PrimaryButtonAction = (vm, e) =>
                 {
                     RenameBundleConfirm((vm.DisplayControl as TextBox).Text);
