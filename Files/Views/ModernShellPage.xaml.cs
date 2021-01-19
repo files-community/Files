@@ -1103,7 +1103,7 @@ namespace Files.Views
                     }
                     break;
                 case (true, false, false, true, VirtualKey.P):
-                    AppSettings.PreviewPaneEnabled = !AppSettings.PreviewPaneEnabled;
+                    InstanceViewModel.PreviewPaneEnabled = !InstanceViewModel.PreviewPaneEnabled;
                     break;
 
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh

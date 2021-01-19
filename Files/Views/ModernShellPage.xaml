@@ -165,7 +165,7 @@
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <triggers:IsEqualStateTrigger Value="{x:Bind AppSettings.PreviewPaneEnabled, Mode=OneWay}"  To="False"/>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind InstanceViewModel.PreviewPaneEnabled, Mode=OneWay}"  To="False"/>
                         <triggers:IsEqualStateTrigger Value="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"  To="False"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
@@ -305,6 +305,7 @@
                     OpenInTerminalInvokedCommand="{x:Bind InteractionOperations.OpenDirectoryInDefaultTerminal, Mode=OneWay}"
                     PasteInvokedCommand="{x:Bind InteractionOperations.PasteItemsFromClipboard, Mode=OneWay}"
                     ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}" 
+                    PreviewPaneEnabled="{x:Bind InstanceViewModel.PreviewPaneEnabled, Mode=TwoWay}"
                     Grid.ColumnSpan="3"/>
 
                 <Frame
@@ -318,12 +319,12 @@
                     Grid.Column="1" Grid.Row="1"
                     Style="{StaticResource PaneGridSplitter}"
                     ResizeBehavior="BasedOnAlignment"
-                    x:Name="PreviewPaneGridSplitter" x:Load="{x:Bind AppSettings.PreviewPaneEnabled, Mode=OneWay}">
+                    x:Name="PreviewPaneGridSplitter" x:Load="{x:Bind InstanceViewModel.PreviewPaneEnabled, Mode=OneWay}">
                 </Custom:GridSplitter>
 
                 <controls:PreviewPane Grid.Row="1" Grid.Column="2" x:Name="PreviewPane" 
                                     SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}"
-                                    x:Load="{x:Bind AppSettings.PreviewPaneEnabled, Mode=OneWay}" >
+                                    x:Load="{x:Bind InstanceViewModel.PreviewPaneEnabled, Mode=OneWay}" >
                 </controls:PreviewPane>
 
                 <controls:StatusBarControl
