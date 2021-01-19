@@ -1,8 +1,11 @@
 ﻿using Files.Enums;
-using Microsoft.Win32;
+using Files.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.AppService;
+using Windows.Foundation.Collections;
 
 namespace Files.Filesystem.Cloud.Providers
 {
@@ -12,31 +15,24 @@ namespace Files.Filesystem.Cloud.Providers
         {
             try
             {
-                using var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts", false);
-                var results = new List<CloudProvider>();
-
-                foreach (var account in oneDriveAccountsKey.GetSubKeyNames())
+                using var connection = await AppServiceConnectionHelper.BuildConnection();
+                var (status, response) = await connection.SendMessageWithRetryAsync(new ValueSet()
                 {
-                    var accountKeyName = @$"{oneDriveAccountsKey.Name}\{account}";
-                    var displayName = (string)Registry.GetValue(accountKeyName, "DisplayName", null);
-                    var userFolder = (string)Registry.GetValue(accountKeyName, "UserFolder", null);
-
-                    if (!string.IsNullOrWhiteSpace(userFolder))
+                    { "Arguments", "GetOneDriveAccounts" }
+                }, TimeSpan.FromSeconds(10));
+                if (status == AppServiceResponseStatus.Success)
+                {
+                    foreach (var key in response.Message.Keys
+                        .OrderByDescending(o => string.Equals(o, "OneDrive", StringComparison.OrdinalIgnoreCase))
+                        .ThenBy(o => o))
                     {
-                        results.Add(new CloudProvider()
+                        cloudProviders.Add(new CloudProvider()
                         {
                             ID = CloudProviders.OneDrive,
-                            Name = string.IsNullOrWhiteSpace(displayName) ? "OneDrive - Personal" : $"OneDrive - {displayName}",
-                            SyncFolder = userFolder
+                            Name = key,
+                            SyncFolder = (string)response.Message[key]
                         });
                     }
-                }
-
-                if (results.Count > 0)
-                {
-                    cloudProviders.AddRange(results
-                        .OrderByDescending(o => string.Equals(o.Name, "OneDrive - Personal", System.StringComparison.OrdinalIgnoreCase))
-                        .ThenBy(o => o.Name));
                 }
             }
             catch

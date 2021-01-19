@@ -1,4 +1,5 @@
 using Files.Common;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using NLog;
 using System;
@@ -322,6 +323,25 @@ namespace FilesFullTrust
                         { "Overlay", iconOverlay.overlay },
                         { "HasCustomIcon", iconOverlay.isCustom }
                     });
+                    break;
+
+                case "GetOneDriveAccounts":
+                    using (var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts", false))
+                    {
+                        var oneDriveAccounts = new ValueSet();
+                        foreach (var account in oneDriveAccountsKey.GetSubKeyNames())
+                        {
+                            var accountKeyName = @$"{oneDriveAccountsKey.Name}\{account}";
+                            var displayName = (string)Registry.GetValue(accountKeyName, "DisplayName", null);
+                            var userFolder = (string)Registry.GetValue(accountKeyName, "UserFolder", null);
+                            var accountName = string.IsNullOrWhiteSpace(displayName) ? "OneDrive" : $"OneDrive - {displayName}";
+                            if (!string.IsNullOrWhiteSpace(userFolder) && !oneDriveAccounts.ContainsKey(accountName))
+                            {
+                                oneDriveAccounts.Add(accountName, userFolder);
+                            }
+                        }
+                        await args.Request.SendResponseAsync(oneDriveAccounts);
+                    }
                     break;
 
                 default:
