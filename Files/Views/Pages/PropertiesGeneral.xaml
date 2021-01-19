@@ -16,6 +16,28 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary
+                    x:Key="Light">
+                    <SolidColorBrush
+                        x:Key="ProgressRingBackgroundThemeBrush"
+                        Color="#c3c3c3" />
+                </ResourceDictionary>
+
+                <ResourceDictionary
+                    x:Key="Dark">
+                    <SolidColorBrush
+                        x:Key="ProgressRingBackgroundThemeBrush"
+                        Color="#191919" />
+                </ResourceDictionary>
+
+                <ResourceDictionary
+                    x:Key="HighContrast">
+                    <SolidColorBrush
+                        x:Key="ProgressRingBackgroundThemeBrush"
+                        Color="#c3c3c3" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
     </local:PropertiesTab.Resources>
 
@@ -207,7 +229,7 @@
                     Width="15"
                     Height="15"
                     Margin="0,0,10,0"
-                    Fill="DodgerBlue"
+                    Fill="{ThemeResource SystemAccentColor}"
                     RadiusX="2"
                     RadiusY="2" />
                 <TextBlock
@@ -235,7 +257,7 @@
                     Width="15"
                     Height="15"
                     Margin="0,0,10,0"
-                    Fill="Gray"
+                    Fill="{ThemeResource ProgressRingBackgroundThemeBrush}"
                     RadiusX="2"
                     RadiusY="2" />
                 <TextBlock
@@ -334,18 +356,15 @@
                 Text="{x:Bind ViewModel.DriveCapacity, Mode=OneWay}"
                 Visibility="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}" />
 
-            <toolkit:RadialProgressBar
+            <muxc:ProgressRing
                 Grid.Row="17"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
                 Width="70"
                 Height="70"
                 Margin="10"
-                Foreground="DodgerBlue"
+                IsIndeterminate="False"
                 Maximum="{x:Bind ViewModel.DriveCapacityDoubleValue, Mode=OneWay}"
-                Minimum="0"
-                Outline="Gray"
-                Thickness="10"
                 Visibility="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}"
                 Value="{x:Bind ViewModel.DriveUsedSpaceDoubleValue, Mode=OneWay}" />
 

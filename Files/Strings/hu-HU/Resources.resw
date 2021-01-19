@@ -1518,4 +1518,10 @@
   <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
     <value>Részletek</value>
   </data>
+  <data name="BaseLayoutContextFlyoutSortByDateDeleted.Text" xml:space="preserve">
+    <value>Törlés dátuma</value>
+  </data>
+  <data name="dateDeletedColumn.Header" xml:space="preserve">
+    <value>Törlés dátuma</value>
+  </data>
 </root>

@@ -1,15 +1,15 @@
 ## Files
 Meet Files, an enthusiast take on what a modern file explorer should be.
-<br><br>
-Files <a href="https://github.com/files-community/files-uwp/blob/master/CODE_OF_CONDUCT.md">code of conduct</a>
 
-[![Build Status](https://dev.azure.com/lukeblevins150823/Files%20UWP/_apis/build/status/Build%20Pipeline?branchName=master)](https://dev.azure.com/lukeblevins150823/Files%20UWP/_build/latest?definitionId=4&branchName=master)
+Files [code of conduct](https://github.com/files-community/files-uwp/blob/master/CODE_OF_CONDUCT.md)
+
+[![Build Status](https://dev.azure.com/lukeblevins150823/Files%20UWP/_apis/build/status/Build%20Pipeline?branchName=main)](https://dev.azure.com/lukeblevins150823/Files%20UWP/_build/latest?definitionId=4&branchName=master)
 [![Discord](https://discordapp.com/api/guilds/725513575971684472/widget.png)](https://discord.gg/mr5hVu8)
 
-<img src="Files/Assets/FilesHome.png" width="600px"><br>
+![Files](Files/Assets/FilesHome.png)
 ## Download Files 
-- <a href="https://www.microsoft.com/store/apps/9NGHP3DX8HDX">Microsoft Store</a>
-- <a href="https://github.com/files-community/Files/releases">GitHub</a>
+- [Microsoft Store](https://www.microsoft.com/store/apps/9NGHP3DX8HDX)
+- [GitHub](https://github.com/files-community/Files/releases)
 
 ## What is Files?
 Files is a file manager which leverages the latest features of the Windows platform including Fluent Design, seamless updates, and APIs which enable the performance and lifecycle behavior that users expect. Whether you want to simplify your experience with your files or try something new, Files is a one-stop solution for exploring your files on the fly.
