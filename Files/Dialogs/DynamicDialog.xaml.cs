@@ -13,12 +13,12 @@ namespace Files.Dialogs
             private set => DataContext = value;
         }
 
-        public DynamicDialog(DynamicDialogViewModel choiceDialogViewModel)
+        public DynamicDialog(DynamicDialogViewModel dynamicDialogViewModel)
         {
             this.InitializeComponent();
 
-            choiceDialogViewModel.HideDialog = this.Hide;
-            this.ViewModel = choiceDialogViewModel;
+            dynamicDialogViewModel.HideDialog = this.Hide;
+            this.ViewModel = dynamicDialogViewModel;
         }
     }
 }

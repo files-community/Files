@@ -61,20 +61,6 @@ namespace Files.ViewModels.Bundles
             set => SetProperty(ref noBundleContentsTextVisibility, value);
         }
 
-        //private string bundleRenameText = string.Empty;
-        //public string BundleRenameText
-        //{
-        //    get => bundleRenameText;
-        //    set => SetProperty(ref bundleRenameText, value);
-        //}
-
-        //private Visibility bundleRenameVisibility = Visibility.Collapsed;
-        //public Visibility BundleRenameVisibility
-        //{
-        //    get => bundleRenameVisibility;
-        //    set => SetProperty(ref bundleRenameVisibility, value);
-        //}
-
         #endregion
 
         #region Commands

@@ -154,7 +154,7 @@
                     </Flyout>
                 </Button.Flyout>
                 <ToolTipService.ToolTip>
-                    <ToolTip Content="Left click to add bundle, right click to open Bundles options."/>
+                    <ToolTip Content="Left click to add a Bundle, right click to open Bundles options."/>
                 </ToolTipService.ToolTip>
             </Button>
         </Grid>
