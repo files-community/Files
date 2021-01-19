@@ -33,23 +33,23 @@ namespace Files.Helpers
         public static async Task<(AppServiceResponseStatus Status, AppServiceResponse Data)> SendMessageWithRetryAsync(this AppServiceConnection serviceConnection, ValueSet valueSet, TimeSpan timeout)
         {
             if (serviceConnection == null)
-        {
+            {
                 return (AppServiceResponseStatus.Failure, null);
-        }
+            }
 
             using var cts = new CancellationTokenSource();
             cts.CancelAfter((int)timeout.TotalMilliseconds);
             while (!cts.Token.IsCancellationRequested)
-        {
+            {
                 var resp = await serviceConnection.SendMessageAsync(valueSet);
                 if (resp.Status == AppServiceResponseStatus.Success && resp.Message.Any())
-            {
+                {
                     return (resp.Status, resp);
                 }
                 await Task.Delay(200);
             }
             return (AppServiceResponseStatus.Failure, null);
-            }
+        }
 
         private static void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
         {

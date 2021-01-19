@@ -1,4 +1,5 @@
 using Files.Common;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using NLog;
 using System;

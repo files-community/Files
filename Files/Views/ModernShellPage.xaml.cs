@@ -922,30 +922,6 @@ namespace Files.Views
             }
         }
 
-        private void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
-        {
-            ServiceConnection?.Dispose();
-            ServiceConnection = null;
-        }
-
-        public async Task InitializeAppServiceConnection()
-        {
-            ServiceConnection = new AppServiceConnection();
-            ServiceConnection.AppServiceName = "FilesInteropService";
-            ServiceConnection.PackageFamilyName = Package.Current.Id.FamilyName;
-            ServiceConnection.ServiceClosed += Connection_ServiceClosed;
-            AppServiceConnectionStatus status = await ServiceConnection.OpenAsync();
-            if (status != AppServiceConnectionStatus.Success)
-            {
-                // TODO: error handling
-                ServiceConnection?.Dispose();
-                ServiceConnection = null;
-            }
-
-            // Launch fulltrust process
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-        }
-
         private void Current_Suspending(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
         {
             ServiceConnection?.Dispose();
