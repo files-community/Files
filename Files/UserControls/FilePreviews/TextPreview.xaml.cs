@@ -40,8 +40,21 @@ namespace Files.UserControls.FilePreviews
             ".txt"
         };
 
+        /// <summary>
+        /// A list of extensions that will be ignored when using TryLoadAsTextAsync
+        /// </summary>
+        public static List<string> ExcludedExtensions => new List<string>()
+        {
+            ".iso",
+        };
+
         public static async Task<TextPreview> TryLoadAsTextAsync(ListedItem item)
         {
+            if(ExcludedExtensions.Contains(item.FileExtension.ToLower()))
+            {
+                return null;
+            }
+
             try
             {
                 var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
