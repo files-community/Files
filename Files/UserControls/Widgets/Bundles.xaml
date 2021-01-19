@@ -2,15 +2,11 @@
     x:Class="Files.UserControls.Widgets.Bundles"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-    xmlns:i="using:Microsoft.Xaml.Interactivity"
-    xmlns:local="using:Files.UserControls.Widgets"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:vc="using:Files.Converters"
-    xmlns:vm="using:Files.ViewModels.Bundles"
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
     d:DesignHeight="300"
     d:DesignWidth="400"
     mc:Ignorable="d">
@@ -73,12 +69,12 @@
                     <MenuFlyout>
                         <MenuFlyoutItem Command="{Binding ImportBundlesCommand, Mode=OneWay}" Text="Import Bundles">
                             <MenuFlyoutItem.Icon>
-                                
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB62;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem Command="{Binding ExportBundlesCommand, Mode=OneWay}" Text="Export Bundles">
                             <MenuFlyoutItem.Icon>
-
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB64;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>
@@ -121,9 +117,9 @@
                                     Text="{Binding BundleNameTextInput, Mode=TwoWay}">
                                     <i:Interaction.Behaviors>
                                         <!--  No need to specify CommandParameter - `e` is passed by default  -->
-                                        <core:EventTriggerBehavior EventName="KeyDown">
-                                            <core:InvokeCommandAction Command="{Binding InputTextKeyDownCommand, Mode=OneWay}" />
-                                        </core:EventTriggerBehavior>
+                                        <icore:EventTriggerBehavior EventName="KeyDown">
+                                            <icore:InvokeCommandAction Command="{Binding InputTextKeyDownCommand, Mode=OneWay}" />
+                                        </icore:EventTriggerBehavior>
                                     </i:Interaction.Behaviors>
                                 </TextBox>
 
@@ -200,12 +196,12 @@
                         CornerRadius="4">
                         <i:Interaction.Behaviors>
                             <!--  No need to specify CommandParameter - `e` is passed by default  -->
-                            <core:EventTriggerBehavior EventName="DragOver">
-                                <core:InvokeCommandAction Command="{Binding DragOverCommand, Mode=OneWay}" />
-                            </core:EventTriggerBehavior>
-                            <core:EventTriggerBehavior EventName="Drop">
-                                <core:InvokeCommandAction Command="{Binding DropCommand, Mode=OneWay}" />
-                            </core:EventTriggerBehavior>
+                            <icore:EventTriggerBehavior EventName="DragOver">
+                                <icore:InvokeCommandAction Command="{Binding DragOverCommand, Mode=OneWay}" />
+                            </icore:EventTriggerBehavior>
+                            <icore:EventTriggerBehavior EventName="Drop">
+                                <icore:InvokeCommandAction Command="{Binding DropCommand, Mode=OneWay}" />
+                            </icore:EventTriggerBehavior>
                         </i:Interaction.Behaviors>
 
                         <Grid.Resources>
@@ -272,9 +268,9 @@
                                         Visibility="{Binding BundleRenameVisibility, Mode=OneWay}">
                                         <i:Interaction.Behaviors>
                                             <!--  No need to specify CommandParameter - `e` is passed by default  -->
-                                            <core:EventTriggerBehavior EventName="KeyDown">
-                                                <core:InvokeCommandAction Command="{Binding RenameTextKeyDownCommand, Mode=OneWay}" />
-                                            </core:EventTriggerBehavior>
+                                            <icore:EventTriggerBehavior EventName="KeyDown">
+                                                <icore:InvokeCommandAction Command="{Binding RenameTextKeyDownCommand, Mode=OneWay}" />
+                                            </icore:EventTriggerBehavior>
                                         </i:Interaction.Behaviors>
                                     </TextBox>
 
@@ -538,9 +534,9 @@
                                     Text="{Binding BundleNameTextInput, Mode=TwoWay}">
                                     <i:Interaction.Behaviors>
                                         <!--  No need to specify CommandParameter - `e` is passed by default  -->
-                                        <core:EventTriggerBehavior EventName="KeyDown">
-                                            <core:InvokeCommandAction Command="{Binding InputTextKeyDownCommand, Mode=OneWay}" />
-                                        </core:EventTriggerBehavior>
+                                        <icore:EventTriggerBehavior EventName="KeyDown">
+                                            <icore:InvokeCommandAction Command="{Binding InputTextKeyDownCommand, Mode=OneWay}" />
+                                        </icore:EventTriggerBehavior>
                                     </i:Interaction.Behaviors>
                                 </TextBox>
 

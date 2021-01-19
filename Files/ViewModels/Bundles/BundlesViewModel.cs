@@ -11,6 +11,10 @@ using Files.Helpers;
 using Files.SettingsInterfaces;
 using Windows.UI.Xaml.Input;
 using Windows.System;
+using Files.Dialogs;
+using Files.ViewModels.Dialogs;
+using Windows.UI.Xaml.Controls;
+using System.Diagnostics;
 
 namespace Files.ViewModels.Bundles
 {
@@ -80,6 +84,8 @@ namespace Files.ViewModels.Bundles
             // Create commands
             InputTextKeyDownCommand = new RelayCommand<KeyRoutedEventArgs>(InputTextKeyDown);
             AddBundleCommand = new RelayCommand(AddBundle);
+            ImportBundlesCommand = new RelayCommand(ImportBundles);
+            ExportBundlesCommand = new RelayCommand(ExportBundles);
         }
 
         #endregion
@@ -123,6 +129,26 @@ namespace Files.ViewModels.Bundles
 
             // Save bundles
             Save();
+        }
+
+        private async void ImportBundles()
+        {
+            DynamicDialog dialog = new DynamicDialog(new ChoiceDialogViewModel()
+            {
+                DisplayControl = new TextBox(),
+                TitleText = "Select location to import",
+                SubtitleText = "Select location to import",
+                PrimaryButtonText = "Ok",
+                SecondaryButtonText = "Cancel",
+                PrimaryButtonAction = (e) => { Debugger.Break(); },
+                SecondaryButtonAction = (e) => { e.Cancel = true; }
+            });
+            await dialog.ShowAsync();
+        }
+
+        private void ExportBundles()
+        {
+            
         }
 
         #endregion
