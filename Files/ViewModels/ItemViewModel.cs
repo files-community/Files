@@ -942,13 +942,13 @@ namespace Files.ViewModels
                     value.Add("Arguments", "RecycleBin");
                     value.Add("action", "Enumerate");
                     // Send request to fulltrust process to enumerate recyclebin items
-                    var response = await Connection.SendMessageAsync(value);
+                    var (status, response) = await Connection.SendMessageWithRetryAsync(value, TimeSpan.FromSeconds(10));
                     // If the request was canceled return now
                     if (addFilesCTS.IsCancellationRequested)
                     {
                         return;
                     }
-                    if (response.Status == AppServiceResponseStatus.Success
+                    if (status == AppServiceResponseStatus.Success
                         && response.Message.ContainsKey("Enumerate"))
                     {
                         var folderContentsList = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response.Message["Enumerate"]);

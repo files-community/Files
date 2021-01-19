@@ -169,6 +169,7 @@
     <Compile Include="DataModels\ShellNewEntry.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="Enums\FileSystemStatusCode.cs" />
+    <Compile Include="Helpers\AppServiceConnectionHelper.cs" />
     <Compile Include="Helpers\AppUpdater.cs" />
     <Compile Include="DataModels\DefaultLanguageModel.cs" />
     <Compile Include="Enums\FileOperationType.cs" />
@@ -213,7 +214,6 @@
     <Compile Include="Filesystem\Cloud\ICloudProviderDetector.cs" />
     <Compile Include="Filesystem\Cloud\Providers\MegaCloudProvider.cs" />
     <Compile Include="Filesystem\Cloud\Providers\OneDriveCloudProvider.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\OneDriveCommercialCloudProvider.cs" />
     <Compile Include="Filesystem\FilesystemOperations\FilesystemItemType.cs" />
     <Compile Include="Filesystem\FilesystemOperations\FilesystemOperations.cs" />
     <Compile Include="Filesystem\FilesystemOperations\Helpers\FilesystemHelpers.cs" />
