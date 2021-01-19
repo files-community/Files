@@ -6,6 +6,12 @@ using Windows.UI.Xaml.Controls;
 
 namespace Files.ViewModels.Dialogs
 {
+    public enum DynamicResult
+    {
+        OK = 0,
+        Cancel = 1
+    }
+
     public class DynamicDialogViewModel : ObservableObject
     {
         #region Public Properties
@@ -23,32 +29,42 @@ namespace Files.ViewModels.Dialogs
 
         public string SecondaryButtonText { get; set; }
 
+        public DynamicResult DynamicResult { get; set; }
+
         #endregion
 
         #region Actions
 
-        private Action<ContentDialogButtonClickEventArgs> primaryButtonAction;
-        public Action<ContentDialogButtonClickEventArgs> PrimaryButtonAction 
+        private Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> primaryButtonAction;
+        public Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> PrimaryButtonAction 
         {
             get => primaryButtonAction;
             set
             {
                 if (SetProperty(ref primaryButtonAction, value))
                 {
-                    PrimaryButtonCommand = new RelayCommand<ContentDialogButtonClickEventArgs>(PrimaryButtonAction);
+                    PrimaryButtonCommand = new RelayCommand<ContentDialogButtonClickEventArgs>((e) =>
+                    {
+                        DynamicResult = DynamicResult.OK;
+                        PrimaryButtonAction(this, e);
+                    });
                 }
             }
         }
 
-        private Action<ContentDialogButtonClickEventArgs> secondaryButtonAction;
-        public Action<ContentDialogButtonClickEventArgs> SecondaryButtonAction 
+        private Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> secondaryButtonAction;
+        public Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> SecondaryButtonAction 
         {
             get => secondaryButtonAction;
             set
             {
                 if (SetProperty(ref secondaryButtonAction, value))
                 {
-                    SecondaryButtonCommand = new RelayCommand<ContentDialogButtonClickEventArgs>(SecondaryButtonAction);
+                    SecondaryButtonCommand = new RelayCommand<ContentDialogButtonClickEventArgs>((e) =>
+                    {
+                        DynamicResult = DynamicResult.Cancel;
+                        SecondaryButtonAction(this, e);
+                    });
                 }
             }
         }

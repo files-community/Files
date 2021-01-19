@@ -15,6 +15,7 @@ using Files.Dialogs;
 using Files.ViewModels.Dialogs;
 using Windows.UI.Xaml.Controls;
 using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace Files.ViewModels.Bundles
 {
@@ -135,16 +136,33 @@ namespace Files.ViewModels.Bundles
         {
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
-                DisplayControl = new TextBox(),
+                DisplayControl = new TextBox()
+                {
+                    PlaceholderText = "Import file location..."
+                },
                 TitleText = "Select location to import from",
                 SubtitleText = "Select location to import from",
                 PrimaryButtonText = "Ok",
                 SecondaryButtonText = "Cancel",
-                PrimaryButtonAction = (e) => 
-                { 
-                    Debugger.Break();
+                PrimaryButtonAction = async (vm, e) => 
+                {
+                    try
+                    {
+                        string filePath = (vm.DisplayControl as TextBox).Text;
+
+                        if (!await StorageItemHelpers.Exists(filePath))
+                        {
+                            e.Cancel = true;
+                            return;
+                        }
+
+                        string data = NativeFileOperationsHelper.ReadStringFromFile(filePath);
+                        BundlesSettings.ImportSettings(JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data));
+                        Load(); // Update the collection
+                    }
+                    catch { }
                 },
-                SecondaryButtonAction = (e) => { /* Do Nothing */ }
+                SecondaryButtonAction = (vm, e) => { /* Do Nothing */ }
             });
             await dialog.ShowAsync();
         }
@@ -153,16 +171,31 @@ namespace Files.ViewModels.Bundles
         {
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
-                DisplayControl = new TextBox(),
+                DisplayControl = new TextBox()
+                {
+                    PlaceholderText = "Export file location..."
+                },
                 TitleText = "Select location to export to",
                 SubtitleText = "Select location to export to",
                 PrimaryButtonText = "Ok",
                 SecondaryButtonText = "Cancel",
-                PrimaryButtonAction = (e) =>
+                PrimaryButtonAction = async (vm, e) =>
                 {
-                    Debugger.Break();
+                    try
+                    {
+                        string filePath = (vm.DisplayControl as TextBox).Text;
+
+                        if (!await StorageItemHelpers.Exists(filePath))
+                        {
+                            e.Cancel = true;
+                            return;
+                        }
+
+                        NativeFileOperationsHelper.WriteStringToFile(filePath, (string)BundlesSettings.ExportSettings());
+                    }
+                    catch { }
                 },
-                SecondaryButtonAction = (e) => { /* Do Nothing */ }
+                SecondaryButtonAction = (vm, e) => { /* Do Nothing */ }
             });
             await dialog.ShowAsync();
         }

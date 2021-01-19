@@ -1,5 +1,6 @@
 ﻿using Files.Helpers;
 using Files.SettingsInterfaces;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using Windows.Storage;
 
@@ -39,7 +40,8 @@ namespace Files.ViewModels
 
         public override object ExportSettings()
         {
-            return SavedBundles;
+            // Return string in Json format
+            return JsonConvert.SerializeObject(SavedBundles, Formatting.Indented);
         }
 
         #endregion
