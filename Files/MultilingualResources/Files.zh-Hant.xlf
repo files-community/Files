@@ -2184,7 +2184,7 @@
           <source>Add Bundle</source>
           <target state="new">Add Bundle</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetAddBundleContextFlyoutMenuFlyoutItemAddBundle" translate="yes" xml:space="preserve">
+        <trans-unit id="BundlesWidgetAddBundleContextFlyoutMenuFlyoutItemAddBundle.Text" translate="yes" xml:space="preserve">
           <source>Add Bundle</source>
           <target state="new">Add Bundle</target>
         </trans-unit>

@@ -1743,7 +1743,7 @@
   <data name="BundlesWidgetAddBundleSubtitleText" xml:space="preserve">
     <value>Add Bundle</value>
   </data>
-  <data name="BundlesWidgetAddBundleContextFlyoutMenuFlyoutItemAddBundle" xml:space="preserve">
+  <data name="BundlesWidgetAddBundleContextFlyoutMenuFlyoutItemAddBundle.Text" xml:space="preserve">
     <value>Add Bundle</value>
   </data>
 </root>

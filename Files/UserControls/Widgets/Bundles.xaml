@@ -71,7 +71,7 @@
                         <MenuFlyoutItem
                             x:Uid="BundlesWidgetAddBundleContextFlyoutMenuFlyoutItemAddBundle.Text"
                             Command="{Binding OpenAddBundleDialogCommand, Mode=OneWay}"
-                            Text="Import Bundles">
+                            Text="Add Bundle">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE903;" />
                             </MenuFlyoutItem.Icon>
