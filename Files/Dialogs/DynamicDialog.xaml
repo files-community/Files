@@ -26,6 +26,10 @@
         <icore:EventTriggerBehavior EventName="CloseButtonClick">
             <icore:InvokeCommandAction Command="{Binding CloseButtonCommand, Mode=OneWay}" />
         </icore:EventTriggerBehavior>
+        <!--  No need to specify CommandParameter - `e` is passed by default  -->
+        <icore:EventTriggerBehavior EventName="KeyDown">
+            <icore:InvokeCommandAction Command="{Binding DynamicKeyDownCommand, Mode=OneWay}" />
+        </icore:EventTriggerBehavior>
     </i:Interaction.Behaviors>
 
     <Grid RowSpacing="25">

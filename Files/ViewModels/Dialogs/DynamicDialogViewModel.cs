@@ -3,6 +3,7 @@ using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace Files.ViewModels.Dialogs
 {
@@ -20,7 +21,7 @@ namespace Files.ViewModels.Dialogs
         Cancel = 2
     }
 
-    public class DynamicDialogViewModel : ObservableObject
+    public class DynamicDialogViewModel : ObservableObject, IDisposable
     {
         #region Public Properties
 
@@ -159,6 +160,23 @@ namespace Files.ViewModels.Dialogs
             }
         }
 
+        private Action<DynamicDialogViewModel, KeyRoutedEventArgs> dynamicKeyDownAction;
+        public Action<DynamicDialogViewModel, KeyRoutedEventArgs> DynamicKeyDownAction
+        {
+            get => dynamicKeyDownAction;
+            set
+            {
+                if (SetProperty(ref dynamicKeyDownAction, value))
+                {
+                    DynamicKeyDownCommand = new RelayCommand<KeyRoutedEventArgs>((e) =>
+                    {
+                        DynamicResult = DynamicResult.Cancel;
+                        DynamicKeyDownAction(this, e);
+                    });
+                }
+            }
+        }
+
         #endregion
 
         #region Commands
@@ -168,6 +186,33 @@ namespace Files.ViewModels.Dialogs
         public ICommand SecondaryButtonCommand { get; private set; }
 
         public ICommand CloseButtonCommand { get; private set; }
+
+        public ICommand DynamicKeyDownCommand { get; private set; }
+
+        #endregion
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            (displayControl as IDisposable)?.Dispose();
+
+            displayControl = null;
+            titleText = null;
+            subtitleText = null;
+            primaryButtonText = null;
+            secondaryButtonText = null;
+            closeButtonText = null;
+
+            primaryButtonAction = null;
+            secondaryButtonAction = null;
+            closeButtonAction = null;
+            dynamicKeyDownAction = null;
+
+            PrimaryButtonCommand = null;
+            SecondaryButtonCommand = null;
+            CloseButtonCommand = null;
+        }
 
         #endregion
     }
