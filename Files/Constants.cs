@@ -40,11 +40,6 @@
             /// The maximum number of pages loaded into the PDF preview.
             /// </summary>
             public const int PDFPageLimit = 50;
-
-            /// <summary>
-            /// If the file size is greater than this number, the file buffer will not be sent to the extension
-            /// </summary>
-            public const long MaxFileSizeToSendToExtensionBytes = 10000000;
         }
     }
 }

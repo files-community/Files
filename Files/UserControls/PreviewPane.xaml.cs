@@ -17,6 +17,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppExtensions;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -196,19 +197,11 @@ namespace Files.UserControls
         async void LoadPreviewControlFromExtension(ListedItem item, Helpers.Extension extension)
         {
             var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
-
-            byte[] byteArray = null;
-
-            if (item.FileSizeBytes < Constants.PreviewPane.MaxFileSizeToSendToExtensionBytes)
-            {
-                var buffer = await FileIO.ReadBufferAsync(file);
-                byteArray = new Byte[buffer.Length];
-                buffer.CopyTo(byteArray);
-            }
+            string sharingToken = SharedStorageAccessManager.AddFile(file);
 
             try
             {
-                var result = await extension.Invoke(new ValueSet() { { "byteArray", byteArray}, { "filePath", item.ItemPath } });
+                var result = await extension.Invoke(new ValueSet() { { "token", sharingToken}});
                 var preview = result["preview"];
                 PreviewGrid.Children.Add(XamlReader.Load(preview as string) as UIElement);
 
