@@ -1227,9 +1227,9 @@ namespace Files.Interacts
             }
         }
 
-        public void PushJumpChar(char letter)
+        public Task PushJumpChar(char letter)
         {
-            AssociatedInstance.FilesystemViewModel.JumpString += letter.ToString().ToLower();
+            return AssociatedInstance.FilesystemViewModel.SetJumpStringAsync(AssociatedInstance.FilesystemViewModel.JumpString + letter.ToString().ToLower());
         }
 
         public async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, Microsoft.UI.Xaml.Controls.ProgressBar progress)

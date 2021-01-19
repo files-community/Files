@@ -132,7 +132,7 @@ namespace Files.Views.LayoutModes
             base.UninitializeDrag(e.Row);
         }
 
-        private void ReloadItemIcons()
+        private async void ReloadItemIcons()
         {
             var rows = new List<DataGridRow>();
             Interaction.FindChildren<DataGridRow>(rows, AllView);
@@ -142,8 +142,8 @@ namespace Files.Views.LayoutModes
                 listedItem.ItemPropertiesInitialized = false;
                 if (rows.Any(x => x.DataContext == listedItem))
                 {
-                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem);
                     listedItem.ItemPropertiesInitialized = true;
+                    await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem);
                 }
             }
         }
@@ -478,7 +478,7 @@ namespace Files.Views.LayoutModes
             var rowPressed = Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
             if (rowPressed != null)
             {
-                var objectPressed = ((ReadOnlyObservableCollection<ListedItem>)AllView.ItemsSource)[rowPressed.GetIndex()];
+                var objectPressed = ((ObservableCollection<ListedItem>)AllView.ItemsSource)[rowPressed.GetIndex()];
 
                 // Check if RightTapped row is currently selected
                 if (IsItemSelected)
@@ -514,14 +514,14 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private void AllView_LoadingRow(object sender, DataGridRowEventArgs e)
+        private async void AllView_LoadingRow(object sender, DataGridRowEventArgs e)
         {
             InitializeDrag(e.Row);
  
             if (e.Row.DataContext is ListedItem item && !item.ItemPropertiesInitialized)
             {
-                ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item);
                 item.ItemPropertiesInitialized = true;
+                await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item);
             }
         }
 

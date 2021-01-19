@@ -105,9 +105,9 @@ namespace Files.ViewModels.Properties
             ViewModel.ItemSize = $"{ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(Item.FileSizeBytes).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
 
             var fileIconInfo = await AppInstance.FilesystemViewModel.LoadIconOverlayAsync(Item.ItemPath, 80);
-            if (fileIconInfo.Icon != null && !Item.IsLinkItem)
+            if (fileIconInfo.IconData != null && !Item.IsLinkItem)
             {
-                ViewModel.FileIconSource = fileIconInfo.Icon;
+                ViewModel.FileIconSource = await fileIconInfo.IconData.ToBitmapAsync();
             }
 
             if (Item.IsShortcutItem)

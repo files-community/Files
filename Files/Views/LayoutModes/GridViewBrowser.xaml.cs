@@ -419,7 +419,7 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private void ReloadItemIcons()
+        private async void ReloadItemIcons()
         {
             ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
             foreach (ListedItem listedItem in ParentShellPageInstance.FilesystemViewModel.FilesAndFolders)
@@ -427,8 +427,8 @@ namespace Files.Views.LayoutModes
                 listedItem.ItemPropertiesInitialized = false;
                 if (FileList.ContainerFromItem(listedItem) != null)
                 {
-                    ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
                     listedItem.ItemPropertiesInitialized = true;
+                    await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(listedItem, currentIconSize);
                 }
             }
         }
@@ -452,7 +452,7 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
+        private async void FileList_ChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
         {
             if (args.ItemContainer == null)
             {
@@ -467,8 +467,8 @@ namespace Files.Views.LayoutModes
                 InitializeDrag(args.ItemContainer);
                 args.ItemContainer.CanDrag = args.ItemContainer.IsSelected; // Update CanDrag
 
-                ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
                 item.ItemPropertiesInitialized = true;
+                await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
             }
         }
     }
