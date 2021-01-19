@@ -38,7 +38,7 @@
 
             public const string SettingsFolderName = "settings";
 
-            public const string JsonSettingsFileName = "settings.json";
+            public const string BundlesSettingsFileName = "bundles.json";
         }
     }
 }

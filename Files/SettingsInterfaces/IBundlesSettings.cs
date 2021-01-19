@@ -2,8 +2,12 @@
 
 namespace Files.SettingsInterfaces
 {
-    public interface IWidgetsSettings
+    public interface IBundlesSettings
     {
         Dictionary<string, List<string>> SavedBundles { get; set; }
+
+        object ExportSettings();
+
+        void ImportSettings(object import);
     }
 }

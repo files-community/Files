@@ -21,7 +21,7 @@ namespace Files.ViewModels.Bundles
     {
         #region Singleton
 
-        private IWidgetsSettings WidgetsSettings => App.WidgetsSettings;
+        private IBundlesSettings BundlesSettings => App.BundlesSettings;
 
         #endregion
 
@@ -52,11 +52,11 @@ namespace Files.ViewModels.Bundles
             set => SetProperty(ref addBundleErrorText, value);
         }
 
-        public Visibility noBundlesAddItemVisibility = Visibility.Collapsed;
-        public Visibility NoBundlesAddItemVisibility
+        public bool noBundlesAddItemLoad = false;
+        public bool NoBundlesAddItemLoad
         {
-            get => noBundlesAddItemVisibility;
-            set => SetProperty(ref noBundlesAddItemVisibility, value);
+            get => noBundlesAddItemLoad;
+            set => SetProperty(ref noBundlesAddItemLoad, value);
         }
 
         #endregion
@@ -66,6 +66,10 @@ namespace Files.ViewModels.Bundles
         public ICommand InputTextKeyDownCommand { get; set; }
 
         public ICommand AddBundleCommand { get; set; }
+
+        public ICommand ImportBundlesCommand { get; set; }
+
+        public ICommand ExportBundlesCommand { get; set; }
 
         #endregion
 
@@ -101,9 +105,9 @@ namespace Files.ViewModels.Bundles
             string savedBundleNameTextInput = BundleNameTextInput;
             BundleNameTextInput = string.Empty;
 
-            if (WidgetsSettings.SavedBundles == null || (WidgetsSettings.SavedBundles?.ContainsKey(savedBundleNameTextInput) ?? false)) // Init
+            if (BundlesSettings.SavedBundles == null || (BundlesSettings.SavedBundles?.ContainsKey(savedBundleNameTextInput) ?? false)) // Init
             {
-                WidgetsSettings.SavedBundles = new Dictionary<string, List<string>>()
+                BundlesSettings.SavedBundles = new Dictionary<string, List<string>>()
                 {
                     { savedBundleNameTextInput, new List<string>() { null } }
                 };
@@ -115,7 +119,7 @@ namespace Files.ViewModels.Bundles
                 BundleRenameText = savedBundleNameTextInput,
                 NotifyItemRemoved = NotifyItemRemovedHandle,
             });
-            NoBundlesAddItemVisibility = Visibility.Collapsed;
+            NoBundlesAddItemLoad = false;
 
             // Save bundles
             Save();
@@ -136,7 +140,7 @@ namespace Files.ViewModels.Bundles
 
             if (Items.Count == 0)
             {
-                NoBundlesAddItemVisibility = Visibility.Visible;
+                NoBundlesAddItemLoad = true;
             }
         }
 
@@ -167,7 +171,7 @@ namespace Files.ViewModels.Bundles
 
         public void Save()
         {
-            if (WidgetsSettings.SavedBundles != null)
+            if (BundlesSettings.SavedBundles != null)
             {
                 Dictionary<string, List<string>> bundles = new Dictionary<string, List<string>>();
 
@@ -188,18 +192,18 @@ namespace Files.ViewModels.Bundles
                     bundles.Add(bundle.BundleName, bundleItems);
                 }
 
-                WidgetsSettings.SavedBundles = bundles; // Calls Set()
+                BundlesSettings.SavedBundles = bundles; // Calls Set()
             }
         }
 
         public async Task Load()
         {
-            if (WidgetsSettings.SavedBundles != null)
+            if (BundlesSettings.SavedBundles != null)
             {
                 Items.Clear();
 
                 // For every bundle in saved bundle collection:
-                foreach (var bundle in WidgetsSettings.SavedBundles)
+                foreach (var bundle in BundlesSettings.SavedBundles)
                 {
                     List<BundleItemViewModel> bundleItems = new List<BundleItemViewModel>();
 
@@ -230,16 +234,16 @@ namespace Files.ViewModels.Bundles
 
                 if (Items.Count == 0)
                 {
-                    NoBundlesAddItemVisibility = Visibility.Visible;
+                    NoBundlesAddItemLoad = true;
                 }
                 else
                 {
-                    NoBundlesAddItemVisibility = Visibility.Collapsed;
+                    NoBundlesAddItemLoad = false;
                 }
             }
             else // Null, therefore no items :)
             {
-                NoBundlesAddItemVisibility = Visibility.Visible;
+                NoBundlesAddItemLoad = true;
             }
         }
 

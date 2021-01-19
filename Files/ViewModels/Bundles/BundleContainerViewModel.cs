@@ -21,7 +21,7 @@ namespace Files.ViewModels.Bundles
     {
         #region Singleton
 
-        private IWidgetsSettings WidgetsSettings => App.WidgetsSettings;
+        private IBundlesSettings BundlesSettings => App.BundlesSettings;
 
         #endregion
 
@@ -112,11 +112,11 @@ namespace Files.ViewModels.Bundles
 
         private void RemoveBundle()
         {
-            if (WidgetsSettings.SavedBundles.ContainsKey(BundleName))
+            if (BundlesSettings.SavedBundles.ContainsKey(BundleName))
             {
-                Dictionary<string, List<string>> allBundles = WidgetsSettings.SavedBundles; // We need to do it this way for Set() to be called
+                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles; // We need to do it this way for Set() to be called
                 allBundles.Remove(BundleName);
-                WidgetsSettings.SavedBundles = allBundles;
+                BundlesSettings.SavedBundles = allBundles;
                 NotifyItemRemoved(this);
             }
         }
@@ -130,9 +130,9 @@ namespace Files.ViewModels.Bundles
         {
             if (CanRenameBundle(BundleRenameText))
             {
-                if (WidgetsSettings.SavedBundles.ContainsKey(BundleName))
+                if (BundlesSettings.SavedBundles.ContainsKey(BundleName))
                 {
-                    Dictionary<string, List<string>> allBundles = WidgetsSettings.SavedBundles; // We need to do it this way for Set() to be called
+                    Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles; // We need to do it this way for Set() to be called
                     Dictionary<string, List<string>> newBundles = new Dictionary<string, List<string>>();
 
                     foreach (var item in allBundles)
@@ -153,7 +153,7 @@ namespace Files.ViewModels.Bundles
                         }
                     }
 
-                    WidgetsSettings.SavedBundles = newBundles;
+                    BundlesSettings.SavedBundles = newBundles;
                     BundleName = BundleRenameText;
                 }
             }
@@ -241,11 +241,11 @@ namespace Files.ViewModels.Bundles
 
         private bool SaveBundle()
         {
-            if (WidgetsSettings.SavedBundles.ContainsKey(BundleName))
+            if (BundlesSettings.SavedBundles.ContainsKey(BundleName))
             {
-                Dictionary<string, List<string>> allBundles = WidgetsSettings.SavedBundles; // We need to do it this way for Set() to be called
+                Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles; // We need to do it this way for Set() to be called
                 allBundles[BundleName] = Contents.Select((item) => item.Path).ToList();
-                WidgetsSettings.SavedBundles = allBundles;
+                BundlesSettings.SavedBundles = allBundles;
 
                 return true;
             }
@@ -293,7 +293,7 @@ namespace Files.ViewModels.Bundles
                 return false;
             }
 
-            if (!WidgetsSettings.SavedBundles.Any((item) => item.Key == name))
+            if (!BundlesSettings.SavedBundles.Any((item) => item.Key == name))
             {
                 return true;
             }

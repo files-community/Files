@@ -15,10 +15,6 @@
     d:DesignWidth="400"
     mc:Ignorable="d">
 
-    <UserControl.DataContext>
-        <vm:BundlesViewModel />
-    </UserControl.DataContext>
-
     <UserControl.Resources>
         <ResourceDictionary>
             <!--  Converters  -->
@@ -72,7 +68,21 @@
                     FontFamily="{StaticResource FluentUIGlyphs}"
                     FontSize="14"
                     Glyph="&#xe903;" />
+                
+                <Button.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Command="{Binding ImportBundlesCommand, Mode=OneWay}" Text="Import Bundles">
+                            <MenuFlyoutItem.Icon>
+                                
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Command="{Binding ExportBundlesCommand, Mode=OneWay}" Text="Export Bundles">
+                            <MenuFlyoutItem.Icon>
 
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </Button.ContextFlyout>
                 <Button.Flyout>
                     <Flyout Placement="Bottom">
                         <Border MinWidth="270">
@@ -147,6 +157,9 @@
                         </Border>
                     </Flyout>
                 </Button.Flyout>
+                <ToolTipService.ToolTip>
+                    <ToolTip Content="Left click to add bundle, right click to open Bundles options."/>
+                </ToolTipService.ToolTip>
             </Button>
         </Grid>
 
@@ -468,7 +481,8 @@
             BorderBrush="Gray"
             BorderThickness="1"
             CornerRadius="4"
-            Visibility="{Binding NoBundlesAddItemVisibility, Mode=OneWay}">
+            x:Name="NoBundlesInfoGrid"
+            x:Load="{x:Bind ViewModel.NoBundlesAddItemLoad, Mode=OneWay}">
 
             <!--  heh xD  -->
             <Button

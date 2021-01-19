@@ -1,24 +1,22 @@
-﻿using Files.Helpers;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Windows.Storage;
+using Newtonsoft.Json;
+using Files.Helpers;
 
 namespace Files.ViewModels
 {
     public abstract class BaseJsonSettingsViewModel
     {
-        #region Private Members
-
-        private Dictionary<string, object> serializableSettings = new Dictionary<string, object>();
-
-        #endregion
-
         #region Protected Members
 
+        protected Dictionary<string, object> serializableSettings = new Dictionary<string, object>();
+
         protected readonly string settingsPath;
+
+        protected readonly bool initialized = false;
 
         #endregion
 
@@ -31,16 +29,18 @@ namespace Files.ViewModels
         public BaseJsonSettingsViewModel(string settingsPath)
         {
             this.settingsPath = settingsPath;
+
             Init();
+            initialized = true;
         }
 
         #endregion
 
         #region Protected Helpers
 
-        private async void Init()
+        protected virtual async void Init()
         {
-            await ApplicationData.Current.LocalFolder.CreateFileAsync(PathHelpers.Combine(Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.JsonSettingsFileName), CreationCollisionOption.OpenIfExists);
+            await ApplicationData.Current.LocalFolder.CreateFileAsync(PathHelpers.Combine(Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.BundlesSettingsFileName), CreationCollisionOption.OpenIfExists);
         }
 
         #endregion
@@ -110,6 +110,24 @@ namespace Files.ViewModels
                 Debugger.Break();
                 return default(TValue);
             }
+        }
+
+        #endregion
+
+        #region Virtual Helpers
+
+        public virtual object ExportSettings()
+        {
+            return serializableSettings;
+        }
+
+        public virtual void ImportSettings(object import)
+        {
+            try
+            {
+                serializableSettings = (Dictionary<string, object>)import;
+            }
+            catch { }
         }
 
         #endregion
