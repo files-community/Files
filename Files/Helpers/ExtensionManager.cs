@@ -68,11 +68,11 @@ namespace Files.Helpers
             #endregion
 
             // handlers for extension management events
-            _catalog.PackageInstalled += Catalog_PackageInstalled;
-            _catalog.PackageUpdated += Catalog_PackageUpdated;
-            _catalog.PackageUninstalling += Catalog_PackageUninstalling;
-            _catalog.PackageUpdating += Catalog_PackageUpdating;
-            _catalog.PackageStatusChanged += Catalog_PackageStatusChanged; // raised when a package changes with respect to integrity, licensing state, or availability (package is installed on a SD card that is then unplugged; you wouldn't get an uninstalling event)
+            //_catalog.PackageInstalled += Catalog_PackageInstalled;
+            //_catalog.PackageUpdated += Catalog_PackageUpdated;
+            //_catalog.PackageUninstalling += Catalog_PackageUninstalling;
+            //_catalog.PackageUpdating += Catalog_PackageUpdating;
+            //_catalog.PackageStatusChanged += Catalog_PackageStatusChanged; // raised when a package changes with respect to integrity, licensing state, or availability (package is installed on a SD card that is then unplugged; you wouldn't get an uninstalling event)
 
             FindAndLoadExtensions();
         }
