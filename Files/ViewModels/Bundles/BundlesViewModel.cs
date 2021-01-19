@@ -14,8 +14,9 @@ using Windows.System;
 using Files.Dialogs;
 using Files.ViewModels.Dialogs;
 using Windows.UI.Xaml.Controls;
-using System.Diagnostics;
 using Newtonsoft.Json;
+using Windows.Storage.Pickers;
+using Windows.Storage;
 
 namespace Files.ViewModels.Bundles
 {
@@ -134,72 +135,30 @@ namespace Files.ViewModels.Bundles
 
         private async void ImportBundles()
         {
-            DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
-            {
-                DisplayControl = new TextBox()
-                {
-                    PlaceholderText = "Import file location..."
-                },
-                TitleText = "Select location to import from",
-                SubtitleText = "Select location to import from",
-                PrimaryButtonText = "Ok",
-                SecondaryButtonText = "Cancel",
-                PrimaryButtonAction = async (vm, e) => 
-                {
-                    try
-                    {
-                        string filePath = (vm.DisplayControl as TextBox).Text;
+            FileOpenPicker filePicker = new FileOpenPicker();
+            filePicker.FileTypeFilter.Add(System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName));
 
-                        if (!await StorageItemHelpers.Exists(filePath))
-                        {
-                            e.Cancel = true;
-                        }
-                        else
-                        {
-                            string data = NativeFileOperationsHelper.ReadStringFromFile(filePath);
-                            BundlesSettings.ImportSettings(JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data));
-                            await Load(); // Update the collection
-                        }
-                    }
-                    catch { }
-                },
-                SecondaryButtonAction = (vm, e) => { /* Do Nothing */ }
-            });
-            await dialog.ShowAsync();
+            StorageFile file = await filePicker.PickSingleFileAsync();
+
+            if (file != null)
+            {
+                string data = NativeFileOperationsHelper.ReadStringFromFile(file.Path);
+                BundlesSettings.ImportSettings(JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data));
+                await Load(); // Update the collection
+            }
         }
 
         private async void ExportBundles()
         {
-            DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
-            {
-                DisplayControl = new TextBox()
-                {
-                    PlaceholderText = "Export file location..."
-                },
-                TitleText = "Select location to export to",
-                SubtitleText = "Select location to export to",
-                PrimaryButtonText = "Ok",
-                SecondaryButtonText = "Cancel",
-                PrimaryButtonAction = async (vm, e) =>
-                {
-                    try
-                    {
-                        string filePath = (vm.DisplayControl as TextBox).Text;
+            FileOpenPicker filePicker = new FileOpenPicker();
+            filePicker.FileTypeFilter.Add(System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName));
 
-                        if (!await StorageItemHelpers.Exists(filePath))
-                        {
-                            e.Cancel = true;
-                        }
-                        else
-                        {
-                            NativeFileOperationsHelper.WriteStringToFile(filePath, (string)BundlesSettings.ExportSettings());
-                        }
-                    }
-                    catch { }
-                },
-                SecondaryButtonAction = (vm, e) => { /* Do Nothing */ }
-            });
-            await dialog.ShowAsync();
+            StorageFile file = await filePicker.PickSingleFileAsync();
+
+            if (file != null)
+            {
+                NativeFileOperationsHelper.WriteStringToFile(file.Path, (string)BundlesSettings.ExportSettings());
+            }
         }
 
         #endregion

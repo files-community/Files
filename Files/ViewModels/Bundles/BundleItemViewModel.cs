@@ -149,7 +149,6 @@ namespace Files.ViewModels.Bundles
             {
                 try
                 {
-                    BitmapImage icon = new BitmapImage();
                     StorageFile file = await StorageItemHelpers.ToStorageItem<StorageFile>(Path, associatedInstance);
 
                     if (file == null) // No file found
@@ -158,6 +157,7 @@ namespace Files.ViewModels.Bundles
                         return;
                     }
 
+                    BitmapImage icon = new BitmapImage();
                     StorageItemThumbnail thumbnail = await file.GetThumbnailAsync(ThumbnailMode.ListView, 24u, ThumbnailOptions.UseCurrentScale);
 
                     if (thumbnail != null)
