@@ -209,7 +209,7 @@
     <Compile Include="ViewModels\Bundles\BundleContainerViewModel.cs" />
     <Compile Include="ViewModels\Bundles\BundleItemViewModel.cs" />
     <Compile Include="ViewModels\Bundles\BundlesViewModel.cs" />
-    <Compile Include="ViewModels\Dialogs\ChoiceDialogViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\DynamicDialogViewModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
     <Compile Include="SettingsInterfaces\IBundlesSettings.cs" />
     <Compile Include="ViewModels\BundlesSettingsViewModel.cs" />

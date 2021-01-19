@@ -7,14 +7,14 @@ namespace Files.Dialogs
 {
     public sealed partial class DynamicDialog : ContentDialog
     {
-        public ChoiceDialogViewModel ChoiceDialogViewModel { get; private set; }
+        public DynamicDialogViewModel ViewModel { get; private set; }
 
-        public DynamicDialog(ChoiceDialogViewModel choiceDialogViewModel)
+        public DynamicDialog(DynamicDialogViewModel choiceDialogViewModel)
         {
             this.InitializeComponent();
 
-            this.ChoiceDialogViewModel = choiceDialogViewModel;
-            this.DataContext = ChoiceDialogViewModel;
+            this.ViewModel = choiceDialogViewModel;
+            this.DataContext = ViewModel;
         }
     }
 }

@@ -39,8 +39,8 @@
         <!-- The dynamic content control -->
         <ContentControl
             Content="{Binding DisplayControl, Mode=OneWay}"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
             VerticalContentAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
             Grid.Row="1" />

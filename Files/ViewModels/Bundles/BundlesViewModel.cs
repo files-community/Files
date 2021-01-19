@@ -133,22 +133,38 @@ namespace Files.ViewModels.Bundles
 
         private async void ImportBundles()
         {
-            DynamicDialog dialog = new DynamicDialog(new ChoiceDialogViewModel()
+            DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
                 DisplayControl = new TextBox(),
-                TitleText = "Select location to import",
-                SubtitleText = "Select location to import",
+                TitleText = "Select location to import from",
+                SubtitleText = "Select location to import from",
                 PrimaryButtonText = "Ok",
                 SecondaryButtonText = "Cancel",
-                PrimaryButtonAction = (e) => { Debugger.Break(); },
-                SecondaryButtonAction = (e) => { e.Cancel = true; }
+                PrimaryButtonAction = (e) => 
+                { 
+                    Debugger.Break();
+                },
+                SecondaryButtonAction = (e) => { /* Do Nothing */ }
             });
             await dialog.ShowAsync();
         }
 
-        private void ExportBundles()
+        private async void ExportBundles()
         {
-            
+            DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
+            {
+                DisplayControl = new TextBox(),
+                TitleText = "Select location to export to",
+                SubtitleText = "Select location to export to",
+                PrimaryButtonText = "Ok",
+                SecondaryButtonText = "Cancel",
+                PrimaryButtonAction = (e) =>
+                {
+                    Debugger.Break();
+                },
+                SecondaryButtonAction = (e) => { /* Do Nothing */ }
+            });
+            await dialog.ShowAsync();
         }
 
         #endregion
