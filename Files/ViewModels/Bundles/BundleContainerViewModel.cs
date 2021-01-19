@@ -31,7 +31,7 @@ namespace Files.ViewModels.Bundles
 
         #endregion
 
-        #region Events
+        #region Actions
 
         public Action<BundleContainerViewModel> NotifyItemRemoved { get; set; }
 
@@ -76,17 +76,17 @@ namespace Files.ViewModels.Bundles
 
         #region Commands
 
-        public ICommand RemoveBundleCommand { get; set; }
+        public ICommand RemoveBundleCommand { get; private set; }
 
-        public ICommand RenameBundleCommand { get; set; }
+        public ICommand RenameBundleCommand { get; private set; }
 
-        public ICommand RenameBundleConfirmCommand { get; set; }
+        public ICommand RenameBundleConfirmCommand { get; private set; }
 
-        public ICommand RenameTextKeyDownCommand { get; set; }
+        public ICommand RenameTextKeyDownCommand { get; private set; }
 
-        public ICommand DragOverCommand { get; set; }
+        public ICommand DragOverCommand { get; private set; }
 
-        public ICommand DropCommand { get; set; }
+        public ICommand DropCommand { get; private set; }
 
         #endregion
 
@@ -144,7 +144,7 @@ namespace Files.ViewModels.Bundles
                             // We need to remember to change BundleItemViewModel.OriginBundleName!
                             foreach (var bundleItem in Contents)
                             {
-                                bundleItem.OriginBundleName = BundleRenameText;
+                                bundleItem.ParentBundleName = BundleRenameText;
                             }
                         }
                         else // Ignore, and add existing values
@@ -199,7 +199,7 @@ namespace Files.ViewModels.Bundles
                         {
                             AddBundleItem(new BundleItemViewModel(associatedInstance, item.Path, item.IsOfType(StorageItemTypes.Folder) ? Filesystem.FilesystemItemType.Directory : Filesystem.FilesystemItemType.File)
                             {
-                                OriginBundleName = BundleName,
+                                ParentBundleName = BundleName,
                                 NotifyItemRemoved = NotifyItemRemovedHandle
                             });
                             itemsAdded = true;
@@ -211,7 +211,6 @@ namespace Files.ViewModels.Bundles
                 if (itemsAdded)
                 {
                     SaveBundle();
-                    // Log here?
                 }
             }
         }

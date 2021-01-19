@@ -188,7 +188,7 @@ namespace Files.ViewModels.Bundles
         {
             foreach (var bundle in Items)
             {
-                if (bundle.BundleName == item.OriginBundleName)
+                if (bundle.BundleName == item.ParentBundleName)
                 {
                     bundle.Contents.Remove(item);
                     item?.Dispose();
@@ -252,7 +252,7 @@ namespace Files.ViewModels.Bundles
                             {
                                 bundleItems.Add(new BundleItemViewModel(associatedInstance, bundleItem, await StorageItemHelpers.GetTypeFromPath(bundleItem, associatedInstance))
                                 {
-                                    OriginBundleName = bundle.Key,
+                                    ParentBundleName = bundle.Key,
                                     NotifyItemRemoved = NotifyBundleItemRemovedHandle
                                 });
                             }

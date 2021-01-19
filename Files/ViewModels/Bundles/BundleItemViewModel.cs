@@ -39,7 +39,7 @@ namespace Files.ViewModels.Bundles
         /// <summary>
         /// The name of a bundle this item is contained within
         /// </summary>
-        public string OriginBundleName { get; set; }
+        public string ParentBundleName { get; set; }
 
         public string Path { get; set; }
 
@@ -78,13 +78,13 @@ namespace Files.ViewModels.Bundles
 
         #region Commands
 
-        public ICommand OpenItemCommand { get; set; }
+        public ICommand OpenItemCommand { get; private set; }
 
-        public ICommand OpenInNewTabCommand { get; set; }
+        public ICommand OpenInNewTabCommand { get; private set; }
 
-        public ICommand OpenItemLocationCommand { get; set; }
+        public ICommand OpenItemLocationCommand { get; private set; }
 
-        public ICommand RemoveItemCommand { get; set; }
+        public ICommand RemoveItemCommand { get; private set; }
 
         #endregion
 
@@ -126,10 +126,10 @@ namespace Files.ViewModels.Bundles
 
         private void RemoveItem()
         {
-            if (BundlesSettings.SavedBundles.ContainsKey(OriginBundleName))
+            if (BundlesSettings.SavedBundles.ContainsKey(ParentBundleName))
             {
                 Dictionary<string, List<string>> allBundles = BundlesSettings.SavedBundles; // We need to do it this way for Set() to be called
-                allBundles[OriginBundleName].Remove(Path);
+                allBundles[ParentBundleName].Remove(Path);
                 BundlesSettings.SavedBundles = allBundles;
                 NotifyItemRemoved(this);
             }
@@ -169,7 +169,7 @@ namespace Files.ViewModels.Bundles
                         OnPropertyChanged(nameof(Icon));
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                     Icon = new BitmapImage(); // Set here no file image
                 }
