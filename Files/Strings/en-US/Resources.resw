@@ -1665,6 +1665,9 @@
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>No preview available</value>
   </data>
+  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+    <value>No details available</value>
+  </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Item Name</value>
   </data>

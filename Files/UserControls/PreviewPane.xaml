@@ -92,22 +92,24 @@
             </controls:GridSplitter.Element>
         </controls:GridSplitter>
 
-            <ListView SelectionMode="None" Grid.Row="2" x:Name="RootPropertiesGrid" ItemsSource="{x:Bind SelectedItem.FileDetails, Mode=OneWay}">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="properties:FileProperty">
-                    <Grid HorizontalAlignment="Stretch">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="2*" />
-                        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="2" x:Name="RootPropertiesGrid" >
+            <TextBlock x:Name="PreviewPaneDetailsNotAvailableText" x:Uid="PreviewPaneDetailsNotAvailableText" Visibility="Collapsed" Text="No details available" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <ListView SelectionMode="None" ItemsSource="{x:Bind SelectedItem.FileDetails, Mode=OneWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="properties:FileProperty">
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="2*" />
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock
+                            <TextBlock
                             Grid.Row="0"
                             HorizontalAlignment="Stretch"
                             Style="{StaticResource PropertyName}"
                             Text="{x:Bind Name, Mode=OneWay}"
                             ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}"/>
-                        <TextBox
+                            <TextBox
                             x:Name="PropertyValueTemplateTextBox"
                             Grid.Row="0"
                             Grid.Column="1"
@@ -115,42 +117,42 @@
                             IsReadOnly="True"
                             Style="{StaticResource DetailsValueTextBox}"
                             Text="{x:Bind ValueText, Mode=TwoWay}">
-                            <TextBox.Resources>
-                                <ResourceDictionary>
-                                    <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="Transparent"/>
-                                    <SolidColorBrush x:Key="TextControlBorderFocused" Color="Transparent"/>
-                                    <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="Transparent"/>
-                                    <SolidColorBrush x:Key="TextBoxButtonPointerOverBackgroundThemeBrush" Color="Transparent"/>
-                                    <SolidColorBrush x:Key="TextBoxButtonPressedBackgroundThemeBrush" Color="Transparent"/>
-                                    <SolidColorBrush x:Key="TextBoxBackgroundThemeBrush" Color="Transparent"/>
-                                    <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="Transparent"/>
-                                    <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="Transparent"/>
-                                </ResourceDictionary>
-                            </TextBox.Resources>
-                        </TextBox>
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.GroupStyle>
-                <GroupStyle>
-                    <GroupStyle.HeaderTemplate>
-                        <DataTemplate x:DataType="properties:FilePropertySection">
-                            <Grid/>
-                        </DataTemplate>
-                    </GroupStyle.HeaderTemplate>
-                </GroupStyle>
-            </ListView.GroupStyle>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <ItemsStackPanel AreStickyGroupHeadersEnabled="False" />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-        </ListView>
-
+                                <TextBox.Resources>
+                                    <ResourceDictionary>
+                                        <SolidColorBrush x:Key="TextControlBorderBrushPointerOver" Color="Transparent"/>
+                                        <SolidColorBrush x:Key="TextControlBorderFocused" Color="Transparent"/>
+                                        <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="Transparent"/>
+                                        <SolidColorBrush x:Key="TextBoxButtonPointerOverBackgroundThemeBrush" Color="Transparent"/>
+                                        <SolidColorBrush x:Key="TextBoxButtonPressedBackgroundThemeBrush" Color="Transparent"/>
+                                        <SolidColorBrush x:Key="TextBoxBackgroundThemeBrush" Color="Transparent"/>
+                                        <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="Transparent"/>
+                                        <SolidColorBrush x:Key="TextControlBorderBrushFocused" Color="Transparent"/>
+                                    </ResourceDictionary>
+                                </TextBox.Resources>
+                            </TextBox>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate x:DataType="properties:FilePropertySection">
+                                <Grid/>
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </ListView.GroupStyle>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel AreStickyGroupHeadersEnabled="False" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+        </Grid>
     </Grid>
 </UserControl>

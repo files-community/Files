@@ -67,6 +67,7 @@ namespace Files.UserControls
                 SelectedItem = null;
 
                 PreviewNotAvaliableText.Visibility = Visibility.Visible;
+                PreviewPaneDetailsNotAvailableText.Visibility = Visibility.Visible;
             }
         }
 
@@ -108,11 +109,13 @@ namespace Files.UserControls
         async void LoadPreviewControlAsync(ListedItem item)
         {
             PreviewNotAvaliableText.Visibility = Visibility.Collapsed;
+            PreviewPaneDetailsNotAvailableText.Visibility = Visibility.Collapsed;
 
             // Folders not supported yet
             if (item.FileExtension == null)
             {
                 PreviewNotAvaliableText.Visibility = Visibility.Visible;
+                PreviewPaneDetailsNotAvailableText.Visibility = Visibility.Visible;
                 return;
             }
 
@@ -140,6 +143,7 @@ namespace Files.UserControls
             }
 
             PreviewNotAvaliableText.Visibility = Visibility.Visible;
+            PreviewPaneDetailsNotAvailableText.Visibility = Visibility.Visible;
         }
 
         UserControl GetBuiltInPreviewControl(ListedItem item)

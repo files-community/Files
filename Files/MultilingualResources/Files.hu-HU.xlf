@@ -2080,6 +2080,10 @@
           <source>Item Name</source>
           <target state="new">Item Name</target>
         </trans-unit>
+        <trans-unit id="PreviewPaneDetailsNotAvailableText" translate="yes" xml:space="preserve">
+          <source>No details available</source>
+          <target state="new">No details available</target>
+        </trans-unit>
       </group>
     </body>
   </file>
