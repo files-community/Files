@@ -7,6 +7,7 @@ using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using Windows.ApplicationModel.AppService;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -17,6 +18,8 @@ namespace Files.Views
         private IShellPage AppInstance = null;
         public SettingsViewModel AppSettings => App.AppSettings;
         public FolderSettingsViewModel FolderSettings => AppInstance?.InstanceViewModel.FolderSettings;
+        public AppServiceConnection Connection => AppInstance?.ServiceConnection;
+
         public YourHome()
         {
             InitializeComponent();

@@ -116,13 +116,13 @@ namespace Files.ViewModels.Properties
             else if (Item.ItemPath.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
                 // GetFolderFromPathAsync cannot access recyclebin folder
-                if (AppServiceConnectionHelper.Connection != null)
+                if (AppInstance.FilesystemViewModel.Connection != null)
                 {
                     var value = new ValueSet();
                     value.Add("Arguments", "RecycleBin");
                     value.Add("action", "Query");
                     // Send request to fulltrust process to get recyclebin properties
-                    var response = await AppServiceConnectionHelper.Connection.SendMessageAsync(value);
+                    var response = await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(value);
                     if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
                     {
                         if (response.Message.TryGetValue("BinSize", out var binSize))
@@ -213,7 +213,7 @@ namespace Files.ViewModels.Properties
                         return;
                     }
 
-                    if (AppServiceConnectionHelper.Connection != null)
+                    if (AppInstance.FilesystemViewModel.Connection != null)
                     {
                         var value = new ValueSet()
                         {
@@ -225,7 +225,7 @@ namespace Files.ViewModels.Properties
                             { "workingdir", ViewModel.ShortcutItemWorkingDir },
                             { "runasadmin", tmpItem.RunAsAdmin },
                         };
-                        await AppServiceConnectionHelper.Connection.SendMessageAsync(value);
+                        await AppInstance.FilesystemViewModel.Connection.SendMessageAsync(value);
                     }
                     break;
             }

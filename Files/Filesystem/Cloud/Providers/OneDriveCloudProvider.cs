@@ -11,7 +11,7 @@ namespace Files.Filesystem.Cloud.Providers
 {
     public class OneDriveCloudProvider : ICloudProviderDetector
     {
-        public async Task<IEnumerable<CloudProvider>> DetectAsync()
+        public async Task DetectAsync(List<CloudProvider> cloudProviders)
         {
             try
             {

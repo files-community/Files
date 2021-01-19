@@ -550,9 +550,9 @@ namespace Files.Filesystem
             if (fsResult == FileSystemStatusCode.Unauthorized)
             {
                 // Try again with fulltrust process
-                if (AppServiceConnectionHelper.Connection != null)
+                if (associatedInstance.FilesystemViewModel.Connection != null)
                 {
-                    AppServiceResponse response = await AppServiceConnectionHelper.Connection.SendMessageAsync(new ValueSet()
+                    AppServiceResponse response = await associatedInstance.FilesystemViewModel.Connection.SendMessageAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "DeleteItem" },

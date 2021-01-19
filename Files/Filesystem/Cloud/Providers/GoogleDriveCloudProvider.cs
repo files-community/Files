@@ -10,7 +10,7 @@ namespace Files.Filesystem.Cloud.Providers
 {
     public class GoogleDriveCloudProvider : ICloudProviderDetector
     {
-        public async Task<IEnumerable<CloudProvider>> DetectAsync()
+        public async Task DetectAsync(List<CloudProvider> cloudProviders)
         {
             try
             {
@@ -29,15 +29,13 @@ namespace Files.Filesystem.Cloud.Providers
                     // Open the connection and execute the command
                     con.Open();
                     var reader = cmd.ExecuteReader();
-                    var results = new List<CloudProvider>();
-
                     while (reader.Read())
                     {
                         // Extract the data from the reader
                         string path = reader["data_value"]?.ToString();
                         if (string.IsNullOrWhiteSpace(path))
                         {
-                            return Array.Empty<CloudProvider>();
+                            return;
                         }
 
                         // By default, the path will be prefixed with "\\?\" (unless another app has explicitly changed it).
@@ -64,16 +62,13 @@ namespace Files.Filesystem.Cloud.Providers
                             googleCloud.Name = "Google Drive";
                         }
 
-                        results.Add(googleCloud);
+                        cloudProviders.Add(googleCloud);
                     }
-
-                    return results;
                 }
             }
             catch
             {
                 // Not detected
-                return Array.Empty<CloudProvider>();
             }
         }
     }

@@ -56,6 +56,8 @@ namespace Files.Interacts
 
         public FolderSettingsViewModel FolderSettings => AssociatedInstance?.InstanceViewModel.FolderSettings;
 
+        private AppServiceConnection Connection => AssociatedInstance?.ServiceConnection;
+
         public Interaction(IShellPage appInstance)
         {
             AssociatedInstance = appInstance;
@@ -204,7 +206,7 @@ namespace Files.Interacts
         {
             var terminal = AppSettings.TerminalController.Model.GetDefaultTerminal();
 
-            if (AppServiceConnectionHelper.Connection != null)
+            if (Connection != null)
             {
                 var value = new ValueSet
                 {
@@ -213,7 +215,7 @@ namespace Files.Interacts
                     { "Arguments", string.Format(terminal.Arguments,
                        Helpers.PathNormalization.NormalizePath(AssociatedInstance.FilesystemViewModel.WorkingDirectory)) }
                 };
-                await AppServiceConnectionHelper.Connection.SendMessageAsync(value);
+                await Connection.SendMessageAsync(value);
             }
         }
 
@@ -261,7 +263,7 @@ namespace Files.Interacts
         public async Task InvokeWin32ComponentsAsync(List<string> applicationPaths, string arguments = null, bool runAsAdmin = false, string workingDir = null)
         {
             Debug.WriteLine("Launching EXE in FullTrustProcess");
-            if (AppServiceConnectionHelper.Connection != null)
+            if (Connection != null)
             {
                 var value = new ValueSet
                 {
@@ -279,19 +281,19 @@ namespace Files.Interacts
                     value.Add("Arguments", arguments);
                 }
 
-                await AppServiceConnectionHelper.Connection.SendMessageAsync(value);
+                await Connection.SendMessageAsync(value);
             }
         }
 
         public async Task OpenShellCommandInExplorerAsync(string shellCommand)
         {
             Debug.WriteLine("Launching shell command in FullTrustProcess");
-            if (AppServiceConnectionHelper.Connection != null)
+            if (Connection != null)
             {
                 var value = new ValueSet();
                 value.Add("ShellCommand", shellCommand);
                 value.Add("Arguments", "ShellCommand");
-                await AppServiceConnectionHelper.Connection.SendMessageAsync(value);
+                await Connection.SendMessageAsync(value);
             }
         }
 
@@ -368,9 +370,9 @@ namespace Files.Interacts
 
         public async void RunAsAdmin_Click()
         {
-            if (AppServiceConnectionHelper.Connection != null)
+            if (Connection != null)
             {
-                await AppServiceConnectionHelper.Connection.SendMessageAsync(new ValueSet()
+                await Connection.SendMessageAsync(new ValueSet()
                 {
                     { "Arguments", "InvokeVerb" },
                     { "FilePath", AssociatedInstance.ContentPage.SelectedItem.ItemPath },
@@ -381,9 +383,9 @@ namespace Files.Interacts
 
         public async void RunAsAnotherUser_Click()
         {
-            if (AppServiceConnectionHelper.Connection != null)
+            if (Connection != null)
             {
-                await AppServiceConnectionHelper.Connection.SendMessageAsync(new ValueSet()
+                await Connection.SendMessageAsync(new ValueSet()
                 {
                     { "Arguments", "InvokeVerb" },
                     { "FilePath", AssociatedInstance.ContentPage.SelectedItem.ItemPath },
@@ -811,7 +813,7 @@ namespace Files.Interacts
         {
             foreach (ListedItem selectedItem in AssociatedInstance.ContentPage.SelectedItems)
             {
-                if (AppServiceConnectionHelper.Connection != null)
+                if (Connection != null)
                 {
                     var value = new ValueSet
                     {
@@ -827,7 +829,7 @@ namespace Files.Interacts
                                 string.Format("ShortcutCreateNewSuffix".GetLocalized(), selectedItem.ItemName) + ".lnk")
                         }
                     };
-                    await AppServiceConnectionHelper.Connection.SendMessageAsync(value);
+                    await Connection.SendMessageAsync(value);
                 }
             }
         }
@@ -940,10 +942,10 @@ namespace Files.Interacts
                 else if (cut.ErrorCode == FileSystemStatusCode.Unauthorized)
                 {
                     // Try again with fulltrust process
-                    if (AppServiceConnectionHelper.Connection != null)
+                    if (Connection != null)
                     {
                         var filePaths = string.Join('|', AssociatedInstance.ContentPage.SelectedItems.Select(x => x.ItemPath));
-                        var result = await AppServiceConnectionHelper.Connection.SendMessageAsync(new ValueSet()
+                        var result = await Connection.SendMessageAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "Clipboard" },
@@ -1014,10 +1016,10 @@ namespace Files.Interacts
                 if (copied.ErrorCode == FileSystemStatusCode.Unauthorized)
                 {
                     // Try again with fulltrust process
-                    if (AppServiceConnectionHelper.Connection != null)
+                    if (Connection != null)
                     {
                         var filePaths = string.Join('|', AssociatedInstance.ContentPage.SelectedItems.Select(x => x.ItemPath));
-                        var result = await AppServiceConnectionHelper.Connection.SendMessageAsync(new ValueSet()
+                        var result = await Connection.SendMessageAsync(new ValueSet()
                         {
                             { "Arguments", "FileOperation" },
                             { "fileop", "Clipboard" },
@@ -1094,13 +1096,13 @@ namespace Files.Interacts
 
             if (result == ContentDialogResult.Primary)
             {
-                if (AppServiceConnectionHelper.Connection != null)
+                if (Connection != null)
                 {
                     var value = new ValueSet();
                     value.Add("Arguments", "RecycleBin");
                     value.Add("action", "Empty");
                     // Send request to fulltrust process to empty recyclebin
-                    await AppServiceConnectionHelper.Connection.SendMessageAsync(value);
+                    await Connection.SendMessageAsync(value);
                 }
             }
         }
@@ -1201,12 +1203,12 @@ namespace Files.Interacts
 
                     Logger.Info("Toggle QuickLook");
                     Debug.WriteLine("Toggle QuickLook");
-                    if (AppServiceConnectionHelper.Connection != null)
+                    if (Connection != null)
                     {
                         var value = new ValueSet();
                         value.Add("path", clickedOnItem.ItemPath);
                         value.Add("Arguments", "ToggleQuickLook");
-                        await AppServiceConnectionHelper.Connection.SendMessageAsync(value);
+                        await Connection.SendMessageAsync(value);
                     }
                 }
             }

@@ -54,32 +54,8 @@ namespace Files.Filesystem
         public DrivesManager()
         {
             cloudProviderController = new CloudProviderController();
-            cloudProviderController.CloudProviderUpdated += CloudProviderController_CloudProviderUpdated;
 
             EnumerateDrives();
-        }
-
-        private void CloudProviderController_CloudProviderUpdated(object sender, IEnumerable<CloudProvider> e)
-        {
-            if (e.Count() > 0)
-            {
-                lock (drivesList)
-                {
-                    foreach (var provider in e)
-                    {
-                        var cloudProviderItem = new DriveItem()
-                        {
-                            Text = provider.Name,
-                            Path = provider.SyncFolder,
-                            Type = DriveType.VirtualDrive,
-                        };
-                        drivesList.Add(cloudProviderItem);
-                    }
-                }
-
-                // Update the collection on the ui-thread.
-                DeviceWatcher_EnumerationCompleted(null, null);
-            }
         }
 
         private async void EnumerateDrives()
@@ -311,7 +287,21 @@ namespace Files.Filesystem
 
         public async Task GetVirtualDrivesListAsync()
         {
-            cloudProviderController.DetectInstalledCloudProviders();
+            await cloudProviderController.DetectInstalledCloudProvidersAsync();
+
+            foreach (var provider in cloudProviderController.CloudProviders)
+            {
+                var cloudProviderItem = new DriveItem()
+                {
+                    Text = provider.Name,
+                    Path = provider.SyncFolder,
+                    Type = DriveType.VirtualDrive,
+                };
+                lock (drivesList)
+                {
+                    drivesList.Add(cloudProviderItem);
+                }
+            }
         }
 
         private DriveType GetDriveType(DriveInfo drive)
