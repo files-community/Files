@@ -10,7 +10,7 @@ namespace Files.Filesystem.Cloud.Providers
 {
     public class DropBoxCloudProvider : ICloudProviderDetector
     {
-        public async Task<IEnumerable<CloudProvider>> DetectAsync()
+        public async Task DetectAsync(List<CloudProvider> cloudProviders)
         {
             try
             {
@@ -20,19 +20,16 @@ namespace Files.Filesystem.Cloud.Providers
                 var jsonObj = JObject.Parse(await FileIO.ReadTextAsync(configFile));
                 var dropboxPath = (string)jsonObj["personal"]["path"];
 
-                return new[] {
-                    new CloudProvider()
-                    {
-                        ID = CloudProviders.DropBox,
-                        Name = "Dropbox",
-                        SyncFolder = dropboxPath
-                    }
-                };
+                cloudProviders.Add(new CloudProvider()
+                {
+                    ID = CloudProviders.DropBox,
+                    Name = "Dropbox",
+                    SyncFolder = dropboxPath
+                });
             }
             catch
             {
                 // Not detected
-                return Array.Empty<CloudProvider>();
             }
         }
     }
