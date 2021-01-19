@@ -344,6 +344,47 @@ namespace FilesFullTrust
                     }
                     break;
 
+                case "GetSharePointSyncLocationsFromOneDrive":
+                    using (var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts", false))
+                    {
+                        var sharepointAccounts = new ValueSet();
+
+                        foreach (var account in oneDriveAccountsKey.GetSubKeyNames())
+                        {
+                            var accountKeyName = @$"{oneDriveAccountsKey.Name}\{account}";
+                            var displayName = (string)Registry.GetValue(accountKeyName, "DisplayName", null);
+                            var userFolderToExcludeFromResults = (string)Registry.GetValue(accountKeyName, "UserFolder", null);
+                            var accountName = string.IsNullOrWhiteSpace(displayName) ? "SharePoint" : $"SharePoint - {displayName}";
+
+                            var sharePointSyncFolders = new List<string>();
+                            var mountPointKeyName = @$"SOFTWARE\Microsoft\OneDrive\Accounts\{account}\ScopeIdToMountPointPathCache";
+                            using (var mountPointsKey = Registry.CurrentUser.OpenSubKey(mountPointKeyName))
+                            {
+                                var valueNames = mountPointsKey.GetValueNames();
+                                foreach (var valueName in valueNames)
+                                {
+                                    var value = (string)Registry.GetValue(@$"HKEY_CURRENT_USER\{mountPointKeyName}", valueName, null);
+                                    if (!string.Equals(value, userFolderToExcludeFromResults, StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        sharePointSyncFolders.Add(value);
+                                    }
+                                }
+                            }
+
+                            foreach (var sharePointSyncFolder in sharePointSyncFolders.OrderBy(o => o))
+                            {
+                                var parentFolder = System.IO.Directory.GetParent(sharePointSyncFolder)?.FullName ?? string.Empty;
+                                if (!sharepointAccounts.Any(acc => string.Equals(acc.Value, parentFolder)))
+                                {
+                                    sharepointAccounts.Add(accountName, parentFolder);
+                                }
+                            }
+                        }
+
+                        await args.Request.SendResponseAsync(sharepointAccounts);
+                    }
+                    break;
+
                 default:
                     if (args.Request.Message.ContainsKey("Application"))
                     {

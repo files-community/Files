@@ -16,6 +16,7 @@ namespace Files.Filesystem.Cloud
                 new GoogleDriveCloudProvider(),
                 new DropBoxCloudProvider(),
                 new OneDriveCloudProvider(),
+                new OneDriveSharePointCloudProvider(),
                 new MegaCloudProvider(),
                 new BoxCloudProvider(),
                 new AppleCloudProvider(),
