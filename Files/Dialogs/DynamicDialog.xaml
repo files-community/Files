@@ -9,9 +9,13 @@
     mc:Ignorable="d"
     Title="{Binding TitleText, Mode=OneWay}"
     DefaultButton="Primary"
+    CornerRadius="4"
     PrimaryButtonText="{Binding PrimaryButtonText, Mode=OneWay}"
     SecondaryButtonText="{Binding SecondaryButtonText, Mode=OneWay}"
-    CloseButtonText="{Binding CloseButtonText, Mode=OneWay}">
+    CloseButtonText="{Binding CloseButtonText, Mode=OneWay}"
+    PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
+    SecondaryButtonStyle="{StaticResource DefaultButtonStyle}"
+    CloseButtonStyle="{StaticResource DefaultButtonStyle}">
 
     <i:Interaction.Behaviors>
         <!--  No need to specify CommandParameter - `e` is passed by default  -->
