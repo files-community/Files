@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -457,7 +458,7 @@ namespace Files.Helpers
             {
                 var file = await folder.GetFileAsync("FileExtensions.json");
                 var text = await FileIO.ReadTextAsync(file);
-                FileExtensions = System.Text.Json.JsonSerializer.Deserialize<List<string>>(text);
+                FileExtensions = JsonConvert.DeserializeObject<List<string>>(text);
             } catch
             {
                 Debug.WriteLine("Unable to get extensions");
