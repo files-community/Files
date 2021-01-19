@@ -50,7 +50,7 @@
             <!--  Add Bundle button  -->
             <Button
                 Grid.Column="1"
-                Width="25"
+                Width="29"
                 Height="25"
                 Padding="0"
                 HorizontalAlignment="Right"
@@ -62,12 +62,21 @@
                 <FontIcon
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    FontFamily="{StaticResource FluentUIGlyphs}"
                     FontSize="14"
-                    Glyph="&#xe903;" />
+                    Glyph="&#xe712;"
+                    FontFamily="Segoe MDL2 Assets" />
 
-                <Button.ContextFlyout>
+                <Button.Flyout>
                     <MenuFlyout>
+                        <MenuFlyoutItem
+                            x:Uid="BundlesWidgetAddBundleContextFlyoutMenuFlyoutItemAddBundle.Text"
+                            Command="{Binding OpenAddBundleDialogCommand, Mode=OneWay}"
+                            Text="Import Bundles">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE903;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutSeparator/>
                         <MenuFlyoutItem
                             x:Uid="BundlesWidgetAddBundleContextFlyoutMenuFlyoutItemImportBundles.Text"
                             Command="{Binding ImportBundlesCommand, Mode=OneWay}"
@@ -85,82 +94,6 @@
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>
-                </Button.ContextFlyout>
-                <Button.Flyout>
-                    <Flyout Placement="Bottom">
-                        <Border MinWidth="270">
-                            <Grid Padding="8,4,8,4" RowSpacing="8">
-                                <Grid.RowDefinitions>
-                                    <!--  Header  -->
-                                    <RowDefinition />
-                                    <!--  Input TextBox  -->
-                                    <RowDefinition />
-                                    <!--  Confirm Button  -->
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-
-                                <!--  Line separator grid  -->
-                                <Grid
-                                    Grid.Row="0"
-                                    BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}"
-                                    BorderThickness="0,0,0,.5">
-                                    <!--  Header  -->
-                                    <TextBlock
-                                        Margin="0,0,0,4"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        FontFamily="Segoe UI"
-                                        FontSize="14"
-                                        FontWeight="Medium"
-                                        Text="Add Bundle" />
-                                </Grid>
-
-                                <!--  Input TextBox  -->
-                                <TextBox
-                                    x:Uid="BundlesWidgetAddBundleNameInput.PlaceholderText"
-                                    Grid.Row="1"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Center"
-                                    PlaceholderText="Enter Bundle name"
-                                    Text="{Binding BundleNameTextInput, Mode=TwoWay}">
-                                    <i:Interaction.Behaviors>
-                                        <!--  No need to specify CommandParameter - `e` is passed by default  -->
-                                        <icore:EventTriggerBehavior EventName="KeyDown">
-                                            <icore:InvokeCommandAction Command="{Binding InputTextKeyDownCommand, Mode=OneWay}" />
-                                        </icore:EventTriggerBehavior>
-                                    </i:Interaction.Behaviors>
-                                </TextBox>
-
-                                <Grid Grid.Row="2" ColumnSpacing="5">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-
-                                    <!--  Warning Error text  -->
-                                    <TextBlock
-                                        Grid.Column="0"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        FontFamily="Segoe UI"
-                                        FontSize="12"
-                                        Text="{Binding AddBundleErrorText, Mode=OneWay}"
-                                        TextWrapping="Wrap" />
-
-                                    <!--  Confirmation Button  -->
-                                    <Button
-                                        x:Uid="BundlesWidgetAddBundleConfirm.Content"
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Center"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        Command="{Binding AddBundleCommand, Mode=OneWay}"
-                                        Content="Confirm" />
-                                </Grid>
-                            </Grid>
-                        </Border>
-                    </Flyout>
                 </Button.Flyout>
                 <ToolTipService.ToolTip>
                     <ToolTip x:Uid="BundlesWidgetAddBundle.TooltipService.Tooltip" Content="Left click to add a Bundle, right click to open Bundles options." />
@@ -266,6 +199,7 @@
                                         VerticalAlignment="Center"
                                         FontFamily="Segoe UI"
                                         FontWeight="SemiBold"
+                                        TextTrimming="CharacterEllipsis"
                                         Opacity="0.9"
                                         Text="{Binding BundleName, Mode=OneWay}" />
                                 </Grid>

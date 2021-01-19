@@ -1728,4 +1728,22 @@
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>Rename "{0}"</value>
   </data>
+  <data name="BundlesWidgetAddBundeTitleText" xml:space="preserve">
+    <value>Create Bundle</value>
+  </data>
+  <data name="BundlesWidgetAddBundleCloseButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+    <value>Desired name</value>
+  </data>
+  <data name="BundlesWidgetAddBundlePrimaryButtonText" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="BundlesWidgetAddBundleSubtitleText" xml:space="preserve">
+    <value>Add Bundle</value>
+  </data>
+  <data name="BundlesWidgetAddBundleContextFlyoutMenuFlyoutItemAddBundle" xml:space="preserve">
+    <value>Add Bundle</value>
+  </data>
 </root>

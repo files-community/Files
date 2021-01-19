@@ -113,7 +113,6 @@ namespace Files.ViewModels.Bundles
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
                 DisplayControl = inputTextBox,
-                DynamicButtons = DynamicButtons.Primary | DynamicButtons.Cancel,
                 TitleText = string.Format("BundlesWidgetRenameBundleDialogTitleText".GetLocalized(), BundleName),
                 SubtitleText = "BundlesWidgetRenameBundleDialogSubtitleText".GetLocalized(),
                 PrimaryButtonText = "BundlesWidgetRenameBundleDialogPrimaryButtonText".GetLocalized(),
@@ -135,9 +134,11 @@ namespace Files.ViewModels.Bundles
                     }
                     else if (e.Key == VirtualKey.Escape)
                     {
+                        // Cancel the rename
                         vm.HideDialog();
                     }
-                }
+                },
+                DynamicButtons = DynamicButtons.Primary | DynamicButtons.Cancel
             });
             await dialog.ShowAsync();
 

@@ -2174,6 +2174,30 @@
           <source>Rename "{0}"</source>
           <target state="new">Rename "{0}"</target>
         </trans-unit>
+        <trans-unit id="BundlesWidgetAddBundeTitleText" translate="yes" xml:space="preserve">
+          <source>Create Bundle</source>
+          <target state="new">Create Bundle</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAddBundleCloseButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAddBundleInputPlaceholderText" translate="yes" xml:space="preserve">
+          <source>Desired name</source>
+          <target state="new">Desired name</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAddBundlePrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Confirm</source>
+          <target state="new">Confirm</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAddBundleSubtitleText" translate="yes" xml:space="preserve">
+          <source>Add Bundle</source>
+          <target state="new">Add Bundle</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetAddBundleContextFlyoutMenuFlyoutItemAddBundle" translate="yes" xml:space="preserve">
+          <source>Add Bundle</source>
+          <target state="new">Add Bundle</target>
+        </trans-unit>
       </group>
     </body>
   </file>

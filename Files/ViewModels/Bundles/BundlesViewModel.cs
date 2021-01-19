@@ -70,13 +70,15 @@ namespace Files.ViewModels.Bundles
 
         #region Commands
 
-        public ICommand InputTextKeyDownCommand { get; set; }
+        public ICommand InputTextKeyDownCommand { get; private set; }
 
-        public ICommand AddBundleCommand { get; set; }
+        public ICommand OpenAddBundleDialogCommand { get; private set; }
 
-        public ICommand ImportBundlesCommand { get; set; }
+        public ICommand AddBundleCommand { get; private set; }
 
-        public ICommand ExportBundlesCommand { get; set; }
+        public ICommand ImportBundlesCommand { get; private set; }
+
+        public ICommand ExportBundlesCommand { get; private set; }
 
         #endregion
 
@@ -86,7 +88,8 @@ namespace Files.ViewModels.Bundles
         {
             // Create commands
             InputTextKeyDownCommand = new RelayCommand<KeyRoutedEventArgs>(InputTextKeyDown);
-            AddBundleCommand = new RelayCommand(AddBundle);
+            OpenAddBundleDialogCommand = new RelayCommand(OpenAddBundleDialog);
+            AddBundleCommand = new RelayCommand(() => AddBundle(BundleNameTextInput));
             ImportBundlesCommand = new RelayCommand(ImportBundles);
             ExportBundlesCommand = new RelayCommand(ExportBundles);
         }
@@ -99,19 +102,63 @@ namespace Files.ViewModels.Bundles
         {
             if (e.Key == VirtualKey.Enter)
             {
-                AddBundle();
+                AddBundle(BundleNameTextInput);
                 e.Handled = true;
             }
         }
 
-        private void AddBundle()
+        private void AddBundleDialogTextKeyDown(object s, KeyRoutedEventArgs e)
         {
-            if (!CanAddBundle(BundleNameTextInput))
+
+        }
+
+        private async void OpenAddBundleDialog()
+        {
+            TextBox inputTextBox = new TextBox();
+            inputTextBox.KeyDown += AddBundleDialogTextKeyDown;
+            inputTextBox.PlaceholderText = "BundlesWidgetAddBundleInputPlaceholderText".GetLocalized();
+
+            DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
+            {
+                DisplayControl = inputTextBox,
+                TitleText = "BundlesWidgetAddBundeTitleText".GetLocalized(),
+                SubtitleText = "BundlesWidgetAddBundleSubtitleText".GetLocalized(),
+                PrimaryButtonText = "BundlesWidgetAddBundlePrimaryButtonText".GetLocalized(),
+                CloseButtonText = "BundlesWidgetAddBundleCloseButtonText".GetLocalized(),
+                PrimaryButtonAction = (vm, e) =>
+                {
+                    AddBundle((vm.DisplayControl as TextBox).Text);
+                },
+                CloseButtonAction = (vm, e) =>
+                {
+                    vm.HideDialog();
+                },
+                KeyDownAction = (vm, e) =>
+                {
+                    if (e.Key == VirtualKey.Enter)
+                    {
+                        AddBundle((vm.DisplayControl as TextBox).Text);
+                    }
+                    else if (e.Key == VirtualKey.Escape)
+                    {
+                        vm.HideDialog();
+                    }
+                },
+                DynamicButtons = DynamicButtons.Primary | DynamicButtons.Cancel
+            });
+            await dialog.ShowAsync();
+
+            inputTextBox.KeyDown -= AddBundleDialogTextKeyDown;
+        }
+
+        private void AddBundle(string name)
+        {
+            if (!CanAddBundle(name))
             {
                 return;
             }
 
-            string savedBundleNameTextInput = BundleNameTextInput;
+            string savedBundleNameTextInput = name;
             BundleNameTextInput = string.Empty;
 
             if (BundlesSettings.SavedBundles == null || (BundlesSettings.SavedBundles?.ContainsKey(savedBundleNameTextInput) ?? false)) // Init
