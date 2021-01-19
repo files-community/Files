@@ -1,4 +1,6 @@
-﻿using Files.SettingsInterfaces;
+﻿using Files.Dialogs;
+using Files.SettingsInterfaces;
+using Files.ViewModels.Dialogs;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
 using System;
@@ -10,6 +12,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
 namespace Files.ViewModels.Bundles
@@ -58,19 +61,19 @@ namespace Files.ViewModels.Bundles
             set => SetProperty(ref noBundleContentsTextVisibility, value);
         }
 
-        private string bundleRenameText = string.Empty;
-        public string BundleRenameText
-        {
-            get => bundleRenameText;
-            set => SetProperty(ref bundleRenameText, value);
-        }
+        //private string bundleRenameText = string.Empty;
+        //public string BundleRenameText
+        //{
+        //    get => bundleRenameText;
+        //    set => SetProperty(ref bundleRenameText, value);
+        //}
 
-        private Visibility bundleRenameVisibility = Visibility.Collapsed;
-        public Visibility BundleRenameVisibility
-        {
-            get => bundleRenameVisibility;
-            set => SetProperty(ref bundleRenameVisibility, value);
-        }
+        //private Visibility bundleRenameVisibility = Visibility.Collapsed;
+        //public Visibility BundleRenameVisibility
+        //{
+        //    get => bundleRenameVisibility;
+        //    set => SetProperty(ref bundleRenameVisibility, value);
+        //}
 
         #endregion
 
@@ -79,10 +82,6 @@ namespace Files.ViewModels.Bundles
         public ICommand RemoveBundleCommand { get; private set; }
 
         public ICommand RenameBundleCommand { get; private set; }
-
-        public ICommand RenameBundleConfirmCommand { get; private set; }
-
-        public ICommand RenameTextKeyDownCommand { get; private set; }
 
         public ICommand DragOverCommand { get; private set; }
 
@@ -95,13 +94,10 @@ namespace Files.ViewModels.Bundles
         public BundleContainerViewModel(IShellPage associatedInstance)
         {
             this.associatedInstance = associatedInstance;
-            this.BundleRenameText = BundleName;
 
             // Create commands
             RemoveBundleCommand = new RelayCommand(RemoveBundle);
             RenameBundleCommand = new RelayCommand(RenameBundle);
-            RenameBundleConfirmCommand = new RelayCommand(RenameBundleConfirm);
-            RenameTextKeyDownCommand = new RelayCommand<KeyRoutedEventArgs>(RenameTextKeyDown);
             DragOverCommand = new RelayCommand<DragEventArgs>(DragOver);
             DropCommand = new RelayCommand<DragEventArgs>(Drop);
         }
@@ -121,14 +117,49 @@ namespace Files.ViewModels.Bundles
             }
         }
 
-        private void RenameBundle()
+        private async void RenameBundle()
         {
-            BundleRenameVisibility = BundleRenameVisibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+            TextBox inputTextBox = new TextBox();
+            inputTextBox.KeyDown += RenameTextKeyDown;
+            inputTextBox.PlaceholderText = "Desired name";
+
+            DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
+            {
+                DisplayControl = inputTextBox,
+                DynamicButtons = DynamicButtons.Primary | DynamicButtons.Cancel,
+                TitleText = $"Rename \"{BundleName}\"",
+                SubtitleText = "Enter new name",
+                PrimaryButtonText = "Confirm",
+                CloseButtonText = "Cancel",
+                PrimaryButtonAction = (vm, e) =>
+                {
+                    RenameBundleConfirm((vm.DisplayControl as TextBox).Text);
+                },
+                CloseButtonAction = (vm, e) =>
+                {
+                    // Cancel the rename
+                    vm.HideDialog();
+                },
+                KeyDownAction = (vm, e) =>
+                {
+                    if (e.Key == VirtualKey.Enter)
+                    {
+                        RenameBundleConfirm((vm.DisplayControl as TextBox).Text);
+                    }
+                    else if (e.Key == VirtualKey.Escape)
+                    {
+                        vm.HideDialog();
+                    }
+                }
+            });
+            await dialog.ShowAsync();
+
+            inputTextBox.KeyDown -= RenameTextKeyDown;
         }
 
-        private void RenameBundleConfirm()
+        private void RenameBundleConfirm(string bundleRenameText)
         {
-            if (CanRenameBundle(BundleRenameText))
+            if (CanRenameBundle(bundleRenameText))
             {
                 if (BundlesSettings.SavedBundles.ContainsKey(BundleName))
                 {
@@ -139,12 +170,12 @@ namespace Files.ViewModels.Bundles
                     {
                         if (item.Key == BundleName) // Item matches to-rename name
                         {
-                            newBundles.Add(BundleRenameText, item.Value);
+                            newBundles.Add(bundleRenameText, item.Value);
 
                             // We need to remember to change BundleItemViewModel.OriginBundleName!
                             foreach (var bundleItem in Contents)
                             {
-                                bundleItem.ParentBundleName = BundleRenameText;
+                                bundleItem.ParentBundleName = bundleRenameText;
                             }
                         }
                         else // Ignore, and add existing values
@@ -154,23 +185,20 @@ namespace Files.ViewModels.Bundles
                     }
 
                     BundlesSettings.SavedBundles = newBundles;
-                    BundleName = BundleRenameText;
+                    BundleName = bundleRenameText;
                 }
             }
-
-            CloseRename();
         }
 
-        private void RenameTextKeyDown(KeyRoutedEventArgs e)
+        private void RenameTextKeyDown(object s, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Enter)
             {
-                RenameBundleConfirm();
+                RenameBundleConfirm((s as TextBox).Text);
                 e.Handled = true;
             }
             else if (e.Key == VirtualKey.Escape)
             {
-                CloseRename();
                 e.Handled = true;
             }
         }
@@ -252,12 +280,6 @@ namespace Files.ViewModels.Bundles
             return false;
         }
 
-        private void CloseRename()
-        {
-            BundleRenameVisibility = Visibility.Collapsed;
-            BundleRenameText = BundleName;
-        }
-
         #endregion
 
         #region Public Helpers
@@ -315,12 +337,9 @@ namespace Files.ViewModels.Bundles
             }
 
             BundleName = null;
-            BundleRenameText = null;
 
             RemoveBundleCommand = null;
             RenameBundleCommand = null;
-            RenameBundleConfirmCommand = null;
-            RenameTextKeyDownCommand = null;
             DragOverCommand = null;
             DropCommand = null;
 

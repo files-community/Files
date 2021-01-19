@@ -124,7 +124,6 @@ namespace Files.ViewModels.Bundles
             Items.Add(new BundleContainerViewModel(associatedInstance)
             {
                 BundleName = savedBundleNameTextInput,
-                BundleRenameText = savedBundleNameTextInput,
                 NotifyItemRemoved = NotifyItemRemovedHandle,
             });
             NoBundlesAddItemLoad = false;
@@ -263,7 +262,6 @@ namespace Files.ViewModels.Bundles
                     Items.Add(new BundleContainerViewModel(associatedInstance)
                     {
                         BundleName = bundle.Key,
-                        BundleRenameText = bundle.Key,
                         NotifyItemRemoved = NotifyItemRemovedHandle,
                     }.SetBundleItems(bundleItems));
                 }

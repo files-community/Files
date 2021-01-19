@@ -17,6 +17,7 @@ namespace Files.Dialogs
         {
             this.InitializeComponent();
 
+            choiceDialogViewModel.HideDialog = this.Hide;
             this.ViewModel = choiceDialogViewModel;
         }
     }

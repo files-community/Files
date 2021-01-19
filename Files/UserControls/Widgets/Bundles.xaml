@@ -255,35 +255,7 @@
                                         FontFamily="Segoe UI"
                                         FontWeight="SemiBold"
                                         Opacity="0.9"
-                                        Text="{Binding BundleName, Mode=OneWay}"
-                                        Visibility="{Binding BundleRenameVisibility, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}" />
-
-                                    <!--  Bundle Name edit box  -->
-                                    <TextBox
-                                        Grid.Column="0"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Center"
-                                        PlaceholderText="New name..."
-                                        Text="{Binding BundleRenameText, Mode=TwoWay}"
-                                        Visibility="{Binding BundleRenameVisibility, Mode=OneWay}">
-                                        <i:Interaction.Behaviors>
-                                            <!--  No need to specify CommandParameter - `e` is passed by default  -->
-                                            <icore:EventTriggerBehavior EventName="KeyDown">
-                                                <icore:InvokeCommandAction Command="{Binding RenameTextKeyDownCommand, Mode=OneWay}" />
-                                            </icore:EventTriggerBehavior>
-                                        </i:Interaction.Behaviors>
-                                    </TextBox>
-
-                                    <!--  Bundle Rename Confirm  -->
-                                    <Button
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Center"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalContentAlignment="Center"
-                                        Command="{Binding RenameBundleConfirmCommand, Mode=OneWay}"
-                                        Content="Confirm"
-                                        Visibility="{Binding BundleRenameVisibility}" />
+                                        Text="{Binding BundleName, Mode=OneWay}" />
                                 </Grid>
 
                                 <!--  Bundle Options  -->
