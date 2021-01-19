@@ -48,8 +48,21 @@ namespace Files.Views
                           ViewModel.ItemName));
                 }
 
-                // Handle the visibility attribute
-                await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance.InteractionOperations.SetHiddenAttributeItems(item, ViewModel.IsHidden));
+                // Handle the hidden attribute
+                if (BaseProperties is CombinedProperties)
+                {
+                    // Handle each file independently
+                    var items = (BaseProperties as CombinedProperties).List;
+                    foreach (var fileOrFolder in items)
+                    {
+                        await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance.InteractionOperations.SetHiddenAttributeItem(fileOrFolder, ViewModel.IsHidden));
+                    }
+                }
+                else
+                {
+                    // Handle the visibility attribute for a single file
+                    await CoreApplication.MainView.ExecuteOnUIThreadAsync(() => AppInstance.InteractionOperations.SetHiddenAttributeItem(item, ViewModel.IsHidden));
+                }
             }
         }
     }

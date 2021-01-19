@@ -870,14 +870,15 @@ namespace Files.Interacts
             return false;
         }
 
-        public void SetHiddenAttributeItems(ListedItem item, bool isHidden)
+        /// <summary>
+        /// Set a single file or folder to hidden or unhidden an refresh the
+        /// view after setting the flag
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="isHidden"></param>
+        public void SetHiddenAttributeItem(ListedItem item, bool isHidden)
         {
-            // When multiple files are selected to be made hidden at once item gets null
-            if (item != null)
-            {
-                item.IsHiddenItem = isHidden;
-            }
-            // The view area needs a refresh when the hidden flag had been set
+            item.IsHiddenItem = isHidden;
             AssociatedInstance.ContentPage.ResetItemOpacity();
         }
 
