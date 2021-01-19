@@ -222,6 +222,7 @@
                     CanCreateFileInPage="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                     CanOpenTerminalInPage="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
                     CanPasteInPage="{x:Bind InstanceViewModel.CanPasteInPage, Mode=OneWay}"
+                    CanCopyPathInPage="{x:Bind InstanceViewModel.CanCopyPathInPage, Mode=OneWay}"
                     CopyPathInvokedCommand="{x:Bind InteractionOperations.CopyPathOfWorkingDirectory, Mode=OneWay}"
                     IsCreateButtonEnabledInPage="{x:Bind InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
                     IsMultiPaneActive="{x:Bind IsMultiPaneActive, Mode=OneWay}"
@@ -241,7 +242,6 @@
                     Grid.Row="2"
                     x:FieldModifier="public"
                     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                    CacheSize="2"
                     Navigated="ItemDisplayFrame_Navigated" />
 
                 <controls:StatusBarControl

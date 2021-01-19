@@ -1135,7 +1135,7 @@ namespace Files.Views
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 var ContentOwnedViewModelInstance = FilesystemViewModel;
-                ContentOwnedViewModelInstance.RefreshItems(null);
+                ContentOwnedViewModelInstance.RefreshItems(null, false);
             });
         }
 
@@ -1184,6 +1184,7 @@ namespace Files.Views
             var instance = FilesystemViewModel;
             string parentDirectoryOfPath = instance.WorkingDirectory.TrimEnd('\\');
             var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");
+
             if (lastSlashIndex != -1)
             {
                 parentDirectoryOfPath = instance.WorkingDirectory.Remove(lastSlashIndex);

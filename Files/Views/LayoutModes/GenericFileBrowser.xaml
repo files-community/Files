@@ -16,7 +16,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    NavigationCacheMode="Enabled"
+    NavigationCacheMode="Disabled"
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
     mc:Ignorable="d">
 
@@ -683,7 +683,6 @@
             Holding="AllView_Holding"
             IsDoubleTapEnabled="True"
             IsRightTapEnabled="True"
-            ItemsSource="{x:Bind ParentShellPageInstance.FilesystemViewModel.FilesAndFolders, Mode=OneWay}"
             PointerPressed="{x:Bind ParentShellPageInstance.InteractionOperations.ItemPointerPressed}"
             PreparingCellForEdit="AllView_PreparingCellForEdit"
             PreviewKeyDown="AllView_PreviewKeyDown"
@@ -768,14 +767,6 @@
                         Value="5" />
                 </Core:DataTriggerBehavior>
             </Interactivity:Interaction.Behaviors>
-            <controls:DataGrid.CellStyle>
-                <Style TargetType="controls:DataGridCell">
-                    <Setter Property="BorderThickness" Value="0" />
-                    <Setter Property="AllowFocusOnInteraction" Value="True" />
-                    <Setter Property="FocusVisualPrimaryThickness" Value="0" />
-                    <Setter Property="FocusVisualSecondaryThickness" Value="0" />
-                </Style>
-            </controls:DataGrid.CellStyle>
             <controls:DataGrid.Columns>
                 <controls:DataGridTemplateColumn
                     x:Name="iconColumn"
