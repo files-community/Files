@@ -34,13 +34,10 @@ namespace Files.Filesystem.Cloud.Providers
                         });
                     }
                 }
-
-                return Array.Empty<CloudProvider>();
             }
             catch
             {
                 // Not detected
-                return Array.Empty<CloudProvider>();
             }
         }
     }
