@@ -153,12 +153,13 @@ namespace Files.ViewModels.Bundles
                         if (!await StorageItemHelpers.Exists(filePath))
                         {
                             e.Cancel = true;
-                            return;
                         }
-
-                        string data = NativeFileOperationsHelper.ReadStringFromFile(filePath);
-                        BundlesSettings.ImportSettings(JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data));
-                        Load(); // Update the collection
+                        else
+                        {
+                            string data = NativeFileOperationsHelper.ReadStringFromFile(filePath);
+                            BundlesSettings.ImportSettings(JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data));
+                            await Load(); // Update the collection
+                        }
                     }
                     catch { }
                 },
@@ -188,10 +189,11 @@ namespace Files.ViewModels.Bundles
                         if (!await StorageItemHelpers.Exists(filePath))
                         {
                             e.Cancel = true;
-                            return;
                         }
-
-                        NativeFileOperationsHelper.WriteStringToFile(filePath, (string)BundlesSettings.ExportSettings());
+                        else
+                        {
+                            NativeFileOperationsHelper.WriteStringToFile(filePath, (string)BundlesSettings.ExportSettings());
+                        }
                     }
                     catch { }
                 },
