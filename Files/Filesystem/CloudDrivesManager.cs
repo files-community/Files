@@ -1,6 +1,7 @@
 using Files.Filesystem.Cloud;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Uwp.Extensions;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -88,7 +89,7 @@ namespace Files.Filesystem
             {
                 lock (MainPage.SideBarItems)
                 {
-                    var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "Cloud Drives");
+                    var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarCloudDrives".GetLocalized());
 
                     if (drivesSection != null && Drives.Count == 0)
                     {
@@ -100,7 +101,7 @@ namespace Files.Filesystem
                     {
                         drivesSection = new HeaderTextItem()
                         {
-                            Text = "Cloud Drives"
+                            Text = "SidebarCloudDrives".GetLocalized()
                         };
                         MainPage.SideBarItems.Add(drivesSection);
                     }

@@ -1656,4 +1656,7 @@
   <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
     <value>When Launching Files</value>
   </data>
+  <data name="SidebarCloudDrives" xml:space="preserve">
+    <value>Cloud Drives</value>
+  </data>
 </root>
