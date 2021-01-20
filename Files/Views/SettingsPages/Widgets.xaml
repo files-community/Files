@@ -45,7 +45,6 @@
 
                 <ToggleSwitch
                     x:Uid="SettingsWidgetsShowBundles"
-                    AutomationProperties.Name="Show Bundles on the home page"
                     Header="Show Bundles on the home page"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowBundlesWidget, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
