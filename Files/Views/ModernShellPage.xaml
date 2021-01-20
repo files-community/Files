@@ -317,9 +317,16 @@
 
                 <Custom:GridSplitter
                     Grid.Column="1" Grid.Row="1"
-                    Style="{StaticResource PaneGridSplitter}"
                     ResizeBehavior="BasedOnAlignment"
+                    Background="Transparent"
                     x:Name="PreviewPaneGridSplitter" x:Load="{x:Bind InstanceViewModel.PreviewPaneEnabled, Mode=OneWay}">
+                    <Custom:GridSplitter.Element>
+                        <Grid>
+                            <TextBlock HorizontalAlignment="Center" IsHitTestVisible="False" VerticalAlignment="Center" x:Name="GripperGlyphTextBlock"
+                               Text="" FontSize="36" Foreground="{StaticResource SystemChromeHighColor}" FontFamily="{StaticResource FluentUIGlyphs}">
+                            </TextBlock>
+                        </Grid>
+                    </Custom:GridSplitter.Element>
                 </Custom:GridSplitter>
 
                 <controls:PreviewPane Grid.Row="1" Grid.Column="2" x:Name="PreviewPane" 
