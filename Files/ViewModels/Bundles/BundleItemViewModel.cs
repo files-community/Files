@@ -11,6 +11,7 @@ using Windows.Storage;
 using Files.Helpers;
 using Windows.UI.Xaml;
 using Files.Views;
+using Windows.UI.Xaml.Media;
 
 namespace Files.ViewModels.Bundles
 {
@@ -50,24 +51,19 @@ namespace Files.ViewModels.Bundles
 
         public FilesystemItemType TargetType { get; set; } = FilesystemItemType.File;
 
-        private BitmapImage icon = null;
-        public BitmapImage Icon
+        private ImageSource icon;
+        public ImageSource Icon
         {
             get => icon;
             set => SetProperty(ref icon, value);
         }
 
-        public Uri FolderIconUri
+        public SvgImageSource FolderIcon { get; } = new SvgImageSource()
         {
-            get => new Uri("ms-appx:///Assets/FolderIcon.svg");
-        }
-
-        private Visibility fileIconVisibility = Visibility.Visible;
-        public Visibility FileIconVisibility
-        {
-            get => fileIconVisibility;
-            set => SetProperty(ref fileIconVisibility, value);
-        }
+            RasterizePixelHeight = 128,
+            RasterizePixelWidth = 128,
+            UriSource = new Uri("ms-appx:///Assets/FolderIcon.svg"),
+        };
 
         public Visibility OpenInNewTabVisibility
         {
@@ -143,7 +139,7 @@ namespace Files.ViewModels.Bundles
         {
             if (TargetType == FilesystemItemType.Directory) // OpenDirectory
             {
-                FileIconVisibility = Visibility.Collapsed;
+                Icon = FolderIcon;
             }
             else // NotADirectory
             {
@@ -165,7 +161,6 @@ namespace Files.ViewModels.Bundles
                         await icon.SetSourceAsync(thumbnail);
 
                         Icon = icon;
-                        FileIconVisibility = Visibility.Visible;
                         OnPropertyChanged(nameof(Icon));
                     }
                 }

@@ -287,31 +287,13 @@
                                                     </Grid.ColumnDefinitions>
 
                                                     <!--  Icon  -->
-
-                                                    <!--  File Icon  -->
                                                     <Image
                                                         Grid.Column="0"
                                                         Width="20"
                                                         Height="20"
                                                         HorizontalAlignment="Left"
                                                         VerticalAlignment="Center"
-                                                        Source="{Binding Icon, Mode=OneWay}"
-                                                        Visibility="{Binding FileIconVisibility}" />
-                                                    <!--  Folder Icon  -->
-                                                    <Image
-                                                        Grid.Column="0"
-                                                        Width="20"
-                                                        Height="20"
-                                                        HorizontalAlignment="Left"
-                                                        VerticalAlignment="Center"
-                                                        Visibility="{Binding FileIconVisibility, Mode=OneWay, Converter={StaticResource VisiblityInvertConverter}}">
-                                                        <Image.Source>
-                                                            <SvgImageSource
-                                                                RasterizePixelHeight="128"
-                                                                RasterizePixelWidth="128"
-                                                                UriSource="{Binding FolderIconUri, Mode=OneWay}" />
-                                                        </Image.Source>
-                                                    </Image>
+                                                        Source="{Binding Icon, Mode=OneWay}" />
 
                                                     <!--  Bundle Item name  -->
                                                     <TextBlock
