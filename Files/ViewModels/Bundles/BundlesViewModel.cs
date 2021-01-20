@@ -121,10 +121,10 @@ namespace Files.ViewModels.Bundles
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
                 DisplayControl = inputTextBox,
-                TitleText = "BundlesWidgetAddBundeTitleText".GetLocalized(),
-                SubtitleText = "BundlesWidgetAddBundleSubtitleText".GetLocalized(),
-                PrimaryButtonText = "BundlesWidgetAddBundlePrimaryButtonText".GetLocalized(),
-                CloseButtonText = "BundlesWidgetAddBundleCloseButtonText".GetLocalized(),
+                TitleText = "BundlesWidgetCreateBundleDialogTitleText".GetLocalized(),
+                SubtitleText = "BundlesWidgetCreateBundleDialogSubtitleText".GetLocalized(),
+                PrimaryButtonText = "BundlesWidgetCreateBundleDialogPrimaryButtonText".GetLocalized(),
+                CloseButtonText = "BundlesWidgetCreateBundleDialogCloseButtonText".GetLocalized(),
                 PrimaryButtonAction = (vm, e) =>
                 {
                     AddBundle((vm.DisplayControl as TextBox).Text);

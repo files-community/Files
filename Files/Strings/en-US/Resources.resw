@@ -1725,16 +1725,16 @@
   <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
     <value>Rename "{0}"</value>
   </data>
-  <data name="BundlesWidgetAddBundeTitleText" xml:space="preserve">
+  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
     <value>Create Bundle</value>
   </data>
-  <data name="BundlesWidgetAddBundleCloseButtonText" xml:space="preserve">
+  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="BundlesWidgetAddBundlePrimaryButtonText" xml:space="preserve">
+  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
     <value>Confirm</value>
   </data>
-  <data name="BundlesWidgetAddBundleSubtitleText" xml:space="preserve">
+  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
     <value>Add Bundle</value>
   </data>
   <data name="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
