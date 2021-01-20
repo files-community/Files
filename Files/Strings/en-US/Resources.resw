@@ -1656,16 +1656,16 @@
   <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
     <value>When Launching Files</value>
   </data>
-  <data name="BundlesWidgetAddBundle.TooltipService.Tooltip" xml:space="preserve">
-    <value>Left click to add a Bundle, right click to open Bundles options.</value>
+  <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More options...</value>
   </data>
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>Confirm</value>
   </data>
-  <data name="BundlesWidgetAddBundleContextFlyoutMenuFlyoutItemExportBundles.Text" xml:space="preserve">
+  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
     <value>Export Bundles</value>
   </data>
-  <data name="BundlesWidgetAddBundleContextFlyoutMenuFlyoutItemImportBundles.Text" xml:space="preserve">
+  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
     <value>Import Bundles</value>
   </data>
   <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
@@ -1674,8 +1674,8 @@
   <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
     <value>Input field cannot be empty!</value>
   </data>
-  <data name="BundlesWidgetAddBundleFlyoutHeader.Text" xml:space="preserve">
-    <value>Add Bundle</value>
+  <data name="BundlesWidgetCreateBundleItem.Text" xml:space="preserve">
+    <value>Create Bundle</value>
   </data>
   <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
     <value>Enter Bundle name</value>
@@ -1683,34 +1683,31 @@
   <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
     <value>Enter Bundle name</value>
   </data>
-  <data name="BundlesWidgetBundleItemContextFlyoutMenuFlyoutItemOpenInNewTab.Text" xml:space="preserve">
+  <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
     <value>Open in new tab</value>
   </data>
-  <data name="BundlesWidgetBundleItemContextFlyoutMenuFlyoutItemOpenItemLocation.Text" xml:space="preserve">
+  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
     <value>Open item location</value>
   </data>
-  <data name="BundlesWidgetBundleItemContextFlyoutMenuFlyoutItemRemoveItem.Text" xml:space="preserve">
-    <value>Remove item</value>
+  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
+    <value>Remove from bundle</value>
   </data>
-  <data name="BundlesWidgetBundleOptionsFlyoutMenuFlyoutItemRemoveBundle.Text" xml:space="preserve">
+  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
     <value>Remove Bundle</value>
   </data>
-  <data name="BundlesWidgetBundleOptionsFlyoutMenuFlyoutItemRenameBundle.Text" xml:space="preserve">
-    <value>Rename Bundle</value>
-  </data>
-  <data name="BundlesWidgetBundleWidgetHeader.Text" xml:space="preserve">
+  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
     <value>Bundles</value>
   </data>
-  <data name="BundlesWidgetNoBundleContentsInformation.Text" xml:space="preserve">
+  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
     <value>Drag and drop any file or folder here to quickly access it</value>
   </data>
-  <data name="BundlesWidgetNoBundlesFlyoutAddBundleConfirm.Content" xml:space="preserve">
+  <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
     <value>Confirm</value>
   </data>
   <data name="BundlesWidgetNoBundlesFlyoutAddBundleHeader.Text" xml:space="preserve">
     <value>Add Bundle</value>
   </data>
-  <data name="BundlesWidgetNoBundlesFlyoutAddBundleInput.PlaceholderText" xml:space="preserve">
+  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
     <value>Enter Bundle name</value>
   </data>
   <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
@@ -1734,16 +1731,19 @@
   <data name="BundlesWidgetAddBundleCloseButtonText" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
-    <value>Desired name</value>
-  </data>
   <data name="BundlesWidgetAddBundlePrimaryButtonText" xml:space="preserve">
     <value>Confirm</value>
   </data>
   <data name="BundlesWidgetAddBundleSubtitleText" xml:space="preserve">
     <value>Add Bundle</value>
   </data>
-  <data name="BundlesWidgetAddBundleContextFlyoutMenuFlyoutItemAddBundle.Text" xml:space="preserve">
-    <value>Add Bundle</value>
+  <data name="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
+    <value>Create Bundle</value>
+  </data>
+  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
+    <value>Rename Bundle</value>
+  </data>
+  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+    <value>Desired name</value>
   </data>
 </root>

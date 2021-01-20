@@ -39,7 +39,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock
-                x:Uid="BundlesWidgetBundleWidgetHeader.Text"
+                x:Uid="BundlesWidgetHeader"
                 HorizontalAlignment="Left"
                 FontSize="14"
                 FontWeight="Medium"
@@ -49,6 +49,7 @@
 
             <!--  Add Bundle button  -->
             <Button
+                x:Uid="BundlesWidgetMoreOptionsButton"
                 Grid.Column="1"
                 Width="29"
                 Height="25"
@@ -57,47 +58,45 @@
                 VerticalAlignment="Center"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center"
-                Background="Transparent">
+                Background="Transparent"
+                ToolTipService.ToolTip="More options...">
 
                 <FontIcon
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    FontFamily="Segoe MDL2 Assets"
                     FontSize="14"
-                    Glyph="&#xe712;"
-                    FontFamily="Segoe MDL2 Assets" />
+                    Glyph="&#xe712;" />
 
                 <Button.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem
-                            x:Uid="BundlesWidgetAddBundleContextFlyoutMenuFlyoutItemAddBundle.Text"
+                            x:Uid="BundlesWidgetOptionsFlyoutCreateBundleMenuItem"
                             Command="{Binding OpenAddBundleDialogCommand, Mode=OneWay}"
-                            Text="Add Bundle">
+                            Text="Create Bundle">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE903;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
-                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutSeparator />
                         <MenuFlyoutItem
-                            x:Uid="BundlesWidgetAddBundleContextFlyoutMenuFlyoutItemImportBundles.Text"
+                            x:Uid="BundlesWidgetOptionsFlyoutImportBundlesMenuItem"
                             Command="{Binding ImportBundlesCommand, Mode=OneWay}"
                             Text="Import Bundles">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB62;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            x:Uid="BundlesWidgetAddBundleContextFlyoutMenuFlyoutItemExportBundles.Text"
-                            Command="{Binding ExportBundlesCommand, Mode=OneWay}"
-                            Text="Export Bundles">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB64;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Uid="BundlesWidgetOptionsFlyoutExportBundlesMenuItem"
+                            Command="{Binding ExportBundlesCommand, Mode=OneWay}"
+                            Text="Export Bundles">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB62;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                     </MenuFlyout>
                 </Button.Flyout>
-                <ToolTipService.ToolTip>
-                    <ToolTip x:Uid="BundlesWidgetAddBundle.TooltipService.Tooltip" Content="Left click to add a Bundle, right click to open Bundles options." />
-                </ToolTipService.ToolTip>
             </Button>
         </Grid>
 
@@ -199,9 +198,9 @@
                                         VerticalAlignment="Center"
                                         FontFamily="Segoe UI"
                                         FontWeight="SemiBold"
-                                        TextTrimming="CharacterEllipsis"
                                         Opacity="0.9"
-                                        Text="{Binding BundleName, Mode=OneWay}" />
+                                        Text="{Binding BundleName, Mode=OneWay}"
+                                        TextTrimming="CharacterEllipsis" />
                                 </Grid>
 
                                 <!--  Bundle Options  -->
@@ -220,7 +219,7 @@
                                     <Button.Flyout>
                                         <MenuFlyout Placement="BottomEdgeAlignedLeft">
                                             <MenuFlyoutItem
-                                                x:Uid="BundlesWidgetBundleOptionsFlyoutMenuFlyoutItemRemoveBundle.Text"
+                                                x:Uid="BundleOptionsFlyoutRemoveBundleMenuItem"
                                                 Command="{Binding RemoveBundleCommand, Mode=OneWay}"
                                                 Text="Remove Bundle">
                                                 <MenuFlyoutItem.Icon>
@@ -228,7 +227,7 @@
                                                 </MenuFlyoutItem.Icon>
                                             </MenuFlyoutItem>
                                             <MenuFlyoutItem
-                                                x:Uid="BundlesWidgetBundleOptionsFlyoutMenuFlyoutItemRenameBundle.Text"
+                                                x:Uid="BundleOptionsFlyoutRenameBundleMenuItem"
                                                 Command="{Binding RenameBundleCommand, Mode=OneWay}"
                                                 Text="Rename Bundle">
                                                 <MenuFlyoutItem.Icon>
@@ -328,7 +327,7 @@
                                                 <Button.ContextFlyout>
                                                     <MenuFlyout>
                                                         <MenuFlyoutItem
-                                                            x:Uid="BundlesWidgetBundleItemContextFlyoutMenuFlyoutItemOpenInNewTab.Text"
+                                                            x:Uid="BundleItemFlyouOpenInNewTabMenuItem"
                                                             Command="{Binding OpenInNewTabCommand, Mode=OneWay}"
                                                             Text="Open in new tab"
                                                             Visibility="{Binding OpenInNewTabVisibility, Mode=OneWay}">
@@ -337,7 +336,7 @@
                                                             </MenuFlyoutItem.Icon>
                                                         </MenuFlyoutItem>
                                                         <MenuFlyoutItem
-                                                            x:Uid="BundlesWidgetBundleItemContextFlyoutMenuFlyoutItemOpenItemLocation.Text"
+                                                            x:Uid="BundleItemFlyouOpenItemLocationMenuItem"
                                                             Command="{Binding OpenItemLocationCommand, Mode=OneWay}"
                                                             Text="Open item location">
                                                             <MenuFlyoutItem.Icon>
@@ -346,9 +345,9 @@
                                                         </MenuFlyoutItem>
                                                         <MenuFlyoutSeparator />
                                                         <MenuFlyoutItem
-                                                            x:Uid="BundlesWidgetBundleItemContextFlyoutMenuFlyoutItemRemoveItem.Text"
+                                                            x:Uid="BundleItemFlyouRemoveFromBundleMenuItem"
                                                             Command="{Binding RemoveItemCommand, Mode=OneWay}"
-                                                            Text="Remove item">
+                                                            Text="Remove from bundle">
                                                             <MenuFlyoutItem.Icon>
                                                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB3D;" />
                                                             </MenuFlyoutItem.Icon>
@@ -382,7 +381,7 @@
                                     FontSize="20"
                                     Glyph="&#xe919;" />
                                 <TextBlock
-                                    x:Uid="BundlesWidgetNoBundleContentsInformation.Text"
+                                    x:Uid="BundleNoContentsTextBlock"
                                     Grid.Row="1"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Bottom"
@@ -448,19 +447,19 @@
                                     BorderThickness="0,0,0,.5">
                                     <!--  Header  -->
                                     <TextBlock
-                                        x:Uid="BundlesWidgetNoBundlesFlyoutAddBundleHeader.Text"
+                                        x:Uid="BundlesWidgetCreateBundleItem"
                                         Margin="0,0,0,4"
                                         HorizontalAlignment="Left"
                                         VerticalAlignment="Center"
                                         FontFamily="Segoe UI"
                                         FontSize="14"
                                         FontWeight="Medium"
-                                        Text="Add Bundle" />
+                                        Text="Create Bundle" />
                                 </Grid>
 
                                 <!--  Input TextBox  -->
                                 <TextBox
-                                    x:Uid="BundlesWidgetNoBundlesFlyoutAddBundleInput.PlaceholderText"
+                                    x:Uid="BundlesWidgetCreateBundleInput"
                                     Grid.Row="1"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
@@ -492,7 +491,7 @@
 
                                     <!--  Confirmation Button  -->
                                     <Button
-                                        x:Uid="BundlesWidgetNoBundlesFlyoutAddBundleConfirm.Content"
+                                        x:Uid="BundlesWidgetCreateBundleConfirmButton"
                                         Grid.Column="1"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Center"

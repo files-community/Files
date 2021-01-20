@@ -2073,21 +2073,9 @@
           <source>When Launching Files</source>
           <target state="new">When Launching Files</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetAddBundle.TooltipService.Tooltip" translate="yes" xml:space="preserve">
-          <source>Left click to add a Bundle, right click to open Bundles options.</source>
-          <target state="new">Left click to add a Bundle, right click to open Bundles options.</target>
-        </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleConfirm.Content" translate="yes" xml:space="preserve">
           <source>Confirm</source>
           <target state="new">Confirm</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetAddBundleContextFlyoutMenuFlyoutItemExportBundles.Text" translate="yes" xml:space="preserve">
-          <source>Export Bundles</source>
-          <target state="new">Export Bundles</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetAddBundleContextFlyoutMenuFlyoutItemImportBundles.Text" translate="yes" xml:space="preserve">
-          <source>Import Bundles</source>
-          <target state="new">Import Bundles</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleErrorAlreadyExists" translate="yes" xml:space="preserve">
           <source>Bundle with the same name already exists!</source>
@@ -2097,10 +2085,6 @@
           <source>Input field cannot be empty!</source>
           <target state="new">Input field cannot be empty!</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetAddBundleFlyoutHeader.Text" translate="yes" xml:space="preserve">
-          <source>Add Bundle</source>
-          <target state="new">Add Bundle</target>
-        </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter Bundle name</source>
           <target state="new">Enter Bundle name</target>
@@ -2109,45 +2093,9 @@
           <source>Enter Bundle name</source>
           <target state="new">Enter Bundle name</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetBundleItemContextFlyoutMenuFlyoutItemOpenInNewTab.Text" translate="yes" xml:space="preserve">
-          <source>Open in new tab</source>
-          <target state="new">Open in new tab</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetBundleItemContextFlyoutMenuFlyoutItemOpenItemLocation.Text" translate="yes" xml:space="preserve">
-          <source>Open item location</source>
-          <target state="new">Open item location</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetBundleItemContextFlyoutMenuFlyoutItemRemoveItem.Text" translate="yes" xml:space="preserve">
-          <source>Remove item</source>
-          <target state="new">Remove item</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetBundleOptionsFlyoutMenuFlyoutItemRemoveBundle.Text" translate="yes" xml:space="preserve">
-          <source>Remove Bundle</source>
-          <target state="new">Remove Bundle</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetBundleOptionsFlyoutMenuFlyoutItemRenameBundle.Text" translate="yes" xml:space="preserve">
-          <source>Rename Bundle</source>
-          <target state="new">Rename Bundle</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetBundleWidgetHeader.Text" translate="yes" xml:space="preserve">
-          <source>Bundles</source>
-          <target state="new">Bundles</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetNoBundleContentsInformation.Text" translate="yes" xml:space="preserve">
-          <source>Drag and drop any file or folder here to quickly access it</source>
-          <target state="new">Drag and drop any file or folder here to quickly access it</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetNoBundlesFlyoutAddBundleConfirm.Content" translate="yes" xml:space="preserve">
-          <source>Confirm</source>
-          <target state="new">Confirm</target>
-        </trans-unit>
         <trans-unit id="BundlesWidgetNoBundlesFlyoutAddBundleHeader.Text" translate="yes" xml:space="preserve">
           <source>Add Bundle</source>
           <target state="new">Add Bundle</target>
-        </trans-unit>
-        <trans-unit id="BundlesWidgetNoBundlesFlyoutAddBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Enter Bundle name</source>
-          <target state="new">Enter Bundle name</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetRenameBundleDialogCloseButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
@@ -2189,9 +2137,61 @@
           <source>Add Bundle</source>
           <target state="new">Add Bundle</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetAddBundleContextFlyoutMenuFlyoutItemAddBundle.Text" translate="yes" xml:space="preserve">
-          <source>Add Bundle</source>
-          <target state="new">Add Bundle</target>
+        <trans-unit id="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Export Bundles</source>
+          <target state="new">Export Bundles</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Import Bundles</source>
+          <target state="new">Import Bundles</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetCreateBundleItem.Text" translate="yes" xml:space="preserve">
+          <source>Create Bundle</source>
+          <target state="new">Create Bundle</target>
+        </trans-unit>
+        <trans-unit id="BundleItemFlyouOpenInNewTabMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Open in new tab</source>
+          <target state="new">Open in new tab</target>
+        </trans-unit>
+        <trans-unit id="BundleItemFlyouOpenItemLocationMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Open item location</source>
+          <target state="new">Open item location</target>
+        </trans-unit>
+        <trans-unit id="BundleItemFlyouRemoveFromBundleMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Remove from bundle</source>
+          <target state="new">Remove from bundle</target>
+        </trans-unit>
+        <trans-unit id="BundleOptionsFlyoutRemoveBundleMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Remove Bundle</source>
+          <target state="new">Remove Bundle</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetHeader.Text" translate="yes" xml:space="preserve">
+          <source>Bundles</source>
+          <target state="new">Bundles</target>
+        </trans-unit>
+        <trans-unit id="BundleNoContentsTextBlock.Text" translate="yes" xml:space="preserve">
+          <source>Drag and drop any file or folder here to quickly access it</source>
+          <target state="new">Drag and drop any file or folder here to quickly access it</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetCreateBundleConfirmButton.Content" translate="yes" xml:space="preserve">
+          <source>Confirm</source>
+          <target state="new">Confirm</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetCreateBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Enter Bundle name</source>
+          <target state="new">Enter Bundle name</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Create Bundle</source>
+          <target state="new">Create Bundle</target>
+        </trans-unit>
+        <trans-unit id="BundleOptionsFlyoutRenameBundleMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Rename Bundle</source>
+          <target state="new">Rename Bundle</target>
+        </trans-unit>
+        <trans-unit id="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>More options...</source>
+          <target state="new">More options...</target>
         </trans-unit>
       </group>
     </body>
