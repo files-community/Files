@@ -321,6 +321,7 @@ namespace Files
             IsItemSelected = false;
             FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
             ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
+            FolderSettings.SetLayoutInformation();
 
             if (!navigationArguments.IsSearchResultPage)
             {
@@ -365,7 +366,7 @@ namespace Files
                 ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
                 if (!navigationArguments.IsLayoutSwitch)
                 {
-                    ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(navigationArguments.SearchResults, navigationArguments.SearchPathParam);
+                    await ParentShellPageInstance.FilesystemViewModel.AddSearchResultsToCollection(navigationArguments.SearchResults, navigationArguments.SearchPathParam);
                 }
             }
 
@@ -384,10 +385,7 @@ namespace Files
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-        }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
             var parameter = e.Parameter as NavigationArguments;
             if (!parameter.IsLayoutSwitch)
             {
@@ -754,12 +752,12 @@ namespace Files
             ParentShellPageInstance.ContentPage.SelectedItemsPropertiesViewModel.CheckFileExtension();
         }
 
-        protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
+        protected virtual async void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
             if (ParentShellPageInstance.IsCurrentInstance)
             {
                 char letterPressed = Convert.ToChar(args.KeyCode);
-                ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
+                await ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
             }
         }
 
@@ -972,6 +970,15 @@ namespace Files
                     element.Drop += Item_Drop;
                 }
             }
+        }
+
+        protected void UninitializeDrag(UIElement element)
+        {
+            element.AllowDrop = false;
+            element.DragStarting -= Item_DragStarting;
+            element.DragOver -= Item_DragOver;
+            element.DragLeave -= Item_DragLeave;
+            element.Drop -= Item_Drop;
         }
 
         // VirtualKey doesn't support / accept plus and minus by default.

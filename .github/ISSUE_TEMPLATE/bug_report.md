@@ -44,4 +44,4 @@ If applicable, add screenshots to help explain your problem.
 Add any other context about the problem here. Does this problem occur again after restarting the app?
 
 **Log file**
-Please upload the log file here so that we can understand your issue better. You can access it from Settings->About->Open log location. You can also find the log file manually by following [this](https://github.com/files-community/Files/wiki/Opening-the-log-file) guide.
+Please upload the log file here so that we can understand your issue better. You can access it from Settings->About->Open log location. You can also find this file by going to `%localappdata%\Packages\49306atecsolution.FilesUWP_et10x9a9vyk8t\LocalState`, you should see a file in this directory called debug.txt or/and debug_fulltrust.txt.
