@@ -60,7 +60,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
           <source>Special thanks to:</source>
-          <target state="translated">Special Thanks:</target>
+          <target state="translated">특별히 고마우신 분들:</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
           <source>Submit Feedback</source>
@@ -68,7 +68,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
           <source>Send the developers an issue report with more information</source>
-          <target state="translated">개발자에게 더 많은 정보가 담긴 리포트를 보내세요</target>
+          <target state="translated">개발자들에게 더 많은 정보가 담긴 리포트를 보내세요.</target>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
           <source>Third Party Licenses</source>
@@ -200,7 +200,7 @@
         </trans-unit>
         <trans-unit id="SidebarDocuments" translate="yes" xml:space="preserve">
           <source>Documents</source>
-          <target state="translated">무서</target>
+          <target state="translated">문서</target>
         </trans-unit>
         <trans-unit id="SidebarDownloads" translate="yes" xml:space="preserve">
           <source>Downloads</source>
@@ -280,11 +280,11 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutPaste.Text" translate="yes" xml:space="preserve">
           <source>Paste</source>
-          <target state="translated">붙혀넣기</target>
+          <target state="translated">붙여 넣기</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutOpenInTerminal.Text" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
-          <target state="translated">터미널에서 열기..</target>
+          <target state="translated">터미널에서 열기...</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNew.Text" translate="yes" xml:space="preserve">
           <source>New</source>
@@ -536,7 +536,7 @@
         </trans-unit>
         <trans-unit id="ErrorDialogThisActionCannotBeDone" translate="yes" xml:space="preserve">
           <source>This action cannot be done</source>
-          <target state="translated">이 작업은 완료될 수 없습니다</target>
+          <target state="translated">이 작업은 완료될 수 없습니다.</target>
         </trans-unit>
         <trans-unit id="ErrorDialogTheDestinationFolder" translate="yes" xml:space="preserve">
           <source>The destination folder</source>
@@ -592,7 +592,7 @@
         </trans-unit>
         <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
           <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
-          <target state="translated">주의 : 실험적인 기능들입니다!</target>
+          <target state="translated">주의: 실험적인 기능들 입니다!</target>
         </trans-unit>
         <trans-unit id="SettingsNavExperimental.Content" translate="yes" xml:space="preserve">
           <source>Experimental</source>
@@ -600,7 +600,7 @@
         </trans-unit>
         <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Text" translate="yes" xml:space="preserve">
           <source>Double tap to rename files</source>
-          <target state="translated">두번 클릭해서 이름 바꾸기</target>
+          <target state="translated">두 번 클릭해서 이름 바꾸기</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>View sample profiles</source>
@@ -628,19 +628,19 @@
         </trans-unit>
         <trans-unit id="StatusBarControlGridViewLarge.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Large)</source>
-          <target state="translated">그리드(크게)</target>
+          <target state="translated">그리드 뷰 (크게)</target>
         </trans-unit>
         <trans-unit id="StatusBarControlGridViewMedium.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Medium)</source>
-          <target state="translated">그리드(보통)</target>
+          <target state="translated">그리드 뷰 (보통)</target>
         </trans-unit>
         <trans-unit id="StatusBarControlGridViewSmall.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Small)</source>
-          <target state="translated">그리드(작게)</target>
+          <target state="translated">그리드 뷰 (작게)</target>
         </trans-unit>
         <trans-unit id="StatusBarControlTilesView.Text" translate="yes" xml:space="preserve">
           <source>Tiles View</source>
-          <target state="translated">타일</target>
+          <target state="translated">타일 뷰</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogOKButton.Content" translate="yes" xml:space="preserve">
           <source>OK</source>
@@ -828,7 +828,7 @@
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete all items?</source>
-          <target state="translated">모든 항목을 삭제하시겠습니까?</target>
+          <target state="translated">모든 항목들을 삭제하시겠습니까?</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogTitle" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
@@ -988,7 +988,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
           <source>When launching an item from the jumplist</source>
-          <target state="translated">jumplist에서 항목을 실행시킬 떄</target>
+          <target state="translated">jumplist에서 항목을 실행시킬 때</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
           <source>Always open a new instance</source>
@@ -1124,7 +1124,7 @@
         </trans-unit>
         <trans-unit id="InvalidItemDialogTitle" translate="yes" xml:space="preserve">
           <source>Invalid item</source>
-          <target state="new">Invalid item</target>
+          <target state="new">잘못된 항목</target>
         </trans-unit>
       </group>
     </body>
