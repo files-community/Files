@@ -1,8 +1,6 @@
 using Files.Common;
 using Files.Enums;
-using Files.Filesystem.Cloud;
 using Files.UserControls.Widgets;
-using Files.ViewModels;
 using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -10,6 +8,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +23,6 @@ namespace Files.Filesystem
     public class DrivesManager : ObservableObject
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        public SettingsViewModel AppSettings => App.AppSettings;
         private List<DriveItem> drivesList = new List<DriveItem>();
 
         public IReadOnlyList<DriveItem> Drives
@@ -40,8 +38,6 @@ namespace Files.Filesystem
 
         private bool showUserConsentOnInit = false;
 
-        private CloudProviderController cloudProviderController;
-
         public bool ShowUserConsentOnInit
         {
             get => showUserConsentOnInit;
@@ -51,16 +47,34 @@ namespace Files.Filesystem
         private DeviceWatcher deviceWatcher;
         private bool driveEnumInProgress;
 
-        public DrivesManager()
-        {
-            cloudProviderController = new CloudProviderController();
+        private DrivesManager() : this(false)
+        { }
 
-            EnumerateDrives();
+        public DrivesManager(bool initialize)
+        {
+            SetupDeviceWatcher();
+
+            if (initialize)
+            {
+                EnumerateDrives();
+            }
+        }
+
+        public static Task<DrivesManager> CreateInstance()
+        {
+            var drives = new DrivesManager(false);
+            return drives.EnumerateDrivesAsync();
         }
 
         private async void EnumerateDrives()
         {
+            await EnumerateDrivesAsync();
+        }
+
+        private async Task<DrivesManager> EnumerateDrivesAsync()
+        {
             driveEnumInProgress = true;
+
             if (await GetDrivesAsync())
             {
                 if (!Drives.Any(d => d.Type != DriveType.Removable))
@@ -71,38 +85,83 @@ namespace Files.Filesystem
                 }
             }
 
-            await GetVirtualDrivesListAsync();
             StartDeviceWatcher();
+
             driveEnumInProgress = false;
+
+            return this;
         }
 
-        private void StartDeviceWatcher()
+        private void SetupDeviceWatcher()
         {
             deviceWatcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
             deviceWatcher.Added += DeviceAdded;
             deviceWatcher.Removed += DeviceRemoved;
             deviceWatcher.EnumerationCompleted += DeviceWatcher_EnumerationCompleted;
+        }
+
+        private void StartDeviceWatcher()
+        {
             deviceWatcher.Start();
         }
 
         private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
         {
+            Debug.WriteLine("DeviceWatcher_EnumerationCompleted");
             try
             {
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    if (MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarDrives".GetLocalized()) == null)
+                    lock (MainPage.SideBarItems)
                     {
-                        MainPage.SideBarItems.Add(new HeaderTextItem()
+                        var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarDrives".GetLocalized());
+
+                        if (drivesSection != null && Drives.Count == 0)
                         {
-                            Text = "SidebarDrives".GetLocalized()
-                        });
-                    }
-                    foreach (DriveItem drive in Drives)
-                    {
-                        if (!MainPage.SideBarItems.Contains(drive))
+                            //No drives - remove the header
+                            MainPage.SideBarItems.Remove(drivesSection);
+                        }
+
+                        if (drivesSection == null)
                         {
-                            MainPage.SideBarItems.Add(drive);
+                            drivesSection = new HeaderTextItem()
+                            {
+                                Text = "SidebarDrives".GetLocalized()
+                            };
+
+                            //Get the last location item in the sidebar
+                            var lastLocationItem = MainPage.SideBarItems.LastOrDefault(x => x is LocationItem);
+
+                            if (lastLocationItem != null)
+                            {
+                                //Get the index of the last location item
+                                var lastLocationItemIndex = MainPage.SideBarItems.IndexOf(lastLocationItem);
+                                //Insert the drives title beneath it
+                                MainPage.SideBarItems.Insert(lastLocationItemIndex + 1, drivesSection);
+                            }
+                            else
+                            {
+                                MainPage.SideBarItems.Add(drivesSection);
+                            }
+                        }
+
+                        var sectionStartIndex = MainPage.SideBarItems.IndexOf(drivesSection);
+
+                        //Remove all existing drives from the sidebar
+                        foreach (var item in MainPage.SideBarItems
+                            .Where(x => x.ItemType == NavigationControlItemType.Drive)
+                            .ToList())
+                        {
+                            MainPage.SideBarItems.Remove(item);
+                            DrivesWidget.ItemsAdded.Remove(item);
+                        }
+
+                        //Add all drives to the sidebar
+                        var insertAt = sectionStartIndex + 1;
+                        foreach (var drive in Drives.OrderBy(o => o.Text))
+                        {
+                            MainPage.SideBarItems.Insert(insertAt, drive);
+                            insertAt++;
 
                             if (drive.Type != DriveType.VirtualDrive)
                             {
@@ -110,14 +169,7 @@ namespace Files.Filesystem
                             }
                         }
                     }
-                    foreach (INavigationControlItem item in MainPage.SideBarItems.ToList())
-                    {
-                        if (item is DriveItem && !Drives.Contains(item))
-                        {
-                            MainPage.SideBarItems.Remove(item);
-                            DrivesWidget.ItemsAdded.Remove(item);
-                        }
-                    }
+
                 });
             }
             catch (Exception)       // UI Thread not ready yet, so we defer the pervious operation until it is.
@@ -283,25 +335,6 @@ namespace Files.Filesystem
             }
 
             return unauthorizedAccessDetected;
-        }
-
-        public async Task GetVirtualDrivesListAsync()
-        {
-            await cloudProviderController.DetectInstalledCloudProvidersAsync();
-
-            foreach (var provider in cloudProviderController.CloudProviders)
-            {
-                var cloudProviderItem = new DriveItem()
-                {
-                    Text = provider.Name,
-                    Path = provider.SyncFolder,
-                    Type = DriveType.VirtualDrive,
-                };
-                lock (drivesList)
-                {
-                    drivesList.Add(cloudProviderItem);
-                }
-            }
         }
 
         private DriveType GetDriveType(DriveInfo drive)

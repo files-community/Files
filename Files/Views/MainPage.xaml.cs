@@ -5,11 +5,9 @@ using Files.Helpers;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.Extensions;
-using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -75,7 +73,7 @@ namespace Files.Views
         {
             if (eventArgs.NavigationMode != NavigationMode.Back)
             {
-                App.AppSettings = new SettingsViewModel();
+                App.AppSettings = await SettingsViewModel.CreateInstance();
                 App.InteractionViewModel = new InteractionViewModel();
                 App.SidebarPinnedController = new SidebarPinnedController();
 

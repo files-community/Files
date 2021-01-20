@@ -593,7 +593,7 @@ namespace Files.UserControls
                     case NavigationControlItemType.Drive:
                         return DriveNavItemTemplate;
 
-                    case NavigationControlItemType.OneDrive:
+                    case NavigationControlItemType.CloudDrive:
                         return DriveNavItemTemplate;
 
                     case NavigationControlItemType.LinuxDistro:

@@ -15,6 +15,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Globalization;
 using Windows.Storage;
@@ -28,17 +29,31 @@ namespace Files.ViewModels
     {
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
-        public DrivesManager DrivesManager { get; }
+        public DrivesManager DrivesManager
+        {
+            get;
+            private set;
+        } = new DrivesManager(false);
+
+        public CloudDrivesManager CloudDrivesManager { get; private set; }
 
         public TerminalController TerminalController { get; set; }
 
-        public SettingsViewModel()
+        private async void Initialize2()
+        {
+            await Initialize();
+        }
+
+        private async Task<SettingsViewModel> Initialize()
         {
             DetectDateTimeFormat();
             PinSidebarLocationItems();
             DetectRecycleBinPreference();
             DetectQuickLook();
-            DrivesManager = new DrivesManager();
+
+            DrivesManager = await DrivesManager.CreateInstance();
+            //Initialise cloud drives in the background
+            CloudDrivesManager = await CloudDrivesManager.CreateInstance();
 
             //DetectWSLDistros();
             TerminalController = new TerminalController();
@@ -52,6 +67,26 @@ namespace Files.ViewModels
             foreach (var lang in supportedLang)
             {
                 DefaultLanguages.Add(new DefaultLanguageModel(lang));
+            }
+
+            return this;
+        }
+
+        public static Task<SettingsViewModel> CreateInstance()
+        {
+            var settings = new SettingsViewModel(false);
+            return settings.Initialize();
+        }
+
+        private SettingsViewModel() : this(true)
+        {
+        }
+
+        private SettingsViewModel(bool initialize)
+        {
+            if (initialize)
+            {
+                Initialize2();
             }
         }
 
@@ -474,7 +509,7 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets an ObservableCollection of the support langauges.
         /// </summary>
-        public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; }
+        public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; private set; }
 
         /// <summary>
         /// Gets or sets a value indicating the default language.

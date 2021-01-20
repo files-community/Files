@@ -85,6 +85,18 @@ namespace Files.Views
                             return;
                         }
                     }
+                    foreach (DriveItem drive in AppSettings.CloudDrivesManager.Drives)
+                    {
+                        if (drive.Path.ToString() == new DirectoryInfo(e.ItemPath).Root.ToString())
+                        {
+                            AppInstance.ContentFrame.Navigate(FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+                            {
+                                AssociatedTabInstance = AppInstance,
+                                NavPathParam = e.ItemPath
+                            });
+                            return;
+                        }
+                    }
                 }
             }
             catch (COMException)
