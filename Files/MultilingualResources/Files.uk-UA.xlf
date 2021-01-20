@@ -2084,10 +2084,6 @@
           <source>Enter Bundle name</source>
           <target state="new">Enter Bundle name</target>
         </trans-unit>
-        <trans-unit id="BundlesWidgetNoBundlesFlyoutAddBundleHeader.Text" translate="yes" xml:space="preserve">
-          <source>Add Bundle</source>
-          <target state="new">Add Bundle</target>
-        </trans-unit>
         <trans-unit id="BundlesWidgetRenameBundleDialogCloseButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="new">Cancel</target>
