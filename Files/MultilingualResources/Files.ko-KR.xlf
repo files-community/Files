@@ -1124,7 +1124,7 @@
         </trans-unit>
         <trans-unit id="InvalidItemDialogTitle" translate="yes" xml:space="preserve">
           <source>Invalid item</source>
-          <target state="new">잘못된 항목</target>
+          <target state="translated">잘못된 항목</target>
         </trans-unit>
       </group>
     </body>
