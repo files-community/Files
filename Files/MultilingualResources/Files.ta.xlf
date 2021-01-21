@@ -2066,10 +2066,6 @@
           <source>Item Path</source>
           <target state="new">Item Path</target>
         </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
-          <source>Enable adaptive preview pane</source>
-          <target state="new">Enable adaptive preview pane</target>
-        </trans-unit>
         <trans-unit id="DetailsPanePreviewNotAvaliableText" translate="yes" xml:space="preserve">
           <source>No preview available</source>
           <target state="new">No preview available</target>
@@ -2085,6 +2081,10 @@
         <trans-unit id="PreviewPaneDetailsNotAvailableText" translate="yes" xml:space="preserve">
           <source>No details available</source>
           <target state="new">No details available</target>
+        </trans-unit>
+        <trans-unit id="SettingsEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
+          <source>Enable adaptive preview pane</source>
+          <target state="new">Enable adaptive preview pane</target>
         </trans-unit>
       </group>
     </body>

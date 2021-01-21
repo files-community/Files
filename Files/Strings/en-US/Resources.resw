@@ -1536,7 +1536,7 @@
   <data name="SettingsFilesAndFoldersHideSystemItems.Header" xml:space="preserve">
     <value>Hide protected operating system files (Recommended)</value>
   </data>
-  <data name="SettingsFilesAndFoldersEnableAdaptivePreviewPane.Header" xml:space="preserve">
+  <data name="SettingsEnableAdaptivePreviewPane.Header" xml:space="preserve">
     <value>Enable adaptive preview pane</value>
   </data>
   <data name="SettingsSearchUnindexedItems.Header" xml:space="preserve">
