@@ -166,8 +166,12 @@
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
     <Compile Include="Converters\StringArrayToString.cs" />
     <Compile Include="Converters\UInt32ToString.cs" />
-    <Compile Include="Converters\LayoutModeToBoolConverter.cs"/>
+    <Compile Include="Converters\VisiblityInvertConverter.cs" />
+    <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
     <Compile Include="DataModels\ShellNewEntry.cs" />
+    <Compile Include="Dialogs\DynamicDialog.xaml.cs">
+      <DependentUpon>DynamicDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="Enums\FileSystemStatusCode.cs" />
     <Compile Include="Helpers\AppServiceConnectionHelper.cs" />
@@ -202,7 +206,17 @@
     <Compile Include="UserControls\Selection\IgnorePreviousItemSelectionStrategy.cs" />
     <Compile Include="UserControls\Selection\InvertPreviousItemSelectionStrategy.cs" />
     <Compile Include="UserControls\Selection\ItemSelectionStrategy.cs" />
+    <Compile Include="UserControls\Widgets\Bundles.xaml.cs">
+      <DependentUpon>Bundles.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\BaseJsonSettingsViewModel.cs" />
+    <Compile Include="ViewModels\Bundles\BundleContainerViewModel.cs" />
+    <Compile Include="ViewModels\Bundles\BundleItemViewModel.cs" />
+    <Compile Include="ViewModels\Bundles\BundlesViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\DynamicDialogViewModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
+    <Compile Include="SettingsInterfaces\IBundlesSettings.cs" />
+    <Compile Include="ViewModels\BundlesSettingsViewModel.cs" />
     <Compile Include="ViewModels\Properties\FileProperty.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
@@ -641,6 +655,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Dialogs\DynamicDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\ConfirmDeleteDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -718,6 +736,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\MultitaskingControl\VerticalTabViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Widgets\Bundles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
