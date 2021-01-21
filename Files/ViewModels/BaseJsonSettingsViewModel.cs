@@ -40,7 +40,7 @@ namespace Files.ViewModels
 
         protected virtual async void Init()
         {
-            await ApplicationData.Current.LocalFolder.CreateFileAsync(PathHelpers.Combine(Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.BundlesSettingsFileName), CreationCollisionOption.OpenIfExists);
+            await ApplicationData.Current.LocalFolder.CreateFileAsync(System.IO.Path.Combine(Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.BundlesSettingsFileName), CreationCollisionOption.OpenIfExists);
         }
 
         #endregion

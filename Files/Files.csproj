@@ -167,7 +167,7 @@
     <Compile Include="Converters\StringArrayToString.cs" />
     <Compile Include="Converters\UInt32ToString.cs" />
     <Compile Include="Converters\VisiblityInvertConverter.cs" />
-    <Compile Include="Converters\LayoutModeToBoolConverter.cs"/>
+    <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
     <Compile Include="DataModels\ShellNewEntry.cs" />
     <Compile Include="Dialogs\DynamicDialog.xaml.cs">
       <DependentUpon>DynamicDialog.xaml</DependentUpon>
@@ -195,7 +195,6 @@
     <Compile Include="Helpers\FileListCache\FileListCacheController.cs" />
     <Compile Include="Helpers\FileListCache\IFileListCache.cs" />
     <Compile Include="Helpers\FileListCache\PersistentSQLiteCacheAdapter.cs" />
-    <Compile Include="Helpers\PathHelpers.cs" />
     <Compile Include="Helpers\IntervalSampler.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
     <Compile Include="UserControls\MultitaskingControl\TabItem\TabItemControl.xaml.cs">

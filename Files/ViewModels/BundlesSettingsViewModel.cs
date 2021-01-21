@@ -11,7 +11,7 @@ namespace Files.ViewModels
         #region Constructor
 
         public BundlesSettingsViewModel()
-            : base(PathHelpers.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.BundlesSettingsFileName))
+            : base(System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.BundlesSettingsFileName))
         {
         }
 

@@ -59,6 +59,7 @@
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center"
                 Background="Transparent"
+                Style="{StaticResource ButtonRevealStyle}"
                 ToolTipService.ToolTip="More options...">
 
                 <FontIcon
