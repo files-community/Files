@@ -348,7 +348,6 @@ namespace Files.UserControls
                 }
 
                 if (storageItems.Count == 0 ||
-                    locationItem.IsDefaultLocation ||
                     locationItem.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
                     storageItems.AreItemsAlreadyInFolder(locationItem.Path))
                 {
@@ -357,7 +356,7 @@ namespace Files.UserControls
                 else
                 {
                     e.DragUIOverride.IsCaptionVisible = true;
-                    if (storageItems.AreItemsInSameDrive(locationItem.Path))
+                    if (storageItems.AreItemsInSameDrive(locationItem.Path) || locationItem.IsDefaultLocation)
                     {
                         e.AcceptedOperation = DataPackageOperation.Move;
                         e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), locationItem.Text);
@@ -387,8 +386,8 @@ namespace Files.UserControls
         /// <param name="e">DragEvent args</param>
         private void NavigationViewLocationItem_DragOver_SetCaptions(LocationItem senderLocationItem, LocationItem sourceLocationItem, DragEventArgs e)
         {
-            // If the location item is the same as the original dragged item or the default location (home button), the dragging should be disabled
-            if (sourceLocationItem.Equals(senderLocationItem) || senderLocationItem.IsDefaultLocation == true)
+            // If the location item is the same as the original dragged item
+            if (sourceLocationItem.Equals(senderLocationItem))
             {
                 e.AcceptedOperation = DataPackageOperation.None;
                 e.DragUIOverride.IsCaptionVisible = false;

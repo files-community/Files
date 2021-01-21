@@ -1659,4 +1659,91 @@
   <data name="SidebarCloudDrives" xml:space="preserve">
     <value>Cloud Drives</value>
   </data>
+  <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>More options...</value>
+  </data>
+  <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
+    <value>Export Bundles</value>
+  </data>
+  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
+    <value>Import Bundles</value>
+  </data>
+  <data name="BundlesWidgetAddBundleErrorAlreadyExists" xml:space="preserve">
+    <value>Bundle with the same name already exists!</value>
+  </data>
+  <data name="BundlesWidgetAddBundleErrorInputEmpty" xml:space="preserve">
+    <value>Input field cannot be empty!</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleItem.Text" xml:space="preserve">
+    <value>Create Bundle</value>
+  </data>
+  <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
+    <value>Enter Bundle name</value>
+  </data>
+  <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
+    <value>Enter Bundle name</value>
+  </data>
+  <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
+    <value>Open in new tab</value>
+  </data>
+  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
+    <value>Open item location</value>
+  </data>
+  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
+    <value>Remove from bundle</value>
+  </data>
+  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
+    <value>Remove Bundle</value>
+  </data>
+  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+    <value>Bundles</value>
+  </data>
+  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
+    <value>Drag and drop any file or folder here to quickly access it</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+    <value>Enter Bundle name</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
+    <value>Desired name</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
+    <value>Enter new name</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
+    <value>Rename "{0}"</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
+    <value>Create Bundle</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
+    <value>Add Bundle</value>
+  </data>
+  <data name="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
+    <value>Create Bundle</value>
+  </data>
+  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
+    <value>Rename Bundle</value>
+  </data>
+  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+    <value>Desired name</value>
+  </data>
 </root>

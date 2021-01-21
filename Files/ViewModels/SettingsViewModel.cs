@@ -484,6 +484,15 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether or not the Bundles widget should be visible.
+        /// </summary>
+        public bool ShowBundlesWidget
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         #endregion Widgets
 
         #region Preferences
