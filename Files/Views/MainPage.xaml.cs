@@ -73,11 +73,7 @@ namespace Files.Views
         {
             if (eventArgs.NavigationMode != NavigationMode.Back)
             {
-                App.AppSettings = await SettingsViewModel.CreateInstance();
-                App.InteractionViewModel = new InteractionViewModel();
-                App.SidebarPinnedController = new SidebarPinnedController();
-
-                Helpers.ThemeHelper.Initialize();
+                await App.EnsureSettingsAndConfigurationAreBootstrapped();
 
                 if (eventArgs.Parameter == null || (eventArgs.Parameter is string eventStr && string.IsNullOrEmpty(eventStr)))
                 {

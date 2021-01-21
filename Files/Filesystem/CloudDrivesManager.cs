@@ -103,7 +103,21 @@ namespace Files.Filesystem
                         {
                             Text = "SidebarCloudDrives".GetLocalized()
                         };
-                        MainPage.SideBarItems.Add(drivesSection);
+
+                        //Get the last location item in the sidebar
+                        var lastLocationItem = MainPage.SideBarItems.LastOrDefault(x => x is LocationItem);
+
+                        if (lastLocationItem != null)
+                        {
+                            //Get the index of the last location item
+                            var lastLocationItemIndex = MainPage.SideBarItems.IndexOf(lastLocationItem);
+                            //Insert the drives title beneath it
+                            MainPage.SideBarItems.Insert(lastLocationItemIndex + 1, drivesSection);
+                        }
+                        else
+                        {
+                            MainPage.SideBarItems.Add(drivesSection);
+                        }
                     }
 
                     var sectionStartIndex = MainPage.SideBarItems.IndexOf(drivesSection);

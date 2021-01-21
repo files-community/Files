@@ -102,7 +102,7 @@ namespace Files.Filesystem
 
         private void StartDeviceWatcher()
         {
-            deviceWatcher.Start();
+            deviceWatcher?.Start();
         }
 
         private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
@@ -129,20 +129,7 @@ namespace Files.Filesystem
                                 Text = "SidebarDrives".GetLocalized()
                             };
 
-                            //Get the last location item in the sidebar
-                            var lastLocationItem = MainPage.SideBarItems.LastOrDefault(x => x is LocationItem);
-
-                            if (lastLocationItem != null)
-                            {
-                                //Get the index of the last location item
-                                var lastLocationItemIndex = MainPage.SideBarItems.IndexOf(lastLocationItem);
-                                //Insert the drives title beneath it
-                                MainPage.SideBarItems.Insert(lastLocationItemIndex + 1, drivesSection);
-                            }
-                            else
-                            {
-                                MainPage.SideBarItems.Add(drivesSection);
-                            }
+                            MainPage.SideBarItems.Add(drivesSection);
                         }
 
                         var sectionStartIndex = MainPage.SideBarItems.IndexOf(drivesSection);
@@ -158,7 +145,7 @@ namespace Files.Filesystem
 
                         //Add all drives to the sidebar
                         var insertAt = sectionStartIndex + 1;
-                        foreach (var drive in Drives.OrderBy(o => o.Text))
+                        foreach (var drive in Drives)
                         {
                             MainPage.SideBarItems.Insert(insertAt, drive);
                             insertAt++;
@@ -506,7 +493,6 @@ namespace Files.Filesystem
         {
             if (!driveEnumInProgress)
             {
-                this.Dispose();
                 this.StartDeviceWatcher();
             }
         }

@@ -12,7 +12,6 @@ using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NLog;
 using System;
@@ -59,11 +58,40 @@ namespace Files
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
+            Application.Current.Resuming += App_Resuming;
             // Initialize NLog
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
             LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
 
             StartAppCenter();
+        }
+
+        private async void App_Resuming(object sender, object e)
+        {
+            await EnsureSettingsAndConfigurationAreBootstrapped();
+        }
+
+        internal static async Task EnsureSettingsAndConfigurationAreBootstrapped()
+        {
+            if (AppSettings == null)
+            {
+                AppSettings = await Files.ViewModels.SettingsViewModel.CreateInstance();
+            }
+
+            if (App.AppSettings?.AcrylicTheme == null)
+            {
+                Helpers.ThemeHelper.Initialize();
+            }
+
+            if (InteractionViewModel == null)
+            {
+                InteractionViewModel = new Files.ViewModels.InteractionViewModel();
+            }
+
+            if (SidebarPinnedController == null)
+            {
+                SidebarPinnedController = await Files.Controllers.SidebarPinnedController.CreateInstance();
+            }
         }
 
         private async void StartAppCenter()
@@ -119,6 +147,8 @@ namespace Files
             Logger.Info("App launched");
 
             bool canEnablePrelaunch = ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
+
+            await EnsureSettingsAndConfigurationAreBootstrapped();
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -205,6 +235,7 @@ namespace Files
         {
             Logger.Info("App activated");
 
+            await EnsureSettingsAndConfigurationAreBootstrapped();
             // Window management
             if (!(Window.Current.Content is Frame rootFrame))
             {
@@ -356,18 +387,21 @@ namespace Files
 
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
         {
-            AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab =>
+            if (AppSettings != null)
             {
-                if (tab != null && tab.TabItemArguments != null)
+                AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab =>
                 {
-                    return tab.TabItemArguments.Serialize();
-                }
-                else
-                {
-                    var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "NewTab".GetLocalized() };
-                    return defaultArg.Serialize();
-                }
-            }).ToArray();
+                    if (tab != null && tab.TabItemArguments != null)
+                    {
+                        return tab.TabItemArguments.Serialize();
+                    }
+                    else
+                    {
+                        var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "NewTab".GetLocalized() };
+                        return defaultArg.Serialize();
+                    }
+                }).ToArray();
+            }
         }
 
         // Occurs when an exception is not handled on the UI thread.

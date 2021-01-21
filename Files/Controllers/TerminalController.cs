@@ -20,9 +20,19 @@ namespace Files.Controllers
 
         public string JsonFileName { get; } = "terminal.json";
 
-        public TerminalController()
+        private TerminalController() { }
+
+        public static Task<TerminalController> CreateInstance()
         {
-            Init();
+            var instance = new TerminalController();
+            return instance.InitializeAsync();
+        }
+
+        private async Task<TerminalController> InitializeAsync()
+        {
+            await LoadAsync();
+            await GetInstalledTerminalsAsync();
+            return this;
         }
 
         private async Task LoadAsync()
@@ -91,12 +101,6 @@ namespace Files.Controllers
                 model.ResetToDefaultTerminal();
                 return model;
             }
-        }
-
-        public async void Init()
-        {
-            await LoadAsync();
-            await GetInstalledTerminalsAsync();
         }
 
         public async Task GetInstalledTerminalsAsync()

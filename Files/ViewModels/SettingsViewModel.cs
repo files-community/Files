@@ -51,16 +51,6 @@ namespace Files.ViewModels
             DetectRecycleBinPreference();
             DetectQuickLook();
 
-            DrivesManager = await DrivesManager.CreateInstance();
-            //Initialise cloud drives in the background
-            CloudDrivesManager = await CloudDrivesManager.CreateInstance();
-
-            //DetectWSLDistros();
-            TerminalController = new TerminalController();
-
-            // Send analytics to AppCenter
-            TrackAnalytics();
-
             // Load the supported languages
             var supportedLang = ApplicationLanguages.ManifestLanguages;
             DefaultLanguages = new ObservableCollection<DefaultLanguageModel> { new DefaultLanguageModel(null) };
@@ -68,6 +58,16 @@ namespace Files.ViewModels
             {
                 DefaultLanguages.Add(new DefaultLanguageModel(lang));
             }
+
+            DrivesManager = await Files.Filesystem.DrivesManager.CreateInstance();
+            //Initialise cloud drives in the background
+            CloudDrivesManager = await Files.Filesystem.CloudDrivesManager.CreateInstance();
+
+            //DetectWSLDistros();
+            TerminalController = await Files.Controllers.TerminalController.CreateInstance();
+
+            // Send analytics to AppCenter
+            TrackAnalytics();
 
             return this;
         }
