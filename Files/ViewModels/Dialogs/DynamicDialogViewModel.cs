@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
@@ -115,7 +116,7 @@ namespace Files.ViewModels.Dialogs
         /// <br/>
         /// Note:
         /// <br/>
-        /// This action will be overriden.
+        /// This action will always be overriden.
         /// </summary>
         public Action HideDialog { get; set; }
 
@@ -198,6 +199,26 @@ namespace Files.ViewModels.Dialogs
         public ICommand CloseButtonCommand { get; private set; }
 
         public ICommand DynamicKeyDownCommand { get; private set; }
+
+        #endregion
+
+        #region Constructor
+
+        public DynamicDialogViewModel()
+        {
+            // Create default implementation
+            TitleText = "DynamicDialog";
+            PrimaryButtonText = "OK";
+            PrimaryButtonAction = (vm, e) => HideDialog();
+            KeyDownAction = (vm, e) =>
+            {
+                if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Escape)
+                {
+                    HideDialog();
+                }
+            };
+            DynamicButtons = DynamicButtons.Primary;
+        }
 
         #endregion
 
