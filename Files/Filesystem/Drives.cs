@@ -156,7 +156,6 @@ namespace Files.Filesystem
                             }
                         }
                     }
-
                 });
             }
             catch (Exception)       // UI Thread not ready yet, so we defer the pervious operation until it is.
