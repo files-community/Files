@@ -315,16 +315,7 @@ namespace Files.Filesystem
                     break;
 
                 case System.IO.DriveType.Fixed:
-                    if (Helpers.PathNormalization.NormalizePath(drive.Name) != Helpers.PathNormalization.NormalizePath("A:")
-                        && Helpers.PathNormalization.NormalizePath(drive.Name) !=
-                        Helpers.PathNormalization.NormalizePath("B:"))
-                    {
-                        type = DriveType.Fixed;
-                    }
-                    else
-                    {
-                        type = DriveType.FloppyDisk;
-                    }
+                    type = DriveType.Fixed;
                     break;
 
                 case System.IO.DriveType.Network:
@@ -344,7 +335,15 @@ namespace Files.Filesystem
                     break;
 
                 case System.IO.DriveType.Unknown:
-                    type = DriveType.Unknown;
+                    if (Helpers.PathNormalization.NormalizePath(drive.Name) != Helpers.PathNormalization.NormalizePath("A:") &&
+                            Helpers.PathNormalization.NormalizePath(drive.Name) != Helpers.PathNormalization.NormalizePath("B:"))
+                    {
+                        type = DriveType.Unknown;
+                    }
+                    else
+                    {
+                        type = DriveType.FloppyDisk;
+                    }
                     break;
 
                 default:
