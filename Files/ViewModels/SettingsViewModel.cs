@@ -78,10 +78,6 @@ namespace Files.ViewModels
             return settings.Initialize();
         }
 
-        private SettingsViewModel() : this(true)
-        {
-        }
-
         private SettingsViewModel(bool initialize)
         {
             if (initialize)

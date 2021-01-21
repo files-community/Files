@@ -122,7 +122,7 @@ namespace Files.Filesystem
                             MainPage.SideBarItems.Remove(drivesSection);
                         }
 
-                        if (drivesSection == null)
+                        if (drivesSection == null && Drives.Count > 0)
                         {
                             drivesSection = new HeaderTextItem()
                             {

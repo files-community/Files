@@ -97,7 +97,7 @@ namespace Files.Filesystem
                         MainPage.SideBarItems.Remove(drivesSection);
                     }
 
-                    if (drivesSection == null)
+                    if (drivesSection == null && Drives.Count > 0)
                     {
                         drivesSection = new HeaderTextItem()
                         {
@@ -139,53 +139,6 @@ namespace Files.Filesystem
                     }
                 }
             });
-        }
-
-        public static async Task<StorageFolderWithPath> GetRootFromPathAsync(string devicePath)
-        {
-            if (!Path.IsPathRooted(devicePath))
-            {
-                return null;
-            }
-            var rootPath = Path.GetPathRoot(devicePath);
-            if (devicePath.StartsWith("\\\\?\\")) // USB device
-            {
-                // Check among already discovered drives
-                StorageFolder matchingDrive = App.AppSettings.CloudDrivesManager.Drives.FirstOrDefault(x =>
-                    Helpers.PathNormalization.NormalizePath(x.Path) == Helpers.PathNormalization.NormalizePath(rootPath))?.Root;
-                if (matchingDrive == null)
-                {
-                    // Check on all removable drives
-                    var remDevices = await DeviceInformation.FindAllAsync(StorageDevice.GetDeviceSelector());
-                    foreach (var item in remDevices)
-                    {
-                        try
-                        {
-                            var root = StorageDevice.FromId(item.Id);
-                            if (Helpers.PathNormalization.NormalizePath(rootPath).Replace("\\\\?\\", "") == root.Name.ToUpperInvariant())
-                            {
-                                matchingDrive = root;
-                                break;
-                            }
-                        }
-                        catch (Exception)
-                        {
-                            // Ignore this..
-                        }
-                    }
-                }
-                if (matchingDrive != null)
-                {
-                    return new StorageFolderWithPath(matchingDrive, rootPath);
-                }
-            }
-            else if (devicePath.StartsWith("\\\\")) // Network share
-            {
-                rootPath = rootPath.LastIndexOf("\\") > 1 ? rootPath.Substring(0, rootPath.LastIndexOf("\\")) : rootPath; // Remove share name
-                return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(rootPath), rootPath);
-            }
-            // It's ok to return null here, on normal drives StorageFolder.GetFolderFromPathAsync works
-            return null;
         }
 
     }
