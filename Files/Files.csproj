@@ -887,7 +887,7 @@
       <Version>4.7.6</Version>
     </PackageReference>
     <PackageReference Include="NLog.Schema">
-      <Version>4.7.6</Version>
+      <Version>4.7.7</Version>
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_green">
       <Version>2.0.4</Version>
