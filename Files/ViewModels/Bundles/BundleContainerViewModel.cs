@@ -106,13 +106,12 @@ namespace Files.ViewModels.Bundles
 
         private async void RenameBundle()
         {
-            TextBox inputTextBox = new TextBox();
-            inputTextBox.KeyDown += RenameTextKeyDown;
-            inputTextBox.PlaceholderText = "BundlesWidgetRenameBundleDialogInputPlaceholderText".GetLocalized();
-
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
-                DisplayControl = inputTextBox,
+                DisplayControl = new TextBox()
+                {
+                    PlaceholderText = "BundlesWidgetRenameBundleDialogInputPlaceholderText".GetLocalized()
+                },
                 TitleText = string.Format("BundlesWidgetRenameBundleDialogTitleText".GetLocalized(), BundleName),
                 SubtitleText = "BundlesWidgetRenameBundleDialogSubtitleText".GetLocalized(),
                 PrimaryButtonText = "BundlesWidgetRenameBundleDialogPrimaryButtonText".GetLocalized(),
@@ -141,8 +140,6 @@ namespace Files.ViewModels.Bundles
                 DynamicButtons = DynamicButtons.Primary | DynamicButtons.Cancel
             });
             await dialog.ShowAsync();
-
-            inputTextBox.KeyDown -= RenameTextKeyDown;
         }
 
         private void RenameBundleConfirm(string bundleRenameText)
@@ -175,19 +172,6 @@ namespace Files.ViewModels.Bundles
                     BundlesSettings.SavedBundles = newBundles;
                     BundleName = bundleRenameText;
                 }
-            }
-        }
-
-        private void RenameTextKeyDown(object s, KeyRoutedEventArgs e)
-        {
-            if (e.Key == VirtualKey.Enter)
-            {
-                RenameBundleConfirm((s as TextBox).Text);
-                e.Handled = true;
-            }
-            else if (e.Key == VirtualKey.Escape)
-            {
-                e.Handled = true;
             }
         }
 

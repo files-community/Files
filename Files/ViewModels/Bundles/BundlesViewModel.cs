@@ -107,20 +107,14 @@ namespace Files.ViewModels.Bundles
             }
         }
 
-        private void AddBundleDialogTextKeyDown(object s, KeyRoutedEventArgs e)
-        {
-
-        }
-
         private async void OpenAddBundleDialog()
         {
-            TextBox inputTextBox = new TextBox();
-            inputTextBox.KeyDown += AddBundleDialogTextKeyDown;
-            inputTextBox.PlaceholderText = "BundlesWidgetAddBundleInputPlaceholderText".GetLocalized();
-
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {
-                DisplayControl = inputTextBox,
+                DisplayControl = new TextBox()
+                {
+                    PlaceholderText = "BundlesWidgetAddBundleInputPlaceholderText".GetLocalized()
+                },
                 TitleText = "BundlesWidgetCreateBundleDialogTitleText".GetLocalized(),
                 SubtitleText = "BundlesWidgetCreateBundleDialogSubtitleText".GetLocalized(),
                 PrimaryButtonText = "BundlesWidgetCreateBundleDialogPrimaryButtonText".GetLocalized(),
@@ -147,8 +141,6 @@ namespace Files.ViewModels.Bundles
                 DynamicButtons = DynamicButtons.Primary | DynamicButtons.Cancel
             });
             await dialog.ShowAsync();
-
-            inputTextBox.KeyDown -= AddBundleDialogTextKeyDown;
         }
 
         private void AddBundle(string name)
@@ -189,9 +181,16 @@ namespace Files.ViewModels.Bundles
 
             if (file != null)
             {
-                string data = NativeFileOperationsHelper.ReadStringFromFile(file.Path);
-                BundlesSettings.ImportSettings(JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data));
-                await Load(); // Update the collection
+                try
+                {
+                    string data = NativeFileOperationsHelper.ReadStringFromFile(file.Path);
+                    var deserialized = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data);
+                    BundlesSettings.ImportSettings(JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data));
+                    await Load(); // Update the collection
+                }
+                catch // Couln't convert, data is corrupted
+                {
+                }
             }
         }
 
