@@ -849,7 +849,6 @@
             HorizontalAlignment="Right"
             Orientation="Horizontal"
             Spacing="2">
-            
             <Button
                 x:Name="SearchButton"
                 x:Uid="NavSearchButton"

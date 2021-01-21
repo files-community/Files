@@ -85,8 +85,8 @@ namespace Files.UserControls
             get => (bool)GetValue(IsHorizontalProperty);
             set => SetValue(IsHorizontalProperty, value);
         }
-        public static DependencyProperty EdgeTransitionLocationProperty = DependencyProperty.Register("EdgeTransitionLocation", typeof(EdgeTransitionLocation), typeof(PreviewPane), new PropertyMetadata(null));
 
+        public static DependencyProperty EdgeTransitionLocationProperty = DependencyProperty.Register("EdgeTransitionLocation", typeof(EdgeTransitionLocation), typeof(PreviewPane), new PropertyMetadata(null));
         EdgeTransitionLocation EdgeTransitionLocation {
             get => (EdgeTransitionLocation)GetValue(EdgeTransitionLocationProperty);
             set => SetValue(EdgeTransitionLocationProperty, value);

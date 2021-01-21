@@ -21,7 +21,7 @@ namespace Files.Helpers
     class ExtensionManager
     {
         //private CoreDispatcher _dispatcher; // used to run code on the UI thread for code that may update UI
-        private AppExtensionCatalog _catalog; // the catalog of app extensions available to this host
+        private AppExtensionCatalog catalog; // the catalog of app extensions available to this host
 
         /// <summary>
         /// Builds a collection of extensions available to this host
@@ -34,7 +34,7 @@ namespace Files.Helpers
         {
             // catalog & contract
             ExtensionContractName = extensionContractName;
-            _catalog = AppExtensionCatalog.Open(ExtensionContractName);
+            catalog = AppExtensionCatalog.Open(ExtensionContractName);
             //_dispatcher = null;
         }
 
@@ -91,7 +91,7 @@ namespace Files.Helpers
             //}
             #endregion
 
-            IReadOnlyList<AppExtension> extensions = await _catalog.FindAllAsync();
+            IReadOnlyList<AppExtension> extensions = await catalog.FindAllAsync();
             foreach (AppExtension ext in extensions)
             {
                 await LoadExtension(ext);
@@ -266,7 +266,7 @@ namespace Files.Helpers
         /// <param name="ext"></param>
         public async void RemoveExtension(Extension ext)
         {
-            await _catalog.RequestRemovePackageAsync(ext.AppExtension.Package.Id.FullName);
+            await catalog.RequestRemovePackageAsync(ext.AppExtension.Package.Id.FullName);
         }
 
         #region Extra exceptions
@@ -288,9 +288,9 @@ namespace Files.Helpers
     public class Extension : INotifyPropertyChanged
     {
         #region Member Vars
-        private PropertySet _properties;
-        private string _serviceName;
-        private readonly object _sync = new object();
+        private PropertySet properties;
+        private string serviceName;
+        private readonly object sync = new object();
 
         public event PropertyChangedEventHandler PropertyChanged;
         public List<string> FileExtensions { get; internal set; }  = new List<string>();
@@ -305,7 +305,7 @@ namespace Files.Helpers
         public Extension(AppExtension ext, PropertySet properties, BitmapImage logo)
         {
             AppExtension = ext;
-            _properties = properties;
+            this.properties = properties;
             Enabled = false;
             Loaded = false;
             Offline = false;
@@ -313,13 +313,13 @@ namespace Files.Helpers
             Visible = Visibility.Collapsed;
 
             #region Properties
-            _serviceName = null;
-            if (_properties != null)
+            serviceName = null;
+            if (this.properties != null)
             {
-                if (_properties.ContainsKey("Service"))
+                if (this.properties.ContainsKey("Service"))
                 {
-                    PropertySet serviceProperty = _properties["Service"] as PropertySet;
-                    _serviceName = serviceProperty["#text"].ToString();
+                    PropertySet serviceProperty = this.properties["Service"] as PropertySet;
+                    serviceName = serviceProperty["#text"].ToString();
                 }
             }
             #endregion
@@ -359,7 +359,7 @@ namespace Files.Helpers
                     using (var connection = new AppServiceConnection())
                     {
                         // service name is defined in appxmanifest properties
-                        connection.AppServiceName = _serviceName;
+                        connection.AppServiceName = serviceName;
                         // package Family Name is provided by the extension
                         connection.PackageFamilyName = AppExtension.Package.Id.FamilyName;
 
@@ -411,18 +411,18 @@ namespace Files.Helpers
 
             // update the extension
             this.AppExtension = ext;
-            _properties = properties;
+            this.properties = properties;
             Logo = logo;
 
             #region Update Properties
             // update app service information
-            _serviceName = null;
-            if (_properties != null)
+            serviceName = null;
+            if (this.properties != null)
             {
-                if (_properties.ContainsKey("Service"))
+                if (this.properties.ContainsKey("Service"))
                 {
-                    PropertySet serviceProperty = _properties["Service"] as PropertySet;
-                    this._serviceName = serviceProperty["#text"].ToString();
+                    PropertySet serviceProperty = this.properties["Service"] as PropertySet;
+                    this.serviceName = serviceProperty["#text"].ToString();
                 }
             }
             #endregion
@@ -466,7 +466,7 @@ namespace Files.Helpers
 
             Loaded = true;
             Visible = Visibility.Visible;
-            RaisePropertyChanged("Visible");
+            RaisePropertyChanged(nameof(Visible));
             Offline = false;
         }
 
@@ -486,7 +486,7 @@ namespace Files.Helpers
         public void Unload()
         {
             // unload it
-            lock (_sync) // Calls to this functioned are queued on an await call so lock to handle one at a time
+            lock (sync) // Calls to this functioned are queued on an await call so lock to handle one at a time
             {
                 if (Loaded)
                 {
@@ -498,7 +498,7 @@ namespace Files.Helpers
 
                     Loaded = false;
                     Visible = Visibility.Collapsed;
-                    RaisePropertyChanged("Visible");
+                    RaisePropertyChanged(nameof(Visible));
                 }
             }
         }

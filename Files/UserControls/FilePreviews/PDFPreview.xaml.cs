@@ -80,7 +80,6 @@ namespace Files.UserControls.FilePreviews
                 pages.Add(pageData);
             }
             LoadingRing.Visibility = Visibility.Collapsed;
-
         }
 
         internal struct Page

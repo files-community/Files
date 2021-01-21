@@ -180,12 +180,12 @@ namespace Files.Filesystem
 
         private DateTimeOffset itemDateAccessedReal;
 
-        private ObservableCollection<FileProperty> _itemProperties;
+        private ObservableCollection<FileProperty> itemProperties;
 
         public ObservableCollection<FileProperty> ItemProperties
         {
-            get => _itemProperties;
-            set => SetProperty(ref _itemProperties, value);
+            get => itemProperties;
+            set => SetProperty(ref itemProperties, value);
         }
 
         /// <summary>
