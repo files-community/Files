@@ -188,7 +188,7 @@ namespace Files.ViewModels.Bundles
                     BundlesSettings.ImportSettings(JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(data));
                     await Load(); // Update the collection
                 }
-                catch // Couln't convert, data is corrupted
+                catch // Couldn't deserialize, data is corrupted
                 {
                 }
             }
@@ -196,10 +196,10 @@ namespace Files.ViewModels.Bundles
 
         private async void ExportBundles()
         {
-            FileOpenPicker filePicker = new FileOpenPicker();
-            filePicker.FileTypeFilter.Add(System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName));
+            FileSavePicker filePicker = new FileSavePicker();
+            filePicker.FileTypeChoices.Add("Json File", new List<string>() { System.IO.Path.GetExtension(Constants.LocalSettings.BundlesSettingsFileName) });
 
-            StorageFile file = await filePicker.PickSingleFileAsync();
+            StorageFile file = await filePicker.PickSaveFileAsync();
 
             if (file != null)
             {
