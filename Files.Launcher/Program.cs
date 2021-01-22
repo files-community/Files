@@ -331,6 +331,7 @@ namespace FilesFullTrust
                         if (oneDriveAccountsKey == null)
                         {
                             await args.Request.SendResponseAsync(new ValueSet());
+                            return;
                         }
 
                         var oneDriveAccounts = new ValueSet();
