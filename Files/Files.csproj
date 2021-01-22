@@ -167,7 +167,7 @@
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
     <Compile Include="Converters\StringArrayToString.cs" />
     <Compile Include="Converters\UInt32ToString.cs" />
-    <Compile Include="Converters\LayoutModeToBoolConverter.cs"/>
+    <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
     <Compile Include="DataModels\ShellNewEntry.cs" />
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="Enums\FileSystemStatusCode.cs" />
@@ -210,7 +210,6 @@
     <Compile Include="UserControls\FilePreviews\PDFPreview.xaml.cs">
       <DependentUpon>PDFPreview.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\FilePreviews\PreviewControlBase.cs" />
     <Compile Include="UserControls\FilePreviews\RichTextPreview.xaml.cs">
       <DependentUpon>RichTextPreview.xaml</DependentUpon>
     </Compile>
@@ -229,6 +228,15 @@
       <DependentUpon>StringEncodedImage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
+    <Compile Include="ViewModels\Previews\BasePreviewModel.cs" />
+    <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\HtmlPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\ImagePreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\MarkdownPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\MediaPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\PDFPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\RichTextPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\TextPreviewViewModel.cs" />
     <Compile Include="ViewModels\Properties\FileProperty.cs" />
     <Compile Include="UserControls\PreviewPane.xaml.cs">
       <DependentUpon>PreviewPane.xaml</DependentUpon>

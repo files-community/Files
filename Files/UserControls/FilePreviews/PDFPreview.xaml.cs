@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.ViewModels;
+using Files.ViewModels.Previews;
 using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
@@ -27,65 +28,14 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.UserControls.FilePreviews
 {
-    public sealed partial class PDFPreview : PreviewControlBase
+    public sealed partial class PDFPreview : UserControl
     {
-        public static List<string> Extensions = new List<string>()
-        {
-            ".pdf",
-        };
+        public PDFPreviewViewModel ViewModel { get; set; }
 
-        public PDFPreview(ListedItem item) : base(item)
+        public PDFPreview(PDFPreviewViewModel model)
         {
+            ViewModel = model;
             this.InitializeComponent();
-        }
-
-        ObservableCollection<Page> pages = new ObservableCollection<Page>();
-
-        public async override void LoadPreviewAndDetails()
-        {
-            var pdf = await PdfDocument.LoadFromFileAsync(ItemFile);
-
-            // Add the number of pages to the details
-            Item.FileDetails.Add(new FileProperty() {
-                NameResource = "PropertyPageCount",
-                Value = pdf.PageCount,
-            });
-
-            LoadSystemFileProperties();
-
-            // This fixes an issue where loading an absurdly large PDF would take to much RAM
-            // and eventually cause a crash
-            var limit = Math.Clamp(pdf.PageCount, 0, Constants.PreviewPane.PDFPageLimit);
-
-            for (uint i = 0; i < limit; i++)
-            {
-                // Stop loading if the user has cancelled
-                if (LoadCancelledTokenSource.Token.IsCancellationRequested)
-                {
-                    return;
-                }
-
-                var page = pdf.GetPage(i);
-                await page.PreparePageAsync();
-                using var stream = new InMemoryRandomAccessStream();
-                await page.RenderToStreamAsync(stream);
-
-                var src = new BitmapImage();
-                await src.SetSourceAsync(stream);
-                var pageData = new Page()
-                {
-                    PageImage = src,
-                    PageNumber = (int)i,
-                };
-                pages.Add(pageData);
-            }
-            LoadingRing.Visibility = Visibility.Collapsed;
-        }
-
-        internal struct Page
-        {
-            public int PageNumber { get; set; }
-            public BitmapImage PageImage { get; set; }
         }
     }
 }

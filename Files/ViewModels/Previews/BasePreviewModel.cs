@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.ViewModels.Properties;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,11 +10,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
-namespace Files.UserControls.FilePreviews
+namespace Files.ViewModels.Previews
 {
-    public abstract class PreviewControlBase : UserControl
+    public abstract class BasePreviewModel : ObservableObject
     {
         public ListedItem Item { get; internal set; }
 
@@ -21,10 +21,10 @@ namespace Files.UserControls.FilePreviews
 
         public CancellationTokenSource LoadCancelledTokenSource { get; } = new CancellationTokenSource();
 
-        public PreviewControlBase(ListedItem item) : base()
+        public BasePreviewModel(ListedItem item) : base()
         {
             Item = item;
-            Unloaded += PreviewControlBase_Unloaded;
+            //Unloaded += PreviewControlBase_Unloaded;
             Load();
         }
 
@@ -50,7 +50,8 @@ namespace Files.UserControls.FilePreviews
                                                                                                (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 
                 list.Where(i => i.Value != null).ToList().ForEach(x => Item.FileDetails.Add(x));
-            } catch(Exception e)
+            }
+            catch (Exception e)
             {
                 Debug.WriteLine(e);
             }
@@ -68,6 +69,16 @@ namespace Files.UserControls.FilePreviews
             {
                 Debug.WriteLine(e);
             }
+        }
+
+        public event LoadedEventHandler LoadedEvent;
+
+        public delegate void LoadedEventHandler(object sender, EventArgs e);
+
+        protected virtual void RaiseLoadedEvent()
+        {
+            // Raise the event in a thread-safe manner using the ?. operator.
+            LoadedEvent?.Invoke(this, new EventArgs());
         }
     }
 }

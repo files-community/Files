@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.ViewModels.Previews;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,30 +24,15 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.UserControls.FilePreviews
 {
-    public sealed partial class MediaPreview : PreviewControlBase
+    public sealed partial class MediaPreview : UserControl
     {
-        public static List<string> Extensions => new List<string>() {
-            // Video
-            ".mp4", ".webm", ".ogg", ".mov", ".qt", ".mp4", ".m4v", ".mp4v", ".3g2", ".3gp2", ".3gp", ".3gpp", ".mkv",
-            // Audio
-            ".mp3", ".m4a", ".wav", ".wma", ".aac", ".adt", ".adts", ".cda",
-        };
+        MediaPreviewViewModel ViewModel;
 
-        public MediaPreview(ListedItem item) : base(item)
+        public MediaPreview(MediaPreviewViewModel model)
         {
+            ViewModel = model;
             this.InitializeComponent();
         }
 
-        public override void LoadPreviewAndDetails()
-        {
-            base.LoadSystemFileProperties();
-            VideoPlayer.Source = MediaSource.CreateFromStorageFile(ItemFile);
-        }
-
-        public override void PreviewControlBase_Unloaded(object sender, RoutedEventArgs e)
-        {
-            VideoPlayer.Source = null;
-            base.PreviewControlBase_Unloaded(sender, e);
-        }
     }
 }

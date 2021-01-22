@@ -1,50 +1,31 @@
 ﻿using Files.Filesystem;
+using Files.ViewModels.Previews;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Files.UserControls.FilePreviews
 {
-    public sealed partial class HtmlPreview : PreviewControlBase
+    public sealed partial class HtmlPreview : UserControl
     {
-        public static List<string> Extensions => new List<string>() {
-            ".html", ".htm",
-        };
+        public HtmlPreviewViewModel ViewModel { get; set; }
 
         // TODO: Move to WebView2 on WinUI 3.0 release
 
-        public HtmlPreview(ListedItem item) : base(item)
+        public HtmlPreview(HtmlPreviewViewModel model)
         {
+            ViewModel = model;
+            ViewModel.LoadedEvent += ViewModel_LoadedEvent;
             this.InitializeComponent();
         }
 
-        public async override void LoadPreviewAndDetails()
+        private void ViewModel_LoadedEvent(object sender, EventArgs e)
         {
-            try
-            {
-                var text = await FileIO.ReadTextAsync(ItemFile);
-                WebViewControl.NavigateToString(text);
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-            }
-            base.LoadSystemFileProperties();
+            WebViewControl.NavigateToString(ViewModel.TextValue);
         }
     }
 }

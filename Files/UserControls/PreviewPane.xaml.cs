@@ -1,6 +1,7 @@
 ﻿using Files.Filesystem;
 using Files.UserControls.FilePreviews;
 using Files.ViewModels;
+using Files.ViewModels.Previews;
 using Files.ViewModels.Properties;
 using Newtonsoft.Json;
 using System;
@@ -136,7 +137,7 @@ namespace Files.UserControls
                 return;
             }
 
-            control = await TextPreview.TryLoadAsTextAsync(item);
+            control = await TextPreviewViewModel.TryLoadAsTextAsync(item);
             if(control != null)
             {
                 PreviewGrid.Children.Add(control);
@@ -150,45 +151,44 @@ namespace Files.UserControls
         UserControl GetBuiltInPreviewControl(ListedItem item)
         {
             var ext = item.FileExtension.ToLower();
-            if (MediaPreview.Extensions.Contains(ext))
+            if (MediaPreviewViewModel.Extensions.Contains(ext))
             {
-                return new MediaPreview(item);
+                return new MediaPreview(new MediaPreviewViewModel(item));
             }
 
-            if (MarkdownPreview.Extensions.Contains(ext))
+            if (MarkdownPreviewViewModel.Extensions.Contains(ext))
             {
-                return new MarkdownPreview(item);
+                return new MarkdownPreview(new MarkdownPreviewViewModel(item));
             }
 
-            if (ImagePreview.Extensions.Contains(ext))
+            if (ImagePreviewViewModel.Extensions.Contains(ext))
             {
-                return new ImagePreview(item);
+                return new ImagePreview(new ImagePreviewViewModel(item));
             }
 
-            if (TextPreview.Extensions.Contains(ext))
+            if (TextPreviewViewModel.Extensions.Contains(ext))
             {
-                return new TextPreview(item);
+                return new TextPreview(new TextPreviewViewModel(item));
             }
 
-            if(PDFPreview.Extensions.Contains(ext))
+            if(PDFPreviewViewModel.Extensions.Contains(ext))
             {
-                return new PDFPreview(item);
-
+                return new PDFPreview(new PDFPreviewViewModel(item));
             }
 
-            if (HtmlPreview.Extensions.Contains(ext))
+            if (HtmlPreviewViewModel.Extensions.Contains(ext))
             {
-                return new HtmlPreview(item);
+                return new HtmlPreview(new HtmlPreviewViewModel(item));
             }
 
-            if (RichTextPreview.Extensions.Contains(ext))
+            if (RichTextPreviewViewModel.Extensions.Contains(ext))
             {
-                return new RichTextPreview(item);
+                return new RichTextPreview(new RichTextPreviewViewModel(item));
             }
 
-            if(CodePreview.Extensions.Contains(ext))
+            if(CodePreviewViewModel.Extensions.Contains(ext))
             {
-                return new CodePreview(item);
+                return new CodePreview(new CodePreviewViewModel(item));
             }
 
             return null;

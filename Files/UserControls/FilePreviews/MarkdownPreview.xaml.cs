@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.ViewModels.Previews;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -18,31 +19,14 @@ using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls.FilePreviews
 {
-    public sealed partial class MarkdownPreview : PreviewControlBase
+    public sealed partial class MarkdownPreview : UserControl
     {
-        public MarkdownPreview(ListedItem item) : base(item)
+        MarkdownPreviewViewModel ViewModel { get; set; }
+
+        public MarkdownPreview(MarkdownPreviewViewModel model)
         {
+            ViewModel = model;
             this.InitializeComponent();
-        }
-
-        public static List<string> Extensions => new List<string>() {
-            ".md", ".markdown",
-        };
-
-        public override async void LoadPreviewAndDetails()
-        {
-            try
-            {
-                var text = await FileIO.ReadTextAsync(ItemFile);
-                var displayText = text.Length < Constants.PreviewPane.TextCharacterLimit ? text : text.Remove(Constants.PreviewPane.TextCharacterLimit);
-                MarkdownTextPreview.Text = displayText;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-            }
-
-            base.LoadSystemFileProperties();
         }
     }
 }

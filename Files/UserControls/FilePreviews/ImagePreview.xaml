@@ -1,4 +1,4 @@
-﻿<local:PreviewControlBase
+﻿<UserControl
     x:Class="Files.UserControls.FilePreviews.ImagePreview"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -10,6 +10,6 @@
     d:DesignWidth="400">
 
     <Grid>
-        <Image x:Name="ImageContent"/>
+        <Image Source="{x:Bind ViewModel.ImageSource, Mode=OneWay}"/>
     </Grid>
-</local:PreviewControlBase>
+</UserControl>
