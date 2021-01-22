@@ -194,7 +194,7 @@ namespace Files.UserControls
             return null;
         }
 
-        async void LoadPreviewControlFromExtension(ListedItem item, Helpers.Extension extension)
+        async void LoadPreviewControlFromExtension(ListedItem item, Extension extension)
         {
             var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
             string sharingToken = SharedStorageAccessManager.AddFile(file);
