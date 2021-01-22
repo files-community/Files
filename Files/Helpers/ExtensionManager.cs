@@ -184,7 +184,7 @@ namespace Files.Helpers
         public async Task LoadExtension(AppExtension ext)
         {
             // Build a unique identifier for this extension
-            string identifier = ext.AppInfo.AppUserModelId + "!" + ext.Id;
+            string identifier = $"{ext.AppInfo.AppUserModelId}!{ext.Id}";
 
             // load the extension if the package is OK
             if (!ext.Package.Status.VerifyIsOK()
@@ -205,7 +205,7 @@ namespace Files.Helpers
             {
                 // get the extension's properties, such as its logo
                 var properties = await ext.GetExtensionPropertiesAsync() as PropertySet;
-                var filestream = await (ext.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1))).OpenReadAsync();
+                var filestream = await ext.AppInfo.DisplayInfo.GetLogo(new Windows.Foundation.Size(1, 1)).OpenReadAsync();
                 BitmapImage logo = new BitmapImage();
                 logo.SetSource(filestream);
 
