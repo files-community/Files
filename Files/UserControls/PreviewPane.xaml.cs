@@ -38,7 +38,7 @@ using static Files.App;
 
 namespace Files.UserControls
 {
-    public sealed partial class PreviewPane : UserControl, INotifyPropertyChanged
+    public sealed partial class PreviewPane : UserControl
     {
         public static DependencyProperty SelectedItemsProperty { get; } = DependencyProperty.Register("SelectedItems", typeof(List<ListedItem>), typeof(PreviewPane), new PropertyMetadata(null));
         public List<ListedItem> SelectedItems
@@ -97,15 +97,6 @@ namespace Files.UserControls
         {
             this.InitializeComponent();
             RegisterPropertyChangedCallback(Grid.RowProperty, GridRowChangedCallback);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        void RaisePropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-            }
         }
 
         async void LoadPreviewControlAsync(ListedItem item)
