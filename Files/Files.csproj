@@ -167,10 +167,16 @@
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
     <Compile Include="Converters\StringArrayToString.cs" />
     <Compile Include="Converters\UInt32ToString.cs" />
+    <Compile Include="Converters\VisiblityInvertConverter.cs" />
+    <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
     <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
     <Compile Include="DataModels\ShellNewEntry.cs" />
+    <Compile Include="Dialogs\DynamicDialog.xaml.cs">
+      <DependentUpon>DynamicDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Enums\FolderLayoutModes.cs" />
     <Compile Include="Enums\FileSystemStatusCode.cs" />
+    <Compile Include="Helpers\AppServiceConnectionHelper.cs" />
     <Compile Include="Filesystem\Cloud\Providers\AmazonDriveProvider.cs" />
     <Compile Include="Helpers\AppUpdater.cs" />
     <Compile Include="DataModels\DefaultLanguageModel.cs" />
@@ -227,6 +233,14 @@
     <Compile Include="UserControls\StringEncodedImage.xaml.cs">
       <DependentUpon>StringEncodedImage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Widgets\Bundles.xaml.cs">
+      <DependentUpon>Bundles.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\BaseJsonSettingsViewModel.cs" />
+    <Compile Include="ViewModels\Bundles\BundleContainerViewModel.cs" />
+    <Compile Include="ViewModels\Bundles\BundleItemViewModel.cs" />
+    <Compile Include="ViewModels\Bundles\BundlesViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\DynamicDialogViewModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
     <Compile Include="ViewModels\Previews\BasePreviewModel.cs" />
     <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
@@ -237,6 +251,8 @@
     <Compile Include="ViewModels\Previews\PDFPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\RichTextPreviewViewModel.cs" />
     <Compile Include="ViewModels\Previews\TextPreviewViewModel.cs" />
+    <Compile Include="SettingsInterfaces\IBundlesSettings.cs" />
+    <Compile Include="ViewModels\BundlesSettingsViewModel.cs" />
     <Compile Include="ViewModels\Properties\FileProperty.cs" />
     <Compile Include="UserControls\PreviewPane.xaml.cs">
       <DependentUpon>PreviewPane.xaml</DependentUpon>
@@ -258,7 +274,6 @@
     <Compile Include="Filesystem\Cloud\ICloudProviderDetector.cs" />
     <Compile Include="Filesystem\Cloud\Providers\MegaCloudProvider.cs" />
     <Compile Include="Filesystem\Cloud\Providers\OneDriveCloudProvider.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\OneDriveCommercialCloudProvider.cs" />
     <Compile Include="Filesystem\FilesystemOperations\FilesystemItemType.cs" />
     <Compile Include="Filesystem\FilesystemOperations\FilesystemOperations.cs" />
     <Compile Include="Filesystem\FilesystemOperations\Helpers\FilesystemHelpers.cs" />
@@ -682,6 +697,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Dialogs\DynamicDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\ConfirmDeleteDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -799,6 +818,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\MultitaskingControl\VerticalTabViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Widgets\Bundles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -969,10 +992,10 @@
       <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.7.6</Version>
+      <Version>4.7.7</Version>
     </PackageReference>
     <PackageReference Include="NLog.Schema">
-      <Version>4.7.6</Version>
+      <Version>4.7.7</Version>
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_green">
       <Version>2.0.4</Version>

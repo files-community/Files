@@ -1,0 +1,61 @@
+﻿<ContentDialog
+    x:Class="Files.Dialogs.DynamicDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    mc:Ignorable="d"
+    Title="{Binding TitleText, Mode=OneWay}"
+    DefaultButton="Primary"
+    CornerRadius="4"
+    PrimaryButtonText="{Binding PrimaryButtonText, Mode=OneWay}"
+    SecondaryButtonText="{Binding SecondaryButtonText, Mode=OneWay}"
+    CloseButtonText="{Binding CloseButtonText, Mode=OneWay}"
+    PrimaryButtonStyle="{StaticResource AccentButtonStyle}"
+    SecondaryButtonStyle="{StaticResource DefaultButtonStyle}"
+    CloseButtonStyle="{StaticResource DefaultButtonStyle}">
+
+    <i:Interaction.Behaviors>
+        <!--  No need to specify CommandParameter - `e` is passed by default  -->
+        <icore:EventTriggerBehavior EventName="PrimaryButtonClick">
+            <icore:InvokeCommandAction Command="{Binding PrimaryButtonCommand, Mode=OneWay}" />
+        </icore:EventTriggerBehavior>
+        <!--  No need to specify CommandParameter - `e` is passed by default  -->
+        <icore:EventTriggerBehavior EventName="SecondaryButtonClick">
+            <icore:InvokeCommandAction Command="{Binding SecondaryButtonCommand, Mode=OneWay}" />
+        </icore:EventTriggerBehavior>
+        <!--  No need to specify CommandParameter - `e` is passed by default  -->
+        <icore:EventTriggerBehavior EventName="CloseButtonClick">
+            <icore:InvokeCommandAction Command="{Binding CloseButtonCommand, Mode=OneWay}" />
+        </icore:EventTriggerBehavior>
+        <!--  No need to specify CommandParameter - `e` is passed by default  -->
+        <icore:EventTriggerBehavior EventName="KeyDown">
+            <icore:InvokeCommandAction Command="{Binding DynamicKeyDownCommand, Mode=OneWay}" />
+        </icore:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+
+    <Grid RowSpacing="25">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!-- Subtitle -->
+        <TextBlock
+            Text="{Binding SubtitleText, Mode=OneWay}"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Grid.Row="0" />
+
+        <!-- The dynamic content control -->
+        <ContentControl
+            Content="{Binding DisplayControl, Mode=OneWay}"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            Grid.Row="1" />
+    </Grid>
+</ContentDialog>

@@ -1,4 +1,5 @@
 using Files.Common;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using NLog;
 using System;
@@ -324,6 +325,25 @@ namespace FilesFullTrust
                     });
                     break;
 
+                case "GetOneDriveAccounts":
+                    using (var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts", false))
+                    {
+                        var oneDriveAccounts = new ValueSet();
+                        foreach (var account in oneDriveAccountsKey.GetSubKeyNames())
+                        {
+                            var accountKeyName = @$"{oneDriveAccountsKey.Name}\{account}";
+                            var displayName = (string)Registry.GetValue(accountKeyName, "DisplayName", null);
+                            var userFolder = (string)Registry.GetValue(accountKeyName, "UserFolder", null);
+                            var accountName = string.IsNullOrWhiteSpace(displayName) ? "OneDrive" : $"OneDrive - {displayName}";
+                            if (!string.IsNullOrWhiteSpace(userFolder) && !oneDriveAccounts.ContainsKey(accountName))
+                            {
+                                oneDriveAccounts.Add(accountName, userFolder);
+                            }
+                        }
+                        await args.Request.SendResponseAsync(oneDriveAccounts);
+                    }
+                    break;
+
                 default:
                     if (args.Request.Message.ContainsKey("Application"))
                     {
@@ -406,145 +426,148 @@ namespace FilesFullTrust
 
         private static async Task ParseFileOperationAsync(AppServiceRequestReceivedEventArgs args)
         {
-            var fileOp = (string)args.Request.Message["fileop"];
-
-            switch (fileOp)
+            if (args.Request.Message.ContainsKey("fileop"))
             {
-                case "Clipboard":
-                    await Win32API.StartSTATask(() =>
-                    {
-                        System.Windows.Forms.Clipboard.Clear();
-                        var fileToCopy = (string)args.Request.Message["filepath"];
-                        var operation = (DataPackageOperation)(int)args.Request.Message["operation"];
-                        var fileList = new System.Collections.Specialized.StringCollection();
-                        fileList.AddRange(fileToCopy.Split('|'));
-                        if (operation == DataPackageOperation.Copy)
-                        {
-                            System.Windows.Forms.Clipboard.SetFileDropList(fileList);
-                        }
-                        else if (operation == DataPackageOperation.Move)
-                        {
-                            byte[] moveEffect = new byte[] { 2, 0, 0, 0 };
-                            MemoryStream dropEffect = new MemoryStream();
-                            dropEffect.Write(moveEffect, 0, moveEffect.Length);
-                            var data = new System.Windows.Forms.DataObject();
-                            data.SetFileDropList(fileList);
-                            data.SetData("Preferred DropEffect", dropEffect);
-                            System.Windows.Forms.Clipboard.SetDataObject(data, true);
-                        }
-                        return true;
-                    });
-                    break;
+                string fileOp = (string)args.Request.Message["fileop"];
 
-                case "DragDrop":
-                    cancellation.Cancel();
-                    cancellation.Dispose();
-                    cancellation = new CancellationTokenSource();
-                    var dropPath = (string)args.Request.Message["droppath"];
-                    var dropText = (string)args.Request.Message["droptext"];
-                    var drops = Win32API.StartSTATask<List<string>>(() =>
-                    {
-                        var form = new DragDropForm(dropPath, dropText, cancellation.Token);
-                        System.Windows.Forms.Application.Run(form);
-                        return form.DropTargets;
-                    });
-                    break;
-
-                case "DeleteItem":
-                    var fileToDeletePath = (string)args.Request.Message["filepath"];
-                    var permanently = (bool)args.Request.Message["permanently"];
-                    using (var op = new ShellFileOperations())
-                    {
-                        op.Options = ShellFileOperations.OperationFlags.NoUI;
-                        if (!permanently)
+                switch (fileOp)
+                {
+                    case "Clipboard":
+                        await Win32API.StartSTATask(() =>
                         {
-                            op.Options |= ShellFileOperations.OperationFlags.AllowUndo;
-                        }
-                        using var shi = new ShellItem(fileToDeletePath);
-                        op.QueueDeleteOperation(shi);
-                        var deleteTcs = new TaskCompletionSource<bool>();
-                        op.PostDeleteItem += (s, e) => deleteTcs.TrySetResult(e.Result.Succeeded);
-                        op.PerformOperations();
-                        var result = await deleteTcs.Task;
-                        await args.Request.SendResponseAsync(new ValueSet() {
+                            System.Windows.Forms.Clipboard.Clear();
+                            var fileToCopy = (string)args.Request.Message["filepath"];
+                            var operation = (DataPackageOperation)(int)args.Request.Message["operation"];
+                            var fileList = new System.Collections.Specialized.StringCollection();
+                            fileList.AddRange(fileToCopy.Split('|'));
+                            if (operation == DataPackageOperation.Copy)
+                            {
+                                System.Windows.Forms.Clipboard.SetFileDropList(fileList);
+                            }
+                            else if (operation == DataPackageOperation.Move)
+                            {
+                                byte[] moveEffect = new byte[] { 2, 0, 0, 0 };
+                                MemoryStream dropEffect = new MemoryStream();
+                                dropEffect.Write(moveEffect, 0, moveEffect.Length);
+                                var data = new System.Windows.Forms.DataObject();
+                                data.SetFileDropList(fileList);
+                                data.SetData("Preferred DropEffect", dropEffect);
+                                System.Windows.Forms.Clipboard.SetDataObject(data, true);
+                            }
+                            return true;
+                        });
+                        break;
+
+                    case "DragDrop":
+                        cancellation.Cancel();
+                        cancellation.Dispose();
+                        cancellation = new CancellationTokenSource();
+                        var dropPath = (string)args.Request.Message["droppath"];
+                        var dropText = (string)args.Request.Message["droptext"];
+                        var drops = Win32API.StartSTATask<List<string>>(() =>
+                        {
+                            var form = new DragDropForm(dropPath, dropText, cancellation.Token);
+                            System.Windows.Forms.Application.Run(form);
+                            return form.DropTargets;
+                        });
+                        break;
+
+                    case "DeleteItem":
+                        var fileToDeletePath = (string)args.Request.Message["filepath"];
+                        var permanently = (bool)args.Request.Message["permanently"];
+                        using (var op = new ShellFileOperations())
+                        {
+                            op.Options = ShellFileOperations.OperationFlags.NoUI;
+                            if (!permanently)
+                            {
+                                op.Options |= ShellFileOperations.OperationFlags.AllowUndo;
+                            }
+                            using var shi = new ShellItem(fileToDeletePath);
+                            op.QueueDeleteOperation(shi);
+                            var deleteTcs = new TaskCompletionSource<bool>();
+                            op.PostDeleteItem += (s, e) => deleteTcs.TrySetResult(e.Result.Succeeded);
+                            op.PerformOperations();
+                            var result = await deleteTcs.Task;
+                            await args.Request.SendResponseAsync(new ValueSet() {
                             { "Success", result } });
-                    }
-                    break;
-
-                case "ParseLink":
-                    var linkPath = (string)args.Request.Message["filepath"];
-                    try
-                    {
-                        if (linkPath.EndsWith(".lnk"))
-                        {
-                            using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
-                            await args.Request.SendResponseAsync(new ValueSet()
-                            {
-                                { "TargetPath", link.TargetPath },
-                                { "Arguments", link.Arguments },
-                                { "WorkingDirectory", link.WorkingDirectory },
-                                { "RunAsAdmin", link.RunAsAdministrator },
-                                { "IsFolder", !string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder }
-                            });
                         }
-                        else if (linkPath.EndsWith(".url"))
+                        break;
+
+                    case "ParseLink":
+                        var linkPath = (string)args.Request.Message["filepath"];
+                        try
                         {
-                            var linkUrl = await Win32API.StartSTATask(() =>
+                            if (linkPath.EndsWith(".lnk"))
                             {
-                                var ipf = new Url.IUniformResourceLocator();
-                                (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Load(linkPath, 0);
-                                ipf.GetUrl(out var retVal);
-                                return retVal;
-                            });
+                                using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
+                                await args.Request.SendResponseAsync(new ValueSet()
+                                {
+                                    { "TargetPath", link.TargetPath },
+                                    { "Arguments", link.Arguments },
+                                    { "WorkingDirectory", link.WorkingDirectory },
+                                    { "RunAsAdmin", link.RunAsAdministrator },
+                                    { "IsFolder", !string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder }
+                                });
+                            }
+                            else if (linkPath.EndsWith(".url"))
+                            {
+                                var linkUrl = await Win32API.StartSTATask(() =>
+                                {
+                                    var ipf = new Url.IUniformResourceLocator();
+                                    (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Load(linkPath, 0);
+                                    ipf.GetUrl(out var retVal);
+                                    return retVal;
+                                });
+                                await args.Request.SendResponseAsync(new ValueSet()
+                                {
+                                    { "TargetPath", linkUrl },
+                                    { "Arguments", null },
+                                    { "WorkingDirectory", null },
+                                    { "RunAsAdmin", false },
+                                    { "IsFolder", false }
+                                });
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            // Could not parse shortcut
+                            Logger.Warn(ex, ex.Message);
                             await args.Request.SendResponseAsync(new ValueSet()
                             {
-                                { "TargetPath", linkUrl },
+                                { "TargetPath", null },
                                 { "Arguments", null },
                                 { "WorkingDirectory", null },
                                 { "RunAsAdmin", false },
                                 { "IsFolder", false }
                             });
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        // Could not parse shortcut
-                        Logger.Warn(ex, ex.Message);
-                        await args.Request.SendResponseAsync(new ValueSet()
-                        {
-                            { "TargetPath", null },
-                            { "Arguments", null },
-                            { "WorkingDirectory", null },
-                            { "RunAsAdmin", false },
-                            { "IsFolder", false }
-                        });
-                    }
-                    break;
+                        break;
 
-                case "CreateLink":
-                case "UpdateLink":
-                    var linkSavePath = (string)args.Request.Message["filepath"];
-                    var targetPath = (string)args.Request.Message["targetpath"];
-                    if (linkSavePath.EndsWith(".lnk"))
-                    {
-                        var arguments = (string)args.Request.Message["arguments"];
-                        var workingDirectory = (string)args.Request.Message["workingdir"];
-                        var runAsAdmin = (bool)args.Request.Message["runasadmin"];
-                        using var newLink = new ShellLink(targetPath, arguments, workingDirectory);
-                        newLink.RunAsAdministrator = runAsAdmin;
-                        newLink.SaveAs(linkSavePath); // Overwrite if exists
-                    }
-                    else if (linkSavePath.EndsWith(".url"))
-                    {
-                        await Win32API.StartSTATask(() =>
+                    case "CreateLink":
+                    case "UpdateLink":
+                        var linkSavePath = (string)args.Request.Message["filepath"];
+                        var targetPath = (string)args.Request.Message["targetpath"];
+                        if (linkSavePath.EndsWith(".lnk"))
                         {
-                            var ipf = new Url.IUniformResourceLocator();
-                            ipf.SetUrl(targetPath, Url.IURL_SETURL_FLAGS.IURL_SETURL_FL_GUESS_PROTOCOL);
-                            (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Save(linkSavePath, false); // Overwrite if exists
+                            var arguments = (string)args.Request.Message["arguments"];
+                            var workingDirectory = (string)args.Request.Message["workingdir"];
+                            var runAsAdmin = (bool)args.Request.Message["runasadmin"];
+                            using var newLink = new ShellLink(targetPath, arguments, workingDirectory);
+                            newLink.RunAsAdministrator = runAsAdmin;
+                            newLink.SaveAs(linkSavePath); // Overwrite if exists
+                        }
+                        else if (linkSavePath.EndsWith(".url"))
+                        {
+                            await Win32API.StartSTATask(() =>
+                            {
+                                var ipf = new Url.IUniformResourceLocator();
+                                ipf.SetUrl(targetPath, Url.IURL_SETURL_FLAGS.IURL_SETURL_FL_GUESS_PROTOCOL);
+                                (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Save(linkSavePath, false); // Overwrite if exists
                             return true;
-                        });
-                    }
-                    break;
+                            });
+                        }
+                        break;
+                }
             }
         }
 

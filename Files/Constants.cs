@@ -22,10 +22,23 @@
             }
         }
 
+        public static class Widgets
+        {
+            public static class Bundles
+            {
+                public const int MaxAmountOfItemsPerBundle = 8;
+            }
+        }
+
         public static class LocalSettings
         {
             public const string DateTimeFormat = "datetimeformat";
+
             public const string Theme = "theme";
+
+            public const string SettingsFolderName = "settings";
+
+            public const string BundlesSettingsFileName = "bundles.json";
         }
 
         public static class PreviewPane
