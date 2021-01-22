@@ -22,7 +22,6 @@ namespace Files.ViewModels.Previews
         {
         }
 
-
         private MediaSource source;
         public MediaSource Source
         {

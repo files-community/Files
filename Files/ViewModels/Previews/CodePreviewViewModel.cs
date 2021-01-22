@@ -39,7 +39,6 @@ namespace Files.ViewModels.Previews
                     NameResource = "PropertyLineCount",
                     Value = text.Split("\n").Length,
                 });
-
             }
             catch (Exception e)
             {

@@ -26,13 +26,12 @@ namespace Files.UserControls.FilePreviews
 {
     public sealed partial class MediaPreview : UserControl
     {
-        MediaPreviewViewModel ViewModel;
+        public MediaPreviewViewModel ViewModel { get; set; }
 
         public MediaPreview(MediaPreviewViewModel model)
         {
             ViewModel = model;
             this.InitializeComponent();
         }
-
     }
 }

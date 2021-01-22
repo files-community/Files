@@ -20,7 +20,6 @@ namespace Files.ViewModels.Previews
             ".pdf",
         };
 
-
         private Visibility loadingBarVisibility;
 
         public Visibility LoadingBarVisibility

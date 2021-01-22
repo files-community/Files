@@ -26,7 +26,7 @@ namespace Files.UserControls.FilePreviews
 {
     public sealed partial class TextPreview : UserControl
     {
-        public TextPreviewViewModel ViewModel { get; set;}
+        public TextPreviewViewModel ViewModel { get; set; }
 
         public TextPreview(TextPreviewViewModel viewModel)
         {
