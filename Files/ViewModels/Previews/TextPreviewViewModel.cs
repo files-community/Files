@@ -33,7 +33,7 @@ namespace Files.ViewModels.Previews
         /// </summary>
         public static List<string> ExcludedExtensions => new List<string>()
         {
-            ".iso",
+            ".iso"
         };
 
         public static async Task<TextPreview> TryLoadAsTextAsync(ListedItem item)

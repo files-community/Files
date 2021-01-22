@@ -135,6 +135,12 @@ namespace Files.UserControls
                 return;
             }
 
+            // Exit if the selection has changed since the function was run
+            if(SelectedItem != item)
+            {
+                return;
+            }
+
             PreviewNotAvaliableText.Visibility = Visibility.Visible;
             PreviewPaneDetailsNotAvailableText.Visibility = Visibility.Visible;
         }
