@@ -58,7 +58,7 @@ public class Extension : INotifyPropertyChanged
         }
         #endregion
 
-        UniqueId = ext.AppInfo.AppUserModelId + "!" + ext.Id; // The name that identifies this extension in the extension manager
+        UniqueId = $"{ext.AppInfo.AppUserModelId}!{ext.Id}"; // The name that identifies this extension in the extension manager
     }
 
     #region Properties
