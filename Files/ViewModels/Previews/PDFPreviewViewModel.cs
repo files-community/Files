@@ -3,9 +3,6 @@ using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Data.Pdf;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
@@ -15,21 +12,21 @@ namespace Files.ViewModels.Previews
 {
     public class PDFPreviewViewModel : BasePreviewModel
     {
+        private Visibility loadingBarVisibility;
+
+        public PDFPreviewViewModel(ListedItem item) : base(item)
+        {
+        }
+
         public static List<string> Extensions = new List<string>()
         {
             ".pdf",
         };
 
-        private Visibility loadingBarVisibility;
-
         public Visibility LoadingBarVisibility
         {
             get => loadingBarVisibility;
-            set => SetProperty(ref loadingBarVisibility,  value);
-        }
-
-        public PDFPreviewViewModel(ListedItem item) : base(item)
-        {
+            set => SetProperty(ref loadingBarVisibility, value);
         }
 
         public ObservableCollection<PageViewModel> Pages { get; set; } = new ObservableCollection<PageViewModel>();

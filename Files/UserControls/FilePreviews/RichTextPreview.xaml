@@ -10,7 +10,6 @@
     d:DesignWidth="400">
 
     <Grid>
-        <RichEditBox IsReadOnly="True" x:Name="TextPreviewControl">
-        </RichEditBox>
+        <RichEditBox x:Name="TextPreviewControl" IsReadOnly="True" />
     </Grid>
 </UserControl>

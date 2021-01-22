@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media;
@@ -14,15 +11,16 @@ namespace Files.ViewModels.Previews
 {
     public class ImagePreviewViewModel : BasePreviewModel
     {
-        public static List<string> Extensions => new List<string>() {
-            ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tiff", ".ico", ".svg"
-        };
+        private ImageSource imageSource;
 
         public ImagePreviewViewModel(ListedItem item) : base(item)
         {
         }
 
-        private ImageSource imageSource;
+        public static List<string> Extensions => new List<string>() {
+            ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".tiff", ".ico", ".svg"
+        };
+
         public ImageSource ImageSource
         {
             get => imageSource;

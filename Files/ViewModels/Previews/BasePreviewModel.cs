@@ -2,12 +2,9 @@
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
 
@@ -15,18 +12,17 @@ namespace Files.ViewModels.Previews
 {
     public abstract class BasePreviewModel : ObservableObject
     {
+        public BasePreviewModel(ListedItem item) : base()
+        {
+            Item = item;
+            Load();
+        }
+
         public ListedItem Item { get; internal set; }
 
         public StorageFile ItemFile { get; internal set; }
 
         public CancellationTokenSource LoadCancelledTokenSource { get; } = new CancellationTokenSource();
-
-        public BasePreviewModel(ListedItem item) : base()
-        {
-            Item = item;
-            //Unloaded += PreviewControlBase_Unloaded;
-            Load();
-        }
 
         public virtual void PreviewControlBase_Unloaded(object sender, RoutedEventArgs e)
         {

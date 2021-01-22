@@ -109,7 +109,6 @@
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}" />
 
-
                 <ToggleSwitch
                     x:Uid="SettingsFilesAndFoldersEnableAdaptivePreviewPane"
                     Header="Enable adaptive preview pane"

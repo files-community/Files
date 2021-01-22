@@ -4,8 +4,6 @@ using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -13,11 +11,12 @@ namespace Files.ViewModels.Previews
 {
     public class TextPreviewViewModel : BasePreviewModel
     {
+        private string textValue;
+
         public TextPreviewViewModel(ListedItem item) : base(item)
         {
         }
 
-        public string textValue;
         public string TextValue
         {
             get => textValue;
@@ -53,11 +52,13 @@ namespace Files.ViewModels.Previews
                 {
                     return null;
                 }
+
                 var model = new TextPreviewViewModel(item)
                 {
                     TextValue = text,
                     ItemFile = file,
                 };
+
                 return new TextPreview(model);
             }
             catch
@@ -77,6 +78,7 @@ namespace Files.ViewModels.Previews
                     NameResource = "PropertyLineCount",
                     Value = text.Split("\n").Length,
                 });
+
                 Item.FileDetails.Add(new FileProperty()
                 {
                     NameResource = "PropertyWordCount",

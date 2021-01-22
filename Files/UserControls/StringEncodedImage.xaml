@@ -9,7 +9,5 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Image x:Name="MainImage">
-        
-    </Image>
+    <Image x:Name="MainImage" />
 </UserControl>

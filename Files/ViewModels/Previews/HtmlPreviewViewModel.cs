@@ -8,9 +8,7 @@ namespace Files.ViewModels.Previews
 {
     public class HtmlPreviewViewModel : BasePreviewModel
     {
-        public static List<string> Extensions => new List<string>() {
-            ".html", ".htm",
-        };
+        private string textValue;
 
         // TODO: Move to WebView2 on WinUI 3.0 release
 
@@ -18,7 +16,10 @@ namespace Files.ViewModels.Previews
         {
         }
 
-        public string textValue;
+        public static List<string> Extensions => new List<string>() {
+            ".html", ".htm",
+        };
+
         public string TextValue
         {
             get => textValue;

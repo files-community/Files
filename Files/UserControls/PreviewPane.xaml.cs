@@ -1,37 +1,18 @@
 ﻿using Files.Filesystem;
 using Files.UserControls.FilePreviews;
-using Files.ViewModels;
 using Files.ViewModels.Previews;
 using Files.ViewModels.Properties;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Numerics;
-using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.AppExtensions;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 using static Files.App;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -40,7 +21,16 @@ namespace Files.UserControls
 {
     public sealed partial class PreviewPane : UserControl
     {
-        public static DependencyProperty SelectedItemsProperty { get; } = DependencyProperty.Register("SelectedItems", typeof(List<ListedItem>), typeof(PreviewPane), new PropertyMetadata(null));
+        public PreviewPane()
+        {
+            InitializeComponent();
+
+            RegisterPropertyChangedCallback(Grid.RowProperty, GridRowChangedCallback);
+        }
+
+        public static DependencyProperty SelectedItemsProperty { get; } =
+            DependencyProperty.Register("SelectedItems", typeof(List<ListedItem>), typeof(PreviewPane), new PropertyMetadata(null));
+
         public List<ListedItem> SelectedItems
         {
             get => (List<ListedItem>)GetValue(SelectedItemsProperty);
@@ -48,12 +38,12 @@ namespace Files.UserControls
             {
                 SetValue(SelectedItemsProperty, value);
 
-                if(value == null)
+                if (value == null)
                 {
                     SelectedItem = null;
                     return;
                 }
-                
+
                 PreviewGrid.Children.Clear();
 
                 if (SelectedItems.Count == 1)
@@ -73,30 +63,33 @@ namespace Files.UserControls
             }
         }
 
-        public static DependencyProperty SelectedItemProperty { get; } = DependencyProperty.Register("SelectedItem", typeof(ListedItem), typeof(PreviewPane), new PropertyMetadata(null));
+        public static DependencyProperty SelectedItemProperty { get; } =
+            DependencyProperty.Register("SelectedItem", typeof(ListedItem), typeof(PreviewPane), new PropertyMetadata(null));
+
         public ListedItem SelectedItem
         {
             get => (ListedItem)GetValue(SelectedItemProperty);
             set => SetValue(SelectedItemProperty, value);
         }
 
-        public static DependencyProperty IsHorizontalProperty { get; } = DependencyProperty.Register("IsHorizontal", typeof(bool), typeof(PreviewPane), new PropertyMetadata(null));
+        public static DependencyProperty IsHorizontalProperty { get; } =
+            DependencyProperty.Register("IsHorizontal", typeof(bool), typeof(PreviewPane), new PropertyMetadata(null));
+
         public bool IsHorizontal
         {
             get => (bool)GetValue(IsHorizontalProperty);
             set => SetValue(IsHorizontalProperty, value);
         }
 
-        public static DependencyProperty EdgeTransitionLocationProperty = DependencyProperty.Register("EdgeTransitionLocation", typeof(EdgeTransitionLocation), typeof(PreviewPane), new PropertyMetadata(null));
-        EdgeTransitionLocation EdgeTransitionLocation {
+        public static DependencyProperty EdgeTransitionLocationProperty =
+            DependencyProperty.Register("EdgeTransitionLocation",
+                                        typeof(EdgeTransitionLocation),
+                                        typeof(PreviewPane),
+                                        new PropertyMetadata(null));
+        EdgeTransitionLocation EdgeTransitionLocation
+        {
             get => (EdgeTransitionLocation)GetValue(EdgeTransitionLocationProperty);
             set => SetValue(EdgeTransitionLocationProperty, value);
-        }
-
-        public PreviewPane()
-        {
-            this.InitializeComponent();
-            RegisterPropertyChangedCallback(Grid.RowProperty, GridRowChangedCallback);
         }
 
         async void LoadPreviewControlAsync(ListedItem item)
@@ -129,14 +122,14 @@ namespace Files.UserControls
             }
 
             control = await TextPreviewViewModel.TryLoadAsTextAsync(item);
-            if(control != null)
+            if (control != null)
             {
                 PreviewGrid.Children.Add(control);
                 return;
             }
 
             // Exit if the selection has changed since the function was run
-            if(SelectedItem != item)
+            if (SelectedItem != item)
             {
                 return;
             }
@@ -168,7 +161,7 @@ namespace Files.UserControls
                 return new TextPreview(new TextPreviewViewModel(item));
             }
 
-            if(PDFPreviewViewModel.Extensions.Contains(ext))
+            if (PDFPreviewViewModel.Extensions.Contains(ext))
             {
                 return new PDFPreview(new PDFPreviewViewModel(item));
             }
@@ -183,7 +176,7 @@ namespace Files.UserControls
                 return new RichTextPreview(new RichTextPreviewViewModel(item));
             }
 
-            if(CodePreviewViewModel.Extensions.Contains(ext))
+            if (CodePreviewViewModel.Extensions.Contains(ext))
             {
                 return new CodePreview(new CodePreviewViewModel(item));
             }
@@ -198,7 +191,7 @@ namespace Files.UserControls
 
             try
             {
-                var result = await extension.Invoke(new ValueSet() { { "token", sharingToken}});
+                var result = await extension.Invoke(new ValueSet() { { "token", sharingToken } });
                 var preview = result["preview"];
                 PreviewGrid.Children.Add(XamlReader.Load(preview as string) as UIElement);
 

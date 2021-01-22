@@ -1,9 +1,5 @@
 ﻿using Files.Filesystem;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.UI.Xaml;
 
@@ -11,6 +7,12 @@ namespace Files.ViewModels.Previews
 {
     public class MediaPreviewViewModel : BasePreviewModel
     {
+        private MediaSource source;
+
+        public MediaPreviewViewModel(ListedItem item) : base(item)
+        {
+        }
+
         public static List<string> Extensions => new List<string>() {
             // Video
             ".mp4", ".webm", ".ogg", ".mov", ".qt", ".mp4", ".m4v", ".mp4v", ".3g2", ".3gp2", ".3gp", ".3gpp", ".mkv",
@@ -18,11 +20,6 @@ namespace Files.ViewModels.Previews
             ".mp3", ".m4a", ".wav", ".wma", ".aac", ".adt", ".adts", ".cda",
         };
 
-        public MediaPreviewViewModel(ListedItem item) : base(item)
-        {
-        }
-
-        private MediaSource source;
         public MediaSource Source
         {
             get => source;

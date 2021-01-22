@@ -2,15 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.ViewModels.Previews
 {
     public class MarkdownPreviewViewModel : BasePreviewModel
     {
+        private string textValue;
+
         public MarkdownPreviewViewModel(ListedItem item) : base(item)
         {
         }
@@ -19,7 +18,6 @@ namespace Files.ViewModels.Previews
             ".md", ".markdown",
         };
 
-        public string textValue;
         public string TextValue
         {
             get => textValue;

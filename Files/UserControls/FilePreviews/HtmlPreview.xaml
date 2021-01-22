@@ -10,6 +10,6 @@
     d:DesignWidth="400">
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <WebView x:Name="WebViewControl"/>
+        <WebView x:Name="WebViewControl" />
     </Grid>
 </UserControl>

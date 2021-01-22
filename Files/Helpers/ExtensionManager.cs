@@ -105,7 +105,6 @@ namespace Files.Helpers
         /// <param name="args">Contains the package that was installed</param>
         private async void Catalog_PackageInstalled(AppExtensionCatalog sender, AppExtensionPackageInstalledEventArgs args)
         {
-            
             foreach (AppExtension ext in args.Extensions)
             {
                 await LoadExtension(ext);

@@ -322,17 +322,24 @@
                     x:Name="PreviewPaneGridSplitter" x:Load="{x:Bind InstanceViewModel.PreviewPaneEnabled, Mode=OneWay}">
                     <Custom:GridSplitter.Element>
                         <Grid>
-                            <TextBlock HorizontalAlignment="Center" IsHitTestVisible="False" VerticalAlignment="Center" x:Name="GripperGlyphTextBlock"
-                               Text="" FontSize="36" Foreground="{StaticResource SystemChromeHighColor}" FontFamily="{StaticResource FluentUIGlyphs}">
-                            </TextBlock>
+                            <TextBlock
+                                x:Name="GripperGlyphTextBlock"
+                                HorizontalAlignment="Center"
+                                IsHitTestVisible="False"
+                                VerticalAlignment="Center"
+                                FontSize="36"
+                                Foreground="{StaticResource SystemChromeHighColor}"
+                                FontFamily="{StaticResource FluentUIGlyphs}" />
                         </Grid>
                     </Custom:GridSplitter.Element>
                 </Custom:GridSplitter>
 
-                <controls:PreviewPane Grid.Row="1" Grid.Column="2" x:Name="PreviewPane" 
-                                    SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}"
-                                    x:Load="{x:Bind InstanceViewModel.PreviewPaneEnabled, Mode=OneWay}" >
-                </controls:PreviewPane>
+                <controls:PreviewPane
+                    x:Name="PreviewPane"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}"
+                    x:Load="{x:Bind InstanceViewModel.PreviewPaneEnabled, Mode=OneWay}" />
 
                 <controls:StatusBarControl
                     x:Name="StatusBarControl"

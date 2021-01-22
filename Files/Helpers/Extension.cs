@@ -64,19 +64,34 @@ public class Extension : INotifyPropertyChanged
     #region Properties
     public BitmapImage Logo { get; private set; }
 
-    public string UniqueId { get; private set; } // the unique id of this extension which will be AppUserModel Id + Extension ID
+    /// <summary>
+    /// Gets or sets the unique id of this extension which will be AppUserModel Id + Extension ID.
+    /// </summary>
+    public string UniqueId { get; private set; }
 
-    public bool Enabled { get; private set; } // whether the user has enabled the extension or not
+    /// <summary>
+    /// Gets or sets a value indicating whether the user has enabled the extension or not.
+    /// </summary>
+    public bool Enabled { get; private set; }
 
-    public bool Offline { get; private set; } // whether the package containing the extension is offline
+    /// <summary>
+    /// Gets or sets a value indicating whether the package containing the extension is offline.
+    /// </summary>
+    public bool Offline { get; private set; }
 
-    public bool Loaded { get; private set; } // whether the package has been loaded or not.
+    /// <summary>
+    /// Gets or sets a value indicating whether the package has been loaded or not.
+    /// </summary>
+    public bool Loaded { get; private set; }
 
     public string PublicFolderPath { get; private set; }
 
     public AppExtension AppExtension { get; private set; }
 
-    public Visibility Visible { get; private set; } // Whether the extension should be visible in the list of extensions
+    /// <summary>
+    /// Gets or sets a value indicating whether the extension should be visible in the list of extensions.
+    /// </summary>
+    public Visibility Visible { get; private set; }
     #endregion
 
     /// <summary>
@@ -256,10 +271,7 @@ public class Extension : INotifyPropertyChanged
     /// <param name="name"></param>
     private void RaisePropertyChanged(string name)
     {
-        if (PropertyChanged != null)
-        {
-            PropertyChanged(this, new PropertyChangedEventArgs(name));
-        }
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
     #endregion
 }

@@ -4,8 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.ViewModels.Previews
@@ -23,7 +21,7 @@ namespace Files.ViewModels.Previews
             set => SetProperty(ref textValue, value);
         }
 
-        public static List<string> Extensions => (new List<List<string>>(languageExtensions.Values).SelectMany(i => i).Distinct()).ToList();
+        public static List<string> Extensions => new List<List<string>>(languageExtensions.Values).SelectMany(i => i).Distinct().ToList();
 
         public override async void LoadPreviewAndDetails()
         {
@@ -73,6 +71,7 @@ namespace Files.ViewModels.Previews
                     return lang.Key;
                 }
             }
+
             return ext;
         }
     }
