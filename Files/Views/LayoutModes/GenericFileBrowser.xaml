@@ -673,7 +673,10 @@
 
         <controls:DataGrid
             x:Name="AllView"
-            Margin="12,12,12,0"
+            Grid.Row="3"
+            Margin="12,4,0,0"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
             x:FieldModifier="public"
             AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
             AutoGenerateColumns="False"
