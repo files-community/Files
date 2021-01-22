@@ -328,6 +328,11 @@ namespace FilesFullTrust
                 case "GetOneDriveAccounts":
                     using (var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts", false))
                     {
+                        if (oneDriveAccountsKey == null)
+                        {
+                            await args.Request.SendResponseAsync(new ValueSet());
+                        }
+
                         var oneDriveAccounts = new ValueSet();
                         foreach (var account in oneDriveAccountsKey.GetSubKeyNames())
                         {
