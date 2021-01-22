@@ -215,7 +215,7 @@
                     x:Name="NavToolbar"
                     Grid.Row="1"
                     Grid.Column="0"
-                    Margin="10"
+                    Margin="10,10,10,0"
                     x:FieldModifier="public"
                     AreKeyboardAcceleratorsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
                     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"

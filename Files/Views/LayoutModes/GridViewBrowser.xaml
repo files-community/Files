@@ -932,7 +932,7 @@
 
         <GridView
             x:Name="FileList"
-            Padding="14,14,14,0"
+            Padding="12,4,4,0"
             VerticalContentAlignment="Stretch"
             animations:ReorderGridAnimation.Duration="350"
             x:FieldModifier="public"
