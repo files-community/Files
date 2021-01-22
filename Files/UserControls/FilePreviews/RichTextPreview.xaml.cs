@@ -14,6 +14,7 @@ namespace Files.UserControls.FilePreviews
             ViewModel = viewModel;
             InitializeComponent();
         }
+
         public RichTextPreviewViewModel ViewModel { get; set; }
 
         private void ViewModel_LoadedEvent(object sender, EventArgs e)

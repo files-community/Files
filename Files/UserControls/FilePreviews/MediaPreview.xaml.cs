@@ -14,6 +14,5 @@ namespace Files.UserControls.FilePreviews
         }
 
         public MediaPreviewViewModel ViewModel { get; set; }
-
     }
 }
