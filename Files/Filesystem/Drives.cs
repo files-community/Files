@@ -8,7 +8,6 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -47,28 +46,15 @@ namespace Files.Filesystem
         private DeviceWatcher deviceWatcher;
         private bool driveEnumInProgress;
 
-        private DrivesManager() : this(false)
-        { }
-
-        public DrivesManager(bool initialize)
+        private DrivesManager()
         {
             SetupDeviceWatcher();
-
-            if (initialize)
-            {
-                EnumerateDrives();
-            }
         }
 
         public static Task<DrivesManager> CreateInstance()
         {
-            var drives = new DrivesManager(false);
+            var drives = new DrivesManager();
             return drives.EnumerateDrivesAsync();
-        }
-
-        private async void EnumerateDrives()
-        {
-            await EnumerateDrivesAsync();
         }
 
         private async Task<DrivesManager> EnumerateDrivesAsync()
@@ -107,80 +93,71 @@ namespace Files.Filesystem
 
         private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
         {
-            Debug.WriteLine("DeviceWatcher_EnumerationCompleted");
+            System.Diagnostics.Debug.WriteLine("DeviceWatcher_EnumerationCompleted");
+            await RefreshUI();
+        }
+
+        private async Task RefreshUI()
+        {
             try
             {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    lock (MainPage.SideBarItems)
-                    {
-                        var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarDrives".GetLocalized());
-
-                        if (drivesSection != null && Drives.Count == 0)
-                        {
-                            //No drives - remove the header
-                            MainPage.SideBarItems.Remove(drivesSection);
-                        }
-
-                        if (drivesSection == null && Drives.Count > 0)
-                        {
-                            drivesSection = new HeaderTextItem()
-                            {
-                                Text = "SidebarDrives".GetLocalized()
-                            };
-
-                            MainPage.SideBarItems.Add(drivesSection);
-                        }
-
-                        var sectionStartIndex = MainPage.SideBarItems.IndexOf(drivesSection);
-
-                        //Remove all existing drives from the sidebar
-                        foreach (var item in MainPage.SideBarItems
-                            .Where(x => x.ItemType == NavigationControlItemType.Drive)
-                            .ToList())
-                        {
-                            MainPage.SideBarItems.Remove(item);
-                            DrivesWidget.ItemsAdded.Remove(item);
-                        }
-
-                        //Add all drives to the sidebar
-                        var insertAt = sectionStartIndex + 1;
-                        foreach (var drive in Drives)
-                        {
-                            MainPage.SideBarItems.Insert(insertAt, drive);
-                            insertAt++;
-
-                            if (drive.Type != DriveType.VirtualDrive)
-                            {
-                                DrivesWidget.ItemsAdded.Add(drive);
-                            }
-                        }
-                    }
-                });
+                await SyncSideBarItemsUI();
             }
-            catch (Exception)       // UI Thread not ready yet, so we defer the pervious operation until it is.
+            catch (Exception) // UI Thread not ready yet, so we defer the pervious operation until it is.
             {
+                System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
                 // Defer because UI-thread is not ready yet (and DriveItem requires it?)
-                CoreApplication.MainView.Activated += MainView_Activated;
+                CoreApplication.MainView.Activated += RefreshUI;
             }
         }
 
-        private async void MainView_Activated(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
+        private async void RefreshUI(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
+        {
+            await SyncSideBarItemsUI();
+            CoreApplication.MainView.Activated -= RefreshUI;
+        }
+
+        private async Task SyncSideBarItemsUI()
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if (MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarDrives".GetLocalized()) == null)
+                lock (MainPage.SideBarItems)
                 {
-                    MainPage.SideBarItems.Add(new HeaderTextItem()
+                    var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarDrives".GetLocalized());
+
+                    if (drivesSection != null && Drives.Count == 0)
                     {
-                        Text = "SidebarDrives".GetLocalized()
-                    });
-                }
-                foreach (DriveItem drive in Drives)
-                {
-                    if (!MainPage.SideBarItems.Contains(drive))
+                        //No drives - remove the header
+                        MainPage.SideBarItems.Remove(drivesSection);
+                    }
+
+                    if (drivesSection == null && Drives.Count > 0)
                     {
-                        MainPage.SideBarItems.Add(drive);
+                        drivesSection = new HeaderTextItem()
+                        {
+                            Text = "SidebarDrives".GetLocalized()
+                        };
+
+                        MainPage.SideBarItems.Add(drivesSection);
+                    }
+
+                    var sectionStartIndex = MainPage.SideBarItems.IndexOf(drivesSection);
+
+                    //Remove all existing drives from the sidebar
+                    foreach (var item in MainPage.SideBarItems
+                    .Where(x => x.ItemType == NavigationControlItemType.Drive)
+                    .ToList())
+                    {
+                        MainPage.SideBarItems.Remove(item);
+                        DrivesWidget.ItemsAdded.Remove(item);
+                    }
+
+                    //Add all drives to the sidebar
+                    var insertAt = sectionStartIndex + 1;
+                    foreach (var drive in Drives)
+                    {
+                        MainPage.SideBarItems.Insert(insertAt, drive);
+                        insertAt++;
 
                         if (drive.Type != DriveType.VirtualDrive)
                         {
@@ -188,15 +165,12 @@ namespace Files.Filesystem
                         }
                     }
                 }
-                foreach (INavigationControlItem item in MainPage.SideBarItems.ToList())
-                {
-                    if (item is DriveItem && !Drives.Contains(item))
-                    {
-                        MainPage.SideBarItems.Remove(item);
-                        DrivesWidget.ItemsAdded.Remove(item);
-                    }
-                }
             });
+        }
+
+        private async void MainView_Activated(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
+        {
+            await SyncSideBarItemsUI();
             CoreApplication.MainView.Activated -= MainView_Activated;
         }
 

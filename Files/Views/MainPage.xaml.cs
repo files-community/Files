@@ -73,8 +73,6 @@ namespace Files.Views
         {
             if (eventArgs.NavigationMode != NavigationMode.Back)
             {
-                await App.EnsureSettingsAndConfigurationAreBootstrapped();
-
                 if (eventArgs.Parameter == null || (eventArgs.Parameter is string eventStr && string.IsNullOrEmpty(eventStr)))
                 {
                     try

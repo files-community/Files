@@ -29,20 +29,11 @@ namespace Files.ViewModels
     {
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
-        public DrivesManager DrivesManager
-        {
-            get;
-            private set;
-        } = new DrivesManager(false);
+        public DrivesManager DrivesManager { get; private set; }
 
         public CloudDrivesManager CloudDrivesManager { get; private set; }
 
         public TerminalController TerminalController { get; set; }
-
-        private async void Initialize2()
-        {
-            await Initialize();
-        }
 
         private async Task<SettingsViewModel> Initialize()
         {
@@ -59,12 +50,12 @@ namespace Files.ViewModels
                 DefaultLanguages.Add(new DefaultLanguageModel(lang));
             }
 
-            DrivesManager = await Files.Filesystem.DrivesManager.CreateInstance();
+            DrivesManager = await DrivesManager.CreateInstance();
             //Initialise cloud drives in the background
-            CloudDrivesManager = await Files.Filesystem.CloudDrivesManager.CreateInstance();
+            CloudDrivesManager = await CloudDrivesManager.CreateInstance();
 
             //DetectWSLDistros();
-            TerminalController = await Files.Controllers.TerminalController.CreateInstance();
+            TerminalController = await TerminalController.CreateInstance();
 
             // Send analytics to AppCenter
             TrackAnalytics();
@@ -74,17 +65,11 @@ namespace Files.ViewModels
 
         public static Task<SettingsViewModel> CreateInstance()
         {
-            var settings = new SettingsViewModel(false);
+            var settings = new SettingsViewModel();
             return settings.Initialize();
         }
 
-        private SettingsViewModel(bool initialize)
-        {
-            if (initialize)
-            {
-                Initialize2();
-            }
-        }
+        private SettingsViewModel() { }
 
         private void TrackAnalytics()
         {
