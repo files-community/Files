@@ -61,7 +61,6 @@ namespace Files
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
-            Application.Current.Resuming += App_Resuming;
             // Initialize NLog
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
             LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
@@ -69,31 +68,26 @@ namespace Files
             StartAppCenter();
         }
 
-        private async void App_Resuming(object sender, object e)
-        {
-            await EnsureSettingsAndConfigurationAreBootstrapped();
-        }
-
         internal static async Task EnsureSettingsAndConfigurationAreBootstrapped()
         {
             if (AppSettings == null)
             {
-                AppSettings = await Files.ViewModels.SettingsViewModel.CreateInstance();
+                AppSettings = await SettingsViewModel.CreateInstance();
             }
 
             if (App.AppSettings?.AcrylicTheme == null)
             {
-                Helpers.ThemeHelper.Initialize();
+                ThemeHelper.Initialize();
             }
 
             if (InteractionViewModel == null)
             {
-                InteractionViewModel = new Files.ViewModels.InteractionViewModel();
+                InteractionViewModel = new InteractionViewModel();
             }
 
             if (SidebarPinnedController == null)
             {
-                SidebarPinnedController = await Files.Controllers.SidebarPinnedController.CreateInstance();
+                SidebarPinnedController = await SidebarPinnedController.CreateInstance();
             }
         }
 
@@ -239,6 +233,7 @@ namespace Files
             Logger.Info("App activated");
 
             await EnsureSettingsAndConfigurationAreBootstrapped();
+
             // Window management
             if (!(Window.Current.Content is Frame rootFrame))
             {

@@ -5,14 +5,9 @@ using Microsoft.Toolkit.Uwp.Extensions;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
-using Windows.Devices.Enumeration;
-using Windows.Devices.Portable;
-using Windows.Storage;
 using Windows.UI.Core;
 
 namespace Files.Filesystem
@@ -68,9 +63,9 @@ namespace Files.Filesystem
             {
                 await SyncSideBarItemsUI();
             }
-            catch (Exception)       // UI Thread not ready yet, so we defer the pervious operation until it is.
+            catch (Exception) // UI Thread not ready yet, so we defer the pervious operation until it is.
             {
-                Debug.WriteLine($"RefreshUI Exception");
+                System.Diagnostics.Debug.WriteLine($"RefreshUI Exception");
                 // Defer because UI-thread is not ready yet (and DriveItem requires it?)
                 CoreApplication.MainView.Activated += RefreshUI;
             }
@@ -84,7 +79,6 @@ namespace Files.Filesystem
 
         private async Task SyncSideBarItemsUI()
         {
-            Debug.WriteLine("SyncSideBarItemsUI");
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 lock (MainPage.SideBarItems)
