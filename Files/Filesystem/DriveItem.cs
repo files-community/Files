@@ -79,7 +79,7 @@ namespace Files.Filesystem
 
         public DriveItem()
         {
-            ItemType = NavigationControlItemType.OneDrive;
+            ItemType = NavigationControlItemType.CloudDrive;
         }
 
         public DriveItem(StorageFolder root, string deviceId, DriveType type)
@@ -166,6 +166,10 @@ namespace Files.Filesystem
                     Glyph = "\ue9b7";
                     break;
 
+                case DriveType.CloudDrive:
+                    Glyph = "\ue9b7";
+                    break;
+
                 case DriveType.FloppyDisk:
                     Glyph = "\ueb4a";
                     break;
@@ -186,6 +190,7 @@ namespace Files.Filesystem
         FloppyDisk,
         Unknown,
         NoRootDirectory,
-        VirtualDrive
+        VirtualDrive,
+        CloudDrive,
     }
 }

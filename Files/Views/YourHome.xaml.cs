@@ -7,6 +7,7 @@ using Files.ViewModels.Bundles;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Windows.ApplicationModel.AppService;
 using Windows.UI.Xaml.Controls;
@@ -79,7 +80,7 @@ namespace Files.Views
                 }
                 else
                 {
-                    foreach (DriveItem drive in AppSettings.DrivesManager.Drives)
+                    foreach (DriveItem drive in Enumerable.Concat(AppSettings.DrivesManager.Drives, AppSettings.CloudDrivesManager.Drives))
                     {
                         if (drive.Path.ToString() == new DirectoryInfo(e.ItemPath).Root.ToString())
                         {

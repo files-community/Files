@@ -68,6 +68,29 @@ namespace Files
             StartAppCenter();
         }
 
+        internal static async Task EnsureSettingsAndConfigurationAreBootstrapped()
+        {
+            if (AppSettings == null)
+            {
+                AppSettings = await SettingsViewModel.CreateInstance();
+            }
+
+            if (App.AppSettings?.AcrylicTheme == null)
+            {
+                ThemeHelper.Initialize();
+            }
+
+            if (InteractionViewModel == null)
+            {
+                InteractionViewModel = new InteractionViewModel();
+            }
+
+            if (SidebarPinnedController == null)
+            {
+                SidebarPinnedController = await SidebarPinnedController.CreateInstance();
+            }
+        }
+
         private async void StartAppCenter()
         {
             JObject obj;
@@ -121,6 +144,8 @@ namespace Files
             Logger.Info("App launched");
 
             bool canEnablePrelaunch = ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
+
+            await EnsureSettingsAndConfigurationAreBootstrapped();
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -206,6 +231,8 @@ namespace Files
         protected override async void OnActivated(IActivatedEventArgs args)
         {
             Logger.Info("App activated");
+
+            await EnsureSettingsAndConfigurationAreBootstrapped();
 
             // Window management
             if (!(Window.Current.Content is Frame rootFrame))
@@ -358,18 +385,21 @@ namespace Files
 
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
         {
-            AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab =>
+            if (AppSettings != null)
             {
-                if (tab != null && tab.TabItemArguments != null)
+                AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab =>
                 {
-                    return tab.TabItemArguments.Serialize();
-                }
-                else
-                {
-                    var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "NewTab".GetLocalized() };
-                    return defaultArg.Serialize();
-                }
-            }).ToArray();
+                    if (tab != null && tab.TabItemArguments != null)
+                    {
+                        return tab.TabItemArguments.Serialize();
+                    }
+                    else
+                    {
+                        var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "NewTab".GetLocalized() };
+                        return defaultArg.Serialize();
+                    }
+                }).ToArray();
+            }
         }
 
         // Occurs when an exception is not handled on the UI thread.

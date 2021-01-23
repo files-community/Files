@@ -15,6 +15,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Globalization;
 using Windows.Storage;
@@ -28,23 +29,18 @@ namespace Files.ViewModels
     {
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
-        public DrivesManager DrivesManager { get; }
+        public DrivesManager DrivesManager { get; private set; }
+
+        public CloudDrivesManager CloudDrivesManager { get; private set; }
 
         public TerminalController TerminalController { get; set; }
 
-        public SettingsViewModel()
+        private async Task<SettingsViewModel> Initialize()
         {
             DetectDateTimeFormat();
             PinSidebarLocationItems();
             DetectRecycleBinPreference();
             DetectQuickLook();
-            DrivesManager = new DrivesManager();
-
-            //DetectWSLDistros();
-            TerminalController = new TerminalController();
-
-            // Send analytics to AppCenter
-            TrackAnalytics();
 
             // Load the supported languages
             var supportedLang = ApplicationLanguages.ManifestLanguages;
@@ -53,7 +49,27 @@ namespace Files.ViewModels
             {
                 DefaultLanguages.Add(new DefaultLanguageModel(lang));
             }
+
+            DrivesManager = await DrivesManager.CreateInstance();
+            //Initialise cloud drives in the background
+            CloudDrivesManager = await CloudDrivesManager.CreateInstance();
+
+            //DetectWSLDistros();
+            TerminalController = await TerminalController.CreateInstance();
+
+            // Send analytics to AppCenter
+            TrackAnalytics();
+
+            return this;
         }
+
+        public static Task<SettingsViewModel> CreateInstance()
+        {
+            var settings = new SettingsViewModel();
+            return settings.Initialize();
+        }
+
+        private SettingsViewModel() { }
 
         private void TrackAnalytics()
         {
@@ -483,7 +499,7 @@ namespace Files.ViewModels
         /// <summary>
         /// Gets or sets an ObservableCollection of the support langauges.
         /// </summary>
-        public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; }
+        public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; private set; }
 
         /// <summary>
         /// Gets or sets a value indicating the default language.
