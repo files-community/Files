@@ -539,7 +539,7 @@ namespace Files.Filesystem
                     using var imageStream = await imgSource.OpenReadAsync();
                     var folder = await StorageFolder.GetFolderFromPathAsync(destination);
                     // Set the name of the file to be the current time and date
-                    var file = await folder.CreateFileAsync($"{DateTime.Now:mm-dd-yy-HHmmss}.png");
+                    var file = await folder.CreateFileAsync($"{DateTime.Now:mm-dd-yy-HHmmss}.png", CreationCollisionOption.GenerateUniqueName);
 
                     using var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
                     await imageStream.AsStreamForRead().CopyToAsync(stream.AsStreamForWrite());
