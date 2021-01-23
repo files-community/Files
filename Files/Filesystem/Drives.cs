@@ -88,7 +88,12 @@ namespace Files.Filesystem
 
         private void StartDeviceWatcher()
         {
-            deviceWatcher?.Start();
+            if (deviceWatcher.Status == DeviceWatcherStatus.Created
+                || deviceWatcher.Status == DeviceWatcherStatus.Stopped
+                || deviceWatcher.Status == DeviceWatcherStatus.Aborted)
+            {
+                deviceWatcher?.Start();
+            }
         }
 
         private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
