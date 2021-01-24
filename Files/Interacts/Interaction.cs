@@ -130,8 +130,7 @@ namespace Files.Interacts
 
         public async void OpenInNewWindowItem_Click()
         {
-            var items = AssociatedInstance.ContentPage.SelectedItems;
-            foreach (ListedItem listedItem in items)
+            foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems.ToList())
             {
                 var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
                 var folderUri = new Uri($"files-uwp:?folder={@selectedItemPath}");
@@ -157,7 +156,7 @@ namespace Files.Interacts
 
         public async void OpenDirectoryInNewTab_Click()
         {
-            foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
+            foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems.ToList())
             {
                 await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
                 {
@@ -224,7 +223,7 @@ namespace Files.Interacts
         {
             if (AssociatedInstance.ContentPage != null)
             {
-                foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
+                foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems.ToList())
                 {
                     App.SidebarPinnedController.Model.AddItem(listedItem.ItemPath);
                     listedItem.IsPinned = true;
@@ -236,7 +235,7 @@ namespace Files.Interacts
         {
             if (AssociatedInstance.ContentPage != null)
             {
-                foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
+                foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems.ToList())
                 {
                     App.SidebarPinnedController.Model.RemoveItem(listedItem.ItemPath);
                     listedItem.IsPinned = false;
@@ -665,7 +664,7 @@ namespace Files.Interacts
                 return;
             }
 
-            foreach (ListedItem item in AssociatedInstance.ContentPage.SelectedItems)
+            foreach (ListedItem item in AssociatedInstance.ContentPage.SelectedItems.ToList())
             {
                 await OpenPath(item.ItemPath, null, false, openViaApplicationPicker);
             }
@@ -692,7 +691,7 @@ namespace Files.Interacts
             {
                 if (AssociatedInstance.ContentPage.SelectedItems.Count > 1)
                 {
-                    await OpenPropertiesWindowAsync(AssociatedInstance.ContentPage.SelectedItems);
+                    await OpenPropertiesWindowAsync(AssociatedInstance.ContentPage.SelectedItems.ToList());
                 }
                 else
                 {
@@ -783,7 +782,7 @@ namespace Files.Interacts
             /*dataRequest.Data.Properties.Title = "Data Shared From Files";
             dataRequest.Data.Properties.Description = "The items you selected will be shared";*/
 
-            foreach (ListedItem item in AssociatedInstance.ContentPage.SelectedItems)
+            foreach (ListedItem item in AssociatedInstance.ContentPage.SelectedItems.ToList())
             {
                 if (item.IsShortcutItem)
                 {
@@ -832,7 +831,7 @@ namespace Files.Interacts
 
         public async void CreateShortcutFromItem_Click(object sender, RoutedEventArgs e)
         {
-            foreach (ListedItem selectedItem in AssociatedInstance.ContentPage.SelectedItems)
+            foreach (ListedItem selectedItem in AssociatedInstance.ContentPage.SelectedItems.ToList())
             {
                 if (Connection != null)
                 {
@@ -920,7 +919,7 @@ namespace Files.Interacts
         {
             if (AssociatedInstance.ContentPage.IsItemSelected)
             {
-                foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
+                foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems.ToList())
                 {
                     FilesystemItemType itemType = (listedItem as RecycleBinItem).PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
                     await FilesystemHelpers.RestoreFromTrashAsync(StorageItemHelpers.FromPathAndType(
@@ -938,12 +937,12 @@ namespace Files.Interacts
             };
             List<IStorageItem> items = new List<IStorageItem>();
             var cut = (FilesystemResult)false;
-            if (AssociatedInstance.ContentPage.IsItemSelected)
+            if (AssociatedInstance.ContentPage != null && AssociatedInstance.ContentPage.IsItemSelected)
             {
                 // First, reset DataGrid Rows that may be in "cut" command mode
                 AssociatedInstance.ContentPage.ResetItemOpacity();
 
-                foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
+                foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems.ToList().Where(x => x != null))
                 {
                     // Dim opacities accordingly
                     AssociatedInstance.ContentPage.SetItemOpacity(listedItem);
@@ -1025,7 +1024,7 @@ namespace Files.Interacts
 
             if (AssociatedInstance.ContentPage.IsItemSelected)
             {
-                foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
+                foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems.ToList())
                 {
                     if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
                     {

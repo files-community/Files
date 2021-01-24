@@ -835,7 +835,7 @@ namespace Files
         {
             List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
 
-            foreach (ListedItem item in ParentShellPageInstance.ContentPage.SelectedItems)
+            foreach (ListedItem item in ParentShellPageInstance.ContentPage.SelectedItems.ToList())
             {
                 if (item is ShortcutItem)
                 {
