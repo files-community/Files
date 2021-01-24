@@ -319,7 +319,7 @@ namespace Files.ViewModels
                 // use FilesAndFolders because only displayed entries should be jumped to
                 var candidateItems = FilesAndFolders.Where(f => f.ItemName.Length >= value.Length && f.ItemName.Substring(0, value.Length).ToLower() == value);
 
-                if (AssociatedInstance.ContentPage.IsItemSelected)
+                if (AssociatedInstance.ContentPage != null && AssociatedInstance.ContentPage.IsItemSelected)
                 {
                     previouslySelectedItem = AssociatedInstance.ContentPage.SelectedItem;
                 }
