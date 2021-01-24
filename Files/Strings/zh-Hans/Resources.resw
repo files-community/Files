@@ -1035,9 +1035,6 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>分级</value>
   </data>
-  <data name="PropertyItemFolderPathDisplay" xml:space="preserve">
-    <value>项目文件夹路径</value>
-  </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
     <value>项目类型</value>
   </data>

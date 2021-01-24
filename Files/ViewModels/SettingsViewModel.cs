@@ -560,6 +560,15 @@ namespace Files.ViewModels
                 }
             }
         }
+        
+        /// <summary>
+        /// Gets or sets the value indicating whether the preview pane should adapt to the width of the view.
+        /// </summary>
+        public bool EnableAdaptivePreviewPane
+        {
+            get => Get(true);
+            set => Set(value);
+        }
 
         #endregion Preferences
 

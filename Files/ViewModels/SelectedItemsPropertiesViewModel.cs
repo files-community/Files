@@ -644,6 +644,13 @@ namespace Files.ViewModels
             set => SetProperty(ref propertySections, value);
         }
 
+        private ObservableCollection<FileProperty> fileProperties = new ObservableCollection<FileProperty>();
+        public ObservableCollection<FileProperty> FileProperties
+        {
+            get => fileProperties;
+            set => SetProperty(ref fileProperties, value);
+        }
+
         private bool isReadOnly;
 
         public bool IsReadOnly

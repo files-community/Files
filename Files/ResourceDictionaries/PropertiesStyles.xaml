@@ -49,6 +49,18 @@
         <Setter Property="Background" Value="Transparent" />
     </Style>
 
+    <Style
+        x:Key="DetailsValueTextBox"
+        BasedOn="{StaticResource DefaultTextBoxStyle}"
+        TargetType="TextBox">
+        <Setter Property="Margin" Value="{StaticResource PropertyValueMargin}" />
+        <Setter Property="VerticalAlignment" Value="{StaticResource PropertyValueVerticalAlignment}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Background" Value="Transparent" />    
+    </Style>
+
     <converters:StringArrayToString x:Key="StringArrayToString" />
     <converters:UInt32ToString x:Key="UInt32ToString" />
     <converters:DoubleToString x:Key="DoubleToString" />

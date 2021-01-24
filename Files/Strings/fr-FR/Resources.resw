@@ -1023,9 +1023,6 @@
   <data name="PropertiesDialogHidden.Text" xml:space="preserve">
     <value>Caché</value>
   </data>
-  <data name="PropertyItemFolderPathDisplay" xml:space="preserve">
-    <value>Chemin du dossier</value>
-  </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
     <value>Type d'élément</value>
   </data>

@@ -2014,7 +2014,6 @@ namespace Files.ViewModels
             {
                 return null;
             }
-
             if (findData.cFileName.EndsWith(".lnk") || findData.cFileName.EndsWith(".url"))
             {
                 if (Connection != null)
@@ -2073,7 +2072,7 @@ namespace Files.ViewModels
                             WorkingDirectory = (string)response.Message["WorkingDirectory"],
                             RunAsAdmin = (bool)response.Message["RunAsAdmin"],
                             IsUrl = isUrl,
-                            ContainsFilesOrFolders = containsFilesOrFolders
+                            ContainsFilesOrFolders = containsFilesOrFolders,
                         };
                     }
                 }

@@ -1,9 +1,11 @@
 ﻿using Files.Enums;
 using Files.Filesystem.Cloud;
+using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Newtonsoft.Json;
 using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
@@ -178,6 +180,14 @@ namespace Files.Filesystem
 
         private DateTimeOffset itemDateAccessedReal;
 
+        private ObservableCollection<FileProperty> itemProperties;
+
+        public ObservableCollection<FileProperty> ItemProperties
+        {
+            get => itemProperties;
+            set => SetProperty(ref itemProperties, value);
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ListedItem" /> class, optionally with an explicitly-specified dateReturnFormat.
         /// </summary>
@@ -236,6 +246,13 @@ namespace Files.Filesystem
             {
                 return string.Format("SecondsAgo".GetLocalized(), elapsed.Seconds);
             }
+        }
+
+        private ObservableCollection<FileProperty> fileDetails = new ObservableCollection<FileProperty>();
+        public ObservableCollection<FileProperty> FileDetails
+        {
+            get => fileDetails;
+            set => SetProperty(ref fileDetails, value);
         }
 
         public override string ToString()

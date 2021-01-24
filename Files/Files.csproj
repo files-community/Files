@@ -41,6 +41,7 @@
     <Prefer32Bit>true</Prefer32Bit>
     <LangVersion>8.0</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -168,6 +169,7 @@
     <Compile Include="Converters\UInt32ToString.cs" />
     <Compile Include="Converters\VisiblityInvertConverter.cs" />
     <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
+    <Compile Include="Converters\LayoutModeToBoolConverter.cs" />
     <Compile Include="DataModels\ShellNewEntry.cs" />
     <Compile Include="Dialogs\DynamicDialog.xaml.cs">
       <DependentUpon>DynamicDialog.xaml</DependentUpon>
@@ -193,12 +195,35 @@
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BitmapHelper.cs" />
+    <Compile Include="Helpers\Extension.cs" />
     <Compile Include="Helpers\FileListCache\CacheEntry.cs" />
     <Compile Include="Helpers\FileListCache\FileListCacheController.cs" />
     <Compile Include="Helpers\FileListCache\IFileListCache.cs" />
     <Compile Include="Helpers\FileListCache\PersistentSQLiteCacheAdapter.cs" />
+    <Compile Include="Helpers\ExtensionManager.cs" />
     <Compile Include="Helpers\IntervalSampler.cs" />
     <Compile Include="Helpers\RegistryHelper.cs" />
+    <Compile Include="UserControls\FilePreviews\CodePreview.xaml.cs">
+      <DependentUpon>CodePreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilePreviews\HtmlPreview.xaml.cs">
+      <DependentUpon>HtmlPreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilePreviews\MarkdownPreview.xaml.cs">
+      <DependentUpon>MarkdownPreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilePreviews\MediaPreview.xaml.cs">
+      <DependentUpon>MediaPreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilePreviews\PDFPreview.xaml.cs">
+      <DependentUpon>PDFPreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilePreviews\RichTextPreview.xaml.cs">
+      <DependentUpon>RichTextPreview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilePreviews\TextPreview.xaml.cs">
+      <DependentUpon>TextPreview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\MultitaskingControl\TabItem\TabItemControl.xaml.cs">
       <DependentUpon>TabItemControl.xaml</DependentUpon>
     </Compile>
@@ -207,6 +232,9 @@
     <Compile Include="UserControls\Selection\IgnorePreviousItemSelectionStrategy.cs" />
     <Compile Include="UserControls\Selection\InvertPreviousItemSelectionStrategy.cs" />
     <Compile Include="UserControls\Selection\ItemSelectionStrategy.cs" />
+    <Compile Include="UserControls\StringEncodedImage.xaml.cs">
+      <DependentUpon>StringEncodedImage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Widgets\Bundles.xaml.cs">
       <DependentUpon>Bundles.xaml</DependentUpon>
     </Compile>
@@ -216,9 +244,24 @@
     <Compile Include="ViewModels\Bundles\BundlesViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\DynamicDialogViewModel.cs" />
     <Compile Include="ViewModels\FolderSettingsViewModel.cs" />
+    <Compile Include="ViewModels\Previews\BasePreviewModel.cs" />
+    <Compile Include="ViewModels\Previews\CodePreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\HtmlPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\ImagePreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\MarkdownPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\MediaPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\PDFPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\RichTextPreviewViewModel.cs" />
+    <Compile Include="ViewModels\Previews\TextPreviewViewModel.cs" />
     <Compile Include="SettingsInterfaces\IBundlesSettings.cs" />
     <Compile Include="ViewModels\BundlesSettingsViewModel.cs" />
     <Compile Include="ViewModels\Properties\FileProperty.cs" />
+    <Compile Include="UserControls\PreviewPane.xaml.cs">
+      <DependentUpon>PreviewPane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\FilePreviews\ImagePreview.xaml.cs">
+      <DependentUpon>ImagePreview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Filesystem\Cloud\CloudDriveSyncStatusUI.cs" />
@@ -678,6 +721,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ResourceDictionaries\DefaultGridSplitterStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ResourceDictionaries\PropertiesStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -686,9 +733,41 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UserControls\PreviewPane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\FileIcon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FilePreviews\CodePreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FilePreviews\HtmlPreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FilePreviews\MarkdownPreview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\FilePreviews\MediaPreview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\FilePreviews\PDFPreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FilePreviews\RichTextPreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\FilePreviews\TextPreview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\MenuFlyoutItemWithImage.xaml">
       <SubType>Designer</SubType>
@@ -734,6 +813,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\FilePreviews\ImagePreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\SidebarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -743,6 +826,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\Widgets\Bundles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\StringEncodedImage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

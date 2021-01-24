@@ -14,7 +14,7 @@
     xmlns:local2="using:Files.Filesystem"
     xmlns:local3="using:Files.Filesystem.Cloud"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:usercontrols="using:Files.UserControls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Disabled"
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
@@ -602,10 +602,22 @@
             <Style x:Key="DataGridRowRecycleBinContextFlyout" TargetType="controls:DataGridRow">
                 <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutRecycleBinItemContextFlyout}" />
             </Style>
+
+
         </ResourceDictionary>
     </local:BaseLayout.Resources>
 
     <Grid x:Name="RootGrid" Background="Transparent">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
                 Key="{x:Bind PlusKey}"
@@ -657,7 +669,7 @@
             x:Uid="FileNameTeachingTip"
             CloseButtonContent="OK"
             PreferredPlacement="Auto"
-            Subtitle="The item name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |" />
+            Subtitle="The item name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |" Grid.RowSpan="2" />
 
         <controls:DataGrid
             x:Name="AllView"
@@ -987,10 +999,9 @@
             </controls:DataGrid.Columns>
         </controls:DataGrid>
 
+
         <Canvas
-            Margin="12,12,12,0"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch">
+            Margin="12,12,12,0" Grid.RowSpan="2">
             <Rectangle
                 Name="SelectionRectangle"
                 Canvas.Left="0"

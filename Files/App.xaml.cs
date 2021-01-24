@@ -52,6 +52,13 @@ namespace Files
         public static SidebarPinnedController SidebarPinnedController { get; set; }
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        public static class AppData
+        {
+            // Get the extensions that are available for this host.
+            // Extensions that declare the same contract string as the host will be recognized.
+            internal static ExtensionManager FilePreviewExtensionManager { get; set; } = new ExtensionManager("com.files.filepreview");
+        }
+
         public App()
         {
             UnhandledException += OnUnhandledException;
@@ -64,6 +71,7 @@ namespace Files
             // Initialize NLog
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
             LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
+            AppData.FilePreviewExtensionManager.Initialize(); // The extension manager can update UI, so pass it the UI dispatcher to use for UI updates
 
             StartAppCenter();
         }

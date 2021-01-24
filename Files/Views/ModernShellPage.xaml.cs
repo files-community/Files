@@ -31,6 +31,7 @@ using Windows.UI.Core;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -1077,6 +1078,9 @@ namespace Files.Views
                         }
                     }
                     break;
+                case (true, false, false, true, VirtualKey.P):
+                    InstanceViewModel.PreviewPaneEnabled = !InstanceViewModel.PreviewPaneEnabled;
+                    break;
 
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
                     if (!InstanceViewModel.IsPageTypeSearchResults)
@@ -1284,6 +1288,19 @@ namespace Files.Views
                 }
             }
             return DataPackageOperation.None;
+        }
+
+
+        // Binding directly to the actual width raise property changed notifications
+        // This is a workaroumd
+        public double RootGridWidth
+        {
+            get => RootGrid.ActualWidth;
+        }
+
+        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            NotifyPropertyChanged(nameof(RootGridWidth));
         }
     }
 

@@ -40,5 +40,19 @@
 
             public const string BundlesSettingsFileName = "bundles.json";
         }
+
+        public static class PreviewPane
+        {
+            /// <summary>
+            /// The maximum number of characters that should be loaded into the preview. 
+            /// Enforcing this limit ensures that attempting to open an absurdly large file will not cause Files to freeze.
+            /// </summary>
+            public const int TextCharacterLimit = 50000;
+
+            /// <summary>
+            /// The maximum number of pages loaded into the PDF preview.
+            /// </summary>
+            public const int PDFPageLimit = 50;
+        }
     }
 }
