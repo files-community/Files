@@ -57,7 +57,10 @@ namespace Files.UserControls.Selection
                     return;
                 }
 
-                uiElement.CancelEdit();
+                if (uiElement.CurrentColumn != null)
+                {
+                    uiElement.CancelEdit();
+                }
                 selectionStrategy.StartSelection();
                 OnSelectionStarted();
                 selectionState = SelectionState.Active;
@@ -186,7 +189,10 @@ namespace Files.UserControls.Selection
             if (clickedRow == null)
             {
                 // If user click outside, reset selection
-                uiElement.CancelEdit();
+                if (uiElement.CurrentColumn != null)
+                {
+                    uiElement.CancelEdit();
+                }
                 DeselectGridCell();
                 selectionStrategy.HandleNoItemSelected();
             }
