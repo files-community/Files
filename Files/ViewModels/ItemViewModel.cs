@@ -1097,6 +1097,10 @@ namespace Files.ViewModels
             }
             else if (workingRoot != null)
             {
+                if (currentStorageFolder == null)
+                {
+                    return false;
+                }
                 rootFolder = currentStorageFolder.Folder;
                 enumFromStorageFolder = true;
             }
