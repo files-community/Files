@@ -934,20 +934,26 @@ namespace Files.Views
             string value = e.Path;
 
             INavigationControlItem item = null;
-            List<INavigationControlItem> sidebarItems = SidebarControl.Items.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
+            List<INavigationControlItem> allItems = new List<INavigationControlItem>();
+            allItems = allItems.ToList().Concat(SidebarControl.Items.Where(x => x.ItemType != NavigationControlItemType.Header)).ToList();
+            
+            foreach(HeaderItem headerItem in SidebarControl.Items.Where(x => x.ItemType == NavigationControlItemType.Header))
+            {
+                allItems = allItems.ToList().Concat(headerItem.MenuItems).ToList();
+            }
 
-            item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
+            item = allItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
             if (item == null)
             {
-                item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
+                item = allItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
             }
             if (item == null)
             {
-                item = sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
+                item = allItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
             }
             if (item == null)
             {
-                item = sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
+                item = allItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
             }
 
             if (SidebarSelectedItem != item)

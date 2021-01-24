@@ -155,6 +155,7 @@ namespace Files.ViewModels
             });
         }
 
+        // TODO: Fix sidebar support with this method (new "Linux" section?)
         private async void DetectWSLDistros()
         {
             try

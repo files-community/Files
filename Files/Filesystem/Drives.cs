@@ -147,23 +147,34 @@ namespace Files.Filesystem
                     //    SidebarControl.Items.Add(drivesSection);
                     //}
 
-                   // var sectionStartIndex = SidebarControl.Items.IndexOf(drivesSection);
-
                     //Remove all existing drives from the sidebar
-                    foreach (var item in SidebarControl.Items
+                    foreach (var item in SidebarControl.GetFirstHeaderItemOfType(HeaderItem.HeaderItemType.Drives).MenuItems
                     .Where(x => x.ItemType == NavigationControlItemType.Drive)
-                    .ToList())
+                    .ToList().Cast<DriveItem>())
                     {
-                        //SidebarControl.Items.Remove(item);
+                        if (item.Type != DriveType.Network)
+                        {
+                            SidebarControl.GetFirstHeaderItemOfType(HeaderItem.HeaderItemType.Drives).MenuItems.Remove(item);
+                        }
+                        else
+                        {
+                            SidebarControl.GetFirstHeaderItemOfType(HeaderItem.HeaderItemType.Network).MenuItems.Remove(item);
+                        }
+
                         DrivesWidget.ItemsAdded.Remove(item);
                     }
 
                     //Add all drives to the sidebar
-                    //var insertAt = sectionStartIndex + 1;
                     foreach (var drive in Drives)
                     {
-                        //SidebarControl.Items.Insert(insertAt, drive);
-                        //insertAt++;
+                        if (drive.Type != DriveType.Network)
+                        {
+                            SidebarControl.GetFirstHeaderItemOfType(HeaderItem.HeaderItemType.Drives).MenuItems.Add(drive);
+                        }
+                        else
+                        {
+                            SidebarControl.GetFirstHeaderItemOfType(HeaderItem.HeaderItemType.Network).MenuItems.Add(drive);
+                        }
 
                         if (drive.Type != DriveType.VirtualDrive)
                         {

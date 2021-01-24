@@ -32,12 +32,10 @@ namespace Files.Filesystem
             {
                 return new PathBoxItem()
                 {
-                    Title = SidebarControl.Items
-                        .FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive &&
-                            x.Path.Contains(component, StringComparison.OrdinalIgnoreCase)) != null ?
-                            SidebarControl.Items
-                                .FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive &&
-                                    x.Path.Contains(component, StringComparison.OrdinalIgnoreCase)).Text :
+                    Title = SidebarControl.GetFirstHeaderItemOfType(HeaderItem.HeaderItemType.Drives).MenuItems
+                        .FirstOrDefault(x => x.Path.Contains(component, StringComparison.OrdinalIgnoreCase)) != null ?
+                                  SidebarControl.GetFirstHeaderItemOfType(HeaderItem.HeaderItemType.Drives).MenuItems
+                        .FirstOrDefault(x => x.Path.Contains(component, StringComparison.OrdinalIgnoreCase)).Text :
                             $@"Drive ({component}\)",
                     Path = path,
                 };
