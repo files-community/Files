@@ -1,6 +1,9 @@
 ﻿using Files.DataModels;
+using Files.Enums;
+using Files.Filesystem;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -10,8 +13,6 @@ namespace Files.Controllers
     public class SidebarPinnedController : IJson
     {
         private StorageFolder Folder { get; set; }
-
-        private StorageFile JsonFile { get; set; }
 
         public SidebarPinnedModel Model { get; set; } = new SidebarPinnedModel();
 
@@ -36,20 +37,20 @@ namespace Files.Controllers
         private async Task LoadAsync()
         {
             Folder = ApplicationData.Current.LocalCacheFolder;
+            var JsonFile = await FilesystemTasks.Wrap(() => Folder.GetFileAsync(JsonFileName).AsTask());
 
-            try
+            if (JsonFile == FileSystemStatusCode.NotFound)
             {
-                JsonFile = await Folder.GetFileAsync(JsonFileName);
-            }
-            catch (FileNotFoundException)
-            {
-                try
+                var oldPinnedItemsContents = await FilesystemTasks.Wrap(() => Folder.GetFileAsync("PinnedItems.txt").AsTask())
+                    .OnSuccess(async (oldPinnedItemsFile) =>
+                    {
+                        var contents = await FileIO.ReadLinesAsync(oldPinnedItemsFile);
+                        await oldPinnedItemsFile.DeleteAsync();
+                        return contents;
+                    });
+                if (oldPinnedItemsContents)
                 {
-                    var oldPinnedItemsFile = await Folder.GetFileAsync("PinnedItems.txt");
-                    var oldPinnedItems = await FileIO.ReadLinesAsync(oldPinnedItemsFile);
-                    await oldPinnedItemsFile.DeleteAsync();
-
-                    foreach (var line in oldPinnedItems)
+                    foreach (var line in oldPinnedItemsContents.Result)
                     {
                         if (!Model.Items.Contains(line))
                         {
@@ -57,27 +58,30 @@ namespace Files.Controllers
                         }
                     }
                 }
-                catch (FileNotFoundException)
+                else
                 {
                     Model.AddDefaultItems();
                 }
 
-                JsonFile = await Folder.CreateFileAsync(JsonFileName, CreationCollisionOption.ReplaceExisting);
-                await FileIO.WriteTextAsync(JsonFile, JsonConvert.SerializeObject(Model, Formatting.Indented));
+                JsonFile = await FilesystemTasks.Wrap(() => Folder.CreateFileAsync(JsonFileName, CreationCollisionOption.ReplaceExisting).AsTask())
+                    .OnSuccess(async (t) =>
+                    {
+                        await FileIO.WriteTextAsync(t, JsonConvert.SerializeObject(Model, Formatting.Indented)).AsTask();
+                        return t;
+                    });
             }
 
             try
             {
-                Model = JsonConvert.DeserializeObject<SidebarPinnedModel>(await FileIO.ReadTextAsync(JsonFile));
+                Model = JsonConvert.DeserializeObject<SidebarPinnedModel>(await FileIO.ReadTextAsync(JsonFile.Result));
                 if (Model == null)
                 {
-                    Model = new SidebarPinnedModel();
                     throw new Exception($"{JsonFileName} is empty, regenerating...");
                 }
             }
             catch (Exception)
             {
-                await JsonFile.DeleteAsync();
+                Model = new SidebarPinnedModel();
                 Model.AddDefaultItems();
                 Model.Save();
             }
@@ -87,11 +91,17 @@ namespace Files.Controllers
 
         public void SaveModel()
         {
-            using (var file = File.CreateText(ApplicationData.Current.LocalCacheFolder.Path + Path.DirectorySeparatorChar + JsonFileName))
+            try
             {
-                JsonSerializer serializer = new JsonSerializer();
-                serializer.Formatting = Formatting.Indented;
-                serializer.Serialize(file, Model);
+                using (var file = File.CreateText(ApplicationData.Current.LocalCacheFolder.Path + Path.DirectorySeparatorChar + JsonFileName))
+                {
+                    JsonSerializer serializer = new JsonSerializer();
+                    serializer.Formatting = Formatting.Indented;
+                    serializer.Serialize(file, Model);
+                }
+            }
+            catch
+            {
             }
         }
     }
