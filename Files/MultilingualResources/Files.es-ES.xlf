@@ -2172,27 +2172,35 @@
         </trans-unit>
         <trans-unit id="PropertyItemPathDisplay" translate="yes" xml:space="preserve">
           <source>Item Path</source>
-          <target state="new">Item Path</target>
-        </trans-unit>
-        <trans-unit id="DetailsPanePreviewNotAvaliableText" translate="yes" xml:space="preserve">
-          <source>No preview available</source>
-          <target state="new">No preview available</target>
+          <target state="translated">Ubicación</target>
         </trans-unit>
         <trans-unit id="PreviewPaneToggle.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Toggle the preview pane (Ctrl + P)</source>
-          <target state="new">Toggle the preview pane (Ctrl + P)</target>
+          <target state="translated">Alternar el panel de vista previa (Ctrl + P)</target>
         </trans-unit>
         <trans-unit id="PropertyItemName" translate="yes" xml:space="preserve">
           <source>Item Name</source>
-          <target state="new">Item Name</target>
-        </trans-unit>
-        <trans-unit id="PreviewPaneDetailsNotAvailableText" translate="yes" xml:space="preserve">
-          <source>No details available</source>
-          <target state="new">No details available</target>
+          <target state="translated">Nombre</target>
         </trans-unit>
         <trans-unit id="SettingsEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
           <source>Enable adaptive preview pane</source>
-          <target state="new">Enable adaptive preview pane</target>
+          <target state="translated">Habilitar el panel de vista previa adaptable</target>
+        </trans-unit>
+        <trans-unit id="SidebarCloudDrives" translate="yes" xml:space="preserve">
+          <source>Cloud Drives</source>
+          <target state="translated">Unidades de la nube</target>
+        </trans-unit>
+        <trans-unit id="DetailsPanePreviewNotAvaliableText.Text" translate="yes" xml:space="preserve">
+          <source>No preview available</source>
+          <target state="translated">No hay vista previa disponible</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneDetailsNotAvailableText.Text" translate="yes" xml:space="preserve">
+          <source>No details available</source>
+          <target state="translated">No hay detalles disponibles</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowBundles.Header" translate="yes" xml:space="preserve">
+          <source>Show Bundles on the home page</source>
+          <target state="translated">Mostrar contenedores en la página de inicio</target>
         </trans-unit>
       </group>
     </body>
