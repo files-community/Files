@@ -54,6 +54,7 @@
             HorizontalAlignment="Right"
             Orientation="Horizontal"
             Spacing="4">
+
             <Button
                 x:Uid="StatusBarControlSelectionOptions"
                 Width="36"
@@ -215,6 +216,7 @@
                     </Flyout>
                 </Button.Flyout>
             </Button>
+
             <Grid x:Name="StatusCenterGrid" Visibility="{x:Bind ShowStatusCenter, Mode=OneWay}">
                 <muxc:AnimatedVisualPlayer
                     x:Name="StatusCenterPulseVisualPlayer"

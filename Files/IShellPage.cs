@@ -22,7 +22,7 @@ namespace Files
         public Type CurrentPageType { get; }
         public IFilesystemHelpers FilesystemHelpers { get; }
         public INavigationToolbar NavigationToolbar { get; }
-        
+
         public abstract void Refresh_Click();
     }
 

@@ -1035,9 +1035,6 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Classificazione</value>
   </data>
-  <data name="PropertyItemFolderPathDisplay" xml:space="preserve">
-    <value>Percorso della cartella</value>
-  </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
     <value>Tipo di file</value>
   </data>

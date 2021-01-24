@@ -95,7 +95,7 @@ namespace Files.UserControls.Widgets
                 case "Downloads":
                     NavigationPath = AppSettings.DownloadsPath;
                     break;
-                
+
                 case "Documents":
                     NavigationPath = AppSettings.DocumentsPath;
                     break;

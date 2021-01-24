@@ -31,6 +31,7 @@ using Windows.UI.Core;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -159,6 +160,7 @@ namespace Files.Views
 
         public Control OperationsControl => null;
         public Type CurrentPageType => ItemDisplayFrame.SourcePageType;
+
         public INavigationControlItem SidebarSelectedItem
         {
             get => SidebarControl?.SelectedSidebarItem;
@@ -170,6 +172,7 @@ namespace Files.Views
                 }
             }
         }
+
         public INavigationToolbar NavigationToolbar => NavToolbar;
 
         public ModernShellPage()
@@ -181,8 +184,6 @@ namespace Files.Views
             FilesystemHelpers = new FilesystemHelpers(this, cancellationTokenSource.Token);
             storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
 
-            AppSettings.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
-            AppSettings.PropertyChanged += AppSettings_PropertyChanged;
             DisplayFilesystemConsentDialog();
 
             var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
@@ -220,6 +221,9 @@ namespace Files.Views
 
             Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
+
+            App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
+            AppSettings.PropertyChanged += AppSettings_PropertyChanged;
         }
 
         private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -777,9 +781,9 @@ namespace Files.Views
 
         private async void DisplayFilesystemConsentDialog()
         {
-            if (AppSettings.DrivesManager.ShowUserConsentOnInit)
+            if (App.DrivesManager?.ShowUserConsentOnInit ?? false)
             {
-                AppSettings.DrivesManager.ShowUserConsentOnInit = false;
+                App.DrivesManager.ShowUserConsentOnInit = false;
                 var consentDialogDisplay = new ConsentDialog();
                 await consentDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
             }
@@ -892,6 +896,7 @@ namespace Files.Views
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         public event EventHandler<TabItemArguments> ContentChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -1078,6 +1083,10 @@ namespace Files.Views
                     }
                     break;
 
+                case (true, false, false, true, VirtualKey.P):
+                    InstanceViewModel.PreviewPaneEnabled = !InstanceViewModel.PreviewPaneEnabled;
+                    break;
+
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
                     if (!InstanceViewModel.IsPageTypeSearchResults)
                     {
@@ -1196,7 +1205,7 @@ namespace Files.Views
             SystemNavigationManager.GetForCurrentView().BackRequested -= ModernShellPage_BackRequested;
             App.Current.Suspending -= Current_Suspending;
             App.Current.LeavingBackground -= OnLeavingBackground;
-            AppSettings.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
+            App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
             AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
             NavigationToolbar.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
             NavigationToolbar.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
@@ -1261,7 +1270,7 @@ namespace Files.Views
         {
             if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
             {
-                if (InstanceViewModel.IsPageTypeNotHome && !InstanceViewModel.IsPageTypeSearchResults)
+                if (!InstanceViewModel.IsPageTypeSearchResults)
                 {
                     return DataPackageOperation.Move;
                 }
@@ -1284,6 +1293,18 @@ namespace Files.Views
                 }
             }
             return DataPackageOperation.None;
+        }
+
+        // Binding directly to the actual width raise property changed notifications
+        // This is a workaroumd
+        public double RootGridWidth
+        {
+            get => RootGrid.ActualWidth;
+        }
+
+        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            NotifyPropertyChanged(nameof(RootGridWidth));
         }
     }
 

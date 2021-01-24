@@ -14,6 +14,6 @@
         Drive,
         LinuxDistro,
         Location,
-        OneDrive
+        CloudDrive
     }
 }

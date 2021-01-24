@@ -420,7 +420,7 @@ namespace Files.ViewModels
             {
                 var deviceId = (string)args.Request.Message["DeviceID"];
                 var eventType = (DeviceEvent)(int)args.Request.Message["EventType"];
-                await AppSettings.DrivesManager.HandleWin32DriveEvent(eventType, deviceId);
+                await App.DrivesManager.HandleWin32DriveEvent(eventType, deviceId);
             }
             // Complete the deferral so that the platform knows that we're done responding to the app service call.
             // Note for error handling: this must be called even if SendResponseAsync() throws an exception.
@@ -1130,7 +1130,7 @@ namespace Files.ViewModels
 
             if (await CheckBitlockerStatusAsync(rootFolder))
             {
-                var bitlockerDialog = new Dialogs.BitlockerDialog(Path.GetPathRoot(path));
+                var bitlockerDialog = new Files.Dialogs.BitlockerDialog(Path.GetPathRoot(WorkingDirectory));
                 var bitlockerResult = await bitlockerDialog.ShowAsync();
                 if (bitlockerResult == ContentDialogResult.Primary)
                 {
@@ -2014,7 +2014,6 @@ namespace Files.ViewModels
             {
                 return null;
             }
-
             if (findData.cFileName.EndsWith(".lnk") || findData.cFileName.EndsWith(".url"))
             {
                 if (Connection != null)
@@ -2073,7 +2072,7 @@ namespace Files.ViewModels
                             WorkingDirectory = (string)response.Message["WorkingDirectory"],
                             RunAsAdmin = (bool)response.Message["RunAsAdmin"],
                             IsUrl = isUrl,
-                            ContainsFilesOrFolders = containsFilesOrFolders
+                            ContainsFilesOrFolders = containsFilesOrFolders,
                         };
                     }
                 }

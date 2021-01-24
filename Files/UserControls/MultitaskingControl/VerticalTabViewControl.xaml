@@ -647,7 +647,8 @@
             </muxc:TabView.Resources>
             <muxc:TabView.TabItemTemplate>
                 <DataTemplate x:DataType="local:TabItem">
-                    <muxc:TabViewItem AllowDrop="{x:Bind AllowStorageItemDrop, Mode=OneWay}"
+                    <muxc:TabViewItem
+                        AllowDrop="{x:Bind AllowStorageItemDrop, Mode=OneWay}"
                         DragEnter="TabViewItem_DragEnter"
                         DragLeave="TabViewItem_DragLeave"
                         Drop="TabViewItem_Drop"
