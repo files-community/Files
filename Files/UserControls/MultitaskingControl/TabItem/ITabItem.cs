@@ -21,6 +21,7 @@ namespace Files.UserControls.MultitaskingControl
         public event EventHandler<TabItemArguments> ContentChanged;
 
         public DataPackageOperation TabItemDragOver(object sender, DragEventArgs e);
+
         public Task<DataPackageOperation> TabItemDrop(object sender, DragEventArgs e);
     }
 

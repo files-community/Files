@@ -17,25 +17,16 @@
                 <ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary
-                    x:Key="Light">
-                    <SolidColorBrush
-                        x:Key="ProgressRingBackgroundThemeBrush"
-                        Color="#c3c3c3" />
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="ProgressRingBackgroundThemeBrush" Color="#c3c3c3" />
                 </ResourceDictionary>
 
-                <ResourceDictionary
-                    x:Key="Dark">
-                    <SolidColorBrush
-                        x:Key="ProgressRingBackgroundThemeBrush"
-                        Color="#191919" />
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="ProgressRingBackgroundThemeBrush" Color="#191919" />
                 </ResourceDictionary>
 
-                <ResourceDictionary
-                    x:Key="HighContrast">
-                    <SolidColorBrush
-                        x:Key="ProgressRingBackgroundThemeBrush"
-                        Color="#c3c3c3" />
+                <ResourceDictionary x:Key="HighContrast">
+                    <SolidColorBrush x:Key="ProgressRingBackgroundThemeBrush" Color="#c3c3c3" />
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>

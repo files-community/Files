@@ -86,13 +86,14 @@ namespace Files.UserControls
                                         typeof(EdgeTransitionLocation),
                                         typeof(PreviewPane),
                                         new PropertyMetadata(null));
-        EdgeTransitionLocation EdgeTransitionLocation
+
+        private EdgeTransitionLocation EdgeTransitionLocation
         {
             get => (EdgeTransitionLocation)GetValue(EdgeTransitionLocationProperty);
             set => SetValue(EdgeTransitionLocationProperty, value);
         }
 
-        async void LoadPreviewControlAsync(ListedItem item)
+        private async void LoadPreviewControlAsync(ListedItem item)
         {
             PreviewNotAvaliableText.Visibility = Visibility.Collapsed;
             PreviewPaneDetailsNotAvailableText.Visibility = Visibility.Collapsed;
@@ -138,7 +139,7 @@ namespace Files.UserControls
             PreviewPaneDetailsNotAvailableText.Visibility = Visibility.Visible;
         }
 
-        UserControl GetBuiltInPreviewControl(ListedItem item)
+        private UserControl GetBuiltInPreviewControl(ListedItem item)
         {
             var ext = item.FileExtension.ToLower();
             if (MediaPreviewViewModel.Extensions.Contains(ext))
@@ -184,7 +185,7 @@ namespace Files.UserControls
             return null;
         }
 
-        async void LoadPreviewControlFromExtension(ListedItem item, Extension extension)
+        private async void LoadPreviewControlFromExtension(ListedItem item, Extension extension)
         {
             var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
             string sharingToken = SharedStorageAccessManager.AddFile(file);

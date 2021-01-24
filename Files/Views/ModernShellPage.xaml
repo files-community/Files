@@ -11,12 +11,13 @@
     xmlns:converters1="using:Files.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local1="using:Files"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:triggers="using:Microsoft.Toolkit.Uwp.UI.Triggers"
+    x:Name="RootPage"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     KeyboardAcceleratorPlacementMode="Hidden"
     Loaded="Page_Loaded"
-    mc:Ignorable="d"
-    x:Name="RootPage">
+    mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -161,58 +162,6 @@
             Modifiers="Control" />
     </Page.KeyboardAccelerators>
     <Grid x:Name="RootGrid" SizeChanged="RootGrid_SizeChanged">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <triggers:IsEqualStateTrigger Value="{x:Bind InstanceViewModel.PreviewPaneEnabled, Mode=OneWay}"  To="False"/>
-                        <triggers:IsEqualStateTrigger Value="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"  To="False"/>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="PreviewPaneRow.Height" Value="0"/>
-                        <Setter Target="PreviewPaneColumn.Width" Value="0"/>
-                        <Setter Target="PreviewPaneGridSplitter.Visibility" Value="Collapsed"/>
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState>
-                    <VisualState.StateTriggers >
-                        <triggers:IsEqualStateTrigger Value="{x:Bind AppSettings.EnableAdaptivePreviewPane, Mode=OneWay}" To="False"/>
-                        <triggers:CompareStateTrigger Value="{x:Bind RootGridWidth, Mode=OneWay}"  To="1000" Comparison="GreaterThan" />
-                    </VisualState.StateTriggers>
-
-                    <VisualState.Setters>
-                        <Setter Target="PreviewPane.(Grid.Row)" Value="2"/>
-                        <Setter Target="PreviewPane.(Grid.Column)" Value="2"/>
-
-                        <Setter Target="PreviewPaneGridSplitter.(Grid.Row)" Value="2"/>
-                        <Setter Target="PreviewPaneGridSplitter.(Grid.Column)" Value="1"/>
-                        <Setter Target="PreviewPaneGridSplitter.Width" Value="2"/>
-
-                        <Setter Target="PreviewPaneRow.Height" Value="4"/>
-                        <Setter Target="PreviewPane.IsHorizontal" Value="False"/>
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState>
-                    <VisualState.StateTriggers >
-                        <triggers:CompareStateTrigger Value="{x:Bind RootGridWidth, Mode=OneWay}"  To="1000" Comparison="LessThanOrEqual" />
-                        <!--<AdaptiveTrigger MinWindowWidth="0"/>-->
-                    </VisualState.StateTriggers>
-
-                    <VisualState.Setters>
-                        <Setter Target="PreviewPane.(Grid.Row)" Value="4"/>
-                        <Setter Target="PreviewPane.(Grid.Column)" Value="0"/>
-
-                        <Setter Target="PreviewPaneGridSplitter.(Grid.Row)" Value="3"/>
-                        <Setter Target="PreviewPaneGridSplitter.(Grid.Column)" Value="0"/>
-                        <Setter Target="PreviewPaneGridSplitter.Height" Value="2"/>
-
-                        <Setter Target="PreviewPaneColumn.Width" Value="0"/>
-                        <Setter Target="PreviewPane.IsHorizontal" Value="True"/>
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-        
         <Grid.ColumnDefinitions>
             <ColumnDefinition
                 x:Name="SidebarColumn"
@@ -263,14 +212,20 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="2*" x:Name="PreviewPaneRow" MaxHeight="400"/>
+                    <RowDefinition
+                        x:Name="PreviewPaneRow"
+                        Height="2*"
+                        MaxHeight="400" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="2*" x:Name="PreviewPaneColumn" MaxWidth="600"/>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition
+                        x:Name="PreviewPaneColumn"
+                        Width="2*"
+                        MaxWidth="600" />
                 </Grid.ColumnDefinitions>
 
                 <Grid
@@ -284,14 +239,15 @@
                     x:Name="NavToolbar"
                     Grid.Row="1"
                     Grid.Column="0"
+                    Grid.ColumnSpan="3"
                     Margin="10,10,10,0"
                     x:FieldModifier="public"
                     AreKeyboardAcceleratorsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
                     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                    CanCopyPathInPage="{x:Bind InstanceViewModel.CanCopyPathInPage, Mode=OneWay}"
                     CanCreateFileInPage="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                     CanOpenTerminalInPage="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
                     CanPasteInPage="{x:Bind InstanceViewModel.CanPasteInPage, Mode=OneWay}"
-                    CanCopyPathInPage="{x:Bind InstanceViewModel.CanCopyPathInPage, Mode=OneWay}"
                     CopyPathInvokedCommand="{x:Bind InteractionOperations.CopyPathOfWorkingDirectory, Mode=OneWay}"
                     IsCreateButtonEnabledInPage="{x:Bind InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
                     IsMultiPaneActive="{x:Bind IsMultiPaneActive, Mode=OneWay}"
@@ -304,9 +260,8 @@
                     NewWindowInvokedCommand="{x:Bind InteractionOperations.OpenNewWindow, Mode=OneWay}"
                     OpenInTerminalInvokedCommand="{x:Bind InteractionOperations.OpenDirectoryInDefaultTerminal, Mode=OneWay}"
                     PasteInvokedCommand="{x:Bind InteractionOperations.PasteItemsFromClipboard, Mode=OneWay}"
-                    ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}" 
                     PreviewPaneEnabled="{x:Bind InstanceViewModel.PreviewPaneEnabled, Mode=TwoWay}"
-                    Grid.ColumnSpan="3"/>
+                    ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}" />
 
                 <Frame
                     x:Name="ItemDisplayFrame"
@@ -316,20 +271,22 @@
                     Navigated="ItemDisplayFrame_Navigated" />
 
                 <Custom:GridSplitter
-                    Grid.Column="1" Grid.Row="1"
-                    ResizeBehavior="BasedOnAlignment"
+                    x:Name="PreviewPaneGridSplitter"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    x:Load="{x:Bind InstanceViewModel.PreviewPaneEnabled, Mode=OneWay}"
                     Background="Transparent"
-                    x:Name="PreviewPaneGridSplitter" x:Load="{x:Bind InstanceViewModel.PreviewPaneEnabled, Mode=OneWay}">
+                    ResizeBehavior="BasedOnAlignment">
                     <Custom:GridSplitter.Element>
                         <Grid>
                             <TextBlock
                                 x:Name="GripperGlyphTextBlock"
                                 HorizontalAlignment="Center"
-                                IsHitTestVisible="False"
                                 VerticalAlignment="Center"
+                                FontFamily="{StaticResource FluentUIGlyphs}"
                                 FontSize="36"
                                 Foreground="{StaticResource SystemChromeHighColor}"
-                                FontFamily="{StaticResource FluentUIGlyphs}" />
+                                IsHitTestVisible="False" />
                         </Grid>
                     </Custom:GridSplitter.Element>
                 </Custom:GridSplitter>
@@ -338,12 +295,13 @@
                     x:Name="PreviewPane"
                     Grid.Row="1"
                     Grid.Column="2"
-                    SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}"
-                    x:Load="{x:Bind InstanceViewModel.PreviewPaneEnabled, Mode=OneWay}" />
+                    x:Load="{x:Bind InstanceViewModel.PreviewPaneEnabled, Mode=OneWay}"
+                    SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" />
 
                 <controls:StatusBarControl
                     x:Name="StatusBarControl"
                     Grid.Row="5"
+                    Grid.ColumnSpan="3"
                     x:Load="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                     ClearSelectionInvokedCommand="{x:Bind InteractionOperations.ClearContentPageSelection, Mode=OneWay}"
                     DirectoryPropertiesViewModel="{x:Bind ContentPage.DirectoryPropertiesViewModel, Mode=OneWay}"
@@ -351,9 +309,7 @@
                     InvertSelectionInvokedCommand="{x:Bind InteractionOperations.InvertContentPageSelction, Mode=OneWay}"
                     SelectAllInvokedCommand="{x:Bind InteractionOperations.SelectAllContentPageItems, Mode=OneWay}"
                     SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel, Mode=OneWay}"
-                    ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}" 
-                    Grid.ColumnSpan="3">
-                </controls:StatusBarControl>
+                    ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}" />
             </Grid>
         </Custom:DropShadowPanel>
 
@@ -378,5 +334,62 @@
                 <TranslateTransform X="0" />
             </Custom:GridSplitter.RenderTransform>
         </Custom:GridSplitter>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind InstanceViewModel.PreviewPaneEnabled, Mode=OneWay}" To="False" />
+                        <triggers:IsEqualStateTrigger Value="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" To="False" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="PreviewPaneRow.Height" Value="0" />
+                        <Setter Target="PreviewPaneColumn.Width" Value="0" />
+                        <Setter Target="PreviewPaneGridSplitter.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:IsEqualStateTrigger Value="{x:Bind AppSettings.EnableAdaptivePreviewPane, Mode=OneWay}" To="False" />
+                        <triggers:CompareStateTrigger
+                            Comparison="GreaterThan"
+                            Value="{x:Bind RootGridWidth, Mode=OneWay}"
+                            To="1000" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="PreviewPane.(Grid.Row)" Value="2" />
+                        <Setter Target="PreviewPane.(Grid.Column)" Value="2" />
+
+                        <Setter Target="PreviewPaneGridSplitter.(Grid.Row)" Value="2" />
+                        <Setter Target="PreviewPaneGridSplitter.(Grid.Column)" Value="1" />
+                        <Setter Target="PreviewPaneGridSplitter.Width" Value="2" />
+
+                        <Setter Target="PreviewPaneRow.Height" Value="4" />
+                        <Setter Target="PreviewPane.IsHorizontal" Value="False" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:CompareStateTrigger
+                            Comparison="LessThanOrEqual"
+                            Value="{x:Bind RootGridWidth, Mode=OneWay}"
+                            To="1000" />
+                        <!--<AdaptiveTrigger MinWindowWidth="0" />-->
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="PreviewPane.(Grid.Row)" Value="4" />
+                        <Setter Target="PreviewPane.(Grid.Column)" Value="0" />
+
+                        <Setter Target="PreviewPaneGridSplitter.(Grid.Row)" Value="3" />
+                        <Setter Target="PreviewPaneGridSplitter.(Grid.Column)" Value="0" />
+                        <Setter Target="PreviewPaneGridSplitter.Height" Value="2" />
+
+                        <Setter Target="PreviewPaneColumn.Width" Value="0" />
+                        <Setter Target="PreviewPane.IsHorizontal" Value="True" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>

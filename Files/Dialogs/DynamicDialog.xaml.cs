@@ -7,7 +7,7 @@ namespace Files.Dialogs
 {
     public sealed partial class DynamicDialog : ContentDialog
     {
-        public DynamicDialogViewModel ViewModel 
+        public DynamicDialogViewModel ViewModel
         {
             get => (DynamicDialogViewModel)DataContext;
             private set => DataContext = value;

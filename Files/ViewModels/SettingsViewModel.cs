@@ -63,7 +63,9 @@ namespace Files.ViewModels
             return settings.Initialize();
         }
 
-        private SettingsViewModel() { }
+        private SettingsViewModel()
+        {
+        }
 
         private void TrackAnalytics()
         {
@@ -268,7 +270,7 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
-        #endregion
+        #endregion DetailsView Column Settings
 
         #region CommonPaths
 

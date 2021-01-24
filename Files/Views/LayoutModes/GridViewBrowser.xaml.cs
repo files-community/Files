@@ -60,7 +60,7 @@ namespace Files.Views.LayoutModes
             base.OnNavigatingFrom(e);
             FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
             FolderSettings.GridViewSizeChangeRequested -= FolderSettings_GridViewSizeChangeRequested;
-            
+
             FileList.ItemsSource = null;
         }
 

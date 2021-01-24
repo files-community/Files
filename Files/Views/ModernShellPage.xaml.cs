@@ -160,6 +160,7 @@ namespace Files.Views
 
         public Control OperationsControl => null;
         public Type CurrentPageType => ItemDisplayFrame.SourcePageType;
+
         public INavigationControlItem SidebarSelectedItem
         {
             get => SidebarControl?.SelectedSidebarItem;
@@ -171,6 +172,7 @@ namespace Files.Views
                 }
             }
         }
+
         public INavigationToolbar NavigationToolbar => NavToolbar;
 
         public ModernShellPage()
@@ -894,6 +896,7 @@ namespace Files.Views
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         public event EventHandler<TabItemArguments> ContentChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -1079,6 +1082,7 @@ namespace Files.Views
                         }
                     }
                     break;
+
                 case (true, false, false, true, VirtualKey.P):
                     InstanceViewModel.PreviewPaneEnabled = !InstanceViewModel.PreviewPaneEnabled;
                     break;
@@ -1290,7 +1294,6 @@ namespace Files.Views
             }
             return DataPackageOperation.None;
         }
-
 
         // Binding directly to the actual width raise property changed notifications
         // This is a workaroumd

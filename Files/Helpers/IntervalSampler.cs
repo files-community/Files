@@ -2,7 +2,7 @@
 
 namespace Files.Helpers
 {
-    class IntervalSampler
+    internal class IntervalSampler
     {
         private DateTime recordPoint;
         private TimeSpan sampleInterval;

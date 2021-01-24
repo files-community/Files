@@ -14,7 +14,8 @@
     xmlns:local2="using:Files.Filesystem"
     xmlns:local3="using:Files.Filesystem.Cloud"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:usercontrols="using:Files.UserControls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:usercontrols="using:Files.UserControls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Disabled"
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
@@ -602,8 +603,6 @@
             <Style x:Key="DataGridRowRecycleBinContextFlyout" TargetType="controls:DataGridRow">
                 <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutRecycleBinItemContextFlyout}" />
             </Style>
-
-
         </ResourceDictionary>
     </local:BaseLayout.Resources>
 
@@ -657,9 +656,10 @@
         <muxc:TeachingTip
             x:Name="FileNameTeachingTip"
             x:Uid="FileNameTeachingTip"
+            Grid.RowSpan="2"
             CloseButtonContent="OK"
             PreferredPlacement="Auto"
-            Subtitle="The item name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |" Grid.RowSpan="2" />
+            Subtitle="The item name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |" />
 
         <controls:DataGrid
             x:Name="AllView"
@@ -789,8 +789,8 @@
                                     x:Name="FolderGlyphElement"
                                     Width="24"
                                     Height="24"
-                                    x:Phase="1"
-                                    x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}">
+                                    x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
+                                    x:Phase="1">
                                     <Image.Source>
                                         <SvgImageSource
                                             RasterizePixelHeight="128"
@@ -988,9 +988,7 @@
             </controls:DataGrid.Columns>
         </controls:DataGrid>
 
-
-        <Canvas
-            Margin="12,12,12,0" Grid.RowSpan="2">
+        <Canvas Grid.RowSpan="2" Margin="12,12,12,0">
             <Rectangle
                 Name="SelectionRectangle"
                 Canvas.Left="0"

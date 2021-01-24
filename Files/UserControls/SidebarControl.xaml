@@ -156,8 +156,8 @@
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
                                 x:Name="OpenInNewPane"
-                                x:Load="{x:Bind CanOpenInNewPane, Mode=OneWay}"
                                 x:Uid="SideBarOpenInNewPane"
+                                x:Load="{x:Bind CanOpenInNewPane, Mode=OneWay}"
                                 Click="OpenInNewPane_Click"
                                 Text="Open in new pane">
                                 <MenuFlyoutItem.Icon>

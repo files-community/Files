@@ -20,7 +20,9 @@ namespace Files.Controllers
 
         public string JsonFileName { get; } = "terminal.json";
 
-        private TerminalController() { }
+        private TerminalController()
+        {
+        }
 
         public static Task<TerminalController> CreateInstance()
         {

@@ -155,7 +155,7 @@ namespace Files.Views.LayoutModes
             AllView.LoadingRow -= AllView_LoadingRow;
             AllView.UnloadingRow -= AllView_UnloadingRow;
             AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
-            
+
             AllView.ItemsSource = null;
         }
 
@@ -190,7 +190,7 @@ namespace Files.Views.LayoutModes
             {
                 var rows = new List<DataGridRow>();
                 Interaction.FindChildren<DataGridRow>(rows, AllView);
-                
+
                 foreach (DataGridRow row in rows)
                 {
                     row.CanDrag = SelectedItems.Contains(row.DataContext);
@@ -517,7 +517,7 @@ namespace Files.Views.LayoutModes
         private async void AllView_LoadingRow(object sender, DataGridRowEventArgs e)
         {
             InitializeDrag(e.Row);
- 
+
             if (e.Row.DataContext is ListedItem item && !item.ItemPropertiesInitialized)
             {
                 item.ItemPropertiesInitialized = true;

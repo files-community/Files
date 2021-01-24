@@ -1,8 +1,6 @@
 using Files.Enums;
 using Files.Filesystem;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 
 namespace Files.Helpers

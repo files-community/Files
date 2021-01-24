@@ -295,6 +295,7 @@ namespace Files
                             case "tab":
                                 rootFrame.Navigate(typeof(MainPage), TabItemArguments.Deserialize(unescapedValue), new SuppressNavigationTransitionInfo());
                                 break;
+
                             case "folder":
                                 rootFrame.Navigate(typeof(MainPage), unescapedValue, new SuppressNavigationTransitionInfo());
                                 break;

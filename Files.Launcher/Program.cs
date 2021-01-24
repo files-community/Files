@@ -569,7 +569,7 @@ namespace FilesFullTrust
                                 var ipf = new Url.IUniformResourceLocator();
                                 ipf.SetUrl(targetPath, Url.IURL_SETURL_FLAGS.IURL_SETURL_FL_GUESS_PROTOCOL);
                                 (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Save(linkSavePath, false); // Overwrite if exists
-                            return true;
+                                return true;
                             });
                         }
                         break;

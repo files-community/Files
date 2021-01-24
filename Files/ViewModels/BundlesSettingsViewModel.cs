@@ -1,5 +1,4 @@
-﻿using Files.Helpers;
-using Files.SettingsInterfaces;
+﻿using Files.SettingsInterfaces;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Windows.Storage;
@@ -15,7 +14,7 @@ namespace Files.ViewModels
         {
         }
 
-        #endregion
+        #endregion Constructor
 
         #region IBundlesSettings
 
@@ -25,7 +24,7 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
-        #endregion
+        #endregion IBundlesSettings
 
         #region Override
 
@@ -44,6 +43,6 @@ namespace Files.ViewModels
             return JsonConvert.SerializeObject(SavedBundles, Formatting.Indented);
         }
 
-        #endregion
+        #endregion Override
     }
 }

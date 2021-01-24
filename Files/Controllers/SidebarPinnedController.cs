@@ -17,7 +17,9 @@ namespace Files.Controllers
 
         public string JsonFileName { get; } = "PinnedItems.json";
 
-        private SidebarPinnedController() { }
+        private SidebarPinnedController()
+        {
+        }
 
         public static Task<SidebarPinnedController> CreateInstance()
         {
