@@ -182,8 +182,6 @@ namespace Files.Views
             FilesystemHelpers = new FilesystemHelpers(this, cancellationTokenSource.Token);
             storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
 
-            AppSettings.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
-            AppSettings.PropertyChanged += AppSettings_PropertyChanged;
             DisplayFilesystemConsentDialog();
 
             var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
@@ -221,6 +219,9 @@ namespace Files.Views
 
             Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
+
+            App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
+            AppSettings.PropertyChanged += AppSettings_PropertyChanged;
         }
 
         private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -778,9 +779,9 @@ namespace Files.Views
 
         private async void DisplayFilesystemConsentDialog()
         {
-            if (AppSettings.DrivesManager.ShowUserConsentOnInit)
+            if (App.DrivesManager?.ShowUserConsentOnInit ?? false)
             {
-                AppSettings.DrivesManager.ShowUserConsentOnInit = false;
+                App.DrivesManager.ShowUserConsentOnInit = false;
                 var consentDialogDisplay = new ConsentDialog();
                 await consentDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
             }
@@ -1200,7 +1201,7 @@ namespace Files.Views
             SystemNavigationManager.GetForCurrentView().BackRequested -= ModernShellPage_BackRequested;
             App.Current.Suspending -= Current_Suspending;
             App.Current.LeavingBackground -= OnLeavingBackground;
-            AppSettings.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
+            App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
             AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
             NavigationToolbar.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
             NavigationToolbar.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;

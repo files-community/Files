@@ -80,7 +80,7 @@ namespace Files.Views
                 }
                 else
                 {
-                    foreach (DriveItem drive in Enumerable.Concat(AppSettings.DrivesManager.Drives, AppSettings.CloudDrivesManager.Drives))
+                    foreach (DriveItem drive in Enumerable.Concat(App.DrivesManager.Drives, AppSettings.CloudDrivesManager.Drives))
                     {
                         if (drive.Path.ToString() == new DirectoryInfo(e.ItemPath).Root.ToString())
                         {

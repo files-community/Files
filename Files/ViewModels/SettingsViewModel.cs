@@ -29,8 +29,6 @@ namespace Files.ViewModels
     {
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
-        public DrivesManager DrivesManager { get; private set; }
-
         public CloudDrivesManager CloudDrivesManager { get; private set; }
 
         public TerminalController TerminalController { get; set; }
@@ -49,10 +47,6 @@ namespace Files.ViewModels
             {
                 DefaultLanguages.Add(new DefaultLanguageModel(lang));
             }
-
-            DrivesManager = await DrivesManager.CreateInstance();
-            //Initialise cloud drives in the background
-            CloudDrivesManager = await CloudDrivesManager.CreateInstance();
 
             //DetectWSLDistros();
             TerminalController = await TerminalController.CreateInstance();
@@ -560,7 +554,7 @@ namespace Files.ViewModels
                 }
             }
         }
-        
+
         /// <summary>
         /// Gets or sets the value indicating whether the preview pane should adapt to the width of the view.
         /// </summary>
@@ -847,7 +841,7 @@ namespace Files.ViewModels
 
         public void Dispose()
         {
-            DrivesManager?.Dispose();
+            App.DrivesManager?.Dispose();
         }
     }
 }
