@@ -111,8 +111,25 @@
                 </muxc:NavigationViewItem>
             </DataTemplate>
 
-            <DataTemplate x:Key="HeaderItem" x:DataType="local2:INavigationControlItem">
-                <muxc:NavigationViewItemHeader Content="{x:Bind Text}" />
+            <DataTemplate x:Key="HeaderItem" x:DataType="local2:HeaderItem">
+                <muxc:NavigationViewItem
+                    AllowDrop="False"
+                    BorderThickness="0.8"
+                    CanDrag="False"
+                    Content="{x:Bind Text}"
+                    DataContext="{x:Bind}"
+                    IsExpanded="{x:Bind IsItemExpanded}"
+                    IsRightTapEnabled="False"
+                    MenuItemsSource="{x:Bind MenuItems, Mode=OneWay}"
+                    SelectsOnInvoked="False"
+                    Tag="{x:Bind Path}">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon
+                            FontFamily="{x:Bind Font}"
+                            FontSize="18"
+                            Glyph="{x:Bind Glyph}" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
             </DataTemplate>
 
             <local:NavItemDataTemplateSelector
