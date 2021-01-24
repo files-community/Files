@@ -838,10 +838,5 @@ namespace Files.ViewModels
         private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
 
         #endregion ReadAndSaveSettings
-
-        public void Dispose()
-        {
-            App.DrivesManager?.Dispose();
-        }
     }
 }
