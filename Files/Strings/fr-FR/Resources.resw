@@ -1399,7 +1399,7 @@
     <value>Ouvrir dans un panneau secondaire</value>
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
-    <value>Double peanneau</value>
+    <value>Double panneau</value>
   </data>
   <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
     <value>Afficher l'élément de menu de copie de l'emplacement</value>
