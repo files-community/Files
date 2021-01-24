@@ -514,8 +514,13 @@ namespace Files.Filesystem
                 {
                     source = await packageView.GetStorageItemsAsync();
                 }
-                catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
+                catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
                 {
+                    return ReturnResult.UnknownException;
+                }
+                catch (Exception ex)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
                     return ReturnResult.UnknownException;
                 }
                 ReturnResult returnStatus = ReturnResult.InProgress;
@@ -688,6 +693,11 @@ namespace Files.Filesystem
             }
             catch (Exception ex) when ((uint)ex.HResult == 0x80040064)
             {
+                return ReturnResult.UnknownException;
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
                 return ReturnResult.UnknownException;
             }
             ReturnResult returnStatus = ReturnResult.InProgress;
