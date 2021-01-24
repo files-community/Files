@@ -1,4 +1,5 @@
 ﻿using Files.DataModels;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Newtonsoft.Json;
@@ -19,9 +20,19 @@ namespace Files.Controllers
 
         public string JsonFileName { get; } = "terminal.json";
 
-        public TerminalController()
+        private TerminalController() { }
+
+        public static Task<TerminalController> CreateInstance()
         {
-            Init();
+            var instance = new TerminalController();
+            return instance.InitializeAsync();
+        }
+
+        private async Task<TerminalController> InitializeAsync()
+        {
+            await LoadAsync();
+            await GetInstalledTerminalsAsync();
+            return this;
         }
 
         private async Task LoadAsync()
@@ -36,7 +47,7 @@ namespace Files.Controllers
             var JsonFile = await FilesystemTasks.Wrap(() => Folder.GetFileAsync(JsonFileName).AsTask());
             if (!JsonFile)
             {
-                if (JsonFile == FilesystemErrorCode.ERROR_NOTFOUND)
+                if (JsonFile == FileSystemStatusCode.NotFound)
                 {
                     Model = await GetDefaultTerminalFileModel();
                     SaveModel();
@@ -90,12 +101,6 @@ namespace Files.Controllers
                 model.ResetToDefaultTerminal();
                 return model;
             }
-        }
-
-        public async void Init()
-        {
-            await LoadAsync();
-            await GetInstalledTerminalsAsync();
         }
 
         public async Task GetInstalledTerminalsAsync()

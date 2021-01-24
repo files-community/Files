@@ -31,6 +31,7 @@ using Windows.UI.Core;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -60,7 +61,7 @@ namespace Files.Views
                 if (interactionOperations != value)
                 {
                     interactionOperations = value;
-                    NotifyPropertyChanged("InteractionOperations");
+                    NotifyPropertyChanged(nameof(InteractionOperations));
                 }
             }
         }
@@ -106,7 +107,7 @@ namespace Files.Views
                 if (value != contentPage)
                 {
                     contentPage = value;
-                    NotifyPropertyChanged("ContentPage");
+                    NotifyPropertyChanged(nameof(ContentPage));
                 }
             }
         }
@@ -150,7 +151,7 @@ namespace Files.Views
                 if (IsPageMainPane && AppSettings.SidebarWidth != value)
                 {
                     AppSettings.SidebarWidth = value;
-                    NotifyPropertyChanged("SidebarWidth");
+                    NotifyPropertyChanged(nameof(SidebarWidth));
                 }
             }
         }
@@ -269,7 +270,7 @@ namespace Files.Views
         {
             if (args.ChosenSuggestion == null && !string.IsNullOrWhiteSpace(args.QueryText))
             {
-                FilesystemViewModel.IsLoadingItems = true;
+                FilesystemViewModel.IsLoadingIndicatorActive = true;
                 ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory), new NavigationArguments()
                 {
                     AssociatedTabInstance = this,
@@ -277,7 +278,7 @@ namespace Files.Views
                     SearchPathParam = FilesystemViewModel.WorkingDirectory,
                     SearchResults = await FolderSearch.SearchForUserQueryTextAsync(args.QueryText, FilesystemViewModel.WorkingDirectory, this, -1)
                 });
-                FilesystemViewModel.IsLoadingItems = false;
+                FilesystemViewModel.IsLoadingIndicatorActive = false;
             }
         }
 
@@ -453,7 +454,7 @@ namespace Files.Views
         private async void SetAddressBarSuggestions(AutoSuggestBox sender, int maxSuggestions = 7)
         {
             var mNavToolbar = (NavigationToolbar as NavigationToolbar);
-            if (mNavToolbar != null)
+            if (mNavToolbar != null && !string.IsNullOrWhiteSpace(sender.Text))
             {
                 try
                 {
@@ -580,7 +581,7 @@ namespace Files.Views
 
             var workingPath = NavigationToolbar.PathComponents
                     [NavigationToolbar.PathComponents.Count - 1].
-                    Path.TrimEnd(Path.DirectorySeparatorChar);
+                    Path?.TrimEnd(Path.DirectorySeparatorChar);
             foreach (var childFolder in childFolders)
             {
                 var isPathItemFocused = childFolder.Item.Name == nextPathItemTitle;
@@ -632,7 +633,7 @@ namespace Files.Views
 
         public async void CheckPathInput(ItemViewModel instance, string currentInput, string currentSelectedPath)
         {
-            if (currentSelectedPath == currentInput)
+            if (currentSelectedPath == currentInput || string.IsNullOrWhiteSpace(currentInput))
             {
                 return;
             }
@@ -901,7 +902,7 @@ namespace Files.Views
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            await InitializeAppServiceConnection();
+            ServiceConnection = await AppServiceConnectionHelper.BuildConnection();
             FilesystemViewModel = new ItemViewModel(this);
             FilesystemViewModel.OnAppServiceConnectionChanged();
             InteractionOperations = new Interaction(this);
@@ -917,33 +918,9 @@ namespace Files.Views
             if (this.ServiceConnection == null)
             {
                 // Need to reinitialize AppService when app is resuming
-                await InitializeAppServiceConnection();
+                ServiceConnection = await AppServiceConnectionHelper.BuildConnection();
                 FilesystemViewModel?.OnAppServiceConnectionChanged();
             }
-        }
-
-        private void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
-        {
-            ServiceConnection?.Dispose();
-            ServiceConnection = null;
-        }
-
-        public async Task InitializeAppServiceConnection()
-        {
-            ServiceConnection = new AppServiceConnection();
-            ServiceConnection.AppServiceName = "FilesInteropService";
-            ServiceConnection.PackageFamilyName = Package.Current.Id.FamilyName;
-            ServiceConnection.ServiceClosed += Connection_ServiceClosed;
-            AppServiceConnectionStatus status = await ServiceConnection.OpenAsync();
-            if (status != AppServiceConnectionStatus.Success)
-            {
-                // TODO: error handling
-                ServiceConnection?.Dispose();
-                ServiceConnection = null;
-            }
-
-            // Launch fulltrust process
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
         private void Current_Suspending(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
@@ -1093,13 +1070,16 @@ namespace Files.Views
                     break;
 
                 case (false, false, false, true, VirtualKey.Space): // space, quick look
-                    if (!NavigationToolbar.IsEditModeEnabled && !NavigationToolbar.IsSearchReigonVisible)
+                    if (!NavigationToolbar.IsEditModeEnabled && !NavigationToolbar.IsSearchRegionVisible)
                     {
                         if (ContentPage.IsQuickLookEnabled)
                         {
                             InteractionOperations.ToggleQuickLook();
                         }
                     }
+                    break;
+                case (true, false, false, true, VirtualKey.P):
+                    InstanceViewModel.PreviewPaneEnabled = !InstanceViewModel.PreviewPaneEnabled;
                     break;
 
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
@@ -1135,7 +1115,7 @@ namespace Files.Views
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 var ContentOwnedViewModelInstance = FilesystemViewModel;
-                ContentOwnedViewModelInstance.RefreshItems(null);
+                ContentOwnedViewModelInstance.RefreshItems(null, false);
             });
         }
 
@@ -1147,6 +1127,7 @@ namespace Files.Views
             {
                 var previousPageContent = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1];
                 var previousPageNavPath = previousPageContent.Parameter as NavigationArguments;
+                previousPageNavPath.IsLayoutSwitch = false;
                 if (previousPageContent.SourcePageType != typeof(YourHome))
                 {
                     // Update layout type
@@ -1165,6 +1146,7 @@ namespace Files.Views
             {
                 var incomingPageContent = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1];
                 var incomingPageNavPath = incomingPageContent.Parameter as NavigationArguments;
+                incomingPageNavPath.IsLayoutSwitch = false;
                 if (incomingPageContent.SourcePageType != typeof(YourHome))
                 {
                     // Update layout type
@@ -1182,6 +1164,7 @@ namespace Files.Views
             var instance = FilesystemViewModel;
             string parentDirectoryOfPath = instance.WorkingDirectory.TrimEnd('\\');
             var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\");
+
             if (lastSlashIndex != -1)
             {
                 parentDirectoryOfPath = instance.WorkingDirectory.Remove(lastSlashIndex);
@@ -1267,6 +1250,7 @@ namespace Files.Views
             SidebarControl.SidebarItemDropped += SidebarControl_SidebarItemDropped;
             SidebarControl.RecycleBinItemRightTapped += SidebarControl_RecycleBinItemRightTapped;
             SidebarControl.SidebarItemNewPaneInvoked += SidebarControl_SidebarItemNewPaneInvoked;
+            SidebarControl.Loaded -= SidebarControl_Loaded;
         }
 
         private void SidebarControl_SidebarItemNewPaneInvoked(object sender, SidebarItemNewPaneInvokedEventArgs e)
@@ -1281,7 +1265,7 @@ namespace Files.Views
         {
             if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
             {
-                if (InstanceViewModel.IsPageTypeNotHome && !InstanceViewModel.IsPageTypeSearchResults)
+                if (!InstanceViewModel.IsPageTypeSearchResults)
                 {
                     return DataPackageOperation.Move;
                 }
@@ -1305,6 +1289,19 @@ namespace Files.Views
             }
             return DataPackageOperation.None;
         }
+
+
+        // Binding directly to the actual width raise property changed notifications
+        // This is a workaroumd
+        public double RootGridWidth
+        {
+            get => RootGrid.ActualWidth;
+        }
+
+        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            NotifyPropertyChanged(nameof(RootGridWidth));
+        }
     }
 
     public class PathBoxItem
@@ -1320,5 +1317,6 @@ namespace Files.Views
         public bool IsSearchResultPage { get; set; } = false;
         public ObservableCollection<ListedItem> SearchResults { get; set; } = new ObservableCollection<ListedItem>();
         public string SearchPathParam { get; set; } = null;
+        public bool IsLayoutSwitch { get; set; } = false;
     }
 }

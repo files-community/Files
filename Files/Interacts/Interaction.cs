@@ -40,6 +40,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using Files.Common;
 using static Files.Views.Properties;
 
 namespace Files.Interacts
@@ -133,7 +134,7 @@ namespace Files.Interacts
             foreach (ListedItem listedItem in items)
             {
                 var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
-                var folderUri = new Uri("files-uwp:" + "?folder=" + @selectedItemPath);
+                var folderUri = new Uri($"files-uwp:?folder={@selectedItemPath}");
                 await Launcher.LaunchUriAsync(folderUri);
             }
         }
@@ -190,13 +191,13 @@ namespace Files.Interacts
 
         public static async Task<bool> OpenPathInNewWindowAsync(string path)
         {
-            var folderUri = new Uri("files-uwp:" + "?folder=" + Uri.EscapeDataString(path));
+            var folderUri = new Uri($"files-uwp:?folder={Uri.EscapeDataString(path)}");
             return await Launcher.LaunchUriAsync(folderUri);
         }
 
         public static async Task<bool> OpenTabInNewWindowAsync(string tabArgs)
         {
-            var folderUri = new Uri("files-uwp:" + "?tab=" + Uri.EscapeDataString(tabArgs));
+            var folderUri = new Uri($"files-uwp:?tab={Uri.EscapeDataString(tabArgs)}");
             return await Launcher.LaunchUriAsync(folderUri);
         }
 
@@ -226,19 +227,20 @@ namespace Files.Interacts
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
                     App.SidebarPinnedController.Model.AddItem(listedItem.ItemPath);
+                    listedItem.IsPinned = true;
                 }
             }
         }
 
-        public void GetPath_Click(object sender, RoutedEventArgs e)
+        public void UnpinItem_Click(object sender, RoutedEventArgs e)
         {
             if (AssociatedInstance.ContentPage != null)
             {
-                Clipboard.Clear();
-                DataPackage data = new DataPackage();
-                data.SetText(AssociatedInstance.FilesystemViewModel.WorkingDirectory);
-                Clipboard.SetContent(data);
-                Clipboard.Flush();
+                foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
+                {
+                    App.SidebarPinnedController.Model.RemoveItem(listedItem.ItemPath);
+                    listedItem.IsPinned = false;
+                }
             }
         }
 
@@ -405,7 +407,7 @@ namespace Files.Interacts
                     AssociatedTabInstance = AssociatedInstance
                 });
             }
-            else if (destFolder == FilesystemErrorCode.ERROR_NOTFOUND)
+            else if (destFolder == FileSystemStatusCode.NotFound)
             {
                 await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
             }
@@ -416,30 +418,88 @@ namespace Files.Interacts
             }
         }
 
-        private async void OpenSelectedItems(bool displayApplicationPicker)
+        /// <summary>
+        /// Navigates to a directory or opens file
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="itemType"></param>
+        /// <param name="openSilent">Determines whether history of opened item is saved (... to Recent Items/Windows Timeline/opening in background)</param>
+        /// <param name="openViaApplicationPicker">Determines whether open file using application picker</param>
+        public async Task<bool> OpenPath(string path, FilesystemItemType? itemType = null, bool openSilent = false, bool openViaApplicationPicker = false)
+        // TODO: This function reliability has not been extensively tested
         {
-            if (AssociatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
+            string previousDir = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
+            bool isHiddenItem = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Hidden);
+            bool isShortcutItem = path.EndsWith(".lnk") || path.EndsWith(".url"); // Determine
+            bool fileExists = await StorageItemHelpers.Exists(path, AssociatedInstance);
+            FilesystemResult opened = (FilesystemResult)false;
+
+            // Shortcut item variables
+            string shortcutTargetPath = null;
+            string shortcutArguments = null;
+            string shortcutWorkingDirectory = null;
+            bool shortcutRunAsAdmin = false;
+            bool shortcutIsFolder = false;
+
+            if (!fileExists && !isShortcutItem && !isHiddenItem)
             {
-                // Do not open files and folders inside the recycle bin
-                return;
+                return false;
             }
 
-            int selectedItemCount;
-            selectedItemCount = AssociatedInstance.ContentPage.SelectedItems.Count;
-            var opened = (FilesystemResult)false;
-            string previousDir = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
+            if (itemType == null || isShortcutItem || isHiddenItem)
+            {
+                if (isHiddenItem)
+                {
+                    itemType = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory) ? FilesystemItemType.Directory : FilesystemItemType.File;
+                }
+                else if (isShortcutItem)
+                {
+                    AppServiceResponse response = await Connection.SendMessageAsync(new ValueSet()
+                    {
+                        { "Arguments", "FileOperation" },
+                        { "fileop", "ParseLink" },
+                        { "filepath", path }
+                    });
 
-            // Access MRU List
+                    if (response.Status == AppServiceResponseStatus.Success)
+                    {
+                        shortcutTargetPath = response.Message.Get("TargetPath", string.Empty);
+                        shortcutArguments = response.Message.Get("Arguments", string.Empty);
+                        shortcutWorkingDirectory = response.Message.Get("WorkingDirectory", string.Empty);
+                        shortcutRunAsAdmin = response.Message.Get("RunAsAdmin", false);
+                        shortcutIsFolder = response.Message.Get("IsFolder", false);
+
+                        itemType = FilesystemItemType.File; // Set to file here, because the logic is the same in both scenarios
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    itemType = await StorageItemHelpers.GetTypeFromPath(path, AssociatedInstance);
+                }
+            }
+
             var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
 
-            if (selectedItemCount == 1)
+            if (itemType == FilesystemItemType.Directory) // OpenDirectory
             {
-                var clickedOnItem = AssociatedInstance.ContentPage.SelectedItem;
-                var clickedOnItemPath = clickedOnItem.ItemPath;
-                if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.Folder && !clickedOnItem.IsHiddenItem)
+                if (isHiddenItem)
                 {
-                    var folderPath = (clickedOnItem as ShortcutItem)?.TargetPath ?? clickedOnItem.ItemPath;
-                    opened = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath)
+                    AssociatedInstance.NavigationToolbar.PathControlDisplayText = path;
+                    AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
+                    {
+                        NavPathParam = path,
+                        AssociatedTabInstance = AssociatedInstance
+                    }, new SuppressNavigationTransitionInfo());
+
+                    return true;
+                }
+                else
+                {
+                    opened = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(path)
                         .OnSuccess(childFolder =>
                         {
                             // Add location to MRU List
@@ -447,67 +507,57 @@ namespace Files.Interacts
                         });
                     if (!opened)
                     {
-                        opened = (FilesystemResult)AssociatedInstance.FilesystemViewModel.CheckFolderAccessWithWin32(folderPath);
+                        opened = (FilesystemResult)AssociatedInstance.FilesystemViewModel.CheckFolderAccessWithWin32(path);
                     }
                     if (opened)
                     {
-                        AssociatedInstance.NavigationToolbar.PathControlDisplayText = folderPath;
-                        AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(folderPath), new NavigationArguments()
+                        AssociatedInstance.NavigationToolbar.PathControlDisplayText = path;
+                        AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
                         {
-                            NavPathParam = folderPath,
+                            NavPathParam = path,
                             AssociatedTabInstance = AssociatedInstance
                         }, new SuppressNavigationTransitionInfo());
                     }
                 }
-                else if (clickedOnItem.IsHiddenItem)
+            }
+            else if (itemType == FilesystemItemType.File) // OpenFile
+            {
+                if (isHiddenItem)
                 {
-                    if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-                    {
-                        AssociatedInstance.NavigationToolbar.PathControlDisplayText = clickedOnItemPath;
-                        AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(clickedOnItemPath), new NavigationArguments()
-                        {
-                            NavPathParam = clickedOnItemPath,
-                            AssociatedTabInstance = AssociatedInstance
-                        }, new SuppressNavigationTransitionInfo());
-                    }
-                    else if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.File)
-                    {
-                        await InvokeWin32ComponentAsync(clickedOnItemPath);
-                    }
+                    await InvokeWin32ComponentAsync(path);
                 }
-                else if (clickedOnItem.IsShortcutItem)
+                else if (isShortcutItem)
                 {
-                    var shortcutItem = (ShortcutItem)clickedOnItem;
-                    if (string.IsNullOrEmpty(shortcutItem.TargetPath))
+                    if (string.IsNullOrEmpty(shortcutTargetPath))
                     {
-                        await InvokeWin32ComponentAsync(shortcutItem.ItemPath);
+                        await InvokeWin32ComponentAsync(path);
                     }
                     else
                     {
-                        if (!shortcutItem.IsUrl)
+                        if (!path.EndsWith(".url"))
                         {
-                            StorageFileWithPath childFile = await AssociatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(shortcutItem.TargetPath);
+                            StorageFileWithPath childFile = await AssociatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(shortcutTargetPath);
                             if (childFile != null)
                             {
                                 // Add location to MRU List
                                 mostRecentlyUsed.Add(childFile.File, childFile.Path);
                             }
                         }
-                        await InvokeWin32ComponentAsync(shortcutItem.TargetPath, shortcutItem.Arguments, shortcutItem.RunAsAdmin, shortcutItem.WorkingDirectory);
+                        await InvokeWin32ComponentAsync(shortcutTargetPath, shortcutArguments, shortcutRunAsAdmin, shortcutWorkingDirectory);
                     }
                     opened = (FilesystemResult)true;
                 }
                 else
                 {
-                    opened = await AssociatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(clickedOnItem.ItemPath)
+                    opened = await AssociatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(path)
                         .OnSuccess(async childFile =>
                         {
                             // Add location to MRU List
                             mostRecentlyUsed.Add(childFile.File, childFile.Path);
 
-                            if (displayApplicationPicker)
+                            if (openViaApplicationPicker)
                             {
-                                var options = new LauncherOptions
+                                LauncherOptions options = new LauncherOptions
                                 {
                                     DisplayApplicationPicker = true
                                 };
@@ -521,7 +571,7 @@ namespace Files.Interacts
                                 StorageFileQueryResult fileQueryResult = null;
 
                                 //Get folder to create a file query (to pass to apps like Photos, Movies & TV..., needed to scroll through the folder like what Windows Explorer does)
-                                StorageFolder currFolder = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(clickedOnItem.ItemPath));
+                                StorageFolder currFolder = await AssociatedInstance.FilesystemViewModel.GetFolderFromPathAsync(Path.GetDirectoryName(path));
 
                                 if (currFolder != null)
                                 {
@@ -580,52 +630,20 @@ namespace Files.Interacts
                                         NeighboringFilesQuery = fileQueryResult
                                     };
 
-                                    //Now launch file with options.
+                                    // Now launch file with options.
                                     launchSuccess = await Launcher.LaunchFileAsync(childFile.File, options);
                                 }
 
                                 if (!launchSuccess)
                                 {
-                                    await InvokeWin32ComponentAsync(clickedOnItem.ItemPath);
+                                    await InvokeWin32ComponentAsync(path);
                                 }
                             }
                         });
                 }
             }
-            else if (selectedItemCount > 1)
-            {
-                foreach (ListedItem clickedOnItem in AssociatedInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File
-                    && !x.IsShortcutItem))
-                {
-                    StorageFileWithPath childFile = await AssociatedInstance.FilesystemViewModel.GetFileWithPathFromPathAsync(clickedOnItem.ItemPath);
-                    if (childFile != null)
-                    {
-                        // Add location to MRU List
-                        mostRecentlyUsed.Add(childFile.File, childFile.Path);
 
-                        if (displayApplicationPicker)
-                        {
-                            var options = new LauncherOptions
-                            {
-                                DisplayApplicationPicker = true
-                            };
-                            await Launcher.LaunchFileAsync(childFile.File, options);
-                        }
-                    }
-                }
-                if (!displayApplicationPicker)
-                {
-                    var applicationPath = string.Join('|', AssociatedInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).Select(x => x.ItemPath));
-                    await InvokeWin32ComponentAsync(applicationPath);
-                }
-                foreach (ListedItem clickedOnItem in AssociatedInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder))
-                {
-                    await MainPage.AddNewTabByPathAsync(typeof(PaneHolderPage), (clickedOnItem as ShortcutItem)?.TargetPath ?? clickedOnItem.ItemPath);
-                }
-                opened = (FilesystemResult)true;
-            }
-
-            if (opened.ErrorCode == FilesystemErrorCode.ERROR_NOTFOUND)
+            if (opened.ErrorCode == FileSystemStatusCode.NotFound && !openSilent)
             {
                 await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalized(), "FileNotFoundDialog/Text".GetLocalized());
                 AssociatedInstance.NavigationToolbar.CanRefresh = false;
@@ -634,6 +652,22 @@ namespace Files.Interacts
                     var ContentOwnedViewModelInstance = AssociatedInstance.FilesystemViewModel;
                     ContentOwnedViewModelInstance.RefreshItems(previousDir);
                 });
+            }
+
+            return opened;
+        }
+
+        private async void OpenSelectedItems(bool openViaApplicationPicker = false)
+        {
+            if (AssociatedInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
+            {
+                // Do not open files and folders inside the recycle bin
+                return;
+            }
+
+            foreach (ListedItem item in AssociatedInstance.ContentPage.SelectedItems)
+            {
+                await OpenPath(item.ItemPath, null, false, openViaApplicationPicker);
             }
         }
 
@@ -870,6 +904,18 @@ namespace Files.Interacts
             return false;
         }
 
+        /// <summary>
+        /// Set a single file or folder to hidden or unhidden an refresh the
+        /// view after setting the flag
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="isHidden"></param>
+        public void SetHiddenAttributeItem(ListedItem item, bool isHidden)
+        {
+            item.IsHiddenItem = isHidden;
+            AssociatedInstance.ContentPage.ResetItemOpacity();
+        }
+
         public async void RestoreItem_Click(object sender, RoutedEventArgs e)
         {
             if (AssociatedInstance.ContentPage.IsItemSelected)
@@ -921,12 +967,12 @@ namespace Files.Interacts
                         }
                     }
                 }
-                if (cut.ErrorCode == FilesystemErrorCode.ERROR_NOTFOUND)
+                if (cut.ErrorCode == FileSystemStatusCode.NotFound)
                 {
                     AssociatedInstance.ContentPage.ResetItemOpacity();
                     return;
                 }
-                else if (cut.ErrorCode == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+                else if (cut.ErrorCode == FileSystemStatusCode.Unauthorized)
                 {
                     // Try again with fulltrust process
                     if (Connection != null)
@@ -1000,7 +1046,7 @@ namespace Files.Interacts
                         }
                     }
                 }
-                if (copied.ErrorCode == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+                if (copied.ErrorCode == FileSystemStatusCode.Unauthorized)
                 {
                     // Try again with fulltrust process
                     if (Connection != null)
@@ -1021,9 +1067,9 @@ namespace Files.Interacts
             if (items?.Count > 0)
             {
                 dataPackage.SetStorageItems(items);
-                Clipboard.SetContent(dataPackage);
                 try
                 {
+                    Clipboard.SetContent(dataPackage);
                     Clipboard.Flush();
                 }
                 catch
@@ -1037,13 +1083,19 @@ namespace Files.Interacts
 
         private void CopyLocation()
         {
-            if (AssociatedInstance.ContentPage != null)
+            try
             {
-                Clipboard.Clear();
-                DataPackage data = new DataPackage();
-                data.SetText(AssociatedInstance.ContentPage.SelectedItem.ItemPath);
-                Clipboard.SetContent(data);
-                Clipboard.Flush();
+                if (AssociatedInstance.ContentPage != null)
+                {
+                    Clipboard.Clear();
+                    DataPackage data = new DataPackage();
+                    data.SetText(AssociatedInstance.ContentPage.SelectedItem.ItemPath);
+                    Clipboard.SetContent(data);
+                    Clipboard.Flush();
+                }
+            }
+            catch
+            {
             }
         }
 
@@ -1051,13 +1103,19 @@ namespace Files.Interacts
 
         private void CopyWorkingLocation()
         {
-            if (AssociatedInstance.ContentPage != null)
+            try
             {
-                Clipboard.Clear();
-                DataPackage data = new DataPackage();
-                data.SetText(AssociatedInstance.FilesystemViewModel.WorkingDirectory);
-                Clipboard.SetContent(data);
-                Clipboard.Flush();
+                if (AssociatedInstance.ContentPage != null)
+                {
+                    Clipboard.Clear();
+                    DataPackage data = new DataPackage();
+                    data.SetText(AssociatedInstance.FilesystemViewModel.WorkingDirectory);
+                    Clipboard.SetContent(data);
+                    Clipboard.Flush();
+                }
+            }
+            catch
+            {
             }
         }
 
@@ -1098,10 +1156,13 @@ namespace Files.Interacts
 
         public async Task PasteItemAsync()
         {
-            DataPackageView packageView = Clipboard.GetContent();
-            string destinationPath = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
-            await FilesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, destinationPath, true);
-            AssociatedInstance.ContentPage.ResetItemOpacity();
+            DataPackageView packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
+            if (packageView != null)
+            {
+                string destinationPath = AssociatedInstance.FilesystemViewModel.WorkingDirectory;
+                await FilesystemHelpers.PerformOperationTypeAsync(packageView.RequestedOperation, packageView, destinationPath, true);
+                AssociatedInstance.ContentPage.ResetItemOpacity();
+            }
         }
 
         public async void CreateFileFromDialogResultType(AddItemType itemType, ShellNewEntry itemInfo)
@@ -1149,7 +1210,7 @@ namespace Files.Interacts
                         break;
                 }
             }
-            if (created == FilesystemErrorCode.ERROR_UNAUTHORIZED)
+            if (created == FileSystemStatusCode.Unauthorized)
             {
                 await DialogDisplayHelper.ShowDialogAsync("AccessDeniedCreateDialog/Title".GetLocalized(), "AccessDeniedCreateDialog/Text".GetLocalized());
             }
@@ -1211,9 +1272,9 @@ namespace Files.Interacts
             }
         }
 
-        public void PushJumpChar(char letter)
+        public Task PushJumpChar(char letter)
         {
-            AssociatedInstance.FilesystemViewModel.JumpString += letter.ToString().ToLower();
+            return AssociatedInstance.FilesystemViewModel.SetJumpStringAsync(AssociatedInstance.FilesystemViewModel.JumpString + letter.ToString().ToLower());
         }
 
         public async Task<string> GetHashForFileAsync(ListedItem fileItem, string nameOfAlg, CancellationToken token, Microsoft.UI.Xaml.Controls.ProgressBar progress)

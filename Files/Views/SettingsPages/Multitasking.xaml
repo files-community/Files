@@ -26,6 +26,12 @@
                     FontWeight="Medium"
                     Text="Multitasking" />
 
+                <TextBlock
+                    x:Uid="SettingsTabCustomization"
+                    Padding="0,10,0,0"
+                    FontSize="18"
+                    Text="Tab Customization" />
+
                 <StackPanel Orientation="Vertical" Spacing="12">
                     <StackPanel Orientation="Vertical">
                         <RadioButton
@@ -83,7 +89,7 @@
                 <TextBlock
                     x:Uid="SettingsDualPane"
                     Padding="0,10,0,0"
-                    FontSize="20"
+                    FontSize="18"
                     Text="Dual Pane" />
 
                 <ToggleSwitch

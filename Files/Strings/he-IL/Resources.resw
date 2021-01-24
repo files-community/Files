@@ -105,7 +105,7 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>נקה בחירה</value>
   </data>
-  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
     <value>תצוגת רשימה</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
@@ -413,9 +413,6 @@
   </data>
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
     <value>אישור</value>
-  </data>
-  <data name="StatusBarControlLayoutMode.ToolTipService.ToolTip" xml:space="preserve">
-    <value>מצב פריסה</value>
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>אפשרויות בחירה</value>
@@ -989,9 +986,6 @@
   </data>
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>אפשרויות נוספות</value>
-  </data>
-  <data name="StatusBarControlLayoutMode.AutomationProperties.Name" xml:space="preserve">
-    <value>מצב פריסה</value>
   </data>
   <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>אפשרויות בחירה</value>

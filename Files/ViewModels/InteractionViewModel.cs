@@ -38,18 +38,18 @@ namespace Files.ViewModels
             }
         }
 
-        private int _TabStripSelectedIndex = 0;
+        private int tabStripSelectedIndex = 0;
 
         public int TabStripSelectedIndex
         {
-            get => _TabStripSelectedIndex;
+            get => tabStripSelectedIndex;
             set
             {
                 if (value >= 0)
                 {
-                    if (_TabStripSelectedIndex != value)
+                    if (tabStripSelectedIndex != value)
                     {
-                        SetProperty(ref _TabStripSelectedIndex, value);
+                        SetProperty(ref tabStripSelectedIndex, value);
                     }
                     if (value < MainPage.MultitaskingControl.Items.Count)
                     {
@@ -61,31 +61,31 @@ namespace Files.ViewModels
             }
         }
 
-        private bool _IsPasteEnabled = false;
+        private bool isPasteEnabled = false;
 
         public bool IsPasteEnabled
         {
-            get => _IsPasteEnabled;
-            set => SetProperty(ref _IsPasteEnabled, value);
+            get => isPasteEnabled;
+            set => SetProperty(ref isPasteEnabled, value);
         }
 
-        private bool _IsHorizontalTabStripVisible = App.AppSettings.IsMultitaskingExperienceAdaptive ? !IsWindowResizedToCompactWidth() : App.AppSettings.IsHorizontalTabStripEnabled;
+        private bool isHorizontalTabStripVisible = App.AppSettings.IsMultitaskingExperienceAdaptive ? !IsWindowResizedToCompactWidth() : App.AppSettings.IsHorizontalTabStripEnabled;
 
         public bool IsHorizontalTabStripVisible
         {
-            get => _IsHorizontalTabStripVisible;
-            set => SetProperty(ref _IsHorizontalTabStripVisible, value);
+            get => isHorizontalTabStripVisible;
+            set => SetProperty(ref isHorizontalTabStripVisible, value);
         }
 
-        private bool _IsVerticalTabFlyoutVisible = App.AppSettings.IsMultitaskingExperienceAdaptive ? IsWindowResizedToCompactWidth() : App.AppSettings.IsVerticalTabFlyoutEnabled;
+        private bool isVerticalTabFlyoutVisible = App.AppSettings.IsMultitaskingExperienceAdaptive ? IsWindowResizedToCompactWidth() : App.AppSettings.IsVerticalTabFlyoutEnabled;
 
         public bool IsVerticalTabFlyoutVisible
         {
-            get => _IsVerticalTabFlyoutVisible;
-            set => SetProperty(ref _IsVerticalTabFlyoutVisible, value);
+            get => isVerticalTabFlyoutVisible;
+            set => SetProperty(ref isVerticalTabFlyoutVisible, value);
         }
 
-        private bool _IsWindowCompactSize = IsWindowResizedToCompactWidth();
+        private bool isWindowCompactSize = IsWindowResizedToCompactWidth();
 
         public static bool IsWindowResizedToCompactWidth()
         {
@@ -94,10 +94,10 @@ namespace Files.ViewModels
 
         public bool IsWindowCompactSize
         {
-            get => _IsWindowCompactSize;
+            get => isWindowCompactSize;
             set
             {
-                SetProperty(ref _IsWindowCompactSize, value);
+                SetProperty(ref isWindowCompactSize, value);
                 if (value)
                 {
                     IsHorizontalTabStripVisible = false;

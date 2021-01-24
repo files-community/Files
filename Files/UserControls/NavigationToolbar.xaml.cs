@@ -338,6 +338,19 @@ namespace Files.UserControls
             }
         }
 
+        public static readonly DependencyProperty PreviewPaneEnabledProperty = DependencyProperty.Register(
+            "PreviewPaneEnabled",
+            typeof(bool),
+            typeof(NavigationToolbar),
+            new PropertyMetadata(null)
+        );
+
+        public bool PreviewPaneEnabled
+        {
+            get => (bool)GetValue(PreviewPaneEnabledProperty);
+            set => SetValue(PreviewPaneEnabledProperty, value);
+        }
+
         public SettingsViewModel AppSettings => App.AppSettings;
 
         private List<ShellNewEntry> cachedNewContextMenuEntries { get; set; }
@@ -467,20 +480,20 @@ namespace Files.UserControls
 
         public string PathText { get; set; }
 
-        private bool _IsSearchReigonVisible = false;
+        private bool isSearchRegionVisible;
 
-        public bool IsSearchReigonVisible
+        public bool IsSearchRegionVisible
         {
             get
             {
-                return _IsSearchReigonVisible;
+                return isSearchRegionVisible;
             }
             set
             {
-                if (value != _IsSearchReigonVisible)
+                if (value != isSearchRegionVisible)
                 {
-                    _IsSearchReigonVisible = value;
-                    NotifyPropertyChanged("IsSearchReigonVisible");
+                    isSearchRegionVisible = value;
+                    NotifyPropertyChanged(nameof(IsSearchRegionVisible));
                 }
             }
         }
@@ -877,30 +890,34 @@ namespace Files.UserControls
             RefreshRequested?.Invoke(this, EventArgs.Empty);
         }
 
-        private void SearchReigon_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private void SearchRegion_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             SearchQuerySubmitted?.Invoke(sender, args);
         }
 
-        private void SearchReigon_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private void SearchRegion_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             SearchTextChanged?.Invoke(sender, args);
         }
 
-        private void SearchReigon_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        private void SearchRegion_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
             SearchSuggestionChosen?.Invoke(sender, args);
-            IsSearchReigonVisible = false;
+            IsSearchRegionVisible = false;
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            IsSearchReigonVisible = true;
+            IsSearchRegionVisible = true;
 
-            SearchReigon.Focus(FocusState.Programmatic);
+            // Given that binding and layouting might take a few cycles, when calling UpdateLayout
+            // we can guarantee that the focus call will be able to find an open ASB
+            SearchRegion.UpdateLayout();
+
+            SearchRegion.Focus(FocusState.Programmatic);
         }
 
-        private void SearchReigon_LostFocus(object sender, RoutedEventArgs e)
+        private void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
         {
             if (FocusManager.GetFocusedElement() is FlyoutBase ||
                 FocusManager.GetFocusedElement() is AppBarButton ||
@@ -909,16 +926,16 @@ namespace Files.UserControls
                 return;
             }
 
-            SearchReigon.Text = "";
-            IsSearchReigonVisible = false;
+            SearchRegion.Text = "";
+            IsSearchRegionVisible = false;
         }
 
-        public void ClearSearchBoxQueryText(bool collapseSearchReigon = false)
+        public void ClearSearchBoxQueryText(bool collapseSearchRegion = false)
         {
-            SearchReigon.Text = "";
-            if (IsSearchReigonVisible && collapseSearchReigon)
+            SearchRegion.Text = "";
+            if (IsSearchRegionVisible && collapseSearchRegion)
             {
-                IsSearchReigonVisible = false;
+                IsSearchRegionVisible = false;
             }
         }
 
@@ -967,6 +984,11 @@ namespace Files.UserControls
                     newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
                 }
             }
+        }
+
+        private void PreviewPane_Click(object sender, RoutedEventArgs e)
+        {
+            PreviewPaneEnabled = !PreviewPaneEnabled;
         }
     }
 }

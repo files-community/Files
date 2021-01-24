@@ -33,6 +33,7 @@
                     Opacity=".8"
                     Text="Recent files" />
                 <TextBlock
+                    x:Name="RecentItemDescription"
                     x:Uid="RecentItemDescription"
                     Margin="0,24,0,0"
                     HorizontalAlignment="Stretch"
@@ -102,22 +103,28 @@
                                     Margin="0,0,0,0"
                                     VerticalAlignment="Stretch">
                                     <FontIcon
+                                        x:Name="FolderImg"
+                                        x:Load="{x:Bind FolderImg}"
+                                        x:Phase="1"
                                         FontFamily="{StaticResource FluentUIGlyphs}"
                                         FontSize="24"
                                         Foreground="#ffe793"
-                                        Glyph="&#xEA55;"
-                                        Visibility="{x:Bind FolderImg}" />
+                                        Glyph="&#xEA55;" />
                                     <FontIcon
+                                        x:Name="EmptyImg"
+                                        x:Load="{x:Bind EmptyImgVis}"
+                                        x:Phase="1"
                                         FontFamily="{StaticResource FluentUIGlyphs}"
                                         FontSize="24"
-                                        Glyph="&#xEA00;"
-                                        Visibility="{x:Bind EmptyImgVis}" />
+                                        Glyph="&#xEA00;" />
                                     <Image
+                                        x:Name="FileImg"
                                         Width="24"
                                         Height="24"
+                                        x:Load="{x:Bind FileIconVis}"
+                                        x:Phase="1"
                                         Source="{x:Bind FileImg}"
-                                        Stretch="UniformToFill"
-                                        Visibility="{x:Bind FileIconVis}" />
+                                        Stretch="UniformToFill" />
                                 </Grid>
                                 <TextBlock
                                     Grid.Column="1"

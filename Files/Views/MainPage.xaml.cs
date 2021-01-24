@@ -5,11 +5,9 @@ using Files.Helpers;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.Extensions;
-using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -36,17 +34,17 @@ namespace Files.Views
         public SettingsViewModel AppSettings => App.AppSettings;
         public static IMultitaskingControl MultitaskingControl { get; set; }
 
-        private TabItem _SelectedTabItem;
+        private TabItem selectedTabItem;
 
         public TabItem SelectedTabItem
         {
             get
             {
-                return _SelectedTabItem;
+                return selectedTabItem;
             }
             set
             {
-                _SelectedTabItem = value;
+                selectedTabItem = value;
                 NotifyPropertyChanged(nameof(SelectedTabItem));
             }
         }
@@ -75,12 +73,6 @@ namespace Files.Views
         {
             if (eventArgs.NavigationMode != NavigationMode.Back)
             {
-                App.AppSettings = new SettingsViewModel();
-                App.InteractionViewModel = new InteractionViewModel();
-                App.SidebarPinnedController = new SidebarPinnedController();
-
-                Helpers.ThemeHelper.Initialize();
-
                 if (eventArgs.Parameter == null || (eventArgs.Parameter is string eventStr && string.IsNullOrEmpty(eventStr)))
                 {
                     try

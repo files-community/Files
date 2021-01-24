@@ -55,7 +55,7 @@
     <value>Отправить отчет о проблеме, чтобы предоставить разработчикам больше информации о ней</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Third Party Licenses</value>
+    <value>Сторонние лицензии</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
     <value>О приложении</value>
@@ -208,7 +208,7 @@
     <value>Применить как фон рабочего стола</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
-    <value>Поделится</value>
+    <value>Поделиться</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>Вырезать</value>
@@ -255,7 +255,7 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>Очистить выделение</value>
   </data>
-  <data name="StatusBarControlDetailsView.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutDetails.Text" xml:space="preserve">
     <value>Таблица</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
@@ -399,16 +399,16 @@
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>Применить как фон экрана блокировки</value>
   </data>
-  <data name="StatusBarControlGridViewLarge.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewLarge.Text" xml:space="preserve">
     <value>Огромные значки</value>
   </data>
-  <data name="StatusBarControlGridViewMedium.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewMedium.Text" xml:space="preserve">
     <value>Крупные значки</value>
   </data>
-  <data name="StatusBarControlGridViewSmall.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutGridViewSmall.Text" xml:space="preserve">
     <value>Обычные значки</value>
   </data>
-  <data name="StatusBarControlTilesView.Text" xml:space="preserve">
+  <data name="BaseLayoutContextFlyoutTilesView.Text" xml:space="preserve">
     <value>Плитка</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
@@ -440,9 +440,6 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Вы удалили эту папку?</value>
-  </data>
-  <data name="StatusBarControlLayoutMode.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Вид значков</value>
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Выделение</value>
@@ -942,9 +939,6 @@
   <data name="NavMoreButton.AutomationProperties.Name" xml:space="preserve">
     <value>Еще</value>
   </data>
-  <data name="StatusBarControlLayoutMode.AutomationProperties.Name" xml:space="preserve">
-    <value>Вид значков</value>
-  </data>
   <data name="StatusBarControlSelectionOptions.AutomationProperties.Name" xml:space="preserve">
     <value>Выделение</value>
   </data>
@@ -1037,9 +1031,6 @@
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Рейтинг</value>
-  </data>
-  <data name="PropertyItemFolderPathDisplay" xml:space="preserve">
-    <value>Путь</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
     <value>Тип файла</value>
@@ -1418,5 +1409,29 @@
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
     <value>Двойная панель</value>
+  </data>
+  <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
+    <value>Отображать пункт "Копировать местоположение"</value>
+  </data>
+  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
+    <value>Переносить непомещающиеся пункты в подменю</value>
+  </data>
+  <data name="SettingsContextMenu.Text" xml:space="preserve">
+    <value>Настройки контекстного меню</value>
+  </data>
+  <data name="SettingsOpenInNewTabSwitch.Header" xml:space="preserve">
+    <value>Отображать пункт "Открыть в новой вкладке"</value>
+  </data>
+  <data name="LibraryWidgetDescription.Text" xml:space="preserve">
+    <value>Папки</value>
+  </data>
+  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
+    <value>Использовать анимации при открытии и закрытии контекстного меню</value>
+  </data>
+  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
+    <value>Отображать расширения файлов</value>
+  </data>
+  <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
+    <value>Отображать скрытые файлы</value>
   </data>
 </root>

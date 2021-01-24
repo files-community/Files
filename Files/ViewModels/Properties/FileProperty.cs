@@ -19,23 +19,19 @@ namespace Files.ViewModels.Properties
         /// <summary>
         /// The name to display
         /// </summary>
-        public string Name
-        {
-            get => NameResource.GetLocalized();
-        }
+        public string Name => LocalizedName ?? NameResource.GetLocalized();
 
         /// <summary>
         /// The name of the string resource for the property name
         /// </summary>
         public string NameResource { get; set; }
 
+        public string LocalizedName { get; set; }
+
         /// <summary>
         /// The name of the section to display
         /// </summary>
-        public string Section
-        {
-            get => SectionResource.GetLocalized();
-        }
+        public string Section => SectionResource.GetLocalized();
 
         /// <summary>
         /// The name of the string resource for the section name
@@ -83,10 +79,7 @@ namespace Files.ViewModels.Properties
         /// <summary>
         /// The converter used to convert the property to a string, and vice versa if needed
         /// </summary>
-        public IValueConverter Converter
-        {
-            get => GetConverter();
-        }
+        public IValueConverter Converter => GetConverter();
 
         public bool IsReadOnly { get; set; } = true;
 

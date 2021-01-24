@@ -3,6 +3,7 @@ using Files.Controllers;
 using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
+using Files.SettingsInterfaces;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;
@@ -12,7 +13,6 @@ using Microsoft.AppCenter.Crashes;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Notifications;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NLog;
 using System;
@@ -44,11 +44,20 @@ namespace Files
         public static SemaphoreSlim SemaphoreSlim = new SemaphoreSlim(1, 1);
         public static StorageHistoryWrapper HistoryWrapper = new StorageHistoryWrapper();
 
+        public static IBundlesSettings BundlesSettings = new BundlesSettingsViewModel();
+
         public static SettingsViewModel AppSettings { get; set; }
         public static InteractionViewModel InteractionViewModel { get; set; }
         public static JumpListManager JumpList { get; } = new JumpListManager();
         public static SidebarPinnedController SidebarPinnedController { get; set; }
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        public static class AppData
+        {
+            // Get the extensions that are available for this host.
+            // Extensions that declare the same contract string as the host will be recognized.
+            internal static ExtensionManager FilePreviewExtensionManager { get; set; } = new ExtensionManager("com.files.filepreview");
+        }
 
         public App()
         {
@@ -62,8 +71,32 @@ namespace Files
             // Initialize NLog
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
             LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
+            AppData.FilePreviewExtensionManager.Initialize(); // The extension manager can update UI, so pass it the UI dispatcher to use for UI updates
 
             StartAppCenter();
+        }
+
+        internal static async Task EnsureSettingsAndConfigurationAreBootstrapped()
+        {
+            if (AppSettings == null)
+            {
+                AppSettings = await SettingsViewModel.CreateInstance();
+            }
+
+            if (App.AppSettings?.AcrylicTheme == null)
+            {
+                ThemeHelper.Initialize();
+            }
+
+            if (InteractionViewModel == null)
+            {
+                InteractionViewModel = new InteractionViewModel();
+            }
+
+            if (SidebarPinnedController == null)
+            {
+                SidebarPinnedController = await SidebarPinnedController.CreateInstance();
+            }
         }
 
         private async void StartAppCenter()
@@ -119,6 +152,8 @@ namespace Files
             Logger.Info("App launched");
 
             bool canEnablePrelaunch = ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
+
+            await EnsureSettingsAndConfigurationAreBootstrapped();
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -204,6 +239,8 @@ namespace Files
         protected override async void OnActivated(IActivatedEventArgs args)
         {
             Logger.Info("App activated");
+
+            await EnsureSettingsAndConfigurationAreBootstrapped();
 
             // Window management
             if (!(Window.Current.Content is Frame rootFrame))
@@ -356,18 +393,21 @@ namespace Files
 
         public static void SaveSessionTabs() // Enumerates through all tabs and gets the Path property and saves it to AppSettings.LastSessionPages
         {
-            AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab =>
+            if (AppSettings != null)
             {
-                if (tab != null && tab.TabItemArguments != null)
+                AppSettings.LastSessionPages = MainPage.AppInstances.DefaultIfEmpty().Select(tab =>
                 {
-                    return tab.TabItemArguments.Serialize();
-                }
-                else
-                {
-                    var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "NewTab".GetLocalized() };
-                    return defaultArg.Serialize();
-                }
-            }).ToArray();
+                    if (tab != null && tab.TabItemArguments != null)
+                    {
+                        return tab.TabItemArguments.Serialize();
+                    }
+                    else
+                    {
+                        var defaultArg = new TabItemArguments() { InitialPageType = typeof(PaneHolderPage), NavigationArg = "NewTab".GetLocalized() };
+                        return defaultArg.Serialize();
+                    }
+                }).ToArray();
+            }
         }
 
         // Occurs when an exception is not handled on the UI thread.

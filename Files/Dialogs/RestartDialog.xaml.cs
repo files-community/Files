@@ -59,7 +59,7 @@ namespace Files.Dialogs
         {
             App.AppSettings.ResumeAfterRestart = true;
             App.SaveSessionTabs();
-            await Launcher.LaunchUriAsync(new Uri("files-uwp://home/page="));
+            await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
             Process.GetCurrentProcess().Kill();
         }
 
