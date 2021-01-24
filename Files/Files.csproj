@@ -11,7 +11,7 @@
     <AssemblyName>Files</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
-    <AppxDefaultResourceQualifiers>Language=en-US;de-DE;es-ES;fr-FR;he-IL;hi-IN;hu-HU;it-IT;ja-JP;nl-NL;or-IN;pl-PL;pt-BR;ru-RU;cs-CZ;ta;tr-TR;uk-UA;zh-Hans;zh-Hant;da;da-DK</AppxDefaultResourceQualifiers>
+    <AppxDefaultResourceQualifiers>Language=ar;en-US;de-DE;es-ES;fr-FR;he-IL;hi-IN;hu-HU;it-IT;ja-JP;nl-NL;or-IN;pl-PL;pt-BR;ru-RU;cs-CZ;ta;tr-TR;uk-UA;zh-Hans;zh-Hant;da;da-DK</AppxDefaultResourceQualifiers>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
@@ -667,6 +667,7 @@
     <None Include="Resources\PropertiesInformation.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <PRIResource Include="Strings\ar\Resources.resw" />
     <PRIResource Include="Strings\da-DK\Resources.resw" />
     <PRIResource Include="Strings\da\Resources.resw" />
     <PRIResource Include="Strings\cs-CZ\Resources.resw" />
@@ -1011,6 +1012,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <XliffResource Include="MultilingualResources\Files.ar.xlf" />
     <XliffResource Include="MultilingualResources\Files.cs-CZ.xlf" />
     <XliffResource Include="MultilingualResources\Files.da-DK.xlf" />
     <XliffResource Include="MultilingualResources\Files.da.xlf" />
