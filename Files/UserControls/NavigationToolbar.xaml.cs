@@ -645,7 +645,10 @@ namespace Files.UserControls
                 await Task.Delay(1000);
                 if (!cancelFlyoutOpen)
                 {
-                    (sender as Button).Flyout.ShowAt(sender as Button);
+                    if (sender != null)
+                    {
+                        (sender as Button).Flyout.ShowAt(sender as Button);
+                    }
                     cancelFlyoutOpen = false;
                 }
                 else
@@ -677,12 +680,18 @@ namespace Files.UserControls
 
         private void Flyout_Opened(object sender, object e)
         {
-            VisualStateManager.GoToState(VerticalTabStripInvokeButton, "PointerOver", false);
+            if (VerticalTabStripInvokeButton != null)
+            {
+                VisualStateManager.GoToState(VerticalTabStripInvokeButton, "PointerOver", false);
+            }
         }
 
         private void Flyout_Closed(object sender, object e)
         {
-            VisualStateManager.GoToState(VerticalTabStripInvokeButton, "Normal", false);
+            if (VerticalTabStripInvokeButton != null)
+            {
+                VisualStateManager.GoToState(VerticalTabStripInvokeButton, "Normal", false);
+            }
         }
 
         private void VerticalTabStripInvokeButton_DragEnter(object sender, DragEventArgs e)
@@ -701,10 +710,13 @@ namespace Files.UserControls
                 cancelFlyoutAutoClose = false;
                 VerticalTabs.PointerEntered += VerticalTabs_PointerEntered;
                 await Task.Delay(1000);
-                VerticalTabs.PointerEntered -= VerticalTabs_PointerEntered;
+                if (VerticalTabs != null)
+                {
+                    VerticalTabs.PointerEntered -= VerticalTabs_PointerEntered;
+                }
                 if (!cancelFlyoutAutoClose)
                 {
-                    VerticalTabViewFlyout.Hide();
+                    VerticalTabViewFlyout?.Hide();
                 }
                 cancelFlyoutAutoClose = false;
             }
