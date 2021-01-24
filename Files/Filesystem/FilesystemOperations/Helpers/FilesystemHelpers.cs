@@ -161,7 +161,7 @@ namespace Files.Filesystem
                 ((IProgress<float>)banner.Progress).Report(progress);
             }
 
-            if (rawStorageHistory.TrueForAll((item) => item != null))
+            if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
             {
                 history = new StorageHistory(
                     rawStorageHistory[0].OperationType,
@@ -436,7 +436,7 @@ namespace Files.Filesystem
                 ((IProgress<float>)banner.Progress).Report(progress);
             }
 
-            if (rawStorageHistory.TrueForAll((item) => item != null))
+            if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
             {
                 history = new StorageHistory(
                     rawStorageHistory[0].OperationType,
@@ -608,7 +608,7 @@ namespace Files.Filesystem
                 ((IProgress<float>)banner.Progress).Report(progress);
             }
 
-            if (rawStorageHistory.TrueForAll((item) => item != null))
+            if (rawStorageHistory.Any() && rawStorageHistory.TrueForAll((item) => item != null))
             {
                 history = new StorageHistory(
                     rawStorageHistory[0].OperationType,
