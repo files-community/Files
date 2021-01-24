@@ -663,7 +663,6 @@
 
         <controls:DataGrid
             x:Name="AllView"
-            Grid.Row="0"
             Margin="12,4,0,0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
