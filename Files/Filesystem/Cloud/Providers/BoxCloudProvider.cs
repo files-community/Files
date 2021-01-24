@@ -13,19 +13,29 @@ namespace Files.Filesystem.Cloud.Providers
         {
             try
             {
-                var infoPath = @"Box\Box\data\shell\sync_root_folder.txt";
-                var configPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, infoPath);
-                var configFile = await StorageFile.GetFileFromPathAsync(configPath);
-                var syncPath = await FileIO.ReadTextAsync(configFile);
+                var infoPathBoxDrive = @"Box\Box\data\shell\sync_root_folder.txt";
+                var configPathBoxDrive = Path.Combine(UserDataPaths.GetDefault().LocalAppData, infoPathBoxDrive);
+                var infoPathBoxSync = @"Box Sync\sync_root_folder.txt";
+                var configPathBoxSync = Path.Combine(UserDataPaths.GetDefault().LocalAppData, infoPathBoxSync);
 
-                if (!string.IsNullOrEmpty(syncPath))
+                StorageFile configFile = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(configPathBoxDrive).AsTask());
+                if (configFile == null)
                 {
-                    cloudProviders.Add(new CloudProvider()
+                    configFile = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(configPathBoxSync).AsTask());
+                }
+                if (configFile != null)
+                {
+                    var syncPath = await FileIO.ReadTextAsync(configFile);
+
+                    if (!string.IsNullOrEmpty(syncPath))
                     {
-                        ID = CloudProviders.Box,
-                        Name = "Box",
-                        SyncFolder = syncPath
-                    });
+                        cloudProviders.Add(new CloudProvider()
+                        {
+                            ID = CloudProviders.Box,
+                            Name = "Box",
+                            SyncFolder = syncPath
+                        });
+                    }
                 }
             }
             catch
