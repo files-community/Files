@@ -532,32 +532,38 @@ namespace Files.ViewModels
                 if (value != pinRecycleBinToSideBar)
                 {
                     SetProperty(ref pinRecycleBinToSideBar, value);
-                    if (value == true)
+                    // Don't try to add item before its header item is loaded
+                    if (SidebarControl.GetFirstHeaderItemOfType(HeaderItem.HeaderItemType.ThisDevice) != null)
                     {
-                        localSettings.Values["PinRecycleBin"] = true;
-                        var recycleBinItem = new LocationItem
+                        var headerItem = SidebarControl.GetFirstHeaderItemOfType(HeaderItem.HeaderItemType.ThisDevice);
+                        if (value == true)
                         {
-                            Text = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
-                            Font = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
-                            Glyph = "\uEF87",
-                            IsDefaultLocation = true,
-                            Path = RecycleBinPath
-                        };
-                        // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
-                        // TODO: the very first time the app is launched localized name not available
-                        SidebarControl.Items.Insert(SidebarControl.Items.Where(item => item is LocationItem).Count(), recycleBinItem);
-                    }
-                    else
-                    {
-                        localSettings.Values["PinRecycleBin"] = false;
-                        foreach (INavigationControlItem item in SidebarControl.Items.ToList())
-                        {
-                            if (item is LocationItem && item.Path == RecycleBinPath)
+                            localSettings.Values["PinRecycleBin"] = true;
+                            var recycleBinItem = new LocationItem
                             {
-                                SidebarControl.Items.Remove(item);
+                                Text = "SidebarRecycleBin".GetLocalized(),
+                                Font = App.Current.Resources["RecycleBinIcons"] as FontFamily,
+                                Glyph = "\uEF87",
+                                IsDefaultLocation = true,
+                                Path = RecycleBinPath
+                            };
+                            
+                            if (!headerItem.MenuItems.Contains(recycleBinItem))
+                            {
+                                headerItem?.MenuItems.Insert(headerItem.MenuItems.Where(item => item is LocationItem).Count(), recycleBinItem);
+                            }
+                        }
+                        else
+                        {
+                            localSettings.Values["PinRecycleBin"] = false;
+                            var recycleItem = headerItem?.MenuItems.First(x => x.Path == RecycleBinPath);
+                            if (headerItem.MenuItems.Contains(recycleItem))
+                            {
+                                headerItem?.MenuItems.Remove(recycleItem);
                             }
                         }
                     }
+                    
                 }
             }
         }

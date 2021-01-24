@@ -227,7 +227,67 @@ namespace Files.DataModels
                 IsItemExpanded = false,
                 Text = "SidebarThisDevice".GetLocalized(),
                 HeaderType = HeaderItem.HeaderItemType.ThisDevice,
+                MenuItems = new System.Collections.ObjectModel.ObservableCollection<INavigationControlItem>()
+                {
+                    new LocationItem()
+                    {
+                        IsDefaultLocation = true, 
+                        Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                        Glyph = GetItemIcon(AppSettings.DesktopPath),
+                        Path = AppSettings.DesktopPath,
+                        Text = "SidebarDesktop".GetLocalized()
+                    },
+                    new LocationItem()
+                    {
+                        IsDefaultLocation = true,
+                        Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                        Glyph = GetItemIcon(AppSettings.DownloadsPath),
+                        Path = AppSettings.DownloadsPath,
+                        Text = "SidebarDownloads".GetLocalized()
+                    },
+                    new LocationItem()
+                    {
+                        IsDefaultLocation = true,
+                        Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                        Glyph = GetItemIcon(AppSettings.DocumentsPath),
+                        Path = AppSettings.DocumentsPath,
+                        Text = "SidebarDocuments".GetLocalized()
+                    },
+                    new LocationItem()
+                    {
+                        IsDefaultLocation = true,
+                        Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                        Glyph = GetItemIcon(AppSettings.PicturesPath),
+                        Path = AppSettings.PicturesPath,
+                        Text = "SidebarPictures".GetLocalized()
+                    },
+                    new LocationItem()
+                    {
+                        IsDefaultLocation = true,
+                        Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                        Glyph = GetItemIcon(AppSettings.MusicPath),
+                        Path = AppSettings.MusicPath,
+                        Text = "SidebarMusic".GetLocalized()
+                    },
+                    new LocationItem()
+                    {
+                        IsDefaultLocation = true,
+                        Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                        Glyph = GetItemIcon(AppSettings.VideosPath),
+                        Path = AppSettings.VideosPath,
+                        Text = "SidebarVideos".GetLocalized()
+                    },
+                    new LocationItem
+                    {
+                        Text = "SidebarRecycleBin".GetLocalized(),
+                        Font = App.Current.Resources["RecycleBinIcons"] as FontFamily,
+                        Glyph = "\uEF87",
+                        IsDefaultLocation = true,
+                        Path = AppSettings.RecycleBinPath
+                    }
+                }
             });
+
             SidebarControl.Items.Add(new HeaderItem()
             {
                 Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
@@ -236,6 +296,7 @@ namespace Files.DataModels
                 IsItemExpanded = AppSettings.DrivesManager.Drives.Count <= 5,
                 Text = "SidebarDrives".GetLocalized(),
                 HeaderType = HeaderItem.HeaderItemType.Drives,
+                MenuItems = (System.Collections.ObjectModel.ObservableCollection<INavigationControlItem>)AppSettings.DrivesManager.Drives.Where(x => x.Type != Filesystem.DriveType.Network)
             });
 
             if (AppSettings.CloudDrivesManager.Drives.Any())
@@ -248,9 +309,9 @@ namespace Files.DataModels
                     IsItemExpanded = true,
                     Text = "SidebarCloudDrives".GetLocalized(),
                     HeaderType = HeaderItem.HeaderItemType.Cloud,
+                    MenuItems = (System.Collections.ObjectModel.ObservableCollection<INavigationControlItem>)AppSettings.CloudDrivesManager.Drives
                 });
             }
-            
 
             if (AppSettings.DrivesManager.Drives.Any(x => x.Type == Filesystem.DriveType.Network))
             {
@@ -262,6 +323,7 @@ namespace Files.DataModels
                     IsItemExpanded = false,
                     Text = "SidebarNetwork".GetLocalized(),
                     HeaderType = HeaderItem.HeaderItemType.Network,
+                    MenuItems = (System.Collections.ObjectModel.ObservableCollection<INavigationControlItem>)AppSettings.DrivesManager.Drives.Where(x => x.Type == Filesystem.DriveType.Network)
                 });
             }
         }

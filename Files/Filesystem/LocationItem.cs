@@ -24,7 +24,7 @@ namespace Files.Filesystem
         }
         public bool IsItemExpanded { get; set; } = false;
         public HeaderItemType HeaderType { get; set; }
-        public ObservableCollection<INavigationControlItem> MenuItems { get; } = new ObservableCollection<INavigationControlItem>();
+        public ObservableCollection<INavigationControlItem> MenuItems { get; set; } = new ObservableCollection<INavigationControlItem>();
         public new NavigationControlItemType ItemType => NavigationControlItemType.Header;
     }
 }

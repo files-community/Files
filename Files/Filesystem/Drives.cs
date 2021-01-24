@@ -129,41 +129,41 @@ namespace Files.Filesystem
             {
                 lock (SidebarControl.Items)
                 {
-                    var drivesSection = SidebarControl.Items.FirstOrDefault(x => x is HeaderItem && x.Text == "SidebarDrives".GetLocalized());
+                    //var drivesSection = SidebarControl.Items.FirstOrDefault(x => x is HeaderItem && x.Text == "SidebarDrives".GetLocalized());
 
-                    if (drivesSection != null && Drives.Count == 0)
-                    {
-                        //No drives - remove the header
-                        SidebarControl.Items.Remove(drivesSection);
-                    }
+                    //if (drivesSection != null && Drives.Count == 0)
+                    //{
+                    //    //No drives - remove the header
+                    //    SidebarControl.Items.Remove(drivesSection);
+                    //}
 
-                    if (drivesSection == null && Drives.Count > 0)
-                    {
-                        drivesSection = new HeaderItem()
-                        {
-                            Text = "SidebarDrives".GetLocalized()
-                        };
+                    //if (drivesSection == null && Drives.Count > 0)
+                    //{
+                    //    drivesSection = new HeaderItem()
+                    //    {
+                    //        Text = "SidebarDrives".GetLocalized()
+                    //    };
 
-                        SidebarControl.Items.Add(drivesSection);
-                    }
+                    //    SidebarControl.Items.Add(drivesSection);
+                    //}
 
-                    var sectionStartIndex = SidebarControl.Items.IndexOf(drivesSection);
+                   // var sectionStartIndex = SidebarControl.Items.IndexOf(drivesSection);
 
                     //Remove all existing drives from the sidebar
                     foreach (var item in SidebarControl.Items
                     .Where(x => x.ItemType == NavigationControlItemType.Drive)
                     .ToList())
                     {
-                        SidebarControl.Items.Remove(item);
+                        //SidebarControl.Items.Remove(item);
                         DrivesWidget.ItemsAdded.Remove(item);
                     }
 
                     //Add all drives to the sidebar
-                    var insertAt = sectionStartIndex + 1;
+                    //var insertAt = sectionStartIndex + 1;
                     foreach (var drive in Drives)
                     {
-                        SidebarControl.Items.Insert(insertAt, drive);
-                        insertAt++;
+                        //SidebarControl.Items.Insert(insertAt, drive);
+                        //insertAt++;
 
                         if (drive.Type != DriveType.VirtualDrive)
                         {

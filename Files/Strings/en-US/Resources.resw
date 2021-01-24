@@ -1764,6 +1764,9 @@
   <data name="SidebarNetwork" xml:space="preserve">
     <value>Network</value>
   </data>
+  <data name="SidebarRecycleBin" xml:space="preserve">
+    <value>Recycle Bin</value>
+  </data>
   <data name="SidebarThisDevice" xml:space="preserve">
     <value>This device</value>
   </data>
