@@ -319,7 +319,8 @@ namespace Files.Views
                 {
                     if (NormalizePath(currentPath) != NormalizePath("A:") && NormalizePath(currentPath) != NormalizePath("B:"))
                     {
-                        var remDriveNames = (await KnownFolders.RemovableDevices.GetFoldersAsync()).Select(x => x.DisplayName);
+                        var drives = await FilesystemTasks.Wrap(() => KnownFolders.RemovableDevices.GetFoldersAsync().AsTask());
+                        var remDriveNames = drives.Result?.Select(x => x.DisplayName) ?? new string[0];
                         var matchingDriveName = remDriveNames.FirstOrDefault(x => NormalizePath(currentPath).Contains(x.ToUpperInvariant()));
 
                         if (matchingDriveName == null)
