@@ -482,7 +482,12 @@ namespace Files.Views.LayoutModes
             var rowPressed = Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
             if (rowPressed != null)
             {
-                var objectPressed = ((ObservableCollection<ListedItem>)AllView.ItemsSource)[rowPressed.GetIndex()];
+                var allItems = ((ObservableCollection<ListedItem>)AllView.ItemsSource).ToList();
+                var objectPressed = allItems.ElementAtOrDefault(rowPressed.GetIndex());
+                if (objectPressed == null)
+                {
+                    return;
+                }
 
                 // Check if RightTapped row is currently selected
                 if (IsItemSelected)
