@@ -448,11 +448,7 @@ namespace Files.Interacts
 
             if (itemType == null || isShortcutItem || isHiddenItem)
             {
-                if (isHiddenItem)
-                {
-                    itemType = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory) ? FilesystemItemType.Directory : FilesystemItemType.File;
-                }
-                else if (isShortcutItem)
+                if (isShortcutItem)
                 {
                     AppServiceResponse response = await Connection.SendMessageAsync(new ValueSet()
                     {
@@ -469,12 +465,16 @@ namespace Files.Interacts
                         shortcutRunAsAdmin = response.Message.Get("RunAsAdmin", false);
                         shortcutIsFolder = response.Message.Get("IsFolder", false);
 
-                        itemType = FilesystemItemType.File; // Set to file here, because the logic is the same in both scenarios
+                        itemType = shortcutIsFolder ? FilesystemItemType.Directory : FilesystemItemType.File;
                     }
                     else
                     {
                         return false;
                     }
+                }
+                else if (isHiddenItem)
+                {
+                    itemType = NativeFileOperationsHelper.HasFileAttribute(path, System.IO.FileAttributes.Directory) ? FilesystemItemType.Directory : FilesystemItemType.File;
                 }
                 else
                 {
@@ -486,7 +486,26 @@ namespace Files.Interacts
 
             if (itemType == FilesystemItemType.Directory) // OpenDirectory
             {
-                if (isHiddenItem)
+                if (isShortcutItem)
+                {
+                    if (string.IsNullOrEmpty(shortcutTargetPath))
+                    {
+                        await InvokeWin32ComponentAsync(path);
+                        return true;
+                    }
+                    else
+                    {
+                        AssociatedInstance.NavigationToolbar.PathControlDisplayText = shortcutTargetPath;
+                        AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(shortcutTargetPath), new NavigationArguments()
+                        {
+                            NavPathParam = shortcutTargetPath,
+                            AssociatedTabInstance = AssociatedInstance
+                        }, new SuppressNavigationTransitionInfo());
+
+                        return true;
+                    }
+                }
+                else if (isHiddenItem)
                 {
                     AssociatedInstance.NavigationToolbar.PathControlDisplayText = path;
                     AssociatedInstance.ContentFrame.Navigate(AssociatedInstance.InstanceViewModel.FolderSettings.GetLayoutType(path), new NavigationArguments()
@@ -522,11 +541,7 @@ namespace Files.Interacts
             }
             else if (itemType == FilesystemItemType.File) // OpenFile
             {
-                if (isHiddenItem)
-                {
-                    await InvokeWin32ComponentAsync(path);
-                }
-                else if (isShortcutItem)
+                if (isShortcutItem)
                 {
                     if (string.IsNullOrEmpty(shortcutTargetPath))
                     {
@@ -546,6 +561,10 @@ namespace Files.Interacts
                         await InvokeWin32ComponentAsync(shortcutTargetPath, shortcutArguments, shortcutRunAsAdmin, shortcutWorkingDirectory);
                     }
                     opened = (FilesystemResult)true;
+                }
+                else if (isHiddenItem)
+                {
+                    await InvokeWin32ComponentAsync(path);
                 }
                 else
                 {
