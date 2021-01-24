@@ -507,7 +507,7 @@ namespace Files.Interacts
                         });
                     if (!opened)
                     {
-                        opened = (FilesystemResult)AssociatedInstance.FilesystemViewModel.CheckFolderAccessWithWin32(path);
+                        opened = (FilesystemResult)ItemViewModel.CheckFolderAccessWithWin32(path);
                     }
                     if (opened)
                     {

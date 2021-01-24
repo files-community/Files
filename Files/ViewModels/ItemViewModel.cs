@@ -1433,7 +1433,7 @@ namespace Files.ViewModels
             Debug.WriteLine($"Enumerating items in {path} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
         }
 
-        public bool CheckFolderAccessWithWin32(string path)
+        public static bool CheckFolderAccessWithWin32(string path)
         {
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
             int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
