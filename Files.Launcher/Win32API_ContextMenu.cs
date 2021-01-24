@@ -277,9 +277,10 @@ namespace FilesFullTrust
                         }
                         if (mii.hbmpItem != HBITMAP.NULL && !Enum.IsDefined(typeof(HBITMAP_HMENU), ((IntPtr)mii.hbmpItem).ToInt64()))
                         {
-                            var bitmap = GetBitmapFromHBitmap(mii.hbmpItem);
+                            var bitmap = mii.hbmpItem.ToBitmap();
                             if (bitmap != null)
                             {
+                                bitmap.RotateFlip(RotateFlipType.RotateNoneFlipY);
                                 menuItem.Icon = bitmap;
                             }
                         }
