@@ -30,7 +30,7 @@ namespace Files.Helpers.FileListCache
             if (!schemaCreated)
             {
                 // create db schema
-                var createSql = @"CREATE TABLE ""FileListCache"" (
+                var createSql = @"CREATE TABLE IF NOT EXISTS ""FileListCache"" (
                     ""Id"" VARCHAR(5000) NOT NULL,
                     ""Timestamp"" INTEGER NOT NULL,
 	                ""Entry"" TEXT NOT NULL,
