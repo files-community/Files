@@ -904,6 +904,18 @@ namespace Files.Interacts
             return false;
         }
 
+        /// <summary>
+        /// Set a single file or folder to hidden or unhidden an refresh the
+        /// view after setting the flag
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="isHidden"></param>
+        public void SetHiddenAttributeItem(ListedItem item, bool isHidden)
+        {
+            item.IsHiddenItem = isHidden;
+            AssociatedInstance.ContentPage.ResetItemOpacity();
+        }
+
         public async void RestoreItem_Click(object sender, RoutedEventArgs e)
         {
             if (AssociatedInstance.ContentPage.IsItemSelected)
