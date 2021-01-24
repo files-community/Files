@@ -786,6 +786,13 @@ namespace Files.UserControls
                 deferral.Complete();
                 return;
             }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Warn(ex, ex.Message);
+                e.AcceptedOperation = DataPackageOperation.None;
+                deferral.Complete();
+                return;
+            }
 
             if (!storageItems.Any(storageItem =>
             storageItem.Path.Replace(pathBoxItem.Path, string.Empty).
