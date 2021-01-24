@@ -11,7 +11,7 @@ namespace Files.Filesystem.Cloud.Providers
 {
     public class OneDriveCloudProvider : ICloudProviderDetector
     {
-        public async Task DetectAsync(List<CloudProvider> cloudProviders)
+        public async Task<IList<CloudProvider>> DetectAsync()
         {
             try
             {
@@ -22,22 +22,30 @@ namespace Files.Filesystem.Cloud.Providers
                 }, TimeSpan.FromSeconds(10));
                 if (status == AppServiceResponseStatus.Success)
                 {
+                    var results = new List<CloudProvider>();
                     foreach (var key in response.Message.Keys
                         .OrderByDescending(o => string.Equals(o, "OneDrive", StringComparison.OrdinalIgnoreCase))
                         .ThenBy(o => o))
                     {
-                        cloudProviders.Add(new CloudProvider()
+                        results.Add(new CloudProvider()
                         {
                             ID = CloudProviders.OneDrive,
                             Name = key,
                             SyncFolder = (string)response.Message[key]
                         });
                     }
+
+                    return results;
+                }
+                else
+                {
+                    return Array.Empty<CloudProvider>();
                 }
             }
             catch
             {
                 // Not detected
+                return Array.Empty<CloudProvider>();
             }
         }
     }

@@ -645,6 +645,7 @@ namespace Files.ViewModels
         }
 
         private ObservableCollection<FileProperty> fileProperties = new ObservableCollection<FileProperty>();
+
         public ObservableCollection<FileProperty> FileProperties
         {
             get => fileProperties;

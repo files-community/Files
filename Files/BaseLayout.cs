@@ -332,7 +332,7 @@ namespace Files
                 // pathRoot will be empty on recycle bin path
                 var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
                 string pathRoot = Path.GetPathRoot(workingDir);
-                if (string.IsNullOrEmpty(pathRoot) || workingDir == pathRoot 
+                if (string.IsNullOrEmpty(pathRoot) || workingDir == pathRoot
                     || workingDir.StartsWith(AppSettings.RecycleBinPath)) // Can't go up from recycle bin
                 {
                     ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
@@ -584,6 +584,18 @@ namespace Files
                     menuLayoutItem.CommandParameter = newEntry;
                     newItemMenu.Items.Insert(separatorIndex + 1, menuLayoutItem);
                 }
+            }
+            var isPinned = App.SidebarPinnedController.Model.Items.Contains(
+                ParentShellPageInstance.FilesystemViewModel.WorkingDirectory);
+            if (isPinned)
+            {
+                LoadMenuFlyoutItemByName("UnpinDirectoryFromSidebar");
+                UnloadMenuFlyoutItemByName("PinDirectoryToSidebar");
+            }
+            else
+            {
+                LoadMenuFlyoutItemByName("PinDirectoryToSidebar");
+                UnloadMenuFlyoutItemByName("UnpinDirectoryFromSidebar");
             }
         }
 

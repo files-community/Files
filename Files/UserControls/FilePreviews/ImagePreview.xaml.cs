@@ -13,6 +13,6 @@ namespace Files.UserControls.FilePreviews
             InitializeComponent();
         }
 
-        ImagePreviewViewModel ViewModel { get; set; }
+        private ImagePreviewViewModel ViewModel { get; set; }
     }
 }

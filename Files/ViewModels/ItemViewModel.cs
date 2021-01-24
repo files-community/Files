@@ -420,7 +420,7 @@ namespace Files.ViewModels
             {
                 var deviceId = (string)args.Request.Message["DeviceID"];
                 var eventType = (DeviceEvent)(int)args.Request.Message["EventType"];
-                await AppSettings.DrivesManager.HandleWin32DriveEvent(eventType, deviceId);
+                await App.DrivesManager.HandleWin32DriveEvent(eventType, deviceId);
             }
             // Complete the deferral so that the platform knows that we're done responding to the app service call.
             // Note for error handling: this must be called even if SendResponseAsync() throws an exception.
@@ -1433,7 +1433,7 @@ namespace Files.ViewModels
             Debug.WriteLine($"Enumerating items in {path} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
         }
 
-        public bool CheckFolderAccessWithWin32(string path)
+        public static bool CheckFolderAccessWithWin32(string path)
         {
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
             int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
@@ -1921,8 +1921,6 @@ namespace Files.ViewModels
                 opacity = 0.4;
             }
 
-            var pinned = App.SidebarPinnedController.Model.Items.Contains(itemPath);
-
             return new ListedItem(null, dateReturnFormat)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
@@ -1939,7 +1937,6 @@ namespace Files.ViewModels
                 FileSize = null,
                 FileSizeBytes = 0,
                 ContainsFilesOrFolders = CheckForFilesFolders(itemPath),
-                IsPinned = pinned,
                 //FolderTooltipText = tooltipString,
             };
         }

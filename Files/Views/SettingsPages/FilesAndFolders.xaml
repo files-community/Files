@@ -10,7 +10,7 @@
     <Page.DataContext>
         <settingsviewmodels:FilesAndFoldersViewModel />
     </Page.DataContext>
-    
+
     <Grid>
         <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <StackPanel

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows.Input;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using System;
+using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -27,6 +27,7 @@ namespace Files.ViewModels.Dialogs
         #region Public Properties
 
         public object displayControl;
+
         /// <summary>
         /// The control that is dynamically displayed.
         /// </summary>
@@ -37,6 +38,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private DynamicButtons dynamicButtons;
+
         /// <summary>
         /// Decides which buttons to show.
         /// <br/>
@@ -70,6 +72,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private string titleText;
+
         public string TitleText
         {
             get => titleText;
@@ -77,6 +80,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private string subtitleText;
+
         public string SubtitleText
         {
             get => subtitleText;
@@ -84,6 +88,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private string primaryButtonText;
+
         public string PrimaryButtonText
         {
             get => primaryButtonText;
@@ -91,6 +96,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private string secondaryButtonText;
+
         public string SecondaryButtonText
         {
             get => secondaryButtonText;
@@ -98,7 +104,8 @@ namespace Files.ViewModels.Dialogs
         }
 
         private string closeButtonText;
-        public string CloseButtonText 
+
+        public string CloseButtonText
         {
             get => closeButtonText;
             set => SetProperty(ref closeButtonText, value);
@@ -106,7 +113,7 @@ namespace Files.ViewModels.Dialogs
 
         public DynamicResult DynamicResult { get; set; }
 
-        #endregion
+        #endregion Public Properties
 
         #region Actions
 
@@ -121,7 +128,8 @@ namespace Files.ViewModels.Dialogs
         public Action HideDialog { get; set; }
 
         private Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> primaryButtonAction;
-        public Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> PrimaryButtonAction 
+
+        public Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> PrimaryButtonAction
         {
             get => primaryButtonAction;
             set
@@ -138,7 +146,8 @@ namespace Files.ViewModels.Dialogs
         }
 
         private Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> secondaryButtonAction;
-        public Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> SecondaryButtonAction 
+
+        public Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> SecondaryButtonAction
         {
             get => secondaryButtonAction;
             set
@@ -155,6 +164,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> closeButtonAction;
+
         public Action<DynamicDialogViewModel, ContentDialogButtonClickEventArgs> CloseButtonAction
         {
             get => closeButtonAction;
@@ -172,6 +182,7 @@ namespace Files.ViewModels.Dialogs
         }
 
         private Action<DynamicDialogViewModel, KeyRoutedEventArgs> keyDownAction;
+
         public Action<DynamicDialogViewModel, KeyRoutedEventArgs> KeyDownAction
         {
             get => keyDownAction;
@@ -188,7 +199,7 @@ namespace Files.ViewModels.Dialogs
             }
         }
 
-        #endregion
+        #endregion Actions
 
         #region Commands
 
@@ -200,7 +211,7 @@ namespace Files.ViewModels.Dialogs
 
         public ICommand DynamicKeyDownCommand { get; private set; }
 
-        #endregion
+        #endregion Commands
 
         #region Constructor
 
@@ -220,7 +231,7 @@ namespace Files.ViewModels.Dialogs
             DynamicButtons = DynamicButtons.Primary;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region IDisposable
 
@@ -245,6 +256,6 @@ namespace Files.ViewModels.Dialogs
             CloseButtonCommand = null;
         }
 
-        #endregion
+        #endregion IDisposable
     }
 }

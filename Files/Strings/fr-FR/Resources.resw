@@ -679,7 +679,7 @@
     <value>Copier vers {0}</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
-    <value>Créer un raccourcis</value>
+    <value>Créer un raccourci</value>
   </data>
   <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
     <value>Ouvrir l'emplacement du fichier</value>

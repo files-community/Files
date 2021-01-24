@@ -899,7 +899,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutShortcut.Text" translate="yes" xml:space="preserve">
           <source>Create shortcut</source>
-          <target state="translated">Créer un raccourcis</target>
+          <target state="translated">Créer un raccourci</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogOpenLinkButton.Content" translate="yes" xml:space="preserve">
           <source>Open file location</source>
@@ -2204,6 +2204,9 @@
         <trans-unit id="SettingsWidgetsShowBundles.Header" translate="yes" xml:space="preserve">
           <source>Show Bundles on the home page</source>
           <target state="new">Show Bundles on the home page</target>
+        <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
+          <source>Unpin directory from sidebar</source>
+          <target state="new">Unpin directory from sidebar</target>
         </trans-unit>
       </group>
     </body>

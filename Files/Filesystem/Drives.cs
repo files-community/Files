@@ -21,6 +21,7 @@ namespace Files.Filesystem
 {
     public class DrivesManager : ObservableObject
     {
+        private static readonly Task<DrivesManager> _instanceTask = CreateSingleton();
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private List<DriveItem> drivesList = new List<DriveItem>();
 
@@ -46,16 +47,19 @@ namespace Files.Filesystem
         private DeviceWatcher deviceWatcher;
         private bool driveEnumInProgress;
 
+        //Private as we want to prevent CloudDriveManager being constructed manually
         private DrivesManager()
         {
             SetupDeviceWatcher();
         }
 
-        public static Task<DrivesManager> CreateInstance()
+        private static async Task<DrivesManager> CreateSingleton()
         {
             var drives = new DrivesManager();
-            return drives.EnumerateDrivesAsync();
+            return await drives.EnumerateDrivesAsync();
         }
+
+        public static Task<DrivesManager> Instance => _instanceTask;
 
         private async Task<DrivesManager> EnumerateDrivesAsync()
         {
@@ -363,7 +367,7 @@ namespace Files.Filesystem
             if (devicePath.StartsWith("\\\\?\\")) // USB device
             {
                 // Check among already discovered drives
-                StorageFolder matchingDrive = App.AppSettings.DrivesManager.Drives.FirstOrDefault(x =>
+                StorageFolder matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x =>
                     Helpers.PathNormalization.NormalizePath(x.Path) == Helpers.PathNormalization.NormalizePath(rootPath))?.Root;
                 if (matchingDrive == null)
                 {

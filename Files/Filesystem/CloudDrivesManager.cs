@@ -5,6 +5,8 @@ using Microsoft.Toolkit.Uwp.Extensions;
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -14,6 +16,8 @@ namespace Files.Filesystem
 {
     public class CloudDrivesManager : ObservableObject
     {
+        private static readonly Task<CloudDrivesManager> _instanceTask = CreateSingleton();
+
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private List<DriveItem> drivesList = new List<DriveItem>();
 
@@ -28,7 +32,11 @@ namespace Files.Filesystem
             }
         }
 
-        private async Task EnumerateDrivesAsync()
+        //Private as we want to prevent CloudDriveManager being constructed manually
+        private CloudDrivesManager()
+        { }
+
+        private async Task<CloudDrivesManager> EnumerateDrivesAsync()
         {
             var cloudProviderController = new CloudProviderController();
             await cloudProviderController.DetectInstalledCloudProvidersAsync();
@@ -48,14 +56,17 @@ namespace Files.Filesystem
             }
 
             await RefreshUI();
+
+            return this;
         }
 
-        public static async Task<CloudDrivesManager> CreateInstance()
+        private static async Task<CloudDrivesManager> CreateSingleton()
         {
             var drives = new CloudDrivesManager();
-            await drives.EnumerateDrivesAsync();
-            return drives;
+            return await drives.EnumerateDrivesAsync();
         }
+
+        public static Task<CloudDrivesManager> Instance => _instanceTask;
 
         private async Task RefreshUI()
         {

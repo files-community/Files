@@ -1,23 +1,23 @@
-﻿using System;
+﻿using Files.Dialogs;
+using Files.Helpers;
+using Files.SettingsInterfaces;
+using Files.ViewModels.Dialogs;
+using Microsoft.Toolkit.Mvvm.ComponentModel;
+using Microsoft.Toolkit.Mvvm.Input;
+using Microsoft.Toolkit.Uwp.Extensions;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.UI.Xaml;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
-using Microsoft.Toolkit.Mvvm.Input;
-using Files.Helpers;
-using Files.SettingsInterfaces;
-using Windows.UI.Xaml.Input;
-using Windows.System;
-using Files.Dialogs;
-using Files.ViewModels.Dialogs;
-using Windows.UI.Xaml.Controls;
-using Newtonsoft.Json;
-using Windows.Storage.Pickers;
 using Windows.Storage;
-using Microsoft.Toolkit.Uwp.Extensions;
+using Windows.Storage.Pickers;
+using Windows.System;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace Files.ViewModels.Bundles
 {
@@ -30,13 +30,13 @@ namespace Files.ViewModels.Bundles
 
         private IBundlesSettings BundlesSettings => App.BundlesSettings;
 
-        #endregion
+        #endregion Singleton
 
         #region Private Members
 
         private IShellPage associatedInstance;
 
-        #endregion
+        #endregion Private Members
 
         #region Public Properties
 
@@ -46,6 +46,7 @@ namespace Files.ViewModels.Bundles
         public ObservableCollection<BundleContainerViewModel> Items { get; set; } = new ObservableCollection<BundleContainerViewModel>();
 
         private string bundleNameTextInput = string.Empty;
+
         public string BundleNameTextInput
         {
             get => bundleNameTextInput;
@@ -53,6 +54,7 @@ namespace Files.ViewModels.Bundles
         }
 
         private string addBundleErrorText = string.Empty;
+
         public string AddBundleErrorText
         {
             get => addBundleErrorText;
@@ -60,13 +62,14 @@ namespace Files.ViewModels.Bundles
         }
 
         public bool noBundlesAddItemLoad = false;
+
         public bool NoBundlesAddItemLoad
         {
             get => noBundlesAddItemLoad;
             set => SetProperty(ref noBundlesAddItemLoad, value);
         }
 
-        #endregion
+        #endregion Public Properties
 
         #region Commands
 
@@ -80,7 +83,7 @@ namespace Files.ViewModels.Bundles
 
         public ICommand ExportBundlesCommand { get; private set; }
 
-        #endregion
+        #endregion Commands
 
         #region Constructor
 
@@ -94,7 +97,7 @@ namespace Files.ViewModels.Bundles
             ExportBundlesCommand = new RelayCommand(ExportBundles);
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Command Implementation
 
@@ -207,7 +210,7 @@ namespace Files.ViewModels.Bundles
             }
         }
 
-        #endregion
+        #endregion Command Implementation
 
         #region Handlers
 
@@ -247,7 +250,7 @@ namespace Files.ViewModels.Bundles
             }
         }
 
-        #endregion
+        #endregion Handlers
 
         #region Public Helpers
 
@@ -353,7 +356,7 @@ namespace Files.ViewModels.Bundles
             }
         }
 
-        #endregion
+        #endregion Public Helpers
 
         #region IDisposable
 
@@ -369,6 +372,6 @@ namespace Files.ViewModels.Bundles
             Items = null;
         }
 
-        #endregion
+        #endregion IDisposable
     }
 }

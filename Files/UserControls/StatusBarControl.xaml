@@ -54,7 +54,7 @@
             HorizontalAlignment="Right"
             Orientation="Horizontal"
             Spacing="4">
-          
+
             <Button
                 x:Uid="StatusBarControlSelectionOptions"
                 Width="36"

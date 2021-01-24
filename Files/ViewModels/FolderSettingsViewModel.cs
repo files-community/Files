@@ -156,7 +156,7 @@ namespace Files.ViewModels
                     return GridViewSizeKind.Large;
                 }
             }
-        } 
+        }
 
         public int GridViewSize
         {
