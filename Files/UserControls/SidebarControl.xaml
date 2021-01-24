@@ -118,18 +118,12 @@
                     CanDrag="False"
                     Content="{x:Bind Text}"
                     DataContext="{x:Bind}"
+                    FontWeight="SemiBold"
                     IsExpanded="{x:Bind IsItemExpanded}"
                     IsRightTapEnabled="False"
-                    MenuItemsSource="{x:Bind MenuItems, Mode=OneWay}"
+                    MenuItemsSource="{x:Bind MenuItems}"
                     SelectsOnInvoked="False"
-                    Tag="{x:Bind Path}">
-                    <muxc:NavigationViewItem.Icon>
-                        <FontIcon
-                            FontFamily="{x:Bind Font}"
-                            FontSize="18"
-                            Glyph="{x:Bind Glyph}" />
-                    </muxc:NavigationViewItem.Icon>
-                </muxc:NavigationViewItem>
+                    Tag="{x:Bind Path}" />
             </DataTemplate>
 
             <local:NavItemDataTemplateSelector

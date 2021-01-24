@@ -84,53 +84,23 @@ namespace Files.Filesystem
             {
                 lock (SidebarControl.Items)
                 {
-                    //var drivesSection = SidebarControl.Items.FirstOrDefault(x => x is HeaderItem && x.Text == "SidebarCloudDrives".GetLocalized());
-
-                    //if (drivesSection != null && Drives.Count == 0)
-                    //{
-                    //    //No drives - remove the header
-                    //    SidebarControl.Items.Remove(drivesSection);
-                    //}
-
-                    //if (Drives.Count > 0)
-                    //{
-                    //    //drivesSection = new HeaderItem()
-                    //    //{
-                    //    //    Text = "SidebarCloudDrives".GetLocalized()
-                    //    //};
-
-                    //    //Get the last location item in the sidebar
-                    //    var lastLocationItem = SidebarControl.Items.LastOrDefault(x => x is LocationItem);
-
-                    //    if (lastLocationItem != null)
-                    //    {
-                    //        //Get the index of the last location item
-                    //        var lastLocationItemIndex = SidebarControl.Items.IndexOf(lastLocationItem);
-                    //        //Insert the drives title beneath it
-                    //        SidebarControl.Items.Insert(lastLocationItemIndex + 1, drivesSection);
-                    //    }
-                    //    else
-                    //    {
-                    //        SidebarControl.Items.Add(drivesSection);
-                    //    }
-                    //}
-
-                    //var sectionStartIndex = SidebarControl.Items.IndexOf(drivesSection);
-
                     //Remove all existing cloud drives from the sidebar
                     var cloudDrivesSection = SidebarControl.GetFirstHeaderItemOfType(HeaderItem.HeaderItemType.Cloud);
 
-                    foreach (var item in cloudDrivesSection.MenuItems
+                    if (cloudDrivesSection != null)
+                    {
+                        foreach (var item in cloudDrivesSection.MenuItems
                         .Where(x => x.ItemType == NavigationControlItemType.CloudDrive)
                         .ToList())
-                    {
-                        cloudDrivesSection.MenuItems.Remove(item);
-                    }
+                        {
+                            cloudDrivesSection.MenuItems.Remove(item);
+                        }
 
-                    //Add all cloud drives to the sidebar
-                    foreach (var drive in Drives.OrderBy(o => o.Text))
-                    {
-                        cloudDrivesSection.MenuItems.Add(drive);
+                        //Add all cloud drives to the sidebar
+                        foreach (var drive in Drives.OrderBy(o => o.Text))
+                        {
+                            cloudDrivesSection.MenuItems.Add(drive);
+                        }
                     }
                 }
             });

@@ -370,6 +370,8 @@ namespace Files.Views
 
             switch ((invokedItemContainer.DataContext as INavigationControlItem).ItemType)
             {
+                case NavigationControlItemType.Header:
+                    return;
                 case NavigationControlItemType.Location:
                     {
                         var ItemPath = (invokedItemContainer.DataContext as INavigationControlItem).Path; // Get the path of the invoked item

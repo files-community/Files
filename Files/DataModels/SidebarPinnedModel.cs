@@ -296,7 +296,7 @@ namespace Files.DataModels
                 IsItemExpanded = AppSettings.DrivesManager.Drives.Count <= 5,
                 Text = "SidebarDrives".GetLocalized(),
                 HeaderType = HeaderItem.HeaderItemType.Drives,
-                MenuItems = (System.Collections.ObjectModel.ObservableCollection<INavigationControlItem>)AppSettings.DrivesManager.Drives.Where(x => x.Type != Filesystem.DriveType.Network)
+                MenuItems = new System.Collections.ObjectModel.ObservableCollection<INavigationControlItem>(AppSettings.DrivesManager.Drives.Where(x => x.Type != Filesystem.DriveType.Network))
             });
 
             if (AppSettings.CloudDrivesManager.Drives.Any())
@@ -309,7 +309,7 @@ namespace Files.DataModels
                     IsItemExpanded = true,
                     Text = "SidebarCloudDrives".GetLocalized(),
                     HeaderType = HeaderItem.HeaderItemType.Cloud,
-                    MenuItems = (System.Collections.ObjectModel.ObservableCollection<INavigationControlItem>)AppSettings.CloudDrivesManager.Drives
+                    MenuItems = new System.Collections.ObjectModel.ObservableCollection<INavigationControlItem>(AppSettings.CloudDrivesManager.Drives)
                 });
             }
 
@@ -323,7 +323,7 @@ namespace Files.DataModels
                     IsItemExpanded = false,
                     Text = "SidebarNetwork".GetLocalized(),
                     HeaderType = HeaderItem.HeaderItemType.Network,
-                    MenuItems = (System.Collections.ObjectModel.ObservableCollection<INavigationControlItem>)AppSettings.DrivesManager.Drives.Where(x => x.Type == Filesystem.DriveType.Network)
+                    MenuItems = new System.Collections.ObjectModel.ObservableCollection<INavigationControlItem>(AppSettings.DrivesManager.Drives.Where(x => x.Type == Filesystem.DriveType.Network))
                 });
             }
         }

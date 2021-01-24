@@ -146,41 +146,58 @@ namespace Files.Filesystem
 
                     //    SidebarControl.Items.Add(drivesSection);
                     //}
-
-                    //Remove all existing drives from the sidebar
-                    foreach (var item in SidebarControl.GetFirstHeaderItemOfType(HeaderItem.HeaderItemType.Drives).MenuItems
-                    .Where(x => x.ItemType == NavigationControlItemType.Drive)
-                    .ToList().Cast<DriveItem>())
+                    if (SidebarControl.GetFirstHeaderItemOfType(HeaderItem.HeaderItemType.Drives) != null)
                     {
-                        if (item.Type != DriveType.Network)
+                        //Remove all existing drives from the sidebar
+                        foreach (var item in SidebarControl.GetFirstHeaderItemOfType(HeaderItem.HeaderItemType.Drives).MenuItems
+                        .Where(x => x.ItemType == NavigationControlItemType.Drive)
+                        .ToList().Cast<DriveItem>())
                         {
-                            SidebarControl.GetFirstHeaderItemOfType(HeaderItem.HeaderItemType.Drives).MenuItems.Remove(item);
-                        }
-                        else
-                        {
-                            SidebarControl.GetFirstHeaderItemOfType(HeaderItem.HeaderItemType.Network).MenuItems.Remove(item);
+                            if (item.Type != DriveType.Network)
+                            {
+                                SidebarControl.GetFirstHeaderItemOfType(HeaderItem.HeaderItemType.Drives).MenuItems.Remove(item);
+                            }
+                            else
+                            {
+                                SidebarControl.GetFirstHeaderItemOfType(HeaderItem.HeaderItemType.Network).MenuItems.Remove(item);
+                            }
+
+                            DrivesWidget.ItemsAdded.Remove(item);
                         }
 
-                        DrivesWidget.ItemsAdded.Remove(item);
+                        //Add all drives to the sidebar
+                        foreach (var drive in Drives)
+                        {
+                            if (drive.Type != DriveType.Network)
+                            {
+                                SidebarControl.GetFirstHeaderItemOfType(HeaderItem.HeaderItemType.Drives).MenuItems.Add(drive);
+                            }
+                            else
+                            {
+                                SidebarControl.GetFirstHeaderItemOfType(HeaderItem.HeaderItemType.Network).MenuItems.Add(drive);
+                            }
+
+                            if (drive.Type != DriveType.VirtualDrive)
+                            {
+                                DrivesWidget.ItemsAdded.Add(drive);
+                            }
+                        }
                     }
-
-                    //Add all drives to the sidebar
-                    foreach (var drive in Drives)
+                    else
                     {
-                        if (drive.Type != DriveType.Network)
+                        //Remove all existing drives from the widget only
+                        DrivesWidget.ItemsAdded.Clear();
+               
+                        //Add drives to the widget only
+                        foreach (var drive in Drives)
                         {
-                            SidebarControl.GetFirstHeaderItemOfType(HeaderItem.HeaderItemType.Drives).MenuItems.Add(drive);
-                        }
-                        else
-                        {
-                            SidebarControl.GetFirstHeaderItemOfType(HeaderItem.HeaderItemType.Network).MenuItems.Add(drive);
-                        }
-
-                        if (drive.Type != DriveType.VirtualDrive)
-                        {
-                            DrivesWidget.ItemsAdded.Add(drive);
+                            if (drive.Type != DriveType.VirtualDrive)
+                            {
+                                DrivesWidget.ItemsAdded.Add(drive);
+                            }
                         }
                     }
+                    
                 }
             });
         }
