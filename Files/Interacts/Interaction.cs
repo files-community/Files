@@ -708,7 +708,7 @@ namespace Files.Interacts
                 }
                 else
                 {
-                    await OpenPropertiesWindowAsync(App.AppSettings.DrivesManager.Drives
+                    await OpenPropertiesWindowAsync(App.DrivesManager.Drives
                         .Single(x => x.Path.Equals(AssociatedInstance.FilesystemViewModel.CurrentFolder.ItemPath)));
                 }
             }

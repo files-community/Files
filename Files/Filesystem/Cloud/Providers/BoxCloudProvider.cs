@@ -9,7 +9,7 @@ namespace Files.Filesystem.Cloud.Providers
 {
     public class BoxCloudProvider : ICloudProviderDetector
     {
-        public async Task DetectAsync(List<CloudProvider> cloudProviders)
+        public async Task<IList<CloudProvider>> DetectAsync()
         {
             try
             {
@@ -29,18 +29,22 @@ namespace Files.Filesystem.Cloud.Providers
 
                     if (!string.IsNullOrEmpty(syncPath))
                     {
-                        cloudProviders.Add(new CloudProvider()
+                        return new[] { new CloudProvider()
                         {
                             ID = CloudProviders.Box,
                             Name = "Box",
                             SyncFolder = syncPath
-                        });
+                        }
+                        };
                     }
                 }
+
+                return Array.Empty<CloudProvider>();
             }
             catch
             {
                 // Not detected
+                return Array.Empty<CloudProvider>();
             }
         }
     }

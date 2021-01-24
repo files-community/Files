@@ -50,6 +50,9 @@ namespace Files
         public static InteractionViewModel InteractionViewModel { get; set; }
         public static JumpListManager JumpList { get; } = new JumpListManager();
         public static SidebarPinnedController SidebarPinnedController { get; set; }
+        public static CloudDrivesManager CloudDrivesManager { get; set; }
+        public static DrivesManager DrivesManager { get; set; }
+
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public static class AppData
@@ -80,12 +83,34 @@ namespace Files
         {
             if (AppSettings == null)
             {
+                //We can't create AppSettings at the same time as everything else as other dependencies depend on AppSettings
                 AppSettings = await SettingsViewModel.CreateInstance();
+                if (App.AppSettings?.AcrylicTheme == null)
+                {
+                    Helpers.ThemeHelper.Initialize();
+                }
             }
 
-            if (App.AppSettings?.AcrylicTheme == null)
+            if (CloudDrivesManager == null)
             {
-                ThemeHelper.Initialize();
+                //Enumerate cloud drives on in the background. It will update the UI itself when finished
+                _ = Files.Filesystem.CloudDrivesManager.Instance.ContinueWith(o =>
+                  {
+                      CloudDrivesManager = o.Result;
+                  });
+            }
+
+            //Start off a list of tasks we need to run before we can continue startup
+            var tasksToRun = new List<Task>();
+
+            if (SidebarPinnedController == null)
+            {
+                tasksToRun.Add(Files.Controllers.SidebarPinnedController.CreateInstance().ContinueWith(o => SidebarPinnedController = o.Result));
+            }
+
+            if (DrivesManager == null)
+            {
+                tasksToRun.Add(Files.Filesystem.DrivesManager.Instance.ContinueWith(o => DrivesManager = o.Result));
             }
 
             if (InteractionViewModel == null)
@@ -93,9 +118,10 @@ namespace Files
                 InteractionViewModel = new InteractionViewModel();
             }
 
-            if (SidebarPinnedController == null)
+            if (tasksToRun.Any())
             {
-                SidebarPinnedController = await SidebarPinnedController.CreateInstance();
+                //Only proceed when all tasks are completed
+                await Task.WhenAll(tasksToRun);
             }
         }
 
@@ -118,7 +144,7 @@ namespace Files
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
         {
-            AppSettings?.DrivesManager?.ResumeDeviceWatcher();
+            DrivesManager?.ResumeDeviceWatcher();
         }
 
         public static INavigationControlItem RightClickedItem;
@@ -387,7 +413,7 @@ namespace Files
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
 
-            AppSettings?.Dispose();
+            DrivesManager?.Dispose();
             deferral.Complete();
         }
 
