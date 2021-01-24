@@ -1,24 +1,16 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppExtensions;
-using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
-using Windows.Storage;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Helpers
 {
-    class ExtensionManager
+    internal class ExtensionManager
     {
         //private CoreDispatcher _dispatcher; // used to run code on the UI thread for code that may update UI
         private AppExtensionCatalog catalog; // the catalog of app extensions available to this host
@@ -27,7 +19,7 @@ namespace Files.Helpers
         /// Builds a collection of extensions available to this host
         /// </summary>
         /// <param name="extensionContractName">
-        /// The contract string is defined in the extension host's Package.appxmanifest file under <uap3:AppExtensionHost><uap3:Name>MathExt</uap3:Name></uap3:AppExtensionHost> 
+        /// The contract string is defined in the extension host's Package.appxmanifest file under <uap3:AppExtensionHost><uap3:Name>MathExt</uap3:Name></uap3:AppExtensionHost>
         /// The string is defined in the extension's Package.appxmanifest file under <uap3:Extension Category="windows.appExtension"><uap3:AppExtension Name = "MathExt" ... >
         /// When these two strings match, the extension is loaded.</param>
         public ExtensionManager(string extensionContractName)
@@ -58,6 +50,7 @@ namespace Files.Helpers
         public void Initialize()
         {
             #region Error Checking & Dispatcher Setup
+
             // verify that we haven't already been initialized
             //if (_dispatcher != null)
             //{
@@ -65,7 +58,8 @@ namespace Files.Helpers
             //}
 
             //_dispatcher = dispatcher;
-            #endregion
+
+            #endregion Error Checking & Dispatcher Setup
 
             // handlers for extension management events
             //_catalog.PackageInstalled += Catalog_PackageInstalled;
@@ -84,12 +78,14 @@ namespace Files.Helpers
         public async void FindAndLoadExtensions()
         {
             #region Error Checking
+
             // Run on the UI thread because the Extensions Tab UI updates as extensions are added or removed
             //if (_dispatcher == null)
             //{
             //    throw new ExtensionManagerException("Extension Manager for " + this.ExtensionContractName + " is not initialized.");
             //}
-            #endregion
+
+            #endregion Error Checking
 
             IReadOnlyList<AppExtension> extensions = await catalog.FindAllAsync();
             foreach (AppExtension ext in extensions)
@@ -269,15 +265,23 @@ namespace Files.Helpers
         }
 
         #region Extra exceptions
+
         // For exceptions using the Extension Manager
         public class ExtensionManagerException : Exception
         {
-            public ExtensionManagerException() { }
+            public ExtensionManagerException()
+            {
+            }
 
-            public ExtensionManagerException(string message) : base(message) { }
+            public ExtensionManagerException(string message) : base(message)
+            {
+            }
 
-            public ExtensionManagerException(string message, Exception inner) : base(message, inner) { }
+            public ExtensionManagerException(string message, Exception inner) : base(message, inner)
+            {
+            }
         }
-        #endregion
+
+        #endregion Extra exceptions
     }
 }

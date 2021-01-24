@@ -15,6 +15,7 @@ namespace Files.ViewModels.Previews
         }
 
         public string textValue;
+
         public string TextValue
         {
             get => textValue;
@@ -46,7 +47,7 @@ namespace Files.ViewModels.Previews
             base.LoadSystemFileProperties();
         }
 
-        static Dictionary<string, List<string>> languageExtensions = new Dictionary<string, List<string>>()
+        private static Dictionary<string, List<string>> languageExtensions = new Dictionary<string, List<string>>()
         {
             // TODO: Debug color issue then reenable xml support
             //{"xml",  new List<string> {".xml", ".axml", ".xaml" } },
@@ -62,7 +63,7 @@ namespace Files.ViewModels.Previews
             {"powershell",  new List<string> {".pwsh", ".ps1", "psd1", ".psm1" } },
         };
 
-        static string GetCodeLanguage(string ext)
+        private static string GetCodeLanguage(string ext)
         {
             foreach (var lang in languageExtensions)
             {

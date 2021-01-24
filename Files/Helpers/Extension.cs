@@ -1,18 +1,13 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppExtensions;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -22,13 +17,16 @@ using Windows.UI.Xaml.Media.Imaging;
 public class Extension : INotifyPropertyChanged
 {
     #region Member Vars
+
     private PropertySet properties;
     private string serviceName;
     private readonly object sync = new object();
 
     public event PropertyChangedEventHandler PropertyChanged;
+
     public List<string> FileExtensions { get; internal set; } = new List<string>();
-    #endregion
+
+    #endregion Member Vars
 
     /// <summary>
     /// Creates an Extension object that represents an extension in the extension manager
@@ -47,6 +45,7 @@ public class Extension : INotifyPropertyChanged
         Visible = Visibility.Collapsed;
 
         #region Properties
+
         serviceName = null;
         if (this.properties != null)
         {
@@ -56,12 +55,14 @@ public class Extension : INotifyPropertyChanged
                 serviceName = serviceProperty["#text"].ToString();
             }
         }
-        #endregion
+
+        #endregion Properties
 
         UniqueId = $"{ext.AppInfo.AppUserModelId}!{ext.Id}"; // The name that identifies this extension in the extension manager
     }
 
     #region Properties
+
     public BitmapImage Logo { get; private set; }
 
     /// <summary>
@@ -92,7 +93,8 @@ public class Extension : INotifyPropertyChanged
     /// Gets or sets a value indicating whether the extension should be visible in the list of extensions.
     /// </summary>
     public Visibility Visible { get; private set; }
-    #endregion
+
+    #endregion Properties
 
     /// <summary>
     /// Invoke the extension's app service
@@ -164,6 +166,7 @@ public class Extension : INotifyPropertyChanged
         Logo = logo;
 
         #region Update Properties
+
         // update app service information
         serviceName = null;
         if (this.properties != null)
@@ -174,7 +177,8 @@ public class Extension : INotifyPropertyChanged
                 this.serviceName = serviceProperty["#text"].ToString();
             }
         }
-        #endregion
+
+        #endregion Update Properties
 
         await MarkAsLoaded();
     }
@@ -263,6 +267,7 @@ public class Extension : INotifyPropertyChanged
             Unload();
         }
     }
+
     #region PropertyChanged
 
     /// <summary>
@@ -273,5 +278,6 @@ public class Extension : INotifyPropertyChanged
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
-    #endregion
+
+    #endregion PropertyChanged
 }

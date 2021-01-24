@@ -26,19 +26,19 @@ namespace Files.ViewModels.Bundles
 
         private IBundlesSettings BundlesSettings => App.BundlesSettings;
 
-        #endregion
+        #endregion Singleton
 
         #region Private Members
 
         private IShellPage associatedInstance;
 
-        #endregion
+        #endregion Private Members
 
         #region Actions
 
         public Action<BundleContainerViewModel> NotifyItemRemoved { get; set; }
 
-        #endregion
+        #endregion Actions
 
         #region Public Properties
 
@@ -48,6 +48,7 @@ namespace Files.ViewModels.Bundles
         public ObservableCollection<BundleItemViewModel> Contents { get; private set; } = new ObservableCollection<BundleItemViewModel>();
 
         private string bundleName = "DefaultBundle";
+
         public string BundleName
         {
             get => bundleName;
@@ -55,13 +56,14 @@ namespace Files.ViewModels.Bundles
         }
 
         private Visibility noBundleContentsTextVisibility;
+
         public Visibility NoBundleContentsTextVisibility
         {
             get => noBundleContentsTextVisibility;
             set => SetProperty(ref noBundleContentsTextVisibility, value);
         }
 
-        #endregion
+        #endregion Public Properties
 
         #region Commands
 
@@ -73,7 +75,7 @@ namespace Files.ViewModels.Bundles
 
         public ICommand DropCommand { get; private set; }
 
-        #endregion
+        #endregion Commands
 
         #region Constructor
 
@@ -88,7 +90,7 @@ namespace Files.ViewModels.Bundles
             DropCommand = new RelayCommand<DragEventArgs>(Drop);
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Command Implementation
 
@@ -217,7 +219,7 @@ namespace Files.ViewModels.Bundles
             }
         }
 
-        #endregion
+        #endregion Command Implementation
 
         #region Handlers
 
@@ -236,7 +238,7 @@ namespace Files.ViewModels.Bundles
             }
         }
 
-        #endregion
+        #endregion Handlers
 
         #region Private Helpers
 
@@ -254,7 +256,7 @@ namespace Files.ViewModels.Bundles
             return false;
         }
 
-        #endregion
+        #endregion Private Helpers
 
         #region Public Helpers
 
@@ -298,7 +300,7 @@ namespace Files.ViewModels.Bundles
             }
         }
 
-        #endregion
+        #endregion Public Helpers
 
         #region IDisposable
 
@@ -321,6 +323,6 @@ namespace Files.ViewModels.Bundles
             Contents = null;
         }
 
-        #endregion
+        #endregion IDisposable
     }
 }

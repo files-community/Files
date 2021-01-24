@@ -116,6 +116,7 @@ namespace Files.ViewModels
         }
 
         private bool previewPaneEnabled;
+
         /// <summary>
         /// Gets or sets the value indicating whether the preview pane should be shown.
         /// </summary>

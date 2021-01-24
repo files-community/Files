@@ -1,17 +1,17 @@
-﻿using System;
-using System.Windows.Input;
+﻿using Files.Filesystem;
+using Files.Helpers;
+using Files.SettingsInterfaces;
+using Files.Views;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
-using Windows.UI.Xaml.Media.Imaging;
-using Files.Filesystem;
-using Files.SettingsInterfaces;
+using System;
 using System.Collections.Generic;
-using Windows.Storage.FileProperties;
+using System.Windows.Input;
 using Windows.Storage;
-using Files.Helpers;
+using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
-using Files.Views;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.ViewModels.Bundles
 {
@@ -21,19 +21,19 @@ namespace Files.ViewModels.Bundles
 
         private IBundlesSettings BundlesSettings => App.BundlesSettings;
 
-        #endregion
+        #endregion Singleton
 
         #region Private Members
 
         private IShellPage associatedInstance;
 
-        #endregion
+        #endregion Private Members
 
         #region Actions
 
         public Action<BundleItemViewModel> NotifyItemRemoved { get; set; }
 
-        #endregion
+        #endregion Actions
 
         #region Public Properties
 
@@ -52,6 +52,7 @@ namespace Files.ViewModels.Bundles
         public FilesystemItemType TargetType { get; set; } = FilesystemItemType.File;
 
         private ImageSource icon;
+
         public ImageSource Icon
         {
             get => icon;
@@ -70,7 +71,7 @@ namespace Files.ViewModels.Bundles
             get => TargetType == FilesystemItemType.Directory ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        #endregion
+        #endregion Public Properties
 
         #region Commands
 
@@ -82,7 +83,7 @@ namespace Files.ViewModels.Bundles
 
         public ICommand RemoveItemCommand { get; private set; }
 
-        #endregion
+        #endregion Commands
 
         #region Constructor
 
@@ -101,7 +102,7 @@ namespace Files.ViewModels.Bundles
             SetIcon();
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Command Implementation
 
@@ -131,7 +132,7 @@ namespace Files.ViewModels.Bundles
             }
         }
 
-        #endregion
+        #endregion Command Implementation
 
         #region Private Helpers
 
@@ -171,7 +172,7 @@ namespace Files.ViewModels.Bundles
             }
         }
 
-        #endregion
+        #endregion Private Helpers
 
         #region IDisposable
 
@@ -188,6 +189,6 @@ namespace Files.ViewModels.Bundles
             associatedInstance = null;
         }
 
-        #endregion
+        #endregion IDisposable
     }
 }

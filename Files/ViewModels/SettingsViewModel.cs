@@ -69,7 +69,9 @@ namespace Files.ViewModels
             return settings.Initialize();
         }
 
-        private SettingsViewModel() { }
+        private SettingsViewModel()
+        {
+        }
 
         private void TrackAnalytics()
         {
@@ -274,7 +276,7 @@ namespace Files.ViewModels
             set => Set(value);
         }
 
-        #endregion
+        #endregion DetailsView Column Settings
 
         #region CommonPaths
 
@@ -560,7 +562,7 @@ namespace Files.ViewModels
                 }
             }
         }
-        
+
         /// <summary>
         /// Gets or sets the value indicating whether the preview pane should adapt to the width of the view.
         /// </summary>

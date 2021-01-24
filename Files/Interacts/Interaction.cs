@@ -1,3 +1,4 @@
+using Files.Common;
 using Files.DataModels;
 using Files.Dialogs;
 using Files.Enums;
@@ -40,7 +41,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using Files.Common;
 using static Files.Views.Properties;
 
 namespace Files.Interacts

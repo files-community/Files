@@ -30,7 +30,6 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-
     <StackPanel Spacing="12">
         <Grid>
             <Grid.ColumnDefinitions>

@@ -48,7 +48,7 @@
                     Header="Show Bundles on the home page"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowBundlesWidget, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                
+
                 <ToggleSwitch
                     x:Uid="SettingsWidgetsShowRecentFiles"
                     AutomationProperties.Name="Show recent files on the home page"

@@ -100,6 +100,7 @@ namespace Files.ViewModels.SettingsViewModels
         }
 
         private bool enableAdaptivePreviewPane = App.AppSettings.EnableAdaptivePreviewPane;
+
         public bool EnableAdaptivePreviewPane
         {
             get => enableAdaptivePreviewPane;

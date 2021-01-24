@@ -14,6 +14,6 @@ namespace Files.UserControls.FilePreviews
             InitializeComponent();
         }
 
-        MarkdownPreviewViewModel ViewModel { get; set; }
+        private MarkdownPreviewViewModel ViewModel { get; set; }
     }
 }

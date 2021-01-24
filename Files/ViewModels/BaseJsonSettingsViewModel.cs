@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Files.Helpers;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Windows.Storage;
-using Newtonsoft.Json;
-using Files.Helpers;
 
 namespace Files.ViewModels
 {
@@ -18,7 +18,7 @@ namespace Files.ViewModels
 
         protected readonly bool initialized = false;
 
-        #endregion
+        #endregion Protected Members
 
         #region Constructor
 
@@ -34,7 +34,7 @@ namespace Files.ViewModels
             initialized = true;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Protected Helpers
 
@@ -43,7 +43,7 @@ namespace Files.ViewModels
             await ApplicationData.Current.LocalFolder.CreateFileAsync(System.IO.Path.Combine(Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.BundlesSettingsFileName), CreationCollisionOption.OpenIfExists);
         }
 
-        #endregion
+        #endregion Protected Helpers
 
         #region Get, Set
 
@@ -112,7 +112,7 @@ namespace Files.ViewModels
             }
         }
 
-        #endregion
+        #endregion Get, Set
 
         #region Virtual Helpers
 
@@ -130,6 +130,6 @@ namespace Files.ViewModels
             catch { }
         }
 
-        #endregion
+        #endregion Virtual Helpers
     }
 }
