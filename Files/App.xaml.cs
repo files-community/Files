@@ -247,7 +247,7 @@ namespace Files
                 // Clipboard.GetContent() will throw UnauthorizedAccessException
                 // if the app window is not in the foreground and active
                 DataPackageView packageView = Clipboard.GetContent();
-                if (packageView.Contains(StandardDataFormats.StorageItems))
+                if (packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains(StandardDataFormats.Bitmap))
                 {
                     App.InteractionViewModel.IsPasteEnabled = true;
                 }
