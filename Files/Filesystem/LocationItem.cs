@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Media;
+﻿using System.Collections.ObjectModel;
+using Windows.UI.Xaml.Media;
 
 namespace Files.Filesystem
 {
@@ -12,11 +13,18 @@ namespace Files.Filesystem
         public bool IsDefaultLocation { get; set; }
     }
 
-    public class HeaderTextItem : INavigationControlItem
+    public class HeaderItem : LocationItem
     {
-        public string Glyph { get; set; } = null;
-        public string Text { get; set; }
-        public string Path { get; set; } = null;
-        public NavigationControlItemType ItemType => NavigationControlItemType.Header;
+        public enum HeaderItemType
+        {
+            ThisDevice,
+            Drives,
+            Cloud,
+            Network
+        }
+        public bool IsItemExpanded { get; set; } = false;
+        public HeaderItemType HeaderType { get; set; }
+        public ObservableCollection<INavigationControlItem> MenuItems { get; } = new ObservableCollection<INavigationControlItem>();
+        public new NavigationControlItemType ItemType => NavigationControlItemType.Header;
     }
 }

@@ -135,7 +135,7 @@
             IsTitleBarAutoPaddingEnabled="False"
             ItemInvoked="Sidebar_ItemInvoked"
             MenuItemTemplateSelector="{StaticResource NavItemSelector}"
-            MenuItemsSource="{x:Bind local3:SidebarControl.Items, Mode=OneWay}"
+            MenuItemsSource="{x:Bind local:SidebarControl.Items, Mode=OneWay}"
             OpenPaneLength="{x:Bind AppSettings.SidebarWidth.Value, Mode=OneWay}"
             PaneDisplayMode="Left"
             SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -156,8 +156,8 @@
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
                                 x:Name="OpenInNewPane"
-                                x:Load="{x:Bind CanOpenInNewPane, Mode=OneWay}"
                                 x:Uid="SideBarOpenInNewPane"
+                                x:Load="{x:Bind CanOpenInNewPane, Mode=OneWay}"
                                 Click="OpenInNewPane_Click"
                                 Text="Open in new pane">
                                 <MenuFlyoutItem.Icon>

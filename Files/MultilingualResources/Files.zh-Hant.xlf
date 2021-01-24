@@ -2204,6 +2204,18 @@
           <source>Create Bundle</source>
           <target state="new">Create Bundle</target>
         </trans-unit>
+        <trans-unit id="SidebarCloudDrives" translate="yes" xml:space="preserve">
+          <source>Cloud drives</source>
+          <target state="new">Cloud drives</target>
+        </trans-unit>
+        <trans-unit id="SidebarNetwork" translate="yes" xml:space="preserve">
+          <source>Network</source>
+          <target state="new">Network</target>
+        </trans-unit>
+        <trans-unit id="SidebarThisDevice" translate="yes" xml:space="preserve">
+          <source>This device</source>
+          <target state="new">This device</target>
+        </trans-unit>
       </group>
     </body>
   </file>

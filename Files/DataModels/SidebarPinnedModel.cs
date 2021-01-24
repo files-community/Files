@@ -2,6 +2,7 @@
 using Files.UserControls;
 using Files.ViewModels;
 using Files.Views;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -26,12 +27,12 @@ namespace Files.DataModels
         /// </summary>
         public void AddDefaultItems()
         {
-            Items.Add(AppSettings.DesktopPath);
+            //Items.Add(AppSettings.DesktopPath);
             Items.Add(AppSettings.DownloadsPath);
             Items.Add(AppSettings.DocumentsPath);
             Items.Add(AppSettings.PicturesPath);
-            Items.Add(AppSettings.MusicPath);
-            Items.Add(AppSettings.VideosPath);
+            //Items.Add(AppSettings.MusicPath);
+            //Items.Add(AppSettings.VideosPath);
         }
 
         /// <summary>
@@ -210,10 +211,58 @@ namespace Files.DataModels
         /// </summary>
         public async void AddAllItemsToSidebar()
         {
+            // Add pinned items first
             for (int i = 0; i < Items.Count(); i++)
             {
                 string path = Items[i];
                 await AddItemToSidebarAsync(path);
+            }
+
+            // Now, add section items
+            SidebarControl.Items.Add(new HeaderItem()
+            {
+                Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                //    Glyph = GetItemIcon(path),
+                IsDefaultLocation = true,
+                IsItemExpanded = false,
+                Text = "SidebarThisDevice".GetLocalized(),
+                HeaderType = HeaderItem.HeaderItemType.ThisDevice,
+            });
+            SidebarControl.Items.Add(new HeaderItem()
+            {
+                Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                //    Glyph = GetItemIcon(path),
+                IsDefaultLocation = true,
+                IsItemExpanded = AppSettings.DrivesManager.Drives.Count <= 5,
+                Text = "SidebarDrives".GetLocalized(),
+                HeaderType = HeaderItem.HeaderItemType.Drives,
+            });
+
+            if (AppSettings.CloudDrivesManager.Drives.Any())
+            {
+                SidebarControl.Items.Add(new HeaderItem()
+                {
+                    Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                    //    Glyph = GetItemIcon(path),
+                    IsDefaultLocation = true,
+                    IsItemExpanded = true,
+                    Text = "SidebarCloudDrives".GetLocalized(),
+                    HeaderType = HeaderItem.HeaderItemType.Cloud,
+                });
+            }
+            
+
+            if (AppSettings.DrivesManager.Drives.Any(x => x.Type == Filesystem.DriveType.Network))
+            {
+                SidebarControl.Items.Add(new HeaderItem()
+                {
+                    Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                    //    Glyph = GetItemIcon(path),
+                    IsDefaultLocation = true,
+                    IsItemExpanded = false,
+                    Text = "SidebarNetwork".GetLocalized(),
+                    HeaderType = HeaderItem.HeaderItemType.Network,
+                });
             }
         }
 

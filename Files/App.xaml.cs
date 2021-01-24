@@ -4,6 +4,7 @@ using Files.Filesystem;
 using Files.Filesystem.FilesystemHistory;
 using Files.Helpers;
 using Files.SettingsInterfaces;
+using Files.UserControls;
 using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Files.Views;

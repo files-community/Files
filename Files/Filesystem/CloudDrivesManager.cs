@@ -84,7 +84,7 @@ namespace Files.Filesystem
             {
                 lock (SidebarControl.Items)
                 {
-                    var drivesSection = SidebarControl.Items.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarCloudDrives".GetLocalized());
+                    var drivesSection = SidebarControl.Items.FirstOrDefault(x => x is HeaderItem && x.Text == "SidebarCloudDrives".GetLocalized());
 
                     if (drivesSection != null && Drives.Count == 0)
                     {
@@ -94,7 +94,7 @@ namespace Files.Filesystem
 
                     if (drivesSection == null && Drives.Count > 0)
                     {
-                        drivesSection = new HeaderTextItem()
+                        drivesSection = new HeaderItem()
                         {
                             Text = "SidebarCloudDrives".GetLocalized()
                         };

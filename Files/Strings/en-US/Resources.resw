@@ -1660,7 +1660,7 @@
     <value>When Launching Files</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
-    <value>Cloud Drives</value>
+    <value>Cloud drives</value>
   </data>
   <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>More options...</value>
@@ -1761,5 +1761,10 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>Item Name</value>
   </data>
-  
+  <data name="SidebarNetwork" xml:space="preserve">
+    <value>Network</value>
+  </data>
+  <data name="SidebarThisDevice" xml:space="preserve">
+    <value>This device</value>
+  </data>
 </root>

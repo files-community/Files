@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
@@ -16,6 +17,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using static Files.Filesystem.HeaderItem;
 
 namespace Files.UserControls
 {
@@ -209,6 +211,14 @@ namespace Files.UserControls
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public static HeaderItem GetFirstHeaderItemOfType(HeaderItemType type)
+        {
+            return Items
+                .Where(x => x.ItemType == NavigationControlItemType.Header)
+                .Cast<HeaderItem>()
+                .FirstOrDefault(x => x.HeaderType == type);
         }
 
         private void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
