@@ -1763,6 +1763,7 @@
   </data>
   <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
     <value>Show Bundles on the home page</value>
+  </data>
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Unpin directory from sidebar</value>
   </data>
