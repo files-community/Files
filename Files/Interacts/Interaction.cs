@@ -944,10 +944,13 @@ namespace Files.Interacts
             {
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
-                    FilesystemItemType itemType = (listedItem as RecycleBinItem).PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
-                    await FilesystemHelpers.RestoreFromTrashAsync(StorageItemHelpers.FromPathAndType(
-                        (listedItem as RecycleBinItem).ItemPath,
-                        itemType), (listedItem as RecycleBinItem).ItemOriginalPath, true);
+                    if (listedItem is RecycleBinItem binItem)
+                    {
+                        FilesystemItemType itemType = binItem.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
+                        await FilesystemHelpers.RestoreFromTrashAsync(StorageItemHelpers.FromPathAndType(
+                            (listedItem as RecycleBinItem).ItemPath,
+                            itemType), (listedItem as RecycleBinItem).ItemOriginalPath, true);
+                    }
                 }
             }
         }
