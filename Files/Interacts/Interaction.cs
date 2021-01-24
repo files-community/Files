@@ -227,7 +227,6 @@ namespace Files.Interacts
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
                     App.SidebarPinnedController.Model.AddItem(listedItem.ItemPath);
-                    listedItem.IsPinned = true;
                 }
             }
         }
@@ -239,7 +238,6 @@ namespace Files.Interacts
                 foreach (ListedItem listedItem in AssociatedInstance.ContentPage.SelectedItems)
                 {
                     App.SidebarPinnedController.Model.RemoveItem(listedItem.ItemPath);
-                    listedItem.IsPinned = false;
                 }
             }
         }
@@ -772,6 +770,11 @@ namespace Files.Interacts
         public void PinDirectoryToSidebar(object sender, RoutedEventArgs e)
         {
             App.SidebarPinnedController.Model.AddItem(AssociatedInstance.FilesystemViewModel.WorkingDirectory);
+        }
+
+        public void UnpinDirectoryFromSidebar(object sender, RoutedEventArgs e)
+        {
+            App.SidebarPinnedController.Model.RemoveItem(AssociatedInstance.FilesystemViewModel.WorkingDirectory);
         }
 
         private async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)

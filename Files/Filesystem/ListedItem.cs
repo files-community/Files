@@ -278,7 +278,7 @@ namespace Files.Filesystem
         public bool IsShortcutItem => this is ShortcutItem;
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
 
-        public bool IsPinned { get; set; }
+        public bool IsPinned => App.SidebarPinnedController.Model.Items.Contains(itemPath);
     }
 
     public class RecycleBinItem : ListedItem

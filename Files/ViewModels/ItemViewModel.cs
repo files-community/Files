@@ -1921,8 +1921,6 @@ namespace Files.ViewModels
                 opacity = 0.4;
             }
 
-            var pinned = App.SidebarPinnedController.Model.Items.Contains(itemPath);
-
             return new ListedItem(null, dateReturnFormat)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
@@ -1939,7 +1937,6 @@ namespace Files.ViewModels
                 FileSize = null,
                 FileSizeBytes = 0,
                 ContainsFilesOrFolders = CheckForFilesFolders(itemPath),
-                IsPinned = pinned,
                 //FolderTooltipText = tooltipString,
             };
         }
