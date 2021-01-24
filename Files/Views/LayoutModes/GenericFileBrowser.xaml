@@ -608,16 +608,6 @@
     </local:BaseLayout.Resources>
 
     <Grid x:Name="RootGrid" Background="Transparent">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*" />
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
                 Key="{x:Bind PlusKey}"
@@ -673,7 +663,6 @@
 
         <controls:DataGrid
             x:Name="AllView"
-            Grid.Row="3"
             Margin="12,4,0,0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
