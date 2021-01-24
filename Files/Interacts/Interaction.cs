@@ -649,7 +649,7 @@ namespace Files.Interacts
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     var ContentOwnedViewModelInstance = AssociatedInstance.FilesystemViewModel;
-                    ContentOwnedViewModelInstance.RefreshItems(previousDir);
+                    ContentOwnedViewModelInstance?.RefreshItems(previousDir);
                 });
             }
 
@@ -1269,7 +1269,7 @@ namespace Files.Interacts
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     var ContentOwnedViewModelInstance = AssociatedInstance.FilesystemViewModel;
-                    ContentOwnedViewModelInstance.RefreshItems(null);
+                    ContentOwnedViewModelInstance?.RefreshItems(null);
                 });
             }
         }
