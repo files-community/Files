@@ -1310,10 +1310,6 @@
           <source>Rating</source>
           <target state="translated" state-qualifier="tm-suggestion">التقييم</target>
         </trans-unit>
-        <trans-unit id="PropertyItemFolderPathDisplay" translate="yes" xml:space="preserve">
-          <source>Item Folder Path</source>
-          <target state="translated">مسار مجلد العنصر</target>
-        </trans-unit>
         <trans-unit id="PropertyItemTypeText" translate="yes" xml:space="preserve">
           <source>Item Type</source>
           <target state="translated" state-qualifier="tm-suggestion">نوع العنصر</target>
@@ -2173,6 +2169,38 @@
         <trans-unit id="BundlesWidgetAddBundleInputPlaceholderText" translate="yes" xml:space="preserve">
           <source>Desired name</source>
           <target state="translated">الاسم المطلوب</target>
+        </trans-unit>
+        <trans-unit id="PropertyItemPathDisplay" translate="yes" xml:space="preserve">
+          <source>Item Path</source>
+          <target state="new">Item Path</target>
+        </trans-unit>
+        <trans-unit id="SettingsEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
+          <source>Enable adaptive preview pane</source>
+          <target state="new">Enable adaptive preview pane</target>
+        </trans-unit>
+        <trans-unit id="SidebarCloudDrives" translate="yes" xml:space="preserve">
+          <source>Cloud Drives</source>
+          <target state="new">Cloud Drives</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneToggle.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Toggle the preview pane (Ctrl + P)</source>
+          <target state="new">Toggle the preview pane (Ctrl + P)</target>
+        </trans-unit>
+        <trans-unit id="DetailsPanePreviewNotAvaliableText" translate="yes" xml:space="preserve">
+          <source>No preview available</source>
+          <target state="new">No preview available</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneDetailsNotAvailableText" translate="yes" xml:space="preserve">
+          <source>No details available</source>
+          <target state="new">No details available</target>
+        </trans-unit>
+        <trans-unit id="PropertyItemName" translate="yes" xml:space="preserve">
+          <source>Item Name</source>
+          <target state="new">Item Name</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
+          <source>Unpin directory from sidebar</source>
+          <target state="new">Unpin directory from sidebar</target>
         </trans-unit>
       </group>
     </body>
