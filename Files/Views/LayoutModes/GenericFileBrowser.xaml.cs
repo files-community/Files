@@ -215,10 +215,14 @@ namespace Files.Views.LayoutModes
 
         public override void StartRenameItem()
         {
-            if (AllView.SelectedIndex != -1)
+            try
             {
                 AllView.CurrentColumn = AllView.Columns[1];
                 AllView.BeginEdit();
+            }
+            catch (InvalidOperationException)
+            {
+                // System.InvalidOperationException: There is no current row. Operation cannot be completed.
             }
         }
 
