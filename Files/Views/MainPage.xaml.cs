@@ -50,7 +50,6 @@ namespace Files.Views
         }
 
         public static ObservableCollection<TabItem> AppInstances = new ObservableCollection<TabItem>();
-        public static ObservableCollection<INavigationControlItem> SideBarItems = new ObservableCollection<INavigationControlItem>();
 
         public MainPage()
         {

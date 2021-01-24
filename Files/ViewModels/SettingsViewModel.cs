@@ -144,7 +144,7 @@ namespace Files.ViewModels
 
         private void AddDefaultLocations()
         {
-            MainPage.SideBarItems.Add(new LocationItem
+            SidebarControl.Items.Add(new LocationItem
             {
                 Text = "SidebarHome".GetLocalized(),
                 Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
@@ -192,7 +192,7 @@ namespace Files.ViewModels
                         logoURI = new Uri("ms-appx:///Assets/WSL/genericpng.png");
                     }
 
-                    MainPage.SideBarItems.Add(new WSLDistroItem()
+                    SidebarControl.Items.Add(new WSLDistroItem()
                     {
                         Text = folder.DisplayName,
                         Path = folder.Path,
@@ -544,16 +544,16 @@ namespace Files.ViewModels
                         };
                         // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
                         // TODO: the very first time the app is launched localized name not available
-                        MainPage.SideBarItems.Insert(MainPage.SideBarItems.Where(item => item is LocationItem).Count(), recycleBinItem);
+                        SidebarControl.Items.Insert(SidebarControl.Items.Where(item => item is LocationItem).Count(), recycleBinItem);
                     }
                     else
                     {
                         localSettings.Values["PinRecycleBin"] = false;
-                        foreach (INavigationControlItem item in MainPage.SideBarItems.ToList())
+                        foreach (INavigationControlItem item in SidebarControl.Items.ToList())
                         {
                             if (item is LocationItem && item.Path == RecycleBinPath)
                             {
-                                MainPage.SideBarItems.Remove(item);
+                                SidebarControl.Items.Remove(item);
                             }
                         }
                     }

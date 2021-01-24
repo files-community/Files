@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.UserControls;
 using Files.ViewModels;
 using Files.Views;
 using Newtonsoft.Json;
@@ -85,8 +86,8 @@ namespace Files.DataModels
 
             if (oldIndex >= 0 && newIndex >= 0)
             {
-                MainPage.SideBarItems.RemoveAt(oldIndex);
-                MainPage.SideBarItems.Insert(newIndex, locationItem);
+                SidebarControl.Items.RemoveAt(oldIndex);
+                SidebarControl.Items.Insert(newIndex, locationItem);
                 return true;
             }
 
@@ -151,7 +152,7 @@ namespace Files.DataModels
         /// <returns>Index of the item</returns>
         public int IndexOfItem(INavigationControlItem locationItem)
         {
-            return MainPage.SideBarItems.IndexOf(locationItem);
+            return SidebarControl.Items.IndexOf(locationItem);
         }
 
         /// <summary>
@@ -181,7 +182,7 @@ namespace Files.DataModels
             var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
             if (res)
             {
-                int insertIndex = MainPage.SideBarItems.IndexOf(MainPage.SideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
+                int insertIndex = SidebarControl.Items.IndexOf(SidebarControl.Items.Last(x => x.ItemType == NavigationControlItemType.Location
                 && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;
                 var locationItem = new LocationItem
                 {
@@ -192,9 +193,9 @@ namespace Files.DataModels
                     Text = res.Result.DisplayName
                 };
 
-                if (!MainPage.SideBarItems.Contains(locationItem))
+                if (!SidebarControl.Items.Contains(locationItem))
                 {
-                    MainPage.SideBarItems.Insert(insertIndex, locationItem);
+                    SidebarControl.Items.Insert(insertIndex, locationItem);
                 }
             }
             else
@@ -222,14 +223,14 @@ namespace Files.DataModels
         public void RemoveStaleSidebarItems()
         {
             // Remove unpinned items from sidebar
-            for (int i = 0; i < MainPage.SideBarItems.Count(); i++)
+            for (int i = 0; i < SidebarControl.Items.Count(); i++)
             {
-                if (MainPage.SideBarItems[i] is LocationItem)
+                if (SidebarControl.Items[i] is LocationItem)
                 {
-                    var item = MainPage.SideBarItems[i] as LocationItem;
+                    var item = SidebarControl.Items[i] as LocationItem;
                     if (!item.IsDefaultLocation && !Items.Contains(item.Path))
                     {
-                        MainPage.SideBarItems.RemoveAt(i);
+                        SidebarControl.Items.RemoveAt(i);
                     }
                 }
             }
