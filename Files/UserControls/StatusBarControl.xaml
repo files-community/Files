@@ -194,6 +194,7 @@
                                     CornerRadius="2"
                                     IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter=MediumGridInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
+                                    Margin="0"
                                     ToolTipService.ToolTip="Grid View (Medium)">
                                     <FontIcon
                                         FontFamily="{StaticResource FluentUIGlyphs}"
