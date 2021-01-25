@@ -1084,7 +1084,7 @@ namespace Files.Views
                     break;
 
                 case (true, false, false, true, VirtualKey.P):
-                    InstanceViewModel.PreviewPaneEnabled = !InstanceViewModel.PreviewPaneEnabled;
+                    PreviewPaneEnabled = !PreviewPaneEnabled;
                     break;
 
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
@@ -1295,16 +1295,68 @@ namespace Files.Views
             return DataPackageOperation.None;
         }
 
-        // Binding directly to the actual width raise property changed notifications
-        // This is a workaroumd
-        public double RootGridWidth
+        private bool previewPaneEnabled;
+
+        /// <summary>
+        /// Gets or sets the value indicating whether the preview pane should be shown.
+        /// </summary>
+        public bool PreviewPaneEnabled
         {
-            get => RootGrid.ActualWidth;
+            get => previewPaneEnabled;
+            set
+            {
+                previewPaneEnabled = value;
+                NotifyPropertyChanged(nameof(PreviewPaneEnabled));
+                UpdatePositioning();
+            }
         }
 
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            NotifyPropertyChanged(nameof(RootGridWidth));
+            UpdatePositioning();
+        }
+
+        /// <summary>
+        /// Call this function to update the positioning of the preview pane.
+        /// This is a workaround as the VisualStateManager causes problems. 
+        /// </summary>
+        private void UpdatePositioning()
+        {
+            if (!PreviewPaneEnabled || !InstanceViewModel.IsPageTypeNotHome)
+            {
+                PreviewPaneRow.Height = new GridLength(0);
+                PreviewPaneColumn.Width = new GridLength(0);
+                //PreviewPaneGridSplitter.Visibility = Visibility.Collapsed;
+
+            }
+            else if (RootGrid.ActualWidth > 1000)
+            {
+                PreviewPane.SetValue(Grid.RowProperty, 2);
+                PreviewPane.SetValue(Grid.ColumnProperty, 2);
+
+                PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 2);
+                PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 1);
+                PreviewPaneGridSplitter.Width = 2;
+                PreviewPaneGridSplitter.Height = RootGrid.ActualHeight;
+
+                PreviewPaneRow.Height = new GridLength(0);
+                PreviewPaneColumn.Width = new GridLength(300);
+                PreviewPane.IsHorizontal = false;
+            }
+            else if (RootGrid.ActualWidth < 1000)
+            {
+                PreviewPaneRow.Height = new GridLength(200);
+                PreviewPaneColumn.Width = new GridLength(0);
+
+                PreviewPane.SetValue(Grid.RowProperty, 4);
+                PreviewPane.SetValue(Grid.ColumnProperty, 0);
+
+                PreviewPaneGridSplitter.SetValue(Grid.RowProperty, 3);
+                PreviewPaneGridSplitter.SetValue(Grid.ColumnProperty, 0);
+                PreviewPaneGridSplitter.Height = 2;
+                PreviewPaneGridSplitter.Width = RootGrid.Width;
+                PreviewPane.IsHorizontal = true;
+            }
         }
     }
 
