@@ -976,6 +976,14 @@ namespace Files.Views
                 InitialPageType = typeof(ModernShellPage),
                 NavigationArg = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
             };
+
+            if(ItemDisplayFrame.CurrentSourcePageType == typeof(YourHome))
+            {
+                UpdatePositioning(true);
+            } else
+            {
+                UpdatePositioning();
+            }
         }
 
         private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
@@ -1313,21 +1321,28 @@ namespace Files.Views
 
         private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            UpdatePositioning();
+            UpdatePositioning(!InstanceViewModel.IsPageTypeNotHome);
         }
 
         /// <summary>
         /// Call this function to update the positioning of the preview pane.
         /// This is a workaround as the VisualStateManager causes problems. 
         /// </summary>
-        private void UpdatePositioning()
+        private void UpdatePositioning(bool IsHome = false)
         {
-            if (!PreviewPaneEnabled || !InstanceViewModel.IsPageTypeNotHome)
+            if (!PreviewPaneEnabled || IsHome)
             {
                 PreviewPaneRow.Height = new GridLength(0);
                 PreviewPaneColumn.Width = new GridLength(0);
-                //PreviewPaneGridSplitter.Visibility = Visibility.Collapsed;
+                if(PreviewPaneGridSplitter != null)
+                {
+                    PreviewPaneGridSplitter.Visibility = Visibility.Collapsed;
+                }
 
+                if (PreviewPane != null)
+                {
+                    PreviewPane.Visibility = Visibility.Collapsed;
+                }
             }
             else if (RootGrid.ActualWidth > 1000 || !AppSettings.EnableAdaptivePreviewPane)
             {
@@ -1342,6 +1357,9 @@ namespace Files.Views
                 PreviewPaneRow.Height = new GridLength(0);
                 PreviewPaneColumn.Width = new GridLength(300);
                 PreviewPane.IsHorizontal = false;
+
+                PreviewPane.Visibility = Visibility.Visible;
+                PreviewPaneGridSplitter.Visibility = Visibility.Visible;
             }
             else if (RootGrid.ActualWidth < 1000)
             {
@@ -1356,6 +1374,9 @@ namespace Files.Views
                 PreviewPaneGridSplitter.Height = 2;
                 PreviewPaneGridSplitter.Width = RootGrid.Width;
                 PreviewPane.IsHorizontal = true;
+
+                PreviewPane.Visibility = Visibility.Visible;
+                PreviewPaneGridSplitter.Visibility = Visibility.Visible;
             }
         }
     }
