@@ -110,7 +110,7 @@
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem
                                             x:Name="PropertiesItem"
-                                            x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
+                                            x:Uid="DrivesWidgetContextFlyoutPropertiesMenuItem"
                                             Click="OpenDriveProperties_Click"
                                             DataContext="{x:Bind}"
                                             Text="Properties">
