@@ -109,11 +109,11 @@
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
                                         <MenuFlyoutItem
-											x:Name="PropertiesItem"
-											x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
-											Click="OpenDriveProperties_Click"
-											DataContext="{x:Bind}"
-											Text="Properties">
+                                            x:Name="PropertiesItem"
+                                            x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
+                                            Click="OpenDriveProperties_Click"
+                                            DataContext="{x:Bind}"
+                                            Text="Properties">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea8d;" />
                                             </MenuFlyoutItem.Icon>
