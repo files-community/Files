@@ -1032,9 +1032,6 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Рейтинг</value>
   </data>
-  <data name="PropertyItemFolderPathDisplay" xml:space="preserve">
-    <value>Путь</value>
-  </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
     <value>Тип файла</value>
   </data>

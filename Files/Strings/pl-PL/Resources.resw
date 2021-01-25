@@ -1035,9 +1035,6 @@
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Klasyfikacja</value>
   </data>
-  <data name="PropertyItemFolderPathDisplay" xml:space="preserve">
-    <value>Ścieżka folderu</value>
-  </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
     <value>Typ elementu</value>
   </data>

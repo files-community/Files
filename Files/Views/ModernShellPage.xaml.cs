@@ -31,6 +31,7 @@ using Windows.UI.Core;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -159,6 +160,7 @@ namespace Files.Views
 
         public Control OperationsControl => null;
         public Type CurrentPageType => ItemDisplayFrame.SourcePageType;
+
         public INavigationControlItem SidebarSelectedItem
         {
             get => SidebarControl?.SelectedSidebarItem;
@@ -170,6 +172,7 @@ namespace Files.Views
                 }
             }
         }
+
         public INavigationToolbar NavigationToolbar => NavToolbar;
 
         public ModernShellPage()
@@ -181,8 +184,6 @@ namespace Files.Views
             FilesystemHelpers = new FilesystemHelpers(this, cancellationTokenSource.Token);
             storageHistoryHelpers = new StorageHistoryHelpers(new StorageHistoryOperations(this, cancellationTokenSource.Token));
 
-            AppSettings.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
-            AppSettings.PropertyChanged += AppSettings_PropertyChanged;
             DisplayFilesystemConsentDialog();
 
             var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
@@ -220,6 +221,9 @@ namespace Files.Views
 
             Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested += ModernShellPage_BackRequested;
+
+            App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
+            AppSettings.PropertyChanged += AppSettings_PropertyChanged;
         }
 
         private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -661,7 +665,7 @@ namespace Files.Views
                     var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(currentInput));
 
                     var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
-                    if (resFolder || FilesystemViewModel.CheckFolderAccessWithWin32(currentInput))
+                    if (resFolder || ItemViewModel.CheckFolderAccessWithWin32(currentInput))
                     {
                         var pathToNavigate = resFolder.Result?.Path ?? currentInput;
                         ContentFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(pathToNavigate),
@@ -777,9 +781,9 @@ namespace Files.Views
 
         private async void DisplayFilesystemConsentDialog()
         {
-            if (AppSettings.DrivesManager.ShowUserConsentOnInit)
+            if (App.DrivesManager?.ShowUserConsentOnInit ?? false)
             {
-                AppSettings.DrivesManager.ShowUserConsentOnInit = false;
+                App.DrivesManager.ShowUserConsentOnInit = false;
                 var consentDialogDisplay = new ConsentDialog();
                 await consentDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
             }
@@ -892,6 +896,7 @@ namespace Files.Views
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         public event EventHandler<TabItemArguments> ContentChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -901,7 +906,7 @@ namespace Files.Views
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            await InitializeAppServiceConnection();
+            ServiceConnection = await AppServiceConnectionHelper.BuildConnection();
             FilesystemViewModel = new ItemViewModel(this);
             FilesystemViewModel.OnAppServiceConnectionChanged();
             InteractionOperations = new Interaction(this);
@@ -917,33 +922,9 @@ namespace Files.Views
             if (this.ServiceConnection == null)
             {
                 // Need to reinitialize AppService when app is resuming
-                await InitializeAppServiceConnection();
+                ServiceConnection = await AppServiceConnectionHelper.BuildConnection();
                 FilesystemViewModel?.OnAppServiceConnectionChanged();
             }
-        }
-
-        private void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
-        {
-            ServiceConnection?.Dispose();
-            ServiceConnection = null;
-        }
-
-        public async Task InitializeAppServiceConnection()
-        {
-            ServiceConnection = new AppServiceConnection();
-            ServiceConnection.AppServiceName = "FilesInteropService";
-            ServiceConnection.PackageFamilyName = Package.Current.Id.FamilyName;
-            ServiceConnection.ServiceClosed += Connection_ServiceClosed;
-            AppServiceConnectionStatus status = await ServiceConnection.OpenAsync();
-            if (status != AppServiceConnectionStatus.Success)
-            {
-                // TODO: error handling
-                ServiceConnection?.Dispose();
-                ServiceConnection = null;
-            }
-
-            // Launch fulltrust process
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
         private void Current_Suspending(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
@@ -1102,6 +1083,10 @@ namespace Files.Views
                     }
                     break;
 
+                case (true, false, false, true, VirtualKey.P):
+                    InstanceViewModel.PreviewPaneEnabled = !InstanceViewModel.PreviewPaneEnabled;
+                    break;
+
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
                     if (!InstanceViewModel.IsPageTypeSearchResults)
                     {
@@ -1220,7 +1205,7 @@ namespace Files.Views
             SystemNavigationManager.GetForCurrentView().BackRequested -= ModernShellPage_BackRequested;
             App.Current.Suspending -= Current_Suspending;
             App.Current.LeavingBackground -= OnLeavingBackground;
-            AppSettings.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
+            App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
             AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
             NavigationToolbar.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
             NavigationToolbar.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;
@@ -1285,7 +1270,7 @@ namespace Files.Views
         {
             if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
             {
-                if (InstanceViewModel.IsPageTypeNotHome && !InstanceViewModel.IsPageTypeSearchResults)
+                if (!InstanceViewModel.IsPageTypeSearchResults)
                 {
                     return DataPackageOperation.Move;
                 }
@@ -1308,6 +1293,18 @@ namespace Files.Views
                 }
             }
             return DataPackageOperation.None;
+        }
+
+        // Binding directly to the actual width raise property changed notifications
+        // This is a workaroumd
+        public double RootGridWidth
+        {
+            get => RootGrid.ActualWidth;
+        }
+
+        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            NotifyPropertyChanged(nameof(RootGridWidth));
         }
     }
 

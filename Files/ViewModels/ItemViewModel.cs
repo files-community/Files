@@ -420,7 +420,7 @@ namespace Files.ViewModels
             {
                 var deviceId = (string)args.Request.Message["DeviceID"];
                 var eventType = (DeviceEvent)(int)args.Request.Message["EventType"];
-                await AppSettings.DrivesManager.HandleWin32DriveEvent(eventType, deviceId);
+                await App.DrivesManager.HandleWin32DriveEvent(eventType, deviceId);
             }
             // Complete the deferral so that the platform knows that we're done responding to the app service call.
             // Note for error handling: this must be called even if SendResponseAsync() throws an exception.
@@ -1056,13 +1056,13 @@ namespace Files.ViewModels
                     value.Add("Arguments", "RecycleBin");
                     value.Add("action", "Enumerate");
                     // Send request to fulltrust process to enumerate recyclebin items
-                    var response = await Connection.SendMessageAsync(value);
+                    var (status, response) = await Connection.SendMessageWithRetryAsync(value, TimeSpan.FromSeconds(10));
                     // If the request was canceled return now
                     if (addFilesCTS.IsCancellationRequested)
                     {
                         return;
                     }
-                    if (response.Status == AppServiceResponseStatus.Success
+                    if (status == AppServiceResponseStatus.Success
                         && response.Message.ContainsKey("Enumerate"))
                     {
                         var folderContentsList = JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response.Message["Enumerate"]);
@@ -1130,7 +1130,7 @@ namespace Files.ViewModels
 
             if (await CheckBitlockerStatusAsync(rootFolder))
             {
-                var bitlockerDialog = new Dialogs.BitlockerDialog(Path.GetPathRoot(path));
+                var bitlockerDialog = new Files.Dialogs.BitlockerDialog(Path.GetPathRoot(WorkingDirectory));
                 var bitlockerResult = await bitlockerDialog.ShowAsync();
                 if (bitlockerResult == ContentDialogResult.Primary)
                 {
@@ -1433,7 +1433,7 @@ namespace Files.ViewModels
             Debug.WriteLine($"Enumerating items in {path} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
         }
 
-        public bool CheckFolderAccessWithWin32(string path)
+        public static bool CheckFolderAccessWithWin32(string path)
         {
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
             int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
@@ -1921,8 +1921,6 @@ namespace Files.ViewModels
                 opacity = 0.4;
             }
 
-            var pinned = App.SidebarPinnedController.Model.Items.Contains(itemPath);
-
             return new ListedItem(null, dateReturnFormat)
             {
                 PrimaryItemAttribute = StorageItemTypes.Folder,
@@ -1939,7 +1937,6 @@ namespace Files.ViewModels
                 FileSize = null,
                 FileSizeBytes = 0,
                 ContainsFilesOrFolders = CheckForFilesFolders(itemPath),
-                IsPinned = pinned,
                 //FolderTooltipText = tooltipString,
             };
         }
@@ -2014,7 +2011,6 @@ namespace Files.ViewModels
             {
                 return null;
             }
-
             if (findData.cFileName.EndsWith(".lnk") || findData.cFileName.EndsWith(".url"))
             {
                 if (Connection != null)
@@ -2073,7 +2069,7 @@ namespace Files.ViewModels
                             WorkingDirectory = (string)response.Message["WorkingDirectory"],
                             RunAsAdmin = (bool)response.Message["RunAsAdmin"],
                             IsUrl = isUrl,
-                            ContainsFilesOrFolders = containsFilesOrFolders
+                            ContainsFilesOrFolders = containsFilesOrFolders,
                         };
                     }
                 }

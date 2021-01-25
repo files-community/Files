@@ -44,6 +44,12 @@
                     IsOn="{Binding ShowDrivesWidget, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <ToggleSwitch
+                    x:Uid="SettingsWidgetsShowBundles"
+                    Header="Show Bundles on the home page"
+                    HeaderTemplate="{StaticResource CustomHeaderStyle}"
+                    IsOn="{Binding ShowBundlesWidget, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <ToggleSwitch
                     x:Uid="SettingsWidgetsShowRecentFiles"
                     AutomationProperties.Name="Show recent files on the home page"
                     Header="Show recent files on the home page"

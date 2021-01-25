@@ -9,7 +9,7 @@ namespace Files.Filesystem.Cloud.Providers
 {
     public class AppleCloudProvider : ICloudProviderDetector
     {
-        public async Task DetectAsync(List<CloudProvider> cloudProviders)
+        public async Task<IList<CloudProvider>> DetectAsync()
         {
             try
             {
@@ -17,16 +17,18 @@ namespace Files.Filesystem.Cloud.Providers
                 var iCloudPath = "iCloudDrive";
                 var driveFolder = await StorageFolder.GetFolderFromPathAsync(Path.Combine(userPath, iCloudPath));
 
-                cloudProviders.Add(new CloudProvider()
-                {
-                    ID = CloudProviders.AppleCloud,
-                    Name = "iCloud",
-                    SyncFolder = driveFolder.Path
-                });
+                return new[] { new CloudProvider()
+                    {
+                        ID = CloudProviders.AppleCloud,
+                        Name = "iCloud",
+                        SyncFolder = driveFolder.Path
+                    }
+                };
             }
             catch
             {
                 // Not detected
+                return Array.Empty<CloudProvider>();
             }
         }
     }

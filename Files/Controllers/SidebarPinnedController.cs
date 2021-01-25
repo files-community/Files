@@ -17,9 +17,20 @@ namespace Files.Controllers
 
         public string JsonFileName { get; } = "PinnedItems.json";
 
-        public SidebarPinnedController()
+        private SidebarPinnedController()
         {
-            Init();
+        }
+
+        public static Task<SidebarPinnedController> CreateInstance()
+        {
+            var instance = new SidebarPinnedController();
+            return instance.InitializeAsync();
+        }
+
+        private async Task<SidebarPinnedController> InitializeAsync()
+        {
+            await LoadAsync();
+            return this;
         }
 
         private async Task LoadAsync()
@@ -72,11 +83,6 @@ namespace Files.Controllers
             }
 
             Model.AddAllItemsToSidebar();
-        }
-
-        public async void Init()
-        {
-            await LoadAsync();
         }
 
         public void SaveModel()
