@@ -1329,7 +1329,7 @@ namespace Files.Views
                 //PreviewPaneGridSplitter.Visibility = Visibility.Collapsed;
 
             }
-            else if (RootGrid.ActualWidth > 1000)
+            else if (RootGrid.ActualWidth > 1000 || !AppSettings.EnableAdaptivePreviewPane)
             {
                 PreviewPane.SetValue(Grid.RowProperty, 2);
                 PreviewPane.SetValue(Grid.ColumnProperty, 2);
