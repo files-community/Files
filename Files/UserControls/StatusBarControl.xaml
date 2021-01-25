@@ -177,11 +177,14 @@
                                     CornerRadius="2"
                                     IsChecked="{x:Bind FolderSettings.LayoutModeInformation, Converter={StaticResource LayoutModeBoolConverter}, Mode=OneWay, ConverterParameter=SmallGridInfo}"
                                     Style="{StaticResource ToggleButtonRevealStyle}"
-                                    ToolTipService.ToolTip="Grid View (Small)">
+                                    ToolTipService.ToolTip="Grid View (Small)"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
                                     <FontIcon
                                         FontFamily="{StaticResource FluentUIGlyphs}"
                                         FontSize="16"
-                                        Glyph="&#xEBA1;" />
+                                        Glyph="&#xEBA1;" 
+                                        Margin="0, 1, 0, 0"/>
                                 </RadioButton>
                                 <RadioButton
                                     x:Uid="StatusBarControlGridViewMedium"
@@ -195,7 +198,8 @@
                                     <FontIcon
                                         FontFamily="{StaticResource FluentUIGlyphs}"
                                         FontSize="16"
-                                        Glyph="&#xEA72;" />
+                                        Glyph="&#xEA72;" 
+                                        Margin="0, 1, 0, 0"/>
                                 </RadioButton>
                                 <RadioButton
                                     x:Uid="StatusBarControlGridViewLarge"
@@ -209,7 +213,8 @@
                                     <FontIcon
                                         FontFamily="{StaticResource FluentUIGlyphs}"
                                         FontSize="16"
-                                        Glyph="&#xE9A0;" />
+                                        Glyph="&#xE9A0;" 
+                                        Margin="0, 1, 0, 0"/>
                                 </RadioButton>
                             </StackPanel>
                         </StackPanel>
