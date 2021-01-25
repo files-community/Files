@@ -1605,4 +1605,10 @@
   <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
     <value>Csomag létrehozása</value>
   </data>
+  <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
+    <value>Nincs elérhető előnézet</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
+    <value>Nincs elérhető részlet</value>
+  </data>
 </root>
