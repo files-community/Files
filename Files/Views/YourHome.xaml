@@ -9,24 +9,20 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <ScrollViewer>
-        <StackPanel Margin="14,0,14,14" Spacing="24">
-            <StackPanel.ChildrenTransitions>
-                <TransitionCollection>
-                    <EntranceThemeTransition />
-                </TransitionCollection>
-            </StackPanel.ChildrenTransitions>
+	<ScrollViewer>
+		<StackPanel Margin="14,0,14,14" Spacing="24">
+			<StackPanel.ChildrenTransitions>
+				<TransitionCollection>
+					<EntranceThemeTransition />
+				</TransitionCollection>
+			</StackPanel.ChildrenTransitions>
+			<widgets:LibraryCards x:Name="LibraryWidget" x:Load="{x:Bind AppSettings.ShowLibraryCardsWidget, Mode=OneWay}" />
 
-            <widgets:LibraryCards x:Name="LibraryWidget" x:Load="{x:Bind AppSettings.ShowLibraryCardsWidget, Mode=OneWay}" />
+			<widgets:DrivesWidget x:Name="DrivesWidget" x:Load="{x:Bind AppSettings.ShowDrivesWidget, Mode=OneWay}" ShowMultiPaneControls="{x:Bind converters:MultiBooleanConverter.AndConvert(AppInstance.IsMultiPaneEnabled, AppInstance.IsPageMainPane), Mode=OneWay}" AppInstance="{x:Bind AppInstance, Mode=OneWay}" />
+								  
+			<widgets:Bundles x:Name="BundlesWidget" x:Load="{x:Bind AppSettings.ShowBundlesWidget, Mode=OneWay}" />
 
-            <widgets:DrivesWidget
-                x:Name="DrivesWidget"
-                x:Load="{x:Bind AppSettings.ShowDrivesWidget, Mode=OneWay}"
-                ShowMultiPaneControls="{x:Bind converters:MultiBooleanConverter.AndConvert(AppInstance.IsMultiPaneEnabled, AppInstance.IsPageMainPane), Mode=OneWay}" />
-
-            <widgets:Bundles x:Name="BundlesWidget" x:Load="{x:Bind AppSettings.ShowBundlesWidget, Mode=OneWay}" />
-
-            <widgets:RecentFiles x:Name="RecentFilesWidget" x:Load="{x:Bind AppSettings.ShowRecentFilesWidget, Mode=OneWay}" />
-        </StackPanel>
-    </ScrollViewer>
+			<widgets:RecentFiles x:Name="RecentFilesWidget" x:Load="{x:Bind AppSettings.ShowRecentFilesWidget, Mode=OneWay}" />
+		</StackPanel>
+	</ScrollViewer>
 </Page>
