@@ -105,6 +105,7 @@ namespace Files.ViewModels.Bundles
         {
             if (e.Key == VirtualKey.Enter)
             {
+                OnPropertyChanged(nameof(BundleNameTextInput)); // Update the property text
                 AddBundle(BundleNameTextInput);
                 e.Handled = true;
             }
