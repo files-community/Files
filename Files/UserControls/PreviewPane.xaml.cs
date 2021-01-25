@@ -78,7 +78,11 @@ namespace Files.UserControls
         public bool IsHorizontal
         {
             get => (bool)GetValue(IsHorizontalProperty);
-            set => SetValue(IsHorizontalProperty, value);
+            set
+            {
+                SetValue(IsHorizontalProperty, value);
+                EdgeTransitionLocation = value ? EdgeTransitionLocation.Bottom : EdgeTransitionLocation.Right;
+            }
         }
 
         public static DependencyProperty EdgeTransitionLocationProperty =
