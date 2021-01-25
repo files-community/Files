@@ -12,8 +12,8 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
-	<StackPanel Spacing="12">
-		<TextBlock
+    <StackPanel Spacing="12">
+        <TextBlock
             x:Uid="DrivesWidgetDescription"
             HorizontalAlignment="Left"
             FontFamily="Segoe UI"
@@ -22,45 +22,45 @@
             Opacity=".8"
             Text="Drives" />
 
-		<muxc:ItemsRepeater
+        <muxc:ItemsRepeater
             x:Name="CardsList"
             Grid.Row="0"
             HorizontalAlignment="Stretch"
             ItemsSource="{x:Bind local:DrivesWidget.ItemsAdded}">
-			<muxc:ItemsRepeater.Layout>
-				<muxc:UniformGridLayout
+            <muxc:ItemsRepeater.Layout>
+                <muxc:UniformGridLayout
                     ItemsStretch="None"
                     MinColumnSpacing="8"
                     MinItemHeight="90"
                     MinRowSpacing="8"
                     Orientation="Horizontal" />
-			</muxc:ItemsRepeater.Layout>
-			<muxc:ItemsRepeater.ItemTemplate>
-				<DataTemplate x:DataType="local2:DriveItem">
-					<Grid
+            </muxc:ItemsRepeater.Layout>
+            <muxc:ItemsRepeater.ItemTemplate>
+                <DataTemplate x:DataType="local2:DriveItem">
+                    <Grid
                         Width="270"
                         extensions:VisualExtensions.CenterPoint="135,45,0"
                         PointerEntered="GridScaleUp"
                         PointerExited="GridScaleNormal">
-						<animations:Implicit.Animations>
-							<animations:ScaleAnimation Duration="0:0:0.5" />
-						</animations:Implicit.Animations>
-						<Grid.Resources>
-							<ResourceDictionary>
-								<ResourceDictionary.ThemeDictionaries>
-									<ResourceDictionary x:Name="Light">
-										<SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef" />
-									</ResourceDictionary>
-									<ResourceDictionary x:Name="Dark">
-										<SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#161514" />
-									</ResourceDictionary>
-									<ResourceDictionary x:Name="HighContrast">
-										<SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="{ThemeResource SystemColorButtonFaceColor}" />
-									</ResourceDictionary>
-								</ResourceDictionary.ThemeDictionaries>
-							</ResourceDictionary>
-						</Grid.Resources>
-						<Button
+                        <animations:Implicit.Animations>
+                            <animations:ScaleAnimation Duration="0:0:0.5" />
+                        </animations:Implicit.Animations>
+                        <Grid.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.ThemeDictionaries>
+                                    <ResourceDictionary x:Name="Light">
+                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef" />
+                                    </ResourceDictionary>
+                                    <ResourceDictionary x:Name="Dark">
+                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#161514" />
+                                    </ResourceDictionary>
+                                    <ResourceDictionary x:Name="HighContrast">
+                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="{ThemeResource SystemColorButtonFaceColor}" />
+                                    </ResourceDictionary>
+                                </ResourceDictionary.ThemeDictionaries>
+                            </ResourceDictionary>
+                        </Grid.Resources>
+                        <Button
                             Padding="0"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
@@ -74,84 +74,84 @@
                             Style="{StaticResource ButtonRevealStyle}"
                             Tag="{x:Bind Path}"
                             ToolTipService.ToolTip="{x:Bind Text, Mode=OneWay}">
-							<Button.ContextFlyout>
-								<MenuFlyout Opening="MenuFlyout_Opening">
-									<MenuFlyout.Items>
-										<MenuFlyoutItem
+                            <Button.ContextFlyout>
+                                <MenuFlyout Opening="MenuFlyout_Opening">
+                                    <MenuFlyout.Items>
+                                        <MenuFlyoutItem
                                             x:Name="OpenInNewPane"
                                             x:Uid="SideBarOpenInNewPane"
                                             Click="OpenInNewPane_Click"
                                             DataContext="{x:Bind}"
                                             Text="Open in new pane"
                                             Visibility="Collapsed">
-											<MenuFlyoutItem.Icon>
-												<FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA2F;" />
-											</MenuFlyoutItem.Icon>
-										</MenuFlyoutItem>
-										<MenuFlyoutItem
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA2F;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem
                                             x:Name="OpenInNewTab"
                                             x:Uid="SideBarOpenInNewTab"
                                             Click="OpenInNewTab_Click"
                                             DataContext="{x:Bind}"
                                             Text="Open in new tab">
-											<MenuFlyoutItem.Icon>
-												<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
-											</MenuFlyoutItem.Icon>
-										</MenuFlyoutItem>
-										<MenuFlyoutItem
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem
                                             x:Name="OpenInNewWindow"
                                             x:Uid="SideBarOpenInNewWindow"
                                             Click="OpenInNewWindow_Click"
                                             DataContext="{x:Bind}"
                                             Text="Open in new window">
-											<MenuFlyoutItem.Icon>
-												<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF107;" />
-											</MenuFlyoutItem.Icon>
-										</MenuFlyoutItem>
-										<MenuFlyoutItem
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF107;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem
 											x:Name="PropertiesItem"
 											x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
 											Click="OpenDriveProperties_Click"
 											DataContext="{x:Bind}"
 											Text="Properties">
-											<MenuFlyoutItem.Icon>
-												<FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea8d;" />
-											</MenuFlyoutItem.Icon>
-										</MenuFlyoutItem>
-										<MenuFlyoutItem
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea8d;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem
                                             x:Name="EjectDevice"
                                             x:Uid="SideBarEjectDevice"
                                             x:Load="{x:Bind IsRemovable, Mode=OneWay}"
                                             Click="EjectDevice_Click"
                                             DataContext="{x:Bind}"
                                             Text="Eject">
-											<MenuFlyoutItem.Icon>
-												<FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10B;" />
-											</MenuFlyoutItem.Icon>
-										</MenuFlyoutItem>
-									</MenuFlyout.Items>
-								</MenuFlyout>
-							</Button.ContextFlyout>
-							<Grid
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF10B;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                    </MenuFlyout.Items>
+                                </MenuFlyout>
+                            </Button.ContextFlyout>
+                            <Grid
                                 Margin="12"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="Auto" />
-									<ColumnDefinition Width="*" />
-								</Grid.ColumnDefinitions>
-								<FontIcon
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <FontIcon
                                     Grid.Column="0"
                                     x:Phase="1"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     FontSize="28"
                                     Glyph="{x:Bind Glyph}" />
-								<StackPanel
+                                <StackPanel
                                     Grid.Column="1"
                                     Margin="12,0,0,0"
                                     VerticalAlignment="Center"
                                     Orientation="Vertical">
-									<TextBlock
+                                    <TextBlock
                                         x:Name="ItemLocationName"
                                         Margin="0,0,0,8"
                                         VerticalAlignment="Center"
@@ -159,13 +159,13 @@
                                         FontWeight="Medium"
                                         Text="{x:Bind Text, Mode=OneWay}"
                                         TextWrapping="NoWrap" />
-									<muxc:ProgressBar
+                                    <muxc:ProgressBar
                                         Margin="0,0,0,8"
                                         AutomationProperties.AccessibilityView="Raw"
                                         Maximum="{x:Bind MaxSpace.GigaBytes, Mode=OneWay}"
                                         Visibility="{x:Bind ShowDriveDetails, Mode=OneWay}"
                                         Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}" />
-									<TextBlock
+                                    <TextBlock
                                         x:Phase="1"
                                         FontSize="12"
                                         MaxLines="2"
@@ -173,12 +173,12 @@
                                         TextWrapping="Wrap"
                                         ToolTipService.ToolTip="{x:Bind SpaceText, Mode=OneWay}"
                                         Visibility="{x:Bind ShowDriveDetails, Mode=OneWay}" />
-								</StackPanel>
-							</Grid>
-						</Button>
-					</Grid>
-				</DataTemplate>
-			</muxc:ItemsRepeater.ItemTemplate>
-		</muxc:ItemsRepeater>
-	</StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+            </muxc:ItemsRepeater.ItemTemplate>
+        </muxc:ItemsRepeater>
+    </StackPanel>
 </UserControl>
