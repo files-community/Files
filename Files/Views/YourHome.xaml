@@ -22,6 +22,8 @@
 								  
 			<widgets:Bundles x:Name="BundlesWidget" x:Load="{x:Bind AppSettings.ShowBundlesWidget, Mode=OneWay}" />
 
+			<widgets:Bundles x:Name="BundlesWidget" x:Load="{x:Bind AppSettings.ShowBundlesWidget, Mode=OneWay}" />
+
 			<widgets:RecentFiles x:Name="RecentFilesWidget" x:Load="{x:Bind AppSettings.ShowRecentFilesWidget, Mode=OneWay}" />
 		</StackPanel>
 	</ScrollViewer>
