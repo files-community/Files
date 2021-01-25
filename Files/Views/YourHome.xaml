@@ -23,6 +23,8 @@
                                   ShowMultiPaneControls="{x:Bind converters:MultiBooleanConverter.AndConvert(AppInstance.IsMultiPaneEnabled, AppInstance.IsPageMainPane), Mode=OneWay}"
 								  AppInstance="{x:Bind AppInstance, Mode=OneWay}" />
 
+			<widgets:Bundles x:Name="BundlesWidget" x:Load="{x:Bind AppSettings.ShowBundlesWidget, Mode=OneWay}" />
+
 			<widgets:RecentFiles x:Name="RecentFilesWidget" x:Load="{x:Bind AppSettings.ShowRecentFilesWidget, Mode=OneWay}" />
 		</StackPanel>
 	</ScrollViewer>
