@@ -12,8 +12,12 @@ namespace Files.Helpers
     {
         private volatile bool isBulkOperationStarted;
         private volatile int readerCount;
-        private readonly SemaphoreSlim writerLock = new SemaphoreSlim(1, 1), mutex = new SemaphoreSlim(1, 1);
+        private volatile bool needSnapshot;
+        private readonly SemaphoreSlim writerLock = new SemaphoreSlim(1, 1);
+        private readonly SemaphoreSlim mutex = new SemaphoreSlim(1, 1);
+        private readonly SemaphoreSlim snapshotLock = new SemaphoreSlim(1, 1);
         private readonly List<T> collection = new List<T>();
+        private List<T> snapshot = new List<T>();
 
         private void Write(Action writeFunc)
         {
@@ -25,6 +29,9 @@ namespace Files.Helpers
             finally
             {
                 writerLock.Release();
+                snapshotLock.Wait();
+                needSnapshot = true;
+                snapshotLock.Release();
             }
         }
 
@@ -38,6 +45,9 @@ namespace Files.Helpers
             finally
             {
                 writerLock.Release();
+                snapshotLock.Wait();
+                needSnapshot = true;
+                snapshotLock.Release();
             }
         }
 
@@ -182,7 +192,14 @@ namespace Files.Helpers
 
         public IEnumerator<T> GetEnumerator()
         {
-            return Read(() => collection.ToList()).GetEnumerator();
+            snapshotLock.Wait();
+            if (needSnapshot)
+            {
+                snapshot = Read(() => collection.ToList());
+                needSnapshot = false;
+            }
+            snapshotLock.Release();
+            return snapshot.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
