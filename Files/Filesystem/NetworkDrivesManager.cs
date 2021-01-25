@@ -50,7 +50,7 @@ namespace Files.Filesystem
 
         private async Task<NetworkDrivesManager> EnumerateDrivesAsync()
         {
-            var connection = await AppServiceConnectionHelper.BuildConnection();
+            var connection = await AppServiceConnectionHelper.Instance;
             if (connection != null)
             {
                 var (status, response) = await connection.SendMessageWithRetryAsync(new ValueSet()
@@ -160,7 +160,9 @@ namespace Files.Filesystem
                     }
 
                     //Add all network drives to the sidebar
-                    foreach (var drive in Drives.OrderBy(o => o.Text))
+                    foreach (var drive in Drives
+                        .OrderByDescending(o => string.Equals(o.Text, "Network".GetLocalized(), StringComparison.OrdinalIgnoreCase))
+                        .ThenBy(o => o.Text))
                     {
                         MainPage.SideBarItems.Insert(insertAt, drive);
                         insertAt++;
