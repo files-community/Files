@@ -46,7 +46,7 @@
     <value>Szöveges Dokumentum</value>
   </data>
   <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>Hely másolása</value>
+    <value>Útvonal másolása</value>
   </data>
   <data name="NavigationToolbarPaste.Text" xml:space="preserve">
     <value>Beillesztés</value>
@@ -76,7 +76,7 @@
     <value>Fájlnév</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Hely:</value>
+    <value>Elérési út:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Méret:</value>
@@ -124,7 +124,7 @@
     <value>Kijelölés megszűntetése</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Hely megadása</value>
+    <value>Elérési út megadása</value>
   </data>
   <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
     <value>Keresés</value>
@@ -1116,17 +1116,11 @@
   <data name="PropertyAperture" xml:space="preserve">
     <value>Rekesz</value>
   </data>
-  <data name="PropertyPeopleNames" xml:space="preserve">
-    <value>Személynevek</value>
-  </data>
   <data name="PropertyChannelCount" xml:space="preserve">
     <value>Csatornák száma</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
     <value>Formátum</value>
-  </data>
-  <data name="PropertySampleRate" xml:space="preserve">
-    <value>Mintavételi frekvencia</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>Album előadója</value>
@@ -1161,9 +1155,6 @@
   <data name="PropertyFrameCount" xml:space="preserve">
     <value>Képkockák száma</value>
   </data>
-  <data name="PropertyProtectionType" xml:space="preserve">
-    <value>Védelem típusa</value>
-  </data>
   <data name="PropertyDateReleased" xml:space="preserve">
     <value>Megjelenés dátuma</value>
   </data>
@@ -1183,13 +1174,13 @@
     <value>Kiadó</value>
   </data>
   <data name="PropertyThumbnailLargePath" xml:space="preserve">
-    <value>Nagy indexkép Path</value>
+    <value>Nagy indexkép elérési útja</value>
   </data>
   <data name="PropertyThumbnailLargeUri" xml:space="preserve">
     <value>Nagy indexkép URI</value>
   </data>
   <data name="PropertyThumbnailSmallPath" xml:space="preserve">
-    <value>Kis indexkép Path</value>
+    <value>Kis indexkép elérési útja</value>
   </data>
   <data name="PropertyThumbnailSmallUri" xml:space="preserve">
     <value>Kis indexkép URI</value>
@@ -1411,7 +1402,7 @@
     <value>Hozzáadás</value>
   </data>
   <data name="AppBarButtonEdit.Label" xml:space="preserve">
-    <value>Szerkesztés parancsot.</value>
+    <value>Szerkesztés</value>
   </data>
   <data name="AppBarButtonRemove.Label" xml:space="preserve">
     <value>Törlés</value>
@@ -1520,5 +1511,98 @@
   </data>
   <data name="dateDeletedColumn.Header" xml:space="preserve">
     <value>Törlés dátuma</value>
+  </data>
+  <data name="SettingsTabCustomization.Text" xml:space="preserve">
+    <value>Lap testreszabása</value>
+  </data>
+  <data name="SettingsWhenLaunchingFiles.Text" xml:space="preserve">
+    <value>Files indulásakor</value>
+  </data>
+  <data name="PropertyItemPathDisplay" xml:space="preserve">
+    <value>Elem elérési útja</value>
+  </data>
+  <data name="PropertyItemName" xml:space="preserve">
+    <value>Elem neve</value>
+  </data>
+  <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
+    <value>Megerősítés</value>
+  </data>
+  <data name="BundlesWidgetAddBundleInput.PlaceholderText" xml:space="preserve">
+    <value>Csomag neve</value>
+  </data>
+  <data name="BundlesWidgetAddBundleNameInput.PlaceholderText" xml:space="preserve">
+    <value>Csomag neve</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogCloseButtonText" xml:space="preserve">
+    <value>Mégse</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogInputPlaceholderText" xml:space="preserve">
+    <value>Új név</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogPrimaryButtonText" xml:space="preserve">
+    <value>Megerősítés</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogSubtitleText" xml:space="preserve">
+    <value>Írja be az új nevet</value>
+  </data>
+  <data name="BundlesWidgetRenameBundleDialogTitleText" xml:space="preserve">
+    <value>"{0} átnevezése"</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogCloseButtonText" xml:space="preserve">
+    <value>Mégse</value>
+  </data>
+  <data name="BundlesWidgetAddBundleInputPlaceholderText" xml:space="preserve">
+    <value>Új név</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogPrimaryButtonText" xml:space="preserve">
+    <value>Megerősítés</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogSubtitleText" xml:space="preserve">
+    <value>Új Csomag</value>
+  </data>
+  <data name="BundlesWidgetOptionsFlyoutExportBundlesMenuItem.Text" xml:space="preserve">
+    <value>Csomagok Exportálása</value>
+  </data>
+  <data name="BundlesWidgetOptionsFlyoutImportBundlesMenuItem.Text" xml:space="preserve">
+    <value>Csomagok Importálása</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleItem.Text" xml:space="preserve">
+    <value>Csomag létrehozása</value>
+  </data>
+  <data name="BundleItemFlyouOpenInNewTabMenuItem.Text" xml:space="preserve">
+    <value>Megnyitás új lapon</value>
+  </data>
+  <data name="BundleItemFlyouOpenItemLocationMenuItem.Text" xml:space="preserve">
+    <value>Elem helyének megnyitása</value>
+  </data>
+  <data name="BundleItemFlyouRemoveFromBundleMenuItem.Text" xml:space="preserve">
+    <value>Eltávolítás a csomagból</value>
+  </data>
+  <data name="BundleOptionsFlyoutRemoveBundleMenuItem.Text" xml:space="preserve">
+    <value>Csomag eltávolítása</value>
+  </data>
+  <data name="BundlesWidgetHeader.Text" xml:space="preserve">
+    <value>Csomagok</value>
+  </data>
+  <data name="BundleNoContentsTextBlock.Text" xml:space="preserve">
+    <value>Húzza ide a fájlokat és mappákat a gyors elérésükhöz</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleConfirmButton.Content" xml:space="preserve">
+    <value>Megerősítés</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleInput.PlaceholderText" xml:space="preserve">
+    <value>Írja be az csomag nevét</value>
+  </data>
+  <data name="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" xml:space="preserve">
+    <value>Csomag létrehozása</value>
+  </data>
+  <data name="BundleOptionsFlyoutRenameBundleMenuItem.Text" xml:space="preserve">
+    <value>Csomag átnevezése</value>
+  </data>
+  <data name="BundlesWidgetMoreOptionsButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Több lehetőség...</value>
+  </data>
+  <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
+    <value>Csomag létrehozása</value>
   </data>
 </root>
