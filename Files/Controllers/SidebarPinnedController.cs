@@ -14,12 +14,14 @@ namespace Files.Controllers
     {
         private StorageFolder Folder { get; set; }
 
-        public SidebarPinnedModel Model { get; set; } = new SidebarPinnedModel();
+        public SidebarPinnedModel Model { get; set; }
 
         public string JsonFileName { get; } = "PinnedItems.json";
 
         private SidebarPinnedController()
         {
+            Model = new SidebarPinnedModel();
+            Model.SetController(this);
         }
 
         public static Task<SidebarPinnedController> CreateInstance()
@@ -78,10 +80,12 @@ namespace Files.Controllers
                 {
                     throw new Exception($"{JsonFileName} is empty, regenerating...");
                 }
+                Model.SetController(this);
             }
             catch (Exception)
             {
                 Model = new SidebarPinnedModel();
+                Model.SetController(this);
                 Model.AddDefaultItems();
                 Model.Save();
             }
