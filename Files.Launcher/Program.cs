@@ -233,31 +233,18 @@ namespace FilesFullTrust
                     await ParseRecycleBinActionAsync(args, binAction);
                     break;
 
-                case "StartupTasks":
+                case "DetectQuickLook":
                     // Check QuickLook Availability
-                    QuickLook.CheckQuickLookAvailability(localSettings);
+                    var available = QuickLook.CheckQuickLookAvailability();
+                    await args.Request.SendResponseAsync(new ValueSet()
+                    {
+                        { "IsAvailable", available }
+                    });
                     break;
 
                 case "ToggleQuickLook":
                     var path = (string)args.Request.Message["path"];
                     QuickLook.ToggleQuickLook(path);
-                    break;
-
-                case "ShellCommand":
-                    // Kill the process. This is a BRUTAL WAY to kill a process.
-#if DEBUG
-                    // In debug mode this kills this process too??
-#else
-                    var pid = (int)args.Request.Message["pid"];
-                    Process.GetProcessById(pid).Kill();
-#endif
-
-                    Process process = new Process();
-                    process.StartInfo.UseShellExecute = true;
-                    process.StartInfo.FileName = "explorer.exe";
-                    process.StartInfo.CreateNoWindow = false;
-                    process.StartInfo.Arguments = (string)args.Request.Message["ShellCommand"];
-                    process.Start();
                     break;
 
                 case "LoadContextMenu":
@@ -818,12 +805,6 @@ namespace FilesFullTrust
                     process.StartInfo.Arguments = (string)localSettings.Values["ShellCommand"];
                     process.Start();
 
-                    return true;
-                }
-                else if (arguments == "StartupTasks")
-                {
-                    // Check QuickLook Availability
-                    QuickLook.CheckQuickLookAvailability(localSettings);
                     return true;
                 }
             }

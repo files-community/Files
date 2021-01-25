@@ -30,7 +30,7 @@ namespace FilesFullTrust
             }
         }
 
-        public static void CheckQuickLookAvailability(ApplicationDataContainer localSettings)
+        public static bool CheckQuickLookAvailability()
         {
             static int QuickLookServerAvailable()
             {
@@ -61,14 +61,13 @@ namespace FilesFullTrust
             try
             {
                 var result = QuickLookServerAvailable();
-
                 Logger.Info($"QuickLook detected: {result != 0}");
-                localSettings.Values["quicklook_enabled"] = result != 0;
+                return result != 0;
             }
             catch (Exception ex)
             {
                 Logger.Info(ex, ex.Message);
-                localSettings.Values["quicklook_enabled"] = 0;
+                return false;
             }
         }
     }
