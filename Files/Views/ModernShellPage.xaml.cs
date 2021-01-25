@@ -976,6 +976,14 @@ namespace Files.Views
                 InitialPageType = typeof(ModernShellPage),
                 NavigationArg = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
             };
+
+            if(ItemDisplayFrame.CurrentSourcePageType == typeof(YourHome))
+            {
+                UpdatePositioning(true);
+            } else
+            {
+                UpdatePositioning();
+            }
         }
 
         private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
@@ -1320,9 +1328,9 @@ namespace Files.Views
         /// Call this function to update the positioning of the preview pane.
         /// This is a workaround as the VisualStateManager causes problems. 
         /// </summary>
-        private void UpdatePositioning()
+        private void UpdatePositioning(bool IsHome = false)
         {
-            if (!PreviewPaneEnabled || !InstanceViewModel.IsPageTypeNotHome)
+            if (!PreviewPaneEnabled || IsHome)
             {
                 PreviewPaneRow.Height = new GridLength(0);
                 PreviewPaneColumn.Width = new GridLength(0);
