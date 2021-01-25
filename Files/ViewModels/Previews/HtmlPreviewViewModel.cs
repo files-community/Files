@@ -37,6 +37,7 @@ namespace Files.ViewModels.Previews
                 Debug.WriteLine(e);
             }
             base.LoadSystemFileProperties();
+            RaiseLoadedEvent();
         }
     }
 }
