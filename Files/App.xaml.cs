@@ -51,6 +51,7 @@ namespace Files
         public static JumpListManager JumpList { get; } = new JumpListManager();
         public static SidebarPinnedController SidebarPinnedController { get; set; }
         public static CloudDrivesManager CloudDrivesManager { get; set; }
+        public static NetworkDrivesManager NetworkDrivesManager { get; set; }
         public static DrivesManager DrivesManager { get; set; }
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -87,17 +88,26 @@ namespace Files
                 AppSettings = await SettingsViewModel.CreateInstance();
                 if (App.AppSettings?.AcrylicTheme == null)
                 {
-                    Helpers.ThemeHelper.Initialize();
+                    ThemeHelper.Initialize();
                 }
             }
 
             if (CloudDrivesManager == null)
             {
                 //Enumerate cloud drives on in the background. It will update the UI itself when finished
-                _ = Files.Filesystem.CloudDrivesManager.Instance.ContinueWith(o =>
+                _ = CloudDrivesManager.Instance.ContinueWith(o =>
                   {
                       CloudDrivesManager = o.Result;
                   });
+            }
+
+            if (NetworkDrivesManager == null)
+            {
+                //Enumerate network drives on in the background. It will update the UI itself when finished
+                _ = NetworkDrivesManager.Instance.ContinueWith(o =>
+                {
+                    NetworkDrivesManager = o.Result;
+                });
             }
 
             //Start off a list of tasks we need to run before we can continue startup
@@ -105,12 +115,12 @@ namespace Files
 
             if (SidebarPinnedController == null)
             {
-                tasksToRun.Add(Files.Controllers.SidebarPinnedController.CreateInstance().ContinueWith(o => SidebarPinnedController = o.Result));
+                tasksToRun.Add(SidebarPinnedController.CreateInstance().ContinueWith(o => SidebarPinnedController = o.Result));
             }
 
             if (DrivesManager == null)
             {
-                tasksToRun.Add(Files.Filesystem.DrivesManager.Instance.ContinueWith(o => DrivesManager = o.Result));
+                tasksToRun.Add(DrivesManager.Instance.ContinueWith(o => DrivesManager = o.Result));
             }
 
             if (InteractionViewModel == null)

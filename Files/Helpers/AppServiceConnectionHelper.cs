@@ -10,6 +10,8 @@ namespace Files.Helpers
 {
     public static class AppServiceConnectionHelper
     {
+        //public static readonly Task<AppServiceConnection> Instance = BuildConnection();
+
         public static async Task<AppServiceConnection> BuildConnection()
         {
             var serviceConnection = new AppServiceConnection();

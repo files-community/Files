@@ -47,7 +47,7 @@ namespace Files.Filesystem
         private DeviceWatcher deviceWatcher;
         private bool driveEnumInProgress;
 
-        //Private as we want to prevent CloudDriveManager being constructed manually
+        //Private as we want to prevent DrivesManager being constructed manually
         private DrivesManager()
         {
             SetupDeviceWatcher();
@@ -151,27 +151,26 @@ namespace Files.Filesystem
                     }
 
                     var sectionStartIndex = MainPage.SideBarItems.IndexOf(drivesSection);
+                    var insertAt = sectionStartIndex + 1;
 
                     //Remove all existing drives from the sidebar
-                    foreach (var item in MainPage.SideBarItems
-                    .Where(x => x.ItemType == NavigationControlItemType.Drive)
-                    .ToList())
+                    while (insertAt < MainPage.SideBarItems.Count)
                     {
+                        var item = MainPage.SideBarItems[insertAt];
+                        if (item.ItemType != NavigationControlItemType.Drive)
+                        {
+                            break;
+                        }
                         MainPage.SideBarItems.Remove(item);
                         DrivesWidget.ItemsAdded.Remove(item);
                     }
 
                     //Add all drives to the sidebar
-                    var insertAt = sectionStartIndex + 1;
                     foreach (var drive in Drives)
                     {
                         MainPage.SideBarItems.Insert(insertAt, drive);
+                        DrivesWidget.ItemsAdded.Add(drive);
                         insertAt++;
-
-                        if (drive.Type != DriveType.VirtualDrive)
-                        {
-                            DrivesWidget.ItemsAdded.Add(drive);
-                        }
                     }
                 }
             });

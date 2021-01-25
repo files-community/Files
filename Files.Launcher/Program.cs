@@ -325,6 +325,38 @@ namespace FilesFullTrust
                     });
                     break;
 
+                case "GetNetworkLocations":
+                    var networkLocations = await Win32API.StartSTATask(() =>
+                    {
+                        var netl = new ValueSet();
+                        using (var nethood = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_NetHood))
+                        {
+                            foreach (var link in nethood)
+                            {
+                                var linkPath = (string)link.Properties["System.Link.TargetParsingPath"];
+                                if (linkPath != null)
+                                {
+                                    netl.Add(link.Name, linkPath);
+                                }
+                            }
+                        }
+                        return netl;
+                    });
+                    await args.Request.SendResponseAsync(networkLocations);
+                    break;
+
+                case "GetNetworkFolders":
+                    var networkFolders = new ValueSet();
+                    using (var netfolders = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_NetworkFolder))
+                    {
+                        foreach (var netFolder in netfolders)
+                        {
+                            networkFolders.Add(netFolder.Name, netFolder.ParsingName);
+                        }
+                    }
+                    await args.Request.SendResponseAsync(networkFolders);
+                    break;
+
                 case "GetOneDriveAccounts":
                     using (var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts", false))
                     {

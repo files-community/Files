@@ -15,7 +15,7 @@ namespace Files.Filesystem.Cloud.Providers
         {
             try
             {
-                using var connection = await AppServiceConnectionHelper.BuildConnection();
+                var connection = await AppServiceConnectionHelper.BuildConnection();
                 var (status, response) = await connection.SendMessageWithRetryAsync(new ValueSet()
                 {
                     { "Arguments", "GetOneDriveAccounts" }

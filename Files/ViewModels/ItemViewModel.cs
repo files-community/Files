@@ -962,7 +962,7 @@ namespace Files.ViewModels
 
                 if (!string.IsNullOrWhiteSpace(previousDir))
                 {
-                    if (previousDir.Contains(path) && !previousDir.Contains("Shell:RecycleBinFolder"))
+                    if (previousDir.Contains(path) && !previousDir.Contains(AppSettings.RecycleBinPath))
                     {
                         // Remove the WorkingDir from previous dir
                         previousDir = previousDir.Replace(path, string.Empty);
