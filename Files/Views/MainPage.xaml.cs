@@ -312,25 +312,37 @@ namespace Files.Views
                 tabLocationHeader = "OneDrive Commercial";
                 fontIconSource.Glyph = "\xe9b7";
             }
+            else if (currentPath.Equals(App.AppSettings.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
+            {
+                tabLocationHeader = "SidebarNetworkDrives".GetLocalized();
+                fontIconSource.Glyph = "\ueac2";
+            }
             else
             {
                 // If path is a drive's root
-                if (NormalizePath(Path.GetPathRoot(currentPath)) == NormalizePath(currentPath))
+                if (NormalizePath(GetPathRoot(currentPath)) == NormalizePath(currentPath))
                 {
                     if (NormalizePath(currentPath) != NormalizePath("A:") && NormalizePath(currentPath) != NormalizePath("B:"))
                     {
-                        var remDriveNames = (await KnownFolders.RemovableDevices.GetFoldersAsync()).Select(x => x.DisplayName);
-                        var matchingDriveName = remDriveNames.FirstOrDefault(x => NormalizePath(currentPath).Contains(x.ToUpperInvariant()));
-
-                        if (matchingDriveName == null)
+                        var matchingDrive = App.DrivesManager.Drives.FirstOrDefault(x => NormalizePath(currentPath).Contains(NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
+                        if (matchingDrive != null)
                         {
-                            fontIconSource.Glyph = "\xeb8b";
-                            tabLocationHeader = NormalizePath(currentPath);
+                            fontIconSource.Glyph = matchingDrive.Glyph;
+                            tabLocationHeader = matchingDrive.Text;
                         }
                         else
                         {
-                            fontIconSource.Glyph = "\xec0a";
-                            tabLocationHeader = matchingDriveName;
+                            matchingDrive = App.NetworkDrivesManager.Drives.FirstOrDefault(x => NormalizePath(currentPath).Contains(NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
+                            if (matchingDrive != null)
+                            {
+                                fontIconSource.Glyph = "\ueac2";
+                                tabLocationHeader = matchingDrive.Text;
+                            }
+                            else
+                            {
+                                fontIconSource.Glyph = "\xeb8b";
+                                tabLocationHeader = NormalizePath(currentPath);
+                            }
                         }
                     }
                     else

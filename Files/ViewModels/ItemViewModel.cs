@@ -863,6 +863,11 @@ namespace Files.ViewModels
 
             CancelLoadAndClearFiles();
 
+            if (string.IsNullOrEmpty(path))
+            {
+                return;
+            }
+
             try
             {
                 // Only one instance at a time should access this function
