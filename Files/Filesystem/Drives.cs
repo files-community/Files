@@ -21,7 +21,6 @@ namespace Files.Filesystem
 {
     public class DrivesManager : ObservableObject
     {
-        private static readonly Task<DrivesManager> _instanceTask = CreateSingleton();
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private List<DriveItem> drivesList = new List<DriveItem>();
 
@@ -47,21 +46,12 @@ namespace Files.Filesystem
         private DeviceWatcher deviceWatcher;
         private bool driveEnumInProgress;
 
-        //Private as we want to prevent DrivesManager being constructed manually
-        private DrivesManager()
+        public DrivesManager()
         {
             SetupDeviceWatcher();
         }
 
-        private static async Task<DrivesManager> CreateSingleton()
-        {
-            var drives = new DrivesManager();
-            return await drives.EnumerateDrivesAsync();
-        }
-
-        public static Task<DrivesManager> Instance => _instanceTask;
-
-        private async Task<DrivesManager> EnumerateDrivesAsync()
+        public async Task EnumerateDrivesAsync()
         {
             driveEnumInProgress = true;
 
@@ -78,8 +68,6 @@ namespace Files.Filesystem
             StartDeviceWatcher();
 
             driveEnumInProgress = false;
-
-            return this;
         }
 
         private void SetupDeviceWatcher()
@@ -130,48 +118,45 @@ namespace Files.Filesystem
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                lock (MainPage.SideBarItems)
+                var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarDrives".GetLocalized());
+
+                if (drivesSection != null && Drives.Count == 0)
                 {
-                    var drivesSection = MainPage.SideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "SidebarDrives".GetLocalized());
+                    //No drives - remove the header
+                    MainPage.SideBarItems.Remove(drivesSection);
+                }
 
-                    if (drivesSection != null && Drives.Count == 0)
+                if (drivesSection == null && Drives.Count > 0)
+                {
+                    drivesSection = new HeaderTextItem()
                     {
-                        //No drives - remove the header
-                        MainPage.SideBarItems.Remove(drivesSection);
-                    }
+                        Text = "SidebarDrives".GetLocalized()
+                    };
 
-                    if (drivesSection == null && Drives.Count > 0)
+                    MainPage.SideBarItems.Add(drivesSection);
+                }
+
+                var sectionStartIndex = MainPage.SideBarItems.IndexOf(drivesSection);
+                var insertAt = sectionStartIndex + 1;
+
+                //Remove all existing drives from the sidebar
+                while (insertAt < MainPage.SideBarItems.Count)
+                {
+                    var item = MainPage.SideBarItems[insertAt];
+                    if (item.ItemType != NavigationControlItemType.Drive)
                     {
-                        drivesSection = new HeaderTextItem()
-                        {
-                            Text = "SidebarDrives".GetLocalized()
-                        };
-
-                        MainPage.SideBarItems.Add(drivesSection);
+                        break;
                     }
+                    MainPage.SideBarItems.Remove(item);
+                    DrivesWidget.ItemsAdded.Remove(item);
+                }
 
-                    var sectionStartIndex = MainPage.SideBarItems.IndexOf(drivesSection);
-                    var insertAt = sectionStartIndex + 1;
-
-                    //Remove all existing drives from the sidebar
-                    while (insertAt < MainPage.SideBarItems.Count)
-                    {
-                        var item = MainPage.SideBarItems[insertAt];
-                        if (item.ItemType != NavigationControlItemType.Drive)
-                        {
-                            break;
-                        }
-                        MainPage.SideBarItems.Remove(item);
-                        DrivesWidget.ItemsAdded.Remove(item);
-                    }
-
-                    //Add all drives to the sidebar
-                    foreach (var drive in Drives)
-                    {
-                        MainPage.SideBarItems.Insert(insertAt, drive);
-                        DrivesWidget.ItemsAdded.Add(drive);
-                        insertAt++;
-                    }
+                //Add all drives to the sidebar
+                foreach (var drive in Drives)
+                {
+                    MainPage.SideBarItems.Insert(insertAt, drive);
+                    DrivesWidget.ItemsAdded.Add(drive);
+                    insertAt++;
                 }
             });
         }

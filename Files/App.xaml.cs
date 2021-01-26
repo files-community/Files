@@ -46,13 +46,13 @@ namespace Files
 
         public static IBundlesSettings BundlesSettings = new BundlesSettingsViewModel();
 
-        public static SettingsViewModel AppSettings { get; set; }
-        public static InteractionViewModel InteractionViewModel { get; set; }
+        public static SettingsViewModel AppSettings { get; private set; }
+        public static InteractionViewModel InteractionViewModel { get; private set; }
         public static JumpListManager JumpList { get; } = new JumpListManager();
-        public static SidebarPinnedController SidebarPinnedController { get; set; }
-        public static CloudDrivesManager CloudDrivesManager { get; set; }
-        public static NetworkDrivesManager NetworkDrivesManager { get; set; }
-        public static DrivesManager DrivesManager { get; set; }
+        public static SidebarPinnedController SidebarPinnedController { get; private set; }
+        public static CloudDrivesManager CloudDrivesManager { get; private set; }
+        public static NetworkDrivesManager NetworkDrivesManager { get; private set; }
+        public static DrivesManager DrivesManager { get; private set; }
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -84,7 +84,6 @@ namespace Files
         {
             if (AppSettings == null)
             {
-                //We can't create AppSettings at the same time as everything else as other dependencies depend on AppSettings
                 AppSettings = await SettingsViewModel.CreateInstance();
                 if (App.AppSettings?.AcrylicTheme == null)
                 {
@@ -92,47 +91,19 @@ namespace Files
                 }
             }
 
-            if (CloudDrivesManager == null)
-            {
-                //Enumerate cloud drives on in the background. It will update the UI itself when finished
-                _ = CloudDrivesManager.Instance.ContinueWith(o =>
-                  {
-                      CloudDrivesManager = o.Result;
-                  });
-            }
+            InteractionViewModel ??= new InteractionViewModel();
+            SidebarPinnedController ??= await SidebarPinnedController.CreateInstance();
 
-            if (NetworkDrivesManager == null)
-            {
-                //Enumerate network drives on in the background. It will update the UI itself when finished
-                _ = NetworkDrivesManager.Instance.ContinueWith(o =>
-                {
-                    NetworkDrivesManager = o.Result;
-                });
-            }
+            DrivesManager ??= new DrivesManager();
+            NetworkDrivesManager ??= new NetworkDrivesManager();
+            CloudDrivesManager ??= new CloudDrivesManager();
 
-            //Start off a list of tasks we need to run before we can continue startup
+            // Start off a list of tasks we need to run before we can continue startup
             var tasksToRun = new List<Task>();
-
-            if (SidebarPinnedController == null)
-            {
-                tasksToRun.Add(SidebarPinnedController.CreateInstance().ContinueWith(o => SidebarPinnedController = o.Result));
-            }
-
-            if (DrivesManager == null)
-            {
-                tasksToRun.Add(DrivesManager.Instance.ContinueWith(o => DrivesManager = o.Result));
-            }
-
-            if (InteractionViewModel == null)
-            {
-                InteractionViewModel = new InteractionViewModel();
-            }
-
-            if (tasksToRun.Any())
-            {
-                //Only proceed when all tasks are completed
-                await Task.WhenAll(tasksToRun);
-            }
+            tasksToRun.Add(DrivesManager.EnumerateDrivesAsync());
+            tasksToRun.Add(CloudDrivesManager.EnumerateDrivesAsync());
+            tasksToRun.Add(NetworkDrivesManager.EnumerateDrivesAsync());
+            _ = Task.WhenAll(tasksToRun);
         }
 
         private async void StartAppCenter()
