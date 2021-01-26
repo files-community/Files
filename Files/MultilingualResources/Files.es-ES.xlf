@@ -718,33 +718,33 @@
           <source>Yes</source>
           <target state="translated">Sí</target>
         </trans-unit>
-        <trans-unit id="ItemSizeBytes" translate="no" xml:space="preserve">
+        <trans-unit id="ItemSizeBytes" translate="yes" xml:space="preserve">
           <source>bytes</source>
-          <target state="final">bytes</target>
+          <target state="translated">bytes</target>
         </trans-unit>
-        <trans-unit id="KiloByteSymbol" translate="no" xml:space="preserve">
+        <trans-unit id="KiloByteSymbol" translate="yes" xml:space="preserve">
           <source>KB</source>
-          <target state="final">KB</target>
+          <target state="translated">KB</target>
         </trans-unit>
-        <trans-unit id="MegaByteSymbol" translate="no" xml:space="preserve">
+        <trans-unit id="MegaByteSymbol" translate="yes" xml:space="preserve">
           <source>MB</source>
-          <target state="final">MB</target>
+          <target state="translated">MB</target>
         </trans-unit>
-        <trans-unit id="GigaByteSymbol" translate="no" xml:space="preserve">
+        <trans-unit id="GigaByteSymbol" translate="yes" xml:space="preserve">
           <source>GB</source>
-          <target state="final">GB</target>
+          <target state="translated">GB</target>
         </trans-unit>
-        <trans-unit id="TeraByteSymbol" translate="no" xml:space="preserve">
+        <trans-unit id="TeraByteSymbol" translate="yes" xml:space="preserve">
           <source>TB</source>
-          <target state="final">TB</target>
+          <target state="translated">TB</target>
         </trans-unit>
-        <trans-unit id="PetaByteSymbol" translate="no" xml:space="preserve">
+        <trans-unit id="PetaByteSymbol" translate="yes" xml:space="preserve">
           <source>PB</source>
-          <target state="final">PB</target>
+          <target state="translated">PB</target>
         </trans-unit>
-        <trans-unit id="ByteSymbol" translate="no" xml:space="preserve">
+        <trans-unit id="ByteSymbol" translate="yes" xml:space="preserve">
           <source>B</source>
-          <target state="final">B</target>
+          <target state="translated">B</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
