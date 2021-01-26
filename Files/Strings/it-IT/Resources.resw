@@ -1545,9 +1545,6 @@
   <data name="PropertyItemPathDisplay" xml:space="preserve">
     <value>Percorso</value>
   </data>
-  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
-    <value>Anteprima non disponibile</value>
-  </data>
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
     <value>Mostra anteprima (Ctrl + P)</value>
   </data>
@@ -1647,9 +1644,6 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>Nome dell'elemento</value>
   </data>
-  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
-    <value>Nessun dettaglio disponibile</value>
-  </data>
   <data name="SettingsEnableAdaptivePreviewPane.Header" xml:space="preserve">
     <value>Abilita anteprima adattiva</value>
   </data>
@@ -1658,5 +1652,11 @@
   </data>
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Rimuovi la cartella dalla barra laterale</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
+    <value>Anteprima non disponibile</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
+    <value>Nessun dettaglio disponibile</value>
   </data>
 </root>

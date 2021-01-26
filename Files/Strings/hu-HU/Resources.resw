@@ -1521,14 +1521,8 @@
   <data name="PropertyItemPathDisplay" xml:space="preserve">
     <value>Elem elérési útja</value>
   </data>
-  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
-    <value>Nincs elérhető előnézet</value>
-  </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Elem neve</value>
-  </data>
-  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
-    <value>Nincs elérhető részlet</value>
   </data>
   <data name="BundlesWidgetAddBundleConfirm.Content" xml:space="preserve">
     <value>Megerősítés</value>
@@ -1610,5 +1604,11 @@
   </data>
   <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
     <value>Csomag létrehozása</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
+    <value>Nincs elérhető előnézet</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
+    <value>Nincs elérhető részlet</value>
   </data>
 </root>

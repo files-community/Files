@@ -2051,10 +2051,6 @@
           <source>Item Path</source>
           <target state="translated">Percorso</target>
         </trans-unit>
-        <trans-unit id="DetailsPanePreviewNotAvaliableText" translate="yes" xml:space="preserve">
-          <source>No preview available</source>
-          <target state="translated">Anteprima non disponibile</target>
-        </trans-unit>
         <trans-unit id="PreviewPaneToggle.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Toggle the preview pane (Ctrl + P)</source>
           <target state="translated">Mostra anteprima (Ctrl + P)</target>
@@ -2187,10 +2183,6 @@
           <source>Item Name</source>
           <target state="translated">Nome dell'elemento</target>
         </trans-unit>
-        <trans-unit id="PreviewPaneDetailsNotAvailableText" translate="yes" xml:space="preserve">
-          <source>No details available</source>
-          <target state="translated">Nessun dettaglio disponibile</target>
-        </trans-unit>
         <trans-unit id="SettingsEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
           <source>Enable adaptive preview pane</source>
           <target state="translated">Abilita anteprima adattiva</target>
@@ -2202,6 +2194,18 @@
         <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
           <source>Unpin directory from sidebar</source>
           <target state="translated">Rimuovi la cartella dalla barra laterale</target>
+        </trans-unit>
+        <trans-unit id="DetailsPanePreviewNotAvaliableText.Text" translate="yes" xml:space="preserve">
+          <source>No preview available</source>
+          <target state="translated">Anteprima non disponibile</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneDetailsNotAvailableText.Text" translate="yes" xml:space="preserve">
+          <source>No details available</source>
+          <target state="translated">Nessun dettaglio disponibile</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowBundles.Header" translate="yes" xml:space="preserve">
+          <source>Show Bundles on the home page</source>
+          <target state="new">Show Bundles on the home page</target>
         </trans-unit>
       </group>
     </body>

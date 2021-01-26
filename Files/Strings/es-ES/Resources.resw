@@ -1602,4 +1602,28 @@
   <data name="BundlesWidgetCreateBundleDialogTitleText" xml:space="preserve">
     <value>Crear contenedor</value>
   </data>
+  <data name="PropertyItemPathDisplay" xml:space="preserve">
+    <value>Ubicación</value>
+  </data>
+  <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Alternar el panel de vista previa (Ctrl + P)</value>
+  </data>
+  <data name="PropertyItemName" xml:space="preserve">
+    <value>Nombre</value>
+  </data>
+  <data name="SettingsEnableAdaptivePreviewPane.Header" xml:space="preserve">
+    <value>Habilitar el panel de vista previa adaptable</value>
+  </data>
+  <data name="SidebarCloudDrives" xml:space="preserve">
+    <value>Unidades de la nube</value>
+  </data>
+  <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
+    <value>No hay vista previa disponible</value>
+  </data>
+  <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
+    <value>No hay detalles disponibles</value>
+  </data>
+  <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
+    <value>Mostrar contenedores en la página de inicio</value>
+  </data>
 </root>
