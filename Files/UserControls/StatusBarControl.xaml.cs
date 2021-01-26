@@ -14,6 +14,7 @@ namespace Files.UserControls
         public ICommand SelectAllInvokedCommand { get; set; }
         public ICommand InvertSelectionInvokedCommand { get; set; }
         public ICommand ClearSelectionInvokedCommand { get; set; }
+        public ICommand ToggleMultiSelectCommand { get; set; }
 
         private DirectoryPropertiesViewModel directoryPropertiesViewModel;
 

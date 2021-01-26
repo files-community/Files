@@ -1262,6 +1262,10 @@ namespace Files.Interacts
         public RelayCommand ClearContentPageSelection => new RelayCommand(() => ClearAllItems());
 
         public void ClearAllItems() => AssociatedInstance.ContentPage.ClearSelection();
+        
+        public RelayCommand ToggleContentPageMultiSelect => new RelayCommand(() => ToggleMultiSelect());
+
+        public void ToggleMultiSelect() => AssociatedInstance.ContentPage.MultiSelectEnabled = !AssociatedInstance.ContentPage.MultiSelectEnabled;
 
         public async void ToggleQuickLook()
         {

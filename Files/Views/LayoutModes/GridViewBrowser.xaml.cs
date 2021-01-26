@@ -471,5 +471,16 @@ namespace Files.Views.LayoutModes
                 await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemProperties(item, currentIconSize);
             }
         }
+
+        private bool multiSelectEnabled;
+        public override bool MultiSelectEnabled
+        {
+            get => multiSelectEnabled;
+            set
+            {
+                multiSelectEnabled = value;
+                FileList.SelectionMode = value ? ListViewSelectionMode.Extended : ListViewSelectionMode.Multiple;
+            } 
+        }
     }
 }

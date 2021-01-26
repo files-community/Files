@@ -70,6 +70,20 @@
                 <Button.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem
+                            x:Name="MultiSelectMFI"
+                            Text="Multi select"
+                            Command="{x:Bind ToggleMultiSelectCommand}">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEAD3;" />
+                            </MenuFlyoutItem.Icon>
+                            <MenuFlyoutItem.KeyboardAccelerators>
+                                <KeyboardAccelerator
+                                    Key="M"
+                                    IsEnabled="False"
+                                    Modifiers="Control" />
+                            </MenuFlyoutItem.KeyboardAccelerators>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
                             x:Name="SelectAllMFI"
                             x:Uid="StatusBarControlSelectAll"
                             Command="{x:Bind SelectAllInvokedCommand}"
