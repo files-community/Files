@@ -1196,15 +1196,18 @@ namespace Files.Interacts
             }
 
             // Show rename dialog
-            RenameDialog renameDialog = new RenameDialog();
-            var renameResult = await renameDialog.ShowAsync();
-            if (renameResult != ContentDialogResult.Primary)
+            DynamicDialog dialog = DynamicDialogFactory.GetFor_RenameDialog();
+            await dialog.ShowAsync();
+
+            //RenameDialog renameDialog = new RenameDialog();
+            //var renameResult = await renameDialog.ShowAsync();
+            if (dialog.DynamicResult != ViewModels.Dialogs.DynamicResult.Primary)
             {
                 return;
             }
 
             // Create file based on dialog result
-            string userInput = renameDialog.storedRenameInput;
+            string userInput = dialog.ViewModel.AdditionalData as string;
             var folderRes = await AssociatedInstance.FilesystemViewModel.GetFolderWithPathFromPathAsync(currentPath);
             FilesystemResult created = folderRes;
             if (folderRes)

@@ -195,6 +195,7 @@
       <DependentUpon>RestartDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BitmapHelper.cs" />
+    <Compile Include="Helpers\DynamicDialogFactory.cs" />
     <Compile Include="Helpers\Extension.cs" />
     <Compile Include="Helpers\FileListCache\CacheEntry.cs" />
     <Compile Include="Helpers\FileListCache\FileListCacheController.cs" />
@@ -359,9 +360,6 @@
     <Compile Include="Enums\WallpaperType.cs" />
     <Compile Include="Filesystem\DriveItem.cs" />
     <Compile Include="Filesystem\Drives.cs" />
-    <Compile Include="Dialogs\PropertySaveError.xaml.cs">
-      <DependentUpon>PropertySaveError.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\MultitaskingControl\TabItem\ITabItem.cs" />
     <Compile Include="UserControls\MultitaskingControl\TabItem\ITabItemControl.cs" />
     <Compile Include="UserControls\Selection\RectangleSelection.cs" />
@@ -807,10 +805,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\RenameDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\PropertySaveError.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,4 +1,5 @@
 ﻿using Files.Dialogs;
+using Files.Helpers;
 using Files.ViewModels.Properties;
 using System;
 using System.Diagnostics;
@@ -36,7 +37,7 @@ namespace Files.Views
         {
             while (true)
             {
-                var dialog = new PropertySaveError();
+                using DynamicDialog dialog = DynamicDialogFactory.GetFor_PropertySaveDialog();
                 try
                 {
                     await (BaseProperties as FileProperties).SyncPropertyChangesAsync();
@@ -44,15 +45,16 @@ namespace Files.Views
                 }
                 catch
                 {
-                    switch (await dialog.ShowAsync())
+                    await dialog.ShowAsync();
+                    switch (dialog.DynamicResult)
                     {
-                        case ContentDialogResult.Primary:
+                        case ViewModels.Dialogs.DynamicResult.Primary:
                             break;
 
-                        case ContentDialogResult.Secondary:
+                        case ViewModels.Dialogs.DynamicResult.Secondary:
                             return true;
 
-                        default:
+                        case ViewModels.Dialogs.DynamicResult.Cancel:
                             return false;
                     }
                 }

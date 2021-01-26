@@ -19,12 +19,18 @@ namespace Files.ViewModels.Dialogs
     {
         Primary = 0,
         Secondary = 1,
-        Cancel = 2
+        Cancel = 2,
+        None = 3
     }
 
     public class DynamicDialogViewModel : ObservableObject, IDisposable
     {
         #region Public Properties
+
+        /// <summary>
+        /// Stores any additional data that could be written to, read from
+        /// </summary>
+        public object AdditionalData { get; set; }
 
         public object displayControl;
 
@@ -55,6 +61,15 @@ namespace Files.ViewModels.Dialogs
             {
                 if (SetProperty(ref dynamicButtons, value))
                 {
+                    if (!value.HasFlag(DynamicButtons.None))
+                    {
+                        PrimaryButtonText = null; // Hides this option
+                        SecondaryButtonText = null; // Hides this option
+                        CloseButtonText = null; // Hides this option
+
+                        return;
+                    }
+
                     if (!value.HasFlag(DynamicButtons.Primary))
                     {
                         PrimaryButtonText = null; // Hides this option
@@ -87,6 +102,8 @@ namespace Files.ViewModels.Dialogs
             set => SetProperty(ref subtitleText, value);
         }
 
+        #region Primary Button
+
         private string primaryButtonText;
 
         public string PrimaryButtonText
@@ -94,6 +111,17 @@ namespace Files.ViewModels.Dialogs
             get => primaryButtonText;
             set => SetProperty(ref primaryButtonText, value);
         }
+
+        private bool isPrimaryButtonEnabled;
+        public bool IsPrimaryButtonEnabled
+        {
+            get => isPrimaryButtonEnabled;
+            private set => SetProperty(ref isPrimaryButtonEnabled, value);
+        }
+
+        #endregion
+
+        #region Secondary Button
 
         private string secondaryButtonText;
 
@@ -103,12 +131,65 @@ namespace Files.ViewModels.Dialogs
             set => SetProperty(ref secondaryButtonText, value);
         }
 
+        private bool isSecondaryButtonEnabled;
+        public bool IsSecondaryButtonEnabled
+        {
+            get => isSecondaryButtonEnabled;
+            private set => SetProperty(ref isSecondaryButtonEnabled, value);
+        }
+
+        #endregion
+
+        #region Close Button
+
         private string closeButtonText;
 
         public string CloseButtonText
         {
             get => closeButtonText;
             set => SetProperty(ref closeButtonText, value);
+        }
+
+        private bool isCloseButtonEnabled;
+        public bool IsCloseButtonEnabled
+        {
+            get => isCloseButtonEnabled;
+            private set => SetProperty(ref isCloseButtonEnabled, value);
+        }
+
+        #endregion
+
+        private DynamicButtons dynamicButtonsEnabled;
+        public DynamicButtons DynamicButtonsEnabled
+        {
+            get => dynamicButtonsEnabled;
+            set
+            {
+                if (SetProperty(ref dynamicButtonsEnabled, value))
+                {
+                    if (!value.HasFlag(DynamicButtons.None))
+                    {
+                        IsPrimaryButtonEnabled = false; // Hides this option
+                        IsSecondaryButtonEnabled = false; // Hides this option
+                        IsCloseButtonEnabled = false; // Hides this option
+
+                        return;
+                    }
+
+                    if (!value.HasFlag(DynamicButtons.Primary))
+                    {
+                        IsPrimaryButtonEnabled = false; // Hides this option
+                    }
+                    if (!value.HasFlag(DynamicButtons.Secondary))
+                    {
+                        IsSecondaryButtonEnabled = false; // Hides this option
+                    }
+                    if (!value.HasFlag(DynamicButtons.Cancel))
+                    {
+                        IsCloseButtonEnabled = false; // Hides this option
+                    }
+                }
+            }
         }
 
         public DynamicResult DynamicResult { get; set; }
@@ -219,16 +300,21 @@ namespace Files.ViewModels.Dialogs
         {
             // Create default implementation
             TitleText = "DynamicDialog";
-            PrimaryButtonText = "OK";
+            PrimaryButtonText = "Yes";
+            SecondaryButtonText = "No";
+            CloseButtonText = "Cancel";
             PrimaryButtonAction = (vm, e) => HideDialog();
+            SecondaryButtonAction = (vm, e) => HideDialog();
+            CloseButtonAction = (vm, e) => HideDialog();
             KeyDownAction = (vm, e) =>
             {
-                if (e.Key == VirtualKey.Enter || e.Key == VirtualKey.Escape)
+                if (e.Key == VirtualKey.Escape)
                 {
                     HideDialog();
                 }
             };
             DynamicButtons = DynamicButtons.Primary;
+            DynamicButtonsEnabled = DynamicButtons.Primary | DynamicButtons.Secondary | DynamicButtons.Cancel;
         }
 
         #endregion Constructor

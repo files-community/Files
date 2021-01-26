@@ -17,6 +17,7 @@
     PrimaryButtonText="{Binding PrimaryButtonText, Mode=OneWay}"
     SecondaryButtonStyle="{StaticResource DefaultButtonStyle}"
     SecondaryButtonText="{Binding SecondaryButtonText, Mode=OneWay}"
+    
     mc:Ignorable="d">
 
     <i:Interaction.Behaviors>
@@ -49,7 +50,8 @@
             Grid.Row="0"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
-            Text="{Binding SubtitleText, Mode=OneWay}" />
+            Text="{Binding SubtitleText, Mode=OneWay}"
+            TextWrapping="WrapWholeWords" />
 
         <!--  The dynamic content control  -->
         <ContentControl
