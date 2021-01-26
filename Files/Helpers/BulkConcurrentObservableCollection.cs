@@ -243,8 +243,27 @@ namespace Files.Helpers
 
         public void RemoveRange(int index, int count)
         {
-            Write(() => collection.RemoveRange(index, count));
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            var items = Write(() =>
+            {
+                var items = collection.Skip(index).Take(count).ToList();
+                collection.RemoveRange(index, count);
+                return items;
+            });
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, items));
+        }
+
+        public void ReplaceRange(int index, IEnumerable<T> items)
+        {
+            var (newItems, oldItems) = Write(() =>
+            {
+                var count = items.Count();
+                var oldItems = collection.Skip(index).Take(count).ToList();
+                var newItems = items.ToList();
+                collection.InsertRange(index, newItems);
+                collection.RemoveRange(index + count, count);
+                return (newItems, oldItems);
+            });
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItems, oldItems));
         }
 
         int IList.Add(object value)

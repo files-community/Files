@@ -486,10 +486,14 @@ namespace Files.ViewModels
                     return;
                 }
 
-                // ObservableCollection.CollectionChanged will cause UI update, which may cause
-                // significant performance degradation, so suppress ObservableCollection.CollectionChanged
-                // event here while loading items heavily
+                // CollectionChanged will cause UI update, which may cause significant performance degradation,
+                // so suppress CollectionChanged event here while loading items heavily.
+
+                // Note that both DataGrid and GridView don't support multi-items changes notification, so here
+                // we have to call BeginBulkOperation to suppress CollectionChanged and call EndBulkOperation
+                // in the end to fire a CollectionChanged event with NotifyCollectionChangedAction.Reset
                 FilesAndFolders.BeginBulkOperation();
+
                 // After calling BeginBulkOperation, ObservableCollection.CollectionChanged is suppressed
                 // so modifies to FilesAndFolders won't trigger UI updates, hence below operations can be
                 // run safely without needs of dispatching to UI thread
@@ -502,8 +506,7 @@ namespace Files.ViewModels
                     {
                         if (startIndex != -1)
                         {
-                            FilesAndFolders.InsertRange(startIndex, tempList);
-                            FilesAndFolders.RemoveRange(startIndex + tempList.Count, tempList.Count);
+                            FilesAndFolders.ReplaceRange(startIndex, tempList);
                             startIndex = -1;
                             tempList.Clear();
                         }
