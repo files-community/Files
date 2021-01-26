@@ -2068,7 +2068,7 @@
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleInput.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter Bundle name</source>
-          <target state="translated">输入包的名称/target>
+          <target state="translated">输入包的名称</target>
         </trans-unit>
         <trans-unit id="BundlesWidgetAddBundleNameInput.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter Bundle name</source>
@@ -2156,7 +2156,7 @@
         </trans-unit>
         <trans-unit id="BundlesWidgetOptionsFlyoutCreateBundleMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Create Bundle</source>
-          <target state="translated">新建包/target>
+          <target state="translated">新建包</target>
         </trans-unit>
         <trans-unit id="BundleOptionsFlyoutRenameBundleMenuItem.Text" translate="yes" xml:space="preserve">
           <source>Rename Bundle</source>
