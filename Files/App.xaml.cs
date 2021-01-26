@@ -80,7 +80,7 @@ namespace Files
             StartAppCenter();
         }
 
-        internal static async Task EnsureSettingsAndConfigurationAreBootstrapped()
+        private static async Task EnsureSettingsAndConfigurationAreBootstrapped()
         {
             if (AppSettings == null)
             {
@@ -99,11 +99,12 @@ namespace Files
             CloudDrivesManager ??= new CloudDrivesManager();
 
             // Start off a list of tasks we need to run before we can continue startup
-            var tasksToRun = new List<Task>();
-            tasksToRun.Add(DrivesManager.EnumerateDrivesAsync());
-            tasksToRun.Add(CloudDrivesManager.EnumerateDrivesAsync());
-            tasksToRun.Add(NetworkDrivesManager.EnumerateDrivesAsync());
-            _ = Task.WhenAll(tasksToRun);
+            _ = Task.Factory.StartNew(async () =>
+            {
+                await DrivesManager.EnumerateDrivesAsync();
+                await CloudDrivesManager.EnumerateDrivesAsync();
+                await NetworkDrivesManager.EnumerateDrivesAsync();
+            });
         }
 
         private async void StartAppCenter()

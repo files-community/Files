@@ -140,7 +140,7 @@ namespace Files.DataModels
                 Debug.WriteLine($"An error occured while swapping pinned items in the navigation sidebar. {ex.Message}");
                 this.Items = sidebarItemsBackup;
                 this.RemoveStaleSidebarItems();
-                this.AddAllItemsToSidebar();
+                _ = this.AddAllItemsToSidebar();
             }
         }
 
@@ -207,7 +207,7 @@ namespace Files.DataModels
         /// <summary>
         /// Adds all items to the navigation sidebar
         /// </summary>
-        public async void AddAllItemsToSidebar()
+        public async Task AddAllItemsToSidebar()
         {
             for (int i = 0; i < Items.Count(); i++)
             {
