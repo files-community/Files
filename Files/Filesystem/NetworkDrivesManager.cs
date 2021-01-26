@@ -38,6 +38,7 @@ namespace Files.Filesystem
                 Text = "Network".GetLocalized(),
                 Path = App.AppSettings.NetworkFolderPath,
                 Type = DriveType.Network,
+                ItemType = NavigationControlItemType.Drive
             };
             lock (drivesList)
             {
@@ -63,6 +64,7 @@ namespace Files.Filesystem
                             Text = key,
                             Path = (string)response.Message[key],
                             Type = DriveType.Network,
+                            ItemType = NavigationControlItemType.Drive
                         };
                         lock (drivesList)
                         {
