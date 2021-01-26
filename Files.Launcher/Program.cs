@@ -371,26 +371,30 @@ namespace FilesFullTrust
                     // Enumerate shell folder contents and send response to UWP
                     var folderPath = (string)args.Request.Message["folder"];
                     var responseEnum = new ValueSet();
-                    var folderContentsList = new List<ShellFileItem>();
-                    using (var shellFolder = new ShellFolder(folderPath))
+                    var folderContentsList = await Win32API.StartSTATask(() =>
                     {
-                        foreach (var folderItem in shellFolder)
+                        var flc = new List<ShellFileItem>();
+                        using (var shellFolder = new ShellFolder(folderPath))
                         {
-                            try
+                            foreach (var folderItem in shellFolder)
                             {
-                                var shellFileItem = GetShellFileItem(folderItem);
-                                folderContentsList.Add(shellFileItem);
-                            }
-                            catch (FileNotFoundException)
-                            {
-                                // Happens if files are being deleted
-                            }
-                            finally
-                            {
-                                folderItem.Dispose();
+                                try
+                                {
+                                    var shellFileItem = GetShellFileItem(folderItem);
+                                    flc.Add(shellFileItem);
+                                }
+                                catch (FileNotFoundException)
+                                {
+                                    // Happens if files are being deleted
+                                }
+                                finally
+                                {
+                                    folderItem.Dispose();
+                                }
                             }
                         }
-                    }
+                        return flc;
+                    });
                     responseEnum.Add("Enumerate", JsonConvert.SerializeObject(folderContentsList));
                     await args.Request.SendResponseAsync(responseEnum);
                     break;
@@ -653,14 +657,18 @@ namespace FilesFullTrust
 
         private static ShellFileItem GetShellFileItem(ShellItem folderItem)
         {
-            string recyclePath = folderItem.FileSystemPath ?? folderItem.ParsingName; // True path on disk
-            string fileName = Path.GetFileName(folderItem.Name); // Original file name
-            string filePath = folderItem.Name; // Original file path + name
             bool isFolder = folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip";
             if (folderItem.Properties == null)
             {
-                return new ShellFileItem(isFolder, recyclePath, fileName, filePath, DateTime.Now, DateTime.Now, null, 0, null);
+                return new ShellFileItem(isFolder, folderItem.FileSystemPath, Path.GetFileName(folderItem.Name), folderItem.Name, DateTime.Now, DateTime.Now, null, 0, null);
             }
+            folderItem.Properties.TryGetValue<string>(
+                Ole32.PROPERTYKEY.System.ParsingPath, out var parsingPath);
+            parsingPath ??= folderItem.FileSystemPath; // True path on disk
+            folderItem.Properties.TryGetValue<string>(
+                Ole32.PROPERTYKEY.System.ItemNameDisplay, out var fileName);
+            fileName ??= Path.GetFileName(folderItem.Name); // Original file name
+            string filePath = folderItem.Name; // Original file path + name (recycle bin only)
             folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
                 Ole32.PROPERTYKEY.System.Recycle.DateDeleted, out var fileTime);
             var recycleDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
@@ -672,7 +680,7 @@ namespace FilesFullTrust
                 folderItem.Properties.GetPropertyString(Ole32.PROPERTYKEY.System.Size) : null;
             folderItem.Properties.TryGetValue<string>(
                 Ole32.PROPERTYKEY.System.ItemTypeText, out var fileType);
-            return new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, modifiedDate, fileSize, fileSizeBytes ?? 0, fileType);
+            return new ShellFileItem(isFolder, parsingPath, fileName, filePath, recycleDate, modifiedDate, fileSize, fileSizeBytes ?? 0, fileType);
         }
 
         private static void HandleApplicationsLaunch(IEnumerable<string> applications, AppServiceRequestReceivedEventArgs args)

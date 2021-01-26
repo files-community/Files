@@ -932,7 +932,8 @@ namespace Files.ViewModels
                 }
 
                 if (path.StartsWith(AppSettings.RecycleBinPath) ||
-                    path.StartsWith(AppSettings.NetworkFolderPath))
+                    path.StartsWith(AppSettings.NetworkFolderPath) ||
+                    path.StartsWith("ftp:"))
                 {
                     // Recycle bin and network are enumerated by the fulltrust process
                     await EnumerateItemsFromSpecialFolderAsync(path);
@@ -1803,11 +1804,11 @@ namespace Files.ViewModels
             IStorageItem storageItem = null;
             if (item.PrimaryItemAttribute == StorageItemTypes.File)
             {
-                storageItem = await StorageFile.GetFileFromPathAsync(item.ItemPath);
+                storageItem = (await GetFileFromPathAsync(item.ItemPath)).Result;
             }
             else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
-                storageItem = await StorageFolder.GetFolderFromPathAsync(item.ItemPath);
+                storageItem = (await GetFolderFromPathAsync(item.ItemPath)).Result;
             }
             if (storageItem != null)
             {

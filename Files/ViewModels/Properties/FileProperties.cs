@@ -155,7 +155,7 @@ namespace Files.ViewModels.Properties
 
         public async void GetSystemFileProperties()
         {
-            StorageFile file = await StorageFile.GetFileFromPathAsync(Item.ItemPath);
+            StorageFile file = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Item.ItemPath).AsTask());
             if (file == null)
             {
                 // Could not access file, can't show any other property
@@ -211,8 +211,12 @@ namespace Files.ViewModels.Properties
 
         public async Task SyncPropertyChangesAsync()
         {
-            StorageFile file = null;
-            file = await StorageFile.GetFileFromPathAsync(Item.ItemPath);
+            StorageFile file = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Item.ItemPath).AsTask());
+            if (file == null)
+            {
+                // Could not access file, can't save properties
+                return;
+            }
 
             var failedProperties = "";
             foreach (var group in ViewModel.PropertySections)
@@ -228,7 +232,7 @@ namespace Files.ViewModels.Properties
                         {
                             await file.Properties.SavePropertiesAsync(newDict);
                         }
-                        catch (Exception e)
+                        catch
                         {
                             failedProperties += $"{prop.Name}\n";
                         }
@@ -249,12 +253,8 @@ namespace Files.ViewModels.Properties
         public async Task ClearPropertiesAsync()
         {
             var failedProperties = new List<string>();
-            StorageFile file = null;
-            try
-            {
-                file = await StorageFile.GetFileFromPathAsync(Item.ItemPath);
-            }
-            catch
+            StorageFile file = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(Item.ItemPath).AsTask());
+            if (file == null)
             {
                 return;
             }

@@ -191,11 +191,10 @@ namespace Files.UserControls
 
         private async void LoadPreviewControlFromExtension(ListedItem item, Extension extension)
         {
-            var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
-            string sharingToken = SharedStorageAccessManager.AddFile(file);
-
             try
             {
+                var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
+                string sharingToken = SharedStorageAccessManager.AddFile(file);
                 var result = await extension.Invoke(new ValueSet() { { "token", sharingToken } });
                 var preview = result["preview"];
                 PreviewGrid.Children.Add(XamlReader.Load(preview as string) as UIElement);
