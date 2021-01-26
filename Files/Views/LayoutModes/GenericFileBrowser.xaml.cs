@@ -91,7 +91,6 @@ namespace Files.Views.LayoutModes
             selectionRectangle.SelectionStarted += SelectionRectangle_SelectionStarted;
             selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
             AllView.PointerCaptureLost += AllView_ItemPress;
-            AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
         }
 
         private void SelectionRectangle_SelectionStarted(object sender, EventArgs e)
@@ -111,6 +110,7 @@ namespace Files.Views.LayoutModes
             base.OnNavigatedTo(eventArgs);
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged += ViewModel_PropertyChanged;
             AllView.LoadingRow += AllView_LoadingRow;
+            AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
             ViewModel_PropertyChanged(null, new PropertyChangedEventArgs("DirectorySortOption"));
         }
 
@@ -119,6 +119,7 @@ namespace Files.Views.LayoutModes
             base.OnNavigatingFrom(e);
             ParentShellPageInstance.FilesystemViewModel.PropertyChanged -= ViewModel_PropertyChanged;
             AllView.LoadingRow -= AllView_LoadingRow;
+            AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
         }
 
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)

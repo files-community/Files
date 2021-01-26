@@ -296,8 +296,9 @@
           <target state="translated">ଛବିଗୁଡିକ</target>
         </trans-unit>
         <trans-unit id="SideBarUnpinFromSideBar.Text" translate="yes" xml:space="preserve">
-          <source>Unpin from Sidebar</source>
-          <target state="translated">ସାଇଡ୍ ବାର୍ ରୁ ଅନ୍ପିନ୍ କରନ୍ତୁ</target>
+          <source>Unpin from sidebar</source>
+          <target state="needs-review-translation">ସାଇଡ୍ ବାର୍ ରୁ ଅନ୍ପିନ୍ କରନ୍ତୁ</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SidebarVideos" translate="yes" xml:space="preserve">
           <source>Videos</source>

@@ -40,6 +40,13 @@ namespace Files.Views.LayoutModes
             SetItemTemplate(); // Set ItemTemplate
         }
 
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+            FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
+            FolderSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
+        }
+
         private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
         {
             await Task.Delay(200);
