@@ -231,18 +231,30 @@ namespace Files.Helpers
 
         public void AddRange(IEnumerable<T> items)
         {
+            if (items.Count() == 0)
+            {
+                return;
+            }
             Write(() => collection.AddRange(items));
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items.ToList()));
         }
 
         public void InsertRange(int index, IEnumerable<T> items)
         {
+            if (items.Count() == 0)
+            {
+                return;
+            }
             Write(() => collection.InsertRange(index, items));
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, items.ToList(), index));
         }
 
         public void RemoveRange(int index, int count)
         {
+            if (count == 0)
+            {
+                return;
+            }
             var items = Write(() =>
             {
                 var items = collection.Skip(index).Take(count).ToList();
@@ -254,9 +266,13 @@ namespace Files.Helpers
 
         public void ReplaceRange(int index, IEnumerable<T> items)
         {
+            var count = items.Count();
+            if (count == 0)
+            {
+                return;
+            }
             var (newItems, oldItems) = Write(() =>
             {
-                var count = items.Count();
                 var oldItems = collection.Skip(index).Take(count).ToList();
                 var newItems = items.ToList();
                 collection.InsertRange(index, newItems);
