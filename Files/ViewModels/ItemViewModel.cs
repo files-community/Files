@@ -551,8 +551,8 @@ namespace Files.ViewModels
 
                 await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
                 {
-                    // trigger ObservableCollection.CollectionChanged once
-                    // loading is completed so that UI can be updated
+                    // trigger CollectionChanged with NotifyCollectionChangedAction.Reset
+                    // once loading is completed so that UI can be updated
                     FilesAndFolders.EndBulkOperation();
                     IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
                     UpdateDirectoryInfo();
