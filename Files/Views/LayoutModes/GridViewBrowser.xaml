@@ -15,7 +15,7 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     x:Name="PageRoot"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    NavigationCacheMode="Enabled"
+    NavigationCacheMode="Disabled"
     PointerPressed="GridViewBrowserViewer_PointerPressed"
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
     mc:Ignorable="d">
@@ -193,12 +193,23 @@
             </MenuFlyoutSubItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
-                x:Name="PinToSidebar"
+                x:Name="PinDirectoryToSidebar"
                 x:Uid="BaseLayoutContextFlyoutPinDirectoryToSidebar"
+                x:Load="False"
                 Click="{x:Bind ParentShellPageInstance.InteractionOperations.PinDirectoryToSidebar}"
                 Text="Pin directory to sidebar">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeb1f;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
+                x:Name="UnpinDirectoryFromSidebar"
+                x:Uid="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar"
+                x:Load="False"
+                Click="{x:Bind ParentShellPageInstance.InteractionOperations.UnpinDirectoryFromSidebar}"
+                Text="Unpin directory from sidebar">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB20;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -231,10 +242,10 @@
                     IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByOriginalPath, Mode=TwoWay}"
                     Text="Original path" />
                 <muxc:RadioMenuFlyoutItem
-                    x:Uid="BaseLayoutContextFlyoutSortByDate"
+                    x:Uid="BaseLayoutContextFlyoutSortByDateDeleted"
                     GroupName="SortGroup"
-                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDate, Mode=TwoWay}"
-                    Text="Date modified" />
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDateDeleted, Mode=TwoWay}"
+                    Text="Date deleted" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByType"
                     GroupName="SortGroup"
@@ -245,6 +256,11 @@
                     GroupName="SortGroup"
                     IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedBySize, Mode=TwoWay}"
                     Text="Size" />
+                <muxc:RadioMenuFlyoutItem
+                    x:Uid="BaseLayoutContextFlyoutSortByDate"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsSortedByDate, Mode=TwoWay}"
+                    Text="Date modified" />
                 <MenuFlyoutSeparator />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByAscending"
@@ -581,6 +597,7 @@
                         Margin="12"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        x:Phase="1"
                         x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                         Source="{x:Bind FileImage, Mode=OneWay}"
                         Stretch="Uniform" />
@@ -588,6 +605,7 @@
                         x:Name="FolderGlyph"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        x:Phase="1"
                         x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
                         Stretch="Uniform">
                         <Image.Source>
@@ -604,6 +622,7 @@
                         Margin="12"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        x:Phase="1"
                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA00;" />
                     </Viewbox>
@@ -615,6 +634,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
                         x:Load="True"
+                        x:Phase="1"
                         Source="{x:Bind IconOverlay, Mode=OneWay}"
                         Stretch="Uniform" />
                     <Viewbox
@@ -624,6 +644,7 @@
                         Margin="12"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        x:Phase="1"
                         x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
                         <FontIcon
                             FontFamily="{StaticResource FluentUIGlyphs}"
@@ -636,6 +657,7 @@
                         Padding="2"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
+                        x:Phase="1"
                         x:Load="{x:Bind IsShortcutItem}"
                         Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                         BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
@@ -660,6 +682,7 @@
                         Grid.Column="0"
                         Margin="0,0,5,0"
                         VerticalAlignment="Stretch"
+                        x:Phase="2"
                         x:Load="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="18"
@@ -713,6 +736,7 @@
                     x:Name="CloudDriveSyncStatusGlyph"
                     Grid.Column="0"
                     Margin="10,0,0,0"
+                    x:Phase="2"
                     x:Load="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
                     FontFamily="Segoe MDL2 Assets"
                     Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
@@ -729,6 +753,7 @@
                         Margin="0,12,0,12"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        x:Phase="1"
                         x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                         Source="{x:Bind FileImage, Mode=OneWay}"
                         Stretch="Uniform" />
@@ -738,6 +763,7 @@
                         Height="74"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        x:Phase="1"
                         x:Load="{x:Bind LoadFolderGlyph, Mode=OneWay}"
                         Stretch="Uniform">
                         <Image.Source>
@@ -752,6 +778,7 @@
                         Width="74"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
+                        x:Phase="1"
                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
                         FontFamily="{StaticResource FluentUIGlyphs}"
                         FontSize="74"
@@ -764,6 +791,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
                         x:Load="True"
+                        x:Phase="1"
                         Source="{x:Bind IconOverlay, Mode=OneWay}"
                         Stretch="Uniform" />
                     <Viewbox
@@ -771,6 +799,7 @@
                         MaxWidth="74"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
+                        x:Phase="1"
                         x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
                         <FontIcon
                             FontFamily="{StaticResource FluentUIGlyphs}"
@@ -783,6 +812,7 @@
                         Padding="2"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
+                        x:Phase="1"
                         x:Load="{x:Bind IsShortcutItem}"
                         Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                         BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
@@ -889,7 +919,7 @@
         <muxc:ProgressBar
             x:Name="progBar"
             VerticalAlignment="Top"
-            x:Load="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsLoadingItems, Mode=OneWay}"
+            x:Load="{x:Bind ParentShellPageInstance.FilesystemViewModel.IsLoadingIndicatorActive, Mode=OneWay}"
             Background="Transparent"
             IsIndeterminate="True" />
         <TextBlock
@@ -913,7 +943,7 @@
 
         <GridView
             x:Name="FileList"
-            Padding="14,14,14,0"
+            Padding="12,4,4,0"
             VerticalContentAlignment="Stretch"
             animations:ReorderGridAnimation.Duration="350"
             x:FieldModifier="public"
@@ -925,7 +955,6 @@
             IsDoubleTapEnabled="True"
             IsItemClickEnabled="True"
             ItemClick="FileList_ItemClick"
-            ItemsSource="{x:Bind ParentShellPageInstance.FilesystemViewModel.FilesAndFolders}"
             PreviewKeyDown="FileList_PreviewKeyDown"
             SelectionChanged="FileList_SelectionChanged"
             SelectionMode="Extended"

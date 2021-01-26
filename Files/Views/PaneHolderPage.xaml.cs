@@ -22,7 +22,7 @@ namespace Files.Views
         public PaneHolderPage()
         {
             this.InitializeComponent();
-            
+
             AppSettings.PropertyChanged += AppSettings_PropertyChanged;
             Window.Current.SizeChanged += Current_SizeChanged;
             Current_SizeChanged(null, null);
@@ -68,8 +68,8 @@ namespace Files.Views
                         IsRightPaneVisible = true;
                         wasRightPaneVisible = false;
                     }
-                    NotifyPropertyChanged("IsWindowCompactSize");
-                    NotifyPropertyChanged("IsMultiPaneEnabled");
+                    NotifyPropertyChanged(nameof(IsWindowCompactSize));
+                    NotifyPropertyChanged(nameof(IsMultiPaneEnabled));
                 }
             }
         }
@@ -89,7 +89,7 @@ namespace Files.Views
                 if (navParamsLeft != value)
                 {
                     navParamsLeft = value;
-                    NotifyPropertyChanged("NavParamsLeft");
+                    NotifyPropertyChanged(nameof(NavParamsLeft));
                 }
             }
         }
@@ -104,7 +104,7 @@ namespace Files.Views
                 if (navParamsRight != value)
                 {
                     navParamsRight = value;
-                    NotifyPropertyChanged("NavParamsRight");
+                    NotifyPropertyChanged(nameof(NavParamsRight));
                 }
             }
         }
@@ -128,9 +128,9 @@ namespace Files.Views
                     {
                         ActivePane.IsCurrentInstance = isCurrentInstance;
                     }
-                    NotifyPropertyChanged("ActivePane");
-                    NotifyPropertyChanged("IsLeftPaneActive");
-                    NotifyPropertyChanged("IsRightPaneActive");
+                    NotifyPropertyChanged(nameof(ActivePane));
+                    NotifyPropertyChanged(nameof(IsLeftPaneActive));
+                    NotifyPropertyChanged(nameof(IsRightPaneActive));
                 }
             }
         }
@@ -154,7 +154,7 @@ namespace Files.Views
                         ActivePane = PaneLeft;
                     }
                     Pane_ContentChanged(null, null);
-                    NotifyPropertyChanged("IsRightPaneVisible");
+                    NotifyPropertyChanged(nameof(IsRightPaneVisible));
                 }
             }
         }

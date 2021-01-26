@@ -75,17 +75,17 @@ namespace FilesFullTrust
 
         public class DisposableDictionary : IDisposable
         {
-            private ConcurrentDictionary<string, object> _dict;
+            private ConcurrentDictionary<string, object> dict;
 
             public DisposableDictionary()
             {
-                _dict = new ConcurrentDictionary<string, object>();
+                dict = new ConcurrentDictionary<string, object>();
             }
 
             public string AddValue(object obj)
             {
                 string key = Guid.NewGuid().ToString();
-                if (!_dict.TryAdd(key, obj))
+                if (!dict.TryAdd(key, obj))
                 {
                     throw new ArgumentException("Could not create handle: key exists");
                 }
@@ -96,7 +96,7 @@ namespace FilesFullTrust
             public void SetValue(string key, object obj)
             {
                 RemoveValue(key);
-                if (!_dict.TryAdd(key, obj))
+                if (!dict.TryAdd(key, obj))
                 {
                     throw new ArgumentException("Could not create handle: key exists");
                 }
@@ -104,27 +104,27 @@ namespace FilesFullTrust
 
             public object GetValue(string key)
             {
-                _dict.TryGetValue(key, out var elem);
+                dict.TryGetValue(key, out var elem);
                 return elem;
             }
 
             public T GetValue<T>(string key)
             {
-                _dict.TryGetValue(key, out var elem);
+                dict.TryGetValue(key, out var elem);
                 return (T)elem;
             }
 
             public void RemoveValue(string key)
             {
-                _dict.TryRemove(key, out var elem);
+                dict.TryRemove(key, out var elem);
                 (elem as IDisposable)?.Dispose();
             }
 
             public void Dispose()
             {
-                foreach (var elem in _dict)
+                foreach (var elem in dict)
                 {
-                    _dict.TryRemove(elem.Key, out _);
+                    dict.TryRemove(elem.Key, out _);
                     (elem.Value as IDisposable)?.Dispose();
                 }
             }
@@ -396,18 +396,18 @@ namespace FilesFullTrust
 
         public class ContextMenuItem : Win32ContextMenuItem, IDisposable
         {
-            private Bitmap _Icon;
+            private Bitmap icon;
 
             [JsonIgnore]
             public Bitmap Icon
             {
                 get
                 {
-                    return _Icon;
+                    return icon;
                 }
                 set
                 {
-                    _Icon = value;
+                    icon = value;
                     byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(value, typeof(byte[]));
                     IconBase64 = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
                 }

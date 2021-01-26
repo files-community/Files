@@ -38,10 +38,10 @@ namespace FilesFullTrust
         public static async Task<string> GetFileAssociationAsync(string filename)
         {
             // Find UWP apps
-            var uwp_apps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
-            if (uwp_apps.Any())
+            var uwpApps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
+            if (uwpApps.Any())
             {
-                return uwp_apps.First().PackageFamilyName;
+                return uwpApps.First().PackageFamilyName;
             }
 
             // Find desktop apps
@@ -97,7 +97,12 @@ namespace FilesFullTrust
         public static (string icon, string overlay, bool isCustom) GetFileIconAndOverlay(string path, int thumbnailSize)
         {
             var shfi = new Shell32.SHFILEINFO();
-            var ret = Shell32.SHGetFileInfo(path, 0, ref shfi, Shell32.SHFILEINFO.Size, Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION);
+            var ret = Shell32.SHGetFileInfo(
+                path,
+                0,
+                ref shfi,
+                Shell32.SHFILEINFO.Size,
+                Shell32.SHGFI.SHGFI_OVERLAYINDEX | Shell32.SHGFI.SHGFI_ICON | Shell32.SHGFI.SHGFI_SYSICONINDEX | Shell32.SHGFI.SHGFI_ICONLOCATION);
             if (ret == IntPtr.Zero)
             {
                 return (null, null, false);
@@ -113,11 +118,11 @@ namespace FilesFullTrust
             }
 
             string iconStr = null, overlayStr = null;
-            var overlay_idx = shfi.iIcon >> 24;
-            if (overlay_idx != 0)
+            var overlayIdx = shfi.iIcon >> 24;
+            if (overlayIdx != 0)
             {
-                var overlay_image = imageList.Interface.GetOverlayImage(overlay_idx);
-                using var hOverlay = imageList.Interface.GetIcon(overlay_image, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
+                var overlayImage = imageList.Interface.GetOverlayImage(overlayIdx);
+                using var hOverlay = imageList.Interface.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
                 if (!hOverlay.IsNull && !hOverlay.IsInvalid)
                 {
                     using var image = hOverlay.ToIcon().ToBitmap();
@@ -196,7 +201,7 @@ namespace FilesFullTrust
         {
             try
             {
-                Bitmap bmp = hBitmap.ToBitmap();
+                Bitmap bmp = Image.FromHbitmap((IntPtr)hBitmap);
                 if (Image.GetPixelFormatSize(bmp.PixelFormat) < 32)
                 {
                     return bmp;

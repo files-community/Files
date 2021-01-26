@@ -679,7 +679,7 @@
     <value>Copier vers {0}</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShortcut.Text" xml:space="preserve">
-    <value>Créer un raccourcis</value>
+    <value>Créer un raccourci</value>
   </data>
   <data name="PropertiesDialogOpenLinkButton.Content" xml:space="preserve">
     <value>Ouvrir l'emplacement du fichier</value>
@@ -993,6 +993,9 @@
   <data name="SettingsFilesAndFoldersShowHiddenItems.AutomationProperties.Name" xml:space="preserve">
     <value>Afficher les fichiers et dossiers cachés</value>
   </data>
+  <data name="EjectNotificationHeader" xml:space="preserve">
+    <value>Le matériel peut être retiré en toute sécurité</value>
+  </data>
   <data name="EjectNotificationBody" xml:space="preserve">
     <value>Le périphériques peut maintenant être retiré en tout sécurité de l'ordinateur.</value>
   </data>
@@ -1019,9 +1022,6 @@
   </data>
   <data name="PropertiesDialogHidden.Text" xml:space="preserve">
     <value>Caché</value>
-  </data>
-  <data name="PropertyItemFolderPathDisplay" xml:space="preserve">
-    <value>Chemin du dossier</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
     <value>Type d'élément</value>
@@ -1055,6 +1055,9 @@
   </data>
   <data name="PropertyVerticalResolution" xml:space="preserve">
     <value>Résolution verticale</value>
+  </data>
+  <data name="PropertyCompressionText" xml:space="preserve">
+    <value>Compression</value>
   </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
     <value>Largeur</value>
@@ -1396,10 +1399,13 @@
     <value>Ouvrir dans un panneau secondaire</value>
   </data>
   <data name="SettingsDualPane.Text" xml:space="preserve">
-    <value>Double peanneau</value>
+    <value>Double panneau</value>
   </data>
   <data name="SettingsCopyLocationSwitch.Header" xml:space="preserve">
     <value>Afficher l'élément de menu de copie de l'emplacement</value>
+  </data>
+  <data name="SettingsContextMenuOverflowSwitch.Header" xml:space="preserve">
+    <value>Déplacer les éléments superflus dans un sous-menu</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personnaliser le menu contextuel du clic droit</value>
@@ -1409,5 +1415,50 @@
   </data>
   <data name="LibraryWidgetDescription.Text" xml:space="preserve">
     <value>Dossiers</value>
+  </data>
+  <data name="SettingsContextMenuAnimationsSwitch.Header" xml:space="preserve">
+    <value>Activer les animations à l'ouverture et à la fermeture du menu contextuel</value>
+  </data>
+  <data name="StatusBarControlDetailsView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Vue détaillée</value>
+  </data>
+  <data name="StatusBarControlGridViewLarge.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Vue grille (Grande)</value>
+  </data>
+  <data name="StatusBarControlGridViewMedium.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Vue grille (Moyenne)</value>
+  </data>
+  <data name="StatusBarControlGridViewSmall.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Vue grille (Petite)</value>
+  </data>
+  <data name="StatusBarControlTilesView.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Vue tuiles</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.Text" xml:space="preserve">
+    <value>Disposition</value>
+  </data>
+  <data name="StatusBarControlDisplayOptions.Text" xml:space="preserve">
+    <value>Display Options</value>
+  </data>
+  <data name="StatusBarControlGridViewLarge.AutomationProperties.Name" xml:space="preserve">
+    <value>Vue grille (Grande)</value>
+  </data>
+  <data name="StatusBarControlGridViewMedium.AutomationProperties.Name" xml:space="preserve">
+    <value>Vue grille (Moyenne)</value>
+  </data>
+  <data name="StatusBarControlGridViewSmall.AutomationProperties.Name" xml:space="preserve">
+    <value>Vue grille (Petite)</value>
+  </data>
+  <data name="StatusBarControlTilesView.AutomationProperties.Name" xml:space="preserve">
+    <value>Vue tuiles</value>
+  </data>
+  <data name="StatusBarControlShowFileExtensions.Header" xml:space="preserve">
+    <value>Afficher les extensions de fichier</value>
+  </data>
+  <data name="StatusBarControlShowHiddenItems.Header" xml:space="preserve">
+    <value>Afficher les éléments cachés</value>
+  </data>
+  <data name="StatusBarControlDetailsView.AutomationProperties.Name" xml:space="preserve">
+    <value>Vue détaillée</value>
   </data>
 </root>

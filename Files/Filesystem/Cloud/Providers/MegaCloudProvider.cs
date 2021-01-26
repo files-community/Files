@@ -15,7 +15,7 @@ namespace Files.Filesystem.Cloud.Providers
 {
     public class MegaCloudProvider : ICloudProviderDetector
     {
-        public async Task DetectAsync(List<CloudProvider> cloudProviders)
+        public async Task<IList<CloudProvider>> DetectAsync()
         {
             try
             {
@@ -42,6 +42,8 @@ namespace Files.Filesystem.Cloud.Providers
 
                 var syncKey = Hash("Syncs", currentAccountSectionKey, encryptionKey);
                 var syncGroups = currentAccountSection.Keys.Where(s => s.KeyName.StartsWith(syncKey)).Select(x => x.KeyName.Split('\\')[1]).Distinct();
+                var results = new List<CloudProvider>();
+
                 foreach (var sync in syncGroups)
                 {
                     currentGroup = string.Join("/", currentAccountSectionKey, syncKey, sync);
@@ -52,17 +54,20 @@ namespace Files.Filesystem.Cloud.Providers
                     var localFolderStr = currentAccountSection.Keys.First(s => s.KeyName == string.Join("\\", syncKey, sync, localFolderKey));
                     var localFolderDecrypted = Decrypt(localFolderKey, localFolderStr.Value.Replace("\"", ""), currentGroup);
 
-                    cloudProviders.Add(new CloudProvider()
+                    results.Add(new CloudProvider()
                     {
                         ID = CloudProviders.Mega,
                         Name = $"MEGA ({syncNameDecrypted})",
                         SyncFolder = localFolderDecrypted
                     });
                 }
+
+                return results;
             }
             catch
             {
                 // Not detected
+                return Array.Empty<CloudProvider>();
             }
         }
 

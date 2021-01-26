@@ -5,6 +5,6 @@ namespace Files.Filesystem.Cloud
 {
     public interface ICloudProviderDetector
     {
-        Task DetectAsync(List<CloudProvider> cloudProviders);
+        Task<IList<CloudProvider>> DetectAsync();
     }
 }

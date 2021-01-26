@@ -1,33 +1,51 @@
 ﻿using Files.Enums;
+using Files.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.AppService;
+using Windows.Foundation.Collections;
 
 namespace Files.Filesystem.Cloud.Providers
 {
     public class OneDriveCloudProvider : ICloudProviderDetector
     {
-        public async Task DetectAsync(List<CloudProvider> cloudProviders)
+        public async Task<IList<CloudProvider>> DetectAsync()
         {
             try
             {
-                await Task.Run(() =>
+                using var connection = await AppServiceConnectionHelper.BuildConnection();
+                var (status, response) = await connection.SendMessageWithRetryAsync(new ValueSet()
                 {
-                    var onedrivePersonal = Environment.GetEnvironmentVariable("OneDriveConsumer");
-                    if (!string.IsNullOrEmpty(onedrivePersonal))
+                    { "Arguments", "GetOneDriveAccounts" }
+                }, TimeSpan.FromSeconds(10));
+                if (status == AppServiceResponseStatus.Success)
+                {
+                    var results = new List<CloudProvider>();
+                    foreach (var key in response.Message.Keys
+                        .OrderByDescending(o => string.Equals(o, "OneDrive", StringComparison.OrdinalIgnoreCase))
+                        .ThenBy(o => o))
                     {
-                        cloudProviders.Add(new CloudProvider()
+                        results.Add(new CloudProvider()
                         {
                             ID = CloudProviders.OneDrive,
-                            Name = "OneDrive",
-                            SyncFolder = onedrivePersonal
+                            Name = key,
+                            SyncFolder = (string)response.Message[key]
                         });
                     }
-                });
+
+                    return results;
+                }
+                else
+                {
+                    return Array.Empty<CloudProvider>();
+                }
             }
             catch
             {
                 // Not detected
+                return Array.Empty<CloudProvider>();
             }
         }
     }

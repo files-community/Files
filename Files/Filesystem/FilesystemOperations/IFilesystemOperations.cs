@@ -1,4 +1,5 @@
-﻿using Files.Filesystem.FilesystemHistory;
+﻿using Files.Enums;
+using Files.Filesystem.FilesystemHistory;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace Files.Filesystem
         /// <br/>
         /// Destination: null
         /// </returns>
-        Task<IStorageHistory> CreateAsync(IStorageItemWithPath source, IProgress<FilesystemErrorCode> errorCode, CancellationToken cancellationToken);
+        Task<IStorageHistory> CreateAsync(IStorageItemWithPath source, IProgress<FileSystemStatusCode> errorCode, CancellationToken cancellationToken);
 
         /// <summary>
         /// Copies <paramref name="source"/> to <paramref name="destination"/> fullPath
@@ -47,7 +48,7 @@ namespace Files.Filesystem
         Task<IStorageHistory> CopyAsync(IStorageItem source,
                                         string destination,
                                         IProgress<float> progress,
-                                        IProgress<FilesystemErrorCode> errorCode,
+                                        IProgress<FileSystemStatusCode> errorCode,
                                         CancellationToken cancellationToken);
 
         /// <summary>
@@ -67,7 +68,7 @@ namespace Files.Filesystem
         Task<IStorageHistory> CopyAsync(IStorageItemWithPath source,
                                         string destination,
                                         IProgress<float> progress,
-                                        IProgress<FilesystemErrorCode> errorCode,
+                                        IProgress<FileSystemStatusCode> errorCode,
                                         CancellationToken cancellationToken);
 
         /// <summary>
@@ -87,7 +88,7 @@ namespace Files.Filesystem
         Task<IStorageHistory> MoveAsync(IStorageItem source,
                                         string destination,
                                         IProgress<float> progress,
-                                        IProgress<FilesystemErrorCode> errorCode,
+                                        IProgress<FileSystemStatusCode> errorCode,
                                         CancellationToken cancellationToken);
 
         /// <summary>
@@ -107,7 +108,7 @@ namespace Files.Filesystem
         Task<IStorageHistory> MoveAsync(IStorageItemWithPath source,
                                         string destination,
                                         IProgress<float> progress,
-                                        IProgress<FilesystemErrorCode> errorCode,
+                                        IProgress<FileSystemStatusCode> errorCode,
                                         CancellationToken cancellationToken);
 
         /// <summary>
@@ -130,7 +131,7 @@ namespace Files.Filesystem
         /// </returns>
         Task<IStorageHistory> DeleteAsync(IStorageItem source,
                                           IProgress<float> progress,
-                                          IProgress<FilesystemErrorCode> errorCode,
+                                          IProgress<FileSystemStatusCode> errorCode,
                                           bool permanently,
                                           CancellationToken cancellationToken);
 
@@ -155,7 +156,7 @@ namespace Files.Filesystem
         /// </returns>
         Task<IStorageHistory> DeleteAsync(IStorageItemWithPath source,
                                           IProgress<float> progress,
-                                          IProgress<FilesystemErrorCode> errorCode,
+                                          IProgress<FileSystemStatusCode> errorCode,
                                           bool permanently,
                                           CancellationToken cancellationToken);
 
@@ -176,7 +177,7 @@ namespace Files.Filesystem
         Task<IStorageHistory> RenameAsync(IStorageItem source,
                                           string newName,
                                           NameCollisionOption collision,
-                                          IProgress<FilesystemErrorCode> errorCode,
+                                          IProgress<FileSystemStatusCode> errorCode,
                                           CancellationToken cancellationToken);
 
         /// <summary>
@@ -196,7 +197,7 @@ namespace Files.Filesystem
         Task<IStorageHistory> RenameAsync(IStorageItemWithPath source,
                                           string newName,
                                           NameCollisionOption collision,
-                                          IProgress<FilesystemErrorCode> errorCode,
+                                          IProgress<FileSystemStatusCode> errorCode,
                                           CancellationToken cancellationToken);
 
         /// <summary>
@@ -216,7 +217,7 @@ namespace Files.Filesystem
         Task<IStorageHistory> RestoreFromTrashAsync(IStorageItemWithPath source,
                                                     string destination,
                                                     IProgress<float> progress,
-                                                    IProgress<FilesystemErrorCode> errorCode,
+                                                    IProgress<FileSystemStatusCode> errorCode,
                                                     CancellationToken cancellationToken);
     }
 }

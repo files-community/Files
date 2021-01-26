@@ -1,53 +1,51 @@
-﻿using Files.Views;
-using Microsoft.Toolkit.Mvvm.ComponentModel;
+﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml.Controls;
 using Newtonsoft.Json;
 using System;
-using System.IO;
 
 namespace Files.UserControls.MultitaskingControl
 {
     public class TabItem : ObservableObject, ITabItem, ITabItemControl, IDisposable
     {
-        private string _Header;
+        private string header;
 
         public string Header
         {
-            get => _Header;
-            set => SetProperty(ref _Header, value);
+            get => header;
+            set => SetProperty(ref header, value);
         }
 
-        private string _Description = null;
+        private string description = null;
 
         public string Description
         {
-            get => _Description;
-            set => SetProperty(ref _Description, value);
+            get => description;
+            set => SetProperty(ref description, value);
         }
 
-        private IconSource _IconSource;
+        private IconSource iconSource;
 
         public IconSource IconSource
         {
-            get => _IconSource;
-            set => SetProperty(ref _IconSource, value);
+            get => iconSource;
+            set => SetProperty(ref iconSource, value);
         }
 
         public TabItemControl Control { get; private set; }
 
-        private bool _AllowStorageItemDrop = false;
+        private bool allowStorageItemDrop;
 
         public bool AllowStorageItemDrop
         {
-            get => _AllowStorageItemDrop;
-            set => SetProperty(ref _AllowStorageItemDrop, value);
+            get => allowStorageItemDrop;
+            set => SetProperty(ref allowStorageItemDrop, value);
         }
 
-        private TabItemArguments _TabItemArguments;
+        private TabItemArguments tabItemArguments;
 
         public TabItemArguments TabItemArguments
         {
-            get => Control?.NavigationArguments ?? _TabItemArguments;
+            get => Control?.NavigationArguments ?? tabItemArguments;
         }
 
         public TabItem()
@@ -57,7 +55,7 @@ namespace Files.UserControls.MultitaskingControl
 
         public void Unload()
         {
-            _TabItemArguments = Control?.NavigationArguments;
+            tabItemArguments = Control?.NavigationArguments;
             Dispose();
         }
 

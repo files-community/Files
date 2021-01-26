@@ -11,7 +11,7 @@ namespace Files
 {
     internal class Program
     {
-        private static void Main()
+        private static async Task Main()
         {
             var args = Environment.GetCommandLineArgs();
             var proc = System.Diagnostics.Process.GetCurrentProcess();
@@ -27,7 +27,7 @@ namespace Files
                         switch (command.Type)
                         {
                             case ParsedCommandType.ExplorerShellCommand:
-                                OpenShellCommandInExplorerAsync(command.Payload, proc.Id).GetAwaiter().GetResult();
+                                await OpenShellCommandInExplorerAsync(command.Payload, proc.Id);
                                 //Exit..
 
                                 return;

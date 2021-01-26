@@ -70,37 +70,37 @@ namespace Files.UserControls
             SidebarNavView.Loaded += SidebarNavView_Loaded;
         }
 
-        private INavigationControlItem _SelectedSidebarItem;
+        private INavigationControlItem selectedSidebarItem;
 
         public INavigationControlItem SelectedSidebarItem
         {
             get
             {
-                return _SelectedSidebarItem;
+                return selectedSidebarItem;
             }
             set
             {
-                if (value != _SelectedSidebarItem)
+                if (value != selectedSidebarItem)
                 {
-                    _SelectedSidebarItem = value;
+                    selectedSidebarItem = value;
                     NotifyPropertyChanged(nameof(SelectedSidebarItem));
                 }
             }
         }
 
-        private bool _CanOpenInNewPane;
+        private bool canOpenInNewPane;
 
         public bool CanOpenInNewPane
         {
             get
             {
-                return _CanOpenInNewPane;
+                return canOpenInNewPane;
             }
             set
             {
-                if (value != _CanOpenInNewPane)
+                if (value != canOpenInNewPane)
                 {
-                    _CanOpenInNewPane = value;
+                    canOpenInNewPane = value;
                     NotifyPropertyChanged(nameof(CanOpenInNewPane));
                 }
             }
@@ -109,7 +109,7 @@ namespace Files.UserControls
         /// <summary>
         /// ShowUnpinItem property indicating whether the unpin button should by displayed when right-clicking an item in the navigation bar
         /// </summary>
-        private bool _ShowUnpinItem;
+        private bool showUnpinItem;
 
         /// <summary>
         /// Binding property for the MenuFlyoutItem SideBarUnpinFromSideBar
@@ -118,85 +118,85 @@ namespace Files.UserControls
         {
             get
             {
-                return _ShowUnpinItem;
+                return showUnpinItem;
             }
             set
             {
-                if (value != _ShowUnpinItem)
+                if (value != showUnpinItem)
                 {
-                    _ShowUnpinItem = value;
+                    showUnpinItem = value;
                     NotifyPropertyChanged(nameof(ShowUnpinItem));
                 }
             }
         }
 
-        private bool _ShowProperties;
+        private bool showProperties;
 
         public bool ShowProperties
         {
             get
             {
-                return _ShowProperties;
+                return showProperties;
             }
             set
             {
-                if (value != _ShowProperties)
+                if (value != showProperties)
                 {
-                    _ShowProperties = value;
+                    showProperties = value;
                     NotifyPropertyChanged(nameof(ShowProperties));
                 }
             }
         }
 
-        private bool _ShowEmptyRecycleBin;
+        private bool showEmptyRecycleBin;
 
         public bool ShowEmptyRecycleBin
         {
             get
             {
-                return _ShowEmptyRecycleBin;
+                return showEmptyRecycleBin;
             }
             set
             {
-                if (value != _ShowEmptyRecycleBin)
+                if (value != showEmptyRecycleBin)
                 {
-                    _ShowEmptyRecycleBin = value;
+                    showEmptyRecycleBin = value;
                     NotifyPropertyChanged(nameof(ShowEmptyRecycleBin));
                 }
             }
         }
 
-        private bool _ShowEjectDevice;
+        private bool showEjectDevice;
 
         public bool ShowEjectDevice
         {
             get
             {
-                return _ShowEjectDevice;
+                return showEjectDevice;
             }
             set
             {
-                if (value != _ShowEjectDevice)
+                if (value != showEjectDevice)
                 {
-                    _ShowEjectDevice = value;
+                    showEjectDevice = value;
                     NotifyPropertyChanged(nameof(ShowEjectDevice));
                 }
             }
         }
 
-        private bool _RecycleBinHasItems;
+        private bool recycleBinHasItems;
 
         public bool RecycleBinHasItems
         {
             get
             {
-                return _RecycleBinHasItems;
+                return recycleBinHasItems;
             }
             set
             {
-                if (value != _RecycleBinHasItems)
+                if (value != recycleBinHasItems)
                 {
-                    _RecycleBinHasItems = value;
+                    recycleBinHasItems = value;
                     NotifyPropertyChanged(nameof(RecycleBinHasItems));
                 }
             }
@@ -348,7 +348,6 @@ namespace Files.UserControls
                 }
 
                 if (storageItems.Count == 0 ||
-                    locationItem.IsDefaultLocation ||
                     locationItem.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
                     storageItems.AreItemsAlreadyInFolder(locationItem.Path))
                 {
@@ -357,7 +356,7 @@ namespace Files.UserControls
                 else
                 {
                     e.DragUIOverride.IsCaptionVisible = true;
-                    if (storageItems.AreItemsInSameDrive(locationItem.Path))
+                    if (storageItems.AreItemsInSameDrive(locationItem.Path) || locationItem.IsDefaultLocation)
                     {
                         e.AcceptedOperation = DataPackageOperation.Move;
                         e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalized(), locationItem.Text);
@@ -387,8 +386,8 @@ namespace Files.UserControls
         /// <param name="e">DragEvent args</param>
         private void NavigationViewLocationItem_DragOver_SetCaptions(LocationItem senderLocationItem, LocationItem sourceLocationItem, DragEventArgs e)
         {
-            // If the location item is the same as the original dragged item or the default location (home button), the dragging should be disabled
-            if (sourceLocationItem.Equals(senderLocationItem) || senderLocationItem.IsDefaultLocation == true)
+            // If the location item is the same as the original dragged item
+            if (sourceLocationItem.Equals(senderLocationItem))
             {
                 e.AcceptedOperation = DataPackageOperation.None;
                 e.DragUIOverride.IsCaptionVisible = false;
@@ -593,7 +592,7 @@ namespace Files.UserControls
                     case NavigationControlItemType.Drive:
                         return DriveNavItemTemplate;
 
-                    case NavigationControlItemType.OneDrive:
+                    case NavigationControlItemType.CloudDrive:
                         return DriveNavItemTemplate;
 
                     case NavigationControlItemType.LinuxDistro:

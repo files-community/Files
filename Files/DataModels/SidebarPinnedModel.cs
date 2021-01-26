@@ -137,7 +137,7 @@ namespace Files.DataModels
                 || (uint)ex.HResult == 0x8007000F // The system cannot find the drive specified
                 || (uint)ex.HResult == 0x800700A1) // The specified path is invalid (usually an mtp device was disconnected)
             {
-                Debug.WriteLine("An error occured while swapping pinned items in the navigation sidebar. " + ex.Message);
+                Debug.WriteLine($"An error occured while swapping pinned items in the navigation sidebar. {ex.Message}");
                 this.Items = sidebarItemsBackup;
                 this.RemoveStaleSidebarItems();
                 this.AddAllItemsToSidebar();
@@ -179,7 +179,7 @@ namespace Files.DataModels
         {
             var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
             var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
-            if (res)
+            if (res || (FilesystemResult)ItemViewModel.CheckFolderAccessWithWin32(path))
             {
                 int insertIndex = MainPage.SideBarItems.IndexOf(MainPage.SideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
                 && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;
@@ -189,7 +189,7 @@ namespace Files.DataModels
                     Path = path,
                     Glyph = GetItemIcon(path),
                     IsDefaultLocation = false,
-                    Text = res.Result.DisplayName
+                    Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
                 };
 
                 if (!MainPage.SideBarItems.Contains(locationItem))
@@ -199,7 +199,7 @@ namespace Files.DataModels
             }
             else
             {
-                Debug.WriteLine("Pinned item was invalid and will be removed from the file lines list soon: " + res.ErrorCode.ToString());
+                Debug.WriteLine($"Pinned item was invalid and will be removed from the file lines list soon: {res.ErrorCode}");
                 RemoveItem(path);
             }
         }

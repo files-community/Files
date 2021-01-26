@@ -1,5 +1,4 @@
 ﻿using Files.Enums;
-using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Uwp.Extensions;
@@ -81,13 +80,13 @@ namespace Files.UserControls
     {
         internal StatusBanner Banner;
         public Progress<float> Progress;
-        public Progress<FilesystemErrorCode> ErrorCode;
+        public Progress<FileSystemStatusCode> ErrorCode;
 
         public PostedStatusBanner(StatusBanner bannerArg)
         {
             Banner = bannerArg;
             Progress = new Progress<float>(ReportProgressToBanner);
-            ErrorCode = new Progress<FilesystemErrorCode>((errorCode) => ReportProgressToBanner(errorCode.ToStatus()));
+            ErrorCode = new Progress<FileSystemStatusCode>((errorCode) => ReportProgressToBanner(errorCode.ToStatus()));
         }
 
         private void ReportProgressToBanner(float value)
@@ -96,7 +95,7 @@ namespace Files.UserControls
             {
                 Banner.IsProgressing = true;
                 Banner.Progress = value;
-                Banner.FullTitle = Banner.Title + " (" + value.ToString("0.00") + "%)";
+                Banner.FullTitle = $"{Banner.Title} ({value:0.00}%)";
             }
             else
             {
@@ -232,7 +231,7 @@ namespace Files.UserControls
                                 break;
                         }
                     }
-                    FullTitle = Title + " (" + initialProgress + "%)";
+                    FullTitle = $"{Title} ({initialProgress}%)";
                     break;
 
                 case ReturnResult.Success:

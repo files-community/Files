@@ -281,8 +281,7 @@ namespace Files.ViewModels
             set
             {
                 SetProperty(ref driveUsedSpaceValue, value);
-                DriveUsedSpace = ByteSize.FromBytes(DriveUsedSpaceValue).ToBinaryString().ConvertSizeAbbreviation()
-                    + " (" + ByteSize.FromBytes(DriveUsedSpaceValue).Bytes.ToString("#,##0") + " " + "ItemSizeBytes".GetLocalized() + ")";
+                DriveUsedSpace = $"{ByteSize.FromBytes(DriveUsedSpaceValue).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(DriveUsedSpaceValue).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
                 DriveUsedSpaceDoubleValue = Convert.ToDouble(DriveUsedSpaceValue);
             }
         }
@@ -315,8 +314,7 @@ namespace Files.ViewModels
             set
             {
                 SetProperty(ref driveFreeSpaceValue, value);
-                DriveFreeSpace = ByteSize.FromBytes(DriveFreeSpaceValue).ToBinaryString().ConvertSizeAbbreviation()
-                    + " (" + ByteSize.FromBytes(DriveFreeSpaceValue).Bytes.ToString("#,##0") + " " + "ItemSizeBytes".GetLocalized() + ")";
+                DriveFreeSpace = $"{ByteSize.FromBytes(DriveFreeSpaceValue).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(DriveFreeSpaceValue).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
             }
         }
 
@@ -436,8 +434,7 @@ namespace Files.ViewModels
             set
             {
                 SetProperty(ref driveCapacityValue, value);
-                DriveCapacity = ByteSize.FromBytes(DriveCapacityValue).ToBinaryString().ConvertSizeAbbreviation()
-                    + " (" + ByteSize.FromBytes(DriveCapacityValue).Bytes.ToString("#,##0") + " " + "ItemSizeBytes".GetLocalized() + ")";
+                DriveCapacity = $"{ByteSize.FromBytes(DriveCapacityValue).ToBinaryString().ConvertSizeAbbreviation()} ({ByteSize.FromBytes(DriveCapacityValue).Bytes:#,##0} {"ItemSizeBytes".GetLocalized()})";
                 DriveCapacityDoubleValue = Convert.ToDouble(DriveCapacityValue);
             }
         }
@@ -486,20 +483,20 @@ namespace Files.ViewModels
             set => SetProperty(ref itemAttributesVisibility, value);
         }
 
-        private string _SelectedItemsCountString;
+        private string selectedItemsCountString;
 
         public string SelectedItemsCountString
         {
-            get => _SelectedItemsCountString;
-            set => SetProperty(ref _SelectedItemsCountString, value);
+            get => selectedItemsCountString;
+            set => SetProperty(ref selectedItemsCountString, value);
         }
 
-        private int _SelectedItemsCount;
+        private int selectedItemsCount;
 
         public int SelectedItemsCount
         {
-            get => _SelectedItemsCount;
-            set => SetProperty(ref _SelectedItemsCount, value);
+            get => selectedItemsCount;
+            set => SetProperty(ref selectedItemsCount, value);
         }
 
         private bool isItemSelected;
@@ -645,6 +642,14 @@ namespace Files.ViewModels
         {
             get => propertySections;
             set => SetProperty(ref propertySections, value);
+        }
+
+        private ObservableCollection<FileProperty> fileProperties = new ObservableCollection<FileProperty>();
+
+        public ObservableCollection<FileProperty> FileProperties
+        {
+            get => fileProperties;
+            set => SetProperty(ref fileProperties, value);
         }
 
         private bool isReadOnly;

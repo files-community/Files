@@ -1,42 +1,41 @@
 ﻿using Files.Enums;
-using Files.Filesystem;
 
 namespace Files.Helpers
 {
     public static class ErrorCodeConverter
     {
-        public static ReturnResult ToStatus(this FilesystemErrorCode errorCode)
+        public static ReturnResult ToStatus(this FileSystemStatusCode errorCode)
         {
             switch (errorCode)
             {
-                case FilesystemErrorCode.ERROR_SUCCESS:
+                case FileSystemStatusCode.Success:
                     return ReturnResult.Success;
 
-                case FilesystemErrorCode.ERROR_GENERIC:
+                case FileSystemStatusCode.Generic:
                     return ReturnResult.InProgress | ReturnResult.Cancelled;
 
-                case FilesystemErrorCode.ERROR_UNAUTHORIZED:
+                case FileSystemStatusCode.Unauthorized:
                     return ReturnResult.AccessUnauthorized;
 
-                case FilesystemErrorCode.ERROR_NOTFOUND:
+                case FileSystemStatusCode.NotFound:
                     return ReturnResult.IntegrityCheckFailed;
 
-                case FilesystemErrorCode.ERROR_INUSE:
+                case FileSystemStatusCode.InUse:
                     return ReturnResult.AccessUnauthorized;
 
-                case FilesystemErrorCode.ERROR_NAMETOOLONG:
+                case FileSystemStatusCode.NameTooLong:
                     return ReturnResult.UnknownException;
 
-                case FilesystemErrorCode.ERROR_ALREADYEXIST:
+                case FileSystemStatusCode.AlreadyExists:
                     return ReturnResult.Failed | ReturnResult.UnknownException;
 
-                case FilesystemErrorCode.ERROR_NOTAFOLDER:
+                case FileSystemStatusCode.NotAFolder:
                     return ReturnResult.BadArgumentException | ReturnResult.IntegrityCheckFailed;
 
-                case FilesystemErrorCode.ERROR_NOTAFILE:
+                case FileSystemStatusCode.NotAFile:
                     return ReturnResult.BadArgumentException | ReturnResult.IntegrityCheckFailed;
 
-                case FilesystemErrorCode.ERROR_INPROGRESS:
+                case FileSystemStatusCode.InProgress:
                     return ReturnResult.InProgress;
 
                 default:

@@ -13,7 +13,9 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Graphics.Imaging;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
@@ -66,8 +68,8 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> CreateAsync(IStorageItemWithPath source, bool registerHistory)
         {
-            FilesystemErrorCode returnCode = FilesystemErrorCode.ERROR_INPROGRESS;
-            Progress<FilesystemErrorCode> errorCode = new Progress<FilesystemErrorCode>();
+            FileSystemStatusCode returnCode = FileSystemStatusCode.InProgress;
+            Progress<FileSystemStatusCode> errorCode = new Progress<FileSystemStatusCode>();
             errorCode.ProgressChanged += (s, e) => returnCode = e;
 
             IStorageHistory history = await filesystemOperations.CreateAsync(source, errorCode, cancellationToken);
@@ -340,8 +342,8 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> RestoreFromTrashAsync(IStorageItemWithPath source, string destination, bool registerHistory)
         {
-            FilesystemErrorCode returnCode = FilesystemErrorCode.ERROR_INPROGRESS;
-            Progress<FilesystemErrorCode> errorCode = new Progress<FilesystemErrorCode>();
+            FileSystemStatusCode returnCode = FileSystemStatusCode.InProgress;
+            Progress<FileSystemStatusCode> errorCode = new Progress<FileSystemStatusCode>();
             errorCode.ProgressChanged += (s, e) => returnCode = e;
 
             IStorageHistory history = await filesystemOperations.RestoreFromTrashAsync(source, destination, null, errorCode, cancellationToken);
@@ -505,33 +507,53 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> CopyItemsFromClipboard(DataPackageView packageView, string destination, bool registerHistory)
         {
-            if (!packageView.Contains(StandardDataFormats.StorageItems))
+            if (packageView.Contains(StandardDataFormats.StorageItems))
             {
-                // Happens if you copy some text and then you Ctrl+V in Files
-                // Should this be done in ModernShellPage?
-                return ReturnResult.BadArgumentException;
+                IReadOnlyList<IStorageItem> source;
+                try
+                {
+                    source = await packageView.GetStorageItemsAsync();
+                }
+                catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
+                {
+                    return ReturnResult.UnknownException;
+                }
+                ReturnResult returnStatus = ReturnResult.InProgress;
+
+                List<string> destinations = new List<string>();
+                foreach (IStorageItem item in source)
+                {
+                    destinations.Add(Path.Combine(destination, item.Name));
+                }
+
+                returnStatus = await CopyItemsAsync(source, destinations, registerHistory);
+
+                return returnStatus;
             }
 
-            IReadOnlyList<IStorageItem> source;
-            try
+            if (packageView.Contains(StandardDataFormats.Bitmap))
             {
-                source = await packageView.GetStorageItemsAsync();
-            }
-            catch (Exception ex) when ((uint)ex.HResult == 0x80040064 || (uint)ex.HResult == 0x8004006A)
-            {
-                return ReturnResult.UnknownException;
-            }
-            ReturnResult returnStatus = ReturnResult.InProgress;
+                try
+                {
+                    var imgSource = await packageView.GetBitmapAsync();
+                    using var imageStream = await imgSource.OpenReadAsync();
+                    var folder = await StorageFolder.GetFolderFromPathAsync(destination);
+                    // Set the name of the file to be the current time and date
+                    var file = await folder.CreateFileAsync($"{DateTime.Now:mm-dd-yy-HHmmss}.png", CreationCollisionOption.GenerateUniqueName);
 
-            List<string> destinations = new List<string>();
-            foreach (IStorageItem item in source)
-            {
-                destinations.Add(Path.Combine(destination, item.Name));
+                    using var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
+                    await imageStream.AsStreamForRead().CopyToAsync(stream.AsStreamForWrite());
+                    return ReturnResult.Success;
+                }
+                catch (Exception)
+                {
+                    return ReturnResult.UnknownException;
+                }
             }
 
-            returnStatus = await CopyItemsAsync(source, destinations, registerHistory);
-
-            return returnStatus;
+            // Happens if you copy some text and then you Ctrl+V in Files
+            // Should this be done in ModernShellPage?
+            return ReturnResult.BadArgumentException;
         }
 
         #endregion Copy
@@ -687,8 +709,8 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, bool registerHistory)
         {
-            FilesystemErrorCode returnCode = FilesystemErrorCode.ERROR_INPROGRESS;
-            Progress<FilesystemErrorCode> errorCode = new Progress<FilesystemErrorCode>();
+            FileSystemStatusCode returnCode = FileSystemStatusCode.InProgress;
+            Progress<FileSystemStatusCode> errorCode = new Progress<FileSystemStatusCode>();
             errorCode.ProgressChanged += (s, e) => returnCode = e;
 
             IStorageHistory history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
@@ -703,8 +725,8 @@ namespace Files.Filesystem
 
         public async Task<ReturnResult> RenameAsync(IStorageItemWithPath source, string newName, NameCollisionOption collision, bool registerHistory)
         {
-            FilesystemErrorCode returnCode = FilesystemErrorCode.ERROR_INPROGRESS;
-            Progress<FilesystemErrorCode> errorCode = new Progress<FilesystemErrorCode>();
+            FileSystemStatusCode returnCode = FileSystemStatusCode.InProgress;
+            Progress<FileSystemStatusCode> errorCode = new Progress<FileSystemStatusCode>();
             errorCode.ProgressChanged += (s, e) => returnCode = e;
 
             IStorageHistory history = await filesystemOperations.RenameAsync(source, newName, collision, errorCode, cancellationToken);
@@ -814,7 +836,7 @@ namespace Files.Filesystem
                     size += findData.GetSize();
                 }
                 FindClose(hFile);
-                Debug.WriteLine("Individual file size for Progress UI will be reported as: " + size.ToString() + " bytes");
+                Debug.WriteLine($"Individual file size for Progress UI will be reported as: {size} bytes");
                 return size;
             }
             else
