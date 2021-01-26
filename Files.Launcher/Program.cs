@@ -55,7 +55,7 @@ namespace FilesFullTrust
                 handleTable = new Win32API.DisposableDictionary();
 
                 // Create shell COM object and get recycle bin folder
-                recycler = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_RecycleBinFolder);
+                using var recycler = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_RecycleBinFolder);
                 ApplicationData.Current.LocalSettings.Values["RecycleBin_Title"] = recycler.Name;
 
                 // Create filesystem watcher to monitor recycle bin folder(s)
@@ -108,7 +108,6 @@ namespace FilesFullTrust
                     watcher.Dispose();
                 }
                 handleTable?.Dispose();
-                recycler?.Dispose();
                 deviceWatcher?.Dispose();
                 cancellation?.Cancel();
                 cancellation?.Dispose();
@@ -142,7 +141,7 @@ namespace FilesFullTrust
                 if (e.ChangeType == WatcherChangeTypes.Created)
                 {
                     using var folderItem = new ShellItem(e.FullPath);
-                    var shellFileItem = GetRecycleBinItem(folderItem);
+                    var shellFileItem = GetShellFileItem(folderItem);
                     response["Item"] = JsonConvert.SerializeObject(shellFileItem);
                 }
                 // Send message to UWP app to refresh items
@@ -153,7 +152,6 @@ namespace FilesFullTrust
         private static AppServiceConnection connection;
         private static AutoResetEvent appServiceExit;
         private static CancellationTokenSource cancellation;
-        private static ShellFolder recycler;
         private static Win32API.DisposableDictionary handleTable;
         private static IList<FileSystemWatcher> binWatchers;
         private static DeviceWatcher deviceWatcher;
@@ -367,6 +365,34 @@ namespace FilesFullTrust
                         }
                         await args.Request.SendResponseAsync(oneDriveAccounts);
                     }
+                    break;
+
+                case "ShellFolder":
+                    // Enumerate shell folder contents and send response to UWP
+                    var folderPath = (string)args.Request.Message["folder"];
+                    var responseEnum = new ValueSet();
+                    var folderContentsList = new List<ShellFileItem>();
+                    using (var shellFolder = new ShellFolder(folderPath))
+                    {
+                        foreach (var folderItem in shellFolder)
+                        {
+                            try
+                            {
+                                var shellFileItem = GetShellFileItem(folderItem);
+                                folderContentsList.Add(shellFileItem);
+                            }
+                            catch (FileNotFoundException)
+                            {
+                                // Happens if files are being deleted
+                            }
+                            finally
+                            {
+                                folderItem.Dispose();
+                            }
+                        }
+                    }
+                    responseEnum.Add("Enumerate", JsonConvert.SerializeObject(folderContentsList));
+                    await args.Request.SendResponseAsync(responseEnum);
                     break;
 
                 default:
@@ -620,38 +646,14 @@ namespace FilesFullTrust
                     }
                     break;
 
-                case "Enumerate":
-                    // Enumerate recyclebin contents and send response to UWP
-                    var responseEnum = new ValueSet();
-                    var folderContentsList = new List<ShellFileItem>();
-                    foreach (var folderItem in recycler)
-                    {
-                        try
-                        {
-                            var shellFileItem = GetRecycleBinItem(folderItem);
-                            folderContentsList.Add(shellFileItem);
-                        }
-                        catch (FileNotFoundException)
-                        {
-                            // Happens if files are being deleted
-                        }
-                        finally
-                        {
-                            folderItem.Dispose();
-                        }
-                    }
-                    responseEnum.Add("Enumerate", JsonConvert.SerializeObject(folderContentsList));
-                    await args.Request.SendResponseAsync(responseEnum);
-                    break;
-
                 default:
                     break;
             }
         }
 
-        private static ShellFileItem GetRecycleBinItem(ShellItem folderItem)
+        private static ShellFileItem GetShellFileItem(ShellItem folderItem)
         {
-            string recyclePath = folderItem.FileSystemPath; // True path on disk
+            string recyclePath = folderItem.FileSystemPath ?? folderItem.ParsingName; // True path on disk
             string fileName = Path.GetFileName(folderItem.Name); // Original file name
             string filePath = folderItem.Name; // Original file path + name
             bool isFolder = folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip";

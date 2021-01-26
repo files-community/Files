@@ -931,9 +931,10 @@ namespace Files.ViewModels
                     });
                 }
 
-                if (path.StartsWith(AppSettings.RecycleBinPath))
+                if (path.StartsWith(AppSettings.RecycleBinPath) ||
+                    path.StartsWith(AppSettings.NetworkFolderPath))
                 {
-                    // Recycle bin is special as files are enumerated by the fulltrust process
+                    // Recycle bin and network are enumerated by the fulltrust process
                     await EnumerateItemsFromSpecialFolderAsync(path);
                 }
                 else
@@ -1053,8 +1054,9 @@ namespace Files.ViewModels
                 {
                     var sampler = new IntervalSampler(500);
                     var value = new ValueSet();
-                    value.Add("Arguments", "RecycleBin");
+                    value.Add("Arguments", "ShellFolder");
                     value.Add("action", "Enumerate");
+                    value.Add("folder", path);
                     // Send request to fulltrust process to enumerate recyclebin items
                     var (status, response) = await Connection.SendMessageWithRetryAsync(value, TimeSpan.FromSeconds(10));
                     // If the request was canceled return now

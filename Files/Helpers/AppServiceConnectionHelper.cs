@@ -30,13 +30,10 @@ namespace Files.Helpers
             }
         }
 
-        private async static void OnSuspending(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
+        private async static void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            if (Instance != null)
-            {
-                (await Instance)?.Dispose();
-            }
+            (await Instance)?.Dispose();
             Instance = Task.FromResult<AppServiceConnection>(null);
             ConnectionChanged?.Invoke(null, Instance);
             deferral.Complete();
