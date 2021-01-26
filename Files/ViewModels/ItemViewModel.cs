@@ -503,6 +503,7 @@ namespace Files.ViewModels
                         if (startIndex != -1)
                         {
                             FilesAndFolders.InsertRange(startIndex, tempList);
+                            FilesAndFolders.RemoveRange(startIndex + tempList.Count, tempList.Count);
                             startIndex = -1;
                             tempList.Clear();
                         }
@@ -533,7 +534,7 @@ namespace Files.ViewModels
                         else
                         {
                             ApplyBulkInsertEntries();
-                            FilesAndFolders.AddRange(filesAndFolders.Skip(i - 1));
+                            FilesAndFolders.InsertRange(i, filesAndFolders.Skip(i));
                             break;
                         }
                     }
