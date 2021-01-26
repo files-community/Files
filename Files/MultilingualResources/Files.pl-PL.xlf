@@ -2218,6 +2218,22 @@
           <source>Unpin directory from sidebar</source>
           <target state="new">Unpin directory from sidebar</target>
         </trans-unit>
+        <trans-unit id="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Properties</source>
+          <target state="new">Properties</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneFileDetails.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>File details</source>
+          <target state="new">File details</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneFilePreview.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>File preview</source>
+          <target state="new">File preview</target>
+        </trans-unit>
+        <trans-unit id="SelectedFilePreviewPane.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Selected file preview pane</source>
+          <target state="new">Selected file preview pane</target>
+        </trans-unit>
       </group>
     </body>
   </file>

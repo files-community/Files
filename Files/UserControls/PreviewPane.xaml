@@ -48,7 +48,9 @@
             Grid.Row="0"
             Margin="5,5,5,5"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch">
+            VerticalAlignment="Stretch"
+            AutomationProperties.Name="File preview"
+            x:Uid="PreviewPaneFilePreview">
             <TextBlock
                 x:Name="PreviewNotAvaliableText"
                 x:Uid="DetailsPanePreviewNotAvaliableText"
@@ -87,10 +89,10 @@
                 VerticalAlignment="Center"
                 Text="No details available"
                 Visibility="Collapsed" />
-            <ListView ItemsSource="{x:Bind SelectedItem.FileDetails, Mode=OneWay}" SelectionMode="None">
+            <ListView ItemsSource="{x:Bind SelectedItem.FileDetails, Mode=OneWay}" SelectionMode="None" AutomationProperties.Name="File Details" x:Uid="PreviewPaneFileDetails">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="properties:FileProperty">
-                        <Grid HorizontalAlignment="Stretch">
+                        <Grid HorizontalAlignment="Stretch" AutomationProperties.Name="{x:Bind Name, Mode=OneWay}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="2*" />
