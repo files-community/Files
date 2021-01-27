@@ -983,7 +983,7 @@
                     x:Uid="sizeColumn"
                     Width="Auto"
                     MinWidth="100"
-                    Binding="{Binding FileSizeDisplay}"
+                    Binding="{Binding FileSize}"
                     DisplayIndex="7"
                     FontSize="12"
                     Header="Size"
