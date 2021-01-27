@@ -2207,6 +2207,14 @@
           <source>Show Bundles on the home page</source>
           <target state="new">Show Bundles on the home page</target>
         </trans-unit>
+        <trans-unit id="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Properties</source>
+          <target state="new">Properties</target>
+        </trans-unit>
+        <trans-unit id="StatusCenterFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Ongoing tasks flyout"</source>
+          <target state="new">Ongoing tasks flyout"</target>
+        </trans-unit>
       </group>
     </body>
   </file>

@@ -1770,4 +1770,7 @@
   <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
     <value>Unpin directory from sidebar</value>
   </data>
+  <data name="StatusCenterFlyout.AutomationProperties.Name" xml:space="preserve">
+    <value>Ongoing tasks flyout"</value>
+  </data>
 </root>

@@ -2226,6 +2226,14 @@
           <source>Unpin directory from sidebar</source>
           <target state="new">Unpin directory from sidebar</target>
         </trans-unit>
+        <trans-unit id="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Properties</source>
+          <target state="new">Properties</target>
+        </trans-unit>
+        <trans-unit id="StatusCenterFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Ongoing tasks flyout"</source>
+          <target state="new">Ongoing tasks flyout"</target>
+        </trans-unit>
       </group>
     </body>
   </file>

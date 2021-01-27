@@ -245,13 +245,13 @@
                     ToolTipService.ToolTip="Ongoing Tasks"
                     Visibility="Visible">
                     <Button.Flyout>
-                        <Flyout>
+                        <Flyout x:Uid="StatusCenterFlyout" AutomationProperties.Name="Ongoing tasks flyout">
                             <local:StatusCenter
                                 x:Name="OngoingTasksControl"
                                 Width="300"
                                 MinHeight="300"
                                 MaxHeight="400"
-                                x:FieldModifier="public" />
+                                x:FieldModifier="public"/>
                         </Flyout>
                     </Button.Flyout>
                 </Button>
