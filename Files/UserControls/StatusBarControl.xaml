@@ -46,7 +46,7 @@
             x:Uid="StatusCenterTeachingTip"
             Title="Status Center"
             Subtitle="Check the status of file operations here"
-            Target="{x:Bind StatusCenter}" />
+            Visibility="Collapsed"/>
 
         <StackPanel
             Grid.Column="1"
