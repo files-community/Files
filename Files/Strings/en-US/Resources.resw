@@ -1779,4 +1779,13 @@
   <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
     <value>Selected file preview pane</value>
   </data>
+  <data name="SettingsAboutDocumentation.Text" xml:space="preserve">
+    <value>Documentation</value>
+  </data>
+  <data name="SettingsAboutDocumentationDescription.Text" xml:space="preserve">
+    <value>Find tips &amp; tricks and learn more about Files</value>
+  </data>
+  <data name="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" xml:space="preserve">
+    <value>Visit the Files documentation website</value>
+  </data>
 </root>

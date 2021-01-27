@@ -2237,6 +2237,18 @@
           <source>Selected file preview pane</source>
           <target state="new">Selected file preview pane</target>
         </trans-unit>
+        <trans-unit id="SettingsAboutDocumentation.Text" translate="yes" xml:space="preserve">
+          <source>Documentation</source>
+          <target state="new">Documentation</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutDocumentationDescription.Text" translate="yes" xml:space="preserve">
+          <source>Find tips &amp; tricks and learn more about Files</source>
+          <target state="new">Find tips &amp; tricks and learn more about Files</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Visit the Files documentation website</source>
+          <target state="new">Visit the Files documentation website</target>
+        </trans-unit>
       </group>
     </body>
   </file>
