@@ -10,7 +10,7 @@ namespace Files.Helpers
 {
     public static class DynamicDialogFactory
     {
-        public static DynamicDialog GetFor_PropertySaveDialog()
+        public static DynamicDialog GetFor_PropertySaveErrorDialog()
         {
             DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
             {

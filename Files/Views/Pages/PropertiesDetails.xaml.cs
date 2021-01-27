@@ -37,7 +37,7 @@ namespace Files.Views
         {
             while (true)
             {
-                using DynamicDialog dialog = DynamicDialogFactory.GetFor_PropertySaveDialog();
+                using DynamicDialog dialog = DynamicDialogFactory.GetFor_PropertySaveErrorDialog();
                 try
                 {
                     await (BaseProperties as FileProperties).SyncPropertyChangesAsync();
