@@ -150,13 +150,6 @@ namespace Files.ViewModels.Dialogs
             set => SetProperty(ref closeButtonText, value);
         }
 
-        private bool isCloseButtonEnabled;
-        public bool IsCloseButtonEnabled
-        {
-            get => isCloseButtonEnabled;
-            private set => SetProperty(ref isCloseButtonEnabled, value);
-        }
-
         #endregion
 
         private DynamicButtons dynamicButtonsEnabled;
@@ -167,11 +160,15 @@ namespace Files.ViewModels.Dialogs
             {
                 if (SetProperty(ref dynamicButtonsEnabled, value))
                 {
+                    if (value.HasFlag(DynamicButtons.Cancel))
+                    {
+                        throw new ArgumentException("Cannot disable Close button!");
+                    }
+
                     if (!value.HasFlag(DynamicButtons.None))
                     {
                         IsPrimaryButtonEnabled = false; // Hides this option
                         IsSecondaryButtonEnabled = false; // Hides this option
-                        IsCloseButtonEnabled = false; // Hides this option
 
                         return;
                     }
@@ -183,10 +180,6 @@ namespace Files.ViewModels.Dialogs
                     if (!value.HasFlag(DynamicButtons.Secondary))
                     {
                         IsSecondaryButtonEnabled = false; // Hides this option
-                    }
-                    if (!value.HasFlag(DynamicButtons.Cancel))
-                    {
-                        IsCloseButtonEnabled = false; // Hides this option
                     }
                 }
             }

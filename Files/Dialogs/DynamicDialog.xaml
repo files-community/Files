@@ -17,7 +17,8 @@
     PrimaryButtonText="{Binding PrimaryButtonText, Mode=OneWay}"
     SecondaryButtonStyle="{StaticResource DefaultButtonStyle}"
     SecondaryButtonText="{Binding SecondaryButtonText, Mode=OneWay}"
-    
+    IsPrimaryButtonEnabled="{Binding IsPrimaryButtonEnabled, Mode=OneWay}"
+    IsSecondaryButtonEnabled="{Binding IsSecondaryButtonEnabled, Mode=OneWay}"
     mc:Ignorable="d">
 
     <i:Interaction.Behaviors>
