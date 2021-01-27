@@ -110,7 +110,7 @@
                     IsOn="{Binding ShowConfirmDeleteDialog, Mode=TwoWay}" />
 
                 <ToggleSwitch
-                    x:Uid="SettingsFilesAndFoldersEnableAdaptivePreviewPane"
+                    x:Uid="SettingsPreferencesEnableAdaptivePreviewPane"
                     Header="Enable adaptive preview pane"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding EnableAdaptivePreviewPane, Mode=TwoWay}" />
