@@ -29,6 +29,21 @@ namespace Files.UserControls.Widgets
 
         public static ObservableCollection<INavigationControlItem> ItemsAdded = new ObservableCollection<INavigationControlItem>();
 
+        private IShellPage associatedInstance;
+
+        public IShellPage AppInstance
+        {
+            get => associatedInstance;
+            set
+            {
+                if (value != associatedInstance)
+                {
+                    associatedInstance = value;
+                    NotifyPropertyChanged(nameof(AppInstance));
+                }
+            }
+        }
+
         public DrivesWidget()
         {
             InitializeComponent();
@@ -55,6 +70,12 @@ namespace Files.UserControls.Widgets
         {
             var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
             await Interaction.OpenPathInNewWindowAsync(item.Path);
+        }
+
+        private async void OpenDriveProperties_Click(object sender, RoutedEventArgs e)
+        {
+            var item = ((MenuFlyoutItem)sender).DataContext as DriveItem;
+            await AppInstance.InteractionOperations.OpenPropertiesWindowAsync(item);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

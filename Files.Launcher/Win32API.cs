@@ -201,7 +201,7 @@ namespace FilesFullTrust
         {
             try
             {
-                Bitmap bmp = hBitmap.ToBitmap();
+                Bitmap bmp = Image.FromHbitmap((IntPtr)hBitmap);
                 if (Image.GetPixelFormatSize(bmp.PixelFormat) < 32)
                 {
                     return bmp;

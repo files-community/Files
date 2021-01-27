@@ -399,6 +399,9 @@
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Properties</value>
   </data>
+  <data name="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" xml:space="preserve">
+    <value>Properties</value>
+  </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Extract</value>
   </data>
@@ -1752,14 +1755,28 @@
   <data name="PreviewPaneToggle.ToolTipService.ToolTip" xml:space="preserve">
     <value>Toggle the preview pane (Ctrl + P)</value>
   </data>
-  <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
+  <data name="DetailsPanePreviewNotAvaliableText.Text" xml:space="preserve">
     <value>No preview available</value>
   </data>
-  <data name="PreviewPaneDetailsNotAvailableText" xml:space="preserve">
+  <data name="PreviewPaneDetailsNotAvailableText.Text" xml:space="preserve">
     <value>No details available</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Item Name</value>
   </data>
-  
+  <data name="SettingsWidgetsShowBundles.Header" xml:space="preserve">
+    <value>Show Bundles on the home page</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" xml:space="preserve">
+    <value>Unpin directory from sidebar</value>
+  </data>
+  <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
+    <value>File details</value>
+  </data>
+  <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
+    <value>File preview</value>
+  </data>
+  <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
+    <value>Selected file preview pane</value>
+  </data>
 </root>

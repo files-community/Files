@@ -114,16 +114,5 @@ namespace Files.ViewModels
             get => isPageTypeCloudDrive;
             set => SetProperty(ref isPageTypeCloudDrive, value);
         }
-
-        private bool previewPaneEnabled;
-
-        /// <summary>
-        /// Gets or sets the value indicating whether the preview pane should be shown.
-        /// </summary>
-        public bool PreviewPaneEnabled
-        {
-            get => previewPaneEnabled;
-            set => SetProperty(ref previewPaneEnabled, value);
-        }
     }
 }

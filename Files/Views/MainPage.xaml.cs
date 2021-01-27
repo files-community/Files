@@ -5,6 +5,7 @@ using Files.UserControls.MultitaskingControl;
 using Files.ViewModels;
 using Microsoft.Toolkit.Uwp.Extensions;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -317,32 +318,40 @@ namespace Files.Views
                 // If path is a drive's root
                 if (NormalizePath(Path.GetPathRoot(currentPath)) == NormalizePath(currentPath))
                 {
-                    if (NormalizePath(currentPath) != NormalizePath("A:") && NormalizePath(currentPath) != NormalizePath("B:"))
+                    try
                     {
                         var drives = await FilesystemTasks.Wrap(() => KnownFolders.RemovableDevices.GetFoldersAsync().AsTask());
                         var remDriveNames = drives.Result?.Select(x => x.DisplayName) ?? new string[0];
                         var matchingDriveName = remDriveNames.FirstOrDefault(x => NormalizePath(currentPath).Contains(x.ToUpperInvariant()));
 
-                        if (matchingDriveName == null)
+                        if (matchingDrive != null)
                         {
-                            fontIconSource.Glyph = "\xeb8b";
-                            tabLocationHeader = NormalizePath(currentPath);
+                            //Go through types and set the icon according to type
+                            string type = GetDriveTypeIcon(matchingDrive);
+                            if (!string.IsNullOrWhiteSpace(type))
+                            {
+                                fontIconSource.Glyph = type;
+                            }
+                            else
+                            {
+                                fontIconSource.Glyph = "\xeb8b";    //Drive icon
+                            }
                         }
                         else
                         {
-                            fontIconSource.Glyph = "\xec0a";
-                            tabLocationHeader = matchingDriveName;
+                            fontIconSource.Glyph = "\xeb4a";    //Floppy icon
                         }
                     }
-                    else
+                    catch (Exception)
                     {
-                        fontIconSource.Glyph = "\xeb4a";
-                        tabLocationHeader = NormalizePath(currentPath);
+                        fontIconSource.Glyph = "\xeb8b";    //Fallback
                     }
+
+                    tabLocationHeader = NormalizePath(currentPath);
                 }
                 else
                 {
-                    fontIconSource.Glyph = "\xea55";
+                    fontIconSource.Glyph = "\xea55";    //Folder icon
                     tabLocationHeader = currentPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
                 }
             }
@@ -492,6 +501,55 @@ namespace Files.Views
         private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
         {
             MultitaskingControl = HorizontalMultitaskingControl;
+        }
+
+        private static string GetDriveTypeIcon(DriveInfo drive)
+        {
+            string type;
+
+            switch (drive.DriveType)
+            {
+                case System.IO.DriveType.CDRom:
+                    type = "\xec39";
+                    break;
+
+                case System.IO.DriveType.Fixed:
+                    type = "\xeb8b";
+                    break;
+
+                case System.IO.DriveType.Network:
+                    type = "\xeac2";
+                    break;
+
+                case System.IO.DriveType.NoRootDirectory:
+                    type = "\xea5a";
+                    break;
+
+                case System.IO.DriveType.Ram:
+                    type = "\xe9f2";
+                    break;
+
+                case System.IO.DriveType.Removable:
+                    type = "\xec0a";
+                    break;
+
+                case System.IO.DriveType.Unknown:
+                    if (NormalizePath(drive.Name) != NormalizePath("A:") && NormalizePath(drive.Name) != NormalizePath("B:"))
+                    {
+                        type = "\xeb8b";
+                    }
+                    else
+                    {
+                        type = "\xeb4a";    //Floppy icon
+                    }
+                    break;
+
+                default:
+                    type = "\xeb8b";    //Drive icon
+                    break;
+            }
+
+            return type;
         }
     }
 }

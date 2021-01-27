@@ -212,12 +212,23 @@
                 </MenuFlyoutSubItem>
                 <MenuFlyoutSeparator />
                 <MenuFlyoutItem
-                    x:Name="PinToSidebar"
+                    x:Name="PinDirectoryToSidebar"
                     x:Uid="BaseLayoutContextFlyoutPinDirectoryToSidebar"
+                    x:Load="False"
                     Click="{x:Bind ParentShellPageInstance.InteractionOperations.PinDirectoryToSidebar}"
                     Text="Pin directory to sidebar">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeb1f;" />
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem
+                    x:Name="UnpinDirectoryFromSidebar"
+                    x:Uid="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar"
+                    x:Load="False"
+                    Click="{x:Bind ParentShellPageInstance.InteractionOperations.UnpinDirectoryFromSidebar}"
+                    Text="Unpin directory from sidebar">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB20;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem

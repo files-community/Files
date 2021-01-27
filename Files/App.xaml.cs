@@ -504,9 +504,23 @@ namespace Files
     public class WSLDistroItem : INavigationControlItem
     {
         public string Glyph { get; set; } = null;
+
         public string Text { get; set; }
-        public string Path { get; set; }
+
+        private string path;
+        public string Path
+        {
+            get => path;
+            set
+            {
+                path = value;
+                HoverDisplayText = Path.Contains("?") ? Text : Path;
+            }
+        }
+        public string HoverDisplayText { get; private set; }
+
         public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;
+
         public Uri Logo { get; set; }
     }
 }
