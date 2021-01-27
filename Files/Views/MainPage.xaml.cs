@@ -320,9 +320,8 @@ namespace Files.Views
                 {
                     try
                     {
-                        var drives = await FilesystemTasks.Wrap(() => KnownFolders.RemovableDevices.GetFoldersAsync().AsTask());
-                        var remDriveNames = drives.Result?.Select(x => x.DisplayName) ?? new string[0];
-                        var matchingDriveName = remDriveNames.FirstOrDefault(x => NormalizePath(currentPath).Contains(x.ToUpperInvariant()));
+                        List<DriveInfo> drives = DriveInfo.GetDrives().ToList();
+                        DriveInfo matchingDrive = drives.FirstOrDefault(x => NormalizePath(currentPath).Contains(NormalizePath(x.Name)));
 
                         if (matchingDrive != null)
                         {
