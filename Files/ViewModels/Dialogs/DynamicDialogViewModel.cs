@@ -61,7 +61,7 @@ namespace Files.ViewModels.Dialogs
             {
                 if (SetProperty(ref dynamicButtons, value))
                 {
-                    if (!value.HasFlag(DynamicButtons.None))
+                    if (value.HasFlag(DynamicButtons.None))
                     {
                         PrimaryButtonText = null; // Hides this option
                         SecondaryButtonText = null; // Hides this option
@@ -165,7 +165,7 @@ namespace Files.ViewModels.Dialogs
                         throw new ArgumentException("Cannot disable Close button!");
                     }
 
-                    if (!value.HasFlag(DynamicButtons.None))
+                    if (value.HasFlag(DynamicButtons.None))
                     {
                         IsPrimaryButtonEnabled = false; // Hides this option
                         IsSecondaryButtonEnabled = false; // Hides this option
