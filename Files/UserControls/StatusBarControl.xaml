@@ -251,7 +251,8 @@
                                 Width="300"
                                 MinHeight="300"
                                 MaxHeight="400"
-                                x:FieldModifier="public"/>
+                                x:FieldModifier="public"
+                                IsTabStop="True"/>
                         </Flyout>
                     </Button.Flyout>
                 </Button>
