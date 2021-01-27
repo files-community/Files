@@ -10,7 +10,6 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -482,8 +481,7 @@ namespace Files.Views.LayoutModes
             var rowPressed = Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
             if (rowPressed != null)
             {
-                var allItems = ((ObservableCollection<ListedItem>)AllView.ItemsSource).ToList();
-                var objectPressed = allItems.ElementAtOrDefault(rowPressed.GetIndex());
+                var objectPressed = ((IList<ListedItem>)AllView.ItemsSource)[rowPressed.GetIndex()];
                 if (objectPressed == null)
                 {
                     return;
