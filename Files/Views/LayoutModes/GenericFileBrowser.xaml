@@ -670,6 +670,7 @@
             Grid.RowSpan="2"
             CloseButtonContent="OK"
             PreferredPlacement="Auto"
+            Visibility="Collapsed"
             Subtitle="The item name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |" />
 
         <controls:DataGrid
@@ -790,7 +791,8 @@
                             <Grid
                                 x:Name="Icon"
                                 Opacity="{x:Bind Opacity, Mode=OneWay}"
-                                ToolTipService.ToolTip="{x:Bind FolderTooltipText}">
+                                ToolTipService.ToolTip="{x:Bind FolderTooltipText}"
+                                AutomationProperties.Name="Thumbnail column">
                                 <Rectangle
                                     x:Name="CutIndicator"
                                     Fill="LightGray"
@@ -891,7 +893,8 @@
                                 FontFamily="Segoe MDL2 Assets"
                                 FontSize="14"
                                 Foreground="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"
-                                Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}" />
+                                Glyph="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
+                                 AutomationProperties.Name="{x:Bind ((local3:CloudDriveSyncStatusUI)SyncStatusUI).SyncStatusString, Mode=OneWay}"/>
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>
                 </controls:DataGridTemplateColumn>
