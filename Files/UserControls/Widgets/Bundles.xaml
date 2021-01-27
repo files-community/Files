@@ -446,7 +446,7 @@
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
                                     PlaceholderText="Enter Bundle name"
-                                    Text="{Binding BundleNameTextInput, Mode=TwoWay}">
+                                    Text="{Binding BundleNameTextInput, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                                     <i:Interaction.Behaviors>
                                         <!--  No need to specify CommandParameter - `e` is passed by default  -->
                                         <icore:EventTriggerBehavior EventName="KeyDown">
