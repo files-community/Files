@@ -358,8 +358,9 @@ namespace Files.Views
             {
                 tabLocationHeader = tabHeader;
             }
+
             tabIcon = fontIconSource;
-            selectedTabItem.Header = tabLocationHeader;
+            selectedTabItem.Header = getLocalizedFolderTabName(currentPath, tabLocationHeader);
             selectedTabItem.IconSource = tabIcon;
         }
 
@@ -549,6 +550,53 @@ namespace Files.Views
             }
 
             return type;
+        }
+
+        private static string getLocalizedFolderTabName(string path, string defaultValue)
+        {
+            try
+            {
+                Dictionary<string, string> dict = new Dictionary<string, string>();
+                string returnValue = "";
+
+                string fileContents = NativeFileOperationsHelper.ReadStringFromFile(path + "\\desktop.ini");
+
+                if (!string.IsNullOrWhiteSpace(fileContents))
+                {
+                    string[] dictArray = fileContents.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+                    foreach (string s in dictArray)
+                    {
+                        if (s.Contains("="))
+                        {
+                            var split = s.Split("=");
+                            dict.Add(split[0], split[1]);
+
+                            if (dict.ContainsKey("LocalizedResourceName"))
+                            {
+                                return dict["LocalizedResourceName"];
+                            }
+                        }
+                    }
+
+                    if (string.IsNullOrWhiteSpace(returnValue))
+                    {
+                        return defaultValue;
+                    }
+                    else
+                    {
+                        return returnValue;
+                    }
+                }
+                else
+                {
+                    return defaultValue;
+                }
+            }
+            catch (Exception)
+            {
+                return defaultValue;
+            }
         }
     }
 }
