@@ -766,12 +766,12 @@ namespace Files
             ParentShellPageInstance.ContentPage.SelectedItemsPropertiesViewModel.CheckFileExtension();
         }
 
-        protected virtual async void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
+        protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
             if (ParentShellPageInstance.IsCurrentInstance)
             {
                 char letterPressed = Convert.ToChar(args.KeyCode);
-                await ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
+                ParentShellPageInstance.InteractionOperations.PushJumpChar(letterPressed);
             }
         }
 

@@ -260,7 +260,7 @@
                     NewWindowInvokedCommand="{x:Bind InteractionOperations.OpenNewWindow, Mode=OneWay}"
                     OpenInTerminalInvokedCommand="{x:Bind InteractionOperations.OpenDirectoryInDefaultTerminal, Mode=OneWay}"
                     PasteInvokedCommand="{x:Bind InteractionOperations.PasteItemsFromClipboard, Mode=OneWay}"
-                    PreviewPaneEnabled="{x:Bind InstanceViewModel.PreviewPaneEnabled, Mode=TwoWay}"
+                    PreviewPaneEnabled="{x:Bind PreviewPaneEnabled, Mode=TwoWay}"
                     ShowMultiPaneControls="{x:Bind converters1:MultiBooleanConverter.AndConvert(IsMultiPaneEnabled, IsPageMainPane), Mode=OneWay}" />
 
                 <Frame
@@ -274,7 +274,7 @@
                     x:Name="PreviewPaneGridSplitter"
                     Grid.Row="1"
                     Grid.Column="1"
-                    x:Load="{x:Bind InstanceViewModel.PreviewPaneEnabled, Mode=OneWay}"
+                    x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
                     Background="Transparent"
                     ResizeBehavior="BasedOnAlignment">
                     <Custom:GridSplitter.Element>
@@ -295,8 +295,10 @@
                     x:Name="PreviewPane"
                     Grid.Row="1"
                     Grid.Column="2"
-                    x:Load="{x:Bind InstanceViewModel.PreviewPaneEnabled, Mode=OneWay}"
-                    SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" />
+                    x:Load="{x:Bind PreviewPaneEnabled, Mode=OneWay}"
+                    SelectedItems="{x:Bind ContentPage.SelectedItems, Mode=OneWay}" 
+                    AutomationProperties.Name="Selected file preview pane"
+                    x:Uid="SelectedFilePreviewPane"/>
 
                 <controls:StatusBarControl
                     x:Name="StatusBarControl"
@@ -335,62 +337,5 @@
                 <TranslateTransform X="0" />
             </Custom:GridSplitter.RenderTransform>
         </Custom:GridSplitter>
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <triggers:IsEqualStateTrigger Value="{x:Bind InstanceViewModel.PreviewPaneEnabled, Mode=OneWay}" To="False" />
-                        <triggers:IsEqualStateTrigger Value="{x:Bind InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" To="False" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="PreviewPaneRow.Height" Value="0" />
-                        <Setter Target="PreviewPaneColumn.Width" Value="0" />
-                        <Setter Target="PreviewPaneGridSplitter.Visibility" Value="Collapsed" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <triggers:IsEqualStateTrigger Value="{x:Bind AppSettings.EnableAdaptivePreviewPane, Mode=OneWay}" To="False" />
-                        <triggers:CompareStateTrigger
-                            Comparison="GreaterThan"
-                            Value="{x:Bind RootGridWidth, Mode=OneWay}"
-                            To="1000" />
-                    </VisualState.StateTriggers>
-
-                    <VisualState.Setters>
-                        <Setter Target="PreviewPane.(Grid.Row)" Value="2" />
-                        <Setter Target="PreviewPane.(Grid.Column)" Value="2" />
-
-                        <Setter Target="PreviewPaneGridSplitter.(Grid.Row)" Value="2" />
-                        <Setter Target="PreviewPaneGridSplitter.(Grid.Column)" Value="1" />
-                        <Setter Target="PreviewPaneGridSplitter.Width" Value="2" />
-
-                        <Setter Target="PreviewPaneRow.Height" Value="4" />
-                        <Setter Target="PreviewPane.IsHorizontal" Value="False" />
-                    </VisualState.Setters>
-                </VisualState>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <triggers:CompareStateTrigger
-                            Comparison="LessThanOrEqual"
-                            Value="{x:Bind RootGridWidth, Mode=OneWay}"
-                            To="1000" />
-                        <!--<AdaptiveTrigger MinWindowWidth="0" />-->
-                    </VisualState.StateTriggers>
-
-                    <VisualState.Setters>
-                        <Setter Target="PreviewPane.(Grid.Row)" Value="4" />
-                        <Setter Target="PreviewPane.(Grid.Column)" Value="0" />
-
-                        <Setter Target="PreviewPaneGridSplitter.(Grid.Row)" Value="3" />
-                        <Setter Target="PreviewPaneGridSplitter.(Grid.Column)" Value="0" />
-                        <Setter Target="PreviewPaneGridSplitter.Height" Value="2" />
-
-                        <Setter Target="PreviewPaneColumn.Width" Value="0" />
-                        <Setter Target="PreviewPane.IsHorizontal" Value="True" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>

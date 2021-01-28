@@ -718,33 +718,33 @@
           <source>Yes</source>
           <target state="translated">Sí</target>
         </trans-unit>
-        <trans-unit id="ItemSizeBytes" translate="no" xml:space="preserve">
+        <trans-unit id="ItemSizeBytes" translate="yes" xml:space="preserve">
           <source>bytes</source>
-          <target state="final">bytes</target>
+          <target state="translated">bytes</target>
         </trans-unit>
-        <trans-unit id="KiloByteSymbol" translate="no" xml:space="preserve">
+        <trans-unit id="KiloByteSymbol" translate="yes" xml:space="preserve">
           <source>KB</source>
-          <target state="final">KB</target>
+          <target state="translated">KB</target>
         </trans-unit>
-        <trans-unit id="MegaByteSymbol" translate="no" xml:space="preserve">
+        <trans-unit id="MegaByteSymbol" translate="yes" xml:space="preserve">
           <source>MB</source>
-          <target state="final">MB</target>
+          <target state="translated">MB</target>
         </trans-unit>
-        <trans-unit id="GigaByteSymbol" translate="no" xml:space="preserve">
+        <trans-unit id="GigaByteSymbol" translate="yes" xml:space="preserve">
           <source>GB</source>
-          <target state="final">GB</target>
+          <target state="translated">GB</target>
         </trans-unit>
-        <trans-unit id="TeraByteSymbol" translate="no" xml:space="preserve">
+        <trans-unit id="TeraByteSymbol" translate="yes" xml:space="preserve">
           <source>TB</source>
-          <target state="final">TB</target>
+          <target state="translated">TB</target>
         </trans-unit>
-        <trans-unit id="PetaByteSymbol" translate="no" xml:space="preserve">
+        <trans-unit id="PetaByteSymbol" translate="yes" xml:space="preserve">
           <source>PB</source>
-          <target state="final">PB</target>
+          <target state="translated">PB</target>
         </trans-unit>
-        <trans-unit id="ByteSymbol" translate="no" xml:space="preserve">
+        <trans-unit id="ByteSymbol" translate="yes" xml:space="preserve">
           <source>B</source>
-          <target state="final">B</target>
+          <target state="translated">B</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
@@ -2172,35 +2172,99 @@
         </trans-unit>
         <trans-unit id="PropertyItemPathDisplay" translate="yes" xml:space="preserve">
           <source>Item Path</source>
-          <target state="new">Item Path</target>
-        </trans-unit>
-        <trans-unit id="DetailsPanePreviewNotAvaliableText" translate="yes" xml:space="preserve">
-          <source>No preview available</source>
-          <target state="new">No preview available</target>
+          <target state="translated">Ubicación</target>
         </trans-unit>
         <trans-unit id="PreviewPaneToggle.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Toggle the preview pane (Ctrl + P)</source>
-          <target state="new">Toggle the preview pane (Ctrl + P)</target>
+          <target state="translated">Alternar el panel de vista previa (Ctrl + P)</target>
         </trans-unit>
         <trans-unit id="PropertyItemName" translate="yes" xml:space="preserve">
           <source>Item Name</source>
-          <target state="new">Item Name</target>
-        </trans-unit>
-        <trans-unit id="PreviewPaneDetailsNotAvailableText" translate="yes" xml:space="preserve">
-          <source>No details available</source>
-          <target state="new">No details available</target>
-        </trans-unit>
-        <trans-unit id="SettingsEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
-          <source>Enable adaptive preview pane</source>
-          <target state="new">Enable adaptive preview pane</target>
+          <target state="translated">Nombre</target>
         </trans-unit>
         <trans-unit id="SidebarCloudDrives" translate="yes" xml:space="preserve">
           <source>Cloud Drives</source>
-          <target state="new">Cloud Drives</target>
+          <target state="translated">Unidades de la nube</target>
+        </trans-unit>
+        <trans-unit id="DetailsPanePreviewNotAvaliableText.Text" translate="yes" xml:space="preserve">
+          <source>No preview available</source>
+          <target state="translated">No hay vista previa disponible</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneDetailsNotAvailableText.Text" translate="yes" xml:space="preserve">
+          <source>No details available</source>
+          <target state="translated">No hay detalles disponibles</target>
+        </trans-unit>
+        <trans-unit id="SettingsWidgetsShowBundles.Header" translate="yes" xml:space="preserve">
+          <source>Show Bundles on the home page</source>
+          <target state="translated">Mostrar contenedores en la página de inicio</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
           <source>Unpin directory from sidebar</source>
-          <target state="new">Unpin directory from sidebar</target>
+          <target state="translated">Desanclar directorio de la barra lateral</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Properties</source>
+          <target state="translated">Propiedades</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneFileDetails.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>File details</source>
+          <target state="translated">Detalles del archivo</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneFilePreview.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>File preview</source>
+          <target state="translated">Vista previa del archivo</target>
+        </trans-unit>
+        <trans-unit id="SelectedFilePreviewPane.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Selected file preview pane</source>
+          <target state="translated">Panel de vista previa del archivo seleccionado</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutDocumentation.Text" translate="yes" xml:space="preserve">
+          <source>Documentation</source>
+          <target state="translated">Documentación</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutDocumentationDescription.Text" translate="yes" xml:space="preserve">
+          <source>Find tips &amp; tricks and learn more about Files</source>
+          <target state="translated">Encuentra consejos, trucos y más información sobre Files</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Visit the Files documentation website</source>
+          <target state="translated">Visite el sitio web de documentación de Files</target>
+        </trans-unit>
+        <trans-unit id="StatusCenterFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Ongoing tasks flyout</source>
+          <target state="translated">Menú desplegable de tareas en curso</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Online" translate="yes" xml:space="preserve">
+          <source>Available when online</source>
+          <target state="translated">Disponible cuando está en línea</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Offline" translate="yes" xml:space="preserve">
+          <source>Available offline</source>
+          <target state="translated">Disponible sin conexión</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_PartialOffline" translate="yes" xml:space="preserve">
+          <source>Partially available offline</source>
+          <target state="translated">Parcialmente disponible sin conexión</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Sync" translate="yes" xml:space="preserve">
+          <source>Syncing</source>
+          <target state="translated">Sincronizando</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Excluded" translate="yes" xml:space="preserve">
+          <source>Excluded from sync</source>
+          <target state="translated">Excluido de la sincronización</target>
+        </trans-unit>
+        <trans-unit id="ItemSizeNotCalcluated" translate="yes" xml:space="preserve">
+          <source>Not calculated</source>
+          <target state="translated">No calculado</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Unknown" translate="yes" xml:space="preserve">
+          <source>Unknown</source>
+          <target state="translated">Desconocido</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
+          <source>Enable adaptive preview pane</source>
+          <target state="translated">Habilitar el panel de vista previa adaptable</target>
         </trans-unit>
       </group>
     </body>

@@ -10,7 +10,6 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -340,11 +339,13 @@ namespace Files.Views.LayoutModes
 
             if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
             {
+                FileNameTeachingTip.Visibility = Visibility.Visible;
                 FileNameTeachingTip.IsOpen = true;
             }
             else
             {
                 FileNameTeachingTip.IsOpen = false;
+                FileNameTeachingTip.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -480,7 +481,7 @@ namespace Files.Views.LayoutModes
             var rowPressed = Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
             if (rowPressed != null)
             {
-                var objectPressed = ((ObservableCollection<ListedItem>)AllView.ItemsSource)[rowPressed.GetIndex()];
+                var objectPressed = ((IList<ListedItem>)AllView.ItemsSource)[rowPressed.GetIndex()];
 
                 // Check if RightTapped row is currently selected
                 if (IsItemSelected)
