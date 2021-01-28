@@ -2183,10 +2183,6 @@
           <source>Item Name</source>
           <target state="translated">Nome dell'elemento</target>
         </trans-unit>
-        <trans-unit id="SettingsEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
-          <source>Enable adaptive preview pane</source>
-          <target state="translated">Abilita anteprima adattiva</target>
-        </trans-unit>
         <trans-unit id="SidebarCloudDrives" translate="yes" xml:space="preserve">
           <source>Cloud Drives</source>
           <target state="translated">Archivi Cloud</target>
@@ -2266,6 +2262,10 @@
         <trans-unit id="CloudDriveSyncStatus_Unknown" translate="yes" xml:space="preserve">
           <source>Unknown</source>
           <target state="new">Unknown</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
+          <source>Enable adaptive preview pane</source>
+          <target state="translated">Abilita anteprima adattiva</target>
         </trans-unit>
       </group>
     </body>

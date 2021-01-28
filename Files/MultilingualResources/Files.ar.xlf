@@ -2174,10 +2174,6 @@
           <source>Item Path</source>
           <target state="new">Item Path</target>
         </trans-unit>
-        <trans-unit id="SettingsEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
-          <source>Enable adaptive preview pane</source>
-          <target state="new">Enable adaptive preview pane</target>
-        </trans-unit>
         <trans-unit id="SidebarCloudDrives" translate="yes" xml:space="preserve">
           <source>Cloud Drives</source>
           <target state="new">Cloud Drives</target>
@@ -2265,6 +2261,10 @@
         <trans-unit id="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
           <source>Visit the Files documentation website</source>
           <target state="new">Visit the Files documentation website</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
+          <source>Enable adaptive preview pane</source>
+          <target state="new">Enable adaptive preview pane</target>
         </trans-unit>
       </group>
     </body>
