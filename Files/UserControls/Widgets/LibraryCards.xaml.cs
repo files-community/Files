@@ -71,7 +71,7 @@ namespace Files.UserControls.Widgets
             // Search for "Scale Element".
             var element = sender as UIElement;
             var visual = ElementCompositionPreview.GetElementVisual(element);
-            visual.Scale = new Vector3(1.03f, 1.03f, 1);
+            visual.Scale = new Vector3(1.02f, 1.02f, 1);
         }
 
         private void GridScaleNormal(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
