@@ -479,7 +479,7 @@ namespace Files.Views.LayoutModes
             set
             {
                 multiSelectEnabled = value;
-                FileList.SelectionMode = value ? ListViewSelectionMode.Extended : ListViewSelectionMode.Multiple;
+                FileList.SelectionMode = value ? ListViewSelectionMode.Multiple : ListViewSelectionMode.Extended;
             } 
         }
     }
