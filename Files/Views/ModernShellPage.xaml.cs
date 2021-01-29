@@ -19,7 +19,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -31,7 +30,6 @@ using Windows.UI.Core;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -224,6 +222,8 @@ namespace Files.Views
 
             App.DrivesManager.PropertyChanged += DrivesManager_PropertyChanged;
             AppSettings.PropertyChanged += AppSettings_PropertyChanged;
+
+            AppServiceConnectionHelper.ConnectionChanged += AppServiceConnectionHelper_ConnectionChanged;
         }
 
         private void AppSettings_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -906,31 +906,13 @@ namespace Files.Views
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            ServiceConnection = await AppServiceConnectionHelper.BuildConnection();
+            ServiceConnection = await AppServiceConnectionHelper.Instance;
             FilesystemViewModel = new ItemViewModel(this);
             FilesystemViewModel.OnAppServiceConnectionChanged();
             InteractionOperations = new Interaction(this);
-            App.Current.Suspending += Current_Suspending;
-            App.Current.LeavingBackground += OnLeavingBackground;
             FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
             OnNavigationParamsChanged();
             this.Loaded -= Page_Loaded;
-        }
-
-        private async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
-        {
-            if (this.ServiceConnection == null)
-            {
-                // Need to reinitialize AppService when app is resuming
-                ServiceConnection = await AppServiceConnectionHelper.BuildConnection();
-                FilesystemViewModel?.OnAppServiceConnectionChanged();
-            }
-        }
-
-        private void Current_Suspending(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
-        {
-            ServiceConnection?.Dispose();
-            ServiceConnection = null;
         }
 
         private void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
@@ -977,10 +959,11 @@ namespace Files.Views
                 NavigationArg = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
             };
 
-            if(ItemDisplayFrame.CurrentSourcePageType == typeof(YourHome))
+            if (ItemDisplayFrame.CurrentSourcePageType == typeof(YourHome))
             {
                 UpdatePositioning(true);
-            } else
+            }
+            else
             {
                 UpdatePositioning();
             }
@@ -1211,8 +1194,6 @@ namespace Files.Views
         {
             Window.Current.CoreWindow.PointerPressed -= CoreWindow_PointerPressed;
             SystemNavigationManager.GetForCurrentView().BackRequested -= ModernShellPage_BackRequested;
-            App.Current.Suspending -= Current_Suspending;
-            App.Current.LeavingBackground -= OnLeavingBackground;
             App.DrivesManager.PropertyChanged -= DrivesManager_PropertyChanged;
             AppSettings.PropertyChanged -= AppSettings_PropertyChanged;
             NavigationToolbar.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
@@ -1251,9 +1232,13 @@ namespace Files.Views
                 FilesystemViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
                 FilesystemViewModel.Dispose();
             }
+            AppServiceConnectionHelper.ConnectionChanged -= AppServiceConnectionHelper_ConnectionChanged;
+        }
 
-            ServiceConnection?.Dispose();
-            ServiceConnection = null;
+        private async void AppServiceConnectionHelper_ConnectionChanged(object sender, Task<AppServiceConnection> e)
+        {
+            ServiceConnection = await e;
+            FilesystemViewModel.OnAppServiceConnectionChanged();
         }
 
         private void SidebarControl_Loaded(object sender, RoutedEventArgs e)
@@ -1326,7 +1311,7 @@ namespace Files.Views
 
         /// <summary>
         /// Call this function to update the positioning of the preview pane.
-        /// This is a workaround as the VisualStateManager causes problems. 
+        /// This is a workaround as the VisualStateManager causes problems.
         /// </summary>
         private void UpdatePositioning(bool IsHome = false)
         {
@@ -1334,7 +1319,7 @@ namespace Files.Views
             {
                 PreviewPaneRow.Height = new GridLength(0);
                 PreviewPaneColumn.Width = new GridLength(0);
-                if(PreviewPaneGridSplitter != null)
+                if (PreviewPaneGridSplitter != null)
                 {
                     PreviewPaneGridSplitter.Visibility = Visibility.Collapsed;
                 }

@@ -82,7 +82,7 @@ namespace Files.Controllers
                 Model.Save();
             }
 
-            Model.AddAllItemsToSidebar();
+            await Model.AddAllItemsToSidebar();
         }
 
         public void SaveModel()

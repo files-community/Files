@@ -233,9 +233,13 @@ namespace FilesFullTrust
                     await ParseRecycleBinActionAsync(args, binAction);
                     break;
 
-                case "StartupTasks":
+                case "DetectQuickLook":
                     // Check QuickLook Availability
-                    QuickLook.CheckQuickLookAvailability(localSettings);
+                    var available = QuickLook.CheckQuickLookAvailability();
+                    await args.Request.SendResponseAsync(new ValueSet()
+                    {
+                        { "IsAvailable", available }
+                    });
                     break;
 
                 case "ToggleQuickLook":
@@ -326,8 +330,10 @@ namespace FilesFullTrust
                     break;
 
                 case "GetOneDriveAccounts":
-                    using (var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts", false))
+                    try
                     {
+                        var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts", false);
+
                         if (oneDriveAccountsKey == null)
                         {
                             await args.Request.SendResponseAsync(new ValueSet());
@@ -348,46 +354,9 @@ namespace FilesFullTrust
                         }
                         await args.Request.SendResponseAsync(oneDriveAccounts);
                     }
-                    break;
-
-                case "GetSharePointSyncLocationsFromOneDrive":
-                    using (var oneDriveAccountsKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\OneDrive\Accounts", false))
+                    catch
                     {
-                        var sharepointAccounts = new ValueSet();
-
-                        foreach (var account in oneDriveAccountsKey.GetSubKeyNames())
-                        {
-                            var accountKeyName = @$"{oneDriveAccountsKey.Name}\{account}";
-                            var displayName = (string)Registry.GetValue(accountKeyName, "DisplayName", null);
-                            var userFolderToExcludeFromResults = (string)Registry.GetValue(accountKeyName, "UserFolder", null);
-                            var accountName = string.IsNullOrWhiteSpace(displayName) ? "SharePoint" : $"SharePoint - {displayName}";
-
-                            var sharePointSyncFolders = new List<string>();
-                            var mountPointKeyName = @$"SOFTWARE\Microsoft\OneDrive\Accounts\{account}\ScopeIdToMountPointPathCache";
-                            using (var mountPointsKey = Registry.CurrentUser.OpenSubKey(mountPointKeyName))
-                            {
-                                var valueNames = mountPointsKey.GetValueNames();
-                                foreach (var valueName in valueNames)
-                                {
-                                    var value = (string)Registry.GetValue(@$"HKEY_CURRENT_USER\{mountPointKeyName}", valueName, null);
-                                    if (!string.Equals(value, userFolderToExcludeFromResults, StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        sharePointSyncFolders.Add(value);
-                                    }
-                                }
-                            }
-
-                            foreach (var sharePointSyncFolder in sharePointSyncFolders.OrderBy(o => o))
-                            {
-                                var parentFolder = System.IO.Directory.GetParent(sharePointSyncFolder)?.FullName ?? string.Empty;
-                                if (!sharepointAccounts.Any(acc => string.Equals(acc.Value, parentFolder)))
-                                {
-                                    sharepointAccounts.Add(accountName, parentFolder);
-                                }
-                            }
-                        }
-
-                        await args.Request.SendResponseAsync(sharepointAccounts);
+                        await args.Request.SendResponseAsync(new ValueSet());
                     }
                     break;
 
@@ -827,12 +796,6 @@ namespace FilesFullTrust
                     process.StartInfo.Arguments = (string)localSettings.Values["ShellCommand"];
                     process.Start();
 
-                    return true;
-                }
-                else if (arguments == "StartupTasks")
-                {
-                    // Check QuickLook Availability
-                    QuickLook.CheckQuickLookAvailability(localSettings);
                     return true;
                 }
             }

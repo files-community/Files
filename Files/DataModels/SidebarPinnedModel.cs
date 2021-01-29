@@ -2,18 +2,24 @@
 using Files.ViewModels;
 using Files.Views;
 using Newtonsoft.Json;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Media;
 
 namespace Files.DataModels
 {
     public class SidebarPinnedModel
     {
+        [JsonIgnore]
+        private readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         [JsonIgnore]
         public SettingsViewModel AppSettings => App.AppSettings;
 
@@ -140,7 +146,7 @@ namespace Files.DataModels
                 Debug.WriteLine($"An error occured while swapping pinned items in the navigation sidebar. {ex.Message}");
                 this.Items = sidebarItemsBackup;
                 this.RemoveStaleSidebarItems();
-                this.AddAllItemsToSidebar();
+                _ = this.AddAllItemsToSidebar();
             }
         }
 
@@ -177,37 +183,54 @@ namespace Files.DataModels
         /// <returns>Task</returns>
         public async Task AddItemToSidebarAsync(string path)
         {
-            var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
-            var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
-            if (res || (FilesystemResult)ItemViewModel.CheckFolderAccessWithWin32(path))
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                int insertIndex = MainPage.SideBarItems.IndexOf(MainPage.SideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
-                && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;
-                var locationItem = new LocationItem
-                {
-                    Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
-                    Path = path,
-                    Glyph = GetItemIcon(path),
-                    IsDefaultLocation = false,
-                    Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
-                };
+                Logger.Info("AddItemToSidebarAsync(string)");
 
-                if (!MainPage.SideBarItems.Contains(locationItem))
+                await MainPage.sideBarItemsSemaphore.WaitAsync();
+                try
                 {
-                    MainPage.SideBarItems.Insert(insertIndex, locationItem);
+                    var item = await FilesystemTasks.Wrap(() => DrivesManager.GetRootFromPathAsync(path));
+                    var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path, item));
+                    if (res)
+                    {
+                        int insertIndex = MainPage.SideBarItems.IndexOf(MainPage.SideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
+                        && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;
+                        var locationItem = new LocationItem
+                        {
+                            Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
+                            Path = path,
+                            Glyph = GetItemIcon(path),
+                            IsDefaultLocation = false,
+                            Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'))
+                        };
+
+                        if (!MainPage.SideBarItems.Contains(locationItem))
+                        {
+                            MainPage.SideBarItems.Insert(insertIndex, locationItem);
+                        }
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"Pinned item was invalid and will be removed from the file lines list soon: {res.ErrorCode}");
+                        RemoveItem(path);
+                    }
+
                 }
-            }
-            else
-            {
-                Debug.WriteLine($"Pinned item was invalid and will be removed from the file lines list soon: {res.ErrorCode}");
-                RemoveItem(path);
-            }
+                finally
+                {
+                    MainPage.sideBarItemsSemaphore.Release();
+                    Logger.Info("AddItemToSidebarAsync(string) complete");
+                }
+            });
+
+
         }
 
         /// <summary>
         /// Adds all items to the navigation sidebar
         /// </summary>
-        public async void AddAllItemsToSidebar()
+        public async Task AddAllItemsToSidebar()
         {
             for (int i = 0; i < Items.Count(); i++)
             {
