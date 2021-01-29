@@ -1012,7 +1012,7 @@
         </trans-unit>
         <trans-unit id="InvalidItemDialogContent" translate="yes" xml:space="preserve">
           <source>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</source>
-          <target state="translated">A referált fájl helytelen vagy elérhetetlen.{0}Hibaüzenet:{0}{1}</target>
+          <target state="translated">A hivatkozott elem helytelen vagy elérhetetlen.{0}Hibaüzenet:{0}{1}</target>
         </trans-unit>
         <trans-unit id="InvalidItemDialogTitle" translate="yes" xml:space="preserve">
           <source>Invalid item</source>
