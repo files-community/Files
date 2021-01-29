@@ -48,10 +48,8 @@ namespace Files.ViewModels.Previews
             return details;
         }
 
-
         private async void LoadPagesAsync(PdfDocument pdf)
         {
-
             // This fixes an issue where loading an absurdly large PDF would take to much RAM
             // and eventually cause a crash
             var limit = Math.Clamp(pdf.PageCount, 0, Constants.PreviewPane.PDFPageLimit);
