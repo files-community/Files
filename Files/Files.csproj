@@ -179,7 +179,6 @@
     <Compile Include="Filesystem\CloudDrivesManager.cs" />
     <Compile Include="Helpers\AppServiceConnectionHelper.cs" />
     <Compile Include="Filesystem\Cloud\Providers\AmazonDriveProvider.cs" />
-    <Compile Include="Filesystem\Cloud\Providers\OneDriveSharePointCloudProvider.cs" />
     <Compile Include="Helpers\AppUpdater.cs" />
     <Compile Include="DataModels\DefaultLanguageModel.cs" />
     <Compile Include="Enums\FileOperationType.cs" />
