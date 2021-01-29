@@ -15,7 +15,19 @@ namespace Files.Filesystem
     public class DriveItem : ObservableObject, INavigationControlItem
     {
         public string Glyph { get; set; }
-        public string Path { get; set; }
+
+        private string path;
+        public string Path
+        {
+            get => path;
+            set
+            {
+                path = value;
+                HoverDisplayText = Path.Contains("?") ? Text : Path;
+            }
+        }
+
+        public string HoverDisplayText { get; private set; }
         public string DeviceID { get; set; }
         public StorageFolder Root { get; set; }
         public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;

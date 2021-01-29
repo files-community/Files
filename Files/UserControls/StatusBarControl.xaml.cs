@@ -56,7 +56,13 @@ namespace Files.UserControls
             if (AppSettings.ShowStatusCenterTeachingTip)
             {
                 StatusCenterTeachingTip.IsOpen = true;
+                StatusCenterTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 AppSettings.ShowStatusCenterTeachingTip = false;
+            }
+            else
+            {
+                StatusCenterTeachingTip.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                StatusCenterTeachingTip.IsOpen = false;
             }
 
             PlayBannerAddedVisualAnimation();

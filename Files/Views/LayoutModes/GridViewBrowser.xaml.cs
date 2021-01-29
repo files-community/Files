@@ -221,11 +221,13 @@ namespace Files.Views.LayoutModes
 
             if (FilesystemHelpers.ContainsRestrictedCharacters(textBox.Text))
             {
+                FileNameTeachingTip.Visibility = Visibility.Visible;
                 FileNameTeachingTip.IsOpen = true;
             }
             else
             {
                 FileNameTeachingTip.IsOpen = false;
+                FileNameTeachingTip.Visibility = Visibility.Collapsed;
             }
         }
 
