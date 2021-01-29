@@ -144,7 +144,6 @@ namespace Files.Filesystem
                         MainPage.SideBarItems.Insert(insertAt, drive);
                         insertAt++;
                     }
-
                 }
                 finally
                 {

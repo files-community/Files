@@ -215,7 +215,6 @@ namespace Files.DataModels
                         Debug.WriteLine($"Pinned item was invalid and will be removed from the file lines list soon: {res.ErrorCode}");
                         RemoveItem(path);
                     }
-
                 }
                 finally
                 {
@@ -223,8 +222,6 @@ namespace Files.DataModels
                     Logger.Info("AddItemToSidebarAsync(string) complete");
                 }
             });
-
-
         }
 
         /// <summary>
