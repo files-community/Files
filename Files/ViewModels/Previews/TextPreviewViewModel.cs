@@ -44,8 +44,8 @@ namespace Files.ViewModels.Previews
 
             try
             {
-                var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
-                var text = await FileIO.ReadTextAsync(file);
+                item.ItemFile = await StorageFile.GetFileFromPathAsync(item.ItemPath);
+                var text = await FileIO.ReadTextAsync(item.ItemFile);
 
                 // Check if file is binary
                 if (text.Contains("\0\0\0\0"))
@@ -56,7 +56,6 @@ namespace Files.ViewModels.Previews
                 var model = new TextPreviewViewModel(item)
                 {
                     TextValue = text,
-                    ItemFile = file,
                 };
 
                 return new TextPreview(model);
@@ -67,11 +66,11 @@ namespace Files.ViewModels.Previews
             }
         }
 
-        public async override void LoadPreviewAndDetails()
+        public async override Task LoadPreviewAndDetails()
         {
             try
             {
-                var text = TextValue ?? await FileIO.ReadTextAsync(ItemFile);
+                var text = TextValue ?? await FileIO.ReadTextAsync(Item.ItemFile);
 
                 Item.FileDetails.Add(new FileProperty()
                 {
@@ -92,8 +91,6 @@ namespace Files.ViewModels.Previews
             {
                 Debug.WriteLine(e);
             }
-
-            base.LoadSystemFileProperties();
         }
     }
 }

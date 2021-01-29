@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Windows.Storage.Streams;
 
 namespace Files.ViewModels.Previews
@@ -18,19 +19,16 @@ namespace Files.ViewModels.Previews
 
         public IRandomAccessStream Stream { get; set; }
 
-        public async override void LoadPreviewAndDetails()
+        public async override Task LoadPreviewAndDetails()
         {
             try
             {
-                Stream = await ItemFile.OpenReadAsync();
+                Stream = await Item.ItemFile.OpenReadAsync();
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e);
             }
-
-            LoadSystemFileProperties();
-            RaiseLoadedEvent();
         }
     }
 }

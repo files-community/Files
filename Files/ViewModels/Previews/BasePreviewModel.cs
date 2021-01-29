@@ -5,6 +5,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
 
@@ -20,7 +21,7 @@ namespace Files.ViewModels.Previews
 
         public ListedItem Item { get; internal set; }
 
-        public StorageFile ItemFile { get; internal set; }
+        //public StorageFile ItemFile { get; internal set; }
 
         public CancellationTokenSource LoadCancelledTokenSource { get; } = new CancellationTokenSource();
 
@@ -29,9 +30,12 @@ namespace Files.ViewModels.Previews
             LoadCancelledTokenSource.Cancel();
         }
 
-        public abstract void LoadPreviewAndDetails();
+        public virtual Task LoadPreviewAndDetails()
+        {
+            return Task.CompletedTask;
+        }
 
-        public async void LoadSystemFileProperties()
+        private async void LoadSystemFileProperties()
         {
             if (Item.IsShortcutItem)
             {
@@ -40,7 +44,7 @@ namespace Files.ViewModels.Previews
 
             try
             {
-                var list = await FileProperty.RetrieveAndInitializePropertiesAsync(ItemFile);
+                var list = await FileProperty.RetrieveAndInitializePropertiesAsync(Item.ItemFile);
 
                 list.Find(x => x.ID == "address").Value = await FileProperties.GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
                                                                                                (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
@@ -53,13 +57,37 @@ namespace Files.ViewModels.Previews
             }
         }
 
+        public static async void GetSystemFileProperties(ListedItem item)
+        {
+            if (item.IsShortcutItem)
+            {
+                return;
+            }
+
+            try
+            {
+                var list = await FileProperty.RetrieveAndInitializePropertiesAsync(item.ItemFile);
+
+                list.Find(x => x.ID == "address").Value = await FileProperties.GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
+                                                                                               (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+
+                list.Where(i => i.Value != null).ToList().ForEach(x => item.FileDetails.Add(x));
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+            }
+        }
+
         private async void Load()
         {
             // Files can be corrupt, in use, and stuff
             try
             {
-                ItemFile ??= await StorageFile.GetFileFromPathAsync(Item.ItemPath);
-                LoadPreviewAndDetails();
+                Item.ItemFile ??= await StorageFile.GetFileFromPathAsync(Item.ItemPath);
+                await LoadPreviewAndDetails();
+                RaiseLoadedEvent();
+                LoadSystemFileProperties();
             }
             catch (Exception e)
             {
@@ -75,6 +103,13 @@ namespace Files.ViewModels.Previews
         {
             // Raise the event in a thread-safe manner using the ?. operator.
             LoadedEvent?.Invoke(this, new EventArgs());
+        }
+
+        public class DetailsOnlyPreviewModel : BasePreviewModel
+        {
+            public DetailsOnlyPreviewModel(ListedItem item) : base(item)
+            {
+            }
         }
     }
 }

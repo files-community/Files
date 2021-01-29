@@ -102,6 +102,18 @@ namespace Files.ViewModels
             set => Set(value.Value);
         }
 
+        public GridLength PreviewPaneSize_Horizontal
+        {
+            get => new GridLength(Math.Min(Math.Max(Get(300d), 50d), 600d), GridUnitType.Pixel);
+            set => Set(value.Value);
+        }
+        
+        public GridLength PreviewPaneHeight
+        {
+            get => new GridLength(Math.Min(Math.Max(Get(200d), 50d), 600d), GridUnitType.Pixel);
+            set => Set(value.Value);
+        }
+
         public async void DetectQuickLook()
         {
             // Detect QuickLook

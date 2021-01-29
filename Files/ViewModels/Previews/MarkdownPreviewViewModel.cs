@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.ViewModels.Previews
@@ -24,11 +25,11 @@ namespace Files.ViewModels.Previews
             set => SetProperty(ref textValue, value);
         }
 
-        public override async void LoadPreviewAndDetails()
+        public override async Task LoadPreviewAndDetails()
         {
             try
             {
-                var text = await FileIO.ReadTextAsync(ItemFile);
+                var text = await FileIO.ReadTextAsync(Item.ItemFile);
                 var displayText = text.Length < Constants.PreviewPane.TextCharacterLimit ? text : text.Remove(Constants.PreviewPane.TextCharacterLimit);
                 TextValue = displayText;
             }
@@ -36,8 +37,6 @@ namespace Files.ViewModels.Previews
             {
                 Debug.WriteLine(e);
             }
-
-            base.LoadSystemFileProperties();
         }
     }
 }

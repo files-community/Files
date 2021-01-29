@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.UI.Xaml;
 
@@ -26,10 +27,10 @@ namespace Files.ViewModels.Previews
             set => SetProperty(ref source, value);
         }
 
-        public override void LoadPreviewAndDetails()
+        public override Task LoadPreviewAndDetails()
         {
-            base.LoadSystemFileProperties();
-            Source = MediaSource.CreateFromStorageFile(ItemFile);
+            Source = MediaSource.CreateFromStorageFile(Item.ItemFile);
+            return Task.CompletedTask;
         }
 
         public override void PreviewControlBase_Unloaded(object sender, RoutedEventArgs e)

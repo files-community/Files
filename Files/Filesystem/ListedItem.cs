@@ -279,6 +279,13 @@ namespace Files.Filesystem
         public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
 
         public bool IsPinned => App.SidebarPinnedController.Model.Items.Contains(itemPath);
+
+        StorageFile itemFile;
+        public StorageFile ItemFile
+        {
+            get => itemFile;
+            set => SetProperty(ref itemFile, value);
+        }
     }
 
     public class RecycleBinItem : ListedItem

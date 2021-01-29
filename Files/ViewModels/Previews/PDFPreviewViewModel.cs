@@ -3,6 +3,7 @@ using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Windows.Data.Pdf;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
@@ -31,18 +32,22 @@ namespace Files.ViewModels.Previews
 
         public ObservableCollection<PageViewModel> Pages { get; set; } = new ObservableCollection<PageViewModel>();
 
-        public async override void LoadPreviewAndDetails()
+        public async override Task LoadPreviewAndDetails()
         {
-            var pdf = await PdfDocument.LoadFromFileAsync(ItemFile);
+            var pdf = await PdfDocument.LoadFromFileAsync(Item.ItemFile);
 
+            LoadPagesAsync(pdf);
             // Add the number of pages to the details
             Item.FileDetails.Add(new FileProperty()
             {
                 NameResource = "PropertyPageCount",
                 Value = pdf.PageCount,
             });
+        }
 
-            LoadSystemFileProperties();
+
+        private async void LoadPagesAsync(PdfDocument pdf)
+        {
 
             // This fixes an issue where loading an absurdly large PDF would take to much RAM
             // and eventually cause a crash

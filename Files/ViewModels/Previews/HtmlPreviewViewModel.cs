@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.ViewModels.Previews
@@ -26,18 +27,16 @@ namespace Files.ViewModels.Previews
             set => SetProperty(ref textValue, value);
         }
 
-        public async override void LoadPreviewAndDetails()
+        public async override Task LoadPreviewAndDetails()
         {
             try
             {
-                TextValue = await FileIO.ReadTextAsync(ItemFile);
+                TextValue = await FileIO.ReadTextAsync(Item.ItemFile);
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e);
             }
-            base.LoadSystemFileProperties();
-            RaiseLoadedEvent();
         }
     }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.ViewModels.Previews
@@ -24,11 +25,11 @@ namespace Files.ViewModels.Previews
 
         public static List<string> Extensions => new List<List<string>>(languageExtensions.Values).SelectMany(i => i).Distinct().ToList();
 
-        public override async void LoadPreviewAndDetails()
+        public override async Task LoadPreviewAndDetails()
         {
             try
             {
-                var text = await FileIO.ReadTextAsync(ItemFile);
+                var text = await FileIO.ReadTextAsync(Item.ItemFile);
                 var displayText = text.Length < Constants.PreviewPane.TextCharacterLimit ? text : text.Remove(Constants.PreviewPane.TextCharacterLimit);
                 // Use the MarkDownTextBlock's built in code highlighting
                 TextValue = $"```{GetCodeLanguage(Item.FileExtension)}\n{displayText}\n```";
@@ -43,8 +44,6 @@ namespace Files.ViewModels.Previews
             {
                 Debug.WriteLine(e);
             }
-
-            base.LoadSystemFileProperties();
         }
 
         private static Dictionary<string, List<string>> languageExtensions = new Dictionary<string, List<string>>()

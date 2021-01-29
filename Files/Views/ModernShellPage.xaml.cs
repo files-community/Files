@@ -1355,7 +1355,7 @@ namespace Files.Views
                 PreviewPaneGridSplitter.Height = RootGrid.ActualHeight;
 
                 PreviewPaneRow.Height = new GridLength(0);
-                PreviewPaneColumn.Width = new GridLength(300);
+                PreviewPaneColumn.Width = AppSettings.PreviewPaneHeight;
                 PreviewPane.IsHorizontal = false;
 
                 PreviewPane.Visibility = Visibility.Visible;
@@ -1363,7 +1363,7 @@ namespace Files.Views
             }
             else if (RootGrid.ActualWidth < 1000)
             {
-                PreviewPaneRow.Height = new GridLength(200);
+                PreviewPaneRow.Height = AppSettings.PreviewPaneSize_Horizontal;
                 PreviewPaneColumn.Width = new GridLength(0);
 
                 PreviewPane.SetValue(Grid.RowProperty, 4);
@@ -1377,6 +1377,22 @@ namespace Files.Views
 
                 PreviewPane.Visibility = Visibility.Visible;
                 PreviewPaneGridSplitter.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void PreviewPaneGridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            if(PreviewPane == null)
+            {
+                return;
+            }
+
+            if(PreviewPane.IsHorizontal)
+            {
+                AppSettings.PreviewPaneSize_Horizontal = new GridLength(PreviewPane.ActualHeight);
+            } else
+            {
+                AppSettings.PreviewPaneHeight = new GridLength(PreviewPane.ActualWidth);
             }
         }
     }

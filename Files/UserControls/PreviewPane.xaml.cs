@@ -139,8 +139,9 @@ namespace Files.UserControls
                 return;
             }
 
+            var detailsViewModel = new BasePreviewModel.DetailsOnlyPreviewModel(item); 
+
             PreviewNotAvaliableText.Visibility = Visibility.Visible;
-            PreviewPaneDetailsNotAvailableText.Visibility = Visibility.Visible;
         }
 
         private UserControl GetBuiltInPreviewControl(ListedItem item)
