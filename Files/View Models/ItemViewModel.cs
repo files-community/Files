@@ -564,6 +564,7 @@ namespace Files.Filesystem
                     item.ItemPropertiesInitialized = true;
                     return;
                 }
+                item = matchingItem;
                 var wasSyncStatusLoaded = false;
                 try
                 {
@@ -673,75 +674,148 @@ namespace Files.Filesystem
 
         public async void RapidAddItemsToCollectionAsync(string path)
         {
-            AssociatedInstance.NavigationToolbar.CanRefresh = false;
-
-            CancelLoadAndClearFiles();
-
             try
             {
-                // Only one instance at a time should access this function
-                // Wait here until the previous one has ended
-                // If we're waiting and a new update request comes through
-                // simply drop this instance
-                await semaphoreSlim.WaitAsync(_semaphoreCTS.Token);
-            }
-            catch (Exception ex) when (ex is OperationCanceledException || ex is ObjectDisposedException)
-            {
-                return;
-            }
+                AssociatedInstance.NavigationToolbar.CanRefresh = false;
 
-            try
-            {
-                // Drop all the other waiting instances
-                _semaphoreCTS.Cancel();
-                _semaphoreCTS.Dispose();
-                _semaphoreCTS = new CancellationTokenSource();
+                CancelLoadAndClearFiles();
 
-                IsLoadingItems = true;
-                IsFolderEmptyTextDisplayed = false;
-                _filesAndFolders.Clear();
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
-                App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
-
-                AssociatedInstance.NavigationToolbar.CanGoBack = AssociatedInstance.ContentFrame.CanGoBack;
-                AssociatedInstance.NavigationToolbar.CanGoForward = AssociatedInstance.ContentFrame.CanGoForward;
-
-                if (path.StartsWith(AppSettings.RecycleBinPath))
+                try
                 {
-                    // Recycle bin is special as files are enumerated by the fulltrust process
-                    await EnumerateItemsFromSpecialFolderAsync(path);
+                    // Only one instance at a time should access this function
+                    // Wait here until the previous one has ended
+                    // If we're waiting and a new update request comes through
+                    // simply drop this instance
+                    await semaphoreSlim.WaitAsync(_semaphoreCTS.Token);
                 }
-                else
+                catch (Exception ex) when (ex is OperationCanceledException || ex is ObjectDisposedException)
                 {
-                    if (await EnumerateItemsFromStandardFolderAsync(path))
-                    {
-                        WatchForDirectoryChanges(path);
-                    }
-                }
-
-                IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
-                if (_addFilesCTS.IsCancellationRequested)
-                {
-                    _addFilesCTS.Dispose();
-                    _addFilesCTS = new CancellationTokenSource();
-                    IsLoadingItems = false;
                     return;
                 }
 
-                OrderFiles();
-                stopwatch.Stop();
-                Debug.WriteLine($"Loading of items in {WorkingDirectory} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
-                AssociatedInstance.NavigationToolbar.CanRefresh = true;
-                App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
-                IsLoadingItems = false;
-            }
-            finally
-            {
-                semaphoreSlim.Release();
-            }
+                try
+                {
+                    // Drop all the other waiting instances
+                    _semaphoreCTS.Cancel();
+                    _semaphoreCTS.Dispose();
+                    _semaphoreCTS = new CancellationTokenSource();
 
-            UpdateDirectoryInfo();
+                    IsLoadingItems = true;
+                    IsFolderEmptyTextDisplayed = false;
+                    _filesAndFolders.Clear();
+                    Stopwatch stopwatch = new Stopwatch();
+                    stopwatch.Start();
+                    App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
+
+                    AssociatedInstance.NavigationToolbar.CanGoBack = AssociatedInstance.ContentFrame.CanGoBack;
+                    AssociatedInstance.NavigationToolbar.CanGoForward = AssociatedInstance.ContentFrame.CanGoForward;
+
+                    if (path.StartsWith(AppSettings.RecycleBinPath))
+                    {
+                        // Recycle bin is special as files are enumerated by the fulltrust process
+                        await EnumerateItemsFromSpecialFolderAsync(path);
+                    }
+                    else
+                    {
+                        if (await EnumerateItemsFromStandardFolderAsync(path))
+                        {
+                            WatchForDirectoryChanges(path);
+                        }
+                    }
+
+                    IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
+                    if (_addFilesCTS.IsCancellationRequested)
+                    {
+                        _addFilesCTS.Dispose();
+                        _addFilesCTS = new CancellationTokenSource();
+                        IsLoadingItems = false;
+                        return;
+                    }
+
+                    OrderFiles();
+                    stopwatch.Stop();
+                    Debug.WriteLine($"Loading of items in {WorkingDirectory} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
+                    AssociatedInstance.NavigationToolbar.CanRefresh = true;
+                    App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
+                    IsLoadingItems = false;
+                }
+                finally
+                {
+                    semaphoreSlim.Release();
+                }
+
+                UpdateDirectoryInfo();
+            }
+            catch
+            {
+                CancelLoadAndClearFiles();
+
+                try
+                {
+                    // Only one instance at a time should access this function
+                    // Wait here until the previous one has ended
+                    // If we're waiting and a new update request comes through
+                    // simply drop this instance
+                    await semaphoreSlim.WaitAsync(_semaphoreCTS.Token);
+                }
+                catch (Exception ex) when (ex is OperationCanceledException || ex is ObjectDisposedException)
+                {
+                    return;
+                }
+
+                try
+                {
+                    // Drop all the other waiting instances
+                    _semaphoreCTS.Cancel();
+                    _semaphoreCTS.Dispose();
+                    _semaphoreCTS = new CancellationTokenSource();
+
+                    IsLoadingItems = true;
+                    IsFolderEmptyTextDisplayed = false;
+                    _filesAndFolders.Clear();
+                    Stopwatch stopwatch = new Stopwatch();
+                    stopwatch.Start();
+                    App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
+
+                    //AssociatedInstance.NavigationToolbar.CanGoBack = AssociatedInstance.ContentFrame.CanGoBack;
+                    //AssociatedInstance.NavigationToolbar.CanGoForward = AssociatedInstance.ContentFrame.CanGoForward;
+
+                    if (path.StartsWith(AppSettings.RecycleBinPath))
+                    {
+                        // Recycle bin is special as files are enumerated by the fulltrust process
+                        await EnumerateItemsFromSpecialFolderAsync(path);
+                    }
+                    else
+                    {
+                        if (await EnumerateItemsFromStandardFolderAsync(path))
+                        {
+                            WatchForDirectoryChanges(path);
+                        }
+                    }
+
+                    IsFolderEmptyTextDisplayed = FilesAndFolders.Count == 0;
+                    if (_addFilesCTS.IsCancellationRequested)
+                    {
+                        _addFilesCTS.Dispose();
+                        _addFilesCTS = new CancellationTokenSource();
+                        IsLoadingItems = false;
+                        return;
+                    }
+
+                    OrderFiles();
+                    stopwatch.Stop();
+                    Debug.WriteLine($"Loading of items in {WorkingDirectory} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
+                    //AssociatedInstance.NavigationToolbar.CanRefresh = true;
+                    App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
+                    IsLoadingItems = false;
+                }
+                finally
+                {
+                    semaphoreSlim.Release();
+                }
+
+                UpdateDirectoryInfo();
+            }
         }
 
         public void CloseWatcher()

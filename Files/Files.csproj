@@ -319,6 +319,17 @@
     <Compile Include="View Models\Properties\FileProperties.cs" />
     <Compile Include="View Models\Properties\FolderProperties.cs" />
     <Compile Include="View Models\Properties\PropertiesTab.cs" />
+    <Compile Include="Views\ColumnViewShellPage.xaml.cs">
+      <DependentUpon>ColumnViewShellPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FolderInfo.cs" />
+    <Compile Include="Views\LayoutModes\BlankPage1.xaml.cs">
+      <DependentUpon>BlankPage1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LayoutModes\ColumnViewBase.xaml.cs">
+      <DependentUpon>ColumnViewBase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\ColumnViewNavParams.cs" />
     <Compile Include="Views\LayoutModes\GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
@@ -597,6 +608,18 @@
     <Page Include="UserControls\Widgets\RecentFiles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ColumnViewShellPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LayoutModes\BlankPage1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LayoutModes\ColumnViewBase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\LayoutModes\GenericFileBrowser.xaml">
       <SubType>Designer</SubType>

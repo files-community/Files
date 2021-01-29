@@ -249,36 +249,36 @@ namespace Files
         {
             base.OnNavigatedTo(eventArgs);
             // Add item jumping handler
-            AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
-            Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
-            var parameters = (NavigationArguments)eventArgs.Parameter;
-            ParentShellPageInstance = parameters.AssociatedTabInstance;
-            ParentShellPageInstance.NavigationToolbar.CanRefresh = true;
-            IsItemSelected = false;
-            ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
-            await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(parameters.NavPathParam);
+                AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
+                Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
+                var parameters = (NavigationArguments)eventArgs.Parameter;
+                ParentShellPageInstance = parameters.AssociatedTabInstance;
+                ParentShellPageInstance.NavigationToolbar.CanRefresh = true;
+                IsItemSelected = false;
+                ParentShellPageInstance.FilesystemViewModel.IsFolderEmptyTextDisplayed = false;
+                await ParentShellPageInstance.FilesystemViewModel.SetWorkingDirectoryAsync(parameters.NavPathParam);
 
-            // pathRoot will be empty on recycle bin path
-            var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
-            string pathRoot = Path.GetPathRoot(workingDir);
-            if (string.IsNullOrEmpty(pathRoot) || workingDir == pathRoot)
-            {
-                ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
-            }
-            else
-            {
-                ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = true;
-            }
+                // pathRoot will be empty on recycle bin path
+                var workingDir = ParentShellPageInstance.FilesystemViewModel.WorkingDirectory;
+                string pathRoot = Path.GetPathRoot(workingDir);
+                if (string.IsNullOrEmpty(pathRoot) || workingDir == pathRoot)
+                {
+                    ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = false;
+                }
+                else
+                {
+                    ParentShellPageInstance.NavigationToolbar.CanNavigateToParent = true;
+                }
 
-            ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
-            ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
-            ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeRecycleBin = workingDir.StartsWith(App.AppSettings.RecycleBinPath);
+                ParentShellPageInstance.InstanceViewModel.IsPageTypeMtpDevice = workingDir.StartsWith("\\\\?\\");
 
-            MainPage.MultitaskingControl?.UpdateSelectedTab(new DirectoryInfo(workingDir).Name, workingDir);
-            ParentShellPageInstance.FilesystemViewModel.RefreshItems();
+                MainPage.MultitaskingControl?.UpdateSelectedTab(new DirectoryInfo(workingDir).Name, workingDir);
+                ParentShellPageInstance.FilesystemViewModel.RefreshItems();
 
-            ParentShellPageInstance.Clipboard_ContentChanged(null, null);
-            ParentShellPageInstance.NavigationToolbar.PathControlDisplayText = parameters.NavPathParam;
+                ParentShellPageInstance.Clipboard_ContentChanged(null, null);
+                ParentShellPageInstance.NavigationToolbar.PathControlDisplayText = parameters.NavPathParam;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

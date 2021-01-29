@@ -690,6 +690,7 @@ namespace Files.Interacts
 
         public async Task OpenPropertiesWindowAsync(object item)
         {
+
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 CoreApplicationView newWindow = CoreApplication.CreateNewView();

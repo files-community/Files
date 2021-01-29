@@ -1,25 +1,47 @@
-﻿using Files.Filesystem;
+﻿using ByteSizeLib;
+using Files.Enums;
+using Files.Filesystem;
+using Files.Filesystem.Cloud;
+using Files.Helpers;
 using Files.UserControls.Selection;
+using Files.Views;
+using Files.Views.Pages;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.AppService;
+using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.Storage.FileProperties;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
 using Interaction = Files.Interacts.Interaction;
+
+// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Files
 {
-    public sealed partial class GridViewBrowser : BaseLayout
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class ColumnViewBase : BaseLayout
     {
         public string oldItemName;
-
-        public GridViewBrowser()
+        public ColumnViewBase()
         {
             this.InitializeComponent();
             base.BaseLayoutContextFlyout = this.BaseLayoutContextFlyout;
@@ -31,7 +53,6 @@ namespace Files
 
             SetItemTemplate(); // Set ItemTemplate
         }
-
         private async void SelectionRectangle_SelectionEnded(object sender, EventArgs e)
         {
             await Task.Delay(200);
@@ -403,6 +424,8 @@ namespace Files
         }
 
         private uint _iconSize = UpdateThumbnailSize();
+        private ItemViewModel CurrentViewModel;
+        private Interaction InteractionOperations;
 
         private static uint UpdateThumbnailSize()
         {
@@ -453,22 +476,12 @@ namespace Files
             if (AppSettings.OpenItemsWithOneclick)
             {
                 await Task.Delay(200); // The delay gives time for the item to be selected
-                ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
+                //ParentShellPageInstance.InteractionOperations.OpenItem_Click(null, null);
             }
         }
 
         private void FileListGridItem_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
-        }
-
-        private void RightClickContextMenu_Opening(object sender, object e)
-        {
-
-        }
-
-        private void RightClickItemContextMenu_Opening(object sender, object e)
-        {
-
         }
     }
 }

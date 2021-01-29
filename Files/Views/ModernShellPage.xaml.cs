@@ -1171,6 +1171,14 @@ namespace Files.Views.Pages
     public class NavigationArguments
     {
         public string NavPathParam { get; set; } = null;
+
+        //
+        // Summary:
+        //     For ColumnView only
+        //
+        // Returns:
+        //     A value that represents the Uniform Resource Identifier (URI).
+        public int Bladenumber { get; set; }
         public IShellPage AssociatedTabInstance { get; set; }
     }
 }

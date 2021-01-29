@@ -38,7 +38,14 @@ namespace Files.Helpers
             try
             {
                 await AddFolder(path);
-                await instance?.SaveAsync();
+                try 
+                { 
+                    await instance?.SaveAsync(); 
+                }
+                catch
+                {
+
+                }
             }
             catch { }
         }
