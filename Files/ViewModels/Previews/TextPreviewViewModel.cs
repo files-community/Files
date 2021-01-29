@@ -37,7 +37,7 @@ namespace Files.ViewModels.Previews
 
         public static async Task<TextPreview> TryLoadAsTextAsync(ListedItem item)
         {
-            if (ExcludedExtensions.Contains(item.FileExtension.ToLower()))
+            if (ExcludedExtensions.Contains(item.FileExtension.ToLower()) || item.FileSizeBytes > Constants.PreviewPane.TryLoadAsTextSizeLimit)
             {
                 return null;
             }

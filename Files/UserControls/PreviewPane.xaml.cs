@@ -198,12 +198,18 @@ namespace Files.UserControls
             try
             {
                 var result = await extension.Invoke(new ValueSet() { { "token", sharingToken } });
-                var preview = result["preview"];
-                PreviewGrid.Children.Add(XamlReader.Load(preview as string) as UIElement);
 
-                var details = result["details"] as string;
-                var detailsList = JsonConvert.DeserializeObject<List<FileProperty>>(details);
-                detailsList.ForEach(i => SelectedItem.FileDetails.Add(i));
+                object preview;
+                if(result.TryGetValue("preview", out preview))
+                {
+                    PreviewGrid.Children.Add(XamlReader.Load(preview as string) as UIElement);
+                }
+
+                object details;
+                if(result.TryGetValue("details", out details)) {
+                    var detailsList = JsonConvert.DeserializeObject<List<FileProperty>>(details as string);
+                    detailsList.ForEach(i => SelectedItem.FileDetails.Add(i));
+                }
             }
             catch (Exception e)
             {
