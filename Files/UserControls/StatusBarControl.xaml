@@ -46,7 +46,8 @@
             x:Uid="StatusCenterTeachingTip"
             Title="Status Center"
             Subtitle="Check the status of file operations here"
-            Target="{x:Bind StatusCenter}" />
+            Visibility="Collapsed"
+            Target="{x:Bind StatusCenter}"/>
 
         <StackPanel
             Grid.Column="1"
@@ -245,13 +246,14 @@
                     ToolTipService.ToolTip="Ongoing Tasks"
                     Visibility="Visible">
                     <Button.Flyout>
-                        <Flyout>
+                        <Flyout x:Uid="StatusCenterFlyout" AutomationProperties.Name="Ongoing tasks flyout">
                             <local:StatusCenter
                                 x:Name="OngoingTasksControl"
                                 Width="300"
                                 MinHeight="300"
                                 MaxHeight="400"
-                                x:FieldModifier="public" />
+                                x:FieldModifier="public"
+                                IsTabStop="True"/>
                         </Flyout>
                     </Button.Flyout>
                 </Button>

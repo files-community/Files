@@ -2185,10 +2185,6 @@
           <source>Item Name</source>
           <target state="new">Item Name</target>
         </trans-unit>
-        <trans-unit id="SettingsEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
-          <source>Enable adaptive preview pane</source>
-          <target state="new">Enable adaptive preview pane</target>
-        </trans-unit>
         <trans-unit id="SidebarCloudDrives" translate="yes" xml:space="preserve">
           <source>Cloud Drives</source>
           <target state="new">Cloud Drives</target>
@@ -2208,6 +2204,70 @@
         <trans-unit id="BaseLayoutContextFlyoutUnpinDirectoryFromSidebar.Text" translate="yes" xml:space="preserve">
           <source>Unpin directory from sidebar</source>
           <target state="new">Unpin directory from sidebar</target>
+        </trans-unit>
+        <trans-unit id="DrivesWidgetContextFlyoutPropertiesMenuItem.Text" translate="yes" xml:space="preserve">
+          <source>Properties</source>
+          <target state="new">Properties</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneFileDetails.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>File details</source>
+          <target state="new">File details</target>
+        </trans-unit>
+        <trans-unit id="PreviewPaneFilePreview.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>File preview</source>
+          <target state="new">File preview</target>
+        </trans-unit>
+        <trans-unit id="SelectedFilePreviewPane.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Selected file preview pane</source>
+          <target state="new">Selected file preview pane</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutDocumentation.Text" translate="yes" xml:space="preserve">
+          <source>Documentation</source>
+          <target state="new">Documentation</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutDocumentationDescription.Text" translate="yes" xml:space="preserve">
+          <source>Find tips &amp; tricks and learn more about Files</source>
+          <target state="new">Find tips &amp; tricks and learn more about Files</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutDocumentationListViewItem.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Visit the Files documentation website</source>
+          <target state="new">Visit the Files documentation website</target>
+        </trans-unit>
+        <trans-unit id="StatusCenterFlyout.AutomationProperties.Name" translate="yes" xml:space="preserve">
+          <source>Ongoing tasks flyout</source>
+          <target state="new">Ongoing tasks flyout</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Online" translate="yes" xml:space="preserve">
+          <source>Available when online</source>
+          <target state="new">Available when online</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Offline" translate="yes" xml:space="preserve">
+          <source>Available offline</source>
+          <target state="new">Available offline</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_PartialOffline" translate="yes" xml:space="preserve">
+          <source>Partially available offline</source>
+          <target state="new">Partially available offline</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Sync" translate="yes" xml:space="preserve">
+          <source>Syncing</source>
+          <target state="new">Syncing</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Excluded" translate="yes" xml:space="preserve">
+          <source>Excluded from sync</source>
+          <target state="new">Excluded from sync</target>
+        </trans-unit>
+        <trans-unit id="ItemSizeNotCalcluated" translate="yes" xml:space="preserve">
+          <source>Not calculated</source>
+          <target state="new">Not calculated</target>
+        </trans-unit>
+        <trans-unit id="CloudDriveSyncStatus_Unknown" translate="yes" xml:space="preserve">
+          <source>Unknown</source>
+          <target state="new">Unknown</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesEnableAdaptivePreviewPane.Header" translate="yes" xml:space="preserve">
+          <source>Enable adaptive preview pane</source>
+          <target state="new">Enable adaptive preview pane</target>
         </trans-unit>
       </group>
     </body>

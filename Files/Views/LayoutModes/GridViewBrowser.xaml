@@ -939,7 +939,8 @@
             x:Uid="FileNameTeachingTip"
             CloseButtonContent="OK"
             PreferredPlacement="Auto"
-            Subtitle="The file name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |" />
+            Subtitle="The file name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |" 
+            Visibility="Collapsed"/>
 
         <GridView
             x:Name="FileList"
