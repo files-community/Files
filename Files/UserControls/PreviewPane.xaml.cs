@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -45,12 +46,13 @@ namespace Files.UserControls
                 }
 
                 PreviewGrid.Children.Clear();
+                previewPaneLoadingCancellationTokenSource?.Cancel();
 
                 if (SelectedItems.Count == 1)
                 {
                     SelectedItem = SelectedItems[0];
-                    SelectedItems[0].FileDetails.Clear();
-                    LoadPreviewControlAsync(SelectedItems[0]);
+                    previewPaneLoadingCancellationTokenSource = new CancellationTokenSource();
+                    LoadPreviewControlAsync(SelectedItems[0], previewPaneLoadingCancellationTokenSource);
                     return;
                 }
 
@@ -71,6 +73,8 @@ namespace Files.UserControls
             get => (ListedItem)GetValue(SelectedItemProperty);
             set => SetValue(SelectedItemProperty, value);
         }
+
+        private CancellationTokenSource previewPaneLoadingCancellationTokenSource;
 
         public static DependencyProperty IsHorizontalProperty { get; } =
             DependencyProperty.Register("IsHorizontal", typeof(bool), typeof(PreviewPane), new PropertyMetadata(null));
@@ -97,7 +101,7 @@ namespace Files.UserControls
             set => SetValue(EdgeTransitionLocationProperty, value);
         }
 
-        private async void LoadPreviewControlAsync(ListedItem item)
+        private async void LoadPreviewControlAsync(ListedItem item, CancellationTokenSource cancellationTokenSource)
         {
             PreviewNotAvaliableText.Visibility = Visibility.Collapsed;
             PreviewPaneDetailsNotAvailableText.Visibility = Visibility.Collapsed;
@@ -133,8 +137,9 @@ namespace Files.UserControls
                 return;
             }
 
-            // Exit if the selection has changed since the function was run
-            if (SelectedItem != item)
+            // Exit if the loading has been cancelled since the function was run
+            // prevents duplicate loading
+            if (cancellationTokenSource.IsCancellationRequested)
             {
                 return;
             }
@@ -208,8 +213,7 @@ namespace Files.UserControls
                 object details;
                 if(result.TryGetValue("details", out details)) {
                     var detailsList = JsonConvert.DeserializeObject<List<FileProperty>>(details as string);
-                    detailsList.ForEach(i => SelectedItem.FileDetails.Add(i));
-                    BasePreviewModel.LoadDetailsOnly(item);
+                    BasePreviewModel.LoadDetailsOnly(item, detailsList);
                 }
             }
             catch (Exception e)

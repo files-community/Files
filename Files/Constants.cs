@@ -63,9 +63,15 @@ namespace Files
 
         public static class ResourceFilePaths
         {
-            public const string DetailsPagePropertiesJson = @"ms-appx:///Resources/PropertiesInformation.json";
+            /// <summary>
+            /// The path to the json file containing a list of file properties to be loaded in the properties window details page.
+            /// </summary>
+            public const string DetailsPagePropertiesJsonPath = @"ms-appx:///Resources/PropertiesInformation.json";
 
-            public const string PreviewPaneDetailsPropertiesJson = @"ms-appx:///Resources/PreviewPanePropertiesInformation.json";
+            /// <summary>
+            /// The path to the json file containing a list of file properties to be loaded in the preview pane.
+            /// </summary>
+            public const string PreviewPaneDetailsPropertiesJsonPath = @"ms-appx:///Resources/PreviewPanePropertiesInformation.json";
         }
     }
 }

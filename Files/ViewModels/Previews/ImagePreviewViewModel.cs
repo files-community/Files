@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -28,7 +29,7 @@ namespace Files.ViewModels.Previews
             set => SetProperty(ref imageSource, value);
         }
 
-        public override async Task LoadPreviewAndDetails()
+        public override async Task<List<FileProperty>> LoadPreviewAndDetails()
         {
             try
             {
@@ -52,6 +53,8 @@ namespace Files.ViewModels.Previews
             {
                 Debug.WriteLine(e);
             }
+
+            return new List<FileProperty>();
         }
     }
 }

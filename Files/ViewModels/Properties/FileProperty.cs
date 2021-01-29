@@ -245,7 +245,7 @@ namespace Files.ViewModels.Properties
         /// <param name="file">The file whose properties you wish to obtain</param>
         /// <param name="path">The path to the json file of properties to be loaded</param>
         /// <returns>A list if FileProperties containing their values</returns>
-        public async static Task<List<FileProperty>> RetrieveAndInitializePropertiesAsync(StorageFile file, string path = Constants.ResourceFilePaths.DetailsPagePropertiesJson)
+        public async static Task<List<FileProperty>> RetrieveAndInitializePropertiesAsync(StorageFile file, string path = Constants.ResourceFilePaths.DetailsPagePropertiesJsonPath)
         {
             var propertiesJsonFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri(path));
             var list = JsonConvert.DeserializeObject<List<FileProperty>>(await FileIO.ReadTextAsync(propertiesJsonFile));

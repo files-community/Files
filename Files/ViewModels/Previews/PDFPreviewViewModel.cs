@@ -32,17 +32,20 @@ namespace Files.ViewModels.Previews
 
         public ObservableCollection<PageViewModel> Pages { get; set; } = new ObservableCollection<PageViewModel>();
 
-        public async override Task LoadPreviewAndDetails()
+        public async override Task<List<FileProperty>> LoadPreviewAndDetails()
         {
             var pdf = await PdfDocument.LoadFromFileAsync(Item.ItemFile);
+            var details = new List<FileProperty>();
 
             LoadPagesAsync(pdf);
             // Add the number of pages to the details
-            Item.FileDetails.Add(new FileProperty()
+            details.Add(new FileProperty()
             {
                 NameResource = "PropertyPageCount",
                 Value = pdf.PageCount,
             });
+
+            return details;
         }
 
 

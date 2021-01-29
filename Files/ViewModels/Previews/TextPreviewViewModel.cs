@@ -66,19 +66,21 @@ namespace Files.ViewModels.Previews
             }
         }
 
-        public async override Task LoadPreviewAndDetails()
+        public async override Task<List<FileProperty>> LoadPreviewAndDetails()
         {
+            var details = new List<FileProperty>();
+
             try
             {
                 var text = TextValue ?? await FileIO.ReadTextAsync(Item.ItemFile);
 
-                Item.FileDetails.Add(new FileProperty()
+                details.Add(new FileProperty()
                 {
                     NameResource = "PropertyLineCount",
                     Value = text.Split("\n").Length,
                 });
 
-                Item.FileDetails.Add(new FileProperty()
+                details.Add(new FileProperty()
                 {
                     NameResource = "PropertyWordCount",
                     Value = text.Split(" ").Length,
@@ -91,6 +93,8 @@ namespace Files.ViewModels.Previews
             {
                 Debug.WriteLine(e);
             }
+
+            return details;
         }
     }
 }

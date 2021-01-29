@@ -25,8 +25,9 @@ namespace Files.ViewModels.Previews
 
         public static List<string> Extensions => new List<List<string>>(languageExtensions.Values).SelectMany(i => i).Distinct().ToList();
 
-        public override async Task LoadPreviewAndDetails()
+        public override async Task<List<FileProperty>> LoadPreviewAndDetails()
         {
+            var details = new List<FileProperty>();
             try
             {
                 var text = await FileIO.ReadTextAsync(Item.ItemFile);
@@ -34,7 +35,7 @@ namespace Files.ViewModels.Previews
                 // Use the MarkDownTextBlock's built in code highlighting
                 TextValue = $"```{GetCodeLanguage(Item.FileExtension)}\n{displayText}\n```";
 
-                Item.FileDetails.Add(new FileProperty()
+                details.Add(new FileProperty()
                 {
                     NameResource = "PropertyLineCount",
                     Value = text.Split("\n").Length,
@@ -44,6 +45,7 @@ namespace Files.ViewModels.Previews
             {
                 Debug.WriteLine(e);
             }
+            return details;
         }
 
         private static Dictionary<string, List<string>> languageExtensions = new Dictionary<string, List<string>>()

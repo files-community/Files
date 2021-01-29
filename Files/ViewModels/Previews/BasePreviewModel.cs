@@ -2,6 +2,7 @@
 using Files.ViewModels.Properties;
 using Microsoft.Toolkit.Mvvm.ComponentModel;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -21,6 +22,8 @@ namespace Files.ViewModels.Previews
 
         public ListedItem Item { get; internal set; }
 
+        public List<FileProperty> DetailsFromPreview { get; set; }
+
         //public StorageFile ItemFile { get; internal set; }
 
         public CancellationTokenSource LoadCancelledTokenSource { get; } = new CancellationTokenSource();
@@ -30,9 +33,9 @@ namespace Files.ViewModels.Previews
             LoadCancelledTokenSource.Cancel();
         }
 
-        public virtual Task LoadPreviewAndDetails()
+        public virtual Task<List<FileProperty>> LoadPreviewAndDetails()
         {
-            return Task.CompletedTask;
+            return Task.FromResult(new List<FileProperty>());
         }
 
         private async void LoadSystemFileProperties()
@@ -44,12 +47,13 @@ namespace Files.ViewModels.Previews
 
             try
             {
-                var list = await FileProperty.RetrieveAndInitializePropertiesAsync(Item.ItemFile, Constants.ResourceFilePaths.PreviewPaneDetailsPropertiesJson);
+                var list = await FileProperty.RetrieveAndInitializePropertiesAsync(Item.ItemFile, Constants.ResourceFilePaths.PreviewPaneDetailsPropertiesJsonPath);
 
                 list.Find(x => x.ID == "address").Value = await FileProperties.GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
                                                                                                (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+                list.InsertRange(0, DetailsFromPreview ?? new List<FileProperty>());
 
-                list.Where(i => i.Value != null).ToList().ForEach(x => Item.FileDetails.Add(x));
+                Item.FileDetails = new System.Collections.ObjectModel.ObservableCollection<FileProperty>(list.Where(i => i.Value != null));
             }
             catch (Exception e)
             {
@@ -63,7 +67,7 @@ namespace Files.ViewModels.Previews
             try
             {
                 Item.ItemFile ??= await StorageFile.GetFileFromPathAsync(Item.ItemPath);
-                await LoadPreviewAndDetails();
+                DetailsFromPreview ??= await LoadPreviewAndDetails();
                 RaiseLoadedEvent();
                 LoadSystemFileProperties();
             }
@@ -83,9 +87,9 @@ namespace Files.ViewModels.Previews
             LoadedEvent?.Invoke(this, new EventArgs());
         }
 
-        public static void LoadDetailsOnly(ListedItem item)
+        public static void LoadDetailsOnly(ListedItem item, List<FileProperty> details = null)
         {
-            _ = new BasePreviewModel.DetailsOnlyPreviewModel(item);
+            _ = new BasePreviewModel.DetailsOnlyPreviewModel(item) { DetailsFromPreview = details };
         }
 
         internal class DetailsOnlyPreviewModel : BasePreviewModel

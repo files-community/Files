@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -27,7 +28,7 @@ namespace Files.ViewModels.Previews
             set => SetProperty(ref textValue, value);
         }
 
-        public async override Task LoadPreviewAndDetails()
+        public async override Task<List<FileProperty>> LoadPreviewAndDetails()
         {
             try
             {
@@ -37,6 +38,7 @@ namespace Files.ViewModels.Previews
             {
                 Debug.WriteLine(e);
             }
+            return new List<FileProperty>();
         }
     }
 }
