@@ -1620,6 +1620,8 @@ namespace Files.ViewModels
             const uint FILE_ACTION_RENAMED_OLD_NAME = 0x00000004;
             const uint FILE_ACTION_RENAMED_NEW_NAME = 0x00000005;
 
+            var sampler = new IntervalSampler(500);
+
             try
             {
                 while (!cancellationToken.IsCancellationRequested)
@@ -1651,7 +1653,17 @@ namespace Files.ViewModels
                         {
                             NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                         }
+
+                        if (sampler.CheckNow())
+                        {
+                            await OrderFilesAndFoldersAsync();
+                            await ApplyFilesAndFoldersChangesAsync();
+                        }
                     }
+
+                    await OrderFilesAndFoldersAsync();
+                    await ApplyFilesAndFoldersChangesAsync();
+                    await SaveCurrentListToCacheAsync(WorkingDirectory);
                 }
             }
             catch
@@ -1738,12 +1750,10 @@ namespace Files.ViewModels
             }
         }
 
-        private async Task AddFileOrFolderAsync(ListedItem item)
+        private Task AddFileOrFolderAsync(ListedItem item)
         {
             filesAndFolders.Add(item);
-            await OrderFilesAndFoldersAsync();
-            await ApplyFilesAndFoldersChangesAsync();
-            await SaveCurrentListToCacheAsync(WorkingDirectory);
+            return Task.CompletedTask;
         }
 
         private async Task AddFileOrFolderAsync(string fileOrFolderPath, string dateReturnFormat)
@@ -1775,9 +1785,6 @@ namespace Files.ViewModels
             if (listedItem != null)
             {
                 filesAndFolders.Add(listedItem);
-                await OrderFilesAndFoldersAsync();
-                await ApplyFilesAndFoldersChangesAsync();
-                await SaveCurrentListToCacheAsync(WorkingDirectory);
             }
         }
 
@@ -1856,12 +1863,10 @@ namespace Files.ViewModels
         public async Task RemoveFileOrFolderAsync(ListedItem item)
         {
             filesAndFolders.Remove(item);
-            await ApplyFilesAndFoldersChangesAsync();
             await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
             {
                 App.JumpList.RemoveFolder(item.ItemPath);
             });
-            await SaveCurrentListToCacheAsync(WorkingDirectory);
         }
 
         public async Task RemoveFileOrFolderAsync(string path)
