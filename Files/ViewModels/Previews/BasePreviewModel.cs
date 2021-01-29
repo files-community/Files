@@ -105,7 +105,12 @@ namespace Files.ViewModels.Previews
             LoadedEvent?.Invoke(this, new EventArgs());
         }
 
-        public class DetailsOnlyPreviewModel : BasePreviewModel
+        public static void LoadDetailsOnly(ListedItem item)
+        {
+            _ = new BasePreviewModel.DetailsOnlyPreviewModel(item);
+        }
+
+        internal class DetailsOnlyPreviewModel : BasePreviewModel
         {
             public DetailsOnlyPreviewModel(ListedItem item) : base(item)
             {

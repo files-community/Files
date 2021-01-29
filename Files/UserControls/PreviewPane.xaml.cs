@@ -139,7 +139,7 @@ namespace Files.UserControls
                 return;
             }
 
-            var detailsViewModel = new BasePreviewModel.DetailsOnlyPreviewModel(item); 
+            BasePreviewModel.LoadDetailsOnly(item);
 
             PreviewNotAvaliableText.Visibility = Visibility.Visible;
         }
@@ -209,6 +209,7 @@ namespace Files.UserControls
                 if(result.TryGetValue("details", out details)) {
                     var detailsList = JsonConvert.DeserializeObject<List<FileProperty>>(details as string);
                     detailsList.ForEach(i => SelectedItem.FileDetails.Add(i));
+                    BasePreviewModel.LoadDetailsOnly(item);
                 }
             }
             catch (Exception e)
