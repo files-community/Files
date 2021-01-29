@@ -248,7 +248,7 @@ namespace Files.Filesystem
             }
         }
 
-        private ObservableCollection<FileProperty> fileDetails = new ObservableCollection<FileProperty>();
+        private ObservableCollection<FileProperty> fileDetails;
 
         public ObservableCollection<FileProperty> FileDetails
         {

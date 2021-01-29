@@ -51,6 +51,7 @@ namespace Files.UserControls
                 if (SelectedItems.Count == 1)
                 {
                     SelectedItem = SelectedItems[0];
+                    SelectedItem.FileDetails.Clear();
                     previewPaneLoadingCancellationTokenSource = new CancellationTokenSource();
                     LoadPreviewControlAsync(SelectedItems[0], previewPaneLoadingCancellationTokenSource);
                     return;
@@ -204,14 +205,13 @@ namespace Files.UserControls
             {
                 var result = await extension.Invoke(new ValueSet() { { "token", sharingToken } });
 
-                object preview;
-                if(result.TryGetValue("preview", out preview))
+                if (result.TryGetValue("preview", out object preview))
                 {
                     PreviewGrid.Children.Add(XamlReader.Load(preview as string) as UIElement);
                 }
 
-                object details;
-                if(result.TryGetValue("details", out details)) {
+                if (result.TryGetValue("details", out object details))
+                {
                     var detailsList = JsonConvert.DeserializeObject<List<FileProperty>>(details as string);
                     BasePreviewModel.LoadDetailsOnly(item, detailsList);
                 }

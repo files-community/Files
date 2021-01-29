@@ -24,8 +24,6 @@ namespace Files.ViewModels.Previews
 
         public List<FileProperty> DetailsFromPreview { get; set; }
 
-        //public StorageFile ItemFile { get; internal set; }
-
         public CancellationTokenSource LoadCancelledTokenSource { get; } = new CancellationTokenSource();
 
         public virtual void PreviewControlBase_Unloaded(object sender, RoutedEventArgs e)
