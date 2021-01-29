@@ -1,4 +1,6 @@
-﻿namespace Files
+﻿using System;
+
+namespace Files
 {
     public static class Constants
     {
@@ -57,6 +59,13 @@
             /// The maximum file size, in bytes, that will attempted to be loaded as text if the extension is unkown.
             /// </summary>
             public const long TryLoadAsTextSizeLimit = 1000000;
+        }
+
+        public static class ResourceFilePaths
+        {
+            public const string DetailsPagePropertiesJson = @"ms-appx:///Resources/PropertiesInformation.json";
+
+            public const string PreviewPaneDetailsPropertiesJson = @"ms-appx:///Resources/PreviewPanePropertiesInformation.json";
         }
     }
 }

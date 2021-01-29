@@ -44,34 +44,12 @@ namespace Files.ViewModels.Previews
 
             try
             {
-                var list = await FileProperty.RetrieveAndInitializePropertiesAsync(Item.ItemFile);
+                var list = await FileProperty.RetrieveAndInitializePropertiesAsync(Item.ItemFile, Constants.ResourceFilePaths.PreviewPaneDetailsPropertiesJson);
 
                 list.Find(x => x.ID == "address").Value = await FileProperties.GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
                                                                                                (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
 
                 list.Where(i => i.Value != null).ToList().ForEach(x => Item.FileDetails.Add(x));
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e);
-            }
-        }
-
-        public static async void GetSystemFileProperties(ListedItem item)
-        {
-            if (item.IsShortcutItem)
-            {
-                return;
-            }
-
-            try
-            {
-                var list = await FileProperty.RetrieveAndInitializePropertiesAsync(item.ItemFile);
-
-                list.Find(x => x.ID == "address").Value = await FileProperties.GetAddressFromCoordinatesAsync((double?)list.Find(x => x.Property == "System.GPS.LatitudeDecimal").Value,
-                                                                                               (double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
-
-                list.Where(i => i.Value != null).ToList().ForEach(x => item.FileDetails.Add(x));
             }
             catch (Exception e)
             {
