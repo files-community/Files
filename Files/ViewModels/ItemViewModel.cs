@@ -1652,6 +1652,9 @@ namespace Files.ViewModels
                             NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                         }
                     }
+
+                    await OrderFilesAndFoldersAsync();
+                    await ApplyFilesAndFoldersChangesAsync();
                 }
             }
             catch
@@ -1741,8 +1744,6 @@ namespace Files.ViewModels
         private async Task AddFileOrFolderAsync(ListedItem item)
         {
             filesAndFolders.Add(item);
-            await OrderFilesAndFoldersAsync();
-            await ApplyFilesAndFoldersChangesAsync();
             await SaveCurrentListToCacheAsync(WorkingDirectory);
         }
 
@@ -1775,8 +1776,6 @@ namespace Files.ViewModels
             if (listedItem != null)
             {
                 filesAndFolders.Add(listedItem);
-                await OrderFilesAndFoldersAsync();
-                await ApplyFilesAndFoldersChangesAsync();
                 await SaveCurrentListToCacheAsync(WorkingDirectory);
             }
         }
@@ -1856,7 +1855,6 @@ namespace Files.ViewModels
         public async Task RemoveFileOrFolderAsync(ListedItem item)
         {
             filesAndFolders.Remove(item);
-            await ApplyFilesAndFoldersChangesAsync();
             await CoreApplication.MainView.ExecuteOnUIThreadAsync(() =>
             {
                 App.JumpList.RemoveFolder(item.ItemPath);
