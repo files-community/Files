@@ -3,6 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls
@@ -14,7 +15,18 @@ namespace Files.UserControls
         public ICommand SelectAllInvokedCommand { get; set; }
         public ICommand InvertSelectionInvokedCommand { get; set; }
         public ICommand ClearSelectionInvokedCommand { get; set; }
-        public ICommand ToggleMultiSelectCommand { get; set; }
+        public ICommand MultiselectChangedCommand { get; set; }
+        public static DependencyProperty MultiselectEnabledProperty => DependencyProperty.Register(nameof(MultiselectEnabled), typeof(bool), typeof(StatusBarControl), new PropertyMetadata(null));
+
+        public bool MultiselectEnabled
+        {
+            get => (bool)GetValue(MultiselectEnabledProperty);
+            set
+            {
+                SetValue(MultiselectEnabledProperty, value);
+                MultiselectChangedCommand?.Execute(value);
+            }
+        }
 
         private DirectoryPropertiesViewModel directoryPropertiesViewModel;
 

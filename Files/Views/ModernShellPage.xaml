@@ -310,9 +310,9 @@
                     FolderSettings="{x:Bind InstanceViewModel.FolderSettings, Mode=OneWay}"
                     InvertSelectionInvokedCommand="{x:Bind InteractionOperations.InvertContentPageSelction, Mode=OneWay}"
                     SelectAllInvokedCommand="{x:Bind InteractionOperations.SelectAllContentPageItems, Mode=OneWay}"
-                    ToggleMultiSelectCommand="{x:Bind InteractionOperations.ToggleContentPageMultiSelect, Mode=OneWay}"
                     SelectedItemsPropertiesViewModel="{x:Bind ContentPage.SelectedItemsPropertiesViewModel, Mode=OneWay}"
-                    ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}" />
+                    ShowStatusCenter="{x:Bind IsPageSecondaryPane, Mode=OneWay}" 
+                    MultiselectChangedCommand="{x:Bind InteractionOperations.SetPageMultiSelectEnabledCommand, Mode=OneWay}"/>
             </Grid>
         </Custom:DropShadowPanel>
 

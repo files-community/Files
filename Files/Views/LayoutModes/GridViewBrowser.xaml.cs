@@ -440,8 +440,8 @@ namespace Files.Views.LayoutModes
             var ctrlPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var shiftPressed = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
 
-            // Skip code if the control or shift key is pressed
-            if (ctrlPressed || shiftPressed)
+            // Skip code if the control or shift key is pressed or if the user is using multiselect
+            if (ctrlPressed || shiftPressed || MultiselectEnabled)
             {
                 return;
             }
@@ -474,15 +474,18 @@ namespace Files.Views.LayoutModes
             }
         }
 
-        private bool multiSelectEnabled;
-        public override bool MultiSelectEnabled
-        {
-            get => multiSelectEnabled;
+        //public override void MultiSelectEnabledCallback(DependencyObject sender, DependencyProperty dp)
+        //{
+        //    FileList.SelectionMode = MultiselectEnabled ? ListViewSelectionMode.Multiple : ListViewSelectionMode.Extended;
+        //}
+        private bool multiselectEnabled;
+        public override bool MultiselectEnabled {
+            get => multiselectEnabled;
             set
             {
-                multiSelectEnabled = value;
+                multiselectEnabled = value;
                 FileList.SelectionMode = value ? ListViewSelectionMode.Multiple : ListViewSelectionMode.Extended;
-            } 
+            }
         }
     }
 }

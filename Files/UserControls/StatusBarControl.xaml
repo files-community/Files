@@ -70,10 +70,10 @@
                 ToolTipService.ToolTip="Selection options">
                 <Button.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem
+                        <ToggleMenuFlyoutItem
                             x:Name="MultiSelectMFI"
                             Text="Multi select"
-                            Command="{x:Bind ToggleMultiSelectCommand}">
+                            IsChecked="{x:Bind MultiselectEnabled, Mode=TwoWay}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEAD3;" />
                             </MenuFlyoutItem.Icon>
@@ -83,7 +83,7 @@
                                     IsEnabled="False"
                                     Modifiers="Control" />
                             </MenuFlyoutItem.KeyboardAccelerators>
-                        </MenuFlyoutItem>
+                        </ToggleMenuFlyoutItem>
                         <MenuFlyoutItem
                             x:Name="SelectAllMFI"
                             x:Uid="StatusBarControlSelectAll"
