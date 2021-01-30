@@ -104,6 +104,7 @@
     <ClInclude Include="AppServiceManager.h" />
     <ClInclude Include="base64.h" />
     <ClInclude Include="MessageHandler.h" />
+    <ClInclude Include="MsgHandler_BitLocker.h" />
     <ClInclude Include="MsgHandler_FileOperations.h" />
     <ClInclude Include="MsgHandler_RecycleBin.h" />
     <ClInclude Include="NativeMethods.h" />
@@ -114,6 +115,7 @@
     <ClCompile Include="AppServiceManager.cpp" />
     <ClCompile Include="base64.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MsgHandler_BitLocker.cpp" />
     <ClCompile Include="MsgHandler_FileOperations.cpp" />
     <ClCompile Include="MsgHandler_RecycleBin.cpp" />
     <ClCompile Include="NativeMethods.cpp" />
