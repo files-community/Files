@@ -51,14 +51,14 @@ namespace Files.UserControls
                 if (SelectedItems.Count == 1)
                 {
                     SelectedItem = SelectedItems[0];
-                    SelectedItem.FileDetails.Clear();
+                    SelectedItem.FileDetails?.Clear();
                     previewPaneLoadingCancellationTokenSource = new CancellationTokenSource();
                     LoadPreviewControlAsync(SelectedItems[0], previewPaneLoadingCancellationTokenSource);
                     return;
                 }
 
                 // Making the item null doesn't clear the ListView, so clear it
-                SelectedItem?.FileDetails.Clear();
+                SelectedItem?.FileDetails?.Clear();
                 SelectedItem = null;
 
                 PreviewNotAvaliableText.Visibility = Visibility.Visible;
