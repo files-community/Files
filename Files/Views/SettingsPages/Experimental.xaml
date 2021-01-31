@@ -48,7 +48,7 @@
                 
                 <ToggleSwitch
                     x:Uid="SettingsShowMultiselectOption"
-                    Header="Show multiselect in selection options menu"
+                    Header="Enable multiselect options"
                     HeaderTemplate="{StaticResource CustomHeaderStyle}"
                     IsOn="{Binding ShowMultiselectOption, Mode=TwoWay}" />
             </StackPanel>

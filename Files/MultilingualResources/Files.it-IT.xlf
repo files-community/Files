@@ -2272,8 +2272,8 @@
           <target state="new">Multiselect</target>
         </trans-unit>
         <trans-unit id="SettingsShowMultiselectOption.Header" translate="yes" xml:space="preserve">
-          <source>Show multiselect in selection options menu</source>
-          <target state="new">Show multiselect in selection options menu</target>
+          <source>Enable multiselect options</source>
+          <target state="new">Enable multiselect options</target>
         </trans-unit>
       </group>
     </body>

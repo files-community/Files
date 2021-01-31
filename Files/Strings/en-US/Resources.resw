@@ -1816,6 +1816,6 @@
     <value>Multiselect</value>
   </data>
   <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
-    <value>Show multiselect in selection options menu</value>
+    <value>Enable multiselect options</value>
   </data>
 </root>
