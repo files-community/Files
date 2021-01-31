@@ -107,8 +107,8 @@ namespace Files.UserControls
             PreviewNotAvaliableText.Visibility = Visibility.Collapsed;
             PreviewPaneDetailsNotAvailableText.Visibility = Visibility.Collapsed;
 
-            // Folders not supported yet
-            if (item.FileExtension == null)
+            // Folders and shortcuts are not supported yet
+            if (item.FileExtension == null || item.IsShortcutItem)
             {
                 PreviewNotAvaliableText.Visibility = Visibility.Visible;
                 PreviewPaneDetailsNotAvailableText.Visibility = Visibility.Visible;
