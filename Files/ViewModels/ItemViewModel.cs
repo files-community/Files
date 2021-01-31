@@ -967,10 +967,10 @@ namespace Files.ViewModels
                                     await EnumerateItemsFromStandardFolderAsync(path, storageFolder, sourcePageType, addFilesCTS.Token, null, cacheOnly: true);
                                 }, maxDegreeOfParallelism: parallelLimit);
                             }
-                            catch (Exception e)
+                            catch (Exception ex)
                             {
                                 // ignore exception. This is fine, it's only a caching that can fail
-                                Debug.WriteLine(e.ToString());
+                                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                             }
                         }).Forget();
                     }
