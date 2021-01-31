@@ -132,7 +132,7 @@
         </trans-unit>
         <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
-          <target state="translated">Kijelölés megszűntetése</target>
+          <target state="translated">Kijelölés megszüntetése</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutDetails.Text" translate="yes" xml:space="preserve">
           <source>Details View</source>
@@ -152,7 +152,7 @@
         </trans-unit>
         <trans-unit id="RecentItemClearAll.Text" translate="yes" xml:space="preserve">
           <source>Clear all items</source>
-          <target state="translated">Kijelölés megszűntetése</target>
+          <target state="translated">Minden elem eltávolítása</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarVisiblePath.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter a path</source>
