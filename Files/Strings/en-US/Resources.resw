@@ -1812,4 +1812,10 @@
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Unknown</value>
   </data>
+  <data name="StatusBarControlMultiselect.Text" xml:space="preserve">
+    <value>Multiselect</value>
+  </data>
+  <data name="SettingsShowMultiselectOption.Header" xml:space="preserve">
+    <value>Show multiselect in selection options menu</value>
+  </data>
 </root>

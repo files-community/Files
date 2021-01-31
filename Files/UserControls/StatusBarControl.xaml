@@ -71,19 +71,14 @@
                 <Button.Flyout>
                     <MenuFlyout>
                         <ToggleMenuFlyoutItem
-                            x:Name="MultiSelectMFI"
-                            Text="Multi select"
+                            x:Name="MultiselectMFI"
+                            x:Uid="StatusBarControlMultiselect"
+                            Text="Multiselect"
                             IsChecked="{x:Bind AppSettings.MultiselectEnabled, Mode=TwoWay}"
                             Visibility="{x:Bind AppSettings.ShowMultiselectOption, Mode=OneWay}">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEAD3;" />
                             </MenuFlyoutItem.Icon>
-                            <MenuFlyoutItem.KeyboardAccelerators>
-                                <KeyboardAccelerator
-                                    Key="M"
-                                    IsEnabled="False"
-                                    Modifiers="Control" />
-                            </MenuFlyoutItem.KeyboardAccelerators>
                         </ToggleMenuFlyoutItem>
                         <MenuFlyoutItem
                             x:Name="SelectAllMFI"
