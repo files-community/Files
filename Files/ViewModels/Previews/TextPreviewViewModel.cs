@@ -4,6 +4,7 @@ using Files.ViewModels.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 
@@ -83,7 +84,7 @@ namespace Files.ViewModels.Previews
                 details.Add(new FileProperty()
                 {
                     NameResource = "PropertyWordCount",
-                    Value = text.Split(" ").Length,
+                    Value = text.Split(new[] { " ", "\n" }, StringSplitOptions.RemoveEmptyEntries).Length,
                 });
 
                 var displayText = text.Length < Constants.PreviewPane.TextCharacterLimit ? text : text.Remove(Constants.PreviewPane.TextCharacterLimit);
