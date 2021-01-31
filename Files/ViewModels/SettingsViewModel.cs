@@ -638,7 +638,7 @@ namespace Files.ViewModels
         }
         
         /// <summary>
-        /// Gets or sets a value indicating whether or not to show a multiselect option in the selection menu flyout.
+        /// Gets or sets a value indicating whether or not to enable the multiselect option.
         /// </summary>
         public bool ShowMultiselectOption
         {
